@@ -222,7 +222,7 @@ SigRegWithMaxCalo.name = cms.string("SigRegWithMaxCalo")
 cutMaxCalo = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5 < 10"),
-    numberRequired = cms.string(">=1"),
+    numberRequired = cms.string(">= 1"),
     alias = cms.string("CaloTot < 10 GeV")
     )
 SigRegWithMaxCalo.cuts.append(cutMaxCalo)
@@ -246,14 +246,30 @@ CtrlRegWithTrigJetMet.cuts.append(cutNMissingOuterHitsCtrlReg)
 FitReg = copy.deepcopy(PreSelection)
 FitReg.name = cms.string("FitReg")
 
-cutMaxCaloFitReg = cms.PSet (
+cutMaxCaloByPFitReg = cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("caloTotDeltaRp5ByP < 0.5"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("Eiso/p < 0.5")
 )
 
-FitReg.cuts.append(cutMaxCaloFitReg)
+FitReg.cuts.append(cutMaxCaloByPFitReg)
+FitReg.cuts.append(cutNMissingOuterHits)
+
+
+
+cutMaxCaloFitReg = cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("caloTotDeltaRp5 < 30"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("Eiso < 30")
+)
+
+FitRegWithMaxCalo = copy.deepcopy(PreSelection)
+FitRegWithMaxCalo.name = cms.string("FitRegWithMaxCalo")
+
+FitRegWithMaxCalo.cuts.append(cutMaxCaloFitReg)
+FitRegWithMaxCalo.cuts.append(cutNMissingOuterHits)
 
 #Cuts that define the signal region without Trig, Jet, and MET
 SigReg = copy.deepcopy(PreSelection)
@@ -270,8 +286,8 @@ CtrlReg.cuts.append(cutNMissingOuterHitsCtrlReg)
 #Cuts that define the fit region after the PreSelection with Trig, Jet, and MET
 FitRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
 FitRegWithTrigJetMet.name = cms.string("FitRegWithTrigJetMet")
-FitRegWithTrigJetMet.cuts.append(cutMaxCaloFitReg)
-
+FitRegWithTrigJetMet.cuts.append(cutMaxCaloByPFitReg)
+FitRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
 
 
 
