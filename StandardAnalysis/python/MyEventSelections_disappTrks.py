@@ -96,6 +96,31 @@ PreSelection = cms.PSet(
    )   
 )
 
+cutElectronId = cms.PSet(
+                    inputCollection = cms.string("tracks"),
+                    cutString = cms.string("fabs(genId) == 11"),
+                    numberRequired = cms.string(">= 1"),
+                    alias = cms.string("GenElec")
+                    )
+PreSelectionElectronId = cms.PSet(
+    name = cms.string("PreSelectionElectronId"),
+    cuts = copy.deepcopy(PreSelection.cuts),
+    )
+PreSelectionElectronId.cuts.append(cutElectronId)
+
+cutPionId =cms.PSet(
+                   inputCollection = cms.string("tracks"),
+                   cutString = cms.string("fabs(genId) == 211"),
+                   numberRequired = cms.string(">= 1"),
+                   alias = cms.string("GenPion")
+                   )
+PreSelectionPionId = cms.PSet(
+        name = cms.string("PreSelectionPionId"),
+            cuts = copy.deepcopy(PreSelection.cuts),
+            )
+PreSelectionPionId.cuts.append(cutPionId)
+
+
 PreSelectionPt20 = cms.PSet(
         name = cms.string("PreSelectionPt20"),
         cuts  = copy.deepcopy(PreSelection.cuts),
@@ -277,6 +302,13 @@ SigReg.name = cms.string("SigReg")
 SigReg.cuts.append(cutNMissingOuterHits)
 SigReg.cuts.append(cutMaxCaloByP)
 
+PreSelectionPMissing = copy.deepcopy(PreSelection)
+PreSelectionPMissing.name = cms.string("PreSelectionPMissing")
+PreSelectionPMissing.cuts.append(cutNMissingOuterHits)
+
+PreSelectionPEiso = copy.deepcopy(PreSelection)
+PreSelectionPEiso.name = cms.string("PreSelectionPEiso")
+PreSelectionPEiso.cuts.append(cutMaxCaloByP)
 
 #Cuts that define the control region after the PreSelection with Trig, Jet, and MET
 CtrlReg = copy.deepcopy(PreSelection)

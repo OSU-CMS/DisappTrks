@@ -12,14 +12,14 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("d0wrtBS"),
             title = cms.string("d0wrtBS"),
-            bins = cms.vdouble(100, -5, 5),
+            bins = cms.vdouble(100, -1, 1),
             inputVariables = cms.vstring("d0wrtBS"),
                         ),
 
         cms.PSet (
             name = cms.string("dZwrtBS"),
             title = cms.string("dZwrtBS"),
-            bins = cms.vdouble(100, -5, 5),
+            bins = cms.vdouble(100, -20, 20),
             inputVariables = cms.vstring("dZwrtBS"),
                         ),
         cms.PSet (
@@ -65,37 +65,44 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("ptError"),
             title = cms.string("ptError; pT Error"),
-            bins = cms.vdouble(100, 0, 300),
+            bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("ptError"),
             ),
 
         cms.PSet (
             name = cms.string("ptErrorByPt"),
             title = cms.string("ptErrorByPt; pTError/pT"),
-            bins = cms.vdouble(100, 0, 1),
+            bins = cms.vdouble(100, 0, 0.05),
             inputVariables = cms.vstring("ptErrorByPt"),
             ),
 
         cms.PSet (
             name = cms.string("ptRes"),
             title = cms.string("ptRes; ptRes"),
-            bins = cms.vdouble(100, 0, 5),
+            bins = cms.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("ptRes"),
             ),
 
         cms.PSet (
             name = cms.string("chi2vsPtErrorByPt"),
             title = cms.string("chi2vsPtErrorByPt; chi2vsPtErrorByPt"),
-            bins = cms.vdouble(100, 0, 10, 100, 0, 1),
+            bins = cms.vdouble(100, 0, 7, 100, 0, 0.05),
             inputVariables = cms.vstring("normChi2","ptErrorByPt"),
             ),
 
-            cms.PSet (
+        cms.PSet (
             name = cms.string("chi2vsPtRes"),
             title = cms.string("chi2vsPtRes; chi2vsPtRes"),
-            bins = cms.vdouble(100, 0, 10, 100, 0, 5),
+            bins = cms.vdouble(100, 0, 7, 100, 0, 0.05),
             inputVariables = cms.vstring("normChi2","ptRes"),
             ),
+        cms.PSet (
+            name = cms.string("genDeltaRLowest"),
+            title = cms.string("genDeltaRLowest"),
+            bins = cms.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("genDeltaRLowest"),
+            ),
+        
             
 #for bkgd estimation
         cms.PSet (
@@ -133,64 +140,64 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("NHitsVsCaloTotPt20"),
             title = cms.string("NHitsVsCaloTotPt20; Missing Outer Hits ; Total Calo (20)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2 ),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","caloTotDeltaRp5"),
             ),
         cms.PSet (
             name = cms.string("NHitsVsCaloTotPt50"),
             title = cms.string("NHitsVsCaloTotPt50; Missing Outer Hits ; Total Calo (50)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","caloTotDeltaRp5"),
             ),
         cms.PSet (
             name = cms.string("NHitsVsCaloTotPt75"),
             title = cms.string("NHitsVsCaloTotPt75; Missing Outer Hits ; Total Calo (75)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","caloTotDeltaRp5"),
             ),
 
         cms.PSet (
             name = cms.string("NHitsVsCaloTotPt100"),
             title = cms.string("NHitsVsCaloTotPt100; Missing Outer Hits ; Total Calo (100)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","caloTotDeltaRp5"),
             ),
         cms.PSet (
             name = cms.string("NHitsVsCaloTotPt125"),
             title = cms.string("NHitsVsCaloTotPt125; Missing Outer Hits ; Total Calo (125)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","caloTotDeltaRp5"),
             ),
         
         cms.PSet (
             name = cms.string("NHitsVsPtErrorPt20"),
-            title = cms.string("NHitsVsCaloTotPt20; Missing Outer Hits ; Total Calo (20)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2 ),
+            title = cms.string("NHitsVsPtErrorPt20; Missing Outer Hits ; Pt Error (20)"),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100 ),
             inputVariables = cms.vstring("nHitsMissingOuter","ptError"),
                                             ),
         cms.PSet (
-            name = cms.string("NHitsVsCaloTotPt50"),
-            title = cms.string("NHitsVsCaloTotPt50; Missing Outer Hits ; Total Calo (50)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            name = cms.string("NHitsVsPtErrorPt50"),
+            title = cms.string("NHitsVsPtErrorPt50; Missing Outer Hits ; Pt Error (50)"),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","ptError"),
             ),
         cms.PSet (
-            name = cms.string("NHitsVsCaloTotPt75"),
-            title = cms.string("NHitsVsCaloTotPt75; Missing Outer Hits ; Total Calo (75)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            name = cms.string("NHitsVsPtErrorPt75"),
+            title = cms.string("NHitsVsPtErrorPt75; Missing Outer Hits ; Pt Error (75)"),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","ptError"),
             ),
 
         cms.PSet (
-            name = cms.string("NHitsVsCaloTotPt100"),
-            title = cms.string("NHitsVsCaloTotPt100; Missing Outer Hits ; Total Calo (100)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            name = cms.string("NHitsVsPtErrorPt100"),
+            title = cms.string("NHitsVsPtErrorPt100; Missing Outer Hits ; Pt Error (100)"),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","ptError"),
             ),
         cms.PSet (
-            name = cms.string("NHitsVsCaloTotPt125"),
-            title = cms.string("NHitsVsCaloTotPt125; Missing Outer Hits ; Total Calo (125)"),
-            bins = cms.vdouble(100, 0, 15, 100, 0, 2),
+            name = cms.string("NHitsVsPtErrorPt125"),
+            title = cms.string("NHitsVsPtErrorPt125; Missing Outer Hits ; Pt Error (125)"),
+            bins = cms.vdouble(100, 0, 15, 100, 0, 100),
             inputVariables = cms.vstring("nHitsMissingOuter","ptError"),
             ),
         
