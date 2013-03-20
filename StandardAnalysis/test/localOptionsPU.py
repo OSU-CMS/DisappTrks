@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+
+# For usage instructions, see:
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/DisappearingTracksSearch2012Recipes#Pile_Up_Reweighting
+
 import os
 
-config_file = os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/AnaTools/test/pu_cfg.py'  
+config_file = os.environ['CMSSW_BASE']+'/src/DisplacedSUSY/StandardAnalysis/test/pu_cfg.py'  
 
 #intLumi = 30000.
 
