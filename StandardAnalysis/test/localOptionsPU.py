@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+import os
 
-config_file = "pu_cfg.py"
+config_file = os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/AnaTools/test/pu_cfg.py'  
 
 #intLumi = 30000.
 
