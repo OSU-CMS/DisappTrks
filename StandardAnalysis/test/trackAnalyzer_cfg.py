@@ -48,7 +48,6 @@ process.OSUAnalysis.histogramSets.append(JetHistograms)
 
 
 #import user-defined histograms
-#from OSUT3Analysis.AnaTools.MyHistogramDefinitions_disappTrks import * # original  
 from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 
@@ -57,7 +56,6 @@ process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
-#from OSUT3Analysis.AnaTools.MyEventSelections_disappTrks import *  # original
 from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
 
 # First two channels needed to estimate yields
