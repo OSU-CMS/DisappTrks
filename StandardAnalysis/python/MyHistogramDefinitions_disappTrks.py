@@ -14,54 +14,60 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("d0wrtBS"),
             bins = cms.vdouble(100, -1, 1),
             inputVariables = cms.vstring("d0wrtBS"),
-                        ),
-
+            ),
+        
         cms.PSet (
             name = cms.string("dZwrtBS"),
             title = cms.string("dZwrtBS"),
             bins = cms.vdouble(100, -20, 20),
             inputVariables = cms.vstring("dZwrtBS"),
-                        ),
+            ),
         cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
             bins = cms.vdouble(100, 0, 15),
             inputVariables = cms.vstring("nHitsMissingOuter"),
-                        ),
+            ),
 
         cms.PSet (
             name = cms.string("nHitsMissingMiddle"),
             title = cms.string("nHitsMissingMiddle; Number of Missing Middle Hits"),
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("nHitsMissingMiddle"),
-                        ),
+            ),
+        cms.PSet (
+            name = cms.string("nHitsMissingInner"),
+            title = cms.string("nHitsMissingInner; Number of Missing Inner Hits"),
+            bins = cms.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("nHitsMissingInner"),
+            ),
         cms.PSet (
             name = cms.string("caloEMDeltaRp5"),
             title = cms.string("caloEMDeltaRp5; EM Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloEMDeltaRp5"),
-        ),
+            ),
 
         cms.PSet (
             name = cms.string("caloHadDeltaRp5"),
             title = cms.string("caloHadDeltaRp5; Hadronic Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloHadDeltaRp5"),
-        ),
+            ),
 
         cms.PSet (
             name = cms.string("caloTotDeltaRp5"),
             title = cms.string("caloTotDeltaRp5; Total Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5"),
-        ),
+            ),
 
          cms.PSet (
             name = cms.string("caloTotDeltaRp5ByP"),
             title = cms.string("caloTotDeltaRp5ByP; (Total Calo Energy)/p (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("caloTotDeltaRp5ByP"),
-        ),
+            ),
         cms.PSet (
             name = cms.string("ptError"),
             title = cms.string("ptError; pT Error"),
@@ -72,28 +78,28 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("ptErrorByPt"),
             title = cms.string("ptErrorByPt; pTError/pT"),
-            bins = cms.vdouble(100, 0, 0.05),
+            bins = cms.vdouble(100, 0, 1),
             inputVariables = cms.vstring("ptErrorByPt"),
             ),
 
         cms.PSet (
             name = cms.string("ptRes"),
             title = cms.string("ptRes; ptRes"),
-            bins = cms.vdouble(100, 0, 0.5),
+            bins = cms.vdouble(100, 0, 50),
             inputVariables = cms.vstring("ptRes"),
             ),
 
         cms.PSet (
             name = cms.string("chi2vsPtErrorByPt"),
             title = cms.string("chi2vsPtErrorByPt; chi2vsPtErrorByPt"),
-            bins = cms.vdouble(100, 0, 7, 100, 0, 0.05),
+            bins = cms.vdouble(100, 0, 7, 100, 0, 1),
             inputVariables = cms.vstring("normChi2","ptErrorByPt"),
             ),
 
         cms.PSet (
             name = cms.string("chi2vsPtRes"),
             title = cms.string("chi2vsPtRes; chi2vsPtRes"),
-            bins = cms.vdouble(100, 0, 7, 100, 0, 0.05),
+            bins = cms.vdouble(100, 0, 7, 100, 0, 50),
             inputVariables = cms.vstring("normChi2","ptRes"),
             ),
         cms.PSet (
