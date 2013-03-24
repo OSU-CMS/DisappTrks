@@ -324,6 +324,73 @@ FitRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
 
 
 
+# Selection of control samples
+
+ZtoMuMu = cms.PSet(
+    # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
+    name = cms.string("ZtoMuMu"),
+    cuts = cms.VPSet (
+      cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("abs(eta) < 2.5"),
+        numberRequired = cms.string(">= 2")
+      ),    
+      cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("pt > 25"),
+        numberRequired = cms.string(">= 2")
+      ),
+      cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("tightID > 0"),
+        numberRequired = cms.string(">= 2")
+      ),
+      cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("relPFdBetaIso < 0.12"),
+        numberRequired = cms.string(">= 2")
+      ),
+      cms.PSet (
+        inputCollection = cms.string("muon-muon pairs"),
+        cutString = cms.string("invMass > 40 & invMass < 160"),
+        numberRequired = cms.string(">= 1")
+      ),
+
+   )   
+)
+
+
+
+ZtoEE = cms.PSet(
+    name = cms.string("ZtoEE"),
+    cuts = cms.VPSet (
+        cms.PSet (
+            inputCollection = cms.string("electrons"),
+            cutString = cms.string("pt > 20"),
+            numberRequired = cms.string(">= 2"),
+            alias = cms.string("pT > 20 GeV")
+            ),    
+        cms.PSet (
+            inputCollection = cms.string("electrons"),
+            cutString = cms.string("fabs(eta) < 2.1"),
+            numberRequired = cms.string(">= 2"),
+            alias = cms.string("|eta| < 2.1")
+            ),
+        cms.PSet (
+            inputCollection = cms.string("muons"),
+            cutString = cms.string("pt > -1"),
+            numberRequired = cms.string("= 0"),
+            alias = cms.string("Muon Veto")
+            ),
+        cms.PSet (
+            inputCollection = cms.string("electron-electron pairs"),
+            cutString = cms.string("invMass > 80 & invMass < 100"),
+            numberRequired = cms.string(">= 1")
+            ),
+    )  # end cuts = cms.VPSet (
+) # end ZtoEE = cms.PSet(
+
+ 
 
 
 
