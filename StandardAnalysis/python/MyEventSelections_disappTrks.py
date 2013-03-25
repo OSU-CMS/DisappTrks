@@ -124,7 +124,7 @@ PreSelectionNotGenMatched = cms.PSet(
     name = cms.string("PreSelectionNotGenMatched"),
     cuts = copy.deepcopy(PreSelection.cuts),
     )
-PreSelectionPionId.cuts.append(cutNotGenMatched)
+PreSelectionNotGenMatched.cuts.append(cutNotGenMatched)
 
 
 PreSelectionPt20 = cms.PSet(
