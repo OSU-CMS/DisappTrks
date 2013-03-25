@@ -4,8 +4,7 @@
 # > cmsRun trackAnalyzerQuick_cfg.py 2>&1 | tee trackAnalyzerQuick_cfg.log 
 
 import FWCore.ParameterSet.Config as cms
-import trackAnalyzer_cfg as pset
-
+from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
