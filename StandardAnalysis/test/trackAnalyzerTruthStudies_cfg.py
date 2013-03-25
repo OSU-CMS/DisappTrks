@@ -20,9 +20,9 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
 
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 pset.process.OSUAnalysis.channels.append(PreSelection)
-process.OSUAnalysis.channels.append(PreSelectionElectronId)
-process.OSUAnalysis.channels.append(PreSelectionPionId)
-process.OSUAnalysis.channels.append(PreSelectionNotGenMatched)
+pset.process.OSUAnalysis.channels.append(PreSelectionElectronId)
+pset.process.OSUAnalysis.channels.append(PreSelectionPionId)
+pset.process.OSUAnalysis.channels.append(PreSelectionNotGenMatched)
 pset.process.OSUAnalysis.channels.append(PreSelectionPMissing)
 pset.process.OSUAnalysis.channels.append(PreSelectionPMissingElectronId)
 pset.process.OSUAnalysis.channels.append(PreSelectionPMissingPionId)
