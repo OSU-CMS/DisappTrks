@@ -16,6 +16,10 @@ process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
 
 
+#number of events to process when running interactively
+process.maxEvents.input = 1000
+#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+
 
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
