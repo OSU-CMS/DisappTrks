@@ -6,6 +6,31 @@ import FWCore.ParameterSet.Config as cms
 ###############################################
 
 
+ExtraMuonHistograms = cms.PSet(
+    inputCollection = cms.string("muon-muon pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("invMassMuons"),
+            title = cms.string("invMassMuons"),
+            bins = cms.vdouble(100, 0, 180),
+            inputVariables = cms.vstring("invMass"),
+            ),
+        )
+    )
+ExtraElectronHistograms = cms.PSet(
+    inputCollection = cms.string("electron-electron pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("invMassElectrons"),
+            title = cms.string("invMassElectrons"),
+            bins = cms.vdouble(100, 0, 180),
+            inputVariables = cms.vstring("invMass"),
+            ),
+            
+    )
+    )
+
+
 ExtraTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
     histograms = cms.VPSet (
@@ -14,27 +39,27 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("d0wrtBS"),
             bins = cms.vdouble(100, -1, 1),
             inputVariables = cms.vstring("d0wrtBS"),
-            ),
-        
+                        ),
+
         cms.PSet (
             name = cms.string("dZwrtBS"),
             title = cms.string("dZwrtBS"),
             bins = cms.vdouble(100, -20, 20),
             inputVariables = cms.vstring("dZwrtBS"),
-            ),
+                        ),
         cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
             bins = cms.vdouble(100, 0, 15),
             inputVariables = cms.vstring("nHitsMissingOuter"),
-            ),
+                        ),
 
         cms.PSet (
             name = cms.string("nHitsMissingMiddle"),
             title = cms.string("nHitsMissingMiddle; Number of Missing Middle Hits"),
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("nHitsMissingMiddle"),
-            ),
+                        ),
         cms.PSet (
             name = cms.string("nHitsMissingInner"),
             title = cms.string("nHitsMissingInner; Number of Missing Inner Hits"),
@@ -46,28 +71,28 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("caloEMDeltaRp5; EM Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloEMDeltaRp5"),
-            ),
+        ),
 
         cms.PSet (
             name = cms.string("caloHadDeltaRp5"),
             title = cms.string("caloHadDeltaRp5; Hadronic Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloHadDeltaRp5"),
-            ),
+        ),
 
         cms.PSet (
             name = cms.string("caloTotDeltaRp5"),
             title = cms.string("caloTotDeltaRp5; Total Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5"),
-            ),
+        ),
 
          cms.PSet (
             name = cms.string("caloTotDeltaRp5ByP"),
             title = cms.string("caloTotDeltaRp5ByP; (Total Calo Energy)/p (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("caloTotDeltaRp5ByP"),
-            ),
+        ),
         cms.PSet (
             name = cms.string("ptError"),
             title = cms.string("ptError; pT Error"),
