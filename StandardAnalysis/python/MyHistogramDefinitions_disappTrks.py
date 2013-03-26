@@ -31,6 +31,32 @@ ExtraElectronHistograms = cms.PSet(
     )
 
 
+
+ShortTrackHistograms = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackPt"),
+            title = cms.string("Track Transverse Momentum; p_{T} [GeV]"),
+            bins = cms.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("pt"),
+            ),
+        cms.PSet (
+            name = cms.string("trackEta"),
+            title = cms.string("Track Eta; #eta"),
+            bins = cms.vdouble(100, -5, 5),
+            inputVariables = cms.vstring("eta"),
+            ),
+        cms.PSet (
+            name = cms.string("trackPhi"),
+            title = cms.string("Track Phi; #phi"),
+            bins = cms.vdouble(100, -5, 5),
+            inputVariables = cms.vstring("phi"),
+            ),
+    )
+)
+
+
 ExtraTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
     histograms = cms.VPSet (
