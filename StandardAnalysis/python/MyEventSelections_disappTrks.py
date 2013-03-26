@@ -55,6 +55,12 @@ PreSelection = cms.PSet(
             ),
         cms.PSet (
             inputCollection = cms.string("tracks"),
+            cutString = cms.string("nHitsMissingInner == 0"),
+            numberRequired = cms.string(">= 1"),
+            alias = cms.string("Missing Inner Hits = 0")
+            ),
+        cms.PSet (
+            inputCollection = cms.string("tracks"),
             cutString = cms.string("isIso == 1"),
             numberRequired = cms.string(">= 1"),
             alias = cms.string("Track Isolation")
@@ -419,6 +425,14 @@ cutPt125 = cms.PSet (
 
 PreSelectionPt125.cuts.append(cutPt125)
 
+
+
+## cutNumPV10 = cms.PSet (
+##     inputCollection = cms.string("tracks"),
+##     cutString = cms.string("numPV < 125"),
+##     numberRequired = cms.string(">= 1"),
+##     alias = cms.string("125 GeV < pT ")
+##     )
 
 
 
