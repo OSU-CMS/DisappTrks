@@ -17,6 +17,18 @@ ExtraMuonHistograms = cms.PSet(
             ),
         )
     )
+ExtraTauHistograms = cms.PSet(
+    inputCollection = cms.string("tau-tau pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("invMassTaus"),
+            title = cms.string("invMassTaus"),
+            bins = cms.vdouble(100, 0, 180),
+            inputVariables = cms.vstring("invMass"),
+            ),
+        )
+    )
+
 ExtraElectronHistograms = cms.PSet(
     inputCollection = cms.string("electron-electron pairs"),
     histograms = cms.VPSet (
@@ -26,10 +38,48 @@ ExtraElectronHistograms = cms.PSet(
             bins = cms.vdouble(100, 0, 180),
             inputVariables = cms.vstring("invMass"),
             ),
-            
-    )
+        
+        )
     )
 
+ExtraElectronTrackHistograms = cms.PSet(
+        inputCollection = cms.string("electron-track pairs"),
+        histograms = cms.VPSet (
+             cms.PSet (
+                 name = cms.string("invMassElectronTrack"),
+                 title = cms.string("invMassElectronTrack"),
+                 bins = cms.vdouble(100, 0, 180),
+                 inputVariables = cms.vstring("invMass"),
+                 ),
+             
+             )
+        )
+
+ExtraMuonTrackHistograms = cms.PSet(
+    inputCollection = cms.string("muon-track pairs"),
+    histograms = cms.VPSet (
+         cms.PSet (
+             name = cms.string("invMassMuonTrack"),
+             title = cms.string("invMassMuonTrack"),
+             bins = cms.vdouble(100, 0, 180),
+             inputVariables = cms.vstring("invMass"),
+             ),
+         
+         )
+    )
+
+ExtraMuonTauHistograms = cms.PSet(
+    inputCollection = cms.string("muon-tau pairs"),
+    histograms = cms.VPSet (
+         cms.PSet (
+             name = cms.string("invMassMuonTau"),
+             title = cms.string("invMassMuonTau"),
+             bins = cms.vdouble(100, 0, 180),
+             inputVariables = cms.vstring("invMass"),
+             ),
+         
+         )
+    )
 
 
 ShortTrackHistograms = cms.PSet(
@@ -141,7 +191,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("d0wrtBS"),
             title = cms.string("d0wrtBS"),
-            bins = cms.vdouble(100, -1, 1),
+            bins = cms.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("d0wrtBS"),
                         ),
 
@@ -151,6 +201,22 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.vdouble(100, -20, 20),
             inputVariables = cms.vstring("dZwrtBS"),
                         ),
+
+        cms.PSet (
+            name = cms.string("d0wrtPV"),
+            title = cms.string("d0wrtPV"),
+            bins = cms.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring("d0wrtBS"),
+            ),
+        
+        cms.PSet (
+            name = cms.string("dZwrtPV"),
+            title = cms.string("dZwrtPV"),
+            bins = cms.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring("dZwrtPV"),
+            ),
+        
+
         cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
