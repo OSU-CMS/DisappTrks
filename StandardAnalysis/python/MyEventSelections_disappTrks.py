@@ -33,13 +33,13 @@ PreSelection = cms.PSet(
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(d0wrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("|d0| < 0.05 cm")
+        alias = cms.string("|d_{0}| < 0.02 cm")
         ),
    cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(dZwrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("|dz| < 0.05 cm")
+        alias = cms.string("|d_{z}| < 0.02 cm")
        ),
 #    cms.PSet (
 #        inputCollection = cms.string("tracks"),
