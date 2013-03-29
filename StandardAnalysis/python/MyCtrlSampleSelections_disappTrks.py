@@ -27,11 +27,11 @@ ZtoMuMu = cms.PSet(
         cutString = cms.string("pt > 25"),
         numberRequired = cms.string(">= 2")
       ),
-#      cms.PSet (
-#        inputCollection = cms.string("muons"),
-#        cutString = cms.string("tightID > 0"),
-#        numberRequired = cms.string(">= 2")
-#      ),
+      cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("numberOfValidMuonHits > 0"),
+        numberRequired = cms.string(">= 2")
+      ),
       cms.PSet (
         inputCollection = cms.string("muons"),
         cutString = cms.string("relPFdBetaIso < 0.12"),
@@ -51,6 +51,16 @@ ZtoMuTau = cms.PSet(
     name = cms.string("ZtoMuTau"),
     cuts = cms.VPSet (
     cms.PSet (
+        inputCollection = cms.string("taus"),
+        cutString = cms.string("abs(eta) < 2.5"),
+        numberRequired = cms.string(">= 1")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("taus"),
+        cutString = cms.string("pt > 25"),
+        numberRequired = cms.string(">= 1")
+        ),
+    cms.PSet (
         inputCollection = cms.string("muons"),
         cutString = cms.string("abs(eta) < 2.5"),
         numberRequired = cms.string(">= 1")
@@ -60,19 +70,9 @@ ZtoMuTau = cms.PSet(
         cutString = cms.string("pt > 25"),
         numberRequired = cms.string(">= 1")
         ),
-#    cms.PSet (
-#        inputCollection = cms.string("muons"),
-#        cutString = cms.string("tightID > 0"),
-#        numberRequired = cms.string(">= 1")
-#        ),
     cms.PSet (
-        inputCollection = cms.string("taus"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-        ),
-    cms.PSet (
-        inputCollection = cms.string("taus"),
-        cutString = cms.string("pt > 25"),
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("numberOfValidMuonHits > 0"),
         numberRequired = cms.string(">= 1")
         ),
     cms.PSet (
@@ -83,7 +83,7 @@ ZtoMuTau = cms.PSet(
     cms.PSet (
         inputCollection = cms.string("muon-tau pairs"),
         cutString = cms.string("invMass > 40 & invMass < 160"),
-        numberRequired = cms.string(">= 1")
+       numberRequired = cms.string(">= 1")
         ),
     
     )
@@ -138,13 +138,13 @@ ZtoEEPreSel = cms.PSet(
         ),
      cms.PSet(
          inputCollection= cms.string("electrons"),
-         cutString = cms.string("fabs(correctedD0Vertex) < 0.05"),
+         cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
          numberRequired = cms.string(">= 2"),
          alias =cms.string("|d0| < 0.05 cm")
          ),
      cms.PSet(
          inputCollection= cms.string("electrons"),
-         cutString = cms.string("fabs(correctedDZVertex) < 0.05"),
+         cutString = cms.string("fabs(correctedDZ) < 0.01"),
          numberRequired = cms.string(">= 2"),
          alias =cms.string("|dZ| < 0.05 cm")
          ),
@@ -186,16 +186,16 @@ ZtoETrack = cms.PSet(
              ),
         cms.PSet(
              inputCollection= cms.string("electrons"),
-             cutString = cms.string("fabs(correctedD0Vertex) < 0.05"),
+             cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
              numberRequired = cms.string(">= 1"),
-             alias =cms.string("(e) |d0| < 0.05 cm")
+             alias =cms.string("(e) |d0| < 0.01 cm")
              ),
          
          cms.PSet(
              inputCollection= cms.string("electrons"),
-             cutString = cms.string("fabs(correctedDZVertex) < 0.05"),
+             cutString = cms.string("fabs(correctedDZ) < 0.01"),
              numberRequired = cms.string(">= 1"),
-             alias =cms.string("(e) |dZ| < 0.05 cm")
+             alias =cms.string("(e) |dZ| < 0.01 cm")
              ),
          
          cms.PSet(
@@ -218,15 +218,15 @@ ZtoETrack = cms.PSet(
              ),
         cms.PSet(
              inputCollection= cms.string("tracks"),
-             cutString = cms.string("fabs(d0wrtPV) < 0.05"),
+             cutString = cms.string("fabs(d0wrtPV) < 0.01"),
              numberRequired = cms.string(">= 1"),
-             alias =cms.string("(t) |d0| < 0.05 cm")
+             alias =cms.string("(t) |d0| < 0.01 cm")
              ),
         cms.PSet(
              inputCollection= cms.string("tracks"),
-             cutString = cms.string("fabs(dZwrtPV) < 0.05"),
+             cutString = cms.string("fabs(dZwrtPV) < 0.01"),
              numberRequired = cms.string(">= 1"),
-             alias =cms.string("(t) |dZ| < 0.05 cm")
+             alias =cms.string("(t) |dZ| < 0.01 cm")
              ),
          cms.PSet(
              inputCollection= cms.string("tracks"),
@@ -348,18 +348,28 @@ ZtoMuTrack = cms.PSet(
         ),
     cms.PSet(
         inputCollection= cms.string("muons"),
-        cutString = cms.string("fabs(correctedD0Vertex) < 0.05"),
+        cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
         numberRequired = cms.string(">= 1"),
-        alias =cms.string("(m) |d0| < 0.05 cm")
+        alias =cms.string("(m) |d0| < 0.01 cm")
         ),
     
     cms.PSet(
         inputCollection= cms.string("muons"),
-        cutString = cms.string("fabs(correctedDZVertex) < 0.05"),
+        cutString = cms.string("fabs(correctedDZ) < 0.01"),
         numberRequired = cms.string(">= 1"),
-        alias =cms.string("(m) |dZ| < 0.05 cm")
+        alias =cms.string("(m) |dZ| < 0.01 cm")
         ),
-    
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("numberOfValidMuonHits > 0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("Muon Stations > 0")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("relPFdBetaIso < 0.12"),
+        numberRequired = cms.string(">= 1")
+        ),
     cms.PSet(
         inputCollection= cms.string("muons"),
         cutString = cms.string("tkNumValidHits > 4"),
@@ -380,15 +390,15 @@ ZtoMuTrack = cms.PSet(
         ),
     cms.PSet(
         inputCollection= cms.string("tracks"),
-        cutString = cms.string("fabs(d0wrtPV) < 0.05"),
+        cutString = cms.string("fabs(d0wrtPV) < 0.01"),
         numberRequired = cms.string(">= 1"),
-        alias =cms.string("(t) |d0| < 0.05 cm")
+        alias =cms.string("(t) |d0| < 0.01 cm")
         ),
     cms.PSet(
         inputCollection= cms.string("tracks"),
-        cutString = cms.string("fabs(dZwrtPV) < 0.05"),
+        cutString = cms.string("fabs(dZwrtPV) < 0.01"),
         numberRequired = cms.string(">= 1"),
-        alias =cms.string("(t) |dZ| < 0.05 cm")
+        alias =cms.string("(t) |dZ| < 0.01 cm")
         ),
     cms.PSet(
          inputCollection= cms.string("tracks"),
