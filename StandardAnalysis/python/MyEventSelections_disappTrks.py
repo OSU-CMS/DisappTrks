@@ -282,12 +282,6 @@ SigRegWithMaxCalo.cuts.append(cutMaxCalo)
 SigRegWithMaxCalo.cuts.append(cutNMissingOuterHits)
 
 
-SigRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
-SigRegWithTrigJetMet.name = cms.string("SigRegWithTrigJetMet")
-SigRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
-SigRegWithTrigJetMet.cuts.append(cutMaxCaloFitReg)
-
-
 #Cuts that define the control region after the PreSelection with Trig, Jet, and MET
 CtrlRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
 CtrlRegWithTrigJetMet.name = cms.string("CtrlRegWithTrigJetMet")
@@ -337,6 +331,15 @@ SigReg = copy.deepcopy(PreSelection)
 SigReg.name = cms.string("SigReg")
 SigReg.cuts.append(cutNMissingOuterHits)
 SigReg.cuts.append(cutMaxCaloByP)
+
+
+
+SigRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
+SigRegWithTrigJetMet.name = cms.string("SigRegWithTrigJetMet")
+SigRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
+SigRegWithTrigJetMet.cuts.append(cutMaxCaloFitReg)
+
+
 
 #PreSelection + NHitsMissing
 PreSelectionPMissing = copy.deepcopy(PreSelection)
