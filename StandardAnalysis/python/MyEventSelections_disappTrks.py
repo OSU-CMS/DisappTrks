@@ -35,24 +35,24 @@ PreSelection = cms.PSet(
         numberRequired = cms.string(">= 1"),
         alias = cms.string("|d_{0}| < 0.02 cm")
         ),
-   cms.PSet (
+    cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(dZwrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("|d_{z}| < 0.02 cm")
-       ),
-#    cms.PSet (
-#        inputCollection = cms.string("tracks"),
-#        cutString = cms.string("fabs(d0wrtBS) < 0.05"),
-#        numberRequired = cms.string(">= 1"),
-#        alias = cms.string("|d0| < 0.05 cm")
-#        ),
-#    cms.PSet (
-#        inputCollection = cms.string("tracks"),
-#        cutString = cms.string("fabs(dZwrtBS) < 15"),
-#        numberRequired = cms.string(">= 1"),
-#        alias = cms.string("|dz| < 15 cm")
-#        ),                
+        ),
+    ## cms.PSet (
+    ##     inputCollection = cms.string("tracks"),
+    ##     cutString = cms.string("fabs(d0wrtBS) < 0.05"),
+    ##     numberRequired = cms.string(">= 1"),
+    ##     alias = cms.string("|d0| < 0.05 cm")
+    ##     ),
+    ## cms.PSet (
+    ##     inputCollection = cms.string("tracks"),
+    ##     cutString = cms.string("fabs(dZwrtBS) < 15"),
+    ##     numberRequired = cms.string(">= 1"),
+    ##     alias = cms.string("|dz| < 15 cm")
+    ##     ),                
     cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("numValidHits > 4"),
@@ -254,8 +254,6 @@ PreSelectionWithTrigJetMet.cuts.insert(0,cutMET)
 
 #Cuts that define the signal region after the PreSelection with Trig, Jet, and MET
 ##NMissingHits + Eiso/p
-SigRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
-SigRegWithTrigJetMet.name = cms.string("SigRegWithTrigJetMet")
 cutMaxCaloByP = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5ByP < 0.1"),
@@ -271,9 +269,6 @@ cutNMissingOuterHits = cms.PSet (
     )
 
 
-SigRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
-SigRegWithTrigJetMet.cuts.append(cutMaxCaloByP)
-
 ##NMissingHits + Eiso
 SigRegWithMaxCalo = copy.deepcopy(PreSelection)
 SigRegWithMaxCalo.name = cms.string("SigRegWithMaxCalo")
@@ -285,6 +280,12 @@ cutMaxCalo = cms.PSet(
     )
 SigRegWithMaxCalo.cuts.append(cutMaxCalo)
 SigRegWithMaxCalo.cuts.append(cutNMissingOuterHits)
+
+
+SigRegWithTrigJetMet = copy.deepcopy(PreSelectionWithTrigJetMet)
+SigRegWithTrigJetMet.name = cms.string("SigRegWithTrigJetMet")
+SigRegWithTrigJetMet.cuts.append(cutNMissingOuterHits)
+SigRegWithTrigJetMet.cuts.append(cutMaxCaloFitReg)
 
 
 #Cuts that define the control region after the PreSelection with Trig, Jet, and MET
