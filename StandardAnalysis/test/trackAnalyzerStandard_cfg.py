@@ -34,6 +34,9 @@ process.OSUAnalysis.channels.append(SigRegWithMaxCalo)
 process.OSUAnalysis.channels.append(PreSelection)
 process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
 process.OSUAnalysis.channels.append(FitRegWithMaxCalo)
+process.OSUAnalysis.channels.append(FitRegWithMaxCaloPUCorr)  
+process.OSUAnalysis.channels.append(SigRegWithTrigJetMetPUCorr)  
+
 
 #Other available channels
 #process.OSUAnalysis.channels.append(PreSelectionPMissing)
