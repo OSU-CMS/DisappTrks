@@ -13,6 +13,26 @@ import copy
 
 # Selection of control samples
 
+triggersSingleElec = cms.vstring()
+
+## # FIXME:  Need to figure out why no events seem to pass these triggers.  
+## triggersSingleElec = cms.vstring(
+##     # Choose triggers by going to http://j2eeps.cern.ch/cms-project-confdb-hltdev/browser/
+##     # Select online/2012/8e33/v2.1.
+##     # Take all the single electron triggers than are unprescaled and do not have extra strange requirements.
+##     "HLT_Ele24_WP80_CentralPFJet35_CentralPFJet25_PFMET20_v1",
+##     "HLT_Ele24_WP80_CentralPFJet35_CentralPFJet25_v1",
+##     "HLT_Ele24_WP80_PFJet30_PFJet25_Deta3_CentralPFJet30_v1",
+##     "HLT_Ele24_WP80_PFJet30_PFJet25_Deta3_v1",
+##     "HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralPFNoPUJet30_BTagIPIter_v9",
+##     "HLT_Ele27_WP80_CentralPFJet80_v9",
+##     "HLT_Ele27_WP80_PFMET_MT50_v7",
+##     "HLT_Ele27_WP80_WCandPt80_v9",
+##     "HLT_Ele27_WP80_v11",
+##     )
+
+
+
 ZtoMuMu = cms.PSet(
     # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
     name = cms.string("ZtoMuMu"),
@@ -94,6 +114,7 @@ ZtoMuTau = cms.PSet(
 
 ZtoEE = cms.PSet(
     name = cms.string("ZtoEE"),
+    triggers = triggersSingleElec, 
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.string("electrons"),
@@ -123,6 +144,7 @@ ZtoEE = cms.PSet(
 
 ZtoEEPreSel = cms.PSet(
      name = cms.string("ZtoEEPreSel"),
+     triggers = triggersSingleElec, 
      cuts = cms.VPSet(
      cms.PSet(
          inputCollection = cms.string("electrons"),
@@ -169,36 +191,34 @@ ZtoEEPreSel = cms.PSet(
      )
 
 ZtoETrack = cms.PSet(
-         name = cms.string("ZtoETrack"),
-             cuts = cms.VPSet(
-         cms.PSet(
-             inputCollection = cms.string("electrons"),
-             cutString = cms.string("pt > 20"),
-             numberRequired = cms.string(">= 1"),
-             alias = cms.string("(e) pT > 20 GeV")
-             ),
-         
-         cms.PSet(
-             inputCollection= cms.string("electrons"),
-             cutString = cms.string("fabs(eta) < 2.1"),
-             numberRequired = cms.string(">= 1"),
-             alias =cms.string("(e) |eta| < 2.1")
-             ),
+    name = cms.string("ZtoETrack"),
+    triggers = copy.deepcopy(triggersSingleElec), 
+    cuts = cms.VPSet(
         cms.PSet(
-             inputCollection= cms.string("electrons"),
-             cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
-             numberRequired = cms.string(">= 1"),
-             alias =cms.string("(e) |d0| < 0.01 cm")
-             ),
-         
-         cms.PSet(
-             inputCollection= cms.string("electrons"),
-             cutString = cms.string("fabs(correctedDZ) < 0.01"),
-             numberRequired = cms.string(">= 1"),
-             alias =cms.string("(e) |dZ| < 0.01 cm")
-             ),
-         
-         cms.PSet(
+            inputCollection = cms.string("electrons"),
+            cutString = cms.string("pt > 20"),
+            numberRequired = cms.string(">= 1"),
+            alias = cms.string("(e) pT > 20 GeV")
+            ),
+        cms.PSet(
+            inputCollection= cms.string("electrons"),
+            cutString = cms.string("fabs(eta) < 2.1"),
+            numberRequired = cms.string(">= 1"),
+            alias =cms.string("(e) |eta| < 2.1")
+            ),
+        cms.PSet(
+            inputCollection= cms.string("electrons"),
+            cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
+            numberRequired = cms.string(">= 1"),
+            alias =cms.string("(e) |d0| < 0.01 cm")
+            ),
+        cms.PSet(
+            inputCollection= cms.string("electrons"),
+            cutString = cms.string("fabs(correctedDZ) < 0.01"),
+            numberRequired = cms.string(">= 1"),
+            alias =cms.string("(e) |dZ| < 0.01 cm")
+            ),
+        cms.PSet(
              inputCollection= cms.string("electrons"),
              cutString = cms.string("tkNumValidHits > 4"),
              numberRequired = cms.string(">= 1"),
@@ -265,8 +285,10 @@ ZtoETrack = cms.PSet(
 
 ZtoETrackPreSel = cms.PSet(
     name = cms.string("ZtoETrackPreSel"),
+    triggers = copy.deepcopy(triggersSingleElec), 
     cuts = copy.deepcopy(ZtoETrack.cuts)
     )
+
 cutETrackInvMass = cms.PSet(
     inputCollection = cms.string("electron-track pairs"),
     cutString = cms.string("invMass > 40 & invMass < 160"),
@@ -276,13 +298,21 @@ ZtoETrackPreSel.cuts.append(cutETrackInvMass)
 
 ZtoETrackFullPreSel = cms.PSet(
     name = cms.string("ZtoETrackFullPreSel"),
+    triggers = triggersSingleElec, 
     cuts = copy.deepcopy(ZtoETrack.cuts)
     )
 
-ElectronVeto =   cms.PSet (
+ElectronVetoOneMax =   cms.PSet (
         inputCollection = cms.string("electrons"),
         cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("= 0"),
+        numberRequired = cms.string("<= 1"),  # Require no more than one electron in event (since one elec is already selected).  
+        alias = cms.string("Electron Veto")
+        )
+
+ElectronVetoAll =   cms.PSet (
+        inputCollection = cms.string("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("= 0"),  # Require no electron in event.  
         alias = cms.string("Electron Veto")
         )
 
@@ -300,8 +330,8 @@ crackVeto =    cms.PSet (
         alias = cms.string("Crack Veto")
         )   
  
-ZtoETrackFullPreSel.cuts.append(ElectronVeto)
-ZtoETrackFullPreSel.cuts.append(deadEcalVeto)
+ZtoETrackFullPreSel.cuts.append(ElectronVetoOneMax)  
+ZtoETrackFullPreSel.cuts.append(deadEcalVeto)  
 ZtoETrackFullPreSel.cuts.append(crackVeto)
 ZtoETrackFullPreSel.cuts.append(cutETrackInvMass)
 
@@ -442,7 +472,7 @@ ZtoMuTrackFullPreSel = cms.PSet(
     name = cms.string("ZtoMuTrackFullPreSel"),
     cuts = copy.deepcopy(ZtoMuTrack.cuts)
     )
-ZtoMuTrackFullPreSel.cuts.append(ElectronVeto)
+ZtoMuTrackFullPreSel.cuts.append(ElectronVetoAll)
 ZtoMuTrackFullPreSel.cuts.append(deadEcalVeto)
 ZtoMuTrackFullPreSel.cuts.append(crackVeto)
 ZtoMuTrackFullPreSel.cuts.append(cutMuTrackInvMass)
