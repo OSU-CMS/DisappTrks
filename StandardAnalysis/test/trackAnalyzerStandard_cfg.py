@@ -26,17 +26,18 @@ process.TFileService.fileName = 'hist.root'
 from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
 
 # First two channels needed to estimate yields
-process.OSUAnalysis.channels.append(SigReg)
+process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorr)
+process.OSUAnalysis.channels.append(SigRegWithMaxCaloLoose)
+process.OSUAnalysis.channels.append(SigRegWithTrigJetMetPUCorr)
 process.OSUAnalysis.channels.append(SigRegWithTrigJetMet)
-process.OSUAnalysis.channels.append(SigRegWithMaxCalo)
 
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 process.OSUAnalysis.channels.append(PreSelection)
 process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
-process.OSUAnalysis.channels.append(FitRegWithMaxCalo)
-process.OSUAnalysis.channels.append(FitRegWithMaxCaloPUCorr)  
-process.OSUAnalysis.channels.append(SigRegWithTrigJetMetPUCorr)  
+process.OSUAnalysis.channels.append(PreSelectionPEiso)
 
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnly)  
+process.OSUAnalysis.channels.append(PreSelectionMuonVetoOnly)  
 
 #Other available channels
 #process.OSUAnalysis.channels.append(PreSelectionPMissing)
@@ -45,8 +46,6 @@ process.OSUAnalysis.channels.append(SigRegWithTrigJetMetPUCorr)
 #process.OSUAnalysis.channels.append(PreSelectionPionId)
 #process.OSUAnalysis.channels.append(CtrlReg)
 #process.OSUAnalysis.channels.append(CtrlRegWithTrigJetMet)
-#process.OSUAnalysis.channels.append(FitReg)
-#process.OSUAnalysis.channels.append(FitRegWithTrigJetMet)
 #process.OSUAnalysis.channels.append(PreSelectionPt20)
 #process.OSUAnalysis.channels.append(PreSelectionPt50)
 #process.OSUAnalysis.channels.append(PreSelectionPt75)
