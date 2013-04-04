@@ -209,7 +209,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("dZwrtPV"),
             title = cms.string("dZwrtPV"),
-            bins = cms.vdouble(100, -0.5, 0.5),
+            bins = cms.vdouble(2000, -10, 10),
             inputVariables = cms.vstring("dZwrtPV"),
             ),       
         cms.PSet (
@@ -243,32 +243,8 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("caloHadDeltaRp5"),
         ),
         cms.PSet (
-            name = cms.string("caloTotDeltaRp5"),
-            title = cms.string("caloTotDeltaRp5; Total Calo Energy (dR < 0.5)"),
-            bins = cms.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotDeltaRp5"),
-        ),
-        cms.PSet (
-            name = cms.string("caloTotDeltaRp5ByP"),
-            title = cms.string("caloTotDeltaRp5ByP; (Total Calo Energy)/p (dR < 0.5)"),
-            bins = cms.vdouble(100, 0, 2),
-            inputVariables = cms.vstring("caloTotDeltaRp5ByP"),
-            ),
-        ## cms.PSet (
-        ##     name = cms.string("caloTotDeltaRp5_RhoCorr"),
-        ##     title = cms.string("caloTotDeltaRp5_RhoCorr; Total Calo Energy (dR < 0.5) (PU corr.)"),
-        ##     bins = cms.vdouble(100, 0, 100),
-        ##     inputVariables = cms.vstring("caloTotDeltaRp5_RhoCorr"),
-        ##     ),
-        ## cms.PSet (
-        ##     name = cms.string("caloTotDeltaRp5ByP_RhoCorr"),
-        ##     title = cms.string("caloTotDeltaRp5ByP_RhoCorr; (Total Calo Energy)/p (dR < 0.5) (PU corr.)"),
-        ##     bins = cms.vdouble(100, 0, 2),
-        ##     inputVariables = cms.vstring("caloTotDeltaRp5ByP_RhoCorr"),
-        ##     ),
-        cms.PSet (
             name = cms.string("caloTot"),
-            title = cms.string("Isolation energy; E_{iso}^{#DeltaR<0.5}"),
+            title = cms.string("Isolation energy; E_{iso}^{#DeltaR<0.5} (GeV)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5"),
             ),
@@ -280,7 +256,7 @@ ExtraTrackHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("caloTot_RhoCorr"),
-            title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (PU corr.)"),
+            title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5_RhoCorr"),
             ),
