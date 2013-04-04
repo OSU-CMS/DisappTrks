@@ -36,8 +36,8 @@ process.OSUAnalysis.channels.append(PreSelection)
 process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
 process.OSUAnalysis.channels.append(PreSelectionPEiso)
 
-process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnly)  
-process.OSUAnalysis.channels.append(PreSelectionMuonVetoOnly)  
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyWithTrigJetMet)  
+process.OSUAnalysis.channels.append(PreSelectionMuonVetoOnlyWithTrigJetMet)  
 
 #Other available channels
 #process.OSUAnalysis.channels.append(PreSelectionPMissing)
