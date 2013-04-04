@@ -109,12 +109,6 @@ PreSelection.cuts.append(cutCrackVeto)
 
 
 #Standard PreSelection Cuts with the Trigger, Jet pT, and MET cuts applied
-PreSelectionWithTrigJetMet = cms.PSet(
-    name = cms.string("PreSelectionWithTrigJetMet"),
-    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v", "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v", "HLT_MET120_HBHENoiseCleaned_v"),
-    cuts  = copy.deepcopy(PreSelection.cuts),
-    )
-
 cutMET = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("pt > 220"),
@@ -129,8 +123,35 @@ cutJetPt = cms.PSet (
     alias = cms.string("jet pT > 110 GeV")
     )
 
+triggersStandard = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "HLT_MET120_HBHENoiseCleaned_v"
+    )
+
+PreSelectionWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionWithTrigJetMet"),
+    triggers = triggersStandard, 
+    cuts  = copy.deepcopy(PreSelection.cuts),
+    )
 PreSelectionWithTrigJetMet.cuts.insert(0,cutJetPt)  
 PreSelectionWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionIsoTrkOnlyWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionIsoTrkOnlyWithTrigJetMet"),
+    triggers = triggersStandard,
+    cuts  = copy.deepcopy(PreSelectionIsoTrkOnly.cuts),
+    )
+PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)  
+PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionMuonVetoOnlyWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionMuonVetoOnlyWithTrigJetMet"),
+    triggers = triggersStandard,
+    cuts  = copy.deepcopy(PreSelectionMuonVetoOnly.cuts),
+    )
+PreSelectionMuonVetoOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)  
+PreSelectionMuonVetoOnlyWithTrigJetMet.cuts.insert(0,cutMET)
 
 
 
