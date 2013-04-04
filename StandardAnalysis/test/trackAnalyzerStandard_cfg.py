@@ -34,7 +34,7 @@ process.OSUAnalysis.channels.append(SigRegWithTrigJetMet)
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 process.OSUAnalysis.channels.append(PreSelection)
 process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
-process.OSUAnalysis.channels.append(PreSelectionPEiso)
+process.OSUAnalysis.channels.append(PreSelectionPMissing)
 
 process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyWithTrigJetMet)  
 process.OSUAnalysis.channels.append(PreSelectionMuonVetoOnlyWithTrigJetMet)  
