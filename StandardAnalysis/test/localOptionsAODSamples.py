@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-config_file = "trackAnalyzerStandard_cfg.py"
+config_file = "trackAnalyzerAOD_cfg.py"
 
 intLumi = 19500.
 
