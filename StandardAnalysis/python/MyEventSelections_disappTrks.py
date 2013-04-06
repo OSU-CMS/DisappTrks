@@ -20,25 +20,25 @@ PreSelectionIsoTrkOnly = cms.PSet(
         inputCollection = cms.string("tracks"),
         cutString = cms.string("pt > 20"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("pT > 20 GeV")
+        alias = cms.string("$p_T$ > 20 GeV")
         ),    
     cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(eta) < 2.1"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("|eta| < 2.1")
+        alias = cms.string("$|eta|$ < 2.1")
         ),
     cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(d0wrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("|d_{0}| < 0.02 cm")
+        alias = cms.string("$|d_{0}|$ < 0.02 cm")
         ),
     cms.PSet (
         inputCollection = cms.string("tracks"),
         cutString = cms.string("fabs(dZwrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("|d_{z}| < 0.02 cm")
+        alias = cms.string("$|d_{z}|$ < 0.02 cm")
         ),
     cms.PSet (
         inputCollection = cms.string("tracks"),
@@ -206,8 +206,8 @@ PreSelectionIsoTrkOnlyWithTrigJetMetNoHitCut = cms.PSet(
     triggers = triggersStandard, 
     cuts  = copy.deepcopy(PreSelectionIsoTrkOnlyNoHitCut.cuts),
     )
-PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)  
-PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutMET)
+PreSelectionIsoTrkOnlyWithTrigJetMetNoHitCut.cuts.insert(0,cutJetPt)  
+PreSelectionIsoTrkOnlyWithTrigJetMetNoHitCut.cuts.insert(0,cutMET)
 
 PreSelectionMuonVetoOnlyWithTrigJetMetNoHitCut = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMetNoHitCut)
 PreSelectionMuonVetoOnlyWithTrigJetMetNoHitCut.name = cms.string("PreSelectionMuonVetoOnlyWithTrigJetMetNoHitCut")
