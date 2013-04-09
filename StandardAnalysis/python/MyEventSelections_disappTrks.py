@@ -260,6 +260,36 @@ PreSelectionNotGenMatched = cms.PSet(
     )
 PreSelectionNotGenMatched.cuts.append(cutNotGenMatched)
 
+cutLightMesonId =cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedId) == 15"),
+    #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("GenMatch to light meson")
+    )
+cutKMesonId =cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedId) == 16"),
+    #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("GenMatch to K meson")
+    )
+cutLightBaryonId =cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedId) == 19"),
+    #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("GenMatch to light baryon")
+    )
+cutKBaryonId =cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedId) == 20"),
+    #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("GenMatch to K baryon")
+    )
+
+
 
 
 
@@ -389,6 +419,23 @@ PreSelectionPMissingElectronId.cuts.append(cutElectronId)
 PreSelectionPMissingNotGenMatched = copy.deepcopy(PreSelectionPMissing)
 PreSelectionPMissingNotGenMatched.name = cms.string("PreSelectionPMissingNotGenMatched")
 PreSelectionPMissingNotGenMatched.cuts.append(cutNotGenMatched)
+
+
+PreSelectionPMissingLtMesonId = copy.deepcopy(PreSelectionPMissing)
+PreSelectionPMissingLtMesonId.name = cms.string("PreSelectionPMissingLtMesonId")
+PreSelectionPMissingLtMesonId.cuts.append(cutLightMesonId)  
+
+PreSelectionPMissingKMesonId = copy.deepcopy(PreSelectionPMissing)
+PreSelectionPMissingKMesonId.name = cms.string("PreSelectionPMissingKMesonId")
+PreSelectionPMissingKMesonId.cuts.append(cutKMesonId)  
+
+PreSelectionPMissingLtBaryonId = copy.deepcopy(PreSelectionPMissing)
+PreSelectionPMissingLtBaryonId.name = cms.string("PreSelectionPMissingLtBaryonId")
+PreSelectionPMissingLtBaryonId.cuts.append(cutLightBaryonId)  
+
+PreSelectionPMissingKBaryonId = copy.deepcopy(PreSelectionPMissing)
+PreSelectionPMissingKBaryonId.name = cms.string("PreSelectionPMissingKBaryonId")
+PreSelectionPMissingKBaryonId.cuts.append(cutKBaryonId)  
 
 
 

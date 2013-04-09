@@ -34,3 +34,9 @@ process.OSUAnalysis.channels.append(PreSelectionPMissing)
 process.OSUAnalysis.channels.append(PreSelectionPMissingElectronId)
 process.OSUAnalysis.channels.append(PreSelectionPMissingPionId)
 process.OSUAnalysis.channels.append(PreSelectionPMissingNotGenMatched)
+process.OSUAnalysis.channels.append(PreSelectionPMissingLtMesonId)  
+process.OSUAnalysis.channels.append(PreSelectionPMissingKMesonId)  
+process.OSUAnalysis.channels.append(PreSelectionPMissingLtBaryonId)  
+process.OSUAnalysis.channels.append(PreSelectionPMissingKBaryonId)  
+
+
