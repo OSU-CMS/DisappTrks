@@ -10,6 +10,8 @@ process.source.fileNames.append('file:/mnt/hadoop/mc/DYToTauTau_M-20_CT10_TuneZ2
 #process.source.fileNames.append('file:/mnt/hadoop/mc/DYToMuMu_M-20_CT10_TuneZ2star_v2_8TeV-powheg-pythia6_Summer12_DR53X-PU_S10_START53_V7A-v1_AODSIM_DISPLACED_LEPTON-v3/bean_4514_1_Jov.root')
 process.maxEvents.input = 1000
 
+process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
+
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
 ########################################################################
@@ -31,19 +33,19 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
 
 #from DisappTrksT3ANTemp.StandardAnalysis.MyCtrlSampleSelections_disappTrks import *
 from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
-#process.OSUAnalysis.channels.append(ZtoEE)  
-#process.OSUAnalysis.channels.append(ZtoETrackPreSel)  
+process.OSUAnalysis.channels.append(ZtoEE)  
+process.OSUAnalysis.channels.append(ZtoETrackPreSel)  
 process.OSUAnalysis.channels.append(ZtoETrackFullPreSel)
 
 from DisappTrksT3ANTemp.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
-#process.OSUAnalysis.channels.append(ZtoMuMu)
-#process.OSUAnalysis.channels.append(ZtoMuTrackPreSel)
+process.OSUAnalysis.channels.append(ZtoMuMu)
+process.OSUAnalysis.channels.append(ZtoMuTrackPreSel)
 process.OSUAnalysis.channels.append(ZtoMuTrackFullPreSel)
 
 from DisappTrksT3ANTemp.StandardAnalysis.MyTauCtrlSampleSelections_disappTrks import *
 process.OSUAnalysis.channels.append(ZtoTauTau)
 process.OSUAnalysis.channels.append(ZtoMuTau)
-#process.OSUAnalysis.channels.append(ZtoTauTrackPreSel)
+process.OSUAnalysis.channels.append(ZtoTauTrackPreSel)
 process.OSUAnalysis.channels.append(ZtoTauTrackFullPreSel)
 
 
