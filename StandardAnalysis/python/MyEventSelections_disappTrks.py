@@ -451,7 +451,7 @@ cutMaxCaloLoose = cms.PSet (
     )
 cutMaxCaloPUCorr = cms.PSet (
     inputCollection = cms.string("tracks"),
-    cutString = cms.string("caloTotDeltaRp5_RhoCorr < 20"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr < 20"),
     numberRequired = cms.string(">= 1"),
     # alias = cms.string("E_{iso}^{PU-corr} < 20 GeV")
     )
