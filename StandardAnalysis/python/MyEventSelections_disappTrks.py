@@ -12,6 +12,20 @@ import copy
 # bxlumis, superclusters
 
 
+NoCuts = cms.PSet(
+    name = cms.string("NoCuts"),
+    cuts = cms.VPSet (
+        cms.PSet (
+            inputCollection = cms.string("tracks"),
+            cutString = cms.string("pt > -1"),
+            numberRequired = cms.string(">= 0"),
+            ),    
+        ),
+)
+
+
+
+
 #Standard Preselection Cuts, with no trigger.  
 PreSelectionIsoTrkOnly = cms.PSet(
     name = cms.string("PreSelectionIsoTrkOnly"),

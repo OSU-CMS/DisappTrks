@@ -141,13 +141,13 @@ TestTrackEventHistograms = cms.PSet(
             name = cms.string("caloTotVsNumPV_RhoCorr"),
             title = cms.string("Isolation energy (PU corr.) vs. num. primary vertices; number of primary vertices; E_{iso}^{#DeltaR<0.5} (PU corr.)"),
             bins = cms.vdouble(51, -0.5, 50.5, 100, 0, 100),
-            inputVariables = cms.vstring("numPV", "caloTotDeltaRp5_RhoCorr"),
+            inputVariables = cms.vstring("numPV", "caloTotDeltaRp5RhoCorr"),
             ),
         cms.PSet (
             name = cms.string("caloTotByPVsNumPV_RhoCorr"),
             title = cms.string("Isolation energy / p (PU corr.) vs. num. primary vertices; number of primary vertices; E_{iso}^{#DeltaR<0.5}/p (PU corr.)"),
             bins = cms.vdouble(51, -0.5, 50.5, 100, 0, 2),
-            inputVariables = cms.vstring("numPV", "caloTotDeltaRp5ByP_RhoCorr"),
+            inputVariables = cms.vstring("numPV", "caloTotDeltaRp5ByPRhoCorr"),
             ),
     )
 )
@@ -173,13 +173,13 @@ TestTrackHistograms = cms.PSet(
             name = cms.string("caloTot_RhoCorr"),
             title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (PU corr.)"),
             bins = cms.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotDeltaRp5_RhoCorr"),
+            inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
             ),
         cms.PSet (
             name = cms.string("caloTotByP_RhoCorr"),
             title = cms.string("Isolation energy / p (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)"),
             bins = cms.vdouble(100, 0, 2),
-            inputVariables = cms.vstring("caloTotDeltaRp5ByP_RhoCorr"),
+            inputVariables = cms.vstring("caloTotDeltaRp5ByPRhoCorr"),
             ),
     )
 )
@@ -258,13 +258,13 @@ ExtraTrackHistograms = cms.PSet(
             name = cms.string("caloTot_RhoCorr"),
             title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)"),
             bins = cms.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotDeltaRp5_RhoCorr"),
+            inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
             ),
         cms.PSet (
             name = cms.string("caloTotByP_RhoCorr"),
             title = cms.string("Isolation energy / p (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)"),
             bins = cms.vdouble(100, 0, 2),
-            inputVariables = cms.vstring("caloTotDeltaRp5ByP_RhoCorr"),
+            inputVariables = cms.vstring("caloTotDeltaRp5ByPRhoCorr"),
             ),
 
         cms.PSet (
