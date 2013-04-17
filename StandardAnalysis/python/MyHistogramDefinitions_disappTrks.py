@@ -400,39 +400,39 @@ ExtraTrackHistograms = cms.PSet(
 
         cms.PSet (
             name = cms.string("ptError"),
-            title = cms.string("ptError; pT Error [GeV]"),
+            title = cms.string("ptError; #sigma(p_{T}) (GeV)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("ptError"),
             ),
         cms.PSet (
             name = cms.string("ptErrorByPt"),
-            title = cms.string("ptErrorByPt; pTError/pT"),
+            title = cms.string("ptErrorByPt; #sigma(p_{T})/p_{T}"),
             bins = cms.vdouble(100, 0, 1),
             inputVariables = cms.vstring("ptErrorByPt"),
             ),
         cms.PSet (
             name = cms.string("ptRes"),
-            title = cms.string("ptRes; (pT-pT_{true})/pT_{true}"),
+            title = cms.string("ptRes; (p_{T}-p{T}^{true})/p_{T}^{true}"),
             bins = cms.vdouble(100, 0, 50),
             inputVariables = cms.vstring("ptRes"),
             ),
 
         cms.PSet (
             name = cms.string("chi2vsPtErrorByPt"),
-            title = cms.string("chi2vsPtErrorByPt; #chi^{2}/DOF;pT_{error}/pT"),
+            title = cms.string("chi2vsPtErrorByPt; #chi^{2}/DOF;#sigma(p_{T})/p_{T}"),
             bins = cms.vdouble(100, 0, 7, 100, 0, 1),
             inputVariables = cms.vstring("normChi2","ptErrorByPt"),
             ),
 
         cms.PSet (
             name = cms.string("chi2vsPtRes"),
-            title = cms.string("chi2vsPtRes; #chi^{2}/DOF; (pT-pT_{true})/pT_{true}"),
+            title = cms.string("chi2vsPtRes; #chi^{2}/DOF; (p_{T}-p{T}^{true})/p_{T}^{true}"),
             bins = cms.vdouble(100, 0, 7, 100, 0, 50),
             inputVariables = cms.vstring("normChi2","ptRes"),
             ),
         cms.PSet (
             name = cms.string("genDeltaRLowest"),
-            title = cms.string("genDeltaRLowest"),
+            title = cms.string("genDeltaRLowest; #Delta R_{min.}"),
             bins = cms.vdouble(100, 0, 5),
             inputVariables = cms.vstring("genDeltaRLowest"),
             ),
