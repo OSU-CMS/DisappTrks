@@ -12,6 +12,56 @@ import copy
 # bxlumis, superclusters
 
 
+#### List of cuts first ####
+
+cutMuonVeto = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),
+    # alias = cms.string("Muon Veto")
+    )
+cutElecVeto = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),
+    # alias = cms.string("Electron Veto")
+    )
+cutDeadEcal = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("isMatchedDeadEcal == 0"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("deadEcal Veto")
+    )
+cutCrackVeto = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("Crack Veto")
+    )
+
+#Standard PreSelection Cuts with the Trigger, Jet pT, and MET cuts applied
+cutMET = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 220"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("MET > 220 Gev")
+    )
+
+cutJetPt = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 110"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("jet pT > 110 GeV")
+    )
+
+
+
+
+
+
+#### List of channels #####
+
+
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
     cuts = cms.VPSet (
@@ -47,6 +97,106 @@ PreSelectionIsoTrkOnly = cms.PSet(
         cutString = cms.string("fabs(d0wrtPV) < 0.02"),
         numberRequired = cms.string(">= 1"),
         #        alias = cms.string("$|d_{0}|$ < 0.02 cm")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("fabs(dZwrtPV) < 0.02"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$|d_{z}|$ < 0.02 cm")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("numValidHits > 4"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Valid Hits > 4")
+        ),    
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("nHitsMissingMiddle == 0"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Missing Middle Hits = 0")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("nHitsMissingInner == 0"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Missing Inner Hits = 0")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("isIso == 1"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Track Isolation")
+        ),
+    )   
+)  # end PreSelectionIsoTrkOnly
+
+
+#Standard Preselection Cuts, with no trigger.  
+PreSelectionIsoTrkOnlyNoDz = cms.PSet(
+    name = cms.string("PreSelectionIsoTrkOnly"),
+    cuts = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("pt > 20"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$p_T$ > 20 GeV")
+        ),    
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("fabs(eta) < 2.1"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$|eta|$ < 2.1")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("fabs(d0wrtPV) < 0.02"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$|d_{0}|$ < 0.02 cm")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("numValidHits > 4"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Valid Hits > 4")
+        ),    
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("nHitsMissingMiddle == 0"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Missing Middle Hits = 0")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("nHitsMissingInner == 0"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Missing Inner Hits = 0")
+        ),
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("isIso == 1"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("Track Isolation")
+        ),
+    )   
+)  # end PreSelectionIsoTrkOnly
+
+
+#Standard Preselection Cuts, with no trigger.  
+PreSelectionIsoTrkOnlyNoD0 = cms.PSet(
+    name = cms.string("PreSelectionIsoTrkOnly"),
+    cuts = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("pt > 20"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$p_T$ > 20 GeV")
+        ),    
+    cms.PSet (
+        inputCollection = cms.string("tracks"),
+        cutString = cms.string("fabs(eta) < 2.1"),
+        numberRequired = cms.string(">= 1"),
+        #        alias = cms.string("$|eta|$ < 2.1")
         ),
     cms.PSet (
         inputCollection = cms.string("tracks"),
@@ -246,32 +396,6 @@ PreSelectionIsoTrkOnlyNoHitCut = cms.PSet(
 
 
 
-cutMuonVeto = cms.PSet (
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("= 0"),
-    # alias = cms.string("Muon Veto")
-    )
-cutElecVeto = cms.PSet (
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("= 0"),
-    # alias = cms.string("Electron Veto")
-    )
-cutDeadEcal = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("isMatchedDeadEcal == 0"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("deadEcal Veto")
-    )
-cutCrackVeto = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("Crack Veto")
-    )
-
-
 PreSelectionMuonVetoOnly = cms.PSet(
     name = cms.string("PreSelectionMuonVetoOnly"),
     cuts = copy.deepcopy(PreSelectionIsoTrkOnly.cuts),
@@ -287,20 +411,32 @@ PreSelection.cuts.append(cutDeadEcal)
 PreSelection.cuts.append(cutCrackVeto)  
 
 
-#Standard PreSelection Cuts with the Trigger, Jet pT, and MET cuts applied
-cutMET = cms.PSet (
-    inputCollection = cms.string("mets"),
-    cutString = cms.string("pt > 220"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("MET > 220 Gev")
-    )
+PreSelNoTrig = cms.PSet(
+    name = cms.string("PreSelNoTrig"),
+    cuts = copy.deepcopy(PreSelection.cuts),
+)
 
-cutJetPt = cms.PSet (
-    inputCollection = cms.string("jets"),
-    cutString = cms.string("pt > 110"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("jet pT > 110 GeV")
+
+PreSelNoTrigNoDz = cms.PSet(  
+    name = cms.string("PreSelNoTrigNoDz"), 
+    cuts = copy.deepcopy(PreSelectionIsoTrkOnlyNoDz.cuts),  
     )
+PreSelNoTrigNoDz.cuts.append(cutMuonVeto)  
+PreSelNoTrigNoDz.cuts.append(cutElecVeto)  
+PreSelNoTrigNoDz.cuts.append(cutDeadEcal)  
+PreSelNoTrigNoDz.cuts.append(cutCrackVeto)  
+
+
+PreSelNoTrigNoD0 = cms.PSet(  
+    name = cms.string("PreSelNoTrigNoD0"), 
+    cuts = copy.deepcopy(PreSelectionIsoTrkOnlyNoD0.cuts),  
+    )
+PreSelNoTrigNoD0.cuts.append(cutMuonVeto)  
+PreSelNoTrigNoD0.cuts.append(cutElecVeto)  
+PreSelNoTrigNoD0.cuts.append(cutDeadEcal)  
+PreSelNoTrigNoD0.cuts.append(cutCrackVeto)  
+
+
 
 triggersStandard = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
@@ -379,6 +515,9 @@ cutNotGenMatched = cms.PSet(
     numberRequired = cms.string(">= 1"),
     # alias = cms.string("No Gen Match")
     )
+
+
+
 
 PreSelectionCharginoId = cms.PSet(
     name = cms.string("PreSelectionCharginoId"),
@@ -570,7 +709,12 @@ CtrlReg.cuts.append(cutNMissingOuterHitsCtrlReg)
 
 
 
-#PreSelection + NHitsMissing
+#PreSelection + NHitsMissing  
+PreSelNoTrigPMissingNotGenMatched = copy.deepcopy(PreSelNoTrig)  
+PreSelNoTrigPMissingNotGenMatched.name = cms.string("PreSelNoTrigPMissingNotGenMatched")  
+PreSelNoTrigPMissingNotGenMatched.cuts.append(cutNMissingOuterHits)  
+PreSelNoTrigPMissingNotGenMatched.cuts.append(cutNotGenMatched)  
+
 PreSelectionPMissing = copy.deepcopy(PreSelection)
 PreSelectionPMissing.name = cms.string("PreSelectionPMissing")
 PreSelectionPMissing.cuts.append(cutNMissingOuterHits)
@@ -666,3 +810,19 @@ cutPt125 = cms.PSet (
     # alias = cms.string("125 GeV < pT ")
     )
 PreSelectionPt125.cuts.append(cutPt125)
+
+
+
+PreSelNoTrigNoDzNotGenMatched = cms.PSet(  
+    name = cms.string("PreSelNoTrigNoDzNotGenMatched"), 
+    cuts = copy.deepcopy(PreSelNoTrigNoDz.cuts),  
+    )
+PreSelNoTrigNoDzNotGenMatched.cuts.append(cutNMissingOuterHits)  
+PreSelNoTrigNoDzNotGenMatched.cuts.append(cutNotGenMatched)  
+PreSelNoTrigNoD0NotGenMatched = cms.PSet(  
+    name = cms.string("PreSelNoTrigNoD0NotGenMatched"), 
+    cuts = copy.deepcopy(PreSelNoTrigNoD0.cuts),  
+    )
+PreSelNoTrigNoD0NotGenMatched.cuts.append(cutNMissingOuterHits)  
+PreSelNoTrigNoD0NotGenMatched.cuts.append(cutNotGenMatched)  
+
