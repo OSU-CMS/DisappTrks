@@ -591,7 +591,7 @@ SigRegWithMaxCaloByPLoose.cuts.append(cutMaxCaloByPLoose)
 SigRegWithMaxCaloByPLooseWithTrigJetMet = cms.PSet(
     triggers = triggersJetMet,
     name = cms.string("SigRegWithMaxCaloByPLooseWithTrigJetMet"),
-    cuts = copy.deepcopy(PreSelectionWithTrigJetMet.cuts),
+    cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
     )
 SigRegWithMaxCaloByPLooseWithTrigJetMet.cuts.append(cutMaxCaloByPLoose)
 
