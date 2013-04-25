@@ -81,6 +81,8 @@ osudb -x 136.3 -f BEAN --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkg
 
 #osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V6
 #osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/DYJetsToLL/ -f BEAN create  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
+osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/DYJetsToLL/  -f BEAN create /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM_DisappTrk_V7    
+
 
 
  
