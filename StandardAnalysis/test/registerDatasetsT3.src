@@ -1,0 +1,247 @@
+#  Use this to register datasets.
+
+############################
+# Data 
+############################
+#osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012A  -f BEAN create MET_calo_2012A_V2 
+#osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012B  -f BEAN create MET_calo_2012B_V2 
+#osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012C  -f BEAN create MET_calo_2012C_V2 
+#osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012D  -f BEAN create MET_calo_2012D_V2  
+
+osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012A update /MET/Run2012A-13Jul2012-v1/RECO_disappTrks_V1
+osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012B update /MET/Run2012B-13Jul2012-v1/RECO_disappTrks_V1
+osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012C update /MET/Run2012C-24Aug2012-v1/RECO_disappTrks_V1
+osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012D update /MET/Run2012D-PromptReco-v1/RECO_disappTrks_V1
+
+############################
+# Bkgd MC
+############################
+
+
+## # cross sections are discoverable in many external places, e.g.:
+## # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+## #
+## # To find these cross sections, use PREP.  Follow the instructions here:
+## # https://twiki.cern.ch/twiki/bin/viewauth/CMS/DisappearingTracksSearch2012#How_to_get_cross_sections_for_th
+## # 
+## # cross sections currently in pb
+## dataset_crossSections = {
+## #    'hist-bkgd_QCD_Pt_20_MuEnrichedPt_15' : 364000000,
+## #    'hist-bkgd_QCD_Pt':1000.,
+
+##     'hist_QCD30'   : 66285328.,
+##     'hist_QCD170'  :    34138.15,
+##     'hist_QCD470'  :      113.8791,
+##     'hist_QCD600'  :       26.9921,
+##     'hist_QCD800'  :        3.550036,
+##     'hist_DYJetsToLL' :  2950.0,
+##     'hist_WJetsToLNu' : 30400.0,
+
+# osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V1/WJetsToLNu/  create  WJetsToLNu_2012_V1
+# osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V1/DYJetsToLL/  create  DYJetsToLL_2012_V1 
+
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V3/WJetsToLNu/  create  WJetsToLNu_2012_V3
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V3/DYJetsToLL/  create  DYJetsToLL_2012_V3 
+
+#osudb --location /data/se/store/user/wulsin/DisappTrks/dataCopiedFromGrid/bkgdMC/WJetsElecNoID -f RECO create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_PartialCopy    
+
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V4/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisTrk_V4 
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V5/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisTrk_V5 
+
+
+osudb -x 136.3 -f BEAN --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_TTJets_V1/ create /TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V1  
+
+
+
+#osudb -x 48591000000 update /QCD_Pt-0to5_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_disappTrks_V1		 
+#osudb -x 42639499000 update /QCD_Pt-5to15_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_disappTrks_V1		 
+#osudb -x 1033680     update /QCD_Pt-80to120_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v3/GEN-SIM-RECO_disappTrks_V1		  
+#osudb -x 156293.3    update /QCD_Pt-120to170_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v3/GEN-SIM-RECO_disappTrks_V1	 
+#osudb -x 0.737844    update /QCD_Pt-1000to1400_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_disappTrks_V1	 
+#osudb -x 0.03352235  update /QCD_Pt-1400to1800_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_disappTrks_V1	 
+#osudb -x 0.001829005 update /QCD_Pt-1800_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_disappTrks_V1		 
+
+
+
+
+#osudb -x 48591000000 -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-0to5/     create /QCD_Pt-0to5_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_DisappTrk_V6  
+#osudb -x 42639499000 -f BEAN --location /data/se/store/user/jbrinson/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-5to15/  create /QCD_Pt-5to15_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_DisappTrk_V6		 
+#osudb -x 66285328    -f BEAN --location /data/se/store/user/jbrinson/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-30to50 create /QCD_Pt-30to50_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v2/GEN-SIM-RECO_DisappTrk_V6  
+#osudb -x 1033680     -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-80to120/  create /QCD_Pt-80to120_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v3/GEN-SIM-RECO_DisappTrk_V6   
+#osudb -x 156293.3    -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-120to170/ create /QCD_Pt-120to170_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v3/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 34138.15    -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-170to300/ create /QCD_Pt-170to300_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v2/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 113.8791    -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-470to600/ create /QCD_Pt-470to600_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v2/GEN-SIM-RECO_DisappTrk_V6 
+#osudb -x 26.9921     -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-600to800/ create /QCD_Pt-600to800_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v2/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 3.550036    -f BEAN --location /data/se/store/user/jbrinson/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-800to1000/ create /QCD_Pt-800to1000_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v2/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 0.737844    -f BEAN --location /data/se/store/user/jbrinson/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-1000to1400/ create /QCD_Pt-1000to1400_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 0.03352235  -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-1400to1800 create /QCD_Pt-1400to1800_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_DisappTrk_V6	 
+#osudb -x 0.001829005 -f BEAN --location /data/se/store/user/wulsin/disappTrksBkgdMC_QCDFull_V2/QCD_Pt-1800 create /QCD_Pt-1800_TuneZ2star_8TeV_pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/GEN-SIM-RECO_DisappTrk_V6		 
+
+
+
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V6
+#osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/DYJetsToLL/ -f BEAN create  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
+
+
+ 
+#osudb -x 30400.0 update  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V6 
+#osudb -x  2950.0 update  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
+
+
+
+
+############################
+# Signal MC V2
+############################
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_0p5ns_V2/DisappTrkChargino_LL01_0p5ns_V2/d01f5b9f6ef51059166dee85045de929                     -f RECO create   DisappTrkChargino_LL01_0p5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_1ns_V2/DisappTrkChargino_LL01_1ns_V2/f934c1dfbdd7800327dfb1efb0e7c43c			 -f RECO create   DisappTrkChargino_LL01_1ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_5ns_V2/DisappTrkChargino_LL01_5ns_V2/1e1e6b73a43d2c88e41db026301a6c97			 -f RECO create   DisappTrkChargino_LL01_5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav100K_0p5ns_V2/DisappTrkChargino_LL01_mGrav100K_0p5ns_V2/96f5d7b3379f68d36d9c4c8f31395746 -f RECO create   DisappTrkChargino_LL01_mGrav100K_0p5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav100K_1ns_V2/DisappTrkChargino_LL01_mGrav100K_1ns_V2/342f049f6ad2a5ef899bc9ba72599219	 -f RECO create   DisappTrkChargino_LL01_mGrav100K_1ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav100K_5ns_V2/DisappTrkChargino_LL01_mGrav100K_5ns_V2/dbf8f833b677731a66afce2dfb79acf9	 -f RECO create   DisappTrkChargino_LL01_mGrav100K_5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav150K_0p5ns_V2/DisappTrkChargino_LL01_mGrav150K_0p5ns_V2/12870631779f8eb2ee74f4a00c1e2378 -f RECO create   DisappTrkChargino_LL01_mGrav150K_0p5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav150K_1ns_V2/DisappTrkChargino_LL01_mGrav150K_1ns_V2/ef856835ec5f6193da0ae300bd8faba6	 -f RECO create   DisappTrkChargino_LL01_mGrav150K_1ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav150K_5ns_V2/DisappTrkChargino_LL01_mGrav150K_5ns_V2/0970a0588f939867cb4b23ef11eb7e74	 -f RECO create   DisappTrkChargino_LL01_mGrav150K_5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav50K_0p5ns_V2/DisappTrkChargino_LL01_mGrav50K_0p5ns_V2/bc901238a19bd91cf436f9dd92d9a527	 -f RECO create   DisappTrkChargino_LL01_mGrav50K_0p5ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav50K_1ns_V2/DisappTrkChargino_LL01_mGrav50K_1ns_V2/8d7921bb856d43d2cc7dce00818be4d4	 -f RECO create   DisappTrkChargino_LL01_mGrav50K_1ns_V2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_mGrav50K_5ns_V2/DisappTrkChargino_LL01_mGrav50K_5ns_V2/c797f30334d0feac946adf3f988a6189	 -f RECO create   DisappTrkChargino_LL01_mGrav50K_5ns_V2
+
+#osudb  deprecate SigMC_LL01_0p5ns_BEANsV2	  
+#osudb  deprecate SigMC_LL01_1ns_BEANsV2		  
+#osudb  deprecate SigMC_LL01_5ns_BEANsV2		  
+#osudb  deprecate SigMC_LL01_mGrav100K_0p5ns_BEANsV2
+#osudb  deprecate SigMC_LL01_mGrav100K_1ns_BEANsV2  
+#osudb  deprecate SigMC_LL01_mGrav100K_5ns_BEANsV2  
+#osudb  deprecate SigMC_LL01_mGrav150K_0p5ns_BEANsV2
+#osudb  deprecate SigMC_LL01_mGrav150K_1ns_BEANsV2  
+#osudb  deprecate SigMC_LL01_mGrav150K_5ns_BEANsV2  
+#osudb  deprecate SigMC_LL01_mGrav50K_0p5ns_BEANsV2 
+#osudb  deprecate SigMC_LL01_mGrav50K_1ns_BEANsV2	  
+#osudb  deprecate SigMC_LL01_mGrav50K_5ns_BEANsV2   
+
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_0p5ns	          -f BEAN create DisappTrkChargino_LL01_0p5ns_BEANsV2	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_1ns		  -f BEAN create DisappTrkChargino_LL01_1ns_BEANsV2		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_5ns		  -f BEAN create DisappTrkChargino_LL01_5ns_BEANsV2		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav100K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav100K_0p5ns_BEANsV2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav100K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_1ns_BEANsV2  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav100K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_5ns_BEANsV2  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav150K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav150K_0p5ns_BEANsV2
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav150K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV2  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav150K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV2  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav50K_0p5ns  -f BEAN create DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV2 
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav50K_1ns	  -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV2	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V2/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV2   
+
+
+############################
+# Signal MC V3
+############################
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_0p5ns	   -f BEAN create DisappTrkChargino_LL01_0p5ns_BEANsV3	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_1ns		   -f BEAN create DisappTrkChargino_LL01_1ns_BEANsV3		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_5ns		   -f BEAN create DisappTrkChargino_LL01_5ns_BEANsV3		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav100K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav100K_0p5ns_BEANsV3
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav100K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_1ns_BEANsV3  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav100K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_5ns_BEANsV3  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav150K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav150K_0p5ns_BEANsV3
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav150K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV3  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav150K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV3  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav50K_0p5ns  -f BEAN create DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV3 
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav50K_1ns	   -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV3	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V3/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV3  
+
+
+############################
+# Signal MC V4
+############################
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_0p5ns	   -f BEAN create DisappTrkChargino_LL01_0p5ns_BEANsV4	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_1ns		   -f BEAN create DisappTrkChargino_LL01_1ns_BEANsV4		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_5ns		   -f BEAN create DisappTrkChargino_LL01_5ns_BEANsV4		  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav50K_0p5ns  -f BEAN create DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV4 
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav50K_1ns	   -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV4	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV4  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav100K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav100K_0p5ns_BEANsV4
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav100K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_1ns_BEANsV4  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav100K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_5ns_BEANsV4  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav150K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav150K_0p5ns_BEANsV4
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav150K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV4  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V4/SigMC_LL01_mGrav150K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV4  
+
+############################
+# Signal MC V5
+############################
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V5/SigMC_LL01_mGrav50K_0p5ns  -f BEAN create DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV5 
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V5/SigMC_LL01_mGrav50K_1ns	   -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV5	  
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V5/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV5  
+
+############################
+# Signal MC V6
+############################
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_0p5ns	         -f BEAN create DisappTrkChargino_LL01_0p5ns_BEANsV6	  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_1ns		 -f BEAN create DisappTrkChargino_LL01_1ns_BEANsV6		  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_5ns		 -f BEAN create DisappTrkChargino_LL01_5ns_BEANsV6		  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav50K_0p5ns  -f BEAN create DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV6 
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav50K_1ns	 -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV6	  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV6  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav100K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav100K_0p5ns_BEANsV6
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav100K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_1ns_BEANsV6  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav100K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav100K_5ns_BEANsV6  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav150K_0p5ns -f BEAN create DisappTrkChargino_LL01_mGrav150K_0p5ns_BEANsV6
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav150K_1ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV6  
+#osudb --location /home/wulsin/disappTrks/BEANSv2/CMSSW_5_3_2_patch5/src/NtupleMaker/BEANmaker/SigMC_LL01_mGrav150K_5ns   -f BEAN create DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV6  
+
+# Get signal cross-sections from:
+# https://twiki.cern.ch/twiki/bin/view/CMS/DisappearingTracksSearch2012Recipes#Theory_cross_sections_from_GEN_o
+#osudb -x 11     update DisappTrkChargino_LL01_0p5ns_BEANsV6	  
+#osudb -x 11     update DisappTrkChargino_LL01_1ns_BEANsV6		  
+#osudb -x 11     update DisappTrkChargino_LL01_5ns_BEANsV6		  
+#osudb -x  2     update DisappTrkChargino_LL01_mGrav50K_0p5ns_BEANsV6 
+#osudb -x  2     update DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV6	  
+#osudb -x  2     update DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV6  
+#osudb -x  0.101 update DisappTrkChargino_LL01_mGrav100K_0p5ns_BEANsV6
+#osudb -x  0.101 update DisappTrkChargino_LL01_mGrav100K_1ns_BEANsV6  
+#osudb -x  0.101 update DisappTrkChargino_LL01_mGrav100K_5ns_BEANsV6  
+#osudb -x  0.015 update DisappTrkChargino_LL01_mGrav150K_0p5ns_BEANsV6
+#osudb -x  0.015 update DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV6  
+#osudb -x  0.015 update DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV6  
+
+ 
+								       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
