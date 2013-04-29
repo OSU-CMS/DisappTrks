@@ -148,6 +148,12 @@ cutMaxCaloPUCorr = cms.PSet (
     numberRequired = cms.string(">= 1"),
     # alias = cms.string("$E_{iso}^{PU-corr}$ < 20 GeV")
     )
+cutMinCaloPUCorr = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr > 30"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("$E_{iso}^{PU-corr}$ > 30 GeV")
+    )
 
 ## Control Region ##
 cutNMissingOuterHitsCtrlReg = cms.PSet (
@@ -410,6 +416,14 @@ PreSelectionPMissingWithTrigJetMet = cms.PSet(
     )
 PreSelectionPMissingWithTrigJetMet.cuts.insert(0,cutJetPt)
 PreSelectionPMissingWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionPMissingWithTrigJetMetSigRegBlind = copy.deepcopy(PreSelectionPMissingWithTrigJetMet)  
+PreSelectionPMissingWithTrigJetMetSigRegBlind.name = "PreSelectionPMissingWithTrigJetMetSigRegBlind"
+PreSelectionPMissingWithTrigJetMetSigRegBlind.cuts.append(cutMinCaloPUCorr)  
+
+PreSelectionWithTrigJetMetSigRegBlind = copy.deepcopy(PreSelectionWithTrigJetMet)  
+PreSelectionWithTrigJetMetSigRegBlind.name = "PreSelectionWithTrigJetMetSigRegBlind"
+PreSelectionWithTrigJetMetSigRegBlind.cuts.append(cutMinCaloPUCorr)  
 
 
 PreSelectionPMissingDzSide = cms.PSet(
