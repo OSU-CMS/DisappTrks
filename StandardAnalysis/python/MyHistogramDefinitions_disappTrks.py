@@ -328,6 +328,12 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("dZwrtPV"),
             title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
+            bins = cms.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring("dZwrtPV"),
+            ),       
+        cms.PSet (
+            name = cms.string("dZwrtPVWide"),
+            title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
             bins = cms.vdouble(2000, -10, 10),
             inputVariables = cms.vstring("dZwrtPV"),
             ),       
@@ -397,6 +403,18 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("caloTotDeltaRp5ByPRhoCorr"),
             ),
+        cms.PSet (
+            name = cms.string("caloTot_RhoCorrWide"),
+            title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)"),
+            bins = cms.vdouble(100, 0, 400),
+            inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
+            ),
+        cms.PSet (
+            name = cms.string("caloTotByP_RhoCorrWide"),
+            title = cms.string("Isolation energy / p (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)"),
+            bins = cms.vdouble(100, 0, 6),
+            inputVariables = cms.vstring("caloTotDeltaRp5ByPRhoCorr"),
+            ),
 
         cms.PSet (
             name = cms.string("ptError"),
@@ -412,8 +430,8 @@ ExtraTrackHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("ptRes"),
-            title = cms.string("ptRes; (p_{T}-p{T}^{true})/p_{T}^{true}"),
-            bins = cms.vdouble(100, 0, 50),
+            title = cms.string("ptRes; (p_{T}-p_{T}^{true})/p_{T}^{true}"),
+            bins = cms.vdouble(100, -10, 10),
             inputVariables = cms.vstring("ptRes"),
             ),
 
@@ -426,14 +444,14 @@ ExtraTrackHistograms = cms.PSet(
 
         cms.PSet (
             name = cms.string("chi2vsPtRes"),
-            title = cms.string("chi2vsPtRes; #chi^{2}/DOF; (p_{T}-p{T}^{true})/p_{T}^{true}"),
-            bins = cms.vdouble(100, 0, 7, 100, 0, 50),
+            title = cms.string("chi2vsPtRes; #chi^{2}/DOF; (p_{T}-p_{T}^{true})/p_{T}^{true}"),
+            bins = cms.vdouble(100, 0, 7, 100, -10, 10),
             inputVariables = cms.vstring("normChi2","ptRes"),
             ),
         cms.PSet (
             name = cms.string("genDeltaRLowest"),
             title = cms.string("genDeltaRLowest; #Delta R_{min.}"),
-            bins = cms.vdouble(100, 0, 5),
+            bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("genDeltaRLowest"),
             ),
         )
