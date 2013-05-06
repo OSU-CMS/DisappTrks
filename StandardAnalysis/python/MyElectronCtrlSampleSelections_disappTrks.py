@@ -244,6 +244,11 @@ cutElecElecMass = cms.PSet (
     )
 
 
+cutElecTrkDRSame = cms.PSet (
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutElecTrkDR = cms.PSet (
     inputCollection = cms.string("electron-track pairs"),
     cutString = cms.string("deltaR > 0.15"),
@@ -361,5 +366,35 @@ WtoENuTrigMET.triggers = triggersJetMet
 WtoENuTrigMET.cuts.insert(0,cutJetPt)
 WtoENuTrigMET.cuts.insert(0,cutMET)
 
+
+WtoENuTrkSel = cms.PSet(
+    name = cms.string("WtoENuTrkSel"),
+    triggers = triggersJetMet, 
+    cuts = cms.VPSet(
+        cutJetPt, 
+        cutMET, 
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutElecPt40,     
+        cutElecEta,    
+        cutElecD0,     
+        cutElecMva, 
+        cutElecPFIso,  
+        cutElecNHits,  
+        cutElecVetoOneMax, 
+        cutMuonVeto,   
+        cutTrkPt, 
+        cutTrkEta, 
+        cutTrkD0, 
+        cutTrkDZ, 
+        cutTrkNHits, 
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkIso, 
+        ## cutTrkDeadEcalVeto,
+        ## cutTrkCrackVeto,
+        cutElecTrkDRSame, 
+        )
+    )
 
 
