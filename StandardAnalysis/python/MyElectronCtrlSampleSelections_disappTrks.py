@@ -29,6 +29,47 @@ triggersSingleElec = cms.vstring(
 ##     "HLT_Ele27_WP80_WCandPt80_v",
      "HLT_Ele27_WP80_v",
      )
+triggersJetMet = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "HLT_MET120_HBHENoiseCleaned_v"
+    )
+
+
+cutEvtFilterScraping = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("FilterOutScraping > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+cutVtxGood = cms.PSet (
+    inputCollection = cms.string("primaryvertexs"),
+    cutString = cms.string("isGood > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+cutMET40 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMET = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 220"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("MET > 220 Gev")
+    )
+
+
+cutJetPt = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 110"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("jet pT > 110 GeV")
+    )
+
 
 cut2ElecPt = cms.PSet(
     inputCollection = cms.string("electrons"),
@@ -40,6 +81,11 @@ cutElecPt = cms.PSet(
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     #alias = cms.string("electron pt > 20 GeV")
+    )
+cutElecPt40 = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1"),
     )
 cut2ElecEta = cms.PSet(
     inputCollection= cms.string("electrons"),
@@ -101,6 +147,11 @@ cutElecPFIso = cms.PSet(
     numberRequired = cms.string(">= 1"),
     #alias =cms.string("(e) Electron Iso  < 0.1")
     )
+cutElecTightID = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("tightID > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutElecVetoOneMax =   cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > -1"),
@@ -113,6 +164,7 @@ cutElecVetoAll =   cms.PSet (
     numberRequired = cms.string("= 0"),  # Require no electron in event.  
     #alias = cms.string("Electrons = 0")
     )
+
 
 cutTrkPt = cms.PSet(
     inputCollection = cms.string("tracks"),
@@ -229,31 +281,31 @@ ZtoETrack = cms.PSet(
     name = cms.string("ZtoETrack"),
     triggers = triggersSingleElec, 
     cuts = cms.VPSet(
-     cutElecPt,     
-     cutElecEta,    
-     cutElecD0,     
-     cutElecDZ,     
-     cutElecMva, 
-     cutElecPFIso, 
-     cutElecNHits,  
-     cutTrkPt, 
-     cutTrkEta, 
-     cutTrkD0, 
-     cutTrkDZ, 
-     cutTrkNHits, 
-     ## cutTrkHitMissMid,
-     ## cutTrkHitMissIn, 
-     cutTrkIso, 
-     cutMuonVeto,   
-     cutElecTrkDR, 
-    ##      cutElecElecMass,        
-)
-)
+        cutElecPt,     
+        cutElecEta,    
+        cutElecD0,     
+        cutElecDZ,     
+        cutElecMva, 
+        cutElecPFIso, 
+        cutElecNHits,  
+        cutTrkPt, 
+        cutTrkEta, 
+        cutTrkD0, 
+        cutTrkDZ, 
+        cutTrkNHits, 
+        ## cutTrkHitMissMid,
+        ## cutTrkHitMissIn, 
+        cutTrkIso, 
+        cutMuonVeto,   
+        cutElecTrkDR, 
+        ##      cutElecElecMass,        
+        )
+    )
+
 
 ZtoETrackPreSel = copy.deepcopy(ZtoETrack)
 ZtoETrackPreSel.name = cms.string("ZtoETrackPreSel")  
 ZtoETrackPreSel.cuts.append(cutElecTrkInvMass)
-
 
 
 ZtoETrackFullPreSel = cms.PSet(
@@ -279,8 +331,35 @@ ZtoETrackFullPreSel = cms.PSet(
         cutMuonVeto,   
         cutElecTrkDR, 
         cutElecTrkInvMass, 
-)
-)
+        )
+    )
+
+
+WtoENuTrigElec = cms.PSet(
+    name = cms.string("WtoENuTrigElec"),
+    triggers = triggersSingleElec, 
+    cuts = cms.VPSet(
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutElecPt40,     
+        cutElecEta,    
+        cutElecD0,     
+        cutElecMva, 
+        #        cutElecTightID,  
+        cutElecPFIso,  
+        cutElecNHits,  
+        cutElecVetoOneMax, 
+        cutMuonVeto,   
+        cutMET40,
+        )
+    )
+
+
+WtoENuTrigMET = copy.deepcopy(WtoENuTrigElec)
+WtoENuTrigMET.name = cms.string("WtoENuTrigMET")
+WtoENuTrigMET.triggers = triggersJetMet
+WtoENuTrigMET.cuts.insert(0,cutJetPt)
+WtoENuTrigMET.cuts.insert(0,cutMET)
 
 
 
