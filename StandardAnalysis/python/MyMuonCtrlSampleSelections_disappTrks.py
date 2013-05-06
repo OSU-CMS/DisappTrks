@@ -11,7 +11,7 @@ import copy
 # events, tracks, primaryvertexs,
 # genjets, mcparticles,
 # bxlumis, superclusters
-
+#triggersSingleMU = cms.vstring()
 # Selection of control samples
 triggersDoubleMu = cms.vstring(
     "HLT_DoubleMu11_Acoplanarity03_v",
@@ -31,35 +31,78 @@ triggersDoubleMu = cms.vstring(
     )
 
 triggersSingleMu = cms.vstring(
-##     "HLT_Mu12_eta2p1_DiCentral_20_v",
-##     "HLT_Mu12_eta2p1_DiCentral_40_20_v",
-##     "HLT_Mu12_v",
-##     "HLT_Mu13_Mu8_NoDZ_v",
-##     "HLT_Mu13_Mu8_v",
-##     "HLT_Mu15_eta2p1_DiCentral_20_v",
-##     "HLT_Mu15_eta2p1_DiCentral_40_20_v",
-##     "HLT_Mu15_eta2p1_L1ETM20_v",
-##     "HLT_Mu15_eta2p1_L1Mu10erJetC12WdEtaPhi1DiJetsC_v",
-##     "HLT_Mu15_eta2p1_v",
-##     "HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v",
-##     "HLT_Mu17_Mu8_v",
-##     "HLT_Mu17_eta2p1_TriCentralPFNoPUJet45_35_25_v",
-##     "HLT_Mu17_v",
-##     "HLT_Mu18_CentralPFJet30_CentralPFJet25_v",
-##     "HLT_Mu18_PFJet30_PFJet25_Deta3_CentralPFJet25_v",
-##     "HLT_Mu22_Photon22_CaloIdL_v",
-##     "HLT_Mu24_eta2p1_v",
-##     "HLT_Mu24_v",
-##     "HLT_Mu30_eta2p1_v",
-##     "HLT_Mu30_v",
-##     "HLT_Mu40_PFNoPUHT350_v",
-##     "HLT_Mu40_eta2p1_v",
-##     "HLT_Mu40_v",
-##     "HLT_Mu50_eta2p1_v",
-##     "HLT_Mu5_v",
-##    "HLT_Mu60_PFNoPUHT350_v",
     "HLT_IsoMu24_v",
     )
+
+triggersJetMet = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "HLT_MET120_HBHENoiseCleaned_v"
+    )
+
+
+WToMu = cms.PSet(
+    name = cms.string("WToMu"),
+    triggers = copy.deepcopy(triggersSingleMu),
+#    triggers = copy.deepcopy(triggersJetMet),
+    cuts = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.string("mets"),
+        cutString = cms.string("pt > 220"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("jets"),
+        cutString = cms.string("pt > 110"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("events"),
+        cutString = cms.string("FilterOutScraping > 0"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("primaryvertexs"),
+        cutString = cms.string("isGood > 0"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("fabs(eta) < 2.5"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("pt > 25"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("tightID > 0"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("detIso < 0.05"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("abs(correctedD0) < 0.02"),
+        numberRequired = cms.string(">= 1"),
+        ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("<= 1"),  
+        ),
+    cms.PSet (
+        inputCollection = cms.string("mets"),
+        cutString = cms.string("pt > 40"),
+        numberRequired = cms.string("== 1"),  
+        ),
+)
+)
 
 ZtoMuMu = cms.PSet(
     # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
@@ -116,14 +159,24 @@ ZtoMuMu = cms.PSet(
         #alias = cms.string("Electrons = 0")
         ),
       cms.PSet (
+          inputCollection = cms.string("muon-muon pairs"),
+          cutString = cms.string("chargeProduct == -1"),
+          numberRequired = cms.string(">= 1"),
+          
+                    ),
+      cms.PSet (
         inputCollection = cms.string("muon-muon pairs"),
         cutString = cms.string("invMass > 40 & invMass < 160"),
         numberRequired = cms.string(">= 1"),
-        #alias = cms.string("40 < InvMass (m+m) < 160")
-      ),
-
+        ),
+      cms.PSet (
+          inputCollection = cms.string("muon-track pairs"),
+          cutString = cms.string("deltaR < 0.15"),
+          numberRequired = cms.string(">= 1"),
+          ),
+      )
    )   
-)
+
 
 ZtoMuTrack = cms.PSet(
     name = cms.string("ZtoMuTrack"),
