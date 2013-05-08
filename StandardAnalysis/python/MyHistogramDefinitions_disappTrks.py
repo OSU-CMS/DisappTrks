@@ -83,6 +83,12 @@ DiElectronHistograms = cms.PSet(
             inputVariables = cms.vstring("invMass"),
             ),
         cms.PSet (
+            name = cms.string("diElectronChargeProduct"),
+            title = cms.string("Di-electron Charge Product; charge_{e}_{1}*charge_{e}_{2}"),
+            bins = cms.vdouble(3, -1.5, 1.5),
+            inputVariables = cms.vstring("chargeProduct"),
+            ),
+        cms.PSet (
             name = cms.string("diElectronDeltaEta"),
             title = cms.string("Di-electron Eta Difference; |#Delta(#eta)|"),
             bins = cms.vdouble(1000, 0, 10),
@@ -330,13 +336,19 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
             bins = cms.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("dZwrtPV"),
-            ),       
+            ),
         cms.PSet (
-            name = cms.string("dZwrtPVWide"),
-            title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
-            bins = cms.vdouble(2000, -10, 10),
-            inputVariables = cms.vstring("dZwrtPV"),
-            ),       
+           name = cms.string("dZwrtPVWide"),
+           title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
+           bins = cms.vdouble(2000, -10, 10),
+           inputVariables = cms.vstring("dZwrtPV"),
+           ),       
+        cms.PSet (
+            name = cms.string("EtaVsPhi"),
+            title = cms.string("#eta vs #phi; #eta; #phi"),
+            bins = cms.vdouble(100, -3, 3, 100, -3, 3 ),
+            inputVariables = cms.vstring("eta", "phi"),
+            ),
         cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
@@ -368,17 +380,23 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("depTrkRp5"),
             ),
         cms.PSet (
+            name = cms.string("depTrkRp5MinusPt"),
+            title = cms.string("depTrkRp5MinusPt; depTrkRp5MinusPt"),
+            bins = cms.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("depTrkRp5MinusPt"),
+            ),
+        cms.PSet (
             name = cms.string("caloEMDeltaRp5"),
             title = cms.string("caloEMDeltaRp5; EM Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloEMDeltaRp5"),
-        ),
+            ),
         cms.PSet (
             name = cms.string("caloHadDeltaRp5"),
             title = cms.string("caloHadDeltaRp5; Hadronic Calo Energy (dR < 0.5)"),
             bins = cms.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloHadDeltaRp5"),
-        ),
+            ),
         cms.PSet (
             name = cms.string("caloTot"),
             title = cms.string("Isolation energy; E_{iso}^{#DeltaR<0.5} (GeV)"),
@@ -403,12 +421,12 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("caloTotDeltaRp5ByPRhoCorr"),
             ),
-        cms.PSet (
-            name = cms.string("caloTot_RhoCorrWide"),
-            title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)"),
-            bins = cms.vdouble(100, 0, 400),
-            inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
-            ),
+         cms.PSet (
+             name = cms.string("caloTot_RhoCorrWide"),
+             title = cms.string("Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)"),
+             bins = cms.vdouble(100, 0, 400),
+             inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
+             ),
         cms.PSet (
             name = cms.string("caloTotByP_RhoCorrWide"),
             title = cms.string("Isolation energy / p (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)"),
@@ -454,6 +472,9 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.vdouble(100, 0, 2),
             inputVariables = cms.vstring("genDeltaRLowest"),
             ),
+
+            ),
+        
         )
     )
 
