@@ -110,7 +110,18 @@ cutCrackVeto = cms.PSet (
     )
 
 ## Signal Region (Loose and Tight) ##
-
+cutSumPtGreaterThan = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("depTrkRp5MinusPt > 7"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("Missing Outer Hits > 2")
+    )
+cutSumPtLessThan = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("depTrkRp5MinusPt <= 7"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("Missing Outer Hits > 2")
+    )
 cutNMissingOuterHits = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("nHitsMissingOuter >= 3"),
@@ -148,13 +159,12 @@ cutMaxCaloPUCorr = cms.PSet (
     numberRequired = cms.string(">= 1"),
     # alias = cms.string("$E_{iso}^{PU-corr}$ < 20 GeV")
     )
-cutMinCaloPUCorr = cms.PSet (
+cutMaxCaloPUCorrBlind = cms.PSet (
     inputCollection = cms.string("tracks"),
-    cutString = cms.string("caloTotDeltaRp5RhoCorr > 30"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr > 20"),
     numberRequired = cms.string(">= 1"),
-    # alias = cms.string("$E_{iso}^{PU-corr}$ > 30 GeV")
+    # alias = cms.string("$E_{iso}^{PU-corr}$ < 20 GeV")
     )
-
 ## Control Region ##
 cutNMissingOuterHitsCtrlReg = cms.PSet (
     inputCollection = cms.string("tracks"),
@@ -358,6 +368,28 @@ PreSelectionMuonVetoOnlyWithTrigJetMet = cms.PSet(
 PreSelectionMuonVetoOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)
 PreSelectionMuonVetoOnlyWithTrigJetMet.cuts.insert(0,cutMET)
 
+PreSelectionElectronVetoOnly = cms.PSet(
+    name = cms.string("PreSelectionElectronVetoOnly"),
+    cuts = cms.VPSet (),
+    )
+PreSelectionElectronVetoOnly.cuts.append(cutTrackPt)
+PreSelectionElectronVetoOnly.cuts.append(cutTrackEta)
+PreSelectionElectronVetoOnly.cuts.append(cutTrackd0)
+PreSelectionElectronVetoOnly.cuts.append(cutTrackdz)
+PreSelectionElectronVetoOnly.cuts.append(cutTrackNumValidHits)
+PreSelectionElectronVetoOnly.cuts.append(cutMissingMiddleHits)
+PreSelectionElectronVetoOnly.cuts.append(cutMissingInnerHits)
+PreSelectionElectronVetoOnly.cuts.append(cutTrkIso)
+PreSelectionElectronVetoOnly.cuts.append(cutMuonVeto)
+PreSelectionElectronVetoOnly.cuts.append(cutElecVeto)
+
+PreSelectionElectronVetoOnlyWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionElectronVetoOnlyWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionElectronVetoOnly.cuts),
+    )
+PreSelectionElectronVetoOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionElectronVetoOnlyWithTrigJetMet.cuts.insert(0,cutMET)
 
 PreSelectionIsoTrkOnlyDzSide = cms.PSet(
     name = cms.string("PreSelectionIsoTrkOnlyDzSide"),
@@ -417,14 +449,98 @@ PreSelectionPMissingWithTrigJetMet = cms.PSet(
 PreSelectionPMissingWithTrigJetMet.cuts.insert(0,cutJetPt)
 PreSelectionPMissingWithTrigJetMet.cuts.insert(0,cutMET)
 
-PreSelectionPMissingWithTrigJetMetSigRegBlind = copy.deepcopy(PreSelectionPMissingWithTrigJetMet)  
-PreSelectionPMissingWithTrigJetMetSigRegBlind.name = "PreSelectionPMissingWithTrigJetMetSigRegBlind"
-PreSelectionPMissingWithTrigJetMetSigRegBlind.cuts.append(cutMinCaloPUCorr)  
+PreSelectionPMissingBlindWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPMissingBlindWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
+    )
+PreSelectionPMissingBlindWithTrigJetMet.cuts.append(cutMaxCaloPUCorrBlind)
 
-PreSelectionWithTrigJetMetSigRegBlind = copy.deepcopy(PreSelectionWithTrigJetMet)  
-PreSelectionWithTrigJetMetSigRegBlind.name = "PreSelectionWithTrigJetMetSigRegBlind"
-PreSelectionWithTrigJetMetSigRegBlind.cuts.append(cutMinCaloPUCorr)  
+PreSelectionPSumPtLessThan = cms.PSet(
+    name = cms.string("PreSelectionPSumPtLessThan"),
+    cuts = copy.deepcopy(PreSelection.cuts),
+    )
+PreSelectionPSumPtLessThan.cuts.append(cutSumPtLessThan)
 
+PreSelectionPSumPtLessThanWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPSumPtLessThanWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPSumPtLessThan.cuts),
+    )
+PreSelectionPSumPtLessThanWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionPSumPtLessThanWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionPSumPtLessThanBlindWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPSumPtLessThanBlindWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPSumPtLessThanWithTrigJetMet.cuts),
+    )
+PreSelectionPSumPtLessThanBlindWithTrigJetMet.cuts.append(cutMaxCaloPUCorrBlind)
+
+PreSelectionPSumPtGreaterThan = cms.PSet(
+    name = cms.string("PreSelectionPSumPtGreaterThan"),
+    cuts = copy.deepcopy(PreSelection.cuts),
+    )
+PreSelectionPSumPtGreaterThan.cuts.append(cutSumPtGreaterThan)
+
+PreSelectionPSumPtGreaterThanWithTrigJetMet = cms.PSet(
+            name = cms.string("PreSelectionPSumPtGreaterThanWithTrigJetMet"),
+            triggers = triggersJetMet,
+            cuts = copy.deepcopy(PreSelectionPSumPtGreaterThan.cuts),
+            )
+PreSelectionPSumPtGreaterThanWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionPSumPtGreaterThanWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionPSumPtGreaterThanBlindWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPSumPtGreaterThanBlindWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPSumPtGreaterThanWithTrigJetMet.cuts),
+    )
+PreSelectionPSumPtGreaterThanWithTrigJetMet.cuts.append(cutMaxCaloPUCorrBlind)
+
+
+PreSelectionPMissingSumPtGreaterThan = cms.PSet(
+        name = cms.string("PreSelectionPMissingSumPtGreaterThan"),
+        cuts = copy.deepcopy(PreSelectionPMissing.cuts),
+        )
+PreSelectionPMissingSumPtGreaterThan.cuts.append(cutSumPtGreaterThan)
+
+
+PreSelectionPMissingSumPtGreaterThanWithTrigJetMet = cms.PSet(
+        name = cms.string("PreSelectionPMissingSumGreaterThanWithTrigJetMet"),
+            triggers = triggersJetMet,
+            cuts = copy.deepcopy(PreSelectionPMissingSumPtGreaterThan.cuts),
+            )
+PreSelectionPMissingSumPtGreaterThanWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionPMissingSumPtGreaterThanWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionPMissingSumPtGreaterThanBlindWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPMissingSumGreaterThanBlindWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPMissingSumPtGreaterThanWithTrigJetMet.cuts),
+    )
+PreSelectionPMissingSumPtGreaterThanWithTrigJetMet.cuts.append(cutMaxCaloPUCorrBlind)
+
+PreSelectionPMissingSumPtLessThan = cms.PSet(
+    name = cms.string("PreSelectionPMissingSumPtLessThan"),
+    cuts = copy.deepcopy(PreSelectionPMissing.cuts),
+    )
+PreSelectionPMissingSumPtLessThan.cuts.append(cutSumPtLessThan)
+
+PreSelectionPMissingSumPtLessThanWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPMissingSumLessThanWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPMissingSumPtLessThan.cuts),
+    )
+PreSelectionPMissingSumPtLessThanWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionPMissingSumPtLessThanWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionPMissingSumPtLessThanBlindWithTrigJetMet = cms.PSet(
+    name = cms.string("PreSelectionPMissingSumLessThanBlindWithTrigJetMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(PreSelectionPMissingSumPtLessThanWithTrigJetMet.cuts),
+    )
+PreSelectionPMissingSumPtLessThanWithTrigJetMet.cuts.append(cutMaxCaloPUCorrBlind)
 
 PreSelectionPMissingDzSide = cms.PSet(
     name = cms.string("PreSelectionPMissingDzSide"),
@@ -529,12 +645,26 @@ PreSelectionElectronId = cms.PSet(
     )
 PreSelectionElectronId.cuts.append(cutElectronId)
 
+PreSelectionElectronIdWithTrigJetMet = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("PreSelectionElectronIdWithTrigJetMet"),
+    cuts = copy.deepcopy(PreSelectionWithTrigJetMet.cuts),
+    )
+PreSelectionElectronIdWithTrigJetMet.cuts.append(cutElectronId)
+
 
 PreSelectionPionId = cms.PSet(
     name = cms.string("PreSelectionPionId"),
     cuts = copy.deepcopy(PreSelection.cuts),
     )
 PreSelectionPionId.cuts.append(cutPionId)
+
+PreSelectionPionIdWithTrigJetMet = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("PreSelectionPionIdWithTrigJetMet"),
+    cuts = copy.deepcopy(PreSelectionWithTrigJetMet.cuts),
+    )
+PreSelectionPionIdWithTrigJetMet.cuts.append(cutPionId)
 
 
 PreSelectionNotGenMatched = cms.PSet(
@@ -551,11 +681,26 @@ PreSelectionPMissingElectronId = cms.PSet(
 PreSelectionPMissingElectronId.cuts.append(cutElectronId)
 
 
+PreSelectionPMissingElectronIdWithTrigJetMet = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("PreSelectionPMissingElectronIdWithTrigJetMet"),
+    cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
+    )
+PreSelectionPMissingElectronIdWithTrigJetMet.cuts.append(cutElectronId)
+
+
 PreSelectionPMissingPionId = cms.PSet(
     name = cms.string("PreSelectionPMissingPionId"),
     cuts = copy.deepcopy(PreSelectionPMissing.cuts),
     )
 PreSelectionPMissingPionId.cuts.append(cutPionId)
+
+PreSelectionPMissingPionIdWithTrigJetMet = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("PreSelectionPMissingPionIdWithTrigJetMet"),
+    cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
+    )
+PreSelectionPMissingPionIdWithTrigJetMet.cuts.append(cutPionId)
 
 
 PreSelectionPMissingNotGenMatched = cms.PSet(
@@ -645,6 +790,12 @@ SigRegWithMaxCaloPUCorr = cms.PSet(
     )
 SigRegWithMaxCaloPUCorr.cuts.append(cutMaxCaloPUCorr)
 
+SigRegWithMaxCaloPUCorrAndSumPtLessThan = cms.PSet(
+    name = cms.string("SigRegWithMaxCaloPUCorrAndSumPtLessThan"),
+    cuts = copy.deepcopy(PreSelectionPMissing.cuts),
+    )
+SigRegWithMaxCaloPUCorrAndSumPtLessThan.cuts.append(cutSumPtLessThan)
+SigRegWithMaxCaloPUCorrAndSumPtLessThan.cuts.append(cutMaxCaloPUCorr)
 
 SigRegWithMaxCaloPUCorrWithTrigJetMet = cms.PSet(
     triggers = triggersJetMet,
@@ -652,6 +803,14 @@ SigRegWithMaxCaloPUCorrWithTrigJetMet = cms.PSet(
     cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
     )
 SigRegWithMaxCaloPUCorrWithTrigJetMet.cuts.append(cutMaxCaloPUCorr)
+
+SigRegWithMaxCaloPUCorrAndSumPtLessThanWithTrigJetMet = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("SigRegWithMaxCaloPUCorAndSumPtLessThanWithTrigJetMet"),
+    cuts = copy.deepcopy(PreSelectionPMissingWithTrigJetMet.cuts),
+    )
+SigRegWithMaxCaloPUCorrAndSumPtLessThanWithTrigJetMet.cuts.append(cutSumPtLessThan)
+SigRegWithMaxCaloPUCorrAndSumPtLessThanWithTrigJetMet.cuts.append(cutMaxCaloPUCorr)
 
 
 ## Control Region Channels ##
