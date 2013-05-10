@@ -84,6 +84,13 @@ electronVetoAll = cms.PSet(
     numberRequired = cms.string("= 0"),  # Require no electron in event.
     #alias = cms.string("Electrons = 0")
     )
+muonVetoAll = cms.PSet(
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),  # Require no muon in event.
+    #alias = cms.string("Electrons = 0")
+    )
+
 muonVetoOneMax = cms.PSet(
     inputCollection = cms.string("muons"),
     cutString = cms.string("pt > -1"),
@@ -180,12 +187,12 @@ muonIso = cms.PSet(
     )
 tauPt = cms.PSet(
     inputCollection = cms.string("taus"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
     )
-tauPt = cms.PSet(
+tauPtLeadingTrack = cms.PSet(
     inputCollection = cms.string("taus"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("leadingTrackPt > 15"),
     numberRequired = cms.string(">= 1"),
     )
 tauEta = cms.PSet(
@@ -273,9 +280,11 @@ muTauInvMass = cms.PSet(
     numberRequired = cms.string(">= 1"),
     #alias = cms.string("40 < Muon-Tau InvMass < 160")
     )
-
-
-
+tauLooseIso = cms.PSet(
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("HPSbyVLooseCombinedIsolationDeltaBetaCorr == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
 
 #######################
 # Channel definitions  
@@ -364,22 +373,23 @@ ZtoTauTrackFullPreSel.cuts.append(deltaRTauTrack)
 ZtoTauTrackFullPreSel.cuts.append(deltaRMuTau)
 ZtoTauTrackFullPreSel.cuts.append(muTauInvMass)
 
-
-WtoTauNu = cms.PSet(
-    name = cms.string("WtoTauNu"),
-    triggers = triggersJetMet, 
+#WToTauNu selection taken from http://cms.cern.ch/iCMS/jsp/db_notes/showNoteDetails.jsp?noteID=CMS%20AN-2011/019
+WToTauNu = cms.PSet(
+    name = cms.string("WToTauNu"),
+    triggers = copy.deepcopy(triggersJetMet),
     cuts = cms.VPSet (
-        cutMET,
-        cutJetPt, 
-        tauPt,
-        tauEta,
-        tauAgainstElectron,
-        tauAgainstMuon,
-        tauValidHits,
-        ElectronVetoAll,
-        MuonVetoAll, 
-        )     
+         cutMET,
+         cutJetPt,
+         tauPt,
+         tauPtLeadingTrack,
+         tauEta,
+         tauLooseIso,
+         tauAgainstElectron,
+         tauAgainstMuon,
+         tauValidHits,
+         electronVetoAll,
+         muonVetoAll,
+         )
     )
-
 
 
