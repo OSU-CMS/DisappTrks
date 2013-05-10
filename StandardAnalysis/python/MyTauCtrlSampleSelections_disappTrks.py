@@ -12,12 +12,31 @@ import copy
 # bxlumis, superclusters
 
 # Selection of control samples
-#trigger on mus for all of them 
 triggersSingleMu = cms.vstring(
     "HLT_IsoMu24_v",
     )
+triggersJetMet = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "HLT_MET120_HBHENoiseCleaned_v"
+    )
 
-## List of cuts ##
+
+
+## List of cuts ##   
+cutMET = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 220"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("MET > 220 Gev")
+    )
+cutJetPt = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 110"),
+    numberRequired = cms.string(">= 1"),
+    # alias = cms.string("jet pT > 110 GeV")
+    )
+
 tauPairPt = cms.PSet(
     inputCollection = cms.string("taus"),
     cutString = cms.string("pt > 20"),
@@ -254,6 +273,14 @@ muTauInvMass = cms.PSet(
     numberRequired = cms.string(">= 1"),
     #alias = cms.string("40 < Muon-Tau InvMass < 160")
     )
+
+
+
+
+#######################
+# Channel definitions  
+#######################
+
 ZtoTauTau = cms.PSet(
     name = cms.string("ZtoTauTau"),
     triggers = copy.deepcopy(triggersSingleMu),
@@ -336,3 +363,23 @@ ZtoTauTrackFullPreSel.cuts.append(crackVeto)
 ZtoTauTrackFullPreSel.cuts.append(deltaRTauTrack)
 ZtoTauTrackFullPreSel.cuts.append(deltaRMuTau)
 ZtoTauTrackFullPreSel.cuts.append(muTauInvMass)
+
+
+WtoTauNu = cms.PSet(
+    name = cms.string("WtoTauNu"),
+    triggers = triggersJetMet, 
+    cuts = cms.VPSet (
+        cutMET,
+        cutJetPt, 
+        tauPt,
+        tauEta,
+        tauAgainstElectron,
+        tauAgainstMuon,
+        tauValidHits,
+        ElectronVetoAll,
+        MuonVetoAll, 
+        )     
+    )
+
+
+
