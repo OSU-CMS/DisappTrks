@@ -3,7 +3,9 @@
 config_file = "trackAnalyzerStandard_cfg.py"
 #config_file = "trackAnalyzerQuick_cfg.py"
 
-intLumi = 19500.
+#intLumi = 19500.
+intLumi = 18046.  # MET 2012 data registered as of 2013-05-07
+
 
 datasets = [
 
@@ -13,9 +15,10 @@ datasets = [
     'AMSB_mGrav50K_1ns_Reco',
     'AMSB_mGrav50K_5ns_Reco',
     
-    'DYJetsToLL_Reco',
     'WJetsToLNu_Reco',
+    'TTbar_Reco',
     'QCD_Reco',
+    'DYJetsToLL_Reco',
     'ZJetsToNuNu', 
     
     ]
