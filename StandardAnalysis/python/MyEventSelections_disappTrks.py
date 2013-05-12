@@ -242,8 +242,38 @@ cutdzSide = cms.PSet (
     numberRequired = cms.string(">= 1"),
     )
 
+cutElecEta = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonEta = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
 
+cutElecTrkDRSame = cms.PSet (
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecTrkDRSameNone = cms.PSet (
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string("= 0"),
+    )
 
+cutMuonTrkDRSame = cms.PSet (
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonTrkDRSameNone = cms.PSet (
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string("= 0"),
+    )
 
 
 #### List of channels #####
@@ -302,6 +332,30 @@ PreSelectionIsoTrkOnlyWithTrigJetMet = cms.PSet(
     )
 PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutJetPt)
 PreSelectionIsoTrkOnlyWithTrigJetMet.cuts.insert(0,cutMET)
+
+PreSelectionIsoTrkOnlyElecMatch = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMet)
+PreSelectionIsoTrkOnlyElecMatch.name = "PreSelectionIsoTrkOnlyElecMatch"
+PreSelectionIsoTrkOnlyElecMatch.cuts.append(cutElecEta)
+PreSelectionIsoTrkOnlyElecMatch.cuts.append(cutElecTrkDRSame)
+
+PreSelectionIsoTrkOnlyMuonMatch = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMet)
+PreSelectionIsoTrkOnlyMuonMatch.name = "PreSelectionIsoTrkOnlyMuonMatch"
+PreSelectionIsoTrkOnlyMuonMatch.cuts.append(cutMuonEta)
+PreSelectionIsoTrkOnlyMuonMatch.cuts.append(cutMuonTrkDRSame)
+
+PreSelectionIsoTrkOnlyNoMuonMatch = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMet)
+PreSelectionIsoTrkOnlyNoMuonMatch.name = "PreSelectionIsoTrkOnlyNoMuonMatch"
+PreSelectionIsoTrkOnlyNoMuonMatch.cuts.append(cutMuonTrkDRSameNone)
+PreSelectionIsoTrkOnlyNoMuonMatch.cuts.append(cutMuonVeto)
+
+PreSelectionIsoTrkOnlyNoElecMatch = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMet)
+PreSelectionIsoTrkOnlyNoElecMatch.name = "PreSelectionIsoTrkOnlyNoElecMatch"
+PreSelectionIsoTrkOnlyNoElecMatch.cuts.append(cutDeadEcal)
+PreSelectionIsoTrkOnlyNoElecMatch.cuts.append(cutCrackVeto)
+PreSelectionIsoTrkOnlyNoElecMatch.cuts.append(cutElecTrkDRSameNone)
+PreSelectionIsoTrkOnlyNoElecMatch.cuts.append(cutElecVeto)
+
+
 
 
 PreSelectionIsoTrkOnlyNoDz = cms.PSet(
@@ -584,8 +638,8 @@ PreSelectionNoHitCutWithTrigJetMet = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(PreSelectionNoHitCut.cuts),
     )
-PreSelectionWithTrigJetMet.cuts.insert(0,cutJetPt)
-PreSelectionWithTrigJetMet.cuts.insert(0,cutMET)
+PreSelectionNoHitCutWithTrigJetMet.cuts.insert(0,cutJetPt)
+PreSelectionNoHitCutWithTrigJetMet.cuts.insert(0,cutMET)
 
 
 PreSelectionIsoTrkOnlyNoHitCut = cms.PSet(
