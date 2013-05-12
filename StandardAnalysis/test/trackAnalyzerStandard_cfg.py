@@ -13,7 +13,7 @@ process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SigMC_L
 process.maxEvents.input = 1000
 #process.OSUAnalysis.dataset = cms.string ('DYJetsToLL_Reco')
 #process.OSUAnalysis.dataset = cms.string ('WJetsToLNu_Reco')
-process.OSUAnalysis.doPileupReweighting = cms.bool(False)
+#process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #output file name when running interactively
 process.TFileService.fileName = 'hist.root'
 
@@ -31,10 +31,10 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
 
 ## Signal Region Channels ##
 
-process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorr)
-process.OSUAnalysis.channels.append(SigRegWithMaxCaloLoose)
-process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorrWithTrigJetMet)
-process.OSUAnalysis.channels.append(SigRegWithMaxCaloLooseWithTrigJetMet)
+## process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorr)
+## process.OSUAnalysis.channels.append(SigRegWithMaxCaloLoose)
+## process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorrWithTrigJetMet)
+## process.OSUAnalysis.channels.append(SigRegWithMaxCaloLooseWithTrigJetMet)
 
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 ## Preselection Channels ##
@@ -42,6 +42,13 @@ process.OSUAnalysis.channels.append(SigRegWithMaxCaloLooseWithTrigJetMet)
 #process.OSUAnalysis.channels.append(PreSelection)
 
 process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyElecMatch)
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyMuonMatch)
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoMuonMatch)  
+process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoElecMatch)  
+
+
+
 #process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyWithTrigJetMet)  
 #process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoD0WithTrigJetMet)  
 #process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoDzWithTrigJetMet)  
