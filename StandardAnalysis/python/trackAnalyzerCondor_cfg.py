@@ -12,7 +12,7 @@ process.OSUAnalysis.plotAllObjectsInPassingEvents = False
 process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuons')
 process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons')
 
-process.OSUAnalysis.doPileupReweighting = cms.bool(False)
+#process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)  
