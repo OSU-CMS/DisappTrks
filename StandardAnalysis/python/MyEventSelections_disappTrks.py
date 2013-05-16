@@ -276,6 +276,58 @@ cutMuonTrkDRSameNone = cms.PSet (
     )
 
 
+#### Cuts from monojet analysis, AN-2012-421 #####
+cutMET200 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 200"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutJetEta = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 2.0"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutNJets = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("<= 2"),
+    )
+
+cutJetJetDPhi = cms.PSet (
+    inputCollection = cms.string("jet-jet pairs"),
+    cutString = cms.string("deltaPhi > 2"),
+    numberRequired = cms.string("= 0"),
+    )
+
+cutJetNoiseChgHad = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutJetNoiseNeuEM = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutJetNoiseNeuHad = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("neutralHadronEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+cutTauVeto = cms.PSet (
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),
+    )
+
+
+
 #### List of channels #####
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
@@ -898,3 +950,21 @@ CtrlRegWithTrigJetMet = cms.PSet(
 CtrlRegWithTrigJetMet.cuts.append(cutNMissingOuterHitsCtrlReg)
 
 
+# Monojet selection #  
+MonoJet = cms.PSet(
+    name = cms.string("MonoJet"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET200,
+        cutJetNoiseChgHad,
+        cutJetNoiseNeuEM,
+        cutJetNoiseNeuHad,
+        cutJetPt,
+        cutJetEta,
+        cutNJets,
+        cutJetJetDPhi,
+        cutMuonVeto,
+        cutElecVeto,
+        cutTauVeto,
+       ),
+    )
