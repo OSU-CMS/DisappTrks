@@ -584,3 +584,29 @@ TrackPtHistograms = cms.PSet(
     )
 )
 
+
+
+JetExtraHistograms = cms.PSet(
+    inputCollection = cms.string("jets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("jetChargedHadronEnergyFraction"),
+            title = cms.string("chargedHadronEnergyFraction"),
+            bins = cms.untracked.vdouble(100, 0, 1.0),
+            inputVariables = cms.vstring("chargedHadronEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("neutralEmEnergyFraction"),
+            title = cms.string("neutralEmEnergyFraction"),
+            bins = cms.untracked.vdouble(100, 0, 1.0),
+            inputVariables = cms.vstring("neutralEmEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("neutralHadronEnergyFraction"),
+            title = cms.string("neutralHadronEnergyFraction"), 
+            bins = cms.untracked.vdouble(100, 0, 1.0),
+            inputVariables = cms.vstring("neutralHadronEnergyFraction"),
+            ),
+    )
+)
+
