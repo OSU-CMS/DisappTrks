@@ -27,6 +27,27 @@ cutMET = cms.PSet (
     # alias = cms.string("MET > 220 Gev")
     )
 
+cutEvtCSCHaloTight = cms.PSet (
+    inputCollection = cms.string("event"),
+    cutString = cms.string("CSCTightHaloId == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutEvtHBHENoiseFilter = cms.PSet (
+    inputCollection = cms.string("event"),
+    cutString = cms.string("HBHENoiseFilter == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutEvtHcalNoiseFilter = cms.PSet (
+    inputCollection = cms.string("event"),
+    cutString = cms.string("hcalnoiseTight == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+
+
 cutJetPt = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 110"),
@@ -955,6 +976,9 @@ MonoJet = cms.PSet(
     name = cms.string("MonoJet"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
+        cutEvtCSCHaloTight,
+        cutEvtHBHENoiseFilter,
+        cutEvtHcalNoiseFilter,
         cutMET200,
         cutJetNoiseChgHad,
         cutJetNoiseNeuEM,
@@ -968,3 +992,5 @@ MonoJet = cms.PSet(
         cutTauVeto,
        ),
     )
+
+
