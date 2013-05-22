@@ -19,7 +19,9 @@ triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
     "HLT_MET120_HBHENoiseCleaned_v"
     )
-
+triggersSingleMu = cms.vstring(
+    "HLT_IsoMu24_v",
+    )
 
 
 cutVtxGood = cms.PSet (
@@ -87,6 +89,11 @@ cutElecPt40 = cms.PSet(
 cutElecPt30 = cms.PSet(
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecPt20 = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
 cut2ElecEta = cms.PSet(
@@ -361,9 +368,21 @@ cutMuonVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     # alias = cms.string("Muon Veto")
     )
+cutMuonVetoPt10 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > 10"),
+    numberRequired = cms.string("= 0"),
+    # alias = cms.string("Muon Veto")
+    )
 cutElecVeto = cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),
+    # alias = cms.string("Electron Veto")
+    )
+cutElecVetoPt10 = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 10"),
     numberRequired = cms.string("= 0"),
     # alias = cms.string("Electron Veto")
     )
@@ -672,7 +691,7 @@ PreSelectionIsoTrkOnlyElecMatch = cms.PSet(
         cutJetNoiseNeuEM,
         cutJetNoiseNeuHad,
         cutNJets,
-        cutElecPt30,     
+        cutElecPt20,     
         cutElecEta,    
         cutElecD0,     
         cutElecMva, 
@@ -680,16 +699,16 @@ PreSelectionIsoTrkOnlyElecMatch = cms.PSet(
         cutElecPFIso,  
         cutElecNHits,  
         cutElecVetoOneMax, 
-        cutMuonVeto,   
+        cutMuonVetoPt10,   
         cutTrackPt,
         cutTrackEta,
         cutTrackd0,
-        cutTrackdz,
+        #        cutTrackdz,
         cutTrackNumValidHits,
         ## cutMissingMiddleHits,
         ## cutMissingInnerHits,
-        cutTrkIso,
-        cutSumPtLessThan,
+        ## cutTrkIso,
+        ## cutSumPtLessThan,
         cutElecTrkDRSame,
     )
 )
@@ -698,12 +717,12 @@ PreSelectionIsoTrkOnlyElecMatch = cms.PSet(
 
 PreSelectionIsoTrkOnlyMuonMatch = cms.PSet(
     name = cms.string("PreSelectionIsoTrkOnlyMuonMatch"),
-    #    triggers = triggersJetMet,
+    triggers = triggersJetMet,
     cuts = cms.VPSet (
         cutEvtFilterScraping,
         cutVtxGood, 
-        #        cutMET,
-        #        cutJetPt,
+        cutMET,
+        cutJetPt,
         cutJetEta,
         cutJetNoiseChgHad,
         cutJetNoiseNeuEM,
@@ -715,21 +734,19 @@ PreSelectionIsoTrkOnlyMuonMatch = cms.PSet(
         cutMuonDetIso,
         cutMuonD0,
         cutMuonOneOnly,
-        cutElecVeto,   
+        cutElecVetoPt10,   
         cutTrackPt,
         cutTrackEta,
         cutTrackd0,
-        cutTrackdz,
+        #        cutTrackdz,
         cutTrackNumValidHits,
         ## cutMissingMiddleHits,
         ## cutMissingInnerHits,
-        cutTrkIso,
-        cutSumPtLessThan,
+        #        cutTrkIso,
+        #        cutSumPtLessThan,
         cutMuonTrkDRSame,
     )
 )
-
-
 
 
 PreSelectionIsoTrkOnlyNoMuonMatch = copy.deepcopy(PreSelectionIsoTrkOnlyWithTrigJetMet)
