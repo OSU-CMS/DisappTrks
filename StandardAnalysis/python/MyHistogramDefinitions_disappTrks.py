@@ -591,20 +591,20 @@ JetExtraHistograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("jetChargedHadronEnergyFraction"),
-            title = cms.string("chargedHadronEnergyFraction"),
-            bins = cms.untracked.vdouble(100, 0, 1.0),
+            title = cms.string("Jet Charged Hadron Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
             inputVariables = cms.vstring("chargedHadronEnergyFraction"),
             ),
         cms.PSet (
-            name = cms.string("neutralEmEnergyFraction"),
-            title = cms.string("neutralEmEnergyFraction"),
-            bins = cms.untracked.vdouble(100, 0, 1.0),
+            name = cms.string("jetNeutralEmEnergyFraction"),
+            title = cms.string("Jet Neutral EM Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
             inputVariables = cms.vstring("neutralEmEnergyFraction"),
             ),
         cms.PSet (
-            name = cms.string("neutralHadronEnergyFraction"),
-            title = cms.string("neutralHadronEnergyFraction"), 
-            bins = cms.untracked.vdouble(100, 0, 1.0),
+            name = cms.string("jetNeutralHadronEnergyFraction"),
+            title = cms.string("Jet Neutral Hadron Energy Fraction"), 
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
             inputVariables = cms.vstring("neutralHadronEnergyFraction"),
             ),
     )
