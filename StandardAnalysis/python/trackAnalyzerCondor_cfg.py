@@ -9,8 +9,8 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
 process.OSUAnalysis.plotAllObjectsInPassingEvents = False
 
 #overwrite the default inputs in osuAnalysis_cfi
-process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuons')
-process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons')
+process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
+process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectronsLoosePFlow')
 
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
