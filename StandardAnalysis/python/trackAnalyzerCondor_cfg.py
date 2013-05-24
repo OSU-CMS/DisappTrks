@@ -37,6 +37,7 @@ process.OSUAnalysis.histogramSets.append(JetHistograms)
 #import user-defined histograms
 from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
+process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
 
 ##########################################################
 ##### Add the Desired Default Channels to the List to be Run #####
