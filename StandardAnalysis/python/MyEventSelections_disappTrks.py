@@ -12,8 +12,9 @@ import copy
 # bxlumis, superclusters
 
 
-#### List of cuts first ####
- ## Trigger + Jet + Met ##
+###########################################################
+##### List of triggers   #####
+###########################################################
 triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
@@ -22,8 +23,34 @@ triggersJetMet = cms.vstring(
 triggersSingleMu = cms.vstring(
     "HLT_IsoMu24_v",
     )
+triggersSingleElec = cms.vstring(
+     # Choose triggers by going to http://j2eeps.cern.ch/cms-project-confdb-hltdev/browser/
+     # Select online/2012/8e33/v2.1.
+     # Take all the single electron triggers than are unprescaled and do not have extra strange requirements.
+     "HLT_Ele27_WP80_v",
+     )
+triggersDoubleMu = cms.vstring(
+    "HLT_DoubleMu11_Acoplanarity03_v",
+    "HLT_DoubleMu14_Mass8_PFMET40_v",
+    "HLT_DoubleMu14_Mass8_PFMET50_v",
+    "HLT_DoubleMu3_4_Dimuon5_Bs_Central_v",
+    "HLT_DoubleMu3p5_4_Dimuon5_Bs_Central_v",
+    "HLT_DoubleMu3p5_LowMassNonResonant_Displaced_v",
+    "HLT_DoubleMu3p5_LowMass_Displaced_v",
+    "HLT_DoubleMu4_Acoplanarity03_v",
+    "HLT_DoubleMu4_Dimuon7_Bs_Forward_v",
+    "HLT_DoubleMu4_JpsiTk_Displaced_v",
+    "HLT_DoubleMu4_Jpsi_Displaced_v",
+    "HLT_DoubleMu5_Ele8_CaloIdT_TrkIdVL_v",
+    "HLT_DoubleMu5_IsoMu5_v",
+    "HLT_DoubleMu8_Ele8_CaloIdT_TrkIdVL_v",
+    )
 
 
+
+###########################################################
+##### List of cuts   #####
+###########################################################
 cutVtxGood = cms.PSet (
     inputCollection = cms.string("primaryvertexs"),
     cutString = cms.string("isGood > 0"),
@@ -714,7 +741,6 @@ PreSelectionIsoTrkOnlyElecMatch = cms.PSet(
 )
 
 
-
 PreSelectionIsoTrkOnlyMuonMatch = cms.PSet(
     name = cms.string("PreSelectionIsoTrkOnlyMuonMatch"),
     triggers = triggersJetMet,
@@ -1300,6 +1326,51 @@ CtrlRegWithTrigJetMet = cms.PSet(
     cuts = copy.deepcopy(PreSelectionWithTrigJetMet.cuts),
     )
 CtrlRegWithTrigJetMet.cuts.append(cutNMissingOuterHitsCtrlReg)
+
+
+JetFirst = cms.PSet(
+    name = cms.string("JetFirst"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutJetPt,
+        cutMET,
+        )
+    )
+
+MetFirst = cms.PSet(
+    name = cms.string("MetFirst"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cutJetPt,
+        )
+    )
+
+TrigTestTighterMet = cms.PSet(
+    name = cms.string("TrigTestTighterMet"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cms.PSet (
+            inputCollection = cms.string("mets"),
+            cutString = cms.string("pt > 250"),
+            numberRequired = cms.string(">= 1"),
+            ),
+        cutJetPt,
+        )
+    )
+
+TrigTestTighterJet = cms.PSet(
+    name = cms.string("TrigTestTighterJet"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cms.PSet (
+            inputCollection = cms.string("jets"),
+            cutString = cms.string("pt > 180"),
+            numberRequired = cms.string(">= 1"),
+            ),
+        )
+    )
 
 
 JetOnly = cms.PSet(

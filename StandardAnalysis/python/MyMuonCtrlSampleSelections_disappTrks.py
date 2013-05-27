@@ -1,45 +1,12 @@
 
 import FWCore.ParameterSet.Config as cms
 import copy
+from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *  # Put all the individual cuts in this file 
+
 
 ###########################################################
 ##### Set up the event selections (channels) #####
 ###########################################################
-
-##### List of valid input collections #####   
-# jets, muons, electrons, taus, photons, mets,
-# events, tracks, primaryvertexs,
-# genjets, mcparticles,
-# bxlumis, superclusters
-#triggersSingleMU = cms.vstring()
-# Selection of control samples
-triggersDoubleMu = cms.vstring(
-    "HLT_DoubleMu11_Acoplanarity03_v",
-    "HLT_DoubleMu14_Mass8_PFMET40_v",
-    "HLT_DoubleMu14_Mass8_PFMET50_v",
-    "HLT_DoubleMu3_4_Dimuon5_Bs_Central_v",
-    "HLT_DoubleMu3p5_4_Dimuon5_Bs_Central_v",
-    "HLT_DoubleMu3p5_LowMassNonResonant_Displaced_v",
-    "HLT_DoubleMu3p5_LowMass_Displaced_v",
-    "HLT_DoubleMu4_Acoplanarity03_v",
-    "HLT_DoubleMu4_Dimuon7_Bs_Forward_v",
-    "HLT_DoubleMu4_JpsiTk_Displaced_v",
-    "HLT_DoubleMu4_Jpsi_Displaced_v",
-    "HLT_DoubleMu5_Ele8_CaloIdT_TrkIdVL_v",
-    "HLT_DoubleMu5_IsoMu5_v",
-    "HLT_DoubleMu8_Ele8_CaloIdT_TrkIdVL_v",
-    )
-
-triggersSingleMu = cms.vstring(
-    "HLT_IsoMu24_v",
-    )
-
-triggersJetMet = cms.vstring(
-    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
-    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
-    "HLT_MET120_HBHENoiseCleaned_v"
-    )
-
 
 WToMu = cms.PSet(
     name = cms.string("WToMu"),
@@ -452,6 +419,111 @@ muonInvMassWtoMuNu = cms.PSet(
 
 WtoMuNuTrackFullPreSel.cuts.append(deltaRMuTrack)
 WtoMuNuTrackFullPreSel.cuts.append(muonInvMassWtoMuNu)
+
+
+
+
+PreSelMuonMatchTrigMuonV1 = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV1"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutMET,
+        cutJetPt,
+        cutJetEta,
+        cutJetNoiseChgHad,
+        cutJetNoiseNeuEM,
+        cutJetNoiseNeuHad,
+        cutNJets,
+        cutMuonPt20,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonDetIso,
+        cutMuonD0,
+        cutMuonOneOnly,
+        cutElecVetoPt10,   
+        cutTrackPt,
+        cutTrackEta,
+        cutTrackd0,
+        cutTrackNumValidHits,
+        cutMuonTrkDRSame,
+    )
+)
+
+PreSelMuonMatchTrigMuonV2 = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV2"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutJetPt,
+        cutJetEta,
+        cutJetNoiseChgHad,
+        cutJetNoiseNeuEM,
+        cutJetNoiseNeuHad,
+        cutNJets,
+        cutMuonPt20,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonDetIso,
+        cutMuonD0,
+        cutMuonOneOnly,
+        cutElecVetoPt10,   
+        cutTrackPt,
+        cutTrackEta,
+        cutTrackd0,
+        cutTrackNumValidHits,
+        cutMuonTrkDRSame,
+    )
+)
+
+PreSelMuonMatchTrigMuonV3 = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV3"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutJetEta,
+        cutJetNoiseChgHad,
+        cutJetNoiseNeuEM,
+        cutJetNoiseNeuHad,
+        cutNJets,
+        cutMuonPt20,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonDetIso,
+        cutMuonD0,
+        cutMuonOneOnly,
+        cutElecVetoPt10,   
+        cutTrackPt,
+        cutTrackEta,
+        cutTrackd0,
+        cutTrackNumValidHits,
+        cutMuonTrkDRSame,
+    )
+)
+
+PreSelMuonMatchTrigMuonV4 = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV4"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutMuonPt20,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonDetIso,
+        cutMuonD0,
+        cutMuonOneOnly,
+        cutElecVetoPt10,   
+        cutTrackPt,
+        cutTrackEta,
+        cutTrackd0,
+        cutTrackNumValidHits,
+        cutMuonTrkDRSame,
+    )
+)
 
 
 
