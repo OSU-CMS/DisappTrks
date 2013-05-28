@@ -23,10 +23,20 @@ process.OSUAnalysis.histogramSets.append(ElectronHistograms)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
-process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV1)
-process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2)
+## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV1)
+## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2)
 #process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV3)
 process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV4)
+
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet1)  
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet2)  
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet3) 
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet4)  
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet1BTagVeto)
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet2BTagVeto)
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet3BTagVeto)
+process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet4BTagVeto)
+
 
 
 

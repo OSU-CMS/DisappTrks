@@ -23,10 +23,20 @@ process.OSUAnalysis.histogramSets.append(MuonHistograms)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 from DisappTrksT3ANTemp.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
-process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV1)
+#process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV1)
 process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2)
 #process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV3)
 process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV4)
+
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet1)  
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet2)  
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet3) 
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet4)  
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet1BTagVeto)
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet2BTagVeto)
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet3BTagVeto)
+process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2NJet4BTagVeto)
+
 
 
 
