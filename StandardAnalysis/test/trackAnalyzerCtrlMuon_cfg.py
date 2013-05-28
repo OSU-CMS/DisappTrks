@@ -1,5 +1,5 @@
 # Usage:
-# > cmsRun trackAnalyzerCtrlElec_cfg.py 2>&1 | tee trackAnalyzerCtrlElec_cfg.log 
+# > cmsRun trackAnalyzerCtrlMuon_cfg.py 2>&1 | tee trackAnalyzerCtrlMuon_cfg.log 
 
 from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
 
@@ -14,7 +14,9 @@ process.source.fileNames.append('file:/afs/cern.ch/user/w/wulsin/workspace/publi
 
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
+process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
 
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
 
 
 ##########################################################
@@ -23,7 +25,7 @@ process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
 from DisappTrksT3ANTemp.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
 process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV1)
 process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV2)
-process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV3)
+#process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV3)
 process.OSUAnalysis.channels.append(PreSelMuonMatchTrigMuonV4)
 
 

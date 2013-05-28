@@ -13,6 +13,10 @@ process.source.fileNames.append('file:/afs/cern.ch/user/w/wulsin/workspace/publi
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SingleElec_Reco_P1//pat2bean_53x_102_1_CCH.root')
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
+process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
+
+
+process.OSUAnalysis.histogramSets.append(ElectronHistograms)
 
 
 ##########################################################
@@ -21,7 +25,7 @@ process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
 from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
 process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV1)
 process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2)
-process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV3)
+#process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV3)
 process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV4)
 
 
