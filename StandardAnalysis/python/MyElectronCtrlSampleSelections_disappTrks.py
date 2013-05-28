@@ -199,6 +199,50 @@ PreSelElecMatchTrigElecV2 = cms.PSet(
     )
 )
 
+PreSelElecMatchTrigElecV2NJet1         = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet2         = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet3         = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet4         = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet1BTagVeto = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet2BTagVeto = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet3BTagVeto = copy.deepcopy(PreSelElecMatchTrigElecV2)
+PreSelElecMatchTrigElecV2NJet4BTagVeto = copy.deepcopy(PreSelElecMatchTrigElecV2)
+
+PreSelElecMatchTrigElecV2NJet1.name         = "PreSelElecMatchTrigElecV2NJet1" 
+PreSelElecMatchTrigElecV2NJet2.name         = "PreSelElecMatchTrigElecV2NJet2" 
+PreSelElecMatchTrigElecV2NJet3.name         = "PreSelElecMatchTrigElecV2NJet3" 
+PreSelElecMatchTrigElecV2NJet4.name         = "PreSelElecMatchTrigElecV2NJet4" 
+PreSelElecMatchTrigElecV2NJet1BTagVeto.name = "PreSelElecMatchTrigElecV2NJet1BTagVeto" 
+PreSelElecMatchTrigElecV2NJet2BTagVeto.name = "PreSelElecMatchTrigElecV2NJet2BTagVeto" 
+PreSelElecMatchTrigElecV2NJet3BTagVeto.name = "PreSelElecMatchTrigElecV2NJet3BTagVeto"  
+PreSelElecMatchTrigElecV2NJet4BTagVeto.name = "PreSelElecMatchTrigElecV2NJet4BTagVeto"  
+
+PreSelElecMatchTrigElecV2NJet1BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelElecMatchTrigElecV2NJet2BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelElecMatchTrigElecV2NJet3BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelElecMatchTrigElecV2NJet4BTagVeto.cuts.append(cutSecJetBTagVeto)  
+
+PreSelElecMatchTrigElecV2NJet1BTagVeto.cuts.insert(2,cutJetPt30NJet1) 
+PreSelElecMatchTrigElecV2NJet2BTagVeto.cuts.insert(2,cutJetPt30NJet2) 
+PreSelElecMatchTrigElecV2NJet3BTagVeto.cuts.insert(2,cutJetPt30NJet3) 
+PreSelElecMatchTrigElecV2NJet4BTagVeto.cuts.insert(2,cutJetPt30NJet4) 
+PreSelElecMatchTrigElecV2NJet1.        cuts.insert(2,cutJetPt30NJet1) 
+PreSelElecMatchTrigElecV2NJet2.        cuts.insert(2,cutJetPt30NJet2) 
+PreSelElecMatchTrigElecV2NJet3.        cuts.insert(2,cutJetPt30NJet3) 
+PreSelElecMatchTrigElecV2NJet4.        cuts.insert(2,cutJetPt30NJet4) 
+
+PreSelElecMatchTrigElecV2NJet1BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet2BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet3BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet4BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet1.        cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet2.        cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet3.        cuts.insert(2,cutJetEta2p4) 
+PreSelElecMatchTrigElecV2NJet4.        cuts.insert(2,cutJetEta2p4) 
+
+
+
+
 PreSelElecMatchTrigElecV3 = cms.PSet(
     name = cms.string("PreSelElecMatchTrigElecV3"),
     triggers = triggersSingleElec, 

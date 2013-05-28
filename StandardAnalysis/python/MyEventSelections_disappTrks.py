@@ -346,7 +346,71 @@ cutJetPt = cms.PSet (
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
     )
-
+cutJetPt30 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutJetEta2p4 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutJetPt30NJet1 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 1"),
+    )
+cutJetPt30NJet2 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 2"),
+    )
+cutJetPt30NJet3 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 3"),
+    )
+cutJetPt30NJet4 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 4"),
+    )
+cutSecJetBTagVeto = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("btagCombinedSecVertex > 0.679"),
+    numberRequired = cms.string("= 0"),
+    )
+cutSecJetEta2p4 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetPt30NJet1 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 1"),
+    )
+cutSecJetPt30NJet2 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 2"),
+    )
+cutSecJetPt30NJet3 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string("== 3"),
+    )
+cutSecJetPt30NJet4 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 4"),
+    )
+cutSecJetBTagVeto = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("btagCombinedSecVertex > 0.679"),
+    numberRequired = cms.string("= 0"),
+    )
 
  ##  Preselection Cuts ##
 cutTrackPt = cms.PSet (

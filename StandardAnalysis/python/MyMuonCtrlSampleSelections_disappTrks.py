@@ -530,5 +530,47 @@ PreSelMuonMatchTrigMuonV4 = cms.PSet(
 )
 
 
+PreSelMuonMatchTrigMuonV2NJet1         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet2         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet3         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet4         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet1BTagVeto = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet2BTagVeto = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet3BTagVeto = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+PreSelMuonMatchTrigMuonV2NJet4BTagVeto = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
+
+PreSelMuonMatchTrigMuonV2NJet1.name         = "PreSelMuonMatchTrigMuonV2NJet1" 
+PreSelMuonMatchTrigMuonV2NJet2.name         = "PreSelMuonMatchTrigMuonV2NJet2" 
+PreSelMuonMatchTrigMuonV2NJet3.name         = "PreSelMuonMatchTrigMuonV2NJet3" 
+PreSelMuonMatchTrigMuonV2NJet4.name         = "PreSelMuonMatchTrigMuonV2NJet4" 
+PreSelMuonMatchTrigMuonV2NJet1BTagVeto.name = "PreSelMuonMatchTrigMuonV2NJet1BTagVeto" 
+PreSelMuonMatchTrigMuonV2NJet2BTagVeto.name = "PreSelMuonMatchTrigMuonV2NJet2BTagVeto" 
+PreSelMuonMatchTrigMuonV2NJet3BTagVeto.name = "PreSelMuonMatchTrigMuonV2NJet3BTagVeto"  
+PreSelMuonMatchTrigMuonV2NJet4BTagVeto.name = "PreSelMuonMatchTrigMuonV2NJet4BTagVeto"  
+
+PreSelMuonMatchTrigMuonV2NJet1BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelMuonMatchTrigMuonV2NJet2BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelMuonMatchTrigMuonV2NJet3BTagVeto.cuts.append(cutSecJetBTagVeto)  
+PreSelMuonMatchTrigMuonV2NJet4BTagVeto.cuts.append(cutSecJetBTagVeto)  
+
+PreSelMuonMatchTrigMuonV2NJet1BTagVeto.cuts.insert(2,cutJetPt30NJet1) 
+PreSelMuonMatchTrigMuonV2NJet2BTagVeto.cuts.insert(2,cutJetPt30NJet2) 
+PreSelMuonMatchTrigMuonV2NJet3BTagVeto.cuts.insert(2,cutJetPt30NJet3) 
+PreSelMuonMatchTrigMuonV2NJet4BTagVeto.cuts.insert(2,cutJetPt30NJet4) 
+PreSelMuonMatchTrigMuonV2NJet1.        cuts.insert(2,cutJetPt30NJet1) 
+PreSelMuonMatchTrigMuonV2NJet2.        cuts.insert(2,cutJetPt30NJet2) 
+PreSelMuonMatchTrigMuonV2NJet3.        cuts.insert(2,cutJetPt30NJet3) 
+PreSelMuonMatchTrigMuonV2NJet4.        cuts.insert(2,cutJetPt30NJet4) 
+
+PreSelMuonMatchTrigMuonV2NJet1BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet2BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet3BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet4BTagVeto.cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet1.        cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet2.        cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet3.        cuts.insert(2,cutJetEta2p4) 
+PreSelMuonMatchTrigMuonV2NJet4.        cuts.insert(2,cutJetEta2p4) 
+
+
 
 
