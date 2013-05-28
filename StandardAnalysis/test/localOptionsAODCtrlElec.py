@@ -8,13 +8,13 @@ intLumi = 19200. # SingleElectron dataset = 19183.
 
 datasets = [    
 
+       'SingleElectron',    
+
        'Diboson',
        'QCD_BCtoE',
        'QCD_EMEnriched',
        'TTbar',
        'DY',
        'Wjets',                                                                                                                                                                                           
-       'SingleElectron',    
-
     ]
 
