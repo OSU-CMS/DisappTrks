@@ -316,7 +316,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("d0wrtBS"),
             title = cms.string("Track d_{0} wrt BS; d_{0} wrt BS (cm)"),
-            bins = cms.untracked.vdouble(100, -0.5, 0.5),
+            bins = cms.untracked.vdouble(100, -0.1, 0.1),
             inputVariables = cms.vstring("d0wrtBS"),
             ),
         cms.PSet (
@@ -328,7 +328,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("d0wrtPV"),
             title = cms.string("Track d_{0} wrt PV; d_{0} wrt PV (cm)"),
-            bins = cms.untracked.vdouble(100, -0.5, 0.5),
+            bins = cms.untracked.vdouble(100, -0.1, 0.1),
             inputVariables = cms.vstring("d0wrtPV"),
             ),
         cms.PSet (
@@ -340,9 +340,15 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
            name = cms.string("dZwrtPVWide"),
            title = cms.string("Track d_{z} wrt PV; d_{z} wrt PV (cm)"),
-           bins = cms.untracked.vdouble(2000, -10, 10),
+           bins = cms.untracked.vdouble(200, -10, 10),
            inputVariables = cms.vstring("dZwrtPV"),
            ),       
+        cms.PSet (
+            name = cms.string("trackChi2Narrow"),
+            title = cms.string("Track Reduced Chi2; #chi^{2} / DOF"),
+            bins = cms.untracked.vdouble(100, 0, 6),
+            inputVariables = cms.vstring("normChi2"),
+        ),
         cms.PSet (
             name = cms.string("EtaVsPhi"),
             title = cms.string("#eta vs #phi; #eta; #phi"),
@@ -352,25 +358,25 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
-            bins = cms.untracked.vdouble(100, -0.5, 15.5),
+            bins = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("nHitsMissingOuter"),
             ),
         cms.PSet (
             name = cms.string("nHitsMissingMiddle"),
             title = cms.string("nHitsMissingMiddle; Number of Missing Middle Hits"),
-            bins = cms.untracked.vdouble(100, -0.5, 2.5),
+            bins = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("nHitsMissingMiddle"),
             ),
         cms.PSet (
             name = cms.string("nHitsMissingInner"),
             title = cms.string("nHitsMissingInner; Number of Missing Inner Hits"),
-            bins = cms.untracked.vdouble(100, -0.5, 5.5),
+            bins = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("nHitsMissingInner"),
             ),
         cms.PSet (
             name = cms.string("nTracksRp5"),
             title = cms.string("nTracksRp5; # Tracks (#DeltaR<0.5)"),
-            bins = cms.untracked.vdouble(100, -0.5, 15.5),
+            bins = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("nTracksRp5"),
             ),
         cms.PSet (
