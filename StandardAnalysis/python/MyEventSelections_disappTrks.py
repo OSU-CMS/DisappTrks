@@ -74,6 +74,11 @@ cutMuonPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
+cutMuonPt25 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMuonTightID = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("tightID > 0"),
@@ -297,6 +302,11 @@ cutMET = cms.PSet (
     cutString = cms.string("pt > 220"),
     numberRequired = cms.string(">= 1"),
     # alias = cms.string("MET > 220 Gev")
+    )
+cutMET30 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
     )
 cutMET40 = cms.PSet (
     inputCollection = cms.string("mets"),
