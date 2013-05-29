@@ -139,7 +139,11 @@ WtoENuTrkSel = cms.PSet(
         )
     )
 
-
+cutElecPt30 = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
 PreSelElecMatchTrigElecV1 = cms.PSet(
     name = cms.string("PreSelElecMatchTrigElecV1"),
     triggers = triggersSingleElec, 
@@ -162,10 +166,10 @@ PreSelElecMatchTrigElecV1 = cms.PSet(
         cutElecNHits,  
         cutMuonVetoPt10,   
         cutMET30,
-        cutTrackPt,
-        cutTrackEta,
-        cutTrackd0,
-        cutTrackNumValidHits,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkNHits,
         cutElecTrkDRSame,
     )
 )
@@ -191,10 +195,10 @@ PreSelElecMatchTrigElecV2 = cms.PSet(
         cutElecNHits,  
         cutMuonVetoPt10,   
         cutMET30,
-        cutTrackPt,
-        cutTrackEta,
-        cutTrackd0,
-        cutTrackNumValidHits,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkNHits,
         cutElecTrkDRSame,
     )
 )
@@ -263,10 +267,11 @@ PreSelElecMatchTrigElecV3 = cms.PSet(
         cutElecNHits,  
         cutMuonVetoPt10,   
         cutMET30,
-        cutTrackPt,
-        cutTrackEta,
-        cutTrackd0,
-        cutTrackNumValidHits,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkNHits,
+        cutBTagVeto,
         cutElecTrkDRSame,
     )
 )
@@ -286,10 +291,11 @@ PreSelElecMatchTrigElecV4 = cms.PSet(
         cutElecNHits,  
         cutMuonVetoPt10,   
         cutMET30,
-        cutTrackPt,
-        cutTrackEta,
-        cutTrackd0,
-        cutTrackNumValidHits,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkNHits,
+        cutBTagVeto,
         cutElecTrkDRSame,
     )
 )
