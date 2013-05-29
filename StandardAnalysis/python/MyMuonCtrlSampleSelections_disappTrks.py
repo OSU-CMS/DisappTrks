@@ -148,7 +148,7 @@ PreSelMuonMatchTrigMuonV2 = cms.PSet(
         cutMuonDetIso,
         cutMuonD0,
         cutElecVetoPt10,   
-        cutMET30
+        cutMET30,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
