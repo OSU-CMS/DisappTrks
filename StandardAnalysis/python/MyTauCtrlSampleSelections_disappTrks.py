@@ -1,395 +1,821 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-
-###########################################################
+from DisappTrksT3ANTemp.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
+##################################################
 ##### Set up the event selections (channels) #####
-###########################################################
-
-##### List of valid input collections #####   
-# jets, muons, electrons, taus, photons, mets,
-# events, tracks, primaryvertexs,
-# genjets, mcparticles,
-# bxlumis, superclusters
-
-# Selection of control samples
-triggersSingleMu = cms.vstring(
-    "HLT_IsoMu24_v",
-    )
-triggersJetMet = cms.vstring(
-    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
-    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
-    "HLT_MET120_HBHENoiseCleaned_v"
-    )
-
-
-
-## List of cuts ##   
-cutMET = cms.PSet (
-    inputCollection = cms.string("mets"),
-    cutString = cms.string("pt > 220"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("MET > 220 Gev")
-    )
-cutJetPt = cms.PSet (
-    inputCollection = cms.string("jets"),
-    cutString = cms.string("pt > 110"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("jet pT > 110 GeV")
-    )
-
-tauPairPt = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairEta = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("fabs(eta) < 2.1"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairValidHits = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("leadingTrackValidHits > 4"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairNumProng = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numProngs == 1"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairNumSigGamma = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalGammas == 0"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairNumSigNeutral = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalNeutrals == 0"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairNumPi0 = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalPiZeros == 0"),
-    numberRequired = cms.string(">= 2"),
-    )
-tauPairInvMass = cms.PSet(
-    inputCollection = cms.string("tau-tau pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
-    numberRequired = cms.string(">= 1"),
-    )
-
-electronVetoAll = cms.PSet(
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("= 0"),  # Require no electron in event.
-    #alias = cms.string("Electrons = 0")
-    )
-muonVetoAll = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("= 0"),  # Require no muon in event.
-    #alias = cms.string("Electrons = 0")
-    )
-
-muonVetoOneMax = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("<= 1"), 
-    #alias = cms.string("Muons = 1")
-            )
-
-deadEcalVeto = cms.PSet(
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("isMatchedDeadEcal == 0"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("deadEcal Veto")
-    )
-crackVeto = cms.PSet(
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("Crack Veto")
-    )
-
-muTauInvMass = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("40 < Muon-Tau InvMass < 160")
-    )
-muTauCharge = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("chargeProduct == -1"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("Muon-Tau ChargeProduct = -1")
-    )
-muTauInvMass = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("40 < Muon-Tau InvMass < 160")
-    )
-muTauCharge = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("chargeProduct == -1"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("Muon-Tau ChargeProduct = -1")
-    )
-deltaRTauTrack = cms.PSet(
-    inputCollection = cms.string("tau-track pairs"),
-    cutString = cms.string("deltaR < 0.15"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("deltaR (Tau-Track) < 0.15")
-    )
-deltaRMuTrack = cms.PSet(
-    inputCollection = cms.string("muon-track pairs"),
-    cutString = cms.string("deltaR > 0.15"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("deltaR (Mu-Track) > 0.15")
-    )
-deltaRMuTau = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("deltaR < 0.15"),
-    numberRequired = cms.string(">= 1"),
-    )
-muonInvMass = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("metMT < 40"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("(mu) metMT < 40 GeV")
-    )
-muonPt = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 1"),
-    )
-
-muonEta = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("fabs(eta) < 2.1"),
-    numberRequired = cms.string(">= 1"),
-    )
-
-muonValidHits = cms.PSet(
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tkNumValidHits > 4"),
-        numberRequired = cms.string(">= 1"),
-        )
-muonTightId = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("tightID > 0"),
-    numberRequired = cms.string(">= 1"),
-    )
-muonIso = cms.PSet(
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("relPFdBetaIso < 0.12"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauPt = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("pt > 30"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauPtLeadingTrack = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("leadingTrackPt > 15"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauEta = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string(" fabs(eta) < 2.1"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauNumProng = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numProngs == 1"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauNumSigGamma = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalGammas == 0"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauNumSigNeutral = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalNeutrals == 0"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauNumSigPi0 = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("numSignalPiZeros == 0"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauAgainstElectron = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("HPSagainstElectronTight == 1"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauAgainstMuon = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("HPSagainstMuonTight == 1"),
-    numberRequired = cms.string(">= 1"),
-    )
-tauValidHits = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("leadingTrackValidHits > 4"),
-    numberRequired = cms.string(">= 1"),
-    )
-
-trackPt = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("$p_{T}$ > 20 GeV")
-    )
-trackEta = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(eta) < 2.1"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("$|eta|$ < 2.1 ")
-    )
-trackd0 = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(d0wrtPV) < 0.01"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("$|d_{0}|$ < 0.01 cm ")
-    )
-
-trackdz = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(dZwrtPV) < 0.01"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("$|d_{z}|$ < 0.01 cm ")
-    )
-trackNumValidHits = cms.PSet (
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("numValidHits > 4"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("Valid Hits > 4 ")
-    )
-trkIso = cms.PSet(
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("isIso == 1"),
-    numberRequired = cms.string(">= 1"),
-    # alias = cms.string("Track Isolation")
-    )
-
-muTauInvMass = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
-    numberRequired = cms.string(">= 1"),
-    #alias = cms.string("40 < Muon-Tau InvMass < 160")
-    )
-tauLooseIso = cms.PSet(
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("HPSbyVLooseCombinedIsolationDeltaBetaCorr == 1"),
-    numberRequired = cms.string(">= 1"),
-    )
-
-#######################
-# Channel definitions  
-#######################
+##################################################
 
 ZtoTauTau = cms.PSet(
     name = cms.string("ZtoTauTau"),
-    triggers = copy.deepcopy(triggersSingleMu),
+    triggers = triggersSingleMu,
     cuts = cms.VPSet (
-         tauPairPt,
-         tauPairEta,
-         tauPairValidHits,
-         tauPairNumProng,
-         tauPairNumSigGamma,
-         tauPairNumSigNeutral,
-         tauPairNumPi0,
-         tauPairInvMass,
+         cutTauPairPt,
+         cutTauPairEta,
+         cutTauPairValidHits,
+         cutTauPairNumProng,
+         cutTauPairNumSigGamma,
+         cutTauPairNumSigNeutral,
+         cutTauPairNumPi0,
+         cutTauPairInvMass,
          ),
     )
 ZtoMuTau = cms.PSet(
     name = cms.string("ZtoMuTau"),
-    triggers = copy.deepcopy(triggersSingleMu),
+    triggers = triggersSingleMu,
     cuts = cms.VPSet (
-         tauPt,
-         tauEta,
-         tauNumProng,
-         tauNumSigGamma,
-         tauNumSigNeutral,
-         tauNumSigPi0,
-         tauAgainstElectron,
-         tauAgainstMuon,
-         tauValidHits,
-         muonEta,
-         muonPt,
-         muonValidHits,
-         muonTightId,
-         muonIso,
+         cutTauPt,
+         cutTauEta,
+         cutTauOneProng,
+         cutTauNumSigGamma,
+         cutTauNumSigNeutral,
+         cutTauNumSigPi0,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         cutTauValidHits,
+         cutMuonEta,
+         cutMuonPt20,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
          ),
     )
 ZtoTauTrack = cms.PSet(
     name = cms.string("ZtoTauTrack"),
-    triggers = copy.deepcopy(triggersSingleMu),
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
          #muon cuts
-         muonPt,
-         muonEta,
-         muonValidHits,
-         muonTightId,
-         muonIso,
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
          # tau cuts
-         tauPt,
-         tauEta,
-         tauAgainstElectron,
-         tauAgainstMuon,
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
          # track cuts
-         trackPt,
-         trackEta,
-         trackd0,
-         trackdz,
-         trackNumValidHits,
-         trkIso,
-         # electron and extra muon veto
-         muonVetoOneMax,
-         deadEcalVeto,
-         crackVeto,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
          # cuts on pairs of objects
-         muonInvMass,
-         deltaRTauTrack,
-         deltaRMuTrack,
-         muTauCharge,
-         muTauInvMass,
-         electronVetoAll,
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
          ),
     )
-ZtoTauTrackFullPreSel = cms.PSet(
-    name = cms.string("ZtoTauTrackFullPreSel"),
-    triggers = copy.deepcopy(triggersSingleMu),
-    cuts = copy.deepcopy(ZtoTauTrack.cuts)
+
+ZtoTauTrackForElec = cms.PSet(
+    name = cms.string("ZtoTauTrackForElec"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauForElectron,
+         cutTauAgainstMuonTight,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
     )
 
-ZtoTauTrackFullPreSel.cuts.append(electronVetoAll)
-ZtoTauTrackFullPreSel.cuts.append(muonVetoOneMax)
-ZtoTauTrackFullPreSel.cuts.append(deadEcalVeto)
-ZtoTauTrackFullPreSel.cuts.append(crackVeto)
-ZtoTauTrackFullPreSel.cuts.append(deltaRTauTrack)
-ZtoTauTrackFullPreSel.cuts.append(deltaRMuTau)
-ZtoTauTrackFullPreSel.cuts.append(muTauInvMass)
+
+ZtoTauTrackOneProng = cms.PSet(
+    name = cms.string("ZtoTauTrackOneProng"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         #tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         cutTauOneProng,
+         #track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+ZtoTauTrackThreeProng = cms.PSet(
+    name = cms.string("ZtoTauTrackThreeProng"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         cutTauThreeProng,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+
+
+ZtoTauTrackMuonMed = cms.PSet(
+    name = cms.string("ZtoTauTrackMuonMed"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonMed,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+
+
+ZtoTauTrackDiMuonVeto = cms.PSet(
+    name = cms.string("ZtoTauTrackDiMuonVeto"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutMuonOneOnly,
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkVeto,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+ZtoTauTrackDecayMode = cms.PSet(
+    name = cms.string("ZtoTauTrackDecayMode"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         cutMuonOneOnly,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauDecayModeFinding,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+
+ZtoMuTrackMet20 = cms.PSet(
+    name = cms.string("ZtoMuTrackMet20"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET20,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoMuTrackMet50 = cms.PSet(
+    name = cms.string("ZtoMuTrackMet50"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET50,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+ZtoMuTrackMet75 = cms.PSet(
+    name = cms.string("ZtoMuTrackMet75"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET75,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoMuTrackMet100 = cms.PSet(
+    name = cms.string("ZtoMuTrackMet100"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET100,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoMuTrackJet20 = cms.PSet(
+    name = cms.string("ZtoMuTrackJet20"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutJetPt20,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         
+         ),
+    )
+
+ZtoMuTrackJet50 = cms.PSet(
+    name = cms.string("ZtoMuTrackJet50"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutJetPt50,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+ZtoMuTrackJet75 = cms.PSet(
+    name = cms.string("ZtoMuTrackJet75"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutJetPt75,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoMuTrackJet100 = cms.PSet(
+    name = cms.string("ZtoMuTrackJet100"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutJetPt100,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoMuTrackJetMet20 = cms.PSet(
+    name = cms.string("ZtoMuTrackJetMet20"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET20,
+         cutJetPt20,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         
+         ),
+    )
+
+ZtoMuTrackJetMet50 = cms.PSet(
+    name = cms.string("ZtoMuTrackJetMet50"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET50,
+         cutJetPt50,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         
+         ),
+    )
+
+ZtoMuTrackJetMet100 = cms.PSet(
+    name = cms.string("ZtoMuTrackJetMet100"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutMET100,
+         cutJetPt100,
+         #muon cuts
+         cutMuonOneOnly,
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         #electron vetos
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         ),
+    )
+
+ZtoTauTrackNoSumPt = cms.PSet(
+    name = cms.string("ZtoTauTrackNoSumPt"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         # electron and extra muon veto
+         cutMuonOneOnly,
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauEta,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         #cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+ZtoTauTrackTauIso = cms.PSet(
+    name = cms.string("ZtoTauTrackTauIso"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         #muon cuts
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonValidHits,
+         cutMuonTightID,
+         cutMuonPFIso,
+         # electron and extra muon veto
+         cutMuonOneOnly,
+         cutElecVeto,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         # tau cuts
+         cutTauPt,
+         cutTauPtLeadingTrack,
+         cutTauEta,
+         cutTauLooseIso,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         cutTauValidHits,
+         # track cuts
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         # cuts on pairs of objects
+         cutMuonMetMT,
+         cutTauTrkDeltaR,
+         cutMuTrkDeltaR,
+         cutTauTrkDeltaR,
+         cutMuTauCharge,
+         cutMuTauInvMass,
+         ),
+    )
+
+
 
 #WToTauNu selection taken from http://cms.cern.ch/iCMS/jsp/db_notes/showNoteDetails.jsp?noteID=CMS%20AN-2011/019
 WToTauNu = cms.PSet(
     name = cms.string("WToTauNu"),
-    triggers = copy.deepcopy(triggersJetMet),
+    triggers = triggersJetMet,
     cuts = cms.VPSet (
          cutMET,
          cutJetPt,
-         tauPt,
-         tauPtLeadingTrack,
-         tauEta,
-         tauLooseIso,
-         tauAgainstElectron,
-         tauAgainstMuon,
-         tauValidHits,
-         electronVetoAll,
-         muonVetoAll,
+         cutTauPt,
+         cutTauPtLeadingTrack,
+         cutTauEta,
+         cutTauLooseIso,
+         cutTauAgainstElectron,
+         cutTauAgainstMuonTight,
+         cutTauValidHits,
+         cutElecVeto,
+         cutMuonVeto
          )
     )
+
+WToTauNuPTrack = cms.PSet(
+    name = cms.string("WToTauNuPTrack"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+         cutMET,
+         cutJetPt,
+         #cutTauPt,
+         #cutTauPtLeadingTrack,
+         #cutTauEta,
+         #cutTauLooseIso,
+         #cutTauAgainstElectron,
+         #cutTauAgainstMuonTight,
+         #cutTauValidHits,
+         cutElecVeto,
+         cutMuonVeto,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         cutTauTrkDeltaR,
+         )
+    )
+
+WToTauNuPTrackNoJetMet = cms.PSet(
+    name = cms.string("WToTauNuPTrackNoJetMet"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+#         cutMET,
+#         cutJetPt,
+#         cutTauPt,
+#         cutTauPtLeadingTrack,
+#         cutTauEta,
+#         cutTauLooseIso,
+#         cutTauAgainstElectron,
+#         cutTauAgainstMuonTight,
+#         cutTauValidHits,
+         cutElecVeto,
+         cutMuonVeto,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkIso,
+         cutTrkSumPtLT,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         cutTauTrkDeltaR,
+         )
+    )
+
+
 
 

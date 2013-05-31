@@ -1,17 +1,16 @@
 
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *  # Put all the individual cuts in this file 
+from DisappTrksT3ANTemp.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
 
-
-###########################################################
+##################################################
 ##### Set up the event selections (channels) #####
-###########################################################
+##################################################
 
 WToMu = cms.PSet(
     name = cms.string("WToMu"),
-    triggers = copy.deepcopy(triggersSingleMu),
-#    triggers = copy.deepcopy(triggersJetMet),
+    triggers = triggersSingleMu,
+#    triggers = triggersJetMet,
     cuts = cms.VPSet(
          cutMET,
          cutJetPt,
@@ -30,7 +29,7 @@ WToMu = cms.PSet(
 ZtoMuMu = cms.PSet(
     # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
     name = cms.string("ZtoMuMu"),
-    triggers = copy.deepcopy(triggersSingleMu),
+    triggers = triggersSingleMu,
     cuts = cms.VPSet (
          cutMuonPairPt20,
          cutMuonPairEta,
@@ -38,39 +37,12 @@ ZtoMuMu = cms.PSet(
          cutMuonPairPFIso,
          cutMuonPairD0,
          cutMuonPairDZ,
-         cutElecVetoAll,
+         cutElecVeto,
          cutMuMuChargeProduct,
          cutMuMuInvMass,
          cutMuTrkDeltaR,
          )
     )   
-
-
-ZtoMuTrack = cms.PSet(
-    name = cms.string("ZtoMuTrack"),
-    cuts = cms.VPSet(
-         cutMuonOneOnly,
-         cutMuonPt20,
-         cutMuonEta,
-         cutMuonTightID,
-         cutMuonPFIso,
-         cutMuonD0,
-         cutMuonDZ,
-         cutMuonValidHits,
-         cutTrkPt,
-         cutTrkEta,
-         cutTrkD0,
-         cutTrkDZ,
-         cutTrkNHits,
-         cutTrkIso,
-         cutElecVetoAll,
-         cutTrkDeadEcalVeto,
-         cutTrkCrackVeto,
-         cutMuTrkInvMass,
-         
-         )
-    )
-
 
 WtoMuNuTrackFullPreSel = cms.PSet(
     name = cms.string("WtoMuNuTrackFullPreSel"),
@@ -91,7 +63,7 @@ WtoMuNuTrackFullPreSel = cms.PSet(
          cutTrkHitMissIn,
          cutTrkHitMissMid,
          cutTrkIso,
-         cutElecVetoAll,
+         cutElecVeto,
          cutTrkDeadEcalVeto,
          cutTrkCrackVeto,
          cutMuonOneOnly,
