@@ -19,7 +19,7 @@ WToMu = cms.PSet(
          cutMuonEta,
          cutMuonPt20,
          cutMuonTightID,
-         cutMuonDetIso,
+         cutMuonPFIso,
          cutMuonD0,
          cutMuonOneOnly,
          cutMET40,
@@ -89,7 +89,7 @@ PreSelMuonMatchTrigMuonV1 = cms.PSet(
         cutMuonPt25,
         cutMuonEta,
         cutMuonTightID,
-        cutMuonDetIso,
+        cutMuonPFIso,
         cutMuonD0,
         cutElecVetoPt10,   
         cutMET30,
@@ -117,7 +117,7 @@ PreSelMuonMatchTrigMuonV2 = cms.PSet(
         cutMuonPt25,
         cutMuonEta,
         cutMuonTightID,
-        cutMuonDetIso,
+        cutMuonPFIso,
         cutMuonD0,
         cutElecVetoPt10,   
         cutMET30,
@@ -144,7 +144,7 @@ PreSelMuonMatchTrigMuonV3 = cms.PSet(
         cutMuonPt25,
         cutMuonEta,
         cutMuonTightID,
-        cutMuonDetIso,
+        cutMuonPFIso,
         cutMuonD0,
         cutElecVetoPt10,   
         cutMET30,
@@ -166,7 +166,7 @@ PreSelMuonMatchTrigMuonV4 = cms.PSet(
         cutMuonPt25,
         cutMuonEta,
         cutMuonTightID,
-        cutMuonDetIso,
+        cutMuonPFIso,
         cutMuonD0,
         cutElecVetoPt10,   
         cutMET30,
@@ -222,4 +222,19 @@ PreSelMuonMatchTrigMuonV2NJet4.        cuts.insert(2,cutJetEta2p4)
 
 
 
+
+DebugMuon = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV4"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutMuonOneOnly,
+        cutMuonPt25,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonPFIso,
+        cutMuonD0,
+        cutElecVetoPt10,   
+        cutMET30,
+    )
+)
 
