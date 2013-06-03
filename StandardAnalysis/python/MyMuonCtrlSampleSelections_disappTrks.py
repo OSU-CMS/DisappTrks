@@ -179,6 +179,25 @@ PreSelMuonMatchTrigMuonV4 = cms.PSet(
 )
 
 
+
+WToMuSimple = cms.PSet(
+    name = cms.string("WToMuSimple"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+         cutEvtFilterScraping,
+         cutVtxGood,
+         cutMuonOneOnly,
+         cutMuonPt25,
+         cutMuonEta,
+         cutMuonTightID,
+         cutMuonPFIso,
+         cutMuonD0,
+         cutElecVetoPt10,   
+         cutMET30,
+         )
+    )
+
+
 PreSelMuonMatchTrigMuonV2NJet1         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
 PreSelMuonMatchTrigMuonV2NJet2         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
 PreSelMuonMatchTrigMuonV2NJet3         = copy.deepcopy(PreSelMuonMatchTrigMuonV2)
