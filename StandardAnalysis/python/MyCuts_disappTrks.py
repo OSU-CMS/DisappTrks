@@ -14,7 +14,8 @@ triggersJetMet = cms.vstring(
 # Select online/2012/8e33/v2.1.
 # Take all the single electron triggers than are unprescaled and do not have extra strange requirements.  
 triggersSingleMu = cms.vstring(
-    "HLT_IsoMu24_v",
+    "HLT_IsoMu24_eta2p1_v",  
+    #    "HLT_IsoMu24_v",  # Not available in 2012A  
     )
 triggersSingleElec = cms.vstring(
     "HLT_Ele27_WP80_v",
@@ -443,7 +444,7 @@ cutMuonPt25 = cms.PSet (
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1"),
     )
-cutMuonTightID = cms.PSet (
+cutMuonTightID = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon 
     inputCollection = cms.string("muons"),
     cutString = cms.string("tightID > 0"),
     numberRequired = cms.string(">= 1"),
@@ -453,7 +454,7 @@ cutMuonDetIso = cms.PSet (
     cutString = cms.string("detIso < 0.05"),
     numberRequired = cms.string(">= 1"),
     )
-cutMuonPFIso = cms.PSet (
+cutMuonPFIso = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Muon_Isolation_AN1
     inputCollection = cms.string("muons"),
     cutString = cms.string("relPFdBetaIso < 0.12"),
     numberRequired = cms.string(">= 1"),
