@@ -431,6 +431,11 @@ cutDZSide = cms.PSet (
 #####################
 cutMuonEta = cms.PSet (
     inputCollection = cms.string("muons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonEta2p5 = cms.PSet (
+    inputCollection = cms.string("muons"),
     cutString = cms.string("fabs(eta) < 2.5"),
     numberRequired = cms.string(">= 1"),
     )
