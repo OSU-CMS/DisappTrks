@@ -29,6 +29,7 @@ process.maxEvents.input = 1000
 
 #import the desired sets of histograms from the standard python file which defines them
 from OSUT3Analysis.Configuration.histogramDefinitions import *
+process.OSUAnalysis.histogramSets.append(EventHistograms)
 process.OSUAnalysis.histogramSets.append(TrackHistograms)
 process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(JetHistograms)
