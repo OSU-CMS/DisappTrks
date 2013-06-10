@@ -653,7 +653,7 @@ cutElecEta = cms.PSet(
     )
 cutElecD0 = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
+    cutString = cms.string("fabs(correctedD0Vertex) < 0.02"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecDZ = cms.PSet(
