@@ -284,3 +284,25 @@ PreSelElecMatchTrigElecV4 = cms.PSet(
 )
 
 
+WToENuSimple = cms.PSet(
+    name = cms.string("WToENuSimple"),
+    triggers = triggersSingleElec, 
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutElecVetoOneMax, 
+        cutElecPt30,     
+        cutElecEta,    
+        cutElecD0,     
+        cutElecMva, 
+        cutElecPFIso,  
+        cutElecNHits,  
+        cutMuonVetoPt10,   
+        cutMET30,
+        ## cutJetPt30N0,
+        ## cutJetEta2p4N0,
+        ## cutJetIDLooseN0,
+        )
+    )
+
+
