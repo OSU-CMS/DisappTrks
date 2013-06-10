@@ -7,12 +7,20 @@ intLumi = 19417.  # for SingleMu dataset
 
 datasets = [    
 
-       'SingleMu',        
+        'SingleMu',        
 
-       'Diboson',
-       'QCD_MuEnriched',
-       'TTbar',
-       'DY',
-       'Wjets',                                                                                                                                                                                           
+        'Wjets',
+        'ZJetsToNuNu',
+        'DYToBB_50',
+        'Diboson',
+        'QCD_MuEnriched',    
+        'TTbar',
+        'DY',
+
+    
     ]
+
+
+
+
 
