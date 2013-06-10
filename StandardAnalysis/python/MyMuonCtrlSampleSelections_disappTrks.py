@@ -129,6 +129,34 @@ PreSelMuonMatchTrigMuonV2 = cms.PSet(
     )
 )
 
+
+PreSelMuonMatchTrigMuonV2NoJetCut = cms.PSet(
+    name = cms.string("PreSelMuonMatchTrigMuonV2"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+        cutEvtFilterScraping,
+        cutVtxGood, 
+        cutJetPt,
+        cutJetEta,
+        cutJetNoiseChgHad,
+        cutJetNoiseNeuEM,
+        cutJetNoiseNeuHad,
+        cutMuonOneOnly,
+        cutMuonPt25,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonDetIso,
+        cutMuonD0,
+        cutElecVetoPt10,   
+        cutMET30,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkNHits,
+        cutMuonTrkDRSame,
+    )
+)
+
 PreSelMuonMatchTrigMuonV3 = cms.PSet(
     name = cms.string("PreSelMuonMatchTrigMuonV3"),
     triggers = triggersSingleMu,
@@ -164,7 +192,7 @@ PreSelMuonMatchTrigMuonV4 = cms.PSet(
         cutVtxGood, 
         cutMuonOneOnly,
         cutMuonPt25,
-        cutMuonEta,
+        cutMuonEta2p1,
         cutMuonTightID,
         cutMuonPFIso,
         cutMuonD0,
@@ -194,6 +222,9 @@ WToMuSimple = cms.PSet(
          cutMuonD0,
          cutElecVetoPt10,   
          cutMET30,
+         cutJetPt30N0,
+         cutJetEta2p4N0,
+         cutJetIDLooseN0,
          )
     )
 
