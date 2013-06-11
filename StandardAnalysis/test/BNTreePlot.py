@@ -178,6 +178,19 @@ input_histograms = [
       },
 
 
+    { 'channel'       : 'WToMuSimple',
+      'varToPlot'     : 'mets_pt:mets_phi', 
+      'histName'      : 'mets_pt:mets_phi',  
+      'nbins'         : 100, 
+      'xMin'          : -3.17, 
+      'xMax'          :  3.17, 
+      'nbinsY'        : 100, 
+      'yMin'          :   0, 
+      'yMax'          : 500, 
+      'cutString'     : BNTreeWt,  
+      },
+
+
 ##     { 'channel'       : 'WToMuSimple',
 ##       'varToPlot'     : 'mets_pt',
 ##       'histName'      : 'mets_pt_cutNJets23',
