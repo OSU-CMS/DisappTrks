@@ -71,6 +71,8 @@ void BNTree::Loop(TString outFile)
 
   Long64_t nentries = fChain->GetEntries();
 
+  double lumiWt = fChain->GetWeight();  // The BNTree weight must be set by mergeOutput.py.  
+
   cout << "Looping over " << nentries << " entries in chain: " << fChain->GetTitle() << endl;  
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -90,6 +92,7 @@ void BNTree::Loop(TString outFile)
       continue;
     }  
     double BNTreeWt = 
+      lumiWt * 
       events_puScaleFactor      ->at(0) * 
       events_muonScaleFactor    ->at(0) * 
       events_electronScaleFactor->at(0);  
