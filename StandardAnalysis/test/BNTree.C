@@ -103,6 +103,7 @@ void BNTree::Loop(TString outFile)
   }
 
   // Declare desired histograms.  
+  TH1::SetDefaultSumw2();
   TH1F* hMet                     = new TH1F("BNTree_Met",                     ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetWithPhiRewtToData    = new TH1F("BNTree_MetWithPhiRewtToData",    ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetWithPhiRewtFlat      = new TH1F("BNTree_MetWithPhiRewtFlat",      ";MET (GeV)", 100, 0, 500);  
@@ -112,18 +113,7 @@ void BNTree::Loop(TString outFile)
   TH1F* hMetPhiCutPhiLo          = new TH1F("BNTree_MetPhiCutPhiLo",          ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiCutPhiMed         = new TH1F("BNTree_MetPhiCutPhiMed",         ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiCutPhiHi          = new TH1F("BNTree_MetPhiCutPhiHi",          ";MET #phi",  100, -3.15, 3.15);  
-  
-  // Set Sumw2() to get the errors correct 
-  hMet                     ->Sumw2();
-  hMetWithPhiRewtToData    ->Sumw2();
-  hMetWithPhiRewtFlat      ->Sumw2();
-  hMetPhi                  ->Sumw2();
-  hMetPhiWithPhiRewtToData ->Sumw2();
-  hMetPhiWithPhiRewtFlat   ->Sumw2();
-  hMetPhiCutPhiLo          ->Sumw2();
-  hMetPhiCutPhiMed         ->Sumw2();
-  hMetPhiCutPhiHi          ->Sumw2();
-  
+    
   Long64_t nentries = fChain->GetEntries();
 
   double lumiWt = fChain->GetWeight();  // The BNTree weight must be set by mergeOutput.py.  
