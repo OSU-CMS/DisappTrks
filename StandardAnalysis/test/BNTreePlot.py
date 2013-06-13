@@ -11,6 +11,9 @@ datasets = [
 ]           
 
 
+BNTreeUseScript = True  
+BNTreeChannel = 'WToMuSimple' 
+BNTreeScript = 'BNTreeRun.C'  
 
 BNTreeWt = 'events_puScaleFactor * events_muonScaleFactor * events_electronScaleFactor'   # excludes lumi weight, which is included automatically 
 
