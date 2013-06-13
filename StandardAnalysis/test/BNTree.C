@@ -62,11 +62,11 @@ void BNTree::Loop(TString outFile)
   if (!tDir) {
     cout << "Could not find directory " << dir << endl;  
   } else {
-    tDir->Delete("hMetBNTreeNew;*");  
+    tDir->Delete("BNTree_Met;*");  
   }
 
   // Declare desired histograms.  
-  TH1F* hMet = new TH1F("hMetBNTreeNew", ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMet = new TH1F("BNTree_Met", ";MET (GeV)", 100, 0, 500);  
 
 
   Long64_t nentries = fChain->GetEntries();
