@@ -46,13 +46,25 @@ void BNTree::Loop(TString outFile)
   dir = dir(0, dir.Last('/'));  
 
   // Get histograms for reweighting 
-  TFile* fData  = new TFile("condor/condor_2013_06_04_AODCtrlMuonNewTrig/SingleMu.root", "READ");  
-  TFile* fWjets = new TFile("condor/condor_2013_06_04_AODCtrlMuonNewTrig/Wjets.root",    "READ");  
+  TFile* fData  = new TFile("condor/condor_2013_06_04_AODCtrlMuonNewTrig/SingleMu_Rewt.root", "READ");  // use different names so that output file does not collide
+  TFile* fWjets = new TFile("condor/condor_2013_06_04_AODCtrlMuonNewTrig/Wjets_Rewt.root",    "READ");  // use different names so that output file does not collide
+  if (!fData || !fWjets) {
+    cout << "Could not open file: fData or fWjets" << endl; 
+  }
 
   TH1* hMetPhiData  = 0;
   TH1* hMetPhiWjets = 0;
   fData ->GetObject(dir+"/mets_phi", hMetPhiData);  
   fWjets->GetObject(dir+"/mets_phi", hMetPhiWjets);  
+  if (!hMetPhiWjets) {
+    cout << "Could not open histograms: hMetPhiWjets "
+	 << " from directory:  " << dir << endl;  
+  }
+  if (!hMetPhiData) {
+    cout << "Could not open histograms: hMetPhiData  "
+	 << " from directory:  " << dir << endl;  
+  }
+
   hMetPhiData  ->Scale(1.0 * hMetPhiData ->GetNbinsX() / hMetPhiData ->Integral());  // normalize to area 1.0 * nbins 
   hMetPhiWjets ->Scale(1.0 * hMetPhiWjets->GetNbinsX() / hMetPhiWjets->Integral());  // normalize to area 1.0 * nbins
   TH1F* hMetPhiDataOverMC = (TH1F*) hMetPhiData->Clone("BNTree_MetPhiDataOverMC");  
