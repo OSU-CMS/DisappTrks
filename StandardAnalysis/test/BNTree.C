@@ -42,8 +42,6 @@ void BNTree::Loop(TString outFile)
   if (fChain == 0) return;
 
 
-  // Declare desired histograms.  
-  TH1F* hMet = new TH1F("hMetBNTreeNew", ";MET (GeV)", 100, 0, 500);  
 
   // Open output root file.  
   TFile* fOut = 0;
@@ -58,6 +56,18 @@ void BNTree::Loop(TString outFile)
   }
   cout << "Will write histograms to file " << fOut->GetName()
        << " in directory:  " << dir << endl;  
+
+  // delete all previously existing instances of the histograms  
+  TDirectory* tDir = fOut->GetDirectory(dir);  
+  if (!tDir) {
+    cout << "Could not find directory " << dir << endl;  
+  } else {
+    tDir->Delete("hMetBNTreeNew;*");  
+  }
+
+  // Declare desired histograms.  
+  TH1F* hMet = new TH1F("hMetBNTreeNew", ";MET (GeV)", 100, 0, 500);  
+
 
   Long64_t nentries = fChain->GetEntries();
 
