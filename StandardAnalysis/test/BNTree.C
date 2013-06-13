@@ -55,7 +55,7 @@ void BNTree::Loop(TString outFile)
   fWjets->GetObject(dir+"/mets_phi", hMetPhiWjets);  
   hMetPhiData  ->Scale(1.0 * hMetPhiData ->GetNbinsX() / hMetPhiData ->Integral());  // normalize to area 1.0 * nbins 
   hMetPhiWjets ->Scale(1.0 * hMetPhiWjets->GetNbinsX() / hMetPhiWjets->Integral());  // normalize to area 1.0 * nbins
-  TH1F* hMetPhiDataOverMC = (TH1F*) hMetPhiData->Clone("hMetPhiDataOverMC");  
+  TH1F* hMetPhiDataOverMC = (TH1F*) hMetPhiData->Clone("BNTree_MetPhiDataOverMC");  
   hMetPhiDataOverMC->Sumw2();  
   hMetPhiDataOverMC->Divide(hMetPhiWjets);  
 
@@ -77,6 +77,7 @@ void BNTree::Loop(TString outFile)
   if (!tDir) {
     cout << "Could not find directory " << dir << endl;  
   } else {
+    tDir->Delete("BNTree_MetPhiDataOverMC;*");  
     tDir->Delete("BNTree_Met;*");  
     tDir->Delete("BNTree_MetWithPhiRewtToData;*");  
     tDir->Delete("BNTree_MetWithPhiRewtFlat;*");  
