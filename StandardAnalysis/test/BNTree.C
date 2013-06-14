@@ -1,3 +1,9 @@
+// New histograms must be added in three places:
+// * declare
+// * fill
+// * write
+
+
 #define BNTree_cxx
 #include "BNTree.h"
 #include <TH1F.h>
@@ -84,21 +90,29 @@ void BNTree::Loop(TString outFile)
   cout << "Will write histograms to file " << fOut->GetName()
        << " in directory:  " << dir << endl;  
 
-  // delete all previously existing instances of the histograms  
+  // delete all previously existing instances of all BNTree histograms  
   TDirectory* tDir = fOut->GetDirectory(dir);  
   if (!tDir) {
     cout << "Could not find directory " << dir << endl;  
   } else {
-    tDir->Delete("BNTree_MetPhiDataOverMC;*");  
-    tDir->Delete("BNTree_Met;*");  
-    tDir->Delete("BNTree_MetWithPhiRewtToData;*");  
-    tDir->Delete("BNTree_MetWithPhiRewtFlat;*");  
-    tDir->Delete("BNTree_MetPhi;*");  
-    tDir->Delete("BNTree_MetPhiWithPhiRewtToData;*");  
-    tDir->Delete("BNTree_MetPhiWithPhiRewtFlat;*");  
-    tDir->Delete("BNTree_MetPhiCutPhiLo;*");  
-    tDir->Delete("BNTree_MetPhiCutPhiMed;*");  
-    tDir->Delete("BNTree_MetPhiCutPhiHi;*");  
+    // tDir->Delete("BNTree_MetPhiDataOverMC;*");  
+    // tDir->Delete("BNTree_Met;*");  
+    // tDir->Delete("BNTree_MetWithPhiRewtToData;*");  
+    // tDir->Delete("BNTree_MetWithPhiRewtFlat;*");  
+    // tDir->Delete("BNTree_MetCutPhiLo;*");  
+    // tDir->Delete("BNTree_MetCutPhiMed;*");  
+    // tDir->Delete("BNTree_MetCutPhiHi;*");  
+    // tDir->Delete("BNTree_MetPhi;*");  
+    // tDir->Delete("BNTree_MetPhiWithPhiRewtToData;*");  
+    // tDir->Delete("BNTree_MetPhiWithPhiRewtFlat;*");  
+    // tDir->Delete("BNTree_MetPhiCutMetLo;*");  
+    // tDir->Delete("BNTree_MetPhiCutMetMed;*");  
+    // tDir->Delete("BNTree_MetPhiCutMetHi;*");  
+    // tDir->Delete("BNTree_MuonPhi;*");  
+    // tDir->Delete("BNTree_MuonPhiWithPhiRewtToData;*");  
+    // tDir->Delete("BNTree_MuonPhiWithPhiRewtFlat;*");  
+
+    tDir->Delete("BNTree_*;*");  
 
   }
 
@@ -107,12 +121,38 @@ void BNTree::Loop(TString outFile)
   TH1F* hMet                     = new TH1F("BNTree_Met",                     ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetWithPhiRewtToData    = new TH1F("BNTree_MetWithPhiRewtToData",    ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetWithPhiRewtFlat      = new TH1F("BNTree_MetWithPhiRewtFlat",      ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiLo             = new TH1F("BNTree_MetCutPhiLo",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiMed            = new TH1F("BNTree_MetCutPhiMed",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiHi             = new TH1F("BNTree_MetCutPhiHi",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiLoRewtToData   = new TH1F("BNTree_MetCutPhiLoRewtToData",   ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiMedRewtToData  = new TH1F("BNTree_MetCutPhiMedRewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiHiRewtToData   = new TH1F("BNTree_MetCutPhiHiRewtToData",   ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets0            = new TH1F("BNTree_MetCutNJets0",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets1            = new TH1F("BNTree_MetCutNJets1",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets2            = new TH1F("BNTree_MetCutNJets2",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets3            = new TH1F("BNTree_MetCutNJets3",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets4            = new TH1F("BNTree_MetCutNJets4",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets0RewtToData  = new TH1F("BNTree_MetCutNJets0RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets1RewtToData  = new TH1F("BNTree_MetCutNJets1RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets2RewtToData  = new TH1F("BNTree_MetCutNJets2RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets3RewtToData  = new TH1F("BNTree_MetCutNJets3RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets4RewtToData  = new TH1F("BNTree_MetCutNJets4RewtToData",  ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetPhi                  = new TH1F("BNTree_MetPhi",                  ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiWithPhiRewtToData = new TH1F("BNTree_MetPhiWithPhiRewtToData", ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiWithPhiRewtFlat   = new TH1F("BNTree_MetPhiWithPhiRewtFlat",   ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetLo          = new TH1F("BNTree_MetPhiCutMetLo",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetMed         = new TH1F("BNTree_MetPhiCutMetMed",         ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetHi          = new TH1F("BNTree_MetPhiCutMetHi",          ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiCutPhiLo          = new TH1F("BNTree_MetPhiCutPhiLo",          ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiCutPhiMed         = new TH1F("BNTree_MetPhiCutPhiMed",         ";MET #phi",  100, -3.15, 3.15);  
   TH1F* hMetPhiCutPhiHi          = new TH1F("BNTree_MetPhiCutPhiHi",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhi                 = new TH1F("BNTree_MuonPhi",                 ";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhiPhiRewtToData    = new TH1F("BNTree_MuonPhiWithPhiRewtToData",";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhiPhiRewtFlat      = new TH1F("BNTree_MuonPhiWithPhiRewtFlat",  ";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hJetPt                   = new TH1F("BNTree_JetPt",                   ";jet p_{T} (GeV)", 100, 0, 500);  
+  TH1F* hJetEta                  = new TH1F("BNTree_JetEta",                  ";jet #eta",  100, -5.0,  5.0);  
+  TH1F* hJetIDLoose              = new TH1F("BNTree_JetIDLoose",              ";jet ID Loose", 11, -0.5, 10.5);  
+  TH1F* hNJets                   = new TH1F("BNTree_NJets",                   ";N(jets)",      21, -0.5, 20.5);  
     
   Long64_t nentries = fChain->GetEntries();
 
@@ -148,16 +188,63 @@ void BNTree::Loop(TString outFile)
     double      wtToFlat = 1.0 / hMetPhiWjets->GetBinContent(hMetPhiWjets->FindBin(mets_phi->at(0)));  
     if (isData) wtToFlat = 1.0 / hMetPhiData ->GetBinContent(hMetPhiData ->FindBin(mets_phi->at(0)));  
 
+    // Count number of jets
+    int njets = 0;
+    for (uint ijet = 0; ijet<jets_pt->size(); ijet++) {
+      if (jets_pt->at(ijet) < 30)               continue;  
+      if (fabs(jets_eta->at(ijet)) > 2.4)       continue;  
+      if (jets_jetIDLoose->at(ijet) == 0)       continue;  
+      hJetPt ->Fill(jets_pt ->at(ijet),            BNTreeWt);  
+      hJetEta->Fill(jets_eta->at(ijet),            BNTreeWt);  
+      hJetIDLoose->Fill(jets_jetIDLoose->at(ijet), BNTreeWt);  
+      njets++;  
+    }  
+    hNJets->Fill(njets, BNTreeWt);  
+
+    // Fill histograms
     hMet                     ->Fill(mets_pt->at(0), BNTreeWt);  
     hMetWithPhiRewtToData    ->Fill(mets_pt->at(0), BNTreeWt * wtToData);  
     hMetWithPhiRewtFlat      ->Fill(mets_pt->at(0), BNTreeWt * wtToFlat);  
 
+    hMetCutPhiLo             ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))<1.0));  
+    hMetCutPhiMed            ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))>1.0 && fabs(mets_phi->at(0))<2.0));  
+    hMetCutPhiHi             ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))>2.0));  
+
+    hMetCutPhiLoRewtToData   ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))<1.0));  
+    hMetCutPhiMedRewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))>1.0 && fabs(mets_phi->at(0))<2.0));  
+    hMetCutPhiHiRewtToData   ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))>2.0));  
+
+    hMetCutNJets0            ->Fill(mets_pt->at(0), BNTreeWt * (njets==0));  
+    hMetCutNJets1            ->Fill(mets_pt->at(0), BNTreeWt * (njets==1));  
+    hMetCutNJets2            ->Fill(mets_pt->at(0), BNTreeWt * (njets==2));  
+    hMetCutNJets3            ->Fill(mets_pt->at(0), BNTreeWt * (njets==3));  
+    hMetCutNJets4            ->Fill(mets_pt->at(0), BNTreeWt * (njets>=4));  
+
+    hMetCutNJets0RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==0));  
+    hMetCutNJets1RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==1));  
+    hMetCutNJets2RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==2));  
+    hMetCutNJets3RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==3));  
+    hMetCutNJets4RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets>=4));  
+
     hMetPhi                  ->Fill(mets_phi->at(0), BNTreeWt);  
     hMetPhiWithPhiRewtToData ->Fill(mets_phi->at(0), BNTreeWt * wtToData);  
     hMetPhiWithPhiRewtFlat   ->Fill(mets_phi->at(0), BNTreeWt * wtToFlat);  
-    hMetPhiCutPhiLo          ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) < 100));  
-    hMetPhiCutPhiMed         ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) > 100 && mets_pt->at(0) < 200));  
-    hMetPhiCutPhiHi          ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) > 200));  
+    hMetPhiCutMetLo          ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) < 100));  
+    hMetPhiCutMetMed         ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) > 100 && mets_pt->at(0) < 200));  
+    hMetPhiCutMetHi          ->Fill(mets_phi->at(0), BNTreeWt * (mets_pt->at(0) > 200));  
+
+    // hMetPhiCutMetLoRewtToData ->Fill(mets_phi->at(0), BNTreeWt * wtToData * (mets_pt->at(0) < 100));  
+    // hMetPhiCutMetMedRewtToData->Fill(mets_phi->at(0), BNTreeWt * wtToData * (mets_pt->at(0) > 100 && mets_pt->at(0) < 200));  
+    // hMetPhiCutMetHiRewtToData ->Fill(mets_phi->at(0), BNTreeWt * wtToData * (mets_pt->at(0) > 200));  
+
+    hMetPhiCutPhiLo          ->Fill(mets_phi->at(0), BNTreeWt * (fabs(mets_phi->at(0))<1.0));  
+    hMetPhiCutPhiMed         ->Fill(mets_phi->at(0), BNTreeWt * (fabs(mets_phi->at(0))>1.0 && fabs(mets_phi->at(0))<2.0));  
+    hMetPhiCutPhiHi          ->Fill(mets_phi->at(0), BNTreeWt * (fabs(mets_phi->at(0))>2.0));  
+
+
+    hMuonPhi                 ->Fill(muons_phi->at(0), BNTreeWt);  
+    hMuonPhiPhiRewtToData    ->Fill(muons_phi->at(0), BNTreeWt * wtToData);  
+    hMuonPhiPhiRewtFlat      ->Fill(muons_phi->at(0), BNTreeWt * wtToFlat);  
 
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -167,13 +254,40 @@ void BNTree::Loop(TString outFile)
   hMet                     ->Write();  
   hMetWithPhiRewtToData    ->Write();  
   hMetWithPhiRewtFlat      ->Write();  
+  hMetCutPhiLo             ->Write();  
+  hMetCutPhiMed            ->Write();  
+  hMetCutPhiHi             ->Write();  
+  hMetCutPhiLoRewtToData   ->Write();  
+  hMetCutPhiMedRewtToData  ->Write();  
+  hMetCutPhiHiRewtToData   ->Write();  
+  hMetCutNJets0            ->Write();  
+  hMetCutNJets1            ->Write();  
+  hMetCutNJets2            ->Write();  
+  hMetCutNJets3            ->Write();  
+  hMetCutNJets4            ->Write();  
+  hMetCutNJets0RewtToData  ->Write();  
+  hMetCutNJets1RewtToData  ->Write();  
+  hMetCutNJets2RewtToData  ->Write();  
+  hMetCutNJets3RewtToData  ->Write();  
+  hMetCutNJets4RewtToData  ->Write();  
   hMetPhi                  ->Write();  
   hMetPhiWithPhiRewtToData ->Write();  
   hMetPhiWithPhiRewtFlat   ->Write();  
+  hMetPhiCutMetLo          ->Write();  
+  hMetPhiCutMetMed         ->Write();  
+  hMetPhiCutMetHi          ->Write();  
   hMetPhiCutPhiLo          ->Write();  
   hMetPhiCutPhiMed         ->Write();  
   hMetPhiCutPhiHi          ->Write();  
   hMetPhiDataOverMC        ->Write();  
+  hMuonPhi                 ->Write();  
+  hMuonPhiPhiRewtToData    ->Write();  
+  hMuonPhiPhiRewtFlat      ->Write();  
+  hNJets                   ->Write();  
+  hJetPt                   ->Write();  
+  hJetEta                  ->Write();  
+  hJetIDLoose              ->Write();  
+
 
   fOut->Close();  
 
