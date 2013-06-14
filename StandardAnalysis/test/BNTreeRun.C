@@ -1,6 +1,6 @@
 //---------------------------------------------------------------
 // File and Version Information:
-// $Id: BNTreeRun.C,v 1.15 2012/07/09 08:06:02 wulsin Exp $
+// $Id: BNTreeRun.C,v 1.1 2013/06/13 08:36:19 wulsin Exp $
 //
 // Description:
 //    Prints one line of text.  To be used as template for 
@@ -46,7 +46,8 @@
 // -------------------------
 void BNTreeRun(TString condorDir="", 
 	       TString dataset="",
-	       TString chainName="");  
+	       TString chainName="",
+	       int condorJobNum = -1);  // for default, -1, chain Trees from all files together  
 
 
 // -------------------------
@@ -54,17 +55,28 @@ void BNTreeRun(TString condorDir="",
 // -------------------------
 void BNTreeRun(TString condorDir, 
 	       TString dataset,
-	       TString chainName) {  
+	       TString chainName,
+	       int condorJobNum) {  
 
   TChain* ch = 0;
+  TString condorJobNumStr = TString(Form("%d", condorJobNum));  // convert int to TString 
+
   if (chainName!="") {
-    ch = new TChain(chainName);     
-    ch->Add(condorDir + "/" + dataset + "/hist*root");  
-  }
+    ch = new TChain(chainName);
+    if (condorJobNum >= 0) {  
+      ch->Add(condorDir + "/" + dataset + "/hist_" + condorJobNumStr + ".root");  
+    } else {
+      ch->Add(condorDir + "/" + dataset + "/hist*root");  
+    }
+  } 
 
   BNTree t(ch);  
-  t.Loop(condorDir + "/" + dataset + ".root");  
-
+  if (condorJobNum >= 0) {  
+    t.Loop(condorDir + "/" + dataset + "/hist_" + condorJobNumStr + ".root");  
+  } else {
+    t.Loop(condorDir + "/" + dataset + ".root");  
+  }
+  
 }  // void BNTreeRun(TString condorDir) {  
 
 
