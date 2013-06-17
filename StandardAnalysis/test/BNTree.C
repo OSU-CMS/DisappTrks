@@ -60,8 +60,9 @@ void BNTree::Loop(TString outFile)
 
   TH1* hMetPhiData  = 0;
   TH1* hMetPhiWjets = 0;
-  fData ->GetObject(dir+"/mets_phi", hMetPhiData);  
-  fWjets->GetObject(dir+"/mets_phi", hMetPhiWjets);  
+  // hard-code the directory for the reweighting histograms
+  fData ->GetObject("OSUAnalysis/WToMuSimple/mets_phi", hMetPhiData);  
+  fWjets->GetObject("OSUAnalysis/WToMuSimple/mets_phi", hMetPhiWjets);  
   if (!hMetPhiWjets) {
     cout << "Could not open histograms: hMetPhiWjets "
 	 << " from directory:  " << dir << endl;  
