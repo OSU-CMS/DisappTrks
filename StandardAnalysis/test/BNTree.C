@@ -73,7 +73,7 @@ void BNTree::Loop(TString outFile)
 
   hMetPhiData  ->Scale(1.0 * hMetPhiData ->GetNbinsX() / hMetPhiData ->Integral());  // normalize to area 1.0 * nbins 
   hMetPhiWjets ->Scale(1.0 * hMetPhiWjets->GetNbinsX() / hMetPhiWjets->Integral());  // normalize to area 1.0 * nbins
-  TH1F* hMetPhiDataOverMC = (TH1F*) hMetPhiData->Clone("BNTree_MetPhiDataOverMC");  
+  TH1F* hMetPhiDataOverMC = (TH1F*) hMetPhiData->Clone("BNHist_MetPhiDataOverMC");  
   hMetPhiDataOverMC->Sumw2();  
   hMetPhiDataOverMC->Divide(hMetPhiWjets);  
 
@@ -95,64 +95,64 @@ void BNTree::Loop(TString outFile)
   if (!tDir) {
     cout << "Could not find directory " << dir << endl;  
   } else {
-    // tDir->Delete("BNTree_MetPhiDataOverMC;*");  
-    // tDir->Delete("BNTree_Met;*");  
-    // tDir->Delete("BNTree_MetWithPhiRewtToData;*");  
-    // tDir->Delete("BNTree_MetWithPhiRewtFlat;*");  
-    // tDir->Delete("BNTree_MetCutPhiLo;*");  
-    // tDir->Delete("BNTree_MetCutPhiMed;*");  
-    // tDir->Delete("BNTree_MetCutPhiHi;*");  
-    // tDir->Delete("BNTree_MetPhi;*");  
-    // tDir->Delete("BNTree_MetPhiWithPhiRewtToData;*");  
-    // tDir->Delete("BNTree_MetPhiWithPhiRewtFlat;*");  
-    // tDir->Delete("BNTree_MetPhiCutMetLo;*");  
-    // tDir->Delete("BNTree_MetPhiCutMetMed;*");  
-    // tDir->Delete("BNTree_MetPhiCutMetHi;*");  
-    // tDir->Delete("BNTree_MuonPhi;*");  
-    // tDir->Delete("BNTree_MuonPhiWithPhiRewtToData;*");  
-    // tDir->Delete("BNTree_MuonPhiWithPhiRewtFlat;*");  
+    // tDir->Delete("BNHist_MetPhiDataOverMC;*");  
+    // tDir->Delete("BNHist_Met;*");  
+    // tDir->Delete("BNHist_MetWithPhiRewtToData;*");  
+    // tDir->Delete("BNHist_MetWithPhiRewtFlat;*");  
+    // tDir->Delete("BNHist_MetCutPhiLo;*");  
+    // tDir->Delete("BNHist_MetCutPhiMed;*");  
+    // tDir->Delete("BNHist_MetCutPhiHi;*");  
+    // tDir->Delete("BNHist_MetPhi;*");  
+    // tDir->Delete("BNHist_MetPhiWithPhiRewtToData;*");  
+    // tDir->Delete("BNHist_MetPhiWithPhiRewtFlat;*");  
+    // tDir->Delete("BNHist_MetPhiCutMetLo;*");  
+    // tDir->Delete("BNHist_MetPhiCutMetMed;*");  
+    // tDir->Delete("BNHist_MetPhiCutMetHi;*");  
+    // tDir->Delete("BNHist_MuonPhi;*");  
+    // tDir->Delete("BNHist_MuonPhiWithPhiRewtToData;*");  
+    // tDir->Delete("BNHist_MuonPhiWithPhiRewtFlat;*");  
 
-    tDir->Delete("BNTree_*;*");  
+    tDir->Delete("BNHist_*;*");  
 
   }
 
   // Declare desired histograms.  
   TH1::SetDefaultSumw2();
-  TH1F* hMet                     = new TH1F("BNTree_Met",                     ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetWithPhiRewtToData    = new TH1F("BNTree_MetWithPhiRewtToData",    ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetWithPhiRewtFlat      = new TH1F("BNTree_MetWithPhiRewtFlat",      ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiLo             = new TH1F("BNTree_MetCutPhiLo",             ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiMed            = new TH1F("BNTree_MetCutPhiMed",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiHi             = new TH1F("BNTree_MetCutPhiHi",             ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiLoRewtToData   = new TH1F("BNTree_MetCutPhiLoRewtToData",   ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiMedRewtToData  = new TH1F("BNTree_MetCutPhiMedRewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutPhiHiRewtToData   = new TH1F("BNTree_MetCutPhiHiRewtToData",   ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets0            = new TH1F("BNTree_MetCutNJets0",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets1            = new TH1F("BNTree_MetCutNJets1",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets2            = new TH1F("BNTree_MetCutNJets2",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets3            = new TH1F("BNTree_MetCutNJets3",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets4            = new TH1F("BNTree_MetCutNJets4",            ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets0RewtToData  = new TH1F("BNTree_MetCutNJets0RewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets1RewtToData  = new TH1F("BNTree_MetCutNJets1RewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets2RewtToData  = new TH1F("BNTree_MetCutNJets2RewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets3RewtToData  = new TH1F("BNTree_MetCutNJets3RewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetCutNJets4RewtToData  = new TH1F("BNTree_MetCutNJets4RewtToData",  ";MET (GeV)", 100, 0, 500);  
-  TH1F* hMetPhi                  = new TH1F("BNTree_MetPhi",                  ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiWithPhiRewtToData = new TH1F("BNTree_MetPhiWithPhiRewtToData", ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiWithPhiRewtFlat   = new TH1F("BNTree_MetPhiWithPhiRewtFlat",   ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutMetLo          = new TH1F("BNTree_MetPhiCutMetLo",          ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutMetMed         = new TH1F("BNTree_MetPhiCutMetMed",         ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutMetHi          = new TH1F("BNTree_MetPhiCutMetHi",          ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutPhiLo          = new TH1F("BNTree_MetPhiCutPhiLo",          ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutPhiMed         = new TH1F("BNTree_MetPhiCutPhiMed",         ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMetPhiCutPhiHi          = new TH1F("BNTree_MetPhiCutPhiHi",          ";MET #phi",  100, -3.15, 3.15);  
-  TH1F* hMuonPhi                 = new TH1F("BNTree_MuonPhi",                 ";#mu #phi",  100, -3.15, 3.15);  
-  TH1F* hMuonPhiPhiRewtToData    = new TH1F("BNTree_MuonPhiWithPhiRewtToData",";#mu #phi",  100, -3.15, 3.15);  
-  TH1F* hMuonPhiPhiRewtFlat      = new TH1F("BNTree_MuonPhiWithPhiRewtFlat",  ";#mu #phi",  100, -3.15, 3.15);  
-  TH1F* hJetPt                   = new TH1F("BNTree_JetPt",                   ";jet p_{T} (GeV)", 100, 0, 500);  
-  TH1F* hJetEta                  = new TH1F("BNTree_JetEta",                  ";jet #eta",  100, -5.0,  5.0);  
-  TH1F* hJetIDLoose              = new TH1F("BNTree_JetIDLoose",              ";jet ID Loose", 11, -0.5, 10.5);  
-  TH1F* hNJets                   = new TH1F("BNTree_NJets",                   ";N(jets)",      21, -0.5, 20.5);  
+  TH1F* hMet                     = new TH1F("BNHist_Met",                     ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetWithPhiRewtToData    = new TH1F("BNHist_MetWithPhiRewtToData",    ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetWithPhiRewtFlat      = new TH1F("BNHist_MetWithPhiRewtFlat",      ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiLo             = new TH1F("BNHist_MetCutPhiLo",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiMed            = new TH1F("BNHist_MetCutPhiMed",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiHi             = new TH1F("BNHist_MetCutPhiHi",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiLoRewtToData   = new TH1F("BNHist_MetCutPhiLoRewtToData",   ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiMedRewtToData  = new TH1F("BNHist_MetCutPhiMedRewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhiHiRewtToData   = new TH1F("BNHist_MetCutPhiHiRewtToData",   ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets0            = new TH1F("BNHist_MetCutNJets0",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets1            = new TH1F("BNHist_MetCutNJets1",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets2            = new TH1F("BNHist_MetCutNJets2",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets3            = new TH1F("BNHist_MetCutNJets3",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets4            = new TH1F("BNHist_MetCutNJets4",            ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets0RewtToData  = new TH1F("BNHist_MetCutNJets0RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets1RewtToData  = new TH1F("BNHist_MetCutNJets1RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets2RewtToData  = new TH1F("BNHist_MetCutNJets2RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets3RewtToData  = new TH1F("BNHist_MetCutNJets3RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutNJets4RewtToData  = new TH1F("BNHist_MetCutNJets4RewtToData",  ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetPhi                  = new TH1F("BNHist_MetPhi",                  ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiWithPhiRewtToData = new TH1F("BNHist_MetPhiWithPhiRewtToData", ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiWithPhiRewtFlat   = new TH1F("BNHist_MetPhiWithPhiRewtFlat",   ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetLo          = new TH1F("BNHist_MetPhiCutMetLo",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetMed         = new TH1F("BNHist_MetPhiCutMetMed",         ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutMetHi          = new TH1F("BNHist_MetPhiCutMetHi",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutPhiLo          = new TH1F("BNHist_MetPhiCutPhiLo",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutPhiMed         = new TH1F("BNHist_MetPhiCutPhiMed",         ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMetPhiCutPhiHi          = new TH1F("BNHist_MetPhiCutPhiHi",          ";MET #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhi                 = new TH1F("BNHist_MuonPhi",                 ";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhiPhiRewtToData    = new TH1F("BNHist_MuonPhiWithPhiRewtToData",";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hMuonPhiPhiRewtFlat      = new TH1F("BNHist_MuonPhiWithPhiRewtFlat",  ";#mu #phi",  100, -3.15, 3.15);  
+  TH1F* hJetPt                   = new TH1F("BNHist_JetPt",                   ";jet p_{T} (GeV)", 100, 0, 500);  
+  TH1F* hJetEta                  = new TH1F("BNHist_JetEta",                  ";jet #eta",  100, -5.0,  5.0);  
+  TH1F* hJetIDLoose              = new TH1F("BNHist_JetIDLoose",              ";jet ID Loose", 11, -0.5, 10.5);  
+  TH1F* hNJets                   = new TH1F("BNHist_NJets",                   ";N(jets)",      21, -0.5, 20.5);  
     
   Long64_t nentries = fChain->GetEntries();
 
