@@ -125,6 +125,18 @@ void BNTree::Loop(TString outFile)
   TH1F* hMetCutPhiLo             = new TH1F("BNHist_MetCutPhiLo",             ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetCutPhiMed            = new TH1F("BNHist_MetCutPhiMed",            ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetCutPhiHi             = new TH1F("BNHist_MetCutPhiHi",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi1              = new TH1F("BNHist_MetCutPhi1",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi2              = new TH1F("BNHist_MetCutPhi2",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi3              = new TH1F("BNHist_MetCutPhi3",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi4              = new TH1F("BNHist_MetCutPhi4",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi5              = new TH1F("BNHist_MetCutPhi5",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi6              = new TH1F("BNHist_MetCutPhi6",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi7              = new TH1F("BNHist_MetCutPhi7",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi8              = new TH1F("BNHist_MetCutPhi8",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi9              = new TH1F("BNHist_MetCutPhi9",              ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi10             = new TH1F("BNHist_MetCutPhi10",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi11             = new TH1F("BNHist_MetCutPhi11",             ";MET (GeV)", 100, 0, 500);  
+  TH1F* hMetCutPhi12             = new TH1F("BNHist_MetCutPhi12",             ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetCutPhiLoRewtToData   = new TH1F("BNHist_MetCutPhiLoRewtToData",   ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetCutPhiMedRewtToData  = new TH1F("BNHist_MetCutPhiMedRewtToData",  ";MET (GeV)", 100, 0, 500);  
   TH1F* hMetCutPhiHiRewtToData   = new TH1F("BNHist_MetCutPhiHiRewtToData",   ";MET (GeV)", 100, 0, 500);  
@@ -206,11 +218,24 @@ void BNTree::Loop(TString outFile)
     hMet                     ->Fill(mets_pt->at(0), BNTreeWt);  
     hMetWithPhiRewtToData    ->Fill(mets_pt->at(0), BNTreeWt * wtToData);  
     hMetWithPhiRewtFlat      ->Fill(mets_pt->at(0), BNTreeWt * wtToFlat);  
-
+    
     hMetCutPhiLo             ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))<1.0));  
     hMetCutPhiMed            ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))>1.0 && fabs(mets_phi->at(0))<2.0));  
     hMetCutPhiHi             ->Fill(mets_pt->at(0), BNTreeWt * (fabs(mets_phi->at(0))>2.0));  
-
+    
+    hMetCutPhi1              ->Fill(mets_pt->at(0), BNTreeWt * (                          mets_phi->at(0) < -2.5));  
+    hMetCutPhi2              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) > -2.5 && mets_phi->at(0) < -2.0));  
+    hMetCutPhi3              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) > -2.0 && mets_phi->at(0) < -1.5));  
+    hMetCutPhi4              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) > -1.5 && mets_phi->at(0) < -1.0));  
+    hMetCutPhi5              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) > -1.0 && mets_phi->at(0) < -0.5));  
+    hMetCutPhi6              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) > -0.5 && mets_phi->at(0) <  0.0));  
+    hMetCutPhi7              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  0.0 && mets_phi->at(0) <  0.5));  
+    hMetCutPhi8              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  0.5 && mets_phi->at(0) <  1.0));  
+    hMetCutPhi9              ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  1.0 && mets_phi->at(0) <  1.5));  
+    hMetCutPhi10             ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  1.5 && mets_phi->at(0) <  2.0));  
+    hMetCutPhi11             ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  2.0 && mets_phi->at(0) <  2.5));  
+    hMetCutPhi12             ->Fill(mets_pt->at(0), BNTreeWt * (mets_phi->at(0) >  2.5 ));  
+    
     hMetCutPhiLoRewtToData   ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))<1.0));  
     hMetCutPhiMedRewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))>1.0 && fabs(mets_phi->at(0))<2.0));  
     hMetCutPhiHiRewtToData   ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (fabs(mets_phi->at(0))>2.0));  
@@ -249,15 +274,27 @@ void BNTree::Loop(TString outFile)
 
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
-
+  
   cout << "Debug:  mean of hMet = " << hMet->GetMean() << endl;  
-
+  
   hMet                     ->Write();  
   hMetWithPhiRewtToData    ->Write();  
   hMetWithPhiRewtFlat      ->Write();  
   hMetCutPhiLo             ->Write();  
   hMetCutPhiMed            ->Write();  
   hMetCutPhiHi             ->Write();  
+  hMetCutPhi1              ->Write();  
+  hMetCutPhi2              ->Write();  
+  hMetCutPhi3              ->Write();  
+  hMetCutPhi4              ->Write();  
+  hMetCutPhi5              ->Write();  
+  hMetCutPhi6              ->Write();  
+  hMetCutPhi7              ->Write();  
+  hMetCutPhi8              ->Write();  
+  hMetCutPhi9              ->Write();  
+  hMetCutPhi10             ->Write();  
+  hMetCutPhi11             ->Write();  
+  hMetCutPhi12             ->Write();  
   hMetCutPhiLoRewtToData   ->Write();  
   hMetCutPhiMedRewtToData  ->Write();  
   hMetCutPhiHiRewtToData   ->Write();  
