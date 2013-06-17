@@ -170,6 +170,7 @@ void BNTree::Loop(TString outFile)
   Long64_t nentries = fChain->GetEntries();
 
   double lumiWt = fChain->GetWeight();  // The BNTree weight must be set by mergeOutput.py.  
+  if (outFile.Contains("hist_")) lumiWt = 1.0;  // Do not apply the lumi weight if writing histograms to hist_*.root files, since the lumi wt will be applied by mergeOutput.py.  
 
   cout << "Looping over " << nentries << " entries in chain: " << fChain->GetTitle() << endl;  
   Long64_t nbytes = 0, nb = 0;
