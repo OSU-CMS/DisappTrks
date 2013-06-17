@@ -166,6 +166,20 @@ void BNTree::Loop(TString outFile)
   TH1F* hJetEta                  = new TH1F("BNHist_JetEta",                  ";jet #eta",  100, -5.0,  5.0);  
   TH1F* hJetIDLoose              = new TH1F("BNHist_JetIDLoose",              ";jet ID Loose", 11, -0.5, 10.5);  
   TH1F* hNJets                   = new TH1F("BNHist_NJets",                   ";N(jets)",      21, -0.5, 20.5);  
+  TH1F* hMetCutNJets0PU1         = new TH1F("BNHist_MetCutNJets0PU1",         ";MET (GeV) (0 jets,    #PV<5)",  100, 0, 500);  
+  TH1F* hMetCutNJets0PU2         = new TH1F("BNHist_MetCutNJets0PU2",         ";MET (GeV) (0 jets, 5 <#PV<10)", 100, 0, 500);  
+  TH1F* hMetCutNJets0PU3         = new TH1F("BNHist_MetCutNJets0PU3",         ";MET (GeV) (0 jets, 10<#PV<15)", 100, 0, 500);  
+  TH1F* hMetCutNJets0PU4         = new TH1F("BNHist_MetCutNJets0PU4",         ";MET (GeV) (0 jets, 15<#PV<20)", 100, 0, 500);  
+  TH1F* hMetCutNJets0PU5         = new TH1F("BNHist_MetCutNJets0PU5",         ";MET (GeV) (0 jets, 20<#PV<25)", 100, 0, 500);  
+  TH1F* hMetCutNJets0PU6         = new TH1F("BNHist_MetCutNJets0PU6",         ";MET (GeV) (0 jets, 25<#PV<30)", 100, 0, 500);  
+  TH1F* hMetCutNJets0PU7         = new TH1F("BNHist_MetCutNJets0PU7",         ";MET (GeV) (0 jets, 30<#PV)",    100, 0, 500);  
+  TH1F* hNPVPU1         = new TH1F("BNHist_NPVPU1",         ";NumPV (0 jets, #PV<5)",     50, 0, 50);  
+  TH1F* hNPVPU2         = new TH1F("BNHist_NPVPU2",         ";NumPV (0 jets, 5 <#PV<10)", 50, 0, 50);  
+  TH1F* hNPVPU3         = new TH1F("BNHist_NPVPU3",         ";NumPV (0 jets, 10<#PV<15)", 50, 0, 50);  
+  TH1F* hNPVPU4         = new TH1F("BNHist_NPVPU4",         ";NumPV (0 jets, 15<#PV<20)", 50, 0, 50);  
+  TH1F* hNPVPU5         = new TH1F("BNHist_NPVPU5",         ";NumPV (0 jets, 20<#PV<25)", 50, 0, 50);  
+  TH1F* hNPVPU6         = new TH1F("BNHist_NPVPU6",         ";NumPV (0 jets, 25<#PV<30)", 50, 0, 50);  
+  TH1F* hNPVPU7         = new TH1F("BNHist_NPVPU7",         ";NumPV (0 jets, 30<#PV)",    50, 0, 50);  
     
   Long64_t nentries = fChain->GetEntries();
 
@@ -247,6 +261,23 @@ void BNTree::Loop(TString outFile)
     hMetCutNJets3            ->Fill(mets_pt->at(0), BNTreeWt * (njets==3));  
     hMetCutNJets4            ->Fill(mets_pt->at(0), BNTreeWt * (njets>=4));  
 
+    hMetCutNJets0PU1         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 &&                             events_numPV->at(0) < 5));  
+    hMetCutNJets0PU2         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 &&  5 < events_numPV->at(0) && events_numPV->at(0) < 10));  
+    hMetCutNJets0PU3         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 && 10 < events_numPV->at(0) && events_numPV->at(0) < 15));  
+    hMetCutNJets0PU4         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 && 15 < events_numPV->at(0) && events_numPV->at(0) < 20));  
+    hMetCutNJets0PU5         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 && 20 < events_numPV->at(0) && events_numPV->at(0) < 25));  
+    hMetCutNJets0PU6         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 && 25 < events_numPV->at(0) && events_numPV->at(0) < 30));  
+    hMetCutNJets0PU7         ->Fill(mets_pt->at(0), BNTreeWt * (njets==0 && 30 < events_numPV->at(0)) );  
+
+    hNPVPU1                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 &&                             events_numPV->at(0) < 5));  
+    hNPVPU2                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 &&  5 < events_numPV->at(0) && events_numPV->at(0) < 10));  
+    hNPVPU3                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 && 10 < events_numPV->at(0) && events_numPV->at(0) < 15));  
+    hNPVPU4                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 && 15 < events_numPV->at(0) && events_numPV->at(0) < 20));  
+    hNPVPU5                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 && 20 < events_numPV->at(0) && events_numPV->at(0) < 25));  
+    hNPVPU6                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 && 25 < events_numPV->at(0) && events_numPV->at(0) < 30));  
+    hNPVPU7                  ->Fill(events_numPV->at(0), BNTreeWt * (njets==0 && 30 < events_numPV->at(0)));  
+
+
     hMetCutNJets0RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==0));  
     hMetCutNJets1RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==1));  
     hMetCutNJets2RewtToData  ->Fill(mets_pt->at(0), BNTreeWt * wtToData * (njets==2));  
@@ -304,6 +335,20 @@ void BNTree::Loop(TString outFile)
   hMetCutNJets2            ->Write();  
   hMetCutNJets3            ->Write();  
   hMetCutNJets4            ->Write();  
+  hMetCutNJets0PU1         ->Write();
+  hMetCutNJets0PU2         ->Write();
+  hMetCutNJets0PU3         ->Write();
+  hMetCutNJets0PU4         ->Write();
+  hMetCutNJets0PU5         ->Write();
+  hMetCutNJets0PU6         ->Write();
+  hMetCutNJets0PU7         ->Write();
+  hNPVPU1                  ->Write();
+  hNPVPU2                  ->Write();
+  hNPVPU3                  ->Write();
+  hNPVPU4                  ->Write();
+  hNPVPU5                  ->Write();
+  hNPVPU6                  ->Write();
+  hNPVPU7                  ->Write();
   hMetCutNJets0RewtToData  ->Write();  
   hMetCutNJets1RewtToData  ->Write();  
   hMetCutNJets2RewtToData  ->Write();  
