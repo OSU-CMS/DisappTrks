@@ -11,18 +11,18 @@ intLumi = 18046.  # MET 2012 data registered as of 2013-05-07
 
 
 datasets = [
-
+#
     'MET_data_Reco',
-  
+
     'AMSB_mGrav50K_0p5ns_Reco',
     'AMSB_mGrav50K_1ns_Reco',
     'AMSB_mGrav50K_5ns_Reco',
 
-    'WJetsToLNu_Reco',
+    'Wjets',  
     'ZJetsToNuNu', 
-    'TTbar_Reco',
-    'QCD_Reco',
-    'DYJetsToLL_Reco',
+    'TTbar',  
+    'QCD',
+    'DY',  
 
 #    'Background', 
 
@@ -42,6 +42,7 @@ labels['Background'] = "$Total Bkgd$"   # Use dollar sign to turn off math mode.
 
 
 #maxEvents = {
+#'MET_2012A_P1_Reco' : 100, 
 #'DYJetsToLL'     : 100,
 #'WJetsToLNu'     : 100,
 #'QCD_0to5'       : 100,
