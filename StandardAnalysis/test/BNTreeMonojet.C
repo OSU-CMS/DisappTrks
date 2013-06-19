@@ -75,6 +75,7 @@ void BNTree::Loop(TString outFile)
 
   TH1F* hNJets                   = new TH1F("BNHist_NJets",                 ";Jet mulitiplicity", 10, 0, 10);  
   TH1F* numPV                    = new TH1F("BNHist_numPV",                 ";# primary vertices", 70, 0, 70);  
+  TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 500, 0, 500);  
   TH1F* MET                      = new TH1F("BNHist_MET",                   ";MET [GeV]", 32, 200, 1000);  
   TH1F* METFull                  = new TH1F("BNHist_METFull",               ";MET [GeV]", 40, 0, 1000);  
   TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 70, 0, 1.2);  
@@ -107,6 +108,7 @@ void BNTree::Loop(TString outFile)
   TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  11, -0.5, 10.5);  
   TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  11, -0.5, 10.5);  
   TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  11, -0.5, 10.5);  
+  TH1F* hNMetsCut5               = new TH1F("BNHist_NMetsCut5",             ";Met mulitiplicity (cut 5)",  11, -0.5, 10.5);  
 
 
     
@@ -201,12 +203,14 @@ void BNTree::Loop(TString outFile)
     }
 
     // Apply other selection requirements, corresponding to https://twiki.cern.ch/twiki/bin/viewauth/CMS/MonojetDataFinalStandard2012v2#Cutflow
+    METPre    ->Fill(mets_pt->at(0),     BNTreeWt);  	
     hNMetsCut0->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numJets  <= 2))       continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(DiJetDeltaPhi < 2.5)) continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numMuons == 0))       continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numElecs == 0))       continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numTaus  == 0))       continue; 
+    if (!(mets_pt->at(0) > 250))  continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(DiJetDeltaPhi < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numMuons == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numElecs == 0))         continue;     hNMetsCut5->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numTaus  == 0))         continue; 
 
     hNJets            ->Fill(numJets,                   BNTreeWt);  	
     hNMuons           ->Fill(numMuons,                  BNTreeWt);  	
@@ -251,6 +255,7 @@ void BNTree::Loop(TString outFile)
   hNJets                   ->Write();  
 
   numPV ->Write();
+  METPre ->Write();  
   MET ->Write();  
   METFull ->Write();
 
