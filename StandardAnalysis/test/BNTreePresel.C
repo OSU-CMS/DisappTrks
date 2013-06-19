@@ -4,7 +4,7 @@
 // * write
 
 
-#define BNTreePresel_cxx
+#define BNTree_cxx
 #include "BNTree.h"
 #include <TH1F.h>
 #include <TH2.h>
@@ -16,7 +16,7 @@
 using std::cout;
 using std::endl;
 
-void BNTreePresel::Loop(TString outFile)
+void BNTree::Loop(TString outFile)
 {
   //   In a ROOT session, you can do:
   //      Root > .L BNTreePresel.C
@@ -76,17 +76,17 @@ void BNTreePresel::Loop(TString outFile)
   TH1F* hCaloTot                 = new TH1F("BNHist_CaloTot",                 ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)", 100, 20, 400);  
   TH1F* hCaloTotByP              = new TH1F("BNHist_CaloTotByP",              ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)",     100, 0.2, 6);  
   TH1F* hDepTrk                  = new TH1F("BNHist_DepTrk",                  ";Track isolation (PU corr.); #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)", 100, 0, 100);
-  TH1F* hNHitsMissOut            = new TH1F("BNHist_NHitsMissOut",            ";Number of Missing Outer Hits", 16, -0.5, 15.5),
+  TH1F* hNHitsMissOut            = new TH1F("BNHist_NHitsMissOut",            ";Number of Missing Outer Hits", 16, -0.5, 15.5);
 
   TH1F* hCaloTotCutIso                 = new TH1F("BNHist_CaloTotCutIso",                 ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)", 100, 20, 400);  
   TH1F* hCaloTotByPCutIso              = new TH1F("BNHist_CaloTotByPCutIso",              ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)",     100, 0.2, 6);  
   TH1F* hDepTrkCutIso                  = new TH1F("BNHist_DepTrkCutIso",                  ";Track isolation (PU corr.); #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)", 100, 0, 100);
-  TH1F* hNHitsMissOutCutIso            = new TH1F("BNHist_NHitsMissOutCutIso",            ";Number of Missing Outer Hits", 16, -0.5, 15.5),
+  TH1F* hNHitsMissOutCutIso            = new TH1F("BNHist_NHitsMissOutCutIso",            ";Number of Missing Outer Hits", 16, -0.5, 15.5);
 
   TH1F* hCaloTotCutIsoNHits                 = new TH1F("BNHist_CaloTotCutIsoNHits",                 ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5} (GeV) (PU corr.)", 100, 20, 400);  
   TH1F* hCaloTotByPCutIsoNHits              = new TH1F("BNHist_CaloTotByPCutIsoNHits",              ";Isolation energy (PU corr.); E_{iso}^{#DeltaR<0.5}/p (PU corr.)",     100, 0.2, 6);  
   TH1F* hDepTrkCutIsoNHits                  = new TH1F("BNHist_DepTrkCutIsoNHits",                  ";Track isolation (PU corr.); #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)", 100, 0, 100);
-  TH1F* hNHitsMissOutCutIsoNHits            = new TH1F("BNHist_NHitsMissOutCutIsoNHits",            ";Number of Missing Outer Hits", 16, -0.5, 15.5),
+  TH1F* hNHitsMissOutCutIsoNHits            = new TH1F("BNHist_NHitsMissOutCutIsoNHits",            ";Number of Missing Outer Hits", 16, -0.5, 15.5);
 
     
   Long64_t nentries = fChain->GetEntries();
@@ -125,34 +125,34 @@ void BNTreePresel::Loop(TString outFile)
       hDepTrk                  ->Fill(tracks_depTrkRp5MinusPt->at(itrk),          BNTreeWt);  	
       hNHitsMissOut            ->Fill(tracks_nHitsMissingOuter->at(itrk),         BNTreeWt);         
 
-      hCaloTotCutIso           ->Fill(tracks_caloTotDeltaRp5RhoCorr->at(itrk),    BNTreeWt * (tracks_depTrkRp5MinusPt < 7));  	
-      hCaloTotByPCutIso        ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr->at(itrk), BNTreeWt * (tracks_depTrkRp5MinusPt < 7));  	  	
-      hDepTrkCutIso            ->Fill(tracks_depTrkRp5MinusPt->at(itrk),          BNTreeWt * (tracks_depTrkRp5MinusPt < 7));  	  	
-      hNHitsMissOutCutIso      ->Fill(tracks_nHitsMissingOuter->at(itrk),         BNTreeWt * (tracks_depTrkRp5MinusPt < 7));  	         
+      hCaloTotCutIso           ->Fill(tracks_caloTotDeltaRp5RhoCorr->at(itrk),    BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7));  	
+      hCaloTotByPCutIso        ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr->at(itrk), BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7));  	  	
+      hDepTrkCutIso            ->Fill(tracks_depTrkRp5MinusPt->at(itrk),          BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7));  	  	
+      hNHitsMissOutCutIso      ->Fill(tracks_nHitsMissingOuter->at(itrk),         BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7));  	         
 
-      hCaloTotCutIsoNHits      ->Fill(tracks_caloTotDeltaRp5RhoCorr->at(itrk),    BNTreeWt * (tracks_depTrkRp5MinusPt < 7 && tracks_nHitsMissingOuter >= 3));  	
-      hCaloTotByPCutIsoNHits   ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr->at(itrk), BNTreeWt * (tracks_depTrkRp5MinusPt < 7 && tracks_nHitsMissingOuter >= 3));  	  	
-      hDepTrkCutIsoNHits       ->Fill(tracks_depTrkRp5MinusPt->at(itrk),          BNTreeWt * (tracks_depTrkRp5MinusPt < 7 && tracks_nHitsMissingOuter >= 3));  	  	
-      hNHitsMissOutCutIsoNHits ->Fill(tracks_nHitsMissingOuter->at(itrk),         BNTreeWt * (tracks_depTrkRp5MinusPt < 7 && tracks_nHitsMissingOuter >= 3));  	         
+      hCaloTotCutIsoNHits      ->Fill(tracks_caloTotDeltaRp5RhoCorr->at(itrk),    BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7 && tracks_nHitsMissingOuter->at(itrk) >= 3));  	
+      hCaloTotByPCutIsoNHits   ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr->at(itrk), BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7 && tracks_nHitsMissingOuter->at(itrk) >= 3));  	  	
+      hDepTrkCutIsoNHits       ->Fill(tracks_depTrkRp5MinusPt->at(itrk),          BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7 && tracks_nHitsMissingOuter->at(itrk) >= 3));  	  	
+      hNHitsMissOutCutIsoNHits ->Fill(tracks_nHitsMissingOuter->at(itrk),         BNTreeWt * (tracks_depTrkRp5MinusPt->at(itrk) < 7 && tracks_nHitsMissingOuter->at(itrk) >= 3));  	         
 
     }  
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
   
-  TH1F* hCaloTot                 ->Write();  
-  TH1F* hCaloTotByP              ->Write();  
-  TH1F* hDepTrk                  ->Write();  
-  TH1F* hNHitsMissOut            ->Write();  
+  hCaloTot                 ->Write();  
+  hCaloTotByP              ->Write();  
+  hDepTrk                  ->Write();  
+  hNHitsMissOut            ->Write();  
 
-  TH1F* hCaloTotCutIso           ->Write();  
-  TH1F* hCaloTotByPCutIso        ->Write();  
-  TH1F* hDepTrkCutIso            ->Write();  
-  TH1F* hNHitsMissOutCutIso      ->Write();  
+  hCaloTotCutIso           ->Write();  
+  hCaloTotByPCutIso        ->Write();  
+  hDepTrkCutIso            ->Write();  
+  hNHitsMissOutCutIso      ->Write();  
 
-  TH1F* hCaloTotCutIsoNHits      ->Write();  
-  TH1F* hCaloTotByPCutIsoNHits   ->Write();  
-  TH1F* hDepTrkCutIsoNHits       ->Write();  
-  TH1F* hNHitsMissOutCutIsoNHits ->Write();  
+  hCaloTotCutIsoNHits      ->Write();  
+  hCaloTotByPCutIsoNHits   ->Write();  
+  hDepTrkCutIsoNHits       ->Write();  
+  hNHitsMissOutCutIsoNHits ->Write();  
 
 
   fOut->Close();  

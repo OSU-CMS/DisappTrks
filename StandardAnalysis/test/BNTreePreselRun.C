@@ -1,6 +1,6 @@
 //---------------------------------------------------------------
 // File and Version Information:
-// $Id: BNTreePreselRun.C,v 1.2 2013/06/14 16:06:27 wulsin Exp $
+// $Id: BNTreePreselRun.C,v 1.1 2013/06/18 16:39:33 wulsin Exp $
 //
 // Description:
 //    Prints one line of text.  To be used as template for 
@@ -68,7 +68,7 @@ void BNTreePreselRun(TString condorDir,
     }
   } 
 
-  BNTreePresel t(ch);  
+  BNTree t(ch);  
   if (condorJobNum >= 0) {  
     t.Loop(condorDir + "/" + dataset + "/hist_" + condorJobNumStr + ".root");  
   } else {
