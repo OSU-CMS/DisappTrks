@@ -74,6 +74,26 @@ void BNTree::Loop(TString outFile)
   TH1::SetDefaultSumw2();
 
   TH1F* hNJets                   = new TH1F("BNHist_NJets",                 ";Jet mulitiplicity", 10, 0, 10);  
+  TH1F* numPV                    = new TH1F("BNHist_numPV",                 ";# primary vertices", 70, 0, 70);  
+  TH1F* MET                      = new TH1F("BNHist_MET",                   ";MET [GeV]", 32, 200, 1000);  
+  TH1F* METFull                  = new TH1F("BNHist_METFull",               ";MET [GeV]", 40, 0, 1000);  
+  TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 70, 0, 1.2);  
+  TH1F* jetNeutralHadFrac        = new TH1F("BNHist_jetNeutralHadFrac",     ";NeutralHadFrac", 70, 0, 1.2);  
+  TH1F* jetChargedEMFrac         = new TH1F("BNHist_jetChargedEMFrac",      ";ChargedEMFrac", 70, 0, 1.2);  
+  TH1F* jetNeutralEMFrac         = new TH1F("BNHist_jetNeutralEMFrac",      ";NeutralEMFrac", 70, 0, 1.2);  
+  TH1F* jetOneEta                = new TH1F("BNHist_jetOneEta",             ";Jet1 #eta", 35, -4, 4);  
+  TH1F* jetOnePt                 = new TH1F("BNHist_jetOnePt",              ";Jet1 pT [GeV]", 40, 0, 1000);  
+  TH1F* jetTwoChHadFrac          = new TH1F("BNHist_jetTwoChHadFrac",       ";Jet2 Charged Had Frac", 70, 0, 1.2);  
+  TH1F* jetTwoNeutralHadFrac     = new TH1F("BNHist_jetTwoNeutralHadFrac",  ";Jet2 Neutral Had Frac", 70, 0, 1.2);  
+  TH1F* jetTwoChEMFrac           = new TH1F("BNHist_jetTwoChEMFrac",        ";Jet2 Charged EM Frac", 70, 0, 1.2);  
+  TH1F* jetTwoNeutralEMFrac      = new TH1F("BNHist_jetTwoNeutralEMFrac",   ";Jet2 Neutral EM Frac", 70, 0, 1.2);  
+  TH1F* jetTwoEta                = new TH1F("BNHist_jetTwoEta",             ";Jet2 #eta", 60, -5, 5);  
+  TH1F* jetTwoPt                 = new TH1F("BNHist_jetTwoPt",              ";Jet2 pT", 25, 0, 600);  
+  TH1F* jetOneMetDPhi            = new TH1F("BNHist_jetOneMetDPhi",         ";#Delta #phi (Jet1, MET)", 35, 0, 3.5);  
+  TH1F* jetTwoMetDPhi            = new TH1F("BNHist_jetTwoMetDPhi",         ";#Delta #phi (Jet2, MET)", 35, 0, 3.5);  
+  TH1F* jetDPhi                  = new TH1F("BNHist_jetDPhi",                ";#Delta #phi (Jet1, Jet2)", 35, 0, 3.5);  
+
+
   TH1F* hNElecs                  = new TH1F("BNHist_NElecs",                ";Elec mulitiplicity", 11, -0.5, 10.5);   
   TH1F* hNMuons                  = new TH1F("BNHist_NMuons",                ";Muon mulitiplicity", 11, -0.5, 10.5);   
   TH1F* hNTaus                   = new TH1F("BNHist_NTaus",                 ";Tau  mulitiplicity", 11, -0.5, 10.5);   
@@ -87,6 +107,7 @@ void BNTree::Loop(TString outFile)
   TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  11, -0.5, 10.5);  
   TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  11, -0.5, 10.5);  
   TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  11, -0.5, 10.5);  
+
 
     
   Long64_t nentries = fChain->GetEntries();
@@ -113,6 +134,8 @@ void BNTree::Loop(TString outFile)
       events_puScaleFactor      ->at(0) * 
       events_muonScaleFactor    ->at(0) * 
       events_electronScaleFactor->at(0);  
+
+
 
     // Count other physics objects, according to AN-2012-421-v6.  
     int numJets  = 0;
@@ -144,8 +167,8 @@ void BNTree::Loop(TString outFile)
 
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
-      if (!(muons_isGlobalMuon ==1 || 
-	    muons_isTrackerMuon==1                         ))   continue;  
+      if (!(muons_isGlobalMuon->at(imuon) ==1 || 
+	    muons_isTrackerMuon->at(imuon)==1                         ))   continue;  
 
       // Selection below is for positive muon ID, not muon veto!
       // if (!(muons_pt                      ->at(imuon)  > 20))   continue;
@@ -169,7 +192,7 @@ void BNTree::Loop(TString outFile)
 
     for (uint itau = 0; itau<taus_pt->size(); itau++) {
       if (!(taus_pt                                           ->at(itau)  > 10))  continue;  
-      if (!(fabs(taus_pt                		      ->at(itau)) < 2.3)) continue;  
+      if (!(fabs(taus_eta                		      ->at(itau)) < 2.3)) continue;  
       if (!(fabs(taus_HPSbyLooseCombinedIsolationDeltaBetaCorr->at(itau)) == 1))  continue;  
       if (!(fabs(taus_HPSdecayModeFinding                     ->at(itau)) == 1))  continue;  					 
       if (!(fabs(taus_HPSagainstElectronLoose		      ->at(itau)) == 1))  continue;  					 
@@ -179,11 +202,11 @@ void BNTree::Loop(TString outFile)
 
     // Apply other selection requirements, corresponding to https://twiki.cern.ch/twiki/bin/viewauth/CMS/MonojetDataFinalStandard2012v2#Cutflow
     hNMetsCut0->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numJets  <= 2))     continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(DiJetDeltaPhi < 2)) continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numMuons == 0))     continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numElecs == 0))     continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numTaus  == 0))     continue; 
+    if (!(numJets  <= 2))       continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(DiJetDeltaPhi < 2.5)) continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numMuons == 0))       continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numElecs == 0))       continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numTaus  == 0))       continue; 
 
     hNJets            ->Fill(numJets,                   BNTreeWt);  	
     hNMuons           ->Fill(numMuons,                  BNTreeWt);  	
@@ -194,9 +217,62 @@ void BNTree::Loop(TString outFile)
     hNTausNoCut       ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets            ->Fill(mets_pt->size(),           BNTreeWt);  	
 
+
+    double jetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(0)) - mets_phi->at(0)) - 3.14159) - 3.14159);  
+    jetChargedHadFrac->Fill(jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetNeutralHadFrac->Fill(jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetChargedEMFrac ->Fill(jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetNeutralEMFrac ->Fill(jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetOneEta        ->Fill(jets_eta                        ->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetOnePt         ->Fill(jets_pt                         ->at(jetPassedIdx.at(0)),    BNTreeWt);
+    jetOneMetDPhi    ->Fill(jetMetDPhi                                           ,    BNTreeWt);
+    jetDPhi          ->Fill(DiJetDeltaPhi                                        ,    BNTreeWt);
+
+    if (jetPassedIdx.size()>1) {
+      double subJetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(1)) - mets_phi->at(0)) - 3.14159) - 3.14159);
+      jetTwoChHadFrac         ->Fill(jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoNeutralHadFrac    ->Fill(jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoChEMFrac          ->Fill(jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoNeutralEMFrac     ->Fill(jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoEta               ->Fill(jets_eta                        ->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoPt                ->Fill(jets_pt                         ->at(jetPassedIdx.at(1)),    BNTreeWt);
+      jetTwoMetDPhi           ->Fill(subJetMetDPhi                                           ,    BNTreeWt);
+    }
+    
+    MET->Fill(mets_pt->at(0),    BNTreeWt);
+    METFull->Fill(mets_pt->at(0),    BNTreeWt);
+
+    hNJets->Fill(jets_pt->size(),    BNTreeWt);  	
+    numPV->Fill(events_numTruePV->at(0),    BNTreeWt);  	
+    
+
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
   
   hNJets                   ->Write();  
+
+  numPV ->Write();
+  MET ->Write();  
+  METFull ->Write();
+
+  jetChargedHadFrac        ->Write();
+  jetNeutralHadFrac        ->Write();
+  jetChargedEMFrac         ->Write();
+  jetNeutralEMFrac         ->Write();
+  jetOneEta                ->Write();
+  jetOnePt                 ->Write();
+  jetOneMetDPhi            ->Write();
+
+  jetDPhi                  ->Write();
+
+  jetTwoChHadFrac          ->Write();  
+  jetTwoNeutralHadFrac     ->Write();
+  jetTwoChEMFrac           ->Write();
+  jetTwoNeutralEMFrac      ->Write();
+  jetTwoEta                ->Write();
+  jetTwoPt                 ->Write();
+  jetTwoMetDPhi            ->Write();
+
+
   hElecMVA                 ->Write();  
   hNElecs                  ->Write();  
   hNMuons                  ->Write();  
@@ -210,6 +286,7 @@ void BNTree::Loop(TString outFile)
   hNMetsCut2               ->Write();  
   hNMetsCut3               ->Write();  
   hNMetsCut4               ->Write();  
+
 
   fOut->Close();  
 
