@@ -24,7 +24,7 @@ from localOptionsAll import *
 BNTreeUseScript = True
 BNTreeScript = 'BNTreeMonojetRun.C'  
 
-BNTreeChannel = 'Monojet'  
+BNTreeChannel = 'MonoJet'  
 BNTreeWt = 'events_puScaleFactor * events_muonScaleFactor * events_electronScaleFactor'   # excludes lumi weight, which is included automatically 
 
 input_histograms = [
