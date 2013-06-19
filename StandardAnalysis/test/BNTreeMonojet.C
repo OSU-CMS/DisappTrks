@@ -75,7 +75,7 @@ void BNTree::Loop(TString outFile)
 
   TH1F* hNJets                   = new TH1F("BNHist_NJets",                 ";Jet mulitiplicity", 10, 0, 10);  
   TH1F* numPV                    = new TH1F("BNHist_numPV",                 ";# primary vertices", 70, 0, 70);  
-  TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 500, 0, 500);  
+  TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 100, 0, 500);  
   TH1F* MET                      = new TH1F("BNHist_MET",                   ";MET [GeV]", 32, 200, 1000);  
   TH1F* METFull                  = new TH1F("BNHist_METFull",               ";MET [GeV]", 40, 0, 1000);  
   TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 70, 0, 1.2);  
