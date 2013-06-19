@@ -133,6 +133,13 @@ void BNTree::Loop(TString outFile)
       uint idx0 = jetPassedIdx.at(0);
       uint idx1 = jetPassedIdx.at(1);
       DiJetDeltaPhi = fabs(fabs(fabs(jets_phi->at(idx0) - jets_phi->at(idx1)) - 3.14159) - 3.14159);  
+
+      // check that idx0 corresponds to the leading jet; switch if not
+      if (jets_pt->at(idx0) < jets_pt->at(idx1)) {
+	jetPassedIdx.at(0) = idx1;
+	jetPassedIdx.at(1) = idx0;
+      }
+
     }
 
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
