@@ -78,37 +78,37 @@ void BNTree::Loop(TString outFile)
   TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 100, 0, 500);  
   TH1F* MET                      = new TH1F("BNHist_MET",                   ";MET [GeV]", 32, 200, 1000);  
   TH1F* METFull                  = new TH1F("BNHist_METFull",               ";MET [GeV]", 40, 0, 1000);  
-  TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 70, 0, 1.2);  
-  TH1F* jetNeutralHadFrac        = new TH1F("BNHist_jetNeutralHadFrac",     ";NeutralHadFrac", 70, 0, 1.2);  
-  TH1F* jetChargedEMFrac         = new TH1F("BNHist_jetChargedEMFrac",      ";ChargedEMFrac", 70, 0, 1.2);  
-  TH1F* jetNeutralEMFrac         = new TH1F("BNHist_jetNeutralEMFrac",      ";NeutralEMFrac", 70, 0, 1.2);  
-  TH1F* jetOneEta                = new TH1F("BNHist_jetOneEta",             ";Jet1 #eta", 35, -4, 4);  
+  TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 60,  0.0, 1.2);  
+  TH1F* jetNeutralHadFrac        = new TH1F("BNHist_jetNeutralHadFrac",     ";NeutralHadFrac", 60, -0.1, 1.1);  
+  TH1F* jetChargedEMFrac         = new TH1F("BNHist_jetChargedEMFrac",      ";ChargedEMFrac",  60, -0.1, 1.1);  
+  TH1F* jetNeutralEMFrac         = new TH1F("BNHist_jetNeutralEMFrac",      ";NeutralEMFrac",  60, -0.1, 1.1);  
+  TH1F* jetOneEta                = new TH1F("BNHist_jetOneEta",             ";Jet1 #eta", 36, -3.6, 3.6);  
   TH1F* jetOnePt                 = new TH1F("BNHist_jetOnePt",              ";Jet1 pT [GeV]", 40, 0, 1000);  
-  TH1F* jetTwoChHadFrac          = new TH1F("BNHist_jetTwoChHadFrac",       ";Jet2 Charged Had Frac", 70, 0, 1.2);  
-  TH1F* jetTwoNeutralHadFrac     = new TH1F("BNHist_jetTwoNeutralHadFrac",  ";Jet2 Neutral Had Frac", 70, 0, 1.2);  
-  TH1F* jetTwoChEMFrac           = new TH1F("BNHist_jetTwoChEMFrac",        ";Jet2 Charged EM Frac", 70, 0, 1.2);  
-  TH1F* jetTwoNeutralEMFrac      = new TH1F("BNHist_jetTwoNeutralEMFrac",   ";Jet2 Neutral EM Frac", 70, 0, 1.2);  
+  TH1F* jetTwoChHadFrac          = new TH1F("BNHist_jetTwoChHadFrac",       ";Jet2 Charged Had Frac", 60,  0.0, 1.2);  
+  TH1F* jetTwoNeutralHadFrac     = new TH1F("BNHist_jetTwoNeutralHadFrac",  ";Jet2 Neutral Had Frac", 60, -0.1, 1.1);  
+  TH1F* jetTwoChEMFrac           = new TH1F("BNHist_jetTwoChEMFrac",        ";Jet2 Charged EM Frac",  60, -0.1, 1.1);  
+  TH1F* jetTwoNeutralEMFrac      = new TH1F("BNHist_jetTwoNeutralEMFrac",   ";Jet2 Neutral EM Frac",  60, -0.1, 1.1);  
   TH1F* jetTwoEta                = new TH1F("BNHist_jetTwoEta",             ";Jet2 #eta", 60, -5, 5);  
   TH1F* jetTwoPt                 = new TH1F("BNHist_jetTwoPt",              ";Jet2 pT", 25, 0, 600);  
-  TH1F* jetOneMetDPhi            = new TH1F("BNHist_jetOneMetDPhi",         ";#Delta #phi (Jet1, MET)", 35, 0, 3.5);  
-  TH1F* jetTwoMetDPhi            = new TH1F("BNHist_jetTwoMetDPhi",         ";#Delta #phi (Jet2, MET)", 35, 0, 3.5);  
-  TH1F* jetDPhi                  = new TH1F("BNHist_jetDPhi",                ";#Delta #phi (Jet1, Jet2)", 35, 0, 3.5);  
+  TH1F* jetOneMetDPhi            = new TH1F("BNHist_jetOneMetDPhi",         ";#Delta #phi (Jet1, MET)",  35, 0, 3.5);  
+  TH1F* jetTwoMetDPhi            = new TH1F("BNHist_jetTwoMetDPhi",         ";#Delta #phi (Jet2, MET)",  35, 0, 3.5);  
+  TH1F* jetDPhi                  = new TH1F("BNHist_jetDPhi",               ";#Delta #phi (Jet1, Jet2)", 35, 0, 3.5);  
 
 
-  TH1F* hNElecs                  = new TH1F("BNHist_NElecs",                ";Elec mulitiplicity", 11, -0.5, 10.5);   
-  TH1F* hNMuons                  = new TH1F("BNHist_NMuons",                ";Muon mulitiplicity", 11, -0.5, 10.5);   
-  TH1F* hNTaus                   = new TH1F("BNHist_NTaus",                 ";Tau  mulitiplicity", 11, -0.5, 10.5);   
+  TH1F* hNElecs                  = new TH1F("BNHist_NElecs",                ";Elec mulitiplicity",               11, -0.5, 10.5);   
+  TH1F* hNMuons                  = new TH1F("BNHist_NMuons",                ";Muon mulitiplicity", 		 11, -0.5, 10.5);   
+  TH1F* hNTaus                   = new TH1F("BNHist_NTaus",                 ";Tau  mulitiplicity", 		 11, -0.5, 10.5);   
   TH1F* hNElecsNoCut             = new TH1F("BNHist_NElecsNoCut",           ";Elec mulitiplicity (no elec cut)", 11, -0.5, 10.5);   
   TH1F* hNMuonsNoCut             = new TH1F("BNHist_NMuonsNoCut",           ";Muon mulitiplicity (no muon cut)", 11, -0.5, 10.5);   
   TH1F* hNTausNoCut              = new TH1F("BNHist_NTausNoCut",            ";Tau  mulitiplicity (no tau cut)",  11, -0.5, 10.5);   
+  TH1F* hNMets                   = new TH1F("BNHist_NMets",                 ";Met mulitiplicity",                11, -0.5, 10.5);  
+  TH1F* hNMetsCut0               = new TH1F("BNHist_NMetsCut0",             ";Met mulitiplicity (cut 0)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut1               = new TH1F("BNHist_NMetsCut1",             ";Met mulitiplicity (cut 1)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut5               = new TH1F("BNHist_NMetsCut5",             ";Met mulitiplicity (cut 5)",  	 11, -0.5, 10.5);  
   TH1F* hElecMVA                 = new TH1F("BNHist_ElecMVA",               ";Elec MVA",           100, -2, 2);
-  TH1F* hNMets                   = new TH1F("BNHist_NMets",                 ";Met mulitiplicity",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut0               = new TH1F("BNHist_NMetsCut0",             ";Met mulitiplicity (cut 0)",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut1               = new TH1F("BNHist_NMetsCut1",             ";Met mulitiplicity (cut 1)",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  11, -0.5, 10.5);  
-  TH1F* hNMetsCut5               = new TH1F("BNHist_NMetsCut5",             ";Met mulitiplicity (cut 5)",  11, -0.5, 10.5);  
 
 
     
