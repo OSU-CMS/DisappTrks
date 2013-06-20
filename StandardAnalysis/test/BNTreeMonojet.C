@@ -112,14 +112,15 @@ void BNTree::Loop(TString outFile)
   TH1F* hElecMVA                 = new TH1F("BNHist_ElecMVA",               ";Elec MVA",           100, -2, 2);
 
   //for disappTrks
-  TH1F* jetPt                    = new TH1F("BNHist_jetPt",                 ";Jet pT [GeV]", 100, 0, 1000);
-  TH1F* trackPt                  = new TH1F("BNHist_trackPt",               ";track pT [GeV]", 100, 0, 1000);
-  TH1F* trackNumHits             = new TH1F("BNHist_trackNumHits",          ";track number of valid hits ", 100, -0.5, 30.5);
+  TH1F* hNTrks                   = new TH1F("BNHist_NTrks",                 ";Trk mulitiplicity",                    11, -0.5, 10.5);   
+  TH1F* jetPt                    = new TH1F("BNHist_jetPt",                 ";Jet pT [GeV]",                         100, 0, 1000);
+  TH1F* trackPt                  = new TH1F("BNHist_trackPt",               ";track pT [GeV]",                       100, 0, 1000);
+  TH1F* trackNumHits             = new TH1F("BNHist_trackNumHits",          ";track number of valid hits ",          100, -0.5, 30.5);
   TH1F* trackNHitsMissingOut     = new TH1F("BNHist_trackNHitsMissingOut",  ";track  number of missing outer hits ", 100, -0.5, 30.5);
-  TH1F* trackdepTrkRp5           = new TH1F("BNHist_trackdepTrkRp5",        ";track  depTrkRp5 ", 100, 0, 500);
-  TH1F* trackdepTrkRp5MinusPt    = new TH1F("BNHist_trackdepTrkRp5MinusPt", ";track  depTrkRp5MinusPt ", 100, 0, 150);
-  TH1F* trackCaloTot             = new TH1F("BNHist_trackCaloTot",          ";track  CaloTot ", 100, 0, 150);
-  TH1F* trackCaloTotByP          = new TH1F("BNHist_trackCaloTotByP",       ";track  CaloTotByP ", 100, 0, 2);
+  TH1F* trackdepTrkRp5           = new TH1F("BNHist_trackdepTrkRp5",        ";track  depTrkRp5 ",                    100, 0, 500);
+  TH1F* trackdepTrkRp5MinusPt    = new TH1F("BNHist_trackdepTrkRp5MinusPt", ";track  depTrkRp5MinusPt ",             100, 0, 150);
+  TH1F* trackCaloTot             = new TH1F("BNHist_trackCaloTot",          ";track  CaloTot ",                      100, 0, 150);
+  TH1F* trackCaloTotByP          = new TH1F("BNHist_trackCaloTotByP",       ";track  CaloTotByP ",                   100, 0, 2);
 
 
     
@@ -155,7 +156,7 @@ void BNTree::Loop(TString outFile)
     int numMuons = 0;
     int numElecs = 0;
     int numTaus  = 0; 
-
+    int numTrks  = 0;
     double DiJetDeltaPhi = 0;  // default is 0, so event passes if only one jet found  
     vector<uint> jetPassedIdx;  
     for (uint ijet = 0; ijet<jets_pt->size(); ijet++) {
@@ -228,18 +229,18 @@ void BNTree::Loop(TString outFile)
 
     //Add in cuts for disappTrks
     for (uint itrk = 0; itrk<tracks_pt->size(); itrk++) {
-      if (!(tracks_pt                                           ->at(itrk)  > 20))    continue;
-      if (!(fabs(tracks_eta)                                    ->at(itrk)  < 2.1))   continue;
-      if (!(fabs(tracks_d0wrtPV)                                ->at(itrk)  < 0.01))  continue;
-      if (!(fabs(tracks_dZwrtPV)                                ->at(itrk)  < 0.01))  continue;
-      if (!(tracks_numValidHits                                 ->at(itrk)  > 4))     continue;
-      if (!(tracks_nHitsMissingInner                            ->at(itrk)  == 0))    continue;
-      if (!(tracks_nHitsMissingMiddle                           ->at(itrk)  == 0))    continue;
-      if (!(tracks_isIso                                        ->at(itrk)  == 1))    continue;
-      if (!(tracks_isMatchedDeadEcal                            ->at(itrk)  == 0))    continue;
-      if (!((fabs(tracks_eta)                                   ->at(itrk)  < 1.42) || 
-	    (fabs(tracks_eta)                                   ->at(itrk)  > 1.65))) continue;
-
+      if (!(tracks_pt                                           ->at(itrk)  > 20))      continue;
+      if (!(fabs(tracks_eta                                     ->at(itrk))  < 2.1))    continue;
+      if (!(fabs(tracks_d0wrtPV                                 ->at(itrk))  < 0.01))   continue;
+      if (!(fabs(tracks_dZwrtPV                                 ->at(itrk))  < 0.01))   continue;
+      if (!(tracks_numValidHits                                 ->at(itrk)  > 4))       continue;
+      if (!(tracks_nHitsMissingInner                            ->at(itrk)  == 0))      continue;
+      if (!(tracks_nHitsMissingMiddle                           ->at(itrk)  == 0))      continue;
+      if (!(tracks_isIso                                        ->at(itrk)  == 1))      continue;
+      if (!(tracks_isMatchedDeadEcal                            ->at(itrk)  == 0))      continue;
+      if (!((fabs(tracks_eta                                    ->at(itrk))  < 1.42) || 
+	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
+      numTrks++;
 
       trackPt                 ->Fill(tracks_pt                          ->at(itrk),          BNTreeWt);
       trackNumHits            ->Fill(tracks_numValidHits                ->at(itrk),          BNTreeWt);
@@ -262,7 +263,7 @@ void BNTree::Loop(TString outFile)
     hNElecsNoCut            ->Fill(electrons_pt->size(),      BNTreeWt);  	
     hNTausNoCut             ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets                  ->Fill(mets_pt->size(),           BNTreeWt);  	
-
+    hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
 
 
 
@@ -336,6 +337,7 @@ void BNTree::Loop(TString outFile)
   hNMetsCut3               ->Write();  
   hNMetsCut4               ->Write();  
 
+  hNTrks                   ->Write();
   trackPt                  ->Write();
   trackNumHits             ->Write();
   trackNHitsMissingOut     ->Write();
