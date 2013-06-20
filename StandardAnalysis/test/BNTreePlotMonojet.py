@@ -4,21 +4,17 @@ from localOptionsAll import *
 
 
 ## datasets = [
-     
 #   'MET',
-#    'MET_data_Reco',                                                                                                                                                                                    
-
-##     'AMSB_mGrav50K_0p5ns_Reco',                                                                                                                                                                       
-##     'AMSB_mGrav50K_1ns_Reco',                                                                                                                                                                         
-##     'AMSB_mGrav50K_5ns_Reco',                                                                                                                                                                         
-
-##     'Wjets',                                                                                                                                                                                          
-##     'ZJetsToNuNu',                                                                                                                                                                                    
-##     'TTbar',                                                                                                                                                                                          
-##     'QCD',                                                                                                                                                                                            
-##     'DY',                                                                                                                                                                                             
-##     'Diboson',                                                                                                                                                                                         
-    
+#    'MET_data_Reco',
+##     'AMSB_mGrav50K_0p5ns_Reco',
+##     'AMSB_mGrav50K_1ns_Reco',
+##     'AMSB_mGrav50K_5ns_Reco',
+##     'Wjets',
+##     'ZJetsToNuNu',
+##     'TTbar',
+##     'QCD',
+##     'DY',
+##     'Diboson',
 ##     ]           
 
 BNTreeUseScript = True
