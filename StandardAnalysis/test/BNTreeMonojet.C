@@ -243,11 +243,11 @@ void BNTree::Loop(TString outFile)
       jetTwoMetDPhi           ->Fill(subJetMetDPhi                                           ,    BNTreeWt);
     }
     
-    MET->Fill(mets_pt->at(0),    BNTreeWt);
-    METFull->Fill(mets_pt->at(0),    BNTreeWt);
+    MET    ->Fill(mets_pt->at(0),       BNTreeWt);
+    METFull->Fill(mets_pt->at(0),       BNTreeWt);
 
-    hNJets->Fill(jets_pt->size(),    BNTreeWt);  	
-    numPV->Fill(events_numTruePV->at(0),    BNTreeWt);  	
+    hNJets->Fill(jets_pt->size(),       BNTreeWt);  	
+    numPV->Fill(events_numPV->at(0),    BNTreeWt);  	
     
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
