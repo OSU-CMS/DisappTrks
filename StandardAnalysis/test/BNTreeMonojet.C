@@ -85,6 +85,18 @@ void BNTree::Loop(TString outFile)
   TH1F* jetNeutralEMFrac         = new TH1F("BNHist_jetNeutralEMFrac",      ";NeutralEMFrac",  60, -0.1, 1.1);  
   TH1F* jetOneEta                = new TH1F("BNHist_jetOneEta",             ";Jet1 #eta", 36, -3.6, 3.6);  
   TH1F* jetOnePt                 = new TH1F("BNHist_jetOnePt",              ";Jet1 pT [GeV]", 40, 0, 1000);  
+
+  //jet hists that also contain a candidate trk requirement
+  TH1F* METFullPTrk              = new TH1F("BNHist_METFullPTrk",               ";MET [GeV]", 40, 0, 1000);
+  TH1F* jetChargedHadFracPTrk    = new TH1F("BNHist_jetChargedHadFracPTrk",     ";ChargedHadFrac", 60,  0.0, 1.2);
+  TH1F* jetNeutralHadFracPTrk    = new TH1F("BNHist_jetNeutralHadFracPTrk",     ";NeutralHadFrac", 60, -0.1, 1.1);
+  TH1F* jetChargedEMFracPTrk     = new TH1F("BNHist_jetChargedEMFracPTrk",      ";ChargedEMFrac",  60, -0.1, 1.1);
+  TH1F* jetNeutralEMFracPTrk     = new TH1F("BNHist_jetNeutralEMFracPTrk",      ";NeutralEMFrac",  60, -0.1, 1.1);
+  TH1F* jetOneEtaPTrk            = new TH1F("BNHist_jetOneEtaPTrk",             ";Jet1 #eta", 36, -3.6, 3.6);
+  TH1F* jetOnePtPTrk             = new TH1F("BNHist_jetOnePtPTrk",              ";Jet1 pT [GeV]", 40, 0, 1000);
+
+
+
   TH1F* jetTwoChHadFrac          = new TH1F("BNHist_jetTwoChHadFrac",       ";Jet2 Charged Had Frac", 60,  0.0, 1.2);  
   TH1F* jetTwoNeutralHadFrac     = new TH1F("BNHist_jetTwoNeutralHadFrac",  ";Jet2 Neutral Had Frac", 60, -0.1, 1.1);  
   TH1F* jetTwoChEMFrac           = new TH1F("BNHist_jetTwoChEMFrac",        ";Jet2 Charged EM Frac",  60, -0.1, 1.1);  
@@ -121,6 +133,9 @@ void BNTree::Loop(TString outFile)
   TH1F* trackdepTrkRp5MinusPt    = new TH1F("BNHist_trackdepTrkRp5MinusPt", ";track  depTrkRp5MinusPt ",             100, 0, 150);
   TH1F* trackCaloTot             = new TH1F("BNHist_trackCaloTot",          ";track  CaloTot ",                      100, 0, 150);
   TH1F* trackCaloTotByP          = new TH1F("BNHist_trackCaloTotByP",       ";track  CaloTotByP ",                   100, 0, 2);
+
+
+
 
 
     
@@ -252,7 +267,9 @@ void BNTree::Loop(TString outFile)
 
 
 
-    } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
+
+
+      } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
 
 
     hNJets                  ->Fill(numJets,                   BNTreeWt);  	
@@ -276,6 +293,16 @@ void BNTree::Loop(TString outFile)
     jetOnePt         ->Fill(jets_pt                         ->at(jetPassedIdx.at(0)),    BNTreeWt);
     jetOneMetDPhi    ->Fill(jetMetDPhi                                           ,    BNTreeWt);
     jetDPhi          ->Fill(DiJetDeltaPhi                                        ,    BNTreeWt);
+
+    if (numTrks > 0) {
+      jetChargedHadFracPTrk->Fill(jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(0)),    BNTreeWt);
+      jetNeutralHadFracPTrk ->Fill(jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(0)),    BNTreeWt);
+      jetChargedEMFracPTrk ->Fill(jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(0)),    BNTreeWt);
+      jetNeutralEMFracPTrk ->Fill(jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(0)),    BNTreeWt);
+      jetOneEtaPTrk        ->Fill(jets_eta                        ->at(jetPassedIdx.at(0)),    BNTreeWt);
+      jetOnePtPTrk         ->Fill(jets_pt                         ->at(jetPassedIdx.at(0)),    BNTreeWt);
+      METFullPTrk          ->Fill(mets_pt->at(0)                                          ,    BNTreeWt);
+    }
 
     if (jetPassedIdx.size()>1) {
       double subJetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(1)) - mets_phi->at(0)) - 3.14159) - 3.14159);
@@ -345,6 +372,8 @@ void BNTree::Loop(TString outFile)
   trackdepTrkRp5MinusPt    ->Write();
   trackCaloTot             ->Write();
   trackCaloTotByP          ->Write();
+
+
 
 
   fOut->Close();  
