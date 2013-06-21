@@ -1,4 +1,4 @@
-// New histograms must be added in three places:
+/ New histograms must be added in three places:
 // * declare
 // * fill
 // * write
@@ -349,6 +349,14 @@ void BNTree::Loop(TString outFile)
   jetTwoPt                 ->Write();
   jetTwoMetDPhi            ->Write();
 
+
+  jetChargedHadFracPTrk ->Write();
+  jetNeutralHadFracPTrk ->Write();
+  jetChargedEMFracPTrk  ->Write();
+  jetNeutralEMFracPTrk  ->Write();
+  jetOneEtaPTrk         ->Write();
+  jetOnePtPTrk          ->Write();
+  METFullPTrk           ->Write();
 
   hElecMVA                 ->Write();  
   hNElecs                  ->Write();  
