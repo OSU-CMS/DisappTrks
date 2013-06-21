@@ -172,16 +172,18 @@ void BNTree::Loop(TString outFile)
     int numElecs = 0;
     int numTaus  = 0; 
     int numTrks  = 0;
-    double DiJetDeltaPhi = 0;  // default is 0, so event passes if only one jet found  
+    double DiJetDeltaPhi = -99;  // default is 0, so event passes if only one jet found  
     vector<uint> jetPassedIdx;  
     for (uint ijet = 0; ijet<jets_pt->size(); ijet++) {
       // count number of jets that have pT>30 and |eta|<4.5
       if (!(jets_pt      ->at(ijet)  > 30))  continue;
       if (!(fabs(jets_eta->at(ijet)) < 4.5)) continue;
+      if (!(jets_neutralHadronEnergyFraction->at(ijet) < 0.7)) continue;  
+      if (!(jets_chargedEmEnergyFraction    ->at(ijet) < 0.5)) continue;   
       jetPassedIdx.push_back(ijet);  
       numJets++;  
     } 
-    if (numJets>1) {
+    if (numJets==2) {
       uint idx0 = jetPassedIdx.at(0);
       uint idx1 = jetPassedIdx.at(1);
       DiJetDeltaPhi = fabs(fabs(fabs(jets_phi->at(idx0) - jets_phi->at(idx1)) - 3.14159) - 3.14159);  
@@ -191,8 +193,17 @@ void BNTree::Loop(TString outFile)
 	jetPassedIdx.at(0) = idx1;
 	jetPassedIdx.at(1) = idx0;
       }
-
     }
+
+    // Must reapply jet selection criteria, since they were not applied to the jet collection (only the secondary jet collection).  
+    bool isPassedLeadingJet = true && 
+      (jets_pt                         ->at(jetPassedIdx.at(0)) > 110)  &&
+      (fabs(jets_eta                   ->at(jetPassedIdx.at(0))) < 2.4) &&
+      (jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(0)) > 0.2)  &&
+      (jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(0)) < 0.7)  &&
+      (jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(0)) < 0.5)  &&
+      (jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(0)) < 0.7);  
+    
 
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
@@ -236,6 +247,7 @@ void BNTree::Loop(TString outFile)
     METPre    ->Fill(mets_pt->at(0),     BNTreeWt);  	
     hNMetsCut0->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(mets_pt->at(0) > 250))  continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(isPassedLeadingJet))    continue;  
     if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(DiJetDeltaPhi < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(numMuons == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
@@ -319,7 +331,6 @@ void BNTree::Loop(TString outFile)
     
     MET       ->Fill(mets_pt->at(0),             BNTreeWt);
     METFull   ->Fill(mets_pt->at(0),             BNTreeWt);
-    hNJets    ->Fill(jets_pt->size(),            BNTreeWt);  	
     numPV     ->Fill(events_numPV->at(0),        BNTreeWt);  	
     
 
