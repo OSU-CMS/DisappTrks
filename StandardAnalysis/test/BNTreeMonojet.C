@@ -1,4 +1,4 @@
-/ New histograms must be added in three places:
+// New histograms must be added in three places:
 // * declare
 // * fill
 // * write
