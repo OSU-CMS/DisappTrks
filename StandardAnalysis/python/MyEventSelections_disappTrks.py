@@ -5,11 +5,21 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyCuts_disappTrks import *  # Put all t
 ##### List of  event selections (channels) #####
 ################################################
 
+
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
     cuts = cms.VPSet (
        cutNoCuts,
        ),
+    )
+
+TriggerJetMet = cms.PSet(
+    name = cms.string("TriggerJetMet"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+         cutMET,
+#         cutJetPt,
+    ),
     )
 
 ## Preselection ##
@@ -786,6 +796,7 @@ SigRegWithMaxCaloPUCorrNoiseCleaned = cms.PSet(
     name = cms.string("SigRegWithMaxCaloPUCorrNoiseCleaned"),
     cuts = copy.deepcopy(PreSelectionWithNoiseClean.cuts),
     )
+SigRegWithMaxCaloPUCorrNoiseCleaned.cuts.append(cutTrkSumPtLT)
 SigRegWithMaxCaloPUCorrNoiseCleaned.cuts.append(cutTrkHitMissOut)
 SigRegWithMaxCaloPUCorrNoiseCleaned.cuts.append(cutMaxCaloPUCorr)
 
@@ -901,13 +912,43 @@ MonoJet = cms.PSet(
     name = cms.string("MonoJet"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
-        cutMET200,
+#        cutMET200,
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
         cutSecJetNoiseNeuHad,
         cutSecJetNoiseNeuEM,
-        cutSecJetPt,
-        cutSecJetEta2p4,
+#        cutJetPt,
+#        cutJetEta2p4,
+#        cutJetNoiseChgHad,
+#        cutJetNoiseChgEM,
+#        cutJetNoiseNeuEM,
+#        cutJetNoiseChgEM,
+#        cutLeadingJetID,
+        cutSubLeadingJetID,
+        cutNJets,
+        cutJetJetDPhi,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkIso,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+#        cutSecJetNoiseChgHad,
+#        cutSecJetNoiseChgEM,
+#        cutSecJetNoiseNeuHad,
+#        cutSecJetNoiseNeuEM,
+#        cutSecJetPt,
+#        cutSecJetEta2p4,
 #        cutNJets,
 #        cutJetJetDPhi,
 #        cutMuonVeto,
