@@ -117,6 +117,12 @@ void BNTree::Loop(TString outFile)
   TH1F* hNMets                   = new TH1F("BNHist_NMets",                 ";Met mulitiplicity",                11, -0.5, 10.5);  
   TH1F* hNMetsCut0               = new TH1F("BNHist_NMetsCut0",             ";Met mulitiplicity (cut 0)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut1               = new TH1F("BNHist_NMetsCut1",             ";Met mulitiplicity (cut 1)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut1A               = new TH1F("BNHist_NMetsCut1A",             ";Met mulitiplicity (cut 1a)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1B               = new TH1F("BNHist_NMetsCut1B",             ";Met mulitiplicity (cut 1b)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1C               = new TH1F("BNHist_NMetsCut1C",             ";Met mulitiplicity (cut 1c)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1D               = new TH1F("BNHist_NMetsCut1D",             ";Met mulitiplicity (cut 1d)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1E               = new TH1F("BNHist_NMetsCut1E",             ";Met mulitiplicity (cut 1e)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1F               = new TH1F("BNHist_NMetsCut1F",             ";Met mulitiplicity (cut 1f)",        11, -0.5, 10.5);
   TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  	 11, -0.5, 10.5);  
@@ -165,7 +171,6 @@ void BNTree::Loop(TString outFile)
       events_electronScaleFactor->at(0);  
 
 
-
     // Count other physics objects, according to AN-2012-421-v6.  
     int numJets  = 0;
     int numMuons = 0;
@@ -194,17 +199,26 @@ void BNTree::Loop(TString outFile)
 	jetPassedIdx.at(1) = idx0;
       }
     }
-
     // Must reapply jet selection criteria, since they were not applied to the jet collection (only the secondary jet collection).  
     bool isPassedLeadingJet = true && 
+      (jetPassedIdx.size()>=1) && 
       (jets_pt                         ->at(jetPassedIdx.at(0)) > 110)  &&
       (fabs(jets_eta                   ->at(jetPassedIdx.at(0))) < 2.4) &&
       (jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(0)) > 0.2)  &&
       (jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(0)) < 0.7)  &&
       (jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(0)) < 0.5)  &&
       (jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(0)) < 0.7);  
-    
 
+    isPassedLeadingJet |= 
+      (jetPassedIdx.size()>=2) && 
+      (jets_pt                         ->at(jetPassedIdx.at(1)) > 110)  &&
+      (fabs(jets_eta                   ->at(jetPassedIdx.at(1))) < 2.4) &&
+      (jets_chargedHadronEnergyFraction->at(jetPassedIdx.at(1)) > 0.2)  &&
+      (jets_neutralHadronEnergyFraction->at(jetPassedIdx.at(1)) < 0.7)  &&
+      (jets_chargedEmEnergyFraction    ->at(jetPassedIdx.at(1)) < 0.5)  &&
+      (jets_neutralEmEnergyFraction    ->at(jetPassedIdx.at(1)) < 0.7);  
+ 
+ 
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
       if (!(muons_isGlobalMuon->at(imuon) ==1 || 
@@ -222,7 +236,6 @@ void BNTree::Loop(TString outFile)
       // if (!(muons_numberOfValidMuonHits   ->at(imuon) >= 1))  	continue;
       numMuons++;  
     }
-
     for (uint ielec = 0; ielec<electrons_pt->size(); ielec++) {
       hElecMVA->Fill(electrons_mvaNonTrigV0->at(ielec), BNTreeWt);  
       if (!(electrons_pt                     ->at(ielec)  > 10))   continue;  
@@ -242,12 +255,11 @@ void BNTree::Loop(TString outFile)
 
 
 
-
     // Apply other selection requirements, corresponding to https://twiki.cern.ch/twiki/bin/viewauth/CMS/MonojetDataFinalStandard2012v2#Cutflow
     METPre    ->Fill(mets_pt->at(0),     BNTreeWt);  	
     hNMetsCut0->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(mets_pt->at(0) > 250))  continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(isPassedLeadingJet))    continue;  
+    if (!(mets_pt->at(0) > 220))  continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(isPassedLeadingJet))    continue;     hNMetsCut1A->Fill(mets_pt->size(),    BNTreeWt);
     if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(DiJetDeltaPhi < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(numMuons == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
@@ -258,8 +270,8 @@ void BNTree::Loop(TString outFile)
     for (uint itrk = 0; itrk<tracks_pt->size(); itrk++) {
       if (!(tracks_pt                                           ->at(itrk)  > 20))      continue;
       if (!(fabs(tracks_eta                                     ->at(itrk))  < 2.1))    continue;
-      if (!(fabs(tracks_d0wrtPV                                 ->at(itrk))  < 0.01))   continue;
-      if (!(fabs(tracks_dZwrtPV                                 ->at(itrk))  < 0.01))   continue;
+      if (!(fabs(tracks_d0wrtPV                                 ->at(itrk))  < 0.02))   continue;
+      if (!(fabs(tracks_dZwrtPV                                 ->at(itrk))  < 0.5))   continue;
       if (!(tracks_numValidHits                                 ->at(itrk)  > 4))       continue;
       if (!(tracks_nHitsMissingInner                            ->at(itrk)  == 0))      continue;
       if (!(tracks_nHitsMissingMiddle                           ->at(itrk)  == 0))      continue;
@@ -282,7 +294,6 @@ void BNTree::Loop(TString outFile)
 
 
       } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
-
 
     hNJets                  ->Fill(numJets,                   BNTreeWt);  	
     hNMuons                 ->Fill(numMuons,                  BNTreeWt);  	
@@ -326,7 +337,6 @@ void BNTree::Loop(TString outFile)
       jetTwoPt                ->Fill(jets_pt                         ->at(jetPassedIdx.at(1)),    BNTreeWt);
       jetTwoMetDPhi           ->Fill(subJetMetDPhi                                           ,    BNTreeWt);
     }
-
 
     
     MET       ->Fill(mets_pt->at(0),             BNTreeWt);
@@ -379,6 +389,12 @@ void BNTree::Loop(TString outFile)
   hNMets                   ->Write();  
   hNMetsCut0               ->Write();  
   hNMetsCut1               ->Write();  
+  hNMetsCut1A               ->Write();  
+  hNMetsCut1B               ->Write();  
+  hNMetsCut1C               ->Write();  
+  hNMetsCut1D               ->Write();  
+  hNMetsCut1E               ->Write();  
+  hNMetsCut1F               ->Write();  
   hNMetsCut2               ->Write();  
   hNMetsCut3               ->Write();  
   hNMetsCut4               ->Write();  
