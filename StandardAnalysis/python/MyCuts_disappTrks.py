@@ -205,7 +205,7 @@ cutJetPt30NJet4 = cms.PSet (
     )
 cutJetEta = cms.PSet (
     inputCollection = cms.string("jets"),
-    cutString = cms.string("fabs(eta) < 2.1"),
+    cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
     )
 cutNJets = cms.PSet (
@@ -216,6 +216,11 @@ cutNJets = cms.PSet (
 cutJetNoiseChgHad = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutJetNoiseChgEM  = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("chargedEmEnergyFraction < 0.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutJetNoiseNeuEM = cms.PSet (
@@ -236,9 +241,34 @@ cutSecJetBTagVeto = cms.PSet (
     cutString = cms.string("btagCombinedSecVertex > 0.679"),
     numberRequired = cms.string("= 0"),
     )
+cutSecJetPt = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 110"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutSecJetEta2p4 = cms.PSet (
     inputCollection = cms.string("secondary jets"),
     cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseChgHad = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseChgEM  = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("chargedEmEnergyFraction < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseNeuEM = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseNeuHad = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("neutralHadronEnergyFraction < 0.7"),
     numberRequired = cms.string(">= 1"),
     )
 cutSecJetPt30NJet1 = cms.PSet (
@@ -289,12 +319,12 @@ cutTrkEta = cms.PSet(
     )
 cutTrkD0 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("fabs(d0wrtPV) < 0.01"),
+    cutString = cms.string("fabs(d0wrtPV) < 0.02"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkDZ = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("fabs(dZwrtPV) < 0.01"),
+    cutString = cms.string("fabs(dZwrtPV) < 0.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHits = cms.PSet(

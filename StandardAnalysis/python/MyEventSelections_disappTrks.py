@@ -17,6 +17,11 @@ NoCuts = cms.PSet(
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
     cuts = cms.VPSet (
+       cutMET,
+       cutJetPt,
+       cutJetNoiseChgHad,
+       cutJetNoiseNeuEM,
+       cutJetNoiseNeuHad,
        cutTrkPt,
        cutTrkEta,
        cutTrkD0,
@@ -24,7 +29,7 @@ PreSelection = cms.PSet(
        cutTrkNHits,
        cutTrkHitMissMid,
        cutTrkHitMissIn,
-       cutTrkIso,
+#       cutTrkIso,
        cutMuonVeto,
        cutElecVeto,
        cutTrkDeadEcalVeto,
@@ -37,8 +42,8 @@ PreSelectionWithTrigJetMet = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(PreSelection.cuts),
     )
-PreSelectionWithTrigJetMet.cuts.insert(0,cutJetPt)
-PreSelectionWithTrigJetMet.cuts.insert(0,cutMET)
+## PreSelectionWithTrigJetMet.cuts.insert(0,cutJetPt)
+## PreSelectionWithTrigJetMet.cuts.insert(0,cutMET)
 
 
 PreSelectionDeadEcalMatch = cms.PSet(
@@ -896,18 +901,18 @@ MonoJet = cms.PSet(
     name = cms.string("MonoJet"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
-        #        cutMET200,
-        cutMET,
-        cutJetPt,
-        cutJetEta,
-        cutJetNoiseChgHad,
-        cutJetNoiseNeuEM,
-        cutJetNoiseNeuHad,
-        cutNJets,
-        cutJetJetDPhi,
-        cutMuonVeto,
-        cutElecVeto,
-        cutTauVeto,
+        cutMET200,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSecJetPt,
+        cutSecJetEta2p4,
+#        cutNJets,
+#        cutJetJetDPhi,
+#        cutMuonVeto,
+#        cutElecVeto,
+#        cutTauVeto,
        ),
     )
 
