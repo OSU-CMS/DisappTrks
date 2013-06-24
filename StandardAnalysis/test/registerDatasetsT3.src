@@ -90,6 +90,23 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 #osudb -x  2950.0 update  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
 
 
+# Cross sections from https://twiki.cern.ch/twiki/bin/view/CMS/MonojetDatasetNtupleV6C
+# osudb update -y 3.79  /T_s-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 1.76  /Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 56.4  /T_t-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 30.7  /Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 11.1  /T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 11.1  /Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 264   /W4JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 34.1  /DYJetsToLL_PtZ-100_TuneZ2star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v2/AODSIM
+# osudb update -y 234   /TTJets_MassiveBinDECAY_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+# osudb update -y 234   /TTJets_MassiveBinDECAY_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2/AODSIM
+# osudb update -y 234   /TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V1
+# osudb update -y 234   /TTJets_scaledown_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+
+
+
+
 
 
 ############################
