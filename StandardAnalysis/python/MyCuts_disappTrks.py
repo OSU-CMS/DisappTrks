@@ -128,6 +128,11 @@ cutMET200 = cms.PSet (
 ####################
 #-- Cuts on Jets --#
 ####################
+cutSubLeadingJetID = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("disappTrkSubLeadingJetID > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutBTagVeto = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("btagCombinedSecVertex > 0.679"),
@@ -236,6 +241,11 @@ cutJetNoiseNeuHad = cms.PSet (
 ##############################
 #-- Cuts on Secondary Jets --#
 ##############################
+cutLeadingJetID = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("disappTrkLeadingJetID > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutSecJetBTagVeto = cms.PSet (
     inputCollection = cms.string("secondary jets"),
     cutString = cms.string("btagCombinedSecVertex > 0.679"),
@@ -296,12 +306,33 @@ cutSecJetBTagVeto = cms.PSet (
     cutString = cms.string("btagCombinedSecVertex > 0.679"),
     numberRequired = cms.string("= 0"),
     )
+cutSecJetNoiseChgHad = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseNeuEM = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseChgEM = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("chargedEmEnergyFraction < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetNoiseNeuHad = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("neutralHadronEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 #############################
 #-- Cuts on Jet-Jet Pairs --#
 #############################
 cutJetJetDPhi = cms.PSet (
     inputCollection = cms.string("jet-jet pairs"),
-    cutString = cms.string("deltaPhi > 2"),
+    cutString = cms.string("deltaPhi > 2.5"),
     numberRequired = cms.string("= 0"),
     )
 ######################
@@ -503,6 +534,11 @@ cutMuonTightID = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/vi
     inputCollection = cms.string("muons"),
     cutString = cms.string("tightID > 0"),
     numberRequired = cms.string(">= 1"),
+    )
+cutMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 0"),
     )
 cutMuonDetIso = cms.PSet (
     inputCollection = cms.string("muons"),
@@ -711,6 +747,11 @@ cutElecTightID = cms.PSet (
     cutString = cms.string("tightID > 0"),
     numberRequired = cms.string(">= 1"),
     )
+cutElecLooseIDVeto = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 0"),
+    )
 cutElecVetoOneMax =   cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > -1"),
@@ -864,6 +905,11 @@ cutTauDecayModeFinding = cms.PSet(
 cutTauVeto = cms.PSet (
     inputCollection = cms.string("taus"),
     cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("= 0"),
+    )
+cutTauLooseHadronicVeto = cms.PSet (
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("looseHadronicID > 0"),
     numberRequired = cms.string("= 0"),
     )
 #############################
