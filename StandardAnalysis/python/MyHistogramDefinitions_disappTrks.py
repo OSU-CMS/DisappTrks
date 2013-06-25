@@ -613,6 +613,28 @@ JetExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(120, -0.1, 1.1),
             inputVariables = cms.vstring("neutralHadronEnergyFraction"),
             ),
+        cms.PSet (
+            name = cms.string("jetDeltaPhiMet"),
+            title = cms.string("Jet #Delta #phi E^{miss}_{T};Jet #Delta #phi E^{miss}_{T}"), 
+            bins = cms.untracked.vdouble(70, -3.5, 3.5),
+            inputVariables = cms.vstring("dPhiMet"),
+            ),
     )
 )
+
+
+
+DebugHistograms = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackPt"),
+            title = cms.string("Track Transverse Momentum; p_{T} [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("pt"),
+        ),
+    )
+)
+
+
 
