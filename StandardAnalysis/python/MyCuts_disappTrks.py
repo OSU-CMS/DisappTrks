@@ -115,6 +115,11 @@ cutMET75 = cms.PSet(
     cutString = cms.string("pt > 75"),
     numberRequired = cms.string(">= 1"),
     )
+cutMET90 = cms.PSet(
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 90"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMET100 = cms.PSet(
     inputCollection = cms.string("mets"),
     cutString = cms.string("pt > 100"),
@@ -173,10 +178,26 @@ cutJetPt100 = cms.PSet(
     cutString = cms.string("pt > 100"),
     numberRequired = cms.string(">= 1"),
     )
+cutJetEta = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutJetEta2p4 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
+    )
+cutJetEta2p8 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 2.8"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutJetVetoDPhiMet = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(dPhiMet) < 1.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),  
     )
 cutJetEta2p4N0 = cms.PSet (
     inputCollection = cms.string("jets"),
@@ -207,11 +228,6 @@ cutJetPt30NJet4 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 4"),
-    )
-cutJetEta = cms.PSet (
-    inputCollection = cms.string("jets"),
-    cutString = cms.string("fabs(eta) < 2.4"),
-    numberRequired = cms.string(">= 1"),
     )
 cutNJets = cms.PSet (
     inputCollection = cms.string("jets"),
@@ -256,9 +272,19 @@ cutSecJetPt = cms.PSet (
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
     )
+cutSecJetPt90 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 90"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutSecJetEta2p4 = cms.PSet (
     inputCollection = cms.string("secondary jets"),
     cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetEta2p8 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("fabs(eta) < 2.8"),
     numberRequired = cms.string(">= 1"),
     )
 cutSecJetNoiseChgHad = cms.PSet (
@@ -343,9 +369,24 @@ cutTrkPt = cms.PSet(
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkPt10 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 10"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPtError = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("ptErrorByPt < 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkEta = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEtaAtlas = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 0.63 && fabs(eta) > 0.1"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkD0 = cms.PSet(

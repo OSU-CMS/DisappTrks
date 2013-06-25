@@ -976,3 +976,34 @@ MonoJetNoDijetCut = cms.PSet(
     )
 
 
+AtlasDisappTrk = cms.PSet(
+    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131 
+    name = cms.string("AtlasDisappTrk"),
+    # Do not apply a trigger  
+    cuts = cms.VPSet (
+        cutMET90,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSecJetEta2p8,
+        cutSecJetPt90,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutJetPt50,
+        cutJetEta2p8,
+        cutJetVetoDPhiMet,
+        cutTrkPt10,
+        cutTrkEtaAtlas,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkPtError,
+        cutTrkIso,
+       ),
+    )
+
+
