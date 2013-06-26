@@ -26,6 +26,7 @@ TriggerJetMet = cms.PSet(
 
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
+    triggers = triggersJetMet,
     cuts = cms.VPSet (
        cutMET,
        cutJetPt,
@@ -940,7 +941,7 @@ MonoJet = cms.PSet(
         cutTrkNHits,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
-        cutTrkIso,
+#        cutTrkIso,
         cutTrkDeadEcalVeto,
         cutTrkCrackVeto,
 #        cutSecJetNoiseChgHad,
@@ -957,21 +958,65 @@ MonoJet = cms.PSet(
        ),
     )
 
-
-MonoJetNoDijetCut = cms.PSet(
-    name = cms.string("MonoJetNoDijetCut"),
+# Modified Monojet selection #  
+MonoJetNoNJetVeto = cms.PSet(
+    name = cms.string("MonoJetNoNJetVeto"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
         cutMET,
-        cutJetPt,
-        cutJetEta,
-        cutJetNoiseChgHad,
-        cutJetNoiseNeuEM,
-        cutJetNoiseNeuHad,
-        cutNJets,
-        cutMuonVeto,
-        cutElecVeto,
-        cutTauVeto,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+#        cutNJets,
+        cutJetJetDPhi,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+#        cutTrkIso,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+       ),
+    )
+
+# Modified Monojet selection #  
+MonoJetNoSubjetCuts = cms.PSet(
+    name = cms.string("MonoJetNoSubjetCuts"),  
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+#        cutNJets,
+#        cutJetJetDPhi,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+#        cutTrkIso,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
        ),
     )
 
