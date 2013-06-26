@@ -3,6 +3,9 @@
 // * fill
 // * write
 
+// Execution history:
+// makeBNTreePlot.py -D AMSB_mGrav50K_0p5ns_Reco -l BNTreePlotMonojet.py -c condor_2013_06_19_Monojet
+// makeBNTreePlot.py -C -l BNTreePlotMonojet.py -c condor_2013_06_19_Monojet 
 
 #define BNTree_cxx
 #include "BNTree.h"
@@ -127,12 +130,14 @@ void BNTree::Loop(TString outFile)
   TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut5               = new TH1F("BNHist_NMetsCut5",             ";Met mulitiplicity (cut 5)",  	 11, -0.5, 10.5);  
+  TH1F* hNMetsCut6               = new TH1F("BNHist_NMetsCut6",             ";Met mulitiplicity (cut 6)",  	 11, -0.5, 10.5);  
   TH1F* hElecMVA                 = new TH1F("BNHist_ElecMVA",               ";Elec MVA",           100, -2, 2);
 
   //for disappTrks
   TH1F* hNTrks                   = new TH1F("BNHist_NTrks",                 ";Trk mulitiplicity",                    11, -0.5, 10.5);   
   TH1F* jetPt                    = new TH1F("BNHist_jetPt",                 ";Jet pT [GeV]",                         100, 0, 1000);
   TH1F* trackPt                  = new TH1F("BNHist_trackPt",               ";track pT [GeV]",                       100, 0, 1000);
+  TH1F* trackIsIso               = new TH1F("BNHist_trackIsIso",            ";track isIso ",                         11, -0.5, 10.5);     
   TH1F* trackNumHits             = new TH1F("BNHist_trackNumHits",          ";track number of valid hits ",          100, -0.5, 30.5);
   TH1F* trackNHitsMissingOut     = new TH1F("BNHist_trackNHitsMissingOut",  ";track  number of missing outer hits ", 100, -0.5, 30.5);
   TH1F* trackdepTrkRp5           = new TH1F("BNHist_trackdepTrkRp5",        ";track  depTrkRp5 ",                    100, 0, 500);
@@ -221,7 +226,8 @@ void BNTree::Loop(TString outFile)
  
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
-      if (!(muons_isGlobalMuon->at(imuon) ==1 || 
+      //      if (!(muons_isGlobalMuon->at(imuon) ==1 || // correct
+      if (!(muons_isGlobalMuon->at(imuon) ==1 && // testing only
 	    muons_isTrackerMuon->at(imuon)==1                         ))   continue;  
 
       // Selection below is for positive muon ID, not muon veto!
@@ -260,10 +266,10 @@ void BNTree::Loop(TString outFile)
     hNMetsCut0->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(mets_pt->at(0) > 220))  continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(isPassedLeadingJet))    continue;     hNMetsCut1A->Fill(mets_pt->size(),    BNTreeWt);
-    if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(DiJetDeltaPhi < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numMuons == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numElecs == 0))         continue;     hNMetsCut5->Fill(mets_pt->size(),    BNTreeWt);  	
+//     if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
+//     if (!(DiJetDeltaPhi < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numElecs == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numMuons == 0))         continue;     hNMetsCut5->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(numTaus  == 0))         continue; 
 
     //Add in cuts for disappTrks
@@ -275,13 +281,14 @@ void BNTree::Loop(TString outFile)
       if (!(tracks_numValidHits                                 ->at(itrk)  > 4))       continue;
       if (!(tracks_nHitsMissingInner                            ->at(itrk)  == 0))      continue;
       if (!(tracks_nHitsMissingMiddle                           ->at(itrk)  == 0))      continue;
-      if (!(tracks_isIso                                        ->at(itrk)  == 1))      continue;
+      //      if (!(tracks_isIso                                        ->at(itrk)  == 1))      continue;
       if (!(tracks_isMatchedDeadEcal                            ->at(itrk)  == 0))      continue;
       if (!((fabs(tracks_eta                                    ->at(itrk))  < 1.42) || 
-	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
+ 	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
       numTrks++;
 
       trackPt                 ->Fill(tracks_pt                          ->at(itrk),          BNTreeWt);
+      trackIsIso              ->Fill(tracks_isIso                       ->at(itrk),          BNTreeWt);
       trackNumHits            ->Fill(tracks_numValidHits                ->at(itrk),          BNTreeWt);
       trackNHitsMissingOut    ->Fill(tracks_nHitsMissingOuter           ->at(itrk),          BNTreeWt);
       trackdepTrkRp5          ->Fill(tracks_depTrkRp5                   ->at(itrk),          BNTreeWt);
@@ -295,6 +302,8 @@ void BNTree::Loop(TString outFile)
 
       } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
 
+    if (numTrks == 0) continue;  // Only fill histograms below for events that have at least one track passing the selection.  
+
     hNJets                  ->Fill(numJets,                   BNTreeWt);  	
     hNMuons                 ->Fill(numMuons,                  BNTreeWt);  	
     hNElecs                 ->Fill(numElecs,                  BNTreeWt);  	
@@ -304,7 +313,7 @@ void BNTree::Loop(TString outFile)
     hNTausNoCut             ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets                  ->Fill(mets_pt->size(),           BNTreeWt);  	
     hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
-
+    hNMetsCut6              ->Fill(mets_pt->size(),           BNTreeWt);  	
 
 
     double jetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(0)) - mets_phi->at(0)) - 3.14159) - 3.14159);  
@@ -346,12 +355,29 @@ void BNTree::Loop(TString outFile)
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
   
+  hElecMVA                 ->Write();  
+
+  METPre                   ->Write();  
+  hNMetsCut0               ->Write();  
+  hNMetsCut1               ->Write();  
+  hNMetsCut1A               ->Write();  
+  hNMetsCut1B               ->Write();  
+  hNMetsCut1C               ->Write();  
+  hNMetsCut1D               ->Write();  
+  hNMetsCut1E               ->Write();  
+  hNMetsCut1F               ->Write();  
+  hNMetsCut2               ->Write();  
+  hNMetsCut3               ->Write();  
+  hNMetsCut4               ->Write();  
+  hNMetsCut5               ->Write();  
+  hNMetsCut6               ->Write();  
+  hNMets                   ->Write();  
+
   hNJets                   ->Write();  
   numPV                    ->Write();
   MET                      ->Write();  
   METFull                  ->Write();
-  METPre                   ->Write();  
-
+  
   jetChargedHadFrac        ->Write();
   jetNeutralHadFrac        ->Write();
   jetChargedEMFrac         ->Write();
@@ -379,28 +405,16 @@ void BNTree::Loop(TString outFile)
   jetOnePtPTrk          ->Write();
   METFullPTrk           ->Write();
 
-  hElecMVA                 ->Write();  
   hNElecs                  ->Write();  
   hNMuons                  ->Write();  
   hNTaus                   ->Write();  
   hNElecsNoCut             ->Write();  
   hNMuonsNoCut             ->Write();  
   hNTausNoCut              ->Write();  
-  hNMets                   ->Write();  
-  hNMetsCut0               ->Write();  
-  hNMetsCut1               ->Write();  
-  hNMetsCut1A               ->Write();  
-  hNMetsCut1B               ->Write();  
-  hNMetsCut1C               ->Write();  
-  hNMetsCut1D               ->Write();  
-  hNMetsCut1E               ->Write();  
-  hNMetsCut1F               ->Write();  
-  hNMetsCut2               ->Write();  
-  hNMetsCut3               ->Write();  
-  hNMetsCut4               ->Write();  
 
   hNTrks                   ->Write();
   trackPt                  ->Write();
+  trackIsIso               ->Write();
   trackNumHits             ->Write();
   trackNHitsMissingOut     ->Write();
   trackdepTrkRp5           ->Write();
