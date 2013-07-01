@@ -540,6 +540,13 @@ void BNTree::Loop(TString outFile)
   trackDeltaR_NotSig ->Write();
   trackJetDeltaR_Sig ->Write();
   trackJetDeltaR_NotSig ->Write();
+
+  hNTrksBest_Sig ->Write();
+  hNTrksBest_NotSig ->Write();
+
+  trackdepTrkRp5MinusPtBest_Sig ->Write();
+  trackdepTrkRp5MinusPtBest_NotSig ->Write();
+
   //  trackJet1DeltaR ->Write();
   //trackJet1DeltaR_isIso ->Write();
   //trackJet1DeltaR_isNotIso ->Write();
