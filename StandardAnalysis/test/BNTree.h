@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Wed Jun 12 13:48:05 2013 by ROOT version 5.32/00
-// from TTree BNTree_WToMuSimple/BNTree_WToMuSimple
-// found on file: condor/condor_2013_06_06_BNTreeTest/ZZ/hist_0.root
+// Tue Jul  2 10:50:00 2013 by ROOT version 5.32/00
+// from TTree BNTree_PreSelection/BNTree_PreSelection
+// found on file: hist.root
 //////////////////////////////////////////////////////////
 
 #ifndef BNTree_h
@@ -270,6 +270,7 @@ public :
    vector<float>   *muons_correctedD0BeamspotInEBNegativeCharge;
    vector<float>   *muons_correctedD0BeamspotOutEBNegativeCharge;
    vector<float>   *muons_correctedD0BeamspotEENegativeCharge;
+   vector<float>   *muons_looseID;
    vector<float>   *muons_tightID;
    vector<float>   *muons_tightIDdisplaced;
    vector<float>   *muons_genDeltaRLowest;
@@ -455,6 +456,7 @@ public :
    vector<float>   *electrons_correctedD0BeamspotInEBMinus;
    vector<float>   *electrons_correctedD0BeamspotOutEBMinus;
    vector<float>   *electrons_correctedD0BeamspotEEMinus;
+   vector<float>   *electrons_looseID;
    vector<float>   *electrons_tightID;
    vector<float>   *electrons_correctedD0VertexInEBPositiveCharge;
    vector<float>   *electrons_correctedD0VertexOutEBPositiveCharge;
@@ -515,6 +517,7 @@ public :
    vector<float>   *taus_HPSbyTightCombinedIsolationDeltaBetaCorr;
    vector<float>   *taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr;
    vector<float>   *taus_HPSdecayModeFinding;
+   vector<float>   *taus_looseHadronicID;
    vector<float>   *taus_leadingTrackValid;
    vector<float>   *taus_genDeltaRLowest;
    vector<float>   *taus_genMatchedPdgId;
@@ -546,10 +549,28 @@ public :
    vector<float>   *tracks_caloHadDeltaRp4;
    vector<float>   *tracks_caloEMDeltaRp5;
    vector<float>   *tracks_caloHadDeltaRp5;
-   vector<float>   *tracks_nTracksRp5;
    vector<float>   *tracks_nHitsMissingOuter;
    vector<float>   *tracks_nHitsMissingInner;
    vector<float>   *tracks_nHitsMissingMiddle;
+   vector<float>   *tracks_depTrkRp3;
+   vector<float>   *tracks_depEcalRp3;
+   vector<float>   *tracks_depHcalRp3;
+   vector<float>   *tracks_depHoRp3;
+   vector<float>   *tracks_nTracksRp3;
+   vector<float>   *tracks_trackerVetoPtRp3;
+   vector<float>   *tracks_emVetoEtRp3;
+   vector<float>   *tracks_hadVetoEtRp3;
+   vector<float>   *tracks_hoVetoEtRp3;
+   vector<float>   *tracks_depTrkRp5;
+   vector<float>   *tracks_depEcalRp5;
+   vector<float>   *tracks_depHcalRp5;
+   vector<float>   *tracks_depHoRp5;
+   vector<float>   *tracks_nTracksRp5;
+   vector<float>   *tracks_trackerVetoPtRp5;
+   vector<float>   *tracks_emVetoEtRp5;
+   vector<float>   *tracks_hadVetoEtRp5;
+   vector<float>   *tracks_hoVetoEtRp5;
+   vector<float>   *tracks_nTracksRp5;
    vector<float>   *tracks_depTrkRp5;
    vector<float>   *tracks_d0wrtBS;
    vector<float>   *tracks_dZwrtBS;
@@ -746,6 +767,9 @@ public :
    vector<float>   *jets_puJetId_loose_full;
    vector<float>   *jets_puJetId_loose_simple;
    vector<float>   *jets_puJetId_loose_cutbased;
+   vector<float>   *jets_disappTrkLeadingJetID;
+   vector<float>   *jets_disappTrkSubLeadingJetID;
+   vector<float>   *jets_dPhiMet;
    vector<float>   *genjets_pt;
    vector<float>   *genjets_eta;
    vector<float>   *genjets_phi;
@@ -1018,6 +1042,7 @@ public :
    TBranch        *b_muons_correctedD0BeamspotInEBNegativeCharge;   //!
    TBranch        *b_muons_correctedD0BeamspotOutEBNegativeCharge;   //!
    TBranch        *b_muons_correctedD0BeamspotEENegativeCharge;   //!
+   TBranch        *b_muons_looseID;   //!
    TBranch        *b_muons_tightID;   //!
    TBranch        *b_muons_tightIDdisplaced;   //!
    TBranch        *b_muons_genDeltaRLowest;   //!
@@ -1203,6 +1228,7 @@ public :
    TBranch        *b_electrons_correctedD0BeamspotInEBMinus;   //!
    TBranch        *b_electrons_correctedD0BeamspotOutEBMinus;   //!
    TBranch        *b_electrons_correctedD0BeamspotEEMinus;   //!
+   TBranch        *b_electrons_looseID;   //!
    TBranch        *b_electrons_tightID;   //!
    TBranch        *b_electrons_correctedD0VertexInEBPositiveCharge;   //!
    TBranch        *b_electrons_correctedD0VertexOutEBPositiveCharge;   //!
@@ -1263,6 +1289,7 @@ public :
    TBranch        *b_taus_HPSbyTightCombinedIsolationDeltaBetaCorr;   //!
    TBranch        *b_taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr;   //!
    TBranch        *b_taus_HPSdecayModeFinding;   //!
+   TBranch        *b_taus_looseHadronicID;   //!
    TBranch        *b_taus_leadingTrackValid;   //!
    TBranch        *b_taus_genDeltaRLowest;   //!
    TBranch        *b_taus_genMatchedPdgId;   //!
@@ -1294,10 +1321,28 @@ public :
    TBranch        *b_tracks_caloHadDeltaRp4;   //!
    TBranch        *b_tracks_caloEMDeltaRp5;   //!
    TBranch        *b_tracks_caloHadDeltaRp5;   //!
-   TBranch        *b_tracks_nTracksRp5;   //!
    TBranch        *b_tracks_nHitsMissingOuter;   //!
    TBranch        *b_tracks_nHitsMissingInner;   //!
    TBranch        *b_tracks_nHitsMissingMiddle;   //!
+   TBranch        *b_tracks_depTrkRp3;   //!
+   TBranch        *b_tracks_depEcalRp3;   //!
+   TBranch        *b_tracks_depHcalRp3;   //!
+   TBranch        *b_tracks_depHoRp3;   //!
+   TBranch        *b_tracks_nTracksRp3;   //!
+   TBranch        *b_tracks_trackerVetoPtRp3;   //!
+   TBranch        *b_tracks_emVetoEtRp3;   //!
+   TBranch        *b_tracks_hadVetoEtRp3;   //!
+   TBranch        *b_tracks_hoVetoEtRp3;   //!
+   TBranch        *b_tracks_depTrkRp5;   //!
+   TBranch        *b_tracks_depEcalRp5;   //!
+   TBranch        *b_tracks_depHcalRp5;   //!
+   TBranch        *b_tracks_depHoRp5;   //!
+   TBranch        *b_tracks_nTracksRp5;   //!
+   TBranch        *b_tracks_trackerVetoPtRp5;   //!
+   TBranch        *b_tracks_emVetoEtRp5;   //!
+   TBranch        *b_tracks_hadVetoEtRp5;   //!
+   TBranch        *b_tracks_hoVetoEtRp5;   //!
+   TBranch        *b_tracks_nTracksRp5;   //!
    TBranch        *b_tracks_depTrkRp5;   //!
    TBranch        *b_tracks_d0wrtBS;   //!
    TBranch        *b_tracks_dZwrtBS;   //!
@@ -1494,6 +1539,9 @@ public :
    TBranch        *b_jets_puJetId_loose_full;   //!
    TBranch        *b_jets_puJetId_loose_simple;   //!
    TBranch        *b_jets_puJetId_loose_cutbased;   //!
+   TBranch        *b_jets_disappTrkLeadingJetID;   //!
+   TBranch        *b_jets_disappTrkSubLeadingJetID;   //!
+   TBranch        *b_jets_dPhiMet;   //!
    TBranch        *b_genjets_pt;   //!
    TBranch        *b_genjets_eta;   //!
    TBranch        *b_genjets_phi;   //!
@@ -1523,7 +1571,7 @@ public :
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-   virtual void     Loop(TString outFile="");
+   virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -1535,13 +1583,13 @@ BNTree::BNTree(TTree *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
-   if (tree == 0) {  
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("condor/condor_2013_06_06_BNTreeTest/ZZ/hist_0.root");
+   if (tree == 0) {
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("hist.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("condor/condor_2013_06_06_BNTreeTest/ZZ/hist_0.root");
+         f = new TFile("hist.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("condor/condor_2013_06_06_BNTreeTest/ZZ/hist_0.root:/OSUAnalysis/WToMuSimple");
-      dir->GetObject("BNTree_WToMuSimple",tree);
+      TDirectory * dir = (TDirectory*)f->Get("hist.root:/OSUAnalysis/PreSelection");
+      dir->GetObject("BNTree_PreSelection",tree);
 
    }
    Init(tree);
@@ -1831,6 +1879,7 @@ void BNTree::Init(TTree *tree)
    muons_correctedD0BeamspotInEBNegativeCharge = 0;
    muons_correctedD0BeamspotOutEBNegativeCharge = 0;
    muons_correctedD0BeamspotEENegativeCharge = 0;
+   muons_looseID = 0;
    muons_tightID = 0;
    muons_tightIDdisplaced = 0;
    muons_genDeltaRLowest = 0;
@@ -2016,6 +2065,7 @@ void BNTree::Init(TTree *tree)
    electrons_correctedD0BeamspotInEBMinus = 0;
    electrons_correctedD0BeamspotOutEBMinus = 0;
    electrons_correctedD0BeamspotEEMinus = 0;
+   electrons_looseID = 0;
    electrons_tightID = 0;
    electrons_correctedD0VertexInEBPositiveCharge = 0;
    electrons_correctedD0VertexOutEBPositiveCharge = 0;
@@ -2076,6 +2126,7 @@ void BNTree::Init(TTree *tree)
    taus_HPSbyTightCombinedIsolationDeltaBetaCorr = 0;
    taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr = 0;
    taus_HPSdecayModeFinding = 0;
+   taus_looseHadronicID = 0;
    taus_leadingTrackValid = 0;
    taus_genDeltaRLowest = 0;
    taus_genMatchedPdgId = 0;
@@ -2107,10 +2158,28 @@ void BNTree::Init(TTree *tree)
    tracks_caloHadDeltaRp4 = 0;
    tracks_caloEMDeltaRp5 = 0;
    tracks_caloHadDeltaRp5 = 0;
-   tracks_nTracksRp5 = 0;
    tracks_nHitsMissingOuter = 0;
    tracks_nHitsMissingInner = 0;
    tracks_nHitsMissingMiddle = 0;
+   tracks_depTrkRp3 = 0;
+   tracks_depEcalRp3 = 0;
+   tracks_depHcalRp3 = 0;
+   tracks_depHoRp3 = 0;
+   tracks_nTracksRp3 = 0;
+   tracks_trackerVetoPtRp3 = 0;
+   tracks_emVetoEtRp3 = 0;
+   tracks_hadVetoEtRp3 = 0;
+   tracks_hoVetoEtRp3 = 0;
+   tracks_depTrkRp5 = 0;
+   tracks_depEcalRp5 = 0;
+   tracks_depHcalRp5 = 0;
+   tracks_depHoRp5 = 0;
+   tracks_nTracksRp5 = 0;
+   tracks_trackerVetoPtRp5 = 0;
+   tracks_emVetoEtRp5 = 0;
+   tracks_hadVetoEtRp5 = 0;
+   tracks_hoVetoEtRp5 = 0;
+   tracks_nTracksRp5 = 0;
    tracks_depTrkRp5 = 0;
    tracks_d0wrtBS = 0;
    tracks_dZwrtBS = 0;
@@ -2307,6 +2376,9 @@ void BNTree::Init(TTree *tree)
    jets_puJetId_loose_full = 0;
    jets_puJetId_loose_simple = 0;
    jets_puJetId_loose_cutbased = 0;
+   jets_disappTrkLeadingJetID = 0;
+   jets_disappTrkSubLeadingJetID = 0;
+   jets_dPhiMet = 0;
    genjets_pt = 0;
    genjets_eta = 0;
    genjets_phi = 0;
@@ -2583,6 +2655,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("muons_correctedD0BeamspotInEBNegativeCharge", &muons_correctedD0BeamspotInEBNegativeCharge, &b_muons_correctedD0BeamspotInEBNegativeCharge);
    fChain->SetBranchAddress("muons_correctedD0BeamspotOutEBNegativeCharge", &muons_correctedD0BeamspotOutEBNegativeCharge, &b_muons_correctedD0BeamspotOutEBNegativeCharge);
    fChain->SetBranchAddress("muons_correctedD0BeamspotEENegativeCharge", &muons_correctedD0BeamspotEENegativeCharge, &b_muons_correctedD0BeamspotEENegativeCharge);
+   fChain->SetBranchAddress("muons_looseID", &muons_looseID, &b_muons_looseID);
    fChain->SetBranchAddress("muons_tightID", &muons_tightID, &b_muons_tightID);
    fChain->SetBranchAddress("muons_tightIDdisplaced", &muons_tightIDdisplaced, &b_muons_tightIDdisplaced);
    fChain->SetBranchAddress("muons_genDeltaRLowest", &muons_genDeltaRLowest, &b_muons_genDeltaRLowest);
@@ -2768,6 +2841,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("electrons_correctedD0BeamspotInEBMinus", &electrons_correctedD0BeamspotInEBMinus, &b_electrons_correctedD0BeamspotInEBMinus);
    fChain->SetBranchAddress("electrons_correctedD0BeamspotOutEBMinus", &electrons_correctedD0BeamspotOutEBMinus, &b_electrons_correctedD0BeamspotOutEBMinus);
    fChain->SetBranchAddress("electrons_correctedD0BeamspotEEMinus", &electrons_correctedD0BeamspotEEMinus, &b_electrons_correctedD0BeamspotEEMinus);
+   fChain->SetBranchAddress("electrons_looseID", &electrons_looseID, &b_electrons_looseID);
    fChain->SetBranchAddress("electrons_tightID", &electrons_tightID, &b_electrons_tightID);
    fChain->SetBranchAddress("electrons_correctedD0VertexInEBPositiveCharge", &electrons_correctedD0VertexInEBPositiveCharge, &b_electrons_correctedD0VertexInEBPositiveCharge);
    fChain->SetBranchAddress("electrons_correctedD0VertexOutEBPositiveCharge", &electrons_correctedD0VertexOutEBPositiveCharge, &b_electrons_correctedD0VertexOutEBPositiveCharge);
@@ -2828,6 +2902,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("taus_HPSbyTightCombinedIsolationDeltaBetaCorr", &taus_HPSbyTightCombinedIsolationDeltaBetaCorr, &b_taus_HPSbyTightCombinedIsolationDeltaBetaCorr);
    fChain->SetBranchAddress("taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr", &taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr, &b_taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr);
    fChain->SetBranchAddress("taus_HPSdecayModeFinding", &taus_HPSdecayModeFinding, &b_taus_HPSdecayModeFinding);
+   fChain->SetBranchAddress("taus_looseHadronicID", &taus_looseHadronicID, &b_taus_looseHadronicID);
    fChain->SetBranchAddress("taus_leadingTrackValid", &taus_leadingTrackValid, &b_taus_leadingTrackValid);
    fChain->SetBranchAddress("taus_genDeltaRLowest", &taus_genDeltaRLowest, &b_taus_genDeltaRLowest);
    fChain->SetBranchAddress("taus_genMatchedPdgId", &taus_genMatchedPdgId, &b_taus_genMatchedPdgId);
@@ -2859,11 +2934,29 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_caloHadDeltaRp4", &tracks_caloHadDeltaRp4, &b_tracks_caloHadDeltaRp4);
    fChain->SetBranchAddress("tracks_caloEMDeltaRp5", &tracks_caloEMDeltaRp5, &b_tracks_caloEMDeltaRp5);
    fChain->SetBranchAddress("tracks_caloHadDeltaRp5", &tracks_caloHadDeltaRp5, &b_tracks_caloHadDeltaRp5);
-   fChain->SetBranchAddress("tracks_nTracksRp5", &tracks_nTracksRp5, &b_tracks_nTracksRp5);
    fChain->SetBranchAddress("tracks_nHitsMissingOuter", &tracks_nHitsMissingOuter, &b_tracks_nHitsMissingOuter);
    fChain->SetBranchAddress("tracks_nHitsMissingInner", &tracks_nHitsMissingInner, &b_tracks_nHitsMissingInner);
    fChain->SetBranchAddress("tracks_nHitsMissingMiddle", &tracks_nHitsMissingMiddle, &b_tracks_nHitsMissingMiddle);
+   fChain->SetBranchAddress("tracks_depTrkRp3", &tracks_depTrkRp3, &b_tracks_depTrkRp3);
+   fChain->SetBranchAddress("tracks_depEcalRp3", &tracks_depEcalRp3, &b_tracks_depEcalRp3);
+   fChain->SetBranchAddress("tracks_depHcalRp3", &tracks_depHcalRp3, &b_tracks_depHcalRp3);
+   fChain->SetBranchAddress("tracks_depHoRp3", &tracks_depHoRp3, &b_tracks_depHoRp3);
+   fChain->SetBranchAddress("tracks_nTracksRp3", &tracks_nTracksRp3, &b_tracks_nTracksRp3);
+   fChain->SetBranchAddress("tracks_trackerVetoPtRp3", &tracks_trackerVetoPtRp3, &b_tracks_trackerVetoPtRp3);
+   fChain->SetBranchAddress("tracks_emVetoEtRp3", &tracks_emVetoEtRp3, &b_tracks_emVetoEtRp3);
+   fChain->SetBranchAddress("tracks_hadVetoEtRp3", &tracks_hadVetoEtRp3, &b_tracks_hadVetoEtRp3);
+   fChain->SetBranchAddress("tracks_hoVetoEtRp3", &tracks_hoVetoEtRp3, &b_tracks_hoVetoEtRp3);
    fChain->SetBranchAddress("tracks_depTrkRp5", &tracks_depTrkRp5, &b_tracks_depTrkRp5);
+   fChain->SetBranchAddress("tracks_depEcalRp5", &tracks_depEcalRp5, &b_tracks_depEcalRp5);
+   fChain->SetBranchAddress("tracks_depHcalRp5", &tracks_depHcalRp5, &b_tracks_depHcalRp5);
+   fChain->SetBranchAddress("tracks_depHoRp5", &tracks_depHoRp5, &b_tracks_depHoRp5);
+   fChain->SetBranchAddress("tracks_nTracksRp5", &tracks_nTracksRp5, &b_tracks_nTracksRp5);
+   fChain->SetBranchAddress("tracks_trackerVetoPtRp5", &tracks_trackerVetoPtRp5, &b_tracks_trackerVetoPtRp5);
+   fChain->SetBranchAddress("tracks_emVetoEtRp5", &tracks_emVetoEtRp5, &b_tracks_emVetoEtRp5);
+   fChain->SetBranchAddress("tracks_hadVetoEtRp5", &tracks_hadVetoEtRp5, &b_tracks_hadVetoEtRp5);
+   fChain->SetBranchAddress("tracks_hoVetoEtRp5", &tracks_hoVetoEtRp5, &b_tracks_hoVetoEtRp5);
+//    fChain->SetBranchAddress("tracks_nTracksRp5", &tracks_nTracksRp5, &b_tracks_nTracksRp5);
+//    fChain->SetBranchAddress("tracks_depTrkRp5", &tracks_depTrkRp5, &b_tracks_depTrkRp5);
    fChain->SetBranchAddress("tracks_d0wrtBS", &tracks_d0wrtBS, &b_tracks_d0wrtBS);
    fChain->SetBranchAddress("tracks_dZwrtBS", &tracks_dZwrtBS, &b_tracks_dZwrtBS);
    fChain->SetBranchAddress("tracks_depTrkRp5MinusPt", &tracks_depTrkRp5MinusPt, &b_tracks_depTrkRp5MinusPt);
@@ -3059,6 +3152,9 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("jets_puJetId_loose_full", &jets_puJetId_loose_full, &b_jets_puJetId_loose_full);
    fChain->SetBranchAddress("jets_puJetId_loose_simple", &jets_puJetId_loose_simple, &b_jets_puJetId_loose_simple);
    fChain->SetBranchAddress("jets_puJetId_loose_cutbased", &jets_puJetId_loose_cutbased, &b_jets_puJetId_loose_cutbased);
+   fChain->SetBranchAddress("jets_disappTrkLeadingJetID", &jets_disappTrkLeadingJetID, &b_jets_disappTrkLeadingJetID);
+   fChain->SetBranchAddress("jets_disappTrkSubLeadingJetID", &jets_disappTrkSubLeadingJetID, &b_jets_disappTrkSubLeadingJetID);
+   fChain->SetBranchAddress("jets_dPhiMet", &jets_dPhiMet, &b_jets_dPhiMet);
    fChain->SetBranchAddress("genjets_pt", &genjets_pt, &b_genjets_pt);
    fChain->SetBranchAddress("genjets_eta", &genjets_eta, &b_genjets_eta);
    fChain->SetBranchAddress("genjets_phi", &genjets_phi, &b_genjets_phi);
