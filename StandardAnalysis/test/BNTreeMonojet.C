@@ -80,7 +80,8 @@ void BNTree::Loop(TString outFile)
   // Declare desired histograms.  
   TH1::SetDefaultSumw2();
 
-  TH1F* hNJets                   = new TH1F("BNHist_NJets",                 ";Jet mulitiplicity", 10, 0, 10);  
+  TH1F* hNJets                   = new TH1F("BNHist_NJets",                 ";Jet mulitiplicity",      11, -0.5, 10.5);     
+  TH1F* hEvtIsGoodVtx            = new TH1F("BNHist_EvtIsGoodVtx",          ";is good primary vertex", 11, -0.5, 10.5);     
 
   TH1F* numPV                    = new TH1F("BNHist_numPV",                 ";# primary vertices", 70, 0, 70);  
   TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 100, 0, 500);  
@@ -218,6 +219,9 @@ void BNTree::Loop(TString outFile)
       events_puScaleFactor      ->at(0) * 
       events_muonScaleFactor    ->at(0) * 
       events_electronScaleFactor->at(0);  
+
+    // Fill for all events:  
+    hEvtIsGoodVtx            ->Fill(events_GoodVertex->at(0), BNTreeWt);  
 
 
     // Count other physics objects, according to AN-2012-421-v6.  
@@ -507,6 +511,7 @@ void BNTree::Loop(TString outFile)
 
   }  // end   for (Long64_t jentry=0; jentry<nentries;jentry++) {
   
+  hEvtIsGoodVtx            ->Write();  
   hElecMVA                 ->Write();  
 
   METPre                   ->Write();  
