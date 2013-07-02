@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Jul  2 10:50:00 2013 by ROOT version 5.32/00
+// Tue Jul  2 11:02:33 2013 by ROOT version 5.32/00
 // from TTree BNTree_PreSelection/BNTree_PreSelection
 // found on file: hist.root
 //////////////////////////////////////////////////////////
@@ -570,8 +570,6 @@ public :
    vector<float>   *tracks_emVetoEtRp5;
    vector<float>   *tracks_hadVetoEtRp5;
    vector<float>   *tracks_hoVetoEtRp5;
-   vector<float>   *tracks_nTracksRp5;
-   vector<float>   *tracks_depTrkRp5;
    vector<float>   *tracks_d0wrtBS;
    vector<float>   *tracks_dZwrtBS;
    vector<float>   *tracks_depTrkRp5MinusPt;
@@ -1342,8 +1340,6 @@ public :
    TBranch        *b_tracks_emVetoEtRp5;   //!
    TBranch        *b_tracks_hadVetoEtRp5;   //!
    TBranch        *b_tracks_hoVetoEtRp5;   //!
-   TBranch        *b_tracks_nTracksRp5;   //!
-   TBranch        *b_tracks_depTrkRp5;   //!
    TBranch        *b_tracks_d0wrtBS;   //!
    TBranch        *b_tracks_dZwrtBS;   //!
    TBranch        *b_tracks_depTrkRp5MinusPt;   //!
@@ -1571,7 +1567,7 @@ public :
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-   virtual void     Loop();
+   virtual void     Loop(TString outFile="");
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -2179,8 +2175,6 @@ void BNTree::Init(TTree *tree)
    tracks_emVetoEtRp5 = 0;
    tracks_hadVetoEtRp5 = 0;
    tracks_hoVetoEtRp5 = 0;
-   tracks_nTracksRp5 = 0;
-   tracks_depTrkRp5 = 0;
    tracks_d0wrtBS = 0;
    tracks_dZwrtBS = 0;
    tracks_depTrkRp5MinusPt = 0;
@@ -2955,8 +2949,6 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_emVetoEtRp5", &tracks_emVetoEtRp5, &b_tracks_emVetoEtRp5);
    fChain->SetBranchAddress("tracks_hadVetoEtRp5", &tracks_hadVetoEtRp5, &b_tracks_hadVetoEtRp5);
    fChain->SetBranchAddress("tracks_hoVetoEtRp5", &tracks_hoVetoEtRp5, &b_tracks_hoVetoEtRp5);
-//    fChain->SetBranchAddress("tracks_nTracksRp5", &tracks_nTracksRp5, &b_tracks_nTracksRp5);
-//    fChain->SetBranchAddress("tracks_depTrkRp5", &tracks_depTrkRp5, &b_tracks_depTrkRp5);
    fChain->SetBranchAddress("tracks_d0wrtBS", &tracks_d0wrtBS, &b_tracks_d0wrtBS);
    fChain->SetBranchAddress("tracks_dZwrtBS", &tracks_dZwrtBS, &b_tracks_dZwrtBS);
    fChain->SetBranchAddress("tracks_depTrkRp5MinusPt", &tracks_depTrkRp5MinusPt, &b_tracks_depTrkRp5MinusPt);
