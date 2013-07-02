@@ -292,7 +292,7 @@ void BNTree::Loop(TString outFile)
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
       //      if (!(muons_isGlobalMuon->at(imuon) ==1 || // correct
-      if (!(muons_isGlobalMuon->at(imuon) ==1 && // testing only
+      if (!(muons_isGlobalMuon->at(imuon) ==1 ||  
 	    muons_isTrackerMuon->at(imuon)==1                         ))   continue;  
 
       // Selection below is for positive muon ID, not muon veto!
