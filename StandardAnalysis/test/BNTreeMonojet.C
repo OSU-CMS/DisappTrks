@@ -158,10 +158,12 @@ void BNTree::Loop(TString outFile)
   TH1F* trackdepTrkRp5MinusPt_NotSig     = new TH1F("BNHist_trackdepTrkRp5MinusPt_NotSig", ";track  depTrkRp5MinusPt ",             100, 0, 150);
   TH1F* trackdepTrkRp5MinusPtBest_Sig    = new TH1F("BNHist_trackdepTrkRp5MinusPtBest_Sig",    ";track (best) depTrkRp5MinusPt ",   100, 0, 150);
   TH1F* trackdepTrkRp5MinusPtBest_NotSig = new TH1F("BNHist_trackdepTrkRp5MinusPtBest_NotSig", ";track (best) depTrkRp5MinusPt ",   100, 0, 150);
+  TH1F* trackdepTrkRp5MinusPtPreCut      = new TH1F("BNHist_trackdepTrkRp5MinusPtPreCut",      ";track depTrkRp5MinusPt ",          100, 0, 150); 
   TH1F* trackdepTrkRp5MinusPtPostCut     = new TH1F("BNHist_trackdepTrkRp5MinusPtPostCut",     ";track depTrkRp5MinusPt ",          100, 0, 150); 
 
-  TH1F* trackdepTrkRp5ByPt_Sig    = new TH1F("BNHist_trackdepTrkRp5ByPt_Sig", ";track  depTrkRp5ByPt ",             100, 0, 150);
-  TH1F* trackdepTrkRp5ByPt_NotSig    = new TH1F("BNHist_trackdepTrkRp5ByPt_NotSig", ";track  depTrkRp5ByPt ",             100, 0, 150);
+  TH1F* trackPtByDepTrkRp5_Sig        = new TH1F("BNHist_trackPtByDepTrkRp5_Sig",    ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
+  TH1F* trackPtByDepTrkRp5_NotSig     = new TH1F("BNHist_trackPtByDepTrkRp5_NotSig", ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
+  TH1F* trackPtByDepTrkRp5_PreCut     = new TH1F("BNHist_trackPtByDepTrkRp5_PreCut", ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
   //TH1F* trackdepTrkRp5MinusPt_isIso    = new TH1F("BNHist_trackdepTrkRp5MinusPt_isIso", ";track  depTrkRp5MinusPt ",             100, 0, 150);
   //TH1F* trackdepTrkRp5MinusPt_isNotIso    = new TH1F("BNHist_trackdepTrkRp5MinusPt_isNotIso", ";track  depTrkRp5MinusPt ",             100, 0, 150);
 
@@ -185,10 +187,10 @@ void BNTree::Loop(TString outFile)
   //TH1F* trackJet2DeltaR_isIso              = new TH1F("BNHist_trackJet2DeltaR_isIso",           ";track-jet2  deltaR ",             100, 0, 10);
   //TH1F* trackJet2DeltaR              = new TH1F("BNHist_trackJet2DeltaR",           ";track-jet2  deltaR ",             100, 0, 10);
   //TH1F* trackJet2DeltaR_isNotIso              = new TH1F("BNHist_trackJet2DeltaR_isNotIso",           ";track-jet2  deltaR ",             100, 0, 10);
-  //TH1F* trackGenMatchedId_isIso              = new TH1F("BNHist_trackGenMatchedId_isIso",           ";track genMatchedId ",             27, 0, 26);
-  //TH1F* trackGenMatchedId_isNotIso              = new TH1F("BNHist_trackGenMatchedId_isNotIso",           ";track genMatchedId ",             27, 0, 26);
-  TH1F* trackGenMatchedIdFitReg          = new TH1F("BNHist_trackGenMatchedIdFitReg",           ";track genMatchedId (w/ miss outer hits cut)", 27, 0, 26);
-  TH1F* trackGenMatchedIdSigReg          = new TH1F("BNHist_trackGenMatchedIdSigReg",           ";track genMatchedId (sig reg)",                27, 0, 26);
+  //TH1F* trackGenMatchedId_isIso              = new TH1F("BNHist_trackGenMatchedId_isIso",           ";track genMatchedId ",                   25, -0.5, 24.5);
+  //TH1F* trackGenMatchedId_isNotIso              = new TH1F("BNHist_trackGenMatchedId_isNotIso",           ";track genMatchedId ",             25, -0.5, 24.5);
+  TH1F* trackGenMatchedIdFitReg          = new TH1F("BNHist_trackGenMatchedIdFitReg",           ";track genMatchedId (w/ miss outer hits cut)", 25, -0.5, 24.5);
+  TH1F* trackGenMatchedIdSigReg          = new TH1F("BNHist_trackGenMatchedIdSigReg",           ";track genMatchedId (sig reg)",                25, -0.5, 24.5);
 
 
 
@@ -371,6 +373,8 @@ void BNTree::Loop(TString outFile)
       }
 
 
+
+
       numTrks++;
       double trkDeltaR = 99.;
       for (uint jtrk = 0; jtrk<tracks_pt->size(); jtrk++) {
@@ -396,27 +400,23 @@ void BNTree::Loop(TString outFile)
       //      if (tracks_isIso  ->at(itrk)  == 1){
       if (tracks_genMatchedId  ->at(itrk)  == 24){
 	//	trackGenMatchedId_isIso       ->Fill(tracks_genMatchedId     ->at(itrk), BNTreeWt);
-	trackdepTrkRp5MinusPt_Sig   ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
-	trackdepTrkRp5ByPt_Sig   ->Fill((tracks_depTrkRp5 ->at(itrk) / tracks_pt->at(itrk)), BNTreeWt);
+	trackdepTrkRp5MinusPt_Sig  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	trackPtByDepTrkRp5_Sig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt);
 	trackJetDeltaR_Sig         ->Fill( trkJetDeltaR                    , BNTreeWt);
 	trackDeltaR_Sig            ->Fill( trkDeltaR                       , BNTreeWt);
-	
-      }
-      
-      else {
+      } else {
 	//	trackGenMatchedId_isNotIso      ->Fill(tracks_genMatchedId      ->at(itrk), BNTreeWt);
 	trackdepTrkRp5MinusPt_NotSig  ->Fill(tracks_depTrkRp5MinusPt  ->at(itrk), BNTreeWt);
-	trackdepTrkRp5ByPt_NotSig   ->Fill((tracks_depTrkRp5 ->at(itrk) / tracks_pt->at(itrk)), BNTreeWt);
+	trackPtByDepTrkRp5_NotSig   ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt); 
 	trackJetDeltaR_NotSig       ->Fill( trkJetDeltaR                     , BNTreeWt);
 	trackDeltaR_NotSig          ->Fill( trkDeltaR                     , BNTreeWt);
-
       }
       trackPt                 ->Fill(tracks_pt                          ->at(itrk),          BNTreeWt);
       trackIsIso              ->Fill(tracks_isIso                       ->at(itrk),          BNTreeWt);
       trackNumHits            ->Fill(tracks_numValidHits                ->at(itrk),          BNTreeWt);
       trackNHitsMissingOut    ->Fill(tracks_nHitsMissingOuter           ->at(itrk),          BNTreeWt);
       trackdepTrkRp5          ->Fill(tracks_depTrkRp5                   ->at(itrk),          BNTreeWt);
-      trackdepTrkRp5MinusPt   ->Fill(fabs(tracks_depTrkRp5               ->at(itrk)-tracks_pt->at(itrk)),          BNTreeWt);
+      trackdepTrkRp5MinusPt   ->Fill(fabs(tracks_depTrkRp5              ->at(itrk)-tracks_pt->at(itrk)),          BNTreeWt);
       trackCaloTot            ->Fill(tracks_caloTotDeltaRp5RhoCorr      ->at(itrk),          BNTreeWt);
       trackCaloTotByP         ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr   ->at(itrk),          BNTreeWt);
 
@@ -487,17 +487,22 @@ void BNTree::Loop(TString outFile)
 
 
     // Additional disappearing track selection.  
+    double trackIsoVal = tracks_depTrkRp5MinusPt->at(idxTrkBest);  
+    if (trackIsoVal<0) trackIsoVal = 0;  // prevent from being negative  
+    trackdepTrkRp5MinusPtPreCut ->Fill(trackIsoVal,          BNTreeWt);  
+    trackPtByDepTrkRp5_PreCut->Fill((tracks_pt       ->at(idxTrkBest) / 
+				     tracks_depTrkRp5->at(idxTrkBest)), BNTreeWt); 
     if (!(tracks_depTrkRp5MinusPt           ->at(idxTrkBest) < 7)) continue;   
-    trackdepTrkRp5MinusPtPostCut->Fill(tracks_depTrkRp5MinusPt           ->at(idxTrkBest),          BNTreeWt);  
+    trackdepTrkRp5MinusPtPostCut->Fill(trackIsoVal,          BNTreeWt);  
     trackNHitsMissingOutPreCut ->Fill(tracks_nHitsMissingOuter           ->at(idxTrkBest),          BNTreeWt);  
     if (!(tracks_nHitsMissingOuter          ->at(idxTrkBest) >= 3)) continue;  
     trackNHitsMissingOutPostCut->Fill(tracks_nHitsMissingOuter           ->at(idxTrkBest),          BNTreeWt);  
     trackGenMatchedIdFitReg    ->Fill(tracks_genMatchedId                ->at(idxTrkBest),          BNTreeWt); 
 
-    double caloTot    = tracks_caloTotDeltaRp5RhoCorr      ->at(idxTrkBest); 
-    double caloTotByP = tracks_caloTotDeltaRp5ByPRhoCorr   ->at(idxTrkBest); 
-    // double caloTot    = tracks_caloTotDeltaRp5             ->at(idxTrkBest); // test without rho correction
-    // double caloTotByP = tracks_caloTotDeltaRp5ByP          ->at(idxTrkBest); // test without rho correction
+//     double caloTot    = tracks_caloTotDeltaRp5RhoCorr      ->at(idxTrkBest); 
+//     double caloTotByP = tracks_caloTotDeltaRp5ByPRhoCorr   ->at(idxTrkBest); 
+    double caloTot    = tracks_caloTotDeltaRp5             ->at(idxTrkBest); // test without rho correction
+    double caloTotByP = tracks_caloTotDeltaRp5ByP          ->at(idxTrkBest); // test without rho correction
 
     // blind the data in the signal region  
     bool isSigReg = (caloTot    < 20 ||  
@@ -583,9 +588,9 @@ void BNTree::Loop(TString outFile)
   trackdepTrkRp5           ->Write();
   trackdepTrkRp5MinusPt    ->Write();
   trackdepTrkRp5MinusPt_Sig    ->Write();
-  trackdepTrkRp5MinusPt_NotSig    ->Write();
-  trackdepTrkRp5ByPt_Sig    ->Write();
-  trackdepTrkRp5ByPt_NotSig    ->Write();
+  trackdepTrkRp5MinusPt_NotSig ->Write();
+  trackPtByDepTrkRp5_Sig       ->Write();
+  trackPtByDepTrkRp5_NotSig    ->Write();
   //trackdepTrkRp5MinusPt_isIso    ->Write();
   //trackdepTrkRp5MinusPt_isNotIso    ->Write();
   //trackGenMatchedId_isIso ->Write();
@@ -611,6 +616,8 @@ void BNTree::Loop(TString outFile)
   trackCaloTotByP          ->Write();
 
 
+  trackPtByDepTrkRp5_PreCut    ->Write();
+  trackdepTrkRp5MinusPtPreCut ->Write();  
   trackdepTrkRp5MinusPtPostCut->Write();  
   trackNHitsMissingOutPreCut  ->Write();  
   trackNHitsMissingOutPostCut ->Write();  
