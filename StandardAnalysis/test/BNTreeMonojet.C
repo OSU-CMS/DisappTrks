@@ -140,6 +140,7 @@ void BNTree::Loop(TString outFile)
 
   //for disappTrks
   TH1F* hNTrks                   = new TH1F("BNHist_NTrks",                 ";Trk mulitiplicity",                    11, -0.5, 10.5);   
+  TH1F* hNTrksAllButDeltaR       = new TH1F("BNHist_NTrksAllButDeltaR",     ";Trk mulitiplicity (no #DeltaR(trk-jet) cut)", 11, -0.5, 10.5);   
   TH1F* hNTrksBest_Sig           = new TH1F("BNHist_NTrksBest_Sig",         ";Trk mulitiplicity (signal)",           11, -0.5, 10.5);   
   TH1F* hNTrksBest_NotSig        = new TH1F("BNHist_NTrksBest_NotSig",      ";Trk mulitiplicity (not signal)",       11, -0.5, 10.5);   
   TH1F* jetPt                    = new TH1F("BNHist_jetPt",                 ";Jet pT [GeV]",                         100, 0, 1000);
@@ -230,6 +231,7 @@ void BNTree::Loop(TString outFile)
     int numElecs = 0;
     int numTaus  = 0; 
     int numTrks  = 0;
+    int numTrksAllButDeltaR = 0;
     double DiJetDeltaPhi = -99;  // default is 0, so event passes if only one jet found  
     vector<uint> jetPassedIdx;  
     for (uint ijet = 0; ijet<jets_pt->size(); ijet++) {
@@ -360,6 +362,7 @@ void BNTree::Loop(TString outFile)
       if (!(tracks_isMatchedDeadEcal                            ->at(itrk)  == 0))      continue;
       if (!((fabs(tracks_eta                                    ->at(itrk))  < 1.42) || 
  	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
+      numTrksAllButDeltaR++;
       if (!(trkJetDeltaR                                                     > 0.5 ))  continue;
 
       if (tracks_pt->at(itrk) > trkPtBest) { 
@@ -420,6 +423,9 @@ void BNTree::Loop(TString outFile)
 
     } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
 
+    // Next two lines for debugging only.  
+    hNTrksAllButDeltaR        ->Fill(numTrksAllButDeltaR,                   BNTreeWt);  	
+    if (numTrksAllButDeltaR > 0) hNMetsCut6->Fill(mets_pt->size(),    BNTreeWt);  	
 
     if (numTrks == 0) continue;  // Only fill histograms below for events that have at least one track passing the selection.  
 
@@ -441,7 +447,6 @@ void BNTree::Loop(TString outFile)
     hNTausNoCut             ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets                  ->Fill(mets_pt->size(),           BNTreeWt);  	
     hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
-    hNMetsCut6              ->Fill(mets_pt->size(),           BNTreeWt);  	
 
 
     double jetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(0)) - mets_phi->at(0)) - 3.14159) - 3.14159);  
@@ -570,6 +575,7 @@ void BNTree::Loop(TString outFile)
   hNTausNoCut              ->Write();  
 
   hNTrks                   ->Write();
+  hNTrksAllButDeltaR       ->Write();  
   trackPt                  ->Write();
   trackIsIso               ->Write();
   trackNumHits             ->Write();
