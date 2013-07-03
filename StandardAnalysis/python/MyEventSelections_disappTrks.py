@@ -23,16 +23,21 @@ TriggerJetMet = cms.PSet(
     )
 
 ## Preselection ##
-
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
        cutMET,
-       cutJetPt,
-       cutJetNoiseChgHad,
-       cutJetNoiseNeuEM,
-       cutJetNoiseNeuHad,
+       cutSecJetPt,
+       cutSecJetEta2p4,            
+       cutSecJetNoiseChgHad,
+       cutSecJetNoiseChgEM,
+       cutSecJetNoiseNeuHad,
+       cutSecJetNoiseNeuEM,
+       cutSubLeadingJetID,
+       cutElecLooseIDVeto,
+       cutMuonLooseIDVeto,
+       cutTauLooseHadronicVeto,
        cutTrkPt,
        cutTrkEta,
        cutTrkD0,
@@ -40,13 +45,12 @@ PreSelection = cms.PSet(
        cutTrkNHits,
        cutTrkHitMissMid,
        cutTrkHitMissIn,
-#       cutTrkIso,
-       cutMuonVeto,
-       cutElecVeto,
        cutTrkDeadEcalVeto,
        cutTrkCrackVeto,
        ),
     )
+
+
 
 PreSelectionWithTrigJetMet = cms.PSet(
     name = cms.string("PreSelectionWithTrigJetMet"),
