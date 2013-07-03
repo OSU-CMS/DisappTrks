@@ -126,12 +126,12 @@ void BNTree::Loop(TString outFile)
   TH1F* hNMets                   = new TH1F("BNHist_NMets",                 ";Met mulitiplicity",                11, -0.5, 10.5);  
   TH1F* hNMetsCut0               = new TH1F("BNHist_NMetsCut0",             ";Met mulitiplicity (cut 0)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut1               = new TH1F("BNHist_NMetsCut1",             ";Met mulitiplicity (cut 1)",  	 11, -0.5, 10.5);  
-  TH1F* hNMetsCut1A               = new TH1F("BNHist_NMetsCut1A",             ";Met mulitiplicity (cut 1a)",        11, -0.5, 10.5);
-  TH1F* hNMetsCut1B               = new TH1F("BNHist_NMetsCut1B",             ";Met mulitiplicity (cut 1b)",        11, -0.5, 10.5);
-  TH1F* hNMetsCut1C               = new TH1F("BNHist_NMetsCut1C",             ";Met mulitiplicity (cut 1c)",        11, -0.5, 10.5);
-  TH1F* hNMetsCut1D               = new TH1F("BNHist_NMetsCut1D",             ";Met mulitiplicity (cut 1d)",        11, -0.5, 10.5);
-  TH1F* hNMetsCut1E               = new TH1F("BNHist_NMetsCut1E",             ";Met mulitiplicity (cut 1e)",        11, -0.5, 10.5);
-  TH1F* hNMetsCut1F               = new TH1F("BNHist_NMetsCut1F",             ";Met mulitiplicity (cut 1f)",        11, -0.5, 10.5);
+  TH1F* hNMetsCut1A               = new TH1F("BNHist_NMetsCut1A",             ";Met mulitiplicity (cut 1a)",     11, -0.5, 10.5);
+  TH1F* hNMetsCut1B               = new TH1F("BNHist_NMetsCut1B",             ";Met mulitiplicity (cut 1b)",     11, -0.5, 10.5);
+  TH1F* hNMetsCut1C               = new TH1F("BNHist_NMetsCut1C",             ";Met mulitiplicity (cut 1c)",     11, -0.5, 10.5);
+  TH1F* hNMetsCut1D               = new TH1F("BNHist_NMetsCut1D",             ";Met mulitiplicity (cut 1d)",     11, -0.5, 10.5);
+  TH1F* hNMetsCut1E               = new TH1F("BNHist_NMetsCut1E",             ";Met mulitiplicity (cut 1e)",     11, -0.5, 10.5);
+  TH1F* hNMetsCut1F               = new TH1F("BNHist_NMetsCut1F",             ";Met mulitiplicity (cut 1f)",     11, -0.5, 10.5);
   TH1F* hNMetsCut2               = new TH1F("BNHist_NMetsCut2",             ";Met mulitiplicity (cut 2)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut3               = new TH1F("BNHist_NMetsCut3",             ";Met mulitiplicity (cut 3)",  	 11, -0.5, 10.5);  
   TH1F* hNMetsCut4               = new TH1F("BNHist_NMetsCut4",             ";Met mulitiplicity (cut 4)",  	 11, -0.5, 10.5);  
@@ -147,10 +147,10 @@ void BNTree::Loop(TString outFile)
   TH1F* jetPt                    = new TH1F("BNHist_jetPt",                 ";Jet pT [GeV]",                         100, 0, 1000);
   TH1F* trackPt                  = new TH1F("BNHist_trackPt",               ";track pT [GeV]",                       100, 0, 1000);
   TH1F* trackIsIso               = new TH1F("BNHist_trackIsIso",            ";track isIso ",                         11, -0.5, 10.5);     
-  TH1F* trackNumHits             = new TH1F("BNHist_trackNumHits",          ";track number of valid hits ",          100, -0.5, 30.5);
-  TH1F* trackNHitsMissingOut        = new TH1F("BNHist_trackNHitsMissingOut",        ";track number of missing outer hits ", 100, -0.5, 30.5);
-  TH1F* trackNHitsMissingOutPreCut  = new TH1F("BNHist_trackNHitsMissingOutPreCut",  ";track number of missing outer hits (pre cut)",  100, -0.5, 30.5);
-  TH1F* trackNHitsMissingOutPostCut = new TH1F("BNHist_trackNHitsMissingOutPostCut", ";track number of missing outer hits (post cut)", 100, -0.5, 30.5);
+  TH1F* trackNumHits             = new TH1F("BNHist_trackNumHits",          ";track number of valid hits ",          31, -0.5, 30.5);
+  TH1F* trackNHitsMissingOut        = new TH1F("BNHist_trackNHitsMissingOut",        ";track number of missing outer hits ",           31, -0.5, 30.5);
+  TH1F* trackNHitsMissingOutPreCut  = new TH1F("BNHist_trackNHitsMissingOutPreCut",  ";track number of missing outer hits (pre cut)",  31, -0.5, 30.5);
+  TH1F* trackNHitsMissingOutPostCut = new TH1F("BNHist_trackNHitsMissingOutPostCut", ";track number of missing outer hits (post cut)", 31, -0.5, 30.5);
 
   TH1F* trackdepTrkRp5           = new TH1F("BNHist_trackdepTrkRp5",        ";track  depTrkRp5 ",                    100, 0, 500);
 
@@ -176,17 +176,16 @@ void BNTree::Loop(TString outFile)
   TH1F* trackCaloTotByPSigReg    = new TH1F("BNHist_trackCaloTotByPSigReg", ";track  CaloTotByP (sig reg)",          100, 0, 2);
 
 
-
-
-  TH1F* trackDeltaR_Sig              = new TH1F("BNHist_trackDeltaR_Sig",             ";track  deltaR ",             100, 0, 10);
   TH1F* trackMetDeltaPhi_Sig         = new TH1F("BNHist_trackMetDeltaPhi_Sig",        ";track-Met  deltaPhi ",       100, -3, 3);
   TH1F* trackMetDeltaPhi_NotSig      = new TH1F("BNHist_trackMetDeltaPhi_NotSig",     ";track-Met  deltaPhi ",       100, -3, 3);
   TH1F* jetMetDeltaPhi               = new TH1F("BNHist_jetMetDeltaPhi",              ";jet-Met    deltaPhi ",       100, -3, 3);
 
 
+  TH1F* trackDeltaR_Sig              = new TH1F("BNHist_trackDeltaR_Sig",             ";track  deltaR ",             100, 0, 10);
   TH1F* trackDeltaR_NotSig           = new TH1F("BNHist_trackDeltaRNotSig",           ";track  deltaR ",             100, 0, 10);
   TH1F* trackJetDeltaR_Sig           = new TH1F("BNHist_trackJetDeltaR_Sig",          ";track-jet  deltaR ",         100, 0, 10);
   TH1F* trackJetDeltaR_NotSig        = new TH1F("BNHist_trackJetDeltaR_NotSig",       ";track-jet  deltaR ",         100, 0, 10);
+  TH1F* trackJetDeltaR_PreCut        = new TH1F("BNHist_trackJetDeltaR_PreCut",     ";track-jet  deltaR ",           100, 0, 10);
   //  TH1F* trackJet1DeltaR              = new TH1F("BNHist_trackJet1DeltaR",           ";track-jet1  deltaR ",             100, 0, 10);
   //  TH1F* trackJet1DeltaR_isIso              = new TH1F("BNHist_trackJet1DeltaRisIso",           ";track-jet1  deltaR ",             100, 0, 10);
   //TH1F* trackJet1DeltaR_isNotIso              = new TH1F("BNHist_trackJet1DeltaRisNotIso",           ";track-jet1  deltaR ",             100, 0, 10);
@@ -197,10 +196,6 @@ void BNTree::Loop(TString outFile)
   //TH1F* trackGenMatchedId_isNotIso              = new TH1F("BNHist_trackGenMatchedId_isNotIso",           ";track genMatchedId ",             25, -0.5, 24.5);
   TH1F* trackGenMatchedIdFitReg      = new TH1F("BNHist_trackGenMatchedIdFitReg",      ";track genMatchedId (w/ miss outer hits cut)", 25, -0.5, 24.5);
   TH1F* trackGenMatchedIdSigReg      = new TH1F("BNHist_trackGenMatchedIdSigReg",      ";track genMatchedId (sig reg)",                25, -0.5, 24.5);
-
-
-
-
 
 
     
@@ -298,9 +293,9 @@ void BNTree::Loop(TString outFile)
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
       //      if (!(muons_isGlobalMuon->at(imuon) ==1 || // correct
-      if (!(muons_isGlobalMuon->at(imuon) ==1 ||  
-	    muons_isTrackerMuon->at(imuon)==1                         ))   continue;  
-
+      if (!(muons_isGlobalMuon ->at(imuon)==1 ||  
+	    muons_isTrackerMuon->at(imuon)==1)) continue;  
+      
       // Selection below is for positive muon ID, not muon veto!
       // if (!(muons_pt                      ->at(imuon)  > 20))   continue;
       // if (!(fabs(muons_eta                ->at(imuon)) < 2.1))  continue;
@@ -347,9 +342,9 @@ void BNTree::Loop(TString outFile)
 
     int idxTrkBest = -1;  
     double trkPtBest = -99;  
+    //    double trkJetDeltaRBest = -99;  
+    double trkJetDeltaRBest = 7.0;  
 
-    
-    
     for (uint itrk = 0; itrk<tracks_pt->size(); itrk++) {
 
       //      double trkJet1DeltaR = deltaR(tracks_eta->at(itrk), tracks_phi->at(itrk), jets_eta->at(jetPassedIdx.at(0)), jets_phi->at(jetPassedIdx.at(0)));
@@ -373,15 +368,14 @@ void BNTree::Loop(TString outFile)
       if (!((fabs(tracks_eta                                    ->at(itrk))  < 1.42) || 
  	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
       numTrksAllButDeltaR++;
+      trackJetDeltaR_PreCut       ->Fill(trkJetDeltaR,                     BNTreeWt);  
       if (!(trkJetDeltaR                                                     > 0.5 ))  continue;
 
       if (tracks_pt->at(itrk) > trkPtBest) { 
 	trkPtBest = tracks_pt->at(itrk);  
 	idxTrkBest = itrk;  
+	trkJetDeltaRBest = trkJetDeltaR;  
       }
-
-
-
 
       numTrks++;
       double trkDeltaR = 99.;
@@ -394,7 +388,6 @@ void BNTree::Loop(TString outFile)
 	//	trackDeltaR ->Fill(trkDeltaR, BNTreeWt);
       }
       
-
       
       //      trackJet1DeltaR  ->Fill(trkJet1DeltaR, BNTreeWt);
 
@@ -438,7 +431,11 @@ void BNTree::Loop(TString outFile)
 
     // Next two lines for debugging only.  
     hNTrksAllButDeltaR        ->Fill(numTrksAllButDeltaR,                   BNTreeWt);  	
-    if (numTrksAllButDeltaR > 0) hNMetsCut6->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (numTrksAllButDeltaR > 0) {
+      hNMetsCut6                  ->Fill(mets_pt->size(),                   BNTreeWt);  	
+    }  
+
+    hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
 
     if (numTrks == 0) continue;  // Only fill histograms below for events that have at least one track passing the selection.  
 
@@ -459,7 +456,6 @@ void BNTree::Loop(TString outFile)
     hNElecsNoCut            ->Fill(electrons_pt->size(),      BNTreeWt);  	
     hNTausNoCut             ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets                  ->Fill(mets_pt->size(),           BNTreeWt);  	
-    hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
 
 
     double jetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(0)) - mets_phi->at(0)) - 3.14159) - 3.14159);  
@@ -614,15 +610,17 @@ void BNTree::Loop(TString outFile)
   //trackdepTrkRp5MinusPt_isNotIso    ->Write();
   //trackGenMatchedId_isIso ->Write();
   //trackGenMatchedId_isNotIso ->Write();
-  trackDeltaR_Sig ->Write();
-  trackMetDeltaPhi_Sig ->Write();
-  trackMetDeltaPhi_NotSig ->Write();
-  trackDeltaR_NotSig ->Write();
-  trackJetDeltaR_Sig ->Write();
-  trackJetDeltaR_NotSig ->Write();
 
-  hNTrksBest_Sig ->Write();
-  hNTrksBest_NotSig ->Write();
+
+  trackDeltaR_Sig        ->Write();
+  trackDeltaR_NotSig     ->Write();
+  trackMetDeltaPhi_Sig   ->Write();
+  trackMetDeltaPhi_NotSig->Write();
+  trackJetDeltaR_Sig     ->Write();
+  trackJetDeltaR_NotSig  ->Write();
+  trackJetDeltaR_PreCut  ->Write();  
+  hNTrksBest_Sig         ->Write();
+  hNTrksBest_NotSig      ->Write();
 
   trackdepTrkRp5MinusPtBest_Sig ->Write();
   trackdepTrkRp5MinusPtBest_NotSig ->Write();
