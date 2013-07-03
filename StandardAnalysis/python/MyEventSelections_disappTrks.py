@@ -17,9 +17,9 @@ TriggerJetMet = cms.PSet(
     name = cms.string("TriggerJetMet"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
-         cutMET,
-#         cutJetPt,
-    ),
+        cutMET,  
+        cutSecJetPt,  # cut on secondary jets collection so that BNTree includes all jets  
+        ),
     )
 
 ## Preselection ##
