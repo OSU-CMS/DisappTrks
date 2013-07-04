@@ -155,8 +155,22 @@ void BNTree::Loop(TString outFile)
   TH1F* trackdepTrkRp5           = new TH1F("BNHist_trackdepTrkRp5",        ";track  depTrkRp5 ",                    100, 0, 500);
 
   TH1F* trackdepTrkRp5MinusPt            = new TH1F("BNHist_trackdepTrkRp5MinusPt", ";track  depTrkRp5MinusPt ",                    100, 0, 150);
+  TH1F* trackdepTrkRp3MinusPt            = new TH1F("BNHist_trackdepTrkRp3MinusPt", ";track  depTrkRp3MinusPt ",                    100, 0, 150);
+
   TH1F* trackdepTrkRp5MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig", ";track  depTrkRp5MinusPt ",                100, 0, 150);
+  TH1F* trackdepTrkRp3MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp3MinusPt_Sig", ";track  depTrkRp3MinusPt ",                100, 0, 150);
+
   TH1F* trackdepTrkRp5MinusPt_NotSig     = new TH1F("BNHist_trackdepTrkRp5MinusPt_NotSig", ";track  depTrkRp5MinusPt ",             100, 0, 150);
+  TH1F* trackdepTrkRp3MinusPt_NotSig     = new TH1F("BNHist_trackdepTrkRp3MinusPt_NotSig", ";track  depTrkRp3MinusPt ",             100, 0, 150);
+
+
+  TH1F* trackerVetoPtRp3_Sig        = new TH1F("BNHist_trackerVetoPtRp3_Sig", ";trackerVetoPtRp3 ",                100, 0, 300);
+  TH1F* trackerVetoPtRp5_Sig        = new TH1F("BNHist_trackerVetoPtRp5_Sig", ";trackerVetoPtRp5 ",                100, 0, 300);
+
+  TH1F* trackerVetoPtRp3_NotSig        = new TH1F("BNHist_trackerVetoPtRp3_NotSig", ";trackerVetoPtRp3 ",                100, 0, 300);
+  TH1F* trackerVetoPtRp5_NotSig        = new TH1F("BNHist_trackerVetoPtRp5_NotSig", ";trackerVetoPtRp5 ",                100, 0, 300);
+
+
   TH1F* trackdepTrkRp5MinusPtBest_Sig    = new TH1F("BNHist_trackdepTrkRp5MinusPtBest_Sig",    ";track (best) depTrkRp5MinusPt ",   100, 0, 150);
   TH1F* trackdepTrkRp5MinusPtBest_NotSig = new TH1F("BNHist_trackdepTrkRp5MinusPtBest_NotSig", ";track (best) depTrkRp5MinusPt ",   100, 0, 150);
   TH1F* trackdepTrkRp5MinusPtPreCut      = new TH1F("BNHist_trackdepTrkRp5MinusPtPreCut",      ";track depTrkRp5MinusPt ",          100, 0, 150); 
@@ -164,6 +178,15 @@ void BNTree::Loop(TString outFile)
 
   TH1F* trackPtByDepTrkRp5_Sig        = new TH1F("BNHist_trackPtByDepTrkRp5_Sig",    ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
   TH1F* trackPtByDepTrkRp5_NotSig     = new TH1F("BNHist_trackPtByDepTrkRp5_NotSig", ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
+
+  TH1F* trackRelIsoRp5_Sig        = new TH1F("BNHist_trackRelIsoRp5_Sig",    ";(#sum(p_{T})^{#DeltaR<0.5}-p_{T}^{track} / p_{T}^{track}", 100, 0, 3);
+  TH1F* trackRelIsoRp5_NotSig        = new TH1F("BNHist_trackRelIsoRp5_NotSig",    ";(#sum(p_{T})^{#DeltaR<0.5}-p_{T}^{track} / p_{T}^{track}", 100, 0, 3);
+
+  TH1F* trackRelIsoRp3_Sig        = new TH1F("BNHist_trackRelIsoRp3_Sig",    ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track} / p_{T}^{track}", 100, 0, 3);
+  TH1F* trackRelIsoRp3_NotSig        = new TH1F("BNHist_trackRelIsoRp3_NotSig",    ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track} / p_{T}^{track}", 100, 0, 3);
+
+
+
   TH1F* trackPtByDepTrkRp5_PreCut     = new TH1F("BNHist_trackPtByDepTrkRp5_PreCut", ";#sum(p_{T})^{#DeltaR<0.5} / p_{T}^{track}", 100, 0, 2);
   //TH1F* trackdepTrkRp5MinusPt_isIso    = new TH1F("BNHist_trackdepTrkRp5MinusPt_isIso", ";track  depTrkRp5MinusPt ",             100, 0, 150);
   //TH1F* trackdepTrkRp5MinusPt_isNotIso    = new TH1F("BNHist_trackdepTrkRp5MinusPt_isNotIso", ";track  depTrkRp5MinusPt ",             100, 0, 150);
@@ -403,6 +426,11 @@ void BNTree::Loop(TString outFile)
       if (tracks_genMatchedId  ->at(itrk)  == 24){
 	//	trackGenMatchedId_isIso       ->Fill(tracks_genMatchedId     ->at(itrk), BNTreeWt);
 	trackdepTrkRp5MinusPt_Sig  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	trackdepTrkRp3MinusPt_Sig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
+	trackerVetoPtRp5_Sig  ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
+	trackerVetoPtRp3_Sig  ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
+	trackRelIsoRp3_Sig  ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp5_Sig  ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_Sig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt);
 	trackJetDeltaR_Sig         ->Fill( trkJetDeltaR                    , BNTreeWt);
 	trackDeltaR_Sig            ->Fill( trkDeltaR                       , BNTreeWt);
@@ -410,6 +438,11 @@ void BNTree::Loop(TString outFile)
       } else {
 	//	trackGenMatchedId_isNotIso      ->Fill(tracks_genMatchedId      ->at(itrk), BNTreeWt);
 	trackdepTrkRp5MinusPt_NotSig  ->Fill(tracks_depTrkRp5MinusPt  ->at(itrk), BNTreeWt);
+	trackdepTrkRp3MinusPt_NotSig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
+        trackerVetoPtRp5_NotSig  ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
+        trackerVetoPtRp3_NotSig  ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
+	trackRelIsoRp3_NotSig  ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp5_NotSig  ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_NotSig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt); 
 	trackJetDeltaR_NotSig         ->Fill( trkJetDeltaR                     , BNTreeWt);
 	trackDeltaR_NotSig            ->Fill( trkDeltaR                     , BNTreeWt);
@@ -604,8 +637,23 @@ void BNTree::Loop(TString outFile)
   trackdepTrkRp5MinusPt    ->Write();
   trackdepTrkRp5MinusPt_Sig    ->Write();
   trackdepTrkRp5MinusPt_NotSig ->Write();
+  trackdepTrkRp3MinusPt_Sig    ->Write();
+  trackdepTrkRp3MinusPt_NotSig ->Write();
   trackPtByDepTrkRp5_Sig       ->Write();
   trackPtByDepTrkRp5_NotSig    ->Write();
+
+  trackerVetoPtRp5_Sig    ->Write();
+  trackerVetoPtRp5_NotSig ->Write();
+
+  trackerVetoPtRp3_Sig    ->Write();
+  trackerVetoPtRp3_NotSig ->Write();
+
+  trackRelIsoRp3_Sig ->Write();
+  trackRelIsoRp5_Sig ->Write();
+
+  trackRelIsoRp3_NotSig ->Write();
+  trackRelIsoRp5_NotSig ->Write();
+
   //trackdepTrkRp5MinusPt_isIso    ->Write();
   //trackdepTrkRp5MinusPt_isNotIso    ->Write();
   //trackGenMatchedId_isIso ->Write();
