@@ -5,11 +5,12 @@
 
 import os
 
-config_file = os.environ['CMSSW_BASE']+'/src/DisplacedSUSY/StandardAnalysis/test/pu_cfg.py'  
+config_file = os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/AnaTools/test/pu_cfg.py'  
 
 #intLumi = 30000.
 
 datasets = [
+    'WG', 
 ###Samples commented out here have already been done####
 
 #    'AMSB_mGrav50K_0p5ns_Reco',
