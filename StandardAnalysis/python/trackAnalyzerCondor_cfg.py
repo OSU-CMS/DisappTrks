@@ -33,12 +33,14 @@ process.OSUAnalysis.histogramSets.append(EventHistograms)
 process.OSUAnalysis.histogramSets.append(TrackHistograms)
 process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(JetHistograms)
-
+process.OSUAnalysis.histogramSets.append(SecondaryJetHistograms)
 
 #import user-defined histograms
 from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
+process.OSUAnalysis.histogramSets.append(TrackJetHistograms)
+process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
 
 ##########################################################
 ##### Add the Desired Default Channels to the List to be Run #####
