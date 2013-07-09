@@ -4,7 +4,17 @@ import FWCore.ParameterSet.Config as cms
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
-
+TrackJetHistograms = cms.PSet(
+    inputCollection = cms.string("track-jet pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackJetDeltaR"),
+            title = cms.string("Track-Jet Delta R; |#Delta(R)|"),
+            bins = cms.untracked.vdouble(100, 0, 10),
+        inputVariables = cms.vstring("deltaR"),
+            ),
+        )
+    )
 
 DiMuonHistograms = cms.PSet(
     inputCollection = cms.string("muon-muon pairs"),
@@ -36,36 +46,6 @@ DiMuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("diMuonDeltaR"),
             title = cms.string("Di-muon #DeltaR; #DeltaR"),
-            bins = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaR"),
-            ),
-        
-        )
-    )
-DiTauHistograms = cms.PSet(
-    inputCollection = cms.string("tau-tau pairs"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("diTauInvMass"),
-            title = cms.string("Di-Tau Invariant Mass; M_{#tau#tau} [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 180),
-            inputVariables = cms.vstring("invMass"),
-            ),
-        cms.PSet (
-            name = cms.string("diTauDeltaEta"),
-            title = cms.string("Di-tau Eta Difference; |#Delta(#eta)|"),
-            bins = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaEta"),
-            ),
-        cms.PSet (
-            name = cms.string("diTauDeltaPhi"),
-            title = cms.string("Di-tau Phi Difference; |#Delta(#phi)|"),
-            bins = cms.untracked.vdouble(1000, 0, 3.14),
-            inputVariables = cms.vstring("deltaPhi"),
-                            ),
-        cms.PSet (
-            name = cms.string("diTauDeltaR"),
-            title = cms.string("Di-tau #DeltaR; #DeltaR"),
             bins = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaR"),
             ),
@@ -109,103 +89,6 @@ DiElectronHistograms = cms.PSet(
         
         )
     )
-
-ElectronTrackHistograms = cms.PSet(
-        inputCollection = cms.string("electron-track pairs"),
-        histograms = cms.VPSet (
-             cms.PSet (
-                 name = cms.string("ElectronTrackInvMass"),
-                 title = cms.string("Electron-Track Invariant Mass; M_{e+track} [GeV]"),
-                 bins = cms.untracked.vdouble(100, 0, 180),
-                 inputVariables = cms.vstring("invMass"),
-                 ),
-             cms.PSet (
-                 name = cms.string("ElectronTrackDeltaEta"),
-                 title = cms.string("Electron-Track Eta Difference; |#Delta(#eta)|"),
-                 bins = cms.untracked.vdouble(1000, 0, 10),
-                 inputVariables = cms.vstring("deltaEta"),
-                 ),
-             cms.PSet (
-                name = cms.string("ElectronTrackDeltaPhi"),
-                title = cms.string("Electron-Track Phi Difference; |#Delta(#phi)|"),
-                bins = cms.untracked.vdouble(1000, 0, 3.14),
-                inputVariables = cms.vstring("deltaPhi"),
-                ),
-             cms.PSet (
-                name = cms.string("ElectronTrackDeltaR"),
-                title = cms.string("Electron-Track #DeltaR; #DeltaR"),
-                bins = cms.untracked.vdouble(1000, 0, 10),
-                inputVariables = cms.vstring("deltaR"),
-                ),
-             
-             
-             )
-        )
-
-MuonTrackHistograms = cms.PSet(
-    inputCollection = cms.string("muon-track pairs"),
-    histograms = cms.VPSet (
-         cms.PSet (
-             name = cms.string("MuonTrackInvMass"),
-             title = cms.string("Muon-Track Invariant Mass; M_{#mu+track} [GeV]"),
-             bins = cms.untracked.vdouble(100, 0, 180),
-             inputVariables = cms.vstring("invMass"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTrackDeltaEta"),
-             title = cms.string("Muon-Track Eta Difference; |#Delta(#eta)|"),
-             bins = cms.untracked.vdouble(1000, 0, 10),
-             inputVariables = cms.vstring("deltaEta"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTrackDeltaPhi"),
-             title = cms.string("Muon-Track Phi Difference; |#Delta(#phi)|"),
-             bins = cms.untracked.vdouble(1000, 0, 3.14),
-             inputVariables = cms.vstring("deltaPhi"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTrackDeltaR"),
-             title = cms.string("Muon-Track #DeltaR; #DeltaR"),
-             bins = cms.untracked.vdouble(1000, 0, 10),
-             inputVariables = cms.vstring("deltaR"),
-             ),
-         
-         
-         )
-    )
-
-MuonTauHistograms = cms.PSet(
-    inputCollection = cms.string("muon-tau pairs"),
-    histograms = cms.VPSet (
-         cms.PSet (
-             name = cms.string("MuonTauInvMass"),
-             title = cms.string("Muon-Tau Invariant Mass; M_{#mu#tau} [GeV]"),
-             bins = cms.untracked.vdouble(100, 0, 180),
-             inputVariables = cms.vstring("invMass"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTauDeltaEta"),
-             title = cms.string("Muon-Tau Eta Difference; |#Delta(#eta)|"),
-             bins = cms.untracked.vdouble(1000, 0, 10),
-             inputVariables = cms.vstring("deltaEta"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTauDeltaPhi"),
-             title = cms.string("Muon-Tau Phi Difference; |#Delta(#phi)|"),
-             bins = cms.untracked.vdouble(1000, 0, 3.14),
-             inputVariables = cms.vstring("deltaPhi"),
-             ),
-         cms.PSet (
-             name = cms.string("MuonTauDeltaR"),
-             title = cms.string("Muon-Tau #DeltaR; #DeltaR"),
-             bins = cms.untracked.vdouble(1000, 0, 10),
-             inputVariables = cms.vstring("deltaR"),
-             ),
-         
-         
-         )
-    )
-
 
 ShortTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
@@ -309,7 +192,133 @@ TestTrackHistograms = cms.PSet(
     )
 )
 
-
+TrackIsolationHistograms = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("nTracksRp5"),
+            title = cms.string("nTracksRp5; # Tracks (#DeltaR<0.5)"),
+            bins = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("nTracksRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("depTrkRp5"),
+            title = cms.string("depTrkRp5; #Sigma^{#DeltaR<0.5} p_{T} (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depTrkRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("depTrkRp5MinusPt"),
+            title = cms.string("depTrkRp5MinusPt; #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depTrkRp5MinusPt"),
+            ),
+        cms.PSet (
+            name = cms.string("depEcalRp5"),
+            title = cms.string("depEcalRp5; #Sigma^{#DeltaR<0.5} Ecal (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depEcalRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("depHcalRp5"),
+            title = cms.string("depHcalRp5; #Sigma^{#DeltaR<0.5} Hcal (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depHcalRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("depHoRp5"),
+            title = cms.string("depHoRp5; #Sigma^{#DeltaR<0.5} Ho (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depHoRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("trackerVetoPtRp5"),
+            title = cms.string("trackerVetoPtRp5; trackerVetoPtRp5"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("trackerVetoPtRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("emVetoEtRp5"),
+            title = cms.string("emVetoEtRp5; emVetoEtRp5"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("emVetoEtRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("hadVetoEtRp5"),
+            title = cms.string("hadVetoEtRp5; hadVetoEtRp5"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("hadVetoEtRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("hoVetoEtRp5"),
+            title = cms.string("hoVetoEtRp5; hoVetoEtRp5"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("hoVetoEtRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("nTracksRp3"),
+            title = cms.string("nTracksRp3; # Tracks (#DeltaR<0.3)"),
+            bins = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("nTracksRp3"),
+            ),
+        
+        cms.PSet (
+            name = cms.string("depTrkRp3"),
+            title = cms.string("depTrkRp3; #Sigma^{#DeltaR<0.3} p_{T} (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depTrkRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("depTrkRp3MinusPt"),
+            title = cms.string("depTrkRp3MinusPt; #Sigma^{#DeltaR<0.3} p_{T} - p_{T}^{cand} (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("depTrkRp3MinusPt"),
+            ),
+        cms.PSet (
+            name = cms.string("depEcalRp3"),
+            title = cms.string("depEcalRp3; #Sigma^{#DeltaR<0.3} Ecal (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depEcalRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("depHcalRp3"),
+            title = cms.string("depHcalRp3; #Sigma^{#DeltaR<0.3} Hcal (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depHcalRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("depHoRp3"),
+            title = cms.string("depHoRp3; #Sigma^{#DeltaR<0.3} Ho (GeV)"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("depHoRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("trackerVetoPtRp3"),
+            title = cms.string("trackerVetoPtRp3; trackerVetoPtRp3"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("trackerVetoPtRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("emVetoEtRp3"),
+            title = cms.string("emVetoEtRp3; emVetoEtRp3"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("emVetoEtRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("hadVetoEtRp3"),
+            title = cms.string("hadVetoEtRp3; hadVetoEtRp3"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("hadVetoEtRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("hoVetoEtRp3"),
+            title = cms.string("hoVetoEtRp3; hoVetoEtRp3"),
+            bins = cms.untracked.vdouble(100, 0, 300),
+            inputVariables = cms.vstring("hoVetoEtRp3"),
+            ),
+        
+        )
+    )
 ExtraTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
     histograms = cms.VPSet (
@@ -373,23 +382,30 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("nHitsMissingInner"),
             ),
+##         cms.PSet (
+##             name = cms.string("nTracksRp5"),
+##             title = cms.string("nTracksRp5; # Tracks (#DeltaR<0.5)"),
+##             bins = cms.untracked.vdouble(16, -0.5, 15.5),
+##             inputVariables = cms.vstring("nTracksRp5"),
+##             ),
+##         cms.PSet (
+##             name = cms.string("depTrkRp5"),
+##             title = cms.string("depTrkRp5; #Sigma^{#DeltaR<0.5} p_{T} (GeV)"),
+##             bins = cms.untracked.vdouble(100, 0, 100),
+##             inputVariables = cms.vstring("depTrkRp5"),
+##             ),
+##         cms.PSet (
+##             name = cms.string("depTrkRp5MinusPt"),
+##             title = cms.string("depTrkRp5MinusPt; #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)"),
+##             bins = cms.untracked.vdouble(100, 0, 100),
+##             inputVariables = cms.vstring("depTrkRp5MinusPt"),
+##             ),
+
         cms.PSet (
-            name = cms.string("nTracksRp5"),
-            title = cms.string("nTracksRp5; # Tracks (#DeltaR<0.5)"),
-            bins = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("nTracksRp5"),
-            ),
-        cms.PSet (
-            name = cms.string("depTrkRp5"),
-            title = cms.string("depTrkRp5; #Sigma^{#DeltaR<0.5} p_{T} (GeV)"),
-            bins = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("depTrkRp5"),
-            ),
-        cms.PSet (
-            name = cms.string("depTrkRp5MinusPt"),
-            title = cms.string("depTrkRp5MinusPt; #Sigma^{#DeltaR<0.5} p_{T} - p_{T}^{cand} (GeV)"),
-            bins = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("depTrkRp5MinusPt"),
+            name = cms.string("trackdPhiMet"),
+            title = cms.string("dPhiMetTrk; #Delta #phi (MET, trk))"),
+            bins = cms.untracked.vdouble(100, -4, 4),
+            inputVariables = cms.vstring("dPhiMet"),
             ),
         cms.PSet (
             name = cms.string("caloEMDeltaRp5"),
