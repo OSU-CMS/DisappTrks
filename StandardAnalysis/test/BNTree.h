@@ -553,6 +553,7 @@ public :
    vector<float>   *tracks_nHitsMissingInner;
    vector<float>   *tracks_nHitsMissingMiddle;
    vector<float>   *tracks_depTrkRp3;
+   vector<float>   *tracks_depTrkRp3RhoCorr;
    vector<float>   *tracks_depEcalRp3;
    vector<float>   *tracks_depHcalRp3;
    vector<float>   *tracks_depHoRp3;
@@ -562,6 +563,7 @@ public :
    vector<float>   *tracks_hadVetoEtRp3;
    vector<float>   *tracks_hoVetoEtRp3;
    vector<float>   *tracks_depTrkRp5;
+   vector<float>   *tracks_depTrkRp5RhoCorr;
    vector<float>   *tracks_depEcalRp5;
    vector<float>   *tracks_depHcalRp5;
    vector<float>   *tracks_depHoRp5;
