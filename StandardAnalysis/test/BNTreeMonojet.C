@@ -11,12 +11,15 @@
 #include "BNTree.h"
 #include <TH1F.h>
 #include <TH2.h>
+#include <TVector2.h>
 #include <TStopwatch.h>
 #include <TProfile.h>
 #include <TString.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <iostream> 
+#include <cmath>
+#include <math.h>
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
 
@@ -88,6 +91,11 @@ void BNTree::Loop(TString outFile)
   TH1F* numPV                    = new TH1F("BNHist_numPV",                 ";# primary vertices", 70, 0, 70);  
   TH1F* METPre                   = new TH1F("BNHist_METPre",                ";MET [GeV]", 100, 0, 500);  
   TH1F* MET                      = new TH1F("BNHist_MET",                   ";MET [GeV]", 32, 200, 1000);  
+  TH1F* METPhiCorr               = new TH1F("BNHist_METPhiCorr",                 ";MET Phi Corr", 100, -4, 4);
+  TH1F* METPhi                   = new TH1F("BNHist_METPhi",                 ";MET Phi", 100, -4, 4);
+  TH1F* MetDPhi_Check            = new TH1F("BNHist_METDPhi_Check",                 ";MET Phi Check", 100, -0.5, 0.5);
+  TH1F* MetDPhi                  = new TH1F("BNHist_METDPhi",                 ";Phi Corr - Phi Reg", 100, -0.5, 0.5);
+  TH1F* METCorr                  = new TH1F("BNHist_METCorr",                 ";MET Corr", 100, 0, 500);
   TH1F* METFull                  = new TH1F("BNHist_METFull",               ";MET [GeV]", 40, 0, 1000);  
   TH1F* jetChargedHadFrac        = new TH1F("BNHist_jetChargedHadFrac",     ";ChargedHadFrac", 60,  0.0, 1.2);  
   TH1F* jetNeutralHadFrac        = new TH1F("BNHist_jetNeutralHadFrac",     ";NeutralHadFrac", 60, -0.1, 1.1);  
@@ -116,6 +124,7 @@ void BNTree::Loop(TString outFile)
   TH1F* jetOneMetDPhi            = new TH1F("BNHist_jetOneMetDPhi",         ";#Delta #phi (Jet1, MET)",  35, 0, 3.5);  
   TH1F* jetTwoMetDPhi            = new TH1F("BNHist_jetTwoMetDPhi",         ";#Delta #phi (Jet2, MET)",  35, 0, 3.5);  
   TH1F* jetDPhi                  = new TH1F("BNHist_jetDPhi",               ";#Delta #phi (Jet1, Jet2)", 35, 0, 3.5);  
+  TH1F* jetJetDeltaPhi                  = new TH1F("BNHist_jetJetDeltaPhi",               ";#Delta #phi (Jet1, Jet2)", 100, -3.5, 3.5);  
 
 
   TH1F* hNElecs                  = new TH1F("BNHist_NElecs",                ";Elec mulitiplicity",               11, -0.5, 10.5);   
@@ -162,8 +171,23 @@ void BNTree::Loop(TString outFile)
   TH1F* trackdepTrkRp5MinusPt            = new TH1F("BNHist_trackdepTrkRp5MinusPt", ";#sum(p_{T})^{#DeltaR<0.5} - p_{T}^{track} ",                    100, 0, 150);
   TH1F* trackdepTrkRp3MinusPt            = new TH1F("BNHist_trackdepTrkRp3MinusPt", ";#sum(p_{T})^{#DeltaR<0.3} - p_{T}^{track} ",                    100, 0, 150);
 
-  TH1F* trackdepTrkRp5MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig", ";#sum(p_{T})^{#DeltaR<0.5} - p_{T}^{track} (signal)",            100, 0, 150);
-  TH1F* trackdepTrkRp3MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp3MinusPt_Sig", ";#sum(p_{T})^{#DeltaR<0.3} - p_{T}^{track} (signal)",            100, 0, 150);
+
+  TH1F* trackdepTrkRp5MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig", ";track  depTrkRp5MinusPt ",                100, 0, 150);
+  TH1F* trackdepTrkRp5MinusPtRhoCorr_Sig        = new TH1F("BNHist_trackdepTrkRp5MinusPtRhoCorr_Sig", ";track  depTrkRp5MinusPt ",                100, 0, 150);
+  TH1F* trackdepTrkRp5MinusPtRhoCorr_Sig_PV10         = new TH1F("BNHist_trackdepTrkRp5MinusPtRhoCorr_Sig_10", ";track  depTrkRp5MinusPtRhoCorr ",                100, 0, 30);
+  TH1F* trackdepTrkRp5MinusPt_Sig_PV10         = new TH1F("BNHist_trackdepTrkRp5MinusPtr_Sig_10", ";track  depTrkRp5MinusPt ",                100, 0, 30);
+
+  TH1F* trackdepTrkRp5MinusPtRhoCorr_Sig_PV20         = new TH1F("BNHist_trackdepTrkRp5MinusPtRhoCorr_Sig_20", ";track  depTrkRp5MinusPtRhoCorr ",                100, 0, 30);
+  TH1F* trackdepTrkRp5MinusPt_Sig_PV20         = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig_20", ";track  depTrkRp5MinusPt ",                100, 0, 30);
+
+
+  TH1F* trackdepTrkRp5MinusPtRhoCorr_Sig_PV30         = new TH1F("BNHist_trackdepTrkRp5MinusPtRhoCorr_Sig_30", ";track  depTrkRp5MinusPtRhoCorr ",                100, 0, 30);
+  TH1F* trackdepTrkRp5MinusPt_Sig_PV30         = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig_30", ";track  depTrkRp5MinusPt ",                100, 0, 30);
+
+  TH1F* trackdepTrkRp5MinusPtRhoCorr_Sig_PV40         = new TH1F("BNHist_trackdepTrkRp5MinusPtRhoCorr_Sig_40", ";track  depTrkRp5MinusPtRhoCorr ",                100, 0, 30);
+  TH1F* trackdepTrkRp5MinusPt_Sig_PV40         = new TH1F("BNHist_trackdepTrkRp5MinusPt_Sig_40", ";track  depTrkRp5MinusPt ",                100, 0, 30);
+
+  TH1F* trackdepTrkRp3MinusPt_Sig        = new TH1F("BNHist_trackdepTrkRp3MinusPt_Sig", ";track  depTrkRp3MinusPt ",                100, 0, 150);
 
   TH1F* trackdepTrkRp5MinusPt_NotSig     = new TH1F("BNHist_trackdepTrkRp5MinusPt_NotSig", ";#sum(p_{T})^{#DeltaR<0.5} - p_{T}^{track} (not signal)",         100, 0, 150);
   TH1F* trackdepTrkRp3MinusPt_NotSig     = new TH1F("BNHist_trackdepTrkRp3MinusPt_NotSig", ";#sum(p_{T})^{#DeltaR<0.3} - p_{T}^{track} (not signal)",         100, 0, 150);
@@ -223,7 +247,9 @@ void BNTree::Loop(TString outFile)
 
   TH1F* trackMetDeltaPhi_Sig         = new TH1F("BNHist_trackMetDeltaPhi_Sig",        ";track-Met  deltaPhi ",       100, -3, 3);
   TH1F* trackMetDeltaPhi_NotSig      = new TH1F("BNHist_trackMetDeltaPhi_NotSig",     ";track-Met  deltaPhi ",       100, -3, 3);
-  TH1F* jetMetDeltaPhi               = new TH1F("BNHist_jetMetDeltaPhi",              ";jet-Met    deltaPhi ",       100, -3, 3);
+  TH1F* jetMetDeltaPhi               = new TH1F("BNHist_jetMetDeltaPhi",              ";jet-Met    deltaPhi ",       100, -3.5, 3.5);
+  TH1F* jetMetDeltaPhi_Sig               = new TH1F("BNHist_jetMetDeltaPhi_Sig",              ";jet-Met    deltaPhi (signal) ",       100, -3, 3);
+   TH1F* jetMetDeltaPhi_NotSig               = new TH1F("BNHist_jetMetDeltaPhi_NotSig",              ";jet-Met    deltaPhi ( not signal) ",       100, -3, 3);
 
 
   TH1F* trackDeltaR_Sig              = new TH1F("BNHist_trackDeltaR_Sig",             ";#DeltaR_{min}(trk-trk)",     100, 0, 5);
@@ -326,13 +352,14 @@ void BNTree::Loop(TString outFile)
       
       for (uint j=0; j<jetPassedIdx.size(); j++) {
 	int idxJ   = jetPassedIdx.at(j);
-	double DiJetDeltaPhi = deltaPhi(jets_phi->at(idxCur), 
-					jets_phi->at(idxJ));  
+	double DiJetDeltaPhi = fabs(deltaPhi(jets_phi->at(idxCur), 
+					     jets_phi->at(idxJ)));  
 	if (DiJetDeltaPhi > DiJetDeltaPhiMax) DiJetDeltaPhiMax = DiJetDeltaPhi;  
       }
       
     } 
- 
+
+
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
       //      if (!(muons_isGlobalMuon->at(imuon) ==1 || // correct
@@ -369,6 +396,12 @@ void BNTree::Loop(TString outFile)
     }
 
 
+    double jetMetDPhi_v2 = -99.;
+    for (uint ijetPass = 0; ijetPass<jetPassedIdx.size(); ijetPass++) {
+      jetMetDPhi_v2 = deltaPhi(mets_phi->at(0),  jets_phi->at(jetPassedIdx.at(ijetPass)));
+    
+    }
+
 
     // Apply other selection requirements, corresponding to https://twiki.cern.ch/twiki/bin/viewauth/CMS/MonojetDataFinalStandard2012v2#Cutflow
     METPre    ->Fill(mets_pt->at(0),     BNTreeWt);  	
@@ -376,10 +409,13 @@ void BNTree::Loop(TString outFile)
     if (!(mets_pt->at(0) > 220))   continue;     hNMetsCut1->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(isPassedLeadingJet))     continue;     hNMetsCut1A->Fill(mets_pt->size(),    BNTreeWt);
     //     if (!(numJets  <= 2))         continue;     hNMetsCut2->Fill(mets_pt->size(),    BNTreeWt);  	
+    //    if (!(fabs(jetJetDPhi) < 2.5))   continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
     if (!(DiJetDeltaPhiMax < 2.5)) continue;     hNMetsCut3->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numElecs == 0))          continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numMuons == 0))          continue;     hNMetsCut5->Fill(mets_pt->size(),    BNTreeWt);  	
-    if (!(numTaus  == 0))          continue; 
+    if (!(numElecs == 0))         continue;     hNMetsCut4->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numMuons == 0))         continue;     hNMetsCut5->Fill(mets_pt->size(),    BNTreeWt);  	
+    if (!(numTaus  == 0))         continue; 
+    //    if (!(fabs(jetMetDPhi_v2)                                            > 0.5   ))  continue;
+
 
     //Add in cuts for disappTrks
 
@@ -396,6 +432,7 @@ void BNTree::Loop(TString outFile)
 	double trkJetDeltaRTemp = deltaR(tracks_eta->at(itrk), tracks_phi->at(itrk), jets_eta->at(jetPassedIdx.at(ijetPass)), jets_phi->at(jetPassedIdx.at(ijetPass)));
 	if (trkJetDeltaRTemp < trkJetDeltaR) trkJetDeltaR = trkJetDeltaRTemp;
       }
+      double trackMetDeltaPhi = deltaPhi(tracks_phi->at(itrk), mets_phi->at(0));
 
       if (!(tracks_pt                                           ->at(itrk)  > 20))      continue;
       if (!(fabs(tracks_eta                                     ->at(itrk))  < 2.1))    continue;
@@ -409,9 +446,15 @@ void BNTree::Loop(TString outFile)
       if (!(tracks_isMatchedDeadEcal                            ->at(itrk)  == 0))      continue;
       if (!((fabs(tracks_eta                                    ->at(itrk))  < 1.42) || 
  	    (fabs(tracks_eta                                    ->at(itrk))  > 1.65)))  continue;
+      //if (!(fabs(trackMetDeltaPhi)  < 2))    continue;
+
+
+      if (!((tracks_depTrkRp5MinusPt ->at(itrk))/tracks_pt->at(itrk)  < 0.25))      continue;
       numTrksAllButDeltaR++;
+      
       trackJetDeltaR_PreCut       ->Fill(trkJetDeltaR,                     BNTreeWt);  
-      //      if (!(trkJetDeltaR                                                     > 0.5 ))  continue;
+      
+      if (!(trkJetDeltaR                                                     > 0.5 ))  continue;
 
       if (tracks_pt->at(itrk) > trkPtBest) { 
 	trkPtBest = tracks_pt->at(itrk);  
@@ -440,20 +483,40 @@ void BNTree::Loop(TString outFile)
       //	  if (tracks_isIso -> at(itrk) == 1){     trackJet2DeltaR_isIso    ->Fill( trkJet2DeltaR, BNTreeWt);}
       // }
 
+
       //      if (tracks_isIso  ->at(itrk)  == 1){
-      double trackMetDeltaPhi = deltaPhi(tracks_phi->at(itrk), mets_phi->at(0));
+
       if (tracks_genMatchedId  ->at(itrk)  == 24){
 	//	trackGenMatchedId_isIso       ->Fill(tracks_genMatchedId     ->at(itrk), BNTreeWt);
-	trackdepTrkRp5MinusPt_Sig  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	/*	trackdepTrkRp5MinusPt_Sig        ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	trackdepTrkRp5MinusPtRhoCorr_Sig ->Fill(tracks_depTrkRp5MinusPtRhoCorr ->at(itrk), BNTreeWt);		
+	if (0 < events_numPV->at(0) && events_numPV->at(0) < 10 ){
+
+	trackdepTrkRp5MinusPtRhoCorr_Sig_PV10  ->Fill(tracks_depTrkRp5MinusPtRhoCorr ->at(itrk), BNTreeWt);
+	trackdepTrkRp5MinusPt_Sig_PV10  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	}
+	if (10 < events_numPV->at(0) && events_numPV->at(0) < 20 ){
+	  trackdepTrkRp5MinusPtRhoCorr_Sig_PV20  ->Fill(tracks_depTrkRp5MinusPtRhoCorr ->at(itrk), BNTreeWt);
+	  trackdepTrkRp5MinusPt_Sig_PV20  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	}
+	if (20 < events_numPV->at(0) && events_numPV->at(0) < 30 ){
+          trackdepTrkRp5MinusPtRhoCorr_Sig_PV30  ->Fill(tracks_depTrkRp5MinusPtRhoCorr ->at(itrk), BNTreeWt);
+          trackdepTrkRp5MinusPt_Sig_PV30  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+        }
+	if (30 <  events_numPV->at(0)  && events_numPV->at(0) < 40 ){
+          trackdepTrkRp5MinusPtRhoCorr_Sig_PV40  ->Fill(tracks_depTrkRp5MinusPtRhoCorr ->at(itrk), BNTreeWt);
+          trackdepTrkRp5MinusPt_Sig_PV40  ->Fill(tracks_depTrkRp5MinusPt ->at(itrk), BNTreeWt);
+	  }*/
+
 	trackdepTrkRp3MinusPt_Sig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
 	trackerVetoPtRp5_Sig  ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
 	trackerVetoPtRp3_Sig  ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
 	trackRelIsoRp3_SigZoom->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3_Sig    ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3VsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	trackRelIsoRp3Corr_SigZoom->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	trackRelIsoRp3Corr_Sig    ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	trackRelIsoRp3CorrVsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	//	trackRelIsoRp3Corr_SigZoom->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	//	trackRelIsoRp3Corr_Sig    ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	//trackRelIsoRp3CorrVsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp5_SigZoom->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp5_Sig    ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_Sig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt);
@@ -468,6 +531,7 @@ void BNTree::Loop(TString outFile)
 	}
 
       } else {
+	//	std::cout << "Debug 2 " << std::endl;
 	//	trackGenMatchedId_isNotIso      ->Fill(tracks_genMatchedId      ->at(itrk), BNTreeWt);
 	trackdepTrkRp5MinusPt_NotSig  ->Fill(tracks_depTrkRp5MinusPt  ->at(itrk), BNTreeWt);
 	trackdepTrkRp3MinusPt_NotSig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
@@ -476,8 +540,8 @@ void BNTree::Loop(TString outFile)
 	trackRelIsoRp5_NotSig  ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3_NotSig  ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3VsPV_NotSig->Fill(events_numPV->at(0),  (tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	trackRelIsoRp3Corr_NotSig  ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	trackRelIsoRp3CorrVsPV_NotSig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	//	trackRelIsoRp3Corr_NotSig  ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	//	trackRelIsoRp3CorrVsPV_NotSig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_NotSig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt); 
 	trackJetDeltaR_NotSig         ->Fill( trkJetDeltaR                     , BNTreeWt);
 	trackDeltaR_NotSig            ->Fill( trkDeltaR                     , BNTreeWt);
@@ -504,7 +568,7 @@ void BNTree::Loop(TString outFile)
       trackCaloTotByP         ->Fill(tracks_caloTotDeltaRp5ByPRhoCorr   ->at(itrk),          BNTreeWt);
 
     } // ends for (uint itrk = 0; itrk<tracks_pt->size(); itrk++)
-
+    //    std::cout << "Debug 0" << std::endl;
     // Next two lines for debugging only.  
     hNTrksAllButDeltaR        ->Fill(numTrksAllButDeltaR,                   BNTreeWt);  	
     if (numTrksAllButDeltaR > 0) {
@@ -514,7 +578,8 @@ void BNTree::Loop(TString outFile)
     hNTrks                  ->Fill(numTrks,                   BNTreeWt);  	
 
     if (numTrks == 0) continue;  // Only fill histograms below for events that have at least one track passing the selection.  
-
+    jetMetDeltaPhi->Fill(jetMetDPhi_v2, BNTreeWt);
+    //    jetJetDeltaPhi->Fill(jetJetDPhi, BNTreeWt);
     if (tracks_genMatchedId  ->at(idxTrkBest)  == 24){
       trackdepTrkRp5MinusPtBest_Sig   ->Fill(fabs(tracks_depTrkRp5->at(idxTrkBest)-tracks_pt ->at(idxTrkBest)), BNTreeWt);
 	hNTrksBest_Sig                  ->Fill(1.0,                                      BNTreeWt);
@@ -565,13 +630,47 @@ void BNTree::Loop(TString outFile)
       jetTwoMetDPhi           ->Fill(subJetMetDPhi                                           ,    BNTreeWt);
     }
 
-    double jetMetDPhi_v2 = -99.;
+    /*    double jetMetDPhi_v2 = -99.;
     for (uint ijetPass = 0; ijetPass<jetPassedIdx.size(); ijetPass++) {
       jetMetDPhi_v2 = deltaPhi(mets_phi->at(0),  jets_phi->at(jetPassedIdx.at(ijetPass)));
       jetMetDeltaPhi->Fill(jetMetDPhi_v2, BNTreeWt);
-    }
+      }*/
     
     MET       ->Fill(mets_pt->at(0),             BNTreeWt);
+    METPhi    ->Fill(mets_phi->at(0),            BNTreeWt);
+
+    //    TVector2 phiCorrection(TVector2 met, int Nvtx, isData) {
+      
+      float corX,corY;
+      double Nvtx = events_sumNVtx->at(0);
+      if(isData) {
+   
+	//CHristian corrections 2012ABC
+
+	corX = 0.2661 + 0.3217*Nvtx; 
+	corY = -0.2251 -0.1747*Nvtx;
+	//	std::cout << "Correcting Met for data" << std::endl;
+      }
+      else {
+	corX = 0.1166 + 0.0200*Nvtx; 
+	corY = 0.2764 - 0.1280*Nvtx;
+	//std::cout << "Correcting Met for everything else" << endl;
+      }
+
+      TVector2 corMET(0,0);
+      corMET.Set( mets_px->at(0) - corX, mets_py->at(0) -corY );
+      double corMetMag = sqrt ( pow( (corMET.X()) , 2) + pow( (corMET.Y()) , 2) );
+      //      return corMET;
+      // }
+      double phiReg = atan2(mets_py->at(0), mets_px->at(0));
+      MetDPhi_Check -> Fill ( mets_phi->at(0) - phiReg );
+      double phiCorr = atan2( corMET.Y(), corMET.X() );
+      MetDPhi       -> Fill ( phiCorr - phiReg );
+
+      METPhiCorr    ->Fill(phiCorr,            BNTreeWt);
+      METCorr    ->Fill(corMetMag,            BNTreeWt);
+
+
     METFull   ->Fill(mets_pt->at(0),             BNTreeWt);
     numPV     ->Fill(events_numPV->at(0),        BNTreeWt);  	
 
@@ -625,12 +724,12 @@ void BNTree::Loop(TString outFile)
   METPre                   ->Write();  
   hNMetsCut0               ->Write();  
   hNMetsCut1               ->Write();  
-  hNMetsCut1A               ->Write();  
-  hNMetsCut1B               ->Write();  
-  hNMetsCut1C               ->Write();  
-  hNMetsCut1D               ->Write();  
-  hNMetsCut1E               ->Write();  
-  hNMetsCut1F               ->Write();  
+  hNMetsCut1A              ->Write();  
+  hNMetsCut1B              ->Write();  
+  hNMetsCut1C              ->Write();  
+  hNMetsCut1D              ->Write();  
+  hNMetsCut1E              ->Write();  
+  hNMetsCut1F              ->Write();  
   hNMetsCut2               ->Write();  
   hNMetsCut3               ->Write();  
   hNMetsCut4               ->Write();  
@@ -641,6 +740,11 @@ void BNTree::Loop(TString outFile)
   hNJets                   ->Write();  
   numPV                    ->Write();
   MET                      ->Write();  
+  METPhi                   ->Write();  
+  MetDPhi_Check            ->Write();  
+  MetDPhi                  ->Write();  
+  METPhiCorr               ->Write();  
+  METCorr                  ->Write();  
   METFull                  ->Write();
   
   jetChargedHadFrac        ->Write();
@@ -652,6 +756,7 @@ void BNTree::Loop(TString outFile)
   jetOneMetDPhi            ->Write();
 
   jetDPhi                  ->Write();
+  jetJetDeltaPhi                  ->Write();
 
   jetTwoChHadFrac          ->Write();  
   jetTwoNeutralHadFrac     ->Write();
@@ -678,6 +783,7 @@ void BNTree::Loop(TString outFile)
   hNMuonsNoCut             ->Write();  
   hNTausNoCut              ->Write();  
 
+
   hNPV_Sig                 ->Write();  
   hNPV_NotSig              ->Write();  
   hNTrks                   ->Write();
@@ -691,6 +797,17 @@ void BNTree::Loop(TString outFile)
   trackdepTrkRp5           ->Write();
   trackdepTrkRp5MinusPt    ->Write();
   trackdepTrkRp5MinusPt_Sig    ->Write();
+
+  trackdepTrkRp5MinusPtRhoCorr_Sig           ->Write();
+  trackdepTrkRp5MinusPtRhoCorr_Sig_PV10      ->Write();
+  trackdepTrkRp5MinusPt_Sig_PV10             ->Write();
+  trackdepTrkRp5MinusPtRhoCorr_Sig_PV20      ->Write();
+  trackdepTrkRp5MinusPt_Sig_PV20             ->Write();
+  trackdepTrkRp5MinusPtRhoCorr_Sig_PV30      ->Write();
+  trackdepTrkRp5MinusPt_Sig_PV30             ->Write();
+  trackdepTrkRp5MinusPtRhoCorr_Sig_PV40      ->Write();
+  trackdepTrkRp5MinusPt_Sig_PV40             ->Write();
+
   trackdepTrkRp5MinusPt_NotSig ->Write();
   trackdepTrkRp3MinusPt        ->Write();
   trackdepTrkRp3MinusPt_Sig    ->Write();
