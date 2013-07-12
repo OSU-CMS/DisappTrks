@@ -195,11 +195,17 @@ void BNTree::Loop(TString outFile)
 
   TH2F* trackRelIsoRp3VsPV_Sig       = new TH2F("BNHist_trackRelIsoRp3VsPV_Sig",    ";# reco PV;(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (signal)",    50, 0, 50, 100, 0, 0.1);
   TH2F* trackRelIsoRp3VsPV_NotSig    = new TH2F("BNHist_trackRelIsoRp3VsPV_NotSig", ";# reco PV;(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (not sig.)",  50, 0, 50, 100, 0, 10);
-
-
   TH1F* trackRelIsoRp3_SigZoom       = new TH1F("BNHist_trackRelIsoRp3_SigZoom",   ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (signal)",     100, 0, 0.1);
   TH1F* trackRelIsoRp3_Sig           = new TH1F("BNHist_trackRelIsoRp3_Sig",       ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (signal)",     100, 0, 3);
+  TH1F* trackRelIsoRp3_SigTestCut    = new TH1F("BNHist_trackRelIsoRp3_SigTestCut", ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (signal)",     100, 0, 3);
   TH1F* trackRelIsoRp3_NotSig        = new TH1F("BNHist_trackRelIsoRp3_NotSig",    ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (not signal)", 100, 0, 3);
+  TH1F* trackRelIsoRp3_NotSigTestCut = new TH1F("BNHist_trackRelIsoRp3_NotSigTestCut", ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (not signal)", 100, 0, 3);
+
+  TH2F* trackRelIsoRp3CorrVsPV_Sig       = new TH2F("BNHist_trackRelIsoRp3CorrVsPV_Sig",    ";# reco PV;(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)",    50, 0, 50, 100, 0, 0.1);
+  TH2F* trackRelIsoRp3CorrVsPV_NotSig    = new TH2F("BNHist_trackRelIsoRp3CorrVsPV_NotSig", ";# reco PV;(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not sig.)",  50, 0, 50, 100, 0, 10);
+  TH1F* trackRelIsoRp3Corr_SigZoom       = new TH1F("BNHist_trackRelIsoRp3Corr_SigZoom",   ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)",     100, 0, 0.1);
+  TH1F* trackRelIsoRp3Corr_Sig           = new TH1F("BNHist_trackRelIsoRp3Corr_Sig",       ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)",     100, 0, 3);
+  TH1F* trackRelIsoRp3Corr_NotSig        = new TH1F("BNHist_trackRelIsoRp3Corr_NotSig",    ";(#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not signal)", 100, 0, 3);
 
 
 
@@ -235,7 +241,7 @@ void BNTree::Loop(TString outFile)
   //TH1F* trackGenMatchedId_isNotIso              = new TH1F("BNHist_trackGenMatchedId_isNotIso",           ";track genMatchedId ",             25, -0.5, 24.5);
   TH1F* trackGenMatchedIdFitReg      = new TH1F("BNHist_trackGenMatchedIdFitReg",      ";track genMatchedId (w/ miss outer hits cut)", 25, -0.5, 24.5);
   TH1F* trackGenMatchedIdSigReg      = new TH1F("BNHist_trackGenMatchedIdSigReg",      ";track genMatchedId (sig reg)",                25, -0.5, 24.5);
-
+  TH1F* trackPdgIdTestCut            = new TH1F("BNHist_trackPdgIdTestCut",            ";track genMatchedId (after rel trk iso cut)",  25, -0.5, 24.5);
 
     
   Long64_t nentries = fChain->GetEntries();
@@ -445,6 +451,9 @@ void BNTree::Loop(TString outFile)
 	trackRelIsoRp3_SigZoom->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3_Sig    ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3VsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3Corr_SigZoom->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3Corr_Sig    ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3CorrVsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp5_SigZoom->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp5_Sig    ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_Sig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt);
@@ -453,21 +462,34 @@ void BNTree::Loop(TString outFile)
 	trackMetDeltaPhi_Sig       ->Fill( trackMetDeltaPhi                , BNTreeWt);
 	trackIsIso_Sig             ->Fill(tracks_isIso->at(itrk),            BNTreeWt);
 	hNPV_Sig                   ->Fill(events_numPV->at(0),               BNTreeWt);
+
+	if ((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk) < 0.05) {
+	  trackRelIsoRp3_SigTestCut ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	}
+
       } else {
 	//	trackGenMatchedId_isNotIso      ->Fill(tracks_genMatchedId      ->at(itrk), BNTreeWt);
 	trackdepTrkRp5MinusPt_NotSig  ->Fill(tracks_depTrkRp5MinusPt  ->at(itrk), BNTreeWt);
 	trackdepTrkRp3MinusPt_NotSig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
         trackerVetoPtRp5_NotSig  ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
         trackerVetoPtRp3_NotSig  ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
-	trackRelIsoRp3_NotSig  ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp5_NotSig  ->Fill((tracks_depTrkRp5->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3_NotSig  ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3VsPV_NotSig->Fill(events_numPV->at(0),  (tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3Corr_NotSig  ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	trackRelIsoRp3CorrVsPV_NotSig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackPtByDepTrkRp5_NotSig     ->Fill((tracks_pt->at(itrk) / tracks_depTrkRp5 ->at(itrk)), BNTreeWt); 
 	trackJetDeltaR_NotSig         ->Fill( trkJetDeltaR                     , BNTreeWt);
 	trackDeltaR_NotSig            ->Fill( trkDeltaR                     , BNTreeWt);
 	trackMetDeltaPhi_NotSig       ->Fill( trackMetDeltaPhi                , BNTreeWt);
 	trackIsIso_NotSig             ->Fill(tracks_isIso->at(itrk),            BNTreeWt);
 	hNPV_NotSig                   ->Fill(events_numPV->at(0),               BNTreeWt);
+
+	if ((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk) < 0.05) {
+	  trackRelIsoRp3_NotSigTestCut ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	  trackPdgIdTestCut ->Fill(tracks_genMatchedId  ->at(itrk), BNTreeWt);   
+	}
+
       }
 
 
@@ -686,16 +708,24 @@ void BNTree::Loop(TString outFile)
   trackerVetoPtRp3_PostCut->Write();  
   trackerVetoPtRp3MinusPt ->Write();  
 
+  trackPdgIdTestCut->Write();  
   trackRelIsoRp3_Sig    ->Write();
   trackRelIsoRp3_SigZoom->Write();
   trackRelIsoRp5_Sig    ->Write();
   trackRelIsoRp5_SigZoom->Write();
+  trackRelIsoRp3Corr_Sig    ->Write();
+  trackRelIsoRp3Corr_SigZoom->Write();
+  trackRelIsoRp3_SigTestCut->Write();
+  trackRelIsoRp3_NotSigTestCut->Write();  
 
   trackRelIsoRp3_NotSig ->Write();
+  trackRelIsoRp3Corr_NotSig ->Write();
   trackRelIsoRp5_NotSig ->Write();
 
   trackRelIsoRp3VsPV_Sig->Write();
+  trackRelIsoRp3CorrVsPV_Sig->Write();
   trackRelIsoRp3VsPV_NotSig->Write();
+  trackRelIsoRp3CorrVsPV_NotSig->Write();
 
   TProfile* trackRelIsoRp3VsPV_Sig_pfx    = trackRelIsoRp3VsPV_Sig   ->ProfileX(); 
   TProfile* trackRelIsoRp3VsPV_NotSig_pfx = trackRelIsoRp3VsPV_NotSig->ProfileX(); 
@@ -707,10 +737,36 @@ void BNTree::Loop(TString outFile)
   trackRelIsoRp3VsPV_Sig_pfx2   ->Rebin(5);
   trackRelIsoRp3VsPV_NotSig_pfx2->Rebin(5);  
 
+  trackRelIsoRp3VsPV_Sig_pfx    ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)");  	 
+  trackRelIsoRp3VsPV_NotSig_pfx ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not sig.)");  
+  trackRelIsoRp3VsPV_Sig_pfx2   ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)");  	 
+  trackRelIsoRp3VsPV_NotSig_pfx2->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not sig.)");  
+
+
   trackRelIsoRp3VsPV_Sig_pfx    ->Write();
   trackRelIsoRp3VsPV_NotSig_pfx ->Write();
   trackRelIsoRp3VsPV_Sig_pfx2   ->Write();
   trackRelIsoRp3VsPV_NotSig_pfx2->Write();
+
+  TProfile* trackRelIsoRp3CorrVsPV_Sig_pfx    = trackRelIsoRp3CorrVsPV_Sig   ->ProfileX(); 
+  TProfile* trackRelIsoRp3CorrVsPV_NotSig_pfx = trackRelIsoRp3CorrVsPV_NotSig->ProfileX(); 
+
+  TProfile* trackRelIsoRp3CorrVsPV_Sig_pfx2    = trackRelIsoRp3CorrVsPV_Sig   ->ProfileX("BNHist_trackRelIsoRp3CorrVsPV_Sig_pfx2"); 
+  TProfile* trackRelIsoRp3CorrVsPV_NotSig_pfx2 = trackRelIsoRp3CorrVsPV_NotSig->ProfileX("BNHist_trackRelIsoRp3CorrVsPV_NotSig_pfx2"); 
+  trackRelIsoRp3CorrVsPV_Sig_pfx   ->Rebin(2);
+  trackRelIsoRp3CorrVsPV_NotSig_pfx->Rebin(2);  
+  trackRelIsoRp3CorrVsPV_Sig_pfx2   ->Rebin(5);
+  trackRelIsoRp3CorrVsPV_NotSig_pfx2->Rebin(5);  
+
+  trackRelIsoRp3CorrVsPV_Sig_pfx    ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)");  	 
+  trackRelIsoRp3CorrVsPV_NotSig_pfx ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not sig.)");  
+  trackRelIsoRp3CorrVsPV_Sig_pfx2   ->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (signal)");  	 
+  trackRelIsoRp3CorrVsPV_NotSig_pfx2->SetYTitle("#sum(p_{T})^{#DeltaR<0.3}-p_{T}^{track}) / p_{T}^{track} (#rho corr) (not sig.)");  
+
+  trackRelIsoRp3CorrVsPV_Sig_pfx    ->Write();
+  trackRelIsoRp3CorrVsPV_NotSig_pfx ->Write();
+  trackRelIsoRp3CorrVsPV_Sig_pfx2   ->Write();
+  trackRelIsoRp3CorrVsPV_NotSig_pfx2->Write();
 
 
   //trackdepTrkRp5MinusPt_isIso    ->Write();
