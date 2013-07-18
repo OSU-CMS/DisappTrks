@@ -543,6 +543,18 @@ cutDZSide = cms.PSet (
     cutString = cms.string("fabs(dZwrtPV) > 0.05 && fabs(dZwrtPV) < 0.15"),
     numberRequired = cms.string(">= 1"),
     )
+
+###############################
+#-- Cuts on Track-Jet pairs --#
+###############################
+cutTrkJetDeltaR = cms.PSet (
+    inputCollection = cms.string("track-jet pairs"),
+    cutString = cms.string("deltaR > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+
 #####################
 #-- Cuts on Muons --#
 #####################
