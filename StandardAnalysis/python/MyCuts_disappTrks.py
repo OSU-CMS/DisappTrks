@@ -419,6 +419,11 @@ cutTrkIso = cms.PSet (
     cutString = cms.string("isIso == 1"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkRelIsoRp3 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("trkRelIsoRp3 < 0.05"), 
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkDeadEcalVeto =  cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("isMatchedDeadEcal == 0"),
@@ -802,7 +807,7 @@ cutElecTightID = cms.PSet (
     )
 cutElecLooseIDVeto = cms.PSet (
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("looseID > 0"),
+    cutString = cms.string("mvaNonTrigV0 > 0"),
     numberRequired = cms.string("= 0"),
     )
 cutElecVetoOneMax =   cms.PSet (
