@@ -11,7 +11,7 @@ TrackJetHistograms = cms.PSet(
             name = cms.string("trackJetDeltaR"),
             title = cms.string("Track-Jet Delta R; |#Delta(R)|"),
             bins = cms.untracked.vdouble(100, 0, 10),
-        inputVariables = cms.vstring("deltaR"),
+            inputVariables = cms.vstring("deltaR"),
             ),
         )
     )
@@ -200,6 +200,18 @@ TrackIsolationHistograms = cms.PSet(
             title = cms.string("nTracksRp5; # Tracks (#DeltaR<0.5)"),
             bins = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("nTracksRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("trkRelIsoRp3"),
+            title = cms.string("trkRelIsoRp3; rel. iso. (#DeltaR<0.3}"),
+            bins = cms.untracked.vdouble(100, 0, 3),
+            inputVariables = cms.vstring("trkRelIsoRp3"),
+            ),
+        cms.PSet (
+            name = cms.string("trkRelIsoRp3Zoom"),
+            title = cms.string("trkRelIsoRp3; rel. iso. (#DeltaR<0.3}"),
+            bins = cms.untracked.vdouble(100, 0, 0.2),
+            inputVariables = cms.vstring("trkRelIsoRp3"),
             ),
         cms.PSet (
             name = cms.string("depTrkRp5"),
