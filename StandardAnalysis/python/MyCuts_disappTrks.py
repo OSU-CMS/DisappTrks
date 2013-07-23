@@ -360,6 +360,7 @@ cutJetJetDPhi = cms.PSet (
     inputCollection = cms.string("jet-jet pairs"),
     cutString = cms.string("deltaPhi > 2.5"),
     numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),
     )
 ######################
 #-- Cuts on Tracks --#
@@ -554,8 +555,9 @@ cutDZSide = cms.PSet (
 ###############################
 cutTrkJetDeltaR = cms.PSet (
     inputCollection = cms.string("track-jet pairs"),
-    cutString = cms.string("deltaR > 0.5"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("deltaR < 0.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),  
     )
 
 

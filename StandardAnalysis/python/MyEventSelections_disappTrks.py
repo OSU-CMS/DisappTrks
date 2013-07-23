@@ -64,7 +64,6 @@ PreSelection = cms.PSet(
        cutSecJetNoiseNeuHad,
        cutSecJetNoiseNeuEM,
        cutSubLeadingJetID,
-       cutJetJetDPhi,
        cutElecLooseIDVeto,
        cutMuonLooseIDVeto,
        cutTauLooseHadronicVeto,
@@ -79,6 +78,7 @@ PreSelection = cms.PSet(
        cutTrkCrackVeto,
        cutTrkRelIsoRp3,  
        cutTrkJetDeltaR,
+       cutJetJetDPhi,
        ),
     )
 
@@ -95,6 +95,7 @@ PreSelectionElec = cms.PSet(
        cutSecJetNoiseNeuHad,
        cutSecJetNoiseNeuEM,
        cutSubLeadingJetID,
+       cutJetJetDPhi,
        cutMuonLooseIDVeto,
        cutTauLooseHadronicVeto,
        cutTrkPt,
@@ -124,6 +125,7 @@ PreSelectionMuon = cms.PSet(
        cutSecJetNoiseNeuHad,
        cutSecJetNoiseNeuEM,
        cutSubLeadingJetID,
+       cutJetJetDPhi,
        cutElecLooseIDVeto,
        cutTauLooseHadronicVeto,
        cutTrkPt,
