@@ -415,6 +415,12 @@ cutTrkHitMissIn = cms.PSet (
     cutString = cms.string("nHitsMissingInner == 0"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkHitMissInDebug = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingInner >= 1"),
+    numberRequired = cms.string("= 0"),
+    #    isVeto = cms.bool(True),  
+    )
 cutTrkIso = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("isIso == 1"),
@@ -424,6 +430,12 @@ cutTrkRelIsoRp3 = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("trkRelIsoRp3 < 0.05"), 
     numberRequired = cms.string(">= 1"),
+    )
+cutTrkRelIsoRp3Debug = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("trkRelIsoRp3 > 0.05"), 
+    numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),  
     )
 cutTrkDeadEcalVeto =  cms.PSet (
     inputCollection = cms.string("tracks"),
@@ -549,16 +561,16 @@ cutDZSide = cms.PSet (
     cutString = cms.string("fabs(dZwrtPV) > 0.05 && fabs(dZwrtPV) < 0.15"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkJetDeltaR = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinSubLeadJet > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 
 ###############################
 #-- Cuts on Track-Jet pairs --#
 ###############################
-cutTrkJetDeltaR = cms.PSet (
-    inputCollection = cms.string("track-jet pairs"),
-    cutString = cms.string("deltaR < 0.5"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True),  
-    )
 
 
 
@@ -599,6 +611,7 @@ cutMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bi
     inputCollection = cms.string("muons"),
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),  
     )
 cutMuonDetIso = cms.PSet (
     inputCollection = cms.string("muons"),
@@ -811,6 +824,7 @@ cutElecLooseIDVeto = cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("mvaNonTrigV0 > 0"),
     numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),  
     )
 cutElecVetoOneMax =   cms.PSet (
     inputCollection = cms.string("electrons"),
@@ -971,6 +985,7 @@ cutTauLooseHadronicVeto = cms.PSet (
     inputCollection = cms.string("taus"),
     cutString = cms.string("looseHadronicID > 0"),
     numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),  
     )
 #############################
 #-- Cuts on Tau-Tau Pairs --#
