@@ -9,7 +9,7 @@ TrackJetHistograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("trackJetDeltaR"),
-            title = cms.string("Track-Jet Delta R; |#Delta(R)|"),
+            title = cms.string("Track-Jet #DeltaR; #DeltaR(trk-jet)"),
             bins = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("deltaR"),
             ),
@@ -328,7 +328,12 @@ TrackIsolationHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, 0, 300),
             inputVariables = cms.vstring("hoVetoEtRp3"),
             ),
-        
+        cms.PSet (
+            name = cms.string("deltaRMinSubLeadJet"),
+            title = cms.string("minimum track-jet #DeltaR; #DeltaR_{min}(trk-jet)"),
+            bins = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("deltaRMinSubLeadJet"),
+            ),        
         )
     )
 ExtraTrackHistograms = cms.PSet(
@@ -649,6 +654,19 @@ JetExtraHistograms = cms.PSet(
             ),
     )
 )
+
+
+## DiJetHistograms = cms.PSet(
+##     inputCollection = cms.string("jet-jet pairs"),
+##     histograms = cms.VPSet (
+##         cms.PSet (
+##             name = cms.string("dijetDeltaPhi"),
+##             title = cms.string("Jet-jet #Delta#Phi"),
+##             bins = cms.untracked.vdouble(100, 0, 3.15),   
+##             inputVariables = cms.vstring("deltaPhi"),
+##             ),
+##     )
+## )  
 
 
 
