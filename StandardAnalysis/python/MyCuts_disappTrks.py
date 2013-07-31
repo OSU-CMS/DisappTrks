@@ -8,7 +8,7 @@ import copy
 triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
-    "HLT_MET120_HBHENoiseCleaned_v"
+    "HLT_MET120_HBHENoiseCleaned_v",
     )
 # Choose triggers by going to http://j2eeps.cern.ch/cms-project-confdb-hltdev/browser
 # Select online/2012/8e33/v2.1.
@@ -216,7 +216,7 @@ cutJetPt30NJet1 = cms.PSet (
     )
 cutJetPt30NJet2 = cms.PSet (
     inputCollection = cms.string("jets"),
-    cutString = cms.string("pt > 30"),
+    cutString = cms.string("pt > 30c"),
     numberRequired = cms.string("== 2"),
     )
 cutJetPt30NJet3 = cms.PSet (
@@ -572,8 +572,6 @@ cutTrkJetDeltaR = cms.PSet (
 #-- Cuts on Track-Jet pairs --#
 ###############################
 
-
-
 #####################
 #-- Cuts on Muons --#
 #####################
@@ -612,6 +610,16 @@ cutMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bi
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
+    )
+cutMuonLooseID = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tig\ht_Muon
+    inputCollection = cms.string("secondary muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 0"),
     )
 cutMuonDetIso = cms.PSet (
     inputCollection = cms.string("muons"),
