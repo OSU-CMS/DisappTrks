@@ -616,6 +616,12 @@ cutMuonLooseIDVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+cutMuonLooseIDVetoInv = cms.PSet ( 
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string(">= 1"),
+    isVeto = cms.bool(True),  
+    )
 cutSecMuonLooseIDVeto = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
     cutString = cms.string("looseID > 0"),
@@ -840,6 +846,11 @@ cutElecLooseIDVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+cutElecLooseIDVetoInv = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("mvaNonTrigV0 > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutElecVetoOneMax =   cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > -1"),
@@ -1005,6 +1016,11 @@ cutTauLooseHadronicVeto = cms.PSet (
     cutString = cms.string("looseHadronicID > 0"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
+    )
+cutTauLooseHadronicVetoInv = cms.PSet (
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("looseHadronicID > 0"),
+    numberRequired = cms.string(">= 1"),
     )
 #############################
 #-- Cuts on Tau-Tau Pairs --#
