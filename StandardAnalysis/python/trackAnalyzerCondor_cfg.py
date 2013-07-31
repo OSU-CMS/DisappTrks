@@ -10,7 +10,10 @@ process.OSUAnalysis.plotAllObjectsInPassingEvents = False
 
 #overwrite the default inputs in osuAnalysis_cfi
 process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
-process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectronsLoosePFlow')
+process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuons')
+process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons')
+
+
 
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
@@ -33,6 +36,7 @@ process.OSUAnalysis.histogramSets.append(EventHistograms)
 process.OSUAnalysis.histogramSets.append(TrackHistograms)
 process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(JetHistograms)
+process.OSUAnalysis.histogramSets.append(DiJetHistograms)
 process.OSUAnalysis.histogramSets.append(SecondaryJetHistograms)
 
 #import user-defined histograms
