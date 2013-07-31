@@ -209,6 +209,73 @@ PreSelectionMuon = cms.PSet(
     )
 
 
+## Bkgd estimate ctrl sample ##
+ZtoETrk = cms.PSet(
+    name = cms.string("ZtoETrk"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+       cutMET,
+       cutSecJetPt,
+       cutSecJetEta2p4,            
+       cutSecJetNoiseChgHad,
+       cutSecJetNoiseChgEM,
+       cutSecJetNoiseNeuHad,
+       cutSecJetNoiseNeuEM,
+       cutSubLeadingJetID,
+       cutJetJetDPhi,
+       cutMuonLooseIDVeto,
+       cutSecMuonLooseIDVeto,
+       cutTauLooseHadronicVeto,
+       cutTrkPt,
+       cutTrkEta,
+       cutTrkD0,
+       cutTrkDZ,
+       cutTrkNHits,
+       cutTrkHitMissMid,
+       cutTrkHitMissIn,
+       cutTrkDeadEcalVeto,
+       cutTrkCrackVeto,
+       cutElecMva,
+       cutElecTrkDR, 
+       cutElecTrkInvMass,
+       ),
+    )
+
+
+
+## Ctrl sample for muons ##
+ZtoMuTrk = cms.PSet(
+    name = cms.string("ZtoMuTrk"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+       cutMET,
+       cutSecJetPt,
+       cutSecJetEta2p4,            
+       cutSecJetNoiseChgHad,
+       cutSecJetNoiseChgEM,
+       cutSecJetNoiseNeuHad,
+       cutSecJetNoiseNeuEM,
+       cutSubLeadingJetID,
+       cutJetJetDPhi,
+       cutElecLooseIDVeto,
+       cutTauLooseHadronicVeto,
+       cutTrkPt,
+       cutTrkEta,
+       cutTrkD0,
+       cutTrkDZ,
+       cutTrkNHits,
+       cutTrkHitMissMid,
+       cutTrkHitMissIn,
+       cutTrkDeadEcalVeto,
+       cutTrkCrackVeto,
+       cutMuonTightID,
+       cutMuTrkDeltaR,
+       cutMuTrkInvMass,
+       ),
+    )
+
+
+
 PreSelectionPTrkJetDeltaR = cms.PSet(
     name = cms.string("PreSelectionPTrkJetDeltaR"),
     triggers = triggersJetMet,
