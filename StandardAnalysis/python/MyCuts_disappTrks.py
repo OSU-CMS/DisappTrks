@@ -605,21 +605,22 @@ cutMuonTightID = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/vi
     cutString = cms.string("tightID > 0"),
     numberRequired = cms.string(">= 1"),
     )
-cutMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon
+cutMuonLooseID = cms.PSet (  
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonLooseIDVeto = cms.PSet (  
     inputCollection = cms.string("muons"),
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
-cutMuonLooseID = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("looseID > 0"),
-    numberRequired = cms.string(">= 1"),
-    )
-cutSecMuonLooseIDVeto = cms.PSet (  # recommended by https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tig\ht_Muon
+cutSecMuonLooseIDVeto = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True),  
     )
 cutMuonDetIso = cms.PSet (
     inputCollection = cms.string("muons"),
@@ -735,6 +736,11 @@ cutMuonTrkDRSameNone = cms.PSet (
 cutMuTrkDeltaR = cms.PSet(
     inputCollection = cms.string("muon-track pairs"),
     cutString = cms.string("deltaR > 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuTrkDeltaRp5 = cms.PSet(
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("deltaR > 0.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuTrkInvMass = cms.PSet(
@@ -893,6 +899,11 @@ cutElecTrkDRSame = cms.PSet (
 cutElecTrkDR = cms.PSet (
     inputCollection = cms.string("electron-track pairs"),
     cutString = cms.string("deltaR > 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecTrkDRp5 = cms.PSet (
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("deltaR > 0.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecTrkInvMass = cms.PSet(
