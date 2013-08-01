@@ -12,24 +12,24 @@ process.source.fileNames.append('file:/afs/cern.ch/user/w/wulsin/workspace/publi
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/abrinke1/SingleElectron/SingleElectron_Run2012A-13Jul2012-v1_BEAN_53xOn53x_V02_CV01/4da6952f3c4fba5e66dcec676ef9c024//ttH_pat2bean_53x_110_1_kpZ.root')
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SingleElec_Reco_P1//pat2bean_53x_102_1_CCH.root')
 
-process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
-process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
+#process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
+#process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
 
 
 process.OSUAnalysis.histogramSets.append(ElectronHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
 
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
+
+process.OSUAnalysis.channels.append(ZtoETrk)
+
 ## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV1)
 ## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2)
 #process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV3)
-process.OSUAnalysis.channels.append(WToENuSimple)  
-
-
-
-
+#process.OSUAnalysis.channels.append(WToENuSimple)
 ## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet1)  
 ## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet2)  
 ## process.OSUAnalysis.channels.append(PreSelElecMatchTrigElecV2NJet3) 

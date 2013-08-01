@@ -304,8 +304,8 @@ PreSelectionMuon = cms.PSet(
 
 
 ## Bkgd estimate ctrl sample ##
-ZtoETrk = cms.PSet(
-    name = cms.string("ZtoETrk"),
+ZtoETrk_MetTrig = cms.PSet(
+    name = cms.string("ZtoETrk_MetTrig"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
         cutElecPt,     

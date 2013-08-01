@@ -19,6 +19,53 @@ ZtoEE = cms.PSet(
          )
      ) 
 
+
+
+
+## Bkgd estimate ctrl sample ##
+ZtoETrk = cms.PSet(
+    name = cms.string("ZtoETrk"),
+    triggers = triggersSingleElec, 
+    cuts = cms.VPSet (
+        cutElecPt,     
+        cutElecEta,    
+        cutElecD0,     
+        #        cutElecDZ,     
+        cutElecMva, 
+        cutElecPFIso, 
+        cutElecNHits,
+        #        cutElecPlusMet220, 
+        cutElecPlusMet220, 
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutElecLooseIDOnlyOne,
+        cutMuonLooseIDVeto,
+        cutSecMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecTrkDR, 
+        cutElecTrkInvMass,
+       ),
+    )
+
+
+# Old selection:
 ZtoETrack = cms.PSet(
     name = cms.string("ZtoETrack"),
     triggers = triggersSingleElec, 
@@ -72,6 +119,9 @@ ZtoETrackFullPreSel = cms.PSet(
         cutElecTrkInvMass, 
         )
     )
+
+
+
 
 WtoENuTrigElec = cms.PSet(
     name = cms.string("WtoENuTrigElec"),
