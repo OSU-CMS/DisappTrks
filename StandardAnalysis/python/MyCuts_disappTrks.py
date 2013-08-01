@@ -616,6 +616,11 @@ cutMuonLooseIDVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+cutMuonLooseIDOnlyOne = cms.PSet (  
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 1"),
+    )
 cutMuonLooseIDVetoInv = cms.PSet ( 
     inputCollection = cms.string("muons"),
     cutString = cms.string("looseID > 0"),
@@ -627,6 +632,11 @@ cutSecMuonLooseIDVeto = cms.PSet (
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
+    )
+cutSecMuonLooseIDOnlyOne = cms.PSet (  
+    inputCollection = cms.string("secondary muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 1"),
     )
 cutMuonDetIso = cms.PSet (
     inputCollection = cms.string("muons"),
@@ -672,6 +682,11 @@ cutMuonVetoPt10 = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("pt > 10"),
     numberRequired = cms.string("= 0"),
+    )
+cutMuonPlusMet220 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("ptPlusMet > 220"),
+    numberRequired = cms.string(">= 1"),
     )
 ###############################
 #-- Cuts on Muon-Muon Pairs --#
@@ -846,6 +861,11 @@ cutElecLooseIDVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+cutElecLooseIDOnlyOne = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("mvaNonTrigV0 > 0"),
+    numberRequired = cms.string("= 1"),
+    )
 cutElecLooseIDVetoInv = cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("mvaNonTrigV0 > 0"),
@@ -866,6 +886,17 @@ cutElecVetoPt10 = cms.PSet (
     cutString = cms.string("pt > 10"),
     numberRequired = cms.string("= 0"),
     )
+cutElecPlusMet220 = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("ptPlusMet > 220"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecPlusMet110 = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("ptPlusMet > 110"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 #######################################
 #-- Cuts on Electron-Electron Pairs --#
 #######################################
