@@ -20,7 +20,6 @@ datasets = [
     'DY_PtZ100',    
     #    'DY',
     'Diboson',
-    'TTbar',
     #    'Wjets',  
     'ZJetsToNuNu', 
     'QCD',
