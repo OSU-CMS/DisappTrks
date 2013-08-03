@@ -625,13 +625,17 @@ cutMuonLooseIDVetoInv = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string(">= 1"),
-    isVeto = cms.bool(True),  
     )
 cutSecMuonLooseIDVeto = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
     cutString = cms.string("isGlobalMuon  > 0"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
+    )
+cutSecMuonLooseIDVetoInv = cms.PSet (  
+    inputCollection = cms.string("secondary muons"),
+    cutString = cms.string("isGlobalMuon  > 0"),
+    numberRequired = cms.string(">= 1"),
     )
 cutSecMuonLooseIDOnlyOne = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
