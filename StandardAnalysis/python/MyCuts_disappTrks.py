@@ -610,9 +610,15 @@ cutMuonLooseID = cms.PSet (
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string(">= 1"),
     )
+## cutMuonLooseIDVeto = cms.PSet (  
+##     inputCollection = cms.string("muons"),
+##     cutString = cms.string("looseID > 0"),
+##     numberRequired = cms.string("= 0"),
+##     isVeto = cms.bool(True),  
+##     )
 cutMuonLooseIDVeto = cms.PSet (  
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("looseID > 0"),
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("deltaRLooseID < 0.15"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
@@ -860,8 +866,8 @@ cutElecTightID = cms.PSet (
     numberRequired = cms.string(">= 1"),
     )
 cutElecLooseIDVeto = cms.PSet (
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("mvaNonTrigV0 > 0"),
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("deltaRLooseMvaId < 0.15"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
@@ -1047,11 +1053,17 @@ cutTauVeto = cms.PSet (
     numberRequired = cms.string("= 0"),
     )
 cutTauLooseHadronicVeto = cms.PSet (
-    inputCollection = cms.string("taus"),
-    cutString = cms.string("looseHadronicID > 0"),
+    inputCollection = cms.string("tau-track pairs"),
+    cutString = cms.string("deltaRLooseHadronicID < 0.15"),
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+## cutTauLooseHadronicVeto = cms.PSet (
+##     inputCollection = cms.string("taus"),
+##     cutString = cms.string("looseHadronicID > 0"),
+##     numberRequired = cms.string("= 0"),
+##     isVeto = cms.bool(True),  
+##     )
 cutTauLooseHadronicVetoInv = cms.PSet (
     inputCollection = cms.string("taus"),
     cutString = cms.string("looseHadronicID > 0"),
