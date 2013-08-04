@@ -99,6 +99,34 @@ PreSelection = cms.PSet(
         ),
     )
 
+PreSelNoLepVeto = cms.PSet(
+    name = cms.string("PreSelNoLepVeto"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutTauLooseHadronicVeto,
+        ),
+    )
+
 ## Preselection invert elec veto##
 PreSelectionInvElecVeto = cms.PSet(
     name = cms.string("PreSelectionInvElecVeto"),
@@ -462,10 +490,10 @@ PreSelectionElec = cms.PSet(
 ## Ctrl sample for muons ##
 PreSelectionMuon = cms.PSet(
     name = cms.string("PreSelectionMuon"),
-    triggers = triggersJetMet,
+    #    triggers = triggersJetMet,
     cuts = cms.VPSet (
-       cutMET,
-       cutSecJetPt,
+        #       cutMET,
+        #       cutSecJetPt,
        cutSecJetEta2p4,            
        cutSecJetNoiseChgHad,
        cutSecJetNoiseChgEM,
