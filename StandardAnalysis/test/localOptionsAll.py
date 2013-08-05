@@ -17,6 +17,7 @@ datasets = [
 
     'WjetsHighPt',
     'TTbar',
+    'SingleTop',
     'DY_PtZ100',    
     #    'DY',
     'Diboson',
