@@ -633,11 +633,17 @@ cutMuonLooseIDVetoInv = cms.PSet (
     numberRequired = cms.string(">= 1"),
     )
 cutSecMuonLooseIDVeto = cms.PSet (  
-    inputCollection = cms.string("secondary muons"),
-    cutString = cms.string("isGlobalMuon  > 0"),
+    inputCollection = cms.string("secondary muon-track pairs"),
+    cutString = cms.string("deltaRGlobalMuon < 0.15"), 
     numberRequired = cms.string("= 0"),
     isVeto = cms.bool(True),  
     )
+## cutSecMuonLooseIDVeto = cms.PSet (  
+##     inputCollection = cms.string("secondary muons"),
+##     cutString = cms.string("isGlobalMuon  > 0"),
+##     numberRequired = cms.string("= 0"),
+##     isVeto = cms.bool(True),  
+##     )
 cutSecMuonLooseIDVetoInv = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
     cutString = cms.string("isGlobalMuon  > 0"),
