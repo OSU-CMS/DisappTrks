@@ -4,7 +4,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *  # Needed if you 
 
 config_file = "trackAnalyzerCtrlElec_cfg.py"  
 
-intLumi = 99999.  # Need to get this  
+intLumi = 2240.  # For SingleElec_data_Reco dataset 
 
 datasets = [
     
