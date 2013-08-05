@@ -116,6 +116,19 @@ ShortTrackHistograms = cms.PSet(
  
 
 
+SecMuonHistograms = cms.PSet(
+    inputCollection = cms.string("secondary muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("secMuonPt"),
+            title = cms.string("Secondary muon transverse momentum; p_{T} [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("pt"),
+            ),
+    )
+)  # end SecMuonHistograms
+
+
 
 TestEventHistograms = cms.PSet(
     inputCollection = cms.string("events"),
@@ -510,6 +523,30 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("genDeltaRLowest; #Delta R_{min.}"),
             bins = cms.untracked.vdouble(100, 0, 2),
             inputVariables = cms.vstring("genDeltaRLowest"),
+            ),
+        cms.PSet (
+            name = cms.string("deltaRMinElecLooseMvaId"),
+            title = cms.string("deltaRMinElecLooseMvaId; deltaRMinElecLooseMvaId"),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRMinElecLooseMvaId"),
+            ),
+        cms.PSet (
+            name = cms.string("deltaRMinMuonLooseId"),
+            title = cms.string("deltaRMinMuonLooseId; deltaRMinMuonLooseId"),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRMinMuonLooseId"),
+            ),
+        cms.PSet (
+            name = cms.string("deltaRMinSecMuonLooseIdGlobal"),
+            title = cms.string("deltaRMinSecMuonLooseIdGlobal; deltaRMinSecMuonLooseIdGlobal"),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRMinSecMuonLooseIdGlobal"),
+            ),
+        cms.PSet (
+            name = cms.string("deltaRMinTauLooseHadronicId"),
+            title = cms.string("deltaRMinTauLooseHadronicId; deltaRMinTauLooseHadronicId"),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRMinTauLooseHadronicId"),
             ),
 
         
