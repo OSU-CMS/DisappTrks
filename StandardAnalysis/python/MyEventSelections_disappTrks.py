@@ -81,10 +81,6 @@ PreSelection = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutElecLooseIDVeto,
-        cutMuonLooseIDVeto,
-        cutSecMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
@@ -96,8 +92,44 @@ PreSelection = cms.PSet(
         cutTrkCrackVeto,
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutSecMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
         ),
     )
+
+
+PreSelNoTauVeto = cms.PSet(
+    name = cms.string("PreSelNoTauVeto"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutMuonLooseIDVeto,
+        cutSecMuonLooseIDVeto,
+        ),
+    )
+
 
 PreSelNoLepVeto = cms.PSet(
     name = cms.string("PreSelNoLepVeto"),
@@ -222,9 +254,9 @@ PreSelectionInvTauVeto = cms.PSet(
 
 PreSelElecVetoEnd = cms.PSet(
     name = cms.string("PreSelElecVetoEnd"),
-    triggers = triggersJetMet,
+#    triggers = triggersJetMet,
     cuts = cms.VPSet (
-        cutMET,
+        #        cutMET,
         cutSecJetPt,
         cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
@@ -1020,6 +1052,13 @@ PreSelectionPMissing = cms.PSet(
     cuts = copy.deepcopy(PreSelection.cuts),
     )
 PreSelectionPMissing.cuts.append(cutTrkHitMissOut)
+
+PreSelNoTauVetoPMissing = cms.PSet(
+    name = cms.string("PreSelNoTauVetoPMissing"),
+    cuts = copy.deepcopy(PreSelNoTauVeto.cuts),
+    )
+PreSelNoTauVetoPMissing.cuts.append(cutTrkHitMissOut)
+
 
 PreSelectionPMissingWithTrigJetMet = cms.PSet(
     name = cms.string("PreSelectionPMissingWithTrigJetMet"),
