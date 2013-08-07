@@ -502,45 +502,55 @@ cutTrkHitMissOutCtrlReg = cms.PSet (
     cutString = cms.string("nHitsMissingOuter == 0"),
     numberRequired = cms.string(">= 1"),
     )
-cutCharginoId = cms.PSet(
+cutTrkCharginoId = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 1000024"),
     numberRequired = cms.string(">= 1"),
     )
-cutElectronId = cms.PSet(
+cutTrkElectronId = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 11"),
     numberRequired = cms.string(">= 1"),
     )
-cutPionId =cms.PSet(
+cutTrkMuonId = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) == 13"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkTauId = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) == 15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPionId =cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 211"),
     numberRequired = cms.string(">= 1"),
     )
-cutNotGenMatched = cms.PSet(
+cutTrkNotGenMatched = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 0"),
     numberRequired = cms.string(">= 1"),
     )
-cutLightMesonId =cms.PSet(
+cutTrkLightMesonId =cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedId) == 15"),
     #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)
     numberRequired = cms.string(">= 1"),
     )
-cutKMesonId =cms.PSet(
+cutTrkKMesonId =cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedId) == 16"),
     #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)
     numberRequired = cms.string(">= 1"),
     )
-cutLightBaryonId =cms.PSet(
+cutTrkLightBaryonId =cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedId) == 19"),
     #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)
     numberRequired = cms.string(">= 1"),
     )
-cutKBaryonId =cms.PSet(
+cutTrkKBaryonId =cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedId) == 20"),
     #  for bin indices, see OSUAnalysis::getPdgIdBinValue(int pdgId)
@@ -551,12 +561,12 @@ cutNoCuts = cms.PSet (
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 0"),
     )
-cutD0Side = cms.PSet (
+cutTrkD0Side = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(d0wrtPV) > 0.1 && fabs(d0wrtPV) < 0.3"),
     numberRequired = cms.string(">= 1"),
     )
-cutDZSide = cms.PSet (
+cutTrkDZSide = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(dZwrtPV) > 0.05 && fabs(dZwrtPV) < 0.15"),
     numberRequired = cms.string(">= 1"),
@@ -627,15 +637,20 @@ cutMuonLooseIDVeto = cms.PSet (
     cutString = cms.string("deltaRMinMuonLooseId > 0.15"),
     numberRequired = cms.string(">= 1"),
     )
+cutMuonLooseIDVetoInv = cms.PSet (  
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinMuonLooseId < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+## cutMuonLooseIDVetoInv = cms.PSet ( 
+##     inputCollection = cms.string("muons"),
+##     cutString = cms.string("looseID > 0"),
+##     numberRequired = cms.string(">= 1"),
+##     )
 cutMuonLooseIDOnlyOne = cms.PSet (  
     inputCollection = cms.string("muons"),
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 1"),
-    )
-cutMuonLooseIDVetoInv = cms.PSet ( 
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("looseID > 0"),
-    numberRequired = cms.string(">= 1"),
     )
 cutSecMuonLooseIDVeto = cms.PSet (  
     inputCollection = cms.string("tracks"),
