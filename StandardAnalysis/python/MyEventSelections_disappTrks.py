@@ -462,6 +462,8 @@ ZtoMuTrk = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
+        cutMuTrkDeltaR,
+        cutMuTrkInvMass,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
@@ -474,11 +476,9 @@ ZtoMuTrk = cms.PSet(
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,
         cutMuonLooseIDVeto,
         cutSecMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutMuTrkDeltaR,
-        cutMuTrkInvMass,
         ),
     )
 
@@ -504,6 +504,8 @@ ZtoMuTrkInvMuonVeto = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
+        cutMuTrkDeltaR,
+        cutMuTrkInvMass,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
@@ -516,10 +518,8 @@ ZtoMuTrkInvMuonVeto = cms.PSet(
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
-        cutMuonLooseIDVetoInv,
         cutTauLooseHadronicVeto,
-        cutMuTrkDeltaR,
-        cutMuTrkInvMass,
+        cutMuonLooseIDVetoInv,
         ),
     )
 
