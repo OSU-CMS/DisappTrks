@@ -26,6 +26,93 @@ WToMu = cms.PSet(
          )
     )
 
+
+## Ctrl sample for muons ##
+ZtoMuTrkNoJetMet = cms.PSet(
+    name = cms.string("ZtoMuTrkNoJetMet"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+         # See SMP-12-023 for example of W->mu nu selection
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonTightID,
+         cutMuonPFIso,
+         cutMuonD0,
+         cutMuonDZ,
+         cutMuonValidHits,
+    #     cutMuonPlusMet220,
+     #    cutSecJetPt,
+     #    cutSecJetEta2p4,
+     #    cutSecJetNoiseChgHad,
+     #    cutSecJetNoiseChgEM,
+     #    cutSecJetNoiseNeuHad,
+     #    cutSecJetNoiseNeuEM,
+     #    cutSubLeadingJetID,
+     #    cutJetJetDPhi,
+         cutElecLooseIDVeto,
+         cutMuonLooseIDOnlyOne,
+         #        cutSecMuonLooseIDOnlyOne,  # Leave this out for now
+         cutTauLooseHadronicVeto,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkHitMissMid,
+         cutTrkHitMissIn,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         cutTrkRelIsoRp3,
+         cutTrkJetDeltaR,
+         cutMuonLooseIDVeto,
+         ),
+    )
+
+ZtoMuTrkNoJetMetInv = cms.PSet(
+    name = cms.string("ZtoMuTrkNoJetMetInv"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+         # See SMP-12-023 for example of W->mu nu selection
+         cutMuonPt20,
+         cutMuonEta,
+         cutMuonTightID,
+         cutMuonPFIso,
+         cutMuonD0,
+         cutMuonDZ,
+         cutMuonValidHits,
+         #     cutMuonPlusMet220,
+         #    cutSecJetPt,
+         #    cutSecJetEta2p4,
+         #    cutSecJetNoiseChgHad,
+         #    cutSecJetNoiseChgEM,
+         #    cutSecJetNoiseNeuHad,
+         #    cutSecJetNoiseNeuEM,
+         #    cutSubLeadingJetID,
+         #    cutJetJetDPhi,
+         cutElecLooseIDVeto,
+         #cutMuonLooseIDOnlyOne,
+         cutTauLooseHadronicVeto,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkHitMissMid,
+         cutTrkHitMissIn,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         cutTrkRelIsoRp3,
+         cutTrkJetDeltaR,
+         cutMuonLooseIDVetoInv,
+         ),
+    )
+
+
+
 ZtoMuMu = cms.PSet(
     # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
     name = cms.string("ZtoMuMu"),
