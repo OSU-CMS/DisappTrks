@@ -4,6 +4,7 @@ import FWCore.ParameterSet.Config as cms
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
+
 TrackJetHistograms = cms.PSet(
     inputCollection = cms.string("track-jet pairs"),
     histograms = cms.VPSet (
@@ -15,6 +16,7 @@ TrackJetHistograms = cms.PSet(
             ),
         )
     )
+        
 
 DiMuonHistograms = cms.PSet(
     inputCollection = cms.string("muon-muon pairs"),
@@ -89,6 +91,7 @@ DiElectronHistograms = cms.PSet(
         
         )
     )
+
 
 ShortTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
@@ -204,6 +207,7 @@ TestTrackHistograms = cms.PSet(
             ),
     )
 )
+
 
 TrackIsolationHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
@@ -436,6 +440,13 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("dPhiMetTrk; #Delta #phi (MET, trk))"),
             bins = cms.untracked.vdouble(100, -4, 4),
             inputVariables = cms.vstring("dPhiMet"),
+            ),
+
+        cms.PSet (
+            name = cms.string("isPassMuonLooseIDVeto"),
+            title = cms.string("isPassMuonLooseIDVeto; isPassMuonLooseIDVeto"),
+            bins = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("isPassMuonLooseIDVeto"),
             ),
         cms.PSet (
             name = cms.string("caloEMDeltaRp5"),
