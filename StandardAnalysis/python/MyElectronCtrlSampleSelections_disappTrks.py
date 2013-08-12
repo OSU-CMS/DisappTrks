@@ -5,6 +5,14 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyCuts_disappTrks import *  # Put all t
 ##################################################
 ##### Set up the event selections (channels) #####
 ##################################################
+SingleElecTrig = cms.PSet(
+    name = cms.string("SingleElecTrig"),
+    triggers = triggersSingleElec, 
+    cuts = cms.VPSet(
+      cutNoCuts,
+      )
+    ) 
+
 ZtoEE = cms.PSet(
      name = cms.string("ZtoEE"),
      triggers = triggersSingleElec, 
