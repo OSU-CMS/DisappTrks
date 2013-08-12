@@ -38,6 +38,9 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(JetHistograms)
 process.OSUAnalysis.histogramSets.append(DiJetHistograms)
 process.OSUAnalysis.histogramSets.append(SecondaryJetHistograms)
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronHistograms)
+process.OSUAnalysis.histogramSets.append(TauHistograms)
 
 #import user-defined histograms
 from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
@@ -45,6 +48,7 @@ process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(TrackJetHistograms)
 process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
+process.OSUAnalysis.histogramSets.append(SecMuonHistograms)
 
 ##########################################################
 ##### Add the Desired Default Channels to the List to be Run #####
