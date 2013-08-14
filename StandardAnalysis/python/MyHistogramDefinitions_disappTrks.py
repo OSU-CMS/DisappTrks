@@ -441,13 +441,24 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, -4, 4),
             inputVariables = cms.vstring("dPhiMet"),
             ),
-
         cms.PSet (
-            name = cms.string("isPassMuonLooseIDVeto"),
-            title = cms.string("isPassMuonLooseIDVeto; isPassMuonLooseIDVeto"),
-            bins = cms.untracked.vdouble(2, -0.5, 1.5),
-            inputVariables = cms.vstring("isPassMuonLooseIDVeto"),
+            name  = cms.string("isPassMuonLooseID"),  
+            title = cms.string("isPassMuonLooseID; isPassMuonLooseID"), 
+            bins = cms.untracked.vdouble(2, -0.5, 1.5), 
+            inputVariables = cms.vstring("isPassMuonLooseID"), 
             ),
+        cms.PSet (
+            name  = cms.string("isPassMuonLooseIDVsPt"),  
+            title = cms.string("isPassMuonLooseIDVsPt; track p_{T} [GeV]; isPassMuonLooseID"), 
+            bins = cms.untracked.vdouble(20, 0, 200, 2, -0.5, 1.5), 
+            inputVariables = cms.vstring("pt", "isPassMuonLooseID"), 
+            ),
+        cms.PSet (
+            name  = cms.string("isPassMuonLooseIDVsEta"),  
+            title = cms.string("isPassMuonLooseIDVsEta; track #eta; isPassMuonLooseID"), 
+            bins = cms.untracked.vdouble(10, -2.5, 2.5, 2, -0.5, 1.5), 
+            inputVariables = cms.vstring("eta", "isPassMuonLooseID"), 
+            ),  
         cms.PSet (
             name = cms.string("caloEMDeltaRp5"),
             title = cms.string("caloEMDeltaRp5; EM Calo Energy (dR < 0.5)"),
