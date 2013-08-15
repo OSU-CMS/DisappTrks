@@ -553,7 +553,9 @@ public :
    vector<float>   *tracks_nHitsMissingInner;
    vector<float>   *tracks_nHitsMissingMiddle;
    vector<float>   *tracks_depTrkRp3;
+   vector<float>   *tracks_depTrkRp3MinusPt;
    vector<float>   *tracks_depTrkRp3RhoCorr;
+   vector<float>   *tracks_depTrkRp3MinusPtRhoCorr;
    vector<float>   *tracks_depEcalRp3;
    vector<float>   *tracks_depHcalRp3;
    vector<float>   *tracks_depHoRp3;
@@ -575,6 +577,7 @@ public :
    vector<float>   *tracks_d0wrtBS;
    vector<float>   *tracks_dZwrtBS;
    vector<float>   *tracks_depTrkRp5MinusPt;
+   vector<float>   *tracks_depTrkRp5MinusPtRhoCorr;
    vector<float>   *tracks_caloTotDeltaRp5;
    vector<float>   *tracks_caloTotDeltaRp5ByP;
    vector<float>   *tracks_caloTotDeltaRp5RhoCorr;
@@ -584,6 +587,7 @@ public :
    vector<float>   *tracks_ptErrorByPt;
    vector<float>   *tracks_ptError;
    vector<float>   *tracks_ptRes;
+   vector<float>   *tracks_isPassMuonLooseID;
    vector<float>   *tracks_d0wrtPV;
    vector<float>   *tracks_dZwrtPV;
    vector<float>   *tracks_genDeltaRLowest;
@@ -1325,6 +1329,9 @@ public :
    TBranch        *b_tracks_nHitsMissingInner;   //!
    TBranch        *b_tracks_nHitsMissingMiddle;   //!
    TBranch        *b_tracks_depTrkRp3;   //!
+   TBranch        *b_tracks_depTrkRp3RhoCorr;   //!
+   TBranch        *b_tracks_depTrkRp3MinusPt;   //!
+   TBranch        *b_tracks_depTrkRp3MinusPtRhoCorr;   //!
    TBranch        *b_tracks_depEcalRp3;   //!
    TBranch        *b_tracks_depHcalRp3;   //!
    TBranch        *b_tracks_depHoRp3;   //!
@@ -1334,6 +1341,7 @@ public :
    TBranch        *b_tracks_hadVetoEtRp3;   //!
    TBranch        *b_tracks_hoVetoEtRp3;   //!
    TBranch        *b_tracks_depTrkRp5;   //!
+   TBranch        *b_tracks_depTrkRp5RhoCorr;   //!
    TBranch        *b_tracks_depEcalRp5;   //!
    TBranch        *b_tracks_depHcalRp5;   //!
    TBranch        *b_tracks_depHoRp5;   //!
@@ -1345,6 +1353,7 @@ public :
    TBranch        *b_tracks_d0wrtBS;   //!
    TBranch        *b_tracks_dZwrtBS;   //!
    TBranch        *b_tracks_depTrkRp5MinusPt;   //!
+   TBranch        *b_tracks_depTrkRp5MinusPtRhoCorr;   //!
    TBranch        *b_tracks_caloTotDeltaRp5;   //!
    TBranch        *b_tracks_caloTotDeltaRp5ByP;   //!
    TBranch        *b_tracks_caloTotDeltaRp5RhoCorr;   //!
@@ -2160,6 +2169,9 @@ void BNTree::Init(TTree *tree)
    tracks_nHitsMissingInner = 0;
    tracks_nHitsMissingMiddle = 0;
    tracks_depTrkRp3 = 0;
+   tracks_depTrkRp3RhoCorr = 0;
+   tracks_depTrkRp3MinusPt = 0;
+   tracks_depTrkRp3MinusPtRhoCorr = 0;
    tracks_depEcalRp3 = 0;
    tracks_depHcalRp3 = 0;
    tracks_depHoRp3 = 0;
@@ -2169,6 +2181,7 @@ void BNTree::Init(TTree *tree)
    tracks_hadVetoEtRp3 = 0;
    tracks_hoVetoEtRp3 = 0;
    tracks_depTrkRp5 = 0;
+   tracks_depTrkRp5RhoCorr = 0;
    tracks_depEcalRp5 = 0;
    tracks_depHcalRp5 = 0;
    tracks_depHoRp5 = 0;
@@ -2180,6 +2193,7 @@ void BNTree::Init(TTree *tree)
    tracks_d0wrtBS = 0;
    tracks_dZwrtBS = 0;
    tracks_depTrkRp5MinusPt = 0;
+   tracks_depTrkRp5MinusPtRhoCorr = 0;
    tracks_caloTotDeltaRp5 = 0;
    tracks_caloTotDeltaRp5ByP = 0;
    tracks_caloTotDeltaRp5RhoCorr = 0;
@@ -2934,6 +2948,9 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_nHitsMissingInner", &tracks_nHitsMissingInner, &b_tracks_nHitsMissingInner);
    fChain->SetBranchAddress("tracks_nHitsMissingMiddle", &tracks_nHitsMissingMiddle, &b_tracks_nHitsMissingMiddle);
    fChain->SetBranchAddress("tracks_depTrkRp3", &tracks_depTrkRp3, &b_tracks_depTrkRp3);
+   fChain->SetBranchAddress("tracks_depTrkRp3RhoCorr", &tracks_depTrkRp3RhoCorr, &b_tracks_depTrkRp3RhoCorr);
+   fChain->SetBranchAddress("tracks_depTrkRp3MinusPt", &tracks_depTrkRp3MinusPt, &b_tracks_depTrkRp3MinusPt);
+   fChain->SetBranchAddress("tracks_depTrkRp3MinusPtRhoCorr", &tracks_depTrkRp3MinusPtRhoCorr, &b_tracks_depTrkRp3MinusPtRhoCorr);
    fChain->SetBranchAddress("tracks_depEcalRp3", &tracks_depEcalRp3, &b_tracks_depEcalRp3);
    fChain->SetBranchAddress("tracks_depHcalRp3", &tracks_depHcalRp3, &b_tracks_depHcalRp3);
    fChain->SetBranchAddress("tracks_depHoRp3", &tracks_depHoRp3, &b_tracks_depHoRp3);
@@ -2943,6 +2960,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_hadVetoEtRp3", &tracks_hadVetoEtRp3, &b_tracks_hadVetoEtRp3);
    fChain->SetBranchAddress("tracks_hoVetoEtRp3", &tracks_hoVetoEtRp3, &b_tracks_hoVetoEtRp3);
    fChain->SetBranchAddress("tracks_depTrkRp5", &tracks_depTrkRp5, &b_tracks_depTrkRp5);
+   fChain->SetBranchAddress("tracks_depTrkRp5RhoCorr", &tracks_depTrkRp5RhoCorr, &b_tracks_depTrkRp5RhoCorr);
    fChain->SetBranchAddress("tracks_depEcalRp5", &tracks_depEcalRp5, &b_tracks_depEcalRp5);
    fChain->SetBranchAddress("tracks_depHcalRp5", &tracks_depHcalRp5, &b_tracks_depHcalRp5);
    fChain->SetBranchAddress("tracks_depHoRp5", &tracks_depHoRp5, &b_tracks_depHoRp5);
@@ -2954,6 +2972,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_d0wrtBS", &tracks_d0wrtBS, &b_tracks_d0wrtBS);
    fChain->SetBranchAddress("tracks_dZwrtBS", &tracks_dZwrtBS, &b_tracks_dZwrtBS);
    fChain->SetBranchAddress("tracks_depTrkRp5MinusPt", &tracks_depTrkRp5MinusPt, &b_tracks_depTrkRp5MinusPt);
+   fChain->SetBranchAddress("tracks_depTrkRp5MinusPtRhoCorr", &tracks_depTrkRp5MinusPtRhoCorr, &b_tracks_depTrkRp5MinusPtRhoCorr);
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5", &tracks_caloTotDeltaRp5, &b_tracks_caloTotDeltaRp5);
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5ByP", &tracks_caloTotDeltaRp5ByP, &b_tracks_caloTotDeltaRp5ByP);
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5RhoCorr", &tracks_caloTotDeltaRp5RhoCorr, &b_tracks_caloTotDeltaRp5RhoCorr);
