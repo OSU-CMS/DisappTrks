@@ -1303,6 +1303,7 @@ public :
    TBranch        *b_taus_genMatchedGrandmotherId;   //!
    TBranch        *b_taus_genMatchedGrandmotherIdReverse;   //!
    TBranch        *b_tracks_pt;   //!
+   TBranch        *b_tracks_isPassMuonLooseID;   //!
    TBranch        *b_tracks_px;   //!
    TBranch        *b_tracks_py;   //!
    TBranch        *b_tracks_pz;   //!
@@ -2143,6 +2144,7 @@ void BNTree::Init(TTree *tree)
    taus_genMatchedGrandmotherId = 0;
    taus_genMatchedGrandmotherIdReverse = 0;
    tracks_pt = 0;
+   tracks_isPassMuonLooseID = 0;
    tracks_px = 0;
    tracks_py = 0;
    tracks_pz = 0;
@@ -2922,6 +2924,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("taus_genMatchedGrandmotherId", &taus_genMatchedGrandmotherId, &b_taus_genMatchedGrandmotherId);
    fChain->SetBranchAddress("taus_genMatchedGrandmotherIdReverse", &taus_genMatchedGrandmotherIdReverse, &b_taus_genMatchedGrandmotherIdReverse);
    fChain->SetBranchAddress("tracks_pt", &tracks_pt, &b_tracks_pt);
+   fChain->SetBranchAddress("tracks_isPassMuonLooseID", &tracks_isPassMuonLooseID, &b_tracks_isPassMuonLooseID);
    fChain->SetBranchAddress("tracks_px", &tracks_px, &b_tracks_px);
    fChain->SetBranchAddress("tracks_py", &tracks_py, &b_tracks_py);
    fChain->SetBranchAddress("tracks_pz", &tracks_pz, &b_tracks_pz);
