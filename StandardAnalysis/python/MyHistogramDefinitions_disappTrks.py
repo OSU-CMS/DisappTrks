@@ -688,6 +688,12 @@ JetExtraHistograms = cms.PSet(
     inputCollection = cms.string("jets"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("jetChargedEmEnergyFraction"),
+            title = cms.string("Jet Charged EM Energy Fraction;Jet Charged EM Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
+            inputVariables = cms.vstring("chargedEmEnergyFraction"),
+            ),
+        cms.PSet (
             name = cms.string("jetChargedHadronEnergyFraction"),
             title = cms.string("Jet Charged Hadron Energy Fraction;Jet Charged Hadron Energy Fraction"),
             bins = cms.untracked.vdouble(120, -0.1, 1.1),
@@ -707,6 +713,44 @@ JetExtraHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("jetDeltaPhiMet"),
+            title = cms.string("Jet #Delta #phi E^{miss}_{T};Jet #Delta #phi E^{miss}_{T}"), 
+            bins = cms.untracked.vdouble(70, -3.5, 3.5),
+            inputVariables = cms.vstring("dPhiMet"),
+            ),
+    )
+)
+
+
+
+SecJetExtraHistograms = cms.PSet(
+    inputCollection = cms.string("secondary jets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("secJetChargedEmEnergyFraction"),
+            title = cms.string("Jet Charged EM Energy Fraction;Jet Charged EM Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
+            inputVariables = cms.vstring("chargedEmEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("secJetChargedHadronEnergyFraction"),
+            title = cms.string("Jet Charged Hadron Energy Fraction;Jet Charged Hadron Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
+            inputVariables = cms.vstring("chargedHadronEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("secJetNeutralEmEnergyFraction"),
+            title = cms.string("Jet Neutral EM Energy Fraction;Jet Neutral EM Energy Fraction"),
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
+            inputVariables = cms.vstring("neutralEmEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("secJetNeutralHadronEnergyFraction"),
+            title = cms.string("Jet Neutral Hadron Energy Fraction;Jet Neutral Hadron Energy Fraction"), 
+            bins = cms.untracked.vdouble(120, -0.1, 1.1),
+            inputVariables = cms.vstring("neutralHadronEnergyFraction"),
+            ),
+        cms.PSet (
+            name = cms.string("secJetDeltaPhiMet"),
             title = cms.string("Jet #Delta #phi E^{miss}_{T};Jet #Delta #phi E^{miss}_{T}"), 
             bins = cms.untracked.vdouble(70, -3.5, 3.5),
             inputVariables = cms.vstring("dPhiMet"),
