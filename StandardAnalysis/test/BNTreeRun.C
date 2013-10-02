@@ -32,7 +32,7 @@
 // -------------------------
 // -- Execution history   --
 // -------------------------
-// /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/analysisTemplateV2/CMSSW_5_3_8_patch1/src/DisappTrksT3ANTemp/StandardAnalysis/test > 
+// /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/analysisTemplateV2/CMSSW_5_3_8_patch1/src/DisappTrks/StandardAnalysis/test > 
 // root -l -b -q 'BNTreeRun.C+("condor/condor_2013_06_06_BNTreeTest/","ZZ","OSUAnalysis/WToMuSimple/BNTree_WToMuSimple")' 
 
 

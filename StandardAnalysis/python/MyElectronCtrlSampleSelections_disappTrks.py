@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrksT3ANTemp.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
+from DisappTrks.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
 
 ##################################################
 ##### Set up the event selections (channels) #####

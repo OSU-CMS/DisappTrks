@@ -1,7 +1,7 @@
 # Usage:
 # > cmsRun trackAnalyzerCtrlElec_cfg.py 2>&1 | tee trackAnalyzerCtrlElec_cfg.log 
 
-from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
+from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 
 
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/DYJetsToLL_V6/pat2bean_53x_363_1_5wf.root')
@@ -28,7 +28,7 @@ process.OSUAnalysis.verbose = cms.int32(2)
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
-from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
 
 add_channels (process, [SingleElecTrig], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
 

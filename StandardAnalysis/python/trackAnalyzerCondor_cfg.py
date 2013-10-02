@@ -38,12 +38,12 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(JetHistograms)
 process.OSUAnalysis.histogramSets.append(DiJetHistograms)
 process.OSUAnalysis.histogramSets.append(SecondaryJetHistograms)
-## process.OSUAnalysis.histogramSets.append(MuonHistograms)
-## process.OSUAnalysis.histogramSets.append(ElectronHistograms)
-## process.OSUAnalysis.histogramSets.append(TauHistograms)
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronHistograms)
+process.OSUAnalysis.histogramSets.append(TauHistograms)
 
 #import user-defined histograms
-from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
+from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 #process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(SecJetExtraHistograms)  

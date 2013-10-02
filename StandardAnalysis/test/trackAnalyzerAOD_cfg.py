@@ -3,7 +3,7 @@
 
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
-from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
+from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 ###############################################################
 ##### Set Options for Running your Analyzer Interactively #####
 ###############################################################
@@ -32,7 +32,7 @@ process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 
 
 process.OSUAnalysis.channels.append(PreSelection)                # Try this one for fun, but I think the hit cuts will be invalid.  

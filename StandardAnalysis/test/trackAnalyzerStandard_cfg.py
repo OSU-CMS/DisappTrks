@@ -1,5 +1,5 @@
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
-from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
+from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 ###############################################################
 ##### Set Options for Running your Analyzer Interactively #####
 ###############################################################
@@ -27,7 +27,7 @@ process.TFileService.fileName = 'hist.root'
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 
 ## Signal Region Channels ##
 

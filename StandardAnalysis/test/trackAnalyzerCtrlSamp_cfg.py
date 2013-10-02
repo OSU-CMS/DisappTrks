@@ -2,7 +2,7 @@
 # > cmsRun trackAnalyzerCtrlSamp_cfg.py 2>&1 | tee trackAnalyzerCtrlSamp_cfg.log 
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
-from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
+from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 
 
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/DYJetsToLL_V6/pat2bean_53x_363_1_5wf.root')
@@ -33,7 +33,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 #process.OSUAnalysis.histogramSets.append(TrackHistograms)  
 #process.OSUAnalysis.histogramSets.append(MuonHistograms)  # causes a seg fault?  
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
+from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 #Histograms for the invariant mass plots
 ## process.OSUAnalysis.histogramSets.append(DiMuonHistograms)
 ## process.OSUAnalysis.histogramSets.append(DiElectronHistograms)
@@ -49,7 +49,7 @@ process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(ZtoEE)  
 #process.OSUAnalysis.channels.append(ZtoETrack)
 #process.OSUAnalysis.channels.append(ZtoETrackPreSel)  
@@ -57,14 +57,14 @@ from DisappTrksT3ANTemp.StandardAnalysis.MyElectronCtrlSampleSelections_disappTr
 process.OSUAnalysis.channels.append(WtoENuTrigElec)  
 process.OSUAnalysis.channels.append(WtoENuTrigMET)  
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(ZtoMuMu)
 #process.OSUAnalysis.channels.append(ZtoMuTrackPreSel)
 #process.OSUAnalysis.channels.append(ZtoMuTrackFullPreSel)
 #process.OSUAnalysis.channels.append(WtoMuNuTrackFullPreSel)
 #process.OSUAnalysis.channels.append(DebugOnly)
 
-from DisappTrksT3ANTemp.StandardAnalysis.MyTauCtrlSampleSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyTauCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(ZtoTauTau)
 #process.OSUAnalysis.channels.append(ZtoMuTau)
 #process.OSUAnalysis.channels.append(ZtoTauTrackPreSel)

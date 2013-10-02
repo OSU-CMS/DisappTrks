@@ -58,7 +58,7 @@ void copyPUFiles() {
   cout << "CopyPUFiles world." << endl;
 
   TString dirCmssw = "/afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/analysisTemplateV1/CMSSW_5_3_3/src/";  
-  TFile *fin  = new TFile(dirCmssw+"DisappTrksT3ANTemp/StandardAnalysis/data/pu_disappTrks.root", "READ"); 
+  TFile *fin  = new TFile(dirCmssw+"DisappTrks/StandardAnalysis/data/pu_disappTrks.root", "READ"); 
   TFile *fout = new TFile(dirCmssw+"OSUT3Analysis/Configuration/data/pu.root", "UPDATE"); 
 
   copyOneFile(fin, fout, "AMSB_mGrav50K_0p5ns_Reco");  

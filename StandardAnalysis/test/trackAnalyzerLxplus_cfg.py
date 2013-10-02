@@ -4,7 +4,7 @@
 # > cmsRun trackAnalyzerLxplus_cfg.py 2>&1 | tee trackAnalyzerLxplus_cfg.log 
 
 import FWCore.ParameterSet.Config as cms
-from DisappTrksT3ANTemp.StandardAnalysis.trackAnalyzerCondor_cfg import *
+from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 
 ## process.source.fileNames = cms.untracked.vstring ()
 ## process.source.fileNames.append('file:/afs/cern.ch/work/j/jbrinson/public/analysisFilesFromOSU/SigFiletoTestTemp.root')  
@@ -29,7 +29,7 @@ process.source.fileNames.append('file:/afs/cern.ch/user/w/wulsin/workspace/publi
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
-from DisappTrksT3ANTemp.StandardAnalysis.MyEventSelections_disappTrks import *
+from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 process.OSUAnalysis.channels = cms.VPSet()  
 process.OSUAnalysis.channels.append(NoCuts)
 
@@ -67,7 +67,7 @@ process.OSUAnalysis.channels.append(PreSelectionPMissingWithTrigJetMetSigRegBlin
 #import the desired sets of histograms from the standard python file which defines them
 
 #import user-defined histograms
-from DisappTrksT3ANTemp.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
+from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 process.OSUAnalysis.histogramSets = cms.VPSet()  
 #process.OSUAnalysis.histogramSets.append(ShortTrackHistograms)
