@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Jul  2 11:02:33 2013 by ROOT version 5.32/00
-// from TTree BNTree_PreSelection/BNTree_PreSelection
-// found on file: hist.root
+// Thu Jul 11 11:42:32 2013 by ROOT version 5.32/00
+// from TTree BNTree_TriggerJetMet/BNTree_TriggerJetMet
+// found on file: condor/condor_2013_07_11_TestRhoCorr/AMSB_mGrav50K_0p5ns_Reco/histTrig_0.root
 //////////////////////////////////////////////////////////
 
 #ifndef BNTree_h
@@ -517,8 +517,8 @@ public :
    vector<float>   *taus_HPSbyTightCombinedIsolationDeltaBetaCorr;
    vector<float>   *taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr;
    vector<float>   *taus_HPSdecayModeFinding;
-   vector<float>   *taus_looseHadronicID;
    vector<float>   *taus_leadingTrackValid;
+   vector<float>   *taus_looseHadronicID;
    vector<float>   *taus_genDeltaRLowest;
    vector<float>   *taus_genMatchedPdgId;
    vector<float>   *taus_genMatchedId;
@@ -576,8 +576,14 @@ public :
    vector<float>   *tracks_hoVetoEtRp5;
    vector<float>   *tracks_d0wrtBS;
    vector<float>   *tracks_dZwrtBS;
+   vector<float>   *tracks_depTrkRp3MinusPt;
    vector<float>   *tracks_depTrkRp5MinusPt;
+<<<<<<< BNTree.h
+   vector<float>   *tracks_depTrkRp3MinusPtRhoCorr;
    vector<float>   *tracks_depTrkRp5MinusPtRhoCorr;
+=======
+   vector<float>   *tracks_depTrkRp5MinusPtRhoCorr;
+>>>>>>> 1.6
    vector<float>   *tracks_caloTotDeltaRp5;
    vector<float>   *tracks_caloTotDeltaRp5ByP;
    vector<float>   *tracks_caloTotDeltaRp5RhoCorr;
@@ -590,6 +596,7 @@ public :
    vector<float>   *tracks_isPassMuonLooseID;
    vector<float>   *tracks_d0wrtPV;
    vector<float>   *tracks_dZwrtPV;
+   vector<float>   *tracks_dPhiMet;
    vector<float>   *tracks_genDeltaRLowest;
    vector<float>   *tracks_genMatchedPdgId;
    vector<float>   *tracks_genMatchedId;
@@ -796,6 +803,97 @@ public :
    vector<float>   *superclusters_phi;
    vector<float>   *superclusters_eta;
    vector<float>   *superclusters_theta;
+   vector<float>   *mcparticles_energy;
+   vector<float>   *mcparticles_et;
+   vector<float>   *mcparticles_pt;
+   vector<float>   *mcparticles_px;
+   vector<float>   *mcparticles_py;
+   vector<float>   *mcparticles_pz;
+   vector<float>   *mcparticles_phi;
+   vector<float>   *mcparticles_eta;
+   vector<float>   *mcparticles_theta;
+   vector<float>   *mcparticles_mass;
+   vector<float>   *mcparticles_vx;
+   vector<float>   *mcparticles_vy;
+   vector<float>   *mcparticles_vz;
+   vector<float>   *mcparticles_motherET;
+   vector<float>   *mcparticles_motherPT;
+   vector<float>   *mcparticles_motherPhi;
+   vector<float>   *mcparticles_motherEta;
+   vector<float>   *mcparticles_mother0ET;
+   vector<float>   *mcparticles_mother0PT;
+   vector<float>   *mcparticles_mother0Phi;
+   vector<float>   *mcparticles_mother0Eta;
+   vector<float>   *mcparticles_mother1ET;
+   vector<float>   *mcparticles_mother1PT;
+   vector<float>   *mcparticles_mother1Phi;
+   vector<float>   *mcparticles_mother1Eta;
+   vector<float>   *mcparticles_daughter0ET;
+   vector<float>   *mcparticles_daughter0PT;
+   vector<float>   *mcparticles_daughter0Phi;
+   vector<float>   *mcparticles_daughter0Eta;
+   vector<float>   *mcparticles_daughter1ET;
+   vector<float>   *mcparticles_daughter1PT;
+   vector<float>   *mcparticles_daughter1Phi;
+   vector<float>   *mcparticles_daughter1Eta;
+   vector<float>   *mcparticles_grandMotherET;
+   vector<float>   *mcparticles_grandMotherPT;
+   vector<float>   *mcparticles_grandMotherPhi;
+   vector<float>   *mcparticles_grandMotherEta;
+   vector<float>   *mcparticles_grandMother00ET;
+   vector<float>   *mcparticles_grandMother00PT;
+   vector<float>   *mcparticles_grandMother00Phi;
+   vector<float>   *mcparticles_grandMother00Eta;
+   vector<float>   *mcparticles_grandMother01ET;
+   vector<float>   *mcparticles_grandMother01PT;
+   vector<float>   *mcparticles_grandMother01Phi;
+   vector<float>   *mcparticles_grandMother01Eta;
+   vector<float>   *mcparticles_grandMother10ET;
+   vector<float>   *mcparticles_grandMother10PT;
+   vector<float>   *mcparticles_grandMother10Phi;
+   vector<float>   *mcparticles_grandMother10Eta;
+   vector<float>   *mcparticles_grandMother11ET;
+   vector<float>   *mcparticles_grandMother11PT;
+   vector<float>   *mcparticles_grandMother11Phi;
+   vector<float>   *mcparticles_grandMother11Eta;
+   vector<float>   *mcparticles_charge;
+   vector<float>   *mcparticles_id;
+   vector<float>   *mcparticles_status;
+   vector<float>   *mcparticles_motherId;
+   vector<float>   *mcparticles_motherCharge;
+   vector<float>   *mcparticles_mother0Id;
+   vector<float>   *mcparticles_mother0Status;
+   vector<float>   *mcparticles_mother0Charge;
+   vector<float>   *mcparticles_mother1Id;
+   vector<float>   *mcparticles_mother1Status;
+   vector<float>   *mcparticles_mother1Charge;
+   vector<float>   *mcparticles_daughter0Id;
+   vector<float>   *mcparticles_daughter0Status;
+   vector<float>   *mcparticles_daughter0Charge;
+   vector<float>   *mcparticles_daughter1Id;
+   vector<float>   *mcparticles_daughter1Status;
+   vector<float>   *mcparticles_daughter1Charge;
+   vector<float>   *mcparticles_grandMotherId;
+   vector<float>   *mcparticles_grandMotherCharge;
+   vector<float>   *mcparticles_grandMother00Id;
+   vector<float>   *mcparticles_grandMother00Status;
+   vector<float>   *mcparticles_grandMother00Charge;
+   vector<float>   *mcparticles_grandMother01Id;
+   vector<float>   *mcparticles_grandMother01Status;
+   vector<float>   *mcparticles_grandMother01Charge;
+   vector<float>   *mcparticles_grandMother10Id;
+   vector<float>   *mcparticles_grandMother10Status;
+   vector<float>   *mcparticles_grandMother10Charge;
+   vector<float>   *mcparticles_grandMother11Id;
+   vector<float>   *mcparticles_grandMother11Status;
+   vector<float>   *mcparticles_grandMother11Charge;
+   vector<float>   *mcparticles_d0;
+   vector<float>   *mcparticles_dz;
+   vector<float>   *mcparticles_v0;
+   vector<float>   *mcparticles_deltaV0;
+   vector<float>   *mcparticles_deltaVx;
+   vector<float>   *mcparticles_deltaVy;
+   vector<float>   *mcparticles_deltaVz;
 
    // List of branches
    TBranch        *b_events_weight;   //!
@@ -1293,8 +1391,8 @@ public :
    TBranch        *b_taus_HPSbyTightCombinedIsolationDeltaBetaCorr;   //!
    TBranch        *b_taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr;   //!
    TBranch        *b_taus_HPSdecayModeFinding;   //!
-   TBranch        *b_taus_looseHadronicID;   //!
    TBranch        *b_taus_leadingTrackValid;   //!
+   TBranch        *b_taus_looseHadronicID;   //!
    TBranch        *b_taus_genDeltaRLowest;   //!
    TBranch        *b_taus_genMatchedPdgId;   //!
    TBranch        *b_taus_genMatchedId;   //!
@@ -1330,9 +1428,13 @@ public :
    TBranch        *b_tracks_nHitsMissingInner;   //!
    TBranch        *b_tracks_nHitsMissingMiddle;   //!
    TBranch        *b_tracks_depTrkRp3;   //!
+<<<<<<< BNTree.h
+   TBranch        *b_tracks_depTrkRp3RhoCorr;   //!
+=======
    TBranch        *b_tracks_depTrkRp3RhoCorr;   //!
    TBranch        *b_tracks_depTrkRp3MinusPt;   //!
    TBranch        *b_tracks_depTrkRp3MinusPtRhoCorr;   //!
+>>>>>>> 1.6
    TBranch        *b_tracks_depEcalRp3;   //!
    TBranch        *b_tracks_depHcalRp3;   //!
    TBranch        *b_tracks_depHoRp3;   //!
@@ -1353,8 +1455,14 @@ public :
    TBranch        *b_tracks_hoVetoEtRp5;   //!
    TBranch        *b_tracks_d0wrtBS;   //!
    TBranch        *b_tracks_dZwrtBS;   //!
+   TBranch        *b_tracks_depTrkRp3MinusPt;   //!
    TBranch        *b_tracks_depTrkRp5MinusPt;   //!
+<<<<<<< BNTree.h
+   TBranch        *b_tracks_depTrkRp3MinusPtRhoCorr;   //!
    TBranch        *b_tracks_depTrkRp5MinusPtRhoCorr;   //!
+=======
+   TBranch        *b_tracks_depTrkRp5MinusPtRhoCorr;   //!
+>>>>>>> 1.6
    TBranch        *b_tracks_caloTotDeltaRp5;   //!
    TBranch        *b_tracks_caloTotDeltaRp5ByP;   //!
    TBranch        *b_tracks_caloTotDeltaRp5RhoCorr;   //!
@@ -1366,6 +1474,7 @@ public :
    TBranch        *b_tracks_ptRes;   //!
    TBranch        *b_tracks_d0wrtPV;   //!
    TBranch        *b_tracks_dZwrtPV;   //!
+   TBranch        *b_tracks_dPhiMet;   //!
    TBranch        *b_tracks_genDeltaRLowest;   //!
    TBranch        *b_tracks_genMatchedPdgId;   //!
    TBranch        *b_tracks_genMatchedId;   //!
@@ -1572,6 +1681,97 @@ public :
    TBranch        *b_superclusters_phi;   //!
    TBranch        *b_superclusters_eta;   //!
    TBranch        *b_superclusters_theta;   //!
+   TBranch        *b_mcparticles_energy;   //!
+   TBranch        *b_mcparticles_et;   //!
+   TBranch        *b_mcparticles_pt;   //!
+   TBranch        *b_mcparticles_px;   //!
+   TBranch        *b_mcparticles_py;   //!
+   TBranch        *b_mcparticles_pz;   //!
+   TBranch        *b_mcparticles_phi;   //!
+   TBranch        *b_mcparticles_eta;   //!
+   TBranch        *b_mcparticles_theta;   //!
+   TBranch        *b_mcparticles_mass;   //!
+   TBranch        *b_mcparticles_vx;   //!
+   TBranch        *b_mcparticles_vy;   //!
+   TBranch        *b_mcparticles_vz;   //!
+   TBranch        *b_mcparticles_motherET;   //!
+   TBranch        *b_mcparticles_motherPT;   //!
+   TBranch        *b_mcparticles_motherPhi;   //!
+   TBranch        *b_mcparticles_motherEta;   //!
+   TBranch        *b_mcparticles_mother0ET;   //!
+   TBranch        *b_mcparticles_mother0PT;   //!
+   TBranch        *b_mcparticles_mother0Phi;   //!
+   TBranch        *b_mcparticles_mother0Eta;   //!
+   TBranch        *b_mcparticles_mother1ET;   //!
+   TBranch        *b_mcparticles_mother1PT;   //!
+   TBranch        *b_mcparticles_mother1Phi;   //!
+   TBranch        *b_mcparticles_mother1Eta;   //!
+   TBranch        *b_mcparticles_daughter0ET;   //!
+   TBranch        *b_mcparticles_daughter0PT;   //!
+   TBranch        *b_mcparticles_daughter0Phi;   //!
+   TBranch        *b_mcparticles_daughter0Eta;   //!
+   TBranch        *b_mcparticles_daughter1ET;   //!
+   TBranch        *b_mcparticles_daughter1PT;   //!
+   TBranch        *b_mcparticles_daughter1Phi;   //!
+   TBranch        *b_mcparticles_daughter1Eta;   //!
+   TBranch        *b_mcparticles_grandMotherET;   //!
+   TBranch        *b_mcparticles_grandMotherPT;   //!
+   TBranch        *b_mcparticles_grandMotherPhi;   //!
+   TBranch        *b_mcparticles_grandMotherEta;   //!
+   TBranch        *b_mcparticles_grandMother00ET;   //!
+   TBranch        *b_mcparticles_grandMother00PT;   //!
+   TBranch        *b_mcparticles_grandMother00Phi;   //!
+   TBranch        *b_mcparticles_grandMother00Eta;   //!
+   TBranch        *b_mcparticles_grandMother01ET;   //!
+   TBranch        *b_mcparticles_grandMother01PT;   //!
+   TBranch        *b_mcparticles_grandMother01Phi;   //!
+   TBranch        *b_mcparticles_grandMother01Eta;   //!
+   TBranch        *b_mcparticles_grandMother10ET;   //!
+   TBranch        *b_mcparticles_grandMother10PT;   //!
+   TBranch        *b_mcparticles_grandMother10Phi;   //!
+   TBranch        *b_mcparticles_grandMother10Eta;   //!
+   TBranch        *b_mcparticles_grandMother11ET;   //!
+   TBranch        *b_mcparticles_grandMother11PT;   //!
+   TBranch        *b_mcparticles_grandMother11Phi;   //!
+   TBranch        *b_mcparticles_grandMother11Eta;   //!
+   TBranch        *b_mcparticles_charge;   //!
+   TBranch        *b_mcparticles_id;   //!
+   TBranch        *b_mcparticles_status;   //!
+   TBranch        *b_mcparticles_motherId;   //!
+   TBranch        *b_mcparticles_motherCharge;   //!
+   TBranch        *b_mcparticles_mother0Id;   //!
+   TBranch        *b_mcparticles_mother0Status;   //!
+   TBranch        *b_mcparticles_mother0Charge;   //!
+   TBranch        *b_mcparticles_mother1Id;   //!
+   TBranch        *b_mcparticles_mother1Status;   //!
+   TBranch        *b_mcparticles_mother1Charge;   //!
+   TBranch        *b_mcparticles_daughter0Id;   //!
+   TBranch        *b_mcparticles_daughter0Status;   //!
+   TBranch        *b_mcparticles_daughter0Charge;   //!
+   TBranch        *b_mcparticles_daughter1Id;   //!
+   TBranch        *b_mcparticles_daughter1Status;   //!
+   TBranch        *b_mcparticles_daughter1Charge;   //!
+   TBranch        *b_mcparticles_grandMotherId;   //!
+   TBranch        *b_mcparticles_grandMotherCharge;   //!
+   TBranch        *b_mcparticles_grandMother00Id;   //!
+   TBranch        *b_mcparticles_grandMother00Status;   //!
+   TBranch        *b_mcparticles_grandMother00Charge;   //!
+   TBranch        *b_mcparticles_grandMother01Id;   //!
+   TBranch        *b_mcparticles_grandMother01Status;   //!
+   TBranch        *b_mcparticles_grandMother01Charge;   //!
+   TBranch        *b_mcparticles_grandMother10Id;   //!
+   TBranch        *b_mcparticles_grandMother10Status;   //!
+   TBranch        *b_mcparticles_grandMother10Charge;   //!
+   TBranch        *b_mcparticles_grandMother11Id;   //!
+   TBranch        *b_mcparticles_grandMother11Status;   //!
+   TBranch        *b_mcparticles_grandMother11Charge;   //!
+   TBranch        *b_mcparticles_d0;   //!
+   TBranch        *b_mcparticles_dz;   //!
+   TBranch        *b_mcparticles_v0;   //!
+   TBranch        *b_mcparticles_deltaV0;   //!
+   TBranch        *b_mcparticles_deltaVx;   //!
+   TBranch        *b_mcparticles_deltaVy;   //!
+   TBranch        *b_mcparticles_deltaVz;   //!
 
    BNTree(TTree *tree=0);
    virtual ~BNTree();
@@ -1579,7 +1779,7 @@ public :
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-   virtual void     Loop(TString outFile="");
+   virtual void     Loop(TString outFile="");       
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -1592,12 +1792,12 @@ BNTree::BNTree(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("hist.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("condor/condor_2013_07_11_TestRhoCorr/AMSB_mGrav50K_0p5ns_Reco/histTrig_0.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("hist.root");
+         f = new TFile("condor/condor_2013_07_11_TestRhoCorr/AMSB_mGrav50K_0p5ns_Reco/histTrig_0.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("hist.root:/OSUAnalysis/PreSelection");
-      dir->GetObject("BNTree_PreSelection",tree);
+      TDirectory * dir = (TDirectory*)f->Get("condor/condor_2013_07_11_TestRhoCorr/AMSB_mGrav50K_0p5ns_Reco/histTrig_0.root:/OSUAnalysis/TriggerJetMet");
+      dir->GetObject("BNTree_TriggerJetMet",tree);
 
    }
    Init(tree);
@@ -2134,8 +2334,8 @@ void BNTree::Init(TTree *tree)
    taus_HPSbyTightCombinedIsolationDeltaBetaCorr = 0;
    taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr = 0;
    taus_HPSdecayModeFinding = 0;
-   taus_looseHadronicID = 0;
    taus_leadingTrackValid = 0;
+   taus_looseHadronicID = 0;
    taus_genDeltaRLowest = 0;
    taus_genMatchedPdgId = 0;
    taus_genMatchedId = 0;
@@ -2171,9 +2371,13 @@ void BNTree::Init(TTree *tree)
    tracks_nHitsMissingInner = 0;
    tracks_nHitsMissingMiddle = 0;
    tracks_depTrkRp3 = 0;
+<<<<<<< BNTree.h
+   tracks_depTrkRp3RhoCorr = 0;
+=======
    tracks_depTrkRp3RhoCorr = 0;
    tracks_depTrkRp3MinusPt = 0;
    tracks_depTrkRp3MinusPtRhoCorr = 0;
+>>>>>>> 1.6
    tracks_depEcalRp3 = 0;
    tracks_depHcalRp3 = 0;
    tracks_depHoRp3 = 0;
@@ -2194,8 +2398,14 @@ void BNTree::Init(TTree *tree)
    tracks_hoVetoEtRp5 = 0;
    tracks_d0wrtBS = 0;
    tracks_dZwrtBS = 0;
+   tracks_depTrkRp3MinusPt = 0;
    tracks_depTrkRp5MinusPt = 0;
+<<<<<<< BNTree.h
+   tracks_depTrkRp3MinusPtRhoCorr = 0;
    tracks_depTrkRp5MinusPtRhoCorr = 0;
+=======
+   tracks_depTrkRp5MinusPtRhoCorr = 0;
+>>>>>>> 1.6
    tracks_caloTotDeltaRp5 = 0;
    tracks_caloTotDeltaRp5ByP = 0;
    tracks_caloTotDeltaRp5RhoCorr = 0;
@@ -2207,6 +2417,7 @@ void BNTree::Init(TTree *tree)
    tracks_ptRes = 0;
    tracks_d0wrtPV = 0;
    tracks_dZwrtPV = 0;
+   tracks_dPhiMet = 0;
    tracks_genDeltaRLowest = 0;
    tracks_genMatchedPdgId = 0;
    tracks_genMatchedId = 0;
@@ -2413,6 +2624,97 @@ void BNTree::Init(TTree *tree)
    superclusters_phi = 0;
    superclusters_eta = 0;
    superclusters_theta = 0;
+   mcparticles_energy = 0;
+   mcparticles_et = 0;
+   mcparticles_pt = 0;
+   mcparticles_px = 0;
+   mcparticles_py = 0;
+   mcparticles_pz = 0;
+   mcparticles_phi = 0;
+   mcparticles_eta = 0;
+   mcparticles_theta = 0;
+   mcparticles_mass = 0;
+   mcparticles_vx = 0;
+   mcparticles_vy = 0;
+   mcparticles_vz = 0;
+   mcparticles_motherET = 0;
+   mcparticles_motherPT = 0;
+   mcparticles_motherPhi = 0;
+   mcparticles_motherEta = 0;
+   mcparticles_mother0ET = 0;
+   mcparticles_mother0PT = 0;
+   mcparticles_mother0Phi = 0;
+   mcparticles_mother0Eta = 0;
+   mcparticles_mother1ET = 0;
+   mcparticles_mother1PT = 0;
+   mcparticles_mother1Phi = 0;
+   mcparticles_mother1Eta = 0;
+   mcparticles_daughter0ET = 0;
+   mcparticles_daughter0PT = 0;
+   mcparticles_daughter0Phi = 0;
+   mcparticles_daughter0Eta = 0;
+   mcparticles_daughter1ET = 0;
+   mcparticles_daughter1PT = 0;
+   mcparticles_daughter1Phi = 0;
+   mcparticles_daughter1Eta = 0;
+   mcparticles_grandMotherET = 0;
+   mcparticles_grandMotherPT = 0;
+   mcparticles_grandMotherPhi = 0;
+   mcparticles_grandMotherEta = 0;
+   mcparticles_grandMother00ET = 0;
+   mcparticles_grandMother00PT = 0;
+   mcparticles_grandMother00Phi = 0;
+   mcparticles_grandMother00Eta = 0;
+   mcparticles_grandMother01ET = 0;
+   mcparticles_grandMother01PT = 0;
+   mcparticles_grandMother01Phi = 0;
+   mcparticles_grandMother01Eta = 0;
+   mcparticles_grandMother10ET = 0;
+   mcparticles_grandMother10PT = 0;
+   mcparticles_grandMother10Phi = 0;
+   mcparticles_grandMother10Eta = 0;
+   mcparticles_grandMother11ET = 0;
+   mcparticles_grandMother11PT = 0;
+   mcparticles_grandMother11Phi = 0;
+   mcparticles_grandMother11Eta = 0;
+   mcparticles_charge = 0;
+   mcparticles_id = 0;
+   mcparticles_status = 0;
+   mcparticles_motherId = 0;
+   mcparticles_motherCharge = 0;
+   mcparticles_mother0Id = 0;
+   mcparticles_mother0Status = 0;
+   mcparticles_mother0Charge = 0;
+   mcparticles_mother1Id = 0;
+   mcparticles_mother1Status = 0;
+   mcparticles_mother1Charge = 0;
+   mcparticles_daughter0Id = 0;
+   mcparticles_daughter0Status = 0;
+   mcparticles_daughter0Charge = 0;
+   mcparticles_daughter1Id = 0;
+   mcparticles_daughter1Status = 0;
+   mcparticles_daughter1Charge = 0;
+   mcparticles_grandMotherId = 0;
+   mcparticles_grandMotherCharge = 0;
+   mcparticles_grandMother00Id = 0;
+   mcparticles_grandMother00Status = 0;
+   mcparticles_grandMother00Charge = 0;
+   mcparticles_grandMother01Id = 0;
+   mcparticles_grandMother01Status = 0;
+   mcparticles_grandMother01Charge = 0;
+   mcparticles_grandMother10Id = 0;
+   mcparticles_grandMother10Status = 0;
+   mcparticles_grandMother10Charge = 0;
+   mcparticles_grandMother11Id = 0;
+   mcparticles_grandMother11Status = 0;
+   mcparticles_grandMother11Charge = 0;
+   mcparticles_d0 = 0;
+   mcparticles_dz = 0;
+   mcparticles_v0 = 0;
+   mcparticles_deltaV0 = 0;
+   mcparticles_deltaVx = 0;
+   mcparticles_deltaVy = 0;
+   mcparticles_deltaVz = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -2914,8 +3216,8 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("taus_HPSbyTightCombinedIsolationDeltaBetaCorr", &taus_HPSbyTightCombinedIsolationDeltaBetaCorr, &b_taus_HPSbyTightCombinedIsolationDeltaBetaCorr);
    fChain->SetBranchAddress("taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr", &taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr, &b_taus_HPSbyVLooseCombinedIsolationDeltaBetaCorr);
    fChain->SetBranchAddress("taus_HPSdecayModeFinding", &taus_HPSdecayModeFinding, &b_taus_HPSdecayModeFinding);
-   fChain->SetBranchAddress("taus_looseHadronicID", &taus_looseHadronicID, &b_taus_looseHadronicID);
    fChain->SetBranchAddress("taus_leadingTrackValid", &taus_leadingTrackValid, &b_taus_leadingTrackValid);
+   fChain->SetBranchAddress("taus_looseHadronicID", &taus_looseHadronicID, &b_taus_looseHadronicID);
    fChain->SetBranchAddress("taus_genDeltaRLowest", &taus_genDeltaRLowest, &b_taus_genDeltaRLowest);
    fChain->SetBranchAddress("taus_genMatchedPdgId", &taus_genMatchedPdgId, &b_taus_genMatchedPdgId);
    fChain->SetBranchAddress("taus_genMatchedId", &taus_genMatchedId, &b_taus_genMatchedId);
@@ -2951,9 +3253,13 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_nHitsMissingInner", &tracks_nHitsMissingInner, &b_tracks_nHitsMissingInner);
    fChain->SetBranchAddress("tracks_nHitsMissingMiddle", &tracks_nHitsMissingMiddle, &b_tracks_nHitsMissingMiddle);
    fChain->SetBranchAddress("tracks_depTrkRp3", &tracks_depTrkRp3, &b_tracks_depTrkRp3);
+<<<<<<< BNTree.h
+   //   fChain->SetBranchAddress("tracks_depTrkRp3RhoCorr", &tracks_depTrkRp3RhoCorr, &b_tracks_depTrkRp3RhoCorr);
+=======
    fChain->SetBranchAddress("tracks_depTrkRp3RhoCorr", &tracks_depTrkRp3RhoCorr, &b_tracks_depTrkRp3RhoCorr);
    fChain->SetBranchAddress("tracks_depTrkRp3MinusPt", &tracks_depTrkRp3MinusPt, &b_tracks_depTrkRp3MinusPt);
    fChain->SetBranchAddress("tracks_depTrkRp3MinusPtRhoCorr", &tracks_depTrkRp3MinusPtRhoCorr, &b_tracks_depTrkRp3MinusPtRhoCorr);
+>>>>>>> 1.6
    fChain->SetBranchAddress("tracks_depEcalRp3", &tracks_depEcalRp3, &b_tracks_depEcalRp3);
    fChain->SetBranchAddress("tracks_depHcalRp3", &tracks_depHcalRp3, &b_tracks_depHcalRp3);
    fChain->SetBranchAddress("tracks_depHoRp3", &tracks_depHoRp3, &b_tracks_depHoRp3);
@@ -2963,7 +3269,11 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_hadVetoEtRp3", &tracks_hadVetoEtRp3, &b_tracks_hadVetoEtRp3);
    fChain->SetBranchAddress("tracks_hoVetoEtRp3", &tracks_hoVetoEtRp3, &b_tracks_hoVetoEtRp3);
    fChain->SetBranchAddress("tracks_depTrkRp5", &tracks_depTrkRp5, &b_tracks_depTrkRp5);
+<<<<<<< BNTree.h
+   //   fChain->SetBranchAddress("tracks_depTrkRp5RhoCorr", &tracks_depTrkRp5RhoCorr, &b_tracks_depTrkRp5RhoCorr);
+=======
    fChain->SetBranchAddress("tracks_depTrkRp5RhoCorr", &tracks_depTrkRp5RhoCorr, &b_tracks_depTrkRp5RhoCorr);
+>>>>>>> 1.6
    fChain->SetBranchAddress("tracks_depEcalRp5", &tracks_depEcalRp5, &b_tracks_depEcalRp5);
    fChain->SetBranchAddress("tracks_depHcalRp5", &tracks_depHcalRp5, &b_tracks_depHcalRp5);
    fChain->SetBranchAddress("tracks_depHoRp5", &tracks_depHoRp5, &b_tracks_depHoRp5);
@@ -2974,8 +3284,14 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_hoVetoEtRp5", &tracks_hoVetoEtRp5, &b_tracks_hoVetoEtRp5);
    fChain->SetBranchAddress("tracks_d0wrtBS", &tracks_d0wrtBS, &b_tracks_d0wrtBS);
    fChain->SetBranchAddress("tracks_dZwrtBS", &tracks_dZwrtBS, &b_tracks_dZwrtBS);
+   fChain->SetBranchAddress("tracks_depTrkRp3MinusPt", &tracks_depTrkRp3MinusPt, &b_tracks_depTrkRp3MinusPt);
    fChain->SetBranchAddress("tracks_depTrkRp5MinusPt", &tracks_depTrkRp5MinusPt, &b_tracks_depTrkRp5MinusPt);
+<<<<<<< BNTree.h
+/*    fChain->SetBranchAddress("tracks_depTrkRp3MinusPtRhoCorr", &tracks_depTrkRp3MinusPtRhoCorr, &b_tracks_depTrkRp3MinusPtRhoCorr); */
+/*    fChain->SetBranchAddress("tracks_depTrkRp5MinusPtRhoCorr", &tracks_depTrkRp5MinusPtRhoCorr, &b_tracks_depTrkRp5MinusPtRhoCorr); */
+=======
    fChain->SetBranchAddress("tracks_depTrkRp5MinusPtRhoCorr", &tracks_depTrkRp5MinusPtRhoCorr, &b_tracks_depTrkRp5MinusPtRhoCorr);
+>>>>>>> 1.6
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5", &tracks_caloTotDeltaRp5, &b_tracks_caloTotDeltaRp5);
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5ByP", &tracks_caloTotDeltaRp5ByP, &b_tracks_caloTotDeltaRp5ByP);
    fChain->SetBranchAddress("tracks_caloTotDeltaRp5RhoCorr", &tracks_caloTotDeltaRp5RhoCorr, &b_tracks_caloTotDeltaRp5RhoCorr);
@@ -2987,6 +3303,7 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("tracks_ptRes", &tracks_ptRes, &b_tracks_ptRes);
    fChain->SetBranchAddress("tracks_d0wrtPV", &tracks_d0wrtPV, &b_tracks_d0wrtPV);
    fChain->SetBranchAddress("tracks_dZwrtPV", &tracks_dZwrtPV, &b_tracks_dZwrtPV);
+   fChain->SetBranchAddress("tracks_dPhiMet", &tracks_dPhiMet, &b_tracks_dPhiMet);
    fChain->SetBranchAddress("tracks_genDeltaRLowest", &tracks_genDeltaRLowest, &b_tracks_genDeltaRLowest);
    fChain->SetBranchAddress("tracks_genMatchedPdgId", &tracks_genMatchedPdgId, &b_tracks_genMatchedPdgId);
    fChain->SetBranchAddress("tracks_genMatchedId", &tracks_genMatchedId, &b_tracks_genMatchedId);
@@ -3193,6 +3510,97 @@ void BNTree::Init(TTree *tree)
    fChain->SetBranchAddress("superclusters_phi", &superclusters_phi, &b_superclusters_phi);
    fChain->SetBranchAddress("superclusters_eta", &superclusters_eta, &b_superclusters_eta);
    fChain->SetBranchAddress("superclusters_theta", &superclusters_theta, &b_superclusters_theta);
+   fChain->SetBranchAddress("mcparticles_energy", &mcparticles_energy, &b_mcparticles_energy);
+   fChain->SetBranchAddress("mcparticles_et", &mcparticles_et, &b_mcparticles_et);
+   fChain->SetBranchAddress("mcparticles_pt", &mcparticles_pt, &b_mcparticles_pt);
+   fChain->SetBranchAddress("mcparticles_px", &mcparticles_px, &b_mcparticles_px);
+   fChain->SetBranchAddress("mcparticles_py", &mcparticles_py, &b_mcparticles_py);
+   fChain->SetBranchAddress("mcparticles_pz", &mcparticles_pz, &b_mcparticles_pz);
+   fChain->SetBranchAddress("mcparticles_phi", &mcparticles_phi, &b_mcparticles_phi);
+   fChain->SetBranchAddress("mcparticles_eta", &mcparticles_eta, &b_mcparticles_eta);
+   fChain->SetBranchAddress("mcparticles_theta", &mcparticles_theta, &b_mcparticles_theta);
+   fChain->SetBranchAddress("mcparticles_mass", &mcparticles_mass, &b_mcparticles_mass);
+   fChain->SetBranchAddress("mcparticles_vx", &mcparticles_vx, &b_mcparticles_vx);
+   fChain->SetBranchAddress("mcparticles_vy", &mcparticles_vy, &b_mcparticles_vy);
+   fChain->SetBranchAddress("mcparticles_vz", &mcparticles_vz, &b_mcparticles_vz);
+   fChain->SetBranchAddress("mcparticles_motherET", &mcparticles_motherET, &b_mcparticles_motherET);
+   fChain->SetBranchAddress("mcparticles_motherPT", &mcparticles_motherPT, &b_mcparticles_motherPT);
+   fChain->SetBranchAddress("mcparticles_motherPhi", &mcparticles_motherPhi, &b_mcparticles_motherPhi);
+   fChain->SetBranchAddress("mcparticles_motherEta", &mcparticles_motherEta, &b_mcparticles_motherEta);
+   fChain->SetBranchAddress("mcparticles_mother0ET", &mcparticles_mother0ET, &b_mcparticles_mother0ET);
+   fChain->SetBranchAddress("mcparticles_mother0PT", &mcparticles_mother0PT, &b_mcparticles_mother0PT);
+   fChain->SetBranchAddress("mcparticles_mother0Phi", &mcparticles_mother0Phi, &b_mcparticles_mother0Phi);
+   fChain->SetBranchAddress("mcparticles_mother0Eta", &mcparticles_mother0Eta, &b_mcparticles_mother0Eta);
+   fChain->SetBranchAddress("mcparticles_mother1ET", &mcparticles_mother1ET, &b_mcparticles_mother1ET);
+   fChain->SetBranchAddress("mcparticles_mother1PT", &mcparticles_mother1PT, &b_mcparticles_mother1PT);
+   fChain->SetBranchAddress("mcparticles_mother1Phi", &mcparticles_mother1Phi, &b_mcparticles_mother1Phi);
+   fChain->SetBranchAddress("mcparticles_mother1Eta", &mcparticles_mother1Eta, &b_mcparticles_mother1Eta);
+   fChain->SetBranchAddress("mcparticles_daughter0ET", &mcparticles_daughter0ET, &b_mcparticles_daughter0ET);
+   fChain->SetBranchAddress("mcparticles_daughter0PT", &mcparticles_daughter0PT, &b_mcparticles_daughter0PT);
+   fChain->SetBranchAddress("mcparticles_daughter0Phi", &mcparticles_daughter0Phi, &b_mcparticles_daughter0Phi);
+   fChain->SetBranchAddress("mcparticles_daughter0Eta", &mcparticles_daughter0Eta, &b_mcparticles_daughter0Eta);
+   fChain->SetBranchAddress("mcparticles_daughter1ET", &mcparticles_daughter1ET, &b_mcparticles_daughter1ET);
+   fChain->SetBranchAddress("mcparticles_daughter1PT", &mcparticles_daughter1PT, &b_mcparticles_daughter1PT);
+   fChain->SetBranchAddress("mcparticles_daughter1Phi", &mcparticles_daughter1Phi, &b_mcparticles_daughter1Phi);
+   fChain->SetBranchAddress("mcparticles_daughter1Eta", &mcparticles_daughter1Eta, &b_mcparticles_daughter1Eta);
+   fChain->SetBranchAddress("mcparticles_grandMotherET", &mcparticles_grandMotherET, &b_mcparticles_grandMotherET);
+   fChain->SetBranchAddress("mcparticles_grandMotherPT", &mcparticles_grandMotherPT, &b_mcparticles_grandMotherPT);
+   fChain->SetBranchAddress("mcparticles_grandMotherPhi", &mcparticles_grandMotherPhi, &b_mcparticles_grandMotherPhi);
+   fChain->SetBranchAddress("mcparticles_grandMotherEta", &mcparticles_grandMotherEta, &b_mcparticles_grandMotherEta);
+   fChain->SetBranchAddress("mcparticles_grandMother00ET", &mcparticles_grandMother00ET, &b_mcparticles_grandMother00ET);
+   fChain->SetBranchAddress("mcparticles_grandMother00PT", &mcparticles_grandMother00PT, &b_mcparticles_grandMother00PT);
+   fChain->SetBranchAddress("mcparticles_grandMother00Phi", &mcparticles_grandMother00Phi, &b_mcparticles_grandMother00Phi);
+   fChain->SetBranchAddress("mcparticles_grandMother00Eta", &mcparticles_grandMother00Eta, &b_mcparticles_grandMother00Eta);
+   fChain->SetBranchAddress("mcparticles_grandMother01ET", &mcparticles_grandMother01ET, &b_mcparticles_grandMother01ET);
+   fChain->SetBranchAddress("mcparticles_grandMother01PT", &mcparticles_grandMother01PT, &b_mcparticles_grandMother01PT);
+   fChain->SetBranchAddress("mcparticles_grandMother01Phi", &mcparticles_grandMother01Phi, &b_mcparticles_grandMother01Phi);
+   fChain->SetBranchAddress("mcparticles_grandMother01Eta", &mcparticles_grandMother01Eta, &b_mcparticles_grandMother01Eta);
+   fChain->SetBranchAddress("mcparticles_grandMother10ET", &mcparticles_grandMother10ET, &b_mcparticles_grandMother10ET);
+   fChain->SetBranchAddress("mcparticles_grandMother10PT", &mcparticles_grandMother10PT, &b_mcparticles_grandMother10PT);
+   fChain->SetBranchAddress("mcparticles_grandMother10Phi", &mcparticles_grandMother10Phi, &b_mcparticles_grandMother10Phi);
+   fChain->SetBranchAddress("mcparticles_grandMother10Eta", &mcparticles_grandMother10Eta, &b_mcparticles_grandMother10Eta);
+   fChain->SetBranchAddress("mcparticles_grandMother11ET", &mcparticles_grandMother11ET, &b_mcparticles_grandMother11ET);
+   fChain->SetBranchAddress("mcparticles_grandMother11PT", &mcparticles_grandMother11PT, &b_mcparticles_grandMother11PT);
+   fChain->SetBranchAddress("mcparticles_grandMother11Phi", &mcparticles_grandMother11Phi, &b_mcparticles_grandMother11Phi);
+   fChain->SetBranchAddress("mcparticles_grandMother11Eta", &mcparticles_grandMother11Eta, &b_mcparticles_grandMother11Eta);
+   fChain->SetBranchAddress("mcparticles_charge", &mcparticles_charge, &b_mcparticles_charge);
+   fChain->SetBranchAddress("mcparticles_id", &mcparticles_id, &b_mcparticles_id);
+   fChain->SetBranchAddress("mcparticles_status", &mcparticles_status, &b_mcparticles_status);
+   fChain->SetBranchAddress("mcparticles_motherId", &mcparticles_motherId, &b_mcparticles_motherId);
+   fChain->SetBranchAddress("mcparticles_motherCharge", &mcparticles_motherCharge, &b_mcparticles_motherCharge);
+   fChain->SetBranchAddress("mcparticles_mother0Id", &mcparticles_mother0Id, &b_mcparticles_mother0Id);
+   fChain->SetBranchAddress("mcparticles_mother0Status", &mcparticles_mother0Status, &b_mcparticles_mother0Status);
+   fChain->SetBranchAddress("mcparticles_mother0Charge", &mcparticles_mother0Charge, &b_mcparticles_mother0Charge);
+   fChain->SetBranchAddress("mcparticles_mother1Id", &mcparticles_mother1Id, &b_mcparticles_mother1Id);
+   fChain->SetBranchAddress("mcparticles_mother1Status", &mcparticles_mother1Status, &b_mcparticles_mother1Status);
+   fChain->SetBranchAddress("mcparticles_mother1Charge", &mcparticles_mother1Charge, &b_mcparticles_mother1Charge);
+   fChain->SetBranchAddress("mcparticles_daughter0Id", &mcparticles_daughter0Id, &b_mcparticles_daughter0Id);
+   fChain->SetBranchAddress("mcparticles_daughter0Status", &mcparticles_daughter0Status, &b_mcparticles_daughter0Status);
+   fChain->SetBranchAddress("mcparticles_daughter0Charge", &mcparticles_daughter0Charge, &b_mcparticles_daughter0Charge);
+   fChain->SetBranchAddress("mcparticles_daughter1Id", &mcparticles_daughter1Id, &b_mcparticles_daughter1Id);
+   fChain->SetBranchAddress("mcparticles_daughter1Status", &mcparticles_daughter1Status, &b_mcparticles_daughter1Status);
+   fChain->SetBranchAddress("mcparticles_daughter1Charge", &mcparticles_daughter1Charge, &b_mcparticles_daughter1Charge);
+   fChain->SetBranchAddress("mcparticles_grandMotherId", &mcparticles_grandMotherId, &b_mcparticles_grandMotherId);
+   fChain->SetBranchAddress("mcparticles_grandMotherCharge", &mcparticles_grandMotherCharge, &b_mcparticles_grandMotherCharge);
+   fChain->SetBranchAddress("mcparticles_grandMother00Id", &mcparticles_grandMother00Id, &b_mcparticles_grandMother00Id);
+   fChain->SetBranchAddress("mcparticles_grandMother00Status", &mcparticles_grandMother00Status, &b_mcparticles_grandMother00Status);
+   fChain->SetBranchAddress("mcparticles_grandMother00Charge", &mcparticles_grandMother00Charge, &b_mcparticles_grandMother00Charge);
+   fChain->SetBranchAddress("mcparticles_grandMother01Id", &mcparticles_grandMother01Id, &b_mcparticles_grandMother01Id);
+   fChain->SetBranchAddress("mcparticles_grandMother01Status", &mcparticles_grandMother01Status, &b_mcparticles_grandMother01Status);
+   fChain->SetBranchAddress("mcparticles_grandMother01Charge", &mcparticles_grandMother01Charge, &b_mcparticles_grandMother01Charge);
+   fChain->SetBranchAddress("mcparticles_grandMother10Id", &mcparticles_grandMother10Id, &b_mcparticles_grandMother10Id);
+   fChain->SetBranchAddress("mcparticles_grandMother10Status", &mcparticles_grandMother10Status, &b_mcparticles_grandMother10Status);
+   fChain->SetBranchAddress("mcparticles_grandMother10Charge", &mcparticles_grandMother10Charge, &b_mcparticles_grandMother10Charge);
+   fChain->SetBranchAddress("mcparticles_grandMother11Id", &mcparticles_grandMother11Id, &b_mcparticles_grandMother11Id);
+   fChain->SetBranchAddress("mcparticles_grandMother11Status", &mcparticles_grandMother11Status, &b_mcparticles_grandMother11Status);
+   fChain->SetBranchAddress("mcparticles_grandMother11Charge", &mcparticles_grandMother11Charge, &b_mcparticles_grandMother11Charge);
+   fChain->SetBranchAddress("mcparticles_d0", &mcparticles_d0, &b_mcparticles_d0);
+   fChain->SetBranchAddress("mcparticles_dz", &mcparticles_dz, &b_mcparticles_dz);
+   fChain->SetBranchAddress("mcparticles_v0", &mcparticles_v0, &b_mcparticles_v0);
+   fChain->SetBranchAddress("mcparticles_deltaV0", &mcparticles_deltaV0, &b_mcparticles_deltaV0);
+   fChain->SetBranchAddress("mcparticles_deltaVx", &mcparticles_deltaVx, &b_mcparticles_deltaVx);
+   fChain->SetBranchAddress("mcparticles_deltaVy", &mcparticles_deltaVy, &b_mcparticles_deltaVy);
+   fChain->SetBranchAddress("mcparticles_deltaVz", &mcparticles_deltaVz, &b_mcparticles_deltaVz);
    Notify();
 }
 
