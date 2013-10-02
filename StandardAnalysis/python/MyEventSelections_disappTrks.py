@@ -482,6 +482,56 @@ ZtoMuTrk = cms.PSet(
         ),
     )
 
+
+ZtoMuTrkMuIdNoVeto = cms.PSet(
+    name = cms.string("ZtoMuTrkMuIdNoVeto"),
+#    triggers = triggersJetMet,
+    triggers = triggersSingleMu, 
+    cuts = cms.VPSet (
+        # See SMP-12-023 for example of W->mu nu selection  
+        cutMuonPt20,
+        cutMuonEta,
+        cutMuonTightID,
+        cutMuonPFIso,
+        cutMuonD0,
+        cutMuonDZ,
+        cutMuonValidHits,
+#        cutMuonPlusMet220, 
+#        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkMuonId, 
+        cutMuTrkDeltaR,
+        cutMuTrkInvMass,
+        cutTrkPt,
+        cutTrkEta,
+#       cutTrkEtaBarrel,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        ),
+    )
+
+ZtoMuTrkMuId = copy.deepcopy(ZtoMuTrkMuIdNoVeto)  
+ZtoMuTrkMuId.name = "ZtoMuTrkMuId"  
+ZtoMuTrkMuId.cuts.append(cutMuonLooseIDVeto)
+ZtoMuTrkMuId.cuts.append(cutSecMuonLooseIDVeto)
+
+
+
 ## Ctrl sample for muons ##
 ZtoMuTrkInvMuonVeto = cms.PSet(
     name = cms.string("ZtoMuTrkInvMuonVeto"),
@@ -504,8 +554,6 @@ ZtoMuTrkInvMuonVeto = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutMuTrkDeltaR,
-        cutMuTrkInvMass,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
@@ -515,11 +563,13 @@ ZtoMuTrkInvMuonVeto = cms.PSet(
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
         cutTrkCrackVeto,
-        cutTrkRelIsoRp3,  
+#       cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
         cutTauLooseHadronicVeto,
         cutMuonLooseIDVetoInv,
+        cutMuTrkDeltaR,
+        cutMuTrkInvMass,
         ),
     )
 
@@ -1088,12 +1138,111 @@ PreSelectionIsoTrkOnlyD0SideWithTrigJetMet.cuts.insert(0,cutJetPt)
 PreSelectionIsoTrkOnlyD0SideWithTrigJetMet.cuts.insert(0,cutMET)
 
 
-PreSelIdMuon = cms.PSet(
-    name = cms.string("PreSelIdMuon"),
+PreSelIdMuonNoVeto = cms.PSet(
+    name = cms.string("PreSelIdMuonNoVeto"),
     triggers = triggersJetMet,
-    cuts = copy.deepcopy(PreSelection.cuts),
+    cuts = cms.VPSet (
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkMuonId, 
+        cutTrkPt,
+        cutTrkEta,
+#       cutTrkEtaBarrel,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,    
     )
-PreSelIdMuon.cuts.append(cutTrkMuonId)
+)
+
+PreSelIdMuon = copy.deepcopy(PreSelIdMuonNoVeto)
+PreSelIdMuon.name = "PreSelIdMuon"
+PreSelIdMuon.cuts.append(cutMuonLooseIDVeto)
+PreSelIdMuon.cuts.append(cutSecMuonLooseIDVeto)  
+
+
+
+SigRegIdMuon = cms.PSet(
+    name = cms.string("SigRegIdMuon"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutTrkMuonId, 
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,    
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkHitMissOut,
+        cutMaxCaloPUCorr,
+##         cutMuonLooseIDVeto,
+##         cutSecMuonLooseIDVeto,
+    )
+)
+
+
+PreSelPMissInvVetoIdMuon = cms.PSet(
+    name = cms.string("PreSelPMissInvVetoIdMuon"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET,
+        cutSecJetPt,
+        cutSecJetEta2p4,            
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutTrkMuonId, 
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,  
+        cutTrkJetDeltaR,
+        cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,    
+        cutTrkHitMissOut,
+        cutMaxCaloPUCorr,
+        cutMuonLooseIDVetoInv,
+    )
+)
 
 PreSelInvVetoIdMuon = cms.PSet(
     name = cms.string("PreSelInvVetoIdMuon"),
@@ -1459,6 +1608,13 @@ SigRegWithMaxCalo = cms.PSet(
     cuts = copy.deepcopy(PreSelectionPMissing.cuts),
 )
 SigRegWithMaxCalo.cuts.append(cutMaxCaloTight)
+
+PreSelWithMaxCalo = cms.PSet(
+    name = cms.string("PreSelWithMaxCalo"),
+    cuts = copy.deepcopy(PreSelection.cuts),
+)
+PreSelWithMaxCalo.cuts.append(cutMaxCaloTight) 
+#PreSelWithMaxCalo.cuts.append(cutMaxMissOut)  # for data only
 
 
 SigRegWithMaxCaloLoose = cms.PSet(
