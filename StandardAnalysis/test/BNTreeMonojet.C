@@ -264,7 +264,7 @@ void BNTree::Loop(TString outFile)
   //TH1F* trackJet2DeltaR              = new TH1F("BNHist_trackJet2DeltaR",           ";track-jet2  deltaR ",             100, 0, 5);
   //TH1F* trackJet2DeltaR_isNotIso              = new TH1F("BNHist_trackJet2DeltaR_isNotIso",           ";track-jet2  deltaR ",             100, 0, 5);
   //TH1F* trackGenMatchedId_isIso              = new TH1F("BNHist_trackGenMatchedId_isIso",           ";track genMatchedId ",                   25, -0.5, 24.5);
-  //TH1F* trackGenMatchedId_isNotIso              = new TH1F("BNHist_trackGenMatchedId_isNotIso",           ";track genMatchedId ",             25, -0.5, 24.5);
+  TH1F* trackGenMatchedId_isNotIso   = new TH1F("BNHist_trackGenMatchedId_isNotIso",   ";track genMatchedId ",                         25, -0.5, 24.5);
   TH1F* trackGenMatchedIdFitReg      = new TH1F("BNHist_trackGenMatchedIdFitReg",      ";track genMatchedId (w/ miss outer hits cut)", 25, -0.5, 24.5);
   TH1F* trackGenMatchedIdSigReg      = new TH1F("BNHist_trackGenMatchedIdSigReg",      ";track genMatchedId (sig reg)",                25, -0.5, 24.5);
   TH1F* trackPdgIdTestCut            = new TH1F("BNHist_trackPdgIdTestCut",            ";track genMatchedId (after rel trk iso cut)",  25, -0.5, 24.5);
@@ -274,6 +274,9 @@ void BNTree::Loop(TString outFile)
 
   double lumiWt = fChain->GetWeight();  // The BNTree weight must be set by mergeOutput.py.  
   if (outFile.Contains("hist_")) lumiWt = 1.0;  // Do not apply the lumi weight if writing histograms to hist_*.root files, since the lumi wt will be applied by mergeOutput.py.  
+
+  int nEvtPassPre    = 0;  
+  double nEvtPassPreWtd = 0;  
 
   cout << "Looping over " << nentries << " entries in chain: " << fChain->GetTitle() << endl;  
   Long64_t nbytes = 0, nb = 0;
@@ -360,11 +363,14 @@ void BNTree::Loop(TString outFile)
     } 
 
 
+    // test tighter muon cut: 
+    //    if (muons_pt->size()>0) continue;  
     for (uint imuon = 0; imuon<muons_pt->size(); imuon++) {
       if (!(muons_pt                      ->at(imuon)  > 10))   continue;  
       //      if (!(muons_isGlobalMuon->at(imuon) ==1 || // correct
       if (!(muons_isGlobalMuon ->at(imuon)==1 ||  
 	    muons_isTrackerMuon->at(imuon)==1)) continue;  
+
       
       // Selection below is for positive muon ID, not muon veto!
       // if (!(muons_pt                      ->at(imuon)  > 20))   continue;
@@ -449,7 +455,11 @@ void BNTree::Loop(TString outFile)
       //if (!(fabs(trackMetDeltaPhi)  < 2))    continue;
 
 
-      if (!((tracks_depTrkRp5MinusPt ->at(itrk))/tracks_pt->at(itrk)  < 0.25))      continue;
+      // Testing only:       if (!((tracks_depTrkRp5MinusPt ->at(itrk))/tracks_pt->at(itrk)  < 0.05))      continue;
+      if (!((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk)  < 0.05))      continue;
+
+      
+
       numTrksAllButDeltaR++;
       
       trackJetDeltaR_PreCut       ->Fill(trkJetDeltaR,                     BNTreeWt);  
@@ -509,11 +519,14 @@ void BNTree::Loop(TString outFile)
 	  }*/
 
 	trackdepTrkRp3MinusPt_Sig  ->Fill(tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk), BNTreeWt);
-	trackerVetoPtRp5_Sig  ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
-	trackerVetoPtRp3_Sig  ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
+	trackerVetoPtRp5_Sig       ->Fill(tracks_trackerVetoPtRp5->at(itrk), BNTreeWt);
+	trackerVetoPtRp3_Sig       ->Fill(tracks_trackerVetoPtRp3->at(itrk), BNTreeWt);
 	trackRelIsoRp3_SigZoom->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3_Sig    ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	trackRelIsoRp3VsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	// 	trackRelIsoRp3Corr_SigZoom->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	// 	trackRelIsoRp3Corr_Sig    ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
+	// 	trackRelIsoRp3CorrVsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	//	trackRelIsoRp3Corr_SigZoom->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	//	trackRelIsoRp3Corr_Sig    ->Fill((tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
 	//trackRelIsoRp3CorrVsPV_Sig->Fill(events_numPV->at(0),  (tracks_depTrkRp3MinusPtRhoCorr->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
@@ -551,7 +564,9 @@ void BNTree::Loop(TString outFile)
 
 	if ((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk) < 0.05) {
 	  trackRelIsoRp3_NotSigTestCut ->Fill((tracks_depTrkRp3->at(itrk)-tracks_pt->at(itrk))/tracks_pt->at(itrk), BNTreeWt);
-	  trackPdgIdTestCut ->Fill(tracks_genMatchedId  ->at(itrk), BNTreeWt);   
+	  trackPdgIdTestCut         ->Fill(tracks_genMatchedId  ->at(itrk), BNTreeWt);   
+	} else {
+	  trackGenMatchedId_isNotIso->Fill(tracks_genMatchedId  ->at(itrk), BNTreeWt);  
 	}
 
       }
@@ -597,6 +612,17 @@ void BNTree::Loop(TString outFile)
     hNElecsNoCut            ->Fill(electrons_pt->size(),      BNTreeWt);  	
     hNTausNoCut             ->Fill(taus_pt->size(),           BNTreeWt);  	
     hNMets                  ->Fill(mets_pt->size(),           BNTreeWt);  	
+    cout << "Found event that passed presel, incl. trk iso: run = " << int(events_run->at(0))  
+	 << "; lumi = " << int(events_lumi->at(0))
+	 << "; evt = " << long(events_evt->at(0))    
+	 << "; best trk pt = " << tracks_pt ->at(idxTrkBest)
+	 << "; eta = "         << tracks_eta->at(idxTrkBest)
+	 << "; phi = "         << tracks_phi->at(idxTrkBest)
+	 << "; relIso0.3 = " << (tracks_depTrkRp3->at(idxTrkBest)-tracks_pt->at(idxTrkBest))/tracks_pt->at(idxTrkBest)
+	 << "; genMatchPdgId = " << int(tracks_genMatchedPdgId  ->at(idxTrkBest) )  
+	 << endl;  
+    nEvtPassPre++;  
+    nEvtPassPreWtd += BNTreeWt;  
 
 
     double jetMetDPhi = fabs(fabs(fabs(jets_phi->at(jetPassedIdx.at(0)) - mets_phi->at(0)) - 3.14159) - 3.14159);  
@@ -668,7 +694,7 @@ void BNTree::Loop(TString outFile)
       MetDPhi       -> Fill ( phiCorr - phiReg );
 
       METPhiCorr    ->Fill(phiCorr,            BNTreeWt);
-      METCorr    ->Fill(corMetMag,            BNTreeWt);
+      METCorr       ->Fill(corMetMag,          BNTreeWt);
 
 
     METFull   ->Fill(mets_pt->at(0),             BNTreeWt);
@@ -683,12 +709,12 @@ void BNTree::Loop(TString outFile)
 				     tracks_depTrkRp5->at(idxTrkBest)), BNTreeWt); 
 //     if (!(tracks_depTrkRp5MinusPt           ->at(idxTrkBest) < 7)) continue;   
 //     trackdepTrkRp5MinusPtPostCut->Fill(trackIsoVal,          BNTreeWt);  
-//     trackNHitsMissingOutPreCut ->Fill(tracks_nHitsMissingOuter           ->at(idxTrkBest),          BNTreeWt);  
+    trackNHitsMissingOutPreCut ->Fill(tracks_nHitsMissingOuter           ->at(idxTrkBest),          BNTreeWt);  
 
     trackerVetoPtRp3MinusPt  ->Fill(tracks_trackerVetoPtRp3->at(idxTrkBest) - 
 				    tracks_pt              ->at(idxTrkBest), BNTreeWt); 
     trackerVetoPtRp3_PreCut  ->Fill(tracks_trackerVetoPtRp3->at(idxTrkBest), BNTreeWt);
-    if (!(tracks_trackerVetoPtRp3->at(idxTrkBest)>70)) continue;  
+    //    if (!(tracks_trackerVetoPtRp3->at(idxTrkBest)>70)) continue;  
     trackerVetoPtRp3_PostCut ->Fill(tracks_trackerVetoPtRp3->at(idxTrkBest), BNTreeWt);
 
 
@@ -889,7 +915,7 @@ void BNTree::Loop(TString outFile)
   //trackdepTrkRp5MinusPt_isIso    ->Write();
   //trackdepTrkRp5MinusPt_isNotIso    ->Write();
   //trackGenMatchedId_isIso ->Write();
-  //trackGenMatchedId_isNotIso ->Write();
+  trackGenMatchedId_isNotIso ->Write();
 
 
   trackDeltaR_Sig        ->Write();
@@ -930,6 +956,9 @@ void BNTree::Loop(TString outFile)
 
 
   fOut->Close();  
+
+  cout << "Total events found that pass presel (wtd):  " << nEvtPassPre 
+       << "  ( " << nEvtPassPreWtd << " )" << endl;  
 
   cout << "Finished BNTree::Loop() successfully." << endl;
   cout << "Total time to run BNTree::Loop():  " << flush;
