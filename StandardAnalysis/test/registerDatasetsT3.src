@@ -90,7 +90,7 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 #osudb -x  2950.0 update  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
 
 
-# Cross sections from https://twiki.cern.ch/twiki/bin/view/CMS/MonojetDatasetNtupleV6C
+# Cross sections from https://twiki.cern.ch/twiki/bin/view/CMS/MonojetDatasetNtupleV6Ct
 # osudb update -y 3.79  /T_s-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
 # osudb update -y 1.76  /Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
 # osudb update -y 56.4  /T_t-channel_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
@@ -192,6 +192,10 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 #osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V5/SigMC_LL01_mGrav50K_1ns	   -f BEAN create DisappTrkChargino_LL01_mGrav50K_1ns_BEANsV5	  
 #osudb --location /data/se/store/user/wulsin/DisappTrkChargino_BEANs_V5/SigMC_LL01_mGrav50K_5ns    -f BEAN create DisappTrkChargino_LL01_mGrav50K_5ns_BEANsV5  
 
+
+
+
+
 ############################
 # Signal MC V6
 ############################
@@ -223,8 +227,34 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 #osudb -x  0.015 update DisappTrkChargino_LL01_mGrav150K_1ns_BEANsV6  
 #osudb -x  0.015 update DisappTrkChargino_LL01_mGrav150K_5ns_BEANsV6  
 
+
+############################
+# Signal MC V7
+############################
+#osudb -x 11     update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER						
+#osudb -x 11     update /DisappTrkChargino_LL01_1ns_V5/wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c/USER							  
+#osudb -x 11     update /DisappTrkChargino_LL01_5ns_V5/wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97/USER							  
+#osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527/USER				 
+#osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER					  
+#osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER				
+#osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746/USER
+#osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219/USER	 
+#osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9/USER    
+#osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378/USER			
+#osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6/USER				
+#osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74/USER				
  
-								       
+
+#/DisappTrkChargino_LL01_mGrav75K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_0p5ns_V5-64e057cfee25eb2da5ad7f4ba073218b/USER				
+#/DisappTrkChargino_LL01_mGrav75K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_1ns_V5-d7f3732cf921ea9bbe6178e5308dc945/USER				
+#/DisappTrkChargino_LL01_mGrav75K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_5ns_V5-5c3ba9e0f2fc83598aa92e5bd06ecf95/USER								       
+#	
+#/DisappTrkChargino_LL01_mGrav125K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_0p5ns_V5-ec2910f01604ff6f586242de3f1461ab/USER	
+#/DisappTrkChargino_LL01_mGrav125K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_1ns_V5-98811528007bf485888cb4fef749973b/USER				
+#/DisappTrkChargino_LL01_mGrav125K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_5ns_V5-e888c717604ece62b3bdc4c279569496/USER				
+
+
+
 
 
 
