@@ -357,6 +357,25 @@ ExtraTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("trackEtaMag"),
+            title = cms.string("Track Eta; |#eta|"),
+            bins = cms.untracked.vdouble(20, 0, 2.5),
+            inputVariables = cms.vstring("fabs(eta)"),
+            ),
+        cms.PSet (
+            name = cms.string("trackPtCoarse"),
+            title = cms.string("Track Pt; p_{T} [GeV]"),
+            variableBinsX = cms.untracked.vdouble(20, 40, 60, 100, 200, 500), 
+            inputVariables = cms.vstring("pt"),   
+            ),
+        cms.PSet (
+            name = cms.string("trackEtaVsPt"),
+            title = cms.string("#eta vs p_{T}; #eta; p_{T}"),
+            variableBinsX = cms.untracked.vdouble(0, 0.15, 0.35, 0.8, 1.2, 1.5, 1.8, 2.1),  
+            variableBinsY = cms.untracked.vdouble(20, 40, 60, 100, 200, 500), 
+            inputVariables = cms.vstring("fabs(eta)", "pt"),
+            ),
+        cms.PSet (
             name = cms.string("d0wrtBS"),
             title = cms.string("Track d_{0} wrt BS; d_{0} wrt BS (cm)"),
             bins = cms.untracked.vdouble(100, -0.1, 0.1),
