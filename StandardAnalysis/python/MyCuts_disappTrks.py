@@ -385,6 +385,11 @@ cutTrkEta = cms.PSet(
     cutString = cms.string("fabs(eta) < 2.1"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkEtaBarrel = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 0.8"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkEtaAtlas = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 0.63 && fabs(eta) > 0.1"),
@@ -467,6 +472,11 @@ cutTrkHitMissOut = cms.PSet (
     cutString = cms.string("nHitsMissingOuter >= 3"),
     numberRequired = cms.string(">= 1"),
     )
+cutMaxMissOut = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingOuter <= 2"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMaxCaloByP = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5ByP < 0.1"),
@@ -479,7 +489,7 @@ cutMaxCaloByPLoose = cms.PSet (
     )
 cutMaxCaloTight = cms.PSet(
     inputCollection = cms.string("tracks"),
-    cutString = cms.string("caloTotDeltaRp5 < 10"),
+    cutString = cms.string("caloTotDeltaRp5 < 5"),
     numberRequired = cms.string(">= 1"),
     )
 cutMaxCaloLoose = cms.PSet (
@@ -913,10 +923,15 @@ cutElecLooseIDOnlyOne = cms.PSet (
     numberRequired = cms.string("= 1"),
     )
 cutElecLooseIDVetoInv = cms.PSet (
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("mvaNonTrigV0 > 0"),
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinElecLooseMvaId < 0.15"),
     numberRequired = cms.string(">= 1"),
     )
+## cutElecLooseIDVetoInv = cms.PSet (
+##     inputCollection = cms.string("electrons"),
+##     cutString = cms.string("mvaNonTrigV0 > 0"),
+##     numberRequired = cms.string(">= 1"),
+##     )
 cutElecVetoOneMax =   cms.PSet (
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > -1"),
