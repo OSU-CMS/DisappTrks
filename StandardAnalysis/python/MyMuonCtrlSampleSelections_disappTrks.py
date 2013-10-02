@@ -49,12 +49,6 @@ ZtoMuTrkNoJetMet = cms.PSet(
      #    cutSecJetNoiseNeuEM,
      #    cutSubLeadingJetID,
      #    cutJetJetDPhi,
-         cutElecLooseIDVeto,
-         cutMuonLooseIDOnlyOne,
-         #        cutSecMuonLooseIDOnlyOne,  # Leave this out for now
-         cutTauLooseHadronicVeto,
-         cutMuTrkDeltaR,
-         cutMuTrkInvMass,
          cutTrkPt,
          cutTrkEta,
          cutTrkD0,
@@ -66,7 +60,13 @@ ZtoMuTrkNoJetMet = cms.PSet(
          cutTrkCrackVeto,
          cutTrkRelIsoRp3,
          cutTrkJetDeltaR,
-         cutMuonLooseIDVeto,
+         cutElecLooseIDVeto,
+         cutTauLooseHadronicVeto,
+#         cutMuonLooseIDOnlyOne,
+         #        cutSecMuonLooseIDOnlyOne,  # Leave this out for now
+#         cutMuonLooseIDVeto,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
          ),
     )
 
@@ -91,11 +91,6 @@ ZtoMuTrkNoJetMetInv = cms.PSet(
          #    cutSecJetNoiseNeuEM,
          #    cutSubLeadingJetID,
          #    cutJetJetDPhi,
-         cutElecLooseIDVeto,
-         #cutMuonLooseIDOnlyOne,
-         cutTauLooseHadronicVeto,
-         cutMuTrkDeltaR,
-         cutMuTrkInvMass,
          cutTrkPt,
          cutTrkEta,
          cutTrkD0,
@@ -107,9 +102,55 @@ ZtoMuTrkNoJetMetInv = cms.PSet(
          cutTrkCrackVeto,
          cutTrkRelIsoRp3,
          cutTrkJetDeltaR,
+         cutElecLooseIDVeto,
+         #cutMuonLooseIDOnlyOne,
+         cutTauLooseHadronicVeto,
          cutMuonLooseIDVetoInv,
+         cutMuTrkDeltaR,
+         cutMuTrkInvMass,
          ),
     )
+
+
+SigRegMuTrigMuId = cms.PSet(
+    name = cms.string("SigRegMuTrigMuId"),
+    triggers = triggersSingleMu, 
+    cuts = cms.VPSet (
+      cutTrkMuonId,
+      cutTrkPt,
+      cutTrkEta,
+      cutTrkD0,
+      cutTrkDZ,
+      cutTrkNHits,
+      cutTrkHitMissMid,
+      cutTrkHitMissIn,
+      cutTrkDeadEcalVeto,
+      cutTrkCrackVeto,
+      cutTrkRelIsoRp3,
+      cutTrkJetDeltaR,
+      cutSubLeadingJetID,
+      cutJetJetDPhi,
+      cutElecLooseIDVeto,
+##       cutMuonLooseIDVeto,
+##       cutSecMuonLooseIDVeto,
+      cutTauLooseHadronicVeto,
+      cutTrkHitMissOut,
+      cutMaxCaloPUCorr,
+      ),
+    )
+
+
+MuTrigMuId = cms.PSet(
+    name = cms.string("MuTrigMuId"),
+    triggers = triggersSingleMu, 
+    cuts = cms.VPSet (
+      cutTrkMuonId,
+      cutTrkPt,
+      cutTrkEta,
+      cutTrkHitMissOut,
+      ),
+    )
+
 
 
 
@@ -308,10 +349,10 @@ WToMuSimple = cms.PSet(
          cutMuonPFIso,
          cutMuonD0,
          cutElecVetoPt10,   
-         cutMET30,
-         cutJetPt30N0,
-         cutJetEta2p4N0,
-         cutJetIDLooseN0,
+#         cutMET30,
+##          cutJetPt30N0,
+##          cutJetEta2p4N0,
+##          cutJetIDLooseN0,
          )
     )
 
