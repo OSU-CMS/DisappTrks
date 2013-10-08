@@ -414,7 +414,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("EtaVsPhi"),
             title = cms.string("#eta vs #phi; #eta; #phi"),
-            bins = cms.untracked.vdouble(100, -3, 3, 100, -3, 3 ),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, -3.2, 3.2),
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
@@ -739,7 +739,17 @@ JetExtraHistograms = cms.PSet(
     )
 )
 
-
+MetExtraHistograms = cms.PSet(
+    inputCollection = cms.string("mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("metNoMu"),
+            title = cms.string("MetNoMu;MetNoMu [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("metNoMu"),
+            ),
+        )
+    )
 
 SecJetExtraHistograms = cms.PSet(
     inputCollection = cms.string("secondary jets"),
