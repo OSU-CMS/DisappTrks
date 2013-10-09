@@ -19,7 +19,7 @@ process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)  
-
+process.OSUAnalysis.treeBranchSets = AllTreeBranchSets  
 
 #number of events to process when running interactively
 process.maxEvents.input = 1000
@@ -46,6 +46,7 @@ process.OSUAnalysis.histogramSets.append(TauHistograms)
 from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 #process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
+process.OSUAnalysis.histogramSets.append(MetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(SecJetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(TrackJetHistograms)
 process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
