@@ -90,6 +90,11 @@ cutMET = cms.PSet (
     cutString = cms.string("pt > 220"),
     numberRequired = cms.string(">= 1"),
     )
+cutMETNoMu = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("metNoMu > 220"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMET20 = cms.PSet(
     inputCollection = cms.string("mets"),
     cutString = cms.string("pt > 20"),
@@ -375,6 +380,16 @@ cutTrkPt10 = cms.PSet(
     cutString = cms.string("pt > 10"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkPt50 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPt75 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 75"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkPtError = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("ptErrorByPt < 0.2"),
@@ -388,6 +403,16 @@ cutTrkEta = cms.PSet(
 cutTrkEtaBarrel = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 0.8"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkWheel0GapVeto = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 0.15 | fabs(eta) > 0.35"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEtaMuonPk = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 1.55 | fabs(eta) > 1.85"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEtaAtlas = cms.PSet(
@@ -490,6 +515,11 @@ cutMaxCaloByPLoose = cms.PSet (
 cutMaxCaloTight = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5 < 5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMaxCalo10 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr < 10"),
     numberRequired = cms.string(">= 1"),
     )
 cutMaxCaloLoose = cms.PSet (
@@ -595,6 +625,16 @@ cutTrkJetDeltaR = cms.PSet (
 #####################
 #-- Cuts on Muons --#
 #####################
+cutMuonChgPos = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("charge == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonChgNeg = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("charge == -1"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMuonEta = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -795,6 +835,11 @@ cutMuMuChargeProduct = cms.PSet (
 ################################
 #-- Cuts on Muon-Track Pairs --#
 ################################
+cutMuTrkChgOpp = cms.PSet (
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("chargeProduct == -1"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMuonTrkDRSame = cms.PSet (
     inputCollection = cms.string("muon-track pairs"),
     cutString = cms.string("deltaR < 0.15"),
