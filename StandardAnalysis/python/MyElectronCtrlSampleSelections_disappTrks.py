@@ -28,30 +28,31 @@ ZtoEE = cms.PSet(
      ) 
 
 
-
-
 ## Bkgd estimate ctrl sample ##
 ZtoETrk = cms.PSet(
     name = cms.string("ZtoETrk"),
     triggers = triggersSingleElec, 
     cuts = cms.VPSet (
+    # Follow the recommended electron Triggering MVA criteria from:  https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
         cutElecPt,     
         cutElecEta,    
-        cutElecD0,     
-        #        cutElecDZ,     
         cutElecMva, 
         cutElecPFIso, 
-        cutElecNHits,
-        #        cutElecPlusMet220, 
-#        cutElecPlusMet220, 
-##         cutSecJetPt,
-##         cutSecJetEta2p4,            
-##         cutSecJetNoiseChgHad,
-##         cutSecJetNoiseChgEM,
-##         cutSecJetNoiseNeuHad,
-##         cutSecJetNoiseNeuEM,
+        cutElecLostHits,
+        cutElecPassConvVeto, 
+        cutMETNoElec, 
+        cutSecJetPt,
+        cutSecJetEta2p4,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
+        cutTrkElectronId,  
+        cutElecTrkDR, 
+        cutElecTrkInvMass,
+        cutElecTrkChgOpp,
         cutTrkPt,
         cutTrkEta,
         cutTrkD0,
@@ -61,20 +62,23 @@ ZtoETrk = cms.PSet(
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
         cutTrkCrackVeto,
-        cutTrkRelIsoRp3,  
+        cutTrkRelIsoRp3,
         cutTrkJetDeltaR,
         cutMuonLooseIDVeto,
         cutSecMuonLooseIDVeto,
         cutTauLooseHadronicVeto,
-        cutElecTrkDR, 
-        cutElecTrkInvMass,
+        cutTrkWheel0GapVeto,
+        cutTrkEtaMuonPk,
+        cutTrkHitMissOut,
+        cutMaxCalo10,
+        cutElecLooseIDVeto,
        ),
     )
 
 
 
 
-## Bkgd estimate ctrl sample ##
+## Try different trigger  ##  
 ZtoETrk_MetTrig = cms.PSet(
     name = cms.string("ZtoETrk_MetTrig"),
     triggers = triggersJetMet,

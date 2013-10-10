@@ -17,6 +17,11 @@ triggersSingleMu = cms.vstring(
     "HLT_IsoMu24_eta2p1_v",  
     #    "HLT_IsoMu24_v",  # Not available in 2012A  
     )
+
+triggersJetMetOrSingleMu = copy.deepcopy(triggersJetMet)  
+triggersJetMetOrSingleMu.extend(["HLT_IsoMu24_eta2p1_v"])  
+
+
 triggersSingleElec = cms.vstring(
     "HLT_Ele27_WP80_v",
     )
@@ -93,6 +98,11 @@ cutMET = cms.PSet (
 cutMETNoMu = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("metNoMu > 220"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMETNoElec = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("metNoElec > 220"),
     numberRequired = cms.string(">= 1"),
     )
 cutMET20 = cms.PSet(
@@ -371,6 +381,11 @@ cutJetJetDPhi = cms.PSet (
 #-- Cuts on Tracks --#
 ######################
 cutTrkPt = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPt20 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
@@ -936,14 +951,24 @@ cutElecNHits = cms.PSet(
     cutString = cms.string("tkNumValidHits > 4"),
     numberRequired = cms.string(">= 1"),
     )
-cutElecMva = cms.PSet(
+cutElecMva = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("mvaNonTrigV0 > 0.9"),
+    cutString = cms.string("mvaTrig_HtoWWto2l2nu == 1"),
     numberRequired = cms.string(">= 1"),
     )
-cutElecPFIso = cms.PSet(
+cutElecPFIso = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("relPFrhoIso < 0.1"),
+    cutString = cms.string("relPFrhoIso < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecPassConvVeto = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("passConvVeto == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecLostHits = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("numberOfLostHits == 0"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecTightID = cms.PSet (
@@ -1063,6 +1088,11 @@ cutElecTrkDRSameNone = cms.PSet (
     inputCollection = cms.string("electron-track pairs"),
     cutString = cms.string("deltaR < 0.15"),
     numberRequired = cms.string("= 0"),
+    )
+cutElecTrkChgOpp = cms.PSet (
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("chargeProduct == -1"),
+    numberRequired = cms.string(">= 1"),
     )
 
 ####################

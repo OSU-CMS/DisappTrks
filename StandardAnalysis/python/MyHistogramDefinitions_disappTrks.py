@@ -430,20 +430,26 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
+            name = cms.string("fitPlane"),
+            title = cms.string("Number of Missing Outer Hits; N_{miss}^{out};E_{calo}^{#DeltaR<0.5} (GeV)"),
+            bins = cms.untracked.vdouble(16, -0.5, 15.5, 100, 0, 100),
+            inputVariables = cms.vstring("nHitsMissingOuter", "caloTotDeltaRp5RhoCorr"),
+            ),
+        cms.PSet (
             name = cms.string("nHitsMissingOuter"),
-            title = cms.string("nHitsMissingOuter; Number of Missing Outer Hits"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             bins = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("nHitsMissingOuter"),
             ),
         cms.PSet (
             name = cms.string("nHitsMissingMiddle"),
-            title = cms.string("nHitsMissingMiddle; Number of Missing Middle Hits"),
+            title = cms.string("Number of Missing Middle Hits;N_{miss}^{middle}"),
             bins = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("nHitsMissingMiddle"),
             ),
         cms.PSet (
             name = cms.string("nHitsMissingInner"),
-            title = cms.string("nHitsMissingInner; Number of Missing Inner Hits"),
+            title = cms.string("Number of Missing Inner Hits;N_{miss}^{in}"),
             bins = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("nHitsMissingInner"),
             ),
@@ -759,6 +765,12 @@ MetExtraHistograms = cms.PSet(
             title = cms.string("MetNoMu;MetNoMu [GeV]"),
             bins = cms.untracked.vdouble(100, 0, 500),  
             inputVariables = cms.vstring("metNoMu"),
+            ),
+        cms.PSet (
+            name = cms.string("metNoElec"),
+            title = cms.string("MetNoElec;MetNoElec [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("metNoElec"),
             ),
         )
     )
