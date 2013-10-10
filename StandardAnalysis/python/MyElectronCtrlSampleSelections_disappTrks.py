@@ -156,64 +156,6 @@ ZtoETrkEVeto = cms.PSet(
     )
 
 
-# Old selection:
-ZtoETrack = cms.PSet(
-    name = cms.string("ZtoETrack"),
-    triggers = triggersSingleElec, 
-    cuts = cms.VPSet(
-        cutElecPt,     
-        cutElecEta,    
-        cutElecD0,     
-        cutElecDZ,     
-        cutElecMva, 
-        cutElecPFIso, 
-        cutElecNHits,  
-        cutTrkPt, 
-        cutTrkEta, 
-        cutTrkD0, 
-        cutTrkDZ, 
-        cutTrkNHits, 
-        ## cutTrkHitMissMid,
-        ## cutTrkHitMissIn, 
-        cutTrkIso, 
-        cutMuonVeto,   
-        cutElecTrkDR, 
-        ##      cutElecElecMass,        
-        )
-    )
-ZtoETrackPreSel = copy.deepcopy(ZtoETrack)
-ZtoETrackPreSel.name = cms.string("ZtoETrackPreSel")  
-ZtoETrackPreSel.cuts.append(cutElecTrkInvMass)
-
-ZtoETrackFullPreSel = cms.PSet(
-    name = cms.string("ZtoETrackFullPreSel"),
-    triggers = triggersSingleElec, 
-    cuts = cms.VPSet(
-        cutElecPt,     
-        cutElecEta,    
-        cutElecD0,     
-        cutElecDZ,     
-        cutElecMva, 
-        cutElecPFIso, 
-        cutElecNHits,  
-        cutElecVetoOneMax,
-        cutTrkPt, 
-        cutTrkEta, 
-        cutTrkD0, 
-        cutTrkDZ, 
-        cutTrkNHits, 
-        cutTrkIso, 
-        cutTrkDeadEcalVeto,
-        cutTrkCrackVeto,
-        cutMuonVeto,   
-        cutElecTrkDR, 
-        cutElecTrkInvMass, 
-        )
-    )
-
-
-
-
 WtoENuTrigElec = cms.PSet(
     name = cms.string("WtoENuTrigElec"),
     triggers = triggersSingleElec, 
