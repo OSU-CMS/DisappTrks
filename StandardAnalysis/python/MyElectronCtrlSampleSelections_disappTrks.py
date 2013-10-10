@@ -71,6 +71,53 @@ ZtoETrk = cms.PSet(
        ),
     )
 
+
+
+
+## Bkgd estimate ctrl sample ##
+ZtoETrk_MetTrig = cms.PSet(
+    name = cms.string("ZtoETrk_MetTrig"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutElecPt,
+        cutElecEta,
+        cutElecD0,
+        #        cutElecDZ,
+        cutElecMva,
+        cutElecPFIso,
+        cutElecNHits,
+        #        cutElecPlusMet220,
+        cutElecPlusMet110,
+        cutSecJetPt,
+        cutSecJetEta2p4,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutSubLeadingJetID,
+        cutJetJetDPhi,
+        cutElecLooseIDOnlyOne,
+        cutMuonLooseIDVeto,
+        cutSecMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
+        cutTrkPt,
+        cutTrkEta,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNHits,
+        cutTrkHitMissMid,
+        cutTrkHitMissIn,
+        cutTrkDeadEcalVeto,
+        cutTrkCrackVeto,
+        cutTrkRelIsoRp3,
+        cutTrkJetDeltaR,
+        cutElecTrkDR,
+        cutElecTrkInvMass,
+        ),
+    )
+
+
+
 ## Bkgd estimate ctrl sample ##
 ZtoETrkEId = cms.PSet(
     name = cms.string("ZtoETrkEId"),

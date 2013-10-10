@@ -89,7 +89,7 @@ PreSelection = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutTrkPt,
+        cutTrkPt50,
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
@@ -122,7 +122,7 @@ PreSelInvMuonVeto = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutTrkPt,
+        cutTrkPt50,
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
@@ -200,7 +200,7 @@ PreSelNoLepVeto = cms.PSet(
     )
 
 ## Preselection invert elec veto##
-PreSelectionInvElecVeto = cms.PSet(
+PreSelInvElecVeto = cms.PSet(
     name = cms.string("PreSelectionInvElecVeto"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
@@ -213,10 +213,7 @@ PreSelectionInvElecVeto = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutElecLooseIDVetoInv,
-        cutMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutTrkPt,
+        cutTrkPt50,
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
@@ -227,11 +224,15 @@ PreSelectionInvElecVeto = cms.PSet(
         cutTrkCrackVeto,
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
+        cutElecLooseIDVetoInv,
+        cutMuonLooseIDVeto,
+        cutSecMuonLooseIDVeto,
+        cutTauLooseHadronicVeto,
         ),
     )
 
 ## Preselection invert tau veto ##
-PreSelectionInvTauVeto = cms.PSet(
+PreSelInvTauVeto = cms.PSet(
     name = cms.string("PreSelectionInvTauVeto"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
@@ -536,13 +537,14 @@ ZtoMuTrkMuIdNoTrigMet = cms.PSet(
 
 ZtoMuTrkMuIdNoVeto = cms.PSet(
     name = cms.string("ZtoMuTrkMuIdNoVeto"),
-    triggers = triggersJetMet,
+#    triggers = triggersJetMetOrSingleMu, 
+     triggers = triggersJetMet,
 #    triggers = triggersSingleMu, 
     cuts = cms.VPSet (
         # See SMP-12-023 for example of W->mu nu selection  
         cutMETNoMu,
 #       cutMuonChgNeg,
-        cutMuonChgPos,
+#       cutMuonChgPos,
         cutMuonPt20,
         cutMuonEta,
         cutMuonTightID,
@@ -577,6 +579,8 @@ ZtoMuTrkMuIdNoVeto = cms.PSet(
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
         cutTauLooseHadronicVeto,
+        cutTrkWheel0GapVeto,
+        cutTrkEtaMuonPk,
         cutTrkHitMissOut,
         cutMaxCalo10, 
         ),
@@ -741,52 +745,6 @@ PreSelectionMuon = cms.PSet(
        cutMuonTrkDRSame,
        ),
     )
-
-
-
-## Bkgd estimate ctrl sample ##
-ZtoETrk_MetTrig = cms.PSet(
-    name = cms.string("ZtoETrk_MetTrig"),
-    triggers = triggersJetMet,
-    cuts = cms.VPSet (
-        cutElecPt,     
-        cutElecEta,    
-        cutElecD0,     
-        #        cutElecDZ,     
-        cutElecMva, 
-        cutElecPFIso, 
-        cutElecNHits,
-        #        cutElecPlusMet220, 
-        cutElecPlusMet110, 
-        cutSecJetPt,
-        cutSecJetEta2p4,            
-        cutSecJetNoiseChgHad,
-        cutSecJetNoiseChgEM,
-        cutSecJetNoiseNeuHad,
-        cutSecJetNoiseNeuEM,
-        cutSubLeadingJetID,
-        cutJetJetDPhi,
-        cutElecLooseIDOnlyOne,
-        cutMuonLooseIDVeto,
-        cutSecMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutTrkPt,
-        cutTrkEta,
-        cutTrkD0,
-        cutTrkDZ,
-        cutTrkNHits,
-        cutTrkHitMissMid,
-        cutTrkHitMissIn,
-        cutTrkDeadEcalVeto,
-        cutTrkCrackVeto,
-        cutTrkRelIsoRp3,  
-        cutTrkJetDeltaR,
-        cutElecTrkDR, 
-        cutElecTrkInvMass,
-       ),
-    )
-
-
 
 
 PreSelectionPTrkJetDeltaR = cms.PSet(
@@ -1226,7 +1184,9 @@ PreSelIdMuonNoVeto = cms.PSet(
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
-        cutTauLooseHadronicVeto,    
+        cutTauLooseHadronicVeto,
+        cutTrkWheel0GapVeto, 
+        cutTrkEtaMuonPk, 
         cutTrkHitMissOut,
         cutMaxCalo10, 
     )
@@ -1750,7 +1710,9 @@ SigRegNominal = cms.PSet(
     name = cms.string("SigRegNominal"),
     cuts = copy.deepcopy(PreSelectionPMissing.cuts),
     )
-SigRegNominal.cuts.append(cutMaxCalo10)
+SigRegNominal.cuts.append(cutMaxCalo10) 
+SigRegNominal.cuts.append(cutTrkWheel0GapVeto) 
+SigRegNominal.cuts.append(cutTrkEtaMuonPk)  
 
 SigRegWithMaxCaloPUCorr = cms.PSet(
     name = cms.string("SigRegWithMaxCaloPUCorr"),
