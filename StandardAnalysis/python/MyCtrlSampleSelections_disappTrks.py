@@ -1,3 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+###########################################################
+##### THIS FILE HAS BEEN DEPRECATED!  ####
+# Instead, choose from:
+# MyElectronCtrlSampleSelections_disappTrks.py
+# MyMuonCtrlSampleSelections_disappTrks.py
+# MyTauCtrlSampleSelections_disappTrks.py
+###########################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import FWCore.ParameterSet.Config as cms
 import copy
 
