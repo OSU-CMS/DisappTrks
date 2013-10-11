@@ -7,9 +7,18 @@ from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 #uncomment this line to add a single file to be processed
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/DYJetsToLL_V6/pat2bean_53x_363_1_5wf.root')
 #process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/WJetsToLNu/pat2bean_53x_10_1_3IZ.root')
-process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SigMC_LL01_mGrav150K_5ns/pat2bean_53x_5.root')
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SigMC_LL01_mGrav150K_5ns/pat2bean_53x_5.root')
 #process.source.fileNames.append('file:/afs/cern.ch/user/j/jbrinson/public/disappTrks/analysisFilesFromOSU/dataFiletoTestTemplate.root')
 #process.source.fileNames.append('file:/afs/cern.ch/work/j/jbrinson/public/analysisFilesFromOSU/SigFiletoTestTemp.root')
+
+
+process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerSkim/AMSB_mGrav50K_0p5ns_Reco/Trigger/bean_0.root')
+#process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerMetSkim/Wjets_PtW100/TriggerMet/bean_0.root')   
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/WJetsToLNu_PtW-100_TuneZ2star_8TeV-madgraph/BEANs-v4/0ff8045eb3a4a7ce9562dd332df0072c/ttH_pat2bean_53x_104_1_jHL.root')
+
+
+
+
 process.maxEvents.input = 1000
 #process.OSUAnalysis.dataset = cms.string ('DYJetsToLL_Reco')
 #process.OSUAnalysis.dataset = cms.string ('WJetsToLNu_Reco')
@@ -39,13 +48,23 @@ from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 ## Preselection Channels ##
 
-#process.OSUAnalysis.channels.append(PreSelection)
+## process.OSUAnalysis.channels.append(PreSelIdMuonNoVeto)
+process.OSUAnalysis.channels.append(PreSelIdMuon)
+process.OSUAnalysis.channels.append(PreSelIdMuonInvHits)
+#process.OSUAnalysis.channels.append(SimpleIdMuon)  
+#process.OSUAnalysis.channels.append(SigRegNominal)  
+## process.OSUAnalysis.channels.append(PreSelection)
+## process.OSUAnalysis.channels.append(PreSelInvElecVeto)  
+## process.OSUAnalysis.channels.append(PreSelInvMuonVeto)  
 
-process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
-process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyElecMatch)
-process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyMuonMatch)
-process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoMuonMatch)  
-process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoElecMatch)  
+## process.OSUAnalysis.channels.append(PreSelIdMuonNoMetJetNoVeto)
+## process.OSUAnalysis.channels.append(PreSelIdMuonNoMetJet)
+
+## process.OSUAnalysis.channels.append(PreSelectionWithTrigJetMet)
+## process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyElecMatch)
+## process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyMuonMatch)
+## process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoMuonMatch)  
+## process.OSUAnalysis.channels.append(PreSelectionIsoTrkOnlyNoElecMatch)  
 
 
 

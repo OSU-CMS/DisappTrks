@@ -512,6 +512,11 @@ cutTrkHitMissOut = cms.PSet (
     cutString = cms.string("nHitsMissingOuter >= 3"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkHitMissOutInv = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingOuter <= 2"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMaxMissOut = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("nHitsMissingOuter <= 2"),
