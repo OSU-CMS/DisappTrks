@@ -497,6 +497,7 @@ ZtoMuTrkMuIdNoTrigMet = cms.PSet(
 #    triggers = triggersJetMet,
     cuts = cms.VPSet (
         # See SMP-12-023 for example of W->mu nu selection  
+#        cutMET,
 #        cutMETNoMu,
         cutMuonPt20,
         cutMuonEta,
@@ -544,7 +545,8 @@ ZtoMuTrkMuId = cms.PSet(
 #    triggers = triggersSingleMu, 
     cuts = cms.VPSet (
         # See SMP-12-023 for example of W->mu nu selection  
-        cutMETNoMu,
+#       cutMETNoMu,
+        cutMET,
 #       cutMuonChgNeg,
 #       cutMuonChgPos,
         cutMuonPt20,
@@ -595,7 +597,8 @@ ZtoMuTrkMuIdInvHits = cms.PSet(
 #    triggers = triggersSingleMu, 
     cuts = cms.VPSet (
         # See SMP-12-023 for example of W->mu nu selection  
-        cutMETNoMu,
+        cutMET,
+#       cutMETNoMu,
 #       cutMuonChgNeg,
 #       cutMuonChgPos,
         cutMuonPt20,
@@ -1211,8 +1214,8 @@ PreSelIdMuon = cms.PSet(
     name = cms.string("PreSelIdMuon"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
-#        cutMET,
-        cutMETNoMu,
+        cutMET,
+#        cutMETNoMu,
         cutSecJetPt,
         cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
@@ -1221,7 +1224,7 @@ PreSelIdMuon = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutTrkMuonId, 
+#       cutTrkMuonId, 
 #       cutTrkPt,
         cutTrkPt50,
         cutTrkEta,
@@ -1250,8 +1253,8 @@ PreSelIdMuonInvHits = cms.PSet(
     name = cms.string("PreSelIdMuonInvHits"),
     triggers = triggersJetMet,
     cuts = cms.VPSet (
-#        cutMET,
-        cutMETNoMu,
+        cutMET,
+#        cutMETNoMu,
         cutSecJetPt,
         cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
@@ -1260,7 +1263,7 @@ PreSelIdMuonInvHits = cms.PSet(
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
-        cutTrkMuonId, 
+#       cutTrkMuonId, 
 #       cutTrkPt,
         cutTrkPt50,
         cutTrkEta,
