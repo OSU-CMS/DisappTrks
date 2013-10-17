@@ -485,6 +485,12 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("isPassMuonLooseID"), 
             ),
         cms.PSet (
+            name  = cms.string("isPassMuonLooseIDVsNHitsOut"),  
+            title = cms.string("muon veto efficiency vs. missing outer hits; N_{miss}^{out}; isPassMuonLooseID"), 
+            bins = cms.untracked.vdouble(16, -0.5, 15.5, 2, -0.5, 1.5), 
+            inputVariables = cms.vstring("nHitsMissingOuter", "isPassMuonLooseID"), 
+            ),
+        cms.PSet (
             name  = cms.string("isPassMuonLooseIDVsPt"),  
             title = cms.string("isPassMuonLooseIDVsPt; track p_{T} [GeV]; isPassMuonLooseID"), 
             bins = cms.untracked.vdouble(20, 0, 200, 2, -0.5, 1.5), 
