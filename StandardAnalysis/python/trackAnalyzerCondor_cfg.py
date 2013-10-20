@@ -10,7 +10,8 @@ process.OSUAnalysis.plotAllObjectsInPassingEvents = False
 
 #overwrite the default inputs in osuAnalysis_cfi
 process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
-process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuons')
+#process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuons')
+process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuonsLoose')
 process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons')
 
 

@@ -7,6 +7,39 @@ from DisappTrks.StandardAnalysis.MyCuts_disappTrks import *  # Put all the indiv
 ##### Set up the event selections (channels) #####
 ##################################################
 
+
+SingleMuTrigger = cms.PSet(
+    name = cms.string("MuTrigger"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+       cutNoCuts, 
+       ),
+    )
+
+ZMCPt = cms.PSet(
+    # Use this to check the Pt of the MC Z particle.  
+    name = cms.string("ZMCPt"),
+    cuts = cms.VPSet (
+        cms.PSet (
+           inputCollection = cms.string("mcparticles"),
+           cutString = cms.string("id == 23"),
+           numberRequired = cms.string(">= 1"),
+           )
+       ),
+    )
+
+WMCPt = cms.PSet(
+    # Use this to check the Pt of the MC Z particle.  
+    name = cms.string("WMCPt"),
+    cuts = cms.VPSet (
+        cms.PSet (
+           inputCollection = cms.string("mcparticles"),
+           cutString = cms.string("fabs(id) == 24"),
+           numberRequired = cms.string(">= 1"),
+           )
+       ),
+    )
+
 WToMu = cms.PSet(
     name = cms.string("WToMu"),
     triggers = triggersSingleMu,
@@ -165,10 +198,10 @@ ZtoMuMu = cms.PSet(
          cutMuonPairPFIso,
          cutMuonPairD0,
          cutMuonPairDZ,
-         cutElecVeto,
+#         cutElecVeto,
          cutMuMuChargeProduct,
          cutMuMuInvMass,
-         cutMuTrkDeltaR,
+         cutMuTrkDeltaRSame,  # apply this so that selected tracks are associated with muons  
          )
     )   
 

@@ -870,6 +870,11 @@ cutMuonTrkDRSameNone = cms.PSet (
     cutString = cms.string("deltaR < 0.15"),
     numberRequired = cms.string("= 0"),
     )
+cutMuTrkDeltaRSame = cms.PSet(
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("deltaR < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMuTrkDeltaR = cms.PSet(
     inputCollection = cms.string("muon-track pairs"),
     cutString = cms.string("deltaR > 0.15"),
@@ -883,6 +888,11 @@ cutMuTrkDeltaRp5 = cms.PSet(
 cutMuTrkInvMass = cms.PSet(
     inputCollection = cms.string("muon-track pairs"),
     cutString = cms.string("invMass > 40 & invMass < 160"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuTrkInvMass80To100 = cms.PSet(
+    inputCollection = cms.string("muon-track pairs"),
+    cutString = cms.string("invMass > 80 & invMass < 100"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuTrkInvMassTight = cms.PSet(
