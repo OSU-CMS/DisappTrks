@@ -722,9 +722,14 @@ cutMuonLooseIDOnlyOne = cms.PSet (
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string("= 1"),
     )
-cutSecMuonLooseIDVeto = cms.PSet (  
+cutSecMuonLooseIDGlobalVeto = cms.PSet (  
     inputCollection = cms.string("tracks"),
     cutString = cms.string("deltaRMinSecMuonLooseIdGlobal > 0.15"), 
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecMuonLooseIDVeto = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinSecMuonLooseId > 0.15"),
     numberRequired = cms.string(">= 1"),
     )
 ## cutSecMuonLooseIDVeto = cms.PSet (  
