@@ -157,9 +157,11 @@ PreSelection = cms.PSet(
         cutTrkRelIsoRp3,  
         cutTrkJetDeltaR,
         cutElecLooseIDVeto,
+        cutTauLooseHadronicVeto,
         cutMuonLooseIDVeto,
         cutSecMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
+        cutTrkWheel0GapVeto, 
+        cutTrkEtaMuonPk, 
         ),
     )
 
