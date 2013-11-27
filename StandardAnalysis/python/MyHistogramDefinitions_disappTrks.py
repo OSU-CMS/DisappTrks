@@ -401,9 +401,51 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("dZwrtBS"),
             ),
         cms.PSet (
+            name = cms.string("trackDzVsD0"),
+            title = cms.string("|d_{z}| vs |d_{0}|;|d_{0}| (cm);|d_{z}| (cm)"),
+            bins = cms.untracked.vdouble(50, 0.0, 0.5, 100, 0, 10), 
+            inputVariables = cms.vstring("fabs(d0wrtPV)", "fabs(dZwrtPV)"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsVsD0"),
+            title = cms.string("N_{hits} vs |d_{0}|;|d_{0}| (cm);N_{hits}"),
+            bins = cms.untracked.vdouble(50, 0.0, 0.5, 31, -0.5, 30.5), 
+            inputVariables = cms.vstring("fabs(d0wrtPV)", "numValidHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNMissMidVsD0"),
+            title = cms.string("N_{miss}^{middle} vs |d_{0}|;|d_{0}| (cm);N_{miss}^{middle}"),
+            bins = cms.untracked.vdouble(50, 0.0, 0.5, 6, -0.5, 5.5), 
+            inputVariables = cms.vstring("fabs(d0wrtPV)", "nHitsMissingMiddle"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsVsDz"),
+            title = cms.string("N_{hits} vs |d_{z}|;|d_{z}| (cm);N_{hits}"),
+            bins = cms.untracked.vdouble(100, 0, 10, 31, -0.5, 30.5), 
+            inputVariables = cms.vstring("fabs(dZwrtPV)", "numValidHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNMissMidVsDz"),
+            title = cms.string("N_{miss}^{middle} vs |d_{z}|;|d_{z}| (cm);N_{miss}^{middle}"),
+            bins = cms.untracked.vdouble(100, 0, 10, 6, -0.5, 5.5), 
+            inputVariables = cms.vstring("fabs(dZwrtPV)", "nHitsMissingMiddle"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNMissMidVsNHits"),
+            title = cms.string("N_{miss}^{middle} vs N_{hits};N_{hits};N_{miss}^{middle}"),
+            bins = cms.untracked.vdouble(31, -0.5, 30.5, 6, -0.5, 5.5), 
+            inputVariables = cms.vstring("numValidHits", "nHitsMissingMiddle"),
+            ),
+        cms.PSet (
             name = cms.string("d0wrtPV"),
             title = cms.string("Track d_{0} wrt PV; d_{0} wrt PV (cm)"),
             bins = cms.untracked.vdouble(100, -0.1, 0.1),
+            inputVariables = cms.vstring("d0wrtPV"),
+            ),
+        cms.PSet (
+            name = cms.string("d0wrtPVWide"),
+            title = cms.string("Track d_{0} wrt PV; d_{0} wrt PV (cm)"),
+            bins = cms.untracked.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("d0wrtPV"),
             ),
         cms.PSet (
@@ -603,10 +645,10 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("deltaRMinMuonLooseId"),
             ),
         cms.PSet (
-            name = cms.string("deltaRMinSecMuonLooseIdGlobal"),
-            title = cms.string("deltaRMinSecMuonLooseIdGlobal; deltaRMinSecMuonLooseIdGlobal"),
+            name = cms.string("deltaRMinSecMuonLooseId"),
+            title = cms.string("deltaRMinSecMuonLooseId; deltaRMinSecMuonLooseId"),
             bins = cms.untracked.vdouble(100, 0, 1),
-            inputVariables = cms.vstring("deltaRMinSecMuonLooseIdGlobal"),
+            inputVariables = cms.vstring("deltaRMinSecMuonLooseId"),
             ),
         cms.PSet (
             name = cms.string("deltaRMinTauLooseHadronicId"),
@@ -830,6 +872,43 @@ SecJetExtraHistograms = cms.PSet(
 ##             ),
 ##     )
 ## )  
+
+
+TrackMCParticleHistograms = cms.PSet(
+    inputCollection = cms.string("track-mcparticle pairs"),
+    histograms = cms.VPSet (
+    cms.PSet (
+        name = cms.string("TrackMCPartDeltaEta"),
+        title = cms.string("Track-MCParticle Eta Difference; |#Delta(#eta)|"),
+        bins = cms.untracked.vdouble(100, 0, 10),
+        inputVariables = cms.vstring("deltaEta"),
+        ),
+    cms.PSet (
+        name = cms.string("TrackMCPartDeltaPhi"),
+        title = cms.string("Track-MCParticle Phi Difference; |#Delta(#phi)|"),
+        bins = cms.untracked.vdouble(100, 0, 3.15),
+        inputVariables = cms.vstring("deltaPhi"),
+        ),
+    cms.PSet (
+        name = cms.string("TrackMCPartDeltaR"),
+        title = cms.string("Track-MCParticle #DeltaR; #DeltaR"),
+        bins = cms.untracked.vdouble(100, 0, 10),
+        inputVariables = cms.vstring("deltaR"),
+        ),
+    cms.PSet (
+        name = cms.string("TrackMCPartDeltaRZoom"),
+        title = cms.string("Track-MCParticle #DeltaR; #DeltaR"),
+        bins = cms.untracked.vdouble(100, 0, 1),
+        inputVariables = cms.vstring("deltaR"),
+        ),
+    cms.PSet (
+        name = cms.string("TrackMCPart3DAngle"),
+        title = cms.string("Track-MCParticle 3D Angle; 3D angle"),
+        bins = cms.untracked.vdouble(100, 0, 4),
+        inputVariables = cms.vstring("threeDAngle"),
+        ),
+    )
+)
 
 
 

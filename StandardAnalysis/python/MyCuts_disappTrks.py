@@ -440,9 +440,19 @@ cutTrkD0 = cms.PSet(
     cutString = cms.string("fabs(d0wrtPV) < 0.02"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkD0Inv = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(d0wrtPV) > 0.02 && fabs(d0wrtPV) < 0.22"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkDZ = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(dZwrtPV) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkDZInv = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(dZwrtPV) > 0.5 && fabs(dZwrtPV) < 5.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHits = cms.PSet(
@@ -450,9 +460,24 @@ cutTrkNHits = cms.PSet(
     cutString = cms.string("numValidHits > 4"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkNHitsInv = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHits4 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 4"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkHitMissMid = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("nHitsMissingMiddle == 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkHitMissMidInv = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingMiddle >= 1"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkHitMissIn = cms.PSet (
@@ -485,6 +510,11 @@ cutTrkRelIsoRp3Debug = cms.PSet (
 cutTrkDeadEcalVeto =  cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("isMatchedDeadEcal == 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkBadCSCVeto =  cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("isMatchedBadCSC == 0"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkCrackVeto = cms.PSet (
@@ -812,6 +842,11 @@ cutMuonPairPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 2"),
     )
+cutMuonPairPt25 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 2"),
+    )
 cutMuonPairEta = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("fabs(eta) < 2.5"),
@@ -849,7 +884,7 @@ cutMuonPairValidHits = cms.PSet (
     )
 cutMuMuInvMass = cms.PSet (
     inputCollection = cms.string("muon-muon pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
+    cutString = cms.string("invMass > 80 & invMass < 100"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuMuChargeProduct = cms.PSet (
@@ -1270,4 +1305,23 @@ cutTauTrkDeltaR = cms.PSet(
     inputCollection = cms.string("tau-track pairs"),
     cutString = cms.string("deltaR < 0.15"),
     numberRequired = cms.string(">= 1"),
+    )
+
+##############################
+#-- Cuts on mcparticles    --#
+##############################
+
+cutMCPartPdgZ = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("id == 23"),
+    numberRequired = cms.string(">= 0"),
+    )
+
+######################################
+#-- Cuts on track-mcparticle pairs --#
+######################################
+cutTrkMCPartPair = cms.PSet (
+    inputCollection = cms.string("track-mcparticle pairs"),
+    cutString = cms.string("deltaR > -1"),
+    numberRequired = cms.string(">= 0"),
     )
