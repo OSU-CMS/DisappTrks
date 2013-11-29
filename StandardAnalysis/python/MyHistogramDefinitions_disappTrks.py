@@ -874,42 +874,6 @@ SecJetExtraHistograms = cms.PSet(
 ## )  
 
 
-TrackMCParticleHistograms = cms.PSet(
-    inputCollection = cms.string("track-mcparticle pairs"),
-    histograms = cms.VPSet (
-    cms.PSet (
-        name = cms.string("TrackMCPartDeltaEta"),
-        title = cms.string("Track-MCParticle Eta Difference; |#Delta(#eta)|"),
-        bins = cms.untracked.vdouble(100, 0, 10),
-        inputVariables = cms.vstring("deltaEta"),
-        ),
-    cms.PSet (
-        name = cms.string("TrackMCPartDeltaPhi"),
-        title = cms.string("Track-MCParticle Phi Difference; |#Delta(#phi)|"),
-        bins = cms.untracked.vdouble(100, 0, 3.15),
-        inputVariables = cms.vstring("deltaPhi"),
-        ),
-    cms.PSet (
-        name = cms.string("TrackMCPartDeltaR"),
-        title = cms.string("Track-MCParticle #DeltaR; #DeltaR"),
-        bins = cms.untracked.vdouble(100, 0, 10),
-        inputVariables = cms.vstring("deltaR"),
-        ),
-    cms.PSet (
-        name = cms.string("TrackMCPartDeltaRZoom"),
-        title = cms.string("Track-MCParticle #DeltaR; #DeltaR"),
-        bins = cms.untracked.vdouble(100, 0, 1),
-        inputVariables = cms.vstring("deltaR"),
-        ),
-    cms.PSet (
-        name = cms.string("TrackMCPart3DAngle"),
-        title = cms.string("Track-MCParticle 3D Angle; 3D angle"),
-        bins = cms.untracked.vdouble(100, 0, 4),
-        inputVariables = cms.vstring("threeDAngle"),
-        ),
-    )
-)
-
 
 
 DebugHistograms = cms.PSet(
