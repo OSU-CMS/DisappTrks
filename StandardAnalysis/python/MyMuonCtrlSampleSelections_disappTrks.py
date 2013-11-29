@@ -40,6 +40,20 @@ WMCPt = cms.PSet(
        ),
     )
 
+WMCPtPostTrig = cms.PSet(
+    # Use this to check the Pt of the MC Z particle.  
+    name = cms.string("WMCPtPostTrig"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+        cutMET, 
+        cms.PSet (
+           inputCollection = cms.string("mcparticles"),
+           cutString = cms.string("fabs(id) == 24"),
+           numberRequired = cms.string(">= 1"),
+           ),
+       ),
+    )
+
 WToMu = cms.PSet(
     name = cms.string("WToMu"),
     triggers = triggersSingleMu,
@@ -192,7 +206,7 @@ ZtoMuMu = cms.PSet(
     name = cms.string("ZtoMuMu"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (
-         cutMuonPairPt20,
+         cutMuonPairPt25,
          cutMuonPairEta,
          cutMuonPairTightID,
          cutMuonPairPFIso,
@@ -201,7 +215,46 @@ ZtoMuMu = cms.PSet(
 #         cutElecVeto,
          cutMuMuChargeProduct,
          cutMuMuInvMass,
-         cutMuTrkDeltaRSame,  # apply this so that selected tracks are associated with muons  
+#         cutMuTrkDeltaRSame,  # apply this so that selected tracks are associated with muons  
+         )
+    )   
+
+
+ZtoMuMuFakeTrk = cms.PSet(
+    # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
+    name = cms.string("ZtoMuMuFakeTrk"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+         cutMuonPairPt25,
+         cutMuonPairEta,
+         cutMuonPairTightID,
+         cutMuonPairPFIso,
+         cutMuonPairD0,
+         cutMuonPairDZ,
+#         cutElecVeto,
+         cutMuMuChargeProduct,
+         cutMuMuInvMass,
+         cutTrkPt,
+         cutTrkEta,
+         cutTrkD0,
+         cutTrkDZ,
+         cutTrkNHits,
+         cutTrkHitMissMid,
+         cutTrkHitMissIn,
+         cutTrkDeadEcalVeto,
+         cutTrkCrackVeto,
+         cutTrkRelIsoRp3,
+         cutTrkJetDeltaR,
+         cutTrkWheel0GapVeto,
+         cutTrkEtaMuonPk,
+         cutElecLooseIDVeto,
+         cutTauLooseHadronicVeto,
+         cutMuonLooseIDVeto,
+         cutSecMuonLooseIDVeto,
+         cutMaxCalo10,
+         cutTrkHitMissOut,
+##          cutMCPartPdgZ,
+##          cutTrkMCPartPair,  
          )
     )   
 
