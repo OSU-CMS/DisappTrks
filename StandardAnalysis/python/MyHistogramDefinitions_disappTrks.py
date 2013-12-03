@@ -492,6 +492,13 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("nHitsMissingOuter", "caloTotDeltaRp5RhoCorr"),
             ),
         cms.PSet (
+            name = cms.string("trackNumValidVsEcalo"),
+            title = cms.string("Number of Valid Hits; N_{miss}^{out};E_{calo}^{#DeltaR<0.5} (GeV)"),
+            bins = cms.untracked.vdouble(16, -0.5, 20.5, 100, 0, 100),
+            inputVariables = cms.vstring("numValidHits", "caloTotDeltaRp5RhoCorr"),
+            ),
+        
+        cms.PSet (
             name = cms.string("nHitsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             bins = cms.untracked.vdouble(16, -0.5, 15.5),
@@ -625,7 +632,12 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, -10, 10),
             inputVariables = cms.vstring("ptRes"),
             ),
-
+        cms.PSet (
+            name = cms.string("trackPtTrue"),
+            title = cms.string("ptTrue; p_{T}^{true}"),
+            bins = cms.untracked.vdouble(100, 0, 150),
+            inputVariables = cms.vstring("ptTrue"),
+            ),
         cms.PSet (
             name = cms.string("chi2vsPtErrorByPt"),
             title = cms.string("chi2vsPtErrorByPt; #chi^{2}/DOF;#sigma(p_{T})/p_{T}"),
