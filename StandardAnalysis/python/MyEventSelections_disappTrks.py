@@ -40,10 +40,10 @@ cutsTrkIso = cms.VPSet (
     )
 
 cutsTrkVetoRegions = cms.VPSet (
-    cutTrkDeadEcalVeto,
     cutTrkCrackVeto,
     cutTrkWheel0GapVeto, 
     cutTrkEtaMuonPk, 
+    cutTrkDeadEcalVeto,
     cutTrkBadCSCVeto, 
     )
 
@@ -472,10 +472,12 @@ ZtoMuTrkMuIdNoVeto = cms.PSet(
     cuts = 
     cutsTagMuon + 
 #    cms.VPSet ( cutTrkMuonId ) + 
-    cutsTrkPresel + 
+    cutsTrkPreselNoLepVeto + 
     cms.VPSet (
+      cutTauLooseHadronicVeto,
+      cutElecLooseIDVeto,
       cutMaxCalo10,
-#      cutTrkHitMissOut,
+      #      cutTrkHitMissOut,
       ) + 
     cutsMuTrkZPeak
     )
@@ -492,8 +494,8 @@ ZtoMuTrkMuId = cms.PSet(
     cms.VPSet (
       cutMaxCalo10,
       #      cutTrkHitMissOut,
-      cutMuonLooseIDVeto,
-      cutSecMuonLooseIDVeto,
+##       cutMuonLooseIDVeto,
+##       cutSecMuonLooseIDVeto,
       ) + 
     cutsMuTrkZPeak
     )

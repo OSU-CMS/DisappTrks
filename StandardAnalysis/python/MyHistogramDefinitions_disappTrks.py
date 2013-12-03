@@ -354,6 +354,19 @@ TrackIsolationHistograms = cms.PSet(
             ),        
         )
     )
+
+TrackDiMuonHistograms = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackDeltaPhiDiMuon"),
+            title = cms.string("DeltaPhi(Track-Dimuon); |#Delta#phi(track-(#mu^{+}#mu^{-}))|"),
+            bins = cms.untracked.vdouble(100, 0, 3.15),
+            inputVariables = cms.vstring("fabs(deltaPhiMuMuPair)"),
+            ),
+        )
+    )
+
 ExtraTrackHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
     histograms = cms.VPSet (

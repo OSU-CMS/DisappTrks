@@ -2,6 +2,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
+from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *  # Get the composite cut definitions  
 
 ##################################################
 ##### Set up the event selections (channels) #####
@@ -234,28 +235,11 @@ ZtoMuMuFakeTrk = cms.PSet(
 #         cutElecVeto,
          cutMuMuChargeProduct,
          cutMuMuInvMass,
-         cutTrkPt,
-         cutTrkEta,
-         cutTrkD0,
-         cutTrkDZ,
-         cutTrkNHits,
-         cutTrkHitMissMid,
-         cutTrkHitMissIn,
-         cutTrkDeadEcalVeto,
-         cutTrkCrackVeto,
-         cutTrkRelIsoRp3,
-         cutTrkJetDeltaR,
-         cutTrkWheel0GapVeto,
-         cutTrkEtaMuonPk,
-         cutElecLooseIDVeto,
-         cutTauLooseHadronicVeto,
-         cutMuonLooseIDVeto,
-         cutSecMuonLooseIDVeto,
-         cutMaxCalo10,
-         cutTrkHitMissOut,
+         ) +
+    cutsTrkPresel +
+    cutsSigReg
 ##          cutMCPartPdgZ,
 ##          cutTrkMCPartPair,  
-         )
     )   
 
 WtoMuNuTrackFullPreSel = cms.PSet(
