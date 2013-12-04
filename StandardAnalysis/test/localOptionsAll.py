@@ -1,36 +1,26 @@
 #!/usr/bin/env python
 
 from OSUT3Analysis.Configuration.configurationOptions import *  # Needed if you want to modify (not replace) one of the parameters.  
+from lumiMet2012 import *
 
 config_file = "trackAnalyzerStandard_cfg.py"
-#config_file = "trackAnalyzerQuick_cfg.py"
-
-intLumi = 19783.  # For all 2012 data
-intLumi = 5097.541 # For 2012A,B data 
 
 datasets = [
-
-#      'MET',
-       'MET_2012A',
-       'MET_2012B',
     
-      'AMSB_mGrav50K_0p5ns_Reco',
-      'AMSB_mGrav50K_1ns_Reco',
-      'AMSB_mGrav50K_5ns_Reco',
-
-      'WjetsHighPt',
- #    'Wjets_PtW220',
- #    'TTbar_Inclusive',
-
-      'TTbar',
-      'SingleTop',
-      'DY_PtZ100',    
-      #    'DY',
-      'Diboson',
-      #    'Wjets',  
-      'ZJetsToNuNu', 
-      'QCD',
-      #   'Background',
+    'AMSB_mGrav50K_0p5ns_Reco',
+    'AMSB_mGrav50K_1ns_Reco',
+    'AMSB_mGrav50K_5ns_Reco',
+    
+    # put bkgd datasets in roughly ascending order of size of contribution after preselection
+    'QCD',    
+    'SingleTop',
+    'TTbar',
+    'ZJetsToNuNu', 
+    'DY_PtZ100',    
+    'Diboson',
+    'WjetsHighPt',
+    
+    'MET',
     
     ]
 
@@ -44,13 +34,8 @@ composite_dataset_definitions['Background'] = [
     'Diboson',
     ]
 
-##     'QCD_0to5',
-##     'QCD_5to15',
-##     'QCD_15to30',
-##     'QCD_30to50',
-##     'QCD_50to80',
-##     'QCD_80to120',
-##     'QCD_120to170',
+labels['DY_PtZ100']   = "Z#rightarrowll"
+labels['WjetsHighPt'] = "W#rightarrowl#nu"
 
 composite_dataset_definitions['QCD'] = [
     'QCD_170to300',
@@ -66,7 +51,6 @@ composite_dataset_definitions['QCD'] = [
 
 histsToBlind = [
     'caloTot', 
-
     ]
 
 
