@@ -625,6 +625,7 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, 0, 150),
             inputVariables = cms.vstring("ptTrue"),
             ),
+        
         cms.PSet (
             name = cms.string("chi2vsPtErrorByPt"),
             title = cms.string("chi2vsPtErrorByPt; #chi^{2}/DOF;#sigma(p_{T})/p_{T}"),
