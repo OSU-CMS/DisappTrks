@@ -221,13 +221,13 @@ TrackIsolationHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trkRelIsoRp3"),
-            title = cms.string("trkRelIsoRp3; rel. iso. (#DeltaR<0.3}"),
+            title = cms.string("trkRelIsoRp3; (#Sigma p_{T}^{#Delta R<0.3} - p_{T})/p_{T}"),
             bins = cms.untracked.vdouble(100, 0, 3),
             inputVariables = cms.vstring("trkRelIsoRp3"),
             ),
         cms.PSet (
             name = cms.string("trkRelIsoRp3Zoom"),
-            title = cms.string("trkRelIsoRp3; rel. iso. (#DeltaR<0.3}"),
+            title = cms.string("trkRelIsoRp3; (#Sigma p_T^{#Delta R<0.3} - p_T)/p_T"),
             bins = cms.untracked.vdouble(100, 0, 0.2),
             inputVariables = cms.vstring("trkRelIsoRp3"),
             ),
