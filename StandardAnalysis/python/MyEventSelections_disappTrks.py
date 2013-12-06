@@ -21,6 +21,26 @@ cutsJets = cms.VPSet (
         cutJetJetDPhi,
 )
 
+cutsJetsNoNoiseClean = cms.VPSet (
+    cutSecJetPt,
+    cutSecJetEta2p4,
+    cutJetPt30,
+    cutJetEta4p5,
+    cutJetJetDPhi,
+    )
+
+
+cutsJetsNoDPhi = cms.VPSet (
+    cutSecJetPt,
+    cutSecJetEta2p4,
+    cutSecJetNoiseChgHad,
+    cutSecJetNoiseChgEM,
+    cutSecJetNoiseNeuHad,
+    cutSecJetNoiseNeuEM,
+    cutSubLeadingJetID,
+    )
+
+
 cutsTrkPtEta = cms.VPSet (
     cutTrkPt,
     cutTrkEta,
@@ -30,6 +50,13 @@ cutsTrkQuality = cms.VPSet (
     cutTrkD0,
     cutTrkDZ,
     cutTrkNHits,
+    cutTrkHitMissMid,
+    cutTrkHitMissIn,
+    )
+
+cutsTrkQualityNoNHits = cms.VPSet (
+    cutTrkD0,
+    cutTrkDZ,
     cutTrkHitMissMid,
     cutTrkHitMissIn,
     )
@@ -193,6 +220,23 @@ PreSelection = cms.PSet(
     cuts = cutsPresel, 
     )
 
+PreSelectionElecIdNoLepVeto = cms.PSet(
+    name = cms.string("PreSelectionElecIdNoElecVeto"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cutsTrkPtEta +
+    cutsTrkQuality +
+    cutsTrkIso +
+    cms.VPSet ( cutTrkWheel0GapVeto ) +
+    cms.VPSet ( cutTrkEtaMuonPk ) +
+    cms.VPSet ( cutTrkBadCSCVeto ) +
+    cms.VPSet ( cutTrkElectronId ) +
+    cutsSigReg
+    
+    )
+
 FullSelectionIdMuon = cms.PSet(
     name = cms.string("FullSelectionIdMuon"),
     triggers = triggersJetMet,
@@ -203,6 +247,69 @@ FullSelectionIdMuon = cms.PSet(
     cutsTrkPresel + 
     cutsSigReg
     )
+
+
+PreSelectionNoNoiseClean = cms.PSet(
+    name = cms.string("PreSelectionNoNoiseClean"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJetsNoNoiseClean 
+    )
+
+PreSelectionNoJetJetDPhi = cms.PSet(
+    name = cms.string("PreSelectionNoJetJetDPhi"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJetsNoDPhi 
+#    cutsTrkPtEta +
+#    cutsTrkQuality +
+#    cutsTrkVetoRegions
+    )
+
+PreSelectionNoPt = cms.PSet(
+    name = cms.string("PreSelectionNoPt"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cms.VPSet (cutTrkEta) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cutsTrkIso 
+#    cutsTrkLeptonVeto 
+    )
+
+
+PreSelectionNoNHits = cms.PSet(
+    name = cms.string("PreSelectionNoNHit"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cutsTrkPtEta +
+    cutsTrkVetoRegions +
+    cutsTrkQualityNoNHits +
+    cutsTrkIso +
+    cutsTrkLeptonVeto
+    )
+
+PreSelectionNoIso = cms.PSet(
+    name = cms.string("PreSelectionNoIso"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cutsTrkPtEta +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cutsTrkLeptonVeto
+
+    )
+
+
+
 
 
 
