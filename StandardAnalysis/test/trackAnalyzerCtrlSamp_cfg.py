@@ -17,12 +17,12 @@ process.maxEvents.input = 1000
 #process.maxEvents.input = -1
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
-process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
-process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectronsLoosePFlow')
+#process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
+#process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectronsLoosePFlow')
 
 
 
-process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
+process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu.root')
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
@@ -35,13 +35,13 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 
 from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 #Histograms for the invariant mass plots
-## process.OSUAnalysis.histogramSets.append(DiMuonHistograms)
+process.OSUAnalysis.histogramSets.append(DiMuonHistograms)
 ## process.OSUAnalysis.histogramSets.append(DiElectronHistograms)
-process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
-## #For pions
-## process.OSUAnalysis.histogramSets.append(DiTauHistograms)
-## process.OSUAnalysis.histogramSets.append(MuonTauHistograms)
-#process.OSUAnalysis.histogramSets.append(MuonTrackHistograms)
+#process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
+### #For pions
+process.OSUAnalysis.histogramSets.append(DiTauHistograms)
+process.OSUAnalysis.histogramSets.append(MuonTauHistograms)
+process.OSUAnalysis.histogramSets.append(MuonTrackHistograms)
 #process.OSUAnalysis.histogramSets.append(MuonHistograms)  
 
 
@@ -54,8 +54,8 @@ from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks impor
 #process.OSUAnalysis.channels.append(ZtoETrack)
 #process.OSUAnalysis.channels.append(ZtoETrackPreSel)  
 #process.OSUAnalysis.channels.append(ZtoETrackFullPreSel)
-process.OSUAnalysis.channels.append(WtoENuTrigElec)  
-process.OSUAnalysis.channels.append(WtoENuTrigMET)  
+#process.OSUAnalysis.channels.append(WtoENuTrigElec)  
+#process.OSUAnalysis.channels.append(WtoENuTrigMET)  
 
 from DisappTrks.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(ZtoMuMu)
@@ -66,7 +66,7 @@ from DisappTrks.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
 
 from DisappTrks.StandardAnalysis.MyTauCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(ZtoTauTau)
-#process.OSUAnalysis.channels.append(ZtoMuTau)
+process.OSUAnalysis.channels.append(ZtoMuTauHad)
 #process.OSUAnalysis.channels.append(ZtoTauTrackPreSel)
 #process.OSUAnalysis.channels.append(ZtoTauTrackFullPreSel)
 #process.OSUAnalysis.channels.append(WtoTauNu)

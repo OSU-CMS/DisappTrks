@@ -94,6 +94,26 @@ cutsTrkPreselNoLepVeto = \
   cutsTrkQuality + \
   cutsTrkIso 
 
+cutsTrkPreselNoMuCuts = \
+  cutsTrkPtEta + \
+  cms.VPSet(
+    cutTrkCrackVeto,
+    cutTrkDeadEcalVeto,
+    ) + \
+  cutsTrkQuality + \
+  cutsTrkIso + \
+  cutsTrkLeptonVeto 
+
+cutsTrkPreselNoMuCutsNoLepVeto = \
+  cutsTrkPtEta + \
+  cms.VPSet(
+    cutTrkCrackVeto,
+    cutTrkDeadEcalVeto,
+    ) + \
+  cutsTrkQuality + \
+  cutsTrkIso
+
+
 cutsPresel = \
   cutsMET + \
   cutsJets + \
@@ -668,6 +688,7 @@ ZtoMuTrkMuId = cms.PSet(
     cutsMuTrkZPeak
     )
 
+<<<<<<< HEAD
 ZtoETrkEId = cms.PSet(
     name = cms.string("ZtoETrkEId"),
     #    triggers = triggersJetMetOrSingleMu,
@@ -683,6 +704,37 @@ ZtoETrkEId = cms.PSet(
     ##       cutSecMuonLooseIDVeto,
     ) +
     cutsElecTrkZPeak
+=======
+ZtoMuTrkNoMuCutsNoVeto = cms.PSet(
+    name = cms.string("ZtoMuTrkNoMuCutsNoVeto"),
+    triggers = triggersSingleMu, 
+    cuts = 
+    cutsTagMuon + 
+    cutsTrkPreselNoMuCutsNoLepVeto + 
+    cms.VPSet (
+      cutTauLooseHadronicVeto,
+      cutElecLooseIDVeto,
+      cutMaxCalo10,
+      #      cutTrkHitMissOut,
+      ) + 
+    cutsMuTrkZPeak
+    )
+
+
+ZtoMuTrkNoMuCuts = cms.PSet(
+    name = cms.string("ZtoMuTrkNoMuCuts"),
+    triggers = triggersSingleMu, 
+    cuts = 
+    cutsTagMuon +
+    cutsTrkPreselNoMuCuts +
+    cms.VPSet (
+      cutMaxCalo10,
+      #      cutTrkHitMissOut,
+##       cutMuonLooseIDVeto,
+##       cutSecMuonLooseIDVeto,
+      ) + 
+    cutsMuTrkZPeak
+>>>>>>> 05f483173201e23b8dca56f36faf9ae537666355
     )
 
 
@@ -839,57 +891,28 @@ ZtoMuTrkInvMuonVeto = cms.PSet(
         ),
     )
 
+BadCSCVetoRegions = cms.PSet(
+    name = cms.string("BadCSCVetoRegions"),
+    cuts = cms.VPSet (
+      cutTrkBadCSCVetoInv, 
+      ) 
+    )  
+
 
 FakeTrackSel = cms.PSet(
     name = cms.string("FakeTrackSel"),
-#    triggers = triggersJetMetOrSingleMu, 
-#    triggers = triggersJetMet,
-#    triggers = triggersSingleMu, 
     cuts = cms.VPSet (
-        # See SMP-12-023 for example of W->mu nu selection  
-##         cutMETNoMu,
-##         cutMET,
-#       cutMuonChgNeg,
-#       cutMuonChgPos,
-##         cutMuonPt20,
-##         cutMuonEta,
-##         cutMuonTightID,
-##         cutMuonPFIso,
-##         cutMuonD0,
-##         cutMuonDZ,
-##         cutMuonValidHits,
-##         cutSecJetPt,
-##         cutSecJetEta2p4,            
-##         cutSecJetNoiseChgHad,
-##         cutSecJetNoiseChgEM,
-##         cutSecJetNoiseNeuHad,
-##         cutSecJetNoiseNeuEM,
-##         cutSubLeadingJetID,
-##         cutJetJetDPhi,
-        cutTrkNotGenMatched,
-        cutTrkPt50,
-        cutTrkEta,
-        cutTrkD0,
-        cutTrkDZ,
-#       cutTrkNHits,
-        cutTrkHitMissMid,
-        cutTrkHitMissIn,
-        cutTrkDeadEcalVeto,
-        cutTrkCrackVeto,
-        cutTrkRelIsoRp3,  
-        cutTrkJetDeltaR,
-        cutElecLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutTrkWheel0GapVeto,
-        cutTrkEtaMuonPk,
-        cutMaxCalo10, 
-        cutTrkHitMissOut,
-        cutMuonLooseIDVeto,
-        cutSecMuonLooseIDVeto,
-##         cutMETNoMu,
-##         cutMET,
-        ),
-    )
+      cutTrkNotGenMatched,
+      ) +
+      cutsTrkPtEta + 
+      cutsTrkVetoRegions + 
+      cms.VPSet (
+      cutTrkDZ,
+      ) + 
+      cutsTrkIso + 
+      cutsTrkLeptonVeto
+    )  
+
 
 
 FullSelectionInvD0 = cms.PSet(

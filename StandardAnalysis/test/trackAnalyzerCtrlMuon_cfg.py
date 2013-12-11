@@ -77,9 +77,9 @@ from DisappTrks.StandardAnalysis.MyMuonCtrlSampleSelections_disappTrks import *
 #process.OSUAnalysis.channels.append(SigRegIdMuon)
 #process.OSUAnalysis.channels.append(WtoMuNuTrackFullPreSel)
 #process.OSUAnalysis.channels.append(MuTrigMuId)  
-## process.OSUAnalysis.channels.append(ZtoMuTrkMuIdNoVeto)  
+process.OSUAnalysis.channels.append(ZtoMuTrkMuIdNoVeto)  
 process.OSUAnalysis.channels.append(ZtoMuTrkMuId)  
-process.OSUAnalysis.channels.append(ZtoMuTrkMuIdInvHits)  
+#process.OSUAnalysis.channels.append(ZtoMuTrkMuIdInvHits)  
 #process.OSUAnalysis.channels.append(ZtoMuTrkMuIdNoTrigMet)  
 #process.OSUAnalysis.channels.append(TriggerMetNoMu)  
 

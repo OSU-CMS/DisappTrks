@@ -528,6 +528,11 @@ cutTrkBadCSCVeto =  cms.PSet (
     cutString = cms.string("isMatchedBadCSC == 0"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkBadCSCVetoInv =  cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("isMatchedBadCSC == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkCrackVeto = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
