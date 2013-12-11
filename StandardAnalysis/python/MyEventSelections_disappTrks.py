@@ -115,11 +115,27 @@ cutsTagMuon = cms.VPSet (
     cutMuonValidHits,
     )
 
+cutsTagElec = cms.VPSet (
+    # See SMP-12-023 for example of W->mu nu selection
+    cutElecPt20,
+    cutElecEta,
+    cutElecMva,
+    cutElecPFIso,
+    cutElecD0,
+    cutElecDZ,
+    cutElecNHits,
+    )
+
 cutsMuTrkZPeak = cms.VPSet (
     cutMuTrkInvMass80To100,
     cutMuTrkChgOpp,
-    ) 
-    
+    )
+
+cutsElecTrkZPeak = cms.VPSet (
+    cutElecTrkInvMass80To100,
+    cutElecTrkChgOpp,
+    )
+
 
 ################################################
 ##### List of  event selections (channels) #####
@@ -323,6 +339,31 @@ FullSelectionMuPreveto = cms.PSet(
     cms.VPSet ( cutTauLooseHadronicVeto, cutElecLooseIDVeto ) +  
     cutsSigReg, 
     )
+
+FullSelectionElecPreveto = cms.PSet(
+    name = cms.string("FullSelectionElecPreveto"),
+    triggers = triggersJetMet,
+    cuts =
+    cms.VPSet ( cutMETNoElec ) +
+    cutsJets +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
+    cutsSigReg
+    )
+
+FullSelectionElecId = cms.PSet(
+    name = cms.string("FullSelectionElecId"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cms.VPSet ( cutTrkElectronId ) +
+    cutsTrkPreselNoLepVeto +
+    cutsTrkLeptonVeto +
+    cutsSigReg
+    )
+
+
 
 
 
@@ -589,6 +630,26 @@ ZtoMuTrkMuIdNoVeto = cms.PSet(
     cutsMuTrkZPeak
     )
 
+ZtoETrkEIdNoVeto = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVeto"),
+    #    triggers = triggersJetMetOrSingleMu,
+    #    triggers = triggersJetMet,
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    #    cms.VPSet ( cutTrkMuonId ) +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet (
+    cutTauLooseHadronicVeto,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutMaxCalo10,
+    #      cutTrkHitMissOut,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+
 
 ZtoMuTrkMuId = cms.PSet(
     name = cms.string("ZtoMuTrkMuId"),
@@ -605,6 +666,23 @@ ZtoMuTrkMuId = cms.PSet(
 ##       cutSecMuonLooseIDVeto,
       ) + 
     cutsMuTrkZPeak
+    )
+
+ZtoETrkEId = cms.PSet(
+    name = cms.string("ZtoETrkEId"),
+    #    triggers = triggersJetMetOrSingleMu,
+    #    triggers = triggersJetMet,
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet (
+    cutMaxCalo10,
+    #      cutTrkHitMissOut,
+    ##       cutMuonLooseIDVeto,
+    ##       cutSecMuonLooseIDVeto,
+    ) +
+    cutsElecTrkZPeak
     )
 
 
