@@ -14,7 +14,7 @@ datasets = [
     # put bkgd datasets in roughly ascending order of size of contribution after preselection
     'QCD',    
     'SingleTop',
-    'TTbar_Inclusive',
+    'TTbar',
     'ZJetsToNuNu', 
     'DY_PtZ100',    
     'Diboson',
@@ -29,7 +29,7 @@ composite_dataset_definitions['Background'] = [
     'WjetsHighPt',
     'SingleTop',
     'QCD',
-    'TTbar_Inclusive',
+    'TTbar',
     'ZJetsToNuNu',
     'Diboson',
     ]
