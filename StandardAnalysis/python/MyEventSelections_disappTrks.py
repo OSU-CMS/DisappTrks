@@ -94,6 +94,12 @@ cutsTrkPreselNoLepVeto = \
   cutsTrkQuality + \
   cutsTrkIso 
 
+cutsTrkPreselNoLepVetoOrVetoRegion = \
+  cutsTrkPtEta + \
+  cutsTrkQuality + \
+  cutsTrkIso
+
+
 cutsTrkPreselNoMuCuts = \
   cutsTrkPtEta + \
   cms.VPSet(
@@ -117,7 +123,11 @@ cutsTrkPreselNoMuCutsNoLepVeto = \
 cutsPresel = \
   cutsMET + \
   cutsJets + \
-  cutsTrkPresel 
+  cutsTrkPresel
+
+cutsPreselNoMet = \
+           cutsJets + \
+           cutsTrkPresel
 
 cutsSigReg = cms.VPSet (
     cutMaxCalo10, 
@@ -249,6 +259,15 @@ FullSelection = cms.PSet(
     cutsSigReg, 
     )
 
+FullSelectionNoMet = cms.PSet(
+    name = cms.string("FullSelectionNoMet"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsPreselNoMet +
+    cutsSigReg,
+    )
+
+
 
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
@@ -364,12 +383,25 @@ FullSelectionElecPreveto = cms.PSet(
     name = cms.string("FullSelectionElecPreveto"),
     triggers = triggersJetMet,
     cuts =
-    cms.VPSet ( cutMETNoElec ) +
+#    cms.VPSet ( cutMETNoElec ) +
+    cutsMET +
     cutsJets +
     cutsTrkPreselNoLepVeto +
     cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
-    cutsSigReg
+    cms.VPSet (cutTrkHitMissOut)
     )
+
+FullSelectionElecPrevetoNoMet = cms.PSet(
+        name = cms.string("FullSelectionElecPrevetoNoMet"),
+            triggers = triggersJetMet,
+            cuts =
+#            cms.VPSet ( cutMETNoElec ) +
+            cutsJets +
+            cutsTrkPreselNoLepVeto +
+            cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
+            cms.VPSet (cutTrkHitMissOut)
+            )
+
 
 FullSelectionElecId = cms.PSet(
     name = cms.string("FullSelectionElecId"),
@@ -377,11 +409,50 @@ FullSelectionElecId = cms.PSet(
     cuts =
     cutsMET +
     cutsJets +
-    cms.VPSet ( cutTrkElectronId ) +
+#    cms.VPSet ( cutTrkElectronId ) +
     cutsTrkPreselNoLepVeto +
     cutsTrkLeptonVeto +
     cutsSigReg
     )
+
+forDeadEcal = cms.PSet(
+    name = cms.string("forDeadEcal"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cms.VPSet ( cutTrkElectronId ) +
+    cutsTrkPreselNoLepVetoOrVetoRegion +
+    cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto, cutTrkCrackVeto  ) +
+    cms.VPSet (cutTrkHitMissOut)
+    )
+
+forDeadEcal_v2 = cms.PSet(
+    name = cms.string("forDeadEcal_v2"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cms.VPSet ( cutTrkElectronId ) +
+    cutsTrkPreselNoLepVetoOrVetoRegion +
+    cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
+    cms.VPSet (cutTrkHitMissOut) 
+    )
+        
+        
+
+FullSelectionElecIdNoMet = cms.PSet(
+        name = cms.string("FullSelectionElecIdNoMet"),
+            triggers = triggersJetMet,
+            cuts =
+#            cutsMET +
+            cutsJets +
+            cms.VPSet ( cutTrkElectronId ) +
+            cutsTrkPreselNoLepVeto +
+            cutsTrkLeptonVeto +
+            cutsSigReg
+            )
+
 
 
 
@@ -663,8 +734,8 @@ ZtoETrkEIdNoVeto = cms.PSet(
     cutTauLooseHadronicVeto,
     cutMuonLooseIDVeto,
     cutSecMuonLooseIDVeto,
-    cutMaxCalo10,
-    #      cutTrkHitMissOut,
+   # cutMaxCalo10,
+          cutTrkHitMissOut,
     ) +
     cutsElecTrkZPeak
     )
@@ -688,7 +759,6 @@ ZtoMuTrkMuId = cms.PSet(
     cutsMuTrkZPeak
     )
 
-<<<<<<< HEAD
 ZtoETrkEId = cms.PSet(
     name = cms.string("ZtoETrkEId"),
     #    triggers = triggersJetMetOrSingleMu,
@@ -699,12 +769,13 @@ ZtoETrkEId = cms.PSet(
     cutsTrkPresel +
     cms.VPSet (
     cutMaxCalo10,
-    #      cutTrkHitMissOut,
+          cutTrkHitMissOut,
     ##       cutMuonLooseIDVeto,
     ##       cutSecMuonLooseIDVeto,
     ) +
     cutsElecTrkZPeak
-=======
+    )
+
 ZtoMuTrkNoMuCutsNoVeto = cms.PSet(
     name = cms.string("ZtoMuTrkNoMuCutsNoVeto"),
     triggers = triggersSingleMu, 
@@ -734,7 +805,6 @@ ZtoMuTrkNoMuCuts = cms.PSet(
 ##       cutSecMuonLooseIDVeto,
       ) + 
     cutsMuTrkZPeak
->>>>>>> 05f483173201e23b8dca56f36faf9ae537666355
     )
 
 
