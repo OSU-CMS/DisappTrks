@@ -21,17 +21,16 @@ datasets = [
     'WjetsHighPt',
     
     'MET',
-    'Background',
     ]
 
 composite_dataset_definitions['Background'] = [
-    'DY_PtZ100',
-    'WjetsHighPt',
+    'QCD',    
     'SingleTop',
-    'QCD',
     'TTbar',
-    'ZJetsToNuNu',
+    'ZJetsToNuNu', 
+    'DY_PtZ100',    
     'Diboson',
+    'WjetsHighPt',
     ]
 
 labels['DY_PtZ100']   = "Z#rightarrowll"
