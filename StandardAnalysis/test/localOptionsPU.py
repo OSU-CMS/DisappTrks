@@ -10,12 +10,20 @@ config_file = os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/AnaTools/test/pu_cfg.
 #intLumi = 30000.
 
 datasets = [
-    'WG', 
+    'AMSB_mGrav75K_0p5ns_Reco',
+    'AMSB_mGrav75K_1ns_Reco',
+    'AMSB_mGrav75K_5ns_Reco',
+
 ###Samples commented out here have already been done####
 
-#    'AMSB_mGrav50K_0p5ns_Reco',
-#    'AMSB_mGrav50K_1ns_Reco',
-#    'AMSB_mGrav50K_5ns_Reco',
+##     'DY_PtZ220',
+##     'Wjets_PtW220', 
+
+
+#    'WG', 
+##     'AMSB_mGrav50K_0p5ns_Reco',
+##     'AMSB_mGrav50K_1ns_Reco',
+##     'AMSB_mGrav50K_5ns_Reco',
 #    'DYJetsToLL_Reco',
 #    'WJetsToLNu_Reco',
 #    'QCD_Reco',

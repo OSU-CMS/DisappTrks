@@ -22,11 +22,11 @@ cutsJets = cms.VPSet (
 )
 
 cutsJetsNoNoiseClean = cms.VPSet (
-    cutSecJetPt,
-    cutSecJetEta2p4,
-    cutJetPt30,
-    cutJetEta4p5,
-    cutJetJetDPhi,
+##     cutSecJetPt,
+##     cutSecJetEta2p4,
+##     cutJetPt30,
+##     cutJetEta4p5,  # Not committed
+##     cutJetJetDPhi,
     )
 
 
@@ -257,6 +257,25 @@ PreSelectionElecIdNoLepVeto = cms.PSet(
     
     )
 
+FullSelectionNoMet = cms.PSet(
+    name = cms.string("FullSelectionNoMet"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsJets + 
+    cutsTrkPresel + 
+    cutsSigReg
+    )
+
+FullSelectionNoMetMuId = cms.PSet(
+    name = cms.string("FullSelectionNoMetMuId"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsJets + 
+    cms.VPSet ( cutTrkMuonId ) + 
+    cutsTrkPresel + 
+    cutsSigReg
+    )
+
 FullSelectionIdMuon = cms.PSet(
     name = cms.string("FullSelectionIdMuon"),
     triggers = triggersJetMet,
@@ -266,6 +285,45 @@ FullSelectionIdMuon = cms.PSet(
     cms.VPSet ( cutTrkMuonId ) + 
     cutsTrkPresel + 
     cutsSigReg
+    )
+
+
+
+FullSelectionFakeTrk = cms.PSet(
+    name = cms.string("FullSelectionFakeTrk"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsMET + 
+    cutsJets + 
+    cms.VPSet ( cutTrkNotGenMatched ) + 
+    cutsTrkPresel + 
+    cutsSigReg
+    )
+
+
+FullSelectionNoTrkCuts = cms.PSet(
+    name = cms.string("FullSelectionNoTrkCuts"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsMET + 
+    cutsJets 
+    )
+
+FullSelectionNoMetFakeTrk = cms.PSet(
+    name = cms.string("FullSelectionNoMetFakeTrk"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsJets + 
+    cms.VPSet ( cutTrkNotGenMatched ) + 
+    cutsTrkPresel + 
+    cutsSigReg
+    )
+
+FullSelectionNoMetNoTrkCuts = cms.PSet(
+    name = cms.string("FullSelectionNoMetNoTrkCuts"),
+    triggers = triggersJetMet,
+    cuts = 
+    cutsJets 
     )
 
 
@@ -338,6 +396,16 @@ FullSelectionMuPreveto = cms.PSet(
     triggers = triggersJetMet,
     cuts = 
     cms.VPSet ( cutMETNoMu ) + 
+    cutsJets + 
+    cutsTrkPreselNoLepVeto + 
+    cms.VPSet ( cutTauLooseHadronicVeto, cutElecLooseIDVeto ) +  
+    cutsSigReg, 
+    )
+
+FullSelectionMuPrevetoNoMet = cms.PSet(
+    name = cms.string("FullSelectionMuPrevetoNoMet"),
+    triggers = triggersJetMet,
+    cuts = 
     cutsJets + 
     cutsTrkPreselNoLepVeto + 
     cms.VPSet ( cutTauLooseHadronicVeto, cutElecLooseIDVeto ) +  
@@ -532,20 +600,6 @@ for cut in PreSelTauVetoEndInv.cuts:
         cut.cutString = cutTauLooseHadronicVetoInv.cutString  
 
 
-ZtoMuTrk = cms.PSet(
-    name = cms.string("ZtoMuTrk"),
-    triggers = triggersJetMet,
-    cuts =
-    cutsTagMuon +
-    cms.VPSet (cutMuonPlusMet220) +
-    cutsJets + 
-    cutsTrkPresel + 
-    cms.VPSet (
-      cutMuTrkDeltaR,
-      cutMuTrkInvMass,
-      )
-    )
-
 
 ZtoMuTrkMuIdNoTrigMet = cms.PSet(
     name = cms.string("ZtoMuTrkMuIdNoTrigMet"),
@@ -591,14 +645,40 @@ ZtoMuTrkMuIdNoTrigMet = cms.PSet(
         ),
     )
 
-ZtoMuTrkMuIdNoVeto = cms.PSet(
-    name = cms.string("ZtoMuTrkMuIdNoVeto"),
-#    triggers = triggersJetMetOrSingleMu, 
-#    triggers = triggersJetMet,
+
+
+ZtoMuTrkMetTrig = cms.PSet(
+    name = cms.string("ZtoMuTrk"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsTagMuon +
+    cms.VPSet (cutMuonPlusMet220) +
+    cutsJets + 
+    cutsTrkPresel + 
+    cms.VPSet (
+      cutMuTrkDeltaR,
+      cutMuTrkInvMass,
+      )
+    )
+
+ZtoMuTrkNoVetoNoCalo = cms.PSet(
+    name = cms.string("ZtoMuTrkNoVetoNoCalo"),
      triggers = triggersSingleMu, 
     cuts = 
     cutsTagMuon + 
-#    cms.VPSet ( cutTrkMuonId ) + 
+    cutsTrkPreselNoLepVeto + 
+    cms.VPSet (
+      cutTauLooseHadronicVeto,
+      cutElecLooseIDVeto,
+      ) + 
+    cutsMuTrkZPeak
+    )
+
+ZtoMuTrkNoVeto = cms.PSet(
+    name = cms.string("ZtoMuTrkNoVeto"),
+     triggers = triggersSingleMu, 
+    cuts = 
+    cutsTagMuon + 
     cutsTrkPreselNoLepVeto + 
     cms.VPSet (
       cutTauLooseHadronicVeto,
@@ -609,11 +689,8 @@ ZtoMuTrkMuIdNoVeto = cms.PSet(
     cutsMuTrkZPeak
     )
 
-
-ZtoMuTrkMuId = cms.PSet(
-    name = cms.string("ZtoMuTrkMuId"),
-#    triggers = triggersJetMetOrSingleMu, 
-#    triggers = triggersJetMet,
+ZtoMuTrk = cms.PSet(
+    name = cms.string("ZtoMuTrk"),
      triggers = triggersSingleMu, 
     cuts = 
     cutsTagMuon +
@@ -621,8 +698,6 @@ ZtoMuTrkMuId = cms.PSet(
     cms.VPSet (
       cutMaxCalo10,
       #      cutTrkHitMissOut,
-##       cutMuonLooseIDVeto,
-##       cutSecMuonLooseIDVeto,
       ) + 
     cutsMuTrkZPeak
     )
@@ -829,6 +904,7 @@ FakeTrackSel = cms.PSet(
       cutsTrkVetoRegions + 
       cms.VPSet (
       cutTrkDZ,
+      cutTrkHitMissIn, 
       ) + 
       cutsTrkIso + 
       cutsTrkLeptonVeto
@@ -1561,44 +1637,6 @@ FullSelectionInvD0InvDZInvNHitsInvNMissMid = cms.PSet(
 
 
 
-FullSelectionFakeTrk = cms.PSet(
-    name = cms.string("FullSelectionFakeTrk"),
-    triggers = triggersJetMet,
-    cuts = cms.VPSet (
-#        cutMET,
-        cutSecJetPt,
-        cutSecJetEta2p4,            
-        cutSecJetNoiseChgHad,
-        cutSecJetNoiseChgEM,
-        cutSecJetNoiseNeuHad,
-        cutSecJetNoiseNeuEM,
-        cutSubLeadingJetID,
-        cutJetJetDPhi,
-        cutTrkPt,
-        cutTrkEta,
-        cutTrkD0,
-        cutTrkDZ,
-        cutTrkNHits,
-        cutTrkHitMissMid,
-        cutTrkHitMissIn,
-        cutTrkDeadEcalVeto,
-        cutTrkCrackVeto,
-        cutTrkRelIsoRp3,  
-        cutTrkJetDeltaR,
-        cutElecLooseIDVeto, 
-        cutTauLooseHadronicVeto,  
-        cutTrkWheel0GapVeto, 
-        cutTrkEtaMuonPk, 
-        cutMuonLooseIDVeto,
-        cutSecMuonLooseIDVeto, 
-        cutMaxCalo10, 
-        cutTrkHitMissOut,
-        cutTrkNotGenMatched,  
-    )
-)
-
-
-
 MuTrigNoCuts = cms.PSet(
     name = cms.string("MuTrigNoCuts"),
     triggers = triggersSingleMu,
@@ -1643,22 +1681,6 @@ FakeTrkMuTrig = cms.PSet(
     )
 )
 
-
-FullSelectionNoTrkCuts = cms.PSet(
-    name = cms.string("FullSelectionNoTrkCuts"),
-    triggers = triggersJetMet,
-    cuts = cms.VPSet (
-#        cutMET,
-        cutSecJetPt,
-        cutSecJetEta2p4,            
-        cutSecJetNoiseChgHad,
-        cutSecJetNoiseChgEM,
-        cutSecJetNoiseNeuHad,
-        cutSecJetNoiseNeuEM,
-        cutSubLeadingJetID,
-        cutJetJetDPhi,
-    )
-)
 
 
 FakeTrkTestCorr = cms.PSet(

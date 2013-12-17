@@ -5,24 +5,46 @@ from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 ###############################################################
 
 #uncomment this line to add a single file to be processed
-#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/DYJetsToLL_V6/pat2bean_53x_363_1_5wf.root')
-#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/WJetsToLNu/pat2bean_53x_10_1_3IZ.root')
-#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SigMC_LL01_mGrav150K_5ns/pat2bean_53x_5.root')
 #process.source.fileNames.append('file:/afs/cern.ch/user/j/jbrinson/public/disappTrks/analysisFilesFromOSU/dataFiletoTestTemplate.root')
 #process.source.fileNames.append('file:/afs/cern.ch/work/j/jbrinson/public/analysisFilesFromOSU/SigFiletoTestTemp.root')
 
+process.source.fileNames.append('file:/mnt/hadoop/se/store/user/ahart/BN_WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball_Summer12_DR53X-PU_S10_START53_V7A-v2_AODSIM_0/WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball_Summer12_DR53X-PU_S10_START53_V7A-v2_AODSIM_100_2_iDY.root')  
 
-process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerSkim/AMSB_mGrav50K_0p5ns_Reco/Trigger/bean_0.root')
+#process.source.fileNames.append('file:/store/user/ahart/BN_WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball_Summer12_DR53X-PU_S10_START53_V7A-v2_AODSIM_0/WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball_Summer12_DR53X-PU_S10_START53_V7A-v2_AODSIM_1000_7_CiE.root')  
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav50K_0p5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527_USER_0/DisappTrkChargino_LL01_mGrav50K_0p5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527_USER_1_3_ivj.root')  
+
+#process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerMetSkim_v2/AMSB_mGrav50K_1ns_Reco/TriggerMet/bean_0.root')  
+#process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerSkim/AMSB_mGrav50K_0p5ns_Reco/Trigger/bean_0.root')
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/BN_WToLNu_Pt220_PU_CMSSW_5_3_9_V3_wulsin-WToLNu_Pt220_PU_CMSSW_5_3_9_V3-8c80184e424cbf5fbb864b1ea86d0c47_USER_0/WToLNu_Pt220_PU_CMSSW_5_3_9_V3_wulsin-WToLNu_Pt220_PU_CMSSW_5_3_9_V3-8c80184e424cbf5fbb864b1ea86d0c47_USER_10_1_Yvd.root')  
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/BN_DYToLL_Pt220_PU_CMSSW_5_3_9_V3_wulsin-DYToLL_Pt220_PU_CMSSW_5_3_9_V3-fc4e5b14e95e0947c34293af73ae3756_USER_0/DYToLL_Pt220_PU_CMSSW_5_3_9_V3_wulsin-DYToLL_Pt220_PU_CMSSW_5_3_9_V3-fc4e5b14e95e0947c34293af73ae3756_USER_10_1_I84.root') 
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/BN_DYToLL_Pt220_PU_CMSSW_5_3_9_V3_wulsin-DYToLL_Pt220_PU_CMSSW_5_3_9_V3-fc4e5b14e95e0947c34293af73ae3756_USER_0/DYToLL_Pt220_PU_CMSSW_5_3_9_V3_wulsin-DYToLL_Pt220_PU_CMSSW_5_3_9_V3-fc4e5b14e95e0947c34293af73ae3756_USER_10_1_I84.root')
+#process.source.fileNames.append('file:/store/user/wulsin/BN_WToLNu_Pt220_PU_CMSSW_5_3_9_V3_wulsin-WToLNu_Pt220_PU_CMSSW_5_3_9_V3-8c80184e424cbf5fbb864b1ea86d0c47_USER_0/WToLNu_Pt220_PU_CMSSW_5_3_9_V3_wulsin-WToLNu_Pt220_PU_CMSSW_5_3_9_V3-8c80184e424cbf5fbb864b1ea86d0c47_USER_1_1_idW.root')
+
 #process.source.fileNames.append('file:/data/users/jbrinson/condor/TriggerMetSkim/Wjets_PtW100/TriggerMet/bean_0.root')   
-#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/WJetsToLNu_PtW-100_TuneZ2star_8TeV-madgraph/BEANs-v4/0ff8045eb3a4a7ce9562dd332df0072c/ttH_pat2bean_53x_104_1_jHL.root')
+#process.source.fileNames.append('file:/mnt/hadoop/se/store/user/wulsin/BN_WJetsToLNu_PtW-100_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V7A-v1_AODSIM_0/WJetsToLNu_PtW-100_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V7A-v1_AODSIM_99_2_ARK.root')
 
 
 
+## dir = '/store/user/ahart/BN_WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball_Summer12_DR53X-PU_S10_START53_V7A-v2_AODSIM_0/'  
+## #dir = '/mnt/hadoop/se/store/user/wulsin/WToLNu_Pt220_PU_V1/'
+## ## dir = '/mnt/hadoop/se/store/user/wulsin/DYToLL_Pt220_PU_V1'  
+## for file in os.listdir(dir):  
+##     if file.find(".root") != -1: # Skip over files that do not contain .root.  
+##         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
 
-process.maxEvents.input = 1000
+                
+
+
+process.maxEvents.input = 100000
+#process.maxEvents.input = -1  
 #process.OSUAnalysis.dataset = cms.string ('DYJetsToLL_Reco')
 #process.OSUAnalysis.dataset = cms.string ('WJetsToLNu_Reco')
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
+#process.OSUAnalysis.GetPlotsAfterEachCut = cms.bool(True) 
+#process.OSUAnalysis.printEventInfo   = cms.bool(True) 
+
+#process.OSUAnalysis.treeBranchSets = cms.VPSet()
+
 #output file name when running interactively
 process.TFileService.fileName = 'hist.root'
 
@@ -38,6 +60,34 @@ process.TFileService.fileName = 'hist.root'
 
 from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 
+################################
+## Channels for Analysis Note ##
+################################
+#process.OSUAnalysis.channels.append(FullSelection)
+#process.OSUAnalysis.channels.append(FakeTrackSel)  
+#process.OSUAnalysis.channels.append(PreSelection)
+
+## process.OSUAnalysis.channels.append(FullSelectionMuPrevetoNoMet)  
+## process.OSUAnalysis.channels.append(FullSelectionNoMetMuId) 
+## process.OSUAnalysis.channels.append(FullSelectionNoMetNoTrkCuts)  
+## process.OSUAnalysis.channels.append(FullSelectionNoMetFakeTrk)  
+
+
+
+
+
+################################
+################################
+## Skim Channels  ##
+#add_channels (process, [TriggerMet], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+add_channels (process, [Trigger], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [FakeTrkTestCorr], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [FakeTrkTestCorrLoose], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+
+
+#process.OSUAnalysis.channels.append(DebugCuts)
+
+    
 ## Signal Region Channels ##
 
 ## process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorr)
@@ -48,14 +98,55 @@ from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 ## Preselection Channels ##
 
+#process.OSUAnalysis.channels.append(NoCuts)
 ## process.OSUAnalysis.channels.append(PreSelIdMuonNoVeto)
-process.OSUAnalysis.channels.append(PreSelIdMuon)
-process.OSUAnalysis.channels.append(PreSelIdMuonInvHits)
+## process.OSUAnalysis.channels.append(PreSelIdMuon)
+#process.OSUAnalysis.channels.append(FullSelectionIdMuon)
+#process.OSUAnalysis.channels.append(FullSelectionMuPreveto)
+#process.OSUAnalysis.channels.append(FakeTrkTestCorr)
+#process.OSUAnalysis.channels.append(FullSelectionFakeTrk)
+## process.OSUAnalysis.channels.append(FullSelectionFakeTrkCtrlNom)
+## process.OSUAnalysis.channels.append(FullSelectionFakeTrkCtrlInv)
+
+# For fake track bkgd estimate:
+#process.OSUAnalysis.channels.append(BadCSCVetoRegions)  
+## process.OSUAnalysis.channels.append(MuTrigNoCuts)
+## process.OSUAnalysis.channels.append(FakeTrkMuTrig)
+## process.OSUAnalysis.channels.append(FullSelectionNoTrkCuts)
+## process.OSUAnalysis.channels.append(FullSelectionFakeTrk)
+## process.OSUAnalysis.channels.append(FakeTrkTestCorr)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0Loose)
+## process.OSUAnalysis.channels.append(FullSelectionInvDZLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvNHitsLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvNMissMidLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvDZ)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvNHits)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvNMissMid)
+## process.OSUAnalysis.channels.append(FullSelectionInvDZInvNHits)
+## process.OSUAnalysis.channels.append(FullSelectionInvDZInvNMissMid)
+## process.OSUAnalysis.channels.append(FullSelectionInvNHitsInvNMissMid)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvDZInvNHits)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvDZInvNMissMid)
+## process.OSUAnalysis.channels.append(FullSelectionInvD0InvNHitsInvNMissMid)
+## process.OSUAnalysis.channels.append(FullSelectionInvDZInvNHitsInvNMissMid)
+#process.OSUAnalysis.channels.append(FullSelectionInvD0InvDZInvNHitsInvNMissMid)
+
+
+## process.OSUAnalysis.channels.append(FullSelectionInvD0Loose)
+## process.OSUAnalysis.channels.append(FullSelectionInvDZLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvNHitsLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvMissMidLoose)
+## process.OSUAnalysis.channels.append(FullSelectionInvNoneLoose)
+
+
+
+#process.OSUAnalysis.channels.append(PreSelIdMuonInvHits)
 #process.OSUAnalysis.channels.append(SimpleIdMuon)  
 #process.OSUAnalysis.channels.append(SigRegNominal)  
-## process.OSUAnalysis.channels.append(PreSelection)
-## process.OSUAnalysis.channels.append(PreSelInvElecVeto)  
-## process.OSUAnalysis.channels.append(PreSelInvMuonVeto)  
+#process.OSUAnalysis.channels.append(StudyMuVeto)
+#process.OSUAnalysis.channels.append(StudyMuVeto2)
+#process.OSUAnalysis.channels.append(PreSelInvElecVeto)  
+#process.OSUAnalysis.channels.append(PreSelInvMuonVeto)  
 
 ## process.OSUAnalysis.channels.append(PreSelIdMuonNoMetJetNoVeto)
 ## process.OSUAnalysis.channels.append(PreSelIdMuonNoMetJet)
