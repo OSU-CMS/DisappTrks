@@ -21,7 +21,7 @@ datasets = [
     'WjetsHighPt',
     
     'MET',
-    
+    'Background',
     ]
 
 composite_dataset_definitions['Background'] = [
@@ -29,7 +29,7 @@ composite_dataset_definitions['Background'] = [
     'WjetsHighPt',
     'SingleTop',
     'QCD',
-    'TTbar_Inclusive',
+    'TTbar',
     'ZJetsToNuNu',
     'Diboson',
     ]

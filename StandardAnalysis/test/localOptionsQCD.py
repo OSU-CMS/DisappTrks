@@ -3,29 +3,38 @@
 config_file = "trackAnalyzerStandard_cfg.py"
 #config_file = "trackAnalyzerQuick_cfg.py"
 
-intLumi = 19500.
+intLumi = 19783.
 
 datasets = [
     
-    #'QCD_0to5_Reco',
-    #'QCD_5to15_Reco',
+    'QCD_0to5',
+    'QCD_5to15',
     
-    #'QCD_15to30_Reco',
-    #'QCD_30to50_Reco',
-    'QCD_80to120_Reco',
-    'QCD_120to170_Reco',
-    'QCD_170to300_Reco',
-    'QCD_300to470_Reco',
-    'QCD_470to600_Reco',
-    'QCD_600to800_Reco',
-    'QCD_800to1000_Reco',
-    'QCD_1000to1400_Reco',
-    'QCD_1400to1800_Reco',
-    'QCD_1800_Reco',
+    'QCD_15to30',
+    'QCD_30to50',
+    'QCD_80to120',
+    'QCD_120to170',
+    'QCD_170to300',
+    'QCD_300to470',
+    'QCD_470to600',
+    'QCD_600to800',
+    'QCD_800to1000',
+    'QCD_1000to1400',
+    'QCD_1400to1800',
+    'QCD_1800',
     ]
 
 
-
+composite_dataset_definitions['QCD'] = [
+    'QCD_170to300',
+    'QCD_300to470',
+    'QCD_470to600',
+    'QCD_600to800',
+    'QCD_800to1000',
+    'QCD_1000to1400',
+    'QCD_1400to1800',
+    'QCD_1800',
+    ]
 colors = {
    'QCD_0to5_Reco'        : 791,
    'QCD_5to15_Reco'       : 872,

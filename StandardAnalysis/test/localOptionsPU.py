@@ -14,7 +14,15 @@ datasets = [
     'AMSB_mGrav75K_1ns_Reco',
     'AMSB_mGrav75K_5ns_Reco',
 
-###Samples commented out here have already been done####
+    ###Samples commented out here have already been done####       
+#    'AMSB_mGrav75K_0p5ns_Reco',
+#    'AMSB_mGrav75K_1ns_Reco',
+#    'AMSB_mGrav75K_5ns_Reco',
+ 
+
+#    'AMSB_mGrav32K_0p5ns_Reco',
+#    'AMSB_mGrav32K_1ns_Reco',
+#    'AMSB_mGrav32K_5ns_Reco',
 
 ##     'DY_PtZ220',
 ##     'Wjets_PtW220', 

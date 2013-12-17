@@ -203,6 +203,12 @@ cutJetEta2p4 = cms.PSet (
     cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutJetEta4p5 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 4.5"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutJetEta2p8 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("fabs(eta) < 2.8"),
@@ -458,6 +464,11 @@ cutTrkDZInv = cms.PSet(
 cutTrkNHits = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits > 4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHitsIs5 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 5"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHitsInv = cms.PSet(
@@ -991,6 +1002,13 @@ cutElecPt20 = cms.PSet(
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutElecPt25 = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutElecEta = cms.PSet(
     inputCollection= cms.string("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -1142,6 +1160,12 @@ cutElecTrkDRp5 = cms.PSet (
 cutElecTrkInvMass = cms.PSet(
     inputCollection = cms.string("electron-track pairs"),
     cutString = cms.string("invMass > 40 & invMass < 160"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutElecTrkInvMass80To100 = cms.PSet(
+    inputCollection = cms.string("electron-track pairs"),
+    cutString = cms.string("invMass > 80 & invMass < 100"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecTrkDRSameNone = cms.PSet (

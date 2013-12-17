@@ -123,8 +123,8 @@ ZtoETrk_MetTrig = cms.PSet(
 
 
 ## Bkgd estimate ctrl sample ##
-ZtoETrkEId = cms.PSet(
-    name = cms.string("ZtoETrkEId"),
+ZtoETrkEIdOld = cms.PSet(
+    name = cms.string("ZtoETrkEIdOld"),
     triggers = triggersSingleElec, 
     cuts = cms.VPSet (
         cutElecPt,     

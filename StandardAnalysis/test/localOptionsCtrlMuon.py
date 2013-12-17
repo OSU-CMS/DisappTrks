@@ -33,6 +33,7 @@ datasets = [
 ## ## 'AMSB_mGrav50K_1ns_Reco',
 ## ## 'AMSB_mGrav50K_5ns_Reco',
 
+
 ]
 
 
@@ -46,4 +47,11 @@ composite_dataset_definitions['Background'] = [
     'QCD',
     'ZJetsToNuNu',
     ]
+
+
+composite_dataset_definitions['SingleMu'] = [
+        'SingleMu_2012A',
+]
+
+
 
