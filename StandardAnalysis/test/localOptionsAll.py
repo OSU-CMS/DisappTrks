@@ -7,9 +7,9 @@ config_file = "trackAnalyzerStandard_cfg.py"
 
 datasets = [
     
-    'AMSB_mGrav50K_0p5ns_Reco',
-    'AMSB_mGrav50K_1ns_Reco',
-    'AMSB_mGrav50K_5ns_Reco',
+    'AMSB_mGrav50K_0p5ns',
+    'AMSB_mGrav50K_1ns',
+    'AMSB_mGrav50K_5ns',
     
     # put bkgd datasets in roughly ascending order of size of contribution after preselection
     'QCD',    
