@@ -8,10 +8,10 @@
 #osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012C  -f BEAN create MET_calo_2012C_V2 
 #osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012D  -f BEAN create MET_calo_2012D_V2  
 
-osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012A update /MET/Run2012A-13Jul2012-v1/RECO_disappTrks_V1
-osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012B update /MET/Run2012B-13Jul2012-v1/RECO_disappTrks_V1
-osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012C update /MET/Run2012C-24Aug2012-v1/RECO_disappTrks_V1
-osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012D update /MET/Run2012D-PromptReco-v1/RECO_disappTrks_V1
+#osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012A update /MET/Run2012A-13Jul2012-v1/RECO_disappTrks_V1
+#osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012B update /MET/Run2012B-13Jul2012-v1/RECO_disappTrks_V1
+#osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012C update /MET/Run2012C-24Aug2012-v1/RECO_disappTrks_V1
+#osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012D update /MET/Run2012D-PromptReco-v1/RECO_disappTrks_V1
 
 ############################
 # Bkgd MC
@@ -49,7 +49,7 @@ osudb --location /data/se/store/user/jbrinson/disappTrksNew_V2/2012D update /MET
 #osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V5/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisTrk_V5 
 
 
-osudb -x 136.3 -f BEAN --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_TTJets_V1/ create /TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V1  
+#osudb -x 136.3 -f BEAN --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_TTJets_V1/ create /TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V1  
 
 
 
@@ -81,7 +81,7 @@ osudb -x 136.3 -f BEAN --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkg
 
 #osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/WJetsToLNu/ -f BEAN create  /WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S9_START52_V9-v1/GEN-SIM-RECO_DisappTrk_V6
 #osudb --location /data/se/store/user/wulsin/disappTrksBkgdMC_V6/DYJetsToLL/ -f BEAN create  /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7D-v2/GEN-SIM-RECO_DisappTrk_V6  
-osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/DYJetsToLL/  -f BEAN create /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM_DisappTrk_V7    
+#osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/DYJetsToLL/  -f BEAN create /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM_DisappTrk_V7    
 
 
 
@@ -231,19 +231,41 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 ############################
 # Signal MC V7
 ############################
+#osudb --location /data/se/store/user/wulsin/DisappTrkChargino_LL01_0p5ns_V2/DisappTrkChargino_LL01_0p5ns_V2/d01f5b9f6ef51059166dee85045de929                     -f RECO create   DisappTrkChargino_LL01_0p5ns_V2
+
+
+
 #osudb -x 11     update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER						
 #osudb -x 11     update /DisappTrkChargino_LL01_1ns_V5/wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c/USER							  
 #osudb -x 11     update /DisappTrkChargino_LL01_5ns_V5/wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97/USER							  
 #osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527/USER				 
 #osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER					  
 #osudb -x  2     update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER				
+#osudb -x  0.82  update /DisappTrkChargino_LL01_mGrav61K_0p2ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p2ns_V5-e2a86264f85e2fe70e651c2aa13c594a/USER 
+#osudb -x  0.82  update /DisappTrkChargino_LL01_mGrav61K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p5ns_V5-4d88979c16cc9eba0e57c6422bc75ffc/USER
+#osudb -x  0.82  update /DisappTrkChargino_LL01_mGrav61K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_1ns_V5-c1250bd7ba1be8ecace130ea7b0ea4c7/USER
+#osudb -x  0.82  update /DisappTrkChargino_LL01_mGrav61K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_5ns_V5-615871aff2b8526b13ce8bebdc277506/USER
 #osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746/USER
 #osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219/USER	 
 #osudb -x  0.101 update /DisappTrkChargino_LL01_mGrav100K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9/USER    
 #osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378/USER			
 #osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6/USER				
 #osudb -x  0.015 update /DisappTrkChargino_LL01_mGrav150K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74/USER				
- 
+
+
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_0p5ns_V5_wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929_USER_0                     update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER						
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_1ns_V5_wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c_USER_0                         update /DisappTrkChargino_LL01_1ns_V5/wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c/USER							  
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_5ns_V5_wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97_USER_0                         update /DisappTrkChargino_LL01_5ns_V5/wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97/USER							  
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav50K_0p5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527_USER_0   update /DisappTrkChargino_LL01_mGrav50K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527/USER				 
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav50K_1ns_V5_wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4_USER_0       update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER					  
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav50K_5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189_USER_0       update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER				
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav100K_0p5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746_USER_0 update /DisappTrkChargino_LL01_mGrav100K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746/USER
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav100K_1ns_V5_wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219_USER_0     update /DisappTrkChargino_LL01_mGrav100K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219/USER	 
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav100K_5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9_USER_0     update /DisappTrkChargino_LL01_mGrav100K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9/USER    
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav150K_0p5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378_USER_0 update /DisappTrkChargino_LL01_mGrav150K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378/USER			
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav150K_1ns_V5_wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6_USER_0     update /DisappTrkChargino_LL01_mGrav150K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6/USER				
+#osudb -l /store/user/wulsin/BN_DisappTrkChargino_LL01_mGrav150K_5ns_V5_wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74_USER_0     update /DisappTrkChargino_LL01_mGrav150K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74/USER				
+
 
 #/DisappTrkChargino_LL01_mGrav75K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_0p5ns_V5-64e057cfee25eb2da5ad7f4ba073218b/USER				
 #/DisappTrkChargino_LL01_mGrav75K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_1ns_V5-d7f3732cf921ea9bbe6178e5308dc945/USER				
@@ -252,43 +274,6 @@ osudb -x 2950.0 --location /mnt/hadoop/se/store/user/wulsin/disappTrksBkgdMC_V7/
 #/DisappTrkChargino_LL01_mGrav125K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_0p5ns_V5-ec2910f01604ff6f586242de3f1461ab/USER	
 #/DisappTrkChargino_LL01_mGrav125K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_1ns_V5-98811528007bf485888cb4fef749973b/USER				
 #/DisappTrkChargino_LL01_mGrav125K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_5ns_V5-e888c717604ece62b3bdc4c279569496/USER				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
