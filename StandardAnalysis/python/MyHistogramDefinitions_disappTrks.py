@@ -469,7 +469,7 @@ ExtraTrackHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackDZSinTheta"),
-            title = cms.string("Track d_{z} sin #theta; d_{z} |sin(#theta)| (cm)"),
+            title = cms.string("Track d_{z} sin #theta; d_{z} sin(#theta) (cm)"),
             bins = cms.untracked.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("dZSinTheta"),
             ),
