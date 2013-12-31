@@ -83,7 +83,7 @@ def GetYieldAndError(condor_dir, process, channel):
     if integral > 0.0:
         fracError = 1.0 + (intError / integral)
 
-    #print channel + ", " + integrateHistogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
+#    print channel + ", " + integrateHistogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
 
     yieldAndErrorList['yield'] = integral
     yieldAndErrorList['error'] = fracError
@@ -176,21 +176,29 @@ def writeDatacard(mass,lifetime):
     datacard.write('# lumi = ' + str(lumi) + '\n')
     datacard.write('# sig cross sec = ' + signal_cross_sections[mass]['value'] + '\n')
     datacard.write('# signalOrigYield = ' + str(signalOrigYield) + '\n')
+    datacard.write('# signalYield = '     + str(signal_yield) + '\n')
     datacard.write('# signalEff = ' + str(signalEff) + '\n')
     datacard.write('# signalEffErr = ' + str(signalEffErr) + '\n')
 
-    useBatch = False 
+    useBatch = True  
 
     if arguments.runRooStatsCl95:
         os.system("rm -f limits/"+arguments.outputDir+"/runRooStats_"+signal_dataset+".src")
         datacard95 = open("limits/"+arguments.outputDir+"/runRooStats_"+signal_dataset+".src", 'w')
         logfile = 'limitResults/tau' + lifetime + '/mGrav' + mass + 'K/limitExpDisTrk.log'
         if useBatch: 
-            command = 'bsub -q 8nm -oo ' + logfile
+            command = 'bsub -q 8nm -oo ' 
+#            command += '%50s ' % logfile
+            command += '{0: <50}'.format(logfile)  
         else:
             command = '' 
-        command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
-        command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
+        command += 'limitScanDisTrk.sh '  
+##         command += '%18s ' % str(signalEff)
+##         command += '%18s ' % str(signalEffErr) 
+        command += '{0: <18}'.format(str(signalEff))
+        command += '{0: <18}'.format(str(signalEffErr)) 
+##         command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
+##         command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
         if not useBatch: 
             command = command + ' | tee ' + logfile
         print command 

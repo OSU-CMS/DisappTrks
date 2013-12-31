@@ -2,7 +2,7 @@
 
 # Local options file to be used with makeDataCards.py
 # Usage:
-# > makeDatacards.py -R -l sampleLimitConfig.py -c test
+# > makeDatacards.py -R -l amsbLimitConfig.py -c test
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
@@ -56,10 +56,12 @@ signal_cross_sections = { # in pb
     }
 
 #condor directory in which to find signal root files
-signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' 
+#signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' # old
+signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
 
 #name of event selection from which to take signal yields
-signal_channel = 'FullSelection'
+#signal_channel = 'FullSelection'
+signal_channel = 'FullSelectionNoMet'
 
 
 #######################
@@ -90,8 +92,15 @@ backgrounds = [
     ]
 
 
-backgroundEst    = 1.5 
+# Use with condor_2013_12_17_FullSelectionAllSig  
+#backgroundEst    = 1.5 
+#backgroundEstErr = 2.1 
+
+
+backgroundEst    = 13.6 
 backgroundEstErr = 2.1 
+
+
 
 
 
