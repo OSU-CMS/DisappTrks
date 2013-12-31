@@ -468,6 +468,12 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("dZwrtPV"),
             ),
         cms.PSet (
+            name = cms.string("trackDZSinTheta"),
+            title = cms.string("Track d_{z} sin #theta; d_{z} |sin(#theta)| (cm)"),
+            bins = cms.untracked.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring("dZSinTheta"),
+            ),
+        cms.PSet (
            name = cms.string("trackDZwrtPVWide"),
            title = cms.string("Track d_{z} wrt PV; d_{z} (cm)"),
            bins = cms.untracked.vdouble(200, -10, 10),
@@ -859,6 +865,15 @@ MetExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, 0, 500),  
             inputVariables = cms.vstring("metNoElec"),
             ),
+        cms.PSet (
+            name = cms.string("metDeltaPhiMin2Jets"),
+            title = cms.string("deltaPhiMin2Jets;#Delta#phi_{min}^{met-jet}"),
+            bins = cms.untracked.vdouble(100, 0, 3.15),  
+            inputVariables = cms.vstring("deltaPhiMin2Jets"),
+            ),
+
+
+        
         )
     )
 
