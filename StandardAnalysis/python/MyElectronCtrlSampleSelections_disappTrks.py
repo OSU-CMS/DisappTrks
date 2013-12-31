@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrks.StandardAnalysis.MyCuts_disappTrks import *  # Put all the individual cuts in this file 
+from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *  # Get the composite cut definitions
 
 ##################################################
 ##### Set up the event selections (channels) #####
@@ -19,10 +19,13 @@ ZtoEE = cms.PSet(
      cuts = cms.VPSet(
          cut2ElecPt,     
          cut2ElecEta,    
+         cut2ElecMva,    
+         cut2ElecPFIso,
          cut2ElecD0,     
          cut2ElecDZ,     
-         cut2ElecNHits,  
-         cutMuonVeto,   
+         cut2ElecPassConvVeto,
+         cut2ElecLostHits,
+         cutElecElecChargeProduct,
          cutElecElecMass,        
          )
      ) 

@@ -134,6 +134,13 @@ cutsSigReg = cms.VPSet (
     cutTrkHitMissOut,
     )
 
+cutsTrkPreselSigReg = \
+  cutsTrkPresel + \
+  cms.VPSet (
+    cutMaxCalo10, 
+    cutTrkHitMissOut,
+    )
+
 cutsTagMuon = cms.VPSet (
     # See SMP-12-023 for example of W->mu nu selection  
     cutMuonPt25,
@@ -143,14 +150,15 @@ cutsTagMuon = cms.VPSet (
     )
 
 cutsTagElec = cms.VPSet (
-    # See SMP-12-023 for example of W->mu nu selection
-    cutElecPt20,
+    # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    cutElecPt30,
     cutElecEta,
     cutElecMva,
     cutElecPFIso,
     cutElecD0,
     cutElecDZ,
-    cutElecNHits,
+    cutElecPassConvVeto, 
+    cutElecLostHits, 
     )
 
 cutsMuTrkZPeak = cms.VPSet (
@@ -219,6 +227,14 @@ Trigger = cms.PSet(
     ),
     )
 
+SkimMet90 = cms.PSet(
+    name = cms.string("SkimMet90"),
+    cuts = cms.VPSet (
+    cutMET90, 
+    ),
+    )
+
+
 TriggerJetMetDebug = cms.PSet(
     name = cms.string("TriggerJetMetDebug"),
     triggers = triggersJetMet,
@@ -264,6 +280,13 @@ FullSelectionNoMet = cms.PSet(
     cutsSigReg,
     )
 
+
+
+FullTrkSelection = cms.PSet(
+    # No cuts on Met or jet or trigger
+    name = cms.string("FullTrkSelection"),
+    cuts = cutsTrkPreselSigReg, 
+    )
 
 
 PreSelection = cms.PSet(
@@ -717,6 +740,7 @@ ZtoMuTrkMuIdNoTrigMet = cms.PSet(
         cutMuonPt20,
         cutMuonEta,
         cutMuonTightID,
+        cutMuonPFIso, 
         cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
@@ -793,19 +817,29 @@ ZtoMuTrkNoVeto = cms.PSet(
 
 ZtoETrkEIdNoVeto = cms.PSet(
     name = cms.string("ZtoETrkEIdNoVeto"),
-    #    triggers = triggersJetMetOrSingleMu,
-    #    triggers = triggersJetMet,
     triggers = triggersSingleElec,
     cuts =
     cutsTagElec +
-    #    cms.VPSet ( cutTrkMuonId ) +
     cutsTrkPreselNoLepVeto +
     cms.VPSet (
-    cutTauLooseHadronicVeto,
-    cutMuonLooseIDVeto,
-    cutSecMuonLooseIDVeto,
-   # cutMaxCalo10,
-          cutTrkHitMissOut,
+      cutTauLooseHadronicVeto,
+      cutMuonLooseIDVeto,
+      cutSecMuonLooseIDVeto,
+      cutTrkHitMissOut,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkEIdNoVetoNoMissOut = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoNoMissOut"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet (
+      cutTauLooseHadronicVeto,
+      cutMuonLooseIDVeto,
+      cutSecMuonLooseIDVeto,
     ) +
     cutsElecTrkZPeak
     )
@@ -826,17 +860,13 @@ ZtoMuTrk = cms.PSet(
 
 ZtoETrkEId = cms.PSet(
     name = cms.string("ZtoETrkEId"),
-    #    triggers = triggersJetMetOrSingleMu,
-    #    triggers = triggersJetMet,
     triggers = triggersSingleElec,
     cuts =
     cutsTagElec +
     cutsTrkPresel +
     cms.VPSet (
-    cutMaxCalo10,
-          cutTrkHitMissOut,
-    ##       cutMuonLooseIDVeto,
-    ##       cutSecMuonLooseIDVeto,
+      cutMaxCalo10,
+      cutTrkHitMissOut,
     ) +
     cutsElecTrkZPeak
     )
@@ -3317,33 +3347,123 @@ MonoJetNoSubjetCuts = cms.PSet(
 
 
 AtlasDisappTrk = cms.PSet(
-    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131 
+    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
+    # and PRD 88, 112006 (2013)  
     name = cms.string("AtlasDisappTrk"),
     # Do not apply a trigger  
     cuts = cms.VPSet (
-        cutMET90,
+        cutSecJetPt90,
+        cutSecJetEta2p8,
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
         cutSecJetNoiseNeuHad,
         cutSecJetNoiseNeuEM,
-        cutSecJetEta2p8,
-        cutSecJetPt90,
-        cutElecLooseIDVeto,
-        cutMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutJetPt50,
-        cutJetEta2p8,
-        cutJetVetoDPhiMet,
-        cutTrkPt10,
+        cutMET90,
+        cutMetDeltaPhiMin2Jets, 
+        cutTrkPt15,
+        # Missing:  highest-pt isolated track 
         cutTrkEtaAtlas,
-        cutTrkD0,
-        cutTrkDZ,
+        # Missing:  N_b-layer >= 1
+        # Missing:  N_pixel >= 3
+        # Missing:  N_SCT >= 2
         cutTrkNHits,
-        cutTrkHitMissMid,
         cutTrkHitMissIn,
-        cutTrkPtError,
-        cutTrkIso,
-       ),
+        cutTrkHitMissMid,
+        cutTrkD0Atlas,
+        cutTrkDZSinTheta,
+        # Missing:  track chi2 prob > 10%  
+        cutTrkChi2Norm1p6,
+        #        cutTrkPtError,
+        cutTrkRelIsoRp3Atlas, 
+        cutTrkJetDeltaRAtlas, 
+       ) +
+       cutsTrkLeptonVeto + 
+       cms.VPSet (
+       cutTrkHitMissOut,
+       cutTrkPt75, 
+       )  
     )
+
+AtlasDisappTrkCharginoId = cms.PSet(
+    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
+    # and PRD 88, 112006 (2013)  
+    name = cms.string("AtlasDisappTrkCharginoId"),
+    # Do not apply a trigger  
+    cuts = cms.VPSet (
+        cutSecJetPt90,
+        cutSecJetEta2p8,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutMET90,
+        cutMetDeltaPhiMin2Jets, 
+#        cutTrkCharginoId,
+        cutTrkPt15,
+        # Missing:  highest-pt isolated track 
+        cutTrkEtaAtlas,
+        # Missing:  N_b-layer >= 1
+        # Missing:  N_pixel >= 3
+        # Missing:  N_SCT >= 2
+        cutTrkNHits,
+        cutTrkHitMissIn,
+        cutTrkHitMissMid,
+        cutTrkD0Atlas,
+        cutTrkDZSinTheta,
+        # Missing:  track chi2 prob > 10%  
+        cutTrkChi2Norm1p6,
+        #        cutTrkPtError,
+        cutTrkRelIsoRp3Atlas, 
+        cutTrkJetDeltaRAtlas, 
+       ) +
+       cutsTrkLeptonVeto + 
+       cms.VPSet (
+       cutTrkHitMissOut,
+       cutTrkPt75, 
+       )  
+    )
+
+
+AtlasDisappTrkCharginoIdTrigMet = cms.PSet(
+    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
+    # and PRD 88, 112006 (2013)  
+    name = cms.string("AtlasDisappTrkCharginoIdTrigMet"),
+    triggers = triggersJetMet,
+    # Do not apply a trigger  
+    cuts = cms.VPSet (
+        cutSecJetPt90,
+        cutSecJetEta2p8,
+        cutSecJetNoiseChgHad,
+        cutSecJetNoiseChgEM,
+        cutSecJetNoiseNeuHad,
+        cutSecJetNoiseNeuEM,
+        cutMET90,
+        cutMetDeltaPhiMin2Jets, 
+#        cutTrkCharginoId,
+        cutTrkPt15,
+        # Missing:  highest-pt isolated track 
+        cutTrkEtaAtlas,
+        # Missing:  N_b-layer >= 1
+        # Missing:  N_pixel >= 3
+        # Missing:  N_SCT >= 2
+        cutTrkNHits,
+        cutTrkHitMissIn,
+        cutTrkHitMissMid,
+        cutTrkD0Atlas,
+        cutTrkDZSinTheta,
+        # Missing:  track chi2 prob > 10%  
+        cutTrkChi2Norm1p6,
+        #        cutTrkPtError,
+        cutTrkRelIsoRp3Atlas, 
+        cutTrkJetDeltaRAtlas, 
+       ) +
+       cutsTrkLeptonVeto + 
+       cms.VPSet (
+       cutTrkHitMissOut,
+       cutTrkPt75, 
+       cutMET, 
+       )  
+    )
+
 
 
