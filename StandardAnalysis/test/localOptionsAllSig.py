@@ -12,6 +12,11 @@ datasets = [
     'AMSB_mGrav50K_1ns',
     'AMSB_mGrav50K_5ns',
     
+    'AMSB_mGrav61K_0p2ns',
+    'AMSB_mGrav61K_0p5ns',
+    'AMSB_mGrav61K_1ns',
+    'AMSB_mGrav61K_5ns',
+    
     'AMSB_mGrav75K_0p5ns',
     'AMSB_mGrav75K_1ns',
     'AMSB_mGrav75K_5ns',
