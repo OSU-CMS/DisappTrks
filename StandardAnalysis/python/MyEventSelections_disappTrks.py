@@ -3384,86 +3384,27 @@ AtlasDisappTrk = cms.PSet(
        )  
     )
 
-AtlasDisappTrkCharginoId = cms.PSet(
-    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
-    # and PRD 88, 112006 (2013)  
-    name = cms.string("AtlasDisappTrkCharginoId"),
-    # Do not apply a trigger  
-    cuts = cms.VPSet (
-        cutSecJetPt90,
-        cutSecJetEta2p8,
-        cutSecJetNoiseChgHad,
-        cutSecJetNoiseChgEM,
-        cutSecJetNoiseNeuHad,
-        cutSecJetNoiseNeuEM,
-        cutMET90,
-        cutMetDeltaPhiMin2Jets, 
-#        cutTrkCharginoId,
-        cutTrkPt15,
-        # Missing:  highest-pt isolated track 
-        cutTrkEtaAtlas,
-        # Missing:  N_b-layer >= 1
-        # Missing:  N_pixel >= 3
-        # Missing:  N_SCT >= 2
-        cutTrkNHits,
-        cutTrkHitMissIn,
-        cutTrkHitMissMid,
-        cutTrkD0Atlas,
-        cutTrkDZSinTheta,
-        # Missing:  track chi2 prob > 10%  
-        cutTrkChi2Norm1p6,
-        #        cutTrkPtError,
-        cutTrkRelIsoRp3Atlas, 
-        cutTrkJetDeltaRAtlas, 
-       ) +
-       cutsTrkLeptonVeto + 
-       cms.VPSet (
-       cutTrkHitMissOut,
-       cutTrkPt75, 
-       )  
+AtlasDisappTrkDeadEcal = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcal"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
     )
+AtlasDisappTrkDeadEcal.cuts.append(cutTrkDeadEcalVeto)  
 
+AtlasDisappTrkCharginoId = cms.PSet(
+    name = cms.string("AtlasDisappTrkCharginoId"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+AtlasDisappTrkCharginoId.cuts.insert(8,cutTrkCharginoId)  
 
 AtlasDisappTrkCharginoIdTrigMet = cms.PSet(
-    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
-    # and PRD 88, 112006 (2013)  
+    # add trigger and Met cut 
     name = cms.string("AtlasDisappTrkCharginoIdTrigMet"),
     triggers = triggersJetMet,
-    # Do not apply a trigger  
-    cuts = cms.VPSet (
-        cutSecJetPt90,
-        cutSecJetEta2p8,
-        cutSecJetNoiseChgHad,
-        cutSecJetNoiseChgEM,
-        cutSecJetNoiseNeuHad,
-        cutSecJetNoiseNeuEM,
-        cutMET90,
-        cutMetDeltaPhiMin2Jets, 
-#        cutTrkCharginoId,
-        cutTrkPt15,
-        # Missing:  highest-pt isolated track 
-        cutTrkEtaAtlas,
-        # Missing:  N_b-layer >= 1
-        # Missing:  N_pixel >= 3
-        # Missing:  N_SCT >= 2
-        cutTrkNHits,
-        cutTrkHitMissIn,
-        cutTrkHitMissMid,
-        cutTrkD0Atlas,
-        cutTrkDZSinTheta,
-        # Missing:  track chi2 prob > 10%  
-        cutTrkChi2Norm1p6,
-        #        cutTrkPtError,
-        cutTrkRelIsoRp3Atlas, 
-        cutTrkJetDeltaRAtlas, 
-       ) +
-       cutsTrkLeptonVeto + 
-       cms.VPSet (
-       cutTrkHitMissOut,
-       cutTrkPt75, 
-       cutMET, 
-       )  
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
     )
+AtlasDisappTrkCharginoIdTrigMet.cuts.append(cutMET)  
+
+
 
 
 
