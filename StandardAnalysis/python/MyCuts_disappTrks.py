@@ -468,6 +468,11 @@ cutTrkEtaAtlas = cms.PSet(
     cutString = cms.string("fabs(eta) < 1.9 && fabs(eta) > 0.1"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkEtaAtlasVeto = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 1.35 || fabs(eta) > 1.75"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkD0 = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(d0wrtPV) < 0.02"),
@@ -1410,10 +1415,25 @@ cutTauTrkDeltaR = cms.PSet(
 #-- Cuts on mcparticles    --#
 ##############################
 
+cutMCPartPdgZ0 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("id == 23"),
+    numberRequired = cms.string(">= 0"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    )
 cutMCPartPdgZ = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("id == 23"),
-    numberRequired = cms.string(">= 0"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartPdgW = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 24"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartStatus3 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("status == 3"),
+    numberRequired = cms.string(">= 1"),  
     )
 
 ######################################

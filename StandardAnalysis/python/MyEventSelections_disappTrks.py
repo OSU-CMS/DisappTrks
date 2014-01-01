@@ -239,6 +239,15 @@ SkimMet90 = cms.PSet(
     )
 
 
+SingleMuTrigger = cms.PSet(
+    name = cms.string("MuTrigger"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+      cutNoCuts,
+      ),
+    )
+
+
 TriggerJetMetDebug = cms.PSet(
     name = cms.string("TriggerJetMetDebug"),
     triggers = triggersJetMet,
@@ -722,6 +731,37 @@ PreSelTauVetoEndInv = cms.PSet(
 for cut in PreSelTauVetoEndInv.cuts:
     if cut.cutString == cutTauLooseHadronicVeto.cutString:
         cut.cutString = cutTauLooseHadronicVetoInv.cutString  
+
+
+ZMCPart = cms.PSet(
+    # Use this to check the Pt of the MC Z particle.
+    name = cms.string("ZMCPart"),
+    cuts = cms.VPSet (
+      cutMCPartPdgZ,
+      cutMCPartStatus3, 
+      ),
+    )
+
+WMCPart = cms.PSet(
+    # Use this to check the Pt of the MC W particle.
+    name = cms.string("WMCPart"),
+    cuts = cms.VPSet (
+      cutMCPartPdgW,
+      cutMCPartStatus3, 
+      ),
+    )
+
+WMCPtPostTrig = cms.PSet(
+    # Use this to check the Pt of the MC W particle.
+    name = cms.string("WMCPtPostTrig"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+      cutMET,
+      cutMCPartPdgW,
+      cutMCPartStatus3, 
+      ),
+    )
+
 
 
 
@@ -3384,6 +3424,12 @@ AtlasDisappTrkDeadEcal = cms.PSet(
     cuts = copy.deepcopy(AtlasDisappTrk.cuts),
     )
 AtlasDisappTrkDeadEcal.cuts.append(cutTrkDeadEcalVeto)  
+
+AtlasDisappTrkDeadEcalEtaVeto = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcalEtaVeto"),
+    cuts = copy.deepcopy(AtlasDisappTrkDeadEcal.cuts),
+    )
+AtlasDisappTrkDeadEcalEtaVeto.cuts.append(cutTrkEtaAtlasVeto)  
 
 AtlasDisappTrkCharginoId = cms.PSet(
     name = cms.string("AtlasDisappTrkCharginoId"),
