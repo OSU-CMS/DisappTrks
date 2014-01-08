@@ -197,6 +197,8 @@ def writeDatacard(mass,lifetime):
 ##         command += '%18s ' % str(signalEffErr) 
         command += '{0: <18}'.format(str(signalEff))
         command += '{0: <18}'.format(str(signalEffErr)) 
+        command += '{0: <18}'.format(str(backgroundEst)) 
+        command += '{0: <18}'.format(str(backgroundEstErr)) 
 ##         command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
 ##         command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
         if not useBatch: 
