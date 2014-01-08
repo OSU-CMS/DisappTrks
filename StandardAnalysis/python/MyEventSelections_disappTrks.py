@@ -134,6 +134,17 @@ cutsSigReg = cms.VPSet (
     cutTrkHitMissOut,
     )
 
+cutsFullSelection = \
+  cutsPresel + \
+  cutsSigReg
+
+cutsTrkPreselSigReg = \
+  cutsTrkPresel + \
+  cms.VPSet (
+    cutMaxCalo10, 
+    cutTrkHitMissOut,
+    )
+
 cutsTagMuon = cms.VPSet (
     # See SMP-12-023 for example of W->mu nu selection  
     cutMuonPt25,
@@ -143,14 +154,15 @@ cutsTagMuon = cms.VPSet (
     )
 
 cutsTagElec = cms.VPSet (
-    # See SMP-12-023 for example of W->mu nu selection
-    cutElecPt20,
+    # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    cutElecPt30,
     cutElecEta,
     cutElecMva,
     cutElecPFIso,
     cutElecD0,
     cutElecDZ,
-    cutElecNHits,
+    cutElecPassConvVeto, 
+    cutElecLostHits, 
     )
 
 cutsMuTrkZPeak = cms.VPSet (
@@ -219,6 +231,23 @@ Trigger = cms.PSet(
     ),
     )
 
+SkimMet90 = cms.PSet(
+    name = cms.string("SkimMet90"),
+    cuts = cms.VPSet (
+    cutMET90, 
+    ),
+    )
+
+
+SingleMuTrigger = cms.PSet(
+    name = cms.string("MuTrigger"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet (
+      cutNoCuts,
+      ),
+    )
+
+
 TriggerJetMetDebug = cms.PSet(
     name = cms.string("TriggerJetMetDebug"),
     triggers = triggersJetMet,
@@ -266,6 +295,13 @@ FullSelectionNoMet = cms.PSet(
 
 
 
+FullTrkSelection = cms.PSet(
+    # No cuts on Met or jet or trigger
+    name = cms.string("FullTrkSelection"),
+    cuts = cutsTrkPreselSigReg, 
+    )
+
+
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
     triggers = triggersJetMet,
@@ -311,26 +347,19 @@ FullSelectionNoMetMuId = cms.PSet(
 FullSelectionIdMuon = cms.PSet(
     name = cms.string("FullSelectionIdMuon"),
     triggers = triggersJetMet,
-    cuts = 
-    cutsMET + 
-    cutsJets + 
-    cms.VPSet ( cutTrkMuonId ) + 
-    cutsTrkPresel + 
-    cutsSigReg
+    cuts = copy.deepcopy(cutsFullSelection),  # must copy if you're going to modify it
     )
-
+idx = len(cutsMET) + len(cutsJets)  
+FullSelectionIdMuon.cuts.insert(idx, cutTrkMuonId)  
 
 
 FullSelectionFakeTrk = cms.PSet(
     name = cms.string("FullSelectionFakeTrk"),
     triggers = triggersJetMet,
-    cuts = 
-    cutsMET + 
-    cutsJets + 
-    cms.VPSet ( cutTrkNotGenMatched ) + 
-    cutsTrkPresel + 
-    cutsSigReg
+    cuts = copy.deepcopy(cutsFullSelection), 
     )
+idx = len(cutsMET) + len(cutsJets)  
+FullSelectionFakeTrk.cuts.insert(idx, cutTrkNotGenMatched) 
 
 
 FullSelectionNoTrkCuts = cms.PSet(
@@ -419,20 +448,18 @@ PreSelectionNoIso = cms.PSet(
     )
 
 
-
-
-
-
 FullSelectionMuPreveto = cms.PSet(
     name = cms.string("FullSelectionMuPreveto"),
     triggers = triggersJetMet,
-    cuts = 
-    cms.VPSet ( cutMETNoMu ) + 
-    cutsJets + 
-    cutsTrkPreselNoLepVeto + 
-    cms.VPSet ( cutTauLooseHadronicVeto, cutElecLooseIDVeto ) +  
-    cutsSigReg, 
+    cuts = copy.deepcopy(cutsFullSelection), 
     )
+for i in xrange(len(FullSelectionMuPreveto.cuts) - 1, -1, -1):
+    cut = FullSelectionMuPreveto.cuts[i]
+    if cut.cutString == cutMET.cutString:
+        cut.cutString = cutMETNoMu.cutString  # replace cutMET with cutMETNoMu
+    if cut.cutString == cutMuonLooseIDVeto.cutString or cut.cutString == cutSecMuonLooseIDVeto.cutString: # remove muon veto 
+        del FullSelectionMuPreveto.cuts[i]
+
 
 FullSelectionMuPrevetoNoMet = cms.PSet(
     name = cms.string("FullSelectionMuPrevetoNoMet"),
@@ -706,6 +733,37 @@ for cut in PreSelTauVetoEndInv.cuts:
         cut.cutString = cutTauLooseHadronicVetoInv.cutString  
 
 
+ZMCPart = cms.PSet(
+    # Use this to check the Pt of the MC Z particle.
+    name = cms.string("ZMCPart"),
+    cuts = cms.VPSet (
+      cutMCPartPdgZ,
+      cutMCPartStatus3, 
+      ),
+    )
+
+WMCPart = cms.PSet(
+    # Use this to check the Pt of the MC W particle.
+    name = cms.string("WMCPart"),
+    cuts = cms.VPSet (
+      cutMCPartPdgW,
+      cutMCPartStatus3, 
+      ),
+    )
+
+WMCPtPostTrig = cms.PSet(
+    # Use this to check the Pt of the MC W particle.
+    name = cms.string("WMCPtPostTrig"),
+    triggers = triggersJetMet,
+    cuts = cms.VPSet (
+      cutMET,
+      cutMCPartPdgW,
+      cutMCPartStatus3, 
+      ),
+    )
+
+
+
 
 ZtoMuTrkMuIdNoTrigMet = cms.PSet(
     name = cms.string("ZtoMuTrkMuIdNoTrigMet"),
@@ -717,6 +775,7 @@ ZtoMuTrkMuIdNoTrigMet = cms.PSet(
         cutMuonPt20,
         cutMuonEta,
         cutMuonTightID,
+        cutMuonPFIso, 
         cutSecJetEta2p4,            
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
@@ -793,19 +852,29 @@ ZtoMuTrkNoVeto = cms.PSet(
 
 ZtoETrkEIdNoVeto = cms.PSet(
     name = cms.string("ZtoETrkEIdNoVeto"),
-    #    triggers = triggersJetMetOrSingleMu,
-    #    triggers = triggersJetMet,
     triggers = triggersSingleElec,
     cuts =
     cutsTagElec +
-    #    cms.VPSet ( cutTrkMuonId ) +
     cutsTrkPreselNoLepVeto +
     cms.VPSet (
-    cutTauLooseHadronicVeto,
-    cutMuonLooseIDVeto,
-    cutSecMuonLooseIDVeto,
-   # cutMaxCalo10,
-          cutTrkHitMissOut,
+      cutTauLooseHadronicVeto,
+      cutMuonLooseIDVeto,
+      cutSecMuonLooseIDVeto,
+      cutTrkHitMissOut,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkEIdNoVetoNoMissOut = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoNoMissOut"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet (
+      cutTauLooseHadronicVeto,
+      cutMuonLooseIDVeto,
+      cutSecMuonLooseIDVeto,
     ) +
     cutsElecTrkZPeak
     )
@@ -826,17 +895,13 @@ ZtoMuTrk = cms.PSet(
 
 ZtoETrkEId = cms.PSet(
     name = cms.string("ZtoETrkEId"),
-    #    triggers = triggersJetMetOrSingleMu,
-    #    triggers = triggersJetMet,
     triggers = triggersSingleElec,
     cuts =
     cutsTagElec +
     cutsTrkPresel +
     cms.VPSet (
-    cutMaxCalo10,
-          cutTrkHitMissOut,
-    ##       cutMuonLooseIDVeto,
-    ##       cutSecMuonLooseIDVeto,
+      cutMaxCalo10,
+      cutTrkHitMissOut,
     ) +
     cutsElecTrkZPeak
     )
@@ -3317,33 +3382,70 @@ MonoJetNoSubjetCuts = cms.PSet(
 
 
 AtlasDisappTrk = cms.PSet(
-    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131 
+    # Copy cuts from arXiv:1210.2852v1, JHEP 01 (2013) 131
+    # and PRD 88, 112006 (2013)  
     name = cms.string("AtlasDisappTrk"),
     # Do not apply a trigger  
     cuts = cms.VPSet (
-        cutMET90,
+        cutSecJetPt90,
+        cutSecJetEta2p8,
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
         cutSecJetNoiseNeuHad,
         cutSecJetNoiseNeuEM,
-        cutSecJetEta2p8,
-        cutSecJetPt90,
-        cutElecLooseIDVeto,
-        cutMuonLooseIDVeto,
-        cutTauLooseHadronicVeto,
-        cutJetPt50,
-        cutJetEta2p8,
-        cutJetVetoDPhiMet,
-        cutTrkPt10,
+        cutMET90,
+        cutMetDeltaPhiMin2Jets, 
+        cutTrkPt15,
+        # Missing:  highest-pt isolated track 
         cutTrkEtaAtlas,
-        cutTrkD0,
-        cutTrkDZ,
+        # Missing:  N_b-layer >= 1
+        # Missing:  N_pixel >= 3
+        # Missing:  N_SCT >= 2
         cutTrkNHits,
-        cutTrkHitMissMid,
         cutTrkHitMissIn,
-        cutTrkPtError,
-        cutTrkIso,
-       ),
+        cutTrkHitMissMid,
+        cutTrkD0Atlas,
+        cutTrkDZSinTheta,
+        # Missing:  track chi2 prob > 10%  
+        cutTrkChi2Norm1p6,
+        #        cutTrkPtError,
+        cutTrkRelIsoRp3Atlas, 
+        cutTrkJetDeltaRAtlas, 
+       ) +
+       cutsTrkLeptonVeto + 
+       cms.VPSet (
+       cutTrkHitMissOut,
+       cutTrkPt75, 
+       )  
     )
+
+AtlasDisappTrkDeadEcal = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcal"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+AtlasDisappTrkDeadEcal.cuts.append(cutTrkDeadEcalVeto)  
+
+AtlasDisappTrkDeadEcalEtaVeto = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcalEtaVeto"),
+    cuts = copy.deepcopy(AtlasDisappTrkDeadEcal.cuts),
+    )
+AtlasDisappTrkDeadEcalEtaVeto.cuts.append(cutTrkEtaAtlasVeto)  
+
+AtlasDisappTrkCharginoId = cms.PSet(
+    name = cms.string("AtlasDisappTrkCharginoId"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+AtlasDisappTrkCharginoId.cuts.insert(8,cutTrkCharginoId)  
+
+AtlasDisappTrkCharginoIdTrigMet = cms.PSet(
+    # add trigger and Met cut 
+    name = cms.string("AtlasDisappTrkCharginoIdTrigMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+AtlasDisappTrkCharginoIdTrigMet.cuts.append(cutMET)  
+
+
+
 
 

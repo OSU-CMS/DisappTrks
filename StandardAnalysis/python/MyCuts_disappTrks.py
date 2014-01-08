@@ -95,6 +95,11 @@ cutMET = cms.PSet (
     cutString = cms.string("pt > 220"),
     numberRequired = cms.string(">= 1"),
     )
+cutMetDeltaPhiMin2Jets = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("fabs(deltaPhiMin2Jets) > 1.5"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMETNoMu = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("metNoMu > 220"),
@@ -176,6 +181,11 @@ cutJetPt30N0 = cms.PSet (
 cutJetPt30 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutJetPt45 = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 45"),
     numberRequired = cms.string(">= 1"),
     )
 cutJetPt50 = cms.PSet(
@@ -391,14 +401,19 @@ cutTrkPt = cms.PSet(
     cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1"),
     )
-cutTrkPt20 = cms.PSet(
-    inputCollection = cms.string("tracks"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 1"),
-    )
 cutTrkPt10 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("pt > 10"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPt15 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkPt20 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkPt50 = cms.PSet(
@@ -414,6 +429,18 @@ cutTrkPt75 = cms.PSet(
 cutTrkPtError = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("ptErrorByPt < 0.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkChi2Norm1p6 = cms.PSet(
+    # ndof is defined in:
+    # https://cmssdt.cern.ch/SDT/lxr/source/RecoTracker/TrackProducer/src/TrackProducerAlgorithm.cc?v=CMSSW_5_3_3#073
+    # A track with 6 hits, 3 pixel and 3 strip hits, each with weight 1.0, would have:
+    # ndof = 3*3 + 3*2 - 5 = 10
+    # In that case, the chi2 probability will be >10% if normalizedChi2 < 1.6:
+    # root [11] TMath::Prob(16, 10)
+    # (Double_t)9.96324004870459551e-02 
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("normChi2 < 1.6"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEta = cms.PSet(
@@ -438,12 +465,22 @@ cutTrkEtaMuonPk = cms.PSet(
     )
 cutTrkEtaAtlas = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("fabs(eta) < 0.63 && fabs(eta) > 0.1"),
+    cutString = cms.string("fabs(eta) < 1.9 && fabs(eta) > 0.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEtaAtlasVeto = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 1.35 || fabs(eta) > 1.75"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkD0 = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(d0wrtPV) < 0.02"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkD0Atlas = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(d0wrtPV) < 0.01"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkD0Inv = cms.PSet(
@@ -454,6 +491,11 @@ cutTrkD0Inv = cms.PSet(
 cutTrkDZ = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(dZwrtPV) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkDZSinTheta = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(dZSinTheta) < 0.05"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkDZInv = cms.PSet(
@@ -510,6 +552,11 @@ cutTrkIso = cms.PSet (
 cutTrkRelIsoRp3 = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("trkRelIsoRp3 < 0.05"), 
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkRelIsoRp3Atlas = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("trkRelIsoRp3 < 0.04"), 
     numberRequired = cms.string(">= 1"),
     )
 cutTrkRelIsoRp3Debug = cms.PSet (
@@ -680,6 +727,11 @@ cutTrkDZSide = cms.PSet (
 cutTrkJetDeltaR = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("deltaRMinSubLeadJet > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkJetDeltaRAtlas = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinSubLeadJet > 0.4"),
     numberRequired = cms.string(">= 1"),
     )
 
@@ -982,14 +1034,19 @@ cutMuTauDeltaR = cms.PSet(
 #########################
 #-- Cuts on Electrons --#
 #########################
-cutElecPt = cms.PSet(
+cutElecPt20 = cms.PSet(
     inputCollection = cms.string("electrons"),
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
-cutElecPt40 = cms.PSet(
+cutElecPt25 = cms.PSet(
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > 40"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecPt = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecPt30 = cms.PSet(
@@ -997,21 +1054,14 @@ cutElecPt30 = cms.PSet(
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
     )
-cutElecPt20 = cms.PSet(
+cutElecPt40 = cms.PSet(
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("pt > 40"),
     numberRequired = cms.string(">= 1"),
     )
-
-cutElecPt25 = cms.PSet(
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > 25"),
-    numberRequired = cms.string(">= 1"),
-    )
-
 cutElecEta = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(eta) < 2.1"),
+    cutString = cms.string("fabs(eta) < 2.5"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecD0 = cms.PSet(
@@ -1021,7 +1071,7 @@ cutElecD0 = cms.PSet(
     )
 cutElecDZ = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(correctedDZ) < 0.01"),
+    cutString = cms.string("fabs(correctedDZ) < 0.1"),
     numberRequired = cms.string(">= 1"),
     )
 cutElecNHits = cms.PSet(
@@ -1111,22 +1161,42 @@ cutElecPlusMet110 = cms.PSet (
 #######################################
 cut2ElecPt = cms.PSet(
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 2"),
     )
 cut2ElecEta = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(eta) < 2.1"),
+    cutString = cms.string("fabs(eta) < 2.5"),
+    numberRequired = cms.string(">= 2"),
+    )
+cut2ElecMva = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("mvaTrig_HtoWWto2l2nu == 1"),
     numberRequired = cms.string(">= 2"),
     )
 cut2ElecD0 = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(correctedD0Vertex) < 0.01"),
+    cutString = cms.string("fabs(correctedD0Vertex) < 0.02"),
     numberRequired = cms.string(">= 2"),
     )
 cut2ElecDZ = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(correctedDZ) < 0.01"),
+    cutString = cms.string("fabs(correctedDZ) < 0.1"),
+    numberRequired = cms.string(">= 2"),
+    )
+cut2ElecPFIso = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("relPFrhoIso < 0.15"),
+    numberRequired = cms.string(">= 2"),
+    )
+cut2ElecPassConvVeto = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("passConvVeto == 1"),
+    numberRequired = cms.string(">= 2"),
+    )
+cut2ElecLostHits = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA  
+    inputCollection= cms.string("electrons"),
+    cutString = cms.string("numberOfLostHits == 0"),
     numberRequired = cms.string(">= 2"),
     )
 cut2ElecNHits = cms.PSet(
@@ -1136,7 +1206,12 @@ cut2ElecNHits = cms.PSet(
     )
 cutElecElecMass = cms.PSet (
     inputCollection = cms.string("electron-electron pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
+    cutString = cms.string("invMass > 80 & invMass < 100"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutElecElecChargeProduct = cms.PSet (
+    inputCollection = cms.string("electron-electron pairs"),
+    cutString = cms.string("chargeProduct == -1"),
     numberRequired = cms.string(">= 1"),
     )
 ####################################
@@ -1340,10 +1415,25 @@ cutTauTrkDeltaR = cms.PSet(
 #-- Cuts on mcparticles    --#
 ##############################
 
+cutMCPartPdgZ0 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("id == 23"),
+    numberRequired = cms.string(">= 0"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    )
 cutMCPartPdgZ = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("id == 23"),
-    numberRequired = cms.string(">= 0"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartPdgW = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 24"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartStatus3 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("status == 3"),
+    numberRequired = cms.string(">= 1"),  
     )
 
 ######################################
