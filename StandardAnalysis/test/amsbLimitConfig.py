@@ -34,30 +34,46 @@ signalErrFrac = 0.25  # dummy 25% error
 
 signal_cross_sections = { # in pb 
     '32' : {
-         'value' : '11.0',
-         'error' : '1.1', # dummy 10% error
+         'value' : '14.0',
+         'error' : '1.4', # dummy 10% error
+#         'value' : '11.0',
+#         'error' : '1.1', # dummy 10% error
          },
     '50' : {
-         'value' : '2.0',
-         'error' : '0.2', # dummy 10% error
+         'value' : '2.4',
+         'error' : '0.24', # dummy 10% error
+
+#         'value' : '2.0',
+#         'error' : '0.2', # dummy 10% error
          },
+
     '75' : {
-         'value' : '0.3',
-         'error' : '0.03', # dummy 10% error
+         'value' : '0.4',
+         'error' : '0.04', # dummy 10% error
+
+#         'value' : '0.3',
+#         'error' : '0.03', # dummy 10% error
          },
     '100' : {
-         'value' : '0.101',
-         'error' : '0.0101', # dummy 10% error
+         'value' : '0.125',
+         'error' : '0.0125', # dummy 10% error
+
+#         'value' : '0.101',
+#         'error' : '0.0101', # dummy 10% error
          },
     '150' : {
-         'value' : '0.015',
-         'error' : '0.0015', # dummy 10% error
+         'value' : '0.0175',
+         'error' : '0.00175', # dummy 10% error
+
+#         'value' : '0.015',
+#         'error' : '0.0015', # dummy 10% error
          }, 
     }
 
 #condor directory in which to find signal root files
 #signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' # old
-signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
+#signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
+signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
 
 #name of event selection from which to take signal yields
 #signal_channel = 'FullSelection'
