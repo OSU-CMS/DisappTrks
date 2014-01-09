@@ -308,7 +308,7 @@ FullSelectionNoPt = cms.PSet(
     cuts = copy.deepcopy(cutsFullSelection), 
     )
 # remove the cuts after and including the trkRelIso cut
-for i in xrange(len(FullSelectionNoPt.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoPt.cuts) - 1, -1, -1):
     if FullSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
         del FullSelectionNoPt.cuts[i]  
 
@@ -326,7 +326,7 @@ FullSelectionNoBadCSC = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoBadCSC.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoBadCSC.cuts) - 1, -1, -1):
     if FullSelectionNoBadCSC.cuts[i].cutString == cutTrkBadCSCVeto.cutString:
         del FullSelectionNoBadCSC.cuts[i]  
 
@@ -335,7 +335,7 @@ FullSelectionNoD0 = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoD0.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoD0.cuts) - 1, -1, -1):
     if FullSelectionNoD0.cuts[i].cutString == cutTrkD0.cutString:
         del FullSelectionNoD0.cuts[i]  
 
@@ -344,7 +344,7 @@ FullSelectionNoDZ = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoDZ.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoDZ.cuts) - 1, -1, -1):
     if FullSelectionNoDZ.cuts[i].cutString == cutTrkDZ.cutString:
         del FullSelectionNoDZ.cuts[i]  
 
@@ -353,7 +353,7 @@ FullSelectionNoNhits = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoNhits.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoNhits.cuts) - 1, -1, -1):
     if FullSelectionNoNhits.cuts[i].cutString == cutTrkNHits.cutString:
         del FullSelectionNoNhits.cuts[i]  
 
@@ -362,7 +362,7 @@ FullSelectionNoRelIso = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoRelIso.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoRelIso.cuts) - 1, -1, -1):
     if FullSelectionNoRelIso.cuts[i].cutString == cutTrkRelIsoRp3.cutString or FullSelectionNoRelIso.cuts[i].cutString == cutTrkJetDeltaR.cutString: 
         del FullSelectionNoRelIso.cuts[i]  
 
@@ -371,7 +371,7 @@ FullSelectionNoCalo = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoCalo.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoCalo.cuts) - 1, -1, -1):
     if FullSelectionNoCalo.cuts[i].cutString == cutMaxCalo10.cutString:
         del FullSelectionNoCalo.cuts[i]  
 
@@ -380,7 +380,7 @@ FullSelectionNoMissHit = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection), 
     )
-for i in xrange(len(FullSelectionNoMissHit.cuts) - 1, 0, -1):
+for i in xrange(len(FullSelectionNoMissHit.cuts) - 1, -1, -1):
     if FullSelectionNoMissHit.cuts[i].cutString == cutTrkHitMissOut.cutString:
         del FullSelectionNoMissHit.cuts[i]  
 
@@ -2197,65 +2197,28 @@ PreSelectionMuonLooseID = cms.PSet(
        ),
     )
 
-## Ctrl sample for electrons ##
+
+## Ctrl sample for muons ##
 PreSelectionElec = cms.PSet(
     name = cms.string("PreSelectionElec"),
     triggers = triggersJetMet,
-    cuts = cms.VPSet (
-       cutMET,
-       cutSecJetPt,
-       cutSecJetEta2p4,            
-       cutSecJetNoiseChgHad,
-       cutSecJetNoiseChgEM,
-       cutSecJetNoiseNeuHad,
-       cutSecJetNoiseNeuEM,
-       cutSubLeadingJetID,
-       cutJetJetDPhi,
-       cutMuonLooseIDVeto,
-       cutTauLooseHadronicVeto,
-       cutTrkPt,
-       cutTrkEta,
-       cutTrkD0,
-       cutTrkDZ,
-       cutTrkNHits,
-       cutTrkHitMissMid,
-       cutTrkHitMissIn,
-       cutTrkDeadEcalVeto,
-       cutTrkCrackVeto,
-       cutElecMva,
-       cutElecTrkDRSame,
-       ),
+    cuts = copy.deepcopy(cutsPresel), 
     )
+for i in xrange(len(PreSelectionElec.cuts) - 1, -1, -1):
+    if PreSelectionElec.cuts[i].cutString == cutElecLooseIDVeto.cutString: 
+        del PreSelectionElec.cuts[i] 
+
 
 ## Ctrl sample for muons ##
 PreSelectionMuon = cms.PSet(
     name = cms.string("PreSelectionMuon"),
-    #    triggers = triggersJetMet,
-    cuts = cms.VPSet (
-        #       cutMET,
-        #       cutSecJetPt,
-       cutSecJetEta2p4,            
-       cutSecJetNoiseChgHad,
-       cutSecJetNoiseChgEM,
-       cutSecJetNoiseNeuHad,
-       cutSecJetNoiseNeuEM,
-       cutSubLeadingJetID,
-       cutJetJetDPhi,
-       cutElecLooseIDVeto,
-       cutTauLooseHadronicVeto,
-       cutTrkPt,
-       cutTrkEta,
-       cutTrkD0,
-       cutTrkDZ,
-       cutTrkNHits,
-       cutTrkHitMissMid,
-       cutTrkHitMissIn,
-       cutTrkDeadEcalVeto,
-       cutTrkCrackVeto,
-       cutMuonTightID,
-       cutMuonTrkDRSame,
-       ),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsPresel), 
     )
+for i in xrange(len(PreSelectionMuon.cuts) - 1, -1, -1):
+    if PreSelectionMuon.cuts[i].cutString == cutMuonLooseIDVeto.cutString or PreSelectionMuon.cuts[i].cutString == cutSecMuonLooseIDVeto.cutString: 
+        del PreSelectionMuon.cuts[i] 
+
 
 
 PreSelectionPTrkJetDeltaR = cms.PSet(
