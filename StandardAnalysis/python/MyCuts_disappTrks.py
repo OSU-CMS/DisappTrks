@@ -10,6 +10,15 @@ triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
     "HLT_MET120_HBHENoiseCleaned_v",
     )
+
+triggersMet80 = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "HLT_MET120_HBHENoiseCleaned_v",
+    "HLT_MET80_v", 
+    )
+
+
 # Choose triggers by going to http://j2eeps.cern.ch/cms-project-confdb-hltdev/browser
 # Select online/2012/8e33/v2.1.
 # Take all the single electron triggers than are unprescaled and do not have extra strange requirements.  
@@ -90,9 +99,14 @@ cutVtxGood = cms.PSet (
 ###################
 #-- Cuts on MET --#
 ###################
-cutMET = cms.PSet (
+cutMET220 = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("pt > 220"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMET = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt > 100"),
     numberRequired = cms.string(">= 1"),
     )
 cutMetDeltaPhiMin2Jets = cms.PSet (
@@ -167,6 +181,11 @@ cutJetPt = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
+    )
+cutJetLeadingPt = cms.PSet(
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("isLeadingPtJet == 1"),
+    numberRequired = cms.string(">= 0"),
     )
 cutJetPt20 = cms.PSet(
     inputCollection = cms.string("jets"),
@@ -605,6 +624,21 @@ cutTrkHitMissOut = cms.PSet (
     cutString = cms.string("nHitsMissingOuter >= 3"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkHitMissOut6 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingOuter >= 6"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkHitMissOut7 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingOuter >= 7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkHitMissOut8 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("nHitsMissingOuter >= 8"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkHitMissOutInv = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("nHitsMissingOuter <= 2"),
@@ -897,6 +931,11 @@ cutMuonVetoPt10 = cms.PSet (
     cutString = cms.string("pt > 10"),
     numberRequired = cms.string("= 0"),
     )
+cutSecMuonVetoPt10 = cms.PSet (
+    inputCollection = cms.string("secondary muons"),
+    cutString = cms.string("pt > 10"),
+    numberRequired = cms.string("= 0"),
+    )
 cutMuonPlusMet220 = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("ptPlusMet > 220"),
@@ -1142,7 +1181,8 @@ cutElecVeto = cms.PSet (
     )
 cutElecVetoPt10 = cms.PSet (
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("pt > 10"),
+    cutString = cms.string("mvaNonTrigV0 > 0"),
+    # pT > 10 cut is applied in making BEANs  
     numberRequired = cms.string("= 0"),
     )
 cutElecPlusMet220 = cms.PSet (
@@ -1435,6 +1475,22 @@ cutMCPartStatus3 = cms.PSet (
     cutString = cms.string("status == 3"),
     numberRequired = cms.string(">= 1"),  
     )
+
+##############################
+#-- Standard Event Cleaning ##
+##############################
+cutEvtFilter = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("FilterOutScraping > 0"),
+    numberRequired = cms.string(">= 1")
+    )
+
+cutVtxGood = cms.PSet (
+    inputCollection = cms.string("primaryvertexs"),
+    cutString = cms.string("isGood > 0"),
+    numberRequired = cms.string(">= 1")
+    )
+
 
 ######################################
 #-- Cuts on track-mcparticle pairs --#

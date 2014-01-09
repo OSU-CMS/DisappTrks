@@ -6,8 +6,13 @@ from DisappTrks.StandardAnalysis.MyCuts_disappTrks import *  # Put all the indiv
 ################################################
 
 
+cutsStdClean = cms.VPSet (
+    cutEvtFilter,
+    cutVtxGood, 
+    )
+
 cutsMET = cms.VPSet (
-        cutMET,
+    cutMET,
 )
 
 cutsJets = cms.VPSet (
@@ -121,13 +126,14 @@ cutsTrkPreselNoMuCutsNoLepVeto = \
 
 
 cutsPresel = \
+  cutsStdClean + \
   cutsMET + \
   cutsJets + \
   cutsTrkPresel
 
 cutsPreselNoMet = \
-           cutsJets + \
-           cutsTrkPresel
+  cutsJets + \
+  cutsTrkPresel
 
 cutsSigReg = cms.VPSet (
     cutMaxCalo10, 
@@ -191,9 +197,10 @@ DebugCuts = cms.PSet(
     name = cms.string("DebugCuts"),
     cuts = cms.VPSet (
        cms.PSet(
-          inputCollection = cms.string("tracks"),
-          cutString = cms.string("isMatchedBadCSC == 1"),
-          numberRequired = cms.string(">= 1"),
+          inputCollection = cms.string("jets"),
+#          cutString = cms.string("isLeadingPtJet == 1"),
+          cutString = cms.string("pt > 0"),
+          numberRequired = cms.string(">= 0"),
           ),
        )
     )
@@ -280,18 +287,102 @@ TriggerJetMetDebug3 = cms.PSet(
 FullSelection = cms.PSet(
     name = cms.string("FullSelection"),
     triggers = triggersJetMet,
-    cuts =
-    cutsPresel +
-    cutsSigReg, 
+    cuts = cutsFullSelection, 
     )
 
 FullSelectionNoMet = cms.PSet(
     name = cms.string("FullSelectionNoMet"),
     triggers = triggersJetMet,
-    cuts =
-    cutsPreselNoMet +
-    cutsSigReg,
+    cuts = cutsFullSelection, 
     )
+
+FullSelectionMet80Trig = cms.PSet(
+    name = cms.string("FullSelectionMet80Trig"),
+    triggers = triggersMet80,
+    cuts = cutsFullSelection, 
+    )
+
+FullSelectionNoPt = cms.PSet(
+    name = cms.string("FullSelectionNoPt"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+# remove the cuts after and including the trkRelIso cut
+for i in xrange(len(FullSelectionNoPt.cuts) - 1, 0, -1):
+    if FullSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
+        del FullSelectionNoPt.cuts[i]  
+
+FullSelectionNoEta = cms.PSet(
+    name = cms.string("FullSelectionNoEta"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoEta.cuts) - 1, 8, -1):
+    if str(FullSelectionNoEta.cuts[i].cutString).find("eta") != -1:  
+        del FullSelectionNoEta.cuts[i]  
+
+FullSelectionNoBadCSC = cms.PSet(
+    name = cms.string("FullSelectionNoBadCSC"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoBadCSC.cuts) - 1, 0, -1):
+    if FullSelectionNoBadCSC.cuts[i].cutString == cutTrkBadCSCVeto.cutString:
+        del FullSelectionNoBadCSC.cuts[i]  
+
+FullSelectionNoD0 = cms.PSet(
+    name = cms.string("FullSelectionNoD0"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoD0.cuts) - 1, 0, -1):
+    if FullSelectionNoD0.cuts[i].cutString == cutTrkD0.cutString:
+        del FullSelectionNoD0.cuts[i]  
+
+FullSelectionNoDZ = cms.PSet(
+    name = cms.string("FullSelectionNoDZ"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoDZ.cuts) - 1, 0, -1):
+    if FullSelectionNoDZ.cuts[i].cutString == cutTrkDZ.cutString:
+        del FullSelectionNoDZ.cuts[i]  
+
+FullSelectionNoNhits = cms.PSet(
+    name = cms.string("FullSelectionNoNhits"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoNhits.cuts) - 1, 0, -1):
+    if FullSelectionNoNhits.cuts[i].cutString == cutTrkNHits.cutString:
+        del FullSelectionNoNhits.cuts[i]  
+
+FullSelectionNoRelIso = cms.PSet(
+    name = cms.string("FullSelectionNoRelIso"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoRelIso.cuts) - 1, 0, -1):
+    if FullSelectionNoRelIso.cuts[i].cutString == cutTrkRelIsoRp3.cutString or FullSelectionNoRelIso.cuts[i].cutString == cutTrkJetDeltaR.cutString: 
+        del FullSelectionNoRelIso.cuts[i]  
+
+FullSelectionNoCalo = cms.PSet(
+    name = cms.string("FullSelectionNoCalo"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoCalo.cuts) - 1, 0, -1):
+    if FullSelectionNoCalo.cuts[i].cutString == cutMaxCalo10.cutString:
+        del FullSelectionNoCalo.cuts[i]  
+
+FullSelectionNoMissHit = cms.PSet(
+    name = cms.string("FullSelectionNoMissHit"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+for i in xrange(len(FullSelectionNoMissHit.cuts) - 1, 0, -1):
+    if FullSelectionNoMissHit.cuts[i].cutString == cutTrkHitMissOut.cutString:
+        del FullSelectionNoMissHit.cuts[i]  
 
 
 
@@ -300,6 +391,31 @@ FullTrkSelection = cms.PSet(
     name = cms.string("FullTrkSelection"),
     cuts = cutsTrkPreselSigReg, 
     )
+
+FullTrkSelectionUpToMissIn = cms.PSet(
+    # No cuts on Met or jet or trigger
+    name = cms.string("FullTrkSelectionUpToMissIn"),
+    cuts = cutsTrkPreselSigReg, 
+    )
+# remove the cuts after and including the trkRelIso cut
+for i in range(0, len(FullTrkSelectionUpToMissIn.cuts)):  
+    if FullTrkSelectionUpToMissIn.cuts[i].cutString == cutTrkRelIsoRp3.cutString:
+        idx = i
+del FullTrkSelectionUpToMissIn.cuts[idx:len(FullTrkSelectionUpToMissIn.cuts)]  
+
+FullTrkSelectionLeadingJet = cms.PSet(
+    # No cuts on Met or jet or trigger
+    name = cms.string("FullTrkSelectionLeadingJet"),
+    cuts = copy.deepcopy(cutsTrkPreselSigReg), 
+    )
+FullTrkSelectionLeadingJet.cuts.append(cutJetLeadingPt)  
+
+FullTrkSelectionJetPt = cms.PSet(
+    # No cuts on Met or jet or trigger
+    name = cms.string("FullTrkSelectionJetPt"),
+    cuts = copy.deepcopy(cutsTrkPreselSigReg), 
+    )
+FullTrkSelectionJetPt.cuts.append(cutJetPt)  
 
 
 PreSelection = cms.PSet(
@@ -3387,12 +3503,17 @@ AtlasDisappTrk = cms.PSet(
     name = cms.string("AtlasDisappTrk"),
     # Do not apply a trigger  
     cuts = cms.VPSet (
-        cutSecJetPt90,
+        cutEvtFilter,
+        cutVtxGood, 
         cutSecJetEta2p8,
         cutSecJetNoiseChgHad,
         cutSecJetNoiseChgEM,
         cutSecJetNoiseNeuHad,
         cutSecJetNoiseNeuEM,
+        cutElecVetoPt10, 
+        cutMuonVetoPt10,
+        cutSecMuonVetoPt10,
+        cutSecJetPt90,
         cutMET90,
         cutMetDeltaPhiMin2Jets, 
         cutTrkPt15,
@@ -3410,20 +3531,95 @@ AtlasDisappTrk = cms.PSet(
         cutTrkChi2Norm1p6,
         #        cutTrkPtError,
         cutTrkRelIsoRp3Atlas, 
-        cutTrkJetDeltaRAtlas, 
-       ) +
-       cutsTrkLeptonVeto + 
-       cms.VPSet (
-       cutTrkHitMissOut,
-       cutTrkPt75, 
+        cutTrkJetDeltaRAtlas,
+        cutTrkDeadEcalVeto, 
+        cutTrkHitMissOut,
+        cutTrkPt75, 
        )  
     )
+
+AtlasDisappTrkUptoMet = cms.PSet(
+    name = cms.string("AtlasDisappTrkUptoMet"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+# remove the cuts after the Met cut
+for i in range(0, len(AtlasDisappTrkUptoMet.cuts)):  
+    if AtlasDisappTrkUptoMet.cuts[i].cutString == cutMET90.cutString:
+        idx = i
+del AtlasDisappTrkUptoMet.cuts[idx+1:len(AtlasDisappTrkUptoMet.cuts)]  
+
+AtlasDisappTrkIsoTrk = cms.PSet(
+    name = cms.string("AtlasDisappTrkIsoTrk"),
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+# remove the last two cuts 
+del AtlasDisappTrkIsoTrk.cuts[len(AtlasDisappTrkIsoTrk.cuts)-1]
+del AtlasDisappTrkIsoTrk.cuts[len(AtlasDisappTrkIsoTrk.cuts)-1]
+
+
+AtlasDisappTrkIsoTrkMissOut3 = cms.PSet(
+    name = cms.string("AtlasDisappTrkIsoTrkMissOut3"),
+    cuts = copy.deepcopy(AtlasDisappTrkIsoTrk.cuts),
+    )
+AtlasDisappTrkIsoTrkMissOut3.cuts.append(cutTrkHitMissOut) 
+
+AtlasDisappTrkIsoTrkMissOut6 = cms.PSet(
+    name = cms.string("AtlasDisappTrkIsoTrkMissOut6"),
+    cuts = copy.deepcopy(AtlasDisappTrkIsoTrk.cuts),
+    )
+AtlasDisappTrkIsoTrkMissOut6.cuts.append(cutTrkHitMissOut6) 
+
+AtlasDisappTrkIsoTrkMissOut7 = cms.PSet(
+    name = cms.string("AtlasDisappTrkIsoTrkMissOut7"),
+    cuts = copy.deepcopy(AtlasDisappTrkIsoTrk.cuts),
+    )
+AtlasDisappTrkIsoTrkMissOut7.cuts.append(cutTrkHitMissOut7) 
+
+AtlasDisappTrkIsoTrkMissOut8 = cms.PSet(
+    name = cms.string("AtlasDisappTrkIsoTrkMissOut8"),
+    cuts = copy.deepcopy(AtlasDisappTrkIsoTrk.cuts),
+    )
+AtlasDisappTrkIsoTrkMissOut8.cuts.append(cutTrkHitMissOut8) 
+
+## AtlasDisappTrkIsoTrkDeadEcal = cms.PSet(
+##     name = cms.string("AtlasDisappTrkIsoTrkDeadEcal"),
+##     cuts = copy.deepcopy(AtlasDisappTrkIsoTrk.cuts),
+##     )
+## AtlasDisappTrkIsoTrkDeadEcal.cuts.append(cutTrkDeadEcalVeto)  
+
+AtlasDisappTrkTrigMet = cms.PSet(
+    name = cms.string("AtlasDisappTrkTrigMet"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(AtlasDisappTrk.cuts),
+    )
+AtlasDisappTrkTrigMet.cuts.append(cutMET)  
 
 AtlasDisappTrkDeadEcal = cms.PSet(
     name = cms.string("AtlasDisappTrkDeadEcal"),
     cuts = copy.deepcopy(AtlasDisappTrk.cuts),
     )
 AtlasDisappTrkDeadEcal.cuts.append(cutTrkDeadEcalVeto)  
+
+AtlasDisappTrkDeadEcalMuonCuts = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcalMuonCuts"),
+    cuts = copy.deepcopy(AtlasDisappTrkDeadEcal.cuts),
+    )
+AtlasDisappTrkDeadEcalMuonCuts.cuts.append(cutSecMuonVetoPt10)
+AtlasDisappTrkDeadEcalMuonCuts.cuts.append(cutTrkWheel0GapVeto)
+AtlasDisappTrkDeadEcalMuonCuts.cuts.append(cutTrkEtaMuonPk)
+AtlasDisappTrkDeadEcalMuonCuts.cuts.append(cutTrkBadCSCVeto)  
+
+AtlasDisappTrkDeadEcalSecMuonVeto = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcalSecMuonVeto"),
+    cuts = copy.deepcopy(AtlasDisappTrkDeadEcal.cuts),
+    )
+AtlasDisappTrkDeadEcalSecMuonVeto.cuts.append(cutSecMuonVetoPt10)
+
+AtlasDisappTrkDeadEcalSecMuonVetoEcalo = cms.PSet(
+    name = cms.string("AtlasDisappTrkDeadEcalSecMuonVetoEcalo"),
+    cuts = copy.deepcopy(AtlasDisappTrkDeadEcalSecMuonVeto.cuts),
+    )
+AtlasDisappTrkDeadEcalSecMuonVetoEcalo.cuts.append(cutMaxCalo10)
 
 AtlasDisappTrkDeadEcalEtaVeto = cms.PSet(
     name = cms.string("AtlasDisappTrkDeadEcalEtaVeto"),
