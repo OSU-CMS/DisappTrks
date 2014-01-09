@@ -465,7 +465,9 @@ FullSelectionIdMuon = cms.PSet(
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsFullSelection),  # must copy if you're going to modify it
     )
-idx = len(cutsMET) + len(cutsJets)  
+for i in range(0,len(FullSelectionIdMuon.cuts)): 
+    if FullSelectionIdMuon.cuts[i].cutString == cutTrkPt.cutString:
+        idx = i
 FullSelectionIdMuon.cuts.insert(idx, cutTrkMuonId)  
 
 
