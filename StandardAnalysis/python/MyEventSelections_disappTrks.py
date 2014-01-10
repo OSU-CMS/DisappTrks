@@ -392,10 +392,16 @@ FullTrkSelection = cms.PSet(
     cuts = cutsTrkPreselSigReg, 
     )
 
+FullTrkSelectionWTrig = cms.PSet(
+    triggers = triggersJetMet,
+    name = cms.string("FullTrkSelectionWTrig"),
+    cuts = cutsTrkPreselSigReg, 
+    )
+
 FullTrkSelectionUpToMissIn = cms.PSet(
     # No cuts on Met or jet or trigger
     name = cms.string("FullTrkSelectionUpToMissIn"),
-    cuts = cutsTrkPreselSigReg, 
+    cuts = copy.deepcopy(cutsTrkPreselSigReg), 
     )
 # remove the cuts after and including the trkRelIso cut
 for i in range(0, len(FullTrkSelectionUpToMissIn.cuts)):  
@@ -417,6 +423,14 @@ FullTrkSelectionJetPt = cms.PSet(
     )
 FullTrkSelectionJetPt.cuts.append(cutJetPt)  
 
+
+MetJet = cms.PSet(
+    name = cms.string("MetJet"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets, 
+    )
 
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
