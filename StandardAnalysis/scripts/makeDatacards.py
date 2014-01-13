@@ -95,18 +95,22 @@ def GetYieldAndError(condor_dir, process, channel):
 def writeDatacard(mass,lifetime):
 
     lifetime = lifetime.replace(".0", "")  
-    lifetime = lifetime.replace(".", "p")  
-    signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns" 
+    lifetime = lifetime.replace("0.5", "0p5")  
+    signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
+
+    background_yield = backgroundEst
+    background_error = backgroundEstErr
     
     default_channel_name = "MyChan"
-
-    if not arguments.runRooStatsCl95:
-        print "making limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt" 
-    os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
-    datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
+#    if not arguments.runRooStatsCl95:
+#        print "making limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
+    os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
+    datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
+    
     datacard.write('imax 1 number of channels\n')
+    datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
     datacard.write('kmax * number of nuisance parameters\n')
     datacard.write('\n')
 
@@ -135,6 +139,25 @@ def writeDatacard(mass,lifetime):
     process_index = process_index + 1
     rate_row.append(str(round(signal_yield,4)))
     empty_row.append('')
+
+    #add background yield
+    bin_row_2.append(default_channel_name)
+    process_name_row.append(background)
+    process_index_row.append(str(process_index))
+    process_index = process_index + 1
+    rate_row.append(str(round(background_yield,4)))
+    empty_row.append('')
+
+#    background_yields = { }
+    #add background yields
+##     for background in backgrounds:
+##         #print background
+##         bin_row_2.append(default_channel_name)
+##         process_name_row.append(background)
+##         process_index_row.append(str(process_index))
+##         process_index = process_index + 1
+##         rate_row.append(str(round(background_yields[background],4)))
+##         empty_row.append('')
         
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
@@ -146,7 +169,26 @@ def writeDatacard(mass,lifetime):
     signal_error = signalYieldAndError['error']
     signal_error_string = str(round(signal_error,3))
     row = ['signal_stat','lnN','',signal_error_string]
+    datacard_data.append(row)
+    row.append('-')
 
+    #add a row for the statistical error of the signal
+    background_error_string = str(round(background_error,3))
+    row = ['background_stat','lnN','',background_error_string]
+    datacard_data.append(row)
+    row.insert(2, '-')
+                
+
+     #add a row for the statistical error of each background
+##      for background in backgrounds:
+##          row = [background+"_stat",'lnN','','-']
+##          for process_name in backgrounds:
+##              if background is process_name:
+##                  row.append(str(round(background_errors[process_name],3)))
+##              else:
+##                  row.append('-')
+##          datacard_data.append(row)
+                                                                     
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
@@ -155,8 +197,8 @@ def writeDatacard(mass,lifetime):
 
 
     #add a row for the cross-section error for the signal
-    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
-    datacard_data.append(row)
+#    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
+#    datacard_data.append(row)
 
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
@@ -168,6 +210,10 @@ def writeDatacard(mass,lifetime):
     #write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
+
+######
+#####
+
 
     signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])  
     signalEff = signal_yield / signalOrigYield

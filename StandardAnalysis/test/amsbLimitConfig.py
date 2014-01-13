@@ -14,7 +14,6 @@
 #name of histogram to integrate to get yields
 integrateHistogramName = "numEvents"
 
-
 #########################
 ### Signal Parameters ###
 #########################
@@ -22,53 +21,77 @@ integrateHistogramName = "numEvents"
 # a separate datacard will be produced with each value of MASS,TAU
 # named "datacard_AMSB_mGravMASSK_TAUns.txt" 
 
-#chargino masses
+#NOTE: These are the gravitino masses
 masses = ['32', '50', '75', '100', '150']
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
 
-lumi  = 19519  # in /pb  
+lumi = 19500
 
 signalErrFrac = 0.25  # dummy 25% error 
 
-signal_cross_sections = { # in pb 
-    '32' : {
-         'value' : '14.0',
-         'error' : '1.4', # dummy 10% error
-#         'value' : '11.0',
-#         'error' : '1.1', # dummy 10% error
-         },
-    '50' : {
-         'value' : '2.4',
-         'error' : '0.24', # dummy 10% error
+chiMasses = {
 
-#         'value' : '2.0',
-#         'error' : '0.2', # dummy 10% error
-         },
+    '32' : {
+    'value' : '103',
+    },
+
+    '50' : {
+    'value' : '164',
+    },
 
     '75' : {
-         'value' : '0.4',
-         'error' : '0.04', # dummy 10% error
+    'value' : '247',
+    },
 
-#         'value' : '0.3',
-#         'error' : '0.03', # dummy 10% error
-         },
     '100' : {
-         'value' : '0.125',
-         'error' : '0.0125', # dummy 10% error
+    'value' : '328',
+        },
 
-#         'value' : '0.101',
-#         'error' : '0.0101', # dummy 10% error
-         },
     '150' : {
-         'value' : '0.0175',
-         'error' : '0.00175', # dummy 10% error
-
-#         'value' : '0.015',
-#         'error' : '0.0015', # dummy 10% error
-         }, 
+    'value' : '488',
+        },
+    
     }
+
+signal_cross_sections = { # in pb 
+     '32' : {
+          'value' : '14.0',
+          'error' : '1.4', # dummy 10% error
+ #         'value' : '11.0',
+ #         'error' : '1.1', # dummy 10% error
+          },
+     '50' : {
+          'value' : '2.4',
+          'error' : '0.24', # dummy 10% error
+
+ #         'value' : '2.0',
+ #         'error' : '0.2', # dummy 10% error
+          },
+
+     '75' : {
+          'value' : '0.4',
+          'error' : '0.04', # dummy 10% error
+
+ #         'value' : '0.3',
+ #         'error' : '0.03', # dummy 10% error
+          },
+     '100' : {
+          'value' : '0.125',
+          'error' : '0.0125', # dummy 10% error
+
+ #         'value' : '0.101',
+ #         'error' : '0.0101', # dummy 10% error
+          },
+     '150' : {
+          'value' : '0.0175',
+          'error' : '0.00175', # dummy 10% error
+
+ #         'value' : '0.015',
+ #         'error' : '0.0015', # dummy 10% error
+          }, 
+     }
 
 #condor directory in which to find signal root files
 #signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' # old
@@ -101,12 +124,14 @@ data_channel = 'FullSelection'
 
 #list of backgrounds that will be added into the datacards
 backgrounds = [
-    'elec',
-    'muon',
-    'tau',
-    'fake',
-    ]
+#    'elec',
+#    'muon',
+#    'tau',
+#    'fake',
+    'total',
+     ]
 
+background = 'tot'
 
 # Use with condor_2013_12_17_FullSelectionAllSig  
 #backgroundEst    = 1.5 
@@ -116,6 +141,27 @@ backgrounds = [
 backgroundEst    = 13.6 
 backgroundEstErr = 2.1 
 
+
+## plotDefinitions = [
+## {
+##     'title' : 'limits_vs_mass',
+##     'xAxisType' : 'mass',
+##     'xAxisLabel' : 'mass [GeV]',
+
+
+##     'graphs' : [
+##                  {
+##      'source' : ['DEC9_200um_MarkovChainMC'],
+##      'br'   : 50,
+##      'lifetime' : 5,
+##      'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+##      'colorScheme' : 'red',
+##      'legendEntry' : 'Markov Chain MC',
+##      },
+##                  ],
+    
+## },
+## ]
 
 
 

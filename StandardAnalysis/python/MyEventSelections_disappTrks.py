@@ -59,6 +59,14 @@ cutsTrkQuality = cms.VPSet (
     cutTrkHitMissIn,
     )
 
+cutsTrkQualityFiveHits = cms.VPSet (
+    cutTrkD0,
+    cutTrkDZ,
+    cutTrkNHitsIs5,
+    cutTrkHitMissMid,
+    cutTrkHitMissIn,
+    )
+
 cutsTrkQualityNoNHits = cms.VPSet (
     cutTrkD0,
     cutTrkDZ,
@@ -86,12 +94,20 @@ cutsTrkLeptonVeto = cms.VPSet (
     cutSecMuonLooseIDVeto, 
     )
 
-cutsTrkPresel = \
+cutsTrkPreselFiveHits = \
   cutsTrkPtEta + \
   cutsTrkVetoRegions + \
-  cutsTrkQuality + \
+  cutsTrkQualityFiveHits + \
   cutsTrkIso + \
   cutsTrkLeptonVeto 
+
+
+cutsTrkPresel = \
+              cutsTrkPtEta + \
+              cutsTrkVetoRegions + \
+              cutsTrkQuality + \
+              cutsTrkIso + \
+              cutsTrkLeptonVeto
 
 cutsTrkPreselNoLepVeto = \
   cutsTrkPtEta + \
@@ -130,6 +146,12 @@ cutsPresel = \
   cutsMET + \
   cutsJets + \
   cutsTrkPresel
+
+cutsPreselFiveHits = \
+           cutsStdClean + \
+           cutsMET + \
+           cutsJets + \
+           cutsTrkPreselFiveHits
 
 cutsPreselNoMet = \
   cutsJets + \
@@ -185,6 +207,14 @@ cutsElecTrkZPeak = cms.VPSet (
 ################################################
 ##### List of  event selections (channels) #####
 ################################################
+TauBkgd = cms.PSet(
+    name = cms.string("TauBkgd"),
+    triggers = triggersJetMet,
+    cuts = cutsPreselFiveHits +
+    cms.VPSet ( cutTrkHitMissOut  ) +
+    cms.VPSet ( cutTrkTauId ) 
+    )
+
 
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
