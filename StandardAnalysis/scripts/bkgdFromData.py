@@ -28,7 +28,7 @@ parser.remove_option("-b")
 parser.remove_option("-y")
 parser.remove_option("-p")
 parser.remove_option("-r")
-parser.remove_option("-o")
+#parser.remove_option("-o")
 parser.remove_option("--2D")
 
 parser.add_option("-q", "--bkgdSrcDir", dest="bkgdSrcDir",

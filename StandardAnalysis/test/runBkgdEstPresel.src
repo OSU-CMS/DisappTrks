@@ -1,0 +1,27 @@
+# First pass, just use MC:  
+#../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o MuonBkgd.root
+#../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o ElecBkgd.root
+#../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o TauBkgd.root
+#../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o FakeBkgd.root
+#../scripts/bkgdFromData.py -q condor_2014_01_13_PreSelIdOther -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o OthrBkgd.root
+#makePlots.py -b 5 -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData
+
+
+#cp condor/condor_2014_01_08_PreselMet100/MET.root                                       condor/condor_2014_01_13_BkgdEstFromData2/ 
+#../scripts/bkgdFromData.py -q condor_2014_01_09_PreSelectionElec     -l bkgdFromDataElec.py -c condor_2014_01_13_BkgdEstFromData2 -o ElecBkgd.root
+../scripts/bkgdFromData.py -q condor_2014_01_09_PreSelectionMuon     -l bkgdFromDataMuon.py -c condor_2014_01_13_BkgdEstFromData2 -o MuonBkgd.root
+../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId             -l bkgdFromDataTau.py  -c condor_2014_01_13_BkgdEstFromData2 -o TauBkgd.root
+../scripts/bkgdFromData.py -q condor_2014_01_13_ZtoMuMuFakeTrkPreSel -l bkgdFromDataFake.py -c condor_2014_01_13_BkgdEstFromData2 -o FakeBkgd.root
+../scripts/bkgdFromData.py -q condor_2014_01_13_PreSelIdOther        -l bkgdFromDataOthr.py -c condor_2014_01_13_BkgdEstFromData2 -o OthrBkgd.root
+#makePlots.py -y -r -b 5 -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData2  -o stacked_histogramsRebin5.root
+#makePlots.py -y -r      -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData2  -o stacked_histogramsNoRebin.root
+
+
+
+
+
+
+
+
+
+

@@ -167,6 +167,13 @@ cutsFullSelection = \
   cutsPresel + \
   cutsSigReg
 
+cutsTrkIdOther = cms.VPSet (
+  cutTrkMuonIdInv, 
+  cutTrkElecIdInv, 
+  cutTrkTauIdInv, 
+  cutTrkNotGenMatchedInv
+  )
+
 cutsTrkPreselSigReg = \
   cutsTrkPresel + \
   cms.VPSet (
@@ -2784,6 +2791,11 @@ PreSelIdTau.cuts.append(cutTrkTauId)
 PreSelIdFake = copy.deepcopy(PreSelection)
 PreSelIdFake.name = "PreSelIdFake"
 PreSelIdFake.cuts.append(cutTrkNotGenMatched)
+
+PreSelIdOther = copy.deepcopy(PreSelection)
+PreSelIdOther.name = "PreSelIdOther"
+PreSelIdOther.cuts = PreSelIdOther.cuts + cutsTrkIdOther 
+
 
 
 PreSelIdMuonInvHits = cms.PSet(
