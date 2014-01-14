@@ -114,6 +114,11 @@ cutMetDeltaPhiMin2Jets = cms.PSet (
     cutString = cms.string("fabs(deltaPhiMin2Jets) > 1.5"),
     numberRequired = cms.string(">= 1"),
     )
+cutMetDeltaPhiMin2Jets0p5 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("fabs(deltaPhiMin2Jets) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMETNoMu = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("metNoMu > 100"),

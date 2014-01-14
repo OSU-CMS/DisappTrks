@@ -883,8 +883,20 @@ MetExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("metDeltaPhiMin2Jets"),
             title = cms.string("deltaPhiMin2Jets;#Delta#phi_{min}^{met-jet}"),
-            bins = cms.untracked.vdouble(100, 0, 3.15),  
+            bins = cms.untracked.vdouble(20, 0, 3.15),  
             inputVariables = cms.vstring("deltaPhiMin2Jets"),
+            ),
+        cms.PSet (
+            name = cms.string("metDeltaPhiJet1"),
+            title = cms.string("metDeltaPhiJet1;#Delta#phi^{met-leadjet}"),
+            bins = cms.untracked.vdouble(20, 0, 3.15),  
+            inputVariables = cms.vstring("deltaPhiJet1"),
+            ),
+        cms.PSet (
+            name = cms.string("metDeltaPhiJet2"),
+            title = cms.string("metDeltaPhiJet2;#Delta#phi^{met-subleadjet}"),
+            bins = cms.untracked.vdouble(20, 0, 3.15),  
+            inputVariables = cms.vstring("deltaPhiJet2"),
             ),
 
 
