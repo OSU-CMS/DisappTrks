@@ -704,14 +704,29 @@ cutTrkElectronId = cms.PSet(
     cutString = cms.string("fabs(genMatchedPdgId) == 11"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkElecIdInv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) != 11"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkMuonId = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 13"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkMuonIdInv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) != 13"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkTauId = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkTauIdInv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) != 15"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkPionId =cms.PSet(
@@ -722,6 +737,11 @@ cutTrkPionId =cms.PSet(
 cutTrkNotGenMatched = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNotGenMatchedInv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) != 0"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkLightMesonId =cms.PSet(
