@@ -24,6 +24,7 @@ cutsJets = cms.VPSet (
         cutSecJetNoiseNeuEM,
         cutSubLeadingJetID,
         cutJetJetDPhi,
+        cutMetDeltaPhiMin2Jets0p5, 
 )
 
 cutsJetsNoNoiseClean = cms.VPSet (
