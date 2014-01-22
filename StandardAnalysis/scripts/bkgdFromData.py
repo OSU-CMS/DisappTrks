@@ -36,6 +36,7 @@ parser.remove_option("--2D")
 (arguments, args) = parser.parse_args()
 
 condor_dir = set_condor_output_dir(arguments)
+os.system("mkdir -p " + condor_dir)  
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
