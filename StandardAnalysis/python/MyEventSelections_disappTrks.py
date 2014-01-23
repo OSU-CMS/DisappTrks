@@ -2543,6 +2543,16 @@ PreSelectionMuonLooseID = cms.PSet(
     )
 
 
+## Ctrl sample for taus ##
+PreSelectionTau = cms.PSet(
+    name = cms.string("PreSelectionTau"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsPresel), 
+    )
+for i in xrange(len(PreSelectionTau.cuts) - 1, -1, -1):
+    if PreSelectionTau.cuts[i].cutString == cutTauLooseHadronicVeto.cutString: 
+        del PreSelectionTau.cuts[i] 
+
 ## Ctrl sample for electrons ##
 PreSelectionElec = cms.PSet(
     name = cms.string("PreSelectionElec"),
@@ -2567,6 +2577,7 @@ PreSelectionMuon = cms.PSet(
 for i in xrange(len(PreSelectionMuon.cuts) - 1, -1, -1):
     if PreSelectionMuon.cuts[i].cutString == cutMuonLooseIDVeto.cutString or PreSelectionMuon.cuts[i].cutString == cutSecMuonLooseIDVeto.cutString: 
         del PreSelectionMuon.cuts[i] 
+
 PreSelectionMuonNoTrig = cms.PSet(
     name = cms.string("PreSelectionMuonNoTrig"),
     cuts = copy.deepcopy(PreSelectionMuon.cuts), 
