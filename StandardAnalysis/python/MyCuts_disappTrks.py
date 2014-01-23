@@ -445,6 +445,11 @@ cutTrkPt20 = cms.PSet(
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkPt30 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkPt50 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("pt > 50"),
@@ -475,6 +480,11 @@ cutTrkChi2Norm1p6 = cms.PSet(
 cutTrkEta = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEta2p3 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("fabs(eta) < 2.3"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEtaBarrel = cms.PSet(
@@ -535,6 +545,11 @@ cutTrkDZInv = cms.PSet(
 cutTrkNHits = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits > 4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHitsSeven = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits > 6"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHitsIs5 = cms.PSet(
@@ -1064,7 +1079,7 @@ cutMuTrkDeltaRp5 = cms.PSet(
     )
 cutMuTrkInvMass = cms.PSet(
     inputCollection = cms.string("muon-track pairs"),
-    cutString = cms.string("invMass > 40 & invMass < 160"),
+    cutString = cms.string("invMass > 40 & invMass < 75"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuTrkInvMass80To100 = cms.PSet(
