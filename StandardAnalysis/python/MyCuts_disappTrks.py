@@ -445,6 +445,11 @@ cutTrkPt20 = cms.PSet(
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkPt30 = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkPt50 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("pt > 50"),
@@ -535,6 +540,11 @@ cutTrkDZInv = cms.PSet(
 cutTrkNHits = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits > 4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHits7 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHitsIs5 = cms.PSet(
@@ -677,6 +687,11 @@ cutMaxCaloTight = cms.PSet(
 cutMaxCalo10 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5RhoCorr < 10"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMaxCalo10Inv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr > 10"),
     numberRequired = cms.string(">= 1"),
     )
 cutMaxCaloLoose = cms.PSet (
@@ -943,8 +958,8 @@ cutMuonValidHits = cms.PSet (
     )
 cutMuonOneOnly = cms.PSet (
     inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("<= 1"),
+    cutString = cms.string("relPFdBetaIso < 0.12"), 
+    numberRequired = cms.string("= 1"),
     )
 cutMuonMetMT = cms.PSet(
     inputCollection = cms.string("muons"),
@@ -1370,6 +1385,11 @@ cutTauNumSigPi0 = cms.PSet(
 cutTauAgainstElectron = cms.PSet(
     inputCollection = cms.string("taus"),
     cutString = cms.string("HPSagainstElectronTight == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTauAgainstElectronMedium = cms.PSet(
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("HPSagainstElectronMedium == 1"),
     numberRequired = cms.string(">= 1"),
     )
 cutTauForElectron = cms.PSet(
