@@ -671,7 +671,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackPtTrue"),
             title = cms.string("ptTrue; p_{T}^{true}"),
-            bins = cms.untracked.vdouble(100, 0, 150),
+            bins = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("ptTrue"),
             ),
         
