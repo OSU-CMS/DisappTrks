@@ -41,7 +41,9 @@ os.system("mkdir -p " + condor_dir)
 if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
+    os.system("mv " + condor_dir + "/bkgdOptions.py " + condor_dir + "/bkgdOptions-bkup.py")   # make a backup copy of any existing local options file
     os.system("cp " + arguments.localConfig + " " + condor_dir + "/bkgdOptions.py")   # make a copy of the local options file  
+    os.system("chmod g+r " + condor_dir + "/bkgdOptions.py")   # Make group readable.  
 else:
     print "ERROR:  Must specify configuration options file with option -l." 
 
