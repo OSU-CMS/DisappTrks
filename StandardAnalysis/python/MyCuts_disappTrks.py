@@ -547,6 +547,11 @@ cutTrkNHits = cms.PSet(
     cutString = cms.string("numValidHits > 4"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkNHits7 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits >= 7"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkNHitsSeven = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits > 6"),
@@ -692,6 +697,11 @@ cutMaxCaloTight = cms.PSet(
 cutMaxCalo10 = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("caloTotDeltaRp5RhoCorr < 10"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMaxCalo10Inv = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("caloTotDeltaRp5RhoCorr > 10"),
     numberRequired = cms.string(">= 1"),
     )
 cutMaxCaloLoose = cms.PSet (
@@ -958,8 +968,8 @@ cutMuonValidHits = cms.PSet (
     )
 cutMuonOneOnly = cms.PSet (
     inputCollection = cms.string("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string("<= 1"),
+    cutString = cms.string("relPFdBetaIso < 0.12"), 
+    numberRequired = cms.string("= 1"),
     )
 cutMuonMetMT = cms.PSet(
     inputCollection = cms.string("muons"),
@@ -1385,6 +1395,11 @@ cutTauNumSigPi0 = cms.PSet(
 cutTauAgainstElectron = cms.PSet(
     inputCollection = cms.string("taus"),
     cutString = cms.string("HPSagainstElectronTight == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTauAgainstElectronMedium = cms.PSet(
+    inputCollection = cms.string("taus"),
+    cutString = cms.string("HPSagainstElectronMedium == 1"),
     numberRequired = cms.string(">= 1"),
     )
 cutTauForElectron = cms.PSet(

@@ -13,6 +13,22 @@ SingleElecTrig = cms.PSet(
       )
     ) 
 
+SingleElecTrigLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigLeadJet"),
+    triggers = triggersSingleElec, 
+    cuts = cms.VPSet(
+      cutJetLeadingPt,   
+      )
+    ) 
+
+MonojetTrigLeadJet = cms.PSet(  # Use for Monojet trigger efficiency (run on skims that have passed SingleElec trigger)  
+    name = cms.string("MonojetTrigLeadJet"),
+    triggers = triggersJetMet, 
+    cuts = cms.VPSet(
+      cutJetLeadingPt,   
+      )
+    ) 
+
 ZtoEE = cms.PSet(
      name = cms.string("ZtoEE"),
      triggers = triggersSingleElec, 
