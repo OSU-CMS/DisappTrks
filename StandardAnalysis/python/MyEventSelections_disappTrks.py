@@ -270,8 +270,8 @@ cutsElecTrkZPeak = cms.VPSet (
 ################################################
 ##### List of  event selections (channels) #####
 ################################################
-TauBkgd = cms.PSet(
-    name = cms.string("TauBkgd"),
+TauBkgdMismeasure = cms.PSet(
+    name = cms.string("TauBkgdMismeasure"),
     triggers = triggersJetMet,
     cuts =
     cutsPreselFiveHits +
@@ -280,14 +280,42 @@ TauBkgd = cms.PSet(
     cms.VPSet ( cutTrkTauId ) 
     )
 
+TauBkgdPreselNoTau = cms.PSet(
+    name = cms.string("TauBkgdPreselNoTau"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsMET +
+    cutsJets +
+    cms.VPSet ( cutTrkPt30, cutTrkEta  ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutElecLooseIDVeto,
+    #cutTauLooseHadronicVeto,
+    ),
+    )
+
 TauBkgdPresel = cms.PSet(
     name = cms.string("TauBkgdPresel"),
     triggers = triggersJetMet,
     cuts =
-    cutsPreselFiveHits +
-    cms.VPSet ( cutTrkEta  ) +
-    cms.VPSet ( cutTrkTauId )
+    cutsMET +
+    cutsJets +
+    cms.VPSet ( cutTrkPt30, cutTrkEta  ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutElecLooseIDVeto,
+    cutTauLooseHadronicVeto,
+    ),
     )
+
 
 
 NoCuts = cms.PSet(
@@ -1237,7 +1265,8 @@ ZtoETrkEIdNoVeto = cms.PSet(
     cutTauLooseHadronicVeto,
     cutMuonLooseIDVeto,
     cutSecMuonLooseIDVeto,
-    cutMaxCalo10,
+#    cutTrkNHitsSeven,
+#    cutMaxCalo10,
     cutTrkHitMissOut,
 
     ) +
@@ -1292,6 +1321,31 @@ ZtoMuTauHadNoTau = cms.PSet(
     ) +
     cutsMuTrkHadZPeak
     )
+
+MuTauHadCtrl = cms.PSet(
+    name = cms.string("MuTauHadCtrl"),
+    triggers = triggersSingleMu,
+    cuts =
+    cutsMuTrk +
+    cms.VPSet (
+    #cutMuTrkDeltaR,
+    cutTrkPt30,
+    cutTrkEta2p3,
+    ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    #    cutsTrkIso +
+    
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutElecLooseIDVeto,
+    #   cutMuonLooseIDVeto,
+    #   cutSecMuonLooseIDVeto,
+    #    cutTrkHitMissOut,
+    ) 
+    #cutsMuTrkHadZPeak
+    )
+
 
 
 ZtoMuTauHad = cms.PSet(
