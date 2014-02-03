@@ -868,7 +868,7 @@ JetExtraHistograms = cms.PSet(
             name = cms.string("jetPtVsMet"),
             title = cms.string("Jet p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Jet p_{T} [GeV]"), 
             bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),
-            inputVariables = cms.vstring("pt", "metPt"),
+            inputVariables = cms.vstring("metPt", "pt"),
             ),
     )
 )
@@ -944,6 +944,12 @@ SecJetExtraHistograms = cms.PSet(
             title = cms.string("Jet #Delta #phi E^{miss}_{T};Jet #Delta #phi E^{miss}_{T}"), 
             bins = cms.untracked.vdouble(70, -3.5, 3.5),
             inputVariables = cms.vstring("dPhiMet"),
+            ),
+        cms.PSet (
+            name = cms.string("secJetPtVsMet"),
+            title = cms.string("Jet p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Jet p_{T} [GeV]"), 
+            bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),
+            inputVariables = cms.vstring("metPt", "pt"),
             ),
     )
 )
