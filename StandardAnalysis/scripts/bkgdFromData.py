@@ -15,7 +15,7 @@ from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
-from ROOT import TFile, gROOT, gDirectory, TH1, TH2, TH3, TIter, TKey
+from ROOT import TFile, gROOT, gDirectory, TH1, TH2, TH3, TIter, TKey, Double
 gROOT.SetBatch()
 
 parser = OptionParser()
@@ -41,7 +41,10 @@ os.system("mkdir -p " + condor_dir)
 if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
+    if os.path.isfile(condor_dir + "/bkgdOptions.py "): 
+        os.system("mv " + condor_dir + "/bkgdOptions.py " + condor_dir + "/bkgdOptions-bkup.py")   # make a backup copy of any existing local options file
     os.system("cp " + arguments.localConfig + " " + condor_dir + "/bkgdOptions.py")   # make a copy of the local options file  
+    os.system("chmod g+r " + condor_dir + "/bkgdOptions.py")   # Make group readable.  
 else:
     print "ERROR:  Must specify configuration options file with option -l." 
 
@@ -84,14 +87,16 @@ def subtractImpurities (Histogram,channel=""):
 
 
 
-
+outputLog = open (condor_dir + "/yields.txt", "w")
+               
 #### Loop over each background input source 
 for bkgd in bkgd_sources:  
 
     outputFileName = bkgd + ".root"
     outputFile = TFile(condor_dir + "/" + outputFileName, "RECREATE")
-    print "Creating file: " + outputFile.GetName()
-
+    print           "Creating file: " + outputFile.GetName()
+    outputLog.write("Creating file: " + outputFile.GetName() + "\n")
+        
     channels = []
     processed_datasets = []
     bkgdSrc_dir = re.sub (r"([^/]*)/[^/]*", r"\1/" + bkgd_sources[bkgd]['inputDir'], condor_dir)
@@ -160,7 +165,8 @@ for bkgd in bkgd_sources:
     #do the thing for histograms in the channels directories
     for channel in channels: # loop over final states, which each have their own directory
 
-        print "  Processing " + channel + " channel..."
+        print           "  Processing " + channel + " channel..."
+        outputLog.write("  Processing " + channel + " channel..." + "\n")  
 
         testFile.cd(rootDirectory+"/"+channel)
 
@@ -181,5 +187,12 @@ for bkgd in bkgd_sources:
                 for targetChannel in bkgd_sources[bkgd]['channel_map'][channel]:
                     outputFile.cd (rootDirectory + "/" + targetChannel)
                     Histogram.Write ()
+                    if "numEvents" in str(Histogram.GetName()): 
+                        intError = Double (0.0)
+                        integral = Histogram.IntegralAndError(1, Histogram.GetNbinsX(), intError)
+                        print           "  Yield = " + str(integral) + " +- " + str(intError)  
+                        outputLog.write("  Yield = " + str(integral) + " +- " + str(intError) + "\n")  
 
     outputFile.Close()
+
+outputLog.close ()
