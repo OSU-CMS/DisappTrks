@@ -506,6 +506,12 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
+            name = cms.string("trackDeadEcalDeltaR"),
+            title = cms.string("#Delta R (track, dead Ecal);#Delta R (track, dead Ecal)"),
+            bins = cms.untracked.vdouble(100, 0, 0.7),
+            inputVariables = cms.vstring("trkDeadEcalDeltaR"),
+            ),
+        cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits; N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             bins = cms.untracked.vdouble(16, -0.5, 15.5, 100, 0, 100),
@@ -626,6 +632,13 @@ ExtraTrackHistograms = cms.PSet(
             title = cms.string("Isolation energy (PU corr.); E_{calo}^{#DeltaR<0.5} [GeV]"),
             bins = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
+            ),
+
+        cms.PSet (
+            name = cms.string("rhoCorr"),
+            title = cms.string("rhoCorr"),
+            bins = cms.untracked.vdouble(100, 0, 40),
+            inputVariables = cms.vstring("rhoCorrRp5"),
             ),
         cms.PSet (
             name = cms.string("trackCaloTot_RhoCorrVsNPV"),
