@@ -1295,6 +1295,25 @@ ZtoETrkEIdNoVetoPresel = cms.PSet(
     cutsElecTrkZPeak
     )
 
+ZtoETrkEIdNoVetoPreselLoosePt = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoPreselLoosePt"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdNoVetoPresel.cuts), 
+    )
+for i in xrange(len(ZtoETrkEIdNoVetoPreselLoosePt.cuts) - 1, -1, -1):
+    if ZtoETrkEIdNoVetoPreselLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoETrkEIdNoVetoPreselLoosePt.cuts[i].cutString = cutTrkPt20.cutString
+
+ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdNoVetoPreselLoosePt.cuts), 
+    )
+for i in xrange(len(ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal.cuts) - 1, -1, -1):
+    if ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal.cuts[i].cutString == cutTrkDeadEcalVeto.cutString: 
+        del ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal.cuts[i]
+
+
 ZtoETrkEIdNoVeto = cms.PSet(
     name = cms.string("ZtoETrkEIdNoVeto"),
     triggers = triggersSingleElec,
@@ -1472,6 +1491,68 @@ ZtoETrkEIdPresel = cms.PSet(
     ) +
     cutsElecTrkZPeak
     )
+
+ZtoETrkEIdPresel7Hits = cms.PSet(
+    name = cms.string("ZtoETrkEIdPresel7Hits"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet(
+    cutTrkNHits7
+    ) + 
+    cutsElecTrkZPeak
+    )
+
+
+ZtoETrkEIdPreselMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+      cutsTagElec +
+      cutsTrkPresel +
+      cms.VPSet (
+      cutTrkNHits7,
+      cutMaxCalo10,
+      ) +
+      cutsElecTrkZPeak
+    )
+
+
+
+ZtoETrkEIdPreselLoosePt7Hits = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselLoosePt7Hits"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdPresel7Hits.cuts),
+    )
+for i in xrange(len(ZtoETrkEIdPreselLoosePt7Hits.cuts) - 1, -1, -1):
+    if ZtoETrkEIdPreselLoosePt7Hits.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoETrkEIdPreselLoosePt7Hits.cuts[i].cutString = cutTrkPt20.cutString
+
+ZtoETrkEIdPreselLoosePtMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselLoosePtMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdPreselMaxCalo.cuts),
+    )
+for i in xrange(len(ZtoETrkEIdPreselLoosePtMaxCalo.cuts) - 1, -1, -1):
+    if ZtoETrkEIdPreselLoosePtMaxCalo.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoETrkEIdPreselLoosePtMaxCalo.cuts[i].cutString = cutTrkPt20.cutString
+
+
+ZtoETrkEIdPreselMaxCaloNMissOut3 = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselMaxCaloNMissOu3"),
+    triggers = triggersSingleElec,
+    cuts =
+      cutsTagElec +
+      cutsTrkPresel +
+      cms.VPSet (
+      cutTrkNHits7,
+      cutMaxCalo10,
+      cutTrkHitMissOut, 
+      ) +
+      cutsElecTrkZPeak
+    )
+
 
 
 ZtoMuTrkNoMuCutsNoVeto = cms.PSet(
