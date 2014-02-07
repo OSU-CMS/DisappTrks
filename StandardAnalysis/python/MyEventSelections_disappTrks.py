@@ -2671,20 +2671,18 @@ PreSelectionMuon = cms.PSet(
     cuts = copy.deepcopy(cutsPresel), 
     )
 for i in xrange(len(PreSelectionMuon.cuts) - 1, -1, -1):
-    if PreSelectionMuon.cuts[i].cutString == cutMET.cutString:
-        PreSelectionMuon.cuts[i].cutString = cutMETNoMu.cutString    
     if PreSelectionMuon.cuts[i].cutString == cutMuonLooseIDVeto.cutString or PreSelectionMuon.cuts[i].cutString == cutSecMuonLooseIDVeto.cutString: 
         del PreSelectionMuon.cuts[i] 
 
-## Ctrl sample for muons ##
-PreSelectionMuonMet = cms.PSet(
-    name = cms.string("PreSelectionMuonMet"),
+## Use MetNoMu instead of Met cut ## 
+PreSelectionMuonMetNoMu = cms.PSet(
+    name = cms.string("PreSelectionMuonMetNoMu"),
     triggers = triggersJetMet,
-    cuts = copy.deepcopy(cutsPresel), 
+    cuts = copy.deepcopy(PreSelectionMuon.cuts), 
     )
-for i in xrange(len(PreSelectionMuonMet.cuts) - 1, -1, -1):
-    if PreSelectionMuonMet.cuts[i].cutString == cutMuonLooseIDVeto.cutString or PreSelectionMuonMet.cuts[i].cutString == cutSecMuonLooseIDVeto.cutString: 
-        del PreSelectionMuonMet.cuts[i] 
+for i in xrange(len(PreSelectionMuonMetNoMu.cuts) - 1, -1, -1):
+    if PreSelectionMuonMetNoMu.cuts[i].cutString == cutMET.cutString:
+        PreSelectionMuonMetNoMu.cuts[i].cutString = cutMETNoMu.cutString    
 
 PreSelectionMuonNoTrig = cms.PSet(
     name = cms.string("PreSelectionMuonNoTrig"),
