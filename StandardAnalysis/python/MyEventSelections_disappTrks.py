@@ -652,26 +652,6 @@ FullSelectionNoMet = cms.PSet(
     cutsSigReg
     )
 
-FullSelectionNoMetMuId = cms.PSet(
-    name = cms.string("FullSelectionNoMetMuId"),
-    triggers = triggersJetMet,
-    cuts = 
-    cutsJets + 
-    cms.VPSet ( cutTrkMuonId ) + 
-    cutsTrkPresel + 
-    cutsSigReg
-    )
-
-FullSelectionIdMuon = cms.PSet(
-    name = cms.string("FullSelectionIdMuon"),
-    triggers = triggersJetMet,
-    cuts = copy.deepcopy(cutsFullSelection),  # must copy if you're going to modify it
-    )
-for i in range(0,len(FullSelectionIdMuon.cuts)): 
-    if FullSelectionIdMuon.cuts[i].cutString == cutTrkPt.cutString:
-        idx = i
-FullSelectionIdMuon.cuts.insert(idx, cutTrkMuonId)  
-
 
 FullSelectionFakeTrk = cms.PSet(
     name = cms.string("FullSelectionFakeTrk"),
@@ -767,6 +747,16 @@ PreSelectionNoIso = cms.PSet(
 
     )
 
+FullSelectionElecPreveto = cms.PSet(
+    name = cms.string("FullSelectionElecPreveto"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection),
+    )
+for i in xrange(len(FullSelectionElecPreveto.cuts) - 1, -1, -1):
+    cut = FullSelectionElecPreveto.cuts[i]
+    if cut.cutString == cutElecLooseIDVeto.cutString or cut.cutString == cutMaxCalo10.cutString: # remove elec veto and Ecalo cut
+        del FullSelectionElecPreveto.cuts[i]
+        
 
 FullSelectionTauPreveto = cms.PSet(
     name = cms.string("FullSelectionTauPreveto"),
@@ -785,98 +775,21 @@ FullSelectionMuPreveto = cms.PSet(
     )
 for i in xrange(len(FullSelectionMuPreveto.cuts) - 1, -1, -1):
     cut = FullSelectionMuPreveto.cuts[i]
-    if cut.cutString == cutMET.cutString:
-        cut.cutString = cutMETNoMu.cutString  # replace cutMET with cutMETNoMu
     if cut.cutString == cutMuonLooseIDVeto.cutString or cut.cutString == cutSecMuonLooseIDVeto.cutString: # remove muon veto 
         del FullSelectionMuPreveto.cuts[i]
 
-
-FullSelectionMuPrevetoNoMet = cms.PSet(
-    name = cms.string("FullSelectionMuPrevetoNoMet"),
+FullSelectionMuPrevetoMetNoMu = cms.PSet(
+    name = cms.string("FullSelectionMuPrevetoMetNoMu"),
     triggers = triggersJetMet,
-    cuts = 
-    cutsJets + 
-    cutsTrkPreselNoLepVeto + 
-    cms.VPSet ( cutTauLooseHadronicVeto, cutElecLooseIDVeto ) +  
-    cutsSigReg, 
+    cuts = copy.deepcopy(cutsFullSelection), 
     )
+for i in xrange(len(FullSelectionMuPrevetoMetNoMu.cuts) - 1, -1, -1):
+    cut = FullSelectionMuPrevetoMetNoMu.cuts[i]
+    if cut.cutString == cutMET.cutString:
+        cut.cutString = cutMETNoMu.cutString  # replace cutMET with cutMETNoMu
+    if cut.cutString == cutMuonLooseIDVeto.cutString or cut.cutString == cutSecMuonLooseIDVeto.cutString: # remove muon veto 
+        del FullSelectionMuPrevetoMetNoMu.cuts[i]
 
-FullSelectionElecPreveto = cms.PSet(
-    name = cms.string("FullSelectionElecPreveto"),
-    triggers = triggersJetMet,
-    cuts =
-#    cms.VPSet ( cutMETNoElec ) +
-    cutsMET +
-    cutsJets +
-    cutsTrkPreselNoLepVeto +
-    cms.VPSet ( cutTrkNHitsSeven ) +
-    cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
-    cms.VPSet (cutTrkHitMissOut) 
-#    cms.VPSet (cutMaxCalo10)
-    )
-
-
-FullSelectionElec = cms.PSet(
-    name = cms.string("FullSelectionElec"),
-    triggers = triggersJetMet,
-    cuts =
-    #    cms.VPSet ( cutMETNoElec ) +
-    cutsMET +
-    cutsJets +
-    cutsTrkPreselNoLepVeto +
-    cms.VPSet ( cutElecLooseIDVeto,cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto            ) +
-    cms.VPSet (cutTrkHitMissOut) +
-    cms.VPSet (cutMaxCalo10)
-    )
-
-
-PreSelectionTauPreveto = cms.PSet(
-    name = cms.string("PreSelectionTauPreveto"),
-    triggers = triggersJetMet,
-    cuts =
-    #    cms.VPSet ( cutMETNoElec ) +
-    cutsMET +
-    cutsJets +
-    cutsTrkPreselNoLepVeto +
-    cms.VPSet ( cutElecLooseIDVeto, cutMuonLooseIDVeto, cutSecMuonLooseIDVeto ) +
-    cms.VPSet ( cutTrkTauId )  
-    )
-
-PreSelectionTau = cms.PSet(
-    name = cms.string("PreSelectionTau"),
-    triggers = triggersJetMet,
-    cuts =
-    #    cms.VPSet ( cutMETNoElec ) +
-    cutsMET +
-    cutsJets +
-    cutsTrkPreselNoLepVeto +
-    cutsTrkLeptonVeto +
-    cms.VPSet ( cutTrkTauId )  
-    )
-
-FullSelectionElecPrevetoNoMet = cms.PSet(
-    name = cms.string("FullSelectionElecPrevetoNoMet"),
-    triggers = triggersJetMet,
-    cuts =
-    #            cms.VPSet ( cutMETNoElec ) +
-    cutsJets +
-    cutsTrkPreselNoLepVeto +
-    cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
-    cms.VPSet (cutTrkHitMissOut)
-    )
-
-
-FullSelectionElecId = cms.PSet(
-    name = cms.string("FullSelectionElecId"),
-    triggers = triggersJetMet,
-    cuts =
-    cutsMET +
-    cutsJets +
-    cms.VPSet ( cutTrkElectronId ) +
-    cutsTrkPreselNoLepVeto +
-    cutsTrkLeptonVeto +
-    cutsSigReg
-    )
 
 forDeadEcal = cms.PSet(
     name = cms.string("forDeadEcal"),
@@ -903,19 +816,6 @@ forDeadEcal_v2 = cms.PSet(
     )
         
         
-
-FullSelectionElecIdNoMet = cms.PSet(
-        name = cms.string("FullSelectionElecIdNoMet"),
-            triggers = triggersJetMet,
-            cuts =
-#            cutsMET +
-            cutsJets +
-            cms.VPSet ( cutTrkElectronId ) +
-            cutsTrkPreselNoLepVeto +
-            cutsTrkLeptonVeto +
-            cutsSigReg
-            )
-
 
 
 StudyMuVeto = cms.PSet(
@@ -2731,21 +2631,6 @@ PreSelectionMuonLooseID = cms.PSet(
     )
 
 
-## Ctrl sample for taus ##
-PreSelectionTau = cms.PSet(
-    name = cms.string("PreSelectionTau"),
-    triggers = triggersJetMet,
-    cuts = copy.deepcopy(cutsPresel), 
-    )
-for i in xrange(len(PreSelectionTau.cuts) - 1, -1, -1):
-##     if PreSelectionTau.cuts[i].cutString == cutTrkPt.cutString:
-##         PreSelectionTau.cuts[i] = cutTrkPt30
-    #    if PreSelectionTau.cuts[i].cutString == cutTauLooseHadronicVeto.cutString or PreSelectionTau.cuts[i].cutString == cutTrkJetDeltaR.cutString: 
-    if PreSelectionTau.cuts[i].cutString == cutTauLooseHadronicVeto.cutString:  
-        del PreSelectionTau.cuts[i]
-
-
-
 
 
 ## Ctrl sample for electrons ##
@@ -2805,6 +2690,17 @@ PreSelectionMuonNoTrig = cms.PSet(
     name = cms.string("PreSelectionMuonNoTrig"),
     cuts = copy.deepcopy(PreSelectionMuon.cuts), 
     )
+
+
+## Ctrl sample for taus ##
+PreSelectionTau = cms.PSet(
+    name = cms.string("PreSelectionTau"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsPresel), 
+    )
+for i in xrange(len(PreSelectionTau.cuts) - 1, -1, -1):
+    if PreSelectionTau.cuts[i].cutString == cutTauLooseHadronicVeto.cutString:  
+        del PreSelectionTau.cuts[i]
 
 
 
