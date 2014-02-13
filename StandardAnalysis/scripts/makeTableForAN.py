@@ -8,25 +8,44 @@
 # Example usage:
 # > makeTableForAN.py -i condor/condor_2014_02_12_FullSelectionNHits4/cutFlow.tex  
 
+import datetime
 from optparse import OptionParser
 parser = OptionParser()
 
 parser.add_option("-i", "--inputFileName", dest="inputFileName",
                   help="specify an input file name for the cutFlow.tex file")  
+parser.add_option("-c", "--channel", dest="channelName",
+                  help="specify the desired channel; if unspecified, the first channel is used") 
 
 (arguments, args) = parser.parse_args()  
 
 print "Will create new cutFlow table from " + arguments.inputFileName  
 
-newName = arguments.inputFileName  
-newName = newName.replace(".tex", "_AN.tex")  
-
+newName = arguments.inputFileName
+if arguments.channelName: 
+    newName = newName.replace(".tex", "_" + arguments.channelName + "_AN.tex")  
+else:
+    newName = newName.replace(".tex", "_AN.tex")  
+    
 
 inputfile  = open(arguments.inputFileName, 'r')  
 outputfile = open(newName, 'w')
 
+outputfile.write("% Created by running:  makeTableForAN.py -i " + arguments.inputFileName + " -c " + arguments.channelName + "\n\n\n")
+
+## timeStamp = datetime.now().strftime('%Y%m%d%H%M%S')  
+## outputfile.write(timeStamp)  
+
 started = False  # started writing out
+foundChannel = False
+if not arguments.channelName:
+    foundChannel = True
 for line in inputfile:
+    if not foundChannel:
+        if arguments.channelName in line:
+            foundChannel = True
+        else:
+            continue  
     if "\\begin{table}" in line:  
         started = True
         line = line.replace("\\begin{table}[htbp]", "")        
