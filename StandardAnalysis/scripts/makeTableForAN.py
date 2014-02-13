@@ -31,7 +31,8 @@ else:
 inputfile  = open(arguments.inputFileName, 'r')  
 outputfile = open(newName, 'w')
 
-outputfile.write("% Created by running:  makeTableForAN.py -i " + arguments.inputFileName + " -c " + arguments.channelName + "\n\n\n")
+outputfile.write("% Created by running:  makeTableForAN.py -i " + arguments.inputFileName + "\n")
+outputfile.write("% File name:  " + newName + "\n\n\n") 
 
 ## timeStamp = datetime.now().strftime('%Y%m%d%H%M%S')  
 ## outputfile.write(timeStamp)  
