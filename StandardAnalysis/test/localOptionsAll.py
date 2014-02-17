@@ -10,13 +10,13 @@ datasets = [
     'AMSB_mGrav50K_0p5ns',
     'AMSB_mGrav50K_1ns',
     'AMSB_mGrav50K_5ns',
-    
+
     # put bkgd datasets in roughly ascending order of size of contribution after preselection
     'QCD',    
     'SingleTop',
     'TTbar',
     'ZJetsToNuNu', 
-    'DY_PtZ100',    
+    'DY',  
     'Diboson',
     'WjetsHighPt',
     
@@ -28,12 +28,11 @@ composite_dataset_definitions['Background'] = [
     'SingleTop',
     'TTbar',
     'ZJetsToNuNu', 
-    'DY_PtZ100',    
+    'DY', 
     'Diboson',
     'WjetsHighPt',
     ]
 
-labels['DY_PtZ100']   = "Z#rightarrowll"
 labels['WjetsHighPt'] = "W#rightarrowl#nu"
 
 composite_dataset_definitions['QCD'] = [
@@ -49,7 +48,7 @@ composite_dataset_definitions['QCD'] = [
 
 
 histsToBlind = [
-    'caloTot', 
+    'CaloTot', 
     ]
 
 

@@ -5,22 +5,36 @@ impurities = [
 ]
 
 
-# ../scripts/bkgdFromData.py -l bkgdFromDataAll.py -c condor_2014_01_15_BkgdEstFromData5New
+# ../scripts/bkgdFromData.py -l bkgdFromDataPreSel.py -c condor_2014_01_23_BkgdEstFromData
+# makePlots.py    -y -r      -l localOptionsBkgdEst.py -c condor_2014_01_23_BkgdEstFromData -o stacked_histogramsRebin10.root -b 10 -E 100
+
+# Get scale factors from "Total bkgd" spreadsheet
+
+                
 bkgd_sources = {
 
-    'ElecBkgd' :  { 'inputDir'   : 'condor_2014_01_14_PreSelectionElec',  
+    'MET' :  { 'inputDir'   : 'condor_2014_01_14_PreSelection',
+               'datasetsIn'  : ['MET'],
+               'scale_factor' :       1.0,
+               'scale_factor_error' : 0.0,
+               'channel_map' : {
+    'PreSelection' : ['PreSelection'],
+        }
+                                   },
+
+    'ElecBkgd' :  { 'inputDir'   : 'JessCondor/preselFullSelNoElecVeto', 
                     'datasetsIn'  : ['MET'], 
-                    'scale_factor' :       13.1e-4,
-                    'scale_factor_error' :  8.2e-4,
+                    'scale_factor' :        8.0e-4,
+                    'scale_factor_error' :  1.2e-4,
                     'channel_map' : {
-    'PreSelectionElec' : ['PreSelection'],
+    'PreSelNoElecVeto' : ['PreSelection'],
     }
                     },
 
-    'MuonBkgd' :  { 'inputDir'   : 'condor_2014_01_14_PreSelectionMuon',  
+    'MuonBkgd' :  { 'inputDir'   : 'condor_2014_01_19_PreSelectionMuon',  
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        2.0e-4,
-                    'scale_factor_error' :  1.4e-4,
+                    'scale_factor' :        4.5e-5,
+                    'scale_factor_error' :  1.2e-5,
                     'channel_map' : {
     'PreSelectionMuon' : ['PreSelection'],
     }
@@ -28,8 +42,8 @@ bkgd_sources = {
 
     'TauBkgd' :  { 'inputDir'   : 'condor_2014_01_14_PreSelectionTau', 
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        0.147,
-                    'scale_factor_error' :  0.098,
+                    'scale_factor' :        0.238,
+                    'scale_factor_error' :  0.029,
                     'channel_map' : {
     'PreSelectionTau' : ['PreSelection'],
     }
@@ -44,8 +58,8 @@ bkgd_sources = {
     }
                     },
 
-    'OthrBkgd' :  { 'inputDir'   : 'condor_2014_01_14_PreSelId',  
-                    'datasetsIn'  : ['MET'],
+    'OthrBkgd' :  { 'inputDir'   : 'condor_2014_01_20_PreSelId',   
+                    'datasetsIn'  : ['Background'],
                     'scale_factor'       : 1.0,
                     'scale_factor_error' : 0,
                     'channel_map' : {

@@ -4,27 +4,32 @@ from OSUT3Analysis.Configuration.configurationOptions import *  # Needed if you 
 
 config_file = "trackAnalyzerCtrlElec_cfg.py"  
 
-# intLumi = 2240.  # For SingleElec_data_Reco dataset 
-intLumi = 883.273  # For /SingleElectron/Run2012A-22Jan2013-v1/AOD 
+intLumi = 19657  # For SingleElectron 2012A,B,C,D (as of 2014-02-07)  
 
 datasets = [
     
-'SingleElectron_2012A',
-# 'SingleElec_data_Reco', 
-
-## 'AMSB_mGrav50K_0p5ns_Reco',
-## 'AMSB_mGrav50K_1ns_Reco',
-## 'AMSB_mGrav50K_5ns_Reco',
-
-#    'WjetsHighPt',
-'Wjets',  
-'TTbar',
-'SingleTop',
-#    'DY_PtZ100',    
-'DY',
-'Diboson',
-'ZJetsToNuNu', 
-'QCD',
-
+    'QCD',
+    'ZJetsToNuNu', 
+    'SingleTop',
+    'TTbar',
+    'Wjets',  
+    'Diboson',
+    'DY',
+    
+    'SingleElectron',
+    
 ]
+
+
+composite_dataset_definitions['Background'] = [
+    'QCD',
+    'ZJetsToNuNu', 
+    'SingleTop',
+    'TTbar',
+    'Wjets',  
+    'Diboson',
+    'DY',
+    ]
+
+
 

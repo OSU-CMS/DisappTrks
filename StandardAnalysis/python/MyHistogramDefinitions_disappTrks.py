@@ -6,6 +6,8 @@ import FWCore.ParameterSet.Config as cms
 ###############################################
 
         
+        
+
 TrackJetHistograms = cms.PSet(
     inputCollection = cms.string("track-jet pairs"),
     histograms = cms.VPSet (
@@ -504,6 +506,12 @@ ExtraTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
+            name = cms.string("trackDeadEcalDeltaR"),
+            title = cms.string("#Delta R (track, dead Ecal);#Delta R (track, dead Ecal)"),
+            bins = cms.untracked.vdouble(100, 0, 0.7),
+            inputVariables = cms.vstring("trkDeadEcalDeltaR"),
+            ),
+        cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits; N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             bins = cms.untracked.vdouble(16, -0.5, 15.5, 100, 0, 100),
@@ -625,6 +633,13 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotDeltaRp5RhoCorr"),
             ),
+
+        cms.PSet (
+            name = cms.string("rhoCorr"),
+            title = cms.string("rhoCorr"),
+            bins = cms.untracked.vdouble(100, 0, 40),
+            inputVariables = cms.vstring("rhoCorrRp5"),
+            ),
         cms.PSet (
             name = cms.string("trackCaloTot_RhoCorrVsNPV"),
             title = cms.string("Isolation energy (PU corr.) vs. Num. PV; # Primary vertices;E_{calo}^{#DeltaR<0.5} [GeV]"),
@@ -671,7 +686,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackPtTrue"),
             title = cms.string("ptTrue; p_{T}^{true}"),
-            bins = cms.untracked.vdouble(100, 0, 150),
+            bins = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("ptTrue"),
             ),
         
@@ -862,6 +877,12 @@ JetExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(70, -3.5, 3.5),
             inputVariables = cms.vstring("dPhiMet"),
             ),
+        cms.PSet (
+            name = cms.string("jetPtVsMet"),
+            title = cms.string("Jet p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Jet p_{T} [GeV]"), 
+            bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),
+            inputVariables = cms.vstring("metPt", "pt"),
+            ),
     )
 )
 
@@ -937,6 +958,12 @@ SecJetExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(70, -3.5, 3.5),
             inputVariables = cms.vstring("dPhiMet"),
             ),
+        cms.PSet (
+            name = cms.string("secJetPtVsMet"),
+            title = cms.string("Jet p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Jet p_{T} [GeV]"), 
+            bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),
+            inputVariables = cms.vstring("metPt", "pt"),
+            ),
     )
 )
 
@@ -953,7 +980,48 @@ SecJetExtraHistograms = cms.PSet(
 ##     )
 ## )  
 
-
+############################################################################################
+TauExtraHistograms = cms.PSet(
+    inputCollection = cms.string("taus"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("tauHPSagainstElectronLoose"),
+            title = cms.string("Tau HPSagainstElectronLoose;HPSagainstElectronLoose"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSagainstElectronLoose"),
+            ),
+        cms.PSet (
+            name = cms.string("tauHPSagainstElectronMedium"),
+            title = cms.string("Tau HPSagainstElectronMedium;HPSagainstElectronMedium"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSagainstElectronMedium"),
+            ),
+        cms.PSet (
+            name = cms.string("tauHPSagainstElectronTight"),
+            title = cms.string("Tau HPSagainstElectronTight;HPSagainstElectronTight"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSagainstElectronTight"),
+            ),
+        cms.PSet (
+            name = cms.string("tauHPSagainstElectronMVA"),
+            title = cms.string("Tau HPSagainstElectronMVA;HPSagainstElectronMVA"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSagainstElectronMVA"),
+            ),
+        cms.PSet (
+            name = cms.string("tauHPSagainstMuonTight"),
+            title = cms.string("Tau HPSagainstMuonTight;HPSagainstMuonTight"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSagainstMuonTight"),
+            ),
+        cms.PSet (
+            name = cms.string("tauHPSdecayModeFinding"),
+            title = cms.string("Tau HPSdecayModeFinding;HPSdecayModeFinding"),
+            bins = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("HPSdecayModeFinding"),
+            ),
+        )
+    )
 
 
 DebugHistograms = cms.PSet(

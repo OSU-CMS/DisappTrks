@@ -9,21 +9,22 @@ from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *  # Get th
 ##################################################
 
 
-WToMu = cms.PSet(
-    name = cms.string("WToMu"),
+WToMuNu = cms.PSet(
+    name = cms.string("WToMuNu"),
     triggers = triggersSingleMu,
 #    triggers = triggersJetMet,
     cuts = cms.VPSet(
-         cutMET,
-         cutJetPt,
+##          cutMET,
+##          cutJetPt,
          cutEvtFilterScraping,
          cutVtxGood,
          cutMuonEta,
-         cutMuonPt20,
+         cutMuonPt25,
          cutMuonTightID,
          cutMuonPFIso,
          cutMuonOneOnly,
          cutMET40,
+         cutMuonTrkDRSame, 
          )
     )
 
@@ -169,25 +170,29 @@ ZtoMuMu = cms.PSet(
 
 
 ZtoMuMuFakeTrk = cms.PSet(
-    # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup  
     name = cms.string("ZtoMuMuFakeTrk"),
     triggers = triggersSingleMu,
-    cuts = cms.VPSet (
-         cutMuonPairPt25,
-         cutMuonPairEta,
-         cutMuonPairTightID,
-         cutMuonPairPFIso,
-         cutMuonPairD0,
-         cutMuonPairDZ,
-#         cutElecVeto,
-         cutMuMuChargeProduct,
-         cutMuMuInvMass,
-         ) +
-    cutsTrkPresel +
-    cutsSigReg
-##          cutMCPartPdgZ,
-##          cutTrkMCPartPair,  
-    )   
+    cuts = copy.deepcopy(ZtoMuMu.cuts),
+    )
+ZtoMuMuFakeTrk.cuts = ZtoMuMuFakeTrk.cuts + cutsTrkPresel + cutsSigReg 
+
+ZtoMuMuFakeTrkPreSel = cms.PSet(
+    name = cms.string("ZtoMuMuFakeTrkPreSel"),
+    triggers = triggersSingleMu,
+    cuts = copy.deepcopy(ZtoMuMu.cuts),
+    )
+ZtoMuMuFakeTrkPreSel.cuts = ZtoMuMuFakeTrkPreSel.cuts + cutsTrkPresel 
+
+ZtoMuMuFakeTrkPreSelCtrl = cms.PSet(
+    name = cms.string("ZtoMuMuFakeTrkPreSelCtrl"),
+    triggers = triggersSingleMu,
+    cuts = copy.deepcopy(ZtoMuMu.cuts),
+    )
+ZtoMuMuFakeTrkPreSelCtrl.cuts = ZtoMuMuFakeTrkPreSelCtrl.cuts + cutsTrkPreselCtrl  
+## for i in xrange(len(ZtoMuMuFakeTrkPreSelCtrl.cuts) - 1, -1, -1):
+##     if ZtoMuMuFakeTrkPreSelCtrl.cuts[i].cutString == cutTrkHitMissOutInv.cutString:
+##         del ZtoMuMuFakeTrkPreSelCtrl.cuts[i] 
+
 
 WtoMuNuTrackFullPreSel = cms.PSet(
     name = cms.string("WtoMuNuTrackFullPreSel"),
