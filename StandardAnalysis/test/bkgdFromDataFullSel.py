@@ -7,6 +7,7 @@ impurities = [
 
 # ../scripts/bkgdFromData.py -l bkgdFromDataFullSel.py -c condor_2014_01_23_BkgdEstFullSel1
 # makePlots.py    -y -r      -l localOptionsBkgdEst.py -c condor_2014_01_23_BkgdEstFullSel1 -o stacked_histogramsRebin10.root -b 10 -E 100
+# makePlots.py    -y -r      -l localOptionsBkgdEst.py -c condor_2014_01_23_BkgdEstFullSel1 -o stacked_histograms.root              -E 100
 
 # Get scale factors from "Total bkgd" spreadsheet
 
@@ -24,34 +25,34 @@ bkgd_sources = {
 ##         }
 ##                                    },
 
-    'ElecBkgd' :  { 'inputDir'   : condorDirJess + 'fullSelectionNoElecVeto_23Jan',  
+    'ElecBkgd' :  { 'inputDir'   : condorDirJess + 'fullSelElecPrevetoSkim', 
                     'datasetsIn'  : ['MET'], 
-                    'scale_factor' :        1.75e-4, 
-                    'scale_factor_error' :  9.3e-5, 
+                    'scale_factor' :        5.5e-5,
+                    'scale_factor_error' :  5.5e-5, 
                     'channel_map' : {
     'FullSelectionElecPreveto' : ['FullSelection'],
     }
                     },
 
-    'MuonBkgd' :  { 'inputDir'   : condorDirWells + 'condor_2014_01_20_FullSelectionMuPreveto', 
+    'MuonBkgd' :  { 'inputDir'   : condorDirJess + 'fullSelMuPrevetoSkim', 
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        6.8e-5, 
-                    'scale_factor_error' :  4.8e-5, 
+                    'scale_factor' :        1.6e-4, 
+                    'scale_factor_error' :  1.6e-4, 
                     'channel_map' : {
     'FullSelectionMuPreveto' : ['FullSelection'],
     }
                     },
 
-    'TauBkgd' :  { 'inputDir'   : condorDirWells + 'condor_2014_01_24_FullSelectionTauPreveto', 
+    'TauBkgd' :  { 'inputDir'   : condorDirJess +  'fullSelTauPrevetoSkim', 
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        7.0e-3, 
-                    'scale_factor_error' :  5.4e-3,  
+                    'scale_factor' :        9.1e-5, 
+                    'scale_factor_error' :  9.2e-5, 
                     'channel_map' : {
     'FullSelectionTauPreveto' : ['FullSelection'],
     }
                     },
 
-    'FakeBkgd' :  { 'inputDir'   : condorDirWells + 'condor_2014_01_12_ZtoMuMuFakeTrk', 
+    'FakeBkgd' :  { 'inputDir'   : condorDirWells + 'condor_2014_02_10_ZtoMuMuFakeTrk',  
                     'datasetsIn'  : ['SingleMu'],
                     'scale_factor' :        0.29112,
                     'scale_factor_error' :  1.9e-4,
@@ -60,7 +61,7 @@ bkgd_sources = {
     }
                     },
 
-    'OthrBkgd' :  { 'inputDir'   : condorDirWells + 'condor_2014_01_20_FullSelId',  
+    'OthrBkgd' :  { 'inputDir'   : condorDirJess + 'fullSelId',  
                     'datasetsIn'  : ['Background'],
                     'scale_factor'       : 1.0,
                     'scale_factor_error' : 0,
