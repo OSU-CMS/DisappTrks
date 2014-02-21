@@ -88,6 +88,14 @@ cutsTrkVetoRegions = cms.VPSet (
     cutTrkBadCSCVeto, 
     )
 
+cutsTrkVetoRegionsNoDeadEcal = cms.VPSet (
+    cutTrkCrackVeto,
+    cutTrkWheel0GapVeto,
+    cutTrkEtaMuonPk,
+#    cutTrkDeadEcalVeto,
+    cutTrkBadCSCVeto,
+    )
+
 cutsTrkLeptonVeto = cms.VPSet (
     cutTauLooseHadronicVeto,  
     cutElecLooseIDVeto,
@@ -114,6 +122,14 @@ cutsTrkPresel = \
               cutsTrkQuality + \
               cutsTrkIso + \
               cutsTrkLeptonVeto
+
+cutsTrkPreselNoDeadEcal = \
+              cutsTrkPtEta + \
+              cutsTrkVetoRegionsNoDeadEcal + \
+              cutsTrkQuality + \
+              cutsTrkIso 
+#              cutsTrkLeptonVeto
+
 
 cutsTrkPreselNoLepVeto = \
   cutsTrkPtEta + \
@@ -294,6 +310,17 @@ TauBkgdMismeasure = cms.PSet(
     cms.VPSet ( cutTrkHitMissOut  ) +
     cms.VPSet ( cutTrkTauId ) 
     )
+
+ElecBkgdMismeasure = cms.PSet(
+    name = cms.string("ElecBkgdMismeasure"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsPreselFiveHits +
+    cms.VPSet ( cutTrkEta  ) +
+#    cms.VPSet ( cutTrkHitMissOut  ) +
+    cms.VPSet ( cutTrkElectronId )
+    )
+
 
 TauBkgdPreselNoTau = cms.PSet(
     name = cms.string("TauBkgdPreselNoTau"),
@@ -618,6 +645,16 @@ PreSelection = cms.PSet(
     cuts = cutsPresel, 
     )
 
+PreSelectionNoDeadEcal = cms.PSet(
+    name = cms.string("PreSelectionNoDeadEcal"),
+    triggers = triggersJetMet,
+    cuts = cutsTrkPreselNoDeadEcal +
+    cms.VPSet (cutMuonLooseIDVeto,
+               cutSecMuonLooseIDVeto,
+               cutTauLooseHadronicVeto,
+               cutMaxCalo15)
+    )
+
 PreSelectionElecIdNoLepVeto = cms.PSet(
     name = cms.string("PreSelectionElecIdNoElecVeto"),
     triggers = triggersJetMet,
@@ -736,8 +773,8 @@ PreSelectionNoPt = cms.PSet(
     cms.VPSet (cutTrkEta) +
     cutsTrkVetoRegions +
     cutsTrkQuality +
-    cutsTrkIso 
-#    cutsTrkLeptonVeto 
+    cutsTrkIso +
+    cutsTrkLeptonVeto 
     )
 
 
@@ -809,7 +846,7 @@ FullSelectionElecPreveto = cms.PSet(
     cutsMET +
     cutsJets +
     cutsTrkPreselNoLepVeto +
-    cms.VPSet ( cutTrkNHitsSeven ) +
+#    cms.VPSet ( cutTrkNHitsSeven ) +
     cms.VPSet ( cutMuonLooseIDVeto, cutSecMuonLooseIDVeto,  cutTauLooseHadronicVeto  ) +
     cms.VPSet (cutTrkHitMissOut) 
 #    cms.VPSet (cutMaxCalo10)
@@ -1279,6 +1316,46 @@ ZtoMuTrkNoVetoPreSel = cms.PSet(
     cutsMuTrkZPeak
     )
 
+ZtoETrkEIdPreselLoosePtMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselLoosePtMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cms.VPSet ( cutTrkPt20, cutTrkEta  ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutTrkJetDeltaR,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutElecLooseIDVeto,
+    cutTauLooseHadronicVeto,
+    cutMaxCalo10,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkVetoPreselLoosePtNoDeadEcalMaxCalo = cms.PSet(
+        name = cms.string("ZtoETrkVetoPreselLoosePtNoDeadEcalMaxCalo"),
+            triggers = triggersSingleElec,
+            cuts =
+            cutsTagElec +
+            cms.VPSet ( cutTrkPt20, cutTrkEta  ) +
+            cutsTrkVetoRegionsNoDeadEcal +
+            cutsTrkQuality +
+            cms.VPSet (
+    cutTrkRelIsoRp3,
+            cutMuonLooseIDVeto,
+            cutSecMuonLooseIDVeto,
+            cutElecLooseIDVeto,
+            cutTauLooseHadronicVeto,
+    cutMaxCalo10,
+            ) +
+            cutsElecTrkZPeak
+            )
+
+
 
 ZtoETrkEIdNoVetoPresel = cms.PSet(
     name = cms.string("ZtoETrkEIdNoVetoPresel"),
@@ -1290,7 +1367,50 @@ ZtoETrkEIdNoVetoPresel = cms.PSet(
       cutTauLooseHadronicVeto,
       cutMuonLooseIDVeto,
       cutSecMuonLooseIDVeto,
-#      cutTrkHitMissOut,
+#      cutTrkNHits7, 
+#      cutMaxCalo30,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkEIdNoVetoPreselLoosePt = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoPreselLoosePt"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdNoVetoPresel.cuts),
+    )
+for i in xrange(len(ZtoETrkEIdNoVetoPreselLoosePt.cuts) - 1, -1, -1):
+    if ZtoETrkEIdNoVetoPreselLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoETrkEIdNoVetoPreselLoosePt.cuts[i].cutString = cutTrkPt20.cutString
+        
+
+ZtoETrkEIdNoVeto = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVeto"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet (
+    cutTauLooseHadronicVeto,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+        #      cutMaxCalo30,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+
+
+ZtoETrkEIdNoVetoPreselMinCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdNoVetoPreselMinCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPreselNoLepVeto +
+    cms.VPSet (
+    cutTauLooseHadronicVeto,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutMinCalo30,
     ) +
     cutsElecTrkZPeak
     )
@@ -1308,7 +1428,6 @@ ZtoETrkEIdNoVeto = cms.PSet(
 #    cutTrkNHitsSeven,
 #    cutMaxCalo10,
     cutTrkHitMissOut,
-
     ) +
     cutsElecTrkZPeak
     )
@@ -1338,6 +1457,25 @@ ZtoMuTauHadNoVeto = cms.PSet(
     cutsMuTrkHadZPeak
     )
 
+ZtoMuTauHadNoTauPresel = cms.PSet(
+    name = cms.string("ZtoMuTauHadNoTauPresel"),
+    triggers = triggersSingleMu,
+    cuts =
+    cutsMuTrk +
+    cms.VPSet (
+    cutMuTrkDeltaR,
+    cutTrkPt30,
+    cutTrkEta2p3,
+    ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutElecLooseIDVeto,
+    ) +
+    cutsMuTrkHadZPeak
+    )
+
 ZtoMuTauHadNoTau = cms.PSet(
     name = cms.string("ZtoMuTauHadNoTau"),
     triggers = triggersSingleMu,
@@ -1350,17 +1488,14 @@ ZtoMuTauHadNoTau = cms.PSet(
     ) +
     cutsTrkVetoRegions +
     cutsTrkQuality +
-    #    cutsTrkIso +
-    
     cms.VPSet (
     cutTrkRelIsoRp3,
     cutElecLooseIDVeto,
-    #   cutMuonLooseIDVeto,
-    #   cutSecMuonLooseIDVeto,
-    #    cutTrkHitMissOut,
+    cutTrkHitMissOut,
     ) +
     cutsMuTrkHadZPeak
     )
+
 
 MuTauHadCtrl = cms.PSet(
     name = cms.string("MuTauHadCtrl"),
@@ -1401,7 +1536,28 @@ ZtoMuTauHad = cms.PSet(
     cutsTrkQuality +
     cutsTrkIso +
     cutsTrkLeptonVetoNoMu  +
-    cutsMuTrkHadZPeak
+    cutsMuTrkHadZPeak +
+    cms.VPSet (
+    cutMaxCalo10,
+    cutTrkHitMissOut,
+    ) 
+    )
+
+ZtoMuTauHadPresel = cms.PSet(
+    name = cms.string("ZtoMuTauHadPresel"),
+    triggers = triggersSingleMu,
+    cuts =
+    cutsMuTrk +
+    cms.VPSet (
+    cutTrkPt30,
+    cutTrkEta2p3,
+    ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cutsTrkIso +
+    cutsTrkLeptonVetoNoMu  +
+    cutsMuTrkHadZPeak 
+
     )
 
 
@@ -1460,6 +1616,87 @@ ZtoETrkEId = cms.PSet(
     cutsElecTrkZPeak
     )
 
+
+ZtoETrkEIdLoosePt = cms.PSet(
+    name = cms.string("ZtoETrkEIdLoosePt"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cms.VPSet ( cutTrkPt30, cutTrkEta  ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutTrkJetDeltaR,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutElecLooseIDVeto,
+    cutTauLooseHadronicVeto,
+    cutMaxCalo10,
+    cutTrkHitMissOut,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkEIdLoosePtNoVeto = cms.PSet(
+    name = cms.string("ZtoETrkEIdLoosePtNoVeto"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cms.VPSet ( cutTrkPt30, cutTrkEta  ) +
+    cutsTrkVetoRegions +
+    cutsTrkQuality +
+    cms.VPSet (
+    cutTrkRelIsoRp3,
+    cutTrkJetDeltaR,
+    cutMuonLooseIDVeto,
+    cutSecMuonLooseIDVeto,
+    cutTauLooseHadronicVeto,
+    cutTrkHitMissOut,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+
+
+ZtoETrkEIdPreselMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet (
+    cutMaxCalo10,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+ZtoETrkEIdPreselMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet (
+    cutMaxCalo10,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+
+ZtoETrkEIdPreselSevenHits = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselSevenHits"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet (
+    cutTrkNHits7, 
+#    cutMaxCalo10,
+    ) +
+    cutsElecTrkZPeak
+    )
+
 ZtoETrkEIdPresel = cms.PSet(
     name = cms.string("ZtoETrkEIdPresel"),
     triggers = triggersSingleElec,
@@ -1467,11 +1704,27 @@ ZtoETrkEIdPresel = cms.PSet(
     cutsTagElec +
     cutsTrkPresel +
     cms.VPSet (
-#    cutMaxCalo10,
-#    cutTrkHitMissOut,
+    #    cutMaxCalo10,
     ) +
     cutsElecTrkZPeak
     )
+
+
+
+
+ZtoETrkEIdPreselMinCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselMinCalo"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsTagElec +
+    cutsTrkPresel +
+    cms.VPSet (
+    cutMinCalo30,
+    ) +
+    cutsElecTrkZPeak
+    )
+
+
 
 
 ZtoMuTrkNoMuCutsNoVeto = cms.PSet(
