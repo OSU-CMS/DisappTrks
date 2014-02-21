@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+# Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/Configuration/scripts/makeSystematicTextFile.py  
+
 import sys
 import os
 import re
@@ -66,7 +69,9 @@ for sample in datasets:
     minus_factor = str(round_sigfigs(minus_factor,5))
     plus_factor  = str(round_sigfigs(plus_factor,5))
 
-    fout.write (sample+" "+minus_factor+" "+plus_factor+"\n")
+    line = '{0: <24}'.format(str(sample)) + " " + '{0: <8}'.format(minus_factor) + " " + '{0: <8}'.format(plus_factor) + "\n"  # format the sample name to use a fixed number of characters  
+#    fout.write (sample+" "+minus_factor+" "+plus_factor+"\n")
+    fout.write (line)
 
 fout.close()
 print "Finished writing systematics file: " + outputFile
