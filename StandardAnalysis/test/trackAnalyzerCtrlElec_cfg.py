@@ -20,7 +20,7 @@ process.source.fileNames.append('file:/mnt/hadoop/se/store/user/jbrinson/SingleE
 #process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
 #process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
 
-process.maxEvents.input = 1000
+process.maxEvents.input = -1
 
 process.OSUAnalysis.histogramSets.append(ElectronHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)

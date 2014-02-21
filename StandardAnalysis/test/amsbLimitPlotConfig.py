@@ -27,46 +27,26 @@ masses = ['103', '164', '247', '328', '488']
 lifetimes = ['0.5', '1.0', '5.0']
 
 signal_cross_sections = { # in pb 
-#    '32' : {
-
    '103' : {
          'value' : '14.0',
-         'error' : '1.4', # dummy 10% error
-#         'value' : '11.0',
-#         'error' : '1.1', # dummy 10% error
+         'error' : '1.25', # dummy 10% error
          },
-#    '50' : {
     '164' : {
          'value' : '2.4',
-         'error' : '0.24', # dummy 10% error
-
-#         'value' : '2.0',
-#         'error' : '0.2', # dummy 10% error
+         'error' : '1.25', # dummy 10% error
          },
 
-#    '75' : {
     '247' : {
          'value' : '0.4',
-         'error' : '0.04', # dummy 10% error
-
-#         'value' : '0.3',
-#         'error' : '0.03', # dummy 10% error
+         'error' : '1.25', # dummy 10% error
          },
-#    '100' : {
     '328' : {
          'value' : '0.125',
-         'error' : '0.0125', # dummy 10% error
-
-#         'value' : '0.101',
-#         'error' : '0.0101', # dummy 10% error
+         'error' : '1.25', # dummy 10% error
          },
-#    '150' : {
     '488' : {
          'value' : '0.0175',
-         'error' : '0.00175', # dummy 10% error
-
-#         'value' : '0.015',
-#         'error' : '0.0015', # dummy 10% error
+         'error' : '1.25', # dummy 10% error
          }, 
     }
 
@@ -82,7 +62,6 @@ plotDefinitions = [
     'title' : 'limits_vs_0p5ns',
 
                 # current options are 'mass' and 'lifetime'
-    #    'xAxisType' : 'lifetime',
     'xAxisType' : 'mass',
 
                 # xmin, xmax, label
@@ -99,7 +78,7 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['testErr'], #output directory from limit running
+    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
     'lifetime' : 0.5,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
@@ -132,7 +111,7 @@ plotDefinitions = [
             #define all the curves to include on this canvas
     'graphs' : [
                 {
-    'source' : ['testErr'], #output directory from limit running
+    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
     'lifetime' : 1.0,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
@@ -164,7 +143,7 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['testErr'], #output directory from limit running
+    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
     'lifetime' : 5.0,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
