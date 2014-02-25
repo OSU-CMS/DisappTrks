@@ -8,12 +8,19 @@ process.maxEvents.input = 200
 
 # For pile-up systematic:  
 ## process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_66805xSec')  # PU low xsec
-process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_69300xSec')  # PU central value 
+process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_69300xSec')  # PU central value (STANDARD)
 ## process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_71795xSec')  # PU high xsec 
 
 # For trigger efficiency systematic:  
-process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction  
+process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction (STANDARD)
 #process.OSUAnalysis.triggerMetSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/TriggerMetSF.root')  # with trigger eff correction  
+
+# For trigger efficiency systematic:  
+process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
+#process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_muonTagProbe.root')  # with track NMissOut correction  
+#process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_elecTagProbe.root')  # with track NMissOut correction  
+
+
 
 
 

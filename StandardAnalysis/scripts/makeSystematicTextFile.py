@@ -45,7 +45,7 @@ def getYield(sample,condor_dir,channel):
     inputFile = TFile(dataset_file)
     cutFlowHistogram = inputFile.Get("OSUAnalysis/"+channel+"CutFlow")
     if not cutFlowHistogram:
-        print "WARNING: didn't find cutflow for ", sample, "dataset in", channel, "channel"
+        print "WARNING: didn't find cutflow histogram ", channel, "CutFlow in file ", dataset_file  
         return 0
 
     yield_ = cutFlowHistogram.GetBinContent(cutFlowHistogram.GetNbinsX())
@@ -53,19 +53,32 @@ def getYield(sample,condor_dir,channel):
     inputFile.Close()
     return yield_
 
+def getPdfErrors(sample, condor_dir):
+    inputFile = open("condor/" + condor_dir + "/upDown_" + sample + ".txt") 
+    lines = inputFile.readlines()
+    inputFile.close()  
+    return lines[-1]  # Return the last element  
+
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic_name + ".txt"
 fout = open (outputFile, "w")
 
 for sample in datasets:
-    
-    minus_yield   = getYield(sample,  minus_condor_dir,channel)
-    central_yield = getYield(sample,central_condor_dir,channel)
-    plus_yield    = getYield(sample,   plus_condor_dir,channel)
 
-    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
-    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
+    if usePdfWt:
+        errors = getPdfErrors(sample, central_condor_dir)  
+        errors = errors.split(" ")
+        plus_factor  = 1.0 + float(errors[0])
+        minus_factor = 1.0 - float(errors[0])  
 
+    else: 
+        minus_yield   = getYield(sample,  minus_condor_dir,channel)
+        central_yield = getYield(sample,central_condor_dir,channel)
+        plus_yield    = getYield(sample,   plus_condor_dir,channel)
+        
+        minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
+        plus_factor  = 1.0 + ( plus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
+        
     minus_factor = str(round_sigfigs(minus_factor,5))
     plus_factor  = str(round_sigfigs(plus_factor,5))
 
