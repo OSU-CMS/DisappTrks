@@ -190,8 +190,8 @@ for bkgd in bkgd_sources:
                     if "numEvents" in str(Histogram.GetName()): 
                         intError = Double (0.0)
                         integral = Histogram.IntegralAndError(1, Histogram.GetNbinsX(), intError)
-                        print           "  Yield = " + str(integral) + " +- " + str(intError)  
-                        outputLog.write("  Yield = " + str(integral) + " +- " + str(intError) + "\n")  
+                        print           "  " + bkgd + " Yield = " + str(integral) + " +- " + str(intError)  
+                        outputLog.write( "  " + bkgd + " Yield = " + str(integral) + " +- " + str(intError) + "\n")  
 
     outputFile.Close()
 

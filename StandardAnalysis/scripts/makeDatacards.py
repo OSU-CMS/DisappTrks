@@ -21,6 +21,8 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
 parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooStatsCl95", default=False,
                   help="create scripts to run RooStatsCl95")
+parser.add_option("-g", "--gamma", action="store_true", dest="runGamma", default=False,
+                  help="run with gamma function instead of log normal")
 
 (arguments, args) = parser.parse_args()
 
@@ -83,14 +85,45 @@ def GetYieldAndError(condor_dir, process, channel):
     if integral > 0.0:
         fracError = 1.0 + (intError / integral)
 
-#    print channel + ", " + integrateHistogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
-
     yieldAndErrorList['yield'] = integral
     yieldAndErrorList['error'] = fracError
+    yieldAndErrorList['absError'] = intError
     return yieldAndErrorList
 
+    
+def ReadYieldAndError(condor_dir, process):
+    inputTxtFile = open("condor/"+condor_dir+"/yields.txt", "r")
+    if not inputTxtFile:
+        print "Could not find yields.txt in condor/"+condor_dir
+
+    yieldAndErrorList = {}
+    bkgdError = Double (0.0)
+    bkgdYield = Double (0.0)
 
 
+    for line in inputTxtFile:
+        if process + "Bkgd Yield" in line:
+            bkgdYield =  line.split(" ")[5]
+            bkgdError = line.split(" ")[7]
+
+  #          bkgdYieldRaw = ( pow(Double(bkgdYield),2)/pow(Double(bkgdError),2) )
+  #          print bkgdYieldRaw
+  #          alpha = ( Double(bkgdYield)/Double(bkgdYieldRaw) )
+
+ #   fracErrorRaw = 0.0
+    fracError = 0.0
+    
+    if bkgdYield > 0.0:
+        fracError = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
+#        fracErrorRaw = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
+    yieldAndErrorList['yield'] = bkgdYield
+    yieldAndErrorList['error'] = fracError
+   # if arguments.runGamma:
+   #         yieldAndErrorList['error'] = alpha 
+   #         yieldAndErrorList['rawYield'] = str(bkgdYieldRaw)
+    return yieldAndErrorList
+        
+        
 
 def writeDatacard(mass,lifetime):
 
@@ -99,13 +132,25 @@ def writeDatacard(mass,lifetime):
     signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
+    signal_yield_raw = pow(signal_yield,2) / pow(signalYieldAndError['absError'],2)
+    signal_yield_weight = signal_yield / signal_yield_raw
 
-    background_yield = backgroundEst
-    background_error = backgroundEstErr
-    
+    background_yields = { }
+    background_errors = { }
+    for background in backgrounds :
+        yieldAndError = {}
+        yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+        background_yields[background] = yieldAndError['yield']
+        
+        if arguments.runGamma:
+            background_errors[background] = backgrounds[str(background)]['alpha']            
+        else:
+            background_errors[background] = yieldAndError['error']
+
+
+
+
     default_channel_name = "MyChan"
-#    if not arguments.runRooStatsCl95:
-#        print "making limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
     
@@ -140,24 +185,14 @@ def writeDatacard(mass,lifetime):
     rate_row.append(str(round(signal_yield,4)))
     empty_row.append('')
 
-    #add background yield
-    bin_row_2.append(default_channel_name)
-    process_name_row.append(background)
-    process_index_row.append(str(process_index))
-    process_index = process_index + 1
-    rate_row.append(str(round(background_yield,4)))
-    empty_row.append('')
-
-#    background_yields = { }
     #add background yields
-##     for background in backgrounds:
-##         #print background
-##         bin_row_2.append(default_channel_name)
-##         process_name_row.append(background)
-##         process_index_row.append(str(process_index))
-##         process_index = process_index + 1
-##         rate_row.append(str(round(background_yields[background],4)))
-##         empty_row.append('')
+    for background in backgrounds:
+        bin_row_2.append(default_channel_name)
+        process_name_row.append(background)
+        process_index_row.append(str(process_index))
+        process_index = process_index + 1
+        rate_row.append(background_yields[background][:5])
+        empty_row.append('')
         
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
@@ -166,29 +201,39 @@ def writeDatacard(mass,lifetime):
     datacard_data.append(empty_row)
     
     #add a row for the statistical error of the signal
-    signal_error = signalYieldAndError['error']
-    signal_error_string = str(round(signal_error,3))
-    row = ['signal_stat','lnN','',signal_error_string]
+    if arguments.runGamma:
+        signal_error_string = str(round(signal_yield_weight,4))
+    else:
+        signal_error = signalYieldAndError['error']
+        signal_error_string = str(round(signal_error,3))
+    if arguments.runGamma:
+        row = ['signal_stat','gmN ' + str(int(signal_yield_raw)),' ',signal_error_string]
+    else:
+        row = ['signal_stat','lnN','',signal_error_string]        
+    for background in backgrounds:
+        row.append('-')
     datacard_data.append(row)
-    row.append('-')
-
-    #add a row for the statistical error of the signal
-    background_error_string = str(round(background_error,3))
-    row = ['background_stat','lnN','',background_error_string]
-    datacard_data.append(row)
-    row.insert(2, '-')
-                
 
      #add a row for the statistical error of each background
-##      for background in backgrounds:
-##          row = [background+"_stat",'lnN','','-']
-##          for process_name in backgrounds:
-##              if background is process_name:
-##                  row.append(str(round(background_errors[process_name],3)))
-##              else:
-##                  row.append('-')
-##          datacard_data.append(row)
-                                                                     
+    for background in backgrounds:
+        row = [background+"_stat",'lnN','','-']
+        if arguments.runGamma:
+            row = [background+"_stat",'gmN ' + backgrounds[str(background)]['N'],' ', '-']
+        for process_name in backgrounds:
+            if background is process_name:
+
+                if arguments.runGamma:
+                    row.append(background_errors[process_name][:5])
+                else:
+                    row.append(background_errors[process_name][:5])
+                    #row.append(str(round(background_errors[process_name],2)))
+            else:
+                row.append('-')
+        datacard_data.append(row)
+
+
+
+                        
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
@@ -196,17 +241,57 @@ def writeDatacard(mass,lifetime):
     datacard_data.append(empty_row)
 
 
-    #add a row for the cross-section error for the signal
-#    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
-#    datacard_data.append(row)
-
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# SYSTEMATIC UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
 
+    #add a row for the systematic error of each background
+    for background in background_systematics:
+        row = [background+"_syst",'lnN','','-']
+        for process_name in backgrounds:
+            if background is process_name:
+                row.append(background_systematics[background]['value'][:5])
+            else:
+                row.append('-')
+        datacard_data.append(row)
 
+
+    #add a row for the cross-section error for the signal
+    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
+    for background in backgrounds:
+        row.append('-')
+    datacard_data.append(row)
+
+ #add a new row for each uncertainty specified in configuration file
+    for uncertainty in signal_systematic_uncertainties:
+        row = [uncertainty,'lnN','']
+##          if 'signal' in global_systematic_uncertainties[uncertainty]['applyList']:
+        row.append(signal_systematic_uncertainties[uncertainty]['value'])
+##          else:
+##              row.append('-')
+        for background in backgrounds:
+##              if background in global_systematic_uncertainties[uncertainty]['applyList']:
+##                  row.append(global_systematic_uncertainties[uncertainty]['value'])
+##              else:
+            row.append('-')
+        datacard_data.append(row)
+                                                                                                 
+# add a new row for each uncertainty defined in external text files
+    for uncertainty in systematics_dictionary:
+        row = [uncertainty,'lnN','']
+        if signal_dataset in systematics_dictionary[uncertainty]:
+            row.append(systematics_dictionary[uncertainty][signal_dataset])
+        else:
+            row.append('-')
+        for background in backgrounds:
+            if background in systematics_dictionary[uncertainty]:
+                row.append(systematics_dictionary[uncertainty][background])
+            else:
+                row.append('-')
+        datacard_data.append(row)
+                 
     #write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
@@ -255,12 +340,28 @@ def writeDatacard(mass,lifetime):
 
 ########################################################################################
 ########################################################################################
-
+###getting all the systematic errors and putting them in a dictionary
+systematics_dictionary = {}
+for systematic in external_systematic_uncertainties:
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt")
+    systematics_dictionary[systematic] = {}
+    for line in input_file:
+        line = line.rstrip("\n").split(" ")
+        dataset = line[0]
+        if len(line) is 2:
+            systematics_dictionary[systematic][dataset] = line[1]
+        elif len(line) is 3:
+            systematics_dictionary[systematic][dataset]= line[1]+"/"+line[2]
             
+            # turn off systematic when the central yield is zero
+            if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
+                systematics_dictionary[systematic][dataset] = '-'
+
+
             
 ###setting up observed number of events
 if run_blind_limits:
-    observation = backgroundEst
+    observation = totalBkgd
 else:
     observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 

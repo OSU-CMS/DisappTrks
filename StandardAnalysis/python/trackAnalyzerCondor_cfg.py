@@ -39,25 +39,40 @@ process.maxEvents.input = 1000
 
 #import the desired sets of histograms from the standard python file which defines them
 from OSUT3Analysis.Configuration.histogramDefinitions import *
+from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
+
 process.OSUAnalysis.histogramSets.append(EventHistograms)
+
 process.OSUAnalysis.histogramSets.append(TrackHistograms)
+process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
+process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
+
 process.OSUAnalysis.histogramSets.append(MetHistograms)
+process.OSUAnalysis.histogramSets.append(MetExtraHistograms)  
+
 process.OSUAnalysis.histogramSets.append(JetHistograms)
 process.OSUAnalysis.histogramSets.append(DiJetHistograms)
 process.OSUAnalysis.histogramSets.append(SecondaryJetHistograms)
-process.OSUAnalysis.histogramSets.append(MuonHistograms)
-process.OSUAnalysis.histogramSets.append(ElectronHistograms)
-process.OSUAnalysis.histogramSets.append(TauHistograms)
-
-#import user-defined histograms
-from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
-process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
-#process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
-process.OSUAnalysis.histogramSets.append(MetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(SecJetExtraHistograms)  
 process.OSUAnalysis.histogramSets.append(TrackJetHistograms)
-process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
+
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
 process.OSUAnalysis.histogramSets.append(SecMuonHistograms)
+
+process.OSUAnalysis.histogramSets.append(ElectronHistograms)
+process.OSUAnalysis.histogramSets.append(TauHistograms)
+process.OSUAnalysis.histogramSets.append(MuonTauHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
+
+#import user-defined histograms
+
+
+#process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
+
+
+
+
+
 
 ##########################################################
 ##### Add the Desired Default Channels to the List to be Run #####

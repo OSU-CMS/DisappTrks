@@ -10,10 +10,15 @@ impurities = [
 
 # Get scale factors from "Total bkgd" spreadsheet
 
+
+
+condorDirJess  = ""
+condorDirWells = "WellsCondorNew/"
+
                 
 bkgd_sources = {
 
-    'MET' :  { 'inputDir'   : 'condor_2014_01_14_PreSelection',
+    'MET' :  { 'inputDir'   : condorDirJess + 'preselSkim_9Feb',
                'datasetsIn'  : ['MET'],
                'scale_factor' :       1.0,
                'scale_factor_error' : 0.0,
@@ -22,34 +27,38 @@ bkgd_sources = {
         }
                                    },
 
-    'ElecBkgd' :  { 'inputDir'   : 'JessCondor/preselFullSelNoElecVeto', 
+    'ElecBkgd' :  { 'inputDir'   : condorDirJess + 'preselElecSkim_9Feb', 
                     'datasetsIn'  : ['MET'], 
-                    'scale_factor' :        8.0e-4,
-                    'scale_factor_error' :  1.2e-4,
+#                    'scale_factor' :        8.0e-4, #unscaled by systematic
+#                    'scale_factor_error' :  1.2e-4, 
+                    'scale_factor' :        3.8e-4,
+                    'scale_factor_error' :  8.4e-5,
                     'channel_map' : {
-    'PreSelNoElecVeto' : ['PreSelection'],
+    'PreSelectionElec' : ['PreSelection'],
     }
                     },
 
-    'MuonBkgd' :  { 'inputDir'   : 'condor_2014_01_19_PreSelectionMuon',  
+    'MuonBkgd' :  { 'inputDir'   : condorDirJess + 'preselMuonMet_9Feb',  
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        4.5e-5,
-                    'scale_factor_error' :  1.2e-5,
+#                    'scale_factor' :        1.60e-4,
+                    'scale_factor' :        1.51e-4,
+#                    'scale_factor_error' :  0.43e-4,
+                    'scale_factor_error' :  4.06e-5,
                     'channel_map' : {
-    'PreSelectionMuon' : ['PreSelection'],
+    'PreSelectionMuonMet' : ['PreSelection'],
     }
                     },
 
-    'TauBkgd' :  { 'inputDir'   : 'condor_2014_01_14_PreSelectionTau', 
+    'TauBkgd' :  { 'inputDir'   : condorDirJess +'preselTauSkim_11Feb', 
                     'datasetsIn'  : ['MET'],
-                    'scale_factor' :        0.238,
-                    'scale_factor_error' :  0.029,
+                    'scale_factor' :        0.184,
+                    'scale_factor_error' :  0.0318,
                     'channel_map' : {
     'PreSelectionTau' : ['PreSelection'],
     }
                     },
 
-    'FakeBkgd' :  { 'inputDir'   : 'condor_2014_01_13_ZtoMuMuFakeTrkPreSel',  
+    'FakeBkgd' :  { 'inputDir'   : condorDirWells +  'condor_2014_02_10_ZtoMuMuFakeTrkPreSel',  
                     'datasetsIn'  : ['SingleMu'],
                     'scale_factor' :        0.29112, 
                     'scale_factor_error' :  1.9e-4, 
@@ -58,7 +67,7 @@ bkgd_sources = {
     }
                     },
 
-    'OthrBkgd' :  { 'inputDir'   : 'condor_2014_01_20_PreSelId',   
+    'OthrBkgd' :  { 'inputDir'   : condorDirJess + 'preselId_11Feb',   
                     'datasetsIn'  : ['Background'],
                     'scale_factor'       : 1.0,
                     'scale_factor_error' : 0,

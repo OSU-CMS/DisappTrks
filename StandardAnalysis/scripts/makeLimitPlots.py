@@ -52,8 +52,8 @@ colorSchemes = {
     'brazilian' : {
         'obs' : 1,
         'exp' : 1,
-        'oneSigma' : 410,
-        'twoSigma' : 393,
+        'oneSigma' : 78, #410,
+        'twoSigma' : 88, #393,
     },
     'red' : {
         'obs' : 633,
@@ -132,9 +132,11 @@ def getTheoryGraph():
     graph.SetLineWidth(4)
     graph.SetLineStyle(3)
     graph.SetFillColor(0)
-    graph.SetLineColor(1)
+    #graph.SetLineColor(1)
+    graph.SetLineColor(2)
     graph.SetMarkerSize(0.8)
-    graph.SetMarkerColor(1)
+    #graph.SetMarkerColor(1)
+    graph.SetMarkerColor(2)
     return graph
 
 def getGraph(limits, x_key, y_key):
@@ -155,8 +157,8 @@ def getObservedGraph(limits,xAxisType,colorScheme):
     graph.SetLineStyle(1)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
-    graph.SetMarkerStyle(20)
-    graph.SetMarkerSize(0.8)
+    graph.SetMarkerStyle(21)
+    graph.SetMarkerSize(1)
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 

@@ -1,0 +1,22 @@
+BLOCK MASS   #
+# Get values for chargino and neutralino masses from:  
+# Configuration/Generator/data/amsb_LL01.slha  
+#  PDG code   mass   particle
+   1000022     1.03311764e+02   # ~neutralino(1)
+   1000024     1.03599364e+02   # ~chargino(1)+
+  -1000024     1.03599364e+02   # ~chargino(1)-
+
+Block
+# custom chargino decay table
+# lifetime:  0.5ns
+# gamma = 13.16e-16 GeV  
+DECAY   1000024     13.16E-16    # chargino1+ decays
+#    BR       NDA     ID1       ID2       ID3
+   1.0000    2     1000022    211  
+Block
+DECAY   -1000024    13.16E-16    # chargino1- decays
+#    BR       NDA     ID1       ID2       ID3
+   1.0000    2     1000022    -211  
+Block
+
+EOF

@@ -94,22 +94,7 @@ process.source.fileNames.append('file:/data/users/jbrinson/condor/printEventElec
 #process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(False)
 #process.OSUAnalysis.applyLeptonSF       = cms.bool(True)
 
-process.maxEvents.input = 10000
-
-## process.source.eventsToProcess = cms.untracked.VEventRange(
-## '191271:306992015', 
-## '191226:1134096335', 
-## '201097:272411653', 
-## '199436:255752202', 
-## '198230:244099905', 
-## '201278:853951195', 
-## '207886:111608028', 
-## '205667:192761430', 
-## '205694:375483792', 
-## '207920:708623666', 
-## '203909:293678747', 
-## )
-
+process.maxEvents.input = -1
 
 process.OSUAnalysis.histogramSets.append(ElectronHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)

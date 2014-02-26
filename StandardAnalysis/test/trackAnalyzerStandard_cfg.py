@@ -62,9 +62,8 @@ process.source.fileNames.append('file:/home/wulsin/disappTrks/analysisTemplateV3
                 
 
 
-process.maxEvents.input = 1000
-#process.maxEvents.input = 5
-#process.maxEvents.input = -1  
+#process.maxEvents.input = 100000
+process.maxEvents.input = -1  
 #process.OSUAnalysis.dataset = cms.string ('DYJetsToLL_Reco')
 #process.OSUAnalysis.dataset = cms.string ('WJetsToLNu_Reco')
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
@@ -83,7 +82,8 @@ process.TFileService.fileName = 'hist.root'
 ########################################################################
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 process.OSUAnalysis.histogramSets.append(MCParticleHistograms)
-process.OSUAnalysis.histogramSets.append(TestEventHistograms)
+#process.OSUAnalysis.histogramSets.append(TestEventHistograms)
+process.OSUAnalysis.histogramSets.append(MuonTrackHistograms)
 #All histograms are plotted by default as defined in trackAnalyzerCondor_cfg.py
 
 ##########################################################
@@ -97,17 +97,48 @@ from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks impor
 ################################
 ## Channels for Analysis Note ##
 ################################
-#process.OSUAnalysis.channels.append(FullSelection)
-## process.OSUAnalysis.channels.append(FullSelectionMet80Trig)
-#process.OSUAnalysis.channels.append(FullSelectionNoMet) 
+process.OSUAnalysis.channels.append(FullSelection)
+#process.OSUAnalysis.channels.append(TauBkgdMismeasure)
+#process.OSUAnalysis.channels.append(ElecBkgdMismeasure)
+#process.OSUAnalysis.channels.append(TauBkgdPresel)
+#process.OSUAnalysis.channels.append(TauBkgdPreselNoTau)
 #process.OSUAnalysis.channels.append(FakeTrackSel)  
 #process.OSUAnalysis.channels.append(PreSelection)
 #process.OSUAnalysis.channels.append(PreSelectionMuon)
 
-process.OSUAnalysis.channels.append(FullSelectionMCSig)
+#process.OSUAnalysis.channels.append(FullSelectionMCSig)
 #process.OSUAnalysis.channels.append(FullSelectionMuPreveto)
 #process.OSUAnalysis.channels.append(FullSelectionIdMuon)  
 #process.OSUAnalysis.channels.append(FullSelectionMuPrevetoNoMet)  
+
+##channels for elec bkgd
+#process.OSUAnalysis.channels.append(PreSelNoElecVeto)
+#process.OSUAnalysis.channels.append(FullSelectionElecPreveto)
+#process.OSUAnalysis.channels.append(FullSelectionElecId)
+#process.OSUAnalysis.channels.append(PreSelElecId)
+
+#process.OSUAnalysis.channels.append(ZtoETrkEId)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdLoosePt)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdLoosePtNoVeto)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVeto)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPresel)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPreselMaxCalo)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoPresel)
+
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPreselSevenHits)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPreselMaxCaloSevenHits)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoPreselSevenHits)
+#process.OSUAnalysis.channels.append(PreSelectionNoDeadEcal)
+
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoPreselMinCalo)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPreselLoosePtMaxCalo)
+#process.OSUAnalysis.channels.append(ZtoETrkVetoPreselLoosePtNoDeadEcalMaxCalo)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoNoMissOut)
+
+
+
+
+## process.OSUAnalysis.channels.append(FullSelectionMuPrevetoNoMet)  
 ## process.OSUAnalysis.channels.append(FullSelectionNoMetMuId) 
 ## process.OSUAnalysis.channels.append(FullSelectionNoMetNoTrkCuts)  
 ## process.OSUAnalysis.channels.append(FullSelectionNoMetFakeTrk)  
@@ -176,12 +207,42 @@ process.OSUAnalysis.channels.append(FullSelectionMCSig)
 ## process.OSUAnalysis.channels.append(PreSelCtrlEcaloIdFake)
 ## process.OSUAnalysis.channels.append(PreSelCtrlEcaloIdOther)
 
+#add_channels (process, [FullSelectionElecId], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [FullSelectionElecIdPreveto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [ZtoETrkEId], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [ZtoETrkEIdNoVeto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [ZtoETrkVetoPreSelLoosePtNoDeadEcal], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [ZtoETrkEIdPreselMaxCaloSevenHits], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [ZtoETrkEIdPreselLoosePtMaxCalo], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelectionPt30NoLepVeto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelNoLepVeto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelection], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelectionElec], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelectionTau], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelectionMuon], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [PreSelectionMuonMet], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [FullSelection], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [FullSelectionElecPreveto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [FullSelectionMuPreveto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [FullSelectionTauPreveto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [ZtoMuTauHad], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
+#add_channels (process, [ZtoMuTauHadNoTau], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"]) 
 
 #process.OSUAnalysis.channels.append(DebugCuts)
+#process.OSUAnalysis.channels.append(PreSelIdElec)
+#process.OSUAnalysis.channels.append(PreSelIdMuon)
+#process.OSUAnalysis.channels.append(PreSelIdTau)
+#process.OSUAnalysis.channels.append(PreSelIdFake)
+#process.OSUAnalysis.channels.append(PreSelIdOther)
 
-    
+#process.OSUAnalysis.channels.append(FullSelIdElec)    
+#process.OSUAnalysis.channels.append(FullSelIdMuon)    
+#process.OSUAnalysis.channels.append(FullSelIdTau)    
+#process.OSUAnalysis.channels.append(FullSelIdFake)    
+#process.OSUAnalysis.channels.append(FullSelIdOther)    
 
 #process.OSUAnalysis.channels.append(ZtoMuTauHad)
+#process.OSUAnalysis.channels.append(ZtoMuTauHadNoTau)
 
 ## Signal Region Channels ##
 
@@ -202,6 +263,9 @@ process.OSUAnalysis.channels.append(FullSelectionMCSig)
 ## process.OSUAnalysis.channels.append(AtlasDisappTrkIsoTrkMissOut8)
 
 #add_channels (process, [TriggerMet], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [FullSelectionElecPreveto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [PreSelectionNoLepVeto], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
+#add_channels (process, [MuTauHadCtrl], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
 #add_channels (process, [Trigger], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
 #process.OSUAnalysis.channels.append(SigRegWithMaxCaloPUCorr)
 ## process.OSUAnalysis.channels.append(SigRegWithMaxCaloLoose)
@@ -210,6 +274,9 @@ process.OSUAnalysis.channels.append(FullSelectionMCSig)
 
 # Other channels used to make plots; exact composition of bkgds may not be correct.   
 ## Preselection Channels ##
+
+#process.OSUAnalysis.channels.append(ZtoMuTauHad)
+#process.OSUAnalysis.channels.append(ZtoMuTauHadNoTau)
 
 #process.OSUAnalysis.channels.append(NoCuts)
 
@@ -236,6 +303,8 @@ process.OSUAnalysis.channels.append(FullSelectionMCSig)
 
 #process.OSUAnalysis.channels.append(FullSelectionIdMuon)
 #process.OSUAnalysis.channels.append(FullSelectionMuPreveto)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPreselLoosePt)
+#process.OSUAnalysis.channels.append(ZtoETrkVetoPreSelLoosePt)
 #process.OSUAnalysis.channels.append(FakeTrkTestCorr)
 #process.OSUAnalysis.channels.append(FullSelectionFakeTrk)
 ## process.OSUAnalysis.channels.append(FullSelectionFakeTrkCtrlNom)
@@ -304,17 +373,30 @@ process.OSUAnalysis.channels.append(FullSelectionMCSig)
 #process.OSUAnalysis.channels.append(PreSelIdMuonInvHits)
 ##process.OSUAnalysis.channels.append(SimpleIdMuon)  
 #process.OSUAnalysis.channels.append(SigRegNominal)  
-#process.OSUAnalysis.channels.append(PreSelection)
+#process.OSUAnalysis.channels.append(PreSelectionSeven)
+#process.OSUAnalysis.channels.append(PreSelectionSevenElec)
+#process.OSUAnalysis.channels.append(PreSelectionSevenMu)
+#process.OSUAnalysis.channels.append(PreSelectionSevenTau)
 #process.OSUAnalysis.channels.append(PreSelectionNoNHits)
 #process.OSUAnalysis.channels.append(PreSelectionNoNoiseClean)
 #process.OSUAnalysis.channels.append(PreSelectionNoJetJetDPhi)
 #process.OSUAnalysis.channels.append(PreSelectionNoPt)
 #process.OSUAnalysis.channels.append(PreSelectionNoIso)
+#process.OSUAnalysis.channels.append(FullSelectionNoMet)
 #process.OSUAnalysis.channels.append(PreSelectionElecIdNoLepVeto)
 ## process.OSUAnalysis.channels.append(FullSelectionElecPreveto)
 ## process.OSUAnalysis.channels.append(FullSelectionElecId)
 ## process.OSUAnalysis.channels.append(ZtoETrkEId)
 ## process.OSUAnalysis.channels.append(ZtoETrkEIdNoVeto)
+#process.OSUAnalysis.channels.append(FullSelectionElecPrevetoNoMet)
+#process.OSUAnalysis.channels.append(FullSelectionElecPreveto)
+#process.OSUAnalysis.channels.append(FullSelectionElecId)
+
+#process.OSUAnalysis.channels.append(ZtoETrkEIdPresel)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoPresel)
+#process.OSUAnalysis.channels.append(ZtoETrkEId)
+#process.OSUAnalysis.channels.append(ZtoETrkEIdNoVeto)
+
 #process.OSUAnalysis.channels.append(MCPartWFromMu)
 #process.OSUAnalysis.channels.append(NoCuts)
 #process.OSUAnalysis.channels.append(PreSelection)

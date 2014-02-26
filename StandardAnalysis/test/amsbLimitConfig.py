@@ -58,38 +58,24 @@ chiMasses = {
 signal_cross_sections = { # in pb 
      '32' : {
           'value' : '14.0',
-          'error' : '1.4', # dummy 10% error
- #         'value' : '11.0',
- #         'error' : '1.1', # dummy 10% error
+          'error' : '1.25', # dummy 10% error
           },
      '50' : {
           'value' : '2.4',
-          'error' : '0.24', # dummy 10% error
-
- #         'value' : '2.0',
- #         'error' : '0.2', # dummy 10% error
+          'error' : '1.25', # dummy 10% error
           },
 
      '75' : {
           'value' : '0.4',
-          'error' : '0.04', # dummy 10% error
-
- #         'value' : '0.3',
- #         'error' : '0.03', # dummy 10% error
+          'error' : '1.25', # dummy 10% error
           },
      '100' : {
           'value' : '0.125',
-          'error' : '0.0125', # dummy 10% error
-
- #         'value' : '0.101',
- #         'error' : '0.0101', # dummy 10% error
+          'error' : '1.25', # dummy 10% error
           },
      '150' : {
           'value' : '0.0175',
-          'error' : '0.00175', # dummy 10% error
-
- #         'value' : '0.015',
- #         'error' : '0.0015', # dummy 10% error
+          'error' : '1.25', # dummy 10% error
           }, 
      }
 
@@ -97,11 +83,11 @@ signal_cross_sections = { # in pb
 #signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' # old
 #signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
 #signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
-signal_condor_dir = 'condor_2014_02_11_FullSelectionAllSig'  
+#signal_condor_dir = 'allSigNewSigma'   
+signal_condor_dir = 'WellsCondorNew/condor_2014_02_11_FullSelectionAllSig'   
 
 #name of event selection from which to take signal yields
 signal_channel = 'FullSelection'
-#signal_channel = 'FullSelectionNoMet'
 
 
 #######################
@@ -122,60 +108,82 @@ data_channel = 'FullSelection'
 #############################
 ### Background Parameters ###
 #############################
+#All values are taken from 'Total Bkgd' sheet
+#Errors include statistical and systematic and are fractional errors
 
-#list of backgrounds that will be added into the datacards
-backgrounds = [
-#    'elec',
-#    'muon',
-#    'tau',
-#    'fake',
-    'total',
-     ]
+## For gamma function option, these are just read in.
+## alpha = (data yield without lepton veto)*(mc yield with lepton veto)/(mc yield without lepton veto)
+backgrounds = {
 
-background = 'tot'
+     'Elec' : {
+     'N' : '1',
+     'alpha' : '0.43',
+               },
+      'Muon' : {
+      'N' : '1',
+      'alpha' : '0.66',
+                    },
+      'Tau' : {
+      'N' : '1',
+      'alpha' : '0.003',
+                    },
+      'Fake' : {
+      'N' : '3',
+      'alpha' : '0.29',
+                    },
+     }              
 
-# Use with condor_2013_12_17_FullSelectionAllSig  
-#backgroundEst    = 1.5 
-#backgroundEstErr = 2.1 
-
-
-## backgroundEst    = 13.6 
-## backgroundEstErr = 2.1 
-
-# Take from google spreadsheet (2014-02-11):  
-## backgroundEst    = 2.0
-## backgroundEstErr = 0.9 
-
-# Take from google spreadsheet (2014-02-12), with systematics:  
-backgroundEst    = 2.0
-backgroundEstErr = 1.0  
-
-# Take from google spreadsheet (2014-02-11), MC prediction:  
-## backgroundEst    = 1.0
-## backgroundEstErr = 0.7 
-
-
-## plotDefinitions = [
-## {
-##     'title' : 'limits_vs_mass',
-##     'xAxisType' : 'mass',
-##     'xAxisLabel' : 'mass [GeV]',
-
-
-##     'graphs' : [
-##                  {
-##      'source' : ['DEC9_200um_MarkovChainMC'],
-##      'br'   : 50,
-##      'lifetime' : 5,
-##      'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
-##      'colorScheme' : 'red',
-##      'legendEntry' : 'Markov Chain MC',
-##      },
-##                  ],
-    
-## },
-## ]
+##To be used with log normal
+##Select condor directory from which the yields after the full selection will be taken
+background_sources = {
+     'Elec' : {
+     'condor_dir'  : 'bkgdFromData_20Feb',
+     },
+     'Muon' : {
+     'condor_dir'  : 'bkgdFromData_20Feb',
+         },
+     'Tau' : {
+     'condor_dir'  : 'bkgdFromData_20Feb',
+         },
+     'Fake' : {
+     'condor_dir'  : 'bkgdFromData_20Feb',
+         },
 
 
+     }
+totalBkgd = 1.97
+totalBkgdErr = 0.5
 
+
+#############################
+### Systematic Uncertainties ###
+#############################
+
+background_systematics = {
+    'Elec' : {
+    'value'  : '1.05',
+         },
+    'Muon' : {
+    'value'  : '1.22',
+             },
+    'Tau' : {
+    'value'  : '1.2',
+             },
+    'Fake' : {
+    'value'  : '1.14',
+             },
+
+
+         }
+
+external_systematic_uncertainties = [
+            'pileup',
+        ]
+
+#uncertainties on signal only (we can alter this if we need to)
+signal_systematic_uncertainties = {
+    'lumi' :  {
+    'value' : '1.026',
+        },
+    }
 
