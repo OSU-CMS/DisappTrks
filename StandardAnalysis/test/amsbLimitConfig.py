@@ -96,11 +96,12 @@ signal_cross_sections = { # in pb
 #condor directory in which to find signal root files
 #signal_condor_dir = 'condor_2013_12_17_FullSelectionAllSig' # old
 #signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
-signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
+#signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
+signal_condor_dir = 'condor_2014_02_11_FullSelectionAllSig'  
 
 #name of event selection from which to take signal yields
-#signal_channel = 'FullSelection'
-signal_channel = 'FullSelectionNoMet'
+signal_channel = 'FullSelection'
+#signal_channel = 'FullSelectionNoMet'
 
 
 #######################
@@ -138,8 +139,20 @@ background = 'tot'
 #backgroundEstErr = 2.1 
 
 
-backgroundEst    = 13.6 
-backgroundEstErr = 2.1 
+## backgroundEst    = 13.6 
+## backgroundEstErr = 2.1 
+
+# Take from google spreadsheet (2014-02-11):  
+## backgroundEst    = 2.0
+## backgroundEstErr = 0.9 
+
+# Take from google spreadsheet (2014-02-12), with systematics:  
+backgroundEst    = 2.0
+backgroundEstErr = 1.0  
+
+# Take from google spreadsheet (2014-02-11), MC prediction:  
+## backgroundEst    = 1.0
+## backgroundEstErr = 0.7 
 
 
 ## plotDefinitions = [

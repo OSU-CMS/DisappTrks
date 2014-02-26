@@ -469,6 +469,15 @@ for i in xrange(len(FullSelectionNoPt.cuts) - 1, -1, -1):
     if FullSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
         del FullSelectionNoPt.cuts[i]  
 
+FullSelectionMCSig = cms.PSet(
+    name = cms.string("FullSelectionMCSig"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+FullSelectionMCSig.cuts.append(cutMCPartStatus3)
+FullSelectionMCSig.cuts.append(cutMCPartSusy)  
+
+
 FullSelectionNoEta = cms.PSet(
     name = cms.string("FullSelectionNoEta"),
     triggers = triggersJetMet,
@@ -799,6 +808,25 @@ for i in xrange(len(FullSelectionMuPrevetoMetNoMu.cuts) - 1, -1, -1):
         cut.cutString = cutMETNoMu.cutString  # replace cutMET with cutMETNoMu
     if cut.cutString == cutMuonLooseIDVeto.cutString or cut.cutString == cutSecMuonLooseIDVeto.cutString: # remove muon veto 
         del FullSelectionMuPrevetoMetNoMu.cuts[i]
+
+FullSelectionNHits4 = cms.PSet(
+    name = cms.string("FullSelectionNHits4"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(FullSelection.cuts),
+    )
+for i in xrange(len(FullSelectionNHits4.cuts) - 1, -1, -1):
+    if FullSelectionNHits4.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits4.cuts[i].cutString = cutTrkNHits4.cutString
+                
+FullSelectionNHits4MinFake = cms.PSet(
+    name = cms.string("FullSelectionNHits4MinFake"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(FullSelection.cuts),
+    )
+for i in xrange(len(FullSelectionNHits4MinFake.cuts) - 1, -1, -1):
+    if FullSelectionNHits4MinFake.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits4MinFake.cuts[i].cutString = cutTrkNHits4Min.cutString
+FullSelectionNHits4MinFake.cuts.append(cutTrkNotGenMatched)  
 
 
 forDeadEcal = cms.PSet(
@@ -1170,7 +1198,6 @@ ZtoMuTrkNoVeto = cms.PSet(
       cutElecLooseIDVeto,
       cutMaxCalo10,
       cutTrkHitMissOut,
-      cutTrkNHits7, 
       ) + 
     cutsMuTrkZPeak
     )
@@ -1184,7 +1211,6 @@ ZtoMuTrkNoVetoPreSel = cms.PSet(
     cms.VPSet (
       cutTauLooseHadronicVeto,
       cutElecLooseIDVeto,
-#      cutTrkNHits7, 
       ) + 
     cutsMuTrkZPeak
     )
@@ -1359,7 +1385,6 @@ ZtoMuTrk = cms.PSet(
     cms.VPSet (
       cutMaxCalo10,
       cutTrkHitMissOut,
-      cutTrkNHits7, 
       ) + 
     cutsMuTrkZPeak
     )
@@ -1370,9 +1395,6 @@ ZtoMuTrkPreSel = cms.PSet(
     cuts = 
     cutsTagMuon +
     cutsTrkPresel +
-##     cms.VPSet( 
-##       cutTrkNHits7,
-##       ) + 
     cutsMuTrkZPeak
     )
 
@@ -1462,6 +1484,44 @@ ZtoETrkEIdPreselMaxCaloNMissOut3 = cms.PSet(
       ) +
       cutsElecTrkZPeak
     )
+
+ZtoMuTrkPreSelLoosePt = copy.deepcopy(ZtoMuTrkPreSel)
+ZtoMuTrkPreSelLoosePt.name = "ZtoMuTrkPreSelLoosePt"
+for i in xrange(len(ZtoMuTrkPreSelLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkPreSelLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoMuTrkPreSelLoosePt.cuts[i].cutString = cutTrkPt30.cutString
+
+ZtoMuTrkNoVetoPreSelLoosePt = copy.deepcopy(ZtoMuTrkNoVetoPreSel)
+ZtoMuTrkNoVetoPreSelLoosePt.name = "ZtoMuTrkNoVetoPreSelLoosePt"
+for i in xrange(len(ZtoMuTrkNoVetoPreSelLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkNoVetoPreSelLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoMuTrkNoVetoPreSelLoosePt.cuts[i].cutString = cutTrkPt30.cutString
+
+ZtoMuTrkLoosePt = copy.deepcopy(ZtoMuTrk)
+ZtoMuTrkLoosePt.name = "ZtoMuTrkLoosePt"
+for i in xrange(len(ZtoMuTrkLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoMuTrkLoosePt.cuts[i].cutString = cutTrkPt30.cutString
+
+ZtoMuTrkNoVetoLoosePt = copy.deepcopy(ZtoMuTrkNoVeto)
+ZtoMuTrkNoVetoLoosePt.name = "ZtoMuTrkNoVetoLoosePt"
+for i in xrange(len(ZtoMuTrkNoVetoLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkNoVetoLoosePt.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoMuTrkNoVetoLoosePt.cuts[i].cutString = cutTrkPt30.cutString
+
+ZtoMuTrkNoMissOutLoosePt = copy.deepcopy(ZtoMuTrkLoosePt)
+ZtoMuTrkNoMissOutLoosePt.name = "ZtoMuTrkNoMissOutLoosePt"
+for i in xrange(len(ZtoMuTrkNoMissOutLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkNoMissOutLoosePt.cuts[i].cutString == cutTrkHitMissOut.cutString: 
+        del ZtoMuTrkNoMissOutLoosePt.cuts[i] 
+
+ZtoMuTrkNoMissOutNoVetoLoosePt = copy.deepcopy(ZtoMuTrkNoVetoLoosePt)
+ZtoMuTrkNoMissOutNoVetoLoosePt.name = "ZtoMuTrkNoMissOutNoVetoLoosePt"
+for i in xrange(len(ZtoMuTrkNoMissOutNoVetoLoosePt.cuts) - 1, -1, -1):
+    if ZtoMuTrkNoMissOutNoVetoLoosePt.cuts[i].cutString == cutTrkHitMissOut.cutString: 
+        del ZtoMuTrkNoMissOutNoVetoLoosePt.cuts[i] 
+
+                
 
 
 
