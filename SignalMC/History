@@ -1,0 +1,32 @@
+// $Id: History,v 1.4 2012/10/31 10:20:55 wulsin Exp $
+// SignalMCGen  
+// 
+// Enter new tags at the top.  
+// Increment middle digit for any major change.
+
+
+
+Tag V00-00-04
+=============
+20121031 HWW
+Add config files for crab job submission.
+
+Tag V00-00-02
+=============
+20121024 HWW
+Fix AMSB to set chargino to infinite lifetime.  
+
+Tag V00-00-01
+=============
+20121024 HWW
+Added GEN-only config files.
+
+
+Tag V00-00-00
+=============
+20121012 HWW
+Added SignalMCGen directory to contain scripts for signal generation.  
+
+
+
+

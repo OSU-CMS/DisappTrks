@@ -1,0 +1,124 @@
+# For info on batch jobs, see:
+# http://information-technology.web.cern.ch/services/fe/lxbatch/howto/batch-quickstart-guide
+# https://cern.service-now.com/service-portal/article.do?n=KB0000470&s=lxbatch
+# https://cern.service-now.com/service-portal/article.do?n=KB0000469&s=lxbatch
+#
+# Usage:
+# /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src > source scripts/chargino_slha_GEN_SIM_150GeV_1ns_submit.src
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch0.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 0 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch1.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 1 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch2.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 2 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch3.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 3 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch4.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 4 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch5.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 5 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch6.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 6 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch7.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 7 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch8.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 8 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch9.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 9 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch10.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 10 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch11.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 11 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch12.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 12 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch13.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 13 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch14.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 14 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch15.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 15 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch16.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 16 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch17.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 17 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch18.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 18 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch19.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 19 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch20.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 20 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch21.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 21 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch22.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 22 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch23.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 23 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch24.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 24 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch25.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 25 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch26.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 26 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch27.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 27 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch28.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 28 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch29.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 29 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch30.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 30 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch31.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 31 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch32.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 32 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch33.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 33 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch34.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 34 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch35.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 35 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch36.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 36 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch37.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 37 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch38.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 38 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch39.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 39 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch40.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 40 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch41.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 41 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch42.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 42 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch43.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 43 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch44.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 44 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch45.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 45 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch46.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 46 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch47.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 47 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch48.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 48 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch49.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 49 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch50.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 50 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch51.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 51 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch52.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 52 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch53.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 53 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch54.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 54 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch55.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 55 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch56.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 56 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch57.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 57 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch58.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 58 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch59.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 59 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch60.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 60 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch61.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 61 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch62.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 62 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch63.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 63 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch64.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 64 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch65.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 65 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch66.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 66 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch67.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 67 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch68.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 68 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch69.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 69 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch70.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 70 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch71.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 71 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch72.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 72 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch73.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 73 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch74.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 74 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch75.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 75 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch76.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 76 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch77.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 77 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch78.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 78 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch79.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 79 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch80.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 80 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch81.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 81 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch82.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 82 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch83.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 83 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch84.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 84 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch85.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 85 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch86.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 86 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch87.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 87 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch88.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 88 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch89.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 89 
+
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch90.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 90 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch91.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 91 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch92.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 92 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch93.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 93 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch94.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 94 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch95.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 95 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch96.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 96 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch97.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 97 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch98.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 98 
+bsub -q 1nd -oo batch/log/chargino_slha_GEN_SIM_150GeV_1ns_batch99.log /afs/cern.ch/user/w/wulsin/workspace/disappTrk/signalMCGenNew1/CMSSW_5_3_3/src/scripts/chargino_slha_GEN_SIM_150GeV_1ns_run.sh 99 
+
+
+
+
+
+
+

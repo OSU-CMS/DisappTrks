@@ -1,0 +1,17 @@
+BLOCK MASS   #
+#  PDG code   mass   particle
+   1000024    250.0  #  ~chi_1+
+   -1000024   250.0  #  ~chi_1-
+   1000022    240.0  #  ~chi_10
+Block
+# custom chargino decay table
+DECAY   1000024     6.000000E-16   # chargino1+ decays
+#    BR       NDA     ID1       ID2       ID3
+   1.0000    2     1000022    211  
+Block
+DECAY   -1000024     6.000000E-16   # chargino1- decays
+#    BR       NDA     ID1       ID2       ID3
+   1.0000    2     1000022    -211  
+Block
+
+EOF
