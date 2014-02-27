@@ -469,6 +469,15 @@ for i in xrange(len(FullSelectionNoPt.cuts) - 1, -1, -1):
     if FullSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
         del FullSelectionNoPt.cuts[i]  
 
+FullSelectionMCSig = cms.PSet(
+    name = cms.string("FullSelectionMCSig"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(cutsFullSelection), 
+    )
+FullSelectionMCSig.cuts.append(cutMCPartStatus3)
+FullSelectionMCSig.cuts.append(cutMCPartSusy)  
+
+
 FullSelectionNoEta = cms.PSet(
     name = cms.string("FullSelectionNoEta"),
     triggers = triggersJetMet,
