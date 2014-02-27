@@ -22,7 +22,7 @@ integrateHistogramName = "numEvents"
 # named "datacard_AMSB_mGravMASSK_TAUns.txt" 
 
 #NOTE: These are the gravitino masses
-masses = ['32', '50', '75', '100', '150']
+masses = ['32', '50', '75', '100', '125', '150']
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
@@ -49,6 +49,10 @@ chiMasses = {
     'value' : '328',
         },
 
+    '125' : {
+    'value' : '408',
+        },
+
     '150' : {
     'value' : '488',
         },
@@ -71,6 +75,10 @@ signal_cross_sections = { # in pb
           },
      '100' : {
           'value' : '0.125',
+          'error' : '1.25', # dummy 10% error
+          },
+     '125' : {
+          'value' : '0.0438',
           'error' : '1.25', # dummy 10% error
           },
      '150' : {
@@ -117,7 +125,7 @@ backgrounds = {
 
      'Elec' : {
      'N' : '1',
-     'alpha' : '0.43',
+     'alpha' : '0.44',
                },
       'Muon' : {
       'N' : '1',
@@ -161,16 +169,16 @@ totalBkgdErr = 0.5
 
 background_systematics = {
     'Elec' : {
-    'value'  : '1.05',
+    'value'  : '1.26',
          },
     'Muon' : {
-    'value'  : '1.22',
+    'value'  : '1.52',
              },
     'Tau' : {
-    'value'  : '1.2',
+    'value'  : '1.19',
              },
     'Fake' : {
-    'value'  : '1.14',
+    'value'  : '1.18',
              },
 
 
@@ -178,6 +186,12 @@ background_systematics = {
 
 external_systematic_uncertainties = [
             'pileup',
+            'Ecalo',
+            'NMissOut',
+            'PDFWt',
+            'trigEff',
+            'JER',
+            'JES',
         ]
 
 #uncertainties on signal only (we can alter this if we need to)
