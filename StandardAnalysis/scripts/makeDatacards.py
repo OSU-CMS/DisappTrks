@@ -346,12 +346,14 @@ for systematic in external_systematic_uncertainties:
     input_file = open(os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
-        line = line.rstrip("\n").split(" ")
-        dataset = line[0]
-        if len(line) is 2:
-            systematics_dictionary[systematic][dataset] = line[1]
-        elif len(line) is 3:
-            systematics_dictionary[systematic][dataset]= line[1]+"/"+line[2]
+        intermediateLine = '~'.join(line.rstrip("\n").split())
+        newLine = intermediateLine.rstrip("\n").split("~")
+
+        dataset = newLine[0]
+        if len(newLine) is 2:
+            systematics_dictionary[systematic][dataset] = newLine[1]
+        elif len(newLine) is 3:
+            systematics_dictionary[systematic][dataset]= newLine[1]+"/"+newLine[2]
             
             # turn off systematic when the central yield is zero
             if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
