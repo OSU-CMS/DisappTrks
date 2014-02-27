@@ -5,6 +5,8 @@ from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 ###############################################################
 process.source.fileNames.append('file:/home/wulsin/disappTrks/analysisTemplateV3/CMSSW_6_1_2/src/DisappTrks/StandardAnalysis/test/condor/condor_2014_01_25_MetJetSkim/AMSB_mGrav75K_1ns/MetJet/bean_0.root')  
 process.maxEvents.input = 200
+#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+
 
 # For pile-up systematic:  
 ## process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_66805xSec')  # PU low xsec
@@ -20,6 +22,14 @@ process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff co
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_muonTagProbe.root')  # with track NMissOut correction  
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_elecTagProbe.root')  # with track NMissOut correction  
 
+# For PDF systematic:  
+#process.OSUAnalysis.calcPdfWeights = cms.bool(False)    # no calculation of weights (STANDARD)  
+process.OSUAnalysis.calcPdfWeights = cms.bool(True)     # calculate weights 
+process.OSUAnalysis.pdfSetFlag  = cms.int32(1)  
+process.OSUAnalysis.pdfSet  = cms.string('cteq66.LHgrid') 
+## process.OSUAnalysis.pdfSet  = cms.string('cteq6ll.LHpdf')  
+## process.OSUAnalysis.pdfSet  = cms.string('CT10.LHgrid')  
+## process.OSUAnalysis.pdfSet  = cms.string('cteq66alphas.LHgrid')  
 
 
 
