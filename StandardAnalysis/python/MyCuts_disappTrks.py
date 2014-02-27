@@ -604,6 +604,11 @@ cutTrkNHits4 = cms.PSet(
     cutString = cms.string("numValidHits == 4"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkNHits4Min = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits >= 4"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkHitMissMid = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("nHitsMissingMiddle == 0"),
@@ -759,6 +764,11 @@ cutTrkHitMissOutCtrlReg = cms.PSet (
 cutTrkCharginoId = cms.PSet(
     inputCollection = cms.string("tracks"),
     cutString = cms.string("fabs(genMatchedPdgId) == 1000024"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkSusyId = cms.PSet(
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(genMatchedPdgId) > 1000001 && fabs(genMatchedPdgId) < 3160113"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkElectronId = cms.PSet(
@@ -1567,6 +1577,12 @@ cutMCPartStatus3 = cms.PSet (
     cutString = cms.string("status == 3"),
     numberRequired = cms.string(">= 1"),  
     )
+cutMCPartSusy = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
+    numberRequired = cms.string(">= 1"),  
+    )
+
 
 ##############################
 #-- Standard Event Cleaning ##

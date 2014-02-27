@@ -21,7 +21,7 @@ intLumi = 19500
 #########################
 
 # NOTE: The chargino masses are used when actually making the limit plots
-masses = ['103', '164', '247', '328', '488']
+masses = ['103', '164', '247', '328','408',  '488']
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
@@ -44,6 +44,11 @@ signal_cross_sections = { # in pb
          'value' : '0.125',
          'error' : '1.25', # dummy 10% error
          },
+   '408' : {
+         'value' : '0.0438',
+         'error' : '1.25', # dummy 10% error
+         },
+   
     '488' : {
          'value' : '0.0175',
          'error' : '1.25', # dummy 10% error
@@ -78,7 +83,7 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
+    'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 0.5,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
@@ -111,7 +116,7 @@ plotDefinitions = [
             #define all the curves to include on this canvas
     'graphs' : [
                 {
-    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
+    'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 1.0,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
@@ -143,7 +148,7 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_21Feb_Gamma'], #output directory from limit running
+    'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 5.0,
     'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'colorScheme' : 'brazilian',
