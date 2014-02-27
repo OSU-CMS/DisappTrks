@@ -70,6 +70,16 @@ from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 from DisappTrks.StandardAnalysis.MyTauCtrlSampleSelections_disappTrks import *
 from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks import *
 
+
+##for jes systematic
+#process.OSUAnalysis.flagJESJERCorr = cms.bool(False)
+#process.OSUAnalysis.jESJERCorr = cms.string('JESup')
+#process.OSUAnalysis.jESJERCorr = cms.string('JESdown')
+#process.OSUAnalysis.jESJERCorr = cms.string('JERup')
+#process.OSUAnalysis.jESJERCorr = cms.string('JERdown')
+
+
+
 ################################
 ## Channels for Analysis Note ##
 ################################
