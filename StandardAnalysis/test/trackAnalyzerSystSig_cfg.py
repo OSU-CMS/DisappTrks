@@ -20,8 +20,15 @@ process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff co
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_muonTagProbe.root')  # with track NMissOut correction  
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_elecTagProbe.root')  # with track NMissOut correction  
 
+# For JES and JERsystematic:
+process.OSUAnalysis.flagJESJERCorr = cms.bool (False)    # no  correction  (STANDARD)
+process.OSUAnalysis.jESJERCorr = cms.string ('')    # no correction  (STANDARD)
 
-
+#process.OSUAnalysis.flagJESJERCorr = cms.bool(True)    
+#process.OSUAnalysis.jESJERCorr = cms.string('JESup')    #with JES correction
+#process.OSUAnalysis.jESJERCorr = cms.string('JESdown')  #with JES correction
+#process.OSUAnalysis.jESJERCorr = cms.string('JERup')    #with JER correction
+#process.OSUAnalysis.jESJERCorr = cms.string('JERdown')  #with JER correction
 
 
 ########################################################################
