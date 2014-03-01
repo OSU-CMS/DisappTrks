@@ -28,12 +28,11 @@ AMSBChargino_mGrav75K_1ns     \
 AMSBChargino_mGrav75K_5ns       
 do
     echo "Doing dir: $dir" 
-    crab -status -c $dir > $dir/status.log 
+    crab -status -c $dir 
     crab -getoutput -c $dir 
-#    crab -status -c $dir  >  $dir/status.log 
+#    crab -status -c $dir  
 #    crab -getoutput -c $dir   # Do twice, since sometimes the first time doesn't work.  
     crab -status -c $dir  >  $dir/status.log 
-    cat $dir/status.log # So user can see it 
     cat $dir/status.log | scripts/resubmitJobs.pl > resubmitOne.sh     # can use resubmitStuckJobs.pl or resubmitStillbornJobs.pl instead
     cp resubmitOne.sh $dir/ 
     chmod +x resubmitOne.sh
