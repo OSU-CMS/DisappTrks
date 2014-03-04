@@ -71,7 +71,7 @@ plotDefinitions = [
 
                 # xmin, xmax, label
     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-    'yAxisLabel' : '0.5 ns',
+    'yAxisLabel' : '#tau = 0.5 ns',
 
                 # optional (scaled automatically if not included)
                 #'yAxis' : [0.0001,100],
@@ -85,13 +85,14 @@ plotDefinitions = [
                     {
     'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 0.5,
-    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+#    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
-                    },
-                                    ],
-        },
-
+    },
+                    ],
+    },
+     
 
      ######################TAU = 1 NS     
         {
@@ -99,12 +100,12 @@ plotDefinitions = [
     'title' : 'limits_vs_1ns',
 
             # current options are 'mass' and 'lifetime'
-#    'xAxisType' : 'lifetime',
+#    'yAxisType' : 'lifetime',
     'xAxisType' : 'mass',
 
             # xmin, xmax, label
     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-    'yAxisLabel' : '1 ns',
+    'yAxisLabel' : '#tau = 1 ns',
 
             # optional (scaled automatically if not included)
             #'yAxis' : [0.0001,100],
@@ -118,7 +119,8 @@ plotDefinitions = [
                 {
     'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 1.0,
-    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+#    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                 },
@@ -136,7 +138,7 @@ plotDefinitions = [
 
                 # xmin, xmax, label
     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-    'yAxisLabel' : '5 ns',
+    'yAxisLabel' : '#tau = 5 ns',
 
                 # optional (scaled automatically if not included)
                 #'yAxis' : [0.0001,100],
@@ -150,11 +152,39 @@ plotDefinitions = [
                     {
     'source' : ['limits_27Feb_v2'], #output directory from limit running
     'lifetime' : 5.0,
-    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                     },
                                     ],
         },
+
+
+ ######################LIFETIME VS MAS
+     {
+     # this will be the name of the canvas in the output root file
+     'title' : 'limits_vs_mass',
+
+      # current options are 'mass' and 'lifetime'
+     'xAxisType' : 'mass',
+     'yAxisType' : 'lifetime',
+
+     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+     'yAxisLabel' : '#tau_{#chi^{#pm}} [ns]',
+
+    'showTheory' : True,
+     'graphs' : [
+    {
+    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'lifetime' : 5.0,
+    #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+    'colorScheme' : 'brazilian',
+    'legendEntry' : '',
+    },
+    ],
+     },
+
      
         ]
