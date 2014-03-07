@@ -145,8 +145,27 @@ TestEventHistograms = cms.PSet(
             bins = cms.untracked.vdouble(51, -0.5, 50.5),
             inputVariables = cms.vstring("numPV"),
             ),
+        )
     )
-)
+
+
+EventExtraHistograms = cms.PSet(
+    inputCollection = cms.string("events"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("totalMcparticlePt"), 
+            title = cms.string("totalMcparticlePt; #sum p_{T} of selected mcparticles"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("totalMcparticlePt"),
+            ),
+        cms.PSet (
+            name = cms.string("totalMcparticlePtVsMet"), 
+            title = cms.string("totalMcparticlePtVsMet; Met [GeV];#sum p_{T} of selected mcparticles [GeV]"),
+            bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),  
+            inputVariables = cms.vstring("metPt", "totalMcparticlePt"),
+            ),
+        )
+    )  
 
 
 TestTrackEventHistograms = cms.PSet(
@@ -733,8 +752,6 @@ ExtraTrackHistograms = cms.PSet(
             bins = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRMinTauLooseHadronicId"),
             ),
-
-        
         )
     )
 
@@ -1022,6 +1039,22 @@ TauExtraHistograms = cms.PSet(
             ),
         )
     )
+
+
+
+
+StopHistograms = cms.PSet(
+    inputCollection = cms.string("stops"),
+    histograms = cms.VPSet (
+      cms.PSet (
+        name = cms.string("stopCtau"),
+        title = cms.string("Stop lifetime; c#tau [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 100),
+        inputVariables = cms.vstring("ctau"),
+        ),
+      )
+    )
+
 
 
 DebugHistograms = cms.PSet(
