@@ -350,6 +350,15 @@ NoCuts = cms.PSet(
        ),
     )
 
+NoCutsFilterMC = cms.PSet(
+    name = cms.string("NoCutsFilterMC"),
+    cuts = cms.VPSet (
+       cutNoCuts,
+       cutMCPartStatus3Filter,
+       cutMCPartSusyFilter, 
+       ),
+    )
+
 DebugCuts = cms.PSet(
     name = cms.string("DebugCuts"),
     cuts = cms.VPSet (
@@ -452,6 +461,20 @@ FullSelectionNoMet = cms.PSet(
     triggers = triggersJetMet,
     cuts = cutsFullSelection, 
     )
+
+FullSelectionFilterMC = cms.PSet(
+    # Filter the MC particles to include only the status 3 SUSY particles  
+    name = cms.string("FullSelectionFilterMC"),
+    triggers = triggersJetMet,
+    cuts = cutsFullSelection +
+    cms.VPSet( 
+    cutMCPartStatus3Filter,
+    cutMCPartSusyFilter,
+    )
+    )
+
+
+
 
 FullSelectionMet80Trig = cms.PSet(
     name = cms.string("FullSelectionMet80Trig"),
@@ -669,6 +692,11 @@ FullSelectionNoMet = cms.PSet(
     cutsJets + 
     cutsTrkPresel + 
     cutsSigReg
+    )
+
+FullSelectionNoMetNoTrig = cms.PSet(
+    name = cms.string("FullSelectionNoMetNoTrig"),
+    cuts = copy.deepcopy(FullSelectionNoMet.cuts), 
     )
 
 
