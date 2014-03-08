@@ -19,10 +19,10 @@ process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
 
-process.OSUAnalysis.triggerMetSF = cms.string ('metPt')  
+process.OSUAnalysis.triggerMetSF    = cms.string ('metPt')  
 process.OSUAnalysis.trackNMissOutSF = cms.string ('ratio')  
+process.OSUAnalysis.isrVarySF       = cms.string ('ratio')  
 
-    
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)  
 #process.OSUAnalysis.treeBranchSets = AllTreeBranchSets  

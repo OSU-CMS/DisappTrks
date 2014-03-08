@@ -22,6 +22,10 @@ process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff co
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_muonTagProbe.root')  # with track NMissOut correction  
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_elecTagProbe.root')  # with track NMissOut correction  
 
+# For ISR  systematic:  
+#process.OSUAnalysis.isrVarySFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
+process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsr75KStdVsDnRatio.root')  # with Isr variation 
+
 # For PDF systematic:  
 process.OSUAnalysis.calcPdfWeights = cms.bool(False)    # no calculation of weights (STANDARD)  
 #process.OSUAnalysis.calcPdfWeights = cms.bool(True)      # calculate weights 
@@ -34,8 +38,8 @@ process.OSUAnalysis.pdfSet  = cms.string('cteq66.LHgrid') # ignored if calcPdfWe
 
 
 # For JES and JERsystematic:
-process.OSUAnalysis.flagJESJERCorr = cms.bool (False)    # no  correction  (STANDARD)
-process.OSUAnalysis.jESJERCorr = cms.string ('')    # no correction  (STANDARD)
+process.OSUAnalysis.flagJESJERCorr = cms.bool (False)    # no correction  (STANDARD)
+process.OSUAnalysis.jESJERCorr = cms.string ('')         # no correction  (STANDARD)
 
 #process.OSUAnalysis.flagJESJERCorr = cms.bool(True)    
 #process.OSUAnalysis.jESJERCorr = cms.string('JESup')    #with JES correction
