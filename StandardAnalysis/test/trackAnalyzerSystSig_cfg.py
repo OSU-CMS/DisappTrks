@@ -23,8 +23,8 @@ process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff co
 #process.OSUAnalysis.trackNMissOutSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/NHitsMissingOuterSF_elecTagProbe.root')  # with track NMissOut correction  
 
 # For ISR  systematic:  
-#process.OSUAnalysis.isrVarySFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
-process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsr75KStdVsDnRatio.root')  # with Isr variation 
+process.OSUAnalysis.isrVarySFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsr75KStdVsDnRatio.root')  # with Isr variation 
 
 # For PDF systematic:  
 process.OSUAnalysis.calcPdfWeights = cms.bool(False)    # no calculation of weights (STANDARD)  
