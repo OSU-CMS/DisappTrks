@@ -1588,10 +1588,36 @@ cutMCPartStatus3 = cms.PSet (
     cutString = cms.string("status == 3"),
     numberRequired = cms.string(">= 1"),  
     )
+cutMCPartStatus3Filter = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("status == 3"),
+    numberRequired = cms.string(">= 0"),  
+    )
 cutMCPartSusy = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
     numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartSusyFilter = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
+    numberRequired = cms.string(">= 0"),  
+    )
+
+##############################
+#-- Cuts on BNStop         --#
+##############################
+
+cutStopCtauZero = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("ctau == 0"),
+    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    )
+
+cutStopCtauNonZero = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("ctau > 0"),
+    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
     )
 
 
