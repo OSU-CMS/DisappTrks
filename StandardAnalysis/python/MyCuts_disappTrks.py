@@ -199,6 +199,12 @@ cutJetPt = cms.PSet (
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
     )
+cutJetPt = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 150"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutJetLeadingPt = cms.PSet(
     inputCollection = cms.string("jets"),
     cutString = cms.string("isLeadingPtJet == 1"),
@@ -367,6 +373,11 @@ cutSecJetPt = cms.PSet (
 cutSecJetPt90 = cms.PSet (
     inputCollection = cms.string("secondary jets"),
     cutString = cms.string("pt > 90"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutSecJetPt150 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
+    cutString = cms.string("pt > 150"),
     numberRequired = cms.string(">= 1"),
     )
 cutSecJetEta2p4 = cms.PSet (
@@ -1303,7 +1314,7 @@ cut2ElecPt = cms.PSet(
     )
 cut2ElecEta = cms.PSet(
     inputCollection= cms.string("electrons"),
-    cutString = cms.string("fabs(eta) < 2.5"),
+    cutString = cms.string("fabs(eta) < 2.1"),
     numberRequired = cms.string(">= 2"),
     )
 cut2ElecMva = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA
