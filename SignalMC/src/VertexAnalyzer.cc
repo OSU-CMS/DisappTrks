@@ -243,42 +243,44 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      // if (isimtrk->genpartIndex() != -1) continue;
 
      int trkType = abs(isimtrk->type());
-
+     
      if (trkType==1000024 ||
 	 trkType==1000022) {
-
        cout << "Found track with type:  " << isimtrk->type()
 	    << endl;  
+     }
        if (!isimtrk->noVertex()) {
 	 const SimVertex &vtx = (*simvertices)[isimtrk->vertIndex()];
-	 cout << "  and production vertex at perp = " << vtx.position().rho()
-	      << ", z = " << vtx.position().z() 
-	      << endl;  
-
-	 if (trkType==1000022) {  
+	 if (trkType==1000024 ||
+	     trkType==1000022) {
+	   cout << "  and production vertex at perp = " << vtx.position().rho()
+		<< ", z = " << vtx.position().z() 
+		<< endl;  
+	 }
+	 
+	 // Check if the vertex has a parent track (otherwise, we're lost)
+	 if (!(vtx.noParent())) {
 	   
-	   // Check if the vertex has a parent track (otherwise, we're lost)
-	   if (!(vtx.noParent())) {
-	     
-	     // Now note that vtx.parentIndex() is NOT an index, it's a track id, so I have to search for it
-	     unsigned int idx = vtx.parentIndex();
-	     cout << "  Found a parent with index " << idx << endl;  
-	     for (SimTrackContainer::const_iterator jsimtrk = simtracks->begin();  // loop over tracks to find parent  
-		  jsimtrk != simtracks->end(); ++jsimtrk) {
-	       if (jsimtrk->trackId() != idx) continue;  
-	       if (abs(jsimtrk->type())==1000024) {
-		 cout << "  Found vertex with chargino parent and neutralino daughter " 
-		      << endl;  
-
+	   // Now note that vtx.parentIndex() is NOT an index, it's a track id, so I have to search for it
+	   unsigned int idx = vtx.parentIndex();
+	   if (trkType==1000022) cout << "  Found a parent of 1000022 with index " << idx << endl;  
+	   for (SimTrackContainer::const_iterator jsimtrk = simtracks->begin();  // loop over tracks to find parent  
+		jsimtrk != simtracks->end(); ++jsimtrk) {
+	     if (jsimtrk->trackId() != idx) continue;  
+	     if (abs(jsimtrk->type())==1000024) {
+	       cout << "  Found vertex with chargino parent and daughter = " << isimtrk->type()  
+		    << endl;  	       
+	       if (trkType==1000022) {
 		 hDecayPos->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
 		 nVtxCharginoToNeutralino++; 
 	       }
 	     }
 	   }
 	 }
+	 //	 }
        }
-     }
    }
+
    cout << "Found nSimTrk=" << nSimTrk 
      //	<< "; simtracksSorted->size() = " << simtracksSorted->size() 
 	<< " and nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino
