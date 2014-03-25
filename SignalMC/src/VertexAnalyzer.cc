@@ -157,7 +157,12 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        if (abs(pdgId)==1000024) nGenChargino++;   
 
        cout << "Found gen particle with:  status=" << status << "; pdgId=" << pdgId
-	    << "; numdgt=" << numdgt << endl;
+	    << "; numdgt=" << numdgt 
+	    << ", px = " << mcParticle.px()
+	    << ", py = " << mcParticle.py()
+	    << ", pz = " << mcParticle.pz()
+	    << ", energy = " << mcParticle.energy()
+	    << endl;
        TLorentzVector p4(mcParticle.px(), 
 			 mcParticle.py(), 
 			 mcParticle.pz(), 
@@ -263,13 +268,14 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	   
 	   // Now note that vtx.parentIndex() is NOT an index, it's a track id, so I have to search for it
 	   unsigned int idx = vtx.parentIndex();
-	   if (trkType==1000022) cout << "  Found a parent of 1000022 with index " << idx << endl;  
+	   cout << "  Found a parent with index " << idx << endl;  
 	   for (SimTrackContainer::const_iterator jsimtrk = simtracks->begin();  // loop over tracks to find parent  
 		jsimtrk != simtracks->end(); ++jsimtrk) {
 	     if (jsimtrk->trackId() != idx) continue;  
 	     if (abs(jsimtrk->type())==1000024) {
-	       cout << "  Found vertex with chargino parent and daughter = " << isimtrk->type()  
-		    << endl;  	       
+	       cout << "  Found vertex with parent " << jsimtrk->type()
+		    << " and daughter " << isimtrk->type()  
+		    << endl;  
 	       if (trkType==1000022) {
 		 hDecayPos->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
 		 nVtxCharginoToNeutralino++; 
@@ -280,7 +286,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	 //	 }
        }
    }
-
+   
    cout << "Found nSimTrk=" << nSimTrk 
      //	<< "; simtracksSorted->size() = " << simtracksSorted->size() 
 	<< " and nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino
@@ -289,7 +295,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
    hnVtxCharginoParent->Fill(nVtxCharginoParent);
    hnGenChargino->Fill(nGenChargino);
-   hMissingVtx->Fill(nGenChargino - nVtxCharginoParent);  
+   hMissingVtx->Fill(nGenChargino - nVtxCharginoToNeutralino);  
 
    // testing to create a seg fault!: 
 //    TH1D* hBug = 0;
