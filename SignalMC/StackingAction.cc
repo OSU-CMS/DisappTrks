@@ -77,16 +77,15 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
     classification = fKill;
   } else {
     const G4Track * mother = CurrentG4Track::track();
-
-    if (fabs(aTrack->GetParticleDefinition()->GetPDGEncoding()) == 1000022) {
-      // std::cout << "  For particle " << aTrack->GetParticleDefinition()->GetPDGEncoding()
-      // 		<< ": isThisVolume(aTrack->GetTouchable(),tracker) = " << isThisVolume(aTrack->GetTouchable(),tracker)  
-      // 		<< ", isThisVolume(aTrack->GetTouchable(),calo) = "    << isThisVolume(aTrack->GetTouchable(),calo)  
-      // 		<< ", isThisVolume(aTrack->GetTouchable(),muon) = "    << isThisVolume(aTrack->GetTouchable(),muon)  
-	//    		<< ", toBeChecked = " << toBeChecked   
-    		<< std::endl;  
-    }
-
+    //    if (fabs(aTrack->GetParticleDefinition()->GetPDGEncoding()) == 1000022) {
+    // std::cout << "  For particle " << aTrack->GetParticleDefinition()->GetPDGEncoding()
+    // 		<< ": isThisVolume(aTrack->GetTouchable(),tracker) = " << isThisVolume(aTrack->GetTouchable(),tracker)  
+    // 		<< ", isThisVolume(aTrack->GetTouchable(),calo) = "    << isThisVolume(aTrack->GetTouchable(),calo)  
+    // 		<< ", isThisVolume(aTrack->GetTouchable(),muon) = "    << isThisVolume(aTrack->GetTouchable(),muon)  
+    //    		<< ", toBeChecked = " << toBeChecked   
+    //     		<< std::endl;  
+    //     }
+    
     // NEW code:  
     bool toBeChecked = true;
     if (!savePDandCinTracker && isThisVolume(aTrack->GetTouchable(),tracker)) toBeChecked = false;
