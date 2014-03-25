@@ -157,7 +157,12 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        if (abs(pdgId)==1000024) nGenChargino++;   
 
        cout << "Found gen particle with:  status=" << status << "; pdgId=" << pdgId
-	    << "; numdgt=" << numdgt << endl;
+	    << "; numdgt=" << numdgt 
+	    << ", px = " << mcParticle.px()
+	    << ", py = " << mcParticle.py()
+	    << ", pz = " << mcParticle.pz()
+	    << ", energy = " << mcParticle.energy()
+	    << endl;
        TLorentzVector p4(mcParticle.px(), 
 			 mcParticle.py(), 
 			 mcParticle.pz(), 
@@ -267,7 +272,8 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		  jsimtrk != simtracks->end(); ++jsimtrk) {
 	       if (jsimtrk->trackId() != idx) continue;  
 	       if (abs(jsimtrk->type())==1000024) {
-		 cout << "  Found vertex with chargino parent and neutralino daughter " 
+		 cout << "  Found vertex with parent " << jsimtrk->type()
+		      << " and daughter " << isimtrk->type()  
 		      << endl;  
 
 		 hDecayPos->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
@@ -287,7 +293,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
    hnVtxCharginoParent->Fill(nVtxCharginoParent);
    hnGenChargino->Fill(nGenChargino);
-   hMissingVtx->Fill(nGenChargino - nVtxCharginoParent);  
+   hMissingVtx->Fill(nGenChargino - nVtxCharginoToNeutralino);  
 
    // testing to create a seg fault!: 
 //    TH1D* hBug = 0;
