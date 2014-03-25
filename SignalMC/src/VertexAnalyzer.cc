@@ -268,7 +268,6 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	   
 	   // Now note that vtx.parentIndex() is NOT an index, it's a track id, so I have to search for it
 	   unsigned int idx = vtx.parentIndex();
-	   cout << "  Found a parent with index " << idx << endl;  
 	   for (SimTrackContainer::const_iterator jsimtrk = simtracks->begin();  // loop over tracks to find parent  
 		jsimtrk != simtracks->end(); ++jsimtrk) {
 	     if (jsimtrk->trackId() != idx) continue;  
