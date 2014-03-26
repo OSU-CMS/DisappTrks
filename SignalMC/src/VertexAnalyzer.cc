@@ -78,6 +78,8 @@ class VertexAnalyzer : public edm::EDAnalyzer {
   TH1D* hnGenChargino;
   TH1D* hMissingVtx;  
   TH2D* hDecayPos;  
+  TH1D* hGenEta; 
+  TH1D* hGenEtaFoundVtx; 
 
 
   struct LessById {
@@ -110,6 +112,8 @@ VertexAnalyzer::VertexAnalyzer(const edm::ParameterSet& iConfig)
   hnGenChargino = fs->make<TH1D>("hnGenChargino" ,    ";# generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
   hMissingVtx = fs->make<TH1D>("hMissingVtx" ,    ";# missing #chi^{#pm} vertices" , 10 , -0.5 , 9.5 );
   hDecayPos = fs->make<TH2D>("hDecayPos" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 1200, 100, 0, 800);
+  hGenEta = fs->make<TH1D>("hGenEta" ,    ";#eta, generated #chi^{#pm}" , 100 , -7, 7);
+  hGenEtaFoundVtx = fs->make<TH1D>("hGenEtaFoundVtx" ,    ";#eta, generated #chi^{#pm} with decay vertex" , 100 , -7, 7);
 
 }
 
@@ -152,9 +156,9 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        if (!(abs(pdgId)==1000022 ||
              abs(pdgId)==1000024)) continue;
 
-       if (!(status==3)) continue;  
+       if (!(status==3)) continue;  // The standard
+       //       if (!(status==1)) continue;  // Test for particle gun 
 
-       if (abs(pdgId)==1000024) nGenChargino++;   
 
        cout << "Found gen particle with:  status=" << status << "; pdgId=" << pdgId
 	    << "; numdgt=" << numdgt 
@@ -162,7 +166,15 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	    << ", py = " << mcParticle.py()
 	    << ", pz = " << mcParticle.pz()
 	    << ", energy = " << mcParticle.energy()
+	    << ", eta = " << mcParticle.eta()
 	    << endl;
+
+       if (abs(pdgId)==1000024) {
+	 hGenEta->Fill(mcParticle.eta());  
+	 if (fabs(mcParticle.eta()) < 5.0) {
+	   nGenChargino++;   
+	 }
+       }
        TLorentzVector p4(mcParticle.px(), 
 			 mcParticle.py(), 
 			 mcParticle.pz(), 
@@ -275,9 +287,10 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	       cout << "  Found vertex with parent " << jsimtrk->type()
 		    << " and daughter " << isimtrk->type()  
 		    << endl;  
-	       if (trkType==1000022) {
+	       if (trkType==1000022 && fabs(jsimtrk->momentum().eta())<5.0) {
 		 hDecayPos->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
 		 nVtxCharginoToNeutralino++; 
+		 hGenEtaFoundVtx->Fill(jsimtrk->momentum().eta());  
 	       }
 	     }
 	   }
@@ -289,6 +302,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << "Found nSimTrk=" << nSimTrk 
      //	<< "; simtracksSorted->size() = " << simtracksSorted->size() 
 	<< " and nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino
+	<< ", missingVtx = " << nGenChargino - nVtxCharginoToNeutralino 
 	<< endl;  
 
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
