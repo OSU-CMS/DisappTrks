@@ -6,11 +6,11 @@
 #> cmsrel CMSSW_5_3_11 # Use same release used for bkgd MC production
 #> cd CMSSW_5_3_11/src/
 #CMSSW_5_3_11/src> cmsenv
+#CMSSW_5_3_11/src> git cms-addpkg Configuration/Generator
+#CMSSW_5_3_11/src> git cms-addpkg SimG4Core/CustomPhysics 
+#CMSSW_5_3_11/src> git cms-addpkg SimG4Core/Application
 #CMSSW_5_3_11/src> git clone git@github.com:wulsin/DisappTrks.git
 #CMSSW_5_3_11/src> DisappTrks/SignalMC/test/setupForSignalMC.sh  
-#git cms-addpkg Configuration/Generator
-#git cms-addpkg SimG4Core/CustomPhysics 
-#git cms-addpkg SimG4Core/Application
 cp DisappTrks/SignalMC/StackingAction.cc  SimG4Core/Application/src/  
 cp DisappTrks/SignalMC/TrackingAction.cc  SimG4Core/Application/src/  
 cp DisappTrks/SignalMC/CustomPDGParser.h SimG4Core/CustomPhysics/interface/  
