@@ -110,6 +110,7 @@ for path in process.paths:
 	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
 
 from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise  
+#from DisappTrks.SignalMC.Exotica_HSCP_SIM_cfi import customise  
 process = customise(process)    
 
 
@@ -124,10 +125,12 @@ process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInMuon   
 
 process.g4SimHits.SteppingAction.MaxTrackTimes = cms.vdouble(2000.0, 500.0, 500.0)
 process.g4SimHits.StackingAction.MaxTrackTimes = cms.vdouble(2000.0, 500.0, 500.0)
-process.common_maximum_time.MaxTrackTimes = cms.vdouble(2000.0, 500.0, 500.0)
+process.common_maximum_time.MaxTrackTimes      = cms.vdouble(2000.0, 500.0, 500.0)
 
 ## process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_5nsWithDecayFlagsOnCodeFixed.root')   # Must fix code in StackingAction.cc and then recompile!
 ## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInTracker = cms.untracked.bool(True)
 ## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInCalo    = cms.untracked.bool(True)
 ## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(True)
 
+# Dump config file:  
+outfile = open('dumpedConfig_GEN_SIM.py','w'); print >> outfile,process.dumpPython(); outfile.close()
