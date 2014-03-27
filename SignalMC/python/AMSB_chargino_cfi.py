@@ -24,6 +24,7 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
     slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV.slha'),
 # The following parameters are required by Exotica_HSCP_SIM_cfi:  
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
+    useregge = cms.bool(False), 
     hscpFlavor = cms.untracked.string('stau'),          
     massPoint = cms.untracked.int32(-999),          
     particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_MASSPOINTGeV_ctauLIFETIMEcm.slha')
