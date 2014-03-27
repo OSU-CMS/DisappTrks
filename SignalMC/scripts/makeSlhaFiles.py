@@ -12,9 +12,9 @@ masses = [
 
 # c*lifetime of chargino in cm 
 ctaus = [
-    1, 
+#    1, 
     10,
-    30, 
+#    30, 
     100,
     1000,
     ]
@@ -45,6 +45,7 @@ for ctau in ctaus:
     text += "DECAY  1000024  " + str(width) + " # chargino decay  \n"  
     text += "#   BR       NDA      ID1      ID2  \n"
     text += "   1.0000    2     1000022    211   \n"
+    text += "Block \n"  
     fnew.write(text)  
     fnew.close()
 
@@ -52,7 +53,7 @@ for ctau in ctaus:
 # Make complete slha files for each mass, ctau point 
 for m in masses:
     for ctau in ctaus:
-        templateMassFile = "../data/AMSB_chargino" + str(m) + "GeV.slha"  
+        templateMassFile = "../data/AMSB_chargino_" + str(m) + "GeV_template.slha"  
         #        print "Opening template file " + templateMassFile  
         fin = open(templateMassFile, "r")
         configMassTemplate = fin.read()
@@ -64,17 +65,24 @@ for m in masses:
         configCtauTemplate = fin.read()
         fin.close()
         
-        newFile = templateMassFile 
-        newFile = newFile.replace(".slha", "_" + str(ctau) + "ctau.slha")  
+        newFile = "../data/geant4_AMSB_chargino_" + str(m) + "GeV_ctau" + str(ctau) + "cm.slha"  
         print "Creating new file: " + newFile  
         fnew = open(newFile, "w")
-        configNew = configMassTemplate
-        configNew += "#\n"
-        configNew += "#\n"
-        configNew += "# Adding block to set the chargino lifetime\n"
-        configNew += "#\n"
+        configNew  = "# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc  \n"
+        configNew += '# The strings "decay", "pdg code", and "block", with correct capitalization, are used \n'
+        configNew += "# to control the data input, so do not use these in any comments.  \n"
+        configNew += "# \n"
+        configNew += "# \n"
+        configNew += "# Get values for chargino and neutralino masses from:  \n"
+        configNew += "# " + templateMassFile + "\n"  
+        configNew += configMassTemplate
+        configNew += "\n"
+        configNew += "\n"
+        configNew += "\n"
         configNew += configCtauTemplate
-        configNew += "#\n"  
+        configNew += "\n"  
+        configNew += "\n"  
+        configNew += "EOF \n"  
         fnew.write(configNew)
         fnew.close()  
 
