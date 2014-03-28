@@ -1,4 +1,5 @@
 import sys
+import os  
 import FWCore.ParameterSet.Config as cms
 
 # Run with:
@@ -21,6 +22,8 @@ process.source = cms.Source("PoolSource",
     'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM.root' 
         )
 )
+
+process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 process.demo = cms.EDAnalyzer('VertexAnalyzer'
 )
@@ -63,9 +66,16 @@ process.TFileService = cms.Service("TFileService",
 
 
 ## Test 5ns-WithDecays:  
-process.TFileService.fileName = cms.string('charginoPartGun_5nsDefault.root')
-process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_GEN_SIM_5nsDefault.root')  
+## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_GEN_SIM_5nsDefault.root')  
+## process.TFileService.fileName = cms.string('charginoPartGun_5nsDefault.root')
 
+## Test new Beans: 
+process.source.fileNames = cms.untracked.vstring()
+dir = 'condor/AMSB_chargino_200GeV_ctau1000cm/'
+for file in os.listdir(dir):
+    if file.find(".root") != -1 and file.find("RECO") != -1: # Skip over files that do not contain .root.
+        process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
+process.TFileService.fileName = cms.string('histoVertexDecayRECO.root')
 
 
 process.p = cms.Path(process.demo)
