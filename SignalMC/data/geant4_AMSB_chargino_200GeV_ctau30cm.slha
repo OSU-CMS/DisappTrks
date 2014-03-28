@@ -16,11 +16,11 @@ Block
 
 # Set chargino lifetime 
 # and decay:  chargino -> neutralino + pion 
-# chargino ctau  = 10 cm 
-# chargino  tau  = 0.333564604793 ns 
-# chargino width = 1.97326691904e-15 GeV 
+# chargino ctau  = 30 cm 
+# chargino  tau  = 1.00069381438 ns 
+# chargino width = 6.5775563968e-16 GeV 
 #       PDG       Width               #
-DECAY  1000024  1.97326691904e-15 # chargino decay  
+DECAY  1000024  6.5775563968e-16 # chargino decay  
 #   BR       NDA      ID1      ID2  
    1.0000    2     1000022    211   
 Block 

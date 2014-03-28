@@ -4,23 +4,23 @@
 # 
 # 
 # Get values for chargino and neutralino masses from:  
-# ../data/AMSB_chargino_200GeV_Isajet780.slha
+# ../data/AMSB_chargino_100GeV_Isajet780.slha
 BLOCK MASS   
 #  PDG code   mass   particle 
-   1000022   1.99839157E+02   # ~neutralino(1) 
-   1000024   2.00013046E+02   # ~chargino(1)+  
-  -1000024   2.00013046E+02   # ~chargino(1)-  
+   1000022   9.98443985E+01   # ~neutralino(1) 
+   1000024   1.00032974E+02   # ~chargino(1)+  
+  -1000024   1.00032974E+02   # ~chargino(1)-  
 Block 
 
 
 
 # Set chargino lifetime 
 # and decay:  chargino -> neutralino + pion 
-# chargino ctau  = 10 cm 
-# chargino  tau  = 0.333564604793 ns 
-# chargino width = 1.97326691904e-15 GeV 
+# chargino ctau  = 1000 cm 
+# chargino  tau  = 33.3564604793 ns 
+# chargino width = 1.97326691904e-17 GeV 
 #       PDG       Width               #
-DECAY  1000024  1.97326691904e-15 # chargino decay  
+DECAY  1000024  1.97326691904e-17 # chargino decay  
 #   BR       NDA      ID1      ID2  
    1.0000    2     1000022    211   
 Block 

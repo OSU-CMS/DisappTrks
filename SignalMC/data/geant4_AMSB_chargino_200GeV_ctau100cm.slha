@@ -4,15 +4,13 @@
 # 
 # 
 # Get values for chargino and neutralino masses from:  
-# ../data/AMSB_chargino_200GeV_template.slha
-BLOCK MASS   #
-#  PDG code   mass   particle
-   1000022     2.00006072e+02   # ~neutralino(1)
-   1000024     2.00222006e+02   # ~chargino(1)+
-  -1000024     2.00222006e+02   # ~chargino(1)-
-Block
-
-
+# ../data/AMSB_chargino_200GeV_Isajet780.slha
+BLOCK MASS   
+#  PDG code   mass   particle 
+   1000022   1.99839157E+02   # ~neutralino(1) 
+   1000024   2.00013046E+02   # ~chargino(1)+  
+  -1000024   2.00013046E+02   # ~chargino(1)-  
+Block 
 
 
 

@@ -1,20 +1,25 @@
 #!/usr/bin/env python
-
 # Usage:
 # /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/signalMCGenV3/CMSSW_5_3_11/src/DisappTrks/SignalMC/test > ../scripts/makeSlhaFiles.py 
 
+import sys
 
 # SLHA files for each mass point must be created independently (e.g., with isajet)  
 # mass of chargino in GeV
 masses = [
+    100, 
     200, 
+    300,
+    400,
+    500,
+    600, 
     ]
 
 # c*lifetime of chargino in cm 
 ctaus = [
-#    1, 
+    1, 
     10,
-#    30, 
+    30, 
     100,
     1000,
     ]
@@ -31,6 +36,8 @@ def getWidth(ctau):
     width = hbar / tau
     return width
     
+
+# Create template decay files for different lifetimes 
 for ctau in ctaus:  
     templateCtauFile = "../data/AMSB_chargino" + str(ctau) + "ctau.slha"  
     print "Creating template file " + templateCtauFile  
@@ -53,14 +60,24 @@ for ctau in ctaus:
 # Make complete slha files for each mass, ctau point 
 for m in masses:
     for ctau in ctaus:
-        templateMassFile = "../data/AMSB_chargino_" + str(m) + "GeV_template.slha"  
-        #        print "Opening template file " + templateMassFile  
-        fin = open(templateMassFile, "r")
-        configMassTemplate = fin.read()
-        fin.close()
 
+        templateMassFile = "../data/AMSB_chargino_" + str(m) + "GeV_Isajet780.slha"  
+        mChargino = -99
+        mNeutralino = -99
+        fin = open(templateMassFile, "r")
+        for line in fin:
+            if "1000022" in line:
+                words = line.split()
+                mNeutralino = words[1]
+            if "1000024" in line:
+                words = line.split()
+                mChargino = words[1]
+        fin.close()
+        if mChargino < 0 or mNeutralino < 0:
+            print "Error:  incorrect masses found for neutralino=" + str(mNeutralino) + " and chargino=" + str(mChargino)
+            sys.exit(1)  
+        
         templateCtauFile = "../data/AMSB_chargino" + str(ctau) + "ctau.slha"  
-        #        print "Opening template file " + templateCtauFile  
         fin = open(templateCtauFile, "r")
         configCtauTemplate = fin.read()
         fin.close()
@@ -75,7 +92,12 @@ for m in masses:
         configNew += "# \n"
         configNew += "# Get values for chargino and neutralino masses from:  \n"
         configNew += "# " + templateMassFile + "\n"  
-        configNew += configMassTemplate
+        configNew += "BLOCK MASS   \n" 
+        configNew += "#  PDG code   mass   particle \n"
+        configNew += "   1000022   " + str(mNeutralino) + "   # ~neutralino(1) \n"
+        configNew += "   1000024   " + str(mChargino)   + "   # ~chargino(1)+  \n"
+        configNew += "  -1000024   " + str(mChargino)   + "   # ~chargino(1)-  \n"
+        configNew += "Block \n"
         configNew += "\n"
         configNew += "\n"
         configNew += "\n"
