@@ -71,7 +71,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
-    slhaFile = cms.untracked.string('Configuration/Generator/data/amsb_LL01_mGrav100K.slha'),
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_100GeV_Isajet780.slha'),
     massPoint = cms.untracked.int32(150),
     hscpFlavor = cms.untracked.string('stau'),
     PythiaParameters = cms.PSet(
@@ -108,7 +108,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = Configuration/Generator/data/amsb_LL01_mGravXXX.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_100GeV_Isajet780.slha')
     )
 )
 

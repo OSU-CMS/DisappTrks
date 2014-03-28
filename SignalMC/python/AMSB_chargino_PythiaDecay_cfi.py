@@ -17,7 +17,7 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
             'MSUB(229)   = 1     ! to neutralino + chargino',  
             ),
         parameterSets = cms.vstring('pythiaUESettings', 'processParameters', 'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_charginoXXXGeV_YYYctau.slha'),
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV_Isajet780.slha'),
     ),
 )  
 

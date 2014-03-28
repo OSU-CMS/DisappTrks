@@ -66,7 +66,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 
 process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     pythiaPylistVerbosity = cms.untracked.int32(3),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/amsb_LL01_mGrav100K.slha'),
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_100GeV_Isajet780.slha'),
     particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'), 
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
@@ -110,7 +110,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/amsb_LL01_mGrav100K.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_100GeV_Isajet780.slha')
     )
 )
 

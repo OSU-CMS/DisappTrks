@@ -69,7 +69,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 
 process.generator = cms.EDProducer("FlatRandomPtGunProducer",
     pythiaPylistVerbosity = cms.untracked.int32(0),
-    slhaFile = cms.untracked.string('Configuration/Generator/data/amsb_LL01_mGrav100K.slha'),
+    slhaFile = cms.untracked.string('Configuration/Generator/data/AMSB_chargino_100GeV_Isajet780.slha'),
     particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'), 
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
