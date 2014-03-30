@@ -31,4 +31,12 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
 )  
 
 
+dicharginoSumPtFilter = cms.EDFilter("MCParticlePairSumPtFilter",
+                                     MinSumPt = cms.untracked.double(50.0),
+                                     ParticleIDs = cms.untracked.vint32(1000022, 1000024),
+                                     )
+
+ProductionFilterSequence = cms.Sequence (generator * dicharginoSumPtFilter) 
+
+
 
