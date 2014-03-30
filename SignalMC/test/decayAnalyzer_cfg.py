@@ -9,7 +9,7 @@ process = cms.Process("Demo")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 process.source = cms.Source("PoolSource",
@@ -72,7 +72,8 @@ process.p = cms.Path(process.demo)
 ## process.source.fileNames = cms.untracked.vstring('file:charginoPartGun_GEN_SIM_5nsWithDecayFlagsOn.root') 
 ## process.TFileService.fileName = cms.string('histoDecayWithGeant_CharginoPartGun.root')
 
-process.source.fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN.root')  
+#process.source.fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN.root')  
+process.source.fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN_SIM.root')  
 process.TFileService.fileName = cms.string('histoDecayTest.root')
 
 

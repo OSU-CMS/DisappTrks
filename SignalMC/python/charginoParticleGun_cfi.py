@@ -11,7 +11,7 @@ generator = cms.EDProducer("FlatRandomPtGunProducer",
         MinEta = cms.double(-2.5),
         MaxEta = cms.double(2.5),
         MinPhi = cms.double(-3.14159265359), ## in radians
-        MaxPhi = cms.double(3.14159265359),
+        MaxPhi = cms.double(3.14159265359)
     ),
     Verbosity = cms.untracked.int32(0), ## set to 1 (or greater)  for printouts
     psethack = cms.string('chargino pt 100'),

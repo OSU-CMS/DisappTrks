@@ -9,9 +9,8 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.source = cms.Source ('PoolSource',
     fileNames = cms.untracked.vstring (
-#        'file:AMSB_chargino_GEN.root', 
-#        'file:AMSB_chargino_GEN_SIM_RECO.root',
-        'file:TestMuonDecay_GEN.root', 
+#        'file:charginoPartGun_GEN_SIM_5nsWithDecayFlagsOn.root', 
+        'file:AMSB_chargino_test_GEN.root', 
     )
 )
 
