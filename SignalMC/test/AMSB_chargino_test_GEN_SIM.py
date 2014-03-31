@@ -24,7 +24,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-        output = cms.untracked.int32(2)
+        output = cms.untracked.int32(25)
 )
 
 # Input source
@@ -74,7 +74,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(3),
     comEnergy = cms.double(8000.0),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_100GeV_ctau100cm.slha'),
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_100GeV_ctau10cm.slha'),
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
