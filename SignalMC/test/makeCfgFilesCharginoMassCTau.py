@@ -9,7 +9,7 @@
 
 
 
-templateFile         = "../python/AMSB_chargino_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
+templateFile         = "../python/AMSB_chargino_FilterSumPt50_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
 templateFileNoFilter = "../python/AMSB_chargino_NoFilter_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
 
 fin = open(templateFile, "r")
@@ -70,10 +70,10 @@ def makeOneConfig(newCfg, fMult, m, t):
 
 for m in mass:
     for t in ctau:
-        newCfg = cfgDir + "AMSB_chargino_" + str(m) + "GeV_ctau" + str(t) + "cm_GEN-SIM-RECO.py"
+        newCfg = cfgDir + "AMSB_chargino_" + str(m) + "GeV_ctau" + str(t) + "cm_FilterSumPt50_GEN-SIM-RECO.py"
         makeOneConfig(newCfg, fMult, m, t)  
         if m in massNoFilter:
-            newCfg = cfgDir + "AMSB_chargino_NoFilter_" + str(m) + "GeV_ctau" + str(t) + "cm_GEN-SIM-RECO.py"
+            newCfg = cfgDir + "AMSB_chargino_" + str(m) + "GeV_ctau" + str(t) + "cm_NoFilter_GEN-SIM-RECO.py"
             makeOneConfig(newCfg, fMult, m, t)  
         
         if m in massSystISR:
