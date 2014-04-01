@@ -71,11 +71,12 @@ class VertexAnalyzer : public edm::EDAnalyzer {
 
       // ----------member data ---------------------------
 
-  TH1D *demohisto;
+  TH1D *hptChiChi;  
 
   TH1D* hnVtxCharginoToNeutralino;  
   TH1D* hnVtxCharginoParent;
-  TH1D* hnGenChargino;
+  TH1D* hnGenCharginoTot;
+  TH1D* hnGenCharginoSel;
   TH1D* hMissingVtx;  
   TH2D* hDecayPos;  
   TH2D* hDecayPosDiffSmall;  
@@ -84,7 +85,12 @@ class VertexAnalyzer : public edm::EDAnalyzer {
   TH1D* hEDiffSmall;  
   TH1D* hEDiffLarge;  
   TH1D* hGenEta;
-  //  TH1D* hGenEtaSel;
+  TH1D* hGenEtaSel;
+  TH1D* hGenBetaGammaSel;
+  TH1D* hGenPtSel;
+  TH1D* hGenPSel;
+  TH1D* hGenSignSel;
+  TH1D* hGenSignFoundVtx;
   TH1D* hGenEtaFoundVtx;
 
   TH1D* hdecayLength;
@@ -126,10 +132,11 @@ VertexAnalyzer::VertexAnalyzer(const edm::ParameterSet& iConfig)
 {
    //now do what ever initialization is needed
   edm::Service<TFileService> fs;  
-  demohisto = fs->make<TH1D>("ptChiChi" , ";p_{T}^{#chi#chi}" , 100 , 0 , 500 );
+  hptChiChi = fs->make<TH1D>("ptChiChi" , ";p_{T}^{#chi#chi}" , 100 , 0 , 500 );
   hnVtxCharginoToNeutralino = fs->make<TH1D>("hnVtxCharginoToNeutralino" , ";# vertices with #chi^{#pm} parent and #chi^{0} daughter" , 10 , -0.5 , 9.5 );
   hnVtxCharginoParent = fs->make<TH1D>("hnVtxCharginoParent" , ";# vertices with #chi^{#pm} parent" , 10 , -0.5 , 9.5 );
-  hnGenChargino = fs->make<TH1D>("hnGenChargino" ,    ";# generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
+  hnGenCharginoTot = fs->make<TH1D>("hnGenCharginoTot" ,    ";# total generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
+  hnGenCharginoSel = fs->make<TH1D>("hnGenCharginoSel" ,    ";# selected generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
   hMissingVtx = fs->make<TH1D>("hMissingVtx" ,    ";# missing #chi^{#pm} vertices" , 10 , -0.5 , 9.5 );
   hDecayPos = fs->make<TH2D>("hDecayPos" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 1200, 100, 0, 800);
   hDecayPosDiffSmall = fs->make<TH2D>("hDecayPosDiffSmall" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm] (small |#DeltaE|)" , 100, 0, 1200, 100, 0, 800);
@@ -154,8 +161,13 @@ VertexAnalyzer::VertexAnalyzer(const edm::ParameterSet& iConfig)
   hctauRatio        = fs->make<TH1D>("hctauRatio", ";(c#tau)^{decay} / (c#tau)^{prod}", 100, 0.8, 1.2);
 
   hGenEta = fs->make<TH1D>("hGenEta" ,    ";#eta, generated #chi^{#pm}" , 100 , -7, 7);
-  //  hGenEtaSel = fs->make<TH1D>("hGenEtaSel" ,    ";#eta, selected #chi^{#pm}" , 100 , -7, 7);
+  hGenEtaSel = fs->make<TH1D>("hGenEtaSel" ,    ";#eta, selected #chi^{#pm}" , 100 , -7, 7);
+  hGenPtSel  = fs->make<TH1D>("hGenPtSel" ,    ";p_{T} [GeV], selected #chi^{#pm}" , 100, 0, 500);  
+  hGenPSel   = fs->make<TH1D>("hGenPSel" ,         ";p [GeV], selected #chi^{#pm}" , 100, 0, 500);  
+  hGenSignSel   = fs->make<TH1D>("hGenSignSel" ,         ";sign of PDG ID, selected #chi^{#pm}" , 5, -2.5, 2.5); 
+  hGenBetaGammaSel  = fs->make<TH1D>("hGenBetaGammaSel" ,    ";#beta #gamma, selected #chi^{#pm}" , 100, 0, 10);  
   hGenEtaFoundVtx = fs->make<TH1D>("hGenEtaFoundVtx" ,    ";#eta, generated #chi^{#pm} with decay vertex" , 100 , -7, 7);
+  hGenSignFoundVtx   = fs->make<TH1D>("hGenSignFoundVtx" ,   ";sign of PDG ID, selected with found vtx #chi^{#pm}" , 5, -2.5, 2.5); 
 
 }
 
@@ -188,7 +200,8 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    double MaxEta = 2.5;  
 
    TLorentzVector pTot(0,0,0,0);  
-   int nGenChargino = 0;  
+   int nGenCharginoTot = 0;  
+   int nGenCharginoSel = 0;  
    if (genParticles.isValid()) {
      for( size_t k = 0; k < genParticles->size(); k++ ){
        const reco::Candidate & mcParticle = (*genParticles)[k];
@@ -212,9 +225,15 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             << endl;
 
        if (abs(pdgId)==1000024) {
+	 nGenCharginoTot++;
          hGenEta->Fill(mcParticle.eta());
          if (fabs(mcParticle.eta()) < MaxEta) {
-           nGenChargino++;
+           nGenCharginoSel++;
+	   hGenEtaSel->Fill(mcParticle.eta());
+	   hGenPtSel ->Fill(mcParticle.pt());
+	   hGenPSel  ->Fill(mcParticle.p());
+	   hGenSignSel  ->Fill(pdgId / abs(pdgId));
+	   hGenBetaGammaSel->Fill(mcParticle.p4().Beta() * mcParticle.p4().Gamma());
          }
        }
 
@@ -228,7 +247,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
    }  
 
-   demohisto->Fill(pTot.Pt());
+   hptChiChi->Fill(pTot.Pt());
 
    // For SimVertex / SimTrack analysis, follow example code from:
    // https://cmssdt.cern.ch/SDT/lxr/source/PhysicsTools/HepMCCandAlgos/plugins/GenPlusSimParticleProducer.cc
@@ -380,6 +399,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		 hbetaGammaAtDecay->Fill(betaGammaAtDecay);  
 		 hbetaGammaDiff->Fill(betaGammaAtDecay / (beta*gamma));  
 		 hctauRatio->Fill(ctauRatio);  
+		 hGenSignFoundVtx->Fill(jsimtrk->type() / abs(jsimtrk->type()));  	   
 		 if (fabs(EDiff) < 1.0) {
 		   hctauDiffSmall->Fill(ctau);
 		   hEDiffSmall->Fill(EDiff);  
@@ -402,13 +422,16 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << "Found nSimTrk=" << nSimTrk 
      //	<< "; simtracksSorted->size() = " << simtracksSorted->size() 
 	<< " and nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino
-	<< ", missingVtx = " << nGenChargino - nVtxCharginoToNeutralino      
+	<< ", missingVtx = " << nGenCharginoSel - nVtxCharginoToNeutralino      
+	<< ", nGenCharginoTot = " << nGenCharginoTot
+	<< ", nGenCharginoSel = " << nGenCharginoSel
 	<< endl;  
 
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
    hnVtxCharginoParent->Fill(nVtxCharginoParent);
-   hnGenChargino->Fill(nGenChargino);
-   hMissingVtx->Fill(nGenChargino - nVtxCharginoToNeutralino);  
+   hnGenCharginoTot->Fill(nGenCharginoTot);
+   hnGenCharginoSel->Fill(nGenCharginoSel);
+   hMissingVtx->Fill(nGenCharginoSel - nVtxCharginoToNeutralino);  
 
    // testing to create a seg fault!: 
 //    TH1D* hBug = 0;
