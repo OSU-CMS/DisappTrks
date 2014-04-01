@@ -20,9 +20,16 @@ Block
 # chargino  tau  = 0.333564604793 ns 
 # chargino width = 1.97326691904e-15 GeV 
 #       PDG       Width               #
-DECAY  1000024  1.97326691904e-15 # chargino decay  
+DECAY  1000024  1.97326691904e-15 # +chargino decay  
 #   BR       NDA      ID1      ID2  
    1.0000    2     1000022    211   
+Block 
+
+
+#       PDG       Width               #
+DECAY  -1000024  1.97326691904e-15 # -chargino decay  
+#   BR       NDA      ID1      ID2  
+   1.0000    2     1000022    -211  
 Block 
 
 

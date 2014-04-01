@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # Usage:
-# /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/signalMCGenV3/CMSSW_5_3_11/src/DisappTrks/SignalMC/test > ../scripts/makeSlhaFiles.py 
+# /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/signalMCGenV3/CMSSW_5_3_11/src/DisappTrks/SignalMC/test/
+# > ../scripts/makeSlhaFiles.py 
+# > git add ../data/geant4_AMSB_chargino_*GeV_ctau*cm.slha ../data/AMSB_chargino*ctau.slha  
+
 
 import sys
 
@@ -49,9 +52,16 @@ for ctau in ctaus:
     text += "# chargino  tau  = " + str(getTau(ctau)) + " ns \n"    
     text += "# chargino width = " + str(width) + " GeV \n"    
     text += "#       PDG       Width               #\n"
-    text += "DECAY  1000024  " + str(width) + " # chargino decay  \n"  
+    text += "DECAY  1000024  " + str(width) + " # +chargino decay  \n"  
     text += "#   BR       NDA      ID1      ID2  \n"
     text += "   1.0000    2     1000022    211   \n"
+    text += "Block \n"  
+    text += "\n"  
+    text += "\n"  
+    text += "#       PDG       Width               #\n"
+    text += "DECAY  -1000024  " + str(width) + " # -chargino decay  \n"  
+    text += "#   BR       NDA      ID1      ID2  \n"
+    text += "   1.0000    2     1000022    -211  \n"
     text += "Block \n"  
     fnew.write(text)  
     fnew.close()
@@ -83,7 +93,7 @@ for m in masses:
         fin.close()
         
         newFile = "../data/geant4_AMSB_chargino_" + str(m) + "GeV_ctau" + str(ctau) + "cm.slha"  
-        print "Creating new file: " + newFile  
+        print "Creating new file: " + newFile + " with mChargino = " + mChargino + ", mNeutralino = " + mNeutralino + ", massDiff = " + str(float(mChargino) - float(mNeutralino))   
         fnew = open(newFile, "w")
         configNew  = "# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc  \n"
         configNew += '# The strings "decay", "pdg code", and "block", with correct capitalization, are used \n'
