@@ -24,7 +24,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-        output = cms.untracked.int32(25)
+        output = cms.untracked.int32(3)
 )
 
 # Input source
@@ -124,7 +124,17 @@ process.ProductionFilterSequence = cms.Sequence(process.generator+process.dichar
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-process.simulation_step = cms.Path(process.psim)  
+process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
+					      src           = cms.InputTag("g4SimHits"),   # use "famosSimHits" for FAMOS
+					      setStatus     = cms.int32(8),                # set status = 8 for GEANT GPs
+					      filter        = cms.vstring("pt > 0.0"),     # just for testing (optional)
+					      genParticles  = cms.InputTag("genParticles") # original genParticle list
+					      )
+process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)  
+process.RAWSIMoutput.outputCommands.extend( [
+	"keep *_genParticlePlusGeant_*_*",
+	] )   
+#process.simulation_step = cms.Path(process.psim)  # original
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
@@ -138,6 +148,9 @@ for path in process.paths:
 
 
 # The configuration settings below are needed for simulating long-lived charginos:  
+
+
+
 from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise  
 process = customise(process)    
 
