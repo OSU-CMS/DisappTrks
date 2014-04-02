@@ -426,6 +426,9 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	<< ", nGenCharginoTot = " << nGenCharginoTot
 	<< ", nGenCharginoSel = " << nGenCharginoSel
 	<< endl;  
+   cout << "Debugging:  missingVtx = " << nGenCharginoSel - nVtxCharginoToNeutralino <<endl; 
+
+
 
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
    hnVtxCharginoParent->Fill(nVtxCharginoParent);
