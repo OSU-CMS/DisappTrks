@@ -122,7 +122,17 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-process.simulation_step = cms.Path(process.psim)
+process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",  
+                                              src           = cms.InputTag("g4SimHits"),   # use "famosSimHits" for FAMOS  
+                                              setStatus     = cms.int32(8),                # set status = 8 for GEANT GPs  
+                                              filter        = cms.vstring("pt > 0.0"),     # just for testing (optional)  
+                                              genParticles  = cms.InputTag("genParticles") # original genParticle list  
+                                              )  
+process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)  
+process.RAWSIMoutput.outputCommands.extend( [  
+    "keep *_genParticlePlusGeant_*_*",  
+    ] )  
+
 process.digitisation_step = cms.Path(process.pdigi)
 process.L1simulation_step = cms.Path(process.SimL1Emulator)
 process.digi2raw_step = cms.Path(process.DigiToRaw)

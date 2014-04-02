@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.381.2.27 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino_cfi.py -s GEN,SIM,DIGI,L1,DIGI2RAW,HLT:7E33v2,RAW2DIGI,L1Reco,RECO --conditions START53_V27::All --beamspot Realistic8TeVCollision --datatier GEN-SIM-RECO --pileup 2012_Summer_50ns_PoissonOOTPU --datamix NODATAMIXER --eventcontent RECOSIM -n 2 --no_exec --fileout AMSB_chargino_RECO.root
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino_FilterSumPt50_cfi.py -s GEN,SIM,DIGI,L1,DIGI2RAW,HLT:7E33v2,RAW2DIGI,L1Reco,RECO --conditions START53_V27::All --beamspot Realistic8TeVCollision --datatier GEN-SIM-RECO --pileup 2012_Summer_50ns_PoissonOOTPU --datamix NODATAMIXER --eventcontent RECOSIM -n 2 --no_exec --fileout AMSB_chargino_RECO.root
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -44,7 +44,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.381.2.27 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino_cfi.py nevts:2'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino_FilterSumPt50_cfi.py nevts:2'),
     name = cms.untracked.string('PyReleaseValidation')
 )
 
@@ -130,7 +130,17 @@ process.ProductionFilterSequence = cms.Sequence(process.generator+process.dichar
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-process.simulation_step = cms.Path(process.psim)
+process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",  
+                                              src           = cms.InputTag("g4SimHits"),   # use "famosSimHits" for FAMOS  
+                                              setStatus     = cms.int32(8),                # set status = 8 for GEANT GPs  
+                                              filter        = cms.vstring("pt > 0.0"),     # just for testing (optional)  
+                                              genParticles  = cms.InputTag("genParticles") # original genParticle list  
+                                              )  
+process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)  
+process.RAWSIMoutput.outputCommands.extend( [  
+    "keep *_genParticlePlusGeant_*_*",  
+    ] )  
+
 process.digitisation_step = cms.Path(process.pdigi)
 process.L1simulation_step = cms.Path(process.SimL1Emulator)
 process.digi2raw_step = cms.Path(process.DigiToRaw)
