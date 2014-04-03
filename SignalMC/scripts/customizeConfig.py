@@ -38,7 +38,12 @@ simPartBlock += '                                              filter        = c
 simPartBlock += '                                              genParticles  = cms.InputTag("genParticles") # original genParticle list  \n'
 simPartBlock += '                                              )  \n'
 simPartBlock += 'process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)  \n'
-simPartBlock += 'process.RAWSIMoutput.outputCommands.extend( [  \n'
+if "process.RAWSIMoutput" in configNew: 
+    simPartBlock += 'process.RAWSIMoutput.outputCommands.extend( [  \n'
+elif "process.RECOSIMoutput" in configNew: 
+    simPartBlock += 'process.RECOSIMoutput.outputCommands.extend( [  \n'
+else:
+    print "Error:  could not find output module; generated config file will be invalid!"
 simPartBlock += '    "keep *_genParticlePlusGeant_*_*",  \n'
 simPartBlock += '    ] )  \n'
   
