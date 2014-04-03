@@ -258,7 +258,11 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        nGenCharginoSel++;
        hGenEtaSel->Fill(mcParticle.eta());
        
-       cout << "Found gen particle with:  status=" << status << "; pdgId=" << pdgId
+       cout << "Found gen particle with:  "
+	    << " pt = " << mcParticle.pt()
+	    << ", eta = " << mcParticle.eta()
+	    << ", status=" << status 
+	    << "; pdgId=" << pdgId
 	    << "; numdgt=" << numdgt << endl;
        TLorentzVector p4(mcParticle.px(), 
 			 mcParticle.py(), 
@@ -316,8 +320,12 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 // 	      )  daughter = daughter->daughter (0);
 
 
-       if (    daughter->pdgId()!=1000022 && 
-	   abs(daughter->pdgId())!=211) continue; 
+       if (daughter->pdgId()!=1000022 && 
+	   abs(daughter->pdgId())!=211) {
+	 cout << "DebuggingWarning:  will skip event with daughter PDG ID = " << daughter->pdgId()
+	      << " and chargino ID = " << mcParticle.pdgId() << endl;  
+	 continue; 
+       }
 
        hGenEtaFoundVtx->Fill(mcParticle.eta());  
        nVtxCharginoToNeutralino++;        
