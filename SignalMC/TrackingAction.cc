@@ -94,9 +94,10 @@ void TrackingAction::PostUserTrackingAction(const G4Track * aTrack)
 		      << ", cyl radius = " << pos.rho()
 		      << ", z = " << pos.z()
 		      << ", track id = " << id 
-		      << ", pt = " << mom.pt() 
-		      << ", eta = " << mom.eta() 
-		      << ", phi = " << mom.phi() 
+		      << ", p = "  << aTrack->GetMomentum().mag()/GeV
+		      << ", px = " << aTrack->GetMomentum().x()/GeV
+		      << ", py = " << aTrack->GetMomentum().y()/GeV
+		      << ", pz = " << aTrack->GetMomentum().z()/GeV
 		      << std::endl; 
 	  }  
     
