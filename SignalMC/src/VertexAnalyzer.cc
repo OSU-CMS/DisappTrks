@@ -71,16 +71,42 @@ class VertexAnalyzer : public edm::EDAnalyzer {
 
       // ----------member data ---------------------------
 
-  TH1D *demohisto;
+  TH1D *hptChiChi;  
 
   TH1D* hnVtxCharginoToNeutralino;  
   TH1D* hnVtxCharginoParent;
-  TH1D* hnGenChargino;
+  TH1D* hnGenCharginoTot;
+  TH1D* hnGenCharginoSel;
   TH1D* hMissingVtx;  
   TH2D* hDecayPos;  
-  TH1D* hGenEta; 
-  TH1D* hGenEtaFoundVtx; 
+  TH2D* hDecayPosDiffSmall;  
+  TH2D* hDecayPosDiffLarge;  
+  TH1D* hEDiff;  
+  TH1D* hEDiffSmall;  
+  TH1D* hEDiffLarge;  
+  TH1D* hGenEta;
+  TH1D* hGenEtaSel;
+  TH1D* hGenBetaGammaSel;
+  TH1D* hGenPtSel;
+  TH1D* hGenPSel;
+  TH1D* hGenSignSel;
+  TH1D* hGenSignFoundVtx;
+  TH1D* hGenEtaFoundVtx;
 
+  TH1D* hdecayLength;
+  TH1D* hctau;
+  TH1D* hctauWide;
+  TH1D* hctauAtDecay; 
+  TH1D* hctauAtDecayWide; 
+  TH1D* hctauDiffSmall;
+  TH1D* hctauDiffLarge;
+  TH1D* hbeta; 
+  TH1D* hgamma;  
+
+  TH1D* hbetaGammaGen;    
+  TH1D* hbetaGammaAtDecay;
+  TH1D* hbetaGammaDiff;   
+  TH1D* hctauRatio;   
 
   struct LessById {
     bool operator()(const SimTrack &tk1, const SimTrack &tk2) const { return tk1.trackId() < tk2.trackId(); }
@@ -106,14 +132,42 @@ VertexAnalyzer::VertexAnalyzer(const edm::ParameterSet& iConfig)
 {
    //now do what ever initialization is needed
   edm::Service<TFileService> fs;  
-  demohisto = fs->make<TH1D>("ptChiChi" , ";p_{T}^{#chi#chi}" , 100 , 0 , 500 );
+  hptChiChi = fs->make<TH1D>("ptChiChi" , ";p_{T}^{#chi#chi}" , 100 , 0 , 500 );
   hnVtxCharginoToNeutralino = fs->make<TH1D>("hnVtxCharginoToNeutralino" , ";# vertices with #chi^{#pm} parent and #chi^{0} daughter" , 10 , -0.5 , 9.5 );
   hnVtxCharginoParent = fs->make<TH1D>("hnVtxCharginoParent" , ";# vertices with #chi^{#pm} parent" , 10 , -0.5 , 9.5 );
-  hnGenChargino = fs->make<TH1D>("hnGenChargino" ,    ";# generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
+  hnGenCharginoTot = fs->make<TH1D>("hnGenCharginoTot" ,    ";# total generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
+  hnGenCharginoSel = fs->make<TH1D>("hnGenCharginoSel" ,    ";# selected generated #chi^{#pm}" , 10 , -0.5 , 9.5 );
   hMissingVtx = fs->make<TH1D>("hMissingVtx" ,    ";# missing #chi^{#pm} vertices" , 10 , -0.5 , 9.5 );
   hDecayPos = fs->make<TH2D>("hDecayPos" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 1200, 100, 0, 800);
+  hDecayPosDiffSmall = fs->make<TH2D>("hDecayPosDiffSmall" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm] (small |#DeltaE|)" , 100, 0, 1200, 100, 0, 800);
+  hDecayPosDiffLarge = fs->make<TH2D>("hDecayPosDiffLarge" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm] (large |#DeltaE|)" , 100, 0, 1200, 100, 0, 800);
+  hEDiff = fs->make<TH1D>("hEDiff" ,    ";(total daughters' energy) - (#chi^{#pm} energy)" , 100, -10, 10);  
+  hEDiffSmall  = fs->make<TH1D>("hEDiffSmall", ";(total daughters' energy) - (chargino energy) [GeV] (small |#DeltaE|)", 100, -10, 10);
+  hEDiffLarge  = fs->make<TH1D>("hEDiffLarge", ";(total daughters' energy) - (chargino energy) [GeV] (large |#DeltaE|)", 100, -10, 10);
+
+  hdecayLength = fs->make<TH1D>("hdecayLength", "decayLength", 100, 0, 1000);
+  hctau = fs->make<TH1D>("hctau", ";c#tau = L_{xyz} / (#beta#gamma)^{prod} [cm]", 100, 0, 1000);
+  hctauWide = fs->make<TH1D>("hctauWide", ";c#tau = L_{xyz} / (#beta#gamma)^{prod} [cm]", 100, 0, 2000);
+  hctauAtDecay = fs->make<TH1D>("hctauAtDecay", ";c#tau = L_{xyz} / (#beta#gamma)^{decay} [cm]", 100, 0, 1000);
+  hctauAtDecayWide = fs->make<TH1D>("hctauAtDecayWide", ";c#tau = L_{xyz} / (#beta#gamma)^{decay} [cm]", 100, 0, 2000);
+  hctauDiffSmall = fs->make<TH1D>("hctauDiffSmall", ";c#tau [cm] (small |#DeltaE|)", 100, 0, 1000);
+  hctauDiffLarge = fs->make<TH1D>("hctauDiffLarge", ";c#tau [cm] (large |#DeltaE|)", 100, 0, 1000);
+  hbeta = fs->make<TH1D>("hbeta", ";#beta", 110, 0, 1.1);
+  hgamma = fs->make<TH1D>("hgamma", ";#gamma", 100, 0, 10);
+
+  hbetaGammaGen     = fs->make<TH1D>("hbetaGammaGen", ";#beta#gamma (at production)", 100, 0, 10);
+  hbetaGammaAtDecay = fs->make<TH1D>("hbetaGammaAtDecay", ";#beta#gamma (at decay)", 100, 0, 10);
+  hbetaGammaDiff    = fs->make<TH1D>("hbetaGammaDiff", ";(#beta#gamma)^{decay} / (#beta#gamma)^{prod}", 100, 0.8, 1.2);
+  hctauRatio        = fs->make<TH1D>("hctauRatio", ";(c#tau)^{decay} / (c#tau)^{prod}", 100, 0.8, 1.2);
+
   hGenEta = fs->make<TH1D>("hGenEta" ,    ";#eta, generated #chi^{#pm}" , 100 , -7, 7);
+  hGenEtaSel = fs->make<TH1D>("hGenEtaSel" ,    ";#eta, selected #chi^{#pm}" , 100 , -7, 7);
+  hGenPtSel  = fs->make<TH1D>("hGenPtSel" ,    ";p_{T} [GeV], selected #chi^{#pm}" , 100, 0, 500);  
+  hGenPSel   = fs->make<TH1D>("hGenPSel" ,         ";p [GeV], selected #chi^{#pm}" , 100, 0, 500);  
+  hGenSignSel   = fs->make<TH1D>("hGenSignSel" ,         ";sign of PDG ID, selected #chi^{#pm}" , 5, -2.5, 2.5); 
+  hGenBetaGammaSel  = fs->make<TH1D>("hGenBetaGammaSel" ,    ";#beta #gamma, selected #chi^{#pm}" , 100, 0, 10);  
   hGenEtaFoundVtx = fs->make<TH1D>("hGenEtaFoundVtx" ,    ";#eta, generated #chi^{#pm} with decay vertex" , 100 , -7, 7);
+  hGenSignFoundVtx   = fs->make<TH1D>("hGenSignFoundVtx" ,   ";sign of PDG ID, selected with found vtx #chi^{#pm}" , 5, -2.5, 2.5); 
 
 }
 
@@ -143,8 +197,11 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //   iEvent.getByLabel(genParticleTag_,genParticles); 
    iEvent.getByLabel("genParticles",genParticles);
 
+   double MaxEta = 2.5;  
+
    TLorentzVector pTot(0,0,0,0);  
-   int nGenChargino = 0;  
+   int nGenCharginoTot = 0;  
+   int nGenCharginoSel = 0;  
    if (genParticles.isValid()) {
      for( size_t k = 0; k < genParticles->size(); k++ ){
        const reco::Candidate & mcParticle = (*genParticles)[k];
@@ -156,25 +213,30 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        if (!(abs(pdgId)==1000022 ||
              abs(pdgId)==1000024)) continue;
 
-       if (!(status==3)) continue;  // The standard
-       //       if (!(status==1)) continue;  // Test for particle gun 
-
+       if (!(status==3)) continue;  
 
        cout << "Found gen particle with:  status=" << status << "; pdgId=" << pdgId
-	    << "; numdgt=" << numdgt 
-	    << ", px = " << mcParticle.px()
-	    << ", py = " << mcParticle.py()
-	    << ", pz = " << mcParticle.pz()
-	    << ", energy = " << mcParticle.energy()
-	    << ", eta = " << mcParticle.eta()
-	    << endl;
+            << "; numdgt=" << numdgt
+            << ", px = " << mcParticle.px()
+            << ", py = " << mcParticle.py()
+            << ", pz = " << mcParticle.pz()
+            << ", energy = " << mcParticle.energy()
+            << ", eta = " << mcParticle.eta()
+            << endl;
 
        if (abs(pdgId)==1000024) {
-	 hGenEta->Fill(mcParticle.eta());  
-	 if (fabs(mcParticle.eta()) < 5.0) {
-	   nGenChargino++;   
-	 }
+	 nGenCharginoTot++;
+         hGenEta->Fill(mcParticle.eta());
+         if (fabs(mcParticle.eta()) < MaxEta) {
+           nGenCharginoSel++;
+	   hGenEtaSel->Fill(mcParticle.eta());
+	   hGenPtSel ->Fill(mcParticle.pt());
+	   hGenPSel  ->Fill(mcParticle.p());
+	   hGenSignSel  ->Fill(pdgId / abs(pdgId));
+	   hGenBetaGammaSel->Fill(mcParticle.p4().Beta() * mcParticle.p4().Gamma());
+         }
        }
+
        TLorentzVector p4(mcParticle.px(), 
 			 mcParticle.py(), 
 			 mcParticle.pz(), 
@@ -185,7 +247,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
    }  
 
-   demohisto->Fill(pTot.Pt());
+   hptChiChi->Fill(pTot.Pt());
 
    // For SimVertex / SimTrack analysis, follow example code from:
    // https://cmssdt.cern.ch/SDT/lxr/source/PhysicsTools/HepMCCandAlgos/plugins/GenPlusSimParticleProducer.cc
@@ -280,17 +342,75 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	   
 	   // Now note that vtx.parentIndex() is NOT an index, it's a track id, so I have to search for it
 	   unsigned int idx = vtx.parentIndex();
+	   if (trkType==1000022) cout << "  Found a parent of 1000022 with index " << idx << endl;  
 	   for (SimTrackContainer::const_iterator jsimtrk = simtracks->begin();  // loop over tracks to find parent  
 		jsimtrk != simtracks->end(); ++jsimtrk) {
 	     if (jsimtrk->trackId() != idx) continue;  
 	     if (abs(jsimtrk->type())==1000024) {
-	       cout << "  Found vertex with parent " << jsimtrk->type()
-		    << " and daughter " << isimtrk->type()  
-		    << endl;  
-	       if (trkType==1000022 && fabs(jsimtrk->momentum().eta())<5.0) {
+	       cout << "  Found vertex with parent = " << jsimtrk->type()
+		    << " and daughter = " << isimtrk->type()  
+		    << " mother energy = " << jsimtrk->momentum().E()
+		    << ", daughter energy = " << isimtrk->momentum().energy()  
+		    << "  vertex at perp = " << vtx.position().rho()
+		    << ", z = " << vtx.position().z() 
+		    << endl;  	       
+	       if (trkType==1000022 && fabs(jsimtrk->momentum().eta())<MaxEta) {  
+		 double daughterTotE = 0;  
+		 TLorentzVector p4DauTot(0,0,0,0);  
+		 for (SimTrackContainer::const_iterator ksistrk = simtracks->begin();
+		      ksistrk != simtracks->end(); ++ksistrk) {
+		   // loop over all tracks to check which ones share a common vertex
+		   if (ksistrk->vertIndex() == isimtrk->vertIndex()) {
+		     daughterTotE += ksistrk->momentum().energy();  
+		     p4DauTot += TLorentzVector(ksistrk->momentum().x(), 
+						ksistrk->momentum().y(), 
+						ksistrk->momentum().z(), 
+						ksistrk->momentum().E());  
+		     cout << "  Adding daughter energy " << ksistrk->momentum().energy()
+			  << " for daughter " << ksistrk->type()
+			  << endl;  
+		   }		   
+		 }  
+		 cout << "  Found a chargino->neutralino decay vertex"
+		      << ", with mother energy = " << jsimtrk->momentum().E()
+		      << ", total daughter energy = " << daughterTotE  
+		      << endl;  
+		 const SimVertex &srcVtx = (*simvertices)[jsimtrk->vertIndex()];
+		 TVector3 source (srcVtx.position().x(), srcVtx.position().y(), srcVtx.position().z());
+		 TVector3 sink   (vtx.position().x(), vtx.position().y(), vtx.position().z());
+		 double decayLength = (sink - source).Mag ();
+		 double ctau = (sink - source).Mag () / (jsimtrk->momentum().Beta() * jsimtrk->momentum().Gamma());
+		 double beta = jsimtrk->momentum().Beta();
+		 double gamma = jsimtrk->momentum().Gamma();  
+		 double EDiff = daughterTotE - jsimtrk->momentum().E();
+		 double betaGammaAtDecay = p4DauTot.Beta() * p4DauTot.Gamma();  
+		 double ctauAtDecay = (sink - source).Mag () / betaGammaAtDecay;  
+		 double ctauRatio = ctauAtDecay / ctau;  
+		 hEDiff->Fill(EDiff); 
 		 hDecayPos->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
+		 hdecayLength->Fill(decayLength);  
+		 hctau->Fill(ctau);
+		 hctauWide->Fill(ctau);
+		 hctauAtDecay->Fill(ctauAtDecay);
+		 hctauAtDecayWide->Fill(ctauAtDecay);
+		 hbeta->Fill(beta);
+		 hgamma->Fill(gamma);  
+		 hbetaGammaGen->Fill(beta * gamma);  
+		 hbetaGammaAtDecay->Fill(betaGammaAtDecay);  
+		 hbetaGammaDiff->Fill(betaGammaAtDecay / (beta*gamma));  
+		 hctauRatio->Fill(ctauRatio);  
+		 hGenSignFoundVtx->Fill(jsimtrk->type() / abs(jsimtrk->type()));  	   
+		 if (fabs(EDiff) < 1.0) {
+		   hctauDiffSmall->Fill(ctau);
+		   hEDiffSmall->Fill(EDiff);  
+		   hDecayPosDiffSmall->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
+		 } else {
+		   hctauDiffLarge->Fill(ctau);
+		   hEDiffLarge->Fill(EDiff);  
+		   hDecayPosDiffLarge->Fill(fabs(vtx.position().z()), fabs(vtx.position().rho()));  
+		 }
 		 nVtxCharginoToNeutralino++; 
-		 hGenEtaFoundVtx->Fill(jsimtrk->momentum().eta());  
+		 hGenEtaFoundVtx->Fill(jsimtrk->momentum().eta());     
 	       }
 	     }
 	   }
@@ -298,17 +418,23 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	 //	 }
        }
    }
-   
+
    cout << "Found nSimTrk=" << nSimTrk 
      //	<< "; simtracksSorted->size() = " << simtracksSorted->size() 
 	<< " and nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino
-	<< ", missingVtx = " << nGenChargino - nVtxCharginoToNeutralino 
+	<< ", missingVtx = " << nGenCharginoSel - nVtxCharginoToNeutralino      
+	<< ", nGenCharginoTot = " << nGenCharginoTot
+	<< ", nGenCharginoSel = " << nGenCharginoSel
 	<< endl;  
+   cout << "Debugging:  missingVtx = " << nGenCharginoSel - nVtxCharginoToNeutralino <<endl; 
+
+
 
    hnVtxCharginoToNeutralino->Fill(nVtxCharginoToNeutralino);
    hnVtxCharginoParent->Fill(nVtxCharginoParent);
-   hnGenChargino->Fill(nGenChargino);
-   hMissingVtx->Fill(nGenChargino - nVtxCharginoToNeutralino);  
+   hnGenCharginoTot->Fill(nGenCharginoTot);
+   hnGenCharginoSel->Fill(nGenCharginoSel);
+   hMissingVtx->Fill(nGenCharginoSel - nVtxCharginoToNeutralino);  
 
    // testing to create a seg fault!: 
 //    TH1D* hBug = 0;
