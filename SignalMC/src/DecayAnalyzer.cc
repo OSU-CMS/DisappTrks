@@ -80,7 +80,6 @@ class DecayAnalyzer : public edm::EDAnalyzer {
 
   TH1D* hnCharginoNoDecay;
   TH1D* hMissingVtx;  
-  TH2D* hDecayPos;  
   TH1D* hnumdgt;  
 
   TH1D* hvxy; 		
@@ -112,6 +111,10 @@ class DecayAnalyzer : public edm::EDAnalyzer {
 
   edm::InputTag genParticleTag_;  
 
+  bool isParticleGun_;  
+  double MaxEta_;  
+
+
   struct LessById {
     bool operator()(const SimTrack &tk1, const SimTrack &tk2) const { return tk1.trackId() < tk2.trackId(); }
     bool operator()(const SimTrack &tk1, unsigned int    id ) const { return tk1.trackId() < id;            }
@@ -137,6 +140,8 @@ DecayAnalyzer::DecayAnalyzer(const edm::ParameterSet& iConfig)
 {
 
   genParticleTag_ = iConfig.getParameter<edm::InputTag>("genParticleTag");
+  isParticleGun_  = iConfig.getUntrackedParameter<bool>("isParticleGun", false);  
+  MaxEta_         = iConfig.getUntrackedParameter<double>("MaxEta", 2.5);  
   
   
   //now do what ever initialization is needed
@@ -153,7 +158,6 @@ DecayAnalyzer::DecayAnalyzer(const edm::ParameterSet& iConfig)
   hGenEtaFoundVtx = fs->make<TH1D>("hGenEtaFoundVtx" ,    ";#eta, generated #chi^{#pm} with decay vertex" , 100 , -7, 7);
 
   hnCharginoNoDecay = fs->make<TH1D>("hnCharginoNoDecay" ,    ";# generated #chi^{#pm} with no decay" , 10 , -0.5 , 9.5 );
-  hDecayPos = fs->make<TH2D>("hDecayPos" ,    "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 1200, 100, 0, 800);
   hnumdgt = fs->make<TH1D>("hnumdgt" ,    ";# daughters of #chi^{#pm}" , 10 , -0.5 , 9.5 );
 
   hvxy = fs->make<TH1D>("hvxy", "vxy", 100, 0, 5);
@@ -225,8 +229,6 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    double decayLength;
    double ctau;  
 
-   double MaxEta = 2.5;  
-
    cout << "checking gen particles, size = " << genParticles->size() << endl;  
 
 
@@ -239,11 +241,19 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        int numdgt = mcParticle.numberOfDaughters();
 
        // copy code from BEANmaker.cc:
-       if (!((mcParticle.status()==3 &&                // BNstop must be from a status 3 particle, either:  
-	      (abs (mcParticle.pdgId ()) == 1000006 || // stop, 
-	       abs (mcParticle.pdgId ()) == 1000015 || // stau, 
-	       abs (mcParticle.pdgId ()) == 1000024))))  // or chargino 
-	 continue;
+       if (!isParticleGun_) {
+	 if (!((mcParticle.status()==3 &&                // BNstop must be from a status 3 particle, either:  
+		(abs (mcParticle.pdgId ()) == 1000006 || // stop, 
+		 abs (mcParticle.pdgId ()) == 1000015 || // stau, 
+		 abs (mcParticle.pdgId ()) == 1000024))))  // or chargino 
+	   continue;
+       } else {
+	 if (!((mcParticle.status()==1 &&                // particle gun particle should be status 1  
+		(abs (mcParticle.pdgId ()) == 1000006 || // stop, 
+		 abs (mcParticle.pdgId ()) == 1000015 || // stau, 
+		 abs (mcParticle.pdgId ()) == 1000024))))  // or chargino 
+	   continue;
+       }
 
 //        if (!(abs(pdgId)==1000022 ||
 //              abs(pdgId)==1000024)) continue;
@@ -253,7 +263,7 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        nGenCharginoTot++;   
 
        hGenEta->Fill(mcParticle.eta());
-       if (fabs(mcParticle.eta()) > MaxEta) continue;  
+       if (fabs(mcParticle.eta()) > MaxEta_) continue;  
        
        nGenCharginoSel++;
        hGenEtaSel->Fill(mcParticle.eta());
@@ -379,6 +389,10 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	 ctau         = -99;
 // 	 betaAtDecay  = -99;
 // 	 gammaAtDecay = -99;
+	 decayVx  = -99;
+	 decayVy  = -99;
+	 decayVz  = -99;
+	 decayVxy = -99;
        } else { 
 	 decayLength = (sink - source).Mag ();
 	 ctau = (sink - source).Mag () / (mcParticle.p4 ().Beta () * mcParticle.p4 ().Gamma ());
@@ -464,6 +478,7 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    hnGenCharginoTot->Fill(nGenCharginoTot);  
    hnGenCharginoSel->Fill(nGenCharginoSel);  
    hnCharginoNoDecay->Fill(nCharginoNoDecay);  
+   hMissingVtx->Fill(nGenCharginoSel - nVtxCharginoToNeutralino);  
 
    cout << "Found" 
 	<< " nVtxCharginoToNeutralino = " << nVtxCharginoToNeutralino

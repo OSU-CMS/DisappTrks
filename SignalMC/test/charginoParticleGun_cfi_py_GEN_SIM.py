@@ -27,7 +27,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+        input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -70,7 +70,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 process.generator = cms.EDProducer("FlatRandomPtGunProducer",
     pythiaPylistVerbosity = cms.untracked.int32(0),
     slhaFile = cms.untracked.string('Configuration/Generator/data/AMSB_chargino_100GeV_Isajet780.slha'),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'), 
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'),  
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
@@ -83,7 +83,7 @@ process.generator = cms.EDProducer("FlatRandomPtGunProducer",
         MaxPt = cms.double(100.01),
         MinPt = cms.double(99.99),
         PartID = cms.vint32(1000024),
-        MaxEta = cms.double(2.5),
+        MaxEta = cms.double(3.0),
         MaxPhi = cms.double(3.14159265359),
         MinEta = cms.double(-2.5),
         MinPhi = cms.double(-3.14159265359)
@@ -98,7 +98,19 @@ process.generator = cms.EDProducer("FlatRandomPtGunProducer",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-process.simulation_step = cms.Path(process.psim)
+
+process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
+                                              src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
+                                              setStatus = cms.int32(8), # set status = 8 for GEANT GPs
+                                              filter = cms.vstring("pt > 0.0"), # just for testing (optional)
+                                              genParticles = cms.InputTag("genParticles") # original genParticle list
+                                      )
+process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
+process.RAWSIMoutput.outputCommands.extend( [
+"keep *_genParticlePlusGeant_*_*",
+] ) 
+
+# process.simulation_step = cms.Path(process.psim) # original
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
@@ -115,10 +127,9 @@ process = customise(process)
 
 
 
-# Testing:  
-#process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_5nsDefault.root')
-
-process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_5nsWithDecayFlagsOn.root') 
+# # Default with fixes:    
+#process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_AllFixes.root') 
+process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_BadLogic.root') # Compile StackingAction with old logic
 process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInTracker = cms.untracked.bool(True)
 process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInCalo    = cms.untracked.bool(True)
 process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(True)
@@ -127,10 +138,20 @@ process.g4SimHits.SteppingAction.MaxTrackTimes = cms.vdouble(2000.0, 500.0, 500.
 process.g4SimHits.StackingAction.MaxTrackTimes = cms.vdouble(2000.0, 500.0, 500.0)
 process.common_maximum_time.MaxTrackTimes      = cms.vdouble(2000.0, 500.0, 500.0)
 
-## process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_5nsWithDecayFlagsOnCodeFixed.root')   # Must fix code in StackingAction.cc and then recompile!
-## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInTracker = cms.untracked.bool(True)
-## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInCalo    = cms.untracked.bool(True)
-## process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(True)
+
+
+# process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_NoSavePrimary.root')   # Must fix code in StackingAction.cc and then recompile!
+# process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInTracker = cms.untracked.bool(True)
+# process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInCalo    = cms.untracked.bool(False)
+# process.g4SimHits.StackingAction.SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(False)
+
+
+
+# process.RAWSIMoutput.fileName = cms.untracked.string('charginoPartGun_GEN_SIM_BadTrackTimes.root') 
+# process.g4SimHits.SteppingAction.MaxTrackTimes = cms.vdouble(2000.0, 0.0, 0.0)
+# process.g4SimHits.StackingAction.MaxTrackTimes = cms.vdouble(2000.0, 0.0, 0.0)
+# process.common_maximum_time.MaxTrackTimes      = cms.vdouble(2000.0, 0.0, 0.0)
+
 
 # Dump config file:  
 outfile = open('dumpedConfig_GEN_SIM.py','w'); print >> outfile,process.dumpPython(); outfile.close()
