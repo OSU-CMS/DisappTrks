@@ -1,31 +1,39 @@
 #!/usr/bin/env bash
 
 # Usage:
-# /afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC> 
-# > scripts/resubmitAll.sh  
+# /afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/test> 
+# > ../scripts/resubmitAll.sh  
 
 # Take directories from multicrabAuto.cfg  
 
+# for dir in \
+# AMSB_chargino_100GeV_ctau1000cm_FilterSumPt50    
 
 for dir in \
-AMSBChargino_SystISRDn_mGrav150K_0p5ns     \
-AMSBChargino_SystISRDn_mGrav150K_1ns     \
-AMSBChargino_SystISRDn_mGrav150K_5ns     \
-AMSBChargino_SystISRDn_mGrav75K_0p5ns     \
-AMSBChargino_SystISRDn_mGrav75K_1ns     \
-AMSBChargino_SystISRDn_mGrav75K_5ns     \
-AMSBChargino_SystISRUp_mGrav150K_0p5ns     \
-AMSBChargino_SystISRUp_mGrav150K_1ns     \
-AMSBChargino_SystISRUp_mGrav150K_5ns     \
-AMSBChargino_SystISRUp_mGrav75K_0p5ns     \
-AMSBChargino_SystISRUp_mGrav75K_1ns     \
-AMSBChargino_SystISRUp_mGrav75K_5ns     \
-AMSBChargino_mGrav150K_0p5ns     \
-AMSBChargino_mGrav150K_1ns     \
-AMSBChargino_mGrav150K_5ns     \
-AMSBChargino_mGrav75K_0p5ns     \
-AMSBChargino_mGrav75K_1ns     \
-AMSBChargino_mGrav75K_5ns       
+AMSB_chargino_100GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_100GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_100GeV_ctau10cm_FilterSumPt50    \
+AMSB_chargino_200GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_200GeV_ctau1000cm_NoFilter    \
+AMSB_chargino_200GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_200GeV_ctau100cm_NoFilter    \
+AMSB_chargino_200GeV_ctau10cm_FilterSumPt50    \
+AMSB_chargino_200GeV_ctau10cm_NoFilter    \
+AMSB_chargino_300GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_300GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_300GeV_ctau10cm_FilterSumPt50    \
+AMSB_chargino_400GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_400GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_400GeV_ctau10cm_FilterSumPt50    \
+AMSB_chargino_500GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_500GeV_ctau1000cm_NoFilter    \
+AMSB_chargino_500GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_500GeV_ctau100cm_NoFilter    \
+AMSB_chargino_500GeV_ctau10cm_FilterSumPt50    \
+AMSB_chargino_500GeV_ctau10cm_NoFilter    \
+AMSB_chargino_600GeV_ctau1000cm_FilterSumPt50    \
+AMSB_chargino_600GeV_ctau100cm_FilterSumPt50    \
+AMSB_chargino_600GeV_ctau10cm_FilterSumPt50
 do
     echo "Doing dir: $dir" 
     crab -status -c $dir 
@@ -33,7 +41,7 @@ do
 #    crab -status -c $dir  
 #    crab -getoutput -c $dir   # Do twice, since sometimes the first time doesn't work.  
     crab -status -c $dir  >  $dir/status.log 
-    cat $dir/status.log | scripts/resubmitJobs.pl > resubmitOne.sh     # can use resubmitStuckJobs.pl or resubmitStillbornJobs.pl instead
+    cat $dir/status.log | ../scripts/resubmitJobs.pl > resubmitOne.sh     # can use resubmitStuckJobs.pl or resubmitStillbornJobs.pl instead
     cp resubmitOne.sh $dir/ 
     chmod +x resubmitOne.sh
     ./resubmitOne.sh  >  $dir/resubmitOne.log 
