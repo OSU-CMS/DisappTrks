@@ -1597,16 +1597,57 @@ cutMCPartSusyFilter = cms.PSet (
 #-- Cuts on BNStop         --#
 ##############################
 
+cutStopPt50 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopEta2p5 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(eta) < 2.5"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopDauIdNotPion = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(daughter0Id) != 211"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutStopCtauZero = cms.PSet (
     inputCollection = cms.string("stops"),
     cutString = cms.string("ctau == 0"),
-    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    numberRequired = cms.string(">= 1"),  
     )
-
+cutStopCtauNegative = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("ctau < 0"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutStopCtauNonZero = cms.PSet (
     inputCollection = cms.string("stops"),
     cutString = cms.string("ctau > 0"),
-    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopDecayLengthNonZeroN2 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("decayLength > 0"),
+    numberRequired = cms.string(">= 2"),  
+    )
+cutStopDecayLengthTrackerN2 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVxy) < 110 && fabs(decayVz) < 280"),
+    numberRequired = cms.string(">= 2"),  
+    )
+cutStopDecayLengthZeroVeto = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("decayLength == 0"),
+    numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True), 
+    )
+cutStopDecayLengthOutsideTrackerVeto = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVxy) > 110 || fabs(decayVz) > 280"),
+    numberRequired = cms.string("= 0"),  
+    isVeto = cms.bool(True), 
     )
 
 
