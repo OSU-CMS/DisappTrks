@@ -306,6 +306,69 @@ for i in xrange(len(ZtoMuMuFakeTrkNHits4NoEcalo.cuts) - 1, -1, -1):
         del ZtoMuMuFakeTrkNHits4NoEcalo.cuts[i]
 
 
+ZtoMuMuIsrStudy = cms.PSet(
+    # Follow selection of AN-2013-059, v4,
+    # http://cms.cern.ch/iCMS/jsp/openfile.jsp?tp=draft&files=AN2013_059_v4.pdf 
+    name = cms.string("ZtoMuMuIsrStudy"),
+    triggers = triggerDoubleMu,   
+    cuts =
+    cutsStdClean +
+    cms.VPSet (
+         cutMuonPairPt20, 
+         cutMuonPairEta24,
+         cutMuonPairTightID,
+         cutMuonPairPFIso15,  # DeltaR<0.4 instead of 0.3  
+         cutMuMuChargeProduct,
+         cutMuMuInvMass81_101,
+         cutMuonVetoThird,
+         cutJetPt30Filter,
+         cutJetEta2p5Filter,
+         cutJetIDLooseFilter, 
+         cutJetBeta0p2Filter,
+         cutJetDeltaRMuonPt20Filter, 
+         cutJetBTagCSVMediumVeto,
+         )
+    )   
+
+ZtoMuMuIsrStudyNJet1Min = copy.deepcopy(ZtoMuMuIsrStudy) 
+ZtoMuMuIsrStudyNJet1Min.name = cms.string("ZtoMuMuIsrStudyNJet1Min")
+ZtoMuMuIsrStudyNJet1Min.cuts.append(cutNJet1Min)  
+
+ZtoMuMuIsrStudyNJet1Exact = copy.deepcopy(ZtoMuMuIsrStudy) 
+ZtoMuMuIsrStudyNJet1Exact.name = cms.string("ZtoMuMuIsrStudyNJet1Exact")
+ZtoMuMuIsrStudyNJet1Exact.cuts.append(cutNJet1Exact)  
+
+ZtoMuMuIsrStudyNJet2Exact = copy.deepcopy(ZtoMuMuIsrStudy) 
+ZtoMuMuIsrStudyNJet2Exact.name = cms.string("ZtoMuMuIsrStudyNJet2Exact")
+ZtoMuMuIsrStudyNJet2Exact.cuts.append(cutNJet2Exact)  
+
+ZtoMuMuIsrStudyFilterMCZ = copy.deepcopy(ZtoMuMuIsrStudy) 
+ZtoMuMuIsrStudyFilterMCZ.name = cms.string("ZtoMuMuIsrStudyFilterMCZ")
+ZtoMuMuIsrStudyFilterMCZ.cuts.append(cutMCPartStatus3Filter) 
+ZtoMuMuIsrStudyFilterMCZ.cuts.append(cutMCPartPdgZ)  
+
+ZtoMuMuIsrStudyZPt30 = copy.deepcopy(ZtoMuMuIsrStudy) 
+ZtoMuMuIsrStudyZPt30.name = cms.string("ZtoMuMuIsrStudyZPt30")
+ZtoMuMuIsrStudyZPt30.cuts.append(cutMCPartStatus3Filter) 
+ZtoMuMuIsrStudyZPt30.cuts.append(cutMCPartPdgZ)   
+ZtoMuMuIsrStudyZPt30.cuts.append(cutMCPartPt30)  
+
+ZtoMuMuIsrStudyNJet1MinFilterMCZ = copy.deepcopy(ZtoMuMuIsrStudyNJet1Min) 
+ZtoMuMuIsrStudyNJet1MinFilterMCZ.name = cms.string("ZtoMuMuIsrStudyNJet1MinFilterMCZ")
+ZtoMuMuIsrStudyNJet1MinFilterMCZ.cuts.append(cutMCPartStatus3Filter)
+ZtoMuMuIsrStudyNJet1MinFilterMCZ.cuts.append(cutMCPartPdgZ)   
+
+ZtoMuMuIsrStudyNJet1ExactFilterMCZ = copy.deepcopy(ZtoMuMuIsrStudyNJet1Exact) 
+ZtoMuMuIsrStudyNJet1ExactFilterMCZ.name = cms.string("ZtoMuMuIsrStudyNJet1ExactFilterMCZ")
+ZtoMuMuIsrStudyNJet1ExactFilterMCZ.cuts.append(cutMCPartStatus3Filter)  
+ZtoMuMuIsrStudyNJet1ExactFilterMCZ.cuts.append(cutMCPartPdgZ)  
+
+ZtoMuMuIsrStudyNJet2ExactFilterMCZ = copy.deepcopy(ZtoMuMuIsrStudyNJet2Exact) 
+ZtoMuMuIsrStudyNJet2ExactFilterMCZ.name = cms.string("ZtoMuMuIsrStudyNJet2ExactFilterMCZ")
+ZtoMuMuIsrStudyNJet2ExactFilterMCZ.cuts.append(cutMCPartStatus3Filter)  
+ZtoMuMuIsrStudyNJet2ExactFilterMCZ.cuts.append(cutMCPartPdgZ)  
+
+
 
 WtoMuNuTrackFullPreSel = cms.PSet(
     name = cms.string("WtoMuNuTrackFullPreSel"),
