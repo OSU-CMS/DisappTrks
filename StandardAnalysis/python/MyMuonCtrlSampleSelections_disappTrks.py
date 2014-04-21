@@ -242,9 +242,6 @@ ZtoMuMu = cms.PSet(
          cutMuonPairEta,
          cutMuonPairTightID,
          cutMuonPairPFIso,
-         cutMuonPairD0,
-         cutMuonPairDZ,
-#         cutElecVeto,
          cutMuMuChargeProduct,
          cutMuMuInvMass,
 #         cutMuTrkDeltaRSame,  # apply this so that selected tracks are associated with muons  
