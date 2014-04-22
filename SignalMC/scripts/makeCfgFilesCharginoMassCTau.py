@@ -7,6 +7,15 @@
 # DisappTrks/SignalMC/test > makeCfgFilesCharginoMassCTau.py 
 # DisappTrks/SignalMC/test > multicrab -create -cfg multicrabAuto.cfg 2>&1 | tee multicrabCreate.log
 
+from optparse import OptionParser
+
+
+parser = OptionParser()
+parser.add_option("-o", "--outputName", dest="outputName", default="multicrab.cfg", 
+                  help="name of output multicrab.cfg file")
+
+(arguments, args) = parser.parse_args()
+
 
 
 templateFile         = "../python/AMSB_chargino_FilterSumPt50_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
@@ -28,6 +37,7 @@ mass = [
 
 ctau = [
     10,
+    30,
     100, 
     1000
 ]
@@ -43,7 +53,7 @@ massSystISR = [
     ]
     
 
-fMult = open("multicrabAuto.cfg", "w")  
+fMult = open(arguments.outputName, "w")  
 fMult.write("[MULTICRAB]\n")  
 fMult.write("cfg=crab_AMSB_chargino.cfg\n\n")  
 fMult.write("[COMMON]\n\n")  
@@ -97,6 +107,8 @@ for m in mass:
             fMult.write("USER.publish_data_name = AMSBChargino_SystISRDn_mGrav" + m + "_" + t + "ns" + version + "\n\n")
 
 fMult.close()  
+print "Finished writing multicrab config file: " + arguments.outputName
+
 
 
 
