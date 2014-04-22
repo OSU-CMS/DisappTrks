@@ -34,6 +34,10 @@ triggersSingleMu = cms.vstring(
     #    "HLT_IsoMu24_v",  # Not available in 2012A  
     )
 
+triggerDoubleMu = cms.vstring(
+    "HLT_Mu17_Mu8_v",  
+    )
+
 triggersJetMetOrSingleMu = copy.deepcopy(triggersJetMet)  
 triggersJetMetOrSingleMu.extend(["HLT_IsoMu24_eta2p1_v"])  
 
@@ -254,6 +258,11 @@ cutJetEta = cms.PSet (
     cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
     )
+cutJetEta2p5Filter = cms.PSet (  # Use to filter jet collection but not reject events  
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) < 2.5"), 
+    numberRequired = cms.string(">= 0"),
+    )
 cutJetEta2p6Filter = cms.PSet (  # Use to filter jet collection but not reject events  
     inputCollection = cms.string("jets"),
     cutString = cms.string("fabs(eta) < 2.6"),  # take from AN2012_421_v6, p. 2  
@@ -296,6 +305,17 @@ cutJetIDLooseFilter = cms.PSet (
     cutString = cms.string("jetIDLoose > 0"),
     numberRequired = cms.string(">= 0"),
     )
+cutJetBeta0p2Filter = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("beta > 0.2"),
+    numberRequired = cms.string(">= 0"),
+    )
+cutJetBTagCSVMediumVeto = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("btagCombinedSecVertex > 0.679"),  # From https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagPerformanceOP#B_tagging_Operating_Points_for_5  
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True), 
+    )
 cutJetPt30NJet1 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 30"),
@@ -315,6 +335,21 @@ cutJetPt30NJet4 = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 4"),
+    )
+cutNJet1Min = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutNJet1Exact = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
+    )
+cutNJet2Exact = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 2"),
     )
 cutNJets = cms.PSet (
     inputCollection = cms.string("jets"),
@@ -344,6 +379,11 @@ cutJetNoiseNeuHad = cms.PSet (
 cutJetNoiseNeuHad95Filter = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("neutralHadronEnergyFraction < 0.95"),
+    numberRequired = cms.string(">= 0"),
+    )
+cutJetDeltaRMuonPt20Filter = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("deltaRMuonPt20 > 0.4"),
     numberRequired = cms.string(">= 0"),
     )
 ##############################
@@ -1056,6 +1096,11 @@ cutMuonPairEta = cms.PSet (
     cutString = cms.string("fabs(eta) < 2.5"),
     numberRequired = cms.string(">= 2"),
     )
+cutMuonPairEta24 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("fabs(eta) < 2.4"),
+    numberRequired = cms.string(">= 2"),
+    )
 cutMuonPairTightID = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("tightID > 0"),
@@ -1069,6 +1114,11 @@ cutMuonPairDetIso = cms.PSet (
 cutMuonPairPFIso = cms.PSet (
     inputCollection = cms.string("muons"),
     cutString = cms.string("relPFdBetaIso < 0.12"),
+    numberRequired = cms.string(">= 2"),
+    )
+cutMuonPairPFIso15 = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("relPFdBetaIso < 0.15"),
     numberRequired = cms.string(">= 2"),
     )
 cutMuonPairD0 = cms.PSet (
@@ -1091,10 +1141,20 @@ cutMuMuInvMass = cms.PSet (
     cutString = cms.string("invMass > 80 & invMass < 100"),
     numberRequired = cms.string(">= 1"),
     )
+cutMuMuInvMass81_101 = cms.PSet (
+    inputCollection = cms.string("muon-muon pairs"),
+    cutString = cms.string("invMass > 81 & invMass < 101"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMuMuChargeProduct = cms.PSet (
     inputCollection = cms.string("muon-muon pairs"),
     cutString = cms.string("chargeProduct == -1"),
     numberRequired = cms.string(">= 1"),
+    )
+cutMuonVetoThird =   cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("pt > 10"),
+    numberRequired = cms.string("<= 2"),  
     )
 ################################
 #-- Cuts on Muon-Track Pairs --#
@@ -1557,7 +1617,7 @@ cutTauTrkDeltaR = cms.PSet(
 #-- Cuts on mcparticles    --#
 ##############################
 
-cutMCPartPdgZ0 = cms.PSet (
+cutMCPartPdgZFilter = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("id == 23"),
     numberRequired = cms.string(">= 0"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
@@ -1592,21 +1652,67 @@ cutMCPartSusyFilter = cms.PSet (
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
     numberRequired = cms.string(">= 0"),  
     )
+cutMCPartPt30 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),  
+    )
 
 ##############################
 #-- Cuts on BNStop         --#
 ##############################
 
+cutStopPt50 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopEta2p5 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(eta) < 2.5"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopDauIdNotPion = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(daughter0Id) != 211"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutStopCtauZero = cms.PSet (
     inputCollection = cms.string("stops"),
     cutString = cms.string("ctau == 0"),
-    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    numberRequired = cms.string(">= 1"),  
     )
-
+cutStopCtauNegative = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("ctau < 0"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutStopCtauNonZero = cms.PSet (
     inputCollection = cms.string("stops"),
     cutString = cms.string("ctau > 0"),
-    numberRequired = cms.string(">= 1"),  # Require 0 so that no events are rejected, but only Z's will be plotted in mcparticles histograms  
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopDecayLengthNonZeroN2 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("decayLength > 0"),
+    numberRequired = cms.string(">= 2"),  
+    )
+cutStopDecayLengthTrackerN2 = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVxy) < 110 && fabs(decayVz) < 280"),
+    numberRequired = cms.string(">= 2"),  
+    )
+cutStopDecayLengthZeroVeto = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("decayLength == 0"),
+    numberRequired = cms.string("= 0"),
+    isVeto = cms.bool(True), 
+    )
+cutStopDecayLengthOutsideTrackerVeto = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVxy) > 110 || fabs(decayVz) > 280"),
+    numberRequired = cms.string("= 0"),  
+    isVeto = cms.bool(True), 
     )
 
 

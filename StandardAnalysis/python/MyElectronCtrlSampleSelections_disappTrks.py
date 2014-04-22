@@ -79,7 +79,7 @@ SingleElecTrigTrkPreselNoElecVetoMet = cms.PSet( # Use for Monojet trigger effic
 ##       cutJetLeadingPt,
 ##       cutMET,
 ##       ) + cutsTrkPresel, 
-    cuts = cutsPresel,
+    cuts = copy.deepcopy(cutsPresel),
     ) 
 for i in xrange(len(SingleElecTrigTrkPreselNoElecVetoMet.cuts) - 1, -1, -1):
     if SingleElecTrigTrkPreselNoElecVetoMet.cuts[i].cutString == cutElecLooseIDVeto.cutString \

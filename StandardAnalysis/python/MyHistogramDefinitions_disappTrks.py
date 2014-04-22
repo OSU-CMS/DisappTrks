@@ -149,6 +149,20 @@ TestEventHistograms = cms.PSet(
     )
 
 
+MCParticleExtraHistograms = cms.PSet(
+    inputCollection = cms.string("mcparticles"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("mcparticlePdgIdSusy"), 
+            title = cms.string("mcparticlePdgIdSusy; pdgId of SUSY mcparticles"),
+            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("fabs(id)"),
+            ),
+        )
+    )
+
+
+
 EventExtraHistograms = cms.PSet(
     inputCollection = cms.string("events"),
     histograms = cms.VPSet (
@@ -163,6 +177,54 @@ EventExtraHistograms = cms.PSet(
             title = cms.string("totalMcparticlePtVsMet; Met [GeV];#sum p_{T} of selected mcparticles [GeV]"),
             bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),  
             inputVariables = cms.vstring("metPt", "totalMcparticlePt"),
+            ),
+        cms.PSet (
+            name = cms.string("totalMuonPt"),  
+            title = cms.string("totalMuonPt; #sum p_{T} (#mu#mu) [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("totalMuonPt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalJetPt"),  
+            title = cms.string("totalJetPt; jet recoil system p_{T} [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("totalJetPt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalJetPtMinusTotalMcparticlePt"),  
+            title = cms.string("; jet recoil system p_{T} - #sum p_{T} (selected MC particles) [GeV]"),
+            bins = cms.untracked.vdouble(100, -150, 150),  
+            inputVariables = cms.vstring("totalJetPtMinusTotalMcparticlePt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalJetPtMinusTotalMcparticlePtVsTotalMcparticlePt"),  
+            title = cms.string(";#sum p_{T} of selected mcparticles [GeV];jet recoil system p_{T} - #sum p_{T} (selected MC particles) [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, -150, 150),  
+            inputVariables = cms.vstring("totalMcparticlePt", "totalJetPtMinusTotalMcparticlePt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalMuonPtMinusTotalMcparticlePt"),  
+            title = cms.string("; #sum p_{T} (#mu#mu) - #sum p_{T} (selected MC particles) [GeV]"),
+            bins = cms.untracked.vdouble(100, -10, 10),  
+            inputVariables = cms.vstring("totalMuonPtMinusTotalMcparticlePt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalMuonPtMinusTotalJetPt"),  
+            title = cms.string("; #sum p_{T} (#mu#mu) - jet recoil system p_{T} [GeV]"),
+            bins = cms.untracked.vdouble(100, -150, 150),  
+            inputVariables = cms.vstring("totalMuonPtMinusTotalJetPt"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalJetPhiMinusTotalMcparticlePhi"),  
+            title = cms.string(";|#Delta#phi|(jet recoil system, selected MC particles)"),
+            bins = cms.untracked.vdouble(100, 0, 4),  
+            inputVariables = cms.vstring("fabs(totalJetPhiMinusTotalMcparticlePhi)"),  
+            ),
+        cms.PSet (
+            name = cms.string("totalMuonPhiMinusTotalJetPhi"),  
+            title = cms.string(";|#Delta#phi|(#mu#mu, jet recoil system)"),
+            bins = cms.untracked.vdouble(100, 0, 4),  
+            inputVariables = cms.vstring("fabs(totalMuonPhiMinusTotalJetPhi)"),  
             ),
         )
     )  
@@ -243,13 +305,13 @@ TrackIsolationHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackRelIsoRp3"),
             title = cms.string("trackRelIsoRp3; (#Sigma p_{T}^{#Delta R<0.3} - p_{T})/p_{T}"),
-            bins = cms.untracked.vdouble(100, 0, 3),
+            bins = cms.untracked.vdouble(80, 0, 2),
             inputVariables = cms.vstring("trkRelIsoRp3"),
             ),
         cms.PSet (
             name = cms.string("trackRelIsoRp3Zoom"),
             title = cms.string("trackRelIsoRp3; (#Sigma p_{T}^{#Delta R<0.3} - p_{T})/p_{T}"),
-            bins = cms.untracked.vdouble(100, 0, 0.2),
+            bins = cms.untracked.vdouble(80, 0, 0.2),
             inputVariables = cms.vstring("trkRelIsoRp3"),
             ),
         cms.PSet (
@@ -895,10 +957,34 @@ JetExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("dPhiMet"),
             ),
         cms.PSet (
+            name = cms.string("jetIDLoose"),
+            title = cms.string(";Jet loose ID"),   
+            bins = cms.untracked.vdouble(2, -0.5, 1.5),  
+            inputVariables = cms.vstring("jetIDLoose"),
+            ),
+        cms.PSet (
+            name = cms.string("jetBeta"),
+            title = cms.string(";Jet #beta"),   
+            bins = cms.untracked.vdouble(100, 0, 1.0),  
+            inputVariables = cms.vstring("beta"),
+            ),
+        cms.PSet (
+            name = cms.string("jetBtagCombinedSecVertex"),
+            title = cms.string(";Jet CSV"),   
+            bins = cms.untracked.vdouble(100, 0, 1.0),  
+            inputVariables = cms.vstring("btagCombinedSecVertex"),
+            ),
+        cms.PSet (
             name = cms.string("jetPtVsMet"),
             title = cms.string("Jet p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Jet p_{T} [GeV]"), 
             bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),
             inputVariables = cms.vstring("metPt", "pt"),
+            ),
+        cms.PSet (
+            name = cms.string("jetDeltaRMuonPt20"),
+            title = cms.string("; #DeltaR(jet-muon)"), 
+            bins = cms.untracked.vdouble(100, 0, 5),  
+            inputVariables = cms.vstring("deltaRMuonPt20"),
             ),
     )
 )
@@ -1047,15 +1133,127 @@ StopHistograms = cms.PSet(
     inputCollection = cms.string("stops"),
     histograms = cms.VPSet (
       cms.PSet (
+        name = cms.string("stopDecayVzVxy"),
+        title = cms.string("Stop decay position (rho-z); decayV_{z} [cm]; decayV_{xy} [cm]"),
+        bins = cms.untracked.vdouble(50, 0, 1500, 50, 0, 1000),
+        inputVariables = cms.vstring("fabs(decayVz)", "decayVxy"),  
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVxy"),
+        title = cms.string("Stop decay length; decayV_{xy} [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("decayVxy"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVx"),
+        title = cms.string("Stop decay Vx; |decayV_{x}| [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("fabs(decayVx)"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVy"),
+        title = cms.string("Stop decay Vy; |decayV_{y}| [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("fabs(decayVy)"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVz"),
+        title = cms.string("Stop decay Vz; |decayV_{z}| [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1500),
+        inputVariables = cms.vstring("fabs(decayVz)"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayLength"),
+        title = cms.string("Stop decay Length; decay length [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("decayLength"),
+        ),
+      cms.PSet (
         name = cms.string("stopCtau"),
         title = cms.string("Stop lifetime; c#tau [cm]"),
         bins = cms.untracked.vdouble(100, 0, 100),
         inputVariables = cms.vstring("ctau"),
         ),
+      cms.PSet (
+        name = cms.string("stopVx"),
+        title = cms.string("Stop Vx; production V_{x} [cm]"),
+        bins = cms.untracked.vdouble(100, -1, 1),
+        inputVariables = cms.vstring("vx"),
+        ),
+      cms.PSet (
+        name = cms.string("stopVy"),
+        title = cms.string("Stop Vy; production V_{y} [cm]"),
+        bins = cms.untracked.vdouble(100, -1, 1),
+        inputVariables = cms.vstring("vy"),
+        ),
+      cms.PSet (
+        name = cms.string("stopVz"),
+        title = cms.string("Stop Vz; production V_{z} [cm]"),
+        bins = cms.untracked.vdouble(100, -20, 20),
+        inputVariables = cms.vstring("vz"),
+        ),
+      cms.PSet (
+        name = cms.string("stopPt"),
+        title = cms.string("Stop Pt; p_{T} [GeV]"),
+        bins = cms.untracked.vdouble(100, 0, 500),
+        inputVariables = cms.vstring("pt"),
+        ),
+      cms.PSet (
+        name = cms.string("stopEta"),
+        title = cms.string("Stop eta; #eta"),
+        bins = cms.untracked.vdouble(100, -7.0, 7.0),
+        inputVariables = cms.vstring("eta"),
+        ),
+      cms.PSet (
+        name = cms.string("stopBeta"),
+        title = cms.string("Stop beta; #beta"),
+        bins = cms.untracked.vdouble(55, 0, 1.1),
+        inputVariables = cms.vstring("beta"),
+        ),
+      cms.PSet (
+        name = cms.string("stopGamma"),
+        title = cms.string("Stop beta; #gamma"),
+        bins = cms.untracked.vdouble(100, 0, 10),
+        inputVariables = cms.vstring("gamma"),
+        ),
+      cms.PSet (
+        name = cms.string("stopBetaGamma"),
+        title = cms.string("Stop boost; #beta#gamma"),
+        bins = cms.untracked.vdouble(100, 0, 10),
+        inputVariables = cms.vstring("betaGamma"),
+        ),
+      cms.PSet (
+        name = cms.string("stopCtauWide"),
+        title = cms.string("Stop lifetime; c#tau [cm]"),
+        bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("ctau"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDaughter0Id"), 
+        title = cms.string("daughter0Id; pdgId of daughter 0"),
+        bins = cms.untracked.vdouble(10, 1000020, 1000030),  
+        inputVariables = cms.vstring("fabs(daughter0Id)"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDaughter1Id"), 
+        title = cms.string("daughter1Id; pdgId of daughter 1"),
+        bins = cms.untracked.vdouble(20, 200, 220), 
+        inputVariables = cms.vstring("fabs(daughter1Id)"),
+        ),
       )
     )
 
-
+MuonJetHistograms = cms.PSet(
+    inputCollection = cms.string("muon-jet pairs"),
+    histograms = cms.VPSet (
+    cms.PSet (
+      name = cms.string("muonJetDeltaR"),
+      title = cms.string("Muon-jet #DeltaR; #DeltaR"),
+      bins = cms.untracked.vdouble(100, 0, 6),
+      inputVariables = cms.vstring("deltaR"),
+      ),
+    )
+    )
 
 DebugHistograms = cms.PSet(
     inputCollection = cms.string("tracks"),
