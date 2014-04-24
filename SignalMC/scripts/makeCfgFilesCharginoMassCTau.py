@@ -18,21 +18,25 @@ parser.add_option("-o", "--outputName", dest="outputName", default="multicrab.cf
 
 
 
-templateFile         = "../python/AMSB_chargino_FilterSumPt50_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
+templateFileFilter   = "../python/AMSB_chargino_FilterSumPt50_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
 templateFileNoFilter = "../python/AMSB_chargino_NoFilter_cfi_py_GEN_SIM_DIGI_L1_DIGI2RAW_HLT_RAW2DIGI_L1Reco_RECO_PU.py"
 
-fin = open(templateFile, "r")
-
-configTemplate = fin.read()
+fin = open(templateFileFilter, "r")
+configTemplateFilter = fin.read()
 fin.close()
 
+fin = open(templateFileNoFilter, "r")
+configTemplateNoFilter = fin.read()
+fin.close()
+
+
 mass = [
-    100,
+    ## 100,
     200,
-    300,
-    400,
-    500,
-    600
+    ## 300,
+    ## 400,
+    ## 500,
+    ## 600
 ]
 
 ctau = [
@@ -62,9 +66,9 @@ fMult.write("\n")
 cfgDir = "../python/"
 version = "_8TeV_pythia6_V1"
 
-def makeOneConfig(newCfg, fMult, m, t):
+def makeOneConfig(newCfg, cfgTemplate, fMult, m, t):
     fnew = open(newCfg, "w")
-    configNew = configTemplate
+    configNew = cfgTemplate
     configNew = configNew.replace("-999", str(m))
     configNew = configNew.replace("MASSPOINT", str(m))
     configNew = configNew.replace("LIFETIME", str(t))        
@@ -81,10 +85,10 @@ def makeOneConfig(newCfg, fMult, m, t):
 for m in mass:
     for t in ctau:
         newCfg = cfgDir + "AMSB_chargino_" + str(m) + "GeV_ctau" + str(t) + "cm_FilterSumPt50_GEN-SIM-RECO.py"
-        makeOneConfig(newCfg, fMult, m, t)  
+        makeOneConfig(newCfg, configTemplateFilter, fMult, m, t)  
         if m in massNoFilter:
             newCfg = cfgDir + "AMSB_chargino_" + str(m) + "GeV_ctau" + str(t) + "cm_NoFilter_GEN-SIM-RECO.py"
-            makeOneConfig(newCfg, fMult, m, t)  
+            makeOneConfig(newCfg, configTemplateNoFilter, fMult, m, t)  
         
         if m in massSystISR:
             newCfgSystISRUp = newCfg.replace("Chargino", "Chargino_SystISRUp")
