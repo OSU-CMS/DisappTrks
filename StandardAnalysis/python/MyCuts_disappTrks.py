@@ -900,6 +900,11 @@ cutTrkJetDeltaR = cms.PSet (
     cutString = cms.string("deltaRMinSubLeadJet > 0.5"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkJetDeltaPhi = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.7"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkJetDeltaRAtlas = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("deltaRMinSubLeadJet > 0.4"),
@@ -1632,6 +1637,16 @@ cutMCPartPdgW = cms.PSet (
     cutString = cms.string("fabs(id) == 24"),
     numberRequired = cms.string(">= 1"),  
     )
+cutMCPartPdgE = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 11"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartPdgMu = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 13"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutMCPartStatus3 = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("status == 3"),
@@ -1652,9 +1667,29 @@ cutMCPartSusyFilter = cms.PSet (
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
     numberRequired = cms.string(">= 0"),  
     )
+cutMCPartMotherPdgW = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(mother0Id) == 24"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartMotherStatus3 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("mother0Status == 3"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartJetDeltaPhi2p7 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.7"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutMCPartPt30 = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartPt50 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1"),  
     )
 

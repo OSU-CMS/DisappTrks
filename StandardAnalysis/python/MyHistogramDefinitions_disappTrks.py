@@ -158,6 +158,18 @@ MCParticleExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(10, 1000020, 1000030),  
             inputVariables = cms.vstring("fabs(id)"),
             ),
+        cms.PSet (
+            name = cms.string("mcparticleMass"), 
+            title = cms.string("mcparticleMass; mcparticle mass [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),   
+            inputVariables = cms.vstring("mass"),
+            ),
+        cms.PSet (
+            name = cms.string("mcpartDeltaPhiMaxSubLeadJet"),
+            title = cms.string("maximum mcparticle-jet #Delta#phi; #Delta#phi_{max}(mcparticle-jet)"),
+            bins = cms.untracked.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("deltaPhiMaxSubLeadJet"),
+            ),                                              
         )
     )
 
@@ -431,9 +443,15 @@ TrackIsolationHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackDeltaRMinSubLeadJet"),
-            title = cms.string("minimum track-jet #DeltaR; #DeltaR_{min}(trk-jet)"),
+            title = cms.string("minimum track-jet #DeltaR; #DeltaR_{min}(track-jet)"),
             bins = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("deltaRMinSubLeadJet"),
+            ),
+        cms.PSet (
+            name = cms.string("trackDeltaPhiMaxSubLeadJet"),
+            title = cms.string("maximum track-jet #Delta#phi; #Delta#phi_{max}(track-jet)"),
+            bins = cms.untracked.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("deltaPhiMaxSubLeadJet"),
             ),        
         )
     )
@@ -792,27 +810,27 @@ ExtraTrackHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackDeltaRMinElecLooseMvaId"),
-            title = cms.string("deltaRMinElecLooseMvaId; deltaRMinElecLooseMvaId"),
+            title = cms.string("deltaRMinElecLooseMvaId;#DeltaR_{min}(track-electron)"), 
             bins = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRMinElecLooseMvaId"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRMinMuonLooseId"),
-            title = cms.string("deltaRMinMuonLooseId; deltaRMinMuonLooseId"),
+            title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track-muon)"),  
             bins = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRMinMuonLooseId"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRMinSecMuonLooseId"),
-            title = cms.string("deltaRMinSecMuonLooseId; deltaRMinSecMuonLooseId"),
+            title = cms.string("deltaRMinSecMuonLooseId;#DeltaR_{min}(track-secondary muon)"),
             bins = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRMinSecMuonLooseId"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRMinTauLooseHadronicId"),
-            title = cms.string("deltaRMinTauLooseHadronicId; deltaRMinTauLooseHadronicId"),
+            title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track-tau)"),
             bins = cms.untracked.vdouble(100, 0, 1),
-            inputVariables = cms.vstring("deltaRMinTauLooseHadronicId"),
+            inputVariables = cms.vstring("deltaRMinTauLooseHadronicId"),  
             ),
         )
     )
@@ -1006,7 +1024,7 @@ MetExtraHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("metDeltaPhiMin2Jets"),
-            title = cms.string("deltaPhiMin2Jets;#Delta#phi_{min}^{met-jet}"),
+            title = cms.string("deltaPhiMin2Jets;#Delta#phi_{min}(E_{T}^{miss}-jet)"),  
             bins = cms.untracked.vdouble(20, 0, 3.15),  
             inputVariables = cms.vstring("deltaPhiMin2Jets"),
             ),
@@ -1071,17 +1089,17 @@ SecJetExtraHistograms = cms.PSet(
 )
 
 
-## DiJetHistograms = cms.PSet(
-##     inputCollection = cms.string("jet-jet pairs"),
-##     histograms = cms.VPSet (
-##         cms.PSet (
-##             name = cms.string("dijetDeltaPhi"),
-##             title = cms.string("Jet-jet #Delta#Phi"),
-##             bins = cms.untracked.vdouble(100, 0, 3.15),   
-##             inputVariables = cms.vstring("deltaPhi"),
-##             ),
-##     )
-## )  
+DiJetHistograms = cms.PSet(
+    inputCollection = cms.string("jet-jet pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("dijetDeltaPhi"),
+            title = cms.string("#Delta#phi(dijet)"),  
+            bins = cms.untracked.vdouble(100, 0, 3.15),   
+            inputVariables = cms.vstring("deltaPhi"),
+            ),
+    )
+)  
 
 ############################################################################################
 TauExtraHistograms = cms.PSet(

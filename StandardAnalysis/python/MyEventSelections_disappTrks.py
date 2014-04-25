@@ -350,6 +350,20 @@ NoCuts = cms.PSet(
        ),
     )
 
+# Use for plotting the stop lifetime  
+StopLifetime = cms.PSet(
+    name = cms.string("StopLifetime"),
+    cuts = cms.VPSet (
+       cutNoCuts,
+       cutMCPartStatus3Filter,
+       cutMCPartSusyFilter, 
+#       cutStopPt50, 
+       cutStopEta2p5,
+#       cutStopCtauNegative, 
+#       cutStopDauIdNotPion, 
+       ),
+    )
+
 NoCutsFilterMC = cms.PSet(
     name = cms.string("NoCutsFilterMC"),
     cuts = cms.VPSet (
@@ -358,6 +372,34 @@ NoCutsFilterMC = cms.PSet(
        cutMCPartSusyFilter, 
        ),
     )
+
+NoCutsFilterMCCtauZero = cms.PSet(
+    name = cms.string("NoCutsFilterMCCtauZero"),
+    cuts = copy.deepcopy(NoCutsFilterMC.cuts) + 
+    cms.VPSet (
+       cutStopCtauZero,  
+       ),
+    )
+
+NoCutsFilterMCCtauNonZero = cms.PSet(
+    name = cms.string("NoCutsFilterMCCtauNonZero"),
+    cuts = copy.deepcopy(NoCutsFilterMC.cuts) + 
+    cms.VPSet (
+       cutStopCtauNonZero,  
+       ),
+    )
+
+NoCutsDecayInTrackerN2 = cms.PSet(
+    name = cms.string("NoCutsDecayInTrackerN2"),
+    cuts = copy.deepcopy(NoCutsFilterMC.cuts) + 
+    cms.VPSet (
+    ##     cutStopDecayLengthNonZeroN2,
+    ##     cutStopDecayLengthTrackerN2
+    cutStopDecayLengthZeroVeto, 
+    cutStopDecayLengthOutsideTrackerVeto, 
+    ),
+    )
+
 
 DebugCuts = cms.PSet(
     name = cms.string("DebugCuts"),
@@ -473,6 +515,13 @@ FullSelectionFilterMC = cms.PSet(
     )
     )
 
+FullSelectionStopCtauZero = copy.deepcopy(FullSelection) 
+FullSelectionStopCtauZero.name = cms.string("FullSelectionStopCtauZero") 
+FullSelectionStopCtauZero.cuts.append(cutStopCtauZero)  
+
+FullSelectionStopCtauNonZero = copy.deepcopy(FullSelection) 
+FullSelectionStopCtauNonZero.name = cms.string("FullSelectionStopCtauNonZero") 
+FullSelectionStopCtauNonZero.cuts.append(cutStopCtauNonZero)  
 
 
 
@@ -754,32 +803,18 @@ PreSelectionNoJetJetDPhi = cms.PSet(
 #    cutsTrkVetoRegions
     )
 
-PreSelectionNoPt = cms.PSet(
-    name = cms.string("PreSelectionNoPt"),
-    triggers = triggersJetMet,
-    cuts =
-    cutsMET +
-    cutsJets +
-    cms.VPSet (cutTrkEta) +
-    cutsTrkVetoRegions +
-    cutsTrkQuality +
-    cutsTrkIso 
-#    cutsTrkLeptonVeto 
-    )
+PreSelectionNoPt = copy.deepcopy(PreSelection)
+PreSelectionNoPt.name = cms.string("PreSelectionNoPt")
+for i in xrange(len(PreSelectionNoPt.cuts) - 1, -1, -1):
+    if PreSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
+        del PreSelectionNoPt.cuts[i] 
 
+PreSelectionNoNHit = copy.deepcopy(PreSelection)
+PreSelectionNoNHit.name = cms.string("PreSelectionNoNHit")
+for i in xrange(len(PreSelectionNoNHit.cuts) - 1, -1, -1):
+    if PreSelectionNoNHit.cuts[i].cutString == cutTrkNHits.cutString:
+        del PreSelectionNoNHit.cuts[i] 
 
-PreSelectionNoNHits = cms.PSet(
-    name = cms.string("PreSelectionNoNHit"),
-    triggers = triggersJetMet,
-    cuts =
-    cutsMET +
-    cutsJets +
-    cutsTrkPtEta +
-    cutsTrkVetoRegions +
-    cutsTrkQualityNoNHits +
-    cutsTrkIso +
-    cutsTrkLeptonVeto
-    )
 
 PreSelectionNoIso = cms.PSet(
     name = cms.string("PreSelectionNoIso"),
@@ -791,8 +826,20 @@ PreSelectionNoIso = cms.PSet(
     cutsTrkVetoRegions +
     cutsTrkQuality +
     cutsTrkLeptonVeto
-
     )
+
+PreSelectionNoMissIn = copy.deepcopy(PreSelection)
+PreSelectionNoMissIn.name = cms.string("PreSelectionNoMissIn")  
+for i in xrange(len(PreSelectionNoMissIn.cuts) - 1, -1, -1):
+    if PreSelectionNoMissIn.cuts[i].cutString == cutTrkHitMissIn.cutString:
+        del PreSelectionNoMissIn.cuts[i] 
+
+PreSelectionNoMissMid = copy.deepcopy(PreSelection)
+PreSelectionNoMissMid.name = cms.string("PreSelectionNoMissMid")  
+for i in xrange(len(PreSelectionNoMissMid.cuts) - 1, -1, -1):
+    if PreSelectionNoMissMid.cuts[i].cutString == cutTrkHitMissMid.cutString:
+        del PreSelectionNoMissMid.cuts[i] 
+
 
 FullSelectionElecPreveto = cms.PSet(
     name = cms.string("FullSelectionElecPreveto"),
@@ -2764,7 +2811,7 @@ PreSelectionElecNoTrig = cms.PSet(
 
 ## Ctrl sample for muons ##
 PreSelectionMuon = cms.PSet(
-    name = cms.string("PreSelectionMuon"),
+    name = cms.string("PreSelectionMuon"),  
     triggers = triggersJetMet,
     cuts = copy.deepcopy(cutsPresel), 
     )
