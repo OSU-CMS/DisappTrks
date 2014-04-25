@@ -129,7 +129,7 @@ process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
                                               genParticles  = cms.InputTag("genParticles") # original genParticle list  
                                               )  
 process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)  
-process.RAWSIMoutput.outputCommands.extend( [  
+process.RECOSIMoutput.outputCommands.extend( [  
     "keep *_genParticlePlusGeant_*_*",  
     ] )  
 

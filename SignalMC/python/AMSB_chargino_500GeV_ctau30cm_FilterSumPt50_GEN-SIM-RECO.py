@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.381.2.27 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino_NoFilter_cfi.py -s GEN,SIM,DIGI,L1,DIGI2RAW,HLT:7E33v2,RAW2DIGI,L1Reco,RECO --conditions START53_V27::All --beamspot Realistic8TeVCollision --datatier GEN-SIM-RECO --pileup 2012_Summer_50ns_PoissonOOTPU --datamix NODATAMIXER --eventcontent RECOSIM -n 2 --no_exec --fileout AMSB_chargino_RECO.root
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino_FilterSumPt50_cfi.py -s GEN,SIM,DIGI,L1,DIGI2RAW,HLT:7E33v2,RAW2DIGI,L1Reco,RECO --conditions START53_V27::All --beamspot Realistic8TeVCollision --datatier GEN-SIM-RECO --pileup 2012_Summer_50ns_PoissonOOTPU --datamix NODATAMIXER --eventcontent RECOSIM -n 2 --no_exec --fileout AMSB_chargino_RECO.root
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -44,7 +44,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.381.2.27 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino_NoFilter_cfi.py nevts:2'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino_FilterSumPt50_cfi.py nevts:2'),
     name = cms.untracked.string('PyReleaseValidation')
 )
 
@@ -71,11 +71,17 @@ process.genstepfilter.triggerConditions=cms.vstring("generation_step")
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 
+process.dicharginoSumPtFilter = cms.EDFilter("MCParticlePairSumPtFilter",
+    MinSumPt = cms.untracked.double(50.0),
+    ParticleIDs = cms.untracked.vint32(1000022, 1000024)
+)
+
+
 process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(3),
     comEnergy = cms.double(8000.0),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau100cm.slha'),
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau30cm.slha'),
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
@@ -120,6 +126,8 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 )
 
 
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.dicharginoSumPtFilter)
+
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
 process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",  
@@ -149,7 +157,7 @@ process.schedule.extend(process.HLTSchedule)
 process.schedule.extend([process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.endjob_step,process.RECOSIMoutput_step])
 # filter all path with the production filter sequence
 for path in process.paths:
-	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
+	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq 
 
 # customisation of the process.
 

@@ -75,13 +75,13 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(3),
     comEnergy = cms.double(8000.0),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau100cm.slha'),
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_200GeV_ctau30cm.slha'),
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
     useregge = cms.bool(False),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_500GeV_Isajet780.slha'),
-    massPoint = cms.untracked.int32(500),
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_200GeV_Isajet780.slha'),
+    massPoint = cms.untracked.int32(200),
     hscpFlavor = cms.untracked.string('stau'),
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
@@ -115,7 +115,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_500GeV_Isajet780.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_200GeV_Isajet780.slha')
     )
 )
 
