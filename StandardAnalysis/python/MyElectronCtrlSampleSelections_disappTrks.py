@@ -51,6 +51,372 @@ Jet80TrigLeadJet = cms.PSet(  # Use for Monojet trigger efficiency (run on skims
 
 
 
+SingleElecTrigTrkPreselNoElecVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJet"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    #    cms.VPSet(cutMetSig) + 
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+#    cutNoForwardJets,
+    ) + cutsTrkPreselNoLepVeto
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+    )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p8 = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p8"),
+            triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            #    cms.VPSet(cutMetSig) +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            #    cutNoForwardJets,
+            ) + cutsTrkPreselNoLepVeto
+            + cms.VPSet(cutTrkJetDeltaPhi2p8)
+            + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+            )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p7 = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p7"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    #    cms.VPSet(cutMetSig) +
+    cutsJets +
+    cms.VPSet(
+#    cutSecJetPt150,
+    cutJetPt150,
+    cutSecJetLeadingPt,
+    #    cutNoForwardJets,
+    ) + cutsTrkPreselNoLepVeto
+    + cms.VPSet(cutTrkJetDeltaPhi2p7)
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+    )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p6 = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p6"),
+            triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            #    cms.VPSet(cutMetSig) +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            #    cutNoForwardJets,
+            ) + cutsTrkPreselNoLepVeto
+            + cms.VPSet(cutTrkJetDeltaPhi2p6)
+            + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+            )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p5 = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p5"),
+            triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            #    cms.VPSet(cutMetSig) +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            #    cutNoForwardJets,
+            ) + cutsTrkPreselNoLepVeto
+            + cms.VPSet(cutTrkJetDeltaPhi2p5)
+            + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+            )
+
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p9 = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p9"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    #    cms.VPSet(cutMetSig) +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVeto
+    + cms.VPSet(cutTrkJetDeltaPhi2p9)
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto)
+    )
+
+
+SingleElecTrigTrkPreselNoElecVetoJetMatch = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoJetMatch"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVetoNoIso
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutTrkJetDeltaRInv)
+    )
+
+
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetGetFailed = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetGetFailed"),
+            triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            ) + cutsTrkPreselNoLepVeto
+              + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutMaxMET100,cutL1MET100)
+            )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetNoGetFailed = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetNoGetFailed"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVeto
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutMET100,cutMaxL1MET100)
+    )
+
+
+SingleElecTrigTrkPreselNoElecVetoJetMatchGetFailed = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoJetMatchGetFailed"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVetoNoIso
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutMaxMET100,cutL1MET100, cutTrkJetDeltaRInv)
+    )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetNu = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetNu"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVeto
+    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto,)
+      + cms.VPSet(cutMCPartPdgNuE, cutMCPartStatus3)
+    )
+            
+
+
+
+MetTrigTrkPreselNoElecVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MetTrigTrkPreselNoElecVetoLeadJet"),
+    triggers = triggersMet120,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJet.cuts)
+    )
+MonojetTrigTrkPreselNoElecVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJet"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJet.cuts)
+    )
+MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p8 = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p8"),
+            triggers = triggersJetMet95,
+            cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p8.cuts)
+            )
+
+MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p7 = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p7"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p7.cuts)
+    )
+
+MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p6 = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p6"),
+            triggers = triggersJetMet95,
+            cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p6.cuts)
+            )
+
+MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p5 = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p5"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p5.cuts)
+    )
+
+MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p9 = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetDPhi2p9"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetDPhi2p9.cuts)
+    )
+
+MonojetTrigTrkPreselNoElecVetoLeadJetNu = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetNu"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetNu.cuts)
+    )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetLowDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetLowDPhi"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+
+    ) + cutsTrkPreselNoLepVeto
+#    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto,cutTrkDPhiMet)
+#    + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutMinTrkDPhiMet)
+ + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutTrkDPhiMet)
+    
+    )
+
+SingleElecTrigTrkPreselNoElecVetoLeadJetHighDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJetHighDPhi"),
+    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    
+    ) + cutsTrkPreselNoLepVeto
+    #    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto,cutTrkDPhiMet)
+    + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutMinTrkDPhiMet)
+#    + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutTrkDPhiMet)
+    
+    )
+
+
+MonojetTrigTrkPreselNoElecVetoLeadJetLowDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetLowDPhi"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetLowDPhi.cuts)
+    )
+BothTrigTrkPreselNoElecVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("BothTrigTrkPreselNoElecVetoLeadJet"),
+    triggers = triggersJetMet,
+    #cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetLowDPhi.cuts)
+     cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    
+    ) + cutsTrkPreselNoLepVeto
+    #    + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto,cutTrkDPhiMet)
+    + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto,cutL1MET)
+    #    + cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutTrkDPhiMet)          
+    )
+BothTrigTrkPreselNoElecVetoLeadJetHighDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("BothTrigTrkPreselNoElecVetoLeadJetHighDPhi"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetHighDPhi.cuts)
+    )
+
+
+MonojetTrigTrkPreselNoElecVetoLeadJetHighDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoLeadJetHighDPhi"),
+    triggers = triggersJetMet95,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetHighDPhi.cuts)
+    )
+
+MetTrigTrkPreselNoElecVetoLeadJetLowDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MetTrigTrkPreselNoElecVetoLeadJetLowDPhi"),
+    triggers = triggersMet120,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetLowDPhi.cuts)
+    )
+
+MetTrigTrkPreselNoElecVetoLeadJetHighDPhi = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MetTrigTrkPreselNoElecVetoLeadJetHighDPhi"),
+    triggers = triggersMet120,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoLeadJetHighDPhi.cuts)
+    )
+
+NoTrigTrkPreselNoElecVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoLeadJet"),
+#    triggers = triggersSingleElec,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) + cutsTrkPreselNoLepVeto
+     + cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto,)
+    )
+
+NoTrigTrkPreselNoMuVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("NoTrigTrkPreselNoMuVetoLeadJet"),
+        #    triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            ) + cutsTrkPreselNoLepVeto
+             + cms.VPSet(cutElecLooseIDVeto,cutTauLooseHadronicVeto,)
+            )
+
+
+NoTrigJetCuts = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("NoTrigJetCuts"),
+        #    triggers = triggersSingleElec,
+            cuts =
+            cutsStdClean +
+            cutsJets +
+            cms.VPSet(
+        cutSecJetLeadingPt,
+            ) +
+        cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutElecLooseIDVeto)
+        )
+
+
+
+gammaTrigJetCuts = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("gammaTrigJetCuts"),
+    triggers = triggersSinglePhoton,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) +
+    cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutElecLooseIDVeto)
+    )
+
+trigJetCuts = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("trigJetCuts"),
+    triggers = triggersJetMet,
+    cuts =
+    cutsStdClean +
+    cutsJets +
+    cms.VPSet(
+    cutSecJetLeadingPt,
+    ) +
+    cms.VPSet(cutMuonLooseIDVeto,cutSecMuonLooseIDVeto,cutTauLooseHadronicVeto, cutElecLooseIDVeto)
+    )
+
+
+
+MonojetTrigTrkPreselNoMuVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+        name = cms.string("MonojetTrigTrkPreselNoMuVetoLeadJet"),
+        triggers = triggersJetMet95,
+        cuts = copy.deepcopy(NoTrigTrkPreselNoMuVetoLeadJet.cuts)
+        )
+
+MetTrigTrkPreselNoMuVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("MetTrigTrkPreselNoMuVetoLeadJet"),
+    triggers = triggersMet120,
+    cuts = copy.deepcopy(NoTrigTrkPreselNoMuVetoLeadJet.cuts)
+    )
+
+SingleMuTrigTrkPreselNoMuVetoLeadJet = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleMuTrigTrkPreselNoMuVetoLeadJet"),
+    triggers = triggersSingleMu,
+cuts = copy.deepcopy(NoTrigTrkPreselNoMuVetoLeadJet.cuts)
+)
+
 SingleElecTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
     name = cms.string("SingleElecTrigTrkPreselNoElecVeto"),
     triggers = triggersSingleElec, 
@@ -63,6 +429,25 @@ SingleElecTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficien
 for i in xrange(len(SingleElecTrigTrkPreselNoElecVeto.cuts) - 1, -1, -1):
     if SingleElecTrigTrkPreselNoElecVeto.cuts[i].cutString == cutElecLooseIDVeto.cutString:
         del SingleElecTrigTrkPreselNoElecVeto.cuts[i]
+
+SingleElecTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
+    name = cms.string("SingleElecTrigTrkPreselNoElecVeto"),
+    triggers = triggersSingleElec,
+    cuts = cms.VPSet(
+    cutJetEta2p6Filter,
+    cutJetNoiseNeuHad95Filter,
+    cutJetLeadingPt,
+    #added
+    cutJetPt150,
+    cutSecJetPt150,
+    ) + cutsTrkPresel,
+    )
+for i in xrange(len(SingleElecTrigTrkPreselNoElecVeto.cuts) - 1, -1, -1):
+    if SingleElecTrigTrkPreselNoElecVeto.cuts[i].cutString == cutElecLooseIDVeto.cutString:
+        del SingleElecTrigTrkPreselNoElecVeto.cuts[i]
+
+
+
                 
 MonojetTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
     name = cms.string("MonojetTrigTrkPreselNoElecVeto"),
