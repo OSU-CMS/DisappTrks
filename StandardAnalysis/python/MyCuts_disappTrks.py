@@ -9,10 +9,17 @@ triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
     "HLT_MET120_HBHENoiseCleaned_v",
+#    "HLT_Photon135_v",
     )
 
-triggerMonoCentralPFJet80_PFMETnoMu95_NHEF0p95 = cms.vstring(
+#triggerMonoCentralPFJet80_PFMETnoMu95_NHEF0p95 = cms.vstring(
+triggersJetMet95 = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    )
+
+
+triggersMet120 = cms.vstring(
+    "HLT_MET120_HBHENoiseCleaned_v",
     )
 
 triggersMet80 = cms.vstring(
@@ -26,6 +33,10 @@ triggersJet80 = cms.vstring(
     "HLT_PFJet80_v", 
 )
 
+
+triggersSinglePhoton = cms.vstring(
+     "HLT_Photon135_v", 
+        )
 # Choose triggers by going to http://j2eeps.cern.ch/cms-project-confdb-hltdev/browser
 # Select online/2012/8e33/v2.1.
 # Take all the single electron triggers than are unprescaled and do not have extra strange requirements.  
@@ -111,11 +122,23 @@ cutMET220 = cms.PSet (
     cutString = cms.string("pt > 220"),
     numberRequired = cms.string(">= 1"),
     )
+cutMetSig = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("significance > 10"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMET = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("pt > 100"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutL1MET = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("l1Pt > 30"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutMetDeltaPhiMin2Jets = cms.PSet (
     inputCollection = cms.string("mets"),
     cutString = cms.string("fabs(deltaPhiMin2Jets) > 1.5"),
@@ -181,6 +204,30 @@ cutMET200 = cms.PSet (
     cutString = cms.string("pt > 200"),
     numberRequired = cms.string(">= 1"),
     )
+cutMaxMET200 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt < 200"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMaxMET100 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("pt < 100"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+###############################
+#-- Cuts on Trigger Objects --#
+###############################
+cutL1MET100 = cms.PSet (
+    inputCollection = cms.string("trigobjs"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMaxL1MET100 = cms.PSet (
+    inputCollection = cms.string("trigobjs"),
+    cutString = cms.string("pt < 100"),
+    numberRequired = cms.string(">= 1"),
+    )
 ####################
 #-- Cuts on Jets --#
 ####################
@@ -188,6 +235,7 @@ cutSubLeadingJetID = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("disappTrkSubLeadingJetID > 0"),
     numberRequired = cms.string(">= 1"),
+#    numberRequired = cms.string("= 3"),
     )
 cutBTagVeto = cms.PSet (
     inputCollection = cms.string("jets"),
@@ -199,8 +247,15 @@ cutJetPt = cms.PSet (
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
     )
-cutJetPt = cms.PSet (
+cutJetPt150 = cms.PSet (
     inputCollection = cms.string("jets"),
+    cutString = cms.string("pt > 150"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+cutSecJetPt150 = cms.PSet (
+    inputCollection = cms.string("secondary jets"),
     cutString = cms.string("pt > 150"),
     numberRequired = cms.string(">= 1"),
     )
@@ -219,6 +274,7 @@ cutSecJetLeadingPt = cms.PSet(
     inputCollection = cms.string("secondary jets"),
     cutString = cms.string("isLeadingPtJet == 1"),
     numberRequired = cms.string(">= 1"),
+#    numberRequired = cms.string("= 1"),
     )
 cutJetPt20 = cms.PSet(
     inputCollection = cms.string("jets"),
@@ -327,9 +383,15 @@ cutNJets = cms.PSet (
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string("<= 2"),
     )
+cutNoForwardJets = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("fabs(eta) > 3"),
+    numberRequired = cms.string("= 0"),
+    )
 cutJetNoiseChgHad = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+#    cutString = cms.string("chargedHadronEnergyFraction > 0"),
     numberRequired = cms.string(">= 1"),
     )
 cutJetNoiseChgEM  = cms.PSet (
@@ -435,26 +497,26 @@ cutSecJetBTagVeto = cms.PSet (
     cutString = cms.string("btagCombinedSecVertex > 0.679"),
     numberRequired = cms.string("= 0"),
     )
-cutSecJetNoiseChgHad = cms.PSet (
-    inputCollection = cms.string("secondary jets"),
-    cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
-    numberRequired = cms.string(">= 1"),
-    )
-cutSecJetNoiseNeuEM = cms.PSet (
-    inputCollection = cms.string("secondary jets"),
-    cutString = cms.string("neutralEmEnergyFraction < 0.7"),
-    numberRequired = cms.string(">= 1"),
-    )
-cutSecJetNoiseChgEM = cms.PSet (
-    inputCollection = cms.string("secondary jets"),
-    cutString = cms.string("chargedEmEnergyFraction < 0.5"),
-    numberRequired = cms.string(">= 1"),
-    )
-cutSecJetNoiseNeuHad = cms.PSet (
-    inputCollection = cms.string("secondary jets"),
-    cutString = cms.string("neutralHadronEnergyFraction < 0.7"),
-    numberRequired = cms.string(">= 1"),
-    )
+## cutSecJetNoiseChgHad = cms.PSet (
+##     inputCollection = cms.string("secondary jets"),
+##     cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
+##     numberRequired = cms.string(">= 1"),
+##     )
+## cutSecJetNoiseNeuEM = cms.PSet (
+##     inputCollection = cms.string("secondary jets"),
+##     cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+##     numberRequired = cms.string(">= 1"),
+##     )
+## cutSecJetNoiseChgEM = cms.PSet (
+##     inputCollection = cms.string("secondary jets"),
+##     cutString = cms.string("chargedEmEnergyFraction < 0.5"),
+##     numberRequired = cms.string(">= 1"),
+##     )
+## cutSecJetNoiseNeuHad = cms.PSet (
+##     inputCollection = cms.string("secondary jets"),
+##     cutString = cms.string("neutralHadronEnergyFraction < 0.7"),
+##     numberRequired = cms.string(">= 1"),
+##     )
 
 #############################
 #-- Cuts on Jet-Jet Pairs --#
@@ -508,6 +570,19 @@ cutTrkPtError = cms.PSet(
     cutString = cms.string("ptErrorByPt < 0.2"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutTrkDPhiMet = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(dPhiMet) < 1.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutMinTrkDPhiMet = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("fabs(dPhiMet) > 1.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutTrkChi2Norm1p6 = cms.PSet(
     # ndof is defined in:
     # https://cmssdt.cern.ch/SDT/lxr/source/RecoTracker/TrackProducer/src/TrackProducerAlgorithm.cc?v=CMSSW_5_3_3#073
@@ -871,12 +946,44 @@ cutTrkJetDeltaR = cms.PSet (
     cutString = cms.string("deltaRMinSubLeadJet > 0.5"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutTrkJetDeltaRInv = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaRMinSubLeadJet < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkJetDeltaRAtlas = cms.PSet (
     inputCollection = cms.string("tracks"),
     cutString = cms.string("deltaRMinSubLeadJet > 0.4"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkJetDeltaPhi2p5 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkJetDeltaPhi2p6 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.6"),
+    numberRequired = cms.string(">= 1"),
+    )
 
+cutTrkJetDeltaPhi2p7 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkJetDeltaPhi2p8 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.8"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutTrkJetDeltaPhi2p9 = cms.PSet (
+    inputCollection = cms.string("tracks"),
+    cutString = cms.string("deltaPhiMaxSubLeadJet < 2.9"),
+    numberRequired = cms.string(">= 1"),
+    )
 
 ###############################
 #-- Cuts on Track-Jet pairs --#
@@ -930,12 +1037,11 @@ cutMuonLooseID = cms.PSet (
     cutString = cms.string("looseID > 0"),
     numberRequired = cms.string(">= 1"),
     )
-## cutMuonLooseIDVeto = cms.PSet (  
-##     inputCollection = cms.string("muons"),
-##     cutString = cms.string("looseID > 0"),
-##     numberRequired = cms.string("= 0"),
-##     isVeto = cms.bool(True),  
-##     )
+cutOldMuonLooseIDVeto = cms.PSet (  
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("looseID > 0"),
+    numberRequired = cms.string("= 0"),
+    )
 ## cutMuonLooseIDVeto = cms.PSet (  
 ##     inputCollection = cms.string("muon-track pairs"),
 ##     cutString = cms.string("deltaRLooseID < 0.15"),
@@ -978,12 +1084,11 @@ cutSecMuonLooseIDVeto = cms.PSet (
 ##     numberRequired = cms.string("= 0"),
 ##     isVeto = cms.bool(True),  
 ##     )
-## cutSecMuonLooseIDVeto = cms.PSet (  
-##     inputCollection = cms.string("secondary muons"),
-##     cutString = cms.string("isGlobalMuon  > 0"),
-##     numberRequired = cms.string("= 0"),
-##     isVeto = cms.bool(True),  
-##     )
+cutOldSecMuonLooseIDVeto = cms.PSet (  
+     inputCollection = cms.string("secondary muons"),
+     cutString = cms.string("looseID  > 0"),
+     numberRequired = cms.string("= 0"),
+     )
 cutSecMuonLooseIDVetoInv = cms.PSet (  
     inputCollection = cms.string("secondary muons"),
     cutString = cms.string("isGlobalMuon  > 0"),
@@ -1583,6 +1688,12 @@ cutMCPartPdgW = cms.PSet (
     cutString = cms.string("fabs(id) == 24"),
     numberRequired = cms.string(">= 1"),  
     )
+
+cutMCPartPdgNuE = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 12"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMCPartStatus3 = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("status == 3"),
@@ -1598,6 +1709,13 @@ cutMCPartSusy = cms.PSet (
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
     numberRequired = cms.string(">= 1"),  
     )
+
+cutMCPartChi = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(id) == 1000024"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutMCPartSusyFilter = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
