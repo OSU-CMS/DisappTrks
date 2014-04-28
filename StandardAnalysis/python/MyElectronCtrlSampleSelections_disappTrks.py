@@ -420,15 +420,13 @@ cuts = copy.deepcopy(NoTrigTrkPreselNoMuVetoLeadJet.cuts)
 SingleElecTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
     name = cms.string("SingleElecTrigTrkPreselNoElecVeto"),
     triggers = triggersSingleElec, 
-    cuts = cms.VPSet(
-      cutJetEta2p6Filter,
-      cutJetNoiseNeuHad95Filter, 
-      cutJetLeadingPt,
-      ) + cutsTrkPresel, 
+    cuts = copy.deepcopy(cutsPresel), 
     ) 
 for i in xrange(len(SingleElecTrigTrkPreselNoElecVeto.cuts) - 1, -1, -1):
-    if SingleElecTrigTrkPreselNoElecVeto.cuts[i].cutString == cutElecLooseIDVeto.cutString:
+    if SingleElecTrigTrkPreselNoElecVeto.cuts[i].cutString == cutElecLooseIDVeto.cutString or \
+       SingleElecTrigTrkPreselNoElecVeto.cuts[i].cutString == cutMET.cutString: 
         del SingleElecTrigTrkPreselNoElecVeto.cuts[i]
+
 
 SingleElecTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
     name = cms.string("SingleElecTrigTrkPreselNoElecVeto"),
@@ -449,11 +447,173 @@ for i in xrange(len(SingleElecTrigTrkPreselNoElecVeto.cuts) - 1, -1, -1):
 
 
                 
-MonojetTrigTrkPreselNoElecVeto = cms.PSet( # Use for Monojet trigger efficiency
+
+MonojetTrigTrkPreselNoElecVeto = cms.PSet( 
     name = cms.string("MonojetTrigTrkPreselNoElecVeto"),
     triggers = triggersJetMet, 
     cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVeto.cuts)
     ) 
+
+Jet80MetnoMu95TrigTrkPreselNoElecVeto = cms.PSet( 
+    name = cms.string("Jet80MetnoMu95TrigTrkPreselNoElecVeto"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"), 
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVeto.cuts)
+    ) 
+
+MET120TrigTrkPreselNoElecVeto = cms.PSet( 
+    name = cms.string("MET120TrigTrkPreselNoElecVeto"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"), 
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVeto.cuts)
+    ) 
+
+SingleElecTrigTrkPreselNoElecVetoCutDPhi = cms.PSet( 
+    name = cms.string("SingleElecTrigTrkPreselNoElecVetoCutDPhi"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVeto.cuts), 
+    )
+SingleElecTrigTrkPreselNoElecVetoCutDPhi.cuts.append(cutTrkJetDeltaPhi)
+
+MonojetTrigTrkPreselNoElecVetoCutDPhi = cms.PSet(
+    name = cms.string("MonojetTrigTrkPreselNoElecVetoCutDPhi"),
+    triggers = triggersJetMet,
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoCutDPhi.cuts)
+    )
+
+Jet80MetnoMu95TrigTrkPreselNoElecVetoCutDPhi = cms.PSet(
+    name = cms.string("Jet80MetnoMu95TrigTrkPreselNoElecVetoCutDPhi"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"),
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoCutDPhi.cuts)
+    )
+
+MET120TrigTrkPreselNoElecVetoCutDPhi = cms.PSet(
+    name = cms.string("MET120TrigTrkPreselNoElecVetoCutDPhi"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"),
+    cuts = copy.deepcopy(SingleElecTrigTrkPreselNoElecVetoCutDPhi.cuts)
+    )
+
+NoTrigTrkPresel = cms.PSet( 
+    name = cms.string("NoTrigTrkPresel"),
+    cuts = copy.deepcopy(cutsPresel), 
+    ) 
+for i in xrange(len(NoTrigTrkPresel.cuts) - 1, -1, -1):
+    if NoTrigTrkPresel.cuts[i].cutString == cutMET.cutString: 
+        del NoTrigTrkPresel.cuts[i] 
+NoTrigTrkPresel.cuts.append(cutSecJetLeadingPt)  
+            
+
+MonojetTrigTrkPresel = cms.PSet( 
+    name = cms.string("MonojetTrigTrkPresel"),
+    triggers = triggersJetMet, 
+    cuts = copy.deepcopy(NoTrigTrkPresel.cuts)
+    ) 
+
+Jet80MetnoMu95TrigTrkPresel = cms.PSet( 
+    name = cms.string("Jet80MetnoMu95TrigTrkPresel"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"), 
+    cuts = copy.deepcopy(NoTrigTrkPresel.cuts)
+    ) 
+
+MET120TrigTrkPresel = cms.PSet( 
+    name = cms.string("MET120TrigTrkPresel"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"), 
+    cuts = copy.deepcopy(NoTrigTrkPresel.cuts)
+    ) 
+
+
+
+NoTrigJetSel = cms.PSet( 
+    name = cms.string("NoTrigJetSel"),
+    cuts = copy.deepcopy(cutsJets), 
+    ) 
+NoTrigJetSel.cuts.append(cutSecJetLeadingPt)             
+MonojetTrigJetSel = cms.PSet( 
+    name = cms.string("MonojetTrigJetSel"),
+    triggers = triggersJetMet, 
+    cuts = copy.deepcopy(NoTrigJetSel.cuts)
+    ) 
+Jet80MetnoMu95TrigJetSel = cms.PSet( 
+    name = cms.string("Jet80MetnoMu95TrigJetSel"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"), 
+    cuts = copy.deepcopy(NoTrigJetSel.cuts)
+    ) 
+MET120TrigJetSel = cms.PSet( 
+    name = cms.string("MET120TrigJetSel"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"), 
+    cuts = copy.deepcopy(NoTrigJetSel.cuts)
+    ) 
+
+
+NoTrigJetSelWENu = cms.PSet( 
+    name = cms.string("NoTrigJetSelWENu"),
+    cuts = copy.deepcopy(NoTrigJetSel.cuts) +
+    cms.VPSet(
+    cutMCPartStatus3,
+    cutMCPartPdgE,
+    cutMCPartMotherPdgW,
+    cutMCPartMotherStatus3,
+    cutMCPartPt50,
+    cutMCPartJetDeltaPhi2p7, 
+    )
+    )  
+MonojetTrigJetSelWENu = cms.PSet( 
+    name = cms.string("MonojetTrigJetSelWENu"),
+    triggers = triggersJetMet, 
+    cuts = copy.deepcopy(NoTrigJetSelWENu.cuts)
+    ) 
+Jet80MetnoMu95TrigJetSelWENu = cms.PSet( 
+    name = cms.string("Jet80MetnoMu95TrigJetSelWENu"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"), 
+    cuts = copy.deepcopy(NoTrigJetSelWENu.cuts)
+    ) 
+MET120TrigJetSelWENu = cms.PSet( 
+    name = cms.string("MET120TrigJetSelWENu"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"), 
+    cuts = copy.deepcopy(NoTrigJetSelWENu.cuts)
+    ) 
+
+
+NoTrigJetSelWMuNu = cms.PSet( 
+    name = cms.string("NoTrigJetSelWMuNu"),
+    cuts = copy.deepcopy(NoTrigJetSel.cuts) +
+    cms.VPSet(
+    cutMCPartStatus3,
+    cutMCPartPdgMu,
+    cutMCPartMotherPdgW,
+    cutMCPartMotherStatus3,
+    cutMCPartPt50,
+    cutMCPartJetDeltaPhi2p7, 
+    )
+    )
+
+SingleMuTrigJetSelWMuNu = cms.PSet(
+    name = cms.string("NoTrigJetSelWMuNu"),
+    triggers = triggersSingleMu,
+    cuts = copy.deepcopy(NoTrigJetSel.cuts) 
+    )
+MonojetTrigJetSelWMuNu = cms.PSet( 
+    name = cms.string("MonojetTrigJetSelWMuNu"),
+    triggers = triggersJetMet, 
+    cuts = copy.deepcopy(NoTrigJetSelWMuNu.cuts)
+    ) 
+Jet80MetnoMu95TrigJetSelWMuNu = cms.PSet( 
+    name = cms.string("Jet80MetnoMu95TrigJetSelWMuNu"),
+    triggers = cms.vstring("HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v"), 
+    cuts = copy.deepcopy(NoTrigJetSelWMuNu.cuts)
+    ) 
+MET120TrigJetSelWMuNu = cms.PSet( 
+    name = cms.string("MET120TrigJetSelWMuNu"),
+    triggers = cms.vstring("HLT_MET120_HBHENoiseCleaned_v"), 
+    cuts = copy.deepcopy(NoTrigJetSelWMuNu.cuts)
+    ) 
+
+
+
+
+
+
+
+
+
 
 SingleElecTrigTrkPreselNoElecVetoMet = cms.PSet( # Use for Monojet trigger efficiency
     name = cms.string("SingleElecTrigTrkPreselNoElecVetoMet"),
@@ -464,7 +624,7 @@ SingleElecTrigTrkPreselNoElecVetoMet = cms.PSet( # Use for Monojet trigger effic
 ##       cutJetLeadingPt,
 ##       cutMET,
 ##       ) + cutsTrkPresel, 
-    cuts = cutsPresel,
+    cuts = copy.deepcopy(cutsPresel),
     ) 
 for i in xrange(len(SingleElecTrigTrkPreselNoElecVetoMet.cuts) - 1, -1, -1):
     if SingleElecTrigTrkPreselNoElecVetoMet.cuts[i].cutString == cutElecLooseIDVeto.cutString \

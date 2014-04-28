@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from Configuration.Generator.PythiaUESettings_cfi import *
+from Configuration.Generator.PythiaUEZ2starSettings_cfi import *
 generator = cms.EDFilter("Pythia6GeneratorFilter",
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     maxEventsToPrint = cms.untracked.int32(1),
@@ -19,15 +19,24 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
             'MDCY(312,1) = 0     ! set the chargino stable.',
             ),
         parameterSets = cms.vstring('pythiaUESettings', 'processParameters', 'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = Configuration/Generator/data/amsb_LL01_mGravXXX.slha'),
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV_Isajet780.slha'),
     ),
-    hscpFlavor = cms.untracked.string('stau'),
-    massPoint = cms.untracked.int32(150), 
-    slhaFile = cms.untracked.string('Configuration/Generator/data/amsb_LL01_mGravXXX.slha'),
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV_Isajet780.slha'),
+# The following parameters are required by Exotica_HSCP_SIM_cfi:  
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
-    particleFile = cms.untracked.string('Configuration/Generator/data/geant4_chargino_amsbLL01_mGravXXX_YYYns.slha'),
-    pdtFile = cms.FileInPath('Configuration/Generator/data/charginopdt_file.tbl')
+    useregge = cms.bool(False), 
+    hscpFlavor = cms.untracked.string('stau'),          
+    massPoint = cms.untracked.int32(-999),          
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_MASSPOINTGeV_ctauLIFETIMEcm.slha')
 )  
+
+
+dicharginoSumPtFilter = cms.EDFilter("MCParticlePairSumPtFilter",
+                                     MinSumPt = cms.untracked.double(50.0),
+                                     ParticleIDs = cms.untracked.vint32(1000022, 1000024),
+                                     )
+
+ProductionFilterSequence = cms.Sequence (generator * dicharginoSumPtFilter) 
 
 
 
