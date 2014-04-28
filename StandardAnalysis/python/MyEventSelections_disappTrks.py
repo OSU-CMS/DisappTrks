@@ -817,7 +817,6 @@ FullSelectionNoMet = cms.PSet(
     cuts = 
     cutsJets + 
     cutsTrkPresel +
-    cms.VPSet(cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto,) + 
     cutsSigReg
     )
 
