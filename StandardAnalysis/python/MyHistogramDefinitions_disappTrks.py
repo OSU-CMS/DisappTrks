@@ -436,18 +436,18 @@ EventExtraHistograms = cms.PSet(
             bins = cms.untracked.vdouble(20, 0, 500, 20, 0, 500),  
             inputVariables = cms.vstring("metPt", "totalMcparticlePt"),
          ),
-        cms.PSet (
-            name = cms.string("totalMcparticlePtByMetPt"),
-            title = cms.string("totalMcparticlePtByMetPt;(#sum p_{T} of selected mcparticles)/Met"),
-            bins = cms.untracked.vdouble(100, -3, 3,),
-            inputVariables = cms.vstring("totalMcparticlePtByMetPt"),
-            ),
-        cms.PSet (
-            name = cms.string("vectorJetPtVsMet"),
-            title = cms.string("Vector Jet Sum p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Vector Jet Sum p_{T} [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
-            inputVariables = cms.vstring("metPt", "sumJetPt"),
-            ),
+##         cms.PSet (
+##             name = cms.string("totalMcparticlePtByMetPt"),
+##             title = cms.string("totalMcparticlePtByMetPt;(#sum p_{T} of selected mcparticles)/Met"),
+##             bins = cms.untracked.vdouble(100, -3, 3,),
+##             inputVariables = cms.vstring("totalMcparticlePtByMetPt"),
+##             ),
+##         cms.PSet (
+##             name = cms.string("vectorJetPtVsMet"),
+##             title = cms.string("Vector Jet Sum p_{T} vs. E^{miss}_{T};E^{miss}_{T} [GeV]; Vector Jet Sum p_{T} [GeV]"),
+##             bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
+##             inputVariables = cms.vstring("metPt", "sumJetPt"),
+##             ),
         cms.PSet (
             name = cms.string("totalMuonPt"),  
             title = cms.string("totalMuonPt; #sum p_{T} (#mu#mu) [GeV]"),
@@ -921,7 +921,7 @@ ExtraTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackdPhiMet"),
             title = cms.string("dPhiMetTrk; #Delta #phi (E^{miss}_{T}, trk))"),
-            bins = cms.untracked.vdouble(100, 0, 3.14),
+            bins = cms.untracked.vdouble(100, -4, 4), 
             inputVariables = cms.vstring("dPhiMet"),
             ),
         cms.PSet (
@@ -1276,45 +1276,42 @@ MetExtraHistograms = cms.PSet(
              ),
          
 
+##          cms.PSet (
+##              name = cms.string("metHLTPt"),
+##              title = cms.string("HLT E^{miss}_{T} ; HLT E^{miss}_{T} [GeV]"),
+##              bins = cms.untracked.vdouble(100, 0, 500),
+##              inputVariables = cms.vstring("hltPt"),
+##              ),
+##          cms.PSet (
+##              name = cms.string("metNoMuHLTPt"),
+##              title = cms.string("HLT E^{miss}_{T} (no mu); HLT E^{miss}_{T} [GeV] (no mu)"),
+##              bins = cms.untracked.vdouble(100, 0, 500),
+##              inputVariables = cms.vstring("hltPtNoMu"),
+##              ),
          cms.PSet (
-             name = cms.string("metHLTPt"),
-             title = cms.string("HLT E^{miss}_{T} ; HLT E^{miss}_{T} [GeV]"),
-             bins = cms.untracked.vdouble(100, 0, 500),
-             inputVariables = cms.vstring("hltPt"),
-             ),
-         cms.PSet (
-             name = cms.string("metNoMuHLTPt"),
-             title = cms.string("HLT E^{miss}_{T} (no mu); HLT E^{miss}_{T} [GeV] (no mu)"),
-             bins = cms.untracked.vdouble(100, 0, 500),
-             inputVariables = cms.vstring("hltPtNoMu"),
-             ),
-         
-        cms.PSet (
             name = cms.string("metVsGenMet"),
             title = cms.string("reco E^{miss}_{T} vs gen  E^{miss}_{T} ; reco E^{miss}_{T} [GeV];gen E^{miss}_{T} [GeV]"),
             bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
             inputVariables = cms.vstring("pt", "genPT"),
             ),
-
-       cms.PSet (
-           name = cms.string("metVsHLTMet"),
-           title = cms.string("E^{miss}_{T} vs HLT  E^{miss}_{T} ; E^{miss}_{T} [GeV];HLT E^{miss}_{T} [GeV]"),
-           bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
-           inputVariables = cms.vstring("pt", "hltPt"),
-           ),
-
-         cms.PSet (
-             name = cms.string("metNoMuVsHLTMetNoMu"),
-             title = cms.string("reco E^{miss}_{T} (no mu) vs HLT  E^{miss}_{T} (no mu) ; reco E^{miss}_{T} (no mu) [GeV];HLT E^{miss}_{T} (no mu) [GeV]"),
-             bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
-             inputVariables = cms.vstring("metNoMu", "hltPtNoMu"),
-             ),
-         cms.PSet (
-             name = cms.string("HLTMetVsHLTMetNoMu"),
-             title = cms.string("HLT E^{miss}_{T} vs HLT  E^{miss}_{T} (no mu) ; HLT E^{miss}_{T} [GeV];HLT E^{miss}_{T} (no mu) [GeV]"),
-             bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
-             inputVariables = cms.vstring("hltPt", "hltPtNoMu"),
-             ),
+##          cms.PSet (
+##             name = cms.string("metVsHLTMet"),
+##             title = cms.string("E^{miss}_{T} vs HLT  E^{miss}_{T} ; E^{miss}_{T} [GeV];HLT E^{miss}_{T} [GeV]"),
+##             bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
+##             inputVariables = cms.vstring("pt", "hltPt"),
+##             ),
+##          cms.PSet (
+##              name = cms.string("metNoMuVsHLTMetNoMu"),
+##              title = cms.string("reco E^{miss}_{T} (no mu) vs HLT  E^{miss}_{T} (no mu) ; reco E^{miss}_{T} (no mu) [GeV];HLT E^{miss}_{T} (no mu) [GeV]"),
+##              bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
+##              inputVariables = cms.vstring("metNoMu", "hltPtNoMu"),
+##              ),
+##          cms.PSet (
+##              name = cms.string("HLTMetVsHLTMetNoMu"),
+##              title = cms.string("HLT E^{miss}_{T} vs HLT  E^{miss}_{T} (no mu) ; HLT E^{miss}_{T} [GeV];HLT E^{miss}_{T} (no mu) [GeV]"),
+##              bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
+##              inputVariables = cms.vstring("hltPt", "hltPtNoMu"),
+##              ),
          cms.PSet (
             name = cms.string("metNoMu"),
             title = cms.string("MetNoMu;MetNoMu [GeV]"),
