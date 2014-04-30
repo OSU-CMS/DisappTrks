@@ -821,16 +821,29 @@ FullSelectionNoMet = cms.PSet(
     cutsSigReg
     )
 
-FullSelectionNoMetLeadJet = cms.PSet(
-    name = cms.string("FullSelectionNoMetLeadJet"),
-    triggers = triggersJetMet95,
+FullSelectionNoMetLeadJetMonojet = cms.PSet(
+    name = cms.string("FullSelectionNoMetLeadJetMonojet"),
+    triggers = triggersJetMet95105,
     cuts =
     cutsJets +
-    cms.VPSet ( cutSecJetLeadingPt,cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto, ) +
+    cms.VPSet ( cutSecJetLeadingPt ) +
 #    cutsTrkPresel +
     cutsTrkPresel +
     cutsSigReg
     )
+
+
+FullSelectionNoMetLeadJetBoth = cms.PSet(
+        name = cms.string("FullSelectionNoMetLeadJetBoth"),
+            triggers = triggersJetMet,
+            cuts =
+            cutsJets +
+            cms.VPSet ( cutSecJetLeadingPt) +
+        #    cutsTrkPresel +
+            cutsTrkPresel +
+            cutsSigReg
+            )
+
 
 FullSelectionNoMetLeadJetChi = cms.PSet(
     name = cms.string("FullSelectionNoMetLeadJetChi"),
@@ -844,12 +857,12 @@ FullSelectionNoMetLeadJetChi = cms.PSet(
     )
 
 
-FullSelectionNoMetLeadJetMetTrig = cms.PSet(
-    name = cms.string("FullSelectionNoMetLeadJet"),
+FullSelectionNoMetLeadJetMet = cms.PSet(
+    name = cms.string("FullSelectionNoMetLeadJetMet"),
     triggers = triggersMet120,
     cuts =
     cutsJets +
-    cms.VPSet ( cutSecJetLeadingPt,cutOldMuonLooseIDVeto,cutOldSecMuonLooseIDVeto, ) +
+    cms.VPSet ( cutSecJetLeadingPt) +
     #    cutsTrkPresel +
     cutsTrkPresel +
     cutsSigReg
