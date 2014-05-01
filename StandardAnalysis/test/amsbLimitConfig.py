@@ -6,6 +6,15 @@
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
+# For Wells's running:  
+JessCondorDir = "JessCondor/"
+WellsCondorDir = ""
+
+## # For Jess's running:
+## JessCondorDir = ""
+## WellsCondorDir = "WellsCondorNew/"
+
+
 
 ##################################
 ### Event Selection Parameters ###
@@ -92,7 +101,8 @@ signal_cross_sections = { # in pb
 #signal_condor_dir = 'condor_2013_12_24_FullSelectionNoMet'   
 #signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
 #signal_condor_dir = 'allSigNewSigma'   
-signal_condor_dir = 'WellsCondorNew/condor_2014_02_11_FullSelectionAllSig'   
+#signal_condor_dir = 'WellsCondorNew/condor_2014_02_11_FullSelectionAllSig'   
+signal_condor_dir = WellsCondorDir + 'condor_2014_02_11_FullSelectionAllSig'   
 
 #name of event selection from which to take signal yields
 signal_channel = 'FullSelection'
@@ -145,16 +155,16 @@ backgrounds = {
 ##Select condor directory from which the yields after the full selection will be taken
 background_sources = {
      'Elec' : {
-     'condor_dir'  : 'bkgdFromData_20Feb',
+     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
      },
      'Muon' : {
-     'condor_dir'  : 'bkgdFromData_20Feb',
+     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Tau' : {
-     'condor_dir'  : 'bkgdFromData_20Feb',
+     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Fake' : {
-     'condor_dir'  : 'bkgdFromData_20Feb',
+     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
          },
 
 
@@ -185,13 +195,15 @@ background_systematics = {
          }
 
 external_systematic_uncertainties = [
-            'pileup',
-            'Ecalo',
-            'NMissOut',
-            'PDFWt',
-            'trigEff',
+            'IsrRewtPt', 
             'JER',
             'JES',
+            'PDFWt',
+#            'trigEff',
+            'Ecalo',
+            'NMissOut',
+            'pileup',
+            'trackReco',
         ]
 
 #uncertainties on signal only (we can alter this if we need to)
