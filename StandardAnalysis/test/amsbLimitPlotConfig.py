@@ -16,6 +16,8 @@
 #integrateHistogramName = "numEvents"
 intLumi = 19500
 
+sourceDir = 'limits_20140421' 
+
 #########################
 ### Signal Parameters ###
 #########################
@@ -83,7 +85,8 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [ sourceDir ], #output directory from limit running
+    
     'lifetime' : 0.5,
 #    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
@@ -117,7 +120,7 @@ plotDefinitions = [
             #define all the curves to include on this canvas
     'graphs' : [
                 {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [ sourceDir ], #output directory from limit running
     'lifetime' : 1.0,
 #    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
@@ -150,8 +153,8 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
-    'lifetime' : 5.0,
+    'source' : [ sourceDir ], #output directory from limit running
+   'lifetime' : 5.0,
     #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
     'colorScheme' : 'brazilian',
@@ -176,7 +179,7 @@ plotDefinitions = [
     'showTheory' : True,
      'graphs' : [
     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [ sourceDir ], #output directory from limit running
     'lifetime' : 5.0,
     #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
