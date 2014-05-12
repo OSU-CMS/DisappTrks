@@ -6,13 +6,15 @@
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
-# For Wells's running:  
-JessCondorDir = "JessCondor/"
-WellsCondorDir = ""
+
+# For Wells's running:
+#JessCondorDir = "JessCondor/"
+#WellsCondorDir = ""
 
 ## # For Jess's running:
-## JessCondorDir = ""
-## WellsCondorDir = "WellsCondorNew/"
+JessCondorDir = ""
+WellsCondorDir = "WellsCondorNew/"   
+
 
 
 
@@ -68,31 +70,38 @@ chiMasses = {
     
     }
 
+
+#values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginocharginoCMS and
+# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginoneutralinoCMS
+
+#Also recorded in Sig Cross Sec spreadsheet
+
 signal_cross_sections = { # in pb 
      '32' : {
-          'value' : '14.0',
-          'error' : '1.25', # dummy 10% error
+          'value' : '15.9',
+          'error' : '1.10',
           },
      '50' : {
-          'value' : '2.4',
-          'error' : '1.25', # dummy 10% error
+          'value' : '2.73',
+          'error' : '1.07',
           },
 
      '75' : {
-          'value' : '0.4',
-          'error' : '1.25', # dummy 10% error
+          'value' : '0.478',
+          'error' : '1.05',
           },
      '100' : {
-          'value' : '0.125',
-          'error' : '1.25', # dummy 10% error
+          'value' : '0.185',
+          'error' : '1.05',
           },
      '125' : {
-          'value' : '0.0438',
-          'error' : '1.25', # dummy 10% error
+          'value' : '0.0525',
+          'error' : '1.05',
+
           },
      '150' : {
-          'value' : '0.0175',
-          'error' : '1.25', # dummy 10% error
+          'value' : '0.0221',
+          'error' : '1.05',
           }, 
      }
 
@@ -102,7 +111,9 @@ signal_cross_sections = { # in pb
 #signal_condor_dir = 'WellsCondorNew/condor_2013_12_24_FullSelectionNoMet'   
 #signal_condor_dir = 'allSigNewSigma'   
 #signal_condor_dir = 'WellsCondorNew/condor_2014_02_11_FullSelectionAllSig'   
-signal_condor_dir = WellsCondorDir + 'condor_2014_02_11_FullSelectionAllSig'   
+#signal_condor_dir = 'fullSelectionAllSig_5March'   
+#signal_condor_dir = 'fullSelectionAllSig_7March'
+signal_condor_dir = WellsCondorDir + 'condor_2014_02_11_FullSelectionAllSig'
 
 #name of event selection from which to take signal yields
 signal_channel = 'FullSelection'
@@ -155,16 +166,16 @@ backgrounds = {
 ##Select condor directory from which the yields after the full selection will be taken
 background_sources = {
      'Elec' : {
-     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
+     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
      },
      'Muon' : {
-     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
+     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Tau' : {
-     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
+     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Fake' : {
-     'condor_dir'  : JessCondorDir + 'bkgdFromData_20Feb',
+     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
 
 
@@ -195,21 +206,25 @@ background_systematics = {
          }
 
 external_systematic_uncertainties = [
-            'IsrRewtPt', 
-            'JER',
-            'JES',
-            'PDFWt',
-#            'trigEff',
-            'Ecalo',
-            'NmissoutRewt',
-            'pileup',
-            'trackReco',
-        ]
+    # Use order of AN
+    'IsrRewtPt',
+    'JES',
+    'JER',
+    'PDFWt',
+    'trigEff',
+    'Ecalo',
+    'NmissoutRewt',
+    'pileup',
+    'trackReco',
+    ]
 
 #uncertainties on signal only (we can alter this if we need to)
 signal_systematic_uncertainties = {
     'lumi' :  {
     'value' : '1.026',
+        },
+    'trkReco' :  {
+    'value' : '1.017',
         },
     }
 

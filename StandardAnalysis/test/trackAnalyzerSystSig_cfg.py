@@ -18,8 +18,8 @@ process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_69300xSec')  # P
 ## process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_71795xSec')  # PU high xsec 
 
 # For trigger efficiency systematic:  
-process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction (STANDARD)
-#process.OSUAnalysis.triggerMetSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/TriggerMetSF.root')  # with trigger eff correction  
+#process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction (STANDARD)
+process.OSUAnalysis.triggerMetSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/TriggerMetSF.root')  # with trigger eff correction  
 
 # For trigger efficiency systematic:  
 process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
