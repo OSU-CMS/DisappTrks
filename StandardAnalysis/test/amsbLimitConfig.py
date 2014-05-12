@@ -212,7 +212,7 @@ external_systematic_uncertainties = [
     'JER',
     'PDFWt',
     'trigEff',
-    'Ecalo',
+    'EcaloRewt',
     'NmissoutRewt',
     'pileup',
     'trackReco',
