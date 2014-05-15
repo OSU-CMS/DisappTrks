@@ -206,15 +206,17 @@ background_systematics = {
          }
 
 external_systematic_uncertainties = [
-            'pileup',
-            'Ecalo',
-            'NMissOut',
-            'PDFWt',
-            'trigEff',
-            'JER',
-            'JES',
-            'IsrRewtPt',
-        ]
+    # Use order of AN
+    'IsrRewtPt',
+    'JES',
+    'JER',
+    'PDFWt',
+    'trigEff',
+    'EcaloRewt',
+    'NmissoutRewt',
+    'pileup',
+    'trackReco',
+    ]
 
 #uncertainties on signal only (we can alter this if we need to)
 signal_systematic_uncertainties = {
