@@ -445,9 +445,9 @@ NoCutsFilterMC = cms.PSet(
     cuts = cms.VPSet (
        cutMCPartStatus3Filter,
        cutMCPartSusyFilter,
-       cutSecJetLeadingPt, 
+#       cutSecJetLeadingPt, 
 #       cutSubLeadingJetIDFilter, 
-       cutSubLeadingJetID, 
+#       cutSubLeadingJetID, 
        ),
     )
 
