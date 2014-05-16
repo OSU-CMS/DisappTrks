@@ -22,7 +22,7 @@ intLumi = 19500
 
 # NOTE: The chargino masses are used when actually making the limit plots
 masses = ['103', '164', '247', '328','408',  '488']
-limit_dir = 'limits_1May'
+limit_dir = 'limits_8May'
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
@@ -88,8 +88,8 @@ plotDefinitions = [
                     {
     'source' : [limit_dir], #output directory from limit running
     'lifetime' : 0.5,
-#    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
     },
@@ -122,8 +122,8 @@ plotDefinitions = [
                 {
     'source' : [limit_dir], #output directory from limit running
     'lifetime' : 1.0,
-#    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                 },
@@ -155,8 +155,8 @@ plotDefinitions = [
                     {
     'source' : [limit_dir], #output directory from limit running
     'lifetime' : 5.0,
-#    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                     },
@@ -181,8 +181,8 @@ plotDefinitions = [
     {
     'source' : [limit_dir], #output directory from limit running
     'lifetime' : 5.0,
-    #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
-    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
+    #'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
     },
