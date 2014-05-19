@@ -10,10 +10,10 @@
 #osudb -x  2.36   update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER
 #osudb -x  2.36   update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER
 
-#osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_0p2ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p2ns_V5-e2a86264f85e2fe70e651c2aa13c594a/USER
-#osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p5ns_V5-4d88979c16cc9eba0e57c6422bc75ffc/USER
-#osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_1ns_V5-c1250bd7ba1be8ecace130ea7b0ea4c7/USER
-#osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_5ns_V5-615871aff2b8526b13ce8bebdc277506/USER
+#osudb -x  1.165  update /DisappTrkChargino_LL01_mGrav61K_0p2ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p2ns_V5-e2a86264f85e2fe70e651c2aa13c594a/USER
+#osudb -x  1.165  update /DisappTrkChargino_LL01_mGrav61K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p5ns_V5-4d88979c16cc9eba0e57c6422bc75ffc/USER
+#osudb -x  1.165  update /DisappTrkChargino_LL01_mGrav61K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_1ns_V5-c1250bd7ba1be8ecace130ea7b0ea4c7/USER
+#osudb -x  1.165  update /DisappTrkChargino_LL01_mGrav61K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_5ns_V5-615871aff2b8526b13ce8bebdc277506/USER
 
 #osudb -x  0.443  update /DisappTrkChargino_LL01_mGrav75K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_0p5ns_V5-64e057cfee25eb2da5ad7f4ba073218b/USER
 #osudb -x  0.443  update /DisappTrkChargino_LL01_mGrav75K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_1ns_V5-d7f3732cf921ea9bbe6178e5308dc945/USER

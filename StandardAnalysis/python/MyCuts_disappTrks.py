@@ -21,7 +21,6 @@ triggersJetMet95105 = cms.vstring(
         "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
         "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
             )
-
 triggersMet120 = cms.vstring(
     "HLT_MET120_HBHENoiseCleaned_v",
     )
@@ -243,7 +242,11 @@ cutSubLeadingJetID = cms.PSet (
     inputCollection = cms.string("jets"),
     cutString = cms.string("disappTrkSubLeadingJetID > 0"),
     numberRequired = cms.string(">= 1"),
-#    numberRequired = cms.string("= 3"),
+    )
+cutSubLeadingJetIDFilter = cms.PSet (
+    inputCollection = cms.string("jets"),
+    cutString = cms.string("disappTrkSubLeadingJetID > 0"),
+    numberRequired = cms.string(">= 0"),
     )
 cutBTagVeto = cms.PSet (
     inputCollection = cms.string("jets"),
@@ -707,6 +710,11 @@ cutTrkDZInv = cms.PSet(
 cutTrkNHits = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits >= 7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHitsIs7 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 7"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHits7 = cms.PSet(
