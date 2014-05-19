@@ -148,13 +148,19 @@ backgrounds = {
      'N' : '1',
      'alpha' : '0.44',
                },
+     'ElecWjets' : {
+    'N' : '0',
+    'alpha' : '0.37',
+                   },
       'Muon' : {
       'N' : '1',
       'alpha' : '0.66',
                     },
       'Tau' : {
-      'N' : '1',
-      'alpha' : '0.003',
+      #'N' : '1',
+       'N' : '0',
+      #'alpha' : '0.003',
+       'alpha' : '0.3',
                     },
       'Fake' : {
       'N' : '3',
@@ -166,16 +172,20 @@ backgrounds = {
 ##Select condor directory from which the yields after the full selection will be taken
 background_sources = {
      'Elec' : {
-     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
+#     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
+     'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
      },
      'Muon' : {
-     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
+    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+     #'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Tau' : {
-     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
+    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+    #'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
      'Fake' : {
-     'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
+    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+     #'condor_dir'  :  JessCondorDir + 'bkgdFromData_20Feb',
          },
 
 
@@ -190,13 +200,19 @@ totalBkgdErr = 0.5
 
 background_systematics = {
     'Elec' : {
-    'value'  : '1.26',
+#    'value'  : '1.26',
+    'value'  : '1.31',
          },
+    'ElecWjets' : {
+    'value'  : '1.31',
+             },
     'Muon' : {
-    'value'  : '1.52',
+#    'value'  : '1.52',
+    'value'  : '1.37',
              },
     'Tau' : {
-    'value'  : '1.19',
+#    'value'  : '1.19',
+    'value'  : '1.37',
              },
     'Fake' : {
     'value'  : '1.18',
