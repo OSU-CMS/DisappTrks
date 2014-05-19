@@ -240,7 +240,6 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0
         x.append (mass_limit)
         y.append (lifetime)
-    
         if x_key is 'lifetime' and y_key is 'mass':
             x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
@@ -555,6 +554,11 @@ def fetchLimits(mass,lifetime,directories):
 
             file = TFile(makeSignalRootFileName(mass,lifetime,directory,"observed"))
             limit_tree = file.Get('limit')
+            if not file.GetNkeys():
+                return -1
+            limit_tree = file.Get('limit')
+            if not limit_tree:
+                return -1
             if limit_tree.GetEntries() < 6:
                 continue
             for i in range(0,limit_tree.GetEntries()):
@@ -581,12 +585,12 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
 
-        file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
-        for line in file:
-            line = line.rstrip("\n").split(":")
-            if line[0] =="Limit": #observed limit
-                tmp_limit['observed'] = float(line[1].split(" ")[3])
-        file.close()
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
+            for line in file:
+                line = line.rstrip("\n").split(":")
+                if line[0] =="Limit": #observed limit
+                    tmp_limit['observed'] = float(line[1].split(" ")[3])
+                file.close()
                     
         tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
         tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
@@ -603,14 +607,10 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['down2'] *= xSection
 
         tmp_limit['mass'] = mass
-        # convert lifetime to cm
-#        tmp_limit['lifetime'] = 0.1 * float(lifetime)
         tmp_limit['lifetime'] = lifetime
-#        tmp_limit['branching_ratio'] = branching_ratio
 
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
-
     return (limit if limit['expected'] < 9.9e11 else -1)
 
 
