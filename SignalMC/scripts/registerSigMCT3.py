@@ -58,3 +58,27 @@ for line in fin:
 fin.close()
 
 
+# Now register NoFilter datasets
+masses = [
+    "200",
+    "500",
+    ]
+
+ctaus = [
+    "1000",
+    "100",
+    "30",
+    "10",
+    ]
+    
+for mass in masses:
+    for ctau in ctaus:
+        dataset = 'AMSB_chargino_' + str(mass) + "GeV_ctau" + str(ctau) + "cmNoFilter"
+        longDataset = dataset_names[dataset]
+        xsecTot = float(signal_cross_sections[mass]['value'])
+        command = "osudb -x " + str(xsecTot) + " update " + longDataset
+        print "Command = " + command
+        os.system(command)
+        
+        
+
