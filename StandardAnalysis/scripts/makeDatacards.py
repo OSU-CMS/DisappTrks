@@ -105,22 +105,12 @@ def ReadYieldAndError(condor_dir, process):
         if process + "Bkgd Yield" in line:
             bkgdYield =  line.split(" ")[5]
             bkgdError = line.split(" ")[7]
-
-  #          bkgdYieldRaw = ( pow(Double(bkgdYield),2)/pow(Double(bkgdError),2) )
-  #          print bkgdYieldRaw
-  #          alpha = ( Double(bkgdYield)/Double(bkgdYieldRaw) )
-
- #   fracErrorRaw = 0.0
     fracError = 0.0
     
     if bkgdYield > 0.0:
         fracError = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
-#        fracErrorRaw = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
     yieldAndErrorList['yield'] = bkgdYield
     yieldAndErrorList['error'] = fracError
-   # if arguments.runGamma:
-   #         yieldAndErrorList['error'] = alpha 
-   #         yieldAndErrorList['rawYield'] = str(bkgdYieldRaw)
     return yieldAndErrorList
         
         
@@ -139,14 +129,22 @@ def writeDatacard(mass,lifetime):
     background_errors = { }
     for background in backgrounds :
         yieldAndError = {}
-        yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
-        background_yields[background] = yieldAndError['yield']
-        
+        if not arguments.runGamma:
+            if background == 'ElecWjets':
+                background_yields[background] = str(0.000001)
+                background_errors[background] = str(1.01)
+            else:
+                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+                background_yields[background] = yieldAndError['yield']
+                background_errors[background] = yieldAndError['error']
+                
         if arguments.runGamma:
+            if background == 'ElecWjets':
+                background_yields[background] = str(0)
+            else:
+                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+                background_yields[background] = yieldAndError['yield']
             background_errors[background] = backgrounds[str(background)]['alpha']            
-        else:
-            background_errors[background] = yieldAndError['error']
-
 
 
 
@@ -191,7 +189,10 @@ def writeDatacard(mass,lifetime):
         process_name_row.append(background)
         process_index_row.append(str(process_index))
         process_index = process_index + 1
-        rate_row.append(background_yields[background][:5])
+        if not arguments.runGamma:
+            rate_row.append(background_yields[background][:5])
+        if arguments.runGamma:
+            rate_row.append(str(background_yields[background][:5]))
         empty_row.append('')
         
     datacard_data.append(empty_row)

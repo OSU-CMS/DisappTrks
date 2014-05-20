@@ -18,10 +18,9 @@ triggersJetMet95 = cms.vstring(
     )
 
 triggersJetMet95105 = cms.vstring(
-    "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
-    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
-    )
-
+        "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+        "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+            )
 triggersMet120 = cms.vstring(
     "HLT_MET120_HBHENoiseCleaned_v",
     )
@@ -733,6 +732,12 @@ cutTrkNHitsIs5 = cms.PSet(
     cutString = cms.string("numValidHits == 5"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutTrkNHitsIs7 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 7"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutTrkNHitsInv = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits == 4"),
@@ -1189,6 +1194,12 @@ cutMuonOneOnly = cms.PSet (
 cutMuonMetMT = cms.PSet(
     inputCollection = cms.string("muons"),
     cutString = cms.string("metMT < 40"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+cutMuonMetMTInverse = cms.PSet(
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("metMT > 50"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuonVeto = cms.PSet (
