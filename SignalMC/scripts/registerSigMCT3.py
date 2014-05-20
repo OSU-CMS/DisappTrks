@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+
+import os
+import re
+import math
+from OSUT3Analysis.Configuration.configurationOptions import *  # Needed if you want to modify (not replace) one of the parameters.
+
+
+signal_cross_sections = { # in pb, in terms of chargino mass
+    # Should match values in registerSigMCT3.src!  
+    '100' : {
+    'value' : '16.65',  
+    'error' : '1.10', 
+    },
+    '200' : {
+    'value' : '1.165',  
+    'error' : '1.10', 
+    },
+    '300' : {
+    'value' : '0.2147',  
+    'error' : '1.10', 
+    },
+    '400' : {
+    'value' : '0.0575',  
+    'error' : '1.10', 
+    },
+    '500' : {
+    'value' : '0.01817',  
+    'error' : '1.10', 
+    },
+    '600' : {
+    'value' : '0.00685',  
+    'error' : '1.10', 
+    },
+    }
+
+# Produce this file with:
+# /afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV4/CMSSW_5_3_11/src/DisappTrks/SignalMC/test > grep "Filter efficiency" AMSB_chargino_*GeV_ctau*cm_FilterSumPt50__FilterEff/res/CMSSW_1.stdout > filterEff.txt
+filterEffFile = os.environ['CMSSW_BASE']+'/src/DisappTrks/SignalMC/data/filterEff.txt'  
+
+fin = open(filterEffFile, "r")
+for line in fin:
+    words = line.split()
+    mass =  (re.sub (r"AMSB_chargino_(.*)GeV_ctau(.*)cm.*", r"\1", words[0])) 
+    ctau =  (re.sub (r"AMSB_chargino_(.*)GeV_ctau(.*)cm.*", r"\2", words[0]))
+    filterEff = float(words[3])  
+    dataset = 'AMSB_chargino_' + mass + "GeV_ctau" + ctau + "cm"
+    longDataset = dataset_names[dataset]
+    xsecTot = float(signal_cross_sections[mass]['value'])
+    xsecFiltered = xsecTot * filterEff 
+    command = "osudb -x " + str(xsecFiltered) + " update " + longDataset
+#    print "Debug:  found line: " + line
+#    print "Found mass = " + mass + "; ctau = " + ctau + "; dataset = " + dataset + "; longDataset = "  + longDataset + "; xsecTot = " + str(xsecTot) + "; filterEff = " + str(filterEff) + "; xsecFiltered = " + str(xsecFiltered)
+    print "Command = " + command
+    os.system(command)  
+#    print "\n\n\n"
+    
+fin.close()
+
+
