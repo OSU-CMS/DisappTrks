@@ -19,6 +19,8 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, 
+                  help="verbose output")
 
 (arguments, args) = parser.parse_args()
 
@@ -46,6 +48,9 @@ gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
 gStyle.SetTextFont(42)
 gStyle.SetOptTitle(0)
+gStyle.SetCanvasDefH(600)
+gStyle.SetCanvasDefW(600)
+
 gROOT.ForceStyle()
 
 colorSchemes = {
@@ -97,11 +102,14 @@ colorSchemes = {
 #set the text for the luminosity label
 if(intLumi < 1000.):
     LumiInPb = lumi
-    LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
-    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+##     LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
+##     LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+    LumiText = "L = " + str(intLumi) + " pb^{-1}"
+    LumiText = "L = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
 else:
     LumiInFb = intLumi/1000.
-    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+#    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+    LumiText = "L = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
 
 #set the text for the fancy heading
 HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
@@ -111,7 +119,8 @@ HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.5", "0p5")
-    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
+#    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
+    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
 
 def makeSignalRootFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
@@ -240,6 +249,12 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0
         x.append (mass_limit)
         y.append (lifetime)
+        if arguments.verbose:
+            print "Debug getGraph2D:  adding point: " + str(mass_limit) + ", " + str(lifetime)
+            print "  Debug:  previous_mass=" + str(previous_mass) + ", first_allowed_mass=" + str(first_allowed_mass)  
+            print "  Debug:  limit_dict[lifetime][first_allowed_mass]['experiment'] = " + str(limit_dict[lifetime][first_allowed_mass]['experiment']) + ", experiment_key = " + experiment_key 
+            if previous_mass != first_allowed_mass:
+                print "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ","
         if x_key is 'lifetime' and y_key is 'mass':
             x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
@@ -452,6 +467,8 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
         down.GetPoint (i, downXPoint, downYPoint)
         x.append (xPoint)
         y.append (yPoint)
+        if arguments.verbose:
+            print "Debug:  appending point: (" + str(xPoint) + ", " + str(yPoint) 
         if y_key is 'lifetime':
             eXHigh.append (upXPoint)
             eXLow.append (downXPoint)
@@ -521,6 +538,8 @@ def fetchLimits(mass,lifetime,directories):
     limit = { }
     limit['expected'] = 1.0e12
 
+    if arguments.verbose:
+        print "Debug:  running fetchLimits for mass = " + str(mass) + "; lifetime = " + str(lifetime) + "; directories = " + str(directories) 
     for directory in directories:
         if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+directory+"/method.txt"):
             return -1
@@ -649,8 +668,8 @@ def drawPlot(plot):
             yAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
             yAxisBins.append (8.0 * float (masses[-1]) - 4.0 * float (masses[-2]))
         elif plot['yAxisType'] is 'lifetime':
-            yAxisMin = 0.1*float(lifetimes[0])
-            #yAxisMin = float(lifetimes[0])
+            #yAxisMin = 0.1*float(lifetimes[0])
+            yAxisMin = float(lifetimes[0])
             #yAxisMax = 0.1*float(lifetimes[-1])
             #yAxisMax = float(lifetimes[-1])
             yAxisMax = 2 * float(lifetimes[-1])
@@ -672,6 +691,7 @@ def drawPlot(plot):
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
+    legend.SetTextFont(42)  
 
     #construct tGraph objects for all curves and draw them
     tGraphs = []
@@ -751,7 +771,7 @@ def drawPlot(plot):
                     else:
                         tGraphs[-1].Draw('AF')
                     plotDrawn = True
-                    legendEntry = '#pm 2 #sigma_{experiment}'
+                    legendEntry = 'expected limit #pm2 #sigma'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -762,7 +782,7 @@ def drawPlot(plot):
                     else:
                         tGraphs[-1].Draw('AF')
                     plotDrawn = True
-                    legendEntry = '#pm 1 #sigma_{experiment}'
+                    legendEntry = 'expected limit #pm1 #sigma'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -776,7 +796,7 @@ def drawPlot(plot):
                     else:
                         tGraphs[-1].Draw('AL')
                     plotDrawn = True
-                    legendEntry = 'exp. limit'
+                    legendEntry = 'expected limit'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -820,7 +840,7 @@ def drawPlot(plot):
                     else:
                         tGraphs[-1].Draw('AL')
                     plotDrawn = True
-                    legendEntry = 'obs. limit'
+                    legendEntry = 'observed limit'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -866,7 +886,8 @@ def drawPlot(plot):
     legend.Draw()
     canvas.SetTitle('')
     #draw the header label
-    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
+#    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
+    HeaderLabel = TPaveLabel(0.08892617, 0.9458042, 0.9681208, 0.9965035,HeaderText,"NDC") # from makePlots.py  
     HeaderLabel.SetTextAlign(32)
     HeaderLabel.SetBorderSize(0)
     HeaderLabel.SetFillColor(0)
@@ -931,10 +952,12 @@ for plot in plotDefinitions:
                     lifetime = lifetime.replace("0.5", "0p5")    
 #                limit = fetchLimits(mass,graph['lifetime'],graph['br'],graph['source'])
                 limit = fetchLimits(mass,graph['lifetime'],graph['source'])
+                if arguments.verbose:
+                    print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + limit['expected'] 
                 if limit is not -1:
                     graph['limits'].append(limit)
                 else:
-                    print "WARNING: not plotting mass " + str (mass) + " GeV"
+                    print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']  
         elif 'yAxisType' in plot:
             for mass in masses:
                 for lifetime in lifetimes:
@@ -942,6 +965,8 @@ for plot in plotDefinitions:
                     limit = fetchLimits(mass,lifetime,graph['source'])
                     if limit is not -1:
                         graph['limits'].append(limit)
+                        if arguments.verbose:
+                            print "Debug:  limit for mass " + str(mass) + ", lifetime = " + str(lifetime) + ", limit['expected'] = " + str(limit['expected']) + ", limit['observed'] = " + str(limit['observed'])
                     else:
                         print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " mm"
     #now that all the limits are in place, draw the plot

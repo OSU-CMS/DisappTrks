@@ -22,7 +22,8 @@ intLumi = 19500
 
 # NOTE: The chargino masses are used when actually making the limit plots
 masses = ['103', '164', '247', '328','408',  '488']
-limit_dir = 'limits_8May'
+#limit_dir = 'limits_8May'
+limit_dir = 'limits_2014_02_20Gamma'  
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
@@ -173,18 +174,16 @@ plotDefinitions = [
      'xAxisType' : 'mass',
      'yAxisType' : 'lifetime',
 
-     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-     'yAxisLabel' : '#tau_{#chi^{#pm}} [ns]',
-
+     'xAxisLabel' : 'chargino mass [GeV]',
+     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
+     
     'showTheory' : True,
      'graphs' : [
     {
     'source' : [limit_dir], #output directory from limit running
-    'lifetime' : 5.0,
-    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
-    #'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+    'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
     'colorScheme' : 'brazilian',
-    'legendEntry' : '',
+#    'legendEntry' : '',
     },
     ],
      },

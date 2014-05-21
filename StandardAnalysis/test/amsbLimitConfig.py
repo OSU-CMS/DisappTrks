@@ -8,12 +8,12 @@
 
 
 # For Wells's running:
-#JessCondorDir = "JessCondor/"
-#WellsCondorDir = ""
+JessCondorDir = "JessCondor/"
+WellsCondorDir = ""
 
 ## # For Jess's running:
-JessCondorDir = ""
-WellsCondorDir = "WellsCondorNew/"   
+## JessCondorDir = ""
+## WellsCondorDir = "WellsCondorNew/"   
 
 
 
@@ -32,6 +32,9 @@ integrateHistogramName = "numEvents"
 # a separate datacard will be produced with each value of MASS,TAU
 # named "datacard_AMSB_mGravMASSK_TAUns.txt" 
 
+samplesByGravitinoMass = True
+
+
 #NOTE: These are the gravitino masses
 masses = ['32', '50', '75', '100', '125', '150']
 
@@ -40,7 +43,7 @@ lifetimes = ['0.5', '1.0', '5.0']
 
 lumi = 19500
 
-signalErrFrac = 0.25  # dummy 25% error 
+#signalErrFrac = 0.25  # dummy 25% error 
 
 chiMasses = {
 
@@ -190,8 +193,8 @@ background_sources = {
 
 
      }
-totalBkgd = 1.97
-totalBkgdErr = 0.5
+## totalBkgd = 1.97
+## totalBkgdErr = 0.5
 
 
 #############################
