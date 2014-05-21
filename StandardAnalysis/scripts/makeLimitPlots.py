@@ -627,6 +627,10 @@ def fetchLimits(mass,lifetime,directories):
 
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
+        if convertCmToNs:
+            speedLightCmPerNs = 29.979  # speed of light in cm / ns
+            tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs  
+        
 
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
@@ -869,8 +873,12 @@ def drawPlot(plot):
     for tGraph in tGraphs:
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
-        tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
-        tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
+        if 'xAxisFixMin' in plot:  
+            tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])  
+            tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])    
+        else:
+            tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
+            tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
         if not is2D:
             #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
             tGraph.GetYaxis().SetTitle('#sigma (pp#rightarrow #chi#chi) [pb]')
@@ -880,8 +888,12 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
         else:
             tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
-            tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
-            tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
+            if 'yAxisFixMin' in plot:  
+                tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])  
+                tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])    
+            else:
+                tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
+                tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
 
     legend.Draw()
     canvas.SetTitle('')

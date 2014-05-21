@@ -1,12 +1,12 @@
-
 #!/usr/bin/env python
 
-# Local options file to be used with makeDataCards.py
+# Local options file to be used with makeLimitPlots.py 
 # Usage:
-# > makeDatacards.py -R -l amsbLimitConfig.py -c test
+# > makeLimitPlots.py -l amsbLimitPlotConfigNew.py -c limitDir 
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
+from DisappTrks.SignalMC.signalCrossSecs import *
 
 ##################################
 ### Event Selection Parameters ###
@@ -24,45 +24,15 @@ intLumi = 19500
 #limit_dir = 'limits_8May'
 limit_dir = 'limits_2014_02_20New'  
 
-#masses = ['100', '200', '300', '400', '500', '600']
-masses = ['200', '300', '400', '500', '600']
+masses = ['100', '200', '300', '400', '500', '600']
+#masses = ['200', '300', '400', '500', '600']
 
 #chargino tau values
 lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
-#lifetimes = ['1','2','3','4','5','6','7','8','9','10','30','40','50','60','70','80','90','100','200','400','500','600','700','800','900','1000']
 #lifetimes = ['10','20']  
 
 
-
-signal_cross_sections = { # in pb, in terms of chargino mass
-    # Should match values in registerSigMCT3.src!
-    '100' : {
-    'value' : '16.65',
-    'error' : '1.10',
-    },
-    '200' : {
-    'value' : '1.165',
-    'error' : '1.10',
-            },
-    '300' : {
-    'value' : '0.2147',
-    'error' : '1.10',
-            },
-    '400' : {
-    'value' : '0.0575',
-    'error' : '1.10',
-            },
-    '500' : {
-    'value' : '0.01817',
-    'error' : '1.10',
-            },
-    '600' : {
-    'value' : '0.00685',
-    'error' : '1.10',
-            },
-            }
-
-
+convertCmToNs = True 
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -170,18 +140,47 @@ plotDefinitions = [
 ##         },
 
 
- ######################LIFETIME VS MAS
+##  ######################LIFETIME (cm) VS MASS
+##      {
+##      # this will be the name of the canvas in the output root file
+##      'title' : 'lifetimeCm_vs_mass',
+
+##       # current options are 'mass' and 'lifetime'
+##      'xAxisType' : 'mass',
+##      'yAxisType' : 'lifetime',
+
+##      'xAxisLabel' : 'chargino mass [GeV]',
+##      'yAxisLabel' : 'chargino #LTc#tau#GT [cm]',
+     
+##      'showTheory' : True,
+##      'graphs' : [
+##     {
+##     'source' : [limit_dir], #output directory from limit running
+##     'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+##     'colorScheme' : 'brazilian',
+##     },
+##     ],
+##      },
+     
+
+     
+ ######################LIFETIME (ns) VS MASS
      {
      # this will be the name of the canvas in the output root file
-     'title' : 'limits_vs_mass',
+     'title' : 'lifetimeNs_vs_mass',
 
       # current options are 'mass' and 'lifetime'
      'xAxisType' : 'mass',
      'yAxisType' : 'lifetime',
 
      'xAxisLabel' : 'chargino mass [GeV]',
-     'yAxisLabel' : 'chargino #LTc#tau#GT [cm]',
-     
+     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
+
+     'xAxisFixMin' : 75, 
+     'xAxisFixMax' : 600,
+     'yAxisFixMin' : 0.05, 
+     'yAxisFixMax' : 15,
+
      'showTheory' : True,
      'graphs' : [
     {
@@ -192,5 +191,5 @@ plotDefinitions = [
     ],
      },
      
-     
+
      ]
