@@ -6,6 +6,7 @@
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
+from DisappTrks.SignalMC.signalCrossSecs import *
 
 # For Wells's running:
 JessCondorDir = "JessCondor/"
@@ -34,11 +35,6 @@ integrateHistogramName = "numEvents"
 
 samplesByGravitinoMass = False  
 
-## #NOTE: These are the chargino masses
-## masses = ['100']  
-
-## #chargino tau values
-## lifetimes = ['10']  
 
 #NOTE: These are the chargino masses
 masses = ['100', '200', '300', '400', '500', '600']  
@@ -47,38 +43,6 @@ masses = ['100', '200', '300', '400', '500', '600']
 lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
 
 lumi = 19500
-
-#values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginocharginoCMS and
-# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginoneutralinoCMS
-#Also recorded in Sig Cross Sec spreadsheet
-signal_cross_sections = { # in pb, in terms of chargino mass
-        # Should match values in registerSigMCT3.src!
-    '100' : {
-    'value' : '16.65',
-    'error' : '1.10',
-        },
-    '200' : {
-    'value' : '1.165',
-    'error' : '1.10',
-        },
-    '300' : {
-    'value' : '0.2147',
-    'error' : '1.10',
-        },
-    '400' : {
-    'value' : '0.0575',
-    'error' : '1.10',
-        },
-    '500' : {
-    'value' : '0.01817',
-    'error' : '1.10',
-        },
-    '600' : {
-    'value' : '0.00685',
-    'error' : '1.10',
-        },
-        }
-
 
 #condor directory in which to find signal root files
 signal_condor_dir = WellsCondorDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'

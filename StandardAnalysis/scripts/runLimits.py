@@ -26,7 +26,9 @@ parser.add_option("-r", "--tries", dest="Ntries", default="10",
 parser.add_option("-t", "--toys", dest="Ntoys", default="1",
                   help="how many toy MC to throw for expected limits, default = 1")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
-                                    help="run on the condor queue")
+                  help="run on the condor queue")
+parser.add_option("-q", "--quick", action="store_true", dest="quick", default=False,
+                  help="run only a single sample, for testing")
 
 (arguments, args) = parser.parse_args()
 
@@ -162,3 +164,8 @@ for mass in masses:
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
         os.chdir("../../..")
+
+        if arguments.quick:
+            sys.exit("Finished running one point.")  
+
+
