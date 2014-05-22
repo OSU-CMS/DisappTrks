@@ -234,7 +234,6 @@ external_systematic_uncertainties = [
     'EcaloRewt',
     'NmissoutRewt',
     'pileup',
-    'trackReco',
     ]
 
 #uncertainties on signal only (we can alter this if we need to)
