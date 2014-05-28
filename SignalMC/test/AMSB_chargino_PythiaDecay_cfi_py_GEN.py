@@ -71,7 +71,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
             'MSTJ(22)=2     ! Decay those unstable particles', 
-            'PARJ(71)=10000 .  ! for which ctau  10 mm', 
+            'PARJ(71)=100000 .  ! set ctau in mm', 
             'MSTP(33)=0     ! no K factors in hard cross sections', 
             'MSTP(2)=1      ! which order running alphaS', 
             'MSTP(51)=10042 ! structure function chosen (external PDF CTEQ6L1)', 
@@ -98,7 +98,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino200GeV_100ctau.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/pythiaDecay/AMSB_chargino_100GeV_ctau100cm.slha') 
     ),
 )
 
