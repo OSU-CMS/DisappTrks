@@ -7,6 +7,16 @@
 
 import sys
 
+from optparse import OptionParser
+
+
+parser = OptionParser()
+parser.add_option("-p", "--pythia", action="store_true", dest="pythia", default=False,
+                                    help="create config files for running GEN jobs with chargino decay in pythia")  
+(arguments, args) = parser.parse_args()
+
+
+
 # SLHA files for each mass point must be created independently (e.g., with isajet)  
 # mass of chargino in GeV
 masses = [
@@ -92,29 +102,38 @@ for m in masses:
         configCtauTemplate = fin.read()
         fin.close()
         
-        newFile = "../data/geant4_AMSB_chargino_" + str(m) + "GeV_ctau" + str(ctau) + "cm.slha"  
+        if arguments.pythia:
+            newFile = "../data/pythiaDecay/AMSB_chargino_" + str(m) + "GeV_ctau" + str(ctau) + "cm.slha"
+        else:
+            newFile = "../data/geant4_AMSB_chargino_" + str(m) + "GeV_ctau" + str(ctau) + "cm.slha"
         print "Creating new file: " + newFile + " with mChargino = " + mChargino + ", mNeutralino = " + mNeutralino + ", massDiff = " + str(float(mChargino) - float(mNeutralino))   
         fnew = open(newFile, "w")
-        configNew  = "# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc  \n"
-        configNew += '# The strings "decay", "pdg code", and "block", with correct capitalization, are used \n'
-        configNew += "# to control the data input, so do not use these in any comments.  \n"
-        configNew += "# \n"
-        configNew += "# \n"
-        configNew += "# Get values for chargino and neutralino masses from:  \n"
-        configNew += "# " + templateMassFile + "\n"  
-        configNew += "BLOCK MASS   \n" 
-        configNew += "#  PDG code   mass   particle \n"
-        configNew += "   1000022   " + str(mNeutralino) + "   # ~neutralino(1) \n"
-        configNew += "   1000024   " + str(mChargino)   + "   # ~chargino(1)+  \n"
-        configNew += "  -1000024   " + str(mChargino)   + "   # ~chargino(1)-  \n"
-        configNew += "Block \n"
-        configNew += "\n"
-        configNew += "\n"
-        configNew += "\n"
+        if not arguments.pythia:
+            configNew  = "# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc  \n"
+            configNew += '# The strings "decay", "pdg code", and "block", with correct capitalization, are used \n'
+            configNew += "# to control the data input, so do not use these in any comments.  \n"
+            configNew += "# \n"
+            configNew += "# \n"
+            configNew += "# Get values for chargino and neutralino masses from:  \n"
+            configNew += "# " + templateMassFile + "\n"  
+            configNew += "BLOCK MASS   \n" 
+            configNew += "#  PDG code   mass   particle \n"
+            configNew += "   1000022   " + str(mNeutralino) + "   # ~neutralino(1) \n"
+            configNew += "   1000024   " + str(mChargino)   + "   # ~chargino(1)+  \n"
+            configNew += "  -1000024   " + str(mChargino)   + "   # ~chargino(1)-  \n"
+            configNew += "Block \n"
+            configNew += "\n"
+            configNew += "\n"
+            configNew += "\n"
+        else:
+            fin = open(templateMassFile, "r")
+            configNew = ""
+            configNew += fin.read()  
+            fin.close()  
         configNew += configCtauTemplate
         configNew += "\n"  
         configNew += "\n"  
-        configNew += "EOF \n"  
+        configNew += "EOF \n"
         fnew.write(configNew)
         fnew.close()  
 

@@ -63,15 +63,15 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 
 process.generator = cms.EDFilter("Pythia6GeneratorFilter",
-    pythiaPylistVerbosity = cms.untracked.int32(1),
+    maxEventsToPrint = cms.untracked.int32(1),
+    pythiaPylistVerbosity = cms.untracked.int32(3),
+    comEnergy = cms.double(8000.0),  
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
-    comEnergy = cms.double(8000.0),
-    maxEventsToPrint = cms.untracked.int32(1),
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
             'MSTJ(22)=2     ! Decay those unstable particles', 
-            'PARJ(71)=10000 .  ! for which ctau  10 mm', 
+            'PARJ(71)=100000 .  ! set ctau in mm', 
             'MSTP(33)=0     ! no K factors in hard cross sections', 
             'MSTP(2)=1      ! which order running alphaS', 
             'MSTP(51)=10042 ! structure function chosen (external PDF CTEQ6L1)', 
@@ -93,21 +93,13 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         processParameters = cms.vstring(
 	    'IMSS(1)     = 11    ! Spectrum from external SLHA file', 
             'MSEL        = 0     ! full user control', 
+	    'MSUB(229)   = 1     ! to neutralino + chargino',
             'MSUB(226)   = 1     ! to double chargino'),
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino200GeV_100ctau.slha')
-#        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino200GeV_150ctau.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/pythiaDecay/AMSB_chargino_100GeV_ctau100cm.slha') 
     ),
-    hscpFlavor = cms.untracked.string('stau'),
-    massPoint = cms.untracked.int32(200),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/particles_chargino_200GeV.txt'),
-#    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino200GeV_100ctau.slha'),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino200GeV_150ctau.slha'),
-    processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/stophadronProcessList.txt'),
-    pdtFile = cms.FileInPath('DisappTrks/SignalMC/data/chargino200GeV_pdt_file.tbl'),
-    useregge = cms.bool(False)
 )
 
 
