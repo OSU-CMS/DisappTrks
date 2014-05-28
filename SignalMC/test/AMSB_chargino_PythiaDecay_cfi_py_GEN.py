@@ -68,8 +68,6 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     comEnergy = cms.double(8000.0),  
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
-    processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'), 
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino200GeV_150ctau.slha'),
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
             'MSTJ(22)=2     ! Decay those unstable particles', 
