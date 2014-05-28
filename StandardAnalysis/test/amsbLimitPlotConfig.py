@@ -22,38 +22,42 @@ intLumi = 19500
 
 # NOTE: The chargino masses are used when actually making the limit plots
 masses = ['103', '164', '247', '328','408',  '488']
+#limit_dir = 'limits_8May'
+limit_dir = 'limits_2014_02_20Gamma'  
 
 #chargino tau values
 lifetimes = ['0.5', '1.0', '5.0']
 
 signal_cross_sections = { # in pb 
    '103' : {
-         'value' : '14.0',
-         'error' : '1.25', # dummy 10% error
+         'value' : '15.9',
+          'error' : '1.1', # dummy 10% error
          },
     '164' : {
-         'value' : '2.4',
-         'error' : '1.25', # dummy 10% error
+         'value' : '2.73',
+          'error' : '1.07',
          },
 
     '247' : {
-         'value' : '0.4',
-         'error' : '1.25', # dummy 10% error
+         'value' : '0.478',
+         'error' : '1.05',
          },
     '328' : {
-         'value' : '0.125',
-         'error' : '1.25', # dummy 10% error
+         'value' : '0.185',
+         'error' : '1.05',
          },
    '408' : {
-         'value' : '0.0438',
-         'error' : '1.25', # dummy 10% error
+         'value' : '0.052',
+         'error' : '1.05',
          },
    
     '488' : {
-         'value' : '0.0175',
-         'error' : '1.25', # dummy 10% error
+         'value' : '0.0221',
+         'error' : '1.05',
          }, 
     }
+
+
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -83,10 +87,10 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [limit_dir], #output directory from limit running
     'lifetime' : 0.5,
-#    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
     },
@@ -117,10 +121,10 @@ plotDefinitions = [
             #define all the curves to include on this canvas
     'graphs' : [
                 {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [limit_dir], #output directory from limit running
     'lifetime' : 1.0,
-#    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                 },
@@ -150,10 +154,10 @@ plotDefinitions = [
                 #define all the curves to include on this canvas
     'graphs' : [
                     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
+    'source' : [limit_dir], #output directory from limit running
     'lifetime' : 5.0,
-    #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
     'colorScheme' : 'brazilian',
     'legendEntry' : '',
                     },
@@ -170,18 +174,16 @@ plotDefinitions = [
      'xAxisType' : 'mass',
      'yAxisType' : 'lifetime',
 
-     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-     'yAxisLabel' : '#tau_{#chi^{#pm}} [ns]',
-
+     'xAxisLabel' : 'chargino mass [GeV]',
+     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
+     
     'showTheory' : True,
      'graphs' : [
     {
-    'source' : ['limits_27Feb_v2'], #output directory from limit running
-    'lifetime' : 5.0,
-    #'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
-    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+    'source' : [limit_dir], #output directory from limit running
+    'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
     'colorScheme' : 'brazilian',
-    'legendEntry' : '',
+#    'legendEntry' : '',
     },
     ],
      },

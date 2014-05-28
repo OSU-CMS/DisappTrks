@@ -105,22 +105,12 @@ def ReadYieldAndError(condor_dir, process):
         if process + "Bkgd Yield" in line:
             bkgdYield =  line.split(" ")[5]
             bkgdError = line.split(" ")[7]
-
-  #          bkgdYieldRaw = ( pow(Double(bkgdYield),2)/pow(Double(bkgdError),2) )
-  #          print bkgdYieldRaw
-  #          alpha = ( Double(bkgdYield)/Double(bkgdYieldRaw) )
-
- #   fracErrorRaw = 0.0
     fracError = 0.0
     
     if bkgdYield > 0.0:
         fracError = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
-#        fracErrorRaw = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
     yieldAndErrorList['yield'] = bkgdYield
     yieldAndErrorList['error'] = fracError
-   # if arguments.runGamma:
-   #         yieldAndErrorList['error'] = alpha 
-   #         yieldAndErrorList['rawYield'] = str(bkgdYieldRaw)
     return yieldAndErrorList
         
         
@@ -128,8 +118,11 @@ def ReadYieldAndError(condor_dir, process):
 def writeDatacard(mass,lifetime):
 
     lifetime = lifetime.replace(".0", "")  
-    lifetime = lifetime.replace("0.5", "0p5")  
-    signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
+    lifetime = lifetime.replace("0.5", "0p5")
+    if samplesByGravitinoMass:
+        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"  
+    else:
+        signal_dataset = "AMSB_chargino_" + mass + "GeV_RewtCtau" + lifetime + "cm"   
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = pow(signal_yield,2) / pow(signalYieldAndError['absError'],2)
@@ -137,23 +130,34 @@ def writeDatacard(mass,lifetime):
 
     background_yields = { }
     background_errors = { }
+    totalBkgd = 0 
     for background in backgrounds :
         yieldAndError = {}
-        yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
-        background_yields[background] = yieldAndError['yield']
-        
+        if not arguments.runGamma:
+            if background == 'ElecWjets':
+                background_yields[background] = str(0.000001)
+                background_errors[background] = str(1.01)
+            else:
+                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+                background_yields[background] = yieldAndError['yield']
+                background_errors[background] = yieldAndError['error']
         if arguments.runGamma:
+            if background == 'ElecWjets':
+                background_yields[background] = str(0)
+            else:
+                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+                background_yields[background] = yieldAndError['yield']
             background_errors[background] = backgrounds[str(background)]['alpha']            
-        else:
-            background_errors[background] = yieldAndError['error']
-
-
-
+        totalBkgd += background_yields[background]  
 
     default_channel_name = "MyChan"
-    os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
-    datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
-    
+    if samplesByGravitinoMass: 
+        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")      
+        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")  
+    else:
+        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")     
+        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w") 
+
     datacard.write('imax 1 number of channels\n')
     datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
     datacard.write('kmax * number of nuisance parameters\n')
@@ -191,7 +195,10 @@ def writeDatacard(mass,lifetime):
         process_name_row.append(background)
         process_index_row.append(str(process_index))
         process_index = process_index + 1
-        rate_row.append(background_yields[background][:5])
+        if not arguments.runGamma:
+            rate_row.append(background_yields[background][:5])
+        if arguments.runGamma:
+            rate_row.append(str(background_yields[background][:5]))
         empty_row.append('')
         
     datacard_data.append(empty_row)
@@ -302,7 +309,7 @@ def writeDatacard(mass,lifetime):
 
     signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])  
     signalEff = signal_yield / signalOrigYield
-    signalEffErr = signalEff * signalErrFrac
+    signalEffErr = signalEff * (signal_cross_sections[mass]['error'] - 1.0)  
 
     datacard.write('# lumi = ' + str(lumi) + '\n')
     datacard.write('# sig cross sec = ' + signal_cross_sections[mass]['value'] + '\n')

@@ -6,6 +6,10 @@ from DisappTrks.StandardAnalysis.trackAnalyzerCondor_cfg import *
 process.source.fileNames.append('file:/home/wulsin/disappTrks/analysisTemplateV3/CMSSW_6_1_2/src/DisappTrks/StandardAnalysis/test/condor/condor_2014_01_25_MetJetSkim/AMSB_mGrav75K_1ns/MetJet/bean_0.root')  
 process.maxEvents.input = 200
 #process.MessageLogger.cerr.FwkReport.reportEvery = 1
+#process.OSUAnalysis.dataset = cms.string("AMSB_mGrav75K_1ns")
+process.OSUAnalysis.histogramSets.append(MCParticleHistograms)
+process.OSUAnalysis.histogramSets.append(MCParticleExtraHistograms)
+process.OSUAnalysis.histogramSets.append(EventExtraHistograms)  
 
 
 # For pile-up systematic:  
@@ -14,8 +18,8 @@ process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_69300xSec')  # P
 ## process.OSUAnalysis.dataPU = cms.string ('PU_data_190456_208686_71795xSec')  # PU high xsec 
 
 # For trigger efficiency systematic:  
-process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction (STANDARD)
-#process.OSUAnalysis.triggerMetSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/TriggerMetSF.root')  # with trigger eff correction  
+#process.OSUAnalysis.triggerMetSFFile = cms.string ('')    # no trigger eff correction (STANDARD)
+process.OSUAnalysis.triggerMetSFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/TriggerMetSF.root')  # with trigger eff correction  
 
 # For trigger efficiency systematic:  
 process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
@@ -24,7 +28,12 @@ process.OSUAnalysis.trackNMissOutSFFile = cms.string ('')    # no trigger eff co
 
 # For ISR  systematic:  
 process.OSUAnalysis.isrVarySFFile = cms.string ('')    # no trigger eff correction  (STANDARD)  
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsrXXXKStdVsDnRatio.root')  # with Isr variation 
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsrTuneZ2StarXXXKStdVsDnRatio.root')  # with Isr variation 
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsrXXXKStdVsUpRatio.root')  # with Isr variation 
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsrTuneZ2StarXXXKStdVsUpRatio.root')  # with Isr variation 
 #process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsr75KStdVsDnRatio.root')  # with Isr variation 
+#process.OSUAnalysis.isrVarySFFile = cms.string (os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/data/compareIsr150KStdVsDnRatio.root')  # with Isr variation 
 
 # For PDF systematic:  
 process.OSUAnalysis.calcPdfWeights = cms.bool(False)    # no calculation of weights (STANDARD)  
@@ -62,5 +71,6 @@ from DisappTrks.StandardAnalysis.MyEventSelections_disappTrks import *
 ################################
 ## Channels for Analysis Note ##
 ################################
+#process.OSUAnalysis.channels.append(FullSelectionFilterMC)
 process.OSUAnalysis.channels.append(FullSelection)
 

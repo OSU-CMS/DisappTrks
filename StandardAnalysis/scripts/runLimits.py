@@ -26,7 +26,9 @@ parser.add_option("-r", "--tries", dest="Ntries", default="10",
 parser.add_option("-t", "--toys", dest="Ntoys", default="1",
                   help="how many toy MC to throw for expected limits, default = 1")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
-                                    help="run on the condor queue")
+                  help="run on the condor queue")
+parser.add_option("-q", "--quick", action="store_true", dest="quick", default=False,
+                  help="run only a single sample, for testing")
 
 (arguments, args) = parser.parse_args()
 
@@ -94,12 +96,13 @@ methodFile.close()
 
 ### looping over signal models and running a combine job for each one
 for mass in masses:
-    print mass
     for lifetime in lifetimes:
-        print lifetime
         lifetime = lifetime.replace(".0", "")
         lifetime = lifetime.replace("0.5", "0p5")
-        signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns"
+        if samplesByGravitinoMass: 
+            signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns" 
+        else: 
+            signal_name = "AMSB_mChi" + mass + "_" + lifetime + "cm" 
         condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
         condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
         datacard_name = "datacard_"+signal_name+".txt"
@@ -120,26 +123,28 @@ for mass in masses:
         else:
             combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
             combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-            
+            if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150): 
+                combine_expected_options += " --rMin 0.00000001 --rMax 2 "
+                combine_observed_options += " --rMin 0.00000001 --rMax 2 "
+
         combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
         combine_command = combine_command.rstrip()
-        
+
         shutil.rmtree(condor_expected_dir, True)
         os.mkdir(condor_expected_dir)
         shutil.copy(datacard_src_name, datacard_dst_expected_name)
         os.chdir(condor_expected_dir)
-        
+
         if not arguments.batchMode:
-#            command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
             command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
             print command
             os.system(command)
-            
+
         else:
             print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
             output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-            
+
         os.chdir("../../..")
 
         shutil.rmtree(condor_observed_dir, True)
@@ -148,7 +153,7 @@ for mass in masses:
         os.chdir(condor_observed_dir)
         
         if not arguments.batchMode:
-#            command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+            #            command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
             command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
             print command
             os.system(command)
@@ -157,5 +162,10 @@ for mass in masses:
             print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
             output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-            
+
         os.chdir("../../..")
+
+        if arguments.quick:
+            sys.exit("Finished running one point.")  
+
+
