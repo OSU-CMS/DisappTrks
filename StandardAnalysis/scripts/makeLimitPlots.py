@@ -592,7 +592,10 @@ def fetchLimits(mass,lifetime,directories):
         # for other methods, get the ranges from the log file
         else:
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
+#            print "Debug:  opening file: "
+#            print makeSignalLogFileName(mass,lifetime,directory,"expected")  
             for line in file:
+#                print "Debug: line = " + line  
                 line = line.rstrip("\n").split(":")
                 if line[0] == "median expected limit": 
                     tmp_limit['expected'] = float(line[1].split(" ")[3])
@@ -603,13 +606,16 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down2'] = float(line[1].split(" ")[1])
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
+#            print "Debug:  finished expected"  
 
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
+#            print "Debug:  opening observed file: "
+#            print makeSignalLogFileName(mass,lifetime,directory,"observed")  
             for line in file:
                 line = line.rstrip("\n").split(":")
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
-                file.close()
+            file.close()
                     
         tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
         tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
@@ -905,6 +911,14 @@ def drawPlot(plot):
     HeaderLabel.SetFillColor(0)
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
+
+    if 'theoryLabel' in plot: 
+        TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC")
+        TheoryLabel.SetTextAlign(32)
+        TheoryLabel.SetBorderSize(0)
+        TheoryLabel.SetFillColor(0)
+        TheoryLabel.SetFillStyle(0)
+        TheoryLabel.Draw()
 
     if 'massLabel' in plot:
         MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")

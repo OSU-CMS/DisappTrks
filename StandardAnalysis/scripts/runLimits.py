@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Documentation of the combine tool:  https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit  
+
 import time
 import os
 import sys
@@ -123,9 +125,9 @@ for mass in masses:
         else:
             combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
             combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-            if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150): 
-                combine_expected_options += " --rMin 0.00000001 --rMax 2 "
-                combine_observed_options += " --rMin 0.00000001 --rMax 2 "
+        if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150): 
+            combine_expected_options += " --rMin 0.00000001 --rMax 2 "
+            combine_observed_options += " --rMin 0.00000001 --rMax 2 "
 
         combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
         combine_command = combine_command.rstrip()
