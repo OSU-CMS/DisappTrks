@@ -1,8 +1,13 @@
 # Usage:  getHistIntegrals.py -l configHistIntegralsMet.py
 
-condor_dir = 'condor_2014_04_28_PreSelectionNoMet' 
-channel =  'PreSelectionNoMet'
+#condor_dir = 'condor_2014_04_28_PreSelectionNoMet' 
+#channel =  'PreSelectionNoMet'
+#cutValue = 220
+
+condor_dir = 'condor_2014_02_11_FullSelectionAllSig' 
+channel =  'FullSelection' 
 histName = "metPt"
+cutValue = 150
 
 
 input_hists = [    
@@ -18,7 +23,7 @@ input_hists = [
       'dataset' : 'AMSB_mGrav50K_0p5ns',
       'channel' : channel, 
       'histName' : histName,  
-      'xlo' : 220, 
+      'xlo' : cutValue, 
       'xhi' : 501, 
       },
     { 'condor_dir' : condor_dir, 
@@ -40,7 +45,7 @@ input_hists = [
       'dataset' : 'AMSB_mGrav50K_1ns',
       'channel' : channel, 
       'histName' : histName,  
-      'xlo' : 220, 
+      'xlo' : cutValue, 
       'xhi' : 501, 
       },
     { 'condor_dir' : condor_dir, 
@@ -62,7 +67,7 @@ input_hists = [
       'dataset' : 'AMSB_mGrav50K_5ns',
       'channel' : channel, 
       'histName' : histName,  
-      'xlo' : 220, 
+      'xlo' : cutValue, 
       'xhi' : 501, 
       },
     { 'condor_dir' : condor_dir, 
