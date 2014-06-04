@@ -99,7 +99,7 @@ outputJobs
         }
     }
   #  $output .= "crab -forceResubmit $buffer -c $workingDir\n" if $count;  # original
-  $output .= "crab -forceResubmit $buffer -GRID.se_black_list=T3_US_UCR,T3_US_UMiss,T3_US_Rutgers,T2_UK_SGrid_RALPP,T3_US_UMD,T1_UK_RAL,T3_MX_Cinvestav,T2_ES_CIEMAT -c $workingDir\n" if $count;  # Added blacklist on 2014-04-07 to avoid sites with missing RelVal sample  
+  $output .= "crab -forceResubmit $buffer -GRID.se_black_list=T3_US_UCR,T3_US_UMiss,T3_US_Rutgers,T2_UK_SGrid_RALPP,T3_US_UMD,T1_UK_RAL,T3_MX_Cinvestav,T2_ES_CIEMAT,T2_TR_METU,T2_KR_KNU,T2_UK_SGrid_Bristol,T3_UK_London_QMUL -c $workingDir\n" if $count;  # Added blacklist on 2014-04-07 to avoid sites with missing RelVal sample  
   # $output =~ s/-c/-GRID.ce_white_list= -c/g;    # To remove white-listing  
 
   return $output;

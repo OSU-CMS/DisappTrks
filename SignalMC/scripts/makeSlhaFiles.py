@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+#
+# Creates needed slha files for signal MC production
+# 
 # Usage:
 # /afs/cern.ch/user/w/wulsin/workspace/public/disappTrk/signalMCGenV3/CMSSW_5_3_11/src/DisappTrks/SignalMC/test/
 # > ../scripts/makeSlhaFiles.py 
@@ -8,7 +11,6 @@
 import sys
 
 from optparse import OptionParser
-
 
 parser = OptionParser()
 parser.add_option("-p", "--pythia", action="store_true", dest="pythia", default=False,
@@ -35,6 +37,7 @@ ctaus = [
     30, 
     100,
     1000,
+    10000,
     ]
 
 # Make slha stubs for ctau values  
