@@ -67,9 +67,9 @@ void makeDeadEcalEff() {
   
   const Int_t nbins = 6;
 
-  //   TString lifetime = "0.5";
-//   TString lifetime = "1";
-   TString lifetime = "5";
+  TString lifetime = "0.5";
+  //   TString lifetime = "1";
+   //   TString lifetime = "5";
 
    Float_t masses      [nbins] = {103, 164, 246, 328, 408, 488};  
    Float_t effOld0p5ns [nbins] = {0.884, 0.958, 0.889, 0.895, 0.897, 0.909}; 
@@ -113,7 +113,8 @@ void makeDeadEcalEff() {
    grEffOld->SetLineWidth(2);  
    grEffOld->SetMinimum(0);
    grEffOld->SetMaximum(0.25);
-   grEffOld->SetTitle(";chargino mass;efficiency of dead ECAL veto"); 
+   //  grEffOld->SetTitle(";chargino mass;efficiency of dead ECAL veto"); 
+   grEffOld->SetTitle(";chargino mass;1 - #epsilon"); 
    grEffOld->Draw("AP");
    //   grEffOld->Draw("P");
 
