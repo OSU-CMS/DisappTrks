@@ -620,6 +620,14 @@ FullSelectionFilterMC = cms.PSet(
     )
     )
 
+FullSelectionDeadEcalLast = copy.deepcopy(FullSelection) 
+FullSelectionDeadEcalLast.name = cms.string("FullSelectionDeadEcalLast") 
+for i in xrange(len(FullSelectionDeadEcalLast.cuts) - 1, -1, -1):
+    if FullSelectionDeadEcalLast.cuts[i].cutString == cutTrkDeadEcalVeto.cutString:
+        del FullSelectionDeadEcalLast.cuts[i]
+FullSelectionDeadEcalLast.cuts.append(cutTrkDeadEcalVeto)  
+                
+
 FullSelectionStopCtauZero = copy.deepcopy(FullSelection) 
 FullSelectionStopCtauZero.name = cms.string("FullSelectionStopCtauZero") 
 FullSelectionStopCtauZero.cuts.append(cutStopCtauZero)  
@@ -1058,6 +1066,16 @@ for i in xrange(len(PreSelectionNoPt.cuts) - 1, -1, -1):
     if PreSelectionNoPt.cuts[i].cutString == cutTrkPt.cutString:
         del PreSelectionNoPt.cuts[i] 
 
+PreSelectionNoJet = copy.deepcopy(PreSelection)
+PreSelectionNoJet.name = cms.string("PreSelectionNoJet")
+for i in xrange(len(PreSelectionNoJet.cuts) - 1, -1, -1):
+    if PreSelectionNoJet.cuts[i].cutString == cutSecJetPt.cutString:
+        del PreSelectionNoJet.cuts[i] 
+
+PreSelectionNoJet_LeadingJetFilter = copy.deepcopy(PreSelectionNoJet)
+PreSelectionNoJet_LeadingJetFilter.name = cms.string("PreSelectionNoJet_LeadingJetFilter")
+PreSelectionNoJet_LeadingJetFilter.cuts.append(cutSecJetLeadingPt)
+
 PreSelectionNoNHit = copy.deepcopy(PreSelection)
 PreSelectionNoNHit.name = cms.string("PreSelectionNoNHit")
 for i in xrange(len(PreSelectionNoNHit.cuts) - 1, -1, -1):
@@ -1101,6 +1119,22 @@ for i in xrange(len(PreSelectionNoMissMid.cuts) - 1, -1, -1):
     if PreSelectionNoMissMid.cuts[i].cutString == cutTrkHitMissMid.cutString:
         del PreSelectionNoMissMid.cuts[i] 
 
+PreSelectionNoMuonFiducial = copy.deepcopy(PreSelection)
+PreSelectionNoMuonFiducial.name = cms.string("PreSelectionNoMuonFiducial")  
+for i in xrange(len(PreSelectionNoMuonFiducial.cuts) - 1, -1, -1):
+    if PreSelectionNoMuonFiducial.cuts[i].cutString == cutTrkWheel0GapVeto.cutString or \
+       PreSelectionNoMuonFiducial.cuts[i].cutString == cutTrkEtaMuonPk.cutString or \
+       PreSelectionNoMuonFiducial.cuts[i].cutString == cutTrkBadCSCVeto.cutString:  
+        del PreSelectionNoMuonFiducial.cuts[i] 
+
+FullSelectionNoMuonFiducial = copy.deepcopy(FullSelection)
+FullSelectionNoMuonFiducial.name = cms.string("FullSelectionNoMuonFiducial")  
+for i in xrange(len(FullSelectionNoMuonFiducial.cuts) - 1, -1, -1):
+    if FullSelectionNoMuonFiducial.cuts[i].cutString == cutTrkWheel0GapVeto.cutString or \
+       FullSelectionNoMuonFiducial.cuts[i].cutString == cutTrkEtaMuonPk.cutString or \
+       FullSelectionNoMuonFiducial.cuts[i].cutString == cutTrkBadCSCVeto.cutString:  
+        del FullSelectionNoMuonFiducial.cuts[i] 
+
 
 FullSelectionElecPreveto = cms.PSet(
     name = cms.string("FullSelectionElecPreveto"),
@@ -1111,6 +1145,10 @@ for i in xrange(len(FullSelectionElecPreveto.cuts) - 1, -1, -1):
     cut = FullSelectionElecPreveto.cuts[i]
     if cut.cutString == cutElecLooseIDVeto.cutString or cut.cutString == cutMaxCalo10.cutString: # remove elec veto and Ecalo cut
         del FullSelectionElecPreveto.cuts[i]
+
+FullSelectionElecPrevetoKeepEcalo = copy.deepcopy(FullSelectionElecPreveto)
+FullSelectionElecPrevetoKeepEcalo.name = cms.string("FullSelectionElecPrevetoKeepEcalo")
+FullSelectionElecPrevetoKeepEcalo.cuts.append(cutMaxCalo10)  
         
 
 FullSelectionTauPreveto = cms.PSet(
@@ -1152,7 +1190,7 @@ FullSelectionNHits4 = cms.PSet(
     )
 for i in xrange(len(FullSelectionNHits4.cuts) - 1, -1, -1):
     if FullSelectionNHits4.cuts[i].cutString == cutTrkNHits.cutString:
-        FullSelectionNHits4.cuts[i].cutString = cutTrkNHits4.cutString
+        FullSelectionNHits4.cuts[i].cutString = cutTrkNHitsIs4.cutString
                 
 FullSelectionNHits4MinFake = cms.PSet(
     name = cms.string("FullSelectionNHits4MinFake"),
@@ -1163,6 +1201,30 @@ for i in xrange(len(FullSelectionNHits4MinFake.cuts) - 1, -1, -1):
     if FullSelectionNHits4MinFake.cuts[i].cutString == cutTrkNHits.cutString:
         FullSelectionNHits4MinFake.cuts[i].cutString = cutTrkNHits4Min.cutString
 FullSelectionNHits4MinFake.cuts.append(cutTrkNotGenMatched)  
+
+FullSelectionNHits3Min = copy.deepcopy(FullSelection)  
+FullSelectionNHits3Min.name = cms.string("FullSelectionNHits3Min") 
+for i in xrange(len(FullSelectionNHits3Min.cuts) - 1, -1, -1):
+    if FullSelectionNHits3Min.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits3Min.cuts[i].cutString = cutTrkNHits3Min.cutString
+
+FullSelectionNHits3 = copy.deepcopy(FullSelection)  
+FullSelectionNHits3.name = cms.string("FullSelectionNHits3") 
+for i in xrange(len(FullSelectionNHits3.cuts) - 1, -1, -1):
+    if FullSelectionNHits3.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits3.cuts[i].cutString = cutTrkNHitsIs3.cutString
+
+FullSelectionNHits5 = copy.deepcopy(FullSelection)  
+FullSelectionNHits5.name = cms.string("FullSelectionNHits5") 
+for i in xrange(len(FullSelectionNHits5.cuts) - 1, -1, -1):
+    if FullSelectionNHits5.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits5.cuts[i].cutString = cutTrkNHitsIs5.cutString
+
+FullSelectionNHits6 = copy.deepcopy(FullSelection)  
+FullSelectionNHits6.name = cms.string("FullSelectionNHits6") 
+for i in xrange(len(FullSelectionNHits6.cuts) - 1, -1, -1):
+    if FullSelectionNHits6.cuts[i].cutString == cutTrkNHits.cutString:
+        FullSelectionNHits6.cuts[i].cutString = cutTrkNHitsIs6.cutString
 
 
 forDeadEcal = cms.PSet(
@@ -1631,7 +1693,7 @@ ZtoETrkEIdNoVeto = cms.PSet(
     cutTauLooseHadronicVeto,
     cutMuonLooseIDVeto,
     cutSecMuonLooseIDVeto,
-#    cutTrkNHitsSeven,
+#    cutTrkNHits7,
 #    cutMaxCalo10,
     cutTrkHitMissOut,
 
@@ -2340,7 +2402,7 @@ FullSelectionInvNHits = cms.PSet(
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
-        cutTrkNHits4,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2376,7 +2438,7 @@ FullSelectionInvNHitsLoose = cms.PSet(
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
-        cutTrkNHits4,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2558,7 +2620,7 @@ FullSelectionInvD0InvNHits = cms.PSet(
         cutTrkEta,
         cutTrkD0Inv,
         cutTrkDZ,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2630,7 +2692,7 @@ FullSelectionInvDZInvNHits = cms.PSet(
         cutTrkEta,
         cutTrkD0,
         cutTrkDZInv,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2702,7 +2764,7 @@ FullSelectionInvNHitsInvNMissMid = cms.PSet(
         cutTrkEta,
         cutTrkD0,
         cutTrkDZ,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMidInv,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2737,7 +2799,7 @@ FullSelectionInvD0InvDZInvNHits = cms.PSet(
         cutTrkEta,
         cutTrkD0Inv,
         cutTrkDZInv,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2810,7 +2872,7 @@ FullSelectionInvD0InvNHitsInvNMissMid = cms.PSet(
         cutTrkEta,
         cutTrkD0Inv,
         cutTrkDZ,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMidInv,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2847,7 +2909,7 @@ FullSelectionInvDZInvNHitsInvNMissMid = cms.PSet(
         cutTrkEta,
         cutTrkD0,
         cutTrkDZInv,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMidInv,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -2883,7 +2945,7 @@ FullSelectionInvD0InvDZInvNHitsInvNMissMid = cms.PSet(
         cutTrkEta,
         cutTrkD0Inv,
         cutTrkDZInv,
-        cutTrkNHitsInv,
+        cutTrkNHitsIs4,
         cutTrkHitMissMidInv,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -3041,7 +3103,7 @@ FullSelectionFakeTrkCtrlInv = cms.PSet(
         cutTrkDZ,
 #       cutTrkDZInv,
 #       cutTrkNHits,
-        cutTrkNHits4,
+        cutTrkNHitsIs4,
 #        cutTrkHitMissMid,
         cutTrkHitMissMidInv,
         cutTrkHitMissIn,
@@ -3081,7 +3143,7 @@ FullSelectionFakeTrkCtrlNom = cms.PSet(
         cutTrkDZ,
 #       cutTrkDZInv,
 #       cutTrkNHits,
-        cutTrkNHits4,
+        cutTrkNHitsIs4,
         cutTrkHitMissMid,
         cutTrkHitMissIn,
         cutTrkDeadEcalVeto,
@@ -3181,6 +3243,12 @@ for i in xrange(len(PreSelectionElec.cuts) - 1, -1, -1):
     if PreSelectionElec.cuts[i].cutString == cutElecLooseIDVeto.cutString: 
         del PreSelectionElec.cuts[i] 
 
+PreSelectionElecPt30 = copy.deepcopy(PreSelectionElec)
+PreSelectionElecPt30.name = cms.string("PreSelectionElecPt30")
+for i in xrange(len(PreSelectionElecPt30.cuts) - 1, -1, -1):
+    if PreSelectionElecPt30.cuts[i].cutString == cutTrkPt.cutString: 
+        PreSelectionElecPt30.cuts[i].cutString = cutTrkPt30.cutString  
+
 PreSelectionElecNoTrig = cms.PSet(
     name = cms.string("PreSelectionElecNoTrig"),
     cuts = copy.deepcopy(PreSelectionElec.cuts), 
@@ -3210,6 +3278,13 @@ PreSelectionMuonNoTrig = cms.PSet(
     name = cms.string("PreSelectionMuonNoTrig"),
     cuts = copy.deepcopy(PreSelectionMuon.cuts), 
     )
+
+PreSelectionMuonNoMissInMid = copy.deepcopy(PreSelectionMuon)
+PreSelectionMuonNoMissInMid.name = cms.string("PreSelectionMuonNoMissInMid")
+for i in xrange(len(PreSelectionMuonNoMissInMid.cuts) - 1, -1, -1):
+    if PreSelectionMuonNoMissInMid.cuts[i].cutString == cutTrkHitMissIn.cutString or PreSelectionMuonNoMissInMid.cuts[i].cutString == cutTrkHitMissMid.cutString:
+        del PreSelectionMuonNoMissInMid.cuts[i]
+
 
 
 ## Ctrl sample for taus ##
