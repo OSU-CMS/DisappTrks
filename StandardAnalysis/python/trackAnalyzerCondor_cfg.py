@@ -24,7 +24,6 @@ process.OSUAnalysis.trackNMissOutSF = cms.string ('ratio')
 process.OSUAnalysis.isrVarySF       = cms.string ('ratio')  
 
 
-process.OSUAnalysis.stopCTau = cms.vdouble(1.0, 1.0)  # no reweighting  
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)  
 #process.OSUAnalysis.treeBranchSets = AllTreeBranchSets  
 process.OSUAnalysis.treeBranchSets = cms.VPSet()  
