@@ -677,7 +677,8 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 ###################################################
 # Bkgd summary table 
-# tables/bkgdSumm.tex 
+# tables/bkgdSumm.tex
+# amsbLimitConfigBkgds.py 
 ###################################################
 outputFile = "tables/bkgdSumm.tex" 
 fout = open (outputFile, "w")
@@ -713,6 +714,41 @@ content += "data           & " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip
 content += hline
 content += hline
 content += "\\end{tabular} \n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+outputFile = "amsbLimitConfigBkgds.py"  
+fout = open (outputFile, "w")
+CL68factor = 1.139  # See https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp for PDG reference  
+alphaElec = NelecErr / CL68factor
+alphaMuon = Nmuon / 1  
+alphaTau  = NtauErr / CL68factor
+alphaFake = Nfake / 2  
+content  = "#!/usr/bin/env python   \n"
+content += "# Produced with ../scripts/makeANTables.py  \n" 
+content += "\n"  
+content += "backgrounds = { \n"
+content += "'ElecWjets' : {    \n"
+content += "    'N' : '0',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaElec,4)) + "',    \n"
+content += "        },    \n"
+content += "'Muon' : {    \n"
+content += "    'N' : '1',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaMuon,4)) + "',    \n"
+content += "        },    \n"
+content += "'Tau' : {    \n"
+content += "    'N' : '0',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaTau,4)) + "',    \n"
+content += "        },    \n"
+content += "'Fake' : {    \n"
+content += "    'N' : '2',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaFake,4)) + "',    \n"
+content += "        },    \n"
+content += "    }    \n"
+content += "\n"  
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
