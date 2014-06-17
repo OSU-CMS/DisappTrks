@@ -7,6 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
+from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py  
 
 # For Wells's running:
 JessCondorDir = "JessCondor/"
@@ -38,17 +39,25 @@ samplesByGravitinoMass = False
 
 #NOTE: These are the chargino masses
 masses = ['100', '200', '300', '400', '500', '600']  
+#masses = ['100']  
 
 #chargino tau values
-lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
+#lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
+lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','8000','9000','10000']    
+#lifetimes = ['1','5','10','50','100','500','1000']
+#lifetimes = ['1','5','10','100','500','1000']
+#lifetimes = ['2000','3000','4000','5000','6000','7000','8000','9000','10000']  
+#lifetimes = ['15','150']  
 
 lumi = 19500
 
 #condor directory in which to find signal root files
-signal_condor_dir = WellsCondorDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
+#signal_condor_dir = WellsCondorDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
+signal_condor_dir = WellsCondorDir + 'condor_2014_06_12_FullSelection_AllMC'  
 
 #name of event selection from which to take signal yields
-signal_channel = 'FullSelectionFilterMC'  
+#signal_channel = 'FullSelectionFilterMC'  
+signal_channel = 'FullSelection'  
 
 
 #######################
@@ -74,46 +83,52 @@ data_channel = 'FullSelection'
 
 ## For gamma function option, these are just read in.
 ## alpha = (data yield without lepton veto)*(mc yield with lepton veto)/(mc yield without lepton veto)
-backgrounds = {
+## backgrounds = {
     
-    'Elec' : {
-    'N' : '1',
-    'alpha' : '0.44',
-    },
-    'ElecWjets' : {
-    'N' : '0',
-    'alpha' : '0.37',
-    },
-    'Muon' : {
-    'N' : '1',
-    'alpha' : '0.66',
-    },
-    'Tau' : {
-    #'N' : '1',
-    'N' : '0',
-    #'alpha' : '0.003',
-    'alpha' : '0.3',
-    },
-    'Fake' : {
-    'N' : '3',
-    'alpha' : '0.29',
-    },
-    }              
+## ##     'Elec' : {
+## ##     'N' : '0',
+## ##     'alpha' : '0.44',
+## ##     },
+##     'ElecWjets' : {
+##     'N' : '0',
+##     'alpha' : '0.37',
+##     },
+##     'Muon' : {
+##     'N' : '1',
+##     'alpha' : '0.65',
+##     },
+##     'Tau' : {
+##     #'N' : '1',
+##     'N' : '0',
+##     #'alpha' : '0.003',
+##     'alpha' : '0.3',
+##     },
+##     'Fake' : {
+##     'N' : '2',
+##     'alpha' : '0.29',
+##     },
+##     }              
+
 
 ##To be used with log normal
 ##Select condor directory from which the yields after the full selection will be taken
+
+
+#  ../scripts/bkgdFromData.py -l bkgdOptions.py -c condor_2014_06_12_bkgdEstUnblind
+#bkgdDir = 'condor_2014_05_07_BkgdEstFullSelUnblind'  
+bkgdDir = 'condor_2014_06_12_bkgdEstUnblind'  
 background_sources = {
     'Elec' : {
-    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+    'condor_dir'  :  WellsCondorDir + bkgdDir,
     },
     'Muon' : {
-    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+    'condor_dir'  :  WellsCondorDir + bkgdDir,
     },
     'Tau' : {
-    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+    'condor_dir'  :  WellsCondorDir + bkgdDir,
     },
     'Fake' : {
-    'condor_dir'  :  WellsCondorDir + 'condor_2014_05_07_BkgdEstFullSelUnblind',
+    'condor_dir'  :  WellsCondorDir + bkgdDir,
     },
     }
 
@@ -123,9 +138,9 @@ background_sources = {
 #############################
 
 background_systematics = {
-    'Elec' : {
-    'value'  : '1.31',
-         },
+##     'Elec' : {
+##     'value'  : '1.31',
+##          },
     'ElecWjets' : {
     'value'  : '1.31',
              },

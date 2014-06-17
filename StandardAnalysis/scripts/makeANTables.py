@@ -148,26 +148,31 @@ JessDir = "JessCondor/"
 WellsDir = ""  
 
 
+
 ###################################################
 # Electron inefficiency table:
 # tables/elecVetoEff.tex 
+# tables/elecEst.tex 
 ###################################################
 outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelElecPrevetoSkim",       "FullSelectionElecPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_02_11_FullSelId", "FullSelIdElec")
-NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_02_11_FullSelId", "FullSelIdElec")
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_6June",       "FullSelectionElecPreveto")
+(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
+PErr = NYieldErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
 content += "$N^e_{\\rm ctrl}$  & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
-content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+#content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 content += hline                                                              
-content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
+#content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
+content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -176,20 +181,41 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelElecPrevetoSkim", "FullSelectionElecPreveto")
+outputFile = "tables/elecEst.tex"
+fout = open (outputFile, "w")
+(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionElecPrevetoSkim_6June", "FullSelectionElecPreveto")  # data 
 Nelec = NCtrl * P
 NelecErr = NCtrl * PErr
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
+#content += "$P^e$ (MC)               & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"  
+content += "$P^e$ (MC)               & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"  
+content += hline                                                              
+#content += "$N^e$                    & $" + str(round_sigfigs(Nelec,2)) + " \\pm " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
+content += "$N^e$                    & $ \\leq " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close()
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
+
 
 
 ###################################################
 # Muon inefficiency table:
 # tables/muonVetoEff.tex 
+# tables/muonEst.tex  
 ###################################################
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelMuPrevetoSkim",       "FullSelectionMuPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_02_11_FullSelId", "FullSelIdMuon")
-#NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_02_11_FullSelId", "FullSelIdElec")
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
+(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
+#NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2)) # + math.pow(NLimit,2))   
 P = NYield / NCtrl 
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
@@ -209,23 +235,44 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelMuPrevetoSkim",       "FullSelectionMuPreveto")
+
+outputFile = "tables/muonEst.tex"
+fout = open (outputFile, "w")
+(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
 Nmuon = NCtrl * P
 NmuonErr = NCtrl * PErr
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
+content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"  
+content += hline                                                              
+content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close()
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
+
 
 
 ###################################################
 # Tau inefficiency table:
 # tables/tauVetoEff.tex 
+# tables/tauEst.tex  
 ###################################################
 outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelTauPrevetoSkim",       "FullSelectionTauPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_02_11_FullSelId", "FullSelIdTau")
-NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_02_11_FullSelId", "FullSelIdTau")
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
+(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdTau")
+NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdTau")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
+PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
+#PErr = NYieldErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
@@ -244,20 +291,39 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelTauPrevetoSkim",       "FullSelectionTauPreveto")
+outputFile = "tables/tauEst.tex"
+fout = open (outputFile, "w")
+(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
 Ntau = NCtrl * P
 NtauErr = NCtrl * PErr
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
+#content += "$P^\\tau$ (MC)               & $" + str(round_sigfigs(P,3)) + " \\pm " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
+content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
+content += hline                                                              
+content += "$N^\\tau$                    & $ \\leq " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close() 
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
 
 
 
 ###################################################
 # Fake track rate table:
 # tables/fakeTrkRate.tex 
+# tables/fakeEst.tex 
 ###################################################
 outputFile = "tables/fakeTrkRate.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("SingleMu", WellsDir+"condor_2014_01_10_ZtoMuMu",        "ZtoMuMu")
-(NYield, NYieldErr) = getYield("SingleMu", WellsDir+"condor_2014_02_10_ZtoMuMuFakeTrk", "ZtoMuMuFakeTrk")
+(NYield, NYieldErr) = getYield("SingleMu", WellsDir+"condor_2014_06_11_ZtoMuMuFakeTrk", "ZtoMuMuFakeTrk")
 P = NYield / NCtrl 
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
 content  = header 
@@ -276,9 +342,27 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+
+outputFile = "tables/fakeEst.tex"
+fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
 Nfake = NCtrl * P
 NfakeErr = NCtrl * PErr
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
+content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
+content += hline                                                              
+content += "$N^{\\rm fake}$                    & $"  + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + " $ \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close() 
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
 
 
 
@@ -286,6 +370,7 @@ NfakeErr = NCtrl * PErr
 ###################################################
 # Electron inefficiency systematic
 # tables/elecIneffSyst.tex  
+# tables/elecIneffSystShort.tex  
 ###################################################
 outputFile = "tables/elecIneffSyst.tex"
 fout = open (outputFile, "w")
@@ -329,6 +414,26 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
+
+
+outputFile = "tables/elecIneffSystShort.tex"
+fout = open (outputFile, "w")
+content  = header
+content += "\\begin{tabular}{lcc} \n"
+content += hline
+content += hline
+content += "$P^e$ (data)       & $(" + str(round_sigfigs(PData * 1.e5,3)) + " \\pm " + str(round_sigfigs(PErrData * 1.e5,2)) + ") \\times 10^{-5}$  \\\\ \n "
+content += "$P^e$ (MC)         & $(" + str(round_sigfigs(P     * 1.e5,3)) + " \\pm " + str(round_sigfigs(PErr     * 1.e5,2)) + ") \\times 10^{-5}$  \\\\ \n" 
+content += hline
+content += "data/MC  & $" + str(round_sigfigs(ratio,2)) + " \\pm " + str(round_sigfigs(ratioErr,2)) + "$ \\\\  \n" 
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
 
 ###################################################
 # Muon inefficiency systematic
@@ -393,8 +498,27 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 
 
+outputFile = "tables/muonIneffSystShort.tex"
+fout = open (outputFile, "w")
+content  = header
+content += "\\begin{tabular}{lcc} \n"
+content += hline
+content += hline
+content += "$P^\\mu$ (data)       & $(" + str(round_sigfigs(PData * 1.e5,3)) + " \\pm " + str(round_sigfigs(PErrData * 1.e5,2)) + ") \\times 10^{-5}$  \\\\ \n "
+content += "$P^\\mu$ (MC)         & $(" + str(round_sigfigs(P     * 1.e5,3)) + " \\pm " + str(round_sigfigs(PErr     * 1.e5,2)) + ") \\times 10^{-5}$  \\\\ \n" 
+content += hline
+content += "data/MC  & $" + str(round_sigfigs(ratio,2)) + " \\pm " + str(round_sigfigs(ratioErr,2)) + "$ \\\\  \n" 
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
 ###################################################
-# Muon inefficiency systematic
+# Tau inefficiency systematic
 # tables/tauIneffSyst.tex  
 ###################################################
 outputFile = "tables/tauIneffSyst.tex"
@@ -449,6 +573,25 @@ content += hline
 content += hline
 content += "\\end{tabular}\n"                                                       
 content += "% data/MC ratio of fake rates:  " + str(round_sigfigs(ratio,5)) + " \\pm " + str(round_sigfigs(ratioErr,5)) + "\n"  
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+outputFile = "tables/tauIneffSystShort.tex"
+fout = open (outputFile, "w")
+content  = header
+content += "\\begin{tabular}{lcc} \n"
+content += hline
+content += hline
+content += "$P^\\tau$ (data)       & $" + str(round_sigfigs(PData,3)) + " \\pm " + str(round_sigfigs(PErrData,2)) + "$  \\\\ \n "
+content += "$P^\\tau$ (MC)         & $" + str(round_sigfigs(P    ,3)) + " \\pm " + str(round_sigfigs(PErr    ,2)) + "$  \\\\ \n" 
+content += hline
+content += "data/MC  & $" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,2)) + "$ \\\\  \n" 
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
@@ -534,15 +677,16 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 ###################################################
 # Bkgd summary table 
-# tables/bkgdSumm.tex 
+# tables/bkgdSumm.tex
+# amsbLimitConfigBkgds.py 
 ###################################################
 outputFile = "tables/bkgdSumm.tex" 
 fout = open (outputFile, "w")
 
-NelecSyst = Nelec   * systFracElec
-NmuonSyst = Nmuon   * systFracMuon
-NtauSyst  = NtauErr * systFracTau
-NfakeSyst = Nfake   * systFracFake
+NelecSyst = NelecErr * systFracElec
+NmuonSyst = Nmuon    * systFracMuon
+NtauSyst  = NtauErr  * systFracTau
+NfakeSyst = Nfake    * systFracFake
 Ntot = Nelec + Nmuon + Ntau + Nfake
 NtotStat = math.sqrt(math.pow(NelecErr,2) + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
 NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
@@ -559,17 +703,52 @@ content += hline
 content += hline
 content += "Event source                                           & Yield                  \\\\ \n"
 content += hline
-content += "electrons      & $" + str(round_sigfigs(Nelec,2)) + " \\pm " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
+content += "electrons      & $" + str(Nelec)                  + " \\pm " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
 content += "muons          & $" + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ \\\\  \n"
 content += "taus           & $" + str(Ntau)                   + " \\pm " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst} $ \\\\  \n"
 content += "fake tracks    & $" + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst} $ \\\\  \n"
 content += hline
 content += "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
 content += hline
-content += "data           & " + str(round_sigfigs(Ntot, 1)).rstrip("0").rstrip(".") + "   \\\\ \n"
+content += "data           & " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + "   \\\\ \n"
 content += hline
 content += hline
 content += "\\end{tabular} \n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+outputFile = "amsbLimitConfigBkgds.py"  
+fout = open (outputFile, "w")
+CL68factor = 1.139  # See https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp for PDG reference  
+alphaElec = NelecErr / CL68factor
+alphaMuon = Nmuon / 1  
+alphaTau  = NtauErr / CL68factor
+alphaFake = Nfake / 2  
+content  = "#!/usr/bin/env python   \n"
+content += "# Produced with ../scripts/makeANTables.py  \n" 
+content += "\n"  
+content += "backgrounds = { \n"
+content += "'ElecWjets' : {    \n"
+content += "    'N' : '0',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaElec,4)) + "',    \n"
+content += "        },    \n"
+content += "'Muon' : {    \n"
+content += "    'N' : '1',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaMuon,4)) + "',    \n"
+content += "        },    \n"
+content += "'Tau' : {    \n"
+content += "    'N' : '0',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaTau,4)) + "',    \n"
+content += "        },    \n"
+content += "'Fake' : {    \n"
+content += "    'N' : '2',    \n"
+content += "    'alpha' : '" + str(round_sigfigs(alphaFake,4)) + "',    \n"
+content += "        },    \n"
+content += "    }    \n"
+content += "\n"  
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
@@ -742,7 +921,9 @@ print "Finished writing " + outputFile + "\n\n\n"
 print "Finished running makeANTables.py"
 
 print "Copy tables to AN area with: "
-print "scp tables/*tex wulsin@lxplus5.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-12-400/trunk/tables/" 
+print "scp tables/*tex wulsin@lxplus5.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-12-400/trunk/tables/"
+print "OR: "
+print "notes/AN-12-400/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdirTemplateDisTrk/tables/*tex\" tables/" 
 
 
 

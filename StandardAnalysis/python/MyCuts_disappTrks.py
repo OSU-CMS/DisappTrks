@@ -712,19 +712,19 @@ cutTrkNHits = cms.PSet(
     cutString = cms.string("numValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
     )
-cutTrkNHitsIs7 = cms.PSet(
-    inputCollection= cms.string("tracks"),
-    cutString = cms.string("numValidHits == 7"),
-    numberRequired = cms.string(">= 1"),
-    )
 cutTrkNHits7 = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
     )
-cutTrkNHitsSeven = cms.PSet(
+cutTrkNHitsIs7 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("numValidHits > 6"),
+    cutString = cms.string("numValidHits == 7"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHitsIs6 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits == 6"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHitsIs5 = cms.PSet(
@@ -732,25 +732,24 @@ cutTrkNHitsIs5 = cms.PSet(
     cutString = cms.string("numValidHits == 5"),
     numberRequired = cms.string(">= 1"),
     )
-
-cutTrkNHitsIs7 = cms.PSet(
-    inputCollection= cms.string("tracks"),
-    cutString = cms.string("numValidHits == 7"),
-    numberRequired = cms.string(">= 1"),
-    )
-cutTrkNHitsInv = cms.PSet(
+cutTrkNHitsIs4 = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits == 4"),
     numberRequired = cms.string(">= 1"),
     )
-cutTrkNHits4 = cms.PSet(
+cutTrkNHitsIs3 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("numValidHits == 4"),
+    cutString = cms.string("numValidHits == 3"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkNHits4Min = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits >= 4"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkNHits3Min = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("numValidHits >= 3"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkHitMissMid = cms.PSet (
@@ -797,7 +796,8 @@ cutTrkRelIsoRp3Debug = cms.PSet (
     )
 cutTrkDeadEcalVeto =  cms.PSet (
     inputCollection = cms.string("tracks"),
-    cutString = cms.string("isMatchedDeadEcal == 0"),
+#    cutString = cms.string("isMatchedDeadEcal == 0"),
+    cutString = cms.string("isMatchedDeadEcalDet == 0"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkBadCSCVeto =  cms.PSet (
@@ -812,7 +812,8 @@ cutTrkBadCSCVetoInv =  cms.PSet (
     )
 cutTrkCrackVeto = cms.PSet (
     inputCollection = cms.string("tracks"),
-    cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
+#    cutString = cms.string("fabs(eta) < 1.42 | fabs(eta) > 1.65"),
+    cutString = cms.string("fabs(detectorEta) < 1.42 | fabs(detectorEta) > 1.65"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkDeadEcalMatch = cms.PSet (
