@@ -326,10 +326,10 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         with open ("limits/" + limit_dir + "/" + "expTable.tex", 'a') as file:
             file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
             file.write('\n')
-        expTable.close()
+            expTable.close()
                 
-        if x_key is 'lifetime' and y_key is 'mass':
-            x[-1], y[-1] = y[-1], x[-1]
+    if x_key is 'lifetime' and y_key is 'mass':
+        x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
     expTable = open("limits/" + limit_dir + "/" + "expTable.tex", "a")
@@ -339,6 +339,88 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     expTable.close()
     print "Table of expected limits for AN stored in: limits/" + limit_dir 
     return 'Success'
+
+def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
+    x = array ('d')
+    y = array ('d')
+    limit_dict = {}
+    obsTable = open("limits/" + limit_dir + "/" + "obsTable.tex", "w")
+    obsTable.write('\\begin{center} \\begin{tabular}{cc}')
+    obsTable.write('\n')
+    obsTable.write('\hline \hline')
+    obsTable.write('\n')
+    obsTable.write('$\\tau$ (ns) & Obs. Excluded Mass (\gev) \\\\')
+    obsTable.write('\hline')
+    obsTable.write('\n')
+    obsTable.close()
+    
+    for limit in limits:
+        mass = float (limit['mass'])
+        lifetime = float (limit['lifetime'])
+        if lifetime not in limit_dict:
+            limit_dict[lifetime] = {}
+        if mass not in limit_dict[lifetime]:
+            limit_dict[lifetime][mass] = {}
+        limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
+        if experiment_key is 'up1' or experiment_key is 'up2':
+            limit_dict[lifetime][mass]['experiment'] += limit['expected']
+        if experiment_key is 'down1' or experiment_key is 'down2':
+            limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
+        for theory_mass in signal_cross_sections:
+            if abs (float (theory_mass) - mass) < 1.0e-3:
+                limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
+                theory_error = float (signal_cross_sections[theory_mass]['error'])
+                if theory_key is 'up2' or theory_key is 'down2':
+                    theory_error = 1.0 + 2.0 * (theory_error - 1.0)
+                if theory_key is 'up1' or theory_key is 'up2':
+                    limit_dict[lifetime][mass]['theory'] *= theory_error
+                if theory_key is 'down1' or theory_key is 'down2':
+                    limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
+    for lifetime in sorted (limit_dict.keys ()):
+        ordered_masses = sorted (limit_dict[lifetime].keys ())
+        first_allowed_mass = ordered_masses[0]
+        previous_mass = ordered_masses[0]
+        for mass in ordered_masses:
+            if limit_dict[lifetime][mass]['theory'] < limit_dict[lifetime][mass]['experiment']:
+                first_allowed_mass = mass
+                break
+            previous_mass = mass
+        mass_limit = 0.0
+        if previous_mass != first_allowed_mass:
+            # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
+            x1 = previous_mass
+            x3 = previous_mass
+            x2 = first_allowed_mass
+            x4 = first_allowed_mass
+            y1 = limit_dict[lifetime][previous_mass]['theory']
+            y3 = limit_dict[lifetime][previous_mass]['experiment']
+            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
+            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
+            mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+            if math.isnan (mass_limit):
+                mass_limit = 0.0
+            x.append (mass_limit)
+            y.append (lifetime)
+            
+            with open ("limits/" + limit_dir + "/" + "obsTable.tex", 'a') as file:
+                file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
+                file.write('\n')
+            obsTable.close()
+            
+            if x_key is 'lifetime' and y_key is 'mass':
+                x[-1], y[-1] = y[-1], x[-1]
+    graph = TGraph (len (x), x, y)
+        
+    obsTable = open("limits/" + limit_dir + "/" + "obsTable.tex", "a")
+    obsTable.write('\hline \hline')
+    obsTable.write('\n')
+    obsTable.write(' \end{tabular} \end{center}')
+    obsTable.close()
+    print "Table of observed limits for AN stored in: limits/" + limit_dir
+    return 'Success'
+
+
     
 def getObservedGraph(limits,xAxisType,colorScheme):
     graph = getGraph(limits, xAxisType, 'observed')
@@ -849,6 +931,7 @@ def drawPlot(plot):
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                 if graphName is 'obs':
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
+                    makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
                     if plotDrawn:
                         tGraphs[-1].Draw('L')
                     else:
