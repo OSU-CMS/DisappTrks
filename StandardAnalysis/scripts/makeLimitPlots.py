@@ -777,6 +777,8 @@ def drawPlot(plot):
                 if graphName is 'twoSigma':
                     tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                     if plotDrawn:
+                        if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
+                            tGraphs[-1].SetFillStyle(3001)
                         tGraphs[-1].Draw('F')
                     else:
                         tGraphs[-1].Draw('AF')
@@ -788,6 +790,8 @@ def drawPlot(plot):
                 if graphName is 'oneSigma':
                     tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                     if plotDrawn:
+                        if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
+                            tGraphs[-1].SetFillStyle(3001)
                         tGraphs[-1].Draw('F')
                     else:
                         tGraphs[-1].Draw('AF')
