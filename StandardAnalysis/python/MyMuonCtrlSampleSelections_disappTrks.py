@@ -294,13 +294,37 @@ ZtoMuMuFakeTrkNHits4 = cms.PSet(
     )
 for i in xrange(len(ZtoMuMuFakeTrkNHits4.cuts) - 1, -1, -1):
     if ZtoMuMuFakeTrkNHits4.cuts[i].cutString == cutTrkNHits.cutString:
-        ZtoMuMuFakeTrkNHits4.cuts[i].cutString = cutTrkNHits4.cutString  
+        ZtoMuMuFakeTrkNHits4.cuts[i].cutString = cutTrkNHitsIs4.cutString  
 
 ZtoMuMuFakeTrkNHits4NoEcalo = copy.deepcopy(ZtoMuMuFakeTrkNHits4) 
 ZtoMuMuFakeTrkNHits4NoEcalo.name = cms.string("ZtoMuMuFakeTrkNHits4NoEcalo")  
 for i in xrange(len(ZtoMuMuFakeTrkNHits4NoEcalo.cuts) - 1, -1, -1):  
     if ZtoMuMuFakeTrkNHits4NoEcalo.cuts[i].cutString == cutMaxCalo10.cutString:  
         del ZtoMuMuFakeTrkNHits4NoEcalo.cuts[i]
+
+ZtoMuMuFakeTrkNHits3Min = copy.deepcopy(ZtoMuMuFakeTrk) 
+ZtoMuMuFakeTrkNHits3Min.name = cms.string("ZtoMuMuFakeTrkNHits3Min")  
+for i in xrange(len(ZtoMuMuFakeTrkNHits3Min.cuts) - 1, -1, -1):  
+    if ZtoMuMuFakeTrkNHits3Min.cuts[i].cutString == cutTrkNHits.cutString:
+        ZtoMuMuFakeTrkNHits3Min.cuts[i].cutString = cutTrkNHits3Min.cutString
+
+ZtoMuMuFakeTrkNHits3 = copy.deepcopy(ZtoMuMuFakeTrk) 
+ZtoMuMuFakeTrkNHits3.name = cms.string("ZtoMuMuFakeTrkNHits3")  
+for i in xrange(len(ZtoMuMuFakeTrkNHits3.cuts) - 1, -1, -1):  
+    if ZtoMuMuFakeTrkNHits3.cuts[i].cutString == cutTrkNHits.cutString:
+        ZtoMuMuFakeTrkNHits3.cuts[i].cutString = cutTrkNHitsIs3.cutString
+
+ZtoMuMuFakeTrkNHits5 = copy.deepcopy(ZtoMuMuFakeTrk) 
+ZtoMuMuFakeTrkNHits5.name = cms.string("ZtoMuMuFakeTrkNHits5")  
+for i in xrange(len(ZtoMuMuFakeTrkNHits5.cuts) - 1, -1, -1):  
+    if ZtoMuMuFakeTrkNHits5.cuts[i].cutString == cutTrkNHits.cutString:
+        ZtoMuMuFakeTrkNHits5.cuts[i].cutString = cutTrkNHitsIs5.cutString
+
+ZtoMuMuFakeTrkNHits6 = copy.deepcopy(ZtoMuMuFakeTrk) 
+ZtoMuMuFakeTrkNHits6.name = cms.string("ZtoMuMuFakeTrkNHits6")  
+for i in xrange(len(ZtoMuMuFakeTrkNHits6.cuts) - 1, -1, -1):  
+    if ZtoMuMuFakeTrkNHits6.cuts[i].cutString == cutTrkNHits.cutString:
+        ZtoMuMuFakeTrkNHits6.cuts[i].cutString = cutTrkNHitsIs6.cutString
 
 
 ZtoMuMuIsrStudy = cms.PSet(
