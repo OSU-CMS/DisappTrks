@@ -92,8 +92,8 @@ MonojetTrigLeadJet  = cms.PSet(
 
 
 
-WToMuNu = cms.PSet(
-    name = cms.string("WToMuNu"),
+WtoMuNu = cms.PSet(
+    name = cms.string("WtoMuNu"),
     triggers = triggersSingleMu,
 #    triggers = triggersJetMet,
     cuts = cms.VPSet(
@@ -101,15 +101,23 @@ WToMuNu = cms.PSet(
 ##          cutJetPt,
          cutEvtFilterScraping,
          cutVtxGood,
+         cutMuonLooseIDOnlyOne,
          cutMuonEta,
          cutMuonPt25,
          cutMuonTightID,
          cutMuonPFIso,
-         cutMuonOneOnly,
+#         cutMuonOneOnly,
          cutMET40,
-         cutMuonTrkDRSame, 
+         cutMuonMetMTInverse,
+         cutMuTrkDeltaR, 
          )
     )
+WtoMuNuFakeTrk = cms.PSet(
+    name = cms.string("WtoMuNuFakeTrk"),
+    triggers = triggersSingleMu,
+    cuts = copy.deepcopy(WtoMuNu.cuts),
+    )
+WtoMuNuFakeTrk.cuts = WtoMuNuFakeTrk.cuts + cutsTrkPresel + cutsSigReg
 
 
 ## Ctrl sample for muons ##
