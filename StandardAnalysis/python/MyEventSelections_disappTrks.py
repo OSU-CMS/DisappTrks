@@ -27,6 +27,7 @@ cutsJets = cms.VPSet (
         cutMetDeltaPhiMin2Jets0p5, 
 )
 
+
 cutsJetsNoNoiseClean = cms.VPSet (
 ##     cutSecJetPt,
 ##     cutSecJetEta2p4,
@@ -94,6 +95,13 @@ cutsTrkVetoRegions = cms.VPSet (
     cutTrkWheel0GapVeto, 
     cutTrkEtaMuonPk, 
     cutTrkDeadEcalVeto,
+    cutTrkEcalGap1,
+    cutTrkEcalGap2,
+    cutTrkEcalGap3,
+    cutTrkEcalGap4,
+    cutTrkEcalGap5,
+    cutTrkEcalGap6,
+    cutTrkEcalGap7,
     cutTrkBadCSCVeto, 
     )
 
@@ -440,6 +448,36 @@ TauBkgdPresel = cms.PSet(
     ),
     )
 
+Trigger95 = cms.PSet(
+    triggers = triggersJetMet95,
+    name = cms.string("Trigger95"),
+    cuts = cms.VPSet (
+    cutNoCuts,
+    ),
+                )
+Trigger105 = cms.PSet(
+    triggers = triggersJetMet105,
+    name = cms.string("Trigger105"),
+    cuts = cms.VPSet (
+    cutNoCuts,
+    ),
+    )
+Trigger105Emulate = cms.PSet(
+    triggers = triggersJetMet105,
+    name = cms.string("Trigger105Emulate"),
+    cuts = cms.VPSet (
+   cutNoCuts,
+    ),
+    )
+
+TestBothTriggers = cms.PSet(
+            triggers = triggersJetMet95105,
+        name = cms.string("TestBothTriggers"),
+            cuts = cms.VPSet (
+        cutNoCuts,
+            ),
+            )
+
 
 
 NoCuts = cms.PSet(
@@ -605,6 +643,7 @@ TriggerJetMetDebug3 = cms.PSet(
 
 FullSelection = cms.PSet(
     name = cms.string("FullSelection"),
+#    triggers = triggersJetMet95Met120,
     triggers = triggersJetMet,
     cuts = cutsFullSelection, 
     )
@@ -816,6 +855,13 @@ MetJet = cms.PSet(
     cutsJets, 
     )
 
+MetJetTrig105 = cms.PSet(
+    name = cms.string("MetJetTrig105"),
+    triggers = triggersJetMet105Met120,
+    cuts =
+    cutsMET +
+    cutsJets,
+    )
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
     triggers = triggersJetMet,
@@ -860,9 +906,9 @@ for i in xrange(len(PreSelectionNoMet.cuts) - 1, -1, -1):
         del PreSelectionNoMet.cuts[i]
 
 
-FullSelectionNoMetLeadJetMonojet = cms.PSet(
-    name = cms.string("FullSelectionNoMetLeadJetMonojet"),
-    triggers = triggersJetMet95105,
+FullSelectionNoMetLeadJetMonojet95 = cms.PSet(
+    name = cms.string("FullSelectionNoMetLeadJetMonojet95"),
+    triggers = triggersJetMet95Met120,
     cuts =
     cutsJets +
     cms.VPSet ( cutSecJetLeadingPt ) +
@@ -871,6 +917,16 @@ FullSelectionNoMetLeadJetMonojet = cms.PSet(
     cutsSigReg
     )
 
+FullSelectionNoMetLeadJetMonojet105 = cms.PSet(
+        name = cms.string("FullSelectionNoMetLeadJetMonojet105"),
+            triggers = triggersJetMet105Met120,
+            cuts =
+            cutsJets +
+            cms.VPSet ( cutSecJetLeadingPt ) +
+        #    cutsTrkPresel +
+            cutsTrkPresel +
+            cutsSigReg
+            )
 
 FullSelectionNoMetLeadJetBoth = cms.PSet(
         name = cms.string("FullSelectionNoMetLeadJetBoth"),
@@ -882,6 +938,18 @@ FullSelectionNoMetLeadJetBoth = cms.PSet(
             cutsTrkPresel +
             cutsSigReg
             )
+
+FullSelectionNoMetLeadJetEmulate = cms.PSet(
+            name = cms.string("FullSelectionNoMetLeadJetEmulate"),
+#                        triggers = triggersJetMet,
+                        cuts =
+            cms.VPSet ( cutHlt105) +
+                        cutsJets +
+                        cms.VPSet ( cutSecJetLeadingPt) +
+                    #    cutsTrkPresel +
+                        cutsTrkPresel +
+                        cutsSigReg
+                        )
 
 
 FullSelectionNoMetLeadJetChi = cms.PSet(
@@ -1934,7 +2002,7 @@ ZtoETrkEIdPresel7Hits = cms.PSet(
     cutsTagElec +
     cutsTrkPresel +
     cms.VPSet(
-    cutTrkNHits7
+    cutTrkNHits
     ) + 
     cutsElecTrkZPeak
     )
@@ -1947,7 +2015,7 @@ ZtoETrkEIdPreselMaxCalo = cms.PSet(
       cutsTagElec +
       cutsTrkPresel +
       cms.VPSet (
-      cutTrkNHits7,
+#      cutTrkNHits,
       cutMaxCalo10,
       ) +
       cutsElecTrkZPeak
@@ -1973,6 +2041,17 @@ for i in xrange(len(ZtoETrkEIdPreselLoosePtMaxCalo.cuts) - 1, -1, -1):
     if ZtoETrkEIdPreselLoosePtMaxCalo.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
         ZtoETrkEIdPreselLoosePtMaxCalo.cuts[i].cutString = cutTrkPt20.cutString
 
+ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo = cms.PSet(
+    name = cms.string("ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo"),
+    triggers = triggersSingleElec,
+    cuts = copy.deepcopy(ZtoETrkEIdPreselMaxCalo.cuts),
+    )
+for i in xrange(len(ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo.cuts) - 1, -1, -1):
+    if ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo.cuts[i].cutString == cutTrkPt.cutString: # replace pt>50 with pt>20 cut
+        ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo.cuts[i].cutString = cutTrkPt20.cutString
+    if ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo.cuts[i].cutString == cutTrkDeadEcalVeto.cutString: # replace pt>50 with pt>20 cut
+        del ZtoETrkEIdPreselLoosePtNoDeadEcalMaxCalo.cuts[i]
+
 
 ZtoETrkEIdPreselMaxCaloNMissOut3 = cms.PSet(
     name = cms.string("ZtoETrkEIdPreselMaxCaloNMissOu3"),
@@ -1981,7 +2060,7 @@ ZtoETrkEIdPreselMaxCaloNMissOut3 = cms.PSet(
       cutsTagElec +
       cutsTrkPresel +
       cms.VPSet (
-      cutTrkNHits7,
+      cutTrkNHits,
       cutMaxCalo10,
       cutTrkHitMissOut, 
       ) +
