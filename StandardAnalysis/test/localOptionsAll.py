@@ -8,9 +8,9 @@ config_file = "trackAnalyzerStandard_cfg.py"
 
 datasets = [
     
-    'AMSB_mGrav50K_0p5ns',
-    'AMSB_mGrav50K_1ns',
-    'AMSB_mGrav50K_5ns',
+##     'AMSB_mGrav50K_0p5ns',
+##     'AMSB_mGrav50K_1ns',
+##     'AMSB_mGrav50K_5ns',
 
 ##     # put bkgd datasets in roughly ascending order of size of contribution after preselection
     'QCD',    
@@ -51,8 +51,30 @@ composite_dataset_definitions['QCD'] = [
 
 
 histsToBlind = [
-    'CaloTot', 
+#    'CaloTot', 
     ]
+
+
+def add_charginos (options, masses, ctaus):
+    for mass in masses:
+        for ctau in ctaus:
+            datasetName       = 'AMSB_chargino_' + str (mass) + "GeV_RewtCtau" +                  str (ctau)  + "cm"
+            sourceDatasetName = 'AMSB_chargino_' + str (mass) + "GeV_ctau" + str(math.floor(source_chargino_ctau(ctau))).rstrip('0').rstrip('.') + "cm"
+            options['datasets'].append (datasetName)
+            options['dataset_names'][datasetName] = options['dataset_names'][sourceDatasetName]
+            options['nJobs']        [datasetName] =  5
+            options['maxEvents']    [datasetName] = -1
+            options['types']        [datasetName] = "signalMC"
+            options['labels']       [datasetName] = str (mass) + " GeV #chi^{#pm} (c#tau = " + str (ctau) + " cm)"
+            print "Adding dataset:  " + datasetName + "; sourceDatasetName=" + sourceDatasetName + "; dataset_name[sourceDatasetName]=" + options['dataset_names'][sourceDatasetName]
+            
+# Do all lifetimes:
+add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+
+# Do a subset of signal lifetimes:  
+#add_charginos (options, [100,200,300,400,500,600], [3,10,30,100,300,1000])
+
+
 
 
 
