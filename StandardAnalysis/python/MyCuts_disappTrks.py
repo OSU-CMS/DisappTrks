@@ -698,7 +698,7 @@ cutTrkEcalGap2 = cms.PSet(
     )
 cutTrkEcalGap3 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > -0.791884 || eta < -0.796051"),
+    cutString = cms.string("eta > -0.44356 || eta < -0.447911"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap4 = cms.PSet(
