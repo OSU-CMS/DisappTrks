@@ -688,37 +688,37 @@ cutTrkEtaBarrel = cms.PSet(
     )
 cutTrkEcalGap1 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > -1.14018 || eta < -1.1439"),
+    cutString = cms.string("detectorEta > -1.14018 || detectorEta < -1.1439"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap2 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > -0.791884 || eta < -0.796051"),
+    cutString = cms.string("detectorEta > -0.791884 || detectorEta < -0.796051"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap3 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > -0.44356 || eta < -0.447911"),
+    cutString = cms.string("detectorEta > -0.44356 || detectorEta < -0.447911"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap4 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > 0.00238527 || eta <  -0.00330793"),
+    cutString = cms.string("detectorEta > 0.00238527 || detectorEta <  -0.00330793"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap5 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > 0.446183 || eta < 0.441949"),
+    cutString = cms.string("detectorEta > 0.446183 || detectorEta < 0.441949"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap6 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > 0.793955 || eta < 0.789963"),
+    cutString = cms.string("detectorEta > 0.793955 || detectorEta < 0.789963"),
     numberRequired = cms.string(">= 1"),
     )
 cutTrkEcalGap7 = cms.PSet(
     inputCollection= cms.string("tracks"),
-    cutString = cms.string("eta > 1.14164 || eta < 1.13812"),
+    cutString = cms.string("detectorEta > 1.14164 || detectorEta < 1.13812"),
     numberRequired = cms.string(">= 1"),
     )
 
