@@ -15,6 +15,13 @@ from OSUT3Analysis.Configuration.formattingUtilities import *
 
 from ROOT import Double
 
+
+sys.path.append(os.path.abspath(os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/test'))  
+from localOptionsBkgd import *  # To get list of datasets 
+
+#from DisappTrks.StandardAnalysis.localOptionsAll import *  # To get list of datasets 
+
+
 ### parse the command-line options
 
 parser = OptionParser()
@@ -154,22 +161,44 @@ WellsDir = ""
 # tables/elecVetoEff.tex 
 # tables/elecEst.tex 
 ###################################################
+
+
+# Get the upper limit for each dataset separately.  
+split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
+(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+print "Debug:  NPreselTot = " + str(NPreselTot)      
+NYieldTotErr = 0.0  
+fracPreselTot = 0.0
+for dataset in split_datasets:
+    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdElec")
+    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdElec")
+    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    fracPresel = NPresel / NPreselTot
+    fracPreselTot += fracPresel  
+#    NYieldTotErr = math.sqrt(math.pow(NYieldTotErr,2) + math.pow(NLimit*fracPresel,2))
+    NYieldTotErr += NLimit*fracPresel  
+    print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
+print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
+
 outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_6June",       "FullSelectionElecPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
-NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+(NYield, NYieldErr) = getYield("Background",       WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+NLimit              = getUpperLimit("WjetsHighPt", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
 #PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
-PErr = NYieldErr / NCtrl 
+#PErr = NYieldErr / NCtrl 
+PErr = NYieldTotErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^e_{\\rm ctrl}$  & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
+#content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
+content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
 #content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+#content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+content += "$N^e$ (MC)              & $"     + " \\leq " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
 content += hline                                                              
 #content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
 content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"
@@ -190,7 +219,7 @@ content  = header
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
+content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
 #content += "$P^e$ (MC)               & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"  
 content += "$P^e$ (MC)               & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"  
 content += hline                                                              
@@ -211,6 +240,22 @@ print "Finished writing " + outputFile + "\n\n\n"
 # tables/muonVetoEff.tex 
 # tables/muonEst.tex  
 ###################################################
+# Get the upper limit for each dataset separately.  
+split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
+(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+print "Debug:  NPreselTot = " + str(NPreselTot)      
+NYieldTotErr = 0.0  
+fracPreselTot = 0.0
+for dataset in split_datasets:
+    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
+    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
+    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    fracPresel = NPresel / NPreselTot
+    fracPreselTot += fracPresel  
+    NYieldTotErr += NLimit*fracPresel  
+    print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
+print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
+
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
@@ -218,13 +263,19 @@ fout = open (outputFile, "w")
 #NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2)) # + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
+PErr = NYieldTotErr / NCtrl
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$  & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
-content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+#content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
+content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
+#content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+if NYield > NYieldTotErr: 
+    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
+else:
+    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm (^{" + str(round_sigfigs(NYield,2)) + "}_{" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n" 
 content += hline                                                              
 content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
 content += hline                                                              
@@ -245,10 +296,12 @@ content  = header
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
-content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"  
+content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
+#content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"  
+content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"  
 content += hline                                                              
-content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
+#content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
+content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -264,6 +317,22 @@ print "Finished writing " + outputFile + "\n\n\n"
 # tables/tauVetoEff.tex 
 # tables/tauEst.tex  
 ###################################################
+# Get the upper limit for each dataset separately.  
+split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
+(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+print "Debug:  NPreselTot = " + str(NPreselTot)      
+NYieldTotErr = 0.0  
+fracPreselTot = 0.0
+for dataset in split_datasets:
+    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
+    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
+    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    fracPresel = NPresel / NPreselTot
+    fracPreselTot += fracPresel  
+    NYieldTotErr += NLimit*fracPresel  
+    print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
+print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
+
 outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
@@ -271,15 +340,18 @@ fout = open (outputFile, "w")
 NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdTau")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
 #PErr = NYieldErr / NCtrl 
+PErr = NYieldTotErr / NCtrl
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^\\tau_{\\rm ctrl}$  & $" + str(round_sigfigs(NCtrl,3)) + " \\pm " + str(round_sigfigs(NCtrlErr,2)) + "$     \\\\ \n"                               
+#content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + " \\pm " + str(round_sigfigs(NCtrlErr,2)) + "$     \\\\ \n"                               
+content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
 #content += "$N^\\tau$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-content += "$N^\\tau$              & $" + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+#content += "$N^\\tau$              & $" + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+content += "$N^\\tau$            (MC)  & $" + " \\leq " + str(round_sigfigs(NYieldTotErr,2))   + "$     \\\\ \n"                             
 content += hline                                                              
 #content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
 content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $" + " \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"
@@ -300,7 +372,7 @@ content  = header
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5))  +  "$     \\\\ \n"                               
+content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
 #content += "$P^\\tau$ (MC)               & $" + str(round_sigfigs(P,3)) + " \\pm " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
 content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
 content += hline                                                              
@@ -690,6 +762,7 @@ NfakeSyst = Nfake    * systFracFake
 Ntot = Nelec + Nmuon + Ntau + Nfake
 NtotStat = math.sqrt(math.pow(NelecErr,2) + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
 NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
+NtotErr  = math.sqrt(math.pow(NtotStat,2) + math.pow(NtotSyst,2))   
 
 (NData, NDataErr) = getYield("MET", WellsDir+"condor_2014_04_29_FullSelectionUnBlinded", "FullSelection")
 
@@ -703,12 +776,18 @@ content += hline
 content += hline
 content += "Event source                                           & Yield                  \\\\ \n"
 content += hline
-content += "electrons      & $" + str(Nelec)                  + " \\pm " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
-content += "muons          & $" + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ \\\\  \n"
-content += "taus           & $" + str(Ntau)                   + " \\pm " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst} $ \\\\  \n"
+#content += "electrons      & $" + str(Nelec)                  + " \\pm " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
+content += "electrons      & $ \\leq " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
+if NmuonErr < Nmuon:
+    content += "muons          & $" + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ \\\\  \n"
+else:
+    content += "muons          & $" + str(round_sigfigs(Nmuon,2)) + "(^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ \\\\  \n"    
+#content += "taus           & $" + str(Ntau)                   + " \\pm " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst} $ \\\\  \n"
+content += "taus           & $ \\leq " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst} $ \\\\  \n"
 content += "fake tracks    & $" + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst} $ \\\\  \n"
 content += hline
-content += "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
+content +=  "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
+content += "%background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotErr,3)) + "_{\\rm tot} $ \\\\  \n"
 content += hline
 content += "data           & " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + "   \\\\ \n"
 content += hline
@@ -912,6 +991,43 @@ os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
 
 
+###################################################
+# Bkgd contribution table 
+# tables/trackGenMatchBkgd
+###################################################
+outputFile = "tables/trackGenMatchBkgd.tex"
+fout = open (outputFile, "w")
+
+(Nelec, NelecErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdElec")
+(Nmuon, NmuonErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdMuon")
+(Ntau,  NtauErr)  = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdTau")
+(Nothr, NothrErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdOther")
+(Nfake, NfakeErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdFake")
+
+Nhad = Ntau + Nothr
+Ntot = Nelec + Nmuon + Nhad + Nfake
+percentelec = float(Nelec) / Ntot * 100
+percentmuon = float(Nmuon) / Ntot * 100
+percenthad  = float(Nhad)  / Ntot * 100 
+percentfake = float(Nfake) / Ntot * 100 
+
+content  = header
+content += "\\begin{tabular}{lccc} \n"
+content += hline
+content += hline
+content += "Source                            & Contribution \\\\   \n"  
+content += hline
+content += "electrons   & " + str(round_sigfigs(percentelec,3)) + "\\%  \\\\  \n"
+content += "muons       & " + str(round_sigfigs(percentmuon,3)) + "\\%  \\\\  \n"  
+content += "hadrons     & " + str(round_sigfigs(percenthad, 3)) + "\\%  \\\\  \n"  
+content += "fake tracks & " + str(round_sigfigs(percentfake,2)) + "\\%  \\\\  \n"  
+content += hline
+content += hline
+content += "\\end{tabular}\n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
 
 
 ###################################################
