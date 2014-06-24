@@ -55,6 +55,16 @@ histsToBlind = [
     ]
 
 
+
+options = {}
+options['datasets'] = datasets
+options['composite_dataset_definitions'] = composite_dataset_definitions
+options['dataset_names'] = dataset_names
+options['nJobs'] = nJobs
+options['maxEvents'] = maxEvents
+options['types'] = types
+options['labels'] = labels
+
 def add_charginos (options, masses, ctaus):
     for mass in masses:
         for ctau in ctaus:
