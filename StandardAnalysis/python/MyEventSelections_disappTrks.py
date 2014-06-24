@@ -1614,6 +1614,8 @@ ZtoMuTrkNoVetoPreSel = cms.PSet(
     )
 
 
+
+
 ZtoETrkEIdNoVetoPresel = cms.PSet(
     name = cms.string("ZtoETrkEIdNoVetoPresel"),
     triggers = triggersSingleElec,
@@ -1947,14 +1949,13 @@ ZtoETrkEIdPreselMaxCalo = cms.PSet(
       cutsTagElec +
       cutsTrkPresel +
       cms.VPSet (
-      cutTrkNHits7,
       cutMaxCalo10,
       ) +
-      cutsElecTrkZPeak
+    cutsElecTrkZPeak
     )
 
-
-
+            
+                        
 ZtoETrkEIdPreselLoosePt7Hits = cms.PSet(
     name = cms.string("ZtoETrkEIdPreselLoosePt7Hits"),
     triggers = triggersSingleElec,
