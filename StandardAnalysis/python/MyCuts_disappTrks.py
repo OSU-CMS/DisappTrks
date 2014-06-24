@@ -8,18 +8,35 @@ import copy
 triggersJetMet = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
     "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "emulateHLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95",
     "HLT_MET120_HBHENoiseCleaned_v",
-#    "HLT_Photon135_v",
     )
 
 #triggerMonoCentralPFJet80_PFMETnoMu95_NHEF0p95 = cms.vstring(
 triggersJetMet95 = cms.vstring(
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+    
     )
+
+triggersJetMet95Met120 = cms.vstring(
+        "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
+        "HLT_MET120_HBHENoiseCleaned_v",    
+            )
+triggersJetMet105 = cms.vstring(
+    "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+    "emulateHLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95",
+    )
+
+triggersJetMet105Met120 = cms.vstring(
+        "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+        "emulateHLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95",
+        "HLT_MET120_HBHENoiseCleaned_v",
+            )
 
 triggersJetMet95105 = cms.vstring(
         "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
         "HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95_v",
+        "emulateHLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95",
             )
 triggersMet120 = cms.vstring(
     "HLT_MET120_HBHENoiseCleaned_v",
@@ -113,6 +130,18 @@ cutEvtHcalNoiseFilter = cms.PSet (
     cutString = cms.string("hcalnoiseTight == 1"),
     numberRequired = cms.string(">= 1"),
     )
+cutHltPt = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("hltPt > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutHlt105 = cms.PSet (
+    inputCollection = cms.string("mets"),
+    cutString = cms.string("hlt105 > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
 ################################
 #-- Cuts on Primary Vertexes --#
 ################################
@@ -657,6 +686,43 @@ cutTrkEtaBarrel = cms.PSet(
     cutString = cms.string("fabs(eta) < 0.8"),
     numberRequired = cms.string(">= 1"),
     )
+cutTrkEcalGap1 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > -1.14018 || eta < -1.1439"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap2 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > -0.791884 || eta < -0.796051"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap3 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > -0.791884 || eta < -0.796051"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap4 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > 0.00238527 || eta <  -0.00330793"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap5 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > 0.446183 || eta < 0.441949"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap6 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > 0.793955 || eta < 0.789963"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTrkEcalGap7 = cms.PSet(
+    inputCollection= cms.string("tracks"),
+    cutString = cms.string("eta > 1.14164 || eta < 1.13812"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
 cutTrkWheel0GapVeto = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("fabs(eta) < 0.15 | fabs(eta) > 0.35"),
@@ -710,13 +776,14 @@ cutTrkDZInv = cms.PSet(
 cutTrkNHits = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits >= 7"),
+#    cutString = cms.string("numValidHits == 7"),
     numberRequired = cms.string(">= 1"),
     )
-cutTrkNHits7 = cms.PSet(
-    inputCollection= cms.string("tracks"),
-    cutString = cms.string("numValidHits >= 7"),
-    numberRequired = cms.string(">= 1"),
-    )
+#cutTrkNHits7 = cms.PSet(
+#    inputCollection= cms.string("tracks"),
+#    cutString = cms.string("numValidHits >= 7"),
+#    numberRequired = cms.string(">= 1"),
+#    )
 cutTrkNHitsIs7 = cms.PSet(
     inputCollection= cms.string("tracks"),
     cutString = cms.string("numValidHits == 7"),
@@ -1200,7 +1267,7 @@ cutMuonMetMT = cms.PSet(
 
 cutMuonMetMTInverse = cms.PSet(
     inputCollection = cms.string("muons"),
-    cutString = cms.string("metMT > 50"),
+    cutString = cms.string("metMT > 40"),
     numberRequired = cms.string(">= 1"),
     )
 cutMuonVeto = cms.PSet (
@@ -1420,6 +1487,13 @@ cutElecNHits = cms.PSet(
     cutString = cms.string("tkNumValidHits > 4"),
     numberRequired = cms.string(">= 1"),
     )
+
+cutElecMetMTInverse = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("metMT > 40"),
+    numberRequired = cms.string(">= 1"),
+    )
+
 cutElecMva = cms.PSet(  # See https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentification#Triggering_MVA
     inputCollection= cms.string("electrons"),
     cutString = cms.string("mvaTrig_HtoWWto2l2nu == 1"),
