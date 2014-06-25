@@ -53,7 +53,8 @@ lumi = 19500
 
 #condor directory in which to find signal root files
 #signal_condor_dir = WellsCondorDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
-signal_condor_dir = WellsCondorDir + 'condor_2014_06_12_FullSelection_AllMC'  
+#signal_condor_dir = WellsCondorDir + 'condor_2014_06_12_FullSelection_AllMC'  
+signal_condor_dir = JessCondorDir + 'fullSelectionAllSigBothTrig'  
 
 #name of event selection from which to take signal yields
 #signal_channel = 'FullSelectionFilterMC'  
@@ -182,7 +183,7 @@ signal_systematic_uncertainties = {
     'value' : '1.03',
         },
     'trigEff' :  {
-    'value' : '1.10',
+    'value' : '1.05',
         },
     'EcaloRewt' :  {
     'value' : '1.05',
@@ -195,6 +196,12 @@ signal_systematic_uncertainties = {
         },
     'trkReco' :  {
     'value' : '1.017',
+        },
+    'Nmissin' :  {
+    'value' : '1.028',
+        },
+    'Nmissmid' :  {
+    'value' : '1.018',
         },
     
     }
