@@ -184,11 +184,7 @@ outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_6June",       "FullSelectionElecPreveto")
 (NYield, NYieldErr) = getYield("Background",       WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
-NLimit              = getUpperLimit("WjetsHighPt", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
-NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
-#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
@@ -196,8 +192,6 @@ content += hline
 content += hline                                                              
 #content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
 content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
-#content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-#content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 content += "$N^e$ (MC)              & $"     + " \\leq " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
 content += hline                                                              
 #content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
@@ -247,8 +241,8 @@ print "Debug:  NPreselTot = " + str(NPreselTot)
 NYieldTotErr = 0.0  
 fracPreselTot = 0.0
 for dataset in split_datasets:
-    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
-    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
+    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
+    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
     (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
@@ -260,8 +254,6 @@ outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
 (NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
-#NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
-NYieldErr = math.sqrt(math.pow(NYieldErr,2)) # + math.pow(NLimit,2))   
 P = NYield / NCtrl 
 #PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
 PErr = NYieldTotErr / NCtrl
@@ -274,10 +266,12 @@ content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$   
 #content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 if NYield > NYieldTotErr: 
     content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
+    content += hline                                                              
+    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
 else:
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm (^{" + str(round_sigfigs(NYield,2)) + "}_{" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n" 
-content += hline                                                              
-content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
+    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm (_{" + str(round_sigfigs(NYield,2)) + "}^{" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n" 
+    content += hline                                                              
+    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm (^{" + str(round_sigfigs(PErr * 1e4,2)) + "}_{" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -337,11 +331,7 @@ outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
 (NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdTau")
-NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdTau")
-NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
-#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
