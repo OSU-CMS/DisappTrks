@@ -808,7 +808,22 @@ CL68factor = 1.139  # See https://github.com/OSU-CMS/OSUT3Analysis/blob/master/A
 alphaElec = NelecErr / CL68factor
 alphaMuon = Nmuon / 1  
 alphaTau  = NtauErr / CL68factor
-alphaFake = Nfake / 2  
+alphaFake = Nfake / 2
+
+# Calculate the number of raw events, based on the yield and the error
+# Y = Nw
+# sigma = (sqrt(N)/N) * Y
+# N = Y^2 / sigma^2
+# N: number of raw events
+# w: weight
+# Y: weighted yield
+# sigma:  error on weighted yield
+# Then round to nearest integer.  
+NfakeRaw = round(math.pow(Nfake,2) / math.pow(NfakeErr,2))   
+NmuonRaw = round(math.pow(Nmuon,2) / math.pow(NmuonErr,2))   
+print "NfakeRaw = " + str(NfakeRaw)  
+print "NmuonRaw = " + str(NmuonRaw)  
+
 content  = "#!/usr/bin/env python   \n"
 content += "# Produced with ../scripts/makeANTables.py  \n" 
 content += "\n"  
