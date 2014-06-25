@@ -151,6 +151,10 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
 
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
+#JessDir = "JessCondor/"
+JessDir = ""
+#WellsDir = ""  
+WellsDir = "WellsCondorNew/"  
 
 import os
 
@@ -195,9 +199,13 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_6June",       "FullSelectionElecPreveto")
-(NYield, NYieldErr) = getYield("Background",       WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_24June",       "FullSelectionElecPreveto")
+(NYield, NYieldErr) = getYield("Background",       JessDir+"fullSelectionId_24June", "FullSelIdElec")
+#NLimit              = getUpperLimit("WjetsHighPt", JessDir+"fullSelectionId_24June", "FullSelIdElec")
+#NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
+#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
@@ -205,6 +213,8 @@ content += hline
 content += hline                                                              
 #content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
 content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
+#content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
+#content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 content += "$N^e$ (MC)              & $"     + " \\leq " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
 content += hline                                                              
 #content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
@@ -219,7 +229,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/elecEst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionElecPrevetoSkim_6June", "FullSelectionElecPreveto")  # data 
+(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionElecPrevetoSkim_24June", "FullSelectionElecPreveto")  # data 
 Nelec = NCtrl * P
 NelecErr = NCtrl * PErr
 content  = header 
@@ -265,35 +275,51 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
-P = NYield / NCtrl 
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
-PErr = NYieldTotErr / NCtrl
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-#content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
-content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
-#content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-if NYield > NYieldTotErr: 
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
-    content += hline                                                              
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_24June",       "FullSelectionMuPreveto")
+#(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
+(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
+#NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+P = NYield / NCtrl
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
+NYieldTotErr -= NYield # Subtract off the central value from the upper limit
+
+if NYieldErr > NYieldTotErr:
+    PErr = float(NYieldErr) / NCtrl
+
 else:
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm (_{" + str(round_sigfigs(NYield,2)) + "}^{" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n" 
-    content += hline                                                              
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm (^{" + str(round_sigfigs(PErr * 1e4,2)) + "}_{" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
+    PErr = float(NYieldTotErr) / NCtrl
+
+content  = header
+content += "\\begin{tabular}{lc}\n"
+content += hline
+content += hline
+#content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                    \
+
+content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"
+#content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"              \
+print "NYieldErr =" + str(NYieldErr) 
+print "NYieldTotErr =" + str(NYieldTotErr) 
+if float(NYieldErr) > float(NYieldTotErr):
+    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                
+    content += hline
+    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"    
+else: 
+    if NYield > NYieldTotErr:
+        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                
+        content += hline
+        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
+    else:
+        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + "  (_{-" + str(round_sigfigs(NYield,2)) + "}^{+" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n"
+        content += hline
+        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + "  ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
+content += hline
+content += hline
+content += "\\end{tabular}\n"
+fout.write(content)
 fout.close()
-os.system("cat " + outputFile)  
+os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
-
-
+    
 outputFile = "tables/muonEst.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
@@ -302,13 +328,18 @@ NmuonErr = NCtrl * PErr
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
-content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-#content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"  
-content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"  
-content += hline                                                              
-#content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
-content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "} $ \\\\  \n"
+content += hline
+if float(NYieldErr) > float(NYieldTotErr):
+    content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"
+#    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * \
+    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"
+    content += hline
+    content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
+else:
+    content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
+    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"  
+    content += hline                                                              
+    content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -342,9 +373,13 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdTau")
+(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_24June",       "FullSelectionTauPreveto")
+(NYield, NYieldErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdTau")
+NLimit              = getUpperLimit("WjetsHighPt", "fullSelectionId_24June", "FullSelIdTau")
+NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
 P = NYield / NCtrl 
+#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
+#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
@@ -368,7 +403,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/tauEst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionTauPrevetoSkim_6June",       "FullSelectionTauPreveto")
+(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionTauPrevetoSkim_24June",       "FullSelectionTauPreveto")
 Ntau = NCtrl * P
 NtauErr = NCtrl * PErr
 content  = header 
@@ -377,7 +412,7 @@ content += hline
 content += hline                                                              
 content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
 #content += "$P^\\tau$ (MC)               & $" + str(round_sigfigs(P,3)) + " \\pm " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
-content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
+content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"  
 content += hline                                                              
 content += "$N^\\tau$                    & $ \\leq " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
 content += hline                                                              
@@ -398,7 +433,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/fakeTrkRate.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("SingleMu", WellsDir+"condor_2014_01_10_ZtoMuMu",        "ZtoMuMu")
-(NYield, NYieldErr) = getYield("SingleMu", WellsDir+"condor_2014_06_11_ZtoMuMuFakeTrk", "ZtoMuMuFakeTrk")
+(NYield, NYieldErr) = getYield("SingleMu", JessDir+"ztoMuMuFakeTrk_24June", "ZtoMuMuFakeTrk")
 P = NYield / NCtrl 
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)) 
 content  = header 
@@ -440,6 +475,127 @@ os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
 
 
+###################################################
+# Fake track(ZtoEE) rate table:
+# tables/fakeTrkRateEE.tex
+# tables/fakeEstEE.tex
+###################################################
+## outputFile = "tables/fakeTrkRateEE.tex"
+## fout = open (outputFile, "w")
+## (NCtrl, NCtrlErr)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
+## (NYield, NYieldErr) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits5")
+## P = NYield / NCtrl
+## PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
+## content  = header
+## content += "\\begin{tabular}{lc}\n"
+## content += hline
+## content += hline
+## content += "$N^{\\Zee}$  & $" + str(round_sigfigs(NCtrl / 1.e6,3)) + " \\times 10^{6}$     \\\\ \n"
+## content += "$N^{\\rm fake}_{\\rm ctrl}$              & $ "+ str(round_sigfigs(NYield,2))     + "$     \\\\ \n"
+## content += hline
+## content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Zee}$ & $ (" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"
+## content += hline
+## content += hline
+## content += "\\end{tabular}\n"
+## fout.write(content)
+## fout.close()
+## os.system("cat " + outputFile)
+## print "Finished writing " + outputFile + "\n\n\n"
+
+
+## outputFile = "tables/fakeEstEE.tex"
+## fout = open (outputFile, "w")
+## (NCtrl, NCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
+## Nfake = NCtrl * P
+## NfakeErr = NCtrl * PErr
+## content  = header
+## content += "\\begin{tabular}{lc}\n"
+## content += hline
+## content += hline
+## content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"
+## content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"
+## content += hline
+## content += "$N^{\\rm fake}$                    & $"  + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + " $ \\\\  \n"
+## content += hline
+## content += hline
+## content += "\\end{tabular}\n"
+## fout.write(content)
+## fout.close()
+## os.system("cat " + outputFile)
+## print "Finished writing " + outputFile + "\n\n\n"
+
+
+###################################################
+# Fake track ratio rates:
+# tables/fakeTrkRateRatioEE.h
+# tables/fakeEstEE.tex
+###################################################
+outputFile = "tables/fakeTrkRateRatioEE.h"
+fout = open (outputFile, "w")
+
+(NSearchCtrl, NSearchCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim",        "MetJet")
+(NYieldSearch_3, NYieldSearchErr_3) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits3");
+(NYieldSearch_4, NYieldSearchErr_4) = getYield("MET", WellsDir+"condor_2014_02_12_FullSelectionNHits4", "FullSelectionNHits4");
+(NYieldSearch_5, NYieldSearchErr_5) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits5");
+(NYieldSearch_6, NYieldSearchErr_6) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits6");
+
+
+(NCtrl, NCtrlErr)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
+(NYield_3, NYieldErr_3) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits3")
+(NYield_4, NYieldErr_4) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits4")
+(NYield_5, NYieldErr_5) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits5")
+(NYield_6, NYieldErr_6) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits6")
+
+PSearch_3 = NYieldSearch_3 / NSearchCtrl
+PSearchErr_3 = PSearch_3 * math.sqrt(math.pow(NYieldSearchErr_3/NYieldSearch_3, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
+
+PSearch_4 = NYieldSearch_4 / NSearchCtrl
+PSearchErr_4 = PSearch_4 * math.sqrt(math.pow(NYieldSearchErr_4/NYieldSearch_4, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
+
+PSearch_5 = NYieldSearch_5 / NSearchCtrl
+PSearchErr_5 = PSearch_5 * math.sqrt(math.pow(NYieldSearchErr_5/NYieldSearch_5, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
+
+PSearch_6 = NYieldSearch_6 / NSearchCtrl
+PSearchErr_6 = PSearch_6 * math.sqrt(math.pow(NYieldSearchErr_6/NYieldSearch_6, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
+
+P_3 = NYield_3 / NCtrl
+P_4 = NYield_4 / NCtrl
+P_5 = NYield_5 / NCtrl
+P_6 = NYield_6 / NCtrl
+
+ratio_3 = PSearch_3 / P_3
+ratio_4 = PSearch_4 / P_4
+ratio_5 = PSearch_5 / P_5
+ratio_6 = PSearch_6 / P_6
+
+PErr_3 = P_3 * math.sqrt(math.pow(NYieldErr_3/NYield_3, 2) + math.pow(NCtrlErr/NCtrl, 2))
+PErr_4 = P_4 * math.sqrt(math.pow(NYieldErr_4/NYield_4, 2) + math.pow(NCtrlErr/NCtrl, 2))
+PErr_5 = P_5 * math.sqrt(math.pow(NYieldErr_5/NYield_5, 2) + math.pow(NCtrlErr/NCtrl, 2))
+PErr_6 = P_6 * math.sqrt(math.pow(NYieldErr_6/NYield_6, 2) + math.pow(NCtrlErr/NCtrl, 2))
+
+ratioErr_3 = ratio_3 * math.sqrt(math.pow(PErr_3/P_3, 2) + math.pow(PSearchErr_3/PSearch_3, 2))
+ratioErr_4 = ratio_4 * math.sqrt(math.pow(PErr_4/P_4, 2) + math.pow(PSearchErr_4/PSearch_4, 2))
+ratioErr_5 = ratio_5 * math.sqrt(math.pow(PErr_5/P_5, 2) + math.pow(PSearchErr_5/PSearch_5, 2))
+ratioErr_6 = ratio_6 * math.sqrt(math.pow(PErr_6/P_6, 2) + math.pow(PSearchErr_6/PSearch_6, 2))
+
+
+content = "double ratio_3 = " + str(round_sigfigs(ratio_3,2)) + " ; " 
+content += "double ratio_4 = " + str(round_sigfigs(ratio_4,2)) + " ; " 
+content += "double ratio_5 = " + str(round_sigfigs(ratio_5,2)) + " ; " 
+content += "double ratio_6 = " + str(round_sigfigs(ratio_6,2)) + " ; "
+
+content += "double ratioErr_3 = " + str(round_sigfigs(ratioErr_3,2)) + " ; "
+content += "double ratioErr_4 = " + str(round_sigfigs(ratioErr_4,2)) + " ; "
+content += "double ratioErr_5 = " + str(round_sigfigs(ratioErr_5,2)) + " ; "
+content += "double ratioErr_6 = " + str(round_sigfigs(ratioErr_6,2)) + " ; "
+
+#content += hline
+#content += hline
+#content += "\\end{tabular}\n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
 
 
 ###################################################
@@ -767,7 +923,8 @@ NtotStat = math.sqrt(math.pow(NelecErr,2) + math.pow(NmuonErr,2) + math.pow(Ntau
 NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
 NtotErr  = math.sqrt(math.pow(NtotStat,2) + math.pow(NtotSyst,2))   
 
-(NData, NDataErr) = getYield("MET", WellsDir+"condor_2014_04_29_FullSelectionUnBlinded", "FullSelection")
+#(NData, NDataErr) = getYield("MET", WellsDir+"condor_2014_04_29_FullSelectionUnBlinded", "FullSelection")
+(NData, NDataErr) = getYield("MET", JessDir+"fullSelectionSkim_24June", "FullSelection")
 
 # Account for the rounding of Ntau:  
 NtauErrRounded = round_sigfigs(NtauErr,2)
