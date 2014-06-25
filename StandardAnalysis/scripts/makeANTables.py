@@ -156,6 +156,21 @@ JessDir = ""
 #WellsDir = ""  
 WellsDir = "WellsCondorNew/"  
 
+import os
+
+cwd = os.getcwd()
+#print "Current directory: " + cwd
+
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error:  could not identify user as wulsin or jbrinson."
+    os.exit(0)
+    
 
 
 ###################################################
@@ -261,11 +276,19 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_24June",       "FullSelectionMuPreveto")
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
+#(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
+(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
 #NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
 P = NYield / NCtrl
 #PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
-PErr = NYieldTotErr / NCtrl
+NYieldTotErr -= NYield # Subtract off the central value from the upper limit
+
+if NYieldErr > NYieldTotErr:
+    PErr = float(NYieldErr) / NCtrl
+
+else:
+    PErr = float(NYieldTotErr) / NCtrl
+
 content  = header
 content += "\\begin{tabular}{lc}\n"
 content += hline
@@ -274,15 +297,21 @@ content += hline
 
 content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"
 #content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"              \
-
-if NYield > NYieldTotErr:
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                
+print "NYieldErr =" + str(NYieldErr) 
+print "NYieldTotErr =" + str(NYieldTotErr) 
+if float(NYieldErr) > float(NYieldTotErr):
+    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                
     content += hline
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
-else:
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + "  (_{-" + str(round_sigfigs(NYield,2)) + "}^{+" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n"
-    content += hline
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + "  ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
+    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"    
+else: 
+    if NYield > NYieldTotErr:
+        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                
+        content += hline
+        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
+    else:
+        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + "  (_{-" + str(round_sigfigs(NYield,2)) + "}^{+" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n"
+        content += hline
+        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + "  ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
 content += hline
 content += hline
 content += "\\end{tabular}\n"
@@ -299,13 +328,18 @@ NmuonErr = NCtrl * PErr
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
-content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-#content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"  
-content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"  
-content += hline                                                              
-#content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
-content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "} $ \\\\  \n"
+content += hline
+if float(NYieldErr) > float(NYieldTotErr):
+    content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"
+#    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * \
+    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"
+    content += hline
+    content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
+else:
+    content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
+    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"  
+    content += hline                                                              
+    content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErr,2)) + "}_{-" + str(round_sigfigs(Nmuon,2)) + "} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
