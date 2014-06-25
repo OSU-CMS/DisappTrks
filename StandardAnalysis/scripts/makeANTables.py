@@ -151,9 +151,22 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
 
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
-JessDir = "JessCondor/"
-WellsDir = ""  
 
+import os
+
+cwd = os.getcwd()
+#print "Current directory: " + cwd
+
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error:  could not identify user as wulsin or jbrinson."
+    os.exit(0)
+    
 
 
 ###################################################
@@ -271,7 +284,7 @@ if NYield > NYieldTotErr:
 else:
     content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm (_{" + str(round_sigfigs(NYield,2)) + "}^{" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n" 
     content += hline                                                              
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm (^{" + str(round_sigfigs(PErr * 1e4,2)) + "}_{" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
+    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm (^{" + str(round_sigfigs(PErr * 1e4,2)) + "}_{" + str(round_sigfigs(P * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
