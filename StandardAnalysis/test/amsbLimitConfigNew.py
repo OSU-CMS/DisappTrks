@@ -9,8 +9,6 @@
 from DisappTrks.SignalMC.signalCrossSecs import *
 from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py  
 
-
-
 import os
 
 cwd = os.getcwd()
@@ -46,22 +44,18 @@ samplesByGravitinoMass = False
 
 #NOTE: These are the chargino masses
 masses = ['100', '200', '300', '400', '500', '600']  
-#masses = ['100']  
+#masses = ['300']  
 
 #chargino tau values
-#lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
 lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','8000','9000','10000']    
-#lifetimes = ['1','5','10','50','100','500','1000']
-#lifetimes = ['1','5','10','100','500','1000']
-#lifetimes = ['2000','3000','4000','5000','6000','7000','8000','9000','10000']  
-#lifetimes = ['15','150']  
+#lifetimes = ['100']  
 
 lumi = 19500
 
 #condor directory in which to find signal root files
-#signal_condor_dir = WellsCondorDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
-#signal_condor_dir = WellsCondorDir + 'condor_2014_06_12_FullSelection_AllMC'  
-signal_condor_dir = JessCondorDir + 'fullSelectionAllSigBothTrig'  
+#signal_condor_dir = WellsDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
+#signal_condor_dir = WellsDir + 'condor_2014_06_12_FullSelection_AllMC'  
+signal_condor_dir = JessDir + 'fullSelectionAllSigBothTrig'  
 
 #name of event selection from which to take signal yields
 #signal_channel = 'FullSelectionFilterMC'  
@@ -78,8 +72,8 @@ run_blind_limits = False
 data_dataset = "MET" 
 
 #condor directory in which to find data root file
-#data_condor_dir = WellsCondorDir + 'condor_2014_04_29_FullSelectionUnBlinded' 
-data_condor_dir = JessCondorDir + 'fullSelectionSkim_24June' 
+#data_condor_dir = WellsDir + 'condor_2014_04_29_FullSelectionUnBlinded' 
+data_condor_dir = JessDir + 'fullSelectionSkim_24June' 
 
 #name of event selection from which to take observed events
 data_channel = 'FullSelection'
@@ -87,84 +81,13 @@ data_channel = 'FullSelection'
 #############################
 ### Background Parameters ###
 #############################
-#All values are taken from 'Total Bkgd' sheet
-#Errors include statistical and systematic and are fractional errors
 
-## For gamma function option, these are just read in.
-## alpha = (data yield without lepton veto)*(mc yield with lepton veto)/(mc yield without lepton veto)
-## backgrounds = {
-    
-## ##     'Elec' : {
-## ##     'N' : '0',
-## ##     'alpha' : '0.44',
-## ##     },
-##     'ElecWjets' : {
-##     'N' : '0',
-##     'alpha' : '0.37',
-##     },
-##     'Muon' : {
-##     'N' : '1',
-##     'alpha' : '0.65',
-##     },
-##     'Tau' : {
-##     #'N' : '1',
-##     'N' : '0',
-##     #'alpha' : '0.003',
-##     'alpha' : '0.3',
-##     },
-##     'Fake' : {
-##     'N' : '2',
-##     'alpha' : '0.29',
-##     },
-##     }              
-
-
-##To be used with log normal
-##Select condor directory from which the yields after the full selection will be taken
-
-
-#  ../scripts/bkgdFromData.py -l bkgdOptions.py -c condor_2014_06_12_bkgdEstUnblind
-#bkgdDir = 'condor_2014_05_07_BkgdEstFullSelUnblind'  
-bkgdDir = 'condor_2014_06_12_bkgdEstUnblind'  
-background_sources = {
-    'Elec' : {
-    'condor_dir'  :  WellsCondorDir + bkgdDir,
-    },
-    'Muon' : {
-    'condor_dir'  :  WellsCondorDir + bkgdDir,
-    },
-    'Tau' : {
-    'condor_dir'  :  WellsCondorDir + bkgdDir,
-    },
-    'Fake' : {
-    'condor_dir'  :  WellsCondorDir + bkgdDir,
-    },
-    }
 
 
 #############################
 ### Systematic Uncertainties ###
 #############################
 
-background_systematics = {
-##     'Elec' : {
-##     'value'  : '1.31',
-##          },
-    'ElecWjets' : {
-    'value'  : '1.31',
-             },
-    'Muon' : {
-    'value'  : '1.37',
-             },
-    'Tau' : {
-    'value'  : '1.37',
-             },
-    'Fake' : {
-    'value'  : '1.18',
-             },
-
-
-         }
 
 external_systematic_uncertainties = [
     # Use order of AN
@@ -176,7 +99,6 @@ external_systematic_uncertainties = [
      'EcaloRewt',
      'NmissoutRewt',
      'pileup',
-##     'trackReco',
     ]
 
 #uncertainties on signal only (we can alter this if we need to)
@@ -184,24 +106,6 @@ signal_systematic_uncertainties = {
     'lumi' :  {
     'value' : '1.026',
         },
-##     'IsrRewtPt' :  {
-##     'value' : '1.095',
-##         },
-##     'JES' :  {
-##     'value' : '1.03',
-##         },
-##     'trigEff' :  {
-##     'value' : '1.05',
-##         },
-##     'EcaloRewt' :  {
-##     'value' : '1.05',
-##         },
-##     'NmissoutRewt' :  {
-##     'value' : '1.09',
-##         },
-##     'pileup' :  {
-##     'value' : '1.03',
-##         },
     'trkReco' :  {
     'value' : '1.017',
         },

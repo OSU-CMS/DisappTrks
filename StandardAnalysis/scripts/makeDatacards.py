@@ -23,6 +23,8 @@ parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooSt
                   help="create scripts to run RooStatsCl95")
 parser.add_option("-g", "--gamma", action="store_true", dest="runGamma", default=False,
                   help="run with gamma function instead of log normal")
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
+                  help="verbose output")
 
 (arguments, args) = parser.parse_args()
 
@@ -134,21 +136,17 @@ def writeDatacard(mass,lifetime):
     for background in backgrounds :
         yieldAndError = {}
         if not arguments.runGamma:
-            if background == 'ElecWjets':
-                background_yields[background] = str(0.000001)
-                background_errors[background] = str(1.01)
-            else:
-                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
-                background_yields[background] = yieldAndError['yield']
-                background_errors[background] = yieldAndError['error']
-        if arguments.runGamma:
-            if background == 'ElecWjets':
-                background_yields[background] = str(0)
-            else:
-                yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
-                background_yields[background] = yieldAndError['yield']
+            yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
+            background_yields[background] = yieldAndError['yield']
+            background_errors[background] = yieldAndError['error']
+        else:
+            yieldAndError['yield'] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))  
+            yieldAndError['error'] = str(backgrounds[str(background)]['alpha']) 
+            background_yields[background] = yieldAndError['yield']
+            if arguments.verbose:
+                print "Debug:  for bkgd: " + str(background) + ", yield = " + str(yieldAndError['yield']) + ", error = " + str(yieldAndError['error'])
             background_errors[background] = backgrounds[str(background)]['alpha']            
-        totalBkgd += background_yields[background]  
+        totalBkgd += float(background_yields[background])
 
     default_channel_name = "MyChan"
     if samplesByGravitinoMass: 
@@ -199,6 +197,10 @@ def writeDatacard(mass,lifetime):
             rate_row.append(background_yields[background][:5])
         if arguments.runGamma:
             rate_row.append(str(background_yields[background][:5]))
+            if arguments.verbose:
+                print "Debug: for background " + str(background) 
+                print "Debug: for background " + str(background) + ": " + str(background_yields[background])  
+                print "Debug: for background " + str(background) + ": " + str(background_yields[background][:5])  
         empty_row.append('')
         
     datacard_data.append(empty_row)
@@ -309,7 +311,7 @@ def writeDatacard(mass,lifetime):
 
     signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])  
     signalEff = signal_yield / signalOrigYield
-    signalEffErr = signalEff * (signal_cross_sections[mass]['error'] - 1.0)  
+    signalEffErr = signalEff * (float(signal_cross_sections[mass]['error']) - 1.0)  
 
     datacard.write('# lumi = ' + str(lumi) + '\n')
     datacard.write('# sig cross sec = ' + signal_cross_sections[mass]['value'] + '\n')
