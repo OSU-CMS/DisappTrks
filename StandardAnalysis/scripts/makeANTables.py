@@ -879,6 +879,116 @@ os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
 
 
+
+###################################################
+# NmissInner systematic
+# tables/systNmissIn.tex  
+###################################################
+outputFile = "tables/systNmissIn.tex"
+fout = open (outputFile, "w")
+
+(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
+(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
+P = NPass / NTot 
+PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
+
+(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
+(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
+PData = NPassData / NTotData 
+PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
+
+ratio = PData / P
+ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
+ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
+ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
+
+content  = header
+content += "\\begin{tabular}{lcc} \n"
+content += hline
+content += hline
+# Comment out lines below, don't need all this info.  
+content += "%& data   & MC   \\\\ \n"
+#content += hline
+content += "%$N^{\\rm tot}$   & " 
+content += "$" + str(round_sigfigs(NTotData,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErrData,3)).rstrip("0").rstrip(".") + "$ & "          
+content += "$" + str(round_sigfigs(NTot    ,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+content += "%$N^{\\rm inner}_{\\rm miss} == 0$ & "
+content += "$" + str(round_sigfigs(NPassData,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErrData,3)).rstrip("0").rstrip(".") + "$ & "
+content += "$" + str(round_sigfigs(NPass    ,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+#content += hline
+content += "%$\\epsilon$  & " 
+content += "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ & "
+content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ & "  
+content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"
+content += " & $\\epsilon(N^{\\rm inner}_{\\rm miss} == 0)$ \\\\ \n" 
+content += hline
+content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
+content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
+content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
+content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+###################################################
+# NmissInner systematic
+# tables/systNmissMid.tex  
+###################################################
+outputFile = "tables/systNmissMid.tex"
+fout = open (outputFile, "w")
+
+(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
+(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
+P = NPass / NTot 
+PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
+
+(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
+(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
+PData = NPassData / NTotData 
+PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
+
+ratio = PData / P
+ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
+ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
+ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
+
+content  = header
+content += "\\begin{tabular}{lccc} \n"
+content += hline
+content += hline
+#content += "& data   & MC  & data/MC  \\\\ \n"
+#content += hline
+content += "%$N^{\\rm tot}$   & " 
+content += "$" + str(round_sigfigs(NTotData,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErrData,3)).rstrip("0").rstrip(".") + "$ & "          
+content += "$" + str(round_sigfigs(NTot    ,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+content += "%$N^{\\rm mid}_{\\rm miss} == 0$ & "
+content += "$" + str(round_sigfigs(NPassData,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErrData,3)).rstrip("0").rstrip(".") + "$ & "
+content += "$" + str(round_sigfigs(NPass    ,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+#content += hline
+content += "%$\\epsilon$  & " 
+content += "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ & "
+content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ & "  
+content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
+content += " & $\\epsilon(N^{\\rm mid}_{\\rm miss} == 0)$ \\\\ \n" 
+content += hline
+content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
+content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
+content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
+content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
 ###################################################
 # Systematic summary table 
 # tables/systSumm.tex 
@@ -961,48 +1071,80 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "amsbLimitConfigBkgds.py"  
 fout = open (outputFile, "w")
-CL68factor = 1.139  # See https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp for PDG reference  
-alphaElec = NelecErr / CL68factor
-alphaMuon = Nmuon / 1  
-alphaTau  = NtauErr / CL68factor
-alphaFake = Nfake / 2
 
 # Calculate the number of raw events, based on the yield and the error
-# Y = Nw
-# sigma = (sqrt(N)/N) * Y
+# Y = w * N
+# sigma = w * sqrt(N)
 # N = Y^2 / sigma^2
 # N: number of raw events
 # w: weight
 # Y: weighted yield
 # sigma:  error on weighted yield
 # Then round to nearest integer.  
-NfakeRaw = round(math.pow(Nfake,2) / math.pow(NfakeErr,2))   
-NmuonRaw = round(math.pow(Nmuon,2) / math.pow(NmuonErr,2))   
+(NelecMC, NelecMCErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdElec")
+(NmuonMC, NmuonMCErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdMuon")
+#(NtauMC,  NtauMCErr)  = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdTau")
+(NtauMC,  NtauMCErr)  = getYield("WjetsHighPt", JessDir+"fullSelectionId_24June", "FullSelIdTau")  # Do not include TTbar event  
+
+
+NfakeRaw = round(math.pow(Nfake,2)   / math.pow(NfakeErr,2))   if NfakeErr   else 0 # Can use the fake track estimate, since the error is scaled by the same weight as the central value
+NelecRaw = round(math.pow(NelecMC,2) / math.pow(NelecMCErr,2)) if NelecMCErr else 0 
+NmuonRaw = round(math.pow(NmuonMC,2) / math.pow(NmuonMCErr,2)) if NmuonMCErr else 0 
+NtauRaw  = round(math.pow(NtauMC,2)  / math.pow(NtauMCErr,2))  if NtauMCErr  else 0 
 print "NfakeRaw = " + str(NfakeRaw)  
 print "NmuonRaw = " + str(NmuonRaw)  
+
+CL68factor = 1.139  # See https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp for PDG reference  
+alphaElec = NelecErr / CL68factor
+alphaMuon = Nmuon / NmuonRaw  
+alphaTau  = NtauErr / CL68factor
+alphaFake = Nfake / NfakeRaw
+
 
 content  = "#!/usr/bin/env python   \n"
 content += "# Produced with ../scripts/makeANTables.py  \n" 
 content += "\n"  
 content += "backgrounds = { \n"
-content += "'ElecWjets' : {    \n"
-content += "    'N' : '0',    \n"
+content += "'Elec' : {    \n"
+content += "    'N' : '" + str(NelecRaw).replace(".0","") + "',    \n"  
 content += "    'alpha' : '" + str(round_sigfigs(alphaElec,4)) + "',    \n"
 content += "        },    \n"
 content += "'Muon' : {    \n"
-content += "    'N' : '1',    \n"
+content += "    'N' : '" + str(NmuonRaw).replace(".0","") + "',    \n"  
 content += "    'alpha' : '" + str(round_sigfigs(alphaMuon,4)) + "',    \n"
 content += "        },    \n"
 content += "'Tau' : {    \n"
-content += "    'N' : '0',    \n"
+content += "    'N' : '" + str(NtauRaw).replace(".0","") + "',    \n"  
 content += "    'alpha' : '" + str(round_sigfigs(alphaTau,4)) + "',    \n"
 content += "        },    \n"
 content += "'Fake' : {    \n"
-content += "    'N' : '2',    \n"
+content += "    'N' : '" + str(NfakeRaw).replace(".0","") + "',    \n"  
 content += "    'alpha' : '" + str(round_sigfigs(alphaFake,4)) + "',    \n"
 content += "        },    \n"
 content += "    }    \n"
 content += "\n"  
+content += "\n"  
+content += "\n"  
+content += "background_systematics = {    \n"
+content += "    'Elec' : {     \n" 
+content += "    'value' : '" + str(round_sigfigs(1.0 + systFracElec,3)) + "',    \n"
+content += "                 },   \n"
+content += "    'Muon' : {   \n"
+content += "    'value' : '" + str(round_sigfigs(1.0 + systFracMuon,3)) + "',    \n"
+content += "                 },   \n"
+content += "    'Tau' : {   \n"
+content += "    'value' : '" + str(round_sigfigs(1.0 + systFracTau,3)) + "',    \n"
+content += "                 },   \n"
+content += "    'Fake' : {   \n"
+content += "    'value' : '" + str(round_sigfigs(1.0 + systFracFake,3)) + "',    \n"
+content += "                 },   \n"
+content += "\n"
+content += "\n"
+content += "    }    \n"
+content += "\n"  
+content += "\n"  
+
+
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
@@ -1053,117 +1195,6 @@ os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
 
 
-
-
-###################################################
-# NmissInner systematic
-# tables/systNmissIn.tex  
-###################################################
-outputFile = "tables/systNmissIn.tex"
-fout = open (outputFile, "w")
-
-(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
-(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
-P = NPass / NTot 
-PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
-
-(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
-(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
-PData = NPassData / NTotData 
-PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
-
-ratio = PData / P
-ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
-ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
-ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
-systFracFake = max(ratio1SigUp, ratio1SigDn)
-
-content  = header
-content += "\\begin{tabular}{lcc} \n"
-content += hline
-content += hline
-# Comment out lines below, don't need all this info.  
-content += "%& data   & MC   \\\\ \n"
-#content += hline
-content += "%$N^{\\rm tot}$   & " 
-content += "$" + str(round_sigfigs(NTotData,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErrData,3)).rstrip("0").rstrip(".") + "$ & "          
-content += "$" + str(round_sigfigs(NTot    ,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
-content += "%$N^{\\rm inner}_{\\rm miss} == 0$ & "
-content += "$" + str(round_sigfigs(NPassData,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErrData,3)).rstrip("0").rstrip(".") + "$ & "
-content += "$" + str(round_sigfigs(NPass    ,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
-#content += hline
-content += "%$\\epsilon$  & " 
-content += "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ & "
-content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ & "  
-content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"
-content += " & $\\epsilon(N^{\\rm inner}_{\\rm miss} == 0)$ \\\\ \n" 
-content += hline
-content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
-content += hline
-content += hline
-content += "\\end{tabular}\n"                                                       
-content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
-fout.write(content)
-fout.close()
-os.system("cat " + outputFile)
-print "Finished writing " + outputFile + "\n\n\n"
-
-
-###################################################
-# NmissInner systematic
-# tables/systNmissMid.tex  
-###################################################
-outputFile = "tables/systNmissMid.tex"
-fout = open (outputFile, "w")
-
-(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
-(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
-P = NPass / NTot 
-PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
-
-(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
-(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
-PData = NPassData / NTotData 
-PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
-
-ratio = PData / P
-ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
-ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
-ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
-systFracFake = max(ratio1SigUp, ratio1SigDn)
-
-content  = header
-content += "\\begin{tabular}{lccc} \n"
-content += hline
-content += hline
-#content += "& data   & MC  & data/MC  \\\\ \n"
-#content += hline
-content += "%$N^{\\rm tot}$   & " 
-content += "$" + str(round_sigfigs(NTotData,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErrData,3)).rstrip("0").rstrip(".") + "$ & "          
-content += "$" + str(round_sigfigs(NTot    ,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
-content += "%$N^{\\rm mid}_{\\rm miss} == 0$ & "
-content += "$" + str(round_sigfigs(NPassData,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErrData,3)).rstrip("0").rstrip(".") + "$ & "
-content += "$" + str(round_sigfigs(NPass    ,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
-#content += hline
-content += "%$\\epsilon$  & " 
-content += "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ & "
-content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ & "  
-content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
-content += " & $\\epsilon(N^{\\rm mid}_{\\rm miss} == 0)$ \\\\ \n" 
-content += hline
-content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
-content += hline
-content += hline
-content += "\\end{tabular}\n"                                                       
-content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
-fout.write(content)
-fout.close()
-os.system("cat " + outputFile)
-print "Finished writing " + outputFile + "\n\n\n"
 
 
 ###################################################

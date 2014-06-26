@@ -2,7 +2,7 @@
 # Produced with ../scripts/makeANTables.py  
 
 backgrounds = { 
-'ElecWjets' : {    
+'Elec' : {    
     'N' : '0',    
     'alpha' : '0.4894',    
         },    
@@ -19,4 +19,24 @@ backgrounds = {
     'alpha' : '0.2906',    
         },    
     }    
+
+
+
+background_systematics = {    
+    'Elec' : {     
+    'value' : '1.31',    
+                 },   
+    'Muon' : {   
+    'value' : '1.37',    
+                 },   
+    'Tau' : {   
+    'value' : '1.37',    
+                 },   
+    'Fake' : {   
+    'value' : '1.18',    
+                 },   
+
+
+    }    
+
 
