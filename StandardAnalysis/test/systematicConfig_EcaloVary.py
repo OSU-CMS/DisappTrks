@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-#makeRewtdPlot = True
-makeRewtdPlot = False
+makeRewtdPlot = True
+#makeRewtdPlot = False
 
 systematic_name = "EcaloRewt"
 #condor_dir = 'condor_2014_03_18_ZtoMuMuFakeTrkNHits4NoEcalo'  
@@ -37,8 +37,8 @@ def add_charginos (options, masses, ctaus):
             options['labels']       [datasetName] = str (mass) + " GeV #chi^{#pm} (#LTc#tau#GT = " + str (ctau) + " cm)"
             print "Adding dataset:  " + datasetName + "; sourceDatasetName=" + sourceDatasetName + "; dataset_name[sourceDatasetName]=" + options['dataset_names'][sourceDatasetName]
 
-add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+#add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
 
 ## mass point used for plot in AN
-#add_charginos (options, [400], [30])
+add_charginos (options, [400], [30])
             
