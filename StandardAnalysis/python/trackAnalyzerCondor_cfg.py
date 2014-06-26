@@ -12,14 +12,21 @@ process.OSUAnalysis.plotAllObjectsInPassingEvents = False
 process.OSUAnalysis.muons     = cms.InputTag('BNproducer', 'selectedPatMuonsLoosePFlow')
 #process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuons')
 process.OSUAnalysis.secMuons  = cms.InputTag('BNproducer', 'selectedPatMuonsLoose')
+process.OSUAnalysis.photons  = cms.InputTag('BNproducer', 'selectedPatPhotons')
 process.OSUAnalysis.electrons = cms.InputTag('BNproducer', 'selectedPatElectrons')
+#process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'L1EtMissParticlesMET')
+#process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'L1MuonParticles')
+#process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'L1JetParticlesCentral')
+#process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'L1EmParticlesIsolated')
+process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'HLT')
 
 
 
 #process.OSUAnalysis.doPileupReweighting = cms.bool(False)
 #process.OSUAnalysis.puFile = cms.string (os.environ['CMSSW_BASE']+'/src/OSUT3Analysis/Configuration/data/pu_disappTrks.root')
 
-process.OSUAnalysis.triggerMetSF    = cms.string ('metPt')  
+#process.OSUAnalysis.triggerMetSF    = cms.string ('metNoMu')  
+process.OSUAnalysis.triggerMetSF    = cms.string ('effDiff')  
 process.OSUAnalysis.trackNMissOutSF = cms.string ('ratio')  
 process.OSUAnalysis.isrVarySF       = cms.string ('ratio')  
 
@@ -30,7 +37,7 @@ process.OSUAnalysis.treeBranchSets = cms.VPSet()
 
 #number of events to process when running interactively
 process.maxEvents.input = 1000
-#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 
 ########################################################################
@@ -42,12 +49,14 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *  
 
 process.OSUAnalysis.histogramSets.append(EventHistograms)
+process.OSUAnalysis.histogramSets.append(TriggerObjectHistograms)
 
 process.OSUAnalysis.histogramSets.append(TrackHistograms)
 process.OSUAnalysis.histogramSets.append(ExtraTrackHistograms)
 process.OSUAnalysis.histogramSets.append(TrackIsolationHistograms)
 
 process.OSUAnalysis.histogramSets.append(MetHistograms)
+process.OSUAnalysis.histogramSets.append(MetMcParticleHistograms)
 process.OSUAnalysis.histogramSets.append(MetExtraHistograms)  
 
 process.OSUAnalysis.histogramSets.append(JetHistograms)
@@ -67,7 +76,7 @@ process.OSUAnalysis.histogramSets.append(ElectronTrackHistograms)
 #import user-defined histograms
 
 
-#process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
+process.OSUAnalysis.histogramSets.append(JetExtraHistograms)  
 
 
 
