@@ -60,13 +60,16 @@ def getIntegral(sample, hist, xlo, xhi):
 
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic_name + ".txt"
-fout = open (outputFile, "w")  
-
+if not makeRewtdPlot:
+    fout = open (outputFile, "w")  
 for sample in datasets:
     # FIXME:  Do not need to re-run mergeOutput.py, if you instead just do rewtHist.py for the data and the sum of all background.
     # Those datasets should be specified as an argument rather than passing in localOptionsCtrlDblMuon.py.  
-    os.system("rewtHist.py -b 5 -l localOptionsCtrlDblMuon.py -f condor/condor_2014_03_07_NoCutsFilterMC/" + sample + ".root -i OSUAnalysis/FullSelectionFilterMC/totalMcparticlePt -c " + condor_dir + " -n OSUAnalysis/" + channel + "/totalMuonPt")      
-    os.system("mergeOutput.py -q -C -s Background -l localOptionsCtrlDblMuon.py -c " + condor_dir)  
+#    os.system("rewtHist.py -b 5 -l localOptionsCtrlDblMuon.py -f condor/condor_2014_03_07_NoCutsFilterMC/" + sample + ".root -i OSUAnalysis/FullSelectionFilterMC/totalMcparticlePt -c " + condor_dir + " -n OSUAnalysis/" + channel + "/totalMuonPt")      
+    command = "rewtHist.py  -f condor/fullSelectionFilterMCWithEcalGapVeto/" + sample + ".root -i OSUAnalysis/FullSelectionFilterMC/totalMcparticlePt -c " + condor_dir + " -n OSUAnalysis/" + channel + "/totalMuonPt"      
+#    os.system("mergeOutput.py -q -C -s Background -l localOptionsCtrlDblMuon.py -c " + condor_dir)
+    os.system(command + " -d DoubleMu_22Jan2013")
+    os.system(command + " -d Background")
     yieldDataTot = getIntegral('DoubleMu_22Jan2013', 'numEvents', 0, 10) 
     yieldBkgdTot = getIntegral('Background',         'numEvents', 0, 10) 
     yieldDataPt  = getIntegral('DoubleMu_22Jan2013', 'totalMuonPt_Reweighted', 0, 500) 
@@ -75,12 +78,19 @@ for sample in datasets:
     plus_factor  = yieldDataPt / (yieldBkgdPt * normFactor)
     minus_factor = plus_factor 
     print "Found systematic error: " + str(plus_factor)
+    if makeRewtdPlot:
+        os.system(command + " -l localOptionsCtrlDblMuon.py")
+        plotCmd = "makePlots.py -q totalMuonPt_Reweighted  -f -N " + str(normFactor) + " -l localOptionsCtrlDblMuon.py -c " + condor_dir + " -o stacked_histogramsRewt_" + sample + ".root"
+        print "Running:  " + plotCmd
+        os.system(plotCmd)
     
     line = '{0: <24}'.format(str(sample)) + " " + '{0: <8}'.format(minus_factor) + " " + '{0: <8}'.format(plus_factor) + "\n" # format the sample name to use a fixed number of characters
     print line    
-    fout.write (line)
+    if not makeRewtdPlot:
+        fout.write (line)
 
-fout.close()
+if not makeRewtdPlot:
+    fout.close()
 print "Finished writing systematics file: " + outputFile  
 
 
