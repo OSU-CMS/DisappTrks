@@ -9,8 +9,6 @@
 from DisappTrks.SignalMC.signalCrossSecs import *
 from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py  
 
-
-
 import os
 
 cwd = os.getcwd()
@@ -49,11 +47,7 @@ masses = ['100', '200', '300', '400', '500', '600']
 #masses = ['300']  
 
 #chargino tau values
-#lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000']
 lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','8000','9000','10000']    
-#lifetimes = ['1','5','10','50','100','500','1000']
-#lifetimes = ['1','5','10','100','500','1000']
-#lifetimes = ['2000','3000','4000','5000','6000','7000','8000','9000','10000']  
 #lifetimes = ['100']  
 
 lumi = 19500
@@ -88,25 +82,6 @@ data_channel = 'FullSelection'
 ### Background Parameters ###
 #############################
 
-##To be used with log normal
-##Select condor directory from which the yields after the full selection will be taken
-## #  ../scripts/bkgdFromData.py -l bkgdOptions.py -c condor_2014_06_12_bkgdEstUnblind
-## #bkgdDir = 'condor_2014_05_07_BkgdEstFullSelUnblind'  
-bkgdDir = 'condor_2014_06_12_bkgdEstUnblind'  
-background_sources = {
-    'Elec' : {
-    'condor_dir'  :  WellsDir + bkgdDir,
-    },
-    'Muon' : {
-    'condor_dir'  :  WellsDir + bkgdDir,
-    },
-    'Tau' : {
-    'condor_dir'  :  WellsDir + bkgdDir,
-    },
-    'Fake' : {
-    'condor_dir'  :  WellsDir + bkgdDir,
-    },
-    }
 
 
 #############################
@@ -124,7 +99,6 @@ external_systematic_uncertainties = [
      'EcaloRewt',
      'NmissoutRewt',
      'pileup',
-##     'trackReco',
     ]
 
 #uncertainties on signal only (we can alter this if we need to)
@@ -132,24 +106,6 @@ signal_systematic_uncertainties = {
     'lumi' :  {
     'value' : '1.026',
         },
-##     'IsrRewtPt' :  {
-##     'value' : '1.095',
-##         },
-##     'JES' :  {
-##     'value' : '1.03',
-##         },
-##     'trigEff' :  {
-##     'value' : '1.05',
-##         },
-##     'EcaloRewt' :  {
-##     'value' : '1.05',
-##         },
-##     'NmissoutRewt' :  {
-##     'value' : '1.09',
-##         },
-##     'pileup' :  {
-##     'value' : '1.03',
-##         },
     'trkReco' :  {
     'value' : '1.017',
         },
