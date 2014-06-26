@@ -9,15 +9,22 @@
 from DisappTrks.SignalMC.signalCrossSecs import *
 from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py  
 
-# For Wells's running:
-JessCondorDir = "JessCondor/"
-WellsCondorDir = ""
-
-## # For Jess's running:
-## JessCondorDir = ""
-## WellsCondorDir = "WellsCondorNew/"   
 
 
+import os
+
+cwd = os.getcwd()
+#print "Current directory: " + cwd
+
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error:  could not identify user as wulsin or jbrinson."
+    os.exit(0)
 
 
 ##################################
@@ -71,7 +78,8 @@ run_blind_limits = False
 data_dataset = "MET" 
 
 #condor directory in which to find data root file
-data_condor_dir = WellsCondorDir + 'condor_2014_04_29_FullSelectionUnBlinded' 
+#data_condor_dir = WellsCondorDir + 'condor_2014_04_29_FullSelectionUnBlinded' 
+data_condor_dir = JessCondorDir + 'fullSelectionSkim_24June' 
 
 #name of event selection from which to take observed events
 data_channel = 'FullSelection'
@@ -160,14 +168,14 @@ background_systematics = {
 
 external_systematic_uncertainties = [
     # Use order of AN
-##     'IsrRewtPt',
-##     'JES',
-##     'JER',
-##     'PDFWt',
-##     'trigEff',
-##     'EcaloRewt',
-##     'NmissoutRewt',
-##     'pileup',
+     'IsrRewtPt',
+     'JES',
+     'JER',
+     'PDFWt',
+     'trigEff',
+     'EcaloRewt',
+     'NmissoutRewt',
+     'pileup',
 ##     'trackReco',
     ]
 
@@ -176,24 +184,24 @@ signal_systematic_uncertainties = {
     'lumi' :  {
     'value' : '1.026',
         },
-    'IsrRewtPt' :  {
-    'value' : '1.095',
-        },
-    'JES' :  {
-    'value' : '1.03',
-        },
-    'trigEff' :  {
-    'value' : '1.05',
-        },
-    'EcaloRewt' :  {
-    'value' : '1.05',
-        },
-    'NmissoutRewt' :  {
-    'value' : '1.09',
-        },
-    'pileup' :  {
-    'value' : '1.03',
-        },
+##     'IsrRewtPt' :  {
+##     'value' : '1.095',
+##         },
+##     'JES' :  {
+##     'value' : '1.03',
+##         },
+##     'trigEff' :  {
+##     'value' : '1.05',
+##         },
+##     'EcaloRewt' :  {
+##     'value' : '1.05',
+##         },
+##     'NmissoutRewt' :  {
+##     'value' : '1.09',
+##         },
+##     'pileup' :  {
+##     'value' : '1.03',
+##         },
     'trkReco' :  {
     'value' : '1.017',
         },
