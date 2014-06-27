@@ -22,6 +22,21 @@ from localOptionsBkgd import *  # To get list of datasets
 #from DisappTrks.StandardAnalysis.localOptionsAll import *  # To get list of datasets 
 
 
+import os
+
+cwd = os.getcwd()
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error:  could not identify user as wulsin or jbrinson."
+    os.exit(0)
+    
+
+
 ### parse the command-line options
 
 parser = OptionParser()
@@ -151,26 +166,6 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
 
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
-#JessDir = "JessCondor/"
-JessDir = ""
-#WellsDir = ""  
-WellsDir = "WellsCondorNew/"  
-
-import os
-
-cwd = os.getcwd()
-#print "Current directory: " + cwd
-
-if "wulsin" in cwd:
-    WellsDir = ""
-    JessDir = "JessCondor/"
-elif "jbrinson" in cwd:
-    WellsDir = "WellsCondorNew/"
-    JessDir = ""
-else:
-    print "Error:  could not identify user as wulsin or jbrinson."
-    os.exit(0)
-    
 
 
 ###################################################
@@ -250,6 +245,9 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+# Use these values for bkgdOptions.py below:  
+PElec = P
+PElecErr = PErr
 
 
 ###################################################
@@ -348,6 +346,10 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+# Use these values for bkgdOptions.py below:  
+PMuon = P
+PMuonErr = PErr
+
 
 
 ###################################################
@@ -423,7 +425,9 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
-
+# Use these values for bkgdOptions.py below:  
+PTau = P
+PTauErr = PErr
 
 ###################################################
 # Fake track rate table:
@@ -455,14 +459,14 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/fakeEst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
-Nfake = NCtrl * P
-NfakeErr = NCtrl * PErr
+(NCtrlMet, NCtrlMetErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
+Nfake = NCtrlMet * P
+NfakeErr = NCtrlMet * PErr
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
+content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrlMet * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
 content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
 content += hline                                                              
 content += "$N^{\\rm fake}$                    & $"  + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + " $ \\\\  \n"
@@ -474,6 +478,9 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+# Use for bkgdOptions.py below:
+ScaleFacFakeTrk = NCtrlMet / NCtrl
+ScaleFacFakeTrkErr = ScaleFacFakeTrk * math.sqrt(math.pow(NCtrlErr/NCtrl, 2) + math.pow(NCtrlMetErr/NCtrlMet, 2))  
 
 ###################################################
 # Fake track(ZtoEE) rate table:
@@ -987,6 +994,100 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
+
+
+###################################################
+# Configuration to make background estimate plots  
+# bkgdOptions.py
+###################################################
+outputFile = "bkgdOptions.py" 
+fout = open (outputFile, "w")
+
+content  = "# Table produced with makeANTables.py  \n" 
+content += "#!/usr/bin/env python  \n"  
+content += "# ../scripts/bkgdFromData.py -l bkgdOptions.py -c condor_2014_MM_DD_BkgdEstFullSel   \n"
+content += "# makePlots.py       -l localOptionsBkgdEst.py -c condor_2014_MM_DD_BkgdEstFullSel -o stacked_histogramsRebin10.root -b 10    \n"
+content += "   \n"
+content += "import os   \n"
+content += "   \n"
+content += "cwd = os.getcwd()   \n"
+content += "   \n"
+content += "if 'wulsin' in cwd:   \n"
+content += "    WellsDir = ''     \n"
+content += "    JessDir = 'JessCondor/'   \n"
+content += "elif 'jbrinson' in cwd:   \n"
+content += "    WellsDir = 'WellsCondorNew/'   \n"
+content += "    JessDir = ''   \n"
+content += "else:   \n"
+content += "    print 'Error: could not identify user as wulsin or jbrinson.'   \n"
+content += "    os.exit(0)   \n"
+content += "       \n"
+content += "impurities = []  # not yet implemented   \n"
+content += "       \n"
+
+content += "bkgd_sources = {   \n"
+content += "    'MET' :  { 'inputDir'   : JessDir+'fullSelectionSkim_24June',   \n"
+content += "               'datasetsIn'  : ['MET'],   \n"
+content += "               'scale_factor' :       1.0,   \n"
+content += "               'scale_factor_error' : 0.0,   \n"
+content += "               'channel_map' : {   \n"
+content += "    'FullSelection' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "               },   \n"
+content += "       \n"
+content += "    'ElecBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionElecPrevetoSkim_24June',   \n"
+content += "                    'datasetsIn'  : ['MET'],   \n"
+content += "                    'scale_factor' :        " + str(PElec)    + ",   \n"
+content += "                    'scale_factor_error' :  " + str(PElecErr) + ",   \n"
+content += "                    'channel_map' : {   \n"
+content += "    'FullSelectionElecPreveto' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "                    },   \n"
+content += "       \n"
+content += "    'MuonBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionMuPrevetoSkim_24June',   \n"
+content += "                    'datasetsIn'  : ['MET'],   \n"
+content += "                    'scale_factor' :        " + str(PMuon) + ",   \n"
+content += "                    'scale_factor_error' :  " + str(PMuonErr) + ",   \n"
+content += "                    'channel_map' : {   \n"
+content += "    'FullSelectionMuPreveto' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "                    },   \n"
+content += "       \n"
+content += "    'TauBkgd' :  { 'inputDir'   : JessDir +  'fullSelectionTauPrevetoSkim_24June',   \n"
+content += "                   'datasetsIn'  : ['MET'],   \n"
+content += "                   'scale_factor' :        " + str(PTau) + ",   \n"
+content += "                   'scale_factor_error' :  " + str(PTauErr) + ",   \n"
+content += "                   'channel_map' : {   \n"
+content += "    'FullSelectionTauPreveto' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "                   },   \n"
+content += "       \n"
+content += "       \n"
+content += "       \n"
+content += "    'FakeMuMuBkgd' :  { 'inputDir'   : JessDir + 'ztoMuMuFakeTrk_24June',   \n"
+content += "                    'datasetsIn'  : ['SingleMu'],   \n"
+content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk) + ",   \n"
+content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrkErr) + ",   \n"  
+content += "                    'channel_map' : {   \n"
+content += "    'ZtoMuMuFakeTrk' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "                    },   \n"
+content += "    'FakeEEBkgd' :  { 'inputDir'   : JessDir + 'ztoEEFakeTrk3456NHit',   \n"
+content += "                    'datasetsIn'  : ['SingleMu'],   \n"
+content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk) + ",   \n"
+content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrkErr) + ",   \n"  
+content += "                    'channel_map' : {   \n"
+content += "    'ZtoEEFakeTrk' : ['FullSelection'],   \n"
+content += "    }   \n"
+content += "                    },   \n"
+content += "       \n"
+content += "       \n"
+content += "    }   \n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
 
 
 ###################################################
