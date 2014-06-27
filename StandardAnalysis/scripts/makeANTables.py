@@ -1311,6 +1311,8 @@ percentelec = float(Nelec) / Ntot * 100
 percentmuon = float(Nmuon) / Ntot * 100
 percenthad  = float(Nhad)  / Ntot * 100 
 percentfake = float(Nfake) / Ntot * 100 
+percenttau  = float(Ntau)  / Ntot * 100 
+percentothr = float(Nothr) / Ntot * 100 
 
 content  = header
 content += "\\begin{tabular}{lccc} \n"
@@ -1322,6 +1324,8 @@ content += "electrons   & " + str(round_sigfigs(percentelec,3)) + "\\%  \\\\  \n
 content += "muons       & " + str(round_sigfigs(percentmuon,3)) + "\\%  \\\\  \n"  
 content += "hadrons     & " + str(round_sigfigs(percenthad, 3)) + "\\%  \\\\  \n"  
 content += "fake tracks & " + str(round_sigfigs(percentfake,2)) + "\\%  \\\\  \n"  
+content += "% tau       & " + str(round_sigfigs(percenttau, 2)) + "\\%  \\\\  \n"  
+content += "% other had & " + str(round_sigfigs(percentothr,2)) + "\\%  \\\\  \n"  
 content += hline
 content += hline
 content += "\\end{tabular}\n"
