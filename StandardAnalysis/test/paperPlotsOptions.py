@@ -8,6 +8,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
 from localOptionsAll import *
+from localOptionsBkgdEst import *
 from lumiMet2012 import *
 
 import os
@@ -33,6 +34,14 @@ bkgd_datasets = [
     'DY',
     'Diboson',
     'WjetsHighPt',
+    ]
+
+bkgdEst_datasets = [
+    'MET',
+    'ElecBkgd',
+    'MuonBkgd',
+    'TauBkgd',
+    'FakeBkgd',
     ]
 
 
@@ -202,22 +211,22 @@ paper_histograms = [
 
 
 # Bkgd jobs are missing:  
-##   # met N-1  
-##   {
-##     'condor_dir' : 'condor_2014_04_28_PreSelectionNoMet',
-##     'channel' : 'PreSelectionNoMet',
-##     'name' : 'metPt',  
-##     'output_name': 'metPt_PreSelectionNoMet', 
-##     'output_dir' : 'figuresAN',
-##     'datasets' : sigBkgd_datasets,
-##     'rebinFactor' : 10,
-##     'normalizeToUnitArea' : True, 
-##     'setYMin' : 0,
-##     'setLogY' : False,
-##     'includeSystematics' : False,
-##     'addOverUnderFlow' : True,  
-##     'makeFancy' : True,
-##   },
+  # met N-1  
+  {
+    'condor_dir' : WellsDir+'condor_2014_04_28_PreSelectionNoMet',
+    'channel' : 'PreSelectionNoMet',
+    'name' : 'metPt',  
+    'output_name': 'metPt_PreSelectionNoMet', 
+    'output_dir' : 'figuresAN',
+    'datasets' : sigBkgd_datasets,
+    'rebinFactor' : 10,
+    'normalizeToUnitArea' : True, 
+    'setYMin' : 0,
+    'setLogY' : False,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
 
 
   # jet pT N-1  
@@ -440,6 +449,102 @@ paper_histograms = [
     'addOverUnderFlow' : True,  
     'makeFancy' : True,
   },
+
+
+
+  #  deltaPhi(track-Met):  signal
+  {
+    'condor_dir' : WellsDir+'condor_2014_02_12_FullSelectionNHits4', 
+    'channel' : 'FullSelectionNHits4', 
+    'name' : 'trackdPhiMet', 
+    'output_name': 'trackdPhiMet_FullSelectionNHits4_signal', 
+    'output_dir' : 'figuresAN',
+    'datasets' : signal_datasets, 
+    'rebinFactor' : 10,
+    'normalizeToUnitArea' : False, 
+    'setYMin' : 0,  
+##     'setYMax' : 1.0e2,
+    'setLogY' : False,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
+
+
+
+  #  track pT: data & bkgd estimate 
+  {
+    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'channel' : 'FullSelection', 
+    'name' : 'trackPt', 
+    'output_name': 'trackPt_FullSelEst', 
+    'output_dir' : 'figuresAN',
+    'datasets' : bkgdEst_datasets, 
+#    'rebinFactor' : 10,
+    'normalizeToUnitArea' : False, 
+    'setYMin' : 1e-3,  
+    'setYMax' : 10, 
+    'setLogY' : True,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
+
+  #  track NHits: data & bkgd estimate 
+  {
+    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'channel' : 'FullSelection', 
+    'name' : 'trackNumValidHits', 
+    'output_name': 'trackNumValidHits_FullSelEst', 
+    'output_dir' : 'figuresAN',
+    'datasets' : bkgdEst_datasets, 
+#    'rebinFactor' : 10,
+    'normalizeToUnitArea' : False, 
+##     'setYMin' : 1e-3,  
+##     'setYMax' : 10, 
+    'setLogY' : False,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
+
+  #  track NHits: data & bkgd estimate 
+  {
+    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'channel' : 'FullSelection', 
+    'name' : 'trackNHitsMissingOuter', 
+    'output_name': 'trackNHitsMissingOuter_FullSelEst', 
+    'output_dir' : 'figuresAN',
+    'datasets' : bkgdEst_datasets, 
+#    'rebinFactor' : 10,
+    'normalizeToUnitArea' : False, 
+##     'setYMin' : 1e-3,  
+##     'setYMax' : 10, 
+    'setLogY' : False,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
+
+  #  track Ecalo: data & bkgd estimate 
+  {
+    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'channel' : 'FullSelection', 
+    'name' : 'trackCaloTot_RhoCorr', 
+    'output_name': 'trackCaloTot_RhoCorr_FullSelEst', 
+    'output_dir' : 'figuresAN',
+    'datasets' : bkgdEst_datasets, 
+#    'rebinFactor' : 10,
+    'normalizeToUnitArea' : False, 
+##     'setYMin' : 1e-3,  
+##     'setYMax' : 10, 
+    'setLogY' : False,
+    'includeSystematics' : False,
+    'addOverUnderFlow' : True,  
+    'makeFancy' : True,
+  },
+
+
 
 
 
