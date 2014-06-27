@@ -56,23 +56,24 @@ def getIntegral(sample, hist, xlo, xhi):
 
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic_name + ".txt"
-fout = open (outputFile, "w")  
+if not makeRewtdPlot:
+    fout = open (outputFile, "w")  
 
 for sample in datasets:
     # FIXME:  Do not need to re-run mergeOutput.py, if you instead just do rewtHist.py for the data and the sum of all background.
     # Those datasets should be specified as an argument rather than passing in localOptionsCtrlDblMuon.py.
-    command = "rewtHist.py -f condor/condor_2014_03_07_NoCutsFilterMC/" + sample + ".root -i OSUAnalysis/FullSelectionFilterMC/trackCaloTot_RhoCorr -c " + condor_dir + " -n OSUAnalysis/" + channel + "/trackCaloTot_RhoCorr"  
+    #    command = "rewtHist.py -f condor/condor_2014_03_07_NoCutsFilterMC/" + sample + ".root -i OSUAnalysis/FullSelectionFilterMC/trackCaloTot_RhoCorr -c " + condor_dir + " -n OSUAnalysis/" + channel + "/trackCaloTot_RhoCorr"  
+    command = "rewtHist.py -f condor/fullSelectionAllSigWithEcalGapVeto/" + sample + ".root -i OSUAnalysis/FullSelection/trackCaloTot_RhoCorr -c " + condor_dir + " -n OSUAnalysis/" + channel + "/trackCaloTot_RhoCorr"  
     os.system(command + " -d SingleMu")
     os.system(command + " -d Background")
     print "Finished running: " + command
-#    os.system("mergeOutput.py -q -C -s Background -l localOptionsCtrlElec.py -c " + condor_dir)  
     yieldDataTot = getIntegral('SingleMu',   'numEvents', 0, 10) 
     yieldBkgdTot = getIntegral('Background', 'numEvents', 0, 10) 
     yieldDataPt  = getIntegral('SingleMu',   'trackCaloTot_RhoCorr_Reweighted', 0, 100) 
     yieldBkgdPt  = getIntegral('Background', 'trackCaloTot_RhoCorr_Reweighted', 0, 100) 
     normFactor   = yieldDataTot / yieldBkgdTot
     plus_factor  = yieldDataPt / (yieldBkgdPt * normFactor)
-    minus_factor = plus_factor 
+    minus_factor = plus_factor
     print "Found systematic error: " + str(plus_factor)
     if makeRewtdPlot:
         os.system(command + " -l localOptionsCtrlMuon.py")
@@ -81,10 +82,11 @@ for sample in datasets:
         os.system(plotCmd)      
     line = '{0: <24}'.format(str(sample)) + " " + '{0: <8}'.format(minus_factor) + " " + '{0: <8}'.format(plus_factor) + "\n" # format the sample name to use a fixed number of characters
     print line    
-    fout.write (line)
-
-fout.close()
-print "Finished writing systematics file: " + outputFile  
+    if not makeRewtdPlot:
+        fout.write (line)
+if not makeRewtdPlot:
+    fout.close()
+    print "Finished writing systematics file: " + outputFile  
 
 
 
