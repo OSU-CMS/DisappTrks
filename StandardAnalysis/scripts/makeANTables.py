@@ -35,7 +35,84 @@ else:
     print "Error:  could not identify user as wulsin or jbrinson."
     os.exit(0)
     
+## elecVetoEff.tex and elecEst.tex
+preselElecDir           = JessDir+"preselSkim_9Feb"
+fullSelecElecIdDir      = JessDir+"fullSelectionChannelsForBkgdEstimates"
+fullSelecElecPrevetoDir = JessDir+"fullSelectionChannelsForBkgdEstimates"
 
+## muonVetoEff.tex and muonEst.tex
+preselMuDir           = JessDir+"preselSkim_9Feb"
+fullSelecMuIdDir      = JessDir+"fullSelectionChannelsForBkgdEstimates"
+fullSelecMuPrevetoDir = JessDir+"fullSelectionChannelsForBkgdEstimates"
+
+## tauVetoEff.tex and tauEst.tex
+
+preselTauDir           = JessDir+"preselSkim_9Feb"
+fullSelecTauIdDir      = JessDir+"fullSelectionChannelsForBkgdEstimates"
+fullSelecTauPrevetoDir = JessDir+"fullSelectionChannelsForBkgdEstimates"
+
+## fakeTrkRate.tex and fakeEst.tex
+
+ztoMuMuDir        = WellsDir+"condor_2014_01_10_ZtoMuMu"
+ztoMuMuFakeTrkDir = JessDir+"ztoMuMuFakeTrk_24June"
+
+ztoEEDir          = JessDir+"ZtoEESkim"
+ztoEEFakeTrkDir   = JessDir+"ztoEEFakeTrk3456NHit"
+
+metJetDir         = WellsDir+"condor_2014_01_25_MetJetSkim"
+
+## elecIneffSyst.tex
+elecSystDir = JessDir+"elecSystSigRegLoosePt_13Feb"
+
+## muonIneffSyst.tex
+muSystDir = WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30"
+
+## tauIneffSyst.tex
+tauSystDir = JessDir+"tauSyst6May_v3"
+
+## fakeRateSyst.tex
+fakeMuMuSystDir        = WellsDir+"condor_2014_01_10_ZtoMuMu"
+fakeMuMu5HitsSystDir   = WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356"
+
+fakeEESystDir          = JessDir+"ZtoEESkim"
+fakeEE5HitsSystDir     = JessDir+"ztoEEFakeTrk3456NHit"
+
+fakeSearchSystDir      = WellsDir+"condor_2014_01_25_MetJetSkim"
+fakeSearch5HitsSystDir = WellsDir+"condor_2014_05_22_FullSelectionNHits356"
+
+## systNmissIn.tex
+systNMissInDir = WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid"
+
+## systNmissMid.tex
+systNMissMidDir = WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid"
+
+## bkgdSumm.tex
+fullSelectionDir = JessDir+"fullSelectionSkim_24June"
+
+## bkgdValidate.tex
+preselDir             = JessDir+"preselSkim_9Feb"
+ctrlEcaloDir          = WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlEcalo"
+ctrlNMissDir          = WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlNMiss"
+bkgdFromDataPreselDir = WellsDir+"JessCopy_bkgdFromDataPresel_11Feb"
+
+## trackGenMatchBkgd.tex
+preselIdDir = JessDir+"preselId_11Feb"
+
+## for header file for ZtoLL fake trk rate ratio plot
+fullSelection3HitsDir = WellsDir+"condor_2014_05_22_FullSelectionNHits356"
+fullSelection4HitsDir = WellsDir+"condor_2014_02_12_FullSelectionNHits4"
+fullSelection5HitsDir = WellsDir+"condor_2014_05_22_FullSelectionNHits356"
+fullSelection6HitsDir = WellsDir+"condor_2014_05_22_FullSelectionNHits356"
+
+ztoMuMu3HitsDir       = WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356"
+ztoMuMu4HitsDir       = WellsDir+"condor_2014_02_12_ZtoMuMuFakeTrkNHits4"
+ztoMuMu5HitsDir       = WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356"
+ztoMuMu6HitsDir       = WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356"
+
+ztoEE3HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
+ztoEE4HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
+ztoEE5HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
+ztoEE6HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
 
 ### parse the command-line options
 
@@ -177,46 +254,33 @@ header = "% Table produced with makeANTables.py \n"
 
 # Get the upper limit for each dataset separately.  
 split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
-(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+(NPreselTot, NPreselTotErr) = getYield("Background", preselElecDir, "PreSelection")
 print "Debug:  NPreselTot = " + str(NPreselTot)      
 NYieldTotErr = 0.0  
 fracPreselTot = 0.0
 for dataset in split_datasets:
-#    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdElec")
-    NLimit                = getUpperLimit(dataset, JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdElec")
-#    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdElec")
-    (NYield,  NYieldErr)  = getYield(dataset,      JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdElec")
-    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    NLimit                = getUpperLimit(dataset, fullSelecElecIdDir, "FullSelIdElec")
+    (NYield,  NYieldErr)  = getYield(dataset,      fullSelecElecIdDir, "FullSelIdElec")
+    (NPresel, NPreselErr) = getYield(dataset,   preselElecDir, "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
-#    NYieldTotErr = math.sqrt(math.pow(NYieldTotErr,2) + math.pow(NLimit*fracPresel,2))
     NYieldTotErr += NLimit*fracPresel  
     print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
 print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
 
 outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionElecPrevetoSkim_24June",       "FullSelectionElecPreveto")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates",       "FullSelectionElecPreveto")
-#(NYield, NYieldErr) = getYield("Background",       JessDir+"fullSelectionId_24June", "FullSelIdElec")
-(NYield, NYieldErr) = getYield("Background",       JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdElec")
-#NLimit              = getUpperLimit("WjetsHighPt", JessDir+"fullSelectionId_24June", "FullSelIdElec")
-#NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
+(NCtrl, NCtrlErr)   = getYield("Background", fullSelecElecPrevetoDir,       "FullSelectionElecPreveto")
+(NYield, NYieldErr) = getYield("Background",       fullSelecElecIdDir, "FullSelIdElec")
 P = NYield / NCtrl 
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
-#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-#content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                               
 content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
-#content += "$N^e$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-#content += "$N^e$              & $"     + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 content += "$N^e$ (MC)              & $"     + " \\leq " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
 content += hline                                                              
-#content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
 content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
@@ -228,8 +292,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/elecEst.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionElecPrevetoSkim_24June", "FullSelectionElecPreveto")  # data 
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelectionElecPreveto")  # data 
+(NCtrl, NCtrlErr)   = getYield("MET", fullSelecElecPrevetoDir, "FullSelectionElecPreveto")  # data 
 Nelec = NCtrl * P
 NelecErr = NCtrl * PErr
 content  = header 
@@ -237,10 +300,8 @@ content += "\\begin{tabular}{lc}\n"
 content += hline                                                              
 content += hline                                                              
 content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-#content += "$P^e$ (MC)               & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"  
 content += "$P^e$ (MC)               & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"  
 content += hline                                                              
-#content += "$N^e$                    & $" + str(round_sigfigs(Nelec,2)) + " \\pm " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
 content += "$N^e$                    & $ \\leq " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
@@ -262,16 +323,14 @@ PElecErr = PErr
 ###################################################
 # Get the upper limit for each dataset separately.  
 split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
-(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+(NPreselTot, NPreselTotErr) = getYield("Background", preselMuDir, "PreSelection")
 print "Debug:  NPreselTot = " + str(NPreselTot)      
 NYieldTotErr = 0.0  
 fracPreselTot = 0.0
 for dataset in split_datasets:
-#    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
-    NLimit                = getUpperLimit(dataset, JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdMuon")
-#    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
-    (NYield,  NYieldErr)  = getYield(dataset,      JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdMuon")
-    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    NLimit                = getUpperLimit(dataset, fullSelecMuIdDir, "FullSelIdMuon")
+    (NYield,  NYieldErr)  = getYield(dataset,      fullSelecMuIdDir, "FullSelIdMuon")
+    (NPresel, NPreselErr) = getYield(dataset,   preselMuDir, "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
     NYieldTotErr += NLimit*fracPresel  
@@ -280,14 +339,10 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionMuPrevetoSkim_24June",       "FullSelectionMuPreveto")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates",       "FullSelectionMuPreveto")
-#(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_08_FullSelectionId", "FullSelIdMuon")
-#(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdMuon")
-(NYield, NYieldErr) = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdMuon")
-#NLimit              = getUpperLimit("WjetsHighPt", "condor_2014_06_08_FullSelectionId", "FullSelIdElec")
+(NCtrl, NCtrlErr)   = getYield("Background", fullSelecMuPrevetoDir,       "FullSelectionMuPreveto")
+(NYield, NYieldErr) = getYield("Background", fullSelecMuIdDir, "FullSelIdMuon")
+
 P = NYield / NCtrl
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
 NYieldTotErr -= NYield # Subtract off the central value from the upper limit
 
 if NYieldErr > NYieldTotErr:
@@ -300,10 +355,8 @@ content  = header
 content += "\\begin{tabular}{lc}\n"
 content += hline
 content += hline
-#content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + " \\pm " + str(round_sigfigs(NCtrlErr,3)) + "$     \\\\ \n"                    \
 
 content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"
-#content += "$N^\\mu$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"              \
 print "NYieldErr =" + str(NYieldErr) 
 print "NYieldTotErr =" + str(NYieldTotErr) 
 if float(NYieldErr) > float(NYieldTotErr):
@@ -329,8 +382,7 @@ print "Finished writing " + outputFile + "\n\n\n"
     
 outputFile = "tables/muonEst.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionMuPrevetoSkim_6June",       "FullSelectionMuPreveto")
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionChannelsForBkgdEstimates",       "FullSelectionMuPreveto")
+(NCtrl, NCtrlErr)   = getYield("MET", fullSelecMuPrevetoDir,       "FullSelectionMuPreveto")
 Nmuon = NCtrl * P
 NmuonErr = NCtrl * PErr
 content  = header 
@@ -339,7 +391,6 @@ content += hline
 content += hline
 if float(NYieldErr) > float(NYieldTotErr):
     content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"
-#    content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * \
     content += "$P^\\mu$ (MC)               & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
     content += hline
     content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " \\pm " + str(round_sigfigs(NmuonErr,2)) + " $ \\\\  \n"
@@ -369,16 +420,14 @@ PMuonErr = PErr
 ###################################################
 # Get the upper limit for each dataset separately.  
 split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
-(NPreselTot, NPreselTotErr) = getYield("Background", JessDir+"preselSkim_9Feb", "PreSelection")
+(NPreselTot, NPreselTotErr) = getYield("Background", preselTauDir, "PreSelection")
 print "Debug:  NPreselTot = " + str(NPreselTot)      
 NYieldTotErr = 0.0  
 fracPreselTot = 0.0
 for dataset in split_datasets:
-#    NLimit                = getUpperLimit(dataset, WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
-    NLimit                = getUpperLimit(dataset, JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdTau")
-#    (NYield,  NYieldErr)  = getYield(dataset,      WellsDir+"condor_2014_06_12_FullSelectionId", "FullSelIdTau")
-    (NYield,  NYieldErr)  = getYield(dataset,      JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdTau")
-    (NPresel, NPreselErr) = getYield(dataset,   JessDir+"preselSkim_9Feb", "PreSelection")
+    NLimit                = getUpperLimit(dataset, fullSelecTauIdDir, "FullSelIdTau")
+    (NYield,  NYieldErr)  = getYield(dataset,      fullSelecTauIdDir, "FullSelIdTau")
+    (NPresel, NPreselErr) = getYield(dataset,   preselTauDir, "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
     NYieldTotErr += NLimit*fracPresel  
@@ -387,28 +436,21 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionTauPrevetoSkim_24June",       "FullSelectionTauPreveto")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates",       "FullSelectionTauPreveto")
-#(NYield, NYieldErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdTau")
-(NYield, NYieldErr) = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdTau")
-#NLimit              = getUpperLimit("WjetsHighPt", "fullSelectionId_24June", "FullSelIdTau")
-NLimit              = getUpperLimit("WjetsHighPt", "fullSelectionChannelsForBkgdEstimates", "FullSelIdTau")
+(NCtrl, NCtrlErr)   = getYield("Background", fullSelecTauPrevetoDir,       "FullSelectionTauPreveto")
+(NYield, NYieldErr) = getYield("Background", fullSelecTauIdDir, "FullSelIdTau")
+NLimit              = getUpperLimit("WjetsHighPt", fullSelecTauIdDir, "FullSelIdTau")
 NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
+
 P = NYield / NCtrl 
-#PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))  # original
-#PErr = NYieldErr / NCtrl 
 PErr = NYieldTotErr / NCtrl
+
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
-#content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + " \\pm " + str(round_sigfigs(NCtrlErr,2)) + "$     \\\\ \n"                               
 content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
-#content += "$N^\\tau$              & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
-#content += "$N^\\tau$              & $" + " \\leq " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                             
 content += "$N^\\tau$            (MC)  & $" + " \\leq " + str(round_sigfigs(NYieldTotErr,2))   + "$     \\\\ \n"                             
 content += hline                                                              
-#content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e5,2)) + " \\pm " + str(round_sigfigs(PErr * 1e5,2)) + ") \\times 10^{-5} $ \\\\  \n"
 content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $" + " \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
@@ -420,8 +462,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/tauEst.tex"
 fout = open (outputFile, "w")
-#(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionTauPrevetoSkim_24June",       "FullSelectionTauPreveto")
-(NCtrl, NCtrlErr)   = getYield("MET", JessDir+"fullSelectionChannelsForBkgdEstimates",       "FullSelectionTauPreveto")
+(NCtrl, NCtrlErr)   = getYield("MET", fullSelecTauPrevetoDir,       "FullSelectionTauPreveto")
 Ntau = NCtrl * P
 NtauErr = NCtrl * PErr
 content  = header 
@@ -429,7 +470,6 @@ content += "\\begin{tabular}{lc}\n"
 content += hline                                                              
 content += hline                                                              
 content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-#content += "$P^\\tau$ (MC)               & $" + str(round_sigfigs(P,3)) + " \\pm " + str(round_sigfigs(PErr,3)) + " $ \\\\  \n"  
 content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"  
 content += hline                                                              
 content += "$N^\\tau$                    & $ \\leq " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
@@ -452,18 +492,16 @@ PTauErr = PErr
 ###################################################
 outputFile = "tables/fakeTrkRate.tex"
 fout = open (outputFile, "w")
-(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu", WellsDir+"condor_2014_01_10_ZtoMuMu",        "ZtoMuMu")
-(NYieldMuMu, NYieldErrMuMu) = getYield("SingleMu", JessDir+"ztoMuMuFakeTrk_24June", "ZtoMuMuFakeTrk")
+(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu", ztoMuMuDir,        "ZtoMuMu")
+(NYieldMuMu, NYieldErrMuMu) = getYield("SingleMu", ztoMuMuFakeTrkDir, "ZtoMuMuFakeTrk")
 
-(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
-(NYieldEE, NYieldErrEE) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrk")
+(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", ztoEEDir,        "ZtoEE")
+(NYieldEE, NYieldErrEE) = getYield("SingleElectron", ztoEEFakeTrkDir, "ZtoEEFakeTrk")
 
 NYield = NYieldMuMu + NYieldEE
 NCtrl = NCtrlEE + NCtrlMuMu
 
-#NYieldErr = NYield * math.sqrt(math.pow(NYieldErrEE/NYieldEE, 2) + math.pow(NYieldErrMuMu/NYieldMuMu, 2))
 NYieldErr = math.sqrt(math.pow(NYieldErrEE, 2) + math.pow(NYieldErrMuMu, 2))
-#NCtrlErr = NCtrl * math.sqrt(math.pow(NCtrlErrEE/NCtrlEE, 2) + math.pow(NCtrlErrMuMu/NCtrlMuMu, 2))
 NCtrlErr = math.sqrt(math.pow(NCtrlErrEE, 2) + math.pow(NCtrlErrMuMu, 2))
 
 P = NYield / NCtrl 
@@ -487,7 +525,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 outputFile = "tables/fakeEst.tex"
 fout = open (outputFile, "w")
-(NCtrlMet, NCtrlMetErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
+(NCtrlMet, NCtrlMetErr)   = getYield("MET", metJetDir, "MetJet")
 Nfake = NCtrlMet * P
 NfakeErr = NCtrlMet * PErr
 content  = header 
@@ -510,82 +548,32 @@ print "Finished writing " + outputFile + "\n\n\n"
 ScaleFacFakeTrk = NCtrlMet / NCtrl
 ScaleFacFakeTrkErr = ScaleFacFakeTrk * math.sqrt(math.pow(NCtrlErr/NCtrl, 2) + math.pow(NCtrlMetErr/NCtrlMet, 2))  
 
-###################################################
-# Fake track(ZtoEE) rate table:
-# tables/fakeTrkRateEE.tex
-# tables/fakeEstEE.tex
-###################################################
-## outputFile = "tables/fakeTrkRateEE.tex"
-## fout = open (outputFile, "w")
-## (NCtrl, NCtrlErr)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
-## (NYield, NYieldErr) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits5")
-## P = NYield / NCtrl
-## PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
-## content  = header
-## content += "\\begin{tabular}{lc}\n"
-## content += hline
-## content += hline
-## content += "$N^{\\Zee}$  & $" + str(round_sigfigs(NCtrl / 1.e6,3)) + " \\times 10^{6}$     \\\\ \n"
-## content += "$N^{\\rm fake}_{\\rm ctrl}$              & $ "+ str(round_sigfigs(NYield,2))     + "$     \\\\ \n"
-## content += hline
-## content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Zee}$ & $ (" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"
-## content += hline
-## content += hline
-## content += "\\end{tabular}\n"
-## fout.write(content)
-## fout.close()
-## os.system("cat " + outputFile)
-## print "Finished writing " + outputFile + "\n\n\n"
-
-
-## outputFile = "tables/fakeEstEE.tex"
-## fout = open (outputFile, "w")
-## (NCtrl, NCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet")
-## Nfake = NCtrl * P
-## NfakeErr = NCtrl * PErr
-## content  = header
-## content += "\\begin{tabular}{lc}\n"
-## content += hline
-## content += hline
-## content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"
-## content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"
-## content += hline
-## content += "$N^{\\rm fake}$                    & $"  + str(round_sigfigs(Nfake,2)) + " \\pm " + str(round_sigfigs(NfakeErr,2)) + " $ \\\\  \n"
-## content += hline
-## content += hline
-## content += "\\end{tabular}\n"
-## fout.write(content)
-## fout.close()
-## os.system("cat " + outputFile)
-## print "Finished writing " + outputFile + "\n\n\n"
-
 
 ###################################################
 # Fake track ratio rates:
-# tables/fakeTrkRateRatioEE.h
-# tables/fakeEstEE.tex
+# tables/fakeTrkRateRatioLL.h
 ###################################################
-outputFile = "tables/fakeTrkRateRatioEE.h"
+outputFile = "tables/fakeTrkRateRatioLL.h"
 fout = open (outputFile, "w")
 
-(NSearchCtrl, NSearchCtrlErr)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim",        "MetJet")
-(NYieldSearch_3, NYieldSearchErr_3) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits3");
-(NYieldSearch_4, NYieldSearchErr_4) = getYield("MET", WellsDir+"condor_2014_02_12_FullSelectionNHits4", "FullSelectionNHits4");
-(NYieldSearch_5, NYieldSearchErr_5) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits5");
-(NYieldSearch_6, NYieldSearchErr_6) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits6");
+(NSearchCtrl, NSearchCtrlErr)   = getYield("MET", metJetDir,        "MetJet")
+(NYieldSearch_3, NYieldSearchErr_3) = getYield("MET", fullSelection3HitsDir, "FullSelectionNHits3");
+(NYieldSearch_4, NYieldSearchErr_4) = getYield("MET", fullSelection4HitsDir, "FullSelectionNHits4");
+(NYieldSearch_5, NYieldSearchErr_5) = getYield("MET", fullSelection5HitsDir, "FullSelectionNHits5");
+(NYieldSearch_6, NYieldSearchErr_6) = getYield("MET", fullSelection6HitsDir, "FullSelectionNHits6");
 
 
-(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
-(NYieldEE_3, NYieldErrEE_3) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits3")
-(NYieldEE_4, NYieldErrEE_4) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits4")
-(NYieldEE_5, NYieldErrEE_5) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits5")
-(NYieldEE_6, NYieldErrEE_6) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits6")
+(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", ztoEEDir,        "ZtoEE")
+(NYieldEE_3, NYieldErrEE_3) = getYield("SingleElectron", ztoEE3HitsDir, "ZtoEEFakeTrkNHits3")
+(NYieldEE_4, NYieldErrEE_4) = getYield("SingleElectron", ztoEE4HitsDir, "ZtoEEFakeTrkNHits4")
+(NYieldEE_5, NYieldErrEE_5) = getYield("SingleElectron", ztoEE5HitsDir, "ZtoEEFakeTrkNHits5")
+(NYieldEE_6, NYieldErrEE_6) = getYield("SingleElectron", ztoEE6HitsDir, "ZtoEEFakeTrkNHits6")
 
-(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu", WellsDir+"condor_2014_01_10_ZtoMuMu",        "ZtoMuMu")
-(NYieldMuMu_3, NYieldErrMuMu_3) = getYield("SingleMu", WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356", "ZtoMuMuFakeTrkNHits3")
-(NYieldMuMu_4, NYieldErrMuMu_4) = getYield("SingleMu", WellsDir+"condor_2014_02_12_ZtoMuMuFakeTrkNHits4", "ZtoMuMuFakeTrkNHits4")
-(NYieldMuMu_5, NYieldErrMuMu_5) = getYield("SingleMu", WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356", "ZtoMuMuFakeTrkNHits5")
-(NYieldMuMu_6, NYieldErrMuMu_6) = getYield("SingleMu", WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356", "ZtoMuMuFakeTrkNHits6")
+(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu", ztoMuMuDir,        "ZtoMuMu")
+(NYieldMuMu_3, NYieldErrMuMu_3) = getYield("SingleMu", ztoMuMu3HitsDir, "ZtoMuMuFakeTrkNHits3")
+(NYieldMuMu_4, NYieldErrMuMu_4) = getYield("SingleMu", ztoMuMu4HitsDir, "ZtoMuMuFakeTrkNHits4")
+(NYieldMuMu_5, NYieldErrMuMu_5) = getYield("SingleMu", ztoMuMu5HitsDir, "ZtoMuMuFakeTrkNHits5")
+(NYieldMuMu_6, NYieldErrMuMu_6) = getYield("SingleMu", ztoMuMu6HitsDir, "ZtoMuMuFakeTrkNHits6")
 
 PSearch_3 = NYieldSearch_3 / NSearchCtrl
 PSearchErr_3 = PSearch_3 * math.sqrt(math.pow(NYieldSearchErr_3/NYieldSearch_3, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
@@ -692,13 +680,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 ###################################################
 outputFile = "tables/elecIneffSyst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"elecSystSigRegLoosePt_13Feb", "ZtoETrkEIdLoosePtNoVeto") 
-(NYield, NYieldErr) = getYield("Background", JessDir+"elecSystSigRegLoosePt_13Feb", "ZtoETrkEIdLoosePt") 
+(NCtrl, NCtrlErr)   = getYield("Background", elecSystDir, "ZtoETrkEIdLoosePtNoVeto") 
+(NYield, NYieldErr) = getYield("Background", elecSystDir, "ZtoETrkEIdLoosePt") 
 P = NYield / NCtrl / 2.0
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
 
-(NCtrlData, NCtrlErrData)   = getYield("SingleElectron", JessDir+"elecSystSigRegLoosePt_13Feb", "ZtoETrkEIdLoosePtNoVeto") 
-(NYieldData, NYieldErrData) = getYield("SingleElectron", JessDir+"elecSystSigRegLoosePt_13Feb", "ZtoETrkEIdLoosePt") 
+(NCtrlData, NCtrlErrData)   = getYield("SingleElectron", elecSystDir, "ZtoETrkEIdLoosePtNoVeto") 
+(NYieldData, NYieldErrData) = getYield("SingleElectron", elecSystDir, "ZtoETrkEIdLoosePt") 
 PData = NYieldData / NCtrlData / 2.0 
 PErrData = PData * math.sqrt(math.pow(NYieldErrData/NYieldData, 2) + math.pow(NCtrlErrData/NCtrlData, 2))
 
@@ -759,13 +747,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 ###################################################
 outputFile = "tables/muonIneffSyst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30", "ZtoMuTrkNoVetoLoosePt") 
-(NYield, NYieldErr) = getYield("Background", WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30", "ZtoMuTrkLoosePt")       
+(NCtrl, NCtrlErr)   = getYield("Background", muSystDir, "ZtoMuTrkNoVetoLoosePt") 
+(NYield, NYieldErr) = getYield("Background", muSystDir, "ZtoMuTrkLoosePt")       
 
-(NCtrlData, NCtrlErrData)   = getYield("SingleMu", WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30", "ZtoMuTrkNoVetoLoosePt") 
-(NYieldData, NYieldErrData) = getYield("SingleMu", WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30", "ZtoMuTrkLoosePt")       
+(NCtrlData, NCtrlErrData)   = getYield("SingleMu", muSystDir, "ZtoMuTrkNoVetoLoosePt") 
+(NYieldData, NYieldErrData) = getYield("SingleMu", muSystDir, "ZtoMuTrkLoosePt")       
 
-(NMu, NMuErr) = getTruthYield("Background", WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30", "ZtoMuTrkLoosePt", "#mu")
+(NMu, NMuErr) = getTruthYield("Background", muSystDir, "ZtoMuTrkLoosePt", "#mu")
 NNoMu     = NYield     - NMu
 NNoMuErr  = math.sqrt(math.pow(NYieldErr,2) - math.pow(NMuErr,2))  # NMuErr and NNoMuErr are uncorrelated, so NYieldErr^2 = NMuErr^2 + NNoMuErr^2
 NMuData    = NYieldData - NNoMu
@@ -841,13 +829,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 ###################################################
 outputFile = "tables/tauIneffSyst.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", JessDir+"tauSyst6May_v3", "ZtoMuTauHadNoTau") 
-(NYield, NYieldErr) = getYield("Background", JessDir+"tauSyst6May_v3", "ZtoMuTauHadNoTrkJetDeltaR")       
+(NCtrl, NCtrlErr)   = getYield("Background", tauSystDir, "ZtoMuTauHadNoTau") 
+(NYield, NYieldErr) = getYield("Background", tauSystDir, "ZtoMuTauHadNoTrkJetDeltaR")       
 
-(NCtrlData, NCtrlErrData)   = getYield("SingleMu", JessDir+"tauSyst6May_v3", "ZtoMuTauHadNoTau") 
-(NYieldData, NYieldErrData) = getYield("SingleMu", JessDir+"tauSyst6May_v3", "ZtoMuTauHadNoTrkJetDeltaR")       
+(NCtrlData, NCtrlErrData)   = getYield("SingleMu", tauSystDir, "ZtoMuTauHadNoTau") 
+(NYieldData, NYieldErrData) = getYield("SingleMu", tauSystDir, "ZtoMuTauHadNoTrkJetDeltaR")       
 
-(NTau, NTauErr) = getTruthYield("Background", JessDir+"tauSyst6May_v3", "ZtoMuTauHadNoTrkJetDeltaR", "#tau")
+(NTau, NTauErr) = getTruthYield("Background", tauSystDir, "ZtoMuTauHadNoTrkJetDeltaR", "#tau")
 NNoTau     = NYield     - NTau
 NNoTauErr  = math.sqrt(math.pow(NYieldErr,2) - math.pow(NTauErr,2))  # NTauErr and NNoTauErr are uncorrelated, so NYieldErr^2 = NTauErr^2 + NNoTauErr^2
 NTauData    = NYieldData - NNoTau
@@ -924,12 +912,11 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/fakeRateSyst.tex"
 fout = open (outputFile, "w")
 
-(NCtrl, NCtrlErr)   = getYield("SingleMu", WellsDir+"condor_2014_01_10_ZtoMuMu",              "ZtoMuMu")
-#(NYield, NYieldErr) = getYield("SingleMu", WellsDir+"condor_2014_02_12_ZtoMuMuFakeTrkNHits4", "ZtoMuMuFakeTrkNHits4")
-(NYield, NYieldErr) = getYield("SingleMu", WellsDir+"condor_2014_05_24_ZtoMuMuFakeTrkNHits356", "ZtoMuMuFakeTrkNHits5")
+(NCtrl, NCtrlErr)   = getYield("SingleMu", fakeMuMuSystDir,              "ZtoMuMu")
+(NYield, NYieldErr) = getYield("SingleMu", fakeMuMu5HitsSystDir, "ZtoMuMuFakeTrkNHits5")
 
-(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", JessDir+"ZtoEESkim",        "ZtoEE")
-(NYieldEE, NYieldErrEE) = getYield("SingleElectron", JessDir+"ztoEEFakeTrk3456NHit", "ZtoEEFakeTrkNHits5")
+(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", fakeEESystDir,        "ZtoEE")
+(NYieldEE, NYieldErrEE) = getYield("SingleElectron", fakeEE5HitsSystDir, "ZtoEEFakeTrkNHits5")
 
 NYield = NYield + NYieldEE
 NCtrl = NCtrl + NCtrlEE
@@ -940,9 +927,8 @@ NCtrlErr = math.sqrt(math.pow(NCtrlErrEE, 2) + math.pow(NCtrlErr, 2))
 
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
 
-(NCtrlData, NCtrlErrData)   = getYield("MET", WellsDir+"condor_2014_01_25_MetJetSkim", "MetJet") 
-#(NYieldData, NYieldErrData) = getYield("MET", WellsDir+"condor_2014_02_12_FullSelectionNHits4", "FullSelectionNHits4") 
-(NYieldData, NYieldErrData) = getYield("MET", WellsDir+"condor_2014_05_22_FullSelectionNHits356", "FullSelectionNHits5") 
+(NCtrlData, NCtrlErrData)   = getYield("MET", fakeSearchSystDir, "MetJet") 
+(NYieldData, NYieldErrData) = getYield("MET", fakeSearch5HitsSystDir, "FullSelectionNHits5") 
 PData = NYieldData / NCtrlData 
 PErrData = PData * math.sqrt(math.pow(NYieldErrData/NYieldData, 2) + math.pow(NCtrlErrData/NCtrlData, 2))
 
@@ -986,13 +972,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/systNmissIn.tex"
 fout = open (outputFile, "w")
 
-(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
-(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
+(NTot, NTotErr)   = getHistIntegral("Background", systNMissInDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
+(NPass, NPassErr) = getHistIntegral("Background", systNMissInDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
 P = NPass / NTot 
 PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
 
-(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
-(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
+(NTotData, NTotErrData)   = getHistIntegral("MET", systNMissInDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,5)
+(NPassData, NPassErrData) = getHistIntegral("MET", systNMissInDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingInner",0,0)
 PData = NPassData / NTotData 
 PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
 
@@ -1041,13 +1027,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/systNmissMid.tex"
 fout = open (outputFile, "w")
 
-(NTot, NTotErr)   = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
-(NPass, NPassErr) = getHistIntegral("Background", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
+(NTot, NTotErr)   = getHistIntegral("Background", systNMissMidDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
+(NPass, NPassErr) = getHistIntegral("Background", systNMissMidDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
 P = NPass / NTot 
 PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
 
-(NTotData, NTotErrData)   = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
-(NPassData, NPassErrData) = getHistIntegral("MET", WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid", "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
+(NTotData, NTotErrData)   = getHistIntegral("MET", systNMissMidDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,5)
+(NPassData, NPassErrData) = getHistIntegral("MET", systNMissMidDir, "PreSelectionMuonNoMissInMid", "trackNHitsMissingMiddle",0,0)
 PData = NPassData / NTotData 
 PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
 
@@ -1228,8 +1214,7 @@ NtotStat = math.sqrt(math.pow(NelecErr,2) + math.pow(NmuonErr,2) + math.pow(Ntau
 NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
 NtotErr  = math.sqrt(math.pow(NtotStat,2) + math.pow(NtotSyst,2))   
 
-#(NData, NDataErr) = getYield("MET", WellsDir+"condor_2014_04_29_FullSelectionUnBlinded", "FullSelection")
-(NData, NDataErr) = getYield("MET", JessDir+"fullSelectionSkim_24June", "FullSelection")
+(NData, NDataErr) = getYield("MET", fullSelectionDir, "FullSelection")
 
 # Account for the rounding of Ntau:  
 NtauErrRounded = round_sigfigs(NtauErr,2)
@@ -1276,13 +1261,9 @@ fout = open (outputFile, "w")
 # Y: weighted yield
 # sigma:  error on weighted yield
 # Then round to nearest integer.  
-#(NelecMC, NelecMCErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdElec")
-(NelecMC, NelecMCErr) = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdElec")
-#(NmuonMC, NmuonMCErr) = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdMuon")
-(NmuonMC, NmuonMCErr) = getYield("Background", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdMuon")
-#(NtauMC,  NtauMCErr)  = getYield("Background", JessDir+"fullSelectionId_24June", "FullSelIdTau")
-#(NtauMC,  NtauMCErr)  = getYield("WjetsHighPt", JessDir+"fullSelectionId_24June", "FullSelIdTau")  # Do not include TTbar event  
-(NtauMC,  NtauMCErr)  = getYield("WjetsHighPt", JessDir+"fullSelectionChannelsForBkgdEstimates", "FullSelIdTau")  # Do not include TTbar event  
+(NelecMC, NelecMCErr) = getYield("Background", fullSelecElecIdDir, "FullSelIdElec")
+(NmuonMC, NmuonMCErr) = getYield("Background", fullSelecMuIdDir, "FullSelIdMuon")
+(NtauMC,  NtauMCErr)  = getYield("WjetsHighPt", fullSelecTauIdDir, "FullSelIdTau")  # Do not include TTbar event  
 
 
 NfakeRaw = round(math.pow(Nfake,2)   / math.pow(NfakeErr,2))   if NfakeErr   else 0 # Can use the fake track estimate, since the error is scaled by the same weight as the central value
@@ -1357,13 +1338,13 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/bkgdValidate.tex" 
 fout = open (outputFile, "w")
 
-(NPreselData, NPreselDataErr) = getYield("MET", JessDir+"preselSkim_9Feb", "PreSelection")
-(NEcaloData,  NEcaloDataErr)  = getYield("MET", WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlEcalo", "PreSelCtrlEcalo")
-(NNmissData,  NNmissDataErr)  = getYield("MET", WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlNMiss", "PreSelCtrlNMiss")
+(NPreselData, NPreselDataErr) = getYield("MET", preselDir, "PreSelection")
+(NEcaloData,  NEcaloDataErr)  = getYield("MET", ctrlEcaloDir, "PreSelCtrlEcalo")
+(NNmissData,  NNmissDataErr)  = getYield("MET", ctrlNMissDir, "PreSelCtrlNMiss")
 
-(NPreselEst, NPreselEstErr) = getNumEvents("Background", WellsDir+"JessCopy_bkgdFromDataPresel_11Feb", "PreSelection")
-(NEcaloEst,  NEcaloEstErr)  = getNumEvents("Background", WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlEcalo", "PreSelCtrlEcalo")
-(NNmissEst,  NNmissEstErr)  = getNumEvents("Background", WellsDir+"condor_2014_02_10_BkgdEstPreSelCtrlNMiss", "PreSelCtrlNMiss")
+(NPreselEst, NPreselEstErr) = getNumEvents("Background", bkgdFromDataPreselDir, "PreSelection")
+(NEcaloEst,  NEcaloEstErr)  = getNumEvents("Background", ctrlEcaloDir, "PreSelCtrlEcalo")
+(NNmissEst,  NNmissEstErr)  = getNumEvents("Background", ctrlNMissDir, "PreSelCtrlNMiss")
 
 ratioPresel = NPreselData / NPreselEst
 ratioEcalo  = NEcaloData / NEcaloEst
@@ -1402,11 +1383,11 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/trackGenMatchBkgd.tex"
 fout = open (outputFile, "w")
 
-(Nelec, NelecErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdElec")
-(Nmuon, NmuonErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdMuon")
-(Ntau,  NtauErr)  = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdTau")
-(Nothr, NothrErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdOther")
-(Nfake, NfakeErr) = getYield("Background", JessDir+"preselId_11Feb", "PreSelIdFake")
+(Nelec, NelecErr) = getYield("Background", preselIdDir, "PreSelIdElec")
+(Nmuon, NmuonErr) = getYield("Background", preselIdDir, "PreSelIdMuon")
+(Ntau,  NtauErr)  = getYield("Background", preselIdDir, "PreSelIdTau")
+(Nothr, NothrErr) = getYield("Background", preselIdDir, "PreSelIdOther")
+(Nfake, NfakeErr) = getYield("Background", preselIdDir, "PreSelIdFake")
 
 Nhad = Ntau + Nothr
 Ntot = Nelec + Nmuon + Nhad + Nfake
