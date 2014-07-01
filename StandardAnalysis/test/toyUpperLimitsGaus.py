@@ -31,11 +31,14 @@ verbose = False
 ul68CLobs0 = 1.139 # 68% CL upper limit on observation of 0, from https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp    
 Nobs = 0  # number of observed events in each sample  
 
-## GausMean = [20, 20, 20, 5]
-## GausWidth = [1, 5, 10, 2]  
+## GausMean = [20.0, 20.0, 20.0, 5.0]
+## GausWidth = [1.0, 5.0, 10.0, 2.0]  
 
-GausMean =  [20.0, 20.0, 20.0, 20.0]
-GausWidth = [1.0, 1.0, 1.0, 1.0] 
+GausMean = [20.0, 30.0, 5.0, 1.0]
+GausWidth = [1.0, 2.0, 5.0, 0.5 ] 
+
+## GausMean =  [20.0, 20.0, 20.0, 20.0]
+## GausWidth = [1.0, 1.0, 1.0, 1.0] 
 
 # in samples, each pair represents:
 # * the first element is the yield of the different samples in a control region, 
@@ -78,9 +81,12 @@ i = 0
 for (y,wt) in samples: 
     frac = float(y) / totyieldCtrl
     if method == "Gaus":  
-        #        ul = (GausMean[i] + GausWidth[i]) * wt * y / totyieldCtrl  # linear sum
-        upperlimitCenter += (GausMean[i]) * wt * y / totyieldCtrl  # linear sum
-        upperlimitErr     = math.sqrt(math.pow(upperlimitErr,2) + math.pow(GausWidth[i] * wt * y / totyieldCtrl, 2))  # sum in quad
+        # See http://mathworld.wolfram.com/NormalSumDistribution.html for linear sum of multiple normal distributions 
+        # y = Sum_i (a_i x_i), where a_i are weights (here a_i = wt * frac), and x_i are normal distributions
+        # muTot = Sum_i (a_i mu_i)
+        # sigmaTot^2 = Sum_i (a_i^2 sigma_i^2)  
+        upperlimitCenter += (GausMean[i]) * wt * frac  # linear sum
+        upperlimitErr    +=  math.pow(GausWidth[i] * wt * frac, 2)  # sum in quad
     else: 
         print "Error:  invalid method."
         sys.exit(0)
@@ -88,21 +94,30 @@ for (y,wt) in samples:
     #    print "Sample ", str(i), ": fraction = ", str(float(y)/totyieldCtrl), ", lumi wt = ", wt, ", Nobs = ", str(Nobs), ", 68% UL contribution = ", str(ul)
     print "Sample ", str(i), ": fraction = ", str(frac), ", lumi wt = ", wt, ", mu = ", GausMean[i], ", sigma = ", GausWidth[i]  
     i += 1 
+
+upperlimitErr = math.sqrt(upperlimitErr)  
+
+print "Calculated total Gaus mean:  ", upperlimitCenter
+print "Calculated total Gaus width:  ", upperlimitErr
+
 upperlimit = upperlimitCenter + upperlimitErr  
-    
+lowerlimit = upperlimitCenter - upperlimitErr  
+
+
 # Uncomment these lines to force the upper limit:  
 #forceUpperLimit = 19
 #upperlimit = forceUpperLimit  
     
 #print "totyieldCtrl=", totyieldCtrl, ", calculated upperlimit=", upperlimit
 #print "estimated 68% CL upperlimit for Nobs=0: ", upperlimit
-print "estimated one-sigma (84%) CL upperlimit): ", upperlimit
+#print "estimated one-sigma (84%) CL upperlimit: ", upperlimit
+print "estimated 68% CL interval:      ", lowerlimit, " - ", upperlimit
 
 
 #fun = TF1("fun", "TMath::Poisson(x,1.139)", 0, 100);   # continuous Poisson
 
-#ntrials = 100000
 ntrials = 100000
+#ntrials = 10
 trialyields = []  
 for iT in range(ntrials):
     totyield = 0
@@ -121,7 +136,12 @@ for iT in range(ntrials):
             ##     if verbose:
             ##         print "Adding sample with y = ", str(y)  
             ## sampFrac += float(y) / totyieldCtrl
-            totyield += np.random.normal(GausMean[i] * wt * frac, GausWidth[i] * wt * frac)  
+            samp = np.random.normal(GausMean[i] * wt * frac, GausWidth[i] * wt * frac)  
+            totyield += samp
+            if verbose:
+                print "Adding for iT=", iT, ", samp = ", samp, ", i = ", i 
+            i += 1  
+              
     else: 
         print "Error:  invalid method."
         sys.exit(0)
@@ -145,16 +165,18 @@ for iT in range(ntrials):
 trialyields.sort()  
 #print trialyields
 
+idx16 = int(0.16 * len(trialyields))  # for normal distribution, 84% are below one-sigma (one-sided limit)  
 idx84 = int(0.84 * len(trialyields))  # for normal distribution, 84% are below one-sigma (one-sided limit)  
 idx68 = int(0.68 * len(trialyields))
 idx90 = int(0.90 * len(trialyields))
 idx95 = int(0.95 * len(trialyields))
+limit16 = trialyields[idx16]
 limit68 = trialyields[idx68]
 limit84 = trialyields[idx84]
 limit90 = trialyields[idx90]
 limit95 = trialyields[idx95]
-#print "68% of trials are below:  ", limit68  
-print "84% of trials are below:  ", limit84  
+print "68% of trials are in interval:  ", limit16, " - ", limit84 
+#print "84% of trials are below:  ", limit84  
 ## print "90% of trials are below:  ", limit90  
 ## print "95% of trials are below:  ", limit95  
 
