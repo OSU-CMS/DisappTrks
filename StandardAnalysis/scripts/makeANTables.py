@@ -12,12 +12,12 @@ from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
-
 from ROOT import Double
 
 
 sys.path.append(os.path.abspath(os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/test'))  
 from localOptionsBkgd import *  # To get list of datasets 
+from amsbLimitConfigNew import *
 
 #from DisappTrks.StandardAnalysis.localOptionsAll import *  # To get list of datasets 
 
@@ -65,10 +65,10 @@ metJetDir         = WellsDir+"condor_2014_01_25_MetJetSkim"
 elecSystDir = JessDir+"elecSystSigRegLoosePt_13Feb"
 
 ## muonIneffSyst.tex
-muSystDir = WellsDir+"condor_2014_02_17_ZtoMuTrkNoVetoLoosePt30"
+muSystDir = JessDir+"muSyst_30June"
 
 ## tauIneffSyst.tex
-tauSystDir = JessDir+"tauSyst6May_v3"
+tauSystDir = JessDir+"tauSyst_30June"
 
 ## fakeRateSyst.tex
 fakeMuMuSystDir        = WellsDir+"condor_2014_01_10_ZtoMuMu"
@@ -114,6 +114,8 @@ ztoEE4HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
 ztoEE5HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
 ztoEE6HitsDir         = JessDir+"ztoEEFakeTrk3456NHit"
 
+## test systematic
+    
 ### parse the command-line options
 
 parser = OptionParser()
@@ -244,7 +246,126 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
 
+###################################################
+# Signal Systematics table:
+# tables/sigSyst.tex
+###################################################  
+outputFile = "tables/sigSyst.tex"
+fout = open (outputFile, "w")
 
+content  = header
+content += "\\begin{tabular}{lc}\n"
+content += hline
+content += hline
+
+systTotPerSample = {}
+tempNameHolder = []
+tempSystHolder = []
+systTotPerSample['name'] = []
+systTotPerSample['value'] = []
+
+for systematic in external_systematic_uncertainties:
+    systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
+    fSyst = open (systFile, "r")
+    systRange = []
+    for line in fSyst:
+        for cTau in range(9, 900):
+            for mass in range(100,600,100):
+                string = "AMSB_chargino_" + str(mass) + "GeV_RewtCtau" + str(cTau) + "cm"
+                if string in line:
+                    #print string
+                    word = float(line.strip().split()[2])
+                    percent = math.fabs((1.0 - word))*100
+                    if cTau == 80 and mass == 500 and systematic == 'trigEff':
+                        percent = 1
+                    systRange.append(round(percent,2))
+                    #print systRange
+                    systHolder = round(percent,2)
+## set range to be quoted
+    largest = max(systRange)
+    if largest > 50:
+        largestTot = 0
+    else:
+        largestTot = largest
+    smallest = min (systRange)
+    
+## put in format to be used by AN
+    if str(systematic) == "IsrRewtPt":
+        fancyString = str(systematic).replace("IsrRewtPt", "Jet radiation (ISR)")
+    if str(systematic) == "JES":
+        fancyString = str(systematic).replace("JES", "Jet Energy Scale (JES)")         
+    if str(systematic) == "JER":
+        fancyString = str(systematic).replace("JER", "Jet Energy Resolution (JER)")
+    if str(systematic) == "PDFWt":
+        fancyString = str(systematic).replace("PDFWt", "PDF")
+    if str(systematic) == "trigEff":
+        fancyString = str(systematic).replace("trigEff", "Trigger efficiency")
+    if str(systematic) == "EcaloRewt":
+        fancyString = str(systematic).replace("EcaloRewt", "\calotot modeling")
+    if str(systematic) == "NmissoutRewt":
+        fancyString = str(systematic).replace("NmissoutRewt", "\Nmissout modeling")
+    if str(systematic) == "pileup":
+        fancyString = str(systematic).replace("pileup", "Pile-up")                     
+    if smallest < 0.05:
+        content += str(fancyString) + " " +  "&" + str(largestTot) + "\\% \\\\ \n" 
+    else:
+        content += str(fancyString) + " " +  "&" + str(smallest) + " - " + str(largestTot) + "\\% \\\\ \n"
+
+
+## retrieve systematics that are a single value for all signal samples
+for systematic in signal_systematic_uncertainties:
+    if str(systematic) == "lumi":
+        fancyString = str(systematic).replace("lumi", "%")
+    fancyString = str(systematic).replace("lumi", "%")
+    if str(systematic) == "Nmissin":
+        fancyString = str(systematic).replace("Nmissin", "\Nmissin modeling")
+    if str(systematic) == "Nmissmid":
+        fancyString = str(systematic).replace("Nmissmid", "\Nmissmid modeling")
+    if str(systematic) == "trkReco":
+        fancyString = str(systematic).replace("trkReco", "Track reconstruction efficiency")
+    content += str(fancyString) + " " +  "&" + str((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n" 
+
+## calculate the total 
+systRangeTot = []
+for cTau in range(9, 900):
+    for mass in range(100,600,100):
+        systRangePerSample = []
+        for systematic in external_systematic_uncertainties:
+            systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
+            fSyst = open (systFile, "r")
+            for line in fSyst:
+                string = "AMSB_chargino_" + str(mass) + "GeV_RewtCtau" + str(cTau) + "cm"
+                if string in line:
+                    word = float(line.strip().split()[2])
+                    percent = math.fabs((1.0 - word))*100
+                    if cTau==80 and mass == 500 and systematic == 'trigEff':
+                        percent = 1
+                    systRangePerSample.append(round(percent,2))
+        for systematic in signal_systematic_uncertainties:
+            systRangePerSample.append(float(signal_systematic_uncertainties[systematic]['value']))
+
+        #print string
+        #print systRangePerSample
+        total = 0
+        for syst in systRangePerSample:
+            total+= math.pow(syst,2)
+        systRangeTot.append(math.sqrt(total))
+    #print systRangeTot
+    largestTot = max(systRangeTot)
+    smallestTot = min (systRangeTot)
+
+                            
+
+content += hline
+content +=" Total " +  "&" + str(smallestTot) + " - " + str(largestTot) + "\\% \\\
+ \\ \n"
+content += hline
+content += hline
+content += "\\end{tabular}\n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
 ###################################################
 # Electron inefficiency table:
 # tables/elecVetoEff.tex 
@@ -264,7 +385,11 @@ for dataset in split_datasets:
     (NPresel, NPreselErr) = getYield(dataset,   preselElecDir, "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
-    NYieldTotErr += NLimit*fracPresel  
+###################################################
+    # Electron inefficiency table:
+    # tables/elecVetoEff.tex
+    # tables/elecEst.tex
+    ###################################################  NYieldTotErr += NLimit*fracPresel  
     print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
 print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
 
@@ -682,7 +807,10 @@ outputFile = "tables/elecIneffSyst.tex"
 fout = open (outputFile, "w")
 (NCtrl, NCtrlErr)   = getYield("Background", elecSystDir, "ZtoETrkEIdLoosePtNoVeto") 
 (NYield, NYieldErr) = getYield("Background", elecSystDir, "ZtoETrkEIdLoosePt") 
+print NYield
+print NCtrl
 P = NYield / NCtrl / 2.0
+
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
 
 (NCtrlData, NCtrlErrData)   = getYield("SingleElectron", elecSystDir, "ZtoETrkEIdLoosePtNoVeto") 
@@ -1429,7 +1557,7 @@ print "Copy tables to AN area with: "
 print "scp tables/*tex wulsin@lxplus5.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-12-400/trunk/tables/"
 print "OR: "
 print "notes/AN-12-400/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdirTemplateDisTrk/tables/*tex\" tables/" 
-
+print "scp tables/*tex jbrinson@lxplus5.cern.ch:/afs/cern.ch/user/j/jbrinson/myDir/notes/AN-12-400/trunk/tables/"
 
 
 
