@@ -8,6 +8,11 @@ masses = {  # chargino mass : gravitino mass
     400 : 13.890e4, 
     500 : 17.443e4, 
     600 : 21.030e4, 
+    700 : 24.644e4, 
+    800 : 28.287e4, 
+    900 : 32.016e4,
+    #    1000 : 33.00e4,  #works, but not quite 1000 GeV  
+    #    1000 : 34.00e4,  #error:  BAD POINT: TACHYONIC PARTICLES!
     }
 
 for m in masses:
