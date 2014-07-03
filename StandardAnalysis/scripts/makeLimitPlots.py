@@ -9,6 +9,7 @@ import re
 import subprocess
 import glob
 from array import *
+from fractions import *
 from operator import itemgetter
 from optparse import OptionParser
 
@@ -614,6 +615,7 @@ def getTwoSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma'])
     return graph
 
+
 def fetchLimits(mass,lifetime,directories):
 #def fetchLimits(chMass,lifetime,directories):
 
@@ -718,8 +720,13 @@ def fetchLimits(mass,lifetime,directories):
         if convertCmToNs:
             speedLightCmPerNs = 29.979  # speed of light in cm / ns
             tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs  
-        
-
+        if convertToMassSplitting:
+            speedLightCmPerNs = 29.979  
+            muMass = 0.1056
+            massSplitToTheFifth = (8 * 10E-8) / (float(lifetime) * 10E-9) * math.pow(float(muMass) ,5)
+            massSplit = 1000 * (math.pow(massSplitToTheFifth, Fraction(1,5)) )
+            tmp_limit['lifetime'] = massSplit
+            print massSplit
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
@@ -765,7 +772,8 @@ def drawPlot(plot):
             #yAxisMax = 0.1*float(lifetimes[-1])
             #yAxisMax = float(lifetimes[-1])
             yAxisMax = 2 * float(lifetimes[-1])
-            canvas.SetLogy()
+            if not convertToMassSplitting:
+                canvas.SetLogy()
             xAxisBins.extend ([float (mass) for mass in masses])
             xAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
             #yAxisBins.extend ([0.1 * float (lifetime) for lifetime in lifetimes])
