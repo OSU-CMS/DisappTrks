@@ -2,7 +2,7 @@
 #!/usr/bin/env python  
 # ../scripts/bkgdFromData.py -l bkgdOptions.py -c condor_2014_MM_DD_BkgdEstFullSel   
 # mergeOutput.py -q -C -s FakeBkgd -l localOptionsBkgdEst.py -c condor_2014_MM_DD_BkgdEstFullSel   
-# makePlots.py       -l localOptionsBkgdEst.py -c condor_2014_MM_DD_BkgdEstFullSel -o stacked_histogramsRebin10.root -b 10    
+# makePlots.py       -l localOptionsBkgdEst.py -c condor_2014_MM_DD_BkgdEstFullSel -o stacked_histograms.root   
 # makePlots.py -P paperPlotsOptions.py      
    
 import os   
@@ -34,7 +34,7 @@ bkgd_sources = {
     'ElecBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionElecPrevetoSkim_24June',   
                     'datasetsIn'  : ['MET'],   
                     'scale_factor' :        0.0,   
-                    'scale_factor_error' :  7.43569832548e-05,   
+                    'scale_factor_error' :  0.0001210851802,   
                     'channel_map' : {   
     'FullSelectionElecPreveto' : ['FullSelection'],   
     }   
@@ -42,8 +42,8 @@ bkgd_sources = {
        
     'MuonBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionMuPrevetoSkim_24June',   
                     'datasetsIn'  : ['MET'],   
-                    'scale_factor' :        0.000156267433365,   
-                    'scale_factor_error' :  0.000156267433365,   
+                    'scale_factor' :        0.000184039469072,   
+                    'scale_factor_error' :  0.000184039469072,   
                     'channel_map' : {   
     'FullSelectionMuPreveto' : ['FullSelection'],   
     }   
@@ -51,8 +51,8 @@ bkgd_sources = {
        
     'TauBkgd' :  { 'inputDir'   : JessDir +  'fullSelectionTauPrevetoSkim_24June',   
                    'datasetsIn'  : ['MET'],   
-                   'scale_factor' :        9.16877356537e-05,   
-                   'scale_factor_error' :  0.0209135329003,   
+                   'scale_factor' :        0.0,   
+                   'scale_factor_error' :  0.0368991972083,   
                    'channel_map' : {   
     'FullSelectionTauPreveto' : ['FullSelection'],   
     }   
