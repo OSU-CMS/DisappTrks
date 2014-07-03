@@ -538,6 +538,8 @@ paper_histograms = [
     'normalizeToUnitArea' : False, 
 ##     'setYMin' : 1e-3,  
 ##     'setYMax' : 10, 
+    'setXMin' : 0, 
+    'setXMax' : 20, 
     'setLogY' : False,
     'includeSystematics' : False,
     'addOverUnderFlow' : True,  
