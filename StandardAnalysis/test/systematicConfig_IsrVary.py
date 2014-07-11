@@ -34,9 +34,9 @@ def add_charginos (options, masses, ctaus):
             options['labels']       [datasetName] = str (mass) + " GeV #chi^{#pm} (#LTc#tau#GT = " + str (ctau) + " cm)"
             print "Adding dataset:  " + datasetName + "; sourceDatasetName=" + sourceDatasetName + "; dataset_name[sourceDatasetName]=" + options['dataset_names'][sourceDatasetName]
 
-#add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
 ## mass point used in AN
-add_charginos (options, [400], [30])
+#add_charginos (options, [400], [30])
 
 
 #add_stops (options, [200], [1.0,10.0,100.0])
@@ -44,9 +44,9 @@ add_charginos (options, [400], [30])
 #add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
 
 
-systematic_name = "IsrRewtPt"
-#channel = "FullSelection"
-channel = "FullSelectionFilterMC"
+systematic_name = "IsrVary"
+channel = "FullSelection"
+#channel = "FullSelectionFilterMC"
 usePdfWt = False  
 
 
@@ -72,31 +72,34 @@ usePdfWt = False
 #plus_condor_dir    = "condor_2014_04_08_FullSelSystSig_IsrVaryUpTuneUE" 
 
 ## ## # Use TuneZ2Star 
-## minus_condor_dir   = "condor_2014_04_08_FullSelSystSig_IsrVaryTuneZ2Star" 
-## central_condor_dir = "condor_2014_04_08_FullSelSystSig_NoVary"   
-## plus_condor_dir    = "condor_2014_04_08_FullSelSystSig_IsrVaryUpTuneZ2Star"  
+#minus_condor_dir   = "isrVaryCorr_v3" 
+minus_condor_dir   = "isrVaryCorrNorm_v2" 
+#central_condor_dir = "fullSelectionFilterMCWithEcalGapVeto"   
+central_condor_dir = "fullSelectionWithEcalGapNoCorr"   
+#plus_condor_dir    = "isrVaryCorr_v3"  
+plus_condor_dir    = "isrVaryCorrNorm_v2"  
 
 
 
 #########
 # Section below to be used for reweighting of totalMuonPt distribution
 #########
-condor_dir = 'WellsCondorNew/condor_2014_04_11_ZToMuMuIsrStudy'
-channel =  'ZtoMuMuIsrStudy'
-#histName = "totalMuonPt_Reweighted"
-histName = "numEvents"
-xlo =  0
-xhi =  500
+## condor_dir = 'WellsCondorNew/condor_2014_04_11_ZToMuMuIsrStudy'
+## channel =  'ZtoMuMuIsrStudy'
+## #histName = "totalMuonPt_Reweighted"
+## histName = "numEvents"
+## xlo =  0
+## xhi =  500
 
-input_hists = [
+## input_hists = [
 
-    { 'dataset' : 'DoubleMu_22Jan2013', 
-      },
+##     { 'dataset' : 'DoubleMu_22Jan2013', 
+##       },
 
-    { 'dataset' : 'Background',
-      },
+##     { 'dataset' : 'Background',
+##       },
 
-    ]
+##     ]
 
 
 
