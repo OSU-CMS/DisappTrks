@@ -264,13 +264,25 @@ tempSystHolder = []
 systTotPerSample['name'] = []
 systTotPerSample['value'] = []
 
+## cTauMin = 20
+## cTauMax = 900
+massMin = 300
+massMax = 600
+
+#lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','80000','9000','10000']
+lifetimes = ['20','30','40','50','60','70','100','200','300','400','500','600','700','800','900']  
+#masses = ['100', '200', '300', '400', '500', '600']
+masses = ['300', '500', '600']
+
 for systematic in external_systematic_uncertainties:
     systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
     fSyst = open (systFile, "r")
     systRange = []
     for line in fSyst:
-        for cTau in range(9, 900):
-            for mass in range(100,600,100):
+        for cTau in lifetimes:
+            #        for cTau in range(cTauMin, cTauMax):
+            #            for mass in range(massMin, massMax,100):
+            for mass in masses: 
                 string = "AMSB_chargino_" + str(mass) + "GeV_RewtCtau" + str(cTau) + "cm"
                 if string in line:
                     #print string
@@ -290,22 +302,30 @@ for systematic in external_systematic_uncertainties:
     smallest = min (systRange)
     
 ## put in format to be used by AN
-    if str(systematic) == "IsrRewtPt":
-        fancyString = str(systematic).replace("IsrRewtPt", "Jet radiation (ISR)")
-    if str(systematic) == "JES":
+    if str(systematic) == "Isr":
+        fancyString = str(systematic).replace("Isr", "Jet radiation (ISR)")
+    elif str(systematic) == "JES":
         fancyString = str(systematic).replace("JES", "Jet Energy Scale (JES)")         
-    if str(systematic) == "JER":
+    elif str(systematic) == "JER":
         fancyString = str(systematic).replace("JER", "Jet Energy Resolution (JER)")
-    if str(systematic) == "PDFWt":
+    elif str(systematic) == "PDFWt":
         fancyString = str(systematic).replace("PDFWt", "PDF")
-    if str(systematic) == "trigEff":
+    elif str(systematic) == "trigEff":
         fancyString = str(systematic).replace("trigEff", "Trigger efficiency")
-    if str(systematic) == "EcaloRewt":
-        fancyString = str(systematic).replace("EcaloRewt", "\calotot modeling")
-    if str(systematic) == "NmissoutRewt":
-        fancyString = str(systematic).replace("NmissoutRewt", "\Nmissout modeling")
-    if str(systematic) == "pileup":
-        fancyString = str(systematic).replace("pileup", "Pile-up")                     
+    elif str(systematic) == "Ecalo":
+        fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
+    elif str(systematic) == "NMissOut":
+        fancyString = str(systematic).replace("NMissOut", "\Nmissout modeling")
+    elif str(systematic) == "Nmissmid":
+        fancyString = str(systematic).replace("Nmissmid", "\Nmissmid modeling")
+    elif str(systematic) == "Nmissin":
+        fancyString = str(systematic).replace("Nmissin", "\Nmissin modeling")
+    elif str(systematic) == "pileup":
+        fancyString = str(systematic).replace("pileup", "Pile-up")
+    else:
+        print "Error:  unrecognized systematic:  ", systematic
+        sys.exit(0)
+        
     if smallest < 0.05:
         content += str(fancyString) + " " +  "&" + str(largestTot) + "\\% \\\\ \n" 
     else:
@@ -327,8 +347,11 @@ for systematic in signal_systematic_uncertainties:
 
 ## calculate the total 
 systRangeTot = []
-for cTau in range(9, 900):
-    for mass in range(100,600,100):
+lifetimeRangeTot = []
+for cTau in lifetimes:
+    #    for cTau in range(cTauMin, cTauMax):
+    #    for mass in range(massMin, massMax, 100):
+    for mass in masses: 
         systRangePerSample = []
         for systematic in external_systematic_uncertainties:
             systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
@@ -345,14 +368,23 @@ for cTau in range(9, 900):
             systRangePerSample.append(float(signal_systematic_uncertainties[systematic]['value']))
 
         #print string
-        #print systRangePerSample
+##         print "systRangePerSample, mass=", mass, ", cTau=", cTau, ":  "  
+##         print systRangePerSample
         total = 0
         for syst in systRangePerSample:
             total+= math.pow(syst,2)
         systRangeTot.append(math.sqrt(total))
-    #print systRangeTot
-    largestTot = max(systRangeTot)
-    smallestTot = min (systRangeTot)
+        lifetimeRangeTot.append(cTau)  
+## print "SystRangeTot: " 
+## print systRangeTot
+largestTot  = max(systRangeTot)
+smallestTot = min(systRangeTot)
+idxMax = systRangeTot.index(max(systRangeTot))  
+## print "Index of largest syst:  ", idxMax
+## print "lifetime of largest syst:  ", lifetimeRangeTot[idxMax]  
+## print "len(lifetimes) = ", len(lifetimes)
+## print "lifetimes: "
+## print lifetimes  
 
                             
 
@@ -366,6 +398,8 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
+
+
 ###################################################
 # Electron inefficiency table:
 # tables/elecVetoEff.tex 
@@ -385,12 +419,8 @@ for dataset in split_datasets:
     (NPresel, NPreselErr) = getYield(dataset,   preselElecDir, "PreSelection")
     fracPresel = NPresel / NPreselTot
     fracPreselTot += fracPresel  
-###################################################
-    # Electron inefficiency table:
-    # tables/elecVetoEff.tex
-    # tables/elecEst.tex
-    ###################################################  NYieldTotErr += NLimit*fracPresel  
-    print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
+    NYieldTotErr += NLimit*fracPresel  
+print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
 print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
 
 outputFile = "tables/elecVetoEff.tex"
@@ -672,6 +702,14 @@ print "Finished writing " + outputFile + "\n\n\n"
 # Use for bkgdOptions.py below:
 ScaleFacFakeTrk = NCtrlMet / NCtrl
 ScaleFacFakeTrkErr = ScaleFacFakeTrk * math.sqrt(math.pow(NCtrlErr/NCtrl, 2) + math.pow(NCtrlMetErr/NCtrlMet, 2))  
+
+(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu", JessDir + 'ztoMuMuFakeTrkNHits5',       "ZtoMuMuFakeTrkNHits5")
+(NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", JessDir + 'ztoEEFakeTrk3456NHit',     "ZtoEEFakeTrkNHits5")  
+NCtrl = NCtrlEE + NCtrlMuMu
+
+ScaleFacFakeTrk5Hits = Nfake / NCtrl
+ScaleFacFakeTrk5HitsErr = NfakeErr / Nfake * ScaleFacFakeTrk5Hits 
+
 
 
 ###################################################
@@ -1272,20 +1310,20 @@ content += "                   },   \n"
 content += "       \n"
 content += "       \n"
 content += "       \n"
-content += "    'FakeMuMuBkgd' :  { 'inputDir'   : JessDir + 'ztoMuMuFakeTrk_24June',   \n"
+content += "    'FakeMuMuBkgd' :  { 'inputDir'   : JessDir + 'ztoMuMuFakeTrkNHits5',   \n"
 content += "                    'datasetsIn'  : ['SingleMu'],   \n"
-content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk) + ",   \n"
-content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrkErr) + ",   \n"  
+content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk5Hits) + ",   \n"
+content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrk5HitsErr) + ",   \n"  
 content += "                    'channel_map' : {   \n"
-content += "    'ZtoMuMuFakeTrk' : ['FullSelection'],   \n"
+content += "    'ZtoMuMuFakeTrkNHits5' : ['FullSelection'],   \n"
 content += "    }   \n"
 content += "                    },   \n"
 content += "    'FakeEEBkgd' :  { 'inputDir'   : JessDir + 'ztoEEFakeTrk3456NHit',   \n"
 content += "                    'datasetsIn'  : ['SingleElectron'],   \n"
-content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk) + ",   \n"
-content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrkErr) + ",   \n"  
+content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk5Hits) + ",   \n"
+content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrk5HitsErr) + ",   \n"  
 content += "                    'channel_map' : {   \n"
-content += "    'ZtoEEFakeTrk' : ['FullSelection'],   \n"
+content += "    'ZtoEEFakeTrkNHits5' : ['FullSelection'],   \n"
 content += "    }   \n"
 content += "                    },   \n"
 content += "       \n"
@@ -1532,12 +1570,12 @@ content += hline
 content += hline
 content += "Source                            & Contribution \\\\   \n"  
 content += hline
-content += "electrons   & " + str(round_sigfigs(percentelec,3)) + "\\%  \\\\  \n"
-content += "muons       & " + str(round_sigfigs(percentmuon,3)) + "\\%  \\\\  \n"  
-content += "hadrons     & " + str(round_sigfigs(percenthad, 3)) + "\\%  \\\\  \n"  
-content += "fake tracks & " + str(round_sigfigs(percentfake,2)) + "\\%  \\\\  \n"  
-content += "% tau       & " + str(round_sigfigs(percenttau, 2)) + "\\%  \\\\  \n"  
-content += "% other had & " + str(round_sigfigs(percentothr,2)) + "\\%  \\\\  \n"  
+content += "electrons   & " + str(round_sigfigs(percentelec,2)).replace(".0","") + "\\%  \\\\  \n"
+content += "muons       & " + str(round_sigfigs(percentmuon,2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "hadrons     & " + str(round_sigfigs(percenthad, 2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "fake tracks & " + str(round_sigfigs(percentfake,1)).replace(".0","") + "\\%  \\\\  \n"  
+content += "% tau       & " + str(round_sigfigs(percenttau, 2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "% other had & " + str(round_sigfigs(percentothr,2)).replace(".0","") + "\\%  \\\\  \n"  
 content += hline
 content += hline
 content += "\\end{tabular}\n"
