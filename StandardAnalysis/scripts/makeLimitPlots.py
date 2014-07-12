@@ -787,7 +787,8 @@ def drawPlot(plot):
     else:
         canvas.SetLogy()
 
-    legend = TLegend(0.5, 0.6, 0.9, 0.88)
+#    legend = TLegend(0.5, 0.6, 0.9, 0.88) # old
+    legend = TLegend(0.1895973,0.3548951,0.5889262,0.6346154)  
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1008,7 +1009,8 @@ def drawPlot(plot):
     HeaderLabel.Draw()
 
     if 'theoryLabel' in plot: 
-        TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC")
+#        TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC") # old
+        TheoryLabel = TPaveLabel(0.5218121,0.8339161,0.9362416,0.9038462,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
         TheoryLabel.SetBorderSize(0)
         TheoryLabel.SetFillColor(0)
@@ -1038,7 +1040,7 @@ def drawPlot(plot):
  
     canvas.RedrawAxis('g')
     canvas.Write()
-#    canvas.SaveAs("test.pdf")
+    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
  
 
 
