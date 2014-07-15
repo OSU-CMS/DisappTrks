@@ -91,13 +91,12 @@ data_channel = 'FullSelection'
 
 external_systematic_uncertainties = [
     # Use order of AN
-     'IsrRewtPt',
+     'Isr',
      'JES',
      'JER',
      'PDFWt',
      'trigEff',
-     'EcaloRewt',
-     'NmissoutRewt',
+     'NMissOut',
      'pileup',
     ]
 
@@ -111,10 +110,12 @@ signal_systematic_uncertainties = {
         },
     'Nmissin' :  {
     'value' : '1.028',
-        },
+    },
     'Nmissmid' :  {
     'value' : '1.018',
-        },
-    
+    },
+    'Ecalo' : {
+    'value' : '1.05',
+    },
     }
 
