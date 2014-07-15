@@ -648,16 +648,20 @@ FullSelection = cms.PSet(
     cuts = cutsFullSelection, 
     )
 
-FullSelectionFilterMC = cms.PSet(
-    # Filter the MC particles to include only the status 3 SUSY particles  
-    name = cms.string("FullSelectionFilterMC"),
-    triggers = triggersJetMet,
-    cuts = cutsFullSelection +
-    cms.VPSet( 
-    cutMCPartStatus3Filter,
-    cutMCPartSusyFilter,
-    )
-    )
+
+FullSelectionFilterMC = copy.deepcopy(FullSelection)
+FullSelectionFilterMC.name = cms.string("FullSelectionFilterMC")
+FullSelectionFilterMC.cuts.append(cutMCPartStatus3Filter)
+FullSelectionFilterMC.cuts.append(cutMCPartSusyFilter)
+
+FullSelectionFilterMCTrack = copy.deepcopy(FullSelectionFilterMC)
+FullSelectionFilterMCTrack.name = cms.string("FullSelectionFilterMCTrack")
+FullSelectionFilterMCTrack.cuts.append(cutTrkMCPartMatch)  
+
+NoCutsFilterMCTrack = copy.deepcopy(NoCutsFilterMC)
+NoCutsFilterMCTrack.name = cms.string("NoCutsFilterMCTrack")
+NoCutsFilterMCTrack.cuts.append(cutTrkMCPartMatch)  
+
 
 FullSelectionDeadEcalLast = copy.deepcopy(FullSelection) 
 FullSelectionDeadEcalLast.name = cms.string("FullSelectionDeadEcalLast") 
@@ -1167,7 +1171,7 @@ PreSelectionNoTrkJetDR = copy.deepcopy(PreSelection)
 PreSelectionNoTrkJetDR.name = cms.string("PreSelectionNoTrkJetDR")  
 for i in xrange(len(PreSelectionNoTrkJetDR.cuts) - 1, -1, -1):
     if PreSelectionNoTrkJetDR.cuts[i].cutString == cutTrkJetDeltaR.cutString:
-        del PreSelectionNoTrkJetDR.cuts[i] 
+        del PreSelectionNoTrkJetDR.cuts[i]
 
 PreSelectionNoRelIsoRp3 = copy.deepcopy(PreSelection)
 PreSelectionNoRelIsoRp3.name = cms.string("PreSelectionNoRelIsoRp3")  
