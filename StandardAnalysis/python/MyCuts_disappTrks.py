@@ -140,7 +140,26 @@ cutHlt105 = cms.PSet (
     cutString = cms.string("hlt105 > 0"),
     numberRequired = cms.string(">= 1"),
     )
-
+cutTriggerEmulateMonojet95MC = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("passTriggerEmulateMonojet95MC == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTriggerEmulateMonojet105MC = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("passTriggerEmulateMonojet105MC == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTriggerEmulateMonojet95data = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("passTriggerEmulateMonojet95data == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutTriggerEmulateMonojet105data = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("passTriggerEmulateMonojet105data == 1"),
+    numberRequired = cms.string(">= 1"),
+    )
 
 ################################
 #-- Cuts on Primary Vertexes --#
