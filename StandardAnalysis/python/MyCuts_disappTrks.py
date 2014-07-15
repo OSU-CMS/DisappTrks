@@ -2001,3 +2001,8 @@ cutTrkMCPartPair = cms.PSet (
     cutString = cms.string("deltaR > -1"),
     numberRequired = cms.string(">= 0"),
     )
+cutTrkMCPartMatch = cms.PSet (
+    inputCollection = cms.string("track-mcparticle pairs"),
+    cutString = cms.string("deltaR < 0.05"),
+    numberRequired = cms.string(">= 0"),
+    )
