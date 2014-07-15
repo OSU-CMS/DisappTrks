@@ -115,7 +115,7 @@ signal_systematic_uncertainties = {
     'value' : '1.018',
     },
     'Ecalo' : {
-    'value' : '1.05',
+    'value' : '1.064',
     },
     }
 
