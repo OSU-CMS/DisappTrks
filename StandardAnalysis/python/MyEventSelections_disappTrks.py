@@ -649,6 +649,27 @@ FullSelection = cms.PSet(
     )
 
 
+FullSelectionTrigEmulate95MC = copy.deepcopy(FullSelection)
+FullSelectionTrigEmulate95MC.name = cms.string("FullSelectionTrigEmulate95MC")
+FullSelectionTrigEmulate95MC.triggers = cms.string("")
+FullSelectionTrigEmulate95MC.cuts.append(cutTriggerEmulateMonojet95MC)
+
+FullSelectionTrigEmulate95data = copy.deepcopy(FullSelection)
+FullSelectionTrigEmulate95data.name = cms.string("FullSelectionTrigEmulate95data")
+FullSelectionTrigEmulate95data.triggers = cms.string("")
+FullSelectionTrigEmulate95data.cuts.append(cutTriggerEmulateMonojet95data)
+
+FullSelectionTrigEmulate105MC = copy.deepcopy(FullSelection)
+FullSelectionTrigEmulate105MC.name = cms.string("FullSelectionTrigEmulate105MC")
+FullSelectionTrigEmulate105MC.triggers = cms.string("")
+FullSelectionTrigEmulate105MC.cuts.append(cutTriggerEmulateMonojet105MC)
+
+FullSelectionTrigEmulate105data = copy.deepcopy(FullSelection)
+FullSelectionTrigEmulate105data.name = cms.string("FullSelectionTrigEmulate105data")
+FullSelectionTrigEmulate105data.triggers = cms.string("")
+FullSelectionTrigEmulate105data.cuts.append(cutTriggerEmulateMonojet105data)
+
+
 FullSelectionFilterMC = copy.deepcopy(FullSelection)
 FullSelectionFilterMC.name = cms.string("FullSelectionFilterMC")
 FullSelectionFilterMC.cuts.append(cutMCPartStatus3Filter)
