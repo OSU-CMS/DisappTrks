@@ -425,18 +425,24 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/elecVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", fullSelecElecPrevetoDir,       "FullSelectionElecPreveto")
-(NYield, NYieldErr) = getYield("Background",       fullSelecElecIdDir, "FullSelIdElec")
+(NCtrl, NCtrlErr)   = getYield("WjetsHighPt", fullSelecElecPrevetoDir,       "FullSelectionElecPreveto")
+(NYield, NYieldErr) = getYield("WjetsHighPt",      fullSelecElecIdDir, "FullSelIdElec")
+NLimit              = getUpperLimit("WjetsHighPt", fullSelecElecIdDir, "FullSelIdElec")
 P = NYield / NCtrl 
-PErr = NYieldTotErr / NCtrl 
+if NLimit > NYieldErr:
+    PErr = NLimit / NCtrl
+else:
+    PErr = NYieldErr / NCtrl
+
+
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
 content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"                               
-content += "$N^e$ (MC)              & $"     + " \\leq " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                             
+content += "$N^e$ (MC)              & $"     + " < " + str(round_sigfigs(NLimit,2))     + "$     \\\\ \n"                             
 content += hline                                                              
-content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"
+content += "$P^e = N^e / N^e_{\\rm ctrl}$ & $ < " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -455,9 +461,9 @@ content += "\\begin{tabular}{lc}\n"
 content += hline                                                              
 content += hline                                                              
 content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-content += "$P^e$ (MC)               & $ \\leq " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"  
+content += "$P^e$ (MC)               & $ < " + str(round_sigfigs(PErr * 1e5,2)) + " \\times 10^{-5} $ \\\\  \n"  
 content += hline                                                              
-content += "$N^e$                    & $ \\leq " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
+content += "$N^e$                    & $ < " + str(round_sigfigs(NelecErr,2)) + " $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -494,17 +500,20 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/muonVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", fullSelecMuPrevetoDir,       "FullSelectionMuPreveto")
-(NYield, NYieldErr) = getYield("Background", fullSelecMuIdDir, "FullSelIdMuon")
+(NCtrl, NCtrlErr)   = getYield("WjetsHighPt", fullSelecMuPrevetoDir,       "FullSelectionMuPreveto")
+(NYield, NYieldErr) = getYield("Wjets_PtW100",      fullSelecMuIdDir, "FullSelIdMuon")
+NLimit              = getUpperLimit("Wjets_PtW100", fullSelecMuIdDir, "FullSelIdMuon")
+print "Debug:  muon upper limit is ", NLimit
+print "Debug:  muon NYieldErr = ", NYieldErr
+print "Debug:  muon NYield = ", NYield
 
-P = NYield / NCtrl
-NYieldTotErr -= NYield # Subtract off the central value from the upper limit
-
-if NYieldErr > NYieldTotErr:
-    PErr = float(NYieldErr) / NCtrl
-
+NLimit -= NYield   # account for a nonzero yield  
+P = NYield / NCtrl 
+if NLimit > NYieldErr:
+    NYieldErr = NLimit
+    PErr = NLimit / NCtrl
 else:
-    PErr = float(NYieldTotErr) / NCtrl
+    PErr = NYieldErr / NCtrl
 
 content  = header
 content += "\\begin{tabular}{lc}\n"
@@ -512,21 +521,25 @@ content += hline
 content += hline
 
 content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,5)) + "$     \\\\ \n"
-print "NYieldErr =" + str(NYieldErr) 
-print "NYieldTotErr =" + str(NYieldTotErr) 
-if float(NYieldErr) > float(NYieldTotErr):
-    content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                
-    content += hline
-    content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"    
-else: 
-    if NYield > NYieldTotErr:
-        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                
-        content += hline
-        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
-    else:
-        content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + "  (_{-" + str(round_sigfigs(NYield,2)) + "}^{+" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n"
-        content += hline
-        content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + "  ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
+content += "$N^\\mu_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
+content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                
+content += hline
+content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"    
+## print "NYieldErr =" + str(NYieldErr) 
+## print "NYieldTotErr =" + str(NYieldTotErr) 
+## if float(NYieldErr) > float(NYieldTotErr):
+##     content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldErr,2))     + "$     \\\\ \n"                
+##     content += hline
+##     content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"    
+## else: 
+##     if NYield > NYieldTotErr:
+##         content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + " \\pm " + str(round_sigfigs(NYieldTotErr,2))     + "$     \\\\ \n"                
+##         content += hline
+##         content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " \\pm " + str(round_sigfigs(PErr * 1e4,2)) + ") \\times 10^{-4} $ \\\\  \n"
+##     else:
+##         content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,2))     + "  (_{-" + str(round_sigfigs(NYield,2)) + "}^{+" + str(round_sigfigs(NYieldTotErr,2)) + "}) $     \\\\ \n"
+##         content += hline
+##         content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + "  ^{+" + str(round_sigfigs(PErr * 1e4,2)) + "}_{-" + str(round_sigfigs(P * 1e4,2)) + "}) $  \\times 10^{-4} $ \\\\  \n"
 content += hline
 content += hline
 content += "\\end{tabular}\n"
@@ -591,22 +604,24 @@ print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str
 
 outputFile = "tables/tauVetoEff.tex"
 fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("Background", fullSelecTauPrevetoDir,       "FullSelectionTauPreveto")
-(NYield, NYieldErr) = getYield("Background", fullSelecTauIdDir, "FullSelIdTau")
-NLimit              = getUpperLimit("WjetsHighPt", fullSelecTauIdDir, "FullSelIdTau")
-NYieldErr = math.sqrt(math.pow(NYieldErr,2) + math.pow(NLimit,2))   
-
+(NCtrl, NCtrlErr)   = getYield("WjetsHighPt", fullSelecTauPrevetoDir,       "FullSelectionTauPreveto")
+(NYield, NYieldErr) = getYield("WjetsHighPt",      fullSelecTauIdDir, "FullSelIdTau")
+NLimit              = getUpperLimit("WjetsHighPt", fullSelecTauIdDir, "FullSelIdTau") 
 P = NYield / NCtrl 
-PErr = NYieldTotErr / NCtrl
+if NLimit > NYieldErr:
+    PErr = NLimit / NCtrl
+else:
+    PErr = NYieldErr / NCtrl
+
 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
 content += hline                                                              
 content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
-content += "$N^\\tau$            (MC)  & $" + " \\leq " + str(round_sigfigs(NYieldTotErr,2))   + "$     \\\\ \n"                             
+content += "$N^\\tau$            (MC)  & $" + " < " + str(round_sigfigs(NLimit,2))   + "$     \\\\ \n"                             
 content += hline                                                              
-content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $" + " \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"
+content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $" + " < " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -625,9 +640,9 @@ content += "\\begin{tabular}{lc}\n"
 content += hline                                                              
 content += hline                                                              
 content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-content += "$P^\\tau$ (MC)               & $ \\leq " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"  
+content += "$P^\\tau$ (MC)               & $ < " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"  
 content += hline                                                              
-content += "$N^\\tau$                    & $ \\leq " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
+content += "$N^\\tau$                    & $ < " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
