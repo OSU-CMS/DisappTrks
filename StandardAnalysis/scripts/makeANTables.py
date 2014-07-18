@@ -681,11 +681,14 @@ PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2)
 
 
 NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  # done for consistency with muon case, but since it's data, there are no weight factors so NYieldRaw = NYield
+NfakeRaw = NYieldRaw  # Used for bkgd estimate table  
 #NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
 #NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
 alpha = 0.84
 NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
 NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
+
+print "Debug:  NYieldRaw = ", NYieldRaw 
 
 P = NYieldRaw / NCtrl
 if NLimitRaw > NYieldErrRaw:
@@ -1411,14 +1414,19 @@ print "Finished writing " + outputFile + "\n\n\n"
 outputFile = "tables/bkgdSumm.tex" 
 fout = open (outputFile, "w")
 
-NelecSyst = NelecErr * systFracElec
+# Calculate upper limit with stat and systematic errors, using Cousins/Highland, NIM A320, 331 (1992). http://www.sciencedirect.com/science/article/pii/0168900292907945.
+# Eqn 21:  Un = Un0 * (1 + (Un0 - n) * syst^2 / 2)
+NelecSyst = NelecErr * (1.0 + (NelecErr) * math.pow(systFracElec,2)/2.0)  
+NtauSyst  = NtauErr  * (1.0 + (NtauErr)  * math.pow(systFracElec,2)/2.0)  
+
+#NelecSyst = NelecErr * systFracElec
 NmuonSyst = Nmuon    * systFracMuon
-NtauSyst  = NtauErr  * systFracTau
+#NtauSyst  = NtauErr  * systFracTau
 NfakeSyst = Nfake    * systFracFake
 Ntot = Nelec + Nmuon + Ntau + Nfake
-NtotStat = math.sqrt(math.pow(NelecErr,2) + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
+NtotStat = math.sqrt(math.pow(NelecErr,2)  + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
 NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
-NtotErr  = math.sqrt(math.pow(NtotStat,2) + math.pow(NtotSyst,2))   
+NtotErr  = math.sqrt(math.pow(NtotStat,2)  + math.pow(NtotSyst,2))   
 
 (NData, NDataErr) = getYield("MET", fullSelectionDir, "FullSelection")
 
@@ -1430,12 +1438,12 @@ content  = header
 content += "\\begin{tabular}{lccc} \n"
 content += hline
 content += hline
-content += "Event source                                           & Yield                  \\\\ \n"
+content += "Event source    &  \\multicolumn{2}{c}{Yield}                  \\\\ \n"  
 content += hline
-content += "electrons      & $ < " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm syst} $ \\\\  \n"
-content += "muons          & $" + str(round_sigfigs(Nmuon,2)) + "(^{+" + str(round_sigfigs(NmuonErrUp,2)) + "}_{-" + str(round_sigfigs(NmuonErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $$ \\\\  \n"
-content += "taus           & $ < " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst} $ \\\\  \n"
-content += "fake tracks    & $" + str(round_sigfigs(Nfake,2)) + "(^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst}   $ \\\\  \n" 
+content += "electrons      & $ < " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}$  & $ < " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm stat+syst} $ \\\\  \n"  
+content += "muons          & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nmuon,2)) + "(^{+" + str(round_sigfigs(NmuonErrUp,2)) + "}_{-" + str(round_sigfigs(NmuonErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ }  \\\\  \n"
+content += "taus           & $ < " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat} $ & $ < " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst+syst} $ \\\\  \n"
+content += "fake tracks    & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nfake,2)) + "(^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst}   $ }  \\\\  \n" 
 content += hline
 content +=  "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
 content += "%background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotErr,3)) + "_{\\rm tot} $ \\\\  \n"
@@ -1467,7 +1475,7 @@ fout = open (outputFile, "w")
 (NtauMC,  NtauMCErr)  = getYield("WjetsHighPt", fullSelecTauIdDir, "FullSelIdTau")  # Do not include TTbar event  
 
 
-NfakeRaw = round(math.pow(Nfake,2)   / math.pow(NfakeErr,2))   if NfakeErr   else 0 # Can use the fake track estimate, since the error is scaled by the same weight as the central value
+#NfakeRaw = round(math.pow(Nfake,2)   / math.pow(NfakeErr,2))   if NfakeErr   else 0 # Can use the fake track estimate, since the error is scaled by the same weight as the central value
 NelecRaw = round(math.pow(NelecMC,2) / math.pow(NelecMCErr,2)) if NelecMCErr else 0 
 NmuonRaw = round(math.pow(NmuonMC,2) / math.pow(NmuonMCErr,2)) if NmuonMCErr else 0 
 NtauRaw  = round(math.pow(NtauMC,2)  / math.pow(NtauMCErr,2))  if NtauMCErr  else 0 
