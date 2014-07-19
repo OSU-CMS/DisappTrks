@@ -1408,55 +1408,9 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 ###################################################
 # Bkgd summary table 
+# amsbLimitConfigBkgds.py (Must do this one first, since it is used by toyUpperLimitBkgdSum.py  
 # tables/bkgdSumm.tex
-# amsbLimitConfigBkgds.py 
 ###################################################
-outputFile = "tables/bkgdSumm.tex" 
-fout = open (outputFile, "w")
-
-# Calculate upper limit with stat and systematic errors, using Cousins/Highland, NIM A320, 331 (1992). http://www.sciencedirect.com/science/article/pii/0168900292907945.
-# Eqn 21:  Un = Un0 * (1 + (Un0 - n) * syst^2 / 2)
-NelecSyst = NelecErr * (1.0 + (NelecErr) * math.pow(systFracElec,2)/2.0)  
-NtauSyst  = NtauErr  * (1.0 + (NtauErr)  * math.pow(systFracElec,2)/2.0)  
-
-#NelecSyst = NelecErr * systFracElec
-NmuonSyst = Nmuon    * systFracMuon
-#NtauSyst  = NtauErr  * systFracTau
-NfakeSyst = Nfake    * systFracFake
-Ntot = Nelec + Nmuon + Ntau + Nfake
-NtotStat = math.sqrt(math.pow(NelecErr,2)  + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
-NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
-NtotErr  = math.sqrt(math.pow(NtotStat,2)  + math.pow(NtotSyst,2))   
-
-(NData, NDataErr) = getYield("MET", fullSelectionDir, "FullSelection")
-
-# Account for the rounding of Ntau:  
-NtauErrRounded = round_sigfigs(NtauErr,2)
-Ntau = modifyByPrecision(Ntau, NtauErr, NtauErrRounded)
-
-content  = header
-content += "\\begin{tabular}{lccc} \n"
-content += hline
-content += hline
-content += "Event source    &  \\multicolumn{2}{c}{Yield}                  \\\\ \n"  
-content += hline
-content += "electrons      & $ < " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}$  & $ < " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm stat+syst} $ \\\\  \n"  
-content += "muons          & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nmuon,2)) + "(^{+" + str(round_sigfigs(NmuonErrUp,2)) + "}_{-" + str(round_sigfigs(NmuonErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ }  \\\\  \n"
-content += "taus           & $ < " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat} $ & $ < " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst+syst} $ \\\\  \n"
-content += "fake tracks    & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nfake,2)) + "(^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst}   $ }  \\\\  \n" 
-content += hline
-content +=  "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
-content += "%background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotErr,3)) + "_{\\rm tot} $ \\\\  \n"
-content += hline
-content += "data           & " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + "   \\\\ \n"
-content += hline
-content += hline
-content += "\\end{tabular} \n"
-fout.write(content)
-fout.close()
-os.system("cat " + outputFile)
-print "Finished writing " + outputFile + "\n\n\n"
-
 
 outputFile = "amsbLimitConfigBkgds.py"  
 fout = open (outputFile, "w")
@@ -1533,6 +1487,56 @@ content += "\n"
 content += "\n"  
 
 
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+
+
+outputFile = "tables/bkgdSumm.tex" 
+fout = open (outputFile, "w")
+
+# Calculate upper limit with stat and systematic errors, using Cousins/Highland, NIM A320, 331 (1992). http://www.sciencedirect.com/science/article/pii/0168900292907945.
+# Eqn 21:  Un = Un0 * (1 + (Un0 - n) * syst^2 / 2)
+NelecSyst = NelecErr * (1.0 + (NelecErr) * math.pow(systFracElec,2)/2.0)  
+NtauSyst  = NtauErr  * (1.0 + (NtauErr)  * math.pow(systFracElec,2)/2.0)  
+
+#NelecSyst = NelecErr * systFracElec
+NmuonSyst = Nmuon    * systFracMuon
+#NtauSyst  = NtauErr  * systFracTau
+NfakeSyst = Nfake    * systFracFake
+Ntot = Nelec + Nmuon + Ntau + Nfake
+NtotStat = math.sqrt(math.pow(NelecErr,2)  + math.pow(NmuonErr,2) + math.pow(NtauErr,2) + math.pow(NfakeErr,2))
+NtotSyst = math.sqrt(math.pow(NelecSyst,2) + math.pow(NmuonSyst,2) + math.pow(NtauSyst,2) + math.pow(NfakeSyst,2))
+NtotErr  = math.sqrt(math.pow(NtotStat,2)  + math.pow(NtotSyst,2))   
+
+(NData, NDataErr) = getYield("MET", fullSelectionDir, "FullSelection")
+
+# Account for the rounding of Ntau:  
+NtauErrRounded = round_sigfigs(NtauErr,2)
+Ntau = modifyByPrecision(Ntau, NtauErr, NtauErrRounded)
+
+content  = header
+content += "\\begin{tabular}{lccc} \n"
+content += hline
+content += hline
+content += "Event source    &  \\multicolumn{2}{c}{Yield}                  \\\\ \n"  
+content += hline
+content += "electrons      & $ < " + str(round_sigfigs(NelecErr,2)) + "_{\\rm stat}$  & $ < " + str(round_sigfigs(NelecSyst,2)) + "_{\\rm stat+syst} $ \\\\  \n"  
+content += "muons          & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nmuon,2)) + "(^{+" + str(round_sigfigs(NmuonErrUp,2)) + "}_{-" + str(round_sigfigs(NmuonErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NmuonSyst,2)) + "_{\\rm syst} $ }  \\\\  \n"
+content += "taus           & $ < " + str(round_sigfigs(NtauErr, 2)) + "_{\\rm stat} $ & $ < " + str(round_sigfigs(NtauSyst, 2)) + "_{\\rm syst+syst} $ \\\\  \n"
+content += "fake tracks    & \\multicolumn{2}{c}{$" + str(round_sigfigs(Nfake,2)) + "(^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "})_{\\rm stat}  \\pm " + str(round_sigfigs(NfakeSyst,2)) + "_{\\rm syst}   $ }  \\\\  \n" 
+content += hline
+content +=  "background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotStat,3)) + "_{\\rm stat}  \\pm " + str(round_sigfigs(NtotSyst,2))  + "_{\\rm syst} $ \\\\  \n"
+content += "%background sum & $" + str(round_sigfigs(Ntot, 3)) + " \\pm " + str(round_sigfigs(NtotErr,3)) + "_{\\rm tot} $ \\\\  \n"
+content += "% Get background sum by running: ~/workdirTemplateDisTrk]$ ./toyUpperLimitsPAS.py"  
+content += hline
+content += "data           & " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + "   \\\\ \n"
+content += hline
+content += hline
+content += "\\end{tabular} \n"
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
