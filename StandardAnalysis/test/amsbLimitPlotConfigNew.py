@@ -20,21 +20,37 @@ intLumi = 19500
 ### Signal Parameters ###
 #########################
 
+
+import os
+
+cwd = os.getcwd()
+#print "Current directory: " + cwd
+
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error:  could not identify user as wulsin or jbrinson."
+    os.exit(0)
+    
 # NOTE: The chargino masses are used when actually making the limit plots
-#limit_dir = 'limits_8May'
-#limit_dir = 'limits_2014_02_20New'    # original limits
-#limit_dir = 'limits_2014_06_12b'    # switch to detector eta, new dead ECAL map
-#limit_dir = 'limits_2014_06_15b'    # new trigger efficiency
-#limit_dir = 'limits_2014_06_15c'    # new trigger efficiency
-#limit_dir = 'limits_2014_06_30'    
-#limit_dir = 'limits_2014_06_30Wjets'    # inefficiency from Wjets only 
-#limit_dir = 'limits_2014_07_11'    
-#limit_dir = 'limits_2014_07_11b'    
-#limit_dir = 'limits_2014_07_12b'    
-#limit_dir = 'limits_2014_07_12c'    
-#limit_dir = 'limits_2014_07_14'    
-#limit_dir = 'limits_2014_07_17'    
-limit_dir = 'limits_2014_07_20'    
+#limit_dir = WellsDir+'limits_8May'
+#limit_dir = WellsDir+'limits_2014_02_20New'    # original limits
+#limit_dir = WellsDir+'limits_2014_06_12b'    # switch to detector eta, new dead ECAL map
+#limit_dir = WellsDir+'limits_2014_06_15b'    # new trigger efficiency
+#limit_dir = WellsDir+'limits_2014_06_15c'    # new trigger efficiency
+#limit_dir = WellsDir+'limits_2014_06_30'    
+#limit_dir = WellsDir+'limits_2014_06_30Wjets'    # inefficiency from Wjets only 
+#limit_dir = WellsDir+'limits_2014_07_11'    
+#limit_dir = WellsDir+'limits_2014_07_11b'    
+#limit_dir = WellsDir+'limits_2014_07_12b'    
+#limit_dir = WellsDir+'limits_2014_07_12c'    
+#limit_dir = WellsDir+'limits_2014_07_14'    
+#limit_dir = WellsDir+'limits_2014_07_17'    
+limit_dir = WellsDir+'limits_2014_07_20'    
 
 
 masses = ['100', '200', '300', '400', '500', '600']
@@ -61,9 +77,7 @@ convertToMassSplitting = False
 plotDefinitions = [
     
     #each entry corresponds to a canvas in the output file
-    
-    
-    
+           
     ######################LIFETIME (ns) VS MASS
     {
     # this will be the name of the canvas in the output root file
@@ -73,10 +87,7 @@ plotDefinitions = [
     'xAxisType' : 'mass',
     'yAxisType' : 'lifetime',
     
-    #     'xAxisLabel' : 'chargino mass [GeV]',
     'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
-    #     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
-    #     'yAxisLabel' : 'chargino #tau [ns]',
     'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
     
     'xAxisFixMin' : 100, 
@@ -91,7 +102,6 @@ plotDefinitions = [
     {
     'source' : [limit_dir], #output directory from limit running
     'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-    #    'graphsToInclude' : ['obs'],
     'colorScheme' : 'brazilian',
     },
     ],
