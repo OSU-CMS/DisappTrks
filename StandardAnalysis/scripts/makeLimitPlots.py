@@ -804,13 +804,6 @@ def fetchLimits(mass,lifetime,directories):
         if convertCmToNs:
             speedLightCmPerNs = 29.979  # speed of light in cm / ns
             tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs  
-##         if convertToMassSplitting:
-##             speedLightCmPerNs = 29.979  
-##             muMass = 0.1056
-##             massSplitToTheFifth = (8 * 10E-8) / (float(lifetime) * 10E-9) * math.pow(float(muMass) ,5)
-##             massSplit = 1000 * (math.pow(massSplitToTheFifth, Fraction(1,5)) )
-##             tmp_limit['lifetime'] = massSplit
-##             print massSplit
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
@@ -871,8 +864,10 @@ def drawPlot(plot):
     else:
         canvas.SetLogy()
 
-#    legend = TLegend(0.5, 0.6, 0.9, 0.88) # old
-    legend = TLegend(0.1895973,0.3548951,0.5889262,0.6346154)  
+    if convertToMassSplitting: 
+        legend = TLegend(0.3338926,0.513986,0.9647651,0.8461538)  # determine coordinates empirically
+    else:
+        legend = TLegend(0.1895973,0.3548951,0.5889262,0.6346154)        
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1081,7 +1076,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
                 tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
 
-    if not drawTheoryCurve: 
+    if not 'drawTheoryCurve' in plot or not plot['drawTheoryCurve']:
         legend.Draw()
     canvas.SetTitle('')
     #draw the header label
@@ -1125,7 +1120,7 @@ def drawPlot(plot):
  
     canvas.RedrawAxis('g')
 
-    if drawTheoryCurve:
+    if 'drawTheoryCurve' in plot and plot['drawTheoryCurve']:
         function = TF1("function","-413.315+305.383*log(x) - 60.8831*log(x)^2 + 5.41948 * log(x)^3 - 0.181509*log(x)^4",100,600)
         function.SetLineStyle(2)
         function.Draw("same")
@@ -1141,7 +1136,7 @@ def drawPlot(plot):
 ######################################################################################################
 
 
-outputFileName = "limits/"+arguments.outputDir+"/limit_plot.root"
+outputFileName = "limits/"+arguments.outputDir+"/"+outputName  
 outputFile = TFile(outputFileName, "RECREATE")
 
 # for each plot that has been defined, extract the limits and draw the plot accordingly
