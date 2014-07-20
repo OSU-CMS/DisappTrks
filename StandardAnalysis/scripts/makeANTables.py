@@ -86,6 +86,9 @@ systNMissInDir = WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid"
 ## systNmissMid.tex
 systNMissMidDir = WellsDir+"condor_2014_06_02_PreSelectionMuonNoMissInMid"
 
+## systEcalo.tex
+systEcaloDir  = JessDir+"ztoMuMuFakeTrkNHits4NoEcalo"  
+
 ## bkgdSumm.tex
 fullSelectionDir = JessDir+"fullSelectionSkim_24June"
 
@@ -1175,6 +1178,63 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 
 ###################################################
+# Ecalo systematic
+# tables/systEcalo.tex
+# Can do cross check with: > getHistIntegrals.py -l configHistIntegralsSystEcalo.py  
+###################################################
+outputFile = "tables/systEcalo.tex"
+fout = open (outputFile, "w")
+
+(NTot, NTotErr)   = getHistIntegral("Background", systEcaloDir, "ZtoMuMuFakeTrkNHits4NoEcalo", "trackCaloTot_RhoCorr",0,110)
+(NPass, NPassErr) = getHistIntegral("Background", systEcaloDir, "ZtoMuMuFakeTrkNHits4NoEcalo", "trackCaloTot_RhoCorr",0,9.9)
+P = NPass / NTot 
+PErr = P * math.sqrt(math.pow(NPassErr/NPass, 2) + math.pow(NTotErr/NTot, 2))
+
+(NTotData, NTotErrData)   = getHistIntegral("SingleMu", systEcaloDir, "ZtoMuMuFakeTrkNHits4NoEcalo", "trackCaloTot_RhoCorr",0,110)
+(NPassData, NPassErrData) = getHistIntegral("SingleMu", systEcaloDir, "ZtoMuMuFakeTrkNHits4NoEcalo", "trackCaloTot_RhoCorr",0,9.9)
+PData = NPassData / NTotData 
+PErrData = PData * math.sqrt(math.pow(NPassErrData/NPassData, 2) + math.pow(NTotErrData/NTotData, 2))
+
+ratio = PData / P
+ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
+ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
+ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
+syst = math.fabs(1.0 - ratio)  # relative systematic uncertainty  
+
+content  = header
+content += "\\begin{tabular}{lcc} \n"
+content += hline
+content += hline
+# Comment out lines below, don't need all this info.  
+content += "%& data   & MC   \\\\ \n"
+#content += hline
+content += "%$N^{\\rm tot}$   & " 
+content += "$" + str(round_sigfigs(NTotData,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErrData,3)).rstrip("0").rstrip(".") + "$ & "          
+content += "$" + str(round_sigfigs(NTot    ,6)).rstrip("0").rstrip(".")  + " \\pm " + str(round_sigfigs(NTotErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+content += "%$Ecalo < 10 $ & "
+content += "$" + str(round_sigfigs(NPassData,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErrData,3)).rstrip("0").rstrip(".") + "$ & "
+content += "$" + str(round_sigfigs(NPass    ,6)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(NPassErr    ,3)).rstrip("0").rstrip(".") + "$    \\\\ \n"  
+#content += hline
+content += "%$\\epsilon$  & " 
+content += "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ & "
+content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ & "  
+content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"
+content += " & $\\epsilon(Ecalo < 10 GeV)$ \\\\ \n" 
+content += hline
+content += "data    & " + "$" + "{:0.3f}".format(PData)  + " \\pm " + "{:0.3f}".format(PErrData) + " $ \\\\ \n"
+content += "MC      & " + "$" + "{:0.3f}".format(P)      + " \\pm " + "{:0.3f}".format(PErr)     + " $ \\\\ \n"
+content += "data/MC & " + "$" + "{:0.3f}".format(ratio)  + " \\pm " + "{:0.3f}".format(ratioErr) + "$  \\\\ \n"  
+content += hline
+content += hline
+content += "\\end{tabular}\n"                                                       
+content += "% For amsbLimitConfigNew.py Ecalo systematic:     'value' : '" + "{:0.3f}".format(1.0 + syst) + "', \n"  
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+###################################################
 # NmissInner systematic
 # tables/systNmissIn.tex  
 ###################################################
@@ -1195,6 +1255,7 @@ ratio = PData / P
 ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
 ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
 ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
+syst = math.fabs(1.0 - ratio)  # relative systematic uncertainty  
 
 content  = header
 content += "\\begin{tabular}{lcc} \n"
@@ -1216,13 +1277,13 @@ content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " 
 content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"
 content += " & $\\epsilon(N^{\\rm inner}_{\\rm miss} == 0)$ \\\\ \n" 
 content += hline
-content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
+content += "data    & " + "$" + "{:0.3f}".format(PData)  + " \\pm " + "{:0.3f}".format(PErrData) + " $ \\\\ \n"
+content += "MC      & " + "$" + "{:0.3f}".format(P)      + " \\pm " + "{:0.3f}".format(PErr)     + " $ \\\\ \n"
+content += "data/MC & " + "$" + "{:0.3f}".format(ratio)  + " \\pm " + "{:0.3f}".format(ratioErr) + "$  \\\\ \n"
 content += hline
 content += hline
 content += "\\end{tabular}\n"                                                       
-content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
+content += "% For amsbLimitConfigNew.py Nmissin systematic:     'value' : '" + "{:0.3f}".format(1.0 + syst) + "', \n"  
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
@@ -1230,7 +1291,7 @@ print "Finished writing " + outputFile + "\n\n\n"
 
 
 ###################################################
-# NmissInner systematic
+# NmissMiddle systematic
 # tables/systNmissMid.tex  
 ###################################################
 outputFile = "tables/systNmissMid.tex"
@@ -1250,6 +1311,7 @@ ratio = PData / P
 ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
 ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
 ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
+syst = math.fabs(1.0 - ratio)  # relative systematic uncertainty
 
 content  = header
 content += "\\begin{tabular}{lccc} \n"
@@ -1270,13 +1332,13 @@ content += "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " 
 content += "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
 content += " & $\\epsilon(N^{\\rm mid}_{\\rm miss} == 0)$ \\\\ \n" 
 content += hline
-content += "data    & " + "$" + str(round_sigfigs(PData,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErrData,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "MC      & " + "$" + str(round_sigfigs(P    ,3)).rstrip("0").rstrip(".") + " \\pm " + str(round_sigfigs(PErr    ,2)).rstrip("0").rstrip(".") + " $ \\\\ \n"
-content += "data/MC & " + "$" + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "$  \\\\ \n"  
+content += "data    & " + "$" + "{:0.3f}".format(PData)  + " \\pm " + "{:0.3f}".format(PErrData) + " $ \\\\ \n"
+content += "MC      & " + "$" + "{:0.3f}".format(P)      + " \\pm " + "{:0.3f}".format(PErr)     + " $ \\\\ \n"
+content += "data/MC & " + "$" + "{:0.3f}".format(ratio)  + " \\pm " + "{:0.3f}".format(ratioErr) + "$  \\\\ \n"
 content += hline
 content += hline
 content += "\\end{tabular}\n"                                                       
-content += "% data/MC ratio of efficiency:  " + str(round_sigfigs(ratio,3)) + " \\pm " + str(round_sigfigs(ratioErr,3)) + "\n"  
+content += "% For amsbLimitConfigNew.py Nmissmid systematic:     'value' : '" + "{:0.3f}".format(1.0 + syst) + "', \n"  
 fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
