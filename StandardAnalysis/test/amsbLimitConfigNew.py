@@ -109,13 +109,13 @@ signal_systematic_uncertainties = {
     'value' : '1.017',
         },
     'Nmissin' :  {
-    'value' : '1.028',
+    'value' : '1.028', # from tables/systNmissIn.tex from makeANTables.py
     },
     'Nmissmid' :  {
-    'value' : '1.018',
+    'value' : '1.018', # from tables/systNmissMid.tex from makeANTables.py
     },
     'Ecalo' : {
-    'value' : '1.064',
+    'value' : '1.065', # from tables/systEcalo.tex from makeANTables.py
     },
     }
 
