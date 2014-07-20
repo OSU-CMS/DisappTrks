@@ -59,8 +59,44 @@ convertToMassSplitting = False
 
 # description of all the plots to be made
 plotDefinitions = [
-
-        #each entry corresponds to a canvas in the output file
+    
+    #each entry corresponds to a canvas in the output file
+    
+    
+    
+    ######################LIFETIME (ns) VS MASS
+    {
+    # this will be the name of the canvas in the output root file
+    'title' : 'lifetimeNs_vs_mass',
+    
+    # current options are 'mass' and 'lifetime'
+    'xAxisType' : 'mass',
+    'yAxisType' : 'lifetime',
+    
+    #     'xAxisLabel' : 'chargino mass [GeV]',
+    'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
+    #     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
+    #     'yAxisLabel' : 'chargino #tau [ns]',
+    'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
+    
+    'xAxisFixMin' : 100, 
+    'xAxisFixMax' : 600,
+    'yAxisFixMin' : 0.1, 
+    'yAxisFixMax' : 400,
+    
+    'theoryLabel' : 'tan#beta = 5, #mu > 0', 
+    
+    'showTheory' : True,
+    'graphs' : [
+    {
+    'source' : [limit_dir], #output directory from limit running
+    'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+    #    'graphsToInclude' : ['obs'],
+    'colorScheme' : 'brazilian',
+    },
+    ],
+    },
+    
 
         ######################TAU = 0.5 NS
 
@@ -257,40 +293,6 @@ plotDefinitions = [
 ##     ],
 ##      },
      
-
-     
- ######################LIFETIME (ns) VS MASS
-     {
-     # this will be the name of the canvas in the output root file
-     'title' : 'lifetimeNs_vs_mass',
-
-      # current options are 'mass' and 'lifetime'
-     'xAxisType' : 'mass',
-     'yAxisType' : 'lifetime',
-
-#     'xAxisLabel' : 'chargino mass [GeV]',
-     'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
-#     'yAxisLabel' : 'chargino #LT#tau#GT [ns]',
-#     'yAxisLabel' : 'chargino #tau [ns]',
-     'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
-
-     'xAxisFixMin' : 100, 
-     'xAxisFixMax' : 600,
-     'yAxisFixMin' : 0.1, 
-     'yAxisFixMax' : 400,
-
-     'theoryLabel' : 'tan#beta = 5, #mu > 0', 
-
-     'showTheory' : True,
-     'graphs' : [
-    {
-    'source' : [limit_dir], #output directory from limit running
-    'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-#    'graphsToInclude' : ['obs'],
-    'colorScheme' : 'brazilian',
-    },
-    ],
-     },
 
 
      
