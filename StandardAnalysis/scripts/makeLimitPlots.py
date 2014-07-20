@@ -12,6 +12,7 @@ from array import *
 from fractions import *
 from operator import itemgetter
 from optparse import OptionParser
+from decimal import *
 
 
 
@@ -39,7 +40,7 @@ else:
     sys.exit(0)
 
 
-from ROOT import TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
+from ROOT import TF1, TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -198,6 +199,74 @@ def getGraph(limits, x_key, y_key):
     return graph
 
 
+def convertFromCmToMassSplitting_v3(mass, lifetimeInCm):
+    # Choose starting value
+    speedLightCmPerNs = 29.979  # speed of light in cm / ns
+    lifetimeInSec = float(lifetimeInCm) / speedLightCmPerNs * 1.0E-9
+    deltaM = 0.160
+    prevDeltaMGuess = 0
+    (deltaM, prevDeltaMGuess) = calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
+    #    print "Debug:  found values of: mass=", mass, ", lifetime=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess
+    deltaM *= 1000 # convert from GeV to MeV
+    return deltaM
+
+
+def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
+    if mass < 1:  # protect against 0
+        return (0, 0)
+    fPi = float(0.093)
+    gF = 1.166379E-5
+    mPi = 0.14
+    hBarinGeVs = 6.582119E-25
+    neuMass = float(mass) - float(deltaM)
+    # First calculate what the lifetime is, for the assumption of deltaM
+    a = math.pow(float(fPi),2) * math.pow(float(gF),2) / (4 * math.pi * math.pow(float(mass),2))
+    numBTerm1 = float(math.pow(float(mass),2) + math.pow(float(neuMass),2) - math.pow(float(mPi),2))
+    numBTerm1Squared = float(math.pow(float(numBTerm1),2))
+    numBTerm2 = float(4) * float(math.pow(float(mass),2)) * float(math.pow(float(neuMass),2))
+    
+    #    b = float(math.sqrt(float(math.fabs(numBTerm1Squared - numBTerm2))))/(2*float(mass))  #old, mostly works
+    b = (math.sqrt((math.fabs(math.pow((math.pow((mass),2) + math.pow((neuMass),2) - math.pow((mPi),2)), 2) - (4) * (math.pow((mass),2)) * (math.pow((neuMass),2)) ))))/(2*(mass))  #old, mostly works
+    ##     if float(numBTerm1Squared) - numBTerm2 > 0:
+    ##         b = math.sqrt(numBTerm1Squared - numBTerm2)/(2*float(mass))
+    ##     else:
+    ##         print "Error:  trying to take sqrt of negative number:  numBTerm1Squared=", numBTerm1Squared, ", numBTerm2=", numBTerm2
+    ##         b  = 0
+    #    c = float(math.pow(float(mass) + float(neuMass),2))  #old, wrong
+    c = math.pow(math.pow(mass, 2) - math.pow(neuMass, 2),2)
+    d = float(math.pow(float(mPi),2))
+    if (a == 0) or (b == 0):
+        print "Debug found bad values for a or b:  a=", a, ", b=", b, ", c=", c, ", d=", d, ", mass = ", mass, "neumass = ", neuMass, ", sqrt(c)=", math.pow(mass,2) - math.pow(neuMass,2)
+        print "Debug: lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess
+        #        print "Debug:  lifetimeGuess = ", lifetimeGuess, ", lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess, "(lifetimeInSec - lifetimeGuess) / lifetimeInSec = ", (lifetimeInSec - lifetimeGuess) / lifetimeInSec
+        return (0, 0)
+        
+    lifetimeGuess = hBarinGeVs / (4.0 * a * b * (c - d * deltaM))
+    precision = 0.001  # precision of desired result
+    if math.fabs((lifetimeInSec - lifetimeGuess) / lifetimeInSec) < precision:
+        return (deltaM, prevDeltaMGuess)
+    elif math.fabs((deltaM - prevDeltaMGuess) / deltaM) < precision / 10:
+        #        print "Difference between deltaM=", deltaM, " and prevDeltaMGuess=", prevDeltaMGuess, " is less than precision=", precision
+        return (deltaM, prevDeltaMGuess)
+    else:
+        if (lifetimeInSec - lifetimeGuess) > 0:
+            tmp = deltaM
+            deltaM -= 0.5 * math.fabs(deltaM - prevDeltaMGuess)
+            if math.fabs(deltaM - 0.140) < 0.005:
+                deltaM = 0.145
+            prevDeltaMGuess = tmp
+            return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
+        else:
+            tmp = deltaM
+            deltaM += 0.5 * math.fabs(deltaM - prevDeltaMGuess)
+            if math.fabs(deltaM - 0.140) < 0.005:
+                deltaM = 0.145
+            prevDeltaMGuess = tmp
+            return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
+                
+
+                                                                                                 
+
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
@@ -258,6 +327,21 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 print "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ","
         if x_key is 'lifetime' and y_key is 'mass':
             x[-1], y[-1] = y[-1], x[-1]
+
+    if convertToMassSplitting:
+        print "Debug:  about to print all the values that go into TGraph:"
+        for i in range(len(x)):
+            print i, ": ", x[i], ", ", y[i]
+
+        lifetimeInCm = copy.deepcopy(y)
+
+        print "Debug:  about to print all the values that go into TGraph, after converting to massSplitting:"
+        for i in range(len(y)):
+            y[i] = convertFromCmToMassSplitting_v3(x[i], y[i])
+            print i, ": ", x[i], ", ", y[i]
+            graphTest = TGraph(len(y), lifetimeInCm, y)
+            graphTest.Write()
+
     graph = TGraph (len (x), x, y)
     return graph
 
@@ -720,13 +804,13 @@ def fetchLimits(mass,lifetime,directories):
         if convertCmToNs:
             speedLightCmPerNs = 29.979  # speed of light in cm / ns
             tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs  
-        if convertToMassSplitting:
-            speedLightCmPerNs = 29.979  
-            muMass = 0.1056
-            massSplitToTheFifth = (8 * 10E-8) / (float(lifetime) * 10E-9) * math.pow(float(muMass) ,5)
-            massSplit = 1000 * (math.pow(massSplitToTheFifth, Fraction(1,5)) )
-            tmp_limit['lifetime'] = massSplit
-            print massSplit
+##         if convertToMassSplitting:
+##             speedLightCmPerNs = 29.979  
+##             muMass = 0.1056
+##             massSplitToTheFifth = (8 * 10E-8) / (float(lifetime) * 10E-9) * math.pow(float(muMass) ,5)
+##             massSplit = 1000 * (math.pow(massSplitToTheFifth, Fraction(1,5)) )
+##             tmp_limit['lifetime'] = massSplit
+##             print massSplit
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
@@ -997,7 +1081,8 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
                 tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
 
-    legend.Draw()
+    if not drawTheoryCurve: 
+        legend.Draw()
     canvas.SetTitle('')
     #draw the header label
 #    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
@@ -1039,6 +1124,14 @@ def drawPlot(plot):
     canvas.Update()
  
     canvas.RedrawAxis('g')
+
+    if drawTheoryCurve:
+        function = TF1("function","-413.315+305.383*log(x) - 60.8831*log(x)^2 + 5.41948 * log(x)^3 - 0.181509*log(x)^4",100,600)
+        function.SetLineStyle(2)
+        function.Draw("same")
+        legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
+        legend.Draw("same")
+        
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
  
