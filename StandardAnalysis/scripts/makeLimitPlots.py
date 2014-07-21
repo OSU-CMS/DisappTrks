@@ -212,6 +212,7 @@ def convertFromCmToMassSplitting_v3(mass, lifetimeInCm):
 
 
 def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
+#    print "Debug:  running calcMassSplitting with mass=", mass, ", lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess  
     if mass < 1:  # protect against 0
         return (0, 0)
     fPi = float(0.093)
@@ -243,6 +244,7 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
         
     lifetimeGuess = hBarinGeVs / (4.0 * a * b * (c - d * deltaM))
     precision = 0.001  # precision of desired result
+    lowerlimit = 0.1401 # value below which deltaM is undefined
     if math.fabs((lifetimeInSec - lifetimeGuess) / lifetimeInSec) < precision:
         return (deltaM, prevDeltaMGuess)
     elif math.fabs((deltaM - prevDeltaMGuess) / deltaM) < precision / 10:
@@ -252,15 +254,15 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
         if (lifetimeInSec - lifetimeGuess) > 0:
             tmp = deltaM
             deltaM -= 0.5 * math.fabs(deltaM - prevDeltaMGuess)
-            if math.fabs(deltaM - 0.140) < 0.005:
-                deltaM = 0.145
+            if deltaM < lowerlimit: 
+                deltaM = lowerlimit
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
         else:
             tmp = deltaM
             deltaM += 0.5 * math.fabs(deltaM - prevDeltaMGuess)
-            if math.fabs(deltaM - 0.140) < 0.005:
-                deltaM = 0.145
+            if deltaM < lowerlimit: 
+                deltaM = lowerlimit
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
                 

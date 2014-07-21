@@ -2,7 +2,7 @@
 
 # Local options file to be used with makeLimitPlots.py 
 # Usage:
-# > makeLimitPlots.py -l amsbLimitPlotConfigNew.py -c limitDir 
+# > makeLimitPlots.py -l amsbLimitPlotConfigMassSplitting.py -c limitDir 
 
 from amsbLimitPlotConfigNew import * 
 # Keep most settings the same
@@ -11,7 +11,9 @@ convertCmToNs = False
 convertToMassSplitting = True
 outputName = "limit_plotMassSplitting.root"
 
-lifetimes.remove('1')  # Remove lifetimes that we don't want to include.  
+
+lifetimes = ['2','3','4','6','7','8','9','10','20','30','40','50','70','100']  
+
 
 # description of all the plots to be made
 plotDefinitions = [
