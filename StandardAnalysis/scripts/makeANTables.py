@@ -1588,7 +1588,7 @@ content += "Event source    &  \\multicolumn{2}{c}{Yield}                  \\\\ 
 content += hline
 content += "electrons      & $ < " + "{:0.2f}".format(NelecErr) + "_{\\rm stat}$  & $ < " + "{:0.2f}".format(NelecSyst) + "_{\\rm stat+syst} $ \\\\  \n"  
 content += "muons          & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nmuon) + "(^{+" + "{:0.2f}".format(NmuonErrUp) + "}_{-" + "{:0.2f}".format(NmuonErrDn) + "})_{\\rm stat}  \\pm " + "{:0.2f}".format(NmuonSyst) + "_{\\rm syst} $ }  \\\\  \n"
-content += "taus           & $ < " + "{:0.2f}".format(NtauErr) + "_{\\rm stat} $ & $ < " + "{:0.2f}".format(NtauSyst) + "_{\\rm syst+syst} $ \\\\  \n"
+content += "taus           & $ < " + "{:0.2f}".format(NtauErr) + "_{\\rm stat} $ & $ < " + "{:0.2f}".format(NtauSyst) + "_{\\rm stat+syst} $ \\\\  \n"
 content += "fake tracks    & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nfake) + "(^{+" + "{:0.2f}".format(NfakeErrUp) + "}_{-" + "{:0.2f}".format(NfakeErrDn) + "})_{\\rm stat}  \\pm " + "{:0.2f}".format(NfakeSyst) + "_{\\rm syst}   $ }  \\\\  \n" 
 content += hline
 from toyUpperLimitsBkgdSum import * 
@@ -1637,7 +1637,7 @@ content += hline
 content += hline
 content += "Sample                                  &  data   &  estimate  & data/estimate  \\\\ \n"  
 content += hline
-content += "\\candtrk sub-sample       & " + str(NPreselData).rstrip("0").rstrip(".") + " & $" + str(round_sigfigs(NPreselEst,3)) + " \\pm " + str(round_sigfigs(NPreselEstErr,2)) + "$ & $" + "{:0.2f}".format(ratioPresel) + " \\pm  " + "{:0.2f}".format(ratioPreselErr) + "$ \\\\ \n"
+content += "\\candtrk sample           & " + str(NPreselData).rstrip("0").rstrip(".") + " & $" + str(round_sigfigs(NPreselEst,3)) + " \\pm " + str(round_sigfigs(NPreselEstErr,2)) + "$ & $" + "{:0.2f}".format(ratioPresel) + " \\pm  " + "{:0.2f}".format(ratioPreselErr) + "$ \\\\ \n"
 content += "\\calotot sideband sample  & " + str(NEcaloData).rstrip("0").rstrip(".")  + " & $" + str(round_sigfigs(NEcaloEst,4))  + " \\pm " + str(round_sigfigs(NEcaloEstErr,2))  + "$ & $" + "{:0.2f}".format(ratioEcalo)  + " \\pm  " + "{:0.2f}".format(ratioEcaloErr)  + "$ \\\\  \n"
 content += "\\Nmissout sideband sample & " + str(NNmissData).rstrip("0").rstrip(".")  + " & $" + str(round_sigfigs(NNmissEst,4))  + " \\pm " + str(round_sigfigs(NNmissEstErr,2))  + "$ & $" + "{:0.2f}".format(ratioNmiss)  + " \\pm  " + "{:0.2f}".format(ratioNmissErr)  + "$ \\\\  \n"
 content += hline
