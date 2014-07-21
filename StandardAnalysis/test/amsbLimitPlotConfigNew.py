@@ -50,7 +50,8 @@ else:
 #limit_dir = WellsDir+'limits_2014_07_12c'    
 #limit_dir = WellsDir+'limits_2014_07_14'    
 #limit_dir = WellsDir+'limits_2014_07_17'    
-limit_dir = WellsDir+'limits_2014_07_20'    
+#limit_dir = WellsDir+'limits_2014_07_20'    
+limit_dir = WellsDir+'limits_2014_07_21'    
 
 
 masses = ['100', '200', '300', '400', '500', '600']
@@ -93,7 +94,7 @@ plotDefinitions = [
     
     'xAxisFixMin' : 100, 
     'xAxisFixMax' : 600,
-    'yAxisFixMin' : 0.1, 
+    'yAxisFixMin' : 0.05, 
     'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
     
     'theoryLabel' : 'tan#beta = 5, #mu > 0', 
