@@ -216,8 +216,8 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
     if mass < 1:  # protect against 0
         return (0, 0)
     fPi = float(0.093)
-    gF = 1.166379E-5
-    mPi = 0.14
+    gF = 1.166379E-5   # units if GeV^-2
+    mPi = 0.13957018  # units of GeV, from PDG  
     hBarinGeVs = 6.582119E-25
     neuMass = float(mass) - float(deltaM)
     # First calculate what the lifetime is, for the assumption of deltaM
@@ -243,8 +243,8 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
         return (0, 0)
         
     lifetimeGuess = hBarinGeVs / (4.0 * a * b * (c - d * deltaM))
-    precision = 0.001  # precision of desired result
-    lowerlimit = 0.1401 # value below which deltaM is undefined
+    precision = 0.0001  # precision of desired result
+    lowerlimit = mPi  # value below which deltaM is undefined
     if math.fabs((lifetimeInSec - lifetimeGuess) / lifetimeInSec) < precision:
         return (deltaM, prevDeltaMGuess)
     elif math.fabs((deltaM - prevDeltaMGuess) / deltaM) < precision / 10:
@@ -255,14 +255,14 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
             tmp = deltaM
             deltaM -= 0.5 * math.fabs(deltaM - prevDeltaMGuess)
             if deltaM < lowerlimit: 
-                deltaM = lowerlimit
+                deltaM = lowerlimit * (1.0 + precision)
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
         else:
             tmp = deltaM
             deltaM += 0.5 * math.fabs(deltaM - prevDeltaMGuess)
             if deltaM < lowerlimit: 
-                deltaM = lowerlimit
+                deltaM = lowerlimit * (1.0 + precision)
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
                 
