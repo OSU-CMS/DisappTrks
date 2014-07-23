@@ -52,6 +52,7 @@ gStyle.SetTextFont(42)
 gStyle.SetOptTitle(0)
 gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
+gStyle.SetHatchesSpacing(0.1)
 
 gROOT.ForceStyle()
 
@@ -1128,6 +1129,15 @@ def drawPlot(plot):
         function.Draw("same")
         legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
         legend.Draw("same")
+        gStyle.SetHatchesSpacing(0.01) 
+        stableChiLabel = TPaveLabel(0.1,0.1,0.9,0.15," ","NDC")
+        legend.AddEntry(stableChiLabel, "'Stable' #chi^{#pm}_{1}" ,"F")
+        stableChiLabel.SetTextSize(0.6666667)
+        stableChiLabel.SetTextAlign(12)
+        stableChiLabel.SetBorderSize(0)
+        stableChiLabel.SetFillColor(13)
+        stableChiLabel.SetFillStyle(3001)
+        stableChiLabel.Draw("same")
         
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
