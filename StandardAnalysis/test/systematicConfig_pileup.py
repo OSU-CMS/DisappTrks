@@ -68,6 +68,6 @@ systematic_name = "pileup"
 channel = "FullSelection"
 
 minus_condor_dir   = "pileupLow"   
-central_condor_dir = "fullSelectionSystNoCorr"  
+central_condor_dir = "fullSelectionAllSigWithEcalGapVeto"  
 plus_condor_dir    = "pileupHigh" 
 
