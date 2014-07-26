@@ -54,12 +54,12 @@ gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 gStyle.SetHatchesSpacing(0.1)
 
-gStyle.SetPadBottomMargin(0.13)
-gStyle.SetPadTopMargin   (0.08)
-gStyle.SetPadLeftMargin  (0.18)
-gStyle.SetPadRightMargin (0.05)
-gStyle.SetPadTickX       (1)
-gStyle.SetPadTickY       (1)
+## gStyle.SetPadBottomMargin(0.13)
+## gStyle.SetPadTopMargin   (0.08)
+## gStyle.SetPadLeftMargin  (0.18)
+## gStyle.SetPadRightMargin (0.05)
+## gStyle.SetPadTickX       (1)
+## gStyle.SetPadTickY       (1)
 
 
 gROOT.ForceStyle()
