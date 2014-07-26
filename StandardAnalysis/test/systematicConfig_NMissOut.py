@@ -21,11 +21,13 @@ systematic_name = "NMissOut"
 ## plus_condor_dir    = "condor_2014_02_22_FullSelSystSig_NMissOutWithCorr"
 
 # For electron tag-probe correction:  
-minus_condor_dir   = JessDir+"nMissOutCorrNorm_v2" 
+#minus_condor_dir   = JessDir+"nMissOutCorrNorm_v2" 
+minus_condor_dir   = JessDir+"nMissOutShiftDown_v5" 
 #minus_condor_dir   = JessDir+"nMissOutVaryCorr" 
 central_condor_dir = JessDir+"fullSelectionWithEcalGapNoCorr"
-plus_condor_dir    = JessDir+"nMissOutCorrNorm_v2"
+#plus_condor_dir    = JessDir+"nMissOutCorrNorm_v2"
+plus_condor_dir    = JessDir+"nMissOutShiftUp_v6"
 #plus_condor_dir    = JessDir+"nMissOutVaryCorr"
 
-central_gen_condor_dir = WellsDir+"condor_2014_07_09_NoCutsSignal" 
-plus_gen_condor_dir = WellsDir+"condor_2014_07_09_NoCutsSignal_NmissoutReweight"
+#central_gen_condor_dir = WellsDir+"condor_2014_07_09_NoCutsSignal" 
+#plus_gen_condor_dir = WellsDir+"condor_2014_07_09_NoCutsSignal_NmissoutReweight"

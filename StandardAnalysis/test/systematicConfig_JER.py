@@ -67,6 +67,6 @@ usePdfWt = False
 
 #minus_condor_dir   = "condor_2014_02_19_FullSelSystSig_PULo"   
 minus_condor_dir   = "jerDown"   
-central_condor_dir = "fullSelectionSystNoCorr"  
+central_condor_dir = "fullSelectionAllSigWithEcalGapVeto"  
 plus_condor_dir    = "jerUp" 
 
