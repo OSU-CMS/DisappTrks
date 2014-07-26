@@ -2,6 +2,20 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 usePdfWt = False
+useEfficiency = False  
+import os 
+
+cwd = os.getcwd()
+if "wulsin" in cwd:
+    WellsDir = ""
+    JessDir = "JessCondor/"
+elif "jbrinson" in cwd:
+    WellsDir = "WellsCondorNew/"
+    JessDir = ""
+else:
+    print "Error: could not identify user as wulsin or jbrinson."
+    os.exit(0) 
+
 datasets = [
 ##     'AMSB_mGrav32K_0p5ns',
 ##     'AMSB_mGrav32K_1ns',
@@ -58,8 +72,8 @@ def add_charginos (options, masses, ctaus):
 DatasetName]=" + options['dataset_names'][sourceDatasetName]
                                                                                                                         
 
-add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
-#add_stops (options, [200], [1.0,10.0,100.0])
+#add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+add_charginos (options, [200], [1,10,100])
 #add_stops (options, [200], [0.2])
 #add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
 
@@ -67,7 +81,7 @@ add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,4
 systematic_name = "pileup"
 channel = "FullSelection"
 
-minus_condor_dir   = "pileupLow"   
-central_condor_dir = "fullSelectionSystNoCorr"  
-plus_condor_dir    = "pileupHigh" 
+minus_condor_dir   = JessDir+"pileupLow"   
+central_condor_dir = JessDir+"fullSelectionWithEcalGapNoCorr"  
+plus_condor_dir    = JessDir+"pileupHigh" 
 

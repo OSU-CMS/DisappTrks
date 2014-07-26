@@ -53,6 +53,14 @@ gStyle.SetOptTitle(0)
 gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 
+gStyle.SetPadBottomMargin(0.13)
+gStyle.SetPadTopMargin   (0.08)
+gStyle.SetPadLeftMargin  (0.18)
+gStyle.SetPadRightMargin (0.05)
+gStyle.SetPadTickX       (1)
+gStyle.SetPadTickY       (1)
+
+
 gROOT.ForceStyle()
 
 colorSchemes = {
@@ -1056,6 +1064,7 @@ def drawPlot(plot):
     for tGraph in tGraphs:
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
+        tGraph.GetXaxis().SetNdivisions(509)
         if 'xAxisFixMin' in plot:  
             tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])  
             tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])    
