@@ -402,6 +402,12 @@ MCParticleExtraHistograms = cms.PSet(
             name = cms.string("mcparticlePdgIdSusy"), 
             title = cms.string("mcparticlePdgIdSusy; pdgId of SUSY mcparticles"),
             bins = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("id"),
+            ),
+        cms.PSet (
+            name = cms.string("mcparticleAbsPdgIdSusy"), 
+            title = cms.string("mcparticlePdgIdSusy; |pdgId| of SUSY mcparticles"),
+            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
             inputVariables = cms.vstring("fabs(id)"),
             ),
         cms.PSet (
@@ -425,8 +431,14 @@ EventExtraHistograms = cms.PSet(
     inputCollection = cms.string("events"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("totalMcparticleStatus3SusyIdPt"), 
+            title = cms.string("totalMcparticleStatus3SusyIdPt; #sum p_{T} (#chi#chi) [GeV]"),
+            bins = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("totalMcparticleStatus3SusyIdPt"),
+            ),
+        cms.PSet (
             name = cms.string("totalMcparticlePt"), 
-            title = cms.string("totalMcparticlePt; #sum p_{T} of selected mcparticles"),
+            title = cms.string("totalMcparticlePt; #sum p_{T} of selected mcparticles [GeV]"),
             bins = cms.untracked.vdouble(100, 0, 500),  
             inputVariables = cms.vstring("totalMcparticlePt"),
             ),
@@ -1496,8 +1508,14 @@ StopHistograms = cms.PSet(
         ),
       cms.PSet (
         name = cms.string("stopDecayVxy"),
-        title = cms.string("Stop decay length; decayV_{xy} [cm]"),
+        title = cms.string("Stop decay length; L_{xy} [cm]"),
         bins = cms.untracked.vdouble(100, 0, 1000),
+        inputVariables = cms.vstring("decayVxy"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVxyZoom"),
+        title = cms.string("Stop decay length; L_{xy} [cm]"),
+        bins = cms.untracked.vdouble(150, 0, 150),
         inputVariables = cms.vstring("decayVxy"),
         ),
       cms.PSet (
@@ -1514,8 +1532,14 @@ StopHistograms = cms.PSet(
         ),
       cms.PSet (
         name = cms.string("stopDecayVz"),
-        title = cms.string("Stop decay Vz; |decayV_{z}| [cm]"),
+        title = cms.string("Stop decay Vz; |L_{z}| [cm]"),
         bins = cms.untracked.vdouble(100, 0, 1500),
+        inputVariables = cms.vstring("fabs(decayVz)"),
+        ),
+      cms.PSet (
+        name = cms.string("stopDecayVzZoom"),
+        title = cms.string("Stop decay Vz; |L_{z}| [cm]"),
+        bins = cms.untracked.vdouble(200, 0, 400),
         inputVariables = cms.vstring("fabs(decayVz)"),
         ),
       cms.PSet (
@@ -1612,6 +1636,30 @@ MuonJetHistograms = cms.PSet(
       name = cms.string("muonJetDeltaR"),
       title = cms.string("Muon-jet #DeltaR; #DeltaR"),
       bins = cms.untracked.vdouble(100, 0, 6),
+      inputVariables = cms.vstring("deltaR"),
+      ),
+    )
+    )
+
+StopMCPartHistograms = cms.PSet(
+    inputCollection = cms.string("stop-mcparticle pairs"),
+    histograms = cms.VPSet (
+    cms.PSet (
+      name = cms.string("stopMCParticleDeltaR"),
+      title = cms.string("stop-MCparticle #DeltaR; #DeltaR"),
+      bins = cms.untracked.vdouble(100, 0, 2),
+      inputVariables = cms.vstring("deltaR"),
+      ),
+    )
+    )
+
+TrackMCPartHistograms = cms.PSet(
+    inputCollection = cms.string("track-mcparticle pairs"),
+    histograms = cms.VPSet (
+    cms.PSet (
+      name = cms.string("trackMCParticleDeltaR"),
+      title = cms.string("track-MCparticle #DeltaR; #DeltaR"),
+      bins = cms.untracked.vdouble(100, 0, 2),
       inputVariables = cms.vstring("deltaR"),
       ),
     )
