@@ -681,7 +681,9 @@ FullSelectionFilterMCTrack.cuts.append(cutTrkMCPartMatch)
 
 NoCutsFilterMCTrack = copy.deepcopy(NoCutsFilterMC)
 NoCutsFilterMCTrack.name = cms.string("NoCutsFilterMCTrack")
-NoCutsFilterMCTrack.cuts.append(cutTrkMCPartMatch)  
+NoCutsFilterMCTrack.cuts.append(cutTrkMCPartMatchFilter)  
+
+
 
 
 FullSelectionDeadEcalLast = copy.deepcopy(FullSelection) 
@@ -876,6 +878,7 @@ MetJet = cms.PSet(
     name = cms.string("MetJet"),
     triggers = triggersJetMet,
     cuts =
+    cutsStdClean + 
     cutsMET +
     cutsJets, 
     )
@@ -887,11 +890,64 @@ MetJetTrig105 = cms.PSet(
     cutsMET +
     cutsJets,
     )
+
 PreSelection = cms.PSet(
     name = cms.string("PreSelection"),
     triggers = triggersJetMet,
     cuts = cutsPresel, 
     )
+
+
+
+
+ModelIndepGen = cms.PSet(
+    name = cms.string("ModelIndepGen"),
+    cuts = cms.VPSet(
+    cutMCPartStatus3,
+    cutMCPartSusy,
+    cutMCPartChiPlus, # only consider the positive particles, so that there is a single candidate particle per event  
+    cutMCPartEta2p2,
+    cutMCPartPt50,
+    cutStopDecayLengthTrackerXY,
+    cutStopDecayLengthTrackerZ,
+    cutStopMCPartMatch,
+    ), 
+    )
+
+ModelIndepGenTest = cms.PSet(
+    name = cms.string("ModelIndepGenTest"),
+    cuts = cms.VPSet(
+    cutMCPartStatus3,
+#    cutMCPartSusy,
+    cutMCPartChiPlus, # only consider the positive particles, so that there is a single candidate particle per event  
+##     cutMCPartEta2p2,
+##     cutMCPartPt50,
+    cutStopDecayLengthTrackerXY,
+#    cutStopDecayLengthTrackerZ,
+    ), 
+    )
+
+ModelIndepMetJet = copy.deepcopy(ModelIndepGen) 
+ModelIndepMetJet.name = cms.string("ModelIndepMetJet") 
+ModelIndepMetJet.triggers = triggersJetMet105Met120 
+ModelIndepMetJet.cuts = ModelIndepMetJet.cuts + \
+                        MetJet.cuts
+for i in xrange(len(ModelIndepMetJet.cuts) - 1, -1, -1):
+    if ModelIndepMetJet.cuts[i].cutString == cutStopMCPartMatch.cutString:
+        ModelIndepMetJet.cuts.insert(len(ModelIndepMetJet.cuts), ModelIndepMetJet.cuts.pop(i))
+        # move cutStopMCPartMatch to the end of cutflow, to avoid problem identified in slides 20140724_groupMtg, p. 24.  
+
+ModelIndepFullSel = copy.deepcopy(ModelIndepGen) 
+ModelIndepFullSel.name = cms.string("ModelIndepFullSel") 
+ModelIndepFullSel.triggers = triggersJetMet105Met120 
+ModelIndepFullSel.cuts = ModelIndepFullSel.cuts + \
+                         FullSelection.cuts + \
+                         cms.VPSet(cutTrkMCPartMatch)
+for i in xrange(len(ModelIndepFullSel.cuts) - 1, -1, -1):
+    if ModelIndepFullSel.cuts[i].cutString == cutStopMCPartMatch.cutString:
+        ModelIndepFullSel.cuts.insert(len(ModelIndepFullSel.cuts), ModelIndepFullSel.cuts.pop(i))
+        # move cutStopMCPartMatch to the end of cutflow, to avoid problem identified in slides 20140724_groupMtg, p. 24.  
+
 
 PreSelectionElecIdNoLepVeto = cms.PSet(
     name = cms.string("PreSelectionElecIdNoElecVeto"),

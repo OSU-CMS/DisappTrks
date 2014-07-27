@@ -1885,6 +1885,11 @@ cutMCPartPdgMu = cms.PSet (
     cutString = cms.string("fabs(id) == 13"),
     numberRequired = cms.string(">= 1"),  
     )
+cutMCPartPdgPos = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("id > 0"),  
+    numberRequired = cms.string(">= 1"),  
+    )
 cutMCPartStatus3 = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("status == 3"),
@@ -1900,13 +1905,16 @@ cutMCPartSusy = cms.PSet (
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
     numberRequired = cms.string(">= 1"),  
     )
-
 cutMCPartChi = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("fabs(id) == 1000024"),
     numberRequired = cms.string(">= 1"),
     )
-
+cutMCPartChiPlus = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("id == 1000024"),
+    numberRequired = cms.string(">= 1"),
+    )
 cutMCPartSusyFilter = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("fabs(id) > 1000001 && fabs(id) < 3160113"),
@@ -1935,6 +1943,11 @@ cutMCPartPt30 = cms.PSet (
 cutMCPartPt50 = cms.PSet (
     inputCollection = cms.string("mcparticles"),
     cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutMCPartEta2p2 = cms.PSet (
+    inputCollection = cms.string("mcparticles"),
+    cutString = cms.string("fabs(eta) < 2.2"),
     numberRequired = cms.string(">= 1"),  
     )
 
@@ -1977,6 +1990,16 @@ cutStopDecayLengthNonZeroN2 = cms.PSet (
     cutString = cms.string("decayLength > 0"),
     numberRequired = cms.string(">= 2"),  
     )
+cutStopDecayLengthTrackerXY = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVxy) < 110"),
+    numberRequired = cms.string(">= 1"),  
+    )
+cutStopDecayLengthTrackerZ = cms.PSet (
+    inputCollection = cms.string("stops"),
+    cutString = cms.string("fabs(decayVz) < 280"),
+    numberRequired = cms.string(">= 1"),  
+    )
 cutStopDecayLengthTrackerN2 = cms.PSet (
     inputCollection = cms.string("stops"),
     cutString = cms.string("fabs(decayVxy) < 110 && fabs(decayVz) < 280"),
@@ -2012,6 +2035,7 @@ cutVtxGood = cms.PSet (
     )
 
 
+
 ######################################
 #-- Cuts on track-mcparticle pairs --#
 ######################################
@@ -2020,8 +2044,31 @@ cutTrkMCPartPair = cms.PSet (
     cutString = cms.string("deltaR > -1"),
     numberRequired = cms.string(">= 0"),
     )
-cutTrkMCPartMatch = cms.PSet (
+cutTrkMCPartMatchFilter = cms.PSet (
     inputCollection = cms.string("track-mcparticle pairs"),
     cutString = cms.string("deltaR < 0.05"),
     numberRequired = cms.string(">= 0"),
     )
+cutTrkMCPartMatch = cms.PSet (
+    inputCollection = cms.string("track-mcparticle pairs"),
+    cutString = cms.string("deltaR < 0.05"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+######################################
+#-- Cuts on track-mcparticle pairs --#
+######################################
+cutStopMCPartPair = cms.PSet (
+    inputCollection = cms.string("stop-mcparticle pairs"),
+    cutString = cms.string("deltaR > -1"),
+    numberRequired = cms.string(">= 0"),
+    )
+cutStopMCPartMatch = cms.PSet (
+    inputCollection = cms.string("stop-mcparticle pairs"),
+    cutString = cms.string("deltaR < 0.05"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+
