@@ -18,7 +18,6 @@ options['maxEvents'] = maxEvents
 options['types'] = types
 options['labels'] = labels
  
-#add_charginos (options, [100,200,300,400,500,600], [3,10,30,100,300,1000])  
 add_charginos (options, [300,500], [10,100,1000])  
             
 
