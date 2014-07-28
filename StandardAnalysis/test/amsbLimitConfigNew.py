@@ -55,7 +55,7 @@ lumi = 19500
 #condor directory in which to find signal root files
 #signal_condor_dir = WellsDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
 #signal_condor_dir = WellsDir + 'condor_2014_06_12_FullSelection_AllMC'  
-signal_condor_dir = JessDir + 'fullSelectionAllSigBothTrig'  
+signal_condor_dir = JessDir + 'fullSelectionAllSigBothTrig_24July'  
 
 #name of event selection from which to take signal yields
 #signal_channel = 'FullSelectionFilterMC'  

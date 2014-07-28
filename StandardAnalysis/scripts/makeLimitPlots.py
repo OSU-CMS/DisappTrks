@@ -53,6 +53,14 @@ gStyle.SetOptTitle(0)
 gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 gStyle.SetHatchesSpacing(0.1)
+gStyle.SetPadTopMargin   (0.06);
+gStyle.SetPadLeftMargin  (0.11);
+gStyle.SetPadRightMargin (0.11);
+gStyle.SetPadGridX       (0);
+gStyle.SetPadGridY       (0);
+gStyle.SetPadTickX       (1);
+gStyle.SetPadTickY       (1);
+gStyle.SetNdivisions       (509, "X");
 
 ## gStyle.SetPadBottomMargin(0.13)
 ## gStyle.SetPadTopMargin   (0.08)
@@ -115,15 +123,16 @@ if(intLumi < 1000.):
     LumiInPb = lumi
 ##     LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
 ##     LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
-    LumiText = "L = " + str(intLumi) + " pb^{-1}"
-    LumiText = "L = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+    LumiText = str(intLumi) + " pb^{-1}"
+    LumiText = str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
 else:
     LumiInFb = intLumi/1000.
 #    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
-    LumiText = "L = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+    LumiText = str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
 
 #set the text for the fancy heading
-HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
+#HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
+HeaderText = LumiText + " (8 TeV)"
 
 
 
@@ -876,13 +885,14 @@ def drawPlot(plot):
         canvas.SetLogy()
 
     if convertToMassSplitting: 
-        legend = TLegend(0.3338926,0.513986,0.9647651,0.8461538)  # determine coordinates empirically
+        legend = TLegend(0.2684564,0.5034965,0.897651,0.8356643)  # determine coordinates empirically
     else:
         legend = TLegend(0.1895973,0.3548951,0.5889262,0.6346154)        
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
-    legend.SetTextFont(42)  
+    legend.SetTextFont(42)
+    legend.SetTextSize(0.03)
 
     #construct tGraph objects for all curves and draw them
     tGraphs = []
@@ -1068,10 +1078,13 @@ def drawPlot(plot):
         tGraph.GetXaxis().SetNdivisions(509)
         if 'xAxisFixMin' in plot:  
             tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])  
-            tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])    
+            tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
+            tGraph.GetXaxis().SetTitleOffset(1.2)
         else:
             tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
             tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
+            tGraph.GetXaxis().SetTitleOffset(1.2)
+
         if not is2D:
             #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
             tGraph.GetYaxis().SetTitle('#sigma (pp#rightarrow #chi#chi) [pb]')
@@ -1081,6 +1094,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
         else:
             tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
+            tGraph.GetYaxis().SetTitleOffset(1.47)
             if 'yAxisFixMin' in plot:  
                 tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])  
                 tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])    
@@ -1093,16 +1107,29 @@ def drawPlot(plot):
     canvas.SetTitle('')
     #draw the header label
 #    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
-    HeaderLabel = TPaveLabel(0.08892617, 0.9458042, 0.9681208, 0.9965035,HeaderText,"NDC") # from makePlots.py  
+    HeaderLabel = TPaveLabel(0.03187919, 0.9440559, 0.9110738, 0.9947552,HeaderText,"NDC") # from makePlots.py  
     HeaderLabel.SetTextAlign(32)
     HeaderLabel.SetBorderSize(0)
     HeaderLabel.SetFillColor(0)
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
-
+    if convertToMassSplitting:
+        LumiLabel = TPaveLabel(0.1241611,0.8374126,0.4463087,0.9370629,"CMS","NDC")
+    else:
+        LumiLabel = TPaveLabel(0.7063758,0.8321678,0.9765101,0.9318182,"CMS","NDC")
+    LumiLabel.SetTextFont(62)
+    LumiLabel.SetTextAlign(12)
+    LumiLabel.SetBorderSize(0)
+    LumiLabel.SetFillColor(0)
+    LumiLabel.SetFillStyle(0)
+    LumiLabel.Draw()
+    
     if 'theoryLabel' in plot: 
 #        TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC") # old
-        TheoryLabel = TPaveLabel(0.5218121,0.8339161,0.9362416,0.9038462,plot['theoryLabel'],"NDC")
+        if convertToMassSplitting:
+            TheoryLabel = TPaveLabel(0.4412,0.84965,0.85570,0.9195804,plot['theoryLabel'],"NDC")
+        else:
+            TheoryLabel = TPaveLabel(0.4597315,0.7657343,0.8741611,0.8356643,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
         TheoryLabel.SetBorderSize(0)
         TheoryLabel.SetFillColor(0)
@@ -1139,8 +1166,8 @@ def drawPlot(plot):
         legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
         legend.Draw("same")
         gStyle.SetHatchesSpacing(0.01) 
-        stableChiLabel = TPaveLabel(0.1,0.1,0.9,0.15," ","NDC")
-        legend.AddEntry(stableChiLabel, "'Stable' #chi^{#pm}_{1}" ,"F")
+        stableChiLabel = TPaveLabel(0.1107383,0.1010396,0.8926174,0.1503497," ","NDC")
+        legend.AddEntry(stableChiLabel, "#chi^{#pm} #rightarrow #chi^{0} #pi^{#pm} forbidden" ,"F")
         stableChiLabel.SetTextSize(0.6666667)
         stableChiLabel.SetTextAlign(12)
         stableChiLabel.SetBorderSize(0)
