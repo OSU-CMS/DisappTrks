@@ -184,7 +184,7 @@ def writeDatacard(mass,lifetime):
     process_name_row.append(signal_dataset)
     process_index_row.append(str(process_index))
     process_index = process_index + 1
-    rate_row.append(str(round(signal_yield,4)))
+    rate_row.append(str(round(signal_yield,6)))
     empty_row.append('')
 
     #add background yields
@@ -211,7 +211,7 @@ def writeDatacard(mass,lifetime):
     
     #add a row for the statistical error of the signal
     if arguments.runGamma:
-        signal_error_string = str(round(signal_yield_weight,4))
+        signal_error_string = str(round(signal_yield_weight,6))
     else:
         signal_error = signalYieldAndError['error']
         signal_error_string = str(round(signal_error,3))
