@@ -93,10 +93,11 @@ colorSchemes = {
         'twoSigma' : 623,
     },
     'blue' : {
-        'obs' : 601,
+        'obs' : 1,
         'exp' : 601,
         'oneSigma' : 594,
-        'twoSigma' : 591,
+#        'twoSigma' : 591,
+        'twoSigma' : 623,
     },
     'green' : {
         'obs' : 418,
@@ -777,6 +778,70 @@ def fetchLimits(mass,lifetime,directories):
 
         #########################################################
 
+        elif method == "HybridNew":
+            # Initialize to large default value, to avoid errors if a single point fails
+            tmp_limit['observed'] = 99999.
+            tmp_limit['expected'] = 99999.
+            tmp_limit['up1'] = 99999.
+            tmp_limit['up2'] = 99999.
+            tmp_limit['down1'] = 99999.
+            tmp_limit['down2'] = 99999.
+
+#            print "Debug:  opening file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
+            #            print makeSignalLogFileName(mass,lifetime,directory,"expected")
+            i = 0
+            for line in file:
+##                 if i < 10:
+##                     print "Debug: line = ", line
+##                 i += 1
+                if "Limit:" in line:
+                    tmp_limit['expected'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate
+ #                   print "Debug:  Setting limit from line:  ", line  
+            file.close()
+            print "Debug:  found expected limit: ", tmp_limit['expected']  
+
+#            print "Debug: opening observed file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['observed'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate 
+            file.close()
+            print "Debug:  found observed limit: ", tmp_limit['observed']  
+
+#            print "Debug: opening up1 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up1"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['up1'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate 
+            file.close()
+            print "Debug:  found up1 limit: ", tmp_limit['up1']  
+
+#            print "Debug: opening up2 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up2"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['up2'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate 
+            file.close()
+            print "Debug:  found up2 limit: ", tmp_limit['up2']  
+
+#            print "Debug: opening down1 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down1"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['down1'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate 
+            file.close()
+            print "Debug:  found down1 limit: ", tmp_limit['down1']  
+
+#            print "Debug: opening down2 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down2"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['down2'] = float(line.split(" ")[3])  # Use the last occurence of "Limit:" as the most accurate 
+            file.close()
+            print "Debug:  found down2 limit: ", tmp_limit['down2']  
+
+
         # for other methods, get the ranges from the log file
         else:
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
@@ -809,6 +874,10 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
         tmp_limit['down2'] = math.fabs(tmp_limit['down2'] - tmp_limit['expected'])
         tmp_limit['down1'] = math.fabs(tmp_limit['down1'] - tmp_limit['expected'])
+
+        # The limit on r reported by the Higgs combine tool corresponds to:
+        # r = N_lim / N_predicted, the ratio of the limit on the number of events N_lim to the number of events predicted (the rate in the datacard) N_predicted
+        # r = sigma_lim / sigma_predicted, the ratio of the limit on the cross section to the predicted cross section.  
 
         xSection = float(signal_cross_sections[str(mass)]['value'])
 #        xSection = float(signal_cross_sections[str(chMass)]['value'])
@@ -921,48 +990,54 @@ def drawPlot(plot):
             for graphName in graph['graphsToInclude']:
                 if graphName is 'twoSigma':
                     tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    tGraphs[-1].SetLineWidth(3)
                     if plotDrawn:
-                        tGraphs[-1].Draw('3')
+#                        tGraphs[-1].Draw('3')
+                        tGraphs[-1].Draw('P')
                     else:
-                        tGraphs[-1].Draw('A3')
+#                        tGraphs[-1].Draw('A3')
+                        tGraphs[-1].Draw('AP')
                     plotDrawn = True
                     legendEntry = '#pm 2 #sigma'
                     if graphName is 'legendEntry':
                         legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'PL')
                 if graphName is 'oneSigma':
                     tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    tGraphs[-1].SetLineWidth(3)
                     if plotDrawn:
-                        tGraphs[-1].Draw('3')
+#                        tGraphs[-1].Draw('3')
+                        tGraphs[-1].Draw('P')
                     else:
-                        tGraphs[-1].Draw('A3')
+#                        tGraphs[-1].Draw('A3')
+                        tGraphs[-1].Draw('AP')
                     plotDrawn = True
                     legendEntry = '#pm 1 #sigma'
                     if graphName is 'legendEntry':
                         legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'PL')
                 if graphName is 'exp':
                     tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                     if plotDrawn:
-                        tGraphs[-1].Draw('L')
+                        tGraphs[-1].Draw('P')
                     else:
-                        tGraphs[-1].Draw('AL')
+                        tGraphs[-1].Draw('AP')
                     plotDrawn = True
                     legendEntry = 'exp. limit'
                     if graphName is 'legendEntry':
                         legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'P')
                 if graphName is 'obs':
                     tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                     if plotDrawn:
-                        tGraphs[-1].Draw('L')
+                        tGraphs[-1].Draw('P')
                     else:
-                        tGraphs[-1].Draw('AL')
+                        tGraphs[-1].Draw('AP')
                     plotDrawn = True
                     legendEntry = 'obs. limit'
                     if graphName is 'legendEntry':
                         legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'P')
         else:
             for graphName in graph['graphsToInclude']:
                 if graphName is 'twoSigma':
@@ -1088,6 +1163,8 @@ def drawPlot(plot):
         if not is2D:
             #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
             tGraph.GetYaxis().SetTitle('#sigma (pp#rightarrow #chi#chi) [pb]')
+            if 'yAxisLabel' in plot:
+                tGraph.GetYaxis().SetTitle('#sigma (pp#rightarrow #chi#chi) [pb]' + plot['yAxisLabel'])
             if 'yAxis' in plot:
                 tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
             else:
@@ -1216,7 +1293,8 @@ for plot in plotDefinitions:
                 if limit is not -1:
                     graph['limits'].append(limit)
                 else:
-                    print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']  
+#                    print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']  
+                    print "WARNING: for xAxisType=mass, not plotting mass: ", str (mass), " GeV, lifetime: ", str (lifetime), ", source: ", graph['source']  
         elif 'yAxisType' in plot:
             for mass in masses:
                 for lifetime in lifetimes:
