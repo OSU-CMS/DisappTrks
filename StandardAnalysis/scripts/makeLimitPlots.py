@@ -40,8 +40,9 @@ else:
     sys.exit(0)
 
 
-from ROOT import TF1, TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
-
+from ROOT import TF1, TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TStyle
+#gROOT.LoadMacro("tdrstyle.C");
+#setTDRStyle();
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 gStyle.SetCanvasBorderMode(0)
@@ -61,6 +62,7 @@ gStyle.SetPadGridY       (0);
 gStyle.SetPadTickX       (1);
 gStyle.SetPadTickY       (1);
 gStyle.SetNdivisions       (509, "X");
+gROOT.ForceStyle()
 
 ## gStyle.SetPadBottomMargin(0.13)
 ## gStyle.SetPadTopMargin   (0.08)
@@ -134,8 +136,119 @@ else:
 #HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
 HeaderText = LumiText + " (8 TeV)"
 
+def setTDRStyle():
+    tdrStyle = TStyle("tdrStyle","Style for P-TDR") 
+    tdrStyle.SetCanvasBorderMode(0) 
+#    tdrStyle.SetCanvasColor(kWhite) 
+    tdrStyle.SetCanvasColor(0) 
+    tdrStyle.SetCanvasDefH(600)  
+    tdrStyle.SetCanvasDefW(600)  
+    tdrStyle.SetCanvasDefX(0)    
+    tdrStyle.SetCanvasDefY(0) 
+    
+    tdrStyle.SetPadBorderMode(0) 
+#    tdrStyle.SetPadColor(kWhite) 
+    tdrStyle.SetPadColor(0) 
+#    tdrStyle.SetPadGridX(kFALSE) 
+    tdrStyle.SetPadGridX(0) 
+#    tdrStyle.SetPadGridY(false) 
+    tdrStyle.SetPadGridY(0) 
+    tdrStyle.SetGridColor(0) 
+    tdrStyle.SetGridStyle(3) 
+    tdrStyle.SetGridWidth(1) 
+
+    tdrStyle.SetFrameBorderMode(0) 
+    tdrStyle.SetFrameBorderSize(1) 
+    tdrStyle.SetFrameFillColor(0) 
+    tdrStyle.SetFrameFillStyle(0) 
+    tdrStyle.SetFrameLineColor(1) 
+    tdrStyle.SetFrameLineStyle(1) 
+    tdrStyle.SetFrameLineWidth(1) 
+    
+    tdrStyle.SetHistLineColor(1) 
+    tdrStyle.SetHistLineStyle(0) 
+    tdrStyle.SetHistLineWidth(1) 
+    
+    tdrStyle.SetEndErrorSize(2) 
+    tdrStyle.SetErrorX(0.) 
+    
+    tdrStyle.SetMarkerStyle(20) 
+    
+    tdrStyle.SetOptFit(1) 
+    tdrStyle.SetFitFormat("5.4g") 
+    tdrStyle.SetFuncColor(2) 
+    tdrStyle.SetFuncStyle(1) 
+    tdrStyle.SetFuncWidth(1) 
+
+    tdrStyle.SetOptDate(0) 
+
+    tdrStyle.SetOptFile(0) 
+    tdrStyle.SetOptStat(0) 
+#    tdrStyle.SetStatColor(kWhite) 
+    tdrStyle.SetStatColor(0) 
+    tdrStyle.SetStatFont(42) 
+    tdrStyle.SetStatFontSize(0.025) 
+    tdrStyle.SetStatTextColor(1) 
+    tdrStyle.SetStatFormat("6.4g") 
+    tdrStyle.SetStatBorderSize(1) 
+    tdrStyle.SetStatH(0.1) 
+    tdrStyle.SetStatW(0.15) 
+
+    tdrStyle.SetPadTopMargin(0.07) 
+#    tdrStyle.SetPadBottomMargin(0.13) 
+    tdrStyle.SetPadBottomMargin(0.16) 
+    tdrStyle.SetPadLeftMargin(0.16) 
+#    tdrStyle.SetPadRightMargin(0.02) 
+    tdrStyle.SetPadRightMargin(0.06) 
+
+    tdrStyle.SetOptTitle(0) 
+    tdrStyle.SetTitleFont(42) 
+    tdrStyle.SetTitleColor(1) 
+    tdrStyle.SetTitleTextColor(1) 
+    tdrStyle.SetTitleFillColor(10) 
+    tdrStyle.SetTitleFontSize(0.05) 
+    
+    tdrStyle.SetTitleColor(1, "XYZ") 
+    tdrStyle.SetTitleFont(42, "XYZ") 
+    tdrStyle.SetTitleSize(0.06, "XYZ") 
+    
+#    tdrStyle.SetTitleXOffset(0.9) 
+    tdrStyle.SetTitleXOffset(1.1) 
+#    tdrStyle.SetTitleYOffset(1.25) 
+#    tdrStyle.SetTitleYOffset(1.2) 
+    tdrStyle.SetTitleYOffset(1.1) 
 
 
+    tdrStyle.SetTitleColor(1, "XYZ") 
+    tdrStyle.SetTitleFont(42, "XYZ") 
+    tdrStyle.SetTitleSize(0.06, "XYZ") 
+    
+    tdrStyle.SetTitleXOffset(1.1) 
+#    tdrStyle.SetTitleYOffset(1.25) 
+    tdrStyle.SetTitleYOffset(1.23) 
+    
+    tdrStyle.SetLabelColor(1, "XYZ") 
+    tdrStyle.SetLabelFont(42, "XYZ") 
+    tdrStyle.SetLabelOffset(0.007, "XYZ") 
+#    tdrStyle.SetLabelSize(0.05, "XYZ") 
+    tdrStyle.SetLabelSize(0.045, "XYZ") 
+    
+    
+    tdrStyle.SetAxisColor(1, "XYZ") 
+#    tdrStyle.SetStripDecimals(kTRUE) 
+    tdrStyle.SetStripDecimals(1) 
+    tdrStyle.SetTickLength(0.03, "XYZ") 
+    tdrStyle.SetNdivisions(510, "XYZ") 
+    tdrStyle.SetPadTickX(1)
+    tdrStyle.SetPadTickY(1) 
+
+    tdrStyle.SetOptLogx(0) 
+    tdrStyle.SetOptLogy(0) 
+    tdrStyle.SetOptLogz(0) 
+    
+    tdrStyle.SetPaperSize(20.,20.) 
+
+    tdrStyle.cd()
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.5", "0p5")
@@ -323,6 +436,9 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 break
             previous_mass = mass
         mass_limit = 0.0
+#        mass_limit = first_allowed_mass
+        if previous_mass == first_allowed_mass:
+            first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
             x1 = previous_mass
@@ -830,6 +946,7 @@ def fetchLimits(mass,lifetime,directories):
 
 
 def drawPlot(plot):
+    setTDRStyle()
     is2D = 'yAxisType' in plot
     isMakeTable = False
     outputFile.cd()
@@ -885,9 +1002,9 @@ def drawPlot(plot):
         canvas.SetLogy()
 
     if convertToMassSplitting: 
-        legend = TLegend(0.2684564,0.5034965,0.897651,0.8356643)  # determine coordinates empirically
+        legend = TLegend(0.3221477,0.5262238,0.9513423,0.8583916)  # determine coordinates empirically
     else:
-        legend = TLegend(0.1895973,0.3548951,0.5889262,0.6346154)        
+        legend = TLegend(0.238255,0.4020979,0.6375839,0.6818182)        
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1079,11 +1196,11 @@ def drawPlot(plot):
         if 'xAxisFixMin' in plot:  
             tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])  
             tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
-            tGraph.GetXaxis().SetTitleOffset(1.2)
+#            tGraph.GetXaxis().SetTitleOffset(1.2)
         else:
             tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
             tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
-            tGraph.GetXaxis().SetTitleOffset(1.2)
+#            tGraph.GetXaxis().SetTitleOffset(1.2)
 
         if not is2D:
             #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
@@ -1094,7 +1211,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
         else:
             tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
-            tGraph.GetYaxis().SetTitleOffset(1.47)
+#            tGraph.GetYaxis().SetTitleOffset(1.47)
             if 'yAxisFixMin' in plot:  
                 tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])  
                 tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])    
@@ -1107,16 +1224,18 @@ def drawPlot(plot):
     canvas.SetTitle('')
     #draw the header label
 #    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
-    HeaderLabel = TPaveLabel(0.03187919, 0.9440559, 0.9110738, 0.9947552,HeaderText,"NDC") # from makePlots.py  
+    HeaderLabel = TPaveLabel(0.08557047,0.9458042,0.9647651,0.9965035,HeaderText,"NDC") # from makePlots.py  
     HeaderLabel.SetTextAlign(32)
+    HeaderLabel.SetTextFont(42)
     HeaderLabel.SetBorderSize(0)
     HeaderLabel.SetFillColor(0)
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
     if convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.1241611,0.8374126,0.4463087,0.9370629,"CMS","NDC")
+        LumiLabel = TPaveLabel(0.1828859,0.8326573,0.5050336,0.9323077,"CMS","NDC")
     else:
-        LumiLabel = TPaveLabel(0.7063758,0.8321678,0.9765101,0.9318182,"CMS","NDC")
+#        LumiLabel = TPaveLabel(0.7063758,0.8321678,0.9765101,0.9318182,"CMS","NDC")
+        LumiLabel = TPaveLabel(0.7533557,0.8274126,0.9496644,0.9270629,"CMS","NDC")
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
     LumiLabel.SetBorderSize(0)
@@ -1127,10 +1246,12 @@ def drawPlot(plot):
     if 'theoryLabel' in plot: 
 #        TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC") # old
         if convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.4412,0.84965,0.85570,0.9195804,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.4983221,0.8618881,0.9127517,0.9318182,plot['theoryLabel'],"NDC")
         else:
-            TheoryLabel = TPaveLabel(0.4597315,0.7657343,0.8741611,0.8356643,plot['theoryLabel'],"NDC")
+#            TheoryLabel = TPaveLabel(0.4597315,0.7657343,0.8741611,0.8356643,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.5067114,0.7832168,0.9211409,0.8531469,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
+        TheoryLabel.SetTextFont(42)
         TheoryLabel.SetBorderSize(0)
         TheoryLabel.SetFillColor(0)
         TheoryLabel.SetFillStyle(0)
@@ -1166,7 +1287,7 @@ def drawPlot(plot):
         legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
         legend.Draw("same")
         gStyle.SetHatchesSpacing(0.01) 
-        stableChiLabel = TPaveLabel(0.1107383,0.1010396,0.8926174,0.1503497," ","NDC")
+        stableChiLabel = TPaveLabel(0.1577181,0.1590909,0.9395973,0.208042," ","NDC")
         legend.AddEntry(stableChiLabel, "#chi^{#pm} #rightarrow #chi^{0} #pi^{#pm} forbidden" ,"F")
         stableChiLabel.SetTextSize(0.6666667)
         stableChiLabel.SetTextAlign(12)
