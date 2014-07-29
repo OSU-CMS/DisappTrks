@@ -643,10 +643,24 @@ TriggerJetMetDebug3 = cms.PSet(
 
 FullSelection = cms.PSet(
     name = cms.string("FullSelection"),
-#    triggers = triggersJetMet95Met120,
     triggers = triggersJetMet,
     cuts = cutsFullSelection, 
     )
+
+FullSelectionMetJet95 = cms.PSet(
+    name = cms.string("FullSelection"),
+    triggers = triggersJetMet95Met120,
+    #    triggers = triggersJetMet,
+    cuts = cutsFullSelection,
+    )
+
+FullSelectionMetJet105 = cms.PSet(
+    name = cms.string("FullSelection"),
+    triggers = triggersJetMet105Met120,
+    #    triggers = triggersJetMet,
+    cuts = cutsFullSelection,
+    )
+
 
 
 FullSelectionTrigEmulate95MC = copy.deepcopy(FullSelection)
