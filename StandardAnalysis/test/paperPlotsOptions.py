@@ -474,13 +474,13 @@ paper_histograms = [
 
   #  track pT: data & bkgd estimate 
   {
-    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'condor_dir' : WellsDir+'condor_2014_07_03_BkgdEstFullSel', 
     'channel' : 'FullSelection', 
     'name' : 'trackPt', 
     'output_name': 'trackPt_FullSelEst', 
     'output_dir' : 'figuresAN',
     'datasets' : bkgdEst_datasets, 
-#    'rebinFactor' : 10,
+    'rebinFactor' : 2,
     'normalizeToUnitArea' : False, 
     'setYMin' : 1e-3,  
     'setYMax' : 10, 
@@ -508,9 +508,9 @@ paper_histograms = [
     'makeFancy' : True,
   },
 
-  #  track NHits: data & bkgd estimate 
+  #  track NMissOut: data & bkgd estimate 
   {
-    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'condor_dir' : WellsDir+'condor_2014_07_03_BkgdEstFullSel', 
     'channel' : 'FullSelection', 
     'name' : 'trackNHitsMissingOuter', 
     'output_name': 'trackNHitsMissingOuter_FullSelEst', 
@@ -528,7 +528,7 @@ paper_histograms = [
 
   #  track Ecalo: data & bkgd estimate 
   {
-    'condor_dir' : WellsDir+'condor_2014_06_27_BkgdEstFullSel', 
+    'condor_dir' : WellsDir+'condor_2014_07_03_BkgdEstFullSel', 
     'channel' : 'FullSelection', 
     'name' : 'trackCaloTot_RhoCorr', 
     'output_name': 'trackCaloTot_RhoCorr_FullSelEst', 
