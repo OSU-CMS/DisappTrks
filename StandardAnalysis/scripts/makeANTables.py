@@ -272,10 +272,8 @@ systTotPerSample['value'] = []
 massMin = 300
 massMax = 600
 
-#lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','80000','9000','10000']
-lifetimes = ['20','30','40','50','60','70','100','200','300','400','500','600','700','800','900']  
-#masses = ['100', '200', '300', '400', '500', '600']
-masses = ['300', '500', '600']
+lifetimes = ['20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900']  
+masses = ['100','200', '300', '400', '500', '600']
 
 for systematic in external_systematic_uncertainties:
     systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
@@ -283,26 +281,30 @@ for systematic in external_systematic_uncertainties:
     systRange = []
     for line in fSyst:
         for cTau in lifetimes:
-            #        for cTau in range(cTauMin, cTauMax):
-            #            for mass in range(massMin, massMax,100):
             for mass in masses: 
                 string = "AMSB_chargino_" + str(mass) + "GeV_RewtCtau" + str(cTau) + "cm"
                 if string in line:
-                    #print string
                     word = float(line.strip().split()[2])
                     percent = math.fabs((1.0 - word))*100
-                    if cTau == 80 and mass == 500 and systematic == 'trigEff':
-                        percent = 1
+                    if mass == "100" and float(cTau) > 100 and float(cTau) < 10000 and systematic == 'NMissOut':
+                        continue
                     systRange.append(round(percent,2))
-                    #print systRange
                     systHolder = round(percent,2)
 ## set range to be quoted
+    systRange.sort()  
     largest = max(systRange)
     if largest > 50:
         largestTot = 0
     else:
         largestTot = largest
     smallest = min (systRange)
+
+    idx5  = int(0.05 * len(systRange))
+    idx95 = int(0.95 * len(systRange))
+    smallest90 = systRange[idx5]
+    largest90  = systRange[idx95]
+    print "Debug:  for systematic:  ", systematic, ", full range is: ", smallest, " - ", largest, ", 5% - 95% range is: ", smallest90, " - ", largest90, " num points sampled: ", len(systRange)  
+    print systRange
     
 ## put in format to be used by AN
     if str(systematic) == "Isr":
@@ -327,23 +329,20 @@ for systematic in external_systematic_uncertainties:
         fancyString = str(systematic).replace("pileup", "Pile-up")
     else:
         print "Error:  unrecognized systematic:  ", systematic
-        sys.exit(0)
-        
-    if smallest < 0.05:
-        content += str(fancyString) + " " +  "&" + str(largestTot) + "\\% \\\\ \n" 
-    else:
-        content += str(fancyString) + " " +  "&" + str(smallest) + " - " + str(largestTot) + "\\% \\\\ \n"
+        sys.exit(0)        
+    content += str(fancyString) + " " +  "&" + str(smallest) + " - " + str(largestTot) + "\\% \\\\ \n"
 
 
 ## retrieve systematics that are a single value for all signal samples
 for systematic in signal_systematic_uncertainties:
     if str(systematic) == "lumi":
-        fancyString = str(systematic).replace("lumi", "%")
-    fancyString = str(systematic).replace("lumi", "%")
+        fancyString = str(systematic).replace("lumi", "%lumi")
     if str(systematic) == "Nmissin":
         fancyString = str(systematic).replace("Nmissin", "\Nmissin modeling")
     if str(systematic) == "Nmissmid":
         fancyString = str(systematic).replace("Nmissmid", "\Nmissmid modeling")
+    if str(systematic) == "Ecalo":
+        fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     if str(systematic) == "trkReco":
         fancyString = str(systematic).replace("trkReco", "Track reconstruction efficiency")
     content += str(fancyString) + " " +  "&" + str((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n" 
@@ -352,8 +351,6 @@ for systematic in signal_systematic_uncertainties:
 systRangeTot = []
 lifetimeRangeTot = []
 for cTau in lifetimes:
-    #    for cTau in range(cTauMin, cTauMax):
-    #    for mass in range(massMin, massMax, 100):
     for mass in masses: 
         systRangePerSample = []
         for systematic in external_systematic_uncertainties:
@@ -401,7 +398,6 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
-
 
 ###################################################
 # Electron inefficiency table:
