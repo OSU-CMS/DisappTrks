@@ -1364,7 +1364,8 @@ def drawPlot(plot):
         legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
         legend.Draw("same")
         gStyle.SetHatchesSpacing(0.01) 
-        stableChiLabel = TPaveLabel(0.1577181,0.1590909,0.9395973,0.208042," ","NDC")
+        mPi = 0.13957018  # units of GeV, from PDG
+        stableChiLabel = TPaveLabel(100, plot['yAxisFixMin'], 600, mPi*1000, "")  
         legend.AddEntry(stableChiLabel, "#chi^{#pm} #rightarrow #chi^{0} #pi^{#pm} forbidden" ,"F")
         stableChiLabel.SetTextSize(0.6666667)
         stableChiLabel.SetTextAlign(12)
