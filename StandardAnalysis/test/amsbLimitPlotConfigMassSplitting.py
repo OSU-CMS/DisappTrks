@@ -12,7 +12,7 @@ convertToMassSplitting = True
 outputName = "limit_plotMassSplitting.root"
 
 
-lifetimes = ['2','3','4','6','7','8','9','10','20','30','40','50','70','100']  
+lifetimes = ['2','3','4','6','7','8','9','10','20','30','40','50','70','80','90','100']  
 
 
 # description of all the plots to be made
@@ -34,7 +34,7 @@ plotDefinitions = [
 
      'xAxisFixMin' : 100, 
      'xAxisFixMax' : 600,
-     'yAxisFixMin' : 140, 
+     'yAxisFixMin' : 135, 
      'yAxisFixMax' : 220,
 
      'theoryLabel' : 'tan#beta = 5, #mu > 0', 
