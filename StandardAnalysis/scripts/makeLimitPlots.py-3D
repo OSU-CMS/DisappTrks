@@ -877,6 +877,70 @@ def fetchLimits(mass,lifetime,directories):
 
         #########################################################
 
+        elif method == "HybridNew":
+            # Initialize to large default value, to avoid errors if a single point fails
+            tmp_limit['observed'] = 99999.
+            tmp_limit['expected'] = 99999.
+            tmp_limit['up1'] = 99999.
+            tmp_limit['up2'] = 99999.
+            tmp_limit['down1'] = 99999.
+            tmp_limit['down2'] = 99999.
+            
+            # print "Debug: opening file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
+            # print makeSignalLogFileName(mass,lifetime,directory,"expected")
+            i = 0
+            for line in file:
+                ## if i < 10:
+                ## print "Debug: line = ", line
+                ## i += 1
+                if "Limit:" in line:
+                    tmp_limit['expected'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+                    # print "Debug: Setting limit from line: ", line
+            file.close()
+            print "Debug: found expected limit: ", tmp_limit['expected']
+                    
+            # print "Debug: opening observed file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['observed'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+            file.close()
+            print "Debug: found observed limit: ", tmp_limit['observed']
+                    
+            # print "Debug: opening up1 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up1"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['up1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+            file.close()
+            print "Debug: found up1 limit: ", tmp_limit['up1']
+                            
+            # print "Debug: opening up2 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up2"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['up2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+            file.close()
+            print "Debug: found up2 limit: ", tmp_limit['up2']
+                                    
+            # print "Debug: opening down1 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down1"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['down1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+            file.close()
+            print "Debug: found down1 limit: ", tmp_limit['down1']
+                                            
+            # print "Debug: opening down2 file: "
+            file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down2"))
+            for line in file:
+                if "Limit:" in line:
+                    tmp_limit['down2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
+            file.close()
+            print "Debug: found down2 limit: ", tmp_limit['down2']
+                                                    
+
         # for other methods, get the ranges from the log file
         else:
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
@@ -918,6 +982,13 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['expected'] *= xSection
         tmp_limit['down1'] *= xSection
         tmp_limit['down2'] *= xSection
+        
+        #FIXME:  Kludge to avoid empty bins:
+        if math.isnan(tmp_limit['observed']):
+            print "Debug:  found nan observed limit"  
+            tmp_limit['observed'] = 0.4  
+            tmp_limit['expected'] = 0.4  
+        print "Debug:  observed limit with xSection = ", tmp_limit['observed']  
 
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
@@ -996,6 +1067,7 @@ def fetchLimits(mass,lifetime,directories):
 
 def drawPlot(plot):
     setTDRStyle()
+    gStyle.SetPalette(1)
     is2D = 'yAxisType' in plot
     isMakeTable = False
     hasRatioTH2F = False
@@ -1415,7 +1487,7 @@ def drawPlot(plot):
 ######################################################################################################
 
 
-outputFileName = "limits/"+arguments.outputDir+"/limit_plot.root"
+outputFileName = "limits/"+arguments.outputDir+"/limit_plot3D.root"
 outputFile = TFile(outputFileName, "RECREATE")
 
 # for each plot that has been defined, extract the limits and draw the plot accordingly

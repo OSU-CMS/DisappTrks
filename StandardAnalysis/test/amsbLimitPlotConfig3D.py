@@ -15,7 +15,6 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 from amsbLimitPlotConfigNew import *
 # Keep most settings the same
 
-limit_dir = 'limits_2014_07_20'
 masses = ['100', '200', '300', '400', '500']
 lifetimes = ['2','3','4','5','6','7','8', '9', '10','20','30','40','50','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','8000','9000','10000']
 
