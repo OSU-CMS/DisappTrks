@@ -47,7 +47,7 @@ if not arguments.outputDir:
 
 if arguments.outputDir:
     if not os.path.exists ("limits/"+arguments.outputDir):
-            os.system("mkdir limits/%s" % (arguments.outputDir))
+        os.system("mkdir limits/%s" % (arguments.outputDir))
 #   os.mkdir("limits/"+arguments.outputDir)
 
                 
@@ -115,8 +115,12 @@ for mass in masses:
         if arguments.method == "HybridNew":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
-            combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-            combine_observed_options = combine_observed_options + "--frequentist --testStat LHC" + " "
+            #            combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+#            hybridExtraOptions = "--rule CLs --testStat LHC -T 500 --fork 4 --frequentist "
+            hybridExtraOptions = " " 
+            combine_expected_options = combine_expected_options + hybridExtraOptions + " --expectedFromGrid 0.5 "  
+            #            combine_observed_options = combine_observed_options + "--frequentist --testStat LHC" + " "
+            combine_observed_options = combine_observed_options + hybridExtraOptions  
         elif arguments.method == "MarkovChainMC":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
@@ -125,9 +129,13 @@ for mass in masses:
         else:
             combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
             combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-        if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150): 
-            combine_expected_options += " --rMin 0.00000001 --rMax 2 "
-            combine_observed_options += " --rMin 0.00000001 --rMax 2 "
+        if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
+            if float(lifetime) > 9 and float(lifetime) < 300:   # Use a smaller maximum for lifetimes with a larger signal yield 
+                combine_expected_options += " --rMin 0.00000001 --rMax 0.1 "
+                combine_observed_options += " --rMin 0.00000001 --rMax 0.1 "
+            else:  
+                combine_expected_options += " --rMin 0.00000001 --rMax 2 "
+                combine_observed_options += " --rMin 0.00000001 --rMax 2 "
 
         combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
         combine_command = combine_command.rstrip()
@@ -141,12 +149,30 @@ for mass in masses:
             command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
             print command
             os.system(command)
-
         else:
             print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
             output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
+        if arguments.method == "HybridNew":  # for full CLs, run each expected limit separately
+            expectedVariations = [("up1", "0.84"), ("up2", "0.975"), ("down1", "0.16"), ("down2", "0.025")]
+            for vary in expectedVariations: 
+                os.chdir("../../..")
+                condor_expected_dirVary = condor_expected_dir + "_" + vary[0]  
+                shutil.rmtree(condor_expected_dirVary, True)
+                os.mkdir(condor_expected_dirVary)
+                shutil.copy(datacard_src_name, condor_expected_dirVary + "/" + datacard_name)  
+                os.chdir(condor_expected_dirVary)
+                if not arguments.batchMode:
+                    commandVary = command.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])  
+                    print commandVary
+                    os.system(commandVary)
+                else:
+                    combine_expected_optionsVary = combine_expected_options.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])  
+                    print "combine "+datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name
+                    output_condor(combine_command, datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name+" | tee /dev/null")
+                    os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
+                
         os.chdir("../../..")
 
         shutil.rmtree(condor_observed_dir, True)
@@ -159,6 +185,7 @@ for mass in masses:
             command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
             print command
             os.system(command)
+
 
         else:
             print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
