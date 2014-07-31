@@ -983,11 +983,6 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['down1'] *= xSection
         tmp_limit['down2'] *= xSection
         
-        #FIXME:  Kludge to avoid empty bins:
-        if math.isnan(tmp_limit['observed']):
-            print "Debug:  found nan observed limit"  
-            tmp_limit['observed'] = 0.4  
-            tmp_limit['expected'] = 0.4  
         print "Debug:  observed limit with xSection = ", tmp_limit['observed']  
 
         tmp_limit['mass'] = mass
