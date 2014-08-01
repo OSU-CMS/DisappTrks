@@ -263,7 +263,7 @@ void makeFakeTrkRatioPlot() {
   l.SetLineColor(kRed);
   l.DrawLine(2.5,1.0,6.5,1.0);
   c1->SetLogy(0);
-  c1->SaveAs("fakeTrkRatioLL.pdf");
+  c1->SaveAs("fakeTrkRatio.pdf");
   //c3->Clear();
   
   
