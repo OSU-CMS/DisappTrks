@@ -135,7 +135,7 @@ void makeFakeTrkRatioPlot() {
   grFakesMet->SetLineWidth(2);  
   grFakesMet->SetMinimum(0);
   grFakesMet->SetMaximum(3.0);
-  grFakesMet->SetTitle(";N_{hits} on candidate track;P^{fake}_{search}/P^{fake}_{Z#rightarrow#mu#mu}");
+  grFakesMet->SetTitle(";N_{hits} on candidate track;P^{fake}_{basic}/P^{fake}_{Z#rightarrow#mu#mu}");
   grFakesMet->Draw("ALP");
   //  grFakesMet->Draw("P");
   
@@ -253,7 +253,7 @@ void makeFakeTrkRatioPlot() {
   grFakesMetLL->GetYaxis()->SetLabelSize(0.05);
   grFakesMetLL->GetYaxis()->SetTitleSize(0.08);
   grFakesMetLL->GetYaxis()->SetTitleOffset(0.81);
-  grFakesMetLL->SetTitle(";N_{hits} on candidate track;P^{fake}_{search}/P^{fake}_{Z#rightarrow ll}");
+  grFakesMetLL->SetTitle(";N_{hits} on candidate track;P^{fake}_{basic}/P^{fake}_{Z#rightarrow ll}");
   //    grFakesMetLL->Draw("ALP");
   grFakesMetLL->Draw("LEP");                                                                                                                                                                                
   pt->Draw("same");
@@ -263,7 +263,7 @@ void makeFakeTrkRatioPlot() {
   l.SetLineColor(kRed);
   l.DrawLine(2.5,1.0,6.5,1.0);
   c1->SetLogy(0);
-  c1->SaveAs("fakeTrkRatio.pdf");
+  c1->SaveAs("fakeTrkRatios.pdf");
   //c3->Clear();
   
   
