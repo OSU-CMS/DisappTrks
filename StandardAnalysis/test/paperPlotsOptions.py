@@ -428,7 +428,23 @@ paper_histograms = [
     'setLogY' : False,
     'includeSystematics' : False,
     'addOverUnderFlow' : True,  
+
+    'BkgdLegX1' : 0.7030201,  
+    'BkgdLegY1' : 0.5996503,  
+    'BkgdLegX2' : 0.9647651,  
+    'BkgdLegY2' : 0.9195804,  
+
+    'SigLegX1' : 0.2030201,  
+    'SigLegY1' : 0.6346154,  
+    'SigLegX2' : 0.5352349,  
+    'SigLegY2' : 0.8339161,  
+    'SigLineWidth' : 5,  
+    'SigLineStyle' : 7,  
+    'SigTextSize' : 0.035,  
+
     'makeFancy' : True,
+    'quickRenameX' : 'E_{calo} [GeV]',
+
   },
 
 
@@ -446,7 +462,23 @@ paper_histograms = [
 ##     'setYMax' : 1.0e2,
     'setLogY' : False,
     'includeSystematics' : False,
-    'addOverUnderFlow' : True,  
+    'addOverUnderFlow' : True,
+
+    'BkgdLegX1' : 0.7030201,
+    'BkgdLegY1' : 0.5996503,
+    'BkgdLegX2' : 0.9647651,
+    'BkgdLegY2' : 0.9195804,
+
+    'SigLegX1' : 0.2030201,
+    'SigLegY1' : 0.6346154,
+    'SigLegX2' : 0.5352349,
+    'SigLegY2' : 0.8339161,
+    'SigLineWidth' : 5,
+    'SigLineStyle' : 7,
+    'SigTextSize' : 0.035,
+
+    'quickRenameY' : 'Entries (Unit Area Norm.)',
+
     'makeFancy' : True,
   },
 
@@ -486,7 +518,8 @@ paper_histograms = [
     'setYMax' : 10, 
     'setLogY' : True,
     'includeSystematics' : False,
-    'addOverUnderFlow' : True,  
+    'addOverUnderFlow' : True,
+    'poisErr' : True,  
     'makeFancy' : True,
   },
 
@@ -501,10 +534,12 @@ paper_histograms = [
 #    'rebinFactor' : 10,
     'normalizeToUnitArea' : False, 
 ##     'setYMin' : 1e-3,  
-##     'setYMax' : 10, 
+    'setYMax' : 4, 
     'setLogY' : False,
     'includeSystematics' : False,
-    'addOverUnderFlow' : True,  
+    'addOverUnderFlow' : True,
+    'poisErr' : True,  
+
     'makeFancy' : True,
   },
 
@@ -519,10 +554,11 @@ paper_histograms = [
 #    'rebinFactor' : 10,
     'normalizeToUnitArea' : False, 
 ##     'setYMin' : 1e-3,  
-##     'setYMax' : 10, 
+    'setYMax' : 4, 
     'setLogY' : False,
     'includeSystematics' : False,
     'addOverUnderFlow' : True,  
+    'poisErr' : True,  
     'makeFancy' : True,
   },
 
@@ -537,12 +573,14 @@ paper_histograms = [
 #    'rebinFactor' : 10,
     'normalizeToUnitArea' : False, 
 ##     'setYMin' : 1e-3,  
-##     'setYMax' : 10, 
+    'setYMax' : 4, 
     'setXMin' : 0, 
     'setXMax' : 20, 
     'setLogY' : False,
     'includeSystematics' : False,
-    'addOverUnderFlow' : True,  
+    'addOverUnderFlow' : True,
+    'quickRenameX' : 'E_{calo} [GeV]',
+    'poisErr' : True,  
     'makeFancy' : True,
   },
 
