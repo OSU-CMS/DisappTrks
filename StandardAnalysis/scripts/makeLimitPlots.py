@@ -54,25 +54,7 @@ gStyle.SetOptTitle(0)
 gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 setTDRStyle()
-#tdrStyle.SetPadTopMargin(0.07)
-#    tdrStyle.SetPadBottomMargin(0.13)
-#tdrStyle.SetPadBottomMargin(0.16)
-#tdrStyle.SetPadLeftMargin(0.16)
-#    tdrStyle.SetPadRightMargin(0.02)
-#tdrStyle.SetPadRightMargin(0.06)
 gROOT.ForceStyle()
-## gStyle.SetPadTopMargin   (0.06);
-## gStyle.SetPadLeftMargin  (0.11);
-## gStyle.SetPadRightMargin (0.11);
-## gStyle.SetPadGridX       (0);
-## gStyle.SetPadGridY       (0);
-## gStyle.SetPadTickX       (1);
-## gStyle.SetPadTickY       (1);
-## gStyle.SetNdivisions       (509, "X");
-## gROOT.ForceStyle()
-
-
-## gROOT.ForceStyle()
 
 colorSchemes = {
     'brazilian' : {
@@ -978,8 +960,6 @@ def fetchLimits(mass,lifetime,directories):
 
 
 def drawPlot(plot):
-#    setTDRStyle()
-#    gROOT.ForceStyle()
     gStyle.SetPalette(1)
     is2D = 'yAxisType' in plot
     isMakeTable = False
@@ -1420,7 +1400,7 @@ def drawPlot(plot):
 ######################################################################################################
 
 
-outputFileName = "limits/"+arguments.outputDir+"/limit_plot3D.root"
+outputFileName = "limits/"+arguments.outputDir+outputName
 outputFile = TFile(outputFileName, "RECREATE")
 
 # for each plot that has been defined, extract the limits and draw the plot accordingly
