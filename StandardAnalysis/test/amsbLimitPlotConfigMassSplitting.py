@@ -8,6 +8,7 @@ from amsbLimitPlotConfigNew import *
 # Keep most settings the same
 
 convertCmToNs = False
+makeColorPlot = False
 convertToMassSplitting = True
 outputName = "limit_plotMassSplitting.root"
 
