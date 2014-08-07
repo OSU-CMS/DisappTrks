@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# Local options file to be used with makeLimitPlots.py 
 # Usage:
 # > makeLimitPlots.py -l amsbLimitPlotConfigMassSplitting.py -c limitDir 
 
@@ -13,7 +12,7 @@ convertToMassSplitting = True
 outputName = "limit_plotMassSplitting.root"
 
 
-lifetimes = ['2','3','4','6','7','8','9','10','20','30','40','50','70','80','90','100']  
+lifetimes = ['2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100']  
 
 
 # description of all the plots to be made
@@ -40,7 +39,6 @@ plotDefinitions = [
 
      'theoryLabel' : 'tan#beta = 5, #mu > 0', 
 
-     'showTheory' : True,
      'drawTheoryCurve' : True, 
      
      'graphs' : [

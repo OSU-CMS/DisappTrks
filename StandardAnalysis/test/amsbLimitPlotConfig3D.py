@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 
-# Local options file to be used with makeLimitPlots.py 
 # Usage:
-# > makeLimitPlots.py -l amsbLimitPlotConfigNew.py -c limitDir 
-#
-# Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
+# > makeLimitPlots.py -l amsbLimitPlotConfig3D.py -c limitDir 
 
-from DisappTrks.SignalMC.signalCrossSecs import *
+
 
 ##################################
 ### Event Selection Parameters ###
@@ -15,9 +12,8 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 from amsbLimitPlotConfigNew import *
 # Keep most settings the same
 
-masses = ['100', '200', '300', '400', '500']
-lifetimes = ['2','3','4','5','6','7','8', '9', '10','20','30','40','50','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','8000','9000','10000']
-
+masses.remove('600')
+lifetimes.remove('1')
 
 outputName = "limit_plotCol.root"
 
@@ -39,33 +35,20 @@ plotDefinitions = [
 
      'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
      'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
+     'zAxisLabel' : '95% CL upper limit on cross section [pb]', 
      'xAxisFixMin' : 100, 
      'xAxisFixMax' : 600,
-     'yAxisFixMin' : 300, 
-     'yAxisFixMax' : 0.07,
+     'yAxisFixMin' : 0.07, 
+     'yAxisFixMax' : 300,
+     'zAxisFixMin' : 0.015, 
+     'zAxisFixMax' : 10,
      
-
-
      'theoryLabel' : 'tan#beta = 5, #mu > 0', 
 
-     'showTheory' : True,
-
-     'th2fs' : [
-                {
+     'th2fs' : {
     'source' : [limit_dir],
-    'br'   : 100,
-#    'th2fsToInclude' : ['exp','obs'],
     'th2fsToInclude' : ['obs'],
-                },
-                        ], 
-     'graphs' : [
-    {
-    'source' : [limit_dir], #output directory from limit running
-    'graphsToInclude' : ['plusOneSigma'],  # Needed to prevent some kind of error
-    'colorScheme' : 'brazilian',
-    },
-    ],
+    }, 
      },
-
-
+     
      ]
