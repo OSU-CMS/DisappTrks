@@ -504,6 +504,26 @@ paper_histograms = [
 
 
 
+  #  numEvents: data & bkgd estimate (use as sanity check)
+  {
+    'condor_dir' : WellsDir+'condor_2014_07_03_BkgdEstFullSel', 
+    'channel' : 'FullSelection', 
+    'name' : 'numEvents', 
+    'output_name': 'numEvents_FullSelEst', 
+    'output_dir' : 'figuresAN',
+    'datasets' : bkgdEst_datasets, 
+#    'rebinFactor' : 2,
+    'normalizeToUnitArea' : False,
+#    'setYMin' : 1e-3,  
+#    'setYMax' : 10, 
+#    'setLogY' : True,
+#    'includeSystematics' : False,
+    'addOverUnderFlow' : True,
+    'poisErr' : True,  
+    'makeFancy' : True,
+    'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
+  },
+
   #  track pT: data & bkgd estimate 
   {
     'condor_dir' : WellsDir+'condor_2014_07_03_BkgdEstFullSel', 
@@ -521,6 +541,7 @@ paper_histograms = [
     'addOverUnderFlow' : True,
     'poisErr' : True,  
     'makeFancy' : True,
+    'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },
 
   #  track NHits: data & bkgd estimate 
@@ -539,8 +560,8 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,
     'poisErr' : True,  
-
     'makeFancy' : True,
+    'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },
 
   #  track NMissOut: data & bkgd estimate 
@@ -560,6 +581,7 @@ paper_histograms = [
     'addOverUnderFlow' : True,  
     'poisErr' : True,  
     'makeFancy' : True,
+    'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },
 
   #  track Ecalo: data & bkgd estimate 
@@ -582,6 +604,7 @@ paper_histograms = [
     'quickRenameX' : 'E_{calo} [GeV]',
     'poisErr' : True,  
     'makeFancy' : True,
+    'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },
 
 
