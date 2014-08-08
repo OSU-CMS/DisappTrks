@@ -521,6 +521,8 @@ paper_histograms = [
     'addOverUnderFlow' : True,
     'poisErr' : True,  
     'makeFancy' : True,
+    'quickRenameY' : 'Entries / 10 GeV',
+
   },
 
   #  track NHits: data & bkgd estimate 
@@ -539,7 +541,7 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,
     'poisErr' : True,  
-
+'quickRenameY' : 'Entries / hit',
     'makeFancy' : True,
   },
 
@@ -560,6 +562,8 @@ paper_histograms = [
     'addOverUnderFlow' : True,  
     'poisErr' : True,  
     'makeFancy' : True,
+
+    'quickRenameY' : 'Entries / hit',
   },
 
   #  track Ecalo: data & bkgd estimate 
@@ -582,6 +586,8 @@ paper_histograms = [
     'quickRenameX' : 'E_{calo} [GeV]',
     'poisErr' : True,  
     'makeFancy' : True,
+    'quickRenameY' : 'Entries / 1 GeV',
+
   },
 
 
