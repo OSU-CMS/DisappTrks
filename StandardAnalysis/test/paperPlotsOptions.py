@@ -542,6 +542,7 @@ paper_histograms = [
     'poisErr' : True,  
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
+    'quickRenameY' : 'Entries / 10 GeV',
   },
 
   #  track NHits: data & bkgd estimate 
@@ -560,6 +561,7 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,
     'poisErr' : True,  
+    'quickRenameY' : 'Entries / hit',
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },
@@ -582,6 +584,7 @@ paper_histograms = [
     'poisErr' : True,  
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
+    'quickRenameY' : 'Entries / hit',
   },
 
   #  track Ecalo: data & bkgd estimate 
@@ -605,6 +608,7 @@ paper_histograms = [
     'poisErr' : True,  
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
+    'quickRenameY' : 'Entries / 1 GeV',
   },
 
 
