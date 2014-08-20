@@ -703,6 +703,7 @@ FullSelectionFilterMC.cuts.append(cutMCPartSusyFilter)
 FullSelectionFilterMCTrack = copy.deepcopy(FullSelectionFilterMC)
 FullSelectionFilterMCTrack.name = cms.string("FullSelectionFilterMCTrack")
 FullSelectionFilterMCTrack.cuts.append(cutTrkMCPartMatch)  
+FullSelectionFilterMCTrack.cuts.append(cutStopMCPartMatch)  
 
 NoCutsFilterMCTrack = copy.deepcopy(NoCutsFilterMC)
 NoCutsFilterMCTrack.name = cms.string("NoCutsFilterMCTrack")
