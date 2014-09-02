@@ -444,7 +444,8 @@ paper_histograms = [
 
     'makeFancy' : True,
     'quickRenameX' : 'E_{calo} [GeV]',
-
+    'quickRenameY' : 'Entries / 5 GeV (Unit Area Norm.)',
+    
   },
 
 
@@ -477,8 +478,8 @@ paper_histograms = [
     'SigLineStyle' : 7,
     'SigTextSize' : 0.035,
 
-    'quickRenameY' : 'Entries (Unit Area Norm.)',
-
+    'quickRenameY' : 'Entries / hit (Unit Area Norm.)',
+    
     'makeFancy' : True,
   },
 
