@@ -166,7 +166,7 @@ if arguments.canName == "stopDecayVxyZoom":
     content += "\\begin{tabular}{lc}\n"
     content += hline
     content += hline
-    content += "$L_{xy}$ [cm]    &  Disappearing Track efficiency (\\%) \\\\ \n"  
+    content += "$L_{xy}$ [cm]    &  disappearing track efficiency (\\%) \\\\ \n"  
     content += hline
     content += getAvgOfBins(havg,   0,  30, "min")
     content += getAvgOfBins(havg,  30,  40, "")
@@ -204,7 +204,7 @@ elif arguments.canName == "totalMcparticleStatus3SusyIdPt":
     content += "\\begin{tabular}{lc}\n"
     content += hline
     content += hline
-    content += "$\\pt(\\chi\\chi)$ [\\gev]    &  Basic selection efficiency (\\%) \\\\  \n"
+    content += "$\\pt(\\chi\\chi)$ [\\gev]    &  basic selection efficiency (\\%) \\\\  \n"
     content += hline
     content += getAvgOfBins(havg,   0, 100, "min")
     content += getAvgOfBins(havg, 100, 125, "")
