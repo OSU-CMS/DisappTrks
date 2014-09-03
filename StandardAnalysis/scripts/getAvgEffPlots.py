@@ -204,7 +204,7 @@ elif arguments.canName == "totalMcparticleStatus3SusyIdPt":
     content += "\\begin{tabular}{lc}\n"
     content += hline
     content += hline
-    content += "$\\pt(\\chi\\chi)$ [\\gev]    &  basic selection efficiency (\\%) \\\\  \n"
+    content += "$\\pt(\\chi\\chi)$ [GeV]    &  basic selection efficiency (\\%) \\\\  \n"
     content += hline
     content += getAvgOfBins(havg,   0, 100, "min")
     content += getAvgOfBins(havg, 100, 125, "")
