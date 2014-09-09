@@ -8,9 +8,11 @@ systematic_name = "EcaloVary"
 #condor_dir = 'ztoMuMuFakeTrkNHits4NoEcalo'  
 #channel =  'ZtoMuMuFakeTrkNHits4NoEcalo'   
 channel = "FullSelection"
-minus_condor_dir   = "ecaloVaryCorrNorm"
+#minus_condor_dir   = "ecaloVaryCorrNorm"
+minus_condor_dir   = "ecaloVaryCorr"
 central_condor_dir = "fullSelectionWithEcalGapNoCorr"
-plus_condor_dir    = "ecaloVaryCorrNorm"              
+#plus_condor_dir    = "ecaloVaryCorrNorm"              
+plus_condor_dir    = "ecaloVaryCorr"              
 from localOptionsAll import *
 
 datasets = [

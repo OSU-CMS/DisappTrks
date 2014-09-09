@@ -85,8 +85,8 @@ replacements_extra_EffSigPAS = {
     "$>$= 1 track with deltaRMinElecLooseMvaId $>$ 0.15" : "%", 
     "$>$= 1 track with deltaRMinTauLooseHadronicId $>$ 0.15" : "%", 
     "$>$= 1 track with deltaRMinMuonLooseId $>$ 0.15" : "%", 
-    "$>$= 1 track with deltaRMinSecMuonLooseId $>$ 0.15" : "Candidate Track",
+    "$>$= 1 track with deltaRMinSecMuonLooseId $>$ 0.15" : "candidate track",
     "$>$= 1 track with caloTotDeltaRp5RhoCorr $<$ 10" : "%", 
-    "$>$= 1 track with nHitsMissingOuter $>$= 3" : "Disappearing Track",  
+    "$>$= 1 track with nHitsMissingOuter $>$= 3" : "disappearing track",  
     "Weighted Yield" : "%",
     }

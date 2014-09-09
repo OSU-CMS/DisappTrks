@@ -308,15 +308,15 @@ for systematic in external_systematic_uncertainties:
     
 ## put in format to be used by AN
     if str(systematic) == "Isr":
-        fancyString = str(systematic).replace("Isr", "Jet radiation (ISR)")
+        fancyString = str(systematic).replace("Isr", "jet radiation (ISR)")
     elif str(systematic) == "JES":
-        fancyString = str(systematic).replace("JES", "Jet Energy Scale (JES)")         
+        fancyString = str(systematic).replace("JES", "jet Energy Scale (JES)")         
     elif str(systematic) == "JER":
-        fancyString = str(systematic).replace("JER", "Jet Energy Resolution (JER)")
+        fancyString = str(systematic).replace("JER", "jet Energy Resolution (JER)")
     elif str(systematic) == "PDFWt":
         fancyString = str(systematic).replace("PDFWt", "PDF")
     elif str(systematic) == "trigEff":
-        fancyString = str(systematic).replace("trigEff", "Trigger efficiency")
+        fancyString = str(systematic).replace("trigEff", "trigger efficiency")
     elif str(systematic) == "Ecalo":
         fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     elif str(systematic) == "NMissOut":
@@ -326,7 +326,7 @@ for systematic in external_systematic_uncertainties:
     elif str(systematic) == "Nmissin":
         fancyString = str(systematic).replace("Nmissin", "\Nmissin modeling")
     elif str(systematic) == "pileup":
-        fancyString = str(systematic).replace("pileup", "Pile-up")
+        fancyString = str(systematic).replace("pileup", "pileup")
     else:
         print "Error:  unrecognized systematic:  ", systematic
         sys.exit(0)        
@@ -344,7 +344,7 @@ for systematic in signal_systematic_uncertainties:
     if str(systematic) == "Ecalo":
         fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     if str(systematic) == "trkReco":
-        fancyString = str(systematic).replace("trkReco", "Track reconstruction efficiency")
+        fancyString = str(systematic).replace("trkReco", "track reconstruction efficiency")
     content += str(fancyString) + " " +  "&" + str((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n" 
 
 ## calculate the total 
@@ -1640,7 +1640,7 @@ content  = header
 content += "\\begin{tabular}{lccc} \n"
 content += hline
 content += hline
-content += "Sample                                  &  data   &  estimate  & data/estimate  \\\\ \n"  
+content += "sample                                  &  data   &  estimate  & data/estimate  \\\\ \n"  
 content += hline
 content += "\\candtrk sample           & " + str(NPreselData).rstrip("0").rstrip(".") + " & $" + str(round_sigfigs(NPreselEst,3)) + " \\pm " + str(round_sigfigs(NPreselEstErr,2)) + "$ & $" + "{:0.2f}".format(ratioPresel) + " \\pm  " + "{:0.2f}".format(ratioPreselErr) + "$ \\\\ \n"
 content += "\\calotot sideband sample  & " + str(NEcaloData).rstrip("0").rstrip(".")  + " & $" + str(round_sigfigs(NEcaloEst,4))  + " \\pm " + str(round_sigfigs(NEcaloEstErr,2))  + "$ & $" + "{:0.2f}".format(ratioEcalo)  + " \\pm  " + "{:0.2f}".format(ratioEcaloErr)  + "$ \\\\  \n"
@@ -1682,7 +1682,7 @@ content  = header
 content += "\\begin{tabular}{lccc} \n"
 content += hline
 content += hline
-content += "Source                            & Contribution \\\\   \n"  
+content += "source                            & contribution \\\\   \n"  
 content += hline
 content += "electrons   & " + str(round_sigfigs(percentelec,2)).replace(".0","") + "\\%  \\\\  \n"
 content += "muons       & " + str(round_sigfigs(percentmuon,2)).replace(".0","") + "\\%  \\\\  \n"  

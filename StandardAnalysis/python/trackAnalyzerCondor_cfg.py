@@ -29,6 +29,7 @@ process.OSUAnalysis.trigobjs = cms.InputTag('BNproducer', 'HLT')
 process.OSUAnalysis.triggerMetSF    = cms.string ('effDiff')  
 process.OSUAnalysis.trackNMissOutSF = cms.string ('ratio')  
 process.OSUAnalysis.isrVarySF       = cms.string ('ratio')  
+process.OSUAnalysis.EcaloVarySF       = cms.string ('ratio')  
 
 
 process.OSUAnalysis.useTrackCaloRhoCorr = cms.bool(True)  

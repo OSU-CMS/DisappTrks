@@ -2,20 +2,22 @@
 
 from OSUT3Analysis.Configuration.configurationOptions import *  # Needed if you want to modify (not replace) one of the parameters.  
 
-config_file = "trackAnalyzerCtrlMuon_cfg.py"  
+#config_file = "trackAnalyzerCtrlMuon_cfg.py"  
+config_file = "trackAnalyzerStandard_cfg.py"  
 
 intLumi = 19698.  # For SingleMu data as of 2014-01-10
 
 datasets = [
     
-    'QCD_MuEnriched', 
+#    'QCD_MuEnriched', 
+#    'QCD', 
     'ZJetsToNuNu', 
     'SingleTop',
     'TTbar',
     'Wjets',  
     'Diboson',
     'DY',
-
+#'Background',
     'SingleMu',   
 
 ]

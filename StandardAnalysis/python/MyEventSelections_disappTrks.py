@@ -661,6 +661,17 @@ FullSelectionMetJet105 = cms.PSet(
     cuts = cutsFullSelection,
     )
 
+FullSelectionReorder = copy.deepcopy(FullSelection)  
+FullSelectionReorder.name = cms.string("FullSelectionReorder")
+# First find the position of the new index
+idx = -1
+for i in range(len(FullSelectionReorder.cuts) - 1, -1, -1):
+    if FullSelectionReorder.cuts[i].cutString == cutTauLooseHadronicVeto.cutString:
+        idx = i
+for i in range(len(FullSelectionReorder.cuts) - 1, -1, -1):
+    for j in range(0, len(cutsTrkVetoRegions)):
+        if FullSelectionReorder.cuts[i].cutString == cutsTrkVetoRegions[j].cutString: 
+            FullSelectionReorder.cuts.insert(idx-1, FullSelectionReorder.cuts.pop(i)) 
 
 
 FullSelectionTrigEmulate95MC = copy.deepcopy(FullSelection)
@@ -692,6 +703,7 @@ FullSelectionFilterMC.cuts.append(cutMCPartSusyFilter)
 FullSelectionFilterMCTrack = copy.deepcopy(FullSelectionFilterMC)
 FullSelectionFilterMCTrack.name = cms.string("FullSelectionFilterMCTrack")
 FullSelectionFilterMCTrack.cuts.append(cutTrkMCPartMatch)  
+FullSelectionFilterMCTrack.cuts.append(cutStopMCPartMatch)  
 
 NoCutsFilterMCTrack = copy.deepcopy(NoCutsFilterMC)
 NoCutsFilterMCTrack.name = cms.string("NoCutsFilterMCTrack")

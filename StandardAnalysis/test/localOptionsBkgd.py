@@ -8,7 +8,7 @@ datasets = [
     'SingleTop',
     'TTbar',
     'ZJetsToNuNu',
-    'DY_PtZ100',
+    'DY',
     'Diboson',
     'WjetsHighPt',
     ]

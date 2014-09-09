@@ -34,7 +34,7 @@ bkgd_sources = {
     'ElecBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionElecPrevetoSkim_24June',   
                     'datasetsIn'  : ['MET'],   
                     'scale_factor' :        0.0,   
-                    'scale_factor_error' :  0.0001210851802,   
+                    'scale_factor_error' :  6.29392607659e-05,   
                     'channel_map' : {   
     'FullSelectionElecPreveto' : ['FullSelection'],   
     }   
@@ -42,8 +42,8 @@ bkgd_sources = {
        
     'MuonBkgd' :  { 'inputDir'   : JessDir + 'fullSelectionMuPrevetoSkim_24June',   
                     'datasetsIn'  : ['MET'],   
-                    'scale_factor' :        0.000184039469072,   
-                    'scale_factor_error' :  0.000184039469072,   
+                    'scale_factor' :        0.000155747403082,   
+                    'scale_factor_error' :  0.000365649916287,   
                     'channel_map' : {   
     'FullSelectionMuPreveto' : ['FullSelection'],   
     }   
@@ -52,7 +52,7 @@ bkgd_sources = {
     'TauBkgd' :  { 'inputDir'   : JessDir +  'fullSelectionTauPrevetoSkim_24June',   
                    'datasetsIn'  : ['MET'],   
                    'scale_factor' :        0.0,   
-                   'scale_factor_error' :  0.0368991972083,   
+                   'scale_factor_error' :  0.0190329742492,   
                    'channel_map' : {   
     'FullSelectionTauPreveto' : ['FullSelection'],   
     }   
@@ -60,20 +60,20 @@ bkgd_sources = {
        
        
        
-    'FakeMuMuBkgd' :  { 'inputDir'   : JessDir + 'ztoMuMuFakeTrk_24June',   
+    'FakeMuMuBkgd' :  { 'inputDir'   : JessDir + 'ztoMuMuFakeTrkNHits5',   
                     'datasetsIn'  : ['SingleMu'],   
-                    'scale_factor' :        0.179528098569,   
-                    'scale_factor_error' :  0.00014672139258,   
+                    'scale_factor' :        0.00370161027977,   
+                    'scale_factor_error' :  0.00210887082788,   
                     'channel_map' : {   
-    'ZtoMuMuFakeTrk' : ['FullSelection'],   
+    'ZtoMuMuFakeTrkNHits5' : ['FullSelection'],   
     }   
                     },   
     'FakeEEBkgd' :  { 'inputDir'   : JessDir + 'ztoEEFakeTrk3456NHit',   
                     'datasetsIn'  : ['SingleElectron'],   
-                    'scale_factor' :        0.179528098569,   
-                    'scale_factor_error' :  0.00014672139258,   
+                    'scale_factor' :        0.00370161027977,   
+                    'scale_factor_error' :  0.00210887082788,   
                     'channel_map' : {   
-    'ZtoEEFakeTrk' : ['FullSelection'],   
+    'ZtoEEFakeTrkNHits5' : ['FullSelection'],   
     }   
                     },   
        
