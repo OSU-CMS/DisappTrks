@@ -12,7 +12,6 @@
 from amsbLimitPlotConfigNew import *
 # Keep most settings the same
 
-masses.remove('600')
 lifetimes.remove('1')
 
 outputName = "limit_plotCol.root"
@@ -33,11 +32,11 @@ plotDefinitions = [
      'xAxisType' : 'mass',
      'yAxisType' : 'lifetime',
 
-     'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
-     'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
+     'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+     'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
      'zAxisLabel' : '95% CL upper limit on cross section [pb]', 
-     'xAxisFixMin' : 100, 
-     'xAxisFixMax' : 600,
+     'xAxisFixMin' : 50, 
+     'xAxisFixMax' : 650,
      'yAxisFixMin' : 0.07, 
      'yAxisFixMax' : 300,
      'zAxisFixMin' : 0.015, 
