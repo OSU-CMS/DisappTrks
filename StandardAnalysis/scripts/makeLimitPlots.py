@@ -358,6 +358,10 @@ def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
     yBin.sort()
     xBin.append(xBin[-1] + (xBin[-1] - xBin[-2]))  # Add an additional bin boundary, so that the last bin has equal witdth to the second to last bin 
     yBin.append(yBin[-1] + (yBin[-1] - yBin[-2]))  # Add an additional bin boundary, so that the last bin has equal witdth to the second to last bin 
+    # Offset the xaxis bins so that mass values are in center of each bin
+    xBinHalfWidth = (xBin[1] - xBin[0]) / 2
+    for i in range(0,len(xBin)):
+        xBin[i] -= xBinHalfWidth 
     yBinArray = array("d", yBin)
     xBinArray = array("d", xBin)
     if arguments.verbose:  
@@ -1312,7 +1316,7 @@ def drawPlot(plot, th2fType=""):
         gStyle.SetHatchesSpacing(0.01)
         mPi = 0.13957018  # units of GeV, from PDG
         stableChiLabel = TPaveLabel(100, plot['yAxisFixMin'], 600, mPi*1000, "")
-        legend.AddEntry(stableChiLabel, "#chi^{#pm} #rightarrow #chi^{0} #pi^{#pm} forbidden" ,"F")
+        legend.AddEntry(stableChiLabel, "#tilde{#chi}^{#pm} #rightarrow #tilde{#chi}^{0} #pi^{#pm} forbidden" ,"F")
         stableChiLabel.SetTextSize(0.6666667)
         stableChiLabel.SetTextAlign(12)
         stableChiLabel.SetBorderSize(0)
