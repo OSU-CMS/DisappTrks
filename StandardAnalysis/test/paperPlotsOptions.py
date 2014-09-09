@@ -523,6 +523,7 @@ paper_histograms = [
     'poisErr' : True,  
     'makeFancy' : True,
     'quickRenameY' : 'Entries / 10 GeV',
+    'quickRenameX' : 'track p_{T} [GeV]',
 
   },
 
@@ -542,7 +543,9 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,
     'poisErr' : True,  
-'quickRenameY' : 'Entries / hit',
+    'quickRenameY' : 'Entries / hit',
+    'quickRenameX' : 'Number of valid hits',
+
     'makeFancy' : True,
   },
 
