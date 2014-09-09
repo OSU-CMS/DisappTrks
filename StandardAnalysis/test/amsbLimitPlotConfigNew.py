@@ -53,7 +53,8 @@ else:
 #limit_dir = WellsDir+'limits_2014_07_21'    
 #limit_dir = 'limits_28July'    
 #limit_dir = 'limits_27Julyv2'    
-limit_dir = WellsDir+'limits_2014_08_01f'  # LHC-type full CLs  
+#limit_dir = WellsDir+'limits_2014_08_01f'  # LHC-type full CLs  
+limit_dir = JessDir+'paperLimitDir'  # LHC-type full CLs  
 
 masses = ['100', '200', '300', '400', '500', '600']
 
@@ -81,8 +82,8 @@ plotDefinitions = [
     'xAxisType' : 'mass',
     'yAxisType' : 'lifetime',
     
-    'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
-    'yAxisLabel' : '#tau_{#chi^{#pm}_{1}} [ns]',
+    'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+    'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
     
     'xAxisFixMin' : 100, 
     'xAxisFixMax' : 600,
