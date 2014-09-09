@@ -1326,6 +1326,7 @@ def drawPlot(plot, th2fType=""):
 
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
+    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
     print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"  
         
  
