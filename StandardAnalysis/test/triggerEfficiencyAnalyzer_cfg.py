@@ -28,7 +28,7 @@ process.source.fileNames.append('file:/data/users/wulsin/condor/analysisTemplate
 process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 process.TFileService = cms.Service ('TFileService',
-m                                    fileName = cms.string ('hist.root')
+                                    fileName = cms.string ('hist.root')
     )
 
 process.maxEvents = cms.untracked.PSet (
@@ -56,30 +56,30 @@ DisappTrk = cms.PSet(
 ## ## 	"HLT_IsoTrackHE_v",  # Commissioning stream 
 ## 	"HLT_MET200_v", 
 ## 	"HLT_PFMET150_v", 
-## 	"HLT_MET120_HBHENoiseCleaned_v",
+	"HLT_MET120_HBHENoiseCleaned_v",
 ## 	"HLT_DiCentralPFJet30_PFMET80_BTagCSV07_v",
 ## 	"HLT_DiCentralJetSumpT100_dPhi05_DiCentralPFJet60_25_PFMET100_HBHENoiseCleaned_v", 
 
 
 
 
-    "HLT_HT250_AlphaT0p55_v",
-    "HLT_HT250_AlphaT0p57_v",
+#    "HLT_HT250_AlphaT0p55_v",
+#    "HLT_HT250_AlphaT0p57_v",
 #    "HLT_HT300_AlphaT0p53_v",
 #    "HLT_HT300_AlphaT0p54_v",
 #    "HLT_HT350_AlphaT0p52_v",
 #    "HLT_HT350_AlphaT0p53_v",
 #    "HLT_HT400_AlphaT0p51_v",
 
-    "HLT_PFNoPUHT350_PFMET100_v",
-    "HLT_PFNoPUHT400_PFMET100_v",
+#    "HLT_PFNoPUHT350_PFMET100_v",
+#    "HLT_PFNoPUHT400_PFMET100_v",
 
 ##    "HLT_RsqMR40_Rsq0p04_v",  #this trigger is prescaled
-    "HLT_RsqMR45_Rsq0p09_v",
-    "HLT_RsqMR55_Rsq0p09_MR150_v",
-    "HLT_RsqMR60_Rsq0p09_MR150_v",
-    "HLT_DiPFJetAve400_v",
-    "HLT_MET80_v", # in trigger menu for jet ht, prescaled
+#    "HLT_RsqMR45_Rsq0p09_v",
+#    "HLT_RsqMR55_Rsq0p09_MR150_v",
+#    "HLT_RsqMR60_Rsq0p09_MR150_v",
+#    "HLT_DiPFJetAve400_v",
+#    "HLT_MET80_v", # in trigger menu for jet ht, prescaled
     "HLT_MonoCentralPFJet80_PFMETnoMu95_NHEF0p95_v",
 
         ),

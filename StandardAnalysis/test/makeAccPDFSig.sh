@@ -1,8 +1,11 @@
 #!/bin/sh                                                                  
 
-PDFSETS="condor_2014_02_24_FullSelSystSig_PDFWt"  
+#PDFSETS="condor_2014_02_24_FullSelSystSig_PDFWt"  
+#PDFSETS="testPdfSyst"  
+PDFSETS="pdfSyst_23June"  
 #PDFSETS="PDFSET1FINAL"
-BASEPATH=/data/users/wulsin/condor/analysisTemplateV3/ 
+#BASEPATH=/data/users/wulsin/condor/analysisTemplateV3/ 
+BASEPATH=/data/users/jbrinson/condor/
 
 CALCULATORFILE=${PWD}/calcUncert
 
@@ -30,7 +33,8 @@ for pdfSet in ${PDFSETS}; do
 	PDFSETNO=3
     fi
 
-    PDFPATH=/data/users/wulsin/condor/analysisTemplateV3/${pdfSet}
+    #PDFPATH=/data/users/wulsin/condor/analysisTemplateV3/${pdfSet}
+    PDFPATH=/data/users/jbrinson/condor/${pdfSet}
 
     echo "#############################################"
     echo "Working on set "${pdfSet}" in path "${PDFPATH}

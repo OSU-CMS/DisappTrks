@@ -445,7 +445,6 @@ paper_histograms = [
     'makeFancy' : True,
     'quickRenameX' : 'E_{calo} [GeV]',
     'quickRenameY' : 'Entries / 5 GeV (Unit Area Norm.)',
-    
   },
 
 
@@ -479,7 +478,6 @@ paper_histograms = [
     'SigTextSize' : 0.035,
 
     'quickRenameY' : 'Entries / hit (Unit Area Norm.)',
-    
     'makeFancy' : True,
   },
 
@@ -544,6 +542,7 @@ paper_histograms = [
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
     'quickRenameY' : 'Entries / 10 GeV',
+    'quickRenameX' : 'track p_{T} [GeV]',
   },
 
   #  track NHits: data & bkgd estimate 
@@ -563,6 +562,7 @@ paper_histograms = [
     'addOverUnderFlow' : True,
     'poisErr' : True,  
     'quickRenameY' : 'Entries / hit',
+    'quickRenameX' : 'Number of valid hits',
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
   },

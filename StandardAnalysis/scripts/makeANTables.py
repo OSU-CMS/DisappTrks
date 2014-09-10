@@ -484,7 +484,8 @@ print "Finished writing " + outputFile + "\n\n\n"
 # Use these values for bkgdOptions.py below:  
 PElec = P
 PElecErr = PErr
-
+NeCtrl = NCtrl
+NelecErrSM = NelecErr
 
 ###################################################
 # Muon inefficiency table:
@@ -576,6 +577,12 @@ print "Finished writing " + outputFile + "\n\n\n"
 # Use these values for bkgdOptions.py below:  
 PMuon = P
 PMuonErr = PErr
+PMuonErrUp = PErrUp
+PMuonErrDown = PErrDn
+NmuCtrl = NCtrl
+NmuonSM = Nmuon
+NMuonErrorUpSM = NmuonErrUp
+NMuonErrorDownSM = NmuonErrDn
 
 
 
@@ -654,7 +661,9 @@ print "Finished writing " + outputFile + "\n\n\n"
 # Use these values for bkgdOptions.py below:  
 PTau = P
 PTauErr = PErr
-
+NtauCtrl = NCtrl
+NtauSM = Ntau
+NtauErrSM = NtauErr
 ###################################################
 # Fake track rate table:
 # tables/fakeTrkRate.tex 
@@ -1689,6 +1698,38 @@ fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
 
+
+
+###################################################
+# SM Bkgd table
+# tables/smBkgd
+###################################################
+outputFile = "tables/smBkgd.tex"
+fout = open (outputFile, "w")
+content  = header
+content += "\\begin{tabular}{llll}\n"
+content += hline
+content += hline
+content += "& electrons & muons & taus \\\\ \n"
+content += hline
+content += "criteria removed to   & $\Pe$ veto & $\Pgm$ veto & $\Pgt$ veto \\\\ \n" 
+content += "select control sample  & $\calotot < 10\GeV$ &            & $\calotot < 10\GeV$\\\\ \n"
+content += hline
+content += "$N^{i}_\\text{ctrl}$ from data & $" + str(round_sigfigs(NeCtrl,5)).replace(".0","")  +  "$ & $" + str(round_sigfigs(NmuCtrl,5)).replace(".0","")  +  "$  & $" + str(round_sigfigs(NtauCtrl,5)).replace(".0","")  +  "$ \\\\ \n"
+content += "$P^{i}$ from simulation & $<" + str(round_sigfigs(PElecErr * 1e5,2))+ "\\times 10^{-5}"  +  "$ & $" + str(round_sigfigs(PMuon * 1e4,2)) + " (^{+" + str(round_sigfigs(PMuonErrUp * 1e4,3)) + "}_{-" + str(round_sigfigs(PMuonErrDown * 1e4,2)) + "}) \\times 10^{-4} " +  "$  & $<" + str(round_sigfigs(PTauErr,2))  +  "$ \\\\ \n"
+content += "$N^{i} = N^{i}_\\text{ctrl} P^{i} $ & $<" + str(round_sigfigs(NelecErrSM,2))  +  "_\\text{stat}$ & $" + str(round_sigfigs(NmuonSM,2)) + " (^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) +  "})_\\text{stat} $  & $<" + str(round_sigfigs(NtauErrSM,2))  +  "_\\text{stat}$ \\\\ \n"
+content += "$P^{i}$ systematic uncertainty  & $"  + str(round_sigfigs(systFracElec * 1.e2,2)).rstrip("0").rstrip(".") +"$\% & $" + str(round_sigfigs(systFracMuon * 1.e2,2)).rstrip("0").rstrip(".") +  "$\% & $" + str(round_sigfigs(systFracTau  * 1.e2,2)).rstrip("0").rstrip(".")  +  "\%$ \\\\ \n"
+content += "$N^{i}$  & $<" + str(round_sigfigs(NelecSyst,2))  +  "0_\\text{stat+syst}$ & $" + str(round_sigfigs(NmuonSM,2)) + " (^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) + "})_\\text{stat} \pm" + str(round_sigfigs(NmuonSyst,2)) +  "_\\text{syst}$  & $<" + str(round_sigfigs(NtauSyst,2))  +  "_\\text{stat+syst}$ \\\\ \n"
+content += hline
+content += hline
+content += "\\end{tabular}\n"
+fout.write(content)
+fout.close()
+os.system("cat " + outputFile)
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+##################################################
 
 ###################################################
 ###################################################

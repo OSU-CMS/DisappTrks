@@ -13,14 +13,14 @@ datasets = [
 ##     'AMSB_mGrav50K_5ns',
 
 ##     # put bkgd datasets in roughly ascending order of size of contribution after preselection
-    'QCD',    
+    'QCD',
     'SingleTop',
     'TTbar',
     'ZJetsToNuNu', 
-    'DY',  
-    'Diboson',
+    'DY',
+        'Diboson',
     'WjetsHighPt',
-
+#'Background',
     'MET',
     ]
 
@@ -79,11 +79,15 @@ def add_charginos (options, masses, ctaus):
             print "Adding dataset:  " + datasetName + "; sourceDatasetName=" + sourceDatasetName + "; dataset_name[sourceDatasetName]=" + options['dataset_names'][sourceDatasetName]
             
 # Do all lifetimes:
-add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+#add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])
+add_charginos (options, [400], [10,100,1000])
 
 # Do a subset of signal lifetimes:  
 #add_charginos (options, [100,200,300,400,500,600], [3,10,30,100,300,1000])
 
+colors['AMSB_chargino_400GeV_RewtCtau10cm']   = 1 # black
+colors['AMSB_chargino_400GeV_RewtCtau100cm']  = 2 # red
+colors['AMSB_chargino_400GeV_RewtCtau1000cm'] = 4 # blue 
 
 
 

@@ -135,7 +135,7 @@ void makeFakeTrkRatioPlot() {
   grFakesMet->SetLineWidth(2);  
   grFakesMet->SetMinimum(0);
   grFakesMet->SetMaximum(3.0);
-  grFakesMet->SetTitle(";N_{hits} on candidate track;P^{fake}_{basic}/P^{fake}_{Z#rightarrow#mu#mu}");
+  grFakesMet->SetTitle(";N_{hits} on candidate track;P^{fake}_{basic} / P^{fake}_{Z#rightarrow#mu#mu}");
   grFakesMet->Draw("ALP");
   //  grFakesMet->Draw("P");
   

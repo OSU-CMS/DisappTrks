@@ -45,8 +45,8 @@ add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,4
 
 
 systematic_name = "IsrVary"
-channel = "FullSelection"
-#channel = "FullSelectionFilterMC"
+#channel = "FullSelection"
+channel = "FullSelectionFilterMC"
 usePdfWt = False  
 
 
@@ -72,12 +72,12 @@ usePdfWt = False
 #plus_condor_dir    = "condor_2014_04_08_FullSelSystSig_IsrVaryUpTuneUE" 
 
 ## ## # Use TuneZ2Star 
-#minus_condor_dir   = "isrVaryCorr_v3" 
-minus_condor_dir   = "isrVaryCorrNorm_v2" 
-#central_condor_dir = "fullSelectionFilterMCWithEcalGapVeto"   
-central_condor_dir = "fullSelectionWithEcalGapNoCorr"   
-#plus_condor_dir    = "isrVaryCorr_v3"  
-plus_condor_dir    = "isrVaryCorrNorm_v2"  
+minus_condor_dir   = "isrVaryCorr_v3" 
+#minus_condor_dir   = "isrVaryCorrNorm_v2" 
+central_condor_dir = "fullSelectionFilterMCWithEcalGapVeto"   
+#central_condor_dir = "fullSelectionWithEcalGapNoCorr"   
+plus_condor_dir    = "isrVaryCorr_v3"  
+#plus_condor_dir    = "isrVaryCorrNorm_v2"  
 
 
 

@@ -29,8 +29,8 @@ plotDefinitions = [
      'xAxisType' : 'mass',
      'yAxisType' : 'lifetime',
 
-     'xAxisLabel' : 'm_{#chi^{#pm}_{1}} [GeV]',
-     'yAxisLabel' : '#Delta m_{#chi_{1}} [MeV]',
+     'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+     'yAxisLabel' : '#Deltam_{#tilde{#chi}_{1}} [MeV]',
 
      'xAxisFixMin' : 100, 
      'xAxisFixMax' : 600,

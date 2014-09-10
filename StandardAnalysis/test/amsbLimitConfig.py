@@ -8,8 +8,8 @@
 
 
 # For Wells's running:
-JessCondorDir = "JessCondor/"
-WellsCondorDir = ""
+JessCondorDir = ""
+WellsCondorDir = "WellsCondorNew/"
 
 ## # For Jess's running:
 ## JessCondorDir = ""
@@ -116,7 +116,8 @@ signal_cross_sections = { # in pb
 #signal_condor_dir = 'WellsCondorNew/condor_2014_02_11_FullSelectionAllSig'   
 #signal_condor_dir = 'fullSelectionAllSig_5March'   
 #signal_condor_dir = 'fullSelectionAllSig_7March'
-signal_condor_dir = WellsCondorDir + 'condor_2014_02_11_FullSelectionAllSig'
+#signal_condor_dir = WellsCondorDir + 'condor_2014_02_11_FullSelectionAllSig'
+signal_condor_dir = JessCondorDir + 'fullSelectionAllSigBothTrig'
 
 #name of event selection from which to take signal yields
 signal_channel = 'FullSelection'

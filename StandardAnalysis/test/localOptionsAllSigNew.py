@@ -7,7 +7,7 @@ from localOptionsAll import *
 datasets = [
 
 ##     'AMSB_chargino_100GeV_ctau10cm',
-##     'AMSB_chargino_100GeV_ctau100cm',
+#    'AMSB_chargino_100GeV_ctau100cm',
 ##     'AMSB_chargino_100GeV_ctau1000cm',
 
 ##     'AMSB_chargino_200GeV_ctau10cm',
@@ -86,7 +86,13 @@ def add_charginos (options, masses, ctaus):
 
 
 add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])  
-#add_charginos (options, [100,200,300,400,500,600], [15,150])  
+#add_charginos (options, [100,200,300,400,500,600], [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000])  
+#add_charginos (options, [100,200,300,400,500,600], [11,12,13,14,15,16,17,18,19])  
+#add_charginos (options, [100], [100])  
+#add_charginos (options, [400], [10,100,1000])  
+#add_charginos (options, [200,400,600], [1, 10, 100])  
+#add_charginos (options, [500,600], [80, 90])  
+#add_charginos (options, [500], [80])  
 
 
 #add_charginos (options, ["32K", "50K", "75K", "100K", "125K", "150K"], [0.05,0.06,0.07,0.08,0.09,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0])
@@ -110,3 +116,5 @@ colors['AMSB_chargino_400GeV_RewtCtau100cm'] = 4
 colors['AMSB_chargino_400GeV_RewtCtau500cm'] = 6 
 colors['AMSB_chargino_400GeV_RewtCtau1000cm'] = 7 
 colors['AMSB_chargino_400GeV_RewtCtau2000cm'] = 8 
+
+colors['AMSB_chargino_500GeV_RewtCtau80cm'] = 8 

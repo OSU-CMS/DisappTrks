@@ -121,7 +121,7 @@ from DisappTrks.StandardAnalysis.MyElectronCtrlSampleSelections_disappTrks impor
 #process.OSUAnalysis.channels.append(ZtoETrkEIdPreselMaxCalo)  
 
 #add_channels (process, [ZtoETrkEIdNoVetoPreselLoosePt], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])    # For testing lost event
-add_channels (process, [ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])    # For testing lost event
+#add_channels (process, [ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])    # For testing lost event
 
 
 #add_channels (process, [ZtoETrkEIdPreselLoosePt7Hits], ["keep *", "drop BNtriggers_BNproducer_L1Talgo_BEANs"])
@@ -161,7 +161,7 @@ add_channels (process, [ZtoETrkEIdNoVetoPreselLoosePtNoDeadEcal], ["keep *", "dr
 ## process.OSUAnalysis.channels.append(ZtoETrkEId)
 ## process.OSUAnalysis.channels.append(ZtoETrkEIdNoVeto)
 ## process.OSUAnalysis.channels.append(ZtoETrkEIdNoVetoNoMissOut)  
-## process.OSUAnalysis.channels.append(ZtoEE)  
+process.OSUAnalysis.channels.append(ZtoEE)  
 #
 
 # process.OSUAnalysis.channels.append(SingleElecTrig)
