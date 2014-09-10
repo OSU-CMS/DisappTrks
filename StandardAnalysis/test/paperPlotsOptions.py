@@ -477,6 +477,7 @@ paper_histograms = [
     'SigLineStyle' : 7,
     'SigTextSize' : 0.035,
 
+    'quickRenameX' : 'N_{miss}^{outer}',
     'quickRenameY' : 'Entries / hit (Unit Area Norm.)',
     'makeFancy' : True,
   },
@@ -585,6 +586,7 @@ paper_histograms = [
     'poisErr' : True,  
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
+    'quickRenameX' : 'N_{miss}^{outer}',   
     'quickRenameY' : 'Entries / hit',
   },
 
