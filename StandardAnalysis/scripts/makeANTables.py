@@ -22,8 +22,6 @@ from amsbLimitConfigNew import *
 #from DisappTrks.StandardAnalysis.localOptionsAll import *  # To get list of datasets 
 
 
-import os
-
 cwd = os.getcwd()
 if "wulsin" in cwd:
     WellsDir = ""
@@ -136,6 +134,9 @@ parser.remove_option("--2D")
 parser.remove_option("-y")
 parser.remove_option("-p")
 parser.remove_option("-c")
+
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
+                  help="verbose output")
 
 (arguments, args) = parser.parse_args()
 
@@ -261,6 +262,8 @@ content += "\\begin{tabular}{lc}\n"
 content += hline
 content += hline
 
+systTableLines = {}   # Dictionary to hold all the lines for the systematics table
+
 systTotPerSample = {}
 tempNameHolder = []
 tempSystHolder = []
@@ -272,13 +275,15 @@ systTotPerSample['value'] = []
 massMin = 300
 massMax = 600
 
-lifetimes = ['20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900']  
+lifetimes = ['10', '20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900', '1000']
 masses = ['100','200', '300', '400', '500', '600']
 
 for systematic in external_systematic_uncertainties:
     systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
     fSyst = open (systFile, "r")
     systRange = []
+    lifetimeRangeTot = []
+    massRangeTot = []
     for line in fSyst:
         for cTau in lifetimes:
             for mass in masses: 
@@ -286,11 +291,20 @@ for systematic in external_systematic_uncertainties:
                 if string in line:
                     word = float(line.strip().split()[2])
                     percent = math.fabs((1.0 - word))*100
-                    if mass == "100" and float(cTau) > 100 and float(cTau) < 10000 and systematic == 'NMissOut':
+                    if mass == "100" and float(cTau) > 100 and float(cTau) < 10000 and systematic == 'NMissOut':  # skip outlier 
                         continue
+                    if mass == "600" and float(cTau) <= 10  and systematic == 'PDFWt':  # skip outlier
+                        continue                    
                     systRange.append(round(percent,2))
+                    lifetimeRangeTot.append(cTau)
+                    massRangeTot.append(mass)
                     systHolder = round(percent,2)
 ## set range to be quoted
+    idxMax = systRange.index(max(systRange))
+    if arguments.verbose:
+        print "Index of largest syst of type ", systematic, ":  ", idxMax
+        print "lifetime of largest syst:  ", lifetimeRangeTot[idxMax], ", mass = ", massRangeTot[idxMax]                        
+                    
     systRange.sort()  
     largest = max(systRange)
     if largest > 50:
@@ -303,16 +317,17 @@ for systematic in external_systematic_uncertainties:
     idx95 = int(0.95 * len(systRange))
     smallest90 = systRange[idx5]
     largest90  = systRange[idx95]
-    print "Debug:  for systematic:  ", systematic, ", full range is: ", smallest, " - ", largest, ", 5% - 95% range is: ", smallest90, " - ", largest90, " num points sampled: ", len(systRange)  
-    print systRange
+    if arguments.verbose:
+        print "Debug:  for systematic:  ", systematic, ", full range is: ", smallest, " - ", largest, ", 5% - 95% range is: ", smallest90, " - ", largest90, " num points sampled: ", len(systRange)  
+        print systRange
     
 ## put in format to be used by AN
     if str(systematic) == "Isr":
         fancyString = str(systematic).replace("Isr", "jet radiation (ISR)")
     elif str(systematic) == "JES":
-        fancyString = str(systematic).replace("JES", "jet Energy Scale (JES)")         
+        fancyString = str(systematic).replace("JES", "%jet Energy Scale (JES)")         
     elif str(systematic) == "JER":
-        fancyString = str(systematic).replace("JER", "jet Energy Resolution (JER)")
+        fancyString = str(systematic).replace("JER", "%jet Energy Resolution (JER)")
     elif str(systematic) == "PDFWt":
         fancyString = str(systematic).replace("PDFWt", "PDF")
     elif str(systematic) == "trigEff":
@@ -330,8 +345,8 @@ for systematic in external_systematic_uncertainties:
     else:
         print "Error:  unrecognized systematic:  ", systematic
         sys.exit(0)        
-    content += str(fancyString) + " " +  "&" + str(smallest) + " - " + str(largestTot) + "\\% \\\\ \n"
-
+    systTableLines[systematic] = '{0: <35}'.format(fancyString) + " & " + "{:.0f}".format(smallest) + "--" + "{:.0f}".format(largestTot) + "\\% \\\\ \n"
+    
 
 ## retrieve systematics that are a single value for all signal samples
 for systematic in signal_systematic_uncertainties:
@@ -345,14 +360,22 @@ for systematic in signal_systematic_uncertainties:
         fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     if str(systematic) == "trkReco":
         fancyString = str(systematic).replace("trkReco", "track reconstruction efficiency")
-    content += str(fancyString) + " " +  "&" + str((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n" 
+    systTableLines[systematic] = '{0: <35}'.format(fancyString) + " & " + "{:.0f}".format((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n"
 
+# Make line for Nmissin, Nmissmid:
+systNmissin  = systTableLines["Nmissin"] .split()[3].replace("\\%","")
+systNmissmid = systTableLines["Nmissmid"].split()[3].replace("\\%","")
+systTableLines["Nmissinmid"] = '{0: <35}'.format("\Nmissin, \Nmissmid modeling") + " & " + systNmissmid + "--" + systNmissin + "\\% \\\\ \n"
+
+    
 ## calculate the total 
 systRangeTot = []
+JESJERRangeTot = []
 lifetimeRangeTot = []
 for cTau in lifetimes:
     for mass in masses: 
         systRangePerSample = []
+        JESJERRangePerSample = []
         for systematic in external_systematic_uncertainties:
             systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
             fSyst = open (systFile, "r")
@@ -361,36 +384,62 @@ for cTau in lifetimes:
                 if string in line:
                     word = float(line.strip().split()[2])
                     percent = math.fabs((1.0 - word))*100
-                    if cTau==80 and mass == 500 and systematic == 'trigEff':
-                        percent = 1
                     systRangePerSample.append(round(percent,2))
+                    if str(systematic) == "JES" or str(systematic) == "JER":
+                        JESJERRangePerSample.append(round(percent,2))
         for systematic in signal_systematic_uncertainties:
             systRangePerSample.append(float(signal_systematic_uncertainties[systematic]['value']))
-
         #print string
 ##         print "systRangePerSample, mass=", mass, ", cTau=", cTau, ":  "  
 ##         print systRangePerSample
         total = 0
+        totalJESJER = 0 
         for syst in systRangePerSample:
             total+= math.pow(syst,2)
+        for syst in JESJERRangePerSample:
+            totalJESJER += math.pow(syst,2)
+        JESJERRangeTot.append(math.sqrt(totalJESJER))
         systRangeTot.append(math.sqrt(total))
         lifetimeRangeTot.append(cTau)  
 ## print "SystRangeTot: " 
 ## print systRangeTot
 largestTot  = max(systRangeTot)
 smallestTot = min(systRangeTot)
-idxMax = systRangeTot.index(max(systRangeTot))  
-## print "Index of largest syst:  ", idxMax
-## print "lifetime of largest syst:  ", lifetimeRangeTot[idxMax]  
-## print "len(lifetimes) = ", len(lifetimes)
-## print "lifetimes: "
-## print lifetimes  
+largestJESJER  = max(JESJERRangeTot)
+smallestJESJER = min(JESJERRangeTot)
+if arguments.verbose:                                                                                                                      
+    # idxMax = systRangeTot.index(max(systRangeTot))
+    idxMax = JESJERRangeTot.index(max(JESJERRangeTot))
+    print "Index of largest syst:  ", idxMax
+    print "lifetime of largest syst:  ", lifetimeRangeTot[idxMax]
+    print "Debug:  printing JESJERRangeTot:"
+    JESJERRangeTot.sort()
+    print JESJERRangeTot
+    # print "len(lifetimes) = ", len(lifetimes)
+    # print "lifetimes: "
+    # print lifetimes
 
-                            
 
+systTableLines["JESJER"] = "jet energy scale / resolution       & " + "{:.0f}".format(smallestJESJER) + "--" + "{:.0f}".format(largestJESJER) + "\\% \\\\ \n"
+
+#content += "total                               & " + "{:.0f}".format(smallestTot) + "--" + "{:.0f}".format(largestTot) + "\\% \\\
+systTableLines["total"] = "total                               & " + "{:.0f}".format(smallestTot) + "--" + "{:.0f}".format(largestTot) + "\\% \\\\ \n"
+
+
+# Now that all the lines are defined, fill the table:
+content += systTableLines["Isr"]
+content += systTableLines["JESJER"]
+content += systTableLines["PDFWt"]
+content += systTableLines["trigEff"]
+content += systTableLines["NMissOut"]
+#content += systTableLines["Nmissmid"]
+content += systTableLines["Nmissinmid"]
+content += systTableLines["Ecalo"]
+content += systTableLines["pileup"]
+content += systTableLines["trkReco"]
+content += systTableLines["lumi"]
 content += hline
-content +=" Total " +  "&" + str(smallestTot) + " - " + str(largestTot) + "\\% \\\
- \\ \n"
+content += systTableLines["total"]
 content += hline
 content += hline
 content += "\\end{tabular}\n"
@@ -1596,10 +1645,10 @@ content += "muons          & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nmuon) + 
 content += "taus           & $ < " + "{:0.2f}".format(NtauErr) + "_{\\rm stat} $ & $ < " + "{:0.2f}".format(NtauSyst) + "_{\\rm stat+syst} $ \\\\  \n"
 content += "fake tracks    & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nfake) + "(^{+" + "{:0.2f}".format(NfakeErrUp) + "}_{-" + "{:0.2f}".format(NfakeErrDn) + "})_{\\rm stat}  \\pm " + "{:0.2f}".format(NfakeSyst) + "_{\\rm syst}   $ }  \\\\  \n" 
 content += hline
-from toyUpperLimitsBkgdSum import * 
-line = getBkgdSummLineForTable()
-content += line  
-content += hline
+## from toyUpperLimitsBkgdSum import * 
+## line = getBkgdSummLineForTable()
+## content += line  
+## content += hline
 content += "data           & \\multicolumn{2}{c}{ $ " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + " $ }  \\\\ \n"
 content += hline
 content += hline
