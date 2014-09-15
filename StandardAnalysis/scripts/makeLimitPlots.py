@@ -22,6 +22,8 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
+parser.add_option("-s", "--saveObjects", dest="saveObjects",
+                  help="objects to save in output root file")
 parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, 
                   help="verbose output")
 
@@ -927,6 +929,11 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['down1'] = math.fabs(tmp_limit['down1'] - tmp_limit['expected'])
 
         xSection = float(signal_cross_sections[str(mass)]['value'])
+        # The limits are given as fractions r of the estimated yield: r = Y_limit / Y_est,
+        # where Y_est = Lumi*xSection_theory*eff
+        # Note that since lumi and eff are constant, r = xSection_limit / xSection_theory
+        # So to get the limit in pb, multiply by the theory cross section:
+        # xSection_limit = r * xSection_theory        
         tmp_limit['up2'] *= xSection
         tmp_limit['up1'] *= xSection
         tmp_limit['observed'] *= xSection
@@ -934,8 +941,8 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['down1'] *= xSection
         tmp_limit['down2'] *= xSection
         
-        if arguments.verbose: 
-            print "Debug:  observed limit with xSection = ", tmp_limit['observed']  
+        if arguments.verbose:
+            print "Debug:  observed limit in pb = ", tmp_limit['observed'], ", xSection in pb = ", xSection                                   
 
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
@@ -1106,6 +1113,10 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        if arguments.saveObjects and "obs" in arguments.saveObjects:
+                            tGraphs[-1].SetName(plot['title']+"_graph_observed")
+                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                            tGraphs[-1].Write()                        
             else:  # is2D == True
                 for graphName in graph['graphsToInclude']:
                     if graphName is 'twoSigma':
@@ -1202,6 +1213,10 @@ def drawPlot(plot, th2fType=""):
                 tGraphs[-1].Draw('AL')
             plotDrawn = True
             legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
+            if arguments.saveObjects and "theory" in arguments.saveObjects:
+                tGraphs[-1].SetName(plot['title']+"_graph_theory")
+                print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                tGraphs[-1].Write()                
     if not is2D:
     #get the min and max of all graphs, so the y-axis can be set appropriately
         absMin =  999
@@ -1378,7 +1393,7 @@ for plot in plotDefinitions:
                         #                limit = fetchLimits(mass,graph['lifetime'],graph['br'],graph['source'])
                         limit = fetchLimits(mass,graph['lifetime'],graph['source'])
                     if arguments.verbose:
-                        print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + limit['expected'] 
+                        print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + str(limit['expected']) 
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
@@ -1402,6 +1417,8 @@ for plot in plotDefinitions:
         drawPlot(plot)
         
 outputFile.Close()
+print "Finished writing ", outputFile.GetName()
+
 
 
 
