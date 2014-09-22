@@ -7,7 +7,9 @@ sub outputJobs;
 my @crabInput = <STDIN>;
 my $workingDir;
 my $listOfJobs;
+my $listOfJobs0;
 my $getListOfJobs = 0;
+my $getListOfJobs0 = 0;
 print "#!/usr/bin/env bash\n\n";
 foreach my $line (@crabInput)
   {
@@ -15,10 +17,13 @@ foreach my $line (@crabInput)
     if ($line =~ m/^\tworking directory *[^ ]*$/)
       {
         print outputJobs ($listOfJobs, $workingDir) if $workingDir && $listOfJobs;
+        print outputJobs ($listOfJobs0, $workingDir) if $workingDir && $listOfJobs0;
         $workingDir = $line;
         $workingDir =~ s/^\tworking directory *([^ ]*)$/$1/;
         $listOfJobs = "";
         $getListOfJobs = 0;
+        $listOfJobs0 = "";
+        $getListOfJobs0 = 0;
       }
     if ($getListOfJobs && $line =~ m/^.*List of jobs: [^ ]*.*$/)
       {
@@ -26,6 +31,13 @@ foreach my $line (@crabInput)
         $listOfJobs .= "," if $listOfJobs;
         $listOfJobs .= $line;
         $getListOfJobs = 0;
+      }
+    if ($getListOfJobs0 && $line =~ m/^.*List of jobs: [^ ]*.*$/)
+      {
+        $line =~ s/^.*List of jobs: ([^ ]*).*$/$1/;
+        $listOfJobs0 .= "," if $listOfJobs0;
+        $listOfJobs0 .= $line;
+        $getListOfJobs0 = 0;
       }
     if ($line =~ m/Jobs with Wrapper Exit Code/)
       {
@@ -35,11 +47,12 @@ foreach my $line (@crabInput)
       }
     else
       {
-        $getListOfJobs = 0;
-        $getListOfJobs = 1 if $line =~ m/^.*You can resubmit.*$/;
+        $getListOfJobs0 = 0;
+        $getListOfJobs0 = 1 if $line =~ m/^.*You can resubmit.*$/;
       }
   }
 print outputJobs ($listOfJobs, $workingDir) if $workingDir && $listOfJobs;
+print outputJobs ($listOfJobs0, $workingDir) if $workingDir && $listOfJobs0;
 
 sub
 outputJobs
