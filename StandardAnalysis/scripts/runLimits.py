@@ -111,15 +111,22 @@ for mass in masses:
         datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-        combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
+#        combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
+        combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
         if arguments.method == "HybridNew":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
             #            combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-#            hybridExtraOptions = "--rule CLs --testStat LHC -T 500 --fork 4 --frequentist "
-            hybridExtraOptions = " " 
+            #            hybridExtraOptions = "--rule CLs --testStat LHC -T 500 --fork 4 --frequentist "
+            #            hybridExtraOptions = "--fork 4 --testStat LHC "  # limits_2014_08_01b
+            #            hybridExtraOptions = "--fork 4 --frequentist " # limits_2014_08_01c
+            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC " # limits_2014_08_01d
+            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 " # limits_2014_08_01e
+            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01f
+            #            hybridExtraOptions = "--fork 4 --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01g
+            #            hybridExtraOptions = " --rRelAcc 0.5 -t 10 --saveToys -s -1 " # limits_2014_08_05:  testing only for toy production!
+            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 4000 " # limits_2014_09_30:  test more toys 
             combine_expected_options = combine_expected_options + hybridExtraOptions + " --expectedFromGrid 0.5 "  
-            #            combine_observed_options = combine_observed_options + "--frequentist --testStat LHC" + " "
             combine_observed_options = combine_observed_options + hybridExtraOptions  
         elif arguments.method == "MarkovChainMC":
             combine_expected_options += "-M " + arguments.method + " "
