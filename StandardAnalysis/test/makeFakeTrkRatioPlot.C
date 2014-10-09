@@ -39,6 +39,7 @@ using std::endl;
 #include "TGraphAsymmErrors.h" 
 #include "TGraphErrors.h" 
 #include "TPaveText.h"
+#include "TPaveLabel.h"
 #include "TStyle.h"  
 #include "TString.h"  
 #include "tables/fakeTrkRateRatioLL.h"  
@@ -65,12 +66,12 @@ void makeFakeTrkRatioPlot();
 void makeFakeTrkRatioPlot() {
   gROOT->SetBatch();
 
-  std::string string(getenv("CMSSW_BASE"));
-  std::string path("/src/DisappTrks/StandardAnalysis/python/tdrstyle.C");
-  string+=path;
-  char* pathToTdr = string.c_str();
+  //  std::string string(getenv("CMSSW_BASE"));
+  //  std::string path("/src/DisappTrks/StandardAnalysis/python/tdrstyle.C");
+  //  string+=path;
+  //  char* pathToTdr = string.c_str();
 
-  gROOT->LoadMacro(pathToTdr);
+  gROOT->LoadMacro("tdrstyle.C");
   gStyle->SetOptStat(0);  
   gStyle->SetPadLeftMargin  (0.15);
   gStyle->SetPadBottomMargin  (0.15);
@@ -80,14 +81,12 @@ void makeFakeTrkRatioPlot() {
   setTDRStyle();   
   gStyle->SetNdivisions(7, "X");
   gStyle->SetNdivisions(504, "Y");
-  gStyle->SetPadTopMargin   (0.07);
-  gStyle->SetPadBottomMargin   (0.16);
-  gStyle->SetPadLeftMargin   (0.16);
-  gStyle->SetPadRightMargin   (0.06);
+  gStyle->SetPadTopMargin   (0.056);
+  gStyle->SetPadBottomMargin   (0.13);
+  gStyle->SetPadLeftMargin   (0.1476);
+  gStyle->SetPadRightMargin   (0.05);
   gROOT->ForceStyle();
   TCanvas *c1 = new TCanvas("c1","A Simple Graph with error bars",200,10,600,600);
-  //  TCanvas *c2 = new TCanvas("c2","A Simple Graph with error bars",200,10,700,500);
-  //  TCanvas *c3 = new TCanvas("c3","A Simple Graph with error bars",200,10,700,500);  
   const Int_t nbins = 4;
   
   // Get values from Spreadsheet  
@@ -202,31 +201,24 @@ void makeFakeTrkRatioPlot() {
   //   leg2.Draw();                                                                                                                                                                                             
   
   
-  TPaveText* pt = new TPaveText(0.6409396,0.9388112,0.9563758,0.9965035, "NDC");
-  pt->SetFillStyle(0);
-  pt->SetBorderSize(0);
-  pt->SetTextFont(gStyle->GetTitleFont());
-  //pt->AddText("CMS Preliminary, #sqrt{s} = 8 TeV");
-  pt->AddText("19.5 fb^{-1} (8 TeV)");
-  //  pt->Draw();                  
+  pl = new TPaveLabel(0.08892617,0.9458042,0.9681208,0.9965035,"19.5 fb^{-1} (\
+8 TeV)","brNDC");
+  pl->SetBorderSize(0);
+  pl->SetFillColor(0);
+  pl->SetFillStyle(0);
+  pl->SetTextAlign(32);
+  pl->SetTextFont(42);
+  pl->SetTextSize(0.99);
 
-  //  TPaveText* pt2 = new TPaveText(0.50, 0.82, 0.90, 0.88, "NDC");
-  TPaveText* pt2 = new TPaveText(0.1508621,0.8347458,0.5502874,0.8940678, "NDC");
-  pt2->SetFillStyle(0);
-  pt2->SetFillColor(0);
-  pt2->SetBorderSize(0);
-  pt2->SetTextFont(62);
-  pt2->SetTextAlign(12);
-  pt2->SetTextSize(0.07394366);
-  //pt->AddText("CMS Preliminary, #sqrt{s} = 8 TeV");                                   
-  pt2->AddText("CMS");
-  //  pt->Draw();  
+  pl2 =new TPaveLabel(0.176,0.837,0.496,0.937,"CMS","brNDC");
+  
+  pl2->SetBorderSize(0);
+  pl2->SetFillColor(0);
+  pl2->SetFillStyle(0);
+  pl2->SetTextAlign(12);
+  pl2->SetTextSize(0.99);
 
-  //  TPaveText* pt2 = new TPaveText(0.50, 0.82, 0.90, 0.88, "NDC");                                                
 
-  //  c2->SetLogy(0);
-  //  c2->SaveAs("fakeTrkEE.pdf");
-  //  c2->Clear();
 
   jbin = grFakesMetLL->FindBin(3);
   grFakesMetLL->SetBinContent(jbin, ratioLL_3);
@@ -249,21 +241,22 @@ void makeFakeTrkRatioPlot() {
   grFakesMetLL->SetMinimum(0);
   grFakesMetLL->SetMaximum(3.0);
   grFakesMetLL->GetXaxis()->SetLabelSize(0.05);
-  grFakesMetLL->GetXaxis()->SetTitleSize(0.06);
+  grFakesMetLL->GetXaxis()->SetTitleSize(0.05);
+  grFakesMetLL->GetXaxis()->SetTitleOffset(1.1);
   grFakesMetLL->GetYaxis()->SetLabelSize(0.05);
-  grFakesMetLL->GetYaxis()->SetTitleSize(0.08);
-  grFakesMetLL->GetYaxis()->SetTitleOffset(0.81);
-  grFakesMetLL->SetTitle(";N_{hits} on candidate track;P^{fake}_{basic}/P^{fake}_{Z#rightarrow ll}");
-  //    grFakesMetLL->Draw("ALP");
+  grFakesMetLL->GetYaxis()->SetTitleSize(0.065);
+  grFakesMetLL->GetYaxis()->SetTitleOffset(0.9);
+  grFakesMetLL->SetTitle(";N_{hits} on candidate track;P^{misid.}_{basic}/P^{misid.}_{Z#rightarrow ll}");
   grFakesMetLL->Draw("LEP");                                                                                                                                                                                
-  pt->Draw("same");
-  pt2->Draw("same");
+  pl->Draw("same");
+  pl2->Draw("same");
   
   TLine l;
   l.SetLineColor(kRed);
   l.DrawLine(2.5,1.0,6.5,1.0);
   c1->SetLogy(0);
   c1->SaveAs("fakeTrkRatios.pdf");
+  c1->SaveAs("fakeTrkRatios.C");
   //c3->Clear();
   
   
