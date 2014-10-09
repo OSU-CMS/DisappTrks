@@ -43,7 +43,7 @@ labels['MuonBkgd'] = "#mu bkgd"
 labels['ElecBkgd'] = "e bkgd"
 labels['TauBkgd']  = "#tau bkgd"
 labels['OthrBkgd'] = "other bkgd"
-labels['FakeBkgd'] = "fake bkgd"  
+labels['FakeBkgd'] = "Misid. bkgd"  
 
 
 composite_dataset_definitions['FakeBkgd'] = [

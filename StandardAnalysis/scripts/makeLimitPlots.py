@@ -1004,7 +1004,8 @@ def drawPlot(plot, th2fType=""):
     else:
         canvas.SetLogy()
     if convertToMassSplitting:
-        legend = TLegend(0.3221477,0.5262238,0.9513423,0.8583916)  # determine coordinates empirically
+#        legend = TLegend(0.3221477,0.5262238,0.9513423,0.8583916)  # determine coordinates empirically
+        legend = TLegend(0.3021477,0.5262238,0.9313423,0.8583916)  # determine coordinates empirically
     else:
         legend = TLegend(0.238255,0.4020979,0.6375839,0.6818182)
     legend.SetBorderSize(0)
@@ -1128,7 +1129,7 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AF')
                         plotDrawn = True
-                        legendEntry = 'expected limit #pm2 #sigma'
+                        legendEntry = 'Expected limit #pm2 #sigma'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1141,7 +1142,7 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AF')
                         plotDrawn = True
-                        legendEntry = 'expected limit #pm1 #sigma'
+                        legendEntry = 'Expected limit #pm1 #sigma'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1155,7 +1156,7 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AL')
                         plotDrawn = True
-                        legendEntry = 'expected limit'
+                        legendEntry = 'Expected limit'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1200,7 +1201,7 @@ def drawPlot(plot, th2fType=""):
                     else:
                         tGraphs[-1].Draw('AL')
                     plotDrawn = True
-                    legendEntry = 'observed limit'
+                    legendEntry = 'Observed limit'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')

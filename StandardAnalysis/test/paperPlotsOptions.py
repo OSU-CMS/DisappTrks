@@ -100,6 +100,9 @@ colors['AMSB_chargino_200GeV_RewtCtau100cm'] = 1 # black
 colors['AMSB_chargino_400GeV_RewtCtau100cm'] = 2 # red
 colors['AMSB_chargino_600GeV_RewtCtau100cm'] = 4 # blue
 
+labels['SingleTop'] = 'Single t'
+labels['Diboson'] = 'Diboson'
+labels['MET'] = 'Data'
 
 sigBkgd_datasets = signal_datasets + bkgd_datasets 
 
@@ -429,10 +432,10 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,  
 
-    'BkgdLegX1' : 0.7030201,  
-    'BkgdLegY1' : 0.5996503,  
-    'BkgdLegX2' : 0.9647651,  
-    'BkgdLegY2' : 0.9195804,  
+    'BkgdLegX1' : 0.6930201,
+    'BkgdLegY1' : 0.5896503,
+    'BkgdLegX2' : 0.9547651,
+    'BkgdLegY2' : 0.9095804, 
 
     'SigLegX1' : 0.2030201,  
     'SigLegY1' : 0.6346154,  
@@ -464,10 +467,10 @@ paper_histograms = [
     'includeSystematics' : False,
     'addOverUnderFlow' : True,
 
-    'BkgdLegX1' : 0.7030201,
-    'BkgdLegY1' : 0.5996503,
-    'BkgdLegX2' : 0.9647651,
-    'BkgdLegY2' : 0.9195804,
+    'BkgdLegX1' : 0.6930201,
+    'BkgdLegY1' : 0.5896503,
+    'BkgdLegX2' : 0.9547651,
+    'BkgdLegY2' : 0.9095804,
 
     'SigLegX1' : 0.2030201,
     'SigLegY1' : 0.6346154,
@@ -543,7 +546,7 @@ paper_histograms = [
     'makeFancy' : True,
     'normalizeFactor' : 1.39,  # from slide 16 of https://cms-in0.mps.ohio-state.edu:8080/DisappearingTracks/408 
     'quickRenameY' : 'Entries / 10 GeV',
-    'quickRenameX' : 'track p_{T} [GeV]',
+    'quickRenameX' : 'Track p_{T} [GeV]',
   },
 
   #  track NHits: data & bkgd estimate 
