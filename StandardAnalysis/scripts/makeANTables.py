@@ -277,6 +277,8 @@ massMax = 600
 
 lifetimes = ['10', '20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900', '1000']
 masses = ['100','200', '300', '400', '500', '600']
+## lifetimes = ['10'] 
+## masses = ['100'] 
 
 for systematic in external_systematic_uncertainties:
     systFile = os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt"
@@ -385,10 +387,15 @@ for cTau in lifetimes:
                     word = float(line.strip().split()[2])
                     percent = math.fabs((1.0 - word))*100
                     systRangePerSample.append(round(percent,2))
+                    if arguments.verbose:
+                        print "Debug: adding systematic: ", line 
                     if str(systematic) == "JES" or str(systematic) == "JER":
                         JESJERRangePerSample.append(round(percent,2))
         for systematic in signal_systematic_uncertainties:
-            systRangePerSample.append(float(signal_systematic_uncertainties[systematic]['value']))
+            percent = math.fabs((1.0 - float(signal_systematic_uncertainties[systematic]['value'])))*100
+            systRangePerSample.append(percent)  
+            if arguments.verbose:
+                print "Debug:  adding systematic:  ", systematic, " = ", float(signal_systematic_uncertainties[systematic]['value'])  
         #print string
 ##         print "systRangePerSample, mass=", mass, ", cTau=", cTau, ":  "  
 ##         print systRangePerSample
@@ -396,6 +403,8 @@ for cTau in lifetimes:
         totalJESJER = 0 
         for syst in systRangePerSample:
             total+= math.pow(syst,2)
+            if arguments.verbose:
+                print "Debug:  Adding syst = ", syst 
         for syst in JESJERRangePerSample:
             totalJESJER += math.pow(syst,2)
         JESJERRangeTot.append(math.sqrt(totalJESJER))
@@ -447,6 +456,8 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
+
+
 
 ###################################################
 # Electron inefficiency table:
