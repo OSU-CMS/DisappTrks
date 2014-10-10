@@ -77,10 +77,12 @@ fout = open (outputFile, "w")
 for sample in datasets:
 
     if usePdfWt:
-        errors = getPdfErrors(sample, central_condor_dir)  
-        errors = errors.split(" ")
-        plus_factor  = 1.0 + float(errors[0])
-        minus_factor = 1.0 - float(errors[0])  
+        errorsCTEQ  = getPdfErrors(sample, condor_dir_CTEQ);  errorsCTEQ  = errorsCTEQ.split(" ")
+        errorsMSTW  = getPdfErrors(sample, condor_dir_MSTW);  errorsMSTW  = errorsMSTW.split(" ")
+        errorsNNPDF = getPdfErrors(sample, condor_dir_NNPDF); errorsNNPDF = errorsNNPDF.split(" ")
+        errorMax = max(errorsCTEQ[0], errorsMSTW[0], errorsNNPDF[0]) 
+        plus_factor  = 1.0 + float(errorMax)
+        minus_factor = 1.0 - float(errorMax)  
     elif useEfficiency:
         central_yield = getYield(sample,central_condor_dir,channel)
         plus_yield    = getYield(sample,   plus_condor_dir,channel)  
