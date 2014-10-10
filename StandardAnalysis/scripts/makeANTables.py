@@ -325,15 +325,15 @@ for systematic in external_systematic_uncertainties:
     
 ## put in format to be used by AN
     if str(systematic) == "Isr":
-        fancyString = str(systematic).replace("Isr", "jet radiation (ISR)")
+        fancyString = str(systematic).replace("Isr", "Jet radiation (ISR)")
     elif str(systematic) == "JES":
-        fancyString = str(systematic).replace("JES", "%jet Energy Scale (JES)")         
+        fancyString = str(systematic).replace("JES", "%Jet Energy Scale (JES)")         
     elif str(systematic) == "JER":
-        fancyString = str(systematic).replace("JER", "%jet Energy Resolution (JER)")
+        fancyString = str(systematic).replace("JER", "%Jet Energy Resolution (JER)")
     elif str(systematic) == "PDFWt":
         fancyString = str(systematic).replace("PDFWt", "PDF")
     elif str(systematic) == "trigEff":
-        fancyString = str(systematic).replace("trigEff", "trigger efficiency")
+        fancyString = str(systematic).replace("trigEff", "Trigger efficiency")
     elif str(systematic) == "Ecalo":
         fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     elif str(systematic) == "NMissOut":
@@ -343,7 +343,7 @@ for systematic in external_systematic_uncertainties:
     elif str(systematic) == "Nmissin":
         fancyString = str(systematic).replace("Nmissin", "\Nmissin modeling")
     elif str(systematic) == "pileup":
-        fancyString = str(systematic).replace("pileup", "pileup")
+        fancyString = str(systematic).replace("pileup", "Pileup")
     else:
         print "Error:  unrecognized systematic:  ", systematic
         sys.exit(0)        
@@ -361,7 +361,7 @@ for systematic in signal_systematic_uncertainties:
     if str(systematic) == "Ecalo":
         fancyString = str(systematic).replace("Ecalo", "\calotot modeling")
     if str(systematic) == "trkReco":
-        fancyString = str(systematic).replace("trkReco", "track reconstruction efficiency")
+        fancyString = str(systematic).replace("trkReco", "Track reconstruction efficiency")
     systTableLines[systematic] = '{0: <35}'.format(fancyString) + " & " + "{:.0f}".format((float(signal_systematic_uncertainties[systematic]['value'])-1)*100) + "\\% \\\\ \n"
 
 # Make line for Nmissin, Nmissmid:
@@ -429,10 +429,10 @@ if arguments.verbose:
     # print lifetimes
 
 
-systTableLines["JESJER"] = "jet energy scale / resolution       & " + "{:.0f}".format(smallestJESJER) + "--" + "{:.0f}".format(largestJESJER) + "\\% \\\\ \n"
+systTableLines["JESJER"] = "Jet energy scale / resolution       & " + "{:.0f}".format(smallestJESJER) + "--" + "{:.0f}".format(largestJESJER) + "\\% \\\\ \n"
 
 #content += "total                               & " + "{:.0f}".format(smallestTot) + "--" + "{:.0f}".format(largestTot) + "\\% \\\
-systTableLines["total"] = "total                               & " + "{:.0f}".format(smallestTot) + "--" + "{:.0f}".format(largestTot) + "\\% \\\\ \n"
+systTableLines["total"] = "Total                               & " + "{:.0f}".format(smallestTot) + "--" + "{:.0f}".format(largestTot) + "\\% \\\\ \n"
 
 
 # Now that all the lines are defined, fill the table:
@@ -1651,16 +1651,16 @@ content += hline
 content += hline
 content += "Event source    &  \\multicolumn{2}{c}{Yield}                  \\\\ \n"  
 content += hline
-content += "electrons      & $ < " + "{:0.2f}".format(NelecErr) + "_{\\rm stat}$  & $ < " + "{:0.2f}".format(NelecSyst) + "_{\\rm stat+syst} $ \\\\  \n"  
-content += "muons          & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nmuon) + "(^{+" + "{:0.2f}".format(NmuonErrUp) + "}_{-" + "{:0.2f}".format(NmuonErrDn) + "})_{\\rm stat}  \\pm " + "{:0.2f}".format(NmuonSyst) + "_{\\rm syst} $ }  \\\\  \n"
-content += "taus           & $ < " + "{:0.2f}".format(NtauErr) + "_{\\rm stat} $ & $ < " + "{:0.2f}".format(NtauSyst) + "_{\\rm stat+syst} $ \\\\  \n"
-content += "fake tracks    & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nfake) + "(^{+" + "{:0.2f}".format(NfakeErrUp) + "}_{-" + "{:0.2f}".format(NfakeErrDn) + "})_{\\rm stat}  \\pm " + "{:0.2f}".format(NfakeSyst) + "_{\\rm syst}   $ }  \\\\  \n" 
+content += "Electrons      & $ < " + "{:0.2f}".format(NelecErr) + "\\text{ (stat) }$  & $ < " + "{:0.2f}".format(NelecSyst) + "\\text{ (stat + syst) }$ \\\\  \n"  
+content += "Muons          & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nmuon) + "^{+" + "{:0.2f}".format(NmuonErrUp) + "}_{-" + "{:0.2f}".format(NmuonErrDn) + "} \\text{ (stat) }  \\pm " + "{:0.2f}".format(NmuonSyst) + " \\text{ (syst) } $ }  \\\\  \n"
+content += "Taus           & $ < " + "{:0.2f}".format(NtauErr) + " \\text{ (stat)  } $ & $ < " + "{:0.2f}".format(NtauSyst) + " \\text{ (stat + syst) } $ \\\\  \n"
+content += "Misidentified tracks    & \\multicolumn{2}{c}{$" + "{:0.2f}".format(Nfake) + "^{+" + "{:0.2f}".format(NfakeErrUp) + "}_{-" + "{:0.2f}".format(NfakeErrDn) + "} \\text{ (stat) }  \\pm " + "{:0.2f}".format(NfakeSyst) + "\\text{ (syst) }   $ }  \\\\  \n" 
 content += hline
 ## from toyUpperLimitsBkgdSum import * 
 ## line = getBkgdSummLineForTable()
 ## content += line  
 ## content += hline
-content += "data           & \\multicolumn{2}{c}{ $ " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + " $ }  \\\\ \n"
+content += "Data           & \\multicolumn{2}{c}{ $ " + str(round_sigfigs(NData, 1)).rstrip("0").rstrip(".") + " $ }  \\\\ \n"
 content += hline
 content += hline
 content += "\\end{tabular} \n"
@@ -1700,9 +1700,9 @@ content  = header
 content += "\\begin{tabular}{lccc} \n"
 content += hline
 content += hline
-content += "sample                                  &  data   &  estimate  & data/estimate  \\\\ \n"  
+content += "Sample                                  &  Data   &  Estimate  & Data/Estimate  \\\\ \n"  
 content += hline
-content += "\\candtrk sample           & " + str(NPreselData).rstrip("0").rstrip(".") + " & $" + str(round_sigfigs(NPreselEst,3)) + " \\pm " + str(round_sigfigs(NPreselEstErr,2)) + "$ & $" + "{:0.2f}".format(ratioPresel) + " \\pm  " + "{:0.2f}".format(ratioPreselErr) + "$ \\\\ \n"
+content += "Candidate track sample           & " + str(NPreselData).rstrip("0").rstrip(".") + " & $" + str(round_sigfigs(NPreselEst,3)) + " \\pm " + str(round_sigfigs(NPreselEstErr,2)) + "$ & $" + "{:0.2f}".format(ratioPresel) + " \\pm  " + "{:0.2f}".format(ratioPreselErr) + "$ \\\\ \n"
 content += "\\calotot sideband sample  & " + str(NEcaloData).rstrip("0").rstrip(".")  + " & $" + str(round_sigfigs(NEcaloEst,4))  + " \\pm " + str(round_sigfigs(NEcaloEstErr,2))  + "$ & $" + "{:0.2f}".format(ratioEcalo)  + " \\pm  " + "{:0.2f}".format(ratioEcaloErr)  + "$ \\\\  \n"
 content += "\\Nmissout sideband sample & " + str(NNmissData).rstrip("0").rstrip(".")  + " & $" + str(round_sigfigs(NNmissEst,4))  + " \\pm " + str(round_sigfigs(NNmissEstErr,2))  + "$ & $" + "{:0.2f}".format(ratioNmiss)  + " \\pm  " + "{:0.2f}".format(ratioNmissErr)  + "$ \\\\  \n"
 content += hline
@@ -1742,14 +1742,14 @@ content  = header
 content += "\\begin{tabular}{lccc} \n"
 content += hline
 content += hline
-content += "source                            & contribution \\\\   \n"  
+content += "Source                            & Contribution \\\\   \n"  
 content += hline
-content += "electrons   & " + str(round_sigfigs(percentelec,2)).replace(".0","") + "\\%  \\\\  \n"
-content += "muons       & " + str(round_sigfigs(percentmuon,2)).replace(".0","") + "\\%  \\\\  \n"  
-content += "hadrons     & " + str(round_sigfigs(percenthad, 2)).replace(".0","") + "\\%  \\\\  \n"  
-content += "fake tracks & " + str(round_sigfigs(percentfake,1)).replace(".0","") + "\\%  \\\\  \n"  
-content += "% tau       & " + str(round_sigfigs(percenttau, 2)).replace(".0","") + "\\%  \\\\  \n"  
-content += "% other had & " + str(round_sigfigs(percentothr,2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "Electrons   & " + str(round_sigfigs(percentelec,2)).replace(".0","") + "\\%  \\\\  \n"
+content += "Muons       & " + str(round_sigfigs(percentmuon,2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "Hadrons     & " + str(round_sigfigs(percenthad, 2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "Misidentified tracks & " + str(round_sigfigs(percentfake,1)).replace(".0","") + "\\%  \\\\  \n"  
+content += "% Tau       & " + str(round_sigfigs(percenttau, 2)).replace(".0","") + "\\%  \\\\  \n"  
+content += "% Other had & " + str(round_sigfigs(percentothr,2)).replace(".0","") + "\\%  \\\\  \n"  
 content += hline
 content += hline
 content += "\\end{tabular}\n"
@@ -1770,16 +1770,16 @@ content  = header
 content += "\\begin{tabular}{llll}\n"
 content += hline
 content += hline
-content += "& electrons & muons & taus \\\\ \n"
+content += "& Electrons & Muons & Taus \\\\ \n"
 content += hline
-content += "criteria removed to   & $\Pe$ veto & $\Pgm$ veto & $\Pgt$ veto \\\\ \n" 
+content += "Criteria removed to   & $\Pe$ veto & $\Pgm$ veto & $\Pgt$ veto \\\\ \n" 
 content += "select control sample  & $\calotot < 10\GeV$ &            & $\calotot < 10\GeV$\\\\ \n"
 content += hline
 content += "$N^{i}_\\text{ctrl}$ from data & $" + str(round_sigfigs(NeCtrl,5)).replace(".0","")  +  "$ & $" + str(round_sigfigs(NmuCtrl,5)).replace(".0","")  +  "$  & $" + str(round_sigfigs(NtauCtrl,5)).replace(".0","")  +  "$ \\\\ \n"
-content += "$P^{i}$ from simulation & $<" + str(round_sigfigs(PElecErr * 1e5,2))+ "\\times 10^{-5}"  +  "$ & $" + str(round_sigfigs(PMuon * 1e4,2)) + " (^{+" + str(round_sigfigs(PMuonErrUp * 1e4,3)) + "}_{-" + str(round_sigfigs(PMuonErrDown * 1e4,2)) + "}) \\times 10^{-4} " +  "$  & $<" + str(round_sigfigs(PTauErr,2))  +  "$ \\\\ \n"
-content += "$N^{i} = N^{i}_\\text{ctrl} P^{i} $ & $<" + str(round_sigfigs(NelecErrSM,2))  +  "_\\text{stat}$ & $" + str(round_sigfigs(NmuonSM,2)) + " (^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) +  "})_\\text{stat} $  & $<" + str(round_sigfigs(NtauErrSM,2))  +  "_\\text{stat}$ \\\\ \n"
+content += "$P^{i}$ from simulation & $<" + str(round_sigfigs(PElecErr * 1e5,2))+ "\\times 10^{-5}"  +  "$ & $" + str(round_sigfigs(PMuon * 1e4,2)) + " ^{+" + str(round_sigfigs(PMuonErrUp * 1e4,2)) + "}_{-" + str(round_sigfigs(PMuonErrDown * 1e4,2)) + "} \\times 10^{-4} " +  "$  & $<" + str(round_sigfigs(PTauErr,2))  +  "$ \\\\ \n"
+content += "$N^{i} = N^{i}_\\text{ctrl} P^{i} $ & $<" + str(round_sigfigs(NelecErrSM,2))  +  "\\text{ (stat) }$ & $" + str(round_sigfigs(NmuonSM,2)) + " ^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) +  "} \\text{ (stat) } $  & $<" + str(round_sigfigs(NtauErrSM,2))  +  "\\text{ (stat) }$ \\\\ \n"
 content += "$P^{i}$ systematic uncertainty  & $"  + str(round_sigfigs(systFracElec * 1.e2,2)).rstrip("0").rstrip(".") +"$\% & $" + str(round_sigfigs(systFracMuon * 1.e2,2)).rstrip("0").rstrip(".") +  "$\% & $" + str(round_sigfigs(systFracTau  * 1.e2,2)).rstrip("0").rstrip(".")  +  "\%$ \\\\ \n"
-content += "$N^{i}$  & $<" + str(round_sigfigs(NelecSyst,2))  +  "0_\\text{stat+syst}$ & $" + str(round_sigfigs(NmuonSM,2)) + " (^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) + "})_\\text{stat} \pm" + str(round_sigfigs(NmuonSyst,2)) +  "_\\text{syst}$  & $<" + str(round_sigfigs(NtauSyst,2))  +  "_\\text{stat+syst}$ \\\\ \n"
+content += "$N^{i}$  & $<" + str(round_sigfigs(NelecSyst,2))  +  "0\\text{ (stat + syst) }$ & $" + str(round_sigfigs(NmuonSM,2)) + " ^{+" + str(round_sigfigs(NMuonErrorUpSM,3)) + "}_{-" + str(round_sigfigs(NMuonErrorDownSM,2)) + "}\\text{ (stat) } \pm" + str(round_sigfigs(NmuonSyst,2)) +  "\\text{ (syst) }$  & $<" + str(round_sigfigs(NtauSyst,2))  +  "\\text{ (stat + syst) }$ \\\\ \n"
 content += hline
 content += hline
 content += "\\end{tabular}\n"
