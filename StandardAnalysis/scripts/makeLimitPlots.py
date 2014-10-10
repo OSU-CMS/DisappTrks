@@ -1327,7 +1327,7 @@ def drawPlot(plot, th2fType=""):
         function = TF1("function","-413.315+305.383*log(x) - 60.8831*log(x)^2 + 5.41948 * log(x)^3 - 0.181509*log(x)^4",100,600)
         function.SetLineStyle(2)
         function.Draw("same")
-        legend.AddEntry(function, "Theory (Phys. Lett. B721 252 (2013))" ,"L")
+        legend.AddEntry(function, "Theory (Phys. Lett. B721 (2013) 252)" ,"L")
         legend.Draw("same")
         gStyle.SetHatchesSpacing(0.01)
         mPi = 0.13957018  # units of GeV, from PDG
