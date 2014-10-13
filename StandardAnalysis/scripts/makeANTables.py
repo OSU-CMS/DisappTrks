@@ -857,7 +857,7 @@ PSearchErr_4 = PSearch_4 * math.sqrt(math.pow(NYieldSearchErr_4/NYieldSearch_4, 
 
 PSearch_5 = NYieldSearch_5 / NSearchCtrl
 PSearchErr_5 = PSearch_5 * math.sqrt(math.pow(NYieldSearchErr_5/NYieldSearch_5, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
-
+print "PSearch_5 = " , PSearch_5
 PSearch_6 = NYieldSearch_6 / NSearchCtrl
 PSearchErr_6 = PSearch_6 * math.sqrt(math.pow(NYieldSearchErr_6/NYieldSearch_6, 2) + math.pow(NSearchCtrlErr/NSearchCtrl, 2))
 
@@ -878,12 +878,12 @@ NYieldLL_6 = NYieldEE_6 + NYieldMuMu_6
 
 
 NCtrlLL = NCtrlEE + NCtrlMuMu
-NCtrlErrLL = NCtrlLL * (math.sqrt(math.pow(NCtrlErrEE/NCtrlEE,2) + math.pow(NCtrlErrMuMu/NCtrlMuMu,2)))
+NCtrlErrLL =  (math.sqrt(math.pow(NCtrlErrEE,2) + math.pow(NCtrlErrMuMu,2)))
 
-NYieldErrLL_3 = NYieldLL_3 * math.sqrt(math.pow(NYieldErrEE_3/NYieldEE_3,2) + math.pow(NYieldErrMuMu_3/NYieldMuMu_3,2))
-NYieldErrLL_4 = NYieldLL_4 * math.sqrt(math.pow(NYieldErrEE_4/NYieldEE_4,2) + math.pow(NYieldErrMuMu_4/NYieldMuMu_4,2))
-NYieldErrLL_5 = NYieldLL_5 * math.sqrt(math.pow(NYieldErrEE_5/NYieldEE_5,2) + math.pow(NYieldErrMuMu_5/NYieldMuMu_5,2))
-NYieldErrLL_6 = NYieldLL_6 * math.sqrt(math.pow(NYieldErrEE_6/NYieldEE_6,2) + math.pow(NYieldErrMuMu_6/NYieldMuMu_6,2))
+NYieldErrLL_3 = math.sqrt(math.pow(NYieldErrEE_3,2) + math.pow(NYieldErrMuMu_3,2))
+NYieldErrLL_4 = math.sqrt(math.pow(NYieldErrEE_4,2) + math.pow(NYieldErrMuMu_4,2))
+NYieldErrLL_5 = math.sqrt(math.pow(NYieldErrEE_5,2) + math.pow(NYieldErrMuMu_5,2))
+NYieldErrLL_6 = math.sqrt(math.pow(NYieldErrEE_6,2) + math.pow(NYieldErrMuMu_6,2))
 
 ratioEE_3 = PSearch_3 / PEE_3
 ratioEE_4 = PSearch_4 / PEE_4
@@ -1199,11 +1199,11 @@ NYield = NYield + NYieldEE
 NCtrl = NCtrl + NCtrlEE
 P = NYield / NCtrl
 
+
 NYieldErr = math.sqrt(math.pow(NYieldErrEE, 2) + math.pow(NYieldErr, 2))
 NCtrlErr = math.sqrt(math.pow(NCtrlErrEE, 2) + math.pow(NCtrlErr, 2))
 
 PErr = P * math.sqrt(math.pow(NYieldErr/NYield, 2) + math.pow(NCtrlErr/NCtrl, 2))
-
 (NCtrlData, NCtrlErrData)   = getYield("MET", fakeSearchSystDir, "MetJet") 
 (NYieldData, NYieldErrData) = getYield("MET", fakeSearch5HitsSystDir, "FullSelectionNHits5") 
 PData = NYieldData / NCtrlData 
@@ -1211,6 +1211,7 @@ PErrData = PData * math.sqrt(math.pow(NYieldErrData/NYieldData, 2) + math.pow(NC
 
 ratio = PData / P
 ratioErr = ratio * math.sqrt(math.pow(PErrData/PData, 2) + math.pow(PErr/P, 2))
+
 ratio1SigUp = math.fabs(ratio + ratioErr - 1.0)
 ratio1SigDn = math.fabs(ratio - ratioErr - 1.0)
 systFracFake = max(ratio1SigUp, ratio1SigDn)
@@ -1772,7 +1773,7 @@ content += hline
 content += hline
 content += "& Electrons & Muons & Taus \\\\ \n"
 content += hline
-content += "Criteria removed to   & $\Pe$ veto & $\Pgm$ veto & $\Pgt$ veto \\\\ \n" 
+content += "Criteria removed to   & $\Pe$ veto & $\Pgm$ veto & $\Pgt_{rm h}$ veto \\\\ \n" 
 content += "select control sample  & $\calotot < 10\GeV$ &            & $\calotot < 10\GeV$\\\\ \n"
 content += hline
 content += "$N^{i}_\\text{ctrl}$ from data & $" + str(round_sigfigs(NeCtrl,5)).replace(".0","")  +  "$ & $" + str(round_sigfigs(NmuCtrl,5)).replace(".0","")  +  "$  & $" + str(round_sigfigs(NtauCtrl,5)).replace(".0","")  +  "$ \\\\ \n"
