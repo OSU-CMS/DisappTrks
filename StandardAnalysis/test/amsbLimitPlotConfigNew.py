@@ -54,7 +54,9 @@ else:
 #limit_dir = 'limits_28July'    
 #limit_dir = 'limits_27Julyv2'    
 #limit_dir = WellsDir+'limits_2014_08_01f'  # LHC-type full CLs  
-limit_dir = JessDir+'paperLimitDir'  # LHC-type full CLs  
+#limit_dir = JessDir+'paperLimitDir'  # LHC-type full CLs  
+#limit_dir = WellsDir+'limits_2014_09_30'  # LHC-type full CLs
+limit_dir = WellsDir+'limits_2014_10_10'  # LHC-type full CLs
 
 masses = ['100', '200', '300', '400', '500', '600']
 

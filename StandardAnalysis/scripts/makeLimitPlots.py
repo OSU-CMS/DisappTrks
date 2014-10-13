@@ -1195,7 +1195,7 @@ def drawPlot(plot, th2fType=""):
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                 if graphName is 'obs':
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
-                #makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
+                    makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
                     if plotDrawn:
                         tGraphs[-1].Draw('L')
                     else:
