@@ -410,8 +410,10 @@ for cTau in lifetimes:
         JESJERRangeTot.append(math.sqrt(totalJESJER))
         systRangeTot.append(math.sqrt(total))
         lifetimeRangeTot.append(cTau)  
-## print "SystRangeTot: " 
-## print systRangeTot
+systRangeTot.sort()  
+if arguments.verbose: 
+    print "SystRangeTot: " 
+    print systRangeTot
 largestTot  = max(systRangeTot)
 smallestTot = min(systRangeTot)
 largestJESJER  = max(JESJERRangeTot)
@@ -456,7 +458,6 @@ fout.write(content)
 fout.close()
 os.system("cat " + outputFile)
 print "Finished writing " + outputFile + "\n\n\n"
-
 
 
 ###################################################
