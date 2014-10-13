@@ -6,9 +6,10 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from systematicConfig_common import *
 
-
 systematic_name = "PDFWt"
 usePdfWt = True  
 
-central_condor_dir = JessDir+"/pdfSyst_23June"  
+condor_dir_CTEQ  = JessDir+"/condor_2014_10_06_pdfSyst_CTEQ"  
+condor_dir_MSTW  = JessDir+"/condor_2014_10_06_pdfSyst_MSTW"  
+condor_dir_NNPDF = JessDir+"/condor_2014_10_06_pdfSyst_NNPDF"  
 

@@ -1,10 +1,6 @@
 #!/bin/sh                                                                  
 
-#PDFSETS="condor_2014_02_24_FullSelSystSig_PDFWt"  
-#PDFSETS="testPdfSyst"  
-PDFSETS="pdfSyst_23June"  
-#PDFSETS="PDFSET1FINAL"
-#BASEPATH=/data/users/wulsin/condor/analysisTemplateV3/ 
+PDFSETS="condor_2014_10_06_pdfSyst_CTEQ condor_2014_10_06_pdfSyst_MSTW condor_2014_10_06_pdfSyst_NNPDF" 
 BASEPATH=/data/users/jbrinson/condor/
 
 CALCULATORFILE=${PWD}/calcUncert
@@ -16,14 +12,14 @@ for pdfSet in ${PDFSETS}; do
     NFIELDS=47 #FOR CTEQ 44 pdf memebrs + 2 astrong + 1 nominal                                                                                           
     ASSCF=0.83333333 #C59=5/6 for CTEQ                                                                                                                    
     PDFSETNO=1
-    if [ ${pdfSet} == "PDFSET2FINAL" ]
+    if [ ${pdfSet} == "condor_2014_10_06_pdfSyst_MSTW" ]
 	then
 	PDFSCF=1 #for MSTW                                                                                                                                                   
 	NPDFSETS=41 #for MSTW                                                                                                                                             
 	NFIELDS=43 #FOR MSTW 40 pdf members + 2 astrogn +  1 nominal                                                               
 	ASSCF=1.25 #C79=5/4 for MSTW                                                                                                                                        
 	PDFSETNO=2
-    elif [ ${pdfSet} == "PDFSET3FINAL" ]
+    elif [ ${pdfSet} == "condor_2014_10_06_pdfSyst_NNPDF" ]
 	then
     #not used for NNPDF except NPDFSETS                                                                                                                                      
 	PDFSCF=1 #for NNPDF NEED TO CHECK                                                                                                                          
