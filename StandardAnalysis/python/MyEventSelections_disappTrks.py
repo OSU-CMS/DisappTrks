@@ -963,6 +963,17 @@ for i in xrange(len(ModelIndepMetJet.cuts) - 1, -1, -1):
         ModelIndepMetJet.cuts.insert(len(ModelIndepMetJet.cuts), ModelIndepMetJet.cuts.pop(i))
         # move cutStopMCPartMatch to the end of cutflow, to avoid problem identified in slides 20140724_groupMtg, p. 24.  
 
+ModelIndepMetJetGen = copy.deepcopy(MetJet) 
+ModelIndepMetJetGen.name = cms.string("ModelIndepMetJetGen") 
+#ModelIndepMetJetGen.triggers = triggersJetMet105Met120 
+ModelIndepMetJetGen.cuts = MetJet.cuts + ModelIndepGen.cuts
+
+ModelIndepMetJetGenNegChargino = copy.deepcopy(ModelIndepMetJetGen) 
+#ModelIndepMetJetGenNegChargino.name = cms.string("ModelIndepMetJetGenNegChargino")  # leave the name the same, so can be combined with positive chargino with hadd 
+for i in range(0, len(ModelIndepMetJetGenNegChargino.cuts)):  
+    if ModelIndepMetJetGenNegChargino.cuts[i].cutString == cutMCPartChiPlus.cutString:
+        ModelIndepMetJetGenNegChargino.cuts[i].cutString = cutMCPartChiMinus.cutString
+
 ModelIndepFullSel = copy.deepcopy(ModelIndepGen) 
 ModelIndepFullSel.name = cms.string("ModelIndepFullSel") 
 ModelIndepFullSel.triggers = triggersJetMet105Met120 
@@ -974,6 +985,21 @@ for i in xrange(len(ModelIndepFullSel.cuts) - 1, -1, -1):
         ModelIndepFullSel.cuts.insert(len(ModelIndepFullSel.cuts), ModelIndepFullSel.cuts.pop(i))
         # move cutStopMCPartMatch to the end of cutflow, to avoid problem identified in slides 20140724_groupMtg, p. 24.  
 
+ModelIndepFullSelNew = copy.deepcopy(ModelIndepMetJetGen) 
+ModelIndepFullSelNew.name = cms.string("ModelIndepFullSelNew")
+ModelIndepFullSelNew.cuts = FullSelection.cuts + \
+                            ModelIndepGen.cuts + \
+                            cms.VPSet(cutTrkMCPartMatch)
+for i in xrange(len(ModelIndepFullSelNew.cuts) - 1, -1, -1):
+    if ModelIndepFullSelNew.cuts[i].cutString == cutStopMCPartMatch.cutString:
+        ModelIndepFullSelNew.cuts.insert(len(ModelIndepFullSelNew.cuts), ModelIndepFullSelNew.cuts.pop(i))
+        # move cutStopMCPartMatch to the end of cutflow, to avoid problem identified in slides 20140724_groupMtg, p. 24.  
+
+ModelIndepFullSelNegChargino = copy.deepcopy(ModelIndepFullSelNew) 
+#ModelIndepFullSelNegChargino.name = cms.string("ModelIndepFullSelNegChargino")   # leave the name the same, so can be combined with positive chargino with hadd 
+for i in range(0, len(ModelIndepFullSelNegChargino.cuts)):  
+    if ModelIndepFullSelNegChargino.cuts[i].cutString == cutMCPartChiPlus.cutString:
+        ModelIndepFullSelNegChargino.cuts[i].cutString = cutMCPartChiMinus.cutString
 
 PreSelectionElecIdNoLepVeto = cms.PSet(
     name = cms.string("PreSelectionElecIdNoElecVeto"),
