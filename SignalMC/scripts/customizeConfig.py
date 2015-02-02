@@ -14,7 +14,7 @@ parser = OptionParser()
 parser.add_option("-i", "--infile", dest="infile",
                   help="input config file")
 parser.add_option("-o", "--outfile", dest="outfile",
-                  help="output file name; if ends in '/', will append infile name")
+                  help="output file name (default = input file name); if ends in '/', will append infile name")  
 (arguments, args) = parser.parse_args()
 
 if not arguments.infile:
