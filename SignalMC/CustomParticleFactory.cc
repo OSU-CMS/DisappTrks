@@ -19,7 +19,8 @@
 #include <G4PhaseSpaceDecayChannel.hh>
 #include "G4ProcessManager.hh"
 
-using namespace std;
+using namespace CLHEP;
+using namespace std; 
 
 bool CustomParticleFactory::loaded = false;
 std::set<G4ParticleDefinition *> CustomParticleFactory::m_particles;
@@ -36,21 +37,21 @@ void CustomParticleFactory::loadCustomParticles(const std::string & filePath){
   std::ifstream configFile(filePath.c_str());
 
   std::string line;
-  std::cout << "Reading Custom Particle and G4DecayTable " << endl; 
+  std::cout << "Reading Custom Particle and G4DecayTable " << endl;
   // This should be compatible IMO to SLHA 
   G4ParticleTable* theParticleTable = G4ParticleTable::GetParticleTable();
   while(getline(configFile,line)){
     if(line.find("PDG code")<line.npos){
-       cout << " Found PDF code information " << endl; 
-       getMassTable(&configFile);
+      cout << " Found PDF code information " << endl; 
+      getMassTable(&configFile);
     }
     if(line.find("DECAY")<line.npos){
     int pdgId;
     double width; 
     std::string tmpString;
     std::stringstream lineStream(line);
-    lineStream>>tmpString>>pdgId>>width;
-    std::cout << "G4DecayTable: pdgID, width " << pdgId << ",  " << width << endl; 
+    lineStream>>tmpString>>pdgId>>width; 
+    std::cout << "G4DecayTable: pdgID, width " << pdgId << ",  " << width << endl;
     G4DecayTable* aDecayTable = getDecayTable(&configFile, pdgId);      
       G4ParticleDefinition *aParticle = theParticleTable->FindParticle(pdgId);
       G4ParticleDefinition *aAntiParticle = theParticleTable->FindAntiParticle(pdgId);
@@ -111,7 +112,7 @@ void CustomParticleFactory::addCustomParticle(int pdgCode, double mass, const st
   int gParity = 0;
   int lepton = 0;  //FIXME:
   int baryon = 1;  //FIXME: 
-  bool stable = true; // gets set elsewhere
+  bool stable = true;
   double lifetime = -1;
  
   G4DecayTable *decaytable = NULL;
@@ -201,17 +202,14 @@ void  CustomParticleFactory::getMassTable(std::ifstream *configFile) {
   std::string name, tmp;
   std::string line;
   // This should be compatible IMO to SLHA 
-  cout << " Begin the Mass Table " << endl;
   while(getline(*configFile,line))
     {
-    if(line.find("Blo")<line.npos) {
-      cout << " Finished the Mass Table " << endl;
-      break;
-    }
+      if(line.find("Blo")<line.npos){
+	cout << " Finished the Mass Table " << endl;
+	break;
+      }
     std::stringstream sstr(line);
     sstr >>pdgId>>mass>>tmp>>name;
-
-    cout << " Particle ID, Mass, Name " << pdgId << ",  " << mass << ",  " << name << endl; 
 
      addCustomParticle(pdgId, fabs(mass), name);
     ////Find SM particle partner and check for the antiparticle.
@@ -265,22 +263,22 @@ G4DecayTable*  CustomParticleFactory::getDecayTable(std::ifstream *configFile, i
   std::string parentName = theParticleTable->FindParticle(pdgId)->GetParticleName();
   G4DecayTable *decaytable= new G4DecayTable();
 
-  //getline(*configFile,tmp);
+  //  getline(*configFile,tmp);
 
-  //while(!configFile->eof())
+  //  while(!configFile->eof()){
   while(getline(*configFile,tmp))
-  {
-    if(tmp.find("Blo")<tmp.npos) {
-      cout << " Finished the Decay Table " << endl;
-      break;
-    }
+    {
+      if(tmp.find("Blo")<tmp.npos) {
+	cout << " Finished the Decay Table " << endl;
+	break;
+      }
     pdg.clear();
     name.clear();
-    (*configFile)>>br>>nDaughters; 
+    (*configFile)>>br>>nDaughters;
     cout << " Branching Ratio, Number of Daughters " << br << ",  " << nDaughters << endl;
-    for(int i=0;i<nDaughters;i++) {
-       (*configFile)>>pdg[i];
-       cout << " Daughter ID " << pdg[i];
+    for(int i=0;i<nDaughters;i++){
+      (*configFile)>>pdg[i];
+      cout << " Daughter ID " << pdg[i]; 
     }
     cout << endl;
     getline(*configFile,tmp);
@@ -298,7 +296,7 @@ G4DecayTable*  CustomParticleFactory::getDecayTable(std::ifstream *configFile, i
   
     /////////////////////////
 
-/*    char text[200];
+    /*    char text[200];
     configFile->get(text,2);
     tmp.clear();
     tmp.append(text);
