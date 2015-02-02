@@ -17,6 +17,12 @@ parser.add_option("-o", "--outfile", dest="outfile",
                   help="output file name; if ends in '/', will append infile name")
 (arguments, args) = parser.parse_args()
 
+if not arguments.infile:
+    print "ERROR:  Must specify input file name."
+    sys.exit()
+if not arguments.outfile:
+    print "ERROR:  Must specify output file name."
+    sys.exit()
 
 infile = arguments.infile 
 outfile = arguments.outfile
