@@ -20,12 +20,12 @@ parser.add_option("-o", "--outfile", dest="outfile",
 if not arguments.infile:
     print "ERROR:  Must specify input file name."
     sys.exit()
-if not arguments.outfile:
-    print "ERROR:  Must specify output file name."
-    sys.exit()
-
 infile = arguments.infile 
-outfile = arguments.outfile
+if not arguments.outfile:
+    outfile = infile
+else:
+    outfile = arguments.outfile
+
 if outfile.endswith("/"):
     outfile = outfile + infile
 
@@ -68,7 +68,7 @@ fnew = open(outfile, "w")
 fnew.write(configNew)
 fnew.close()
 
-print "Wrote output file: " + outfile
+print "Wrote output file:  " + outfile
 
 
 
