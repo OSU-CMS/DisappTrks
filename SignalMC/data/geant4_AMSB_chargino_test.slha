@@ -27,14 +27,10 @@ Block
 DECAY  1000024  0.658e-16 # +chargino decay  
 #   BR       NDA      ID1      ID2  
    1.0000    2     1000022    211   
-Block 
-
-
+# 
 #       PDG       Width               #
 DECAY  -1000024  0.658e-16 # -chargino decay  
 #   BR       NDA      ID1      ID2  
    1.0000    2     1000022    -211  
-Block 
 
 
-EOF 
