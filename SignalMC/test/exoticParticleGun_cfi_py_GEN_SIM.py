@@ -129,12 +129,15 @@ for path in process.paths:
 if particleType == "chargino":
     process.generator.PGunParameters.PartID = cms.vint32(1000024) 
     process.generator.particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha') 
+elif particleType == "antichargino":
+    process.generator.PGunParameters.PartID = cms.vint32(-1000024) 
+    process.generator.particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha') 
 elif particleType == "stau":
     process.generator.PGunParameters.PartID = cms.vint32(1000015) 
     process.generator.particleFile = cms.untracked.string('Configuration/Generator/data/particles_stau_100_GeV.txt') 
 elif particleType == "HIP2":
     process.generator.PGunParameters.PartID = cms.vint32(17) 
-    process.generator.particleFile = cms.untracked.string('Configuration/Generator/data/particles_HIP2_stau_500_GeV.txt') 
+    process.generator.particleFile = cms.untracked.string('Configuration/Generator/data/particles_HIP3_stau_500_GeV.txt') 
 elif particleType == "HIP6":
     process.generator.PGunParameters.PartID = cms.vint32(17) 
     process.generator.particleFile = cms.untracked.string('Configuration/Generator/data/particles_HIP6_stau_500_GeV.txt') 
@@ -152,6 +155,24 @@ else:
 
 from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 process = customise(process)
+
+# process.MessageLogger = cms.Service("MessageLogger",
+#                                     destinations = cms.untracked.vstring(
+#                                             'detailedInfo'
+#                                             ,'critical'
+#                                             ,'cerr'
+#                                     ),
+#                                     debugModules = cms.untracked.vstring('CustomPhysics'),
+#                                     critical = cms.untracked.PSet(
+#                                             threshold = cms.untracked.string('ERROR')
+#                                     ),
+#                                     detailedInfo = cms.untracked.PSet(
+#                                             threshold = cms.untracked.string('INFO')
+#                                     ),
+#                                     cerr = cms.untracked.PSet(
+#                                             threshold = cms.untracked.string('WARNING')
+#                                     )
+#                             )
 
 # Dump config file:
 outfile = open('dumpedConfig_GEN_SIM.py','w'); print >> outfile,process.dumpPython(); outfile.close()
