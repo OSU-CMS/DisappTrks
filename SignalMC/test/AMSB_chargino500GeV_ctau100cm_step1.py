@@ -3,6 +3,14 @@
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
 # with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi --datatier GEN-SIM-RAW --conditions MCRUN2_71_V1::All --step GEN,SIM,DIGI,L1,DIGI2RAW,HLT:GRun --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 3
+#
+# Wells notes:  
+# Ran cmsDriver.py in CMSSW_7_1_14.  
+# Got cmsDriver.py arguments from DAS:
+# config dataset=/DYToMuMu_Tune4C_13TeV-pythia8/Phys14DR-AVE30BX50_tsg_PHYS14_ST_V1-v1/AODSIM
+# Also used for reference:  https://twiki.cern.ch/twiki/bin/view/Main/ExoMCInstructions#For_13_TeV_requests
+# Added genParticlePlusGeant code by hand.  
+
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -119,7 +127,20 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-process.simulation_step = cms.Path(process.psim)
+
+# Following lines added by Wells:  
+process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
+                                              src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
+                                              setStatus = cms.int32(8), # set status = 8 for GEANT GPs
+                                              filter = cms.vstring("pt > 0.0"), # just for testing (optional)
+                                              genParticles = cms.InputTag("genParticles") # original genParticle list
+)
+process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
+process.RAWSIMoutput.outputCommands.extend( [
+        "keep *_genParticlePlusGeant_*_*",
+] ) 
+
+#process.simulation_step = cms.Path(process.psim) # original
 process.digitisation_step = cms.Path(process.pdigi)
 process.L1simulation_step = cms.Path(process.SimL1Emulator)
 process.digi2raw_step = cms.Path(process.DigiToRaw)
