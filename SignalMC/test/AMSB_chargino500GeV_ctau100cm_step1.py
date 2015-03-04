@@ -2,18 +2,16 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi --datatier GEN-SIM-RAW --conditions MCRUN2_71_V1::All --step GEN,SIM,DIGI,L1,DIGI2RAW,HLT:GRun --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 3
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 5
 #
-# Wells notes:  
-# Ran cmsDriver.py in CMSSW_7_1_14.  
-# Got cmsDriver.py arguments from DAS:
-# config dataset=/DYToMuMu_Tune4C_13TeV-pythia8/Phys14DR-AVE30BX50_tsg_PHYS14_ST_V1-v1/AODSIM
-# Also used for reference:  https://twiki.cern.ch/twiki/bin/view/Main/ExoMCInstructions#For_13_TeV_requests
-# Added genParticlePlusGeant code by hand.  
-
+# Follow recipe for RunII Winter GS campaign, e.g.:
+# https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/EXO-RunIIFall14GS-00224
+# for /DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIIWinter15GS-MCRUN2_71_V1-v1/GEN-SIM 
+# Add by hand:  
+# genParticlePlusGeant module
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('HLT')
+process = cms.Process('SIM')
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -25,18 +23,14 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.Geometry.GeometrySimDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
 process.load('Configuration.StandardSequences.Generator_cff')
-process.load('IOMC.EventVertexGenerators.VtxSmearedRealistic8TeVCollision_cfi')
+process.load('IOMC.EventVertexGenerators.VtxSmearedNominalCollision2015_cfi')
 process.load('GeneratorInterface.Core.genFilterSummary_cff')
 process.load('Configuration.StandardSequences.SimIdeal_cff')
-process.load('Configuration.StandardSequences.Digi_cff')
-process.load('Configuration.StandardSequences.SimL1Emulator_cff')
-process.load('Configuration.StandardSequences.DigiToRaw_cff')
-process.load('HLTrigger.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(3)
+    input = cms.untracked.int32(5)
 )
 
 # Input source
@@ -49,7 +43,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py nevts:3'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py nevts:5'),
     name = cms.untracked.string('Applications')
 )
 
@@ -62,7 +56,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('file:AMSB_chargino500GeV_ctau100cm_step1.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
-        dataTier = cms.untracked.string('GEN-SIM-RAW')
+        dataTier = cms.untracked.string('GEN-SIM')
     ),
     SelectEvents = cms.untracked.PSet(
         SelectEvents = cms.vstring('generation_step')
@@ -127,12 +121,13 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-
-# Following lines added by Wells:  
+#process.simulation_step = cms.Path(process.psim)
 process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
                                               src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
                                               setStatus = cms.int32(8), # set status = 8 for GEANT GPs
-                                              filter = cms.vstring("pt > 0.0"), # just for testing (optional)
+                                              filter = cms.vstring("pt > 10.0"), # just for testing (optional)
+#                                              particleTypes = cms.vstring("~chargino(1)+", "~neutralino(1)"),
+#                                              particleTypes = cms.vstring("1000024"), 
                                               genParticles = cms.InputTag("genParticles") # original genParticle list
 )
 process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
@@ -140,29 +135,17 @@ process.RAWSIMoutput.outputCommands.extend( [
         "keep *_genParticlePlusGeant_*_*",
 ] ) 
 
-#process.simulation_step = cms.Path(process.psim) # original
-process.digitisation_step = cms.Path(process.pdigi)
-process.L1simulation_step = cms.Path(process.SimL1Emulator)
-process.digi2raw_step = cms.Path(process.DigiToRaw)
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.digitisation_step,process.L1simulation_step,process.digi2raw_step)
-process.schedule.extend(process.HLTSchedule)
-process.schedule.extend([process.endjob_step,process.RAWSIMoutput_step])
+process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.endjob_step,process.RAWSIMoutput_step)
 # filter all path with the production filter sequence
 for path in process.paths:
 	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
 
 # customisation of the process.
-
-# Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
-from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC 
-
-#call to customisation function customizeHLTforMC imported from HLTrigger.Configuration.customizeHLTforMC
-process = customizeHLTforMC(process)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
@@ -183,3 +166,9 @@ from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 process = customise(process)
 
 # End of customisation functions
+
+# Memory information:  
+# process.SimpleMemoryCheck.jobReportOutputOnly  = cms.untracked.bool(False)
+# process.SimpleMemoryCheck.monitorPssAndPrivate = cms.untracked.bool(True)
+# process.SimpleMemoryCheck.moduleMemorySummary  = cms.untracked.bool(True)
+
