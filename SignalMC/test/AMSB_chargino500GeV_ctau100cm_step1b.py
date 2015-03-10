@@ -12,6 +12,7 @@
 #
 # Then make the following modifications:
 # Remove --step GEN:fixGenInfo
+# Remove --step HLT:GRun, since this step uses the most memory (do it in step1c instead).  
 # Remove --inputEventContent REGEN
 # Use: --conditions MCRUN2_71_V1::All
 # Add: process.RAWSIMoutput.outputCommands.extend( [ "keep *_genParticlePlusGeant_*_*", ] )
@@ -68,6 +69,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         dataTier = cms.untracked.string('GEN-SIM-RAW')
     )
 )
+# Added by Wells:  
 process.RAWSIMoutput.outputCommands.extend( [ "keep *_genParticlePlusGeant_*_*", ] )
 
 # Additional output definition
