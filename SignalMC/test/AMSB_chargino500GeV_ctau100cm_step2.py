@@ -2,7 +2,20 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step2 --filein file:AMSB_chargino500GeV_ctau100cm_step1b2Test.root --fileout file:AMSB_chargino500GeV_ctau100cm_step2.root --mc --eventcontent RECOSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier RECOSIM --conditions MCRUN2_71_V1::All --step RAW2DIGI,L1Reco,RECO --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step2.py --no_exec -n 5
+# with command line options: step2 --filein file:AMSB_chargino500GeV_ctau100cm_step1c.root --fileout file:AMSB_chargino500GeV_ctau100cm_step2.root --mc --eventcontent RECOSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier RECOSIM --conditions MCRUN2_71_V1::All --step RAW2DIGI,L1Reco,RECO --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step2.py --no_exec -n 5
+
+# Notes from Wells:
+# Start with the cmsDriver.py commands from the Phys14 campaign, e.g.:
+# https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/EXO-Phys14DR-00030
+# Note that the GEN-SIM step that was the input was produced with:
+# https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/EXO-Fall13-00237
+#
+# Then make the following modifications:
+# Remove --step EI,DQM:DQMOfflinePOGMC 
+# Use: --conditions MCRUN2_71_V1::All
+# Add: process.RECOSIMoutput.outputCommands.extend( [ "keep *_genParticlePlusGeant_*_*", ] )
+# Add: memory debugging information at the end.  
+
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('RECO')
@@ -28,7 +41,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:AMSB_chargino500GeV_ctau100cm_step1b2Test.root')
+    fileNames = cms.untracked.vstring('file:AMSB_chargino500GeV_ctau100cm_step1c.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -54,6 +67,11 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
         dataTier = cms.untracked.string('RECOSIM')
     )
 )
+
+# Added by Wells:
+process.RECOSIMoutput.outputCommands.extend( [ "keep *_genParticlePlusGeant_*_*", ] ) 
+
+
 
 # Additional output definition
 
@@ -87,8 +105,10 @@ process = customisePostLS1(process)
 
 # End of customisation functions
 
+
 # Memory information:  
 process.SimpleMemoryCheck.jobReportOutputOnly  = cms.untracked.bool(False)
 process.SimpleMemoryCheck.monitorPssAndPrivate = cms.untracked.bool(True)
 process.SimpleMemoryCheck.moduleMemorySummary  = cms.untracked.bool(True)
+
 
