@@ -6,7 +6,7 @@
 # or stderr files.  
 #
 # For CMSSW jobs, to get the memory usage, add the following to the config file:
-process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck")  
+# process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck")  
 # See for reference:  https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEDMTimingAndMemory  
 
 
@@ -36,13 +36,13 @@ def getUsage(cmd, step, y, yerr):
     y.append(usageMedian)
     yerr.append(usageErr)  
 
-condorDir = "AMSB_chargino500GeV_ctau100cm_" # excluding 
+condorDir = "AMSB_chargino500GeV_ctau100cm_" # excluding the step name
 
 labels = ["step1b", "step1c", "step2"]
 n = len(labels)  
 y    = [] 
 yerr = [] 
-cmdMem = ["grep 'Peak virtual size' condor/AMSB_chargino500GeV_ctau100cm_", 
+cmdMem = ["grep 'Peak virtual size' condor/" + condorDir, 
           "/condor_*.err | awk '{print $5}'"]  
 # Print out will be of the form:
 # MemoryReport> Peak virtual size 1228.38 Mbytes  
@@ -65,7 +65,7 @@ labels = ["step1", "step1b", "step1c", "step2"]
 n = len(labels)  
 y    = [] 
 yerr = [] 
-cmdTime = ["grep -A 5 'Time report complete' condor/AMSB_chargino500GeV_ctau100cm_", 
+cmdTime = ["grep -A 5 'Time report complete' condor/" + condorDir, 
            "/condor_*.err | grep 'Avg event' | awk '{print $5}'"]  
 # Print outs will be of the form:
 # TimeReport> Time report complete in 1476.87 seconds
