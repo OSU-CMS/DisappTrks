@@ -36,6 +36,9 @@ add process p p > x1+ n1 j j
 add process p p > x1- n1
 add process p p > x1- n1 j
 add process p p > x1- n1 j j
-output AMSBCharginoOutput
+output C1C1_C1N1_2j -nojpeg 
+
+
+
 
 
