@@ -21,7 +21,8 @@ process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (1000)
 )
 process.source = cms.Source ("PoolSource",
-    fileNames = cms.untracked.vstring ('root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/50000/689003ED-18FE-E411-9EE9-F04DA23BBCCA.root')
+    #fileNames = cms.untracked.vstring ('root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/50000/689003ED-18FE-E411-9EE9-F04DA23BBCCA.root')
+    fileNames = cms.untracked.vstring ('root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/80000/FC8BEFF2-DFFB-E411-9369-002590D0AFC4.root')
 )
 
 ###########################################################
@@ -76,98 +77,38 @@ cuts = Cuts ()
 
 cuts.MuMETNoMET = cms.PSet (
   name = cms.string ('MuMETNoMET'),
-  triggers = cms.vstring ('HLT_MET75_IsoTrk50_v'),
+  triggerFilters = cms.vstring ('hltMETClean75'),
   cuts = cms.VPSet (
       cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string ('abs (eta) < 2.1'),
+          inputCollection = cms.vstring ('mets'),
+          cutString = cms.string ('pt > -1.0'),
           numberRequired = cms.string ('== 1'),
       ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string ('pt > 75.0'),
-          numberRequired = cms.string ('== 1'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (muonID.run2.tightID_displaced),
-          numberRequired = cms.string ('== 1'),
-          alias = cms.string ('displaced tight muon ID'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (' (pfIsolationR04.sumChargedHadron + max (0.0, pfIsolationR04.sumNeutralHadronEt + pfIsolationR04.sumPhotonEt - 0.5 * pfIsolationR04.sumPUPt)) / pt < 0.15'),
-          numberRequired = cms.string ('== 1'),
-          alias = cms.string ('muon isolation'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('electrons'),
-          cutString = cms.string ('pt > 25.0'),
-          numberRequired = cms.string ('== 0'),
-          alias = cms.string ('electron veto'),
-      ),
-#      cms.PSet (
-#          inputCollection = cms.vstring ('mets'),
-#          cutString = cms.string ('pt > 150.0'),
-#          numberRequired = cms.string ('== 1'),
-#      ),
   ),
 )
 
 cuts.MuMETNoMETNoTrigger = cms.PSet (
   name = cms.string ('MuMETNoMETNoTrigger'),
-#  triggers = cms.vstring ('HLT_MET75_IsoTrk50_v'),
+#  triggerFilters = cms.vstring ('hltMETClean75'),
   cuts = cms.VPSet (
       cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string ('abs (eta) < 2.1'),
+          inputCollection = cms.vstring ('mets'),
+          cutString = cms.string ('pt > -1.0'),
           numberRequired = cms.string ('== 1'),
       ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string ('pt > 75.0'),
-          numberRequired = cms.string ('== 1'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (muonID.run2.tightID_displaced),
-          numberRequired = cms.string ('== 1'),
-          alias = cms.string ('displaced tight muon ID'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (' (pfIsolationR04.sumChargedHadron + max (0.0, pfIsolationR04.sumNeutralHadronEt + pfIsolationR04.sumPhotonEt - 0.5 * pfIsolationR04.sumPUPt)) / pt < 0.15'),
-          numberRequired = cms.string ('== 1'),
-          alias = cms.string ('muon isolation'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('electrons'),
-          cutString = cms.string ('pt > 25.0'),
-          numberRequired = cms.string ('== 0'),
-          alias = cms.string ('electron veto'),
-      ),
-#      cms.PSet (
-#          inputCollection = cms.vstring ('mets'),
-#          cutString = cms.string ('pt > 150.0'),
-#          numberRequired = cms.string ('== 1'),
-#      ),
   ),
 )
 
 cuts.MuMETNoMuonPt = cms.PSet (
   name = cms.string ('MuMETNoMuonPt'),
   triggers = cms.vstring ('HLT_MET75_IsoTrk50_v'),
+  triggerFilters = cms.vstring ('hltMETClean75'),
   cuts = cms.VPSet (
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('abs (eta) < 2.1'),
           numberRequired = cms.string ('== 1'),
       ),
-#      cms.PSet (
-#          inputCollection = cms.vstring ('muons'),
-#          cutString = cms.string ('pt > 75.0'),
-#          numberRequired = cms.string ('== 1'),
-#      ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string (muonID.run2.tightID_displaced),
@@ -176,20 +117,15 @@ cuts.MuMETNoMuonPt = cms.PSet (
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (' (pfIsolationR04.sumChargedHadron + max (0.0, pfIsolationR04.sumNeutralHadronEt + pfIsolationR04.sumPhotonEt - 0.5 * pfIsolationR04.sumPUPt)) / pt < 0.15'),
+          cutString = cms.string ('(isolationR03_.sumPt / pt) < 0.01'),
           numberRequired = cms.string ('== 1'),
           alias = cms.string ('muon isolation'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('electrons'),
-          cutString = cms.string ('pt > 25.0'),
+          cutString = cms.string ('pt > 10.0'),
           numberRequired = cms.string ('== 0'),
           alias = cms.string ('electron veto'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('mets'),
-          cutString = cms.string ('pt > 150.0'),
-          numberRequired = cms.string ('== 1'),
       ),
   ),
 )
@@ -197,17 +133,18 @@ cuts.MuMETNoMuonPt = cms.PSet (
 cuts.MuMETNoMuonPtNoTrigger = cms.PSet (
   name = cms.string ('MuMETNoMuonPtNoTrigger'),
 #  triggers = cms.vstring ('HLT_MET75_IsoTrk50_v'),
+  triggerFilters = cms.vstring ('hltMETClean75'),
   cuts = cms.VPSet (
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('abs (eta) < 2.1'),
           numberRequired = cms.string ('== 1'),
       ),
-#      cms.PSet (
-#          inputCollection = cms.vstring ('muons'),
-#          cutString = cms.string ('pt > 75.0'),
-#          numberRequired = cms.string ('== 1'),
-#      ),
+      cms.PSet (
+          inputCollection = cms.vstring ('muons'),
+          cutString = cms.string ('pt > 75.0'),
+          numberRequired = cms.string ('== 1'),
+      ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string (muonID.run2.tightID_displaced),
@@ -216,20 +153,15 @@ cuts.MuMETNoMuonPtNoTrigger = cms.PSet (
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
-          cutString = cms.string (' (pfIsolationR04.sumChargedHadron + max (0.0, pfIsolationR04.sumNeutralHadronEt + pfIsolationR04.sumPhotonEt - 0.5 * pfIsolationR04.sumPUPt)) / pt < 0.15'),
+          cutString = cms.string ('(isolationR03_.sumPt / pt) < 0.01'),
           numberRequired = cms.string ('== 1'),
           alias = cms.string ('muon isolation'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('electrons'),
-          cutString = cms.string ('pt > 25.0'),
+          cutString = cms.string ('pt > 10.0'),
           numberRequired = cms.string ('== 0'),
           alias = cms.string ('electron veto'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('mets'),
-          cutString = cms.string ('pt > 150.0'),
-          numberRequired = cms.string ('== 1'),
       ),
   ),
 )
@@ -287,5 +219,5 @@ add_channels (
   cms.VPSet (histograms.muons, histograms.mets),
   collections.MiniAOD,
   [],
-  False,
+  True,
 )
