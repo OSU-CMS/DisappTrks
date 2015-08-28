@@ -18,7 +18,7 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
+    input = cms.untracked.int32 (10000)
 )
 process.source = cms.Source ("PoolSource",
     #fileNames = cms.untracked.vstring ('root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/50000/689003ED-18FE-E411-9EE9-F04DA23BBCCA.root')
@@ -107,19 +107,25 @@ cuts.MuMETNoMuonPt = cms.PSet (
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('abs (eta) < 2.1'),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string (muonID.run2.tightID_displaced),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
           alias = cms.string ('displaced tight muon ID'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('(isolationR03_.sumPt / pt) < 0.01'),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
           alias = cms.string ('muon isolation'),
+      ),
+      cms.PSet (
+          inputCollection = cms.vstring ('muons'),
+          cutString = cms.string ('pt > -1.0'),
+          numberRequired = cms.string ('== 1'),
+          alias = cms.string ('extra muon veto'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('electrons'),
@@ -138,24 +144,25 @@ cuts.MuMETNoMuonPtNoTrigger = cms.PSet (
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('abs (eta) < 2.1'),
-          numberRequired = cms.string ('== 1'),
-      ),
-      cms.PSet (
-          inputCollection = cms.vstring ('muons'),
-          cutString = cms.string ('pt > 75.0'),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string (muonID.run2.tightID_displaced),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
           alias = cms.string ('displaced tight muon ID'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('muons'),
           cutString = cms.string ('(isolationR03_.sumPt / pt) < 0.01'),
-          numberRequired = cms.string ('== 1'),
+          numberRequired = cms.string ('>= 1'),
           alias = cms.string ('muon isolation'),
+      ),
+      cms.PSet (
+          inputCollection = cms.vstring ('muons'),
+          cutString = cms.string ('pt > -1.0'),
+          numberRequired = cms.string ('== 1'),
+          alias = cms.string ('extra muon veto'),
       ),
       cms.PSet (
           inputCollection = cms.vstring ('electrons'),
