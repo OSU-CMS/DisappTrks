@@ -56,6 +56,8 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
 
+process.MINIAODSIMoutput.outputCommands.append ("keep *_generalTracks_*_*")
+
 # Additional output definition
 
 # Other statements
