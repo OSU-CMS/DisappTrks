@@ -1,5 +1,4 @@
 import FWCore.ParameterSet.Config as cms
-import DisappTrks.TriggerAnalysis.fileNames_cff as fileNames
 
 ###########################################################
 ##### Set up process #####
@@ -11,13 +10,25 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 #output file name when running interactively
 process.TFileService = cms.Service ('TFileService',
-    fileName = cms.string ('hist_withTracks.root')
+    fileName = cms.string (
+        "AMSB_chargino500GeV_ctau100cm_step4.root"
+        #"AMSB_chargino500GeV_ctau100cm_step4_missHitsIn.root"
+        #"AMSB_chargino500GeV_ctau100cm_step4_missHitsMid.root"
+        #"AMSB_chargino500GeV_ctau100cm_step4_noTrkIso.root"
+        #"AMSB_chargino500GeV_ctau100cm_step4_noTrkIso_missHitsIn_missHitsMid.root"
+    )
 )
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (-1)
 )
 process.source = cms.Source ("PoolSource",
-    fileNames = cms.untracked.vstring (fileNames.AMSB_chargino500GeV_ctau100cm)
+    fileNames = cms.untracked.vstring (
+        "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4.root"
+        #"/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_missHitsIn.root"
+        #"/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_missHitsMid.root"
+        #"/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_noTrkIso.root"
+        #"/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_noTrkIso_missHitsIn_missHitsMid.root"
+    )
 )
 
 ###########################################################
