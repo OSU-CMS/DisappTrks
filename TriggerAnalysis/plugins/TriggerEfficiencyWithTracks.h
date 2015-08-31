@@ -34,11 +34,13 @@ class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
 
     void analyze (const edm::Event &, const edm::EventSetup &);
 
+    static bool ptDescending (const reco::Track *, const reco::Track *);
+
   private:
     void logSpace (const unsigned, const double, const double, vector<double> &) const;
     void linSpace (const unsigned, const double, const double, vector<double> &) const;
     void fillHistograms (const vector<pat::MET> &, const vector<reco::Track> &, const string &) const;
-    void fillHistograms (const vector<pat::MET> &, const vector<const reco::Track *> &, const string &) const;
+    void fillHistograms (const vector<pat::MET> &, const reco::Track &, const string &) const;
     bool passesTriggerFilter (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTrigger (const edm::TriggerNames &, const edm::TriggerResults &, const string &) const;
     double trackIsolation (const reco::Track &, const vector<reco::Track> &, const double, const double) const;

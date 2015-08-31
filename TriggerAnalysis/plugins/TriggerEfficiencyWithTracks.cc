@@ -118,16 +118,23 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
         continue;
       selectedTracks.push_back (&track);
     }
+  sort (selectedTracks.begin (), selectedTracks.end (), ptDescending);
   if (selectedTracks.size () == 1 && passesMETFilter)
-    fillHistograms (*mets, selectedTracks, "MuMETNoMuonPtNoTrigger");
+    fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMuonPt channel
   //////////////////////////////////////////////////////////////////////////////
   if (selectedTracks.size () == 1 && passesMETFilter && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
-    fillHistograms (*mets, selectedTracks, "MuMETNoMuonPt");
+    fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPt");
   //////////////////////////////////////////////////////////////////////////////
+}
+
+bool
+TriggerEfficiencyWithTracks::ptDescending (const reco::Track *a, const reco::Track *b)
+{
+  return (a->pt () > b->pt ());
 }
 
 void
@@ -167,19 +174,16 @@ TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const
 }
 
 void
-TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<const reco::Track *> &tracks, const string &channel) const
+TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const reco::Track &track, const string &channel) const
 {
   for (const auto &met : mets)
     {
       oneDHists_.at (channel + "_metDir/metPt")->Fill (met.pt ());
       oneDHists_.at (channel + "_metDir/metPhi")->Fill (met.phi ());
     }
-  for (const auto &track : tracks)
-    {
-      oneDHists_.at (channel + "_muonDir/muonPt")->Fill (track->pt ());
-      oneDHists_.at (channel + "_muonDir/muonPhi")->Fill (track->phi ());
-      oneDHists_.at (channel + "_muonDir/muonEta")->Fill (track->eta ());
-    }
+  oneDHists_.at (channel + "_muonDir/muonPt")->Fill (track.pt ());
+  oneDHists_.at (channel + "_muonDir/muonPhi")->Fill (track.phi ());
+  oneDHists_.at (channel + "_muonDir/muonEta")->Fill (track.eta ());
 }
 
 bool
