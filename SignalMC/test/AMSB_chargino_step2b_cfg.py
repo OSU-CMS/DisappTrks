@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --filein file:AMSB_chargino500GeV_ctau100cm_step2a.root --fileout file:AMSB_chargino500GeV_ctau100cm_step2b.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-RAW --conditions MCRUN2_74_V9 --step HLT:@frozen25ns --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step2b_cfg.py --no_exec -n 82
+# with command line options: step1 --filein file:AMSB_chargino_step2a.root --fileout file:AMSB_chargino_step2b.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customize --datatier GEN-SIM-RAW --conditions MCRUN2_74_V9 --step HLT:@frozen25ns --magField 38T_PostLS1 --python_filename AMSB_chargino_step2b_cfg.py --no_exec -n 82
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -25,7 +25,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:AMSB_chargino500GeV_ctau100cm_step2a.root'),
+    fileNames = cms.untracked.vstring('file:AMSB_chargino_step2a.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -48,7 +48,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-    fileName = cms.untracked.string('file:AMSB_chargino500GeV_ctau100cm_step2b.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino_step2b.root'),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -81,6 +81,12 @@ from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
+
+# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
+from DisappTrks.SignalMC.genParticlePlusGeant import customize 
+
+#call to customisation function customize imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customize(process)
 
 # Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
 from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC 

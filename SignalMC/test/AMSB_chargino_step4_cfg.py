@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step3 --filein file:AMSB_chargino500GeV_ctau100cm_step3.root --fileout file:AMSB_chargino500GeV_ctau100cm_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier MINIAODSIM --conditions MCRUN2_74_V9 --step PAT --python_filename AMSB_chargino500GeV_ctau100cm_step4_cfg.py --no_exec -n 82
+# with command line options: step3 --filein file:AMSB_chargino_step3.root --fileout file:AMSB_chargino_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customize --datatier MINIAODSIM --conditions MCRUN2_74_V9 --step PAT --python_filename AMSB_chargino_step4_cfg.py --no_exec -n 82
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('PAT')
@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:AMSB_chargino500GeV_ctau100cm_step3.root'),
+    fileNames = cms.untracked.vstring('file:AMSB_chargino_step3.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -51,12 +51,10 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('file:AMSB_chargino500GeV_ctau100cm_step4.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino_step4.root'),
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
-
-process.MINIAODSIMoutput.outputCommands.append ("keep *_generalTracks_*_*")
 
 # Additional output definition
 
@@ -81,6 +79,12 @@ from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
+
+# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
+from DisappTrks.SignalMC.genParticlePlusGeant import customize 
+
+#call to customisation function customize imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customize(process)
 
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)
