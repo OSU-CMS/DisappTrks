@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("HLT")
 
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:AMSB_chargino500GeV_ctau100cm_step2a.root'),
+    fileNames = cms.untracked.vstring('file:AMSB_chargino_step2a.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 process.MEtoEDMConverter = cms.EDProducer("MEtoEDMConverter",
@@ -51974,7 +51974,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-    fileName = cms.untracked.string('file:AMSB_chargino500GeV_ctau100cm_step2b.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino_step2b.root'),
     outputCommands = cms.untracked.vstring('drop *', 
         'drop *', 
         'keep  FEDRawDataCollection_rawDataCollector_*_*', 
@@ -52016,7 +52016,8 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         'keep *_logErrorHarvester_*_*', 
         'keep *_simMuonCSCDigis_*_*', 
         'keep *_simMuonRPCDigis_*_*', 
-        'keep *_simHcalUnsuppressedDigis_*_*'),
+        'keep *_simHcalUnsuppressedDigis_*_*', 
+        'keep *_genParticlePlusGeant_*_*'),
     splitLevel = cms.untracked.int32(0)
 )
 
@@ -64854,7 +64855,8 @@ process.RAWSIMEventContent = cms.PSet(
         'keep *_logErrorHarvester_*_*', 
         'keep *_simMuonCSCDigis_*_*', 
         'keep *_simMuonRPCDigis_*_*', 
-        'keep *_simHcalUnsuppressedDigis_*_*'),
+        'keep *_simHcalUnsuppressedDigis_*_*', 
+        'keep *_genParticlePlusGeant_*_*'),
     splitLevel = cms.untracked.int32(0)
 )
 
