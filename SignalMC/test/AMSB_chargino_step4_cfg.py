@@ -81,10 +81,10 @@ from Configuration.DataProcessing.Utils import addMonitoring
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customize 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
 
 #call to customisation function customize imported from DisappTrks.SignalMC.genParticlePlusGeant
-process = customize(process)
+process = customizeKeep(process)
 
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)

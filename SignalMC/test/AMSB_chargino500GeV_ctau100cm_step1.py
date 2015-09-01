@@ -2,13 +2,12 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 5
-#
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/genParticlePlusGeant.customizeProduce --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 5
+
 # Follow recipe for RunII Winter GS campaign, e.g.:
 # https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/EXO-RunIIFall14GS-00224
 # for /DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIIWinter15GS-MCRUN2_71_V1-v1/GEN-SIM 
-# Add by hand:  
-# genParticlePlusGeant module
+
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('SIM')
@@ -121,20 +120,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-#process.simulation_step = cms.Path(process.psim)
-process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
-                                              src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
-                                              setStatus = cms.int32(8), # set status = 8 for GEANT GPs
-                                              filter = cms.vstring("pt > 10.0"), # just for testing (optional)
-#                                              particleTypes = cms.vstring("~chargino(1)+", "~neutralino(1)"),
-#                                              particleTypes = cms.vstring("1000024"), 
-                                              genParticles = cms.InputTag("genParticles") # original genParticle list
-)
-process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
-process.RAWSIMoutput.outputCommands.extend( [
-        "keep *_genParticlePlusGeant_*_*",
-] ) 
-
+process.simulation_step = cms.Path(process.psim)
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
@@ -146,6 +132,15 @@ for path in process.paths:
 	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
 
 # customisation of the process.
+
+# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep,customizeProduce 
+
+#call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customizeKeep(process)
+
+#call to customisation function customizeProduce imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customizeProduce(process)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
@@ -166,9 +161,3 @@ from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 process = customise(process)
 
 # End of customisation functions
-
-# Memory information:  
-# process.SimpleMemoryCheck.jobReportOutputOnly  = cms.untracked.bool(False)
-# process.SimpleMemoryCheck.monitorPssAndPrivate = cms.untracked.bool(True)
-# process.SimpleMemoryCheck.moduleMemorySummary  = cms.untracked.bool(True)
-
