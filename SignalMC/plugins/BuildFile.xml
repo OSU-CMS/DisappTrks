@@ -1,0 +1,23 @@
+<use  name="root"/>
+<use  name="CommonTools/UtilAlgos"/>
+<use  name="DataFormats/Candidate"/>
+<use  name="DataFormats/Common"/>
+<use  name="DataFormats/HepMCCandidate"/>
+<use  name="DataFormats/L1Trigger"/>
+<use  name="DataFormats/METReco"/>
+<use  name="DataFormats/Math"/>
+<use  name="DataFormats/MuonReco"/>
+<use  name="DataFormats/TrackReco"/>
+<use  name="FWCore/Common"/>
+<use  name="FWCore/Framework"/>
+<use  name="FWCore/ParameterSet"/>
+<use  name="FWCore/ServiceRegistry"/>
+<use  name="FWCore/Utilities"/>
+<use  name="SimDataFormats/GeneratorProducts"/>
+<use  name="SimDataFormats/Track"/>
+<use  name="SimDataFormats/Vertex"/>
+<flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
+<!--flags  CXXFLAGS="-gdwarf-2 -g3 -O0 -pipe"/-->
+<library  file="*.cc"  name="DisappTrksSignalMCPlugins">
+  <flags  EDM_PLUGIN="1"/>
+</library>
