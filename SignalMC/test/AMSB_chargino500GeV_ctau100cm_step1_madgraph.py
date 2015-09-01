@@ -70,18 +70,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_71_V1::All', '')
 
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    ExternalDecays = cms.PSet(
-        Tauola = cms.untracked.PSet(
-            UseTauolaPolarization = cms.bool(True),
-            InputCards = cms.PSet(
-                mdtau = cms.int32(0),
-                pjak2 = cms.int32(0),
-                pjak1 = cms.int32(0)
-            )
-        ),
-        parameterSets = cms.vstring('Tauola')
-    ),
-    maxEventsToPrint = cms.untracked.int32(1),
+    UseExternalGenerators = cms.untracked.bool(True),
     pythiaPylistVerbosity = cms.untracked.int32(1),
     comEnergy = cms.double(13000.0),
     particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau100cm.slha'),
@@ -89,17 +78,38 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
     useregge = cms.bool(False),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_500GeV_Isajet780.slha'),
-    UseExternalGenerators = cms.untracked.bool(True),
+    slhaFile = cms.untracked.string(''),
     massPoint = cms.untracked.int32(500),
     hscpFlavor = cms.untracked.string('stau'),
+    maxEventsToPrint = cms.untracked.int32(1),
     PythiaParameters = cms.PSet(
-        processParameters = cms.vstring('Main:timesAllowErrors    = 10000', 
+        pythia8CommonSettings = cms.vstring('Main:timesAllowErrors = 10000', 
+            'Check:epTolErr = 0.01', 
+            'Beams:setProductionScalesFromLHEF = off', 
+            'SLHA:keepSM = on', 
+            'SLHA:minMassSM = 1000.', 
             'ParticleDecays:limitTau0 = on', 
-            'ParticleDecays:tauMax = 10', 
-            'Tune:ee 3', 
-            'Tune:pp 5'),
-        parameterSets = cms.vstring('processParameters')
+            'ParticleDecays:tau0Max = 10', 
+            'ParticleDecays:allowPhotonRadiation = on'),
+        pythia8CUEP8M1Settings = cms.vstring('Tune:pp 14', 
+            'Tune:ee 7', 
+            'MultipartonInteractions:pT0Ref=2.4024', 
+            'MultipartonInteractions:ecmPow=0.25208', 
+            'MultipartonInteractions:expPow=1.6'),
+        processParameters = cms.vstring('JetMatching:setMad = off', 
+            'JetMatching:scheme = 1', 
+            'JetMatching:merge = on', 
+            'JetMatching:jetAlgorithm = 2', 
+            'JetMatching:etaJetMax = 5.', 
+            'JetMatching:coneRadius = 1.', 
+            'JetMatching:slowJetPower = 1', 
+            'JetMatching:qCut = 30.', 
+            'JetMatching:nQmatch = 5', 
+            'JetMatching:nJetMax = 1', 
+            'JetMatching:doShowerKt = off'),
+        parameterSets = cms.vstring('pythia8CommonSettings', 
+            'pythia8CUEP8M1Settings', 
+            'processParameters')
     )
 )
 
