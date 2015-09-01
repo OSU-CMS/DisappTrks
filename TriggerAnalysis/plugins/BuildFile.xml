@@ -6,7 +6,6 @@
 <use  name="DataFormats/Math"/>
 <use  name="DataFormats/PatCandidates"/>
 <use  name="DataFormats/TrackReco"/>
-<use  name="DisappTrks/TriggerAnalysis"/>
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/ParameterSet"/>
