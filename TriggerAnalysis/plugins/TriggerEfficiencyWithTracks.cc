@@ -118,7 +118,7 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
         continue;
       selectedTracks.push_back (&track);
     }
-  sort (selectedTracks.begin (), selectedTracks.end (), ptDescending);
+  sort (selectedTracks.begin (), selectedTracks.end (), [](const reco::Track *a, const reco::Track *b) -> bool { return (a->pt () > b->pt ()); });
   if (selectedTracks.size () == 1 && passesMETFilter)
     fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
@@ -129,12 +129,6 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
   if (selectedTracks.size () == 1 && passesMETFilter && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
     fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPt");
   //////////////////////////////////////////////////////////////////////////////
-}
-
-bool
-TriggerEfficiencyWithTracks::ptDescending (const reco::Track *a, const reco::Track *b)
-{
-  return (a->pt () > b->pt ());
 }
 
 void

@@ -34,8 +34,6 @@ class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
 
     void analyze (const edm::Event &, const edm::EventSetup &);
 
-    static bool ptDescending (const reco::Track *, const reco::Track *);
-
   private:
     void logSpace (const unsigned, const double, const double, vector<double> &) const;
     void linSpace (const unsigned, const double, const double, vector<double> &) const;
