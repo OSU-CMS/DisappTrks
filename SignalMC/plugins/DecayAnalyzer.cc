@@ -97,6 +97,9 @@ class DecayAnalyzer : public edm::EDAnalyzer {
   TH1D* hctauSmall;
   TH1D* hctauMedium;
   TH1D* hctauLarge;
+  TH1D* hctauTruncatedSmall;
+  TH1D* hctauTruncatedMedium;
+  TH1D* hctauTruncatedLarge;
 
   TH1D* hdaughter0Id;
   TH1D* hdaughter0E;
@@ -174,11 +177,14 @@ DecayAnalyzer::DecayAnalyzer(const edm::ParameterSet& iConfig)
   hdecayVy = fs->make<TH1D>("hdecayVy", "decayVy", 100, 0, 1000);
   hdecayVz = fs->make<TH1D>("hdecayVz", "decayVz", 100, 0, 1500);
   hdecayVxyz = fs->make<TH2D>("hdecayVxyz",  "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 1500, 100, 0, 1000);
-  hdecayVxyzWide = fs->make<TH2D>("hdecayVxyzWide",  "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 100, 0, 3000, 100, 0, 1500);
+  hdecayVxyzWide = fs->make<TH2D>("hdecayVxyzWide",  "Position of #chi^{#pm}#rightarrow#chi^{0}#pi^{#pm} decay ;|z| [cm];|#rho| [cm]" , 1000, 0, 3000, 1000, 0, 2000);
   hdecayLength = fs->make<TH1D>("hdecayLength", "decayLength", 100, 0, 1000);
   hctauSmall = fs->make<TH1D>("ctauSmall", ";c#tau [cm]", 100, 0, 100);
   hctauMedium = fs->make<TH1D>("ctauMedium", ";c#tau [cm]", 100, 0, 1000);
   hctauLarge = fs->make<TH1D>("ctauLarge", ";c#tau [cm]", 100, 0, 10000);
+  hctauTruncatedSmall = fs->make<TH1D>("ctauTruncatedSmall", ";c#tau [cm]", 100, 0, 100);
+  hctauTruncatedMedium = fs->make<TH1D>("ctauTruncatedMedium", ";c#tau [cm]", 100, 0, 1000);
+  hctauTruncatedLarge = fs->make<TH1D>("ctauTruncatedLarge", ";c#tau [cm]", 100, 0, 10000);
 //   hctauDiffSmall = fs->make<TH1D>("hctauDiffSmall", ";c#tau [cm]", 100, 0, 1000);
 //   hctauDiffLarge = fs->make<TH1D>("hctauDiffLarge", ";c#tau [cm]", 100, 0, 1000);
 
@@ -421,6 +427,9 @@ DecayAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        hctauSmall->Fill(ctau);
        hctauMedium->Fill(ctau);
        hctauLarge->Fill(ctau);
+       (decayVxy < 17.5 && decayVz < 27.0) && hctauTruncatedSmall->Fill(ctau);
+       (decayVxy < 175.0 && decayVz < 270.0) && hctauTruncatedMedium->Fill(ctau);
+       hctauTruncatedLarge->Fill(ctau);
        hnumdgt->Fill(numdgt);
 
        if (decayLength==0) {
