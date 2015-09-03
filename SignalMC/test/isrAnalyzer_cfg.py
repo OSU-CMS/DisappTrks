@@ -5,7 +5,7 @@ process = cms.Process ("ISR")
 process.load ("FWCore.MessageService.MessageLogger_cfi")
 
 process.maxEvents = cms.untracked.PSet ( input = cms.untracked.int32 (-1) )
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.source = cms.Source ("PoolSource",
     # replace 'myfile.root' with the source file you want to use
@@ -14,12 +14,9 @@ process.source = cms.Source ("PoolSource",
     )
 )
 
-process.source.duplicateCheckMode = cms.untracked.string ('noDuplicateCheck')
-
 process.ISRAnalyzer = cms.EDAnalyzer ('ISRAnalyzer',
     genParticles = cms.InputTag ("genParticles", ""),
 )
-
 
 process.TFileService = cms.Service ("TFileService",
     fileName = cms.string ('hist.root')
