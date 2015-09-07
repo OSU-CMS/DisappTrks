@@ -10,7 +10,12 @@ from DisappTrks.StandardAnalysis.MyCuts_disappTrks import * # Put all the indivi
 
 preselection = cms.PSet(
     name = cms.string("Preselection"),
-    triggers = cms.vstring("HLT_MET75_IsoTrk50"), 
+    triggers = cms.vstring(
+        "HLT_MET75_IsoTrk50", # trigger designed for disappearing tracks
+        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v1",  # monojet trigger, unprescaled for all of 2015
+        "HLT_PFMET120_PFMHT120_IDTight_v1",   
+        "HLT_PFMET170_v1", 
+    ), 
     cuts = cms.VPSet (
         # EVENT HAS GOOD PV
         cms.PSet (
@@ -18,11 +23,48 @@ preselection = cms.PSet(
             cutString = cms.string("isValid > 0 && ndof >= 4"),
             numberRequired = cms.string(">= 1")
         ),
-        # ELECTRON ETA CUT
-        cms.PSet (
-            inputCollection = cms.vstring("electrons"),
-            cutString = cms.string("abs(eta) < 2.5"),
-            numberRequired = cms.string(">= 1")
+        # MET 
+        cms.PSet(
+            inputCollection = cms.vstring("mets"),
+            cutString = cms.string("pt > 100"),
+            numberRequired = cms.string(">= 1"),
         ),
+        # JET PT 
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("pt > 110"),
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # JET NOISE CLEANING
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("chargedHadronEnergyFraction > 0.2"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # JET NOISE CLEANING
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("chargedHadronEnergyFraction > 0.2"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # JET NOISE CLEANING
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("chargedEmEnergyFraction < 0.5"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # JET NOISE CLEANING
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("neutralHadronEnergyFraction < 0.7"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # JET NOISE CLEANING
+        cms.PSet(
+            inputCollection = cms.vstring("jets"),
+            cutString = cms.string("neutralEmEnergyFraction < 0.7"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+
     )
 )
