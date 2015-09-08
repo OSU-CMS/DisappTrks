@@ -54,6 +54,8 @@ process.maxEvents = cms.untracked.PSet (
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
+collectionMap.tracks = cms.InputTag ('generalTracks') 
+
 ################################################################################
 ##### Set up any user-defined variable producers ###############################
 ################################################################################

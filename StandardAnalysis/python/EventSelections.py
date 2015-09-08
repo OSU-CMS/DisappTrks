@@ -65,6 +65,11 @@ preselection = cms.PSet(
             cutString = cms.string("neutralEmEnergyFraction < 0.7"),  
             numberRequired = cms.string(">= 1"),
         ), 
-
+        # TRACK PT 
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("pt > 50"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
     )
 )
