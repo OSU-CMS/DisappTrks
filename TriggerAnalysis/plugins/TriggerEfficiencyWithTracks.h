@@ -23,6 +23,7 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 
 #include "TH1D.h"
+#include "TH2D.h"
 
 using namespace std;
 
@@ -51,8 +52,11 @@ class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
     edm::InputTag  vertices_;
     edm::InputTag  genParticles_;
 
+    bool printFailingEvents_;
+
     edm::Service<TFileService> fs_;
     map<string, TH1D *> oneDHists_;
+    map<string, TH2D *> twoDHists_;
 };
 
 #endif

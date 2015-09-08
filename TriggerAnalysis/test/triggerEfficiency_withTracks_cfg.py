@@ -80,6 +80,8 @@ process.TriggerEfficiency = cms.EDAnalyzer ("TriggerEfficiencyWithTracks",
   triggerObjs  =  collections.MiniAOD.trigobjs,
   vertices     =  collections.MiniAOD.primaryvertexs,
   genParticles =  collections.MiniAOD.genparticles,
+
+  printFailingEvents = cms.bool (True),
 )
 
 process.myPath = cms.Path (process.TriggerEfficiency)

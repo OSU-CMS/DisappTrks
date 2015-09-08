@@ -25,29 +25,29 @@ TriggerEfficiency::TriggerEfficiency (const edm::ParameterSet &cfg) :
   vector<double> bins;
   logSpace (1000, 0.0, 3.0, bins);
 
-  oneDHists_["MuMETNoMET_metDir/metPt"] = MuMETNoMET_metDir.make<TH1D> ("metPt", ";;E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMET_metDir/metPhi"] = MuMETNoMET_metDir.make<TH1D> ("metPhi", ";;E_{T}^{miss} #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMET_muonDir/muonPt"] = MuMETNoMET_muonDir.make<TH1D> ("muonPt", ";;muon p_{T} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMET_muonDir/muonPhi"] = MuMETNoMET_muonDir.make<TH1D> ("muonPhi", ";;muon #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMET_muonDir/muonEta"] = MuMETNoMET_muonDir.make<TH1D> ("muonEta", ";;muon #eta", 1000, -5.0, 5.0);
+  oneDHists_["MuMETNoMET_metDir/metPt"] = MuMETNoMET_metDir.make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMET_metDir/metPhi"] = MuMETNoMET_metDir.make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMET_muonDir/muonPt"] = MuMETNoMET_muonDir.make<TH1D> ("muonPt", ";muon p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMET_muonDir/muonPhi"] = MuMETNoMET_muonDir.make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMET_muonDir/muonEta"] = MuMETNoMET_muonDir.make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-  oneDHists_["MuMETNoMETNoTrigger_metDir/metPt"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPt", ";;E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMETNoTrigger_metDir/metPhi"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPhi", ";;E_{T}^{miss} #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonPt"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonPt", ";;muon p_{T} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonPhi"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonPhi", ";;muon #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonEta"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonEta", ";;muon #eta", 1000, -5.0, 5.0);
+  oneDHists_["MuMETNoMETNoTrigger_metDir/metPt"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMETNoTrigger_metDir/metPhi"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonPt"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonPt", ";muon p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonPhi"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMETNoTrigger_muonDir/muonEta"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-  oneDHists_["MuMETNoMuonPt_metDir/metPt"] = MuMETNoMuonPt_metDir.make<TH1D> ("metPt", ";;E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMuonPt_metDir/metPhi"] = MuMETNoMuonPt_metDir.make<TH1D> ("metPhi", ";;E_{T}^{miss} #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMuonPt_muonDir/muonPt"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonPt", ";;muon p_{T} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMuonPt_muonDir/muonPhi"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonPhi", ";;muon #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMuonPt_muonDir/muonEta"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonEta", ";;muon #eta", 1000, -5.0, 5.0);
+  oneDHists_["MuMETNoMuonPt_metDir/metPt"] = MuMETNoMuonPt_metDir.make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMuonPt_metDir/metPhi"] = MuMETNoMuonPt_metDir.make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMuonPt_muonDir/muonPt"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonPt", ";muon p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMuonPt_muonDir/muonPhi"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMuonPt_muonDir/muonEta"] = MuMETNoMuonPt_muonDir.make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-  oneDHists_["MuMETNoMuonPtNoTrigger_metDir/metPt"] = MuMETNoMuonPtNoTrigger_metDir.make<TH1D> ("metPt", ";;E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMuonPtNoTrigger_metDir/metPhi"] = MuMETNoMuonPtNoTrigger_metDir.make<TH1D> ("metPhi", ";;E_{T}^{miss} #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonPt"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonPt", ";;muon p_{T} [GeV]", bins.size () - 1, bins.data ());
-  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonPhi"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonPhi", ";;muon #phi", 1000, -3.2, 3.2);
-  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonEta"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonEta", ";;muon #eta", 1000, -5.0, 5.0);
+  oneDHists_["MuMETNoMuonPtNoTrigger_metDir/metPt"] = MuMETNoMuonPtNoTrigger_metDir.make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMuonPtNoTrigger_metDir/metPhi"] = MuMETNoMuonPtNoTrigger_metDir.make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonPt"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonPt", ";muon p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonPhi"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
+  oneDHists_["MuMETNoMuonPtNoTrigger_muonDir/muonEta"] = MuMETNoMuonPtNoTrigger_muonDir.make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 }
 
 TriggerEfficiency::~TriggerEfficiency ()
