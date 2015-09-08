@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step3 --filein file:AMSB_chargino_step3.root --fileout file:AMSB_chargino_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customize --datatier MINIAODSIM --conditions MCRUN2_74_V9 --step PAT --python_filename AMSB_chargino_step4_cfg.py --no_exec -n 82
+# with command line options: step3 --filein file:AMSB_chargino_step3.root --fileout file:AMSB_chargino_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/recoCollectionsToKeep.customize --datatier MINIAODSIM --conditions MCRUN2_74_V9 --step PAT --python_filename AMSB_chargino_step4_cfg.py --no_exec -n 82
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('PAT')
@@ -83,8 +83,14 @@ process = addMonitoring(process)
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
 from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
 
-#call to customisation function customize imported from DisappTrks.SignalMC.genParticlePlusGeant
+#call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
+
+# Automatic addition of the customisation function from DisappTrks.SignalMC.recoCollectionsToKeep
+from DisappTrks.SignalMC.recoCollectionsToKeep import customize 
+
+#call to customisation function customize imported from DisappTrks.SignalMC.recoCollectionsToKeep
+process = customize(process)
 
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)
