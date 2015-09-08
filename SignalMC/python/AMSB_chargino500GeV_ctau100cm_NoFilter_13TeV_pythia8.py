@@ -172,7 +172,8 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
             'SUSY:all = off',
             'SUSY:qqbar2chi+-chi0 = on',
             'SUSY:qqbar2chi+chi- = on',
-            'SpaceShower:weakShower = on',
+            'SpaceShower:weakShower = on', # weak ISR
+            'TimeShower:weakShower = on',  # weak FSR
             '1000022:mayDecay = false',
             '1000024:mayDecay = false',
         ),
