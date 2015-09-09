@@ -2,3 +2,4 @@
 #*#
 *.pyc
 __init__.py
+*/test/*.root
