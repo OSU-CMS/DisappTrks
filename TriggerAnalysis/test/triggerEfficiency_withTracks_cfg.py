@@ -57,6 +57,7 @@ collections.BEAN = cms.PSet (
 
 collections.MiniAOD = cms.PSet (
   beamspots       =  cms.InputTag  ("offlineBeamSpot",                ""),
+  caloMets        =  cms.InputTag  ("caloMet",                        ""),
   electrons       =  cms.InputTag  ("slimmedElectrons",               ""),
   genjets         =  cms.InputTag  ("slimmedGenJets",                 ""),
   genparticles    =  cms.InputTag  ("prunedGenParticles",             ""),
@@ -75,13 +76,14 @@ collections.MiniAOD = cms.PSet (
 
 process.TriggerEfficiency = cms.EDAnalyzer ("TriggerEfficiencyWithTracks",
   mets         =  collections.MiniAOD.mets,
+  caloMets     =  collections.MiniAOD.caloMets,
   tracks       =  collections.MiniAOD.tracks,
   triggerBits  =  collections.MiniAOD.triggers,
   triggerObjs  =  collections.MiniAOD.trigobjs,
   vertices     =  collections.MiniAOD.primaryvertexs,
   genParticles =  collections.MiniAOD.genparticles,
 
-  printFailingEvents = cms.bool (True),
+  printFailingEvents = cms.bool (False),
 )
 
 process.myPath = cms.Path (process.TriggerEfficiency)

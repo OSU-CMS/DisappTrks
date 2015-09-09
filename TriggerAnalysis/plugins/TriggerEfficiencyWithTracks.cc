@@ -7,6 +7,7 @@
 
 TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSet &cfg) :
   mets_ (cfg.getParameter<edm::InputTag> ("mets")),
+  caloMets_ (cfg.getParameter<edm::InputTag> ("caloMets")),
   tracks_ (cfg.getParameter<edm::InputTag> ("tracks")),
   triggerBits_ (cfg.getParameter<edm::InputTag> ("triggerBits")),
   triggerObjs_ (cfg.getParameter<edm::InputTag> ("triggerObjs")),
@@ -77,6 +78,8 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
 {
   edm::Handle<vector<pat::MET> > mets;
   event.getByLabel (mets_, mets);
+  edm::Handle<vector<reco::CaloMET> > caloMets;
+  event.getByLabel (caloMets_, caloMets);
   edm::Handle<vector<reco::Track> > tracks;
   event.getByLabel (tracks_, tracks);
   edm::Handle<edm::TriggerResults> triggerBits;
@@ -101,14 +104,14 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMETNoTrigger channel
   //////////////////////////////////////////////////////////////////////////////
-  fillHistograms (*mets, *tracks, "MuMETNoMETNoTrigger");
+  fillHistograms (*mets, *caloMets, *tracks, "MuMETNoMETNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMET channel
   //////////////////////////////////////////////////////////////////////////////
   if (passesMETFilter)
-    fillHistograms (*mets, *tracks, "MuMETNoMET");
+    fillHistograms (*mets, *caloMets, *tracks, "MuMETNoMET");
   //////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////
@@ -142,14 +145,14 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
     }
   sort (selectedTracks.begin (), selectedTracks.end (), [](const reco::Track *a, const reco::Track *b) -> bool { return (a->pt () > b->pt ()); });
   if (selectedTracks.size () == 1 && passesMETFilter)
-    fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger");
+    fillHistograms (*mets, *caloMets, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMuonPt channel
   //////////////////////////////////////////////////////////////////////////////
   if (selectedTracks.size () == 1 && passesMETFilter && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
-    fillHistograms (*mets, *selectedTracks.at (0), "MuMETNoMuonPt");
+    fillHistograms (*mets, *caloMets, *selectedTracks.at (0), "MuMETNoMuonPt");
   //////////////////////////////////////////////////////////////////////////////
 }
 
@@ -174,16 +177,23 @@ TriggerEfficiencyWithTracks::linSpace (const unsigned n, const double a, const d
 }
 
 void
-TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::Track> &tracks, const string &channel) const
+TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const vector<reco::Track> &tracks, const string &channel) const
 {
   for (const auto &met : mets)
     {
       oneDHists_.at (channel + "_metDir/metPt")->Fill (met.pt ());
       oneDHists_.at (channel + "_metDir/metPhi")->Fill (met.phi ());
-      oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (met.caloMETPt ());
-      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (met.caloMETPhi ());
+      /*oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (met.caloMETPt ());
+      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (met.caloMETPhi ());*/
 
-      twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), met.caloMETPt ());
+      //twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), met.caloMETPt ());
+      for (const auto &caloMet : caloMets)
+        twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), caloMet.pt ());
+    }
+  for (const auto &caloMet : caloMets)
+    {
+      oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (caloMet.pt ());
+      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (caloMet.phi ());
     }
   for (const auto &track : tracks)
     {
@@ -194,16 +204,23 @@ TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const
 }
 
 void
-TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const reco::Track &track, const string &channel) const
+TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const reco::Track &track, const string &channel) const
 {
   for (const auto &met : mets)
     {
       oneDHists_.at (channel + "_metDir/metPt")->Fill (met.pt ());
       oneDHists_.at (channel + "_metDir/metPhi")->Fill (met.phi ());
-      oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (met.caloMETPt ());
-      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (met.caloMETPhi ());
+      /*oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (met.caloMETPt ());
+      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (met.caloMETPhi ());*/
 
-      twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), met.caloMETPt ());
+      //twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), met.caloMETPt ());
+      for (const auto &caloMet : caloMets)
+        twoDHists_.at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), caloMet.pt ());
+    }
+  for (const auto &caloMet : caloMets)
+    {
+      oneDHists_.at (channel + "_metDir/caloMetPt")->Fill (caloMet.pt ());
+      oneDHists_.at (channel + "_metDir/caloMetPhi")->Fill (caloMet.phi ());
     }
   oneDHists_.at (channel + "_muonDir/muonPt")->Fill (track.pt ());
   oneDHists_.at (channel + "_muonDir/muonPhi")->Fill (track.phi ());
