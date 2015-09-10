@@ -39,8 +39,8 @@ class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
   private:
     void logSpace (const unsigned, const double, const double, vector<double> &) const;
     void linSpace (const unsigned, const double, const double, vector<double> &) const;
-    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const vector<reco::Track> &, const string &) const;
-    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const reco::Track &, const string &) const;
+    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const vector<reco::Track> &, const string &, const string & = "NoTrigger") const;
+    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const reco::Track &, const string &, const string & = "NoTrigger") const;
     bool passesTriggerFilter (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTrigger (const edm::TriggerNames &, const edm::TriggerResults &, const string &) const;
     double trackIsolation (const reco::Track &, const vector<reco::Track> &, const double, const double) const;
@@ -54,11 +54,12 @@ class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
     edm::InputTag  vertices_;
     edm::InputTag  genParticles_;
 
-    bool printFailingEvents_;
+    vector<vector<string> > metTriggersList_;
+    vector<string> metTriggerNames_;
 
     edm::Service<TFileService> fs_;
-    map<string, TH1D *> oneDHists_;
-    map<string, TH2D *> twoDHists_;
+    map<string, map<string, TH1D *> > oneDHists_;
+    map<string, map<string, TH2D *> > twoDHists_;
 };
 
 #endif
