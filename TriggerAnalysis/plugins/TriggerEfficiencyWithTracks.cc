@@ -14,6 +14,7 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
   vertices_ (cfg.getParameter<edm::InputTag> ("vertices")),
   genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles")),
   metTriggersList_ ({
+    {"hltMet_75"},
     {"hltMETClean75"},
     {"HLT_PFMET120_PFMHT120_IDLoose_v"},
     {"HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v"},
@@ -34,8 +35,9 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
                               MuMETNoMuonPt_muonDir,
                               MuMETNoMuonPtNoTrigger_metDir,
                               MuMETNoMuonPtNoTrigger_muonDir;
-  vector<double> bins;
+  vector<double> bins, wideBins;
   logSpace (1000, 0.0, 3.0, bins);
+  logSpace (60, 0.0, 3.0, wideBins);
 
   oneDHists_["NoTrigger"];
   twoDHists_["NoTrigger"];
@@ -48,7 +50,11 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
   oneDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_muonDir/muonPhi"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
   oneDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_muonDir/muonEta"] = MuMETNoMETNoTrigger_muonDir.make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/caloMetVsPFMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", bins.size () - 1, bins.data (), bins.size () - 1, bins.data ());
+  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/caloMetVsPFMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/hltMetVsPFMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("hltMetVsPFMET", ";PF E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/hltMetCleanVsPFMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/hltMetVsCaloMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+  twoDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/hltMetCleanVsCaloMET"] = MuMETNoMETNoTrigger_metDir.make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
 
   for (const auto &metTriggers : metTriggersList_)
     {
@@ -79,7 +85,11 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
       oneDHists_.at (metTriggerName)["MuMETNoMET_muonDir/muonPhi"] = MuMETNoMET_muonDir.at (metTriggerName).make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
       oneDHists_.at (metTriggerName)["MuMETNoMET_muonDir/muonEta"] = MuMETNoMET_muonDir.at (metTriggerName).make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/caloMetVsPFMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", bins.size () - 1, bins.data (), bins.size () - 1, bins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/caloMetVsPFMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetVsPFMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetVsPFMET", ";PF E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetCleanVsPFMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetVsCaloMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetCleanVsCaloMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
 
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/metPt"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/metPhi"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
@@ -89,7 +99,11 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_muonDir/muonPhi"] = MuMETNoMuonPt_muonDir.at (metTriggerName).make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_muonDir/muonEta"] = MuMETNoMuonPt_muonDir.at (metTriggerName).make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/caloMetVsPFMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", bins.size () - 1, bins.data (), bins.size () - 1, bins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/caloMetVsPFMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/hltMetVsPFMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("hltMetVsPFMET", ";PF E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/hltMetCleanVsPFMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/hltMetVsCaloMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/hltMetCleanVsCaloMET"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
 
       oneDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/metPt"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
       oneDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/metPhi"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
@@ -99,7 +113,11 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
       oneDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_muonDir/muonPhi"] = MuMETNoMuonPtNoTrigger_muonDir.at (metTriggerName).make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
       oneDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_muonDir/muonEta"] = MuMETNoMuonPtNoTrigger_muonDir.at (metTriggerName).make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
 
-      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/caloMetVsPFMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", bins.size () - 1, bins.data (), bins.size () - 1, bins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/caloMetVsPFMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/hltMetVsPFMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("hltMetVsPFMET", ";PF E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/hltMetCleanVsPFMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/hltMetVsCaloMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMuonPtNoTrigger_metDir/hltMetCleanVsCaloMET"] = MuMETNoMuonPtNoTrigger_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
     }
 }
 
@@ -127,11 +145,13 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
 
   const edm::TriggerNames &triggerNames = event.triggerNames (*triggerBits);
   const reco::Vertex &pv = vertices->at (0);
+  const pat::TriggerObjectStandAlone &hltMet = getHLTMET (triggerNames, *triggerObjs, "hltMet");
+  const pat::TriggerObjectStandAlone &hltMetClean = getHLTMET (triggerNames, *triggerObjs, "hltMetClean");
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMETNoTrigger channel
   //////////////////////////////////////////////////////////////////////////////
-  fillHistograms (*mets, *caloMets, *tracks, "MuMETNoMETNoTrigger");
+  fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *tracks, "MuMETNoMETNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
   for (unsigned i = 0; i < metTriggersList_.size (); i++)
@@ -139,7 +159,10 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
       bool passesMETTriggers = false;
       for (const auto &metTrigger : metTriggersList_.at (i))
         {
-          passesMETTriggers = passesMETTriggers || (metTrigger.find ("HLT") == 0 ? passesTrigger (triggerNames, *triggerBits, metTrigger) : passesTriggerFilter (triggerNames, *triggerObjs, metTrigger));
+          if (metTrigger == "hltMet_75")
+            passesMETTriggers = passesMETTriggers || (hltMet.pt () > 75.0);
+          else
+            passesMETTriggers = passesMETTriggers || (metTrigger.find ("HLT") == 0 ? passesTrigger (triggerNames, *triggerBits, metTrigger) : passesTriggerFilter (triggerNames, *triggerObjs, metTrigger));
           if (passesMETTriggers)
             break;
         }
@@ -148,7 +171,7 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
       // MuMETNoMET channel
       //////////////////////////////////////////////////////////////////////////////
       if (passesMETTriggers)
-        fillHistograms (*mets, *caloMets, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
+        fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////////////////
@@ -181,15 +204,15 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
           selectedTracks.push_back (&track);
         }
       sort (selectedTracks.begin (), selectedTracks.end (), [](const reco::Track *a, const reco::Track *b) -> bool { return (a->pt () > b->pt ()); });
-      if (selectedTracks.size () == 1 && passesMETTriggers)
-        fillHistograms (*mets, *caloMets, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger", metTriggerNames_.at (i));
+      if ((selectedTracks.size () == 1 || selectedTracks.size () == 2) && passesMETTriggers)
+        fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPt channel
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () == 1 && passesMETTriggers && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
-        fillHistograms (*mets, *caloMets, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
+      if ((selectedTracks.size () == 1 selectedTracks.size () == 2) && passesMETTriggers && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
+        fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
     }
 }
@@ -215,7 +238,7 @@ TriggerEfficiencyWithTracks::linSpace (const unsigned n, const double a, const d
 }
 
 void
-TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const vector<reco::Track> &tracks, const string &channel, const string &trigger) const
+TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const pat::TriggerObjectStandAlone &hltMet, const pat::TriggerObjectStandAlone &hltMetClean, const vector<reco::Track> &tracks, const string &channel, const string &trigger) const
 {
   for (const auto &met : mets)
     {
@@ -224,11 +247,16 @@ TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const
 
       for (const auto &caloMet : caloMets)
         twoDHists_.at (trigger).at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), caloMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsPFMET")->Fill (met.pt (), hltMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsPFMET")->Fill (met.pt (), hltMetClean.pt ());
     }
   for (const auto &caloMet : caloMets)
     {
       oneDHists_.at (trigger).at (channel + "_metDir/caloMetPt")->Fill (caloMet.pt ());
       oneDHists_.at (trigger).at (channel + "_metDir/caloMetPhi")->Fill (caloMet.phi ());
+
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsCaloMET")->Fill (caloMet.pt (), hltMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsCaloMET")->Fill (caloMet.pt (), hltMetClean.pt ());
     }
   for (const auto &track : tracks)
     {
@@ -239,7 +267,7 @@ TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const
 }
 
 void
-TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const reco::Track &track, const string &channel, const string &trigger) const
+TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const vector<reco::CaloMET> &caloMets, const pat::TriggerObjectStandAlone &hltMet, const pat::TriggerObjectStandAlone &hltMetClean, const reco::Track &track, const string &channel, const string &trigger) const
 {
   for (const auto &met : mets)
     {
@@ -248,15 +276,36 @@ TriggerEfficiencyWithTracks::fillHistograms (const vector<pat::MET> &mets, const
 
       for (const auto &caloMet : caloMets)
         twoDHists_.at (trigger).at (channel + "_metDir/caloMetVsPFMET")->Fill (met.pt (), caloMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsPFMET")->Fill (met.pt (), hltMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsPFMET")->Fill (met.pt (), hltMetClean.pt ());
     }
   for (const auto &caloMet : caloMets)
     {
       oneDHists_.at (trigger).at (channel + "_metDir/caloMetPt")->Fill (caloMet.pt ());
       oneDHists_.at (trigger).at (channel + "_metDir/caloMetPhi")->Fill (caloMet.phi ());
+
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsCaloMET")->Fill (caloMet.pt (), hltMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsCaloMET")->Fill (caloMet.pt (), hltMetClean.pt ());
     }
   oneDHists_.at (trigger).at (channel + "_muonDir/muonPt")->Fill (track.pt ());
   oneDHists_.at (trigger).at (channel + "_muonDir/muonPhi")->Fill (track.phi ());
   oneDHists_.at (trigger).at (channel + "_muonDir/muonEta")->Fill (track.eta ());
+}
+
+const pat::TriggerObjectStandAlone &
+TriggerEfficiencyWithTracks::getHLTMET (const edm::TriggerNames &triggerNames, const vector<pat::TriggerObjectStandAlone> &triggerObjs, const string &collection) const
+{
+  unsigned i = 0;
+  for (auto triggerObj : triggerObjs)
+    {
+      triggerObj.unpackPathNames (triggerNames);
+      if (triggerObj.collection () == (collection + "::HLT"))
+        return triggerObjs.at (i);
+      i++;
+    }
+
+  pat::TriggerObjectStandAlone *dummy = new pat::TriggerObjectStandAlone ();
+  return *dummy;
 }
 
 bool
