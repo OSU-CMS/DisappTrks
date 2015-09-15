@@ -211,7 +211,7 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPt channel
       //////////////////////////////////////////////////////////////////////////////
-      if ((selectedTracks.size () == 1 selectedTracks.size () == 2) && passesMETTriggers && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
+      if ((selectedTracks.size () == 1 || selectedTracks.size () == 2) && passesMETTriggers && passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v"))
         fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
     }
