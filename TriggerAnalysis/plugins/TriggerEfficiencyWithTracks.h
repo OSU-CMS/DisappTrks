@@ -17,7 +17,7 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -28,13 +28,13 @@
 
 using namespace std;
 
-class TriggerEfficiencyWithTracks : public edm::EDAnalyzer
+class TriggerEfficiencyWithTracks : public edm::EDFilter
 {
   public:
     TriggerEfficiencyWithTracks (const edm::ParameterSet &);
     ~TriggerEfficiencyWithTracks ();
 
-    void analyze (const edm::Event &, const edm::EventSetup &);
+    bool filter (edm::Event &, const edm::EventSetup &);
 
   private:
     void logSpace (const unsigned, const double, const double, vector<double> &) const;

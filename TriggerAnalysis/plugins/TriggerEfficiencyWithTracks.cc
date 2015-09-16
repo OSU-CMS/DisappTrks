@@ -145,8 +145,8 @@ TriggerEfficiencyWithTracks::~TriggerEfficiencyWithTracks ()
 {
 }
 
-void
-TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventSetup &setup)
+bool
+TriggerEfficiencyWithTracks::filter (edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<pat::MET> > mets;
   event.getByLabel (mets_, mets);
@@ -245,6 +245,15 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
         fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
     }
+
+  if (passesL1Seed)
+    return false;
+  for (const auto &caloMet : *caloMets)
+    {
+      if (caloMet.pt () > 150.0)
+        return true;
+    }
+  return false;
 }
 
 void
