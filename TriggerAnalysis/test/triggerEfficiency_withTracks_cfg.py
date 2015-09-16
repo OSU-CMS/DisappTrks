@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import sys
 
 prefix = sys.argv[2]
+doSkim = True if sys.argv[3] == "True" else False
 
 ###########################################################
 ##### Set up process #####
@@ -57,6 +58,7 @@ collections.BEAN = cms.PSet (
 
 collections.MiniAOD = cms.PSet (
   beamspots       =  cms.InputTag  ("offlineBeamSpot",                ""),
+  caloMets        =  cms.InputTag  ("caloMet",                        ""),
   electrons       =  cms.InputTag  ("slimmedElectrons",               ""),
   genjets         =  cms.InputTag  ("slimmedGenJets",                 ""),
   genparticles    =  cms.InputTag  ("prunedGenParticles",             ""),
@@ -73,8 +75,9 @@ collections.MiniAOD = cms.PSet (
   trigobjs        =  cms.InputTag  ("selectedPatTrigger",             ""),
 )
 
-process.TriggerEfficiency = cms.EDAnalyzer ("TriggerEfficiencyWithTracks",
+process.TriggerEfficiency = cms.EDFilter ("TriggerEfficiencyWithTracks",
   mets         =  collections.MiniAOD.mets,
+  caloMets     =  collections.MiniAOD.caloMets,
   tracks       =  collections.MiniAOD.tracks,
   triggerBits  =  collections.MiniAOD.triggers,
   triggerObjs  =  collections.MiniAOD.trigobjs,
@@ -83,3 +86,25 @@ process.TriggerEfficiency = cms.EDAnalyzer ("TriggerEfficiencyWithTracks",
 )
 
 process.myPath = cms.Path (process.TriggerEfficiency)
+
+if doSkim:
+  print "creating skim..."
+  process.load('Configuration.EventContent.EventContent_cff')
+  process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
+      compressionAlgorithm = cms.untracked.string('LZMA'),
+      compressionLevel = cms.untracked.int32(4),
+      dataset = cms.untracked.PSet(
+          dataTier = cms.untracked.string('MINIAODSIM'),
+          filterName = cms.untracked.string('')
+      ),
+      dropMetaData = cms.untracked.string('ALL'),
+      eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
+      fastCloning = cms.untracked.bool(False),
+      fileName = cms.untracked.string('file:' + prefix + '_skim.root'),
+      outputCommands = process.MINIAODSIMEventContent.outputCommands,
+      overrideInputFileSplitLevels = cms.untracked.bool(True),
+      SelectEvents = cms.untracked.PSet (
+        SelectEvents = cms.vstring ("myPath")
+      )
+  )
+  process.myEndPath = cms.EndPath (process.MINIAODSIMoutput)

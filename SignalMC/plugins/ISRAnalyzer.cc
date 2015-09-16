@@ -35,6 +35,10 @@ ISRAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
 
       if (abs (pdgId) != 23 && abs (pdgId) != 24 && abs (pdgId) != 1000022 && abs (pdgId) != 1000024)
         continue;
+      if (abs (pdgId) == 23)
+        clog << "event contains a Z boson" << endl;
+      if (abs (pdgId) == 24)
+        clog << "event contains a W boson" << endl;
       if (status != 1 && status != 62)
         continue;
       switch (abs (pdgId))
