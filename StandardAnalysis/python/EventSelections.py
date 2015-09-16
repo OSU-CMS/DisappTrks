@@ -71,5 +71,71 @@ preselection = cms.PSet(
             cutString = cms.string("pt > 50"),  
             numberRequired = cms.string(">= 1"),
         ), 
+        # TRACK ETA
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("fabs ( eta ) < 2.1"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK ETA:  BARREL-ENDCAP GAP VETO
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK ETA:  MUON INEFFICIENCY REGION 1
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("fabs ( eta ) < 0.15 || fabs ( eta ) > 0.35"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK ETA:  MUON INEFFICIENCY REGION 2
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("fabs ( eta ) "),  
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
+        # TRACK NVALIDHITS
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("numberOfValidHits >= 7"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # # TRACK MISSING INNER HITS  
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("trackerExpectedHitsInner().numberOfHits() == 0"),  # INVALID SYNTAX
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
+        # # TRACK MISSING MIDDLE HITS  
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("hitPattern().trackerLayersWithoutMeasurement == 0"),  # INVALID SYNTAX
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
+        # # TRACK ISOLATION
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("trackRelIsoRp3 < 0.05"), # NEEDS TO BE CALCULATED IN SPECIAL PRODUCER
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
+        # # CALORIMETER ISOLATION
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("EcaloRp5 < 10"),   # NEEDS TO BE CALCULATED IN SPECIAL PRODUCER
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
+        # # TRACK MISSING OUTER HITS  
+        # cms.PSet(
+        #     inputCollection = cms.vstring("tracks"),
+        #     cutString = cms.string("trackerExpectedHitsOuter().numberOfHits() == 0"),  # INVALID SYNTAX
+        #     numberRequired = cms.string(">= 1"),
+        # ), 
     )
 )
