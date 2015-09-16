@@ -11,6 +11,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
+#include "DataFormats/PatCandidates/interface/Jet.h" 
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
@@ -54,6 +55,7 @@ class TriggerEfficiencyWithTracks : public edm::EDFilter
     edm::InputTag  triggerObjs_;
     edm::InputTag  vertices_;
     edm::InputTag  genParticles_;
+    edm::InputTag  jets_;
 
     vector<vector<string> > metTriggersList_;
     vector<string> metTriggerNames_;

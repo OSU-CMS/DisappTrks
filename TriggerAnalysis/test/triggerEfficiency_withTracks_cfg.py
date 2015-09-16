@@ -19,7 +19,7 @@ process.TFileService = cms.Service ('TFileService',
     )
 )
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (10000)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
@@ -83,6 +83,7 @@ process.TriggerEfficiency = cms.EDFilter ("TriggerEfficiencyWithTracks",
   triggerObjs  =  collections.MiniAOD.trigobjs,
   vertices     =  collections.MiniAOD.primaryvertexs,
   genParticles =  collections.MiniAOD.genparticles,
+  jets         =  collections.MiniAOD.jets,
 )
 
 process.myPath = cms.Path (process.TriggerEfficiency)

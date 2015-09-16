@@ -13,6 +13,7 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
   triggerObjs_ (cfg.getParameter<edm::InputTag> ("triggerObjs")),
   vertices_ (cfg.getParameter<edm::InputTag> ("vertices")),
   genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles")),
+  jets_         (cfg.getParameter<edm::InputTag> ("jets")),
   metTriggersList_ ({
     {"hltMet_75"},
     {"hltL1sL1ETM60ORETM70"},
@@ -45,6 +46,12 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
 
   oneDHists_["NoTrigger"];
   twoDHists_["NoTrigger"];
+
+  oneDHists_.at ("NoTrigger")["allJetsPt"]  = MuMETNoMETNoTrigger_metDir.make<TH1D> ("allJetsPt",  ";all jets p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_.at ("NoTrigger")["allJetsEta"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("allJetsEta", ";all jets #eta", 100, -5, 5);
+  oneDHists_.at ("NoTrigger")["leadingJetPt"]  = MuMETNoMETNoTrigger_metDir.make<TH1D> ("leadingJetPt",  ";leading jets p_{T} [GeV]", bins.size () - 1, bins.data ());
+  oneDHists_.at ("NoTrigger")["leadingJetEta"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("leadingJetEta", ";leading jets #eta", 100, -5, 5);
+
 
   oneDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/metPt"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
   oneDHists_.at ("NoTrigger")["MuMETNoMETNoTrigger_metDir/metPhi"] = MuMETNoMETNoTrigger_metDir.make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
@@ -162,12 +169,39 @@ TriggerEfficiencyWithTracks::filter (edm::Event &event, const edm::EventSetup &s
   event.getByLabel (vertices_, vertices);
   edm::Handle<vector<reco::GenParticle> > genParticles;
   event.getByLabel (genParticles_, genParticles);
+  edm::Handle<vector<pat::Jet> > jets; 
+  event.getByLabel (jets_, jets);
+
 
   const edm::TriggerNames &triggerNames = event.triggerNames (*triggerBits);
   const reco::Vertex &pv = vertices->at (0);
   const pat::TriggerObjectStandAlone &hltMet = getHLTMET (triggerNames, *triggerObjs, "hltMet");
   const pat::TriggerObjectStandAlone &hltMetClean = getHLTMET (triggerNames, *triggerObjs, "hltMetClean");
   bool passesL1Seed = passesTriggerFilter (triggerNames, *triggerObjs, "hltL1sL1ETM60ORETM70");
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Require leading jet to be central.  
+  //////////////////////////////////////////////////////////////////////////////
+  double etaLeadingJet = -99;
+  double ptLeadingJet = -99;  
+  
+
+  for (const auto &jet : *jets)
+    {
+      oneDHists_.at("NoTrigger").at("allJetsPt") ->Fill(jet.pt()); 
+      oneDHists_.at("NoTrigger").at("allJetsEta")->Fill(jet.eta()); 
+      if (jet.pt() > ptLeadingJet) { 
+	ptLeadingJet  = jet.pt();
+	etaLeadingJet = jet.eta(); 
+      }
+    }
+
+  if (fabs(etaLeadingJet) > 2.4) return false;  // skip these events  
+  oneDHists_.at("NoTrigger").at("leadingJetPt" )->Fill(ptLeadingJet);
+  oneDHists_.at("NoTrigger").at("leadingJetEta")->Fill(etaLeadingJet);
+      
+  
+
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMETNoTrigger channel
