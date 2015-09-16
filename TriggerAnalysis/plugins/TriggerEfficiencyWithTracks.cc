@@ -15,14 +15,16 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
   genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles")),
   metTriggersList_ ({
     {"hltMet_75"},
-    {"hltMETClean75"},
+    {"hltL1sL1ETM60ORETM70"},
+    {"hltMET75"}
+    /*{"hltMETClean75"},
     {"HLT_PFMET120_PFMHT120_IDLoose_v"},
     {"HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v"},
     {"HLT_PFMET170_NoiseCleaned_v"},
     {"hltMETClean75", "HLT_PFMET120_PFMHT120_IDLoose_v"},
     {"hltMETClean75", "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v"},
     {"hltMETClean75", "HLT_PFMET170_NoiseCleaned_v"},
-    {"hltMETClean75", "HLT_PFMET120_PFMHT120_IDLoose_v", "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v"}
+    {"hltMETClean75", "HLT_PFMET120_PFMHT120_IDLoose_v", "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v"}*/
   }),
   metTriggerNames_ ({})
 {
@@ -31,6 +33,8 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
                  MuMETNoMETNoTrigger_muonDir = fs_->mkdir ("MuMETNoMETNoTriggerPlotter/Muon Plots");
   map<string, TFileDirectory> MuMETNoMET_metDir,
                               MuMETNoMET_muonDir,
+                              MuMETNoMETL1Seed_metDir,
+                              MuMETNoMETL1Seed_muonDir,
                               MuMETNoMuonPt_metDir,
                               MuMETNoMuonPt_muonDir,
                               MuMETNoMuonPtNoTrigger_metDir,
@@ -69,6 +73,8 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
 
       MuMETNoMET_metDir[metTriggerName] = fs_->mkdir ("MuMETNoMETPlotter/" + metTriggerName + "/Met Plots"),
       MuMETNoMET_muonDir[metTriggerName] = fs_->mkdir ("MuMETNoMETPlotter/" + metTriggerName + "/Muon Plots"),
+      MuMETNoMETL1Seed_metDir[metTriggerName] = fs_->mkdir ("MuMETNoMETL1SeedPlotter/" + metTriggerName + "/Met Plots"),
+      MuMETNoMETL1Seed_muonDir[metTriggerName] = fs_->mkdir ("MuMETNoMETL1SeedPlotter/" + metTriggerName + "/Muon Plots"),
       MuMETNoMuonPt_metDir[metTriggerName] = fs_->mkdir ("MuMETNoMuonPtPlotter/" + metTriggerName + "/Met Plots"),
       MuMETNoMuonPt_muonDir[metTriggerName] = fs_->mkdir ("MuMETNoMuonPtPlotter/" + metTriggerName + "/Muon Plots");
       MuMETNoMuonPtNoTrigger_metDir[metTriggerName] = fs_->mkdir ("MuMETNoMuonPtNoTriggerPlotter/" + metTriggerName + "/Met Plots");
@@ -90,6 +96,20 @@ TriggerEfficiencyWithTracks::TriggerEfficiencyWithTracks (const edm::ParameterSe
       twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetCleanVsPFMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
       twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetVsCaloMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
       twoDHists_.at (metTriggerName)["MuMETNoMET_metDir/hltMetCleanVsCaloMET"] = MuMETNoMET_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/metPt"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/metPhi"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/caloMetPt"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH1D> ("caloMetPt", ";calo E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/caloMetPhi"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH1D> ("caloMetPhi", ";calo E_{T}^{miss} #phi", 1000, -3.2, 3.2);
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_muonDir/muonPt"] = MuMETNoMETL1Seed_muonDir.at (metTriggerName).make<TH1D> ("muonPt", ";muon p_{T} [GeV]", bins.size () - 1, bins.data ());
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_muonDir/muonPhi"] = MuMETNoMETL1Seed_muonDir.at (metTriggerName).make<TH1D> ("muonPhi", ";muon #phi", 1000, -3.2, 3.2);
+      oneDHists_.at (metTriggerName)["MuMETNoMETL1Seed_muonDir/muonEta"] = MuMETNoMETL1Seed_muonDir.at (metTriggerName).make<TH1D> ("muonEta", ";muon #eta", 1000, -5.0, 5.0);
+
+      twoDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/caloMetVsPFMET"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH2D> ("caloMetVsPFMET", ";PF E_{T}^{miss} [GeV];calo E_{T}^{miss} [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/hltMetVsPFMET"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH2D> ("hltMetVsPFMET", ";PF E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/hltMetCleanVsPFMET"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsPFMET", ";PF E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/hltMetVsCaloMET"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH2D> ("hltMetVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMet [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
+      twoDHists_.at (metTriggerName)["MuMETNoMETL1Seed_metDir/hltMetCleanVsCaloMET"] = MuMETNoMETL1Seed_metDir.at (metTriggerName).make<TH2D> ("hltMetCleanVsCaloMET", ";calo E_{T}^{miss} [GeV];hltMetClean [GeV]", wideBins.size () - 1, wideBins.data (), wideBins.size () - 1, wideBins.data ());
 
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/metPt"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH1D> ("metPt", ";E_{T}^{miss} [GeV]", bins.size () - 1, bins.data ());
       oneDHists_.at (metTriggerName)["MuMETNoMuonPt_metDir/metPhi"] = MuMETNoMuonPt_metDir.at (metTriggerName).make<TH1D> ("metPhi", ";E_{T}^{miss} #phi", 1000, -3.2, 3.2);
@@ -147,11 +167,18 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
   const reco::Vertex &pv = vertices->at (0);
   const pat::TriggerObjectStandAlone &hltMet = getHLTMET (triggerNames, *triggerObjs, "hltMet");
   const pat::TriggerObjectStandAlone &hltMetClean = getHLTMET (triggerNames, *triggerObjs, "hltMetClean");
+  bool passesL1Seed = passesTriggerFilter (triggerNames, *triggerObjs, "hltL1sL1ETM60ORETM70");
 
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMETNoTrigger channel
   //////////////////////////////////////////////////////////////////////////////
   fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *tracks, "MuMETNoMETNoTrigger");
+  //////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////
+  // MuMETNoMETL1Seed channel
+  //////////////////////////////////////////////////////////////////////////////
+  if (passesTriggerFilter (triggerNames, *triggerObjs, "hltL1sL1ETM60ORETM70"))
   //////////////////////////////////////////////////////////////////////////////
 
   for (unsigned i = 0; i < metTriggersList_.size (); i++)
@@ -173,6 +200,9 @@ TriggerEfficiencyWithTracks::analyze (const edm::Event &event, const edm::EventS
       if (passesMETTriggers)
         fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
+
+      if (passesL1Seed && passesMETTriggers)
+        fillHistograms (*mets, *caloMets, hltMet, hltMetClean, *tracks, "MuMETNoMETL1Seed", metTriggerNames_.at (i));
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPtNoTrigger channel
