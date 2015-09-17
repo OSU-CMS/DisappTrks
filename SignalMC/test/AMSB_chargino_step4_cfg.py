@@ -66,6 +66,9 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODSIMoutput_step = cms.EndPath(process.MINIAODSIMoutput)
 
+# Schedule definition
+process.schedule = cms.Schedule(process.endjob_step,process.MINIAODSIMoutput_step)
+
 # customisation of the process.
 
 # Automatic addition of the customisation function from SLHCUpgradeSimulations.Configuration.postLS1Customs
