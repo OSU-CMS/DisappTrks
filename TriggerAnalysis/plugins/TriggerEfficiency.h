@@ -11,13 +11,14 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
+#include "DataFormats/PatCandidates/interface/Jet.h" 
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/TrackReco/interface/Track.h"
 
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -25,35 +26,43 @@
 
 #include "TH1D.h"
 #include "TH2D.h"
+#include "TVector2.h"
 
 using namespace std;
 
-class TriggerEfficiency : public edm::EDAnalyzer
+template<class T>
+class TriggerEfficiency : public edm::EDFilter
 {
   public:
     TriggerEfficiency (const edm::ParameterSet &);
     ~TriggerEfficiency ();
 
-    void analyze (const edm::Event &, const edm::EventSetup &);
+    bool filter (edm::Event &, const edm::EventSetup &);
 
   private:
     void logSpace (const unsigned, const double, const double, vector<double> &) const;
     void linSpace (const unsigned, const double, const double, vector<double> &) const;
-    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const pat::TriggerObjectStandAlone &, const pat::TriggerObjectStandAlone &, const vector<pat::Muon> &, const string &, const string & = "NoTrigger") const;
-    void fillHistograms (const vector<pat::MET> &, const vector<reco::CaloMET> &, const pat::TriggerObjectStandAlone &, const pat::TriggerObjectStandAlone &, const pat::Muon &, const string &, const string & = "NoTrigger") const;
+    const TVector2 * const getPFMETNoMu (const vector<pat::MET> &, const vector<pat::Muon> &) const;
+    void fillHistograms (const vector<pat::MET> &, const TVector2 &, const pat::TriggerObjectStandAlone &, const pat::TriggerObjectStandAlone &, const T &, const string &, const string & = "NoTrigger") const;
     const pat::TriggerObjectStandAlone &getHLTMET (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTriggerFilter (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTrigger (const edm::TriggerNames &, const edm::TriggerResults &, const string &) const;
-    bool genMatched (const pat::Muon &, const vector<reco::GenParticle> &, const int, const int, const double) const;
+    double trackIsolation (const reco::Track &, const vector<reco::Track> &, const double, const double) const;
+    bool genMatched (const T &, const vector<reco::GenParticle> &, const int, const int, const double) const;
+    bool hasGoodMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
+    bool isGoodTrack (const T &, const reco::Vertex &, const vector<T> &, const vector<reco::GenParticle> &) const;
+    bool isGoodTrack (const T &, const reco::Vertex &, const vector<T> &) const;
+
+    bool isMC_;
 
     edm::InputTag  mets_;
-    edm::InputTag  caloMets_;
     edm::InputTag  muons_;
-    edm::InputTag  electrons_;
+    edm::InputTag  tracks_;
     edm::InputTag  triggerBits_;
     edm::InputTag  triggerObjs_;
     edm::InputTag  vertices_;
     edm::InputTag  genParticles_;
+    edm::InputTag  jets_;
 
     vector<vector<string> > metTriggersList_;
     vector<string> metTriggerNames_;
