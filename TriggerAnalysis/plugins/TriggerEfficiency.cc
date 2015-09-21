@@ -191,7 +191,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   //////////////////////////////////////////////////////////////////////////////
   // MuMETNoMETNoTrigger channel
   //////////////////////////////////////////////////////////////////////////////
-  fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, tracks->at (0), "MuMETNoMETNoTrigger");
+  fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMETNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
   for (unsigned i = 0; i < metTriggersList_.size (); i++)
@@ -211,21 +211,21 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       // MuMETNoMET channel
       //////////////////////////////////////////////////////////////////////////////
       if (passesMETTriggers)
-        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, tracks->at (0), "MuMETNoMET", metTriggerNames_.at (i));
+        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMETL1Seed channel
       //////////////////////////////////////////////////////////////////////////////
       if (passesL1Seed && passesMETTriggers)
-        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, tracks->at (0), "MuMETNoMETL1Seed", metTriggerNames_.at (i));
+        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMETL1Seed", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMETMuSeed channel
       //////////////////////////////////////////////////////////////////////////////
       if (passesMuSeed && passesMETTriggers)
-        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, tracks->at (0), "MuMETNoMETMuSeed", metTriggerNames_.at (i));
+        fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMETMuSeed", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////////////////
@@ -311,6 +311,26 @@ TriggerEfficiency<T>::fillHistograms (const vector<pat::MET> &mets, const TVecto
   twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsPFMETNoMu")->Fill (metNoMu.Mod (), hltMetClean.pt ());
 
   oneDHists_.at (trigger).at (channel + "_muonDir/muonPt")->Fill (track.pt ());
+}
+
+template<class T> void
+TriggerEfficiency<T>::fillHistograms (const vector<pat::MET> &mets, const TVector2 &metNoMu, const pat::TriggerObjectStandAlone &hltMet, const pat::TriggerObjectStandAlone &hltMetClean, const vector<T> &tracks, const string &channel, const string &trigger) const
+{
+  for (const auto &met : mets)
+    {
+      oneDHists_.at (trigger).at (channel + "_metDir/metPt")->Fill (met.pt ());
+
+      twoDHists_.at (trigger).at (channel + "_metDir/pfMETNoMuVsPFMET")->Fill (met.pt (), metNoMu.Mod ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsPFMET")->Fill (met.pt (), hltMet.pt ());
+      twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsPFMET")->Fill (met.pt (), hltMetClean.pt ());
+    }
+  oneDHists_.at (trigger).at (channel + "_metDir/pfMETNoMuPt")->Fill (metNoMu.Mod ());
+
+  twoDHists_.at (trigger).at (channel + "_metDir/hltMetVsPFMETNoMu")->Fill (metNoMu.Mod (), hltMet.pt ());
+  twoDHists_.at (trigger).at (channel + "_metDir/hltMetCleanVsPFMETNoMu")->Fill (metNoMu.Mod (), hltMetClean.pt ());
+
+  for (const auto &track : tracks)
+    oneDHists_.at (trigger).at (channel + "_muonDir/muonPt")->Fill (track.pt ());
 }
 
 template<class T> const pat::TriggerObjectStandAlone &
