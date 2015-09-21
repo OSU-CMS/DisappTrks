@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import sys
+import os
 
 prefix = sys.argv[2]
 doSkim = True if sys.argv[3] == "True" else False
@@ -15,7 +16,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #output file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string (
-        prefix + ".root",
+        "triggerEfficiency.root",
     )
 )
 process.maxEvents = cms.untracked.PSet (
@@ -55,17 +56,24 @@ collections.MiniAOD = cms.PSet (
   trigobjs        =  cms.InputTag  ("selectedPatTrigger",             ""),
 )
 
-process.TriggerEfficiency = cms.EDFilter ("TriggerEfficiencyWithTracks",
-  isMC          =  cms.bool (True),
+process.TriggerEfficiency = cms.EDFilter ("TriggerEfficiencyWithMuons",
+  isMC          =  cms.bool (False),
   mets          =  collections.MiniAOD.mets,
   muons         =  collections.MiniAOD.muons,
-  tracks        =  collections.MiniAOD.tracks,
+  tracks        =  collections.MiniAOD.muons,
   triggerBits   =  collections.MiniAOD.triggers,
   triggerObjs   =  collections.MiniAOD.trigobjs,
   vertices      =  collections.MiniAOD.primaryvertexs,
   genParticles  =  collections.MiniAOD.genparticles,
   jets          =  collections.MiniAOD.jets,
 )
+
+if not process.TriggerEfficiency.isMC:
+  import FWCore.PythonUtilities.LumiList as LumiList
+  import FWCore.ParameterSet.Types as CfgTypes
+  myLumis = LumiList.LumiList(filename = os.environ['CMSSW_BASE']+'/src/DisappTrks/TriggerAnalysis/test/Cert_246908-255031_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt').getCMSSWString().split(',')
+  process.source.lumisToProcess = CfgTypes.untracked(CfgTypes.VLuminosityBlockRange())
+  process.source.lumisToProcess.extend(myLumis)
 
 process.myPath = cms.Path (process.TriggerEfficiency)
 
