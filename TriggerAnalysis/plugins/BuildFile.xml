@@ -3,7 +3,10 @@
 <use  name="CommonTools/Utils"/>
 <use  name="DataFormats/Common"/>
 <use  name="DataFormats/HepMCCandidate"/>
+<use  name="DataFormats/JetReco"/>
+<use  name="DataFormats/METReco"/>
 <use  name="DataFormats/Math"/>
+<use  name="DataFormats/MuonReco"/>
 <use  name="DataFormats/PatCandidates"/>
 <use  name="DataFormats/TrackReco"/>
 <use  name="FWCore/Common"/>
