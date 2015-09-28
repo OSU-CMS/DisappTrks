@@ -56,15 +56,16 @@ collections.MiniAOD = cms.PSet (
 )
 
 process.TriggerEfficiency = cms.EDFilter ("TriggerEfficiencyWithTracks",
-  isMC          =  cms.bool (True),
-  mets          =  collections.MiniAOD.mets,
-  muons         =  collections.MiniAOD.muons,
-  tracks        =  collections.MiniAOD.tracks,
-  triggerBits   =  collections.MiniAOD.triggers,
-  triggerObjs   =  collections.MiniAOD.trigobjs,
-  vertices      =  collections.MiniAOD.primaryvertexs,
-  genParticles  =  collections.MiniAOD.genparticles,
-  jets          =  collections.MiniAOD.jets,
+  matchToHLTTrack  =  cms.bool (True),
+  isMC             =  cms.bool (True),
+  mets             =  collections.MiniAOD.mets,
+  muons            =  collections.MiniAOD.muons,
+  tracks           =  collections.MiniAOD.tracks,
+  triggerBits      =  collections.MiniAOD.triggers,
+  triggerObjs      =  collections.MiniAOD.trigobjs,
+  vertices         =  collections.MiniAOD.primaryvertexs,
+  genParticles     =  collections.MiniAOD.genparticles,
+  jets             =  collections.MiniAOD.jets,
 )
 
 process.myPath = cms.Path (process.TriggerEfficiency)
