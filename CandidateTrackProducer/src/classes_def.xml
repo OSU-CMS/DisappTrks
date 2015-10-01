@@ -1,0 +1,6 @@
+<lcgdict>
+  <class name="CandidateTrack"/>
+  <class name="std::vector<CandidateTrack>"/>
+  <class name="edm::Wrapper<CandidateTrack>"/>
+  <class name="edm::Wrapper<std::vector<CandidateTrack> >"/>
+</lcgdict>
