@@ -45,7 +45,7 @@ class TriggerEfficiency : public edm::EDFilter
     const TVector2 * const getPFMETNoMu (const vector<pat::MET> &, const vector<pat::Muon> &) const;
     void fillHistograms (const vector<pat::MET> &, const TVector2 &, const pat::TriggerObjectStandAlone &, const pat::TriggerObjectStandAlone &, const T &, const string &, const string & = "NoTrigger") const;
     void fillHistograms (const vector<pat::MET> &, const TVector2 &, const pat::TriggerObjectStandAlone &, const pat::TriggerObjectStandAlone &, const vector<T> &, const string &, const string & = "NoTrigger") const;
-    void fillTrackHistograms (const T &track, const TVector2 &, const string &channel, const string &trigger) const;
+    void fillTrackHistograms (const T &track, const vector<pat::MET> &, const TVector2 &, const string &channel, const string &trigger) const;
     const pat::TriggerObjectStandAlone &getHLTObj (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTriggerFilter (const edm::TriggerNames &, const vector<pat::TriggerObjectStandAlone> &, const string &) const;
     bool passesTrigger (const edm::TriggerNames &, const edm::TriggerResults &, const string &) const;
