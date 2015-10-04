@@ -32,7 +32,7 @@ CandidateTrack::~CandidateTrack ()
 template<class T> const double
 CandidateTrack::getMinDeltaR (const vector<T> &objects) const
 {
-  double minDeltaR = -1.0;
+  double minDeltaR = numeric_limits<int>::min ();
 
   for (const auto &object : objects)
     {
