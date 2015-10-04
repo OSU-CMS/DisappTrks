@@ -10,11 +10,11 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (1000)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-      "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
+      "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User.root"
     )
 )
 
@@ -23,7 +23,10 @@ process.source = cms.Source ("PoolSource",
 ###########################################################
 
 process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
-  tracks = cms.InputTag ("generalTracks", ""),
+  tracks     =  cms.InputTag  ("generalTracks",     ""),
+  electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
+  muons      =  cms.InputTag  ("slimmedMuons",      ""),
+  taus       =  cms.InputTag  ("slimmedTaus",       ""),
 )
 
 process.myPath = cms.Path (process.candidateDisappearingTracks)
