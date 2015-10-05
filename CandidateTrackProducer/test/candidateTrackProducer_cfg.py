@@ -10,11 +10,12 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10)
+    input = cms.untracked.int32 (1000)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
+#      "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User.root"
+        "file:/home/wulsin/disappTrksRun2/signalDigiReco/CMSSW_7_4_5_ROOT5/src/DisappTrks/SignalMC/test/AMSB_chargino_step4.root"
     )
 )
 
@@ -40,9 +41,12 @@ CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("redu
 CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")  
 
 process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
-                                                      tracks = cms.InputTag ("generalTracks", ""),
-                                                      candMinPt = cms.double(10),   
-                                                      TrackAssociatorParameters = CandTrackAssociatorParameters, 
+  tracks     =  cms.InputTag  ("generalTracks",     ""),
+  electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
+  muons      =  cms.InputTag  ("slimmedMuons",      ""),
+  taus       =  cms.InputTag  ("slimmedTaus",       ""),
+  candMinPt = cms.double(10),   
+  TrackAssociatorParameters = CandTrackAssociatorParameters, 
 )
 
 process.myPath = cms.Path (process.candidateDisappearingTracks)

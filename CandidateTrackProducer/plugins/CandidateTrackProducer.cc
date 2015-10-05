@@ -31,8 +31,11 @@ using namespace std;
 // constructors and destructor
 //
 CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig) :
-  tracksTag_ (iConfig.getParameter<edm::InputTag> ("tracks")), 
-  candMinPt_ (iConfig.getParameter<double> ("candMinPt"))
+  tracksTag_    (iConfig.getParameter<edm::InputTag> ("tracks")),
+  electronsTag_ (iConfig.getParameter<edm::InputTag> ("electrons")),
+  muonsTag_     (iConfig.getParameter<edm::InputTag> ("muons")),
+  tausTag_      (iConfig.getParameter<edm::InputTag> ("taus")), 
+  candMinPt_    (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
 
@@ -57,6 +60,12 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
 {
   edm::Handle<vector<reco::Track> > tracks;
   iEvent.getByLabel (tracksTag_, tracks );
+  edm::Handle<vector<pat::Electron> > electrons;
+  iEvent.getByLabel (electronsTag_, electrons );
+  edm::Handle<vector<pat::Muon> > muons;
+  iEvent.getByLabel (muonsTag_, muons );
+  edm::Handle<vector<pat::Tau> > taus;
+  iEvent.getByLabel (tausTag_, taus );
 
 
 
@@ -67,7 +76,7 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
   auto_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
 
-    CandidateTrack candTrack(track);  
+    CandidateTrack candTrack(track, *electrons, *muons, *taus);  
     if (candTrack.pt() > candMinPt_) { 
       calculateCaloE(iEvent, iSetup, candTrack, track);  
     }  
