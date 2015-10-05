@@ -31,9 +31,9 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<pat::Elec
   caloHadDeltaRp3_         (numeric_limits<int>::min ()),    
   caloEMDeltaRp5_          (numeric_limits<int>::min ()),  
   caloHadDeltaRp5_         (numeric_limits<int>::min ()),  
-  deltaRToClosestElectron_ (numeric_limits<int>::min ()),
-  deltaRToClosestMuon_     (numeric_limits<int>::min ()),
-  deltaRToClosestTau_      (numeric_limits<int>::min ())
+  deltaRToClosestElectron_ (getMinDeltaR (electrons)),
+  deltaRToClosestMuon_     (getMinDeltaR (muons)),
+  deltaRToClosestTau_      (getMinDeltaR (taus))
 {
 }
 
