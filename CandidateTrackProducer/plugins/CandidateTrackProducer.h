@@ -20,13 +20,13 @@
 
 // user include files
 #include "FWCore/Framework/interface/EDProducer.h"
-
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-
 #include "FWCore/Utilities/interface/InputTag.h"
+
+#include "TrackingTools/TrackAssociator/interface/TrackDetectorAssociator.h"
+#include "TrackingTools/TrackAssociator/interface/TrackAssociatorParameters.h"
 
 using namespace std;
 
@@ -41,7 +41,13 @@ class CandidateTrackProducer : public edm::EDProducer {
 
    private:
       virtual void produce (edm::Event&, const edm::EventSetup&) override;
+      void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track);
 
       // ----------member data ---------------------------
-       edm::InputTag tracksTag_;
+      edm::InputTag tracksTag_;
+      double candMinPt_;  
+
+      TrackDetectorAssociator trackAssociator_;
+      TrackAssociatorParameters parameters_;
+
 };

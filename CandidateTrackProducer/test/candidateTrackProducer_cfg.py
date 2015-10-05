@@ -10,11 +10,11 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (10)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-      "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
     )
 )
 
@@ -22,8 +22,27 @@ process.source = cms.Source ("PoolSource",
 ##### Set up the analyzer #####
 ###########################################################
 
+# The following are needed for the calculation of associated calorimeter energy  
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff") 
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
+from TrackingTools.TrackAssociator.default_cfi import * 
+CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
+CandTrackAssociatorParameters.useHO = cms.bool(False)
+CandTrackAssociatorParameters.CSCSegmentCollectionLabel     = cms.InputTag("cscSegments")
+CandTrackAssociatorParameters.DTRecSegment4DCollectionLabel = cms.InputTag("dt4DSegments")
+CandTrackAssociatorParameters.EERecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEE")
+CandTrackAssociatorParameters.EBRecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEB")
+CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("reducedHcalRecHits", "hbhereco")
+CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")  
+
 process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
-  tracks = cms.InputTag ("generalTracks", ""),
+                                                      tracks = cms.InputTag ("generalTracks", ""),
+                                                      candMinPt = cms.double(10),   
+                                                      TrackAssociatorParameters = CandTrackAssociatorParameters, 
 )
 
 process.myPath = cms.Path (process.candidateDisappearingTracks)
@@ -46,3 +65,9 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
 process.MINIAODSIMoutput.outputCommands.append ("keep *_candidateDisappearingTracks_*_*")
 
 process.myEndPath = cms.EndPath (process.MINIAODSIMoutput)
+
+
+
+
+
+
