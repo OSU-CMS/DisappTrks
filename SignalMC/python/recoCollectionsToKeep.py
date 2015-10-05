@@ -7,5 +7,10 @@ def customize (process):
       getattr (process, b).outputCommands.append ("keep recoCaloMETs_*_*_RECO")
       getattr (process, b).outputCommands.append ("keep recoMETs_*_*_RECO")
       getattr (process, b).outputCommands.append ("keep recoPFMETs_*_*_RECO")
+      getattr (process, b).outputCommands.append ("keep *_reducedEcalRecHitsEE_*_*")
+      getattr (process, b).outputCommands.append ("keep *_reducedEcalRecHitsEB_*_*")
+      getattr (process, b).outputCommands.append ("keep *_reducedHcalRecHits_*_*")
+      getattr (process, b).outputCommands.append ("keep *_dt4DSegments_*_*")  
+      getattr (process, b).outputCommands.append ("keep *_cscSegments_*_*")  
 
   return process
