@@ -39,6 +39,34 @@ process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $')
 )
 
+# The following are needed for the calculation of associated calorimeter energy
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff")
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
+from TrackingTools.TrackAssociator.default_cfi import *
+CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
+CandTrackAssociatorParameters.useHO = cms.bool(False)
+CandTrackAssociatorParameters.CSCSegmentCollectionLabel     = cms.InputTag("cscSegments")
+CandTrackAssociatorParameters.DTRecSegment4DCollectionLabel = cms.InputTag("dt4DSegments")
+CandTrackAssociatorParameters.EERecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEE")
+CandTrackAssociatorParameters.EBRecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEB")
+CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("reducedHcalRecHits", "hbhereco")
+CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")
+
+process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
+  tracks     =  cms.InputTag  ("generalTracks",     ""),
+  electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
+  muons      =  cms.InputTag  ("slimmedMuons",      ""),
+  taus       =  cms.InputTag  ("slimmedTaus",       ""),
+  candMinPt = cms.double(10),
+  TrackAssociatorParameters = CandTrackAssociatorParameters,
+)
+
+process.myPath = cms.Path (process.candidateDisappearingTracks)
+
 # Output definition
 
 process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
@@ -65,9 +93,6 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
 # Path and EndPath definitions
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODSIMoutput_step = cms.EndPath(process.MINIAODSIMoutput)
-
-# Schedule definition
-process.schedule = cms.Schedule(process.endjob_step,process.MINIAODSIMoutput_step)
 
 # customisation of the process.
 
