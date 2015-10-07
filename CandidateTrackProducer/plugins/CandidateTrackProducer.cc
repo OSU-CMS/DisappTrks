@@ -25,7 +25,7 @@
 #include "MagneticField/Engine/interface/MagneticField.h"
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 
-using namespace std;  
+using namespace std;
 
 //
 // constructors and destructor
@@ -34,7 +34,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   tracksTag_    (iConfig.getParameter<edm::InputTag> ("tracks")),
   electronsTag_ (iConfig.getParameter<edm::InputTag> ("electrons")),
   muonsTag_     (iConfig.getParameter<edm::InputTag> ("muons")),
-  tausTag_      (iConfig.getParameter<edm::InputTag> ("taus")), 
+  tausTag_      (iConfig.getParameter<edm::InputTag> ("taus")),
   candMinPt_    (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
@@ -75,13 +75,12 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
 
   auto_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
+    if (track.pt () < candMinPt_)
+      continue;
 
-    CandidateTrack candTrack(track, *electrons, *muons, *taus);  
-    if (candTrack.pt() > candMinPt_) { 
-      calculateCaloE(iEvent, iSetup, candTrack, track);  
-    }  
-    candTracks->push_back (candTrack);  
-
+    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus);
+    calculateCaloE(iEvent, iSetup, candTrack, track);
+    candTracks->push_back (candTrack);
   }
 
   // save the vector
@@ -90,20 +89,20 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
 
 
 void
-CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track) 
+CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track)
 {
 
   // Use as example:
   // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.cc
   // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.py
 
-  std::cout << "Running calculateCaloE" << std::endl;  
+  std::cout << "Running calculateCaloE" << std::endl;
   TrackDetMatchInfo info = trackAssociator_.associate(iEvent, iSetup, trackAssociator_.getFreeTrajectoryState(iSetup, candTrack), parameters_);
 
   candTrack.set_caloEMDeltaRp3 (info.coneEnergy(0.3, TrackDetMatchInfo::EcalRecHits));
   candTrack.set_caloHadDeltaRp3(info.coneEnergy(0.3, TrackDetMatchInfo::HcalRecHits));
   candTrack.set_caloEMDeltaRp5 (info.coneEnergy(0.5, TrackDetMatchInfo::EcalRecHits));
-  candTrack.set_caloHadDeltaRp5(info.coneEnergy(0.5, TrackDetMatchInfo::HcalRecHits)); 
+  candTrack.set_caloHadDeltaRp5(info.coneEnergy(0.5, TrackDetMatchInfo::HcalRecHits));
 
 }
 

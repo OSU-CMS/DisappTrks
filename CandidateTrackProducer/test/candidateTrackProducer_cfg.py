@@ -14,23 +14,25 @@ process.maxEvents = cms.untracked.PSet (
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-#      "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User.root"
-        "file:/home/wulsin/disappTrksRun2/signalDigiReco/CMSSW_7_4_5_ROOT5/src/DisappTrks/SignalMC/test/AMSB_chargino_step4.root"
-    )
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_0.root"
+    ),
+    secondaryFileNames = cms.untracked.vstring (
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
+    ),
 )
 
 ###########################################################
 ##### Set up the analyzer #####
 ###########################################################
 
-# The following are needed for the calculation of associated calorimeter energy  
+# The following are needed for the calculation of associated calorimeter energy
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
-process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff") 
+process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff")
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
-from TrackingTools.TrackAssociator.default_cfi import * 
+from TrackingTools.TrackAssociator.default_cfi import *
 CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
 CandTrackAssociatorParameters.useHO = cms.bool(False)
 CandTrackAssociatorParameters.CSCSegmentCollectionLabel     = cms.InputTag("cscSegments")
@@ -38,15 +40,15 @@ CandTrackAssociatorParameters.DTRecSegment4DCollectionLabel = cms.InputTag("dt4D
 CandTrackAssociatorParameters.EERecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEE")
 CandTrackAssociatorParameters.EBRecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEB")
 CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("reducedHcalRecHits", "hbhereco")
-CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")  
+CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")
 
 process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
   tracks     =  cms.InputTag  ("generalTracks",     ""),
   electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
   muons      =  cms.InputTag  ("slimmedMuons",      ""),
   taus       =  cms.InputTag  ("slimmedTaus",       ""),
-  candMinPt = cms.double(10),   
-  TrackAssociatorParameters = CandTrackAssociatorParameters, 
+  candMinPt = cms.double(10),
+  TrackAssociatorParameters = CandTrackAssociatorParameters,
 )
 
 process.myPath = cms.Path (process.candidateDisappearingTracks)
@@ -66,12 +68,15 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True),
 )
+process.MINIAODSIMoutput.outputCommands.append ("keep recoCaloMETs_*_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep recoMETs_*_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep recoPFMETs_*_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_generalTracks_*_*")
 process.MINIAODSIMoutput.outputCommands.append ("keep *_candidateDisappearingTracks_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedEcalRecHitsEE_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedEcalRecHitsEB_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedHcalRecHits_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_dt4DSegments_*_*")
+process.MINIAODSIMoutput.outputCommands.append ("keep *_cscSegments_*_*")
 
 process.myEndPath = cms.EndPath (process.MINIAODSIMoutput)
-
-
-
-
-
-
