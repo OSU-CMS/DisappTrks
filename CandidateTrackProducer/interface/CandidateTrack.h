@@ -14,17 +14,17 @@ class CandidateTrack : public reco::Track
     CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &);
     ~CandidateTrack ();
 
-    const double caloEMDeltaRp3 () const;
-    const double caloHadDeltaRp3 () const;
-    const double caloTotDeltaRp3 () const;
-    const double caloEMDeltaRp5 () const;
-    const double caloHadDeltaRp5 () const;
-    const double caloTotDeltaRp5 () const;
+    const double caloEMDRp3 () const;
+    const double caloHadDRp3 () const;
+    const double caloTotDRp3 () const;
+    const double caloEMDRp5 () const;
+    const double caloHadDRp5 () const;
+    const double caloTotDRp5 () const;
 
-    void set_caloEMDeltaRp3 (double value) { caloEMDeltaRp3_  = value; }
-    void set_caloHadDeltaRp3(double value) { caloHadDeltaRp3_ = value; }
-    void set_caloEMDeltaRp5 (double value) { caloEMDeltaRp5_  = value; }
-    void set_caloHadDeltaRp5(double value) { caloHadDeltaRp5_ = value; }
+    void set_caloEMDRp3 (double value) { caloEMDRp3_  = value; }
+    void set_caloHadDRp3(double value) { caloHadDRp3_ = value; }
+    void set_caloEMDRp5 (double value) { caloEMDRp5_  = value; }
+    void set_caloHadDRp5(double value) { caloHadDRp5_ = value; }
 
     const double deltaRToClosestElectron () const;
     const double deltaRToClosestMuon () const;
@@ -34,22 +34,26 @@ class CandidateTrack : public reco::Track
     const int missingMiddleHits () const;
     const int missingOuterHits () const;
 
-    const double trackIsolationDeltaRp3 () const;
-    const double trackIsolationDeltaRp5 () const;
+    const double trackIsoDRp3 () const;
+    const double trackIsoDRp5 () const;
+    const double trackIsoNoPUDRp3 () const;
+    const double trackIsoNoPUDRp5 () const;
 
   private:
-    double caloEMDeltaRp3_;
-    double caloHadDeltaRp3_;
-    double caloEMDeltaRp5_;
-    double caloHadDeltaRp5_;
+    double caloEMDRp3_;
+    double caloHadDRp3_;
+    double caloEMDRp5_;
+    double caloHadDRp5_;
 
     double deltaRToClosestElectron_;
     double deltaRToClosestMuon_;
     double deltaRToClosestTau_;
 
-    double trackIsolationDeltaRp3_;
-    double trackIsolationDeltaRp5_;
+    double trackIsoDRp3_;
+    double trackIsoDRp5_;
+    double trackIsoNoPUDRp3_;
+    double trackIsoNoPUDRp5_;
 
     template<class T> const double getMinDeltaR (const vector<T> &) const;
-    const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const double, const double = 1.0e-12) const;
+    const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 };

@@ -98,10 +98,10 @@ CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetu
 
   TrackDetMatchInfo info = trackAssociator_.associate(iEvent, iSetup, trackAssociator_.getFreeTrajectoryState(iSetup, candTrack), parameters_);
 
-  candTrack.set_caloEMDeltaRp3 (info.coneEnergy(0.3, TrackDetMatchInfo::EcalRecHits));
-  candTrack.set_caloHadDeltaRp3(info.coneEnergy(0.3, TrackDetMatchInfo::HcalRecHits));
-  candTrack.set_caloEMDeltaRp5 (info.coneEnergy(0.5, TrackDetMatchInfo::EcalRecHits));
-  candTrack.set_caloHadDeltaRp5(info.coneEnergy(0.5, TrackDetMatchInfo::HcalRecHits));
+  candTrack.set_caloEMDRp3 (info.coneEnergy(0.3, TrackDetMatchInfo::EcalRecHits));
+  candTrack.set_caloHadDRp3(info.coneEnergy(0.3, TrackDetMatchInfo::HcalRecHits));
+  candTrack.set_caloEMDRp5 (info.coneEnergy(0.5, TrackDetMatchInfo::EcalRecHits));
+  candTrack.set_caloHadDRp5(info.coneEnergy(0.5, TrackDetMatchInfo::HcalRecHits));
 
 }
 

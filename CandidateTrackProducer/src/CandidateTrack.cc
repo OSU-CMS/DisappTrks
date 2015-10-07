@@ -3,43 +3,49 @@
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 
 CandidateTrack::CandidateTrack () :
-  caloEMDeltaRp3_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp3_         (numeric_limits<int>::min ()),
-  caloEMDeltaRp5_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp5_         (numeric_limits<int>::min ()),
-  deltaRToClosestElectron_ (numeric_limits<int>::min ()),
-  deltaRToClosestMuon_     (numeric_limits<int>::min ()),
-  deltaRToClosestTau_      (numeric_limits<int>::min ()),
-  trackIsolationDeltaRp3_  (numeric_limits<int>::min ()),
-  trackIsolationDeltaRp5_  (numeric_limits<int>::min ())
+  caloEMDRp3_               (numeric_limits<int>::min  ()),
+  caloHadDRp3_              (numeric_limits<int>::min  ()),
+  caloEMDRp5_               (numeric_limits<int>::min  ()),
+  caloHadDRp5_              (numeric_limits<int>::min  ()),
+  deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
+  deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
+  deltaRToClosestTau_       (numeric_limits<int>::min  ()),
+  trackIsoDRp3_             (numeric_limits<int>::min  ()),
+  trackIsoDRp5_             (numeric_limits<int>::min  ()),
+  trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
+  trackIsoNoPUDRp5_         (numeric_limits<int>::min  ())
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track) :
   reco::Track (track),
-  caloEMDeltaRp3_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp3_         (numeric_limits<int>::min ()),
-  caloEMDeltaRp5_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp5_         (numeric_limits<int>::min ()),
-  deltaRToClosestElectron_ (numeric_limits<int>::min ()),
-  deltaRToClosestMuon_     (numeric_limits<int>::min ()),
-  deltaRToClosestTau_      (numeric_limits<int>::min ()),
-  trackIsolationDeltaRp3_  (numeric_limits<int>::min ()),
-  trackIsolationDeltaRp5_  (numeric_limits<int>::min ())
+  caloEMDRp3_               (numeric_limits<int>::min  ()),
+  caloHadDRp3_              (numeric_limits<int>::min  ()),
+  caloEMDRp5_               (numeric_limits<int>::min  ()),
+  caloHadDRp5_              (numeric_limits<int>::min  ()),
+  deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
+  deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
+  deltaRToClosestTau_       (numeric_limits<int>::min  ()),
+  trackIsoDRp3_             (numeric_limits<int>::min  ()),
+  trackIsoDRp5_             (numeric_limits<int>::min  ()),
+  trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
+  trackIsoNoPUDRp5_         (numeric_limits<int>::min  ())
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Track> &tracks, const vector<pat::Electron> &electrons, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus) :
   reco::Track (track),
-  caloEMDeltaRp3_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp3_         (numeric_limits<int>::min ()),
-  caloEMDeltaRp5_          (numeric_limits<int>::min ()),
-  caloHadDeltaRp5_         (numeric_limits<int>::min ()),
+  caloEMDRp3_              (numeric_limits<int>::min ()),
+  caloHadDRp3_             (numeric_limits<int>::min ()),
+  caloEMDRp5_              (numeric_limits<int>::min ()),
+  caloHadDRp5_             (numeric_limits<int>::min ()),
   deltaRToClosestElectron_ (getMinDeltaR (electrons)),
   deltaRToClosestMuon_     (getMinDeltaR (muons)),
   deltaRToClosestTau_      (getMinDeltaR (taus)),
-  trackIsolationDeltaRp3_  (getTrackIsolation (track, tracks, 0.3)),
-  trackIsolationDeltaRp5_  (getTrackIsolation (track, tracks, 0.5))
+  trackIsoDRp3_            (getTrackIsolation (track, tracks, false, 0.3)),
+  trackIsoDRp5_            (getTrackIsolation (track, tracks, false, 0.5)),
+  trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, 0.3)),
+  trackIsoNoPUDRp5_        (getTrackIsolation (track, tracks, true, 0.5))
 {
 }
 
@@ -82,39 +88,39 @@ CandidateTrack::missingOuterHits () const
 }
 
 const double
-CandidateTrack::caloEMDeltaRp3 () const
+CandidateTrack::caloEMDRp3 () const
 {
-  return this->caloEMDeltaRp3_;
+  return this->caloEMDRp3_;
 }
 
 const double
-CandidateTrack::caloHadDeltaRp3 () const
+CandidateTrack::caloHadDRp3 () const
 {
-  return this->caloHadDeltaRp3_;
+  return this->caloHadDRp3_;
 }
 
 const double
-CandidateTrack::caloTotDeltaRp3 () const
+CandidateTrack::caloTotDRp3 () const
 {
-  return this->caloEMDeltaRp3_ + this->caloHadDeltaRp3_;
+  return this->caloEMDRp3_ + this->caloHadDRp3_;
 }
 
 const double
-CandidateTrack::caloEMDeltaRp5 () const
+CandidateTrack::caloEMDRp5 () const
 {
-  return this->caloEMDeltaRp5_;
+  return this->caloEMDRp5_;
 }
 
 const double
-CandidateTrack::caloHadDeltaRp5 () const
+CandidateTrack::caloHadDRp5 () const
 {
-  return this->caloHadDeltaRp5_;
+  return this->caloHadDRp5_;
 }
 
 const double
-CandidateTrack::caloTotDeltaRp5 () const
+CandidateTrack::caloTotDRp5 () const
 {
-  return this->caloEMDeltaRp5_ + this->caloHadDeltaRp5_;
+  return this->caloEMDRp5_ + this->caloHadDRp5_;
 }
 
 const double
@@ -136,24 +142,39 @@ CandidateTrack::deltaRToClosestTau () const
 }
 
 const double
-CandidateTrack::trackIsolationDeltaRp3 () const
+CandidateTrack::trackIsoDRp3 () const
 {
-  return this->trackIsolationDeltaRp3_;
+  return this->trackIsoDRp3_;
 }
 
 const double
-CandidateTrack::trackIsolationDeltaRp5 () const
+CandidateTrack::trackIsoDRp5 () const
 {
-  return this->trackIsolationDeltaRp5_;
+  return this->trackIsoDRp5_;
 }
 
 const double
-CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const double outerDeltaR, const double innerDeltaR) const
+CandidateTrack::trackIsoNoPUDRp3 () const
+{
+  return this->trackIsoNoPUDRp3_;
+}
+
+const double
+CandidateTrack::trackIsoNoPUDRp5 () const
+{
+  return this->trackIsoNoPUDRp5_;
+}
+
+const double
+CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const double outerDeltaR, const double innerDeltaR) const
 {
   double sumPt = 0.0;
 
   for (const auto &t : tracks)
     {
+      if (noPU && track.dz (t.vertex ()) > 5.0 * hypot (track.dzError (), t.dzError ()))
+        continue;
+
       double dR = deltaR (track, t);
       if (dR < outerDeltaR && dR > innerDeltaR)
         sumPt += t.pt ();
