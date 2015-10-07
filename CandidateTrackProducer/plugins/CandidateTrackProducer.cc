@@ -96,7 +96,6 @@ CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetu
   // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.cc
   // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.py
 
-  std::cout << "Running calculateCaloE" << std::endl;
   TrackDetMatchInfo info = trackAssociator_.associate(iEvent, iSetup, trackAssociator_.getFreeTrajectoryState(iSetup, candTrack), parameters_);
 
   candTrack.set_caloEMDeltaRp3 (info.coneEnergy(0.3, TrackDetMatchInfo::EcalRecHits));
