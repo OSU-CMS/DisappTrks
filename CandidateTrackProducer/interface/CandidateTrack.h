@@ -14,22 +14,29 @@ class CandidateTrack : public reco::Track
     CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &);
     ~CandidateTrack ();
 
+    
+    enum RhoType { All, Calo, CentralCalo };
+
     const double caloEMDRp3 () const;
     const double caloHadDRp3 () const;
     const double caloTotDRp3 () const;
     const double caloEMDRp5 () const;
     const double caloHadDRp5 () const;
     const double caloTotDRp5 () const;
-    const double caloTotNoPU (double dR) const;
+    const double caloTotNoPU (double dR = 0.5, RhoType rhoType = All) const;
     const double caloTotNoPUDRp3 () const;
     const double caloTotNoPUDRp4 () const;
     const double caloTotNoPUDRp5 () const;
+    const double caloTotNoPUDRp5Calo () const;
+    const double caloTotNoPUDRp5CentralCalo () const;
 
     void set_caloEMDRp3 (double value) { caloEMDRp3_  = value; }
     void set_caloHadDRp3(double value) { caloHadDRp3_ = value; }
     void set_caloEMDRp5 (double value) { caloEMDRp5_  = value; }
     void set_caloHadDRp5(double value) { caloHadDRp5_ = value; }
     void set_rhoPUCorr  (double value) { rhoPUCorr_   = value; }
+    void set_rhoPUCorrCalo         (double value) { rhoPUCorrCalo_   = value; }
+    void set_rhoPUCorrCentralCalo  (double value) { rhoPUCorrCentralCalo_   = value; }
 
     const double deltaRToClosestElectron () const;
     const double deltaRToClosestMuon () const;
@@ -40,6 +47,8 @@ class CandidateTrack : public reco::Track
     const int missingOuterHits () const;
 
     const double rhoPUCorr () const;
+    const double rhoPUCorrCalo () const;
+    const double rhoPUCorrCentralCalo () const;
 
     const double trackIsoDRp3 () const;
     const double trackIsoDRp5 () const;
@@ -57,6 +66,8 @@ class CandidateTrack : public reco::Track
     double deltaRToClosestTau_;
 
     double rhoPUCorr_;
+    double rhoPUCorrCalo_;
+    double rhoPUCorrCentralCalo_;
 
     double trackIsoDRp3_;
     double trackIsoDRp5_;

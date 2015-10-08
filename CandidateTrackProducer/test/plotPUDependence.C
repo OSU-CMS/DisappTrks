@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
+#include "TROOT.h" 
 #include "TFile.h"
 #include "TH1D.h"
 #include "TH2D.h"
@@ -26,7 +27,11 @@ plot ()
 {
   gStyle->SetOptStat (0);
 
+  gROOT->SetBatch();
+
+
   TH1D *denominator, *numerator, *numeratorNoPU;
+  TH2D *caloTot, *passCaloTot, *passCaloTotNoPU;   
 
   TFile *fin;
   fin = TFile::Open ("test.root");
@@ -36,11 +41,19 @@ plot ()
   numerator->SetDirectory (0);
   numeratorNoPU = (TH1D *) fin->Get ("PUDependence/isoNoPUTrack");
   numeratorNoPU->SetDirectory (0);
+  caloTot = (TH2D *) fin->Get ("PUDependence/caloTot");
+  caloTot->SetDirectory(0);
+  passCaloTot = (TH2D *) fin->Get ("PUDependence/passCaloTot");
+  passCaloTot->SetDirectory(0);
+  passCaloTotNoPU = (TH2D *) fin->Get ("PUDependence/passCaloTotNoPU");
+  passCaloTotNoPU->SetDirectory(0);
   fin->Close ();
 
   denominator->Rebin (4);
   numerator->Rebin (4);
   numeratorNoPU->Rebin (4);
+  passCaloTot->Rebin(4);
+  passCaloTotNoPU->Rebin(4);  
 
   TGraphAsymmErrors *puDependence, *puDependenceNoPU;
   puDependence = new TGraphAsymmErrors (numerator, denominator, "cp");
@@ -52,6 +65,17 @@ plot ()
 
   setStyle (puDependence, kBlack, 24);
   setStyle (puDependenceNoPU, kBlack, 20);
+
+  TGraphAsymmErrors *caloPuDependence, *caloPuDependenceNoPU;
+  caloPuDependence = new TGraphAsymmErrors (passCaloTot, denominator, "cp");
+  caloPuDependenceNoPU = new TGraphAsymmErrors (passCaloTotNoPU, denominator, "cp");
+  caloPuDependence->GetYaxis ()->SetTitle ("E_{calo} < 10 GeV. efficiency");
+  caloPuDependenceNoPU->GetYaxis ()->SetTitle ("E_{calo} < 10 GeV efficiency");
+  caloPuDependence->GetXaxis ()->SetTitle ("number of primary vertices");
+  caloPuDependenceNoPU->GetXaxis ()->SetTitle ("number of primary vertices");
+
+  setStyle (caloPuDependence, kBlack, 24);
+  setStyle (caloPuDependenceNoPU, kBlack, 20);
 
   TPaveText *pt1 = new TPaveText(0.229323,0.859453,0.581454,0.906716,"brNDC");
   pt1->SetBorderSize(0);
@@ -121,6 +145,35 @@ plot ()
   l->SetX1 (min (clones.at ("puDependence")->GetXaxis ()->GetXmin (), clones.at ("puDependenceNoPU")->GetXaxis ()->GetXmin ()));
   l->SetX2 (max (clones.at ("puDependence")->GetXaxis ()->GetXmax (), clones.at ("puDependenceNoPU")->GetXaxis ()->GetXmax ()));
   l->Clone ()->Draw ("same");
+
+  c1->SaveAs("puDependence.pdf[");  // start file
+  c1->SaveAs("puDependence.pdf");   // add a page 
+
+  c1->Clear();  
+  c1->SetRightMargin(0.15);  
+  caloTot->Draw("colz");  
+  c1->SaveAs("puDependence.pdf");   // add a page 
+
+  (clones["caloPuDependence"] = (TGraphAsymmErrors *) caloPuDependence->Clone ())->Draw ("ap");
+  (clones["caloPuDependenceNoPU"] = (TGraphAsymmErrors *) caloPuDependenceNoPU->Clone ())->Draw ("p same");
+  pt1->Clone ()->Draw ("same");
+  pt2->Clone ()->Draw ("same");
+  pt3->Clone ()->Draw ("same");
+  leg->Clone ()->Draw ("same");
+  clones.at ("caloPuDependence")->GetYaxis ()->SetRangeUser (0.0, YMAX);
+  clones.at ("caloPuDependenceNoPU")->GetYaxis ()->SetRangeUser (0.0, YMAX);
+
+
+  c1->cd ();
+  l->SetX1 (min (clones.at ("caloPuDependence")->GetXaxis ()->GetXmin (), clones.at ("caloPuDependenceNoPU")->GetXaxis ()->GetXmin ()));
+  l->SetX2 (max (clones.at ("caloPuDependence")->GetXaxis ()->GetXmax (), clones.at ("caloPuDependenceNoPU")->GetXaxis ()->GetXmax ()));
+  l->Clone ()->Draw ("same");
+
+  c1->SaveAs("puDependence.pdf");   // add a page 
+
+
+  c1->SaveAs("puDependence.pdf]");   // close file 
+
 }
 
 template<class T> void

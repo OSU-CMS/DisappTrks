@@ -36,6 +36,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   muonsTag_     (iConfig.getParameter<edm::InputTag> ("muons")),
   tausTag_      (iConfig.getParameter<edm::InputTag> ("taus")),
   rhoTag_       (iConfig.getParameter<edm::InputTag> ("rhoTag")), 
+  rhoCaloTag_   (iConfig.getParameter<edm::InputTag> ("rhoCaloTag")), 
+  rhoCentralCaloTag_(iConfig.getParameter<edm::InputTag> ("rhoCentralCaloTag")), 
   candMinPt_    (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
@@ -69,7 +71,10 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
   iEvent.getByLabel (tausTag_, taus );
   edm::Handle<double> rhoHandle;
   iEvent.getByLabel (rhoTag_, rhoHandle );
-  iEvent.getByLabel ("ak4CaloJets","rho", rhoHandle); // This collection is not filled in standard AOD!  
+  edm::Handle<double> rhoCaloHandle;
+  iEvent.getByLabel (rhoCaloTag_, rhoCaloHandle );
+  edm::Handle<double> rhoCentralCaloHandle;
+  iEvent.getByLabel (rhoCentralCaloTag_, rhoCentralCaloHandle );
 
   edm::ESHandle<MagneticField> magneticField;
   iSetup.get<IdealMagneticFieldRecord>().get(magneticField);
@@ -82,7 +87,9 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
 
     CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus);
     calculateCaloE(iEvent, iSetup, candTrack, track);
-    //    candTrack.set_rhoPUCorr(*rhoHandle);  // Skip for now since collection is not available.  
+    candTrack.set_rhoPUCorr(*rhoHandle); 
+    candTrack.set_rhoPUCorrCalo(*rhoCaloHandle); 
+    candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle); 
     candTracks->push_back (candTrack);
   }
 

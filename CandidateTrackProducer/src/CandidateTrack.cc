@@ -11,6 +11,8 @@ CandidateTrack::CandidateTrack () :
   deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
   deltaRToClosestTau_       (numeric_limits<int>::min  ()),
   rhoPUCorr_                (numeric_limits<int>::min  ()),
+  rhoPUCorrCalo_            (numeric_limits<int>::min  ()),
+  rhoPUCorrCentralCalo_     (numeric_limits<int>::min  ()),
   trackIsoDRp3_             (numeric_limits<int>::min  ()),
   trackIsoDRp5_             (numeric_limits<int>::min  ()),
   trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
@@ -28,6 +30,8 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
   deltaRToClosestTau_       (numeric_limits<int>::min  ()),
   rhoPUCorr_                (numeric_limits<int>::min  ()),
+  rhoPUCorrCalo_            (numeric_limits<int>::min  ()),
+  rhoPUCorrCentralCalo_     (numeric_limits<int>::min  ()),
   trackIsoDRp3_             (numeric_limits<int>::min  ()),
   trackIsoDRp5_             (numeric_limits<int>::min  ()),
   trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
@@ -45,6 +49,8 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Tra
   deltaRToClosestMuon_     (getMinDeltaR (muons)),
   deltaRToClosestTau_      (getMinDeltaR (taus)),
   rhoPUCorr_               (numeric_limits<int>::min  ()),
+  rhoPUCorrCalo_           (numeric_limits<int>::min  ()),
+  rhoPUCorrCentralCalo_    (numeric_limits<int>::min  ()),
   trackIsoDRp3_            (getTrackIsolation (track, tracks, false, 0.3)),
   trackIsoDRp5_            (getTrackIsolation (track, tracks, false, 0.5)),
   trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, 0.3)),
@@ -141,16 +147,43 @@ CandidateTrack::caloTotNoPUDRp4 () const
 const double
 CandidateTrack::caloTotNoPUDRp5 () const
 {
-  return caloTotNoPU(0.5);  
+  return caloTotNoPU(0.5, CandidateTrack::All);  
 }
 
 const double
-CandidateTrack::caloTotNoPU (double dR = 0.5) const
+CandidateTrack::caloTotNoPUDRp5Calo () const
+{
+  return caloTotNoPU(0.5, CandidateTrack::Calo);  
+}
+
+const double
+CandidateTrack::caloTotNoPUDRp5CentralCalo () const
+{
+  return caloTotNoPU(0.5, CandidateTrack::CentralCalo);  
+}
+
+const double
+CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1 
+  double rho;
+  switch (rhoType) {
+  case All:  
+    rho = rhoPUCorr();  
+    break;
+  case Calo:  
+    rho = rhoPUCorrCalo();  
+    break;
+  case CentralCalo:  
+    rho = rhoPUCorrCentralCalo();  
+    break;  
+  default:
+    throw cms::Exception("FatalError") << "Unkown or not implemented rho type requested, type:" << rhoType; 
+  }
+
   double rawCaloTot = caloTotDRp5();  
-  double rhoCorr = rhoPUCorr() * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.  
-  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - rhoCorr);  
+  double caloCorr = rho * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.  
+  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - caloCorr);  
   return caloTotNoPUDRp5;  
 }
 
@@ -176,6 +209,18 @@ const double
 CandidateTrack::rhoPUCorr () const
 {
   return this->rhoPUCorr_;
+}
+
+const double
+CandidateTrack::rhoPUCorrCalo () const
+{
+  return this->rhoPUCorrCalo_;
+}
+
+const double
+CandidateTrack::rhoPUCorrCentralCalo () const
+{
+  return this->rhoPUCorrCentralCalo_;
 }
 
 const double

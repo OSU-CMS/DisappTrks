@@ -10,14 +10,32 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
+    input = cms.untracked.int32 (10000)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_0.root"
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_0.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_1.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_2.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_3.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_4.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_5.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_6.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_7.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_8.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_9.root",
     ),
     secondaryFileNames = cms.untracked.vstring (
-        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root"
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_0.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_1.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_2.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_3.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_4.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_5.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_6.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_7.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_8.root",
+        "/store/user/ahart/AMSB_chargino700GeV_ctau1000cm_step3_User/AMSB_chargino_step3_9.root",
     ),
 )
 
@@ -47,7 +65,9 @@ process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
   electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
   muons      =  cms.InputTag  ("slimmedMuons",      ""),
   taus       =  cms.InputTag  ("slimmedTaus",       ""),
-  rhoTag     =  cms.InputTag  ("ak4CaloJets",    "rho"),
+  rhoTag     =  cms.InputTag  ("fixedGridRhoFastjetAll"), 
+  rhoCaloTag     =  cms.InputTag  ("fixedGridRhoFastjetAllCalo"), 
+  rhoCentralCaloTag     =  cms.InputTag  ("fixedGridRhoFastjetCentralCalo"), 
   candMinPt = cms.double(10),
   TrackAssociatorParameters = CandTrackAssociatorParameters,
 )
