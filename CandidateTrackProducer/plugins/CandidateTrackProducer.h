@@ -48,6 +48,7 @@ class CandidateTrackProducer : public edm::EDProducer {
       edm::InputTag electronsTag_;
       edm::InputTag muonsTag_;
       edm::InputTag tausTag_;
+      edm::InputTag rhoTag_;
       double candMinPt_;
 
       TrackDetectorAssociator trackAssociator_;

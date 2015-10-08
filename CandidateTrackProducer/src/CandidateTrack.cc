@@ -10,6 +10,7 @@ CandidateTrack::CandidateTrack () :
   deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
   deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
   deltaRToClosestTau_       (numeric_limits<int>::min  ()),
+  rhoPUCorr_                (numeric_limits<int>::min  ()),
   trackIsoDRp3_             (numeric_limits<int>::min  ()),
   trackIsoDRp5_             (numeric_limits<int>::min  ()),
   trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
@@ -26,6 +27,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
   deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
   deltaRToClosestTau_       (numeric_limits<int>::min  ()),
+  rhoPUCorr_                (numeric_limits<int>::min  ()),
   trackIsoDRp3_             (numeric_limits<int>::min  ()),
   trackIsoDRp5_             (numeric_limits<int>::min  ()),
   trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
@@ -42,6 +44,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Tra
   deltaRToClosestElectron_ (getMinDeltaR (electrons)),
   deltaRToClosestMuon_     (getMinDeltaR (muons)),
   deltaRToClosestTau_      (getMinDeltaR (taus)),
+  rhoPUCorr_               (numeric_limits<int>::min  ()),
   trackIsoDRp3_            (getTrackIsolation (track, tracks, false, 0.3)),
   trackIsoDRp5_            (getTrackIsolation (track, tracks, false, 0.5)),
   trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, 0.3)),
@@ -124,6 +127,34 @@ CandidateTrack::caloTotDRp5 () const
 }
 
 const double
+CandidateTrack::caloTotNoPUDRp3 () const
+{
+  return caloTotNoPU(0.3);  
+}
+
+const double
+CandidateTrack::caloTotNoPUDRp4 () const
+{
+  return caloTotNoPU(0.4);  
+}
+
+const double
+CandidateTrack::caloTotNoPUDRp5 () const
+{
+  return caloTotNoPU(0.5);  
+}
+
+const double
+CandidateTrack::caloTotNoPU (double dR = 0.5) const
+{
+  // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1 
+  double rawCaloTot = caloTotDRp5();  
+  double rhoCorr = rhoPUCorr() * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.  
+  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - rhoCorr);  
+  return caloTotNoPUDRp5;  
+}
+
+const double
 CandidateTrack::deltaRToClosestElectron () const
 {
   return this->deltaRToClosestElectron_;
@@ -139,6 +170,12 @@ const double
 CandidateTrack::deltaRToClosestTau () const
 {
   return this->deltaRToClosestTau_;
+}
+
+const double
+CandidateTrack::rhoPUCorr () const
+{
+  return this->rhoPUCorr_;
 }
 
 const double

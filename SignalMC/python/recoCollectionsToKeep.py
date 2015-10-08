@@ -12,5 +12,6 @@ def customize (process):
       getattr (process, b).outputCommands.append ("keep *_reducedHcalRecHits_*_*")
       getattr (process, b).outputCommands.append ("keep *_dt4DSegments_*_*")  
       getattr (process, b).outputCommands.append ("keep *_cscSegments_*_*")  
+      getattr (process, b).outputCommands.append ("keep *_*_rho_*")  
 
   return process

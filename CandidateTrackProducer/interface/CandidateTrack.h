@@ -20,11 +20,16 @@ class CandidateTrack : public reco::Track
     const double caloEMDRp5 () const;
     const double caloHadDRp5 () const;
     const double caloTotDRp5 () const;
+    const double caloTotNoPU (double dR) const;
+    const double caloTotNoPUDRp3 () const;
+    const double caloTotNoPUDRp4 () const;
+    const double caloTotNoPUDRp5 () const;
 
     void set_caloEMDRp3 (double value) { caloEMDRp3_  = value; }
     void set_caloHadDRp3(double value) { caloHadDRp3_ = value; }
     void set_caloEMDRp5 (double value) { caloEMDRp5_  = value; }
     void set_caloHadDRp5(double value) { caloHadDRp5_ = value; }
+    void set_rhoPUCorr  (double value) { rhoPUCorr_   = value; }
 
     const double deltaRToClosestElectron () const;
     const double deltaRToClosestMuon () const;
@@ -33,6 +38,8 @@ class CandidateTrack : public reco::Track
     const int missingInnerHits () const;
     const int missingMiddleHits () const;
     const int missingOuterHits () const;
+
+    const double rhoPUCorr () const;
 
     const double trackIsoDRp3 () const;
     const double trackIsoDRp5 () const;
@@ -48,6 +55,8 @@ class CandidateTrack : public reco::Track
     double deltaRToClosestElectron_;
     double deltaRToClosestMuon_;
     double deltaRToClosestTau_;
+
+    double rhoPUCorr_;
 
     double trackIsoDRp3_;
     double trackIsoDRp5_;

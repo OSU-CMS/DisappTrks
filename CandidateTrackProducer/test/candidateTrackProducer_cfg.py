@@ -47,6 +47,7 @@ process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
   electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
   muons      =  cms.InputTag  ("slimmedMuons",      ""),
   taus       =  cms.InputTag  ("slimmedTaus",       ""),
+  rhoTag     =  cms.InputTag  ("ak4CaloJets",    "rho"),
   candMinPt = cms.double(10),
   TrackAssociatorParameters = CandTrackAssociatorParameters,
 )
