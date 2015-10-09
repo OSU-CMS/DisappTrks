@@ -17,7 +17,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
-                                 "file:/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4.root"
+#                                 "file:/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4.root"
+                                 "file:/home/wulsin/disappTrksRun2/signalDigiReco/CMSSW_7_4_5_ROOT5/src/DisappTrks/CandidateTrackProducer/test/miniAODWithCandidateTracks.root" 
 #                                 "file:/data/users/wulsin/OSUT3AnalysisTutorial/DisplacedSUSY_StopToBL_M-1000_CTau-100_13TeV_MiniAOD_numEvent1000.root", # a local copy of the xrootd file on the next line
                                  # "root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/DisplacedSUSY_StopToBL_M-1000_CTau-100_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/02737839-2108-E511-AE42-0CC47A0107D0.root", 
                              ),

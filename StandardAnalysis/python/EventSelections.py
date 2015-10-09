@@ -107,35 +107,35 @@ preselection = cms.PSet(
             cutString = cms.string("numberOfValidHits >= 7"),  
             numberRequired = cms.string(">= 1"),
         ), 
-        # # TRACK MISSING INNER HITS  
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("trackerExpectedHitsInner().numberOfHits() == 0"),  # INVALID SYNTAX
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
-        # # TRACK MISSING MIDDLE HITS  
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("hitPattern().trackerLayersWithoutMeasurement == 0"),  # INVALID SYNTAX
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
-        # # TRACK ISOLATION
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("trackRelIsoRp3 < 0.05"), # NEEDS TO BE CALCULATED IN SPECIAL PRODUCER
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
-        # # CALORIMETER ISOLATION
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("EcaloRp5 < 10"),   # NEEDS TO BE CALCULATED IN SPECIAL PRODUCER
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
-        # # TRACK MISSING OUTER HITS  
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("trackerExpectedHitsOuter().numberOfHits() == 0"),  # INVALID SYNTAX
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
+        # TRACK MISSING INNER HITS  
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("missingInnerHits == 0"), 
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK MISSING MIDDLE HITS  
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("missingMiddleHits == 0"), 
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK ISOLATION
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string(" ( trackIsoDRp3 / pt ) < 0.05"), 
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # CALORIMETER ISOLATION
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("caloTotNoPUDRp5CentralCalo < 10"), 
+            numberRequired = cms.string(">= 1"),
+        ), 
+        # TRACK MISSING OUTER HITS  
+        cms.PSet(
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("missingOuterHits >= 3"),  
+            numberRequired = cms.string(">= 1"),
+        ), 
     )
 )
