@@ -18,12 +18,13 @@
   #define  primaryvertexs_TYPE  reco::Vertex
   #define  superclusters_TYPE   reco::SuperCluster
   #define  taus_TYPE            pat::Tau
-  #define  tracks_TYPE          reco::Track
+  #define  tracks_TYPE          CandidateTrack
   #define  trigobjs_TYPE        pat::TriggerObjectStandAlone
   #define  uservariables_TYPE   VariableProducerPayload
   #define  eventvariables_TYPE  EventVariableProducerPayload
 
   #define  triggers_TYPE        edm::TriggerResults
+  #define  prescales_TYPE       pat::PackedTriggerPrescales  
 
   #define  bxlumis_INVALID
   #define  events_INVALID
@@ -38,9 +39,10 @@
   #include "DataFormats/PatCandidates/interface/MET.h"
   #include "DataFormats/PatCandidates/interface/Muon.h"
   #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
+  #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
   #include "DataFormats/PatCandidates/interface/Photon.h"
   #include "DataFormats/PatCandidates/interface/Tau.h"
-  #include "DataFormats/TrackReco/interface/Track.h"
+  #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h" 
   #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
   #include "DataFormats/VertexReco/interface/Vertex.h"
 
