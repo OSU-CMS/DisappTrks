@@ -1,3 +1,6 @@
+#ifndef CANDIDATETRACK_H
+#define CANDIDATETRACK_H
+
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
@@ -77,3 +80,7 @@ class CandidateTrack : public reco::Track
     template<class T> const double getMinDeltaR (const vector<T> &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 };
+
+
+#endif
+
