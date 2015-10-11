@@ -19,6 +19,7 @@ config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
 config.Data.publishDataName = 'RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1'
+config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt'  
 
 config.Site.storageSite = 'T3_US_OSU'
 
@@ -39,6 +40,9 @@ if __name__ == '__main__':
     #############################################################################################
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
+
+    ## Do MC first  
+    config.JobType.pyCfgParams = ['runOnMC=1']  
 
     config.General.requestName = 'candidateTrackProducer_DYToLL'
     config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v3/MINIAODSIM'
@@ -127,3 +131,25 @@ if __name__ == '__main__':
     config.General.requestName = 'candidateTrackProducer_SingleT_t-channel'
     config.Data.inputDataset = '/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9_ext1-v1/MINIAODSIM'
     submit(config)
+
+
+    ## Now do data 
+    ## Warning:  chaning pyCfgParams may trigger an error.  See for documentation:
+    ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
+    config.JobType.pyCfgParams = ['runOnMC=0']  
+
+    config.General.requestName = 'candidateTrackProducer_MET_2015D'  
+    config.Data.inputDataset = '/MET/Run2015D-PromptReco-v3/MINIAOD' 
+    submit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D'  
+    config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v3/MINIAOD' 
+    submit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D'  
+    config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/MINIAOD' 
+    submit(config)
+
+
+
+
