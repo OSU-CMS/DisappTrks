@@ -1,16 +1,32 @@
 import FWCore.ParameterSet.Config as cms
 import os
 
+# Usage:
+# To run over data:
+# > cmsRun candidateTrackProducer_cfg.py print runOnMC=0
+
+
 ###########################################################
 ##### Set up process #####
 ###########################################################
 
+import FWCore.ParameterSet.VarParsing as VarParsing 
+options = VarParsing.VarParsing ('analysis')
+options.register ('runOnMC',
+                  1, # default value
+                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
+                  VarParsing.VarParsing.varType.int,          # string, int, or float
+                  "Whether jobs will run over MC (1) or data (0)"
+              )
+options.parseArguments()
+
+
 process = cms.Process ('DISAPPTRKS')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10000)
+    input = cms.untracked.int32 (10)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
@@ -39,6 +55,17 @@ process.source = cms.Source ("PoolSource",
     ),
 )
 
+if not options.runOnMC:
+    process.source.fileNames = cms.untracked.vstring (
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/MINIAOD/PromptReco-v3/000/256/584/00000/C0ED0230-855D-E511-85C6-02163E0170AD.root", 
+#       "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/MINIAOD/PromptReco-v4/000/258/159/00000/6CA1C627-246C-E511-8A6A-02163E014147.root", 
+    )
+    process.source.secondaryFileNames = cms.untracked.vstring (
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/256/584/00000/E6E4042A-855D-E511-A449-02163E01424B.root", 
+#       "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root", 
+    )
+
+
 ###########################################################
 ##### Set up the analyzer #####
 ###########################################################
@@ -49,7 +76,14 @@ process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff")
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
+
+if options.runOnMC:
+    process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
+    print "Debug: using global tag: MCRUN2_74_V9"  
+else:
+    process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v2', '')
+    print "Debug: using global tag: 74X_dataRun2_Prompt_v2"
+
 from TrackingTools.TrackAssociator.default_cfi import *
 CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
 CandTrackAssociatorParameters.useHO = cms.bool(False)
