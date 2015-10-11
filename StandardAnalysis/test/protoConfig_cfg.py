@@ -80,7 +80,7 @@ from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, [preselection], cms.VPSet (histograms), collectionMap, variableProducers, False)
+add_channels (process, [disTrkSelection], cms.VPSet (histograms), collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
