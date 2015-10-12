@@ -1,141 +1,101 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-from DisappTrks.StandardAnalysis.MyCuts_disappTrks import * # Put all the individual cuts in this file 
+from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file 
 
 
 ##########################################################################
 ##### Preselection #####
 ##########################################################################
 
-preselection = cms.PSet(
-    name = cms.string("Preselection"),
-    triggers = cms.vstring(
-        "HLT_MET75_IsoTrk50", # trigger designed for disappearing tracks
-        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v1",  # monojet trigger, unprescaled for all of 2015
-        "HLT_PFMET120_PFMHT120_IDTight_v1",   
-        "HLT_PFMET170_v1", 
-    ), 
+basicSelection = cms.PSet(
+    name = cms.string("BasicSelection"),
+    triggers = triggersMet, 
     cuts = cms.VPSet (
-        # EVENT HAS GOOD PV
-        cms.PSet (
-            inputCollection = cms.vstring("primaryvertexs"),
-            cutString = cms.string("isValid > 0 && ndof >= 4"),
-            numberRequired = cms.string(">= 1")
-        ),
-        # MET 
-        cms.PSet(
-            inputCollection = cms.vstring("mets"),
-            cutString = cms.string("pt > 100"),
-            numberRequired = cms.string(">= 1"),
-        ),
-        # JET PT 
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("pt > 110"),
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # JET NOISE CLEANING
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("chargedHadronEnergyFraction > 0.2"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # JET NOISE CLEANING
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("chargedHadronEnergyFraction > 0.2"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # JET NOISE CLEANING
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("chargedEmEnergyFraction < 0.5"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # JET NOISE CLEANING
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("neutralHadronEnergyFraction < 0.7"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # JET NOISE CLEANING
-        cms.PSet(
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("neutralEmEnergyFraction < 0.7"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK PT 
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("pt > 50"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK ETA
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("fabs ( eta ) < 2.1"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK ETA:  BARREL-ENDCAP GAP VETO
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK ETA:  MUON INEFFICIENCY REGION 1
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("fabs ( eta ) < 0.15 || fabs ( eta ) > 0.35"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK ETA:  MUON INEFFICIENCY REGION 2
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
-        # cms.PSet(
-        #     inputCollection = cms.vstring("tracks"),
-        #     cutString = cms.string("fabs ( eta ) "),  
-        #     numberRequired = cms.string(">= 1"),
-        # ), 
-        # TRACK NVALIDHITS
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("numberOfValidHits >= 7"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK MISSING INNER HITS  
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("missingInnerHits == 0"), 
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK MISSING MIDDLE HITS  
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("missingMiddleHits == 0"), 
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK ISOLATION
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string(" ( trackIsoDRp3 / pt ) < 0.05"), 
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # CALORIMETER ISOLATION
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("caloTotNoPUDRp5CentralCalo < 10"), 
-            numberRequired = cms.string(">= 1"),
-        ), 
-        # TRACK MISSING OUTER HITS  
-        cms.PSet(
-            inputCollection = cms.vstring("tracks"),
-            cutString = cms.string("missingOuterHits >= 3"),  
-            numberRequired = cms.string(">= 1"),
-        ), 
+        cutGoodPV,
+        cutMet,
+        cutJetPt,
+        cutJetChgHad,
+        cutJetChgEm,
+        cutJetNeuHad, 
+        cutJetNeuEm,
     )
 )
+
+isoTrkSelection = copy.deepcopy(basicSelection) 
+isoTrkSelection.name = cms.string("IsoTrkSelection") 
+cutsToAdd = [ 
+        cutTrkPt, 
+        cutTrkEta,
+        cutTrkEcalGapVeto,
+        cutTrkEtaMuonIneff1, 
+        cutTrkEtaMuonIneff2, 
+        cutTrkNValidHits,
+        cutTrkNMissIn,
+        cutTrkNMissMid, 
+        cutTrkIso, 
+]
+addCuts(isoTrkSelection.cuts, cutsToAdd)
+
+
+candTrkSelection = copy.deepcopy(isoTrkSelection) 
+candTrkSelection.name = cms.string("DisTrkSelection") 
+cutsToAdd = [ 
+    cutTrkElecVeto, 
+    cutTrkMuonVeto, 
+    cutTrkTauVeto, 
+]
+addCuts(candTrkSelection.cuts, cutsToAdd)
+
+disTrkSelection = copy.deepcopy(candTrkSelection) 
+disTrkSelection.name = cms.string("DisTrkSelection") 
+cutsToAdd = [ 
+    cutTrkEcalo, 
+    cutTrkNMissOut, 
+]
+addCuts(disTrkSelection.cuts, cutsToAdd)
+
+elecCtrlSelection = copy.deepcopy(candTrkSelection) 
+elecCtrlSelection.name = cms.string("ElecCtrlSelection") 
+cutsToRemove = [ 
+    cutTrkElecVeto, 
+]
+removeCuts(elecCtrlSelection.cuts, cutsToRemove)
+
+muonCtrlSelection = copy.deepcopy(candTrkSelection) 
+muonCtrlSelection.name = cms.string("MuonCtrlSelection") 
+cutsToRemove = [ 
+    cutTrkMuonVeto, 
+]
+removeCuts(muonCtrlSelection.cuts, cutsToRemove)
+
+tauCtrlSelection = copy.deepcopy(candTrkSelection) 
+tauCtrlSelection.name = cms.string("TauCtrlSelection") 
+cutsToRemove = [ 
+    cutTrkTauVeto, 
+]
+removeCuts(tauCtrlSelection.cuts, cutsToRemove)
+
+caloSdbandSelection = copy.deepcopy(disTrkSelection) 
+caloSdbandSelection.name = cms.string("CaloSdbandSelection") 
+cutsToRemove = [ 
+    cutTrkEcalo, 
+]
+removeCuts(caloSdbandSelection.cuts, cutsToRemove)
+cutsToAdd = [ 
+    cutTrkEcaloInv, 
+]
+addCuts(caloSdbandSelection.cuts, cutsToAdd)
+
+nMissOutSdbandSelection = copy.deepcopy(disTrkSelection) 
+nMissOutSdbandSelection.name = cms.string("NMissOutSdbandSelection") 
+cutsToRemove = [ 
+    cutTrkNMissOut, 
+]
+removeCuts(nMissOutSdbandSelection.cuts, cutsToRemove)
+cutsToAdd = [ 
+    cutTrkNMissOutInv, 
+]
+addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
+
+
