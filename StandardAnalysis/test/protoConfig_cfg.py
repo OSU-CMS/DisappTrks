@@ -74,13 +74,14 @@ from DisappTrks.StandardAnalysis.EventSelections import *
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-from DisappTrks.StandardAnalysis.MyHistogramDefinitions_disappTrks import *
+from DisappTrks.StandardAnalysis.HistogramDefinitions import *
+from OSUT3Analysis.Configuration.histogramDefinitions import *
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, [isoTrkSelection], cms.VPSet (histograms), collectionMap, variableProducers, False)
+add_channels (process, [isoTrkSelection], cms.VPSet (TrackHistograms), collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
