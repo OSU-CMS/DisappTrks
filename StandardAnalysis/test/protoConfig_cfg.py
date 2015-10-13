@@ -17,10 +17,11 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
+                                 "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root", 
 #                                 "file:/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4.root"
      #                            "file:/home/wulsin/disappTrksRun2/signalDigiReco/CMSSW_7_4_5_ROOT5/src/DisappTrks/CandidateTrackProducer/test/miniAODWithCandidateTracks.root" 
 #"/store/user/wulsin/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1_ExtendedMiniAOD_twofiles/151008_215855/0000/miniAODWithCandidateTracks_857.root", 
-"/store/user/wulsin/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1_MiniAODExt_twofiles/151009_094112/0000/miniAODWithCandidateTracks_8.root", 
+#"/store/user/wulsin/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1_MiniAODExt_twofiles/151009_094112/0000/miniAODWithCandidateTracks_8.root", 
                              ),
 )
 
@@ -81,7 +82,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, [isoTrkSelection], cms.VPSet (TrackHistograms), collectionMap, variableProducers, False)
+add_channels (process, [isoTrkSelection], cms.VPSet (TrackHistograms, TrackExtraHistograms), collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
