@@ -10,35 +10,22 @@ TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (
         cms.PSet (
-            name = cms.string("trackEtaMagFine"),
-            title = cms.string("Track Eta; |#eta|"),
-            binsX = cms.untracked.vdouble(50, 0, 2.5),
-            inputVariables = cms.vstring("fabs(eta)"),
-            ),
+            name = cms.string("trackPtWide"),
+            title = cms.string("Track Transverse Momentum; p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("pt"),
+        ),
         cms.PSet (
             name = cms.string("trackEtaMag"),
             title = cms.string("Track Eta; |#eta|"),
-            binsX = cms.untracked.vdouble(20, 0, 2.5),
+            binsX = cms.untracked.vdouble(50, 0, 3.0),
             inputVariables = cms.vstring("fabs(eta)"),
-            ),
-        cms.PSet (
-            name = cms.string("trackPtCoarse"),
-            title = cms.string("Track Pt; p_{T} [GeV]"),
-            binsX = cms.untracked.vdouble(20, 40, 60, 100, 200, 500), 
-            inputVariables = cms.vstring("pt"),   
-            ),
-        cms.PSet (
-            name = cms.string("trackEtaVsPt"),
-            title = cms.string("#eta vs p_{T}; #eta; p_{T}"),
-            binsX = cms.untracked.vdouble(0, 0.15, 0.35, 0.8, 1.2, 1.5, 1.8, 2.1),  
-            binsY = cms.untracked.vdouble(20, 40, 60, 100, 200, 500), 
-            inputVariables = cms.vstring("fabs(eta)", "pt"),
             ),
         cms.PSet (
             name = cms.string("trackEtaVsPhi"),
             title = cms.string("#eta vs #phi; #eta; #phi"),
             binsX = cms.untracked.vdouble(100, -3, 3), 
-            binsY = cms.untracked.vdouble(100, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(100, -3.15, 3.15),
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
@@ -94,7 +81,7 @@ TrackExtraHistograms = cms.PSet(
             name = cms.string("trackCaloTot_RhoCorr"),
             title = cms.string("Isolation energy (PU corr.); E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotNoPUDRp5"),
+            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
             name = cms.string("trackPtError"),
