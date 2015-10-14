@@ -65,7 +65,7 @@ CandidateTrack::~CandidateTrack ()
 template<class T> const double
 CandidateTrack::getMinDeltaR (const vector<T> &objects) const
 {
-  double minDeltaR = numeric_limits<int>::min ();
+  double minDeltaR = MAX_DR;  
 
   for (const auto &object : objects)
     {
@@ -190,18 +190,24 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
 const double
 CandidateTrack::deltaRToClosestElectron () const
 {
+  if (this->deltaRToClosestElectron_ == numeric_limits<int>::min  ()) 
+    return MAX_DR;  
   return this->deltaRToClosestElectron_;
 }
 
 const double
 CandidateTrack::deltaRToClosestMuon () const
 {
+  if (this->deltaRToClosestMuon_ == numeric_limits<int>::min  ()) 
+    return MAX_DR;  
   return this->deltaRToClosestMuon_;
 }
 
 const double
 CandidateTrack::deltaRToClosestTau () const
 {
+  if (this->deltaRToClosestTau_ == numeric_limits<int>::min  ()) 
+    return MAX_DR;  
   return this->deltaRToClosestTau_;
 }
 

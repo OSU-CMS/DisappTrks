@@ -25,6 +25,12 @@ process.source = cms.Source ("PoolSource",
                              ),
 )
 
+# process.source.eventsToProcess = cms.untracked.VEventRange (
+#     "1:60:53",   
+# )
+
+
+
 # FIXME:  set_input does not work (because of error with /usr/bin/file) in CMSSW_7_4_5_ROOT5   
 # argument can be a ROOT file, directory, or dataset name*
 # *registered dataset names are listed in 'datasets' in:
@@ -48,6 +54,7 @@ process.TFileService = cms.Service ('TFileService',
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (1000)
+    
 )
 
 ################################################################################
@@ -82,7 +89,14 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, [isoTrkSelection], cms.VPSet (TrackHistograms, TrackExtraHistograms), collectionMap, variableProducers, False)
+histSets = cms.VPSet (
+    TrackHistograms, 
+    TrackExtraHistograms, 
+    MetHistograms, 
+    JetHistograms
+)
+
+add_channels (process, [isoTrkSelection], histSets, collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
