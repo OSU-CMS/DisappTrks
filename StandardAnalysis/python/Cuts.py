@@ -7,10 +7,12 @@ import copy
 
 
 triggersMet = cms.vstring(
-        "HLT_MET75_IsoTrk50", # trigger designed for disappearing tracks
-        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v1",  # monojet trigger, unprescaled for all of 2015
-#        "HLT_PFMET120_PFMHT120_IDTight_v1",   
-#        "HLT_PFMET170_v1", 
+        "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
+        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",  # monojet trigger in the data, unprescaled for all of 2015
+        "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v",  # monojet trigger in the RunIISpring15DR74 MC samples
+
+        #"HLT_PFMET120_PFMHT120_IDTight_v", # PFMET trigger in the data
+        #"HLT_PFMET120_PFMHT120_IDLoose_v", # PFMET trigger in the RunIISpring15DR74 MC samples
         )
 
 ##########################
