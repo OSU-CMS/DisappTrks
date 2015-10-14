@@ -8,7 +8,7 @@ import copy
 
 triggersMet = cms.vstring(
         "HLT_MET75_IsoTrk50", # trigger designed for disappearing tracks
-        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v1",  # monojet trigger, unprescaled for all of 2015
+        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",  # monojet trigger, unprescaled for all of 2015
 #        "HLT_PFMET120_PFMHT120_IDTight_v1",   
 #        "HLT_PFMET170_v1", 
         )
