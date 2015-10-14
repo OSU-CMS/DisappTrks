@@ -29,6 +29,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("eta", "phi"),
             ),
         cms.PSet (
+            name = cms.string("trackIsolation"),
+            title = cms.string("Relative Track Isolation;Relative track isolation"), 
+            binsX = cms.untracked.vdouble(100, 0, 0.3), 
+            inputVariables = cms.vstring("trackIsoDRp3 / pt"),
+            ),
+        cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits; N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
