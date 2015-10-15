@@ -3,13 +3,15 @@
 
 #ifndef CUSTOM_DATA_FORMAT
 
-
+  #define  basicjets_TYPE       pat::Jet
   #define  beamspots_TYPE       reco::BeamSpot
+  #define  bjets_TYPE           INVALID_TYPE
   #define  bxlumis_TYPE         INVALID_TYPE
+  #define  candeles_TYPE        INVALID_TYPE
   #define  electrons_TYPE       pat::Electron
   #define  events_TYPE          INVALID_TYPE
+  #define  eventvariables_TYPE  EventVariableProducerPayload
   #define  genjets_TYPE         reco::GenJet
-  #define  basicjets_TYPE       pat::Jet
   #define  jets_TYPE            pat::Jet
   #define  mcparticles_TYPE     pat::PackedGenParticle
   #define  mets_TYPE            pat::MET
@@ -21,12 +23,13 @@
   #define  tracks_TYPE          CandidateTrack
   #define  trigobjs_TYPE        pat::TriggerObjectStandAlone
   #define  uservariables_TYPE   VariableProducerPayload
-  #define  eventvariables_TYPE  EventVariableProducerPayload
 
   #define  triggers_TYPE        edm::TriggerResults
   #define  prescales_TYPE       pat::PackedTriggerPrescales  
 
+  #define  bjets_INVALID
   #define  bxlumis_INVALID
+  #define  candeles_INVALID
   #define  events_INVALID
 
   #include "DataFormats/BeamSpot/interface/BeamSpot.h"
@@ -45,8 +48,5 @@
   #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h" 
   #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
   #include "DataFormats/VertexReco/interface/Vertex.h"
-
-
-
 
 #endif
