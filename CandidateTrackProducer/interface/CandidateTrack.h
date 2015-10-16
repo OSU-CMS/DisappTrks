@@ -77,6 +77,8 @@ class CandidateTrack : public reco::Track
     double trackIsoNoPUDRp3_;
     double trackIsoNoPUDRp5_;
 
+    static const int MAX_DR = 99;
+
     template<class T> const double getMinDeltaR (const vector<T> &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 };
