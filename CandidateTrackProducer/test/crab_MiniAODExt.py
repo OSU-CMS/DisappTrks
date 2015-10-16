@@ -137,6 +137,7 @@ if __name__ == '__main__':
     ## Warning:  chaning pyCfgParams may trigger an error.  See for documentation:
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
     config.JobType.pyCfgParams = ['runOnMC=0']  
+    config.Data.publishDataName = 'Run2015D-05Oct2015-v1/'  
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_v2'  
     config.Data.inputDataset = '/MET/Run2015D-05Oct2015-v1/MINIAOD' 
