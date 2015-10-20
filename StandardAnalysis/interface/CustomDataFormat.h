@@ -8,6 +8,7 @@
   #define  bjets_TYPE           INVALID_TYPE
   #define  bxlumis_TYPE         INVALID_TYPE
   #define  candeles_TYPE        INVALID_TYPE
+  #define  candjets_TYPE        INVALID_TYPE
   #define  electrons_TYPE       pat::Electron
   #define  events_TYPE          INVALID_TYPE
   #define  eventvariables_TYPE  EventVariableProducerPayload
@@ -30,6 +31,7 @@
   #define  bjets_INVALID
   #define  bxlumis_INVALID
   #define  candeles_INVALID
+  #define  candjets_INVALID
   #define  events_INVALID
 
   #include "DataFormats/BeamSpot/interface/BeamSpot.h"
