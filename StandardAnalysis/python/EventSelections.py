@@ -22,6 +22,8 @@ basicSelection = cms.PSet(
     )
 )
 
+##########################################################################
+
 isoTrkSelection = copy.deepcopy(basicSelection) 
 isoTrkSelection.name = cms.string("IsoTrkSelection") 
 cutsToAdd = [ 
@@ -37,6 +39,7 @@ cutsToAdd = [
 ]
 addCuts(isoTrkSelection.cuts, cutsToAdd)
 
+##########################################################################
 
 candTrkSelection = copy.deepcopy(isoTrkSelection) 
 candTrkSelection.name = cms.string("DisTrkSelection") 
@@ -47,6 +50,8 @@ cutsToAdd = [
 ]
 addCuts(candTrkSelection.cuts, cutsToAdd)
 
+##########################################################################
+
 disTrkSelection = copy.deepcopy(candTrkSelection) 
 disTrkSelection.name = cms.string("DisTrkSelection") 
 cutsToAdd = [ 
@@ -55,12 +60,16 @@ cutsToAdd = [
 ]
 addCuts(disTrkSelection.cuts, cutsToAdd)
 
+##########################################################################
+
 elecCtrlSelection = copy.deepcopy(candTrkSelection) 
 elecCtrlSelection.name = cms.string("ElecCtrlSelection") 
 cutsToRemove = [ 
     cutTrkElecVeto, 
 ]
 removeCuts(elecCtrlSelection.cuts, cutsToRemove)
+
+##########################################################################
 
 muonCtrlSelection = copy.deepcopy(candTrkSelection) 
 muonCtrlSelection.name = cms.string("MuonCtrlSelection") 
@@ -69,12 +78,16 @@ cutsToRemove = [
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
 
+##########################################################################
+
 tauCtrlSelection = copy.deepcopy(candTrkSelection) 
 tauCtrlSelection.name = cms.string("TauCtrlSelection") 
 cutsToRemove = [ 
     cutTrkTauVeto, 
 ]
 removeCuts(tauCtrlSelection.cuts, cutsToRemove)
+
+##########################################################################
 
 caloSdbandSelection = copy.deepcopy(disTrkSelection) 
 caloSdbandSelection.name = cms.string("CaloSdbandSelection") 
@@ -87,6 +100,8 @@ cutsToAdd = [
 ]
 addCuts(caloSdbandSelection.cuts, cutsToAdd)
 
+##########################################################################
+
 nMissOutSdbandSelection = copy.deepcopy(disTrkSelection) 
 nMissOutSdbandSelection.name = cms.string("NMissOutSdbandSelection") 
 cutsToRemove = [ 
@@ -98,4 +113,4 @@ cutsToAdd = [
 ]
 addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 
-
+##########################################################################
