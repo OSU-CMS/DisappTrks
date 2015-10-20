@@ -78,6 +78,10 @@ variableProducers = []
 
 from DisappTrks.StandardAnalysis.EventSelections import *
 
+nonIsoTrkSelection = copy.deepcopy(isoTrkSelection) 
+nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection") 
+removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
+
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
@@ -97,6 +101,10 @@ histSets = cms.VPSet (
 )
 
 add_channels (process, [isoTrkSelection], histSets, collectionMap, variableProducers, False)
+#add_channels (process, [nonIsoTrkSelection], histSets, collectionMap, variableProducers, False)
+#add_channels (process, [elecCtrlSelection], histSets, collectionMap, variableProducers, False)
+#add_channels (process, [muonCtrlSelection], histSets, collectionMap, variableProducers, False)
+#add_channels (process, [tauCtrlSelection], histSets, collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
