@@ -95,6 +95,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 
 histSets = cms.VPSet (
     TrackHistograms, 
+    TrackBeamspotHistograms, 
     TrackExtraHistograms, 
     MetHistograms, 
     JetHistograms
