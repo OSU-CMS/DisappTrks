@@ -3,30 +3,31 @@
 
 #ifndef CUSTOM_DATA_FORMAT
 
-  #define  basicjets_TYPE       pat::Jet
-  #define  beamspots_TYPE       reco::BeamSpot
-  #define  bjets_TYPE           INVALID_TYPE
-  #define  bxlumis_TYPE         INVALID_TYPE
-  #define  candeles_TYPE        INVALID_TYPE
-  #define  candjets_TYPE        INVALID_TYPE
-  #define  electrons_TYPE       pat::Electron
-  #define  events_TYPE          INVALID_TYPE
-  #define  eventvariables_TYPE  EventVariableProducerPayload
-  #define  genjets_TYPE         reco::GenJet
-  #define  jets_TYPE            pat::Jet
-  #define  mcparticles_TYPE     pat::PackedGenParticle
-  #define  mets_TYPE            pat::MET
-  #define  muons_TYPE           pat::Muon
-  #define  photons_TYPE         pat::Photon
-  #define  primaryvertexs_TYPE  reco::Vertex
-  #define  superclusters_TYPE   reco::SuperCluster
-  #define  taus_TYPE            pat::Tau
-  #define  tracks_TYPE          CandidateTrack
-  #define  trigobjs_TYPE        pat::TriggerObjectStandAlone
-  #define  uservariables_TYPE   VariableProducerPayload
+  #define  basicjets_TYPE         pat::Jet
+  #define  beamspots_TYPE         reco::BeamSpot
+  #define  bjets_TYPE             INVALID_TYPE
+  #define  bxlumis_TYPE           INVALID_TYPE
+  #define  candeles_TYPE          INVALID_TYPE
+  #define  candjets_TYPE          INVALID_TYPE
+  #define  electrons_TYPE         pat::Electron
+  #define  events_TYPE            INVALID_TYPE
+  #define  eventvariables_TYPE    EventVariableProducerPayload
+  #define  genjets_TYPE           reco::GenJet
+  #define  jets_TYPE              pat::Jet
+  #define  mcparticles_TYPE       pat::PackedGenParticle
+  #define  mets_TYPE              pat::MET
+  #define  muons_TYPE             pat::Muon
+  #define  photons_TYPE           pat::Photon
+  #define  primaryvertexs_TYPE    reco::Vertex
+  #define  superclusters_TYPE     reco::SuperCluster
+  #define  taus_TYPE              pat::Tau
+  #define  tracks_TYPE            CandidateTrack
+  #define  trigobjs_TYPE          pat::TriggerObjectStandAlone
+  #define  uservariables_TYPE     VariableProducerPayload
 
-  #define  triggers_TYPE        edm::TriggerResults
-  #define  prescales_TYPE       pat::PackedTriggerPrescales  
+  #define  triggers_TYPE          edm::TriggerResults
+  #define  prescales_TYPE         pat::PackedTriggerPrescales  
+  #define  generatorweights_TYPE  GenEventInfoProduct
 
   #define  bjets_INVALID
   #define  bxlumis_INVALID
@@ -50,5 +51,6 @@
   #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h" 
   #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
   #include "DataFormats/VertexReco/interface/Vertex.h"
+  #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
 #endif
