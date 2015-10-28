@@ -24,26 +24,26 @@ TrackExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
-            binsX = cms.untracked.vdouble(16 * 2 + 1, -0.5, 15.5),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0, 100),  
             inputVariables = cms.vstring("missingOuterHits", "caloTotNoPUDRp5CentralCalo"),
             ),        
         cms.PSet (
             name = cms.string("trackNHitsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
-            binsX = cms.untracked.vdouble(16 * 2 + 1, -0.5, 15.5),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("missingOuterHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingMiddle"),
             title = cms.string("Number of Missing Middle Hits;N_{miss}^{middle}"),
-            binsX = cms.untracked.vdouble(6 * 2 + 1, -0.5, 5.5),
+            binsX = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("missingMiddleHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingInner"),
             title = cms.string("Number of Missing Inner Hits;N_{miss}^{in}"),
-            binsX = cms.untracked.vdouble(6 * 2 + 1, -0.5, 5.5),
+            binsX = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("missingInnerHits"),
             ),
         cms.PSet (
