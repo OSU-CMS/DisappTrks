@@ -24,6 +24,17 @@ basicSelection = cms.PSet(
 
 ##########################################################################
 
+metMinimalSkim = cms.PSet(
+    name = cms.string("metMinimalSkim"),
+    triggers = triggersMet, 
+    cuts = cms.VPSet (
+        cutGoodPV,
+        cutMet,
+    )
+)
+
+##########################################################################
+
 isoTrkSelection = copy.deepcopy(basicSelection) 
 isoTrkSelection.name = cms.string("IsoTrkSelection") 
 cutsToAdd = [ 
