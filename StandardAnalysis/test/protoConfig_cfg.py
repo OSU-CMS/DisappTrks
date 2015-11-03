@@ -65,6 +65,17 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
 collectionMap.tracks = cms.InputTag ('generalTracks') 
 
+################################################################################  
+##### Set up weights to be used in plotting and cutflows  ######################  
+################################################################################  
+weights = cms.VPSet (
+    # cms.PSet (
+    #     inputCollections = cms.vstring("muons"),
+    #     inputVariable = cms.string("pt")
+    # ),
+)
+
+
 ################################################################################
 ##### Set up any user-defined variable producers ###############################
 ################################################################################
@@ -101,7 +112,7 @@ histSets = cms.VPSet (
     JetHistograms
 )
 
-add_channels (process, [isoTrkSelection], histSets, collectionMap, variableProducers, False)
+add_channels (process, [isoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [nonIsoTrkSelection], histSets, collectionMap, variableProducers, False)
 #add_channels (process, [elecCtrlSelection], histSets, collectionMap, variableProducers, False)
 #add_channels (process, [muonCtrlSelection], histSets, collectionMap, variableProducers, False)
