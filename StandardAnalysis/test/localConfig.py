@@ -16,7 +16,7 @@ datasetsBkgd = [
     'DYJetsToLL_50_MiniAOD',
 ]
 
-datasetsBkgd = [
+datasetsData = [
     'MET_2015D_05Oct2015',
 ]
 
