@@ -4,7 +4,9 @@ config_file = "protoConfig_cfg.py"
 
 intLumi = 628.76
 
-datasets = [
+
+
+datasetsBkgd = [
     'WJetsToLNu_MiniAOD',
     'TTJets_Lept_MiniAOD',
     'SingleTop_MiniAOD',
@@ -12,9 +14,13 @@ datasets = [
 
     'DYJetsToNuNu_MiniAOD',
     'DYJetsToLL_50_MiniAOD',
+]
 
+datasetsBkgd = [
     'MET_2015D_05Oct2015',
+]
 
+datasetsSig = [
     'AMSB_chargino_100GeV_10cm',
     'AMSB_chargino_100GeV_100cm',
     'AMSB_chargino_100GeV_1000cm',
@@ -31,6 +37,8 @@ datasets = [
     'AMSB_chargino_700GeV_100cm',
     'AMSB_chargino_700GeV_1000cm',
 ]
+
+datasets = datasetsBkgd + datasetsData + datasetsSig  
 
 composite_dataset_definitions["WW_MiniAOD"] = [
     'WWToLNuQQ_MiniAOD',
