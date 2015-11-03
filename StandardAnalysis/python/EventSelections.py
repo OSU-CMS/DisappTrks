@@ -53,7 +53,7 @@ addCuts(isoTrkSelection.cuts, cutsToAdd)
 ##########################################################################
 
 candTrkSelection = copy.deepcopy(isoTrkSelection) 
-candTrkSelection.name = cms.string("DisTrkSelection") 
+candTrkSelection.name = cms.string("CandTrkSelection") 
 cutsToAdd = [ 
     cutTrkElecVeto, 
     cutTrkMuonVeto, 
