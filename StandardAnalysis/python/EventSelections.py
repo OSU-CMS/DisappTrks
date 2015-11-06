@@ -37,7 +37,7 @@ metMinimalSkim = cms.PSet(
 
 isoTrkSelection = copy.deepcopy(basicSelection) 
 isoTrkSelection.name = cms.string("IsoTrkSelection") 
-cutsToAdd = [ 
+isoTrkCuts = [ 
         cutTrkPt, 
         cutTrkEta,
         cutTrkEcalGapVeto,
@@ -48,7 +48,7 @@ cutsToAdd = [
         cutTrkNMissMid, 
         cutTrkIso, 
 ]
-addCuts(isoTrkSelection.cuts, cutsToAdd)
+addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
 ##########################################################################
 
@@ -60,6 +60,7 @@ cutsToAdd = [
     cutTrkTauVeto, 
 ]
 addCuts(candTrkSelection.cuts, cutsToAdd)
+candTrkCuts = isoTrkCuts + cutsToAdd 
 
 ##########################################################################
 
@@ -70,6 +71,7 @@ cutsToAdd = [
     cutTrkNMissOut, 
 ]
 addCuts(disTrkSelection.cuts, cutsToAdd)
+disTrkCuts = candTrkCuts + cutsToAdd 
 
 ##########################################################################
 

@@ -17,8 +17,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
-                                 "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
-                                 # "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
+                                 # "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
+                                 "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
                                  # '/store/user/wulsin/MET/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151011_155240/0000/miniAODWithCandidateTracks_10.root', # data 
                              ),
 )
@@ -51,7 +51,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1)
+    input = cms.untracked.int32 (100)
     
 )
 
@@ -86,7 +86,7 @@ variableProducers = []
 ################################################################################
 
 from DisappTrks.StandardAnalysis.EventSelections import *
-#from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
+from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
 
 nonIsoTrkSelection = copy.deepcopy(isoTrkSelection) 
 nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection") 
@@ -107,18 +107,21 @@ histSets = cms.VPSet (
     JetHistograms
 )
 
+histSetsMuon = copy.deepcopy(histSets)
+histSetsMuon.append(MuonHistograms)  
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, [disTrkSelection],    histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [disTrkSelection],    histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [isoTrkSelection],    histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [nonIsoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [elecCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [muonCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [tauCtrlSelection],   histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [ZtoMuMu],            histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [ZtoMuProbeTrk],  histSetsMuon, weights, collectionMap, variableProducers, False)
+add_channels (process, [ZtoMuMu],           histSetsMuon, weights, collectionMap, variableProducers, False)
 
 
 
