@@ -36,6 +36,27 @@ cutsToRemove = [
 removeCuts(ZtoMuProbeTrk.cuts, cutsToRemove)  
 
 
+os_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("muon.charge * muon.charge < 0"),
+    numberRequired = cms.string(">= 1")
+)
+
+zpeak_cut = cms.VPSet (
+    cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("invMass (muon, muon) > 60"), 
+#    cutString = cms.string("invMass (muon, muon) > 60 && invMass (muon, muon) < 120"),  # causes a seg fault 
+    numberRequired = cms.string(">= 1")
+    ),
+    cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("invMass (muon, muon) < 120"),
+    numberRequired = cms.string(">= 1")
+    ),       
+)
+
+
 ##################################################
 ## Fake track control sample:  start with Z->mu mu events
 ##################################################
@@ -49,7 +70,8 @@ ZtoMuMu = cms.PSet(
          cutMuonPairTightID,
          # cutMuonPairPFIso,
          cutMuMuChargeProduct,
-         cutMuMuInvMass,
+         cutMuMuInvMassZLo, 
+         cutMuMuInvMassZHi, 
          )
     )   
 

@@ -1,6 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
+
+##############################
+##### Constants          #####
+##############################
+
+mZPDG = 91.1876  # Z mass from http://pdglive.lbl.gov/DataBlock.action?node=S044M  
+
+
 ##############################
 ##### List of triggers   #####
 ##############################
@@ -197,17 +205,17 @@ cutMuonPFIso = cms.PSet (  # Get this from Bing
 cutMuonPairPt20 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 2"),
+    numberRequired = cms.string("== 2"),
     )
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
-    numberRequired = cms.string(">= 2"),
+    numberRequired = cms.string("== 2"),
     )
 cutMuonPairTightID = cms.PSet (  
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
-    numberRequired = cms.string(">= 2"),
+    numberRequired = cms.string("== 2"),
     )
 
 
@@ -215,13 +223,18 @@ cutMuonPairTightID = cms.PSet (
 ## muon-muon pairs
 ##################################################
 cutMuMuChargeProduct = cms.PSet(
-    inputCollection = cms.vstring("muons"),  
-    cutString = cms.string("muon.charge * muon.charge"),  
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("muon.charge * muon.charge < 0"),  
     numberRequired = cms.string(">= 1"),
     )
-cutMuMuInvMass = cms.PSet(
-    inputCollection = cms.vstring("muons"),  
-    cutString = cms.string("invMass ( muon , muon )"),  
+cutMuMuInvMassZLo = cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("invMass ( muon , muon ) > " + str(mZPDG) + " - 10"),  
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuMuInvMassZHi = cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("invMass ( muon , muon ) < " + str(mZPDG) + " + 10"),  
     numberRequired = cms.string(">= 1"),
     )
 
