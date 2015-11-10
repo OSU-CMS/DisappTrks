@@ -52,6 +52,12 @@ addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
 ##########################################################################
 
+nonIsoTrkSelection = copy.deepcopy(isoTrkSelection) 
+nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection") 
+removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
+
+##########################################################################
+
 candTrkSelection = copy.deepcopy(isoTrkSelection) 
 candTrkSelection.name = cms.string("CandTrkSelection") 
 cutsToAdd = [ 
