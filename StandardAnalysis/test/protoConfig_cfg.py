@@ -63,7 +63,7 @@ process.maxEvents = cms.untracked.PSet (
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
-collectionMap.tracks = cms.InputTag ('generalTracks') 
+collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks') 
 
 ################################################################################  
 ##### Set up weights to be used in plotting and cutflows  ######################  
@@ -112,11 +112,12 @@ histSets = cms.VPSet (
     JetHistograms
 )
 
-add_channels (process, [isoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [nonIsoTrkSelection], histSets, collectionMap, variableProducers, False)
-#add_channels (process, [elecCtrlSelection], histSets, collectionMap, variableProducers, False)
-#add_channels (process, [muonCtrlSelection], histSets, collectionMap, variableProducers, False)
-#add_channels (process, [tauCtrlSelection], histSets, collectionMap, variableProducers, False)
+add_channels (process, [metMinimalSkim], cms.VPSet (), weights, collectionMap, variableProducers, True)
+#add_channels (process, [isoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [nonIsoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [elecCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [muonCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [tauCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
