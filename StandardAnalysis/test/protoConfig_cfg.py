@@ -17,21 +17,20 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
-                                 "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root", 
-#                                 "file:/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4.root"
-     #                            "file:/home/wulsin/disappTrksRun2/signalDigiReco/CMSSW_7_4_5_ROOT5/src/DisappTrks/CandidateTrackProducer/test/miniAODWithCandidateTracks.root" 
-#"/store/user/wulsin/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1_ExtendedMiniAOD_twofiles/151008_215855/0000/miniAODWithCandidateTracks_857.root", 
-#"/store/user/wulsin/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1_MiniAODExt_twofiles/151009_094112/0000/miniAODWithCandidateTracks_8.root", 
+                                 "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
+                                 # "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
+                                  # "/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193736/0000/miniAODWithCandidateTracks_1.root", # bkgd MC
+                                 # '/store/user/wulsin/MET/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151011_155240/0000/miniAODWithCandidateTracks_10.root', # data
                              ),
 )
 
 # process.source.eventsToProcess = cms.untracked.VEventRange (
-#     "1:60:53",   
+#     "1:60:53",
 # )
 
 
 
-# FIXME:  set_input does not work (because of error with /usr/bin/file) in CMSSW_7_4_5_ROOT5   
+# FIXME:  set_input does not work (because of error with /usr/bin/file) in CMSSW_7_4_5_ROOT5
 # argument can be a ROOT file, directory, or dataset name*
 # *registered dataset names are listed in 'datasets' in:
 #    https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Configuration/python/configurationOptions.py
@@ -53,8 +52,8 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
-    
+    input = cms.untracked.int32 (100)
+
 )
 
 ################################################################################
@@ -63,11 +62,11 @@ process.maxEvents = cms.untracked.PSet (
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
-collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks') 
+collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks')
 
-################################################################################  
-##### Set up weights to be used in plotting and cutflows  ######################  
-################################################################################  
+################################################################################
+##### Set up weights to be used in plotting and cutflows  ######################
+################################################################################
 weights = cms.VPSet (
     # cms.PSet (
     #     inputCollections = cms.vstring("muons"),
@@ -88,10 +87,7 @@ variableProducers = []
 ################################################################################
 
 from DisappTrks.StandardAnalysis.EventSelections import *
-
-nonIsoTrkSelection = copy.deepcopy(isoTrkSelection) 
-nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection") 
-removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
+from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -100,24 +96,35 @@ removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
 from DisappTrks.StandardAnalysis.HistogramDefinitions import *
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 
+histSets = cms.VPSet (
+    TrackHistograms,
+    TrackBeamspotHistograms,
+    TrackExtraHistograms,
+    MetHistograms,
+    JetHistograms
+)
+
+histSetsMuon = copy.deepcopy(histSets)
+histSetsMuon.append(MuonHistograms)
+histSetsMuon.append(DiMuonHistograms)
+
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-histSets = cms.VPSet (
-    TrackHistograms, 
-    TrackBeamspotHistograms, 
-    TrackExtraHistograms, 
-    MetHistograms, 
-    JetHistograms
-)
-
-add_channels (process, [metMinimalSkim], cms.VPSet (), weights, collectionMap, variableProducers, True)
-#add_channels (process, [isoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [metMinimalSkim],    histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [disTrkSelection],    histSets, weights, collectionMap, variableProducers, True)
+add_channels (process, [candTrkSelection],    histSets, weights, collectionMap, variableProducers, True)
+#add_channels (process, [isoTrkSelection],    histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [nonIsoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [elecCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [muonCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [tauCtrlSelection], histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [elecCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [muonCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [tauCtrlSelection],   histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [ZtoMuMu],          histSetsMuon, weights, collectionMap, variableProducers, True)
+#add_channels (process, [ZtoMuProbeTrk],  histSetsMuon, weights, collectionMap, variableProducers, False)
+
+
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
+

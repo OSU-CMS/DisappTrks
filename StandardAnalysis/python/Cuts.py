@@ -1,6 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
+
+##############################
+##### Constants          #####
+##############################
+
+mZPDG = 91.1876  # Z mass from http://pdglive.lbl.gov/DataBlock.action?node=S044M  
+
+
 ##############################
 ##### List of triggers   #####
 ##############################
@@ -15,6 +23,11 @@ triggersMet = cms.vstring(
         #"HLT_PFMET120_PFMHT120_IDLoose_v", # PFMET trigger in the RunIISpring15DR74 MC samples
         )
 
+triggersSingleMu = cms.vstring(
+    "HLT_IsoMu18_v",  # not available in bkgd MC
+    "HLT_IsoMu20_v",  # yes available in bkgd MC
+)
+
 ##########################
 ##### List of cuts   #####
 ##########################
@@ -26,16 +39,29 @@ triggersMet = cms.vstring(
 # bxlumis, superclusters 
 
 
+##################################################
+## primaryvertexs 
+##################################################
 cutGoodPV = cms.PSet (
     inputCollection = cms.vstring("primaryvertexs"),
     cutString = cms.string("isValid > 0 && ndof >= 4"),
     numberRequired = cms.string(">= 1")
 )
+
+
+##################################################
+## mets
+##################################################
 cutMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("pt > 100"),
     numberRequired = cms.string(">= 1"),
 )
+
+
+##################################################
+## jets
+##################################################
 cutJetPt = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > 110"),
@@ -61,6 +87,11 @@ cutJetNeuEm = cms.PSet(
     cutString = cms.string("neutralEmEnergyFraction < 0.7"),  
     numberRequired = cms.string(">= 1"),
 ) 
+
+
+##################################################
+## tracks
+##################################################
 cutTrkPt = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 50"),  
@@ -147,6 +178,85 @@ cutTrkNMissOutInv = cms.PSet(
     numberRequired = cms.string(">= 1"),
 ) 
 
+
+##################################################
+## muons
+##################################################
+cutMuonPt20 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonEta21 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isTightMuonWRTVtx > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonPFIso = cms.PSet (  # Get this from Bing 
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("relPFdBetaIso < 0.12"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuonPairPt20 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string("== 2"),
+    )
+cutMuonPairEta21 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string("== 2"),
+    )
+cutMuonPairTightID = cms.PSet (  
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isTightMuonWRTVtx > 0"),
+    numberRequired = cms.string("== 2"),
+    )
+
+
+##################################################
+## muon-muon pairs
+##################################################
+cutMuMuChargeProduct = cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("muon.charge * muon.charge < 0"),  
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuMuInvMassZLo = cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("invMass ( muon , muon ) > " + str(mZPDG) + " - 10"),  
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuMuInvMassZHi = cms.PSet(
+    inputCollection = cms.vstring("muons", "muons"),  
+    cutString = cms.string("invMass ( muon , muon ) < " + str(mZPDG) + " + 10"),  
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+##################################################
+## muon-track pairs
+##################################################
+cutMuTrkDeltaR = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),  
+    cutString = cms.string("deltaR ( muon , track ) > 0.15"),
+    numberRequired = cms.string(">= 1"),
+    )
+cutMuTrkInvMass80To100 = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),  
+    cutString = cms.string("invMass ( muon , track ) > 80 && invMass ( muon , track ) < 100"), 
+    numberRequired = cms.string(">= 1"),
+    )
+
+
+##################################################
+## Functions for adding, removing cuts  
+##################################################
 def addCuts(cutVPset, cutsToAdd):
     for cut in cutsToAdd:
         cutVPset.append(cut)  
