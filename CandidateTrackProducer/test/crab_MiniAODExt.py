@@ -140,19 +140,36 @@ if __name__ == '__main__':
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
     config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
+
     config.Data.publishDataName = 'Run2015D-05Oct2015-v1'  
 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_v4'  
+    config.General.requestName = 'candidateTrackProducer_MET_2015D_05Oct2015'  
     config.Data.inputDataset = '/MET/Run2015D-05Oct2015-v1/MINIAOD' 
     submit(config)
 
-    # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_v3'  
-    # config.Data.inputDataset = '/SingleMuon/Run2015D-05Oct2015-v1/MINIAOD' 
-    # submit(config)
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_05Oct2015'  
+    config.Data.inputDataset = '/SingleMuon/Run2015D-05Oct2015-v1/MINIAOD' 
+    submit(config)
 
-    # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_v2'  
-    # config.Data.inputDataset = '/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD'  
-    # submit(config)
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_05Oct2015'  
+    config.Data.inputDataset = '/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD'  
+    submit(config)
+
+    config.Data.publishDataName = 'Run2015D-PromptReco-v4' 
+
+    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptRecov4'  
+    config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/MINIAOD' # Parent is /MET/Run2015D-v1/RAW
+    config.Data.secondaryInputDataset = '/MET/Run2015D-PromptReco-v4/AOD' # This may not work; see https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile#CRAB_configuration_parameters 
+
+    submit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptRecov4'   
+    config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v4/MINIAOD' 
+    submit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptRecov4'  
+    config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v4/MINIAOD'  
+    submit(config)
 
 
 
