@@ -134,10 +134,11 @@ if __name__ == '__main__':
     # config.Data.inputDataset = '/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9_ext1-v1/MINIAODSIM'
     # submit(config)
 
-
+##########################################################################
     ## Now do data 
-    ## Warning:  chaning pyCfgParams may trigger an error.  See for documentation:
+    ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
+    config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
     config.Data.publishDataName = 'Run2015D-05Oct2015-v1'  
 
