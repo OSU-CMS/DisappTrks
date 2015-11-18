@@ -26,7 +26,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10)
+    input = cms.untracked.int32 (101)
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
@@ -57,13 +57,13 @@ process.source = cms.Source ("PoolSource",
 
 if not options.runOnMC:
     process.source.fileNames = cms.untracked.vstring (
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/MINIAOD/PromptReco-v3/000/256/584/00000/C0ED0230-855D-E511-85C6-02163E0170AD.root", 
-#       "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/MINIAOD/PromptReco-v4/000/258/159/00000/6CA1C627-246C-E511-8A6A-02163E014147.root", 
-    )
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/MINIAOD/05Oct2015-v1/30000/04F50A91-B46F-E511-A2A3-002618943923.root", 
+        )
     process.source.secondaryFileNames = cms.untracked.vstring (
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/256/584/00000/E6E4042A-855D-E511-A449-02163E01424B.root", 
-#       "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root", 
-    )
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/1A77484B-DB68-E511-AEF6-02163E012456.root",
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/564310C7-F868-E511-BD21-02163E014227.root",
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/F0519CD5-D868-E511-B0BE-02163E014208.root",
+        )
 
 
 ###########################################################
@@ -79,10 +79,8 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if options.runOnMC:
     process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
-    print "Debug: using global tag: MCRUN2_74_V9"  
 else:
-    process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v2', '')
-    print "Debug: using global tag: 74X_dataRun2_Prompt_v2"
+    process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v4', '')
 
 from TrackingTools.TrackAssociator.default_cfi import *
 CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
