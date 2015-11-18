@@ -18,7 +18,7 @@ config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
-config.Data.publishDataName = 'RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1'
+config.Data.outputDatasetTag = 'RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1'
 config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver.txt'
 # 2.46 /fb from https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation/2544.html
 
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
 
-    config.Data.publishDataName = 'Run2015D-05Oct2015-v1'  
+    config.Data.outputDatasetTag = 'Run2015D-05Oct2015-v1'  
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_05Oct2015'  
     config.Data.inputDataset = '/MET/Run2015D-05Oct2015-v1/MINIAOD' 
@@ -155,12 +155,12 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD'  
     submit(config)
 
-    config.Data.publishDataName = 'Run2015D-PromptReco-v4' 
+    config.Data.useParent = False
+    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptRecov4'  
     config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/MINIAOD' # Parent is /MET/Run2015D-v1/RAW
     config.Data.secondaryInputDataset = '/MET/Run2015D-PromptReco-v4/AOD' # This may not work; see https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile#CRAB_configuration_parameters 
-
     submit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptRecov4'   
