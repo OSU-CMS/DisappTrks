@@ -141,19 +141,19 @@ if __name__ == '__main__':
     config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
 
-    config.Data.outputDatasetTag = 'Run2015D-05Oct2015-v1'  
+    # config.Data.outputDatasetTag = 'Run2015D-05Oct2015-v1'  
 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_05Oct2015'  
-    config.Data.inputDataset = '/MET/Run2015D-05Oct2015-v1/MINIAOD' 
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_MET_2015D_05Oct2015'  
+    # config.Data.inputDataset = '/MET/Run2015D-05Oct2015-v1/MINIAOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_05Oct2015'  
-    config.Data.inputDataset = '/SingleMuon/Run2015D-05Oct2015-v1/MINIAOD' 
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_05Oct2015'  
+    # config.Data.inputDataset = '/SingleMuon/Run2015D-05Oct2015-v1/MINIAOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_05Oct2015'  
-    config.Data.inputDataset = '/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD'  
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_05Oct2015'  
+    # config.Data.inputDataset = '/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD'  
+    # submit(config)
 
     config.Data.useParent = False
     config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
