@@ -1,56 +1,58 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
+#include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
+
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 
 CandidateTrack::CandidateTrack () :
-  caloEMDRp3_               (numeric_limits<int>::min  ()),
-  caloHadDRp3_              (numeric_limits<int>::min  ()),
-  caloEMDRp5_               (numeric_limits<int>::min  ()),
-  caloHadDRp5_              (numeric_limits<int>::min  ()),
-  deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
-  deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
-  deltaRToClosestTau_       (numeric_limits<int>::min  ()),
-  rhoPUCorr_                (numeric_limits<int>::min  ()),
-  rhoPUCorrCalo_            (numeric_limits<int>::min  ()),
-  rhoPUCorrCentralCalo_     (numeric_limits<int>::min  ()),
-  trackIsoDRp3_             (numeric_limits<int>::min  ()),
-  trackIsoDRp5_             (numeric_limits<int>::min  ()),
-  trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
-  trackIsoNoPUDRp5_         (numeric_limits<int>::min  ())
+  caloEMDRp3_               (INVALID_VALUE),
+  caloHadDRp3_              (INVALID_VALUE),
+  caloEMDRp5_               (INVALID_VALUE),
+  caloHadDRp5_              (INVALID_VALUE),
+  deltaRToClosestElectron_  (INVALID_VALUE),
+  deltaRToClosestMuon_      (INVALID_VALUE),
+  deltaRToClosestTau_       (INVALID_VALUE),
+  rhoPUCorr_                (INVALID_VALUE),
+  rhoPUCorrCalo_            (INVALID_VALUE),
+  rhoPUCorrCentralCalo_     (INVALID_VALUE),
+  trackIsoDRp3_             (INVALID_VALUE),
+  trackIsoDRp5_             (INVALID_VALUE),
+  trackIsoNoPUDRp3_         (INVALID_VALUE),
+  trackIsoNoPUDRp5_         (INVALID_VALUE)
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track) :
   reco::Track (track),
-  caloEMDRp3_               (numeric_limits<int>::min  ()),
-  caloHadDRp3_              (numeric_limits<int>::min  ()),
-  caloEMDRp5_               (numeric_limits<int>::min  ()),
-  caloHadDRp5_              (numeric_limits<int>::min  ()),
-  deltaRToClosestElectron_  (numeric_limits<int>::min  ()),
-  deltaRToClosestMuon_      (numeric_limits<int>::min  ()),
-  deltaRToClosestTau_       (numeric_limits<int>::min  ()),
-  rhoPUCorr_                (numeric_limits<int>::min  ()),
-  rhoPUCorrCalo_            (numeric_limits<int>::min  ()),
-  rhoPUCorrCentralCalo_     (numeric_limits<int>::min  ()),
-  trackIsoDRp3_             (numeric_limits<int>::min  ()),
-  trackIsoDRp5_             (numeric_limits<int>::min  ()),
-  trackIsoNoPUDRp3_         (numeric_limits<int>::min  ()),
-  trackIsoNoPUDRp5_         (numeric_limits<int>::min  ())
+  caloEMDRp3_               (INVALID_VALUE),
+  caloHadDRp3_              (INVALID_VALUE),
+  caloEMDRp5_               (INVALID_VALUE),
+  caloHadDRp5_              (INVALID_VALUE),
+  deltaRToClosestElectron_  (INVALID_VALUE),
+  deltaRToClosestMuon_      (INVALID_VALUE),
+  deltaRToClosestTau_       (INVALID_VALUE),
+  rhoPUCorr_                (INVALID_VALUE),
+  rhoPUCorrCalo_            (INVALID_VALUE),
+  rhoPUCorrCentralCalo_     (INVALID_VALUE),
+  trackIsoDRp3_             (INVALID_VALUE),
+  trackIsoDRp5_             (INVALID_VALUE),
+  trackIsoNoPUDRp3_         (INVALID_VALUE),
+  trackIsoNoPUDRp5_         (INVALID_VALUE)
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Track> &tracks, const vector<pat::Electron> &electrons, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus) :
   reco::Track (track),
-  caloEMDRp3_              (numeric_limits<int>::min ()),
-  caloHadDRp3_             (numeric_limits<int>::min ()),
-  caloEMDRp5_              (numeric_limits<int>::min ()),
-  caloHadDRp5_             (numeric_limits<int>::min ()),
+  caloEMDRp3_              (INVALID_VALUE),
+  caloHadDRp3_             (INVALID_VALUE),
+  caloEMDRp5_              (INVALID_VALUE),
+  caloHadDRp5_             (INVALID_VALUE),
   deltaRToClosestElectron_ (getMinDeltaR (electrons)),
   deltaRToClosestMuon_     (getMinDeltaR (muons)),
   deltaRToClosestTau_      (getMinDeltaR (taus)),
-  rhoPUCorr_               (numeric_limits<int>::min  ()),
-  rhoPUCorrCalo_           (numeric_limits<int>::min  ()),
-  rhoPUCorrCentralCalo_    (numeric_limits<int>::min  ()),
+  rhoPUCorr_               (INVALID_VALUE),
+  rhoPUCorrCalo_           (INVALID_VALUE),
+  rhoPUCorrCentralCalo_    (INVALID_VALUE),
   trackIsoDRp3_            (getTrackIsolation (track, tracks, false, 0.3)),
   trackIsoDRp5_            (getTrackIsolation (track, tracks, false, 0.5)),
   trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, 0.3)),
@@ -65,7 +67,7 @@ CandidateTrack::~CandidateTrack ()
 template<class T> const double
 CandidateTrack::getMinDeltaR (const vector<T> &objects) const
 {
-  double minDeltaR = MAX_DR;  
+  double minDeltaR = INVALID_VALUE;
 
   for (const auto &object : objects)
     {
@@ -190,7 +192,7 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
 const double
 CandidateTrack::deltaRToClosestElectron () const
 {
-  if (this->deltaRToClosestElectron_ == numeric_limits<int>::min  ()) 
+  if (IS_INVALID (this->deltaRToClosestElectron_))
     return MAX_DR;  
   return this->deltaRToClosestElectron_;
 }
@@ -198,7 +200,7 @@ CandidateTrack::deltaRToClosestElectron () const
 const double
 CandidateTrack::deltaRToClosestMuon () const
 {
-  if (this->deltaRToClosestMuon_ == numeric_limits<int>::min  ()) 
+  if (IS_INVALID (this->deltaRToClosestMuon_))
     return MAX_DR;  
   return this->deltaRToClosestMuon_;
 }
@@ -206,7 +208,7 @@ CandidateTrack::deltaRToClosestMuon () const
 const double
 CandidateTrack::deltaRToClosestTau () const
 {
-  if (this->deltaRToClosestTau_ == numeric_limits<int>::min  ()) 
+  if (IS_INVALID (this->deltaRToClosestTau_))
     return MAX_DR;  
   return this->deltaRToClosestTau_;
 }
