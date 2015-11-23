@@ -94,6 +94,7 @@ muonCtrlSelection = copy.deepcopy(candTrkSelection)
 muonCtrlSelection.name = cms.string("MuonCtrlSelection") 
 cutsToRemove = [ 
     cutTrkMuonVeto, 
+    cutTrkTauVeto,  
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
 
