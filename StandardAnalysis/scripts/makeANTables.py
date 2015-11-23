@@ -47,8 +47,8 @@ elecCtrlDir             = AndrewDir+"electronCtrlSelection" # https://cmshead.mp
 fullSelecElecIdDir      = AndrewDir+"metMinimalSkim" # FIXME: this is just a placeholder!  
 
 ## muonVetoEff.tex and muonEst.tex
-muonCtrlDir           = AndrewDir+"muonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/499
-fullSelecMuIdDir      = AndrewDir+"fullSelectionChannelsForBkgdEstimates"
+muonCtrlDir           = WellsDir+"MuonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/528
+disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/529
 
 ## tauVetoEff.tex and tauEst.tex
 tauCtrlDir             = AndrewDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/499
@@ -282,6 +282,102 @@ print "Finished writing " + outputFile + "\n\n\n"
 # PElecErr = PErr
 # NeCtrl = NCtrl
 # NelecErrSM = NelecErr
+
+
+
+
+
+
+
+
+
+###################################################
+# Muon inefficiency table:
+# tables/muonVetoEff.tex 
+# tables/muonEst.tex 
+###################################################
+
+outputFile = "tables/muonVetoEff.tex"
+fout = open (outputFile, "w")
+
+# Eventually we want this:  
+(NCtrl, NCtrlErr)   = getYield("WJetsToLNu_MiniAOD",  muonCtrlDir,       "MuonCtrlSelectionCutFlowPlotter")
+(NYield, NYieldErr) = getYield("WJetsToLNu_MiniAOD", disappTrkDir,       "DisTrkSelectionCutFlowPlotter")  
+
+P = NYield / NCtrl
+if P: 
+    PErr = P * (NYieldErr / NYield)  
+else:
+    NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
+    NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
+    PErr = NLimitRaw / NCtrl
+
+# string for muon inefficiency probability:  
+PStr = "$ (" + str(round_sigfigs(P * 1e5,3)) + " ^ { + " + str(round_sigfigs(PErr * 1e5,3)) + "} _{-0} ) \\times 10^{-5} $" 
+
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
+content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,3))     + "$     \\\\ \n"                             
+content += hline                                                              
+content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close()
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
+
+outputFile = "tables/muonEst.tex"
+fout = open (outputFile, "w")
+(NCtrl, NCtrlErr)   = getYield("MET_2015D_05Oct2015", muonCtrlDir, "MuonCtrlSelectionCutFlowPlotter")  # data 
+Nmuon = NCtrl * P
+NmuonErr = NCtrl * PErr
+
+NmuonStr = "$ " + str(round_sigfigs(Nmuon,3)) + " ^{+ " + str(round_sigfigs(NmuonErr,3)) + "}_{-0} $" 
+
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
+content += "$P^\\mu$ (MC)               & " + PStr + " \\\\  \n"  
+content += hline                                                              
+content += "$N^\\mu$                    & " + NmuonStr + " \\\\  \n"
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+fout.write(content)  
+fout.close()
+os.system("cat " + outputFile)  
+print "Finished writing " + outputFile + "\n\n\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ###################################################
 # # Muon inefficiency table:
