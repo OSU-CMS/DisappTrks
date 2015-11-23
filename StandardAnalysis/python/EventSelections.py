@@ -81,10 +81,21 @@ disTrkCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
+# Use this selection for the muon background estimate.   
+disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection) 
+disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon") 
+cutsToAdd = [ 
+    cutTrkMatchGenMuon, 
+]  
+addCuts(disTrkSelectionMatchGenMuon.cuts, cutsToAdd) 
+
+##########################################################################
+
 elecCtrlSelection = copy.deepcopy(candTrkSelection) 
 elecCtrlSelection.name = cms.string("ElecCtrlSelection") 
 cutsToRemove = [ 
     cutTrkElecVeto, 
+    cutTrkTauVeto, 
 ]
 removeCuts(elecCtrlSelection.cuts, cutsToRemove)
 
@@ -97,6 +108,10 @@ cutsToRemove = [
     cutTrkTauVeto,  
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
+cutsToAdd = [ 
+    cutTrkMatchGenMuon, 
+]  
+#addCuts(muonCtrlSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
