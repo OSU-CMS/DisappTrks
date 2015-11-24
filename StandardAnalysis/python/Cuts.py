@@ -262,8 +262,8 @@ def addCuts(cutVPset, cutsToAdd):
         cutVPset.append(cut)  
         
 def removeCuts(cutVPset, cutsToRemove):
-    for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error 
-        for cut in cutsToRemove: 
+    for cut in cutsToRemove: 
+        for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error 
             if cutVPset[i].cutString == cut.cutString:  
                 del cutVPset[i]
 
