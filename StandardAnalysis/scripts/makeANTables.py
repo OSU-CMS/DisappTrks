@@ -41,10 +41,8 @@ else:
     os.exit(0)
     
 ## elecVetoEff.tex and elecEst.tex
-elecCtrlDir             = AndrewDir+"electronCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/499
+elecCtrlDir             = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/532
 # fullSelecElecIdDir      = AndrewDir+"fullSelectionElecId" # not yet done 
-#elecCtrlDir             = AndrewDir+"nonIsoTrkSelection" # FIXME: this is just a placeholder!  
-fullSelecElecIdDir      = AndrewDir+"metMinimalSkim" # FIXME: this is just a placeholder!  
 
 ## muonVetoEff.tex and muonEst.tex
 muonCtrlDir           = WellsDir+"MuonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/528
@@ -202,6 +200,83 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
     return (yield_, statError_)  
 
 
+def makeLeptonEst(options):
+    # Do the calcultion of the lepton background estimate
+    # and produce the associated tables. 
+
+
+    outputFile = "tables/" + options['type'] + "VetoEff.tex"
+    fout = open (outputFile, "w")
+
+    # Eventually we want this:  
+    (NCtrl, NCtrlErr)   = getYield("WJetsToLNu_MiniAOD",  options['ctrlDir'],       options['ctrlChannel'])
+    (NYield, NYieldErr) = getYield("WJetsToLNu_MiniAOD",  options['disTrkDir'],     options['disTrkChannel'])  
+
+    P = NYield / NCtrl
+    if P: 
+        PErr = P * (NYieldErr / NYield)  
+    else:
+        NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
+        NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
+        PErr = NLimitRaw / NCtrl
+
+    # string for inefficiency probability:  
+    if P==0:
+        PStr  = "$ (" 
+        PStr += str(round_sigfigs(   P * pow(10, options['ineffScale']),3)) + " ^{+ " 
+        PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + "}_{-0} ) "
+        PStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
+    else:
+        PStr = "ERROR:  This case not yet defined!"  
+        
+    content  = header 
+    content += "\\begin{tabular}{lc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"                               
+    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + str(round_sigfigs(NYield,3)) + "$     \\\\ \n"                             
+    content += hline                                                              
+    content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n"                                                       
+    fout.write(content)  
+    fout.close()
+    os.system("cat " + outputFile)  
+    print "Finished writing " + outputFile + "\n\n\n"
+
+    outputFile = "tables/" + options['type'] + "Est.tex"
+    fout = open (outputFile, "w")
+    (NCtrl, NCtrlErr)   = getYield(options['dataset'], options['ctrlDir'], options['ctrlChannel'])  # data 
+    Nlep = NCtrl * P
+    NlepErr = NCtrl * PErr
+
+    if Nlep == 0: 
+        NlepStr = "$ " + str(round_sigfigs(Nlep,3)) + " ^{+ " + str(round_sigfigs(NlepErr,3)) + "}_{-0} $" 
+    else:
+        NlepStr = "ERROR:  This case not yet defined"  
+
+    content  = header 
+    content += "\\begin{tabular}{lc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
+    content += "$P^" + options['typeStr'] + "$ (MC)               & " + PStr + " \\\\  \n"  
+    content += hline                                                              
+    content += "$N^" + options['typeStr'] + "$                    & " + NlepStr + " \\\\  \n"
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n"                                                       
+    fout.write(content)  
+    fout.close()
+    os.system("cat " + outputFile)  
+    print "Finished writing " + outputFile + "\n\n\n"
+
+
+
+
+
+
 ###################################################
 ###################################################
 ###################################################
@@ -223,71 +298,16 @@ header = "% Table produced with makeANTables.py \n"
 # tables/elecVetoEff.tex 
 # tables/elecEst.tex 
 ###################################################
-
-outputFile = "tables/elecVetoEff.tex"
-fout = open (outputFile, "w")
-
-# Eventually we want this:  
-(NCtrl, NCtrlErr)   = getYield("WJetsToLNu_MiniAOD",  elecCtrlDir,       "ElecCtrlSelectionCutFlowPlotter")
-(NYield, NYieldErr) = getYield("WJetsToLNu_MiniAOD", fullSelecElecIdDir, "metMinimalSkimCutFlowPlotter")  # FIXME:  Just for testing!  
-
-P = NYield / NCtrl
-PErr = P * (NYieldErr / NYield)  
-
-# string for electron inefficiency probability:  
-PStr = "$ (" + str(round_sigfigs(P * 1e5,3)) + " \\pm $ " + str(round_sigfigs(PErr * 1e5,3)) + ") \\times 10^{-5} $" 
-
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^e_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
-content += "$N^e$ (MC)             & $" + str(round_sigfigs(NYield,3))     + "$     \\\\ \n"                             
-content += hline                                                              
-content += "$P^e = N^e / N^e_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close()
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
-
-outputFile = "tables/elecEst.tex"
-fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("MET_2015D_05Oct2015", elecCtrlDir, "ElecCtrlSelectionCutFlowPlotter")  # data 
-Nelec = NCtrl * P
-NelecErr = NCtrl * PErr
-
-NelecStr = "$ " + str(round_sigfigs(Nelec,3)) + " \\pm $ " + str(round_sigfigs(NelecErr,3)) + " $" 
-
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^e_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-content += "$P^e$ (MC)               & " + PStr + " \\\\  \n"  
-content += hline                                                              
-content += "$N^e$                    & " + NelecStr + " $ \\\\  \n"
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close()
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
-
-# # Use these values for bkgdOptions.py below:  
-# PElec = P
-# PElecErr = PErr
-# NeCtrl = NCtrl
-# NelecErrSM = NelecErr
-
-
-
-
-
-
+options = {}
+options['type'] = "elec"
+options['typeStr'] = "e"  
+options['ctrlDir'] = elecCtrlDir
+options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = disappTrkDir 
+options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 3 
+options['dataset'] = "MET_2015D_05Oct2015"  
+makeLeptonEst(options)  
 
 
 
@@ -296,266 +316,36 @@ print "Finished writing " + outputFile + "\n\n\n"
 # tables/muonVetoEff.tex 
 # tables/muonEst.tex 
 ###################################################
-
-outputFile = "tables/muonVetoEff.tex"
-fout = open (outputFile, "w")
-
-# Eventually we want this:  
-(NCtrl, NCtrlErr)   = getYield("WJetsToLNu_MiniAOD",  muonCtrlDir,       "MuonCtrlSelectionCutFlowPlotter")
-(NYield, NYieldErr) = getYield("WJetsToLNu_MiniAOD", disappTrkDir,       "DisTrkSelectionCutFlowPlotter")  
-
-P = NYield / NCtrl
-if P: 
-    PErr = P * (NYieldErr / NYield)  
-else:
-    NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
-    NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
-    PErr = NLimitRaw / NCtrl
-
-# string for muon inefficiency probability:  
-PStr = "$ (" + str(round_sigfigs(P * 1e5,3)) + " ^ { + " + str(round_sigfigs(PErr * 1e5,3)) + "} _{-0} ) \\times 10^{-5} $" 
-
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3)) + "$     \\\\ \n"                               
-content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYield,3))     + "$     \\\\ \n"                             
-content += hline                                                              
-content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close()
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
-
-outputFile = "tables/muonEst.tex"
-fout = open (outputFile, "w")
-(NCtrl, NCtrlErr)   = getYield("MET_2015D_05Oct2015", muonCtrlDir, "MuonCtrlSelectionCutFlowPlotter")  # data 
-Nmuon = NCtrl * P
-NmuonErr = NCtrl * PErr
-
-NmuonStr = "$ " + str(round_sigfigs(Nmuon,3)) + " ^{+ " + str(round_sigfigs(NmuonErr,3)) + "}_{-0} $" 
-
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-content += "$P^\\mu$ (MC)               & " + PStr + " \\\\  \n"  
-content += hline                                                              
-content += "$N^\\mu$                    & " + NmuonStr + " \\\\  \n"
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close()
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
+options = {}
+options['type'] = "muon"
+options['typeStr'] = "\\mu"  
+options['ctrlDir'] = muonCtrlDir
+options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = disappTrkDir 
+options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 4 
+options['dataset'] = "MET_2015D_05Oct2015"  
+makeLeptonEst(options)  
 
 
 
+###################################################
+# Tau inefficiency table:
+# tables/tauVetoEff.tex 
+# tables/tauEst.tex  
+###################################################
+options = {}
+options['type'] = "tau"
+options['typeStr'] = "\\tau"  
+options['ctrlDir'] = tauCtrlDir # Fixme:  specify this.  
+options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = disappTrkDir 
+options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 3 
+options['dataset'] = "MET_2015D_05Oct2015"  
+makeLeptonEst(options)  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ###################################################
-# # Muon inefficiency table:
-# # tables/muonVetoEff.tex 
-# # tables/muonEst.tex  
-# ###################################################
-# # Get the upper limit for each dataset separately.  
-# split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
-# (NPreselTot, NPreselTotErr) = getYield("Background", muonCtrlDir, "PreSelection")
-# print "Debug:  NPreselTot = " + str(NPreselTot)      
-# NYieldTotErr = 0.0  
-# fracPreselTot = 0.0
-# for dataset in split_datasets:
-#     NLimit                = getUpperLimit(dataset, fullSelecMuIdDir, "FullSelIdMuon")
-#     (NYield,  NYieldErr)  = getYield(dataset,      fullSelecMuIdDir, "FullSelIdMuon")
-#     (NPresel, NPreselErr) = getYield(dataset,   muonCtrlDir, "PreSelection")
-#     fracPresel = NPresel / NPreselTot
-#     fracPreselTot += fracPresel  
-#     NYieldTotErr += NLimit*fracPresel  
-#     print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
-# print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
-
-# outputFile = "tables/muonVetoEff.tex"
-# fout = open (outputFile, "w")
-# (NCtrl, NCtrlErr)   = getYield("WjetsHighPt_noLumiWt", muonCtrlDir,       "FullSelectionMuPreveto")
-# (NYield, NYieldErr) = getYield("WjetsHighPt_noLumiWt",      fullSelecMuIdDir, "FullSelIdMuon")
-# NLimit              = getUpperLimit("WjetsHighPt_noLumiWt", fullSelecMuIdDir, "FullSelIdMuon")
-# NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0
-# NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
-# NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
-# alpha = 0.84
-# NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
-# NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
-# print "Debug:  muon upper limit is ", NLimit
-# print "Debug:  muon NYieldErr = ", NYieldErr
-# print "Debug:  muon NYield = ", NYield
-
-# P = NYieldRaw / NCtrl
-# if NLimitRaw > NYieldErrRaw:
-#     PErr = NLimitRaw / NCtrl
-# else:
-#     PErr = NYieldErrRaw / NCtrl
-
-# PErrUp = NYieldErrUpRaw / NCtrl
-# PErrDn = NYieldErrDnRaw / NCtrl
-
-
-# content  = header
-# content += "\\begin{tabular}{lc}\n"
-# content += hline
-# content += hline
-
-# content += "$N^\\mu_{\\rm ctrl}$ (MC) & $" + str(round(NCtrl)).replace(".0","") + "$      \\\\ \n"
-# content += "$N^\\mu$ (MC)             & $" + str(round_sigfigs(NYieldRaw,2)) + " ^{+" + str(round_sigfigs(NYieldErrUpRaw,2)) + "}_{-" + str(round_sigfigs(NYieldErrDnRaw,2)) + "} $ \\\\ \n"                
-# content += hline
-# content += "$P^\\mu = N^\\mu / N^\\mu_{\\rm ctrl}$ & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e4,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"    
-# content += hline
-# content += hline
-# content += "\\end{tabular}\n"
-# fout.write(content)
-# fout.close()
-# os.system("cat " + outputFile)
-# print "Finished writing " + outputFile + "\n\n\n"
-    
-# outputFile = "tables/muonEst.tex"
-# fout = open (outputFile, "w")
-# (NCtrl, NCtrlErr)   = getYield("MET", muonCtrlDir,       "FullSelectionMuPreveto")
-# Nmuon = NCtrl * P
-# NmuonErr = NCtrl * PErr
-# NmuonErrUp = NCtrl * PErrUp
-# NmuonErrDn = NCtrl * PErrDn
-
-# content  = header 
-# content += "\\begin{tabular}{lc}\n"                                                 
-# content += hline                                                              
-# content += hline
-# content += "$N^\\mu_{\\rm ctrl}$ (data)  & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"
-# content += "$P^\\mu$ (MC)  & $(" + str(round_sigfigs(P * 1e4,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e4,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e4,2)) + "}) \\times 10^{-4} $ \\\\  \n"    
-# content += hline
-# content += "$N^\\mu$                    & $"  + str(round_sigfigs(Nmuon,2)) + " ^{+" + str(round_sigfigs(NmuonErrUp,2)) + "}_{-" + str(round_sigfigs(NmuonErrDn,2)) + "} $ \\\\  \n"
-# content += hline                                                              
-# content += hline                                                              
-# content += "\\end{tabular}\n"                                                       
-# fout.write(content)  
-# fout.close()
-# os.system("cat " + outputFile)  
-# print "Finished writing " + outputFile + "\n\n\n"
-
-# # Use these values for bkgdOptions.py below:  
-# PMuon = P
-# PMuonErr = PErr
-# PMuonErrUp = PErrUp
-# PMuonErrDown = PErrDn
-# NmuCtrl = NCtrl
-# NmuonSM = Nmuon
-# NMuonErrorUpSM = NmuonErrUp
-# NMuonErrorDownSM = NmuonErrDn
-
-
-
-# ###################################################
-# # Tau inefficiency table:
-# # tables/tauVetoEff.tex 
-# # tables/tauEst.tex  
-# ###################################################
-# # Get the upper limit for each dataset separately.  
-# split_datasets = split_composite_datasets(datasets, composite_dataset_definitions)
-# (NPreselTot, NPreselTotErr) = getYield("Background", tauCtrlDir, "PreSelection")
-# print "Debug:  NPreselTot = " + str(NPreselTot)      
-# NYieldTotErr = 0.0  
-# fracPreselTot = 0.0
-# for dataset in split_datasets:
-#     NLimit                = getUpperLimit(dataset, fullSelecTauIdDir, "FullSelIdTau")
-#     (NYield,  NYieldErr)  = getYield(dataset,      fullSelecTauIdDir, "FullSelIdTau")
-#     (NPresel, NPreselErr) = getYield(dataset,   tauCtrlDir, "PreSelection")
-#     fracPresel = NPresel / NPreselTot
-#     fracPreselTot += fracPresel  
-#     NYieldTotErr += NLimit*fracPresel  
-#     print "Debug:  checking dataset: " + dataset + "; fracPresel = " + str(fracPresel) + "; NLimit = " + str(NLimit) + "; fracPresel*NLimit = " + str(fracPresel*NLimit)    
-# print "Debug:  NYieldTotErr = " + str(NYieldTotErr) + "; fracPreselTot = " + str(fracPreselTot)       
-
-# outputFile = "tables/tauVetoEff.tex"
-# fout = open (outputFile, "w")
-# (NCtrl, NCtrlErr)   = getYield("WjetsHighPt_noLumiWt", tauCtrlDir,       "FullSelectionTauPreveto")
-# (NYield, NYieldErr) = getYield("WjetsHighPt_noLumiWt",     fullSelecTauIdDir, "FullSelIdTau")
-# NLimit              = getUpperLimit("WjetsHighPt_noLumiWt", fullSelecTauIdDir, "FullSelIdTau") 
-# NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0
-# NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0  
-# NLimitRaw = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
-# P = NYieldRaw / NCtrl
-# if NLimitRaw > NYieldErrRaw:
-#     PErr = NLimitRaw / NCtrl
-# else:
-#     PErr = NYieldErrRaw / NCtrl
-                
-# content  = header 
-# content += "\\begin{tabular}{lc}\n"                                                 
-# content += hline                                                              
-# content += hline                                                              
-# content += "$N^\\tau_{\\rm ctrl}$ (MC)  & $" + str(round(NCtrl)).replace(".0","") + "$     \\\\ \n"                               
-# content += "$N^\\tau$            (MC)  & $" + " < " + str(round_sigfigs(NLimitRaw,2))   + "$     \\\\ \n"                             
-# content += hline                                                              
-# content += "$P^\\tau = N^\\tau / N^\\tau_{\\rm ctrl}$ & $" + " < " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"
-# content += hline                                                              
-# content += hline                                                              
-# content += "\\end{tabular}\n"                                                       
-# fout.write(content)  
-# fout.close()
-# os.system("cat " + outputFile)  
-# print "Finished writing " + outputFile + "\n\n\n"
-
-# outputFile = "tables/tauEst.tex"
-# fout = open (outputFile, "w")
-# (NCtrl, NCtrlErr)   = getYield("MET", tauCtrlDir,       "FullSelectionTauPreveto")
-# Ntau = NCtrl * P
-# NtauErr = NCtrl * PErr
-# content  = header 
-# content += "\\begin{tabular}{lc}\n"                                                 
-# content += hline                                                              
-# content += hline                                                              
-# content += "$N^\\tau_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrl,5)).replace(".0","")  +  "$     \\\\ \n"                               
-# content += "$P^\\tau$ (MC)               & $ < " + str(round_sigfigs(PErr,2)) + " $ \\\\  \n"  
-# content += hline                                                              
-# content += "$N^\\tau$                    & $ < " + str(round_sigfigs(NtauErr,2)) + " $ \\\\  \n"
-# content += hline                                                              
-# content += hline                                                              
-# content += "\\end{tabular}\n"                                                       
-# fout.write(content)  
-# fout.close() 
-# os.system("cat " + outputFile)  
-# print "Finished writing " + outputFile + "\n\n\n"
-
-# # Use these values for bkgdOptions.py below:  
-# PTau = P
-# PTauErr = PErr
-# NtauCtrl = NCtrl
-# NtauSM = Ntau
-# NtauErrSM = NtauErr
 
 
 
