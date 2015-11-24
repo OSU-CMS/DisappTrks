@@ -177,6 +177,11 @@ cutTrkNMissOutInv = cms.PSet(
     cutString = cms.string("missingOuterHits <= 2"),  
     numberRequired = cms.string(">= 1"),
 ) 
+cutTrkMatchGenMuon = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 13"),  
+    numberRequired = cms.string(">= 1"),
+) 
 
 
 ##################################################
