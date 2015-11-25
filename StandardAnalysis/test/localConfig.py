@@ -2,7 +2,7 @@ from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 
 config_file = "protoConfig_cfg.py"
 
-intLumi = 628.76
+intLumi = 731 # See https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/521
 
 
 

@@ -177,6 +177,11 @@ cutTrkNMissOutInv = cms.PSet(
     cutString = cms.string("missingOuterHits <= 2"),  
     numberRequired = cms.string(">= 1"),
 ) 
+cutTrkMatchGenMuon = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 13"),  
+    numberRequired = cms.string(">= 1"),
+) 
 
 
 ##################################################
@@ -262,8 +267,8 @@ def addCuts(cutVPset, cutsToAdd):
         cutVPset.append(cut)  
         
 def removeCuts(cutVPset, cutsToRemove):
-    for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error 
-        for cut in cutsToRemove: 
+    for cut in cutsToRemove: 
+        for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error 
             if cutVPset[i].cutString == cut.cutString:  
                 del cutVPset[i]
 
