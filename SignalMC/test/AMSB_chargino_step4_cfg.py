@@ -28,7 +28,8 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             #    fileNames = cms.untracked.vstring('file:AMSB_chargino_step3.root'),
 #    fileNames = cms.untracked.vstring('file:root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v1/00000/00682F91-475D-E511-8516-000F5327349C.root'),
-    fileNames = cms.untracked.vstring('file:root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v2/40000/5604BB8E-2C2A-E511-A9A4-A0369F3102B6.root'), 
+#    fileNames = cms.untracked.vstring('file:root://cmsxrootd.fnal.gov///store/mc/RunIISpring15DR74/WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v2/40000/5604BB8E-2C2A-E511-A9A4-A0369F3102B6.root'), 
+    fileNames = cms.untracked.vstring('file:/store/user/ahart/AMSB_chargino100GeV_ctau100cm_step3/AMSB_chargino_step3_0.root'), 
     secondaryFileNames = cms.untracked.vstring()
 )
 
