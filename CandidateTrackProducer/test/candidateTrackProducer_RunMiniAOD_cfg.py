@@ -107,7 +107,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
     fileName = cms.untracked.string('miniAODWithCandidateTracks.root'),  
-    outputCommands = process.MINIAODSIMEventContent.outputCommands,  # Include SIM content to allow running over MC.  
+    outputCommands = process.MINIAODEventContent.outputCommands,  
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
 
