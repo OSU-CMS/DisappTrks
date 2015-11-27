@@ -1,9 +1,14 @@
-import FWCore.ParameterSet.Config as cms
-import os
-
+# Config file to produce the candidate track collection.
+# Similar to candidateTrackProducer_AODInput_cfg.py but uses 
+# MINIAOD as well as AOD files as input and 
+# does not run the MINIAOD steps.  
+# 
 # Usage:
 # To run over data:
 # > cmsRun candidateTrackProducer_cfg.py print runOnMC=0
+
+import FWCore.ParameterSet.Config as cms
+import os
 
 
 ###########################################################
@@ -65,71 +70,22 @@ if not options.runOnMC:
         "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/F0519CD5-D868-E511-B0BE-02163E014208.root",
         )
 
-
-###########################################################
-##### Set up the analyzer #####
-###########################################################
-
-# The following are needed for the calculation of associated calorimeter energy
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
-process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff")
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-
 if options.runOnMC:
     process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9', '')
 else:
     process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v4', '')
 
-from TrackingTools.TrackAssociator.default_cfi import *
-CandTrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters.clone()
-CandTrackAssociatorParameters.useHO = cms.bool(False)
-CandTrackAssociatorParameters.CSCSegmentCollectionLabel     = cms.InputTag("cscSegments")
-CandTrackAssociatorParameters.DTRecSegment4DCollectionLabel = cms.InputTag("dt4DSegments")
-CandTrackAssociatorParameters.EERecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEE")
-CandTrackAssociatorParameters.EBRecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEB")
-CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("reducedHcalRecHits", "hbhereco")
-CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")
 
-process.candidateDisappearingTracks = cms.EDProducer ("CandidateTrackProducer",
-  tracks     =  cms.InputTag  ("generalTracks",     ""),
-  electrons  =  cms.InputTag  ("slimmedElectrons",  ""),
-  muons      =  cms.InputTag  ("slimmedMuons",      ""),
-  taus       =  cms.InputTag  ("slimmedTaus",       ""),
-  rhoTag     =  cms.InputTag  ("fixedGridRhoFastjetAll"), 
-  rhoCaloTag     =  cms.InputTag  ("fixedGridRhoFastjetAllCalo"), 
-  rhoCentralCaloTag     =  cms.InputTag  ("fixedGridRhoFastjetCentralCalo"), 
-  candMinPt = cms.double(10),
-  TrackAssociatorParameters = CandTrackAssociatorParameters,
-)
+###########################################################
+##### Set up the producer and the end path            #####
+###########################################################
 
-process.myPath = cms.Path (process.candidateDisappearingTracks)
+process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
+process.candidateTracks = cms.Path (process.candidateTrackProducer)  
 
-process.load('Configuration.EventContent.EventContent_cff')
-process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
-    compressionAlgorithm = cms.untracked.string('LZMA'),
-    compressionLevel = cms.untracked.int32(4),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('MINIAODSIM'),
-        filterName = cms.untracked.string('')
-    ),
-    dropMetaData = cms.untracked.string('ALL'),
-    eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
-    fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string("miniAODWithCandidateTracks.root"),
-    outputCommands = process.MINIAODSIMEventContent.outputCommands,
-    overrideInputFileSplitLevels = cms.untracked.bool(True),
-)
-process.MINIAODSIMoutput.outputCommands.append ("keep recoCaloMETs_*_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep recoMETs_*_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep recoPFMETs_*_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_generalTracks_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_candidateDisappearingTracks_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedEcalRecHitsEE_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedEcalRecHitsEB_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_reducedHcalRecHits_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_dt4DSegments_*_*")
-process.MINIAODSIMoutput.outputCommands.append ("keep *_cscSegments_*_*")
+from DisappTrks.CandidateTrackProducer.customize import customizeMiniAODSIMOutput
+customizeMiniAODSIMOutput(process)  
 
 process.myEndPath = cms.EndPath (process.MINIAODSIMoutput)
