@@ -33,7 +33,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 
@@ -137,7 +137,7 @@ process.Flag_CSCTightHaloFilter = cms.Path(process.CSCTightHaloFilter)
 process.Flag_trkPOGFilters = cms.Path(process.trkPOGFilters)
 process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter)
 process.Flag_trkPOG_manystripclus53X = cms.Path(~process.manystripclus53X)
-process.Flag_METFilters = cms.Path(process.metFilters*process.candidateTrackProducer) 
+process.Flag_METFilters = cms.Path(process.metFilters) 
 process.Flag_trkPOG_logErrorTooManyClusters = cms.Path(~process.logErrorTooManyClusters)
 process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseFilter)
 process.Flag_EcalDeadCellTriggerPrimitiveFilter = cms.Path(process.EcalDeadCellTriggerPrimitiveFilter)
@@ -176,4 +176,8 @@ from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllDat
 process = miniAOD_customizeAllData(process)
 
 # End of customisation functions
+
+## Dump python config if wished
+outfile = open('dumpedConfig_RunMiniAOD.py','w'); print >> outfile,process.dumpPython(); outfile.close()
+#process.Tracer = cms.Service("Tracer")
 
