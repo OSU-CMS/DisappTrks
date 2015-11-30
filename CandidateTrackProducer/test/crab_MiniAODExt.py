@@ -138,36 +138,37 @@ if __name__ == '__main__':
     ## Now do data 
     ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
-    config.Data.useParent = False  # This does not yet work; see 
+    config.Data.useParent = False  # This does not yet work; see https://hypernews.cern.ch/HyperNews/CMS/get/computing-tools/1168/1.html  
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_cfg.py' 
     config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
 
     config.Data.unitsPerJob = 2
     config.Data.outputDatasetTag = 'Run2015D-PromptReco-v3' 
 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptRecov3'  
+    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v3'  
     config.Data.inputDataset = '/MET/Run2015D-PromptReco-v3/AOD' 
     submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptRecov3'   
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v3'   
     config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v3/AOD' 
     submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptRecov3'  
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v3'  
     config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/AOD'  
     submit(config)
 
     config.Data.unitsPerJob = 3
     config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptRecov4'  
+    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v4'  
     config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/AOD' 
     submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptRecov4'   
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v4'   
     config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v4/AOD' 
     submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptRecov4'  
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v4'  
     config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v4/AOD'  
     submit(config)
 
