@@ -112,6 +112,9 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
 
+if options.runOnMC:
+    process.MINIAODoutput.outputCommands = process.MINIAODSIMEventContent.outputCommands
+
 # Additional output definition
 
 # Other statements
