@@ -3,9 +3,11 @@ import FWCore.ParameterSet.Config as cms
 disappTrksOutputCommands = cms.untracked.vstring(
     "keep recoCaloMETs_*_*_*",
     "keep recoMETs_*_*_*",
-    "keep recoPFMETs_*_*_*",
+    "keep recoPFMETs_pfChMet_*_*",
+    "keep recoPFMETs_pfMet_*_*",
+    "keep recoPFMETs_pfMetEI_*_*",
     "keep *_generalTracks_*_*",
-    "keep *_candidateDisappearingTracks_*_*",
+    "keep CandidateTracks_*_*_*", 
     "keep *_reducedEcalRecHitsEE_*_*",
     "keep *_reducedEcalRecHitsEB_*_*",
     "keep *_reducedHcalRecHits_*_*",
