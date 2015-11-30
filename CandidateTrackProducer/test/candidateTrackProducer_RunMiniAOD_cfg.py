@@ -51,9 +51,10 @@ options.parseArguments()
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/1A77484B-DB68-E511-AEF6-02163E012456.root",
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/564310C7-F868-E511-BD21-02163E014227.root",
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/F0519CD5-D868-E511-B0BE-02163E014208.root",
+        "file:Run2015D_MET_AOD_PromptReco-v3_numEvent10.root", 
+        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/1A77484B-DB68-E511-AEF6-02163E012456.root",
+        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/564310C7-F868-E511-BD21-02163E014227.root",
+        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/AOD/PromptReco-v3/000/257/822/00000/F0519CD5-D868-E511-B0BE-02163E014208.root",
     ), 
 #    secondaryFileNames = cms.untracked.vstring()
 )
@@ -159,8 +160,8 @@ process = customiseDataRun2Common_25ns(process)
 
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)
-# from FWCore.ParameterSet.Utilities import convertToUnscheduled
-# process=convertToUnscheduled(process)
+from FWCore.ParameterSet.Utilities import convertToUnscheduled
+process=convertToUnscheduled(process)
 process.load('Configuration.StandardSequences.PAT_cff')
 from FWCore.ParameterSet.Utilities import cleanUnscheduled
 process=cleanUnscheduled(process)
