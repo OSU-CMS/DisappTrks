@@ -73,9 +73,9 @@ def fancyTable(arrays):
 
 def GetYieldAndError(condor_dir, process, channel):
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
-    hist = inputFile.Get("OSUAnalysis/"+channel+"/"+integrateHistogramName).Clone()
+    hist = inputFile.Get(channel+"/"+integrateHistogramName)
     if not hist:
-        print "Could not find hist OSUAnalysis/"+channel+"/"+integrateHistogramName + " in " + inputFile.GetName() 
+        print "Could not find hist OSUAnalysis/"+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
     inputFile.Close()
     yieldAndErrorList = {}
@@ -92,7 +92,7 @@ def GetYieldAndError(condor_dir, process, channel):
     yieldAndErrorList['absError'] = intError
     return yieldAndErrorList
 
-    
+
 def ReadYieldAndError(condor_dir, process):
     inputTxtFile = open("condor/"+condor_dir+"/yields.txt", "r")
     if not inputTxtFile:
@@ -108,23 +108,23 @@ def ReadYieldAndError(condor_dir, process):
             bkgdYield =  line.split(" ")[5]
             bkgdError = line.split(" ")[7]
     fracError = 0.0
-    
+
     if bkgdYield > 0.0:
         fracError = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
     yieldAndErrorList['yield'] = bkgdYield
     yieldAndErrorList['error'] = fracError
     return yieldAndErrorList
-        
-        
+
+
 
 def writeDatacard(mass,lifetime):
 
-    lifetime = lifetime.replace(".0", "")  
+    lifetime = lifetime.replace(".0", "")
     lifetime = lifetime.replace("0.5", "0p5")
     if samplesByGravitinoMass:
-        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"  
+        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     else:
-        signal_dataset = "AMSB_chargino_" + mass + "GeV_RewtCtau" + lifetime + "cm"   
+        signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = pow(signal_yield,2) / pow(signalYieldAndError['absError'],2)
@@ -132,7 +132,7 @@ def writeDatacard(mass,lifetime):
 
     background_yields = { }
     background_errors = { }
-    totalBkgd = 0 
+    totalBkgd = 0
     for background in backgrounds :
         yieldAndError = {}
         if not arguments.runGamma:
@@ -140,21 +140,24 @@ def writeDatacard(mass,lifetime):
             background_yields[background] = yieldAndError['yield']
             background_errors[background] = yieldAndError['error']
         else:
-            yieldAndError['yield'] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))  
-            yieldAndError['error'] = str(backgrounds[str(background)]['alpha']) 
+            yieldAndError['yield'] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))
+            yieldAndError['error'] = str(backgrounds[str(background)]['alpha'])
             background_yields[background] = yieldAndError['yield']
             if arguments.verbose:
                 print "Debug:  for bkgd: " + str(background) + ", yield = " + str(yieldAndError['yield']) + ", error = " + str(yieldAndError['error'])
-            background_errors[background] = backgrounds[str(background)]['alpha']            
+            background_errors[background] = backgrounds[str(background)]['alpha']
         totalBkgd += float(background_yields[background])
 
+    if run_blind_limits:
+        observation = totalBkgd
+
     default_channel_name = "MyChan"
-    if samplesByGravitinoMass: 
-        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")      
-        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")  
+    if samplesByGravitinoMass:
+        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
+        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
     else:
-        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")     
-        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w") 
+        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
+        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w")
 
     datacard.write('imax 1 number of channels\n')
     datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
@@ -198,17 +201,17 @@ def writeDatacard(mass,lifetime):
         if arguments.runGamma:
             rate_row.append(str(background_yields[background][:5]))
             if arguments.verbose:
-                print "Debug: for background " + str(background) 
-                print "Debug: for background " + str(background) + ": " + str(background_yields[background])  
-                print "Debug: for background " + str(background) + ": " + str(background_yields[background][:5])  
+                print "Debug: for background " + str(background)
+                print "Debug: for background " + str(background) + ": " + str(background_yields[background])
+                print "Debug: for background " + str(background) + ": " + str(background_yields[background][:5])
         empty_row.append('')
-        
+
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# STATISTICAL UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
-    
+
     #add a row for the statistical error of the signal
     if arguments.runGamma:
         signal_error_string = str(round(signal_yield_weight,6))
@@ -218,7 +221,7 @@ def writeDatacard(mass,lifetime):
     if arguments.runGamma:
         row = ['signal_stat','gmN ' + str(int(signal_yield_raw)),' ',signal_error_string]
     else:
-        row = ['signal_stat','lnN','',signal_error_string]        
+        row = ['signal_stat','lnN','',signal_error_string]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
@@ -242,7 +245,7 @@ def writeDatacard(mass,lifetime):
 
 
 
-                        
+
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
@@ -286,7 +289,7 @@ def writeDatacard(mass,lifetime):
 ##              else:
             row.append('-')
         datacard_data.append(row)
-                                                                                                 
+
 # add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
@@ -300,7 +303,7 @@ def writeDatacard(mass,lifetime):
             else:
                 row.append('-')
         datacard_data.append(row)
-                 
+
     #write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
@@ -309,9 +312,9 @@ def writeDatacard(mass,lifetime):
 #####
 
 
-    signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])  
+    signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])
     signalEff = signal_yield / signalOrigYield
-    signalEffErr = signalEff * (float(signal_cross_sections[mass]['error']) - 1.0)  
+    signalEffErr = signalEff * (float(signal_cross_sections[mass]['error']) - 1.0)
 
     datacard.write('# lumi = ' + str(lumi) + '\n')
     datacard.write('# sig cross sec = ' + signal_cross_sections[mass]['value'] + '\n')
@@ -320,32 +323,34 @@ def writeDatacard(mass,lifetime):
     datacard.write('# signalEff = ' + str(signalEff) + '\n')
     datacard.write('# signalEffErr = ' + str(signalEffErr) + '\n')
 
-    useBatch = True  
+    useBatch = True
 
     if arguments.runRooStatsCl95:
         os.system("rm -f limits/"+arguments.outputDir+"/runRooStats_"+signal_dataset+".src")
         datacard95 = open("limits/"+arguments.outputDir+"/runRooStats_"+signal_dataset+".src", 'w')
         logfile = 'limitResults/tau' + lifetime + '/mGrav' + mass + 'K/limitExpDisTrk.log'
-        if useBatch: 
-            command = 'bsub -q 8nm -oo ' 
+        if useBatch:
+            command = 'bsub -q 8nm -oo '
 #            command += '%50s ' % logfile
-            command += '{0: <50}'.format(logfile)  
+            command += '{0: <50}'.format(logfile)
         else:
-            command = '' 
-        command += 'limitScanDisTrk.sh '  
+            command = ''
+        command += 'limitScanDisTrk.sh '
 ##         command += '%18s ' % str(signalEff)
-##         command += '%18s ' % str(signalEffErr) 
+##         command += '%18s ' % str(signalEffErr)
         command += '{0: <18}'.format(str(signalEff))
-        command += '{0: <18}'.format(str(signalEffErr)) 
-        command += '{0: <18}'.format(str(backgroundEst)) 
-        command += '{0: <18}'.format(str(backgroundEstErr)) 
+        command += '{0: <18}'.format(str(signalEffErr))
+        command += '{0: <18}'.format(str(backgroundEst))
+        command += '{0: <18}'.format(str(backgroundEstErr))
 ##         command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
 ##         command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
-        if not useBatch: 
+        if not useBatch:
             command = command + ' | tee ' + logfile
-        print command 
+        print command
         datacard95.write(command)
-        
+
+    return totalBkgd
+
 
 ########################################################################################
 ########################################################################################
@@ -363,17 +368,15 @@ for systematic in external_systematic_uncertainties:
             systematics_dictionary[systematic][dataset] = newLine[1]
         elif len(newLine) is 3:
             systematics_dictionary[systematic][dataset]= newLine[1]+"/"+newLine[2]
-            
+
             # turn off systematic when the central yield is zero
             if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
                 systematics_dictionary[systematic][dataset] = '-'
 
 
-            
+
 ###setting up observed number of events
-if run_blind_limits:
-    observation = totalBkgd
-else:
+if not run_blind_limits:
     observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 
