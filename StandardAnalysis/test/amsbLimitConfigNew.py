@@ -7,7 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
-from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py  
+from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py
 
 import os
 
@@ -16,12 +16,12 @@ cwd = os.getcwd()
 
 if "wulsin" in cwd:
     WellsDir = ""
-    JessDir = "JessCondor/"
-elif "jbrinson" in cwd:
+    AndrewDir = "AndrewCondor/"
+elif "hart" in cwd:
     WellsDir = "WellsCondorNew/"
-    JessDir = ""
+    AndrewDir = ""
 else:
-    print "Error:  could not identify user as wulsin or jbrinson."
+    print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
 
 
@@ -30,36 +30,31 @@ else:
 ##################################
 
 #name of histogram to integrate to get yields
-integrateHistogramName = "numEvents"
+integrateHistogramName = "eventCounter"
 
 #########################
 ### Signal Parameters ###
 #########################
 
 # a separate datacard will be produced with each value of MASS,TAU
-# named "datacard_AMSB_mGravMASSK_TAUns.txt" 
+# named "datacard_AMSB_mGravMASSK_TAUns.txt"
 
-samplesByGravitinoMass = False  
+samplesByGravitinoMass = False
 
 
 #NOTE: These are the chargino masses
-masses = ['100', '200', '300', '400', '500', '600']  
-#masses = ['300']  
+masses = ['100', '300', '500', '700']
 
 #chargino tau values
-lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80','90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','8000','9000','10000']    
-#lifetimes = ['100']  
+lifetimes = ['10', '100', '1000']
 
-lumi = 19500
+lumi = 731
 
 #condor directory in which to find signal root files
-#signal_condor_dir = WellsDir + 'condor_2014_05_19_FullSelectionFilterMC_AllMC'
-#signal_condor_dir = WellsDir + 'condor_2014_06_12_FullSelection_AllMC'  
-signal_condor_dir = JessDir + 'fullSelectionAllSigBothTrig_24July'  
+signal_condor_dir = AndrewDir + 'disTrkSelection_signal'
 
 #name of event selection from which to take signal yields
-#signal_channel = 'FullSelectionFilterMC'  
-signal_channel = 'FullSelection'  
+signal_channel = 'DisTrkSelectionCutFlowPlotter'
 
 
 #######################
@@ -67,13 +62,13 @@ signal_channel = 'FullSelection'
 #######################
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = False
+run_blind_limits = True
 
-data_dataset = "MET" 
+data_dataset = "MET"
 
 #condor directory in which to find data root file
-#data_condor_dir = WellsDir + 'condor_2014_04_29_FullSelectionUnBlinded' 
-data_condor_dir = JessDir + 'fullSelectionSkim_24June' 
+#data_condor_dir = WellsDir + 'condor_2014_04_29_FullSelectionUnBlinded'
+data_condor_dir = AndrewDir + 'fullSelectionSkim_24June'
 
 #name of event selection from which to take observed events
 data_channel = 'FullSelection'
