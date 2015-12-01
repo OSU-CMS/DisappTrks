@@ -78,7 +78,7 @@ def output_condor(command, options):
         sub_file += "Log                     = condor_$(Process).log\n"
         sub_file += "\n"
         sub_file += "+IsLocalJob             = true\n"
-        sub_file += "Rank                    = TARGET.IsLocalSlot\n"
+        sub_file += "Requirements            = Memory > 1024\n"
         sub_file += "\n"
         sub_file += "Queue 1\n"
 
