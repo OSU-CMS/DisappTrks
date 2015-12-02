@@ -30,7 +30,7 @@ else:
 ##################################
 
 #name of histogram to integrate to get yields
-integrateHistogramName = "eventCounter"
+integrateHistogramName = "metPt"
 
 #########################
 ### Signal Parameters ###
@@ -54,7 +54,7 @@ lumi = 731
 signal_condor_dir = AndrewDir + 'disTrkSelection_signal'
 
 #name of event selection from which to take signal yields
-signal_channel = 'DisTrkSelectionCutFlowPlotter'
+signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 
 #######################
