@@ -58,6 +58,22 @@ if __name__ == '__main__':
     # config.Data.inputDataset = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
     # submit(config)
 
+    # config.General.requestName = 'candidateTrackProducer_WToLNu_HT100To200'
+    # config.Data.inputDataset = '/WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM' 
+    # submit(config)
+
+    # config.General.requestName = 'candidateTrackProducer_WToLNu_HT200To400'
+    # config.Data.inputDataset = '/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM' 
+    # submit(config)
+
+    # config.General.requestName = 'candidateTrackProducer_WToLNu_HT400To600'
+    # config.Data.inputDataset = '/WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v3/MINIAODSIM'
+    # submit(config)
+
+    # config.General.requestName = 'candidateTrackProducer_WToLNu_HT600ToInf'
+    # config.Data.inputDataset = '/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'  
+    # submit(config)
+
     # config.General.requestName = 'candidateTrackProducer_WWToLNuQQ'
     # config.Data.inputDataset = '/WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
     # submit(config)
