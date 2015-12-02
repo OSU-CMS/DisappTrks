@@ -72,7 +72,7 @@ plotDefinitions = [
     'yAxisFixMin' : 0.05, 
     'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
     
-    'theoryLabel' : 'tan#beta = 5, #mu > 0', 
+    'theoryLabel' : 'tan #beta = 5, #mu > 0', 
     
     'graphs' : [
     {
