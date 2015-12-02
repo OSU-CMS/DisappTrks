@@ -1,8 +1,14 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
-#include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
-
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
+
+// FIXME:  Once OSUT3Analysis works with ROOT6, i.e., releases > CMSSW_7_4_5_ROOT5, 
+// then uncomment the following line:  
+// #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
+// and remove these two lines:  
+#define INVALID_VALUE (numeric_limits<int>::min ())
+#define IS_INVALID(x) (x <= INVALID_VALUE + 1)
+
 
 CandidateTrack::CandidateTrack () :
   caloEMDRp3_               (INVALID_VALUE),
