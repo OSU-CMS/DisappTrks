@@ -15,7 +15,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
-process.load('DisappTrks.SignalMC.HLT_User_cff')
+process.load('DisappTrks.SignalMC.HLT_User_cff')  # Version of menu used for data taking (official MC samples used wrong MET cleaning filters)
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 

@@ -14,7 +14,7 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 
 #name of histogram to integrate to get yields
 #integrateHistogramName = "numEvents"
-intLumi = 19500
+intLumi = 731
 
 #########################
 ### Signal Parameters ###
@@ -27,41 +27,21 @@ cwd = os.getcwd()
 
 if "wulsin" in cwd:
     WellsDir = ""
-    JessDir = "JessCondor/"
-elif "jbrinson" in cwd:
+    AndrewDir = "AndrewCondor/"
+elif "hart" in cwd:
     WellsDir = "WellsCondorNew/"
-    JessDir = ""
+    AndrewDir = ""
 else:
-    print "Error:  could not identify user as wulsin or jbrinson."
+    print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
     
 # NOTE: The chargino masses are used when actually making the limit plots
-#limit_dir = WellsDir+'limits_8May'
-#limit_dir = WellsDir+'limits_2014_02_20New'    # original limits
-#limit_dir = WellsDir+'limits_2014_06_12b'    # switch to detector eta, new dead ECAL map
-#limit_dir = WellsDir+'limits_2014_06_15b'    # new trigger efficiency
-#limit_dir = WellsDir+'limits_2014_06_15c'    # new trigger efficiency
-#limit_dir = WellsDir+'limits_2014_06_30'    
-#limit_dir = WellsDir+'limits_2014_06_30Wjets'    # inefficiency from Wjets only 
-#limit_dir = WellsDir+'limits_2014_07_11'    
-#limit_dir = WellsDir+'limits_2014_07_11b'    
-#limit_dir = WellsDir+'limits_2014_07_12b'    
-#limit_dir = WellsDir+'limits_2014_07_12c'    
-#limit_dir = WellsDir+'limits_2014_07_14'    
-#limit_dir = WellsDir+'limits_2014_07_17'    
-#limit_dir = WellsDir+'limits_2014_07_20'    
-#limit_dir = WellsDir+'limits_2014_07_21'    
-#limit_dir = 'limits_28July'    
-#limit_dir = 'limits_27Julyv2'    
-#limit_dir = WellsDir+'limits_2014_08_01f'  # LHC-type full CLs  
-#limit_dir = JessDir+'paperLimitDir'  # LHC-type full CLs  
-#limit_dir = WellsDir+'limits_2014_09_30'  # LHC-type full CLs
-limit_dir = WellsDir+'limits_2014_10_10'  # LHC-type full CLs
+limit_dir = AndrewDir+'limits_20151201'  # LHC-type full CLs
 
-masses = ['100', '200', '300', '400', '500', '600']
+masses = ['100', '300', '500', '700']
 
 #chargino tau values
-lifetimes = ['1','2','3','4','5','6','7','8','9','10','20','30','40','50','60','70','80', '90','100','200','300','400','500','600','700','800','900','1000','2000','3000','4000','5000','6000','7000','8000', '9000','10000']   
+lifetimes = ['10', '100', '1000']
 
 
 
@@ -92,7 +72,7 @@ plotDefinitions = [
     'yAxisFixMin' : 0.05, 
     'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
     
-    'theoryLabel' : 'tan#beta = 5, #mu > 0', 
+    'theoryLabel' : 'tan #beta = 5, #mu > 0', 
     
     'graphs' : [
     {
