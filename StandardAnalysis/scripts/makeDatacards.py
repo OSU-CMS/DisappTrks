@@ -75,14 +75,14 @@ def GetYieldAndError(condor_dir, process, channel):
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     hist = inputFile.Get(channel+"/"+integrateHistogramName)
     if not hist:
-        print "Could not find hist OSUAnalysis/"+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
+        print "Could not find hist "+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
     inputFile.Close()
     yieldAndErrorList = {}
     nBinsX = hist.GetNbinsX()
 
     intError = Double (0.0)
-    integral = hist.IntegralAndError(1,nBinsX,intError)
+    integral = hist.IntegralAndError(0,nBinsX+1,intError)
     fracError = 0.0
     if integral > 0.0:
         fracError = 1.0 + (intError / integral)
