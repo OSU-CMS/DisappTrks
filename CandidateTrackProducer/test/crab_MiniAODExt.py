@@ -19,11 +19,9 @@ config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1'
-config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver.txt'
-# 2.46 /fb from https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation/2544.html
 
-#config.Site.storageSite = 'T3_US_OSU'
-config.Site.storageSite = 'T2_US_Purdue'
+config.Site.storageSite = 'T3_US_OSU'
+#config.Site.storageSite = 'T2_US_Purdue'
 
 if __name__ == '__main__':
 
@@ -152,41 +150,44 @@ if __name__ == '__main__':
 
 ##########################################################################
     ## Now do data 
-    ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
-    ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
     config.Data.useParent = False  # This does not yet work; see https://hypernews.cern.ch/HyperNews/CMS/get/computing-tools/1168/1.html  
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_cfg.py' 
     config.Data.splitting = 'LumiBased' 
     config.JobType.pyCfgParams = ['runOnMC=0']  
+    ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
+    ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a  
+
+    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver.txt'
+    # 2.46 /fb from https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation/2544.html
 
     config.Data.unitsPerJob = 2
     config.Data.outputDatasetTag = 'Run2015D-PromptReco-v3' 
 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v3'  
-    config.Data.inputDataset = '/MET/Run2015D-PromptReco-v3/AOD' 
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v3'  
+    # config.Data.inputDataset = '/MET/Run2015D-PromptReco-v3/AOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v3'   
-    config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v3/AOD' 
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v3'   
+    # config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v3/AOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v3'  
-    config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/AOD'  
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v3'  
+    # config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/AOD'  
+    # submit(config)
 
-    config.Data.unitsPerJob = 3
-    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
-    config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v4'  
-    config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/AOD' 
-    submit(config)
+    # config.Data.unitsPerJob = 3
+    # config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
+    # config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v4'  
+    # config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/AOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v4'   
-    config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v4/AOD' 
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v4'   
+    # config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v4/AOD' 
+    # submit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v4'  
-    config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v4/AOD'  
-    submit(config)
+    # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v4'  
+    # config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v4/AOD'  
+    # submit(config)
 
 
 
