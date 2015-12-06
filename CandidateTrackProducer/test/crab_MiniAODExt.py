@@ -20,8 +20,8 @@ config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1'
 
-config.Site.storageSite = 'T3_US_OSU'
-#config.Site.storageSite = 'T2_US_Purdue'
+#config.Site.storageSite = 'T3_US_OSU'
+config.Site.storageSite = 'T2_US_Purdue'
 
 if __name__ == '__main__':
 
@@ -150,6 +150,7 @@ if __name__ == '__main__':
 
 ##########################################################################
     ## Now do data 
+    from multiprocessing import Process
     config.Data.useParent = False  # This does not yet work; see https://hypernews.cern.ch/HyperNews/CMS/get/computing-tools/1168/1.html  
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_cfg.py' 
     config.Data.splitting = 'LumiBased' 
@@ -165,29 +166,43 @@ if __name__ == '__main__':
 
     # config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v3'  
     # config.Data.inputDataset = '/MET/Run2015D-PromptReco-v3/AOD' 
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
 
     # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v3'   
     # config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v3/AOD' 
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
 
     # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v3'  
     # config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/AOD'  
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
 
-    # config.Data.unitsPerJob = 3
-    # config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
+    config.Data.unitsPerJob = 3
+    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
     # config.General.requestName = 'candidateTrackProducer_MET_2015D_PromptReco_v4'  
     # config.Data.inputDataset = '/MET/Run2015D-PromptReco-v4/AOD' 
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
 
     # config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_PromptReco_v4'   
     # config.Data.inputDataset = '/SingleMuon/Run2015D-PromptReco-v4/AOD' 
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
 
     # config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_PromptReco_v4'  
     # config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v4/AOD'  
-    # submit(config)
+    # p = Process(target=submit, args=(config,))
+    # p.start()
+    # p.join()
+
+
 
 
 
