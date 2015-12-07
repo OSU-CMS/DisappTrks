@@ -15,9 +15,6 @@ from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
-from ROOT import TFile, gROOT, gDirectory, TH1, TH2, TH3, TIter, TKey, Double
-gROOT.SetBatch()
-
 parser = OptionParser()
 parser = set_commandline_arguments(parser)
 
@@ -34,6 +31,10 @@ parser.remove_option("-o")
 parser.remove_option("--2D")
 
 (arguments, args) = parser.parse_args()
+
+from ROOT import TFile, gROOT, gDirectory, TH1, TH2, TH3, TIter, TKey, Double
+gROOT.SetBatch()
+
 
 condor_dir = set_condor_output_dir(arguments)
 os.system("mkdir -p " + condor_dir)  
