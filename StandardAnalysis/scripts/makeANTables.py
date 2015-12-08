@@ -40,6 +40,9 @@ else:
     print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
     
+## Nominal selection
+candTrkDir            = WellsDir+"candTrkSelection" 
+
 ## elecVetoEff.tex and elecEst.tex
 elecCtrlDir             = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/532
 # fullSelecElecIdDir      = AndrewDir+"fullSelectionElecId" # not yet done 
@@ -204,6 +207,7 @@ def makeLeptonEst(options):
     # Do the calcultion of the lepton background estimate
     # and produce the associated tables. 
 
+    leptonEst = {}  # Dictionary of values to return 
 
     outputFile = "tables/" + options['type'] + "VetoEff.tex"
     fout = open (outputFile, "w")
@@ -219,6 +223,9 @@ def makeLeptonEst(options):
         NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
         NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
         PErr = NLimitRaw / NCtrl
+
+    leptonEst["P"]    = P
+    leptonEst["PErr"] = PErr
 
     # string for inefficiency probability:  
     if P==0:
@@ -272,7 +279,103 @@ def makeLeptonEst(options):
     os.system("cat " + outputFile)  
     print "Finished writing " + outputFile + "\n\n\n"
 
+    return leptonEst  
 
+def makeBkgdEstimate(options):
+    ###################################################
+    # Configuration to make background estimate plots  
+    # bkgdOptions.py
+    ###################################################
+    outputFile = options["outputFile"] 
+    fout = open (outputFile, "w")
+
+    content  = "# Table produced with makeANTables.py  \n" 
+    content += "#!/usr/bin/env python  \n"  
+    content += "# ../scripts/bkgdFromData.py -l " + options["outputFile"] + " -w condor_2016_MM_DD_BkgdEstFullSel   \n"
+    content += "# mergeOutput.py -q -C -s FakeBkgd -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel  # To combine ee and mumu fake track samples (optional) \n"  
+    content += "# makePlots.py       -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel -o stacked_histograms.root   \n"
+    content += "# makePlots.py -P paperPlotsOptions.py      \n" 
+    content += "   \n"
+    content += "import os   \n"
+    content += "   \n"
+    content += "cwd = os.getcwd()   \n"
+    content += "   \n"
+    content += "if 'wulsin' in cwd:   \n"
+    content += "    WellsDir = ''     \n"
+    content += "    AndrewDir = 'hartCondor/'   \n"
+    content += "elif 'hart' in cwd:   \n"
+    content += "    WellsDir = 'WellsCondorNew/'   \n"
+    content += "    AndrewDir = ''   \n"
+    content += "else:   \n"
+    content += "    print 'Error: could not identify user as wulsin or hart.'   \n"
+    content += "    os.exit(0)   \n"
+    content += "       \n"
+    content += "impurities = []  # not yet implemented   \n"
+    content += "       \n"
+    content += "bkgd_sources = {   \n"
+    content += "    'MET' :  { 'inputDir'   : '" + options["dataDir"] + "',   \n"
+    content += "               'datasetsIn'  : ['" + options["datasetMet"] + "'],   \n"
+    content += "               'scale_factor' :       1.0,   \n"
+    content += "               'scale_factor_error' : 0.0,   \n"
+    content += "               'channel_map' : {   \n"
+    content += "    '" + options["fullSelection"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    content += "    }   \n"
+    content += "               },   \n"
+    content += "       \n"
+    content += "    'ElecBkgd' :  { 'inputDir'   : '" + options["elecCtrlDir"] + "',   \n"
+    content += "                    'datasetsIn'  : ['" + options["datasetMet"] + "'],   \n"
+    content += "                    'scale_factor' :        " + str(options["PElec"])    + ",   \n"
+    content += "                    'scale_factor_error' :  " + str(options["PElecErr"]) + ",   \n"
+    content += "                    'channel_map' : {   \n"
+    content += "    '" + options["elecCtrlChannel"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    content += "    }   \n"
+    content += "                    },   \n"
+    content += "       \n"
+    content += "    'MuonBkgd' :  { 'inputDir'   : '" + options["muonCtrlDir"] + "',   \n"
+    content += "                    'datasetsIn'  : ['" + options["datasetMet"] + "'],   \n"
+    content += "                    'scale_factor' :        " + str(options["PMuon"]) + ",   \n"
+    content += "                    'scale_factor_error' :  " + str(options["PMuonErr"]) + ",   \n"
+    content += "                    'channel_map' : {   \n"
+    content += "    '" + options["muonCtrlChannel"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    content += "    }   \n"
+    content += "                    },   \n"
+    content += "       \n"
+    content += "    'TauBkgd' :  { 'inputDir'   : '" + options["tauCtrlDir"] + "',   \n"
+    content += "                   'datasetsIn'  : ['" + options["datasetMet"] + "'],   \n"
+    content += "                   'scale_factor' :        " + str(options["PTau"]) + ",   \n"
+    content += "                   'scale_factor_error' :  " + str(options["PTauErr"]) + ",   \n"
+    content += "                   'channel_map' : {   \n"
+    content += "    '" + options["tauCtrlChannel"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    content += "    }   \n"
+    content += "                   },   \n"
+    content += "       \n"
+    content += "       \n"
+    content += "       \n"
+    content += "    'FakeMuMuBkgd' :  { 'inputDir'   : '" + options["fakeMuMuCtrlDir"] + "',   \n"
+    content += "                    'datasetsIn'  : ['" + options["datasetSingleMu"] + "'],   \n"
+    content += "                    'scale_factor' :        " + str(options["scaleKin"]) + ",   \n"
+    content += "                    'scale_factor_error' :  " + str(options["scaleKinErr"]) + ",   \n"  
+    content += "                    'channel_map' : {   \n"
+    content += "    '" + options["fakeMuMuCtrlChannel"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    content += "    }   \n"
+    content += "                    },   \n"
+    # EE fake track estimate not yet implemented  
+    # content += "    'FakeEEBkgd' :  { 'inputDir'   : JessDir + 'ztoEEFakeTrk3456NHit',   \n"
+    # content += "                    'datasetsIn'  : ['SingleElectron'],   \n"
+    # content += "                    'scale_factor' :        " + str(ScaleFacFakeTrk5Hits) + ",   \n"
+    # content += "                    'scale_factor_error' :  " + str(ScaleFacFakeTrk5HitsErr) + ",   \n"  
+    # content += "                    'channel_map' : {   \n"
+    # content += "    'ZtoEEFakeTrkNHits5' : ['FullSelection'],   \n"
+    # content += "    '" + options["fullSelection"] + "' : ['" + options["fullSelection"] + "'],   \n"
+    # content += "    }   \n"
+    # content += "                    },   \n"
+    content += "       \n"
+    content += "       \n"
+    content += "    }   \n"
+    fout.write(content)
+    fout.close()
+    os.system("cat " + outputFile)
+    print "Finished writing " + outputFile + "\n\n\n"
 
 
 
@@ -294,6 +397,52 @@ header = "% Table produced with makeANTables.py \n"
 
 
 ###################################################
+# Electron inefficiency for candidate track bkgd estimate: 
+###################################################
+options = {}
+options['type'] = "elec"
+options['typeStr'] = "e"  
+options['ctrlDir'] = elecCtrlDir
+options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = candTrkDir 
+options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 3 
+options['dataset'] = "MET_2015D_05Oct2015"  
+elecEstCandTrk = makeLeptonEst(options)  
+
+
+
+###################################################
+# Muon inefficiency for candidate track bkgd estimate:
+###################################################
+options = {}
+options['type'] = "muon"
+options['typeStr'] = "\\mu"  
+options['ctrlDir'] = muonCtrlDir
+options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = candTrkDir 
+options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 4 
+options['dataset'] = "MET_2015D_05Oct2015"  
+muonEstCandTrk = makeLeptonEst(options)  
+
+
+
+###################################################
+# Tau inefficiency for candidate track bkgd estimate:
+###################################################
+options = {}
+options['type'] = "tau"
+options['typeStr'] = "\\tau"  
+options['ctrlDir'] = tauCtrlDir 
+options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+options['disTrkDir'] = candTrkDir 
+options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+options['ineffScale'] = 3 
+options['dataset'] = "MET_2015D_05Oct2015"  
+tauEstCandTrk = makeLeptonEst(options)  
+
+###################################################
 # Electron inefficiency table:
 # tables/elecVetoEff.tex 
 # tables/elecEst.tex 
@@ -307,7 +456,7 @@ options['disTrkDir'] = disappTrkDir
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
-makeLeptonEst(options)  
+elecEst = makeLeptonEst(options)  
 
 
 
@@ -325,7 +474,7 @@ options['disTrkDir'] = disappTrkDir
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 4 
 options['dataset'] = "MET_2015D_05Oct2015"  
-makeLeptonEst(options)  
+muonEst = makeLeptonEst(options)  
 
 
 
@@ -337,13 +486,13 @@ makeLeptonEst(options)
 options = {}
 options['type'] = "tau"
 options['typeStr'] = "\\tau"  
-options['ctrlDir'] = tauCtrlDir # Fixme:  specify this.  
+options['ctrlDir'] = tauCtrlDir 
 options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
 options['disTrkDir'] = disappTrkDir 
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
-makeLeptonEst(options)  
+tauEst = makeLeptonEst(options)  
 
 
 
@@ -354,6 +503,9 @@ makeLeptonEst(options)
 # tables/fakeTrkRate.tex 
 # tables/fakeEst.tex 
 ###################################################
+
+fakeEst = {} 
+
 outputFile = "tables/fakeTrkRate.tex"
 fout = open (outputFile, "w")
 (NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu_2015D", ZtoMuMuDir,        "ZtoMuMuCutFlowPlotter")
@@ -376,6 +528,7 @@ if NYieldErr == 0:
     NYieldErr = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYield + 1)) 
 
 
+
 NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  # done for consistency with muon case, but since it's data, there are no weight factors so NYieldRaw = NYield
 NfakeRaw = NYieldRaw  # Used for bkgd estimate table  
 NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
@@ -392,6 +545,9 @@ else:
 
 PErrUp = NYieldErrUpRaw / NCtrl
 PErrDn = NYieldErrDnRaw / NCtrl
+
+fakeEst["P"]    = P
+fakeEst["PErr"] = PErr
 
 if P == 0:
     PErrUp = NLimitRaw / NCtrl
@@ -422,6 +578,11 @@ Nfake = NCtrlMet * P
 NfakeErr = NCtrlMet * PErr
 NfakeErrUp = NCtrlMet * PErrUp
 NfakeErrDn = NCtrlMet * PErrDn
+
+fakeEst["scaleKin"]    = NCtrlMet / NCtrl
+fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
+
+
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
 content += hline                                                              
@@ -439,6 +600,40 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+
+
+###################################################
+# Background estimate plots: candidate track selection  
+###################################################
+options = {}  
+options["outputFile"]      = "bkgdOptionsCandTrk.py" 
+options["datasetMet"]      = "MET_2015D_05Oct2015"  
+options["datasetSingleMu"] = "SingleMu_2015D"  
+options["dataDir"]         = candTrkDir
+options["elecCtrlDir"]     = elecCtrlDir
+options["muonCtrlDir"]     = muonCtrlDir
+options["tauCtrlDir"]      = tauCtrlDir 
+options["fakeMuMuCtrlDir"] = ZtoMuMuDisTrkDir # FIXME: Change to ZtoMuMuCandTrkDir
+options["fullSelection"]   = "CandTrkSelectionPlotter" 
+options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
+options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
+options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
+options["fakeMuMuCtrlChannel"]  = "ZtoMuMuDisTrkPlotter"   # FIXME: Change to "ZtoMuMuCandTrk"  
+options["PElec"]    = elecEstCandTrk["P"] 
+options["PElecErr"] = elecEstCandTrk["PErr"] 
+options["PMuon"]    = muonEstCandTrk["P"] 
+options["PMuonErr"] = muonEstCandTrk["PErr"] 
+options["PTau"]     =  tauEstCandTrk["P"] 
+options["PTauErr"]  =  tauEstCandTrk["PErr"]  
+# options["PElec"]    = elecEst["P"] 
+# options["PElecErr"] = elecEst["PErr"] 
+# options["PMuon"]    = muonEst["P"] 
+# options["PMuonErr"] = muonEst["PErr"] 
+# options["PTau"]     =  tauEst["P"] 
+# options["PTauErr"]  =  tauEst["PErr"]  
+options["scaleKin"]     = fakeEst["scaleKin"] 
+options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
+makeBkgdEstimate(options)  
 
 
 
