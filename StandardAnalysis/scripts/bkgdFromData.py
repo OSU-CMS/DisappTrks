@@ -30,7 +30,11 @@ parser.remove_option("-r")
 parser.remove_option("-o")
 parser.remove_option("--2D")
 
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,		 
+                  help="verbose output")	 
+
 (arguments, args) = parser.parse_args()
+
 
 from ROOT import TFile, gROOT, gDirectory, TH1, TH2, TH3, TIter, TKey, Double
 gROOT.SetBatch()
@@ -101,7 +105,8 @@ for bkgd in bkgd_sources:
     channels = []
     processed_datasets = []
     bkgdSrc_dir = re.sub (r"([^/]*)/[^/]*", r"\1/" + bkgd_sources[bkgd]['inputDir'], condor_dir)
-#    print "Debug:  bkgdSrc_dir = " + bkgdSrc_dir  
+    if arguments.verbose:
+        print "Debug:  bkgdSrc_dir = " + bkgdSrc_dir  
 
 #### check which input datasets have valid output files
     for sample in bkgd_sources[bkgd]['datasetsIn']:
@@ -126,57 +131,29 @@ for bkgd in bkgd_sources:
             continue
         if not key.GetName () in bkgd_sources[bkgd]['channel_map']:
             continue
-#        outputFile.cd()
-#        outputFile.mkdir(key.GetName())
         rootDirectory = key.GetName()
-        print "Found rootDirectory: ", rootDirectory
         print "Found channel directory: ", key.GetName()  
         for targetChannel in bkgd_sources[bkgd]['channel_map'][key.GetName()]:
-            # outputFile.cd(key.GetName())
             outputFile.cd() 
             gDirectory.mkdir(targetChannel)
-            print "Debug:  mkdir ", targetChannel
-        # testFile.cd(key.GetName())
+            if arguments.verbose: 
+                print "Debug:  mkdir ", targetChannel
         channels.append(key.GetName()) 
-        print "Debug:  added channel: ", key.GetName() 
+        if arguments.verbose: 
+            print "Debug:  added channel: ", key.GetName() 
 
         testFile.cd(key.GetName())
         for key2 in gDirectory.GetListOfKeys():
-            print "Debug:  found key2: ", key2.GetName(), ", classname = ", key2.GetClassName()  
+            if arguments.verbose: 
+                print "Debug:  found key2: ", key2.GetName(), ", classname = ", key2.GetClassName()  
             if (key2.GetClassName() != "TDirectoryFile"):
                 continue
             for targetChannel in bkgd_sources[bkgd]['channel_map'][rootDirectory]: 
                 # outputFile.cd(key.GetName())
                 outputFile.cd() 
                 gDirectory.mkdir(targetChannel+"/"+key2.GetName())
-                print "Debug: mkdir ", targetChannel+"/"+key2.GetName() 
-
-
-#     #do the thing for cutflow histograms
-#     rootDirectory = "" 
-# #    testFile.cd(rootDirectory)
-#     for key in gDirectory.GetListOfKeys(): # loop over histograms in the current directory
-#         if not re.match (r"TH[123]", key.GetClassName()):
-#             continue
-#         histogramName = key.GetName()
-
-#         for sample in processed_datasets: # loop over different samples as listed in configurationOptions.py
-#             dataset_file = "%s/%s.root" % (bkgdSrc_dir,sample)
-#             inputFile = TFile(dataset_file)
-#             Histogram = inputFile.Get(rootDirectory+"/"+histogramName).Clone()
-#             Histogram.SetDirectory(0)
-#             inputFile.Close()
-
-#             subtractImpurities (Histogram)
-#             applySF (Histogram, bkgd_sources[bkgd]['scale_factor'], bkgd_sources[bkgd]['scale_factor_error'])
-#             outputFile.cd (rootDirectory)
-#             #change the names of the cutflow histograms, so it will still work with makeYieldsTables.py
-#             for channel in channels:
-#                 if Histogram.GetName().find(channel) is -1:
-#                     Histogram.Write()
-#                 else:
-#                     for targetChannel in bkgd_sources[bkgd]['channel_map'][channel]:
-#                         Histogram.Write(Histogram.GetName().replace(channel,targetChannel))
+                if arguments.verbose:                     
+                    print "Debug: mkdir ", targetChannel+"/"+key2.GetName() 
 
     #do the thing for histograms in the channels directories
     for channel in channels: # loop over final states, which each have their own directory
@@ -184,11 +161,11 @@ for bkgd in bkgd_sources:
         print           "  Processing " + channel + " channel..."
         outputLog.write("  Processing " + channel + " channel..." + "\n")  
 
-#        testFile.cd(rootDirectory+"/"+channel)
         testFile.cd(channel)
 
         for key in gDirectory.GetListOfKeys(): # loop over directories in the current directory
-            print "Debug:  checking key: ", key.GetName(), "class name = ", key.GetClassName()  
+            if arguments.verbose: 
+                print "Debug:  checking key: ", key.GetName(), "class name = ", key.GetClassName()  
 
             if (key.GetClassName() != "TDirectoryFile"):
                 continue
@@ -212,9 +189,11 @@ for bkgd in bkgd_sources:
                     applySF (Histogram, bkgd_sources[bkgd]['scale_factor'], bkgd_sources[bkgd]['scale_factor_error'])
                     for targetChannel in bkgd_sources[bkgd]['channel_map'][channel]:
                         outputFile.cd (targetChannel + "/" + plotDir)
-                        print "Debug:  cd " + targetChannel + "/" + plotDir 
+                        if arguments.verbose: 
+                            print "Debug:  cd " + targetChannel + "/" + plotDir 
                         Histogram.Write ()
-                        print "Debug:  Wrote hist", histogramName
+                        if arguments.verbose: 
+                            print "Debug:  Wrote hist", histogramName
                         if "numEvents" in str(Histogram.GetName()): 
                             intError = Double (0.0)
                             integral = Histogram.IntegralAndError(1, Histogram.GetNbinsX(), intError)
