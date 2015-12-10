@@ -1,6 +1,28 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
+################################################################################
+# Functions for getting the invariant mass of an object and a track, given
+# different mass assumptions for the track.
+################################################################################
+
+def invMassGivenEnergy (obj, energy):
+    return "sqrt ((" + obj + ".energy + track." + energy + ") * (" + obj + ".energy + track." + energy + ") - (" + obj + ".px + track.px) * (" + obj + ".px + track.px) + (" + obj + ".py + track.py) * (" + obj + ".py + track.py) + (" + obj + ".pz + track.pz) * (" + obj + ".pz + track.pz))"
+
+def invMassWithElectron (obj):
+    return invMassGivenEnergy (obj, "energyOfElectron")
+
+def invMassWithMuon (obj):
+    return invMassGivenEnergy (obj, "energyOfMuon")
+
+def invMassWithTau (obj):
+    return invMassGivenEnergy (obj, "energyOfTau")
+
+def invMassWithPion (obj):
+    return invMassGivenEnergy (obj, "energyOfPion")
+
+def invMassWithProton (obj):
+    return invMassGivenEnergy (obj, "energyOfProton")
 
 ##############################
 ##### Constants          #####
@@ -254,7 +276,7 @@ cutMuTrkDeltaR = cms.PSet(
     )
 cutMuTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),  
-    cutString = cms.string("invMass ( muon , track ) > 80 && invMass ( muon , track ) < 100"), 
+    cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
     numberRequired = cms.string(">= 1"),
     )
 
@@ -271,8 +293,3 @@ def removeCuts(cutVPset, cutsToRemove):
         for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error 
             if cutVPset[i].cutString == cut.cutString:  
                 del cutVPset[i]
-
-
-
-
-

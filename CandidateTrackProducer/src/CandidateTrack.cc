@@ -286,3 +286,41 @@ CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::
 
   return sumPt;
 }
+
+const double
+CandidateTrack::energyOfElectron () const
+{
+  return energyGivenMass (0.000510998928);
+}
+
+const double
+CandidateTrack::energyOfMuon () const
+{
+  return energyGivenMass (0.1056583715);
+}
+
+const double
+CandidateTrack::energyOfTau () const
+{
+  return energyGivenMass (1.77686);
+}
+
+const double
+CandidateTrack::energyOfPion () const
+{
+  return energyGivenMass (0.13957018);
+}
+
+const double
+CandidateTrack::energyOfProton () const
+{
+  return energyGivenMass (0.938272046);
+}
+
+const double
+CandidateTrack::energyGivenMass (const double mass) const
+{
+  return sqrt (this->px () * this->px () + this->py () * this->py () + this->pz () * this->pz () + mass * mass);
+}
+
+

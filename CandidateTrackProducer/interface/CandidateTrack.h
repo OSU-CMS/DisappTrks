@@ -58,6 +58,12 @@ class CandidateTrack : public reco::Track
     const double trackIsoNoPUDRp3 () const;
     const double trackIsoNoPUDRp5 () const;
 
+    const double energyOfElectron () const;
+    const double energyOfMuon () const;
+    const double energyOfTau () const;
+    const double energyOfPion () const;
+    const double energyOfProton () const;
+
   private:
     double caloEMDRp3_;
     double caloHadDRp3_;
@@ -81,6 +87,8 @@ class CandidateTrack : public reco::Track
 
     template<class T> const double getMinDeltaR (const vector<T> &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
+
+    const double energyGivenMass (const double) const;
 };
 
 
