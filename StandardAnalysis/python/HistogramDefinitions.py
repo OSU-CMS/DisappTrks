@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-
+from DisappTrks.StandardAnalysis.invMass import *
 
 ###############################################
 ##### Set up the histograms to be plotted #####
@@ -101,6 +101,20 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("deltaRToClosestElectron"),
             ),
         cms.PSet (
+            name = cms.string("trackTauDeltaRVsTrackElectronDeltaR"),
+            title = cms.string(";#DeltaR_{min}(track,electron);#DeltaR_{min}(track,tau)"), 
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsY = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestElectron", "deltaRToClosestTau"),
+            ),
+        cms.PSet (
+            name = cms.string("trackTauDeltaRVsTrackMuonDeltaR"),
+            title = cms.string(";#DeltaR_{min}(track,muon);#DeltaR_{min}(track,tau)"), 
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsY = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestMuon", "deltaRToClosestTau"),
+            ),
+        cms.PSet (
             name = cms.string("trackDeltaRMinMuonLooseId"),
             title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),  
             binsX = cms.untracked.vdouble(100, 0, 1),
@@ -115,7 +129,41 @@ TrackExtraHistograms = cms.PSet(
         )
     )
 
-
+TrackMuonHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("invMass"),
+            title = cms.string(";M(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 500.0),
+            inputVariables = cms.vstring(invMassWithMuon ("muon")),
+        ),
+        cms.PSet (
+            name = cms.string("invMassNearZ"),
+            title = cms.string(";M(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 80.0, 100.0),
+            inputVariables = cms.vstring(invMassWithMuon ("muon")),
+        ),
+        cms.PSet (
+            name = cms.string("deltaR"),
+            title = cms.string(";#DeltaR(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaR (track, muon)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhi"),
+            title = cms.string(";#Delta#phi(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaPhi (track, muon)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaEta"),
+            title = cms.string(";#Delta#eta(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 4.0),
+            inputVariables = cms.vstring("fabs (track.eta - muon.eta)"),
+        ),
+    )
+)
 
 histograms = cms.PSet(  # for testing 
     inputCollection = cms.vstring("muons"),
