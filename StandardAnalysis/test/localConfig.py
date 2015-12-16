@@ -1,13 +1,14 @@
-from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
+from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.miniAODV1Samples import *
 
 config_file = "protoConfig_cfg.py"
 
 intLumi = 731 # See https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/521
 
 
-
 datasetsBkgd = [
-    'WJetsToLNu_MiniAOD',
+    'WJetsToLNu_HT_MiniAOD',
+    # 'WJetsToLNu_MiniAOD',
     'TTJets_Lept_MiniAOD',
     'SingleTop_MiniAOD',
     'VV_MiniAOD',
