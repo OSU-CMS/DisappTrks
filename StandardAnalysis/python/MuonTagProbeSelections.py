@@ -81,6 +81,15 @@ ZtoMuMu = cms.PSet(
          )
     )
 
+
+##################################################
+## Fake track control sample:  Z->mu mu + candidate track 
+##################################################
+ZtoMuMuCandTrk = copy.deepcopy(ZtoMuMu) 
+ZtoMuMuCandTrk.name = cms.string("ZtoMuMuCandTrk") 
+addCuts(ZtoMuMuCandTrk.cuts, candTrkCuts)  
+
+
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track
 ##################################################
