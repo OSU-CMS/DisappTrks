@@ -7,14 +7,14 @@ intLumi = 731 # See https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/5
 
 
 datasetsBkgd = [
-    'WJetsToLNu_HT_MiniAOD',
-    # 'WJetsToLNu_MiniAOD',
-    'TTJets_Lept_MiniAOD',
-    'SingleTop_MiniAOD',
-    'VV_MiniAOD',
+    'WJetsToLNu_HT',
+    # 'WJetsToLNu',
+    'TTJets_Lept',
+    'SingleTop',
+    'VV',
 
-    'DYJetsToNuNu_MiniAOD',
-    'DYJetsToLL_50_MiniAOD',
+    'DYJetsToNuNu',
+    'DYJetsToLL_50',
 ]
 
 datasetsData = [
@@ -41,62 +41,62 @@ datasetsSig = [
 
 datasets = datasetsBkgd + datasetsData + datasetsSig  
 
-composite_dataset_definitions["WW_MiniAOD"] = [
-    'WWToLNuQQ_MiniAOD',
-    'WWToLNuLNu_MiniAOD',
+composite_dataset_definitions["WW"] = [
+    'WWToLNuQQ',
+    'WWToLNuLNu',
 ]
 
-composite_dataset_definitions["WZ_MiniAOD"] = [
-    'WZToLNuQQ_MiniAOD',
-    #'WZToLLQQ_MiniAOD',
-    'WZToLNuNuNu_MiniAOD',
-    'WZToLLLNu_MiniAOD',
+composite_dataset_definitions["WZ"] = [
+    'WZToLNuQQ',
+    #'WZToLLQQ',
+    'WZToLNuNuNu',
+    'WZToLLLNu',
 ]
 
-composite_dataset_definitions["ZZ_MiniAOD"] = [
-    'ZZToNuNuQQ_MiniAOD',
-    'ZZToLLQQ_MiniAOD',
-    'ZZToLLNuNu_MiniAOD',
-    'ZZToLLLL_MiniAOD',
+composite_dataset_definitions["ZZ"] = [
+    'ZZToNuNuQQ',
+    'ZZToLLQQ',
+    'ZZToLLNuNu',
+    'ZZToLLLL',
 ]
 
-composite_dataset_definitions["VG_MiniAOD"] = [
-    'WG_MiniAOD',
-    'ZG_MiniAOD',
+composite_dataset_definitions["VG"] = [
+    'WG',
+    'ZG',
 ]
 
-composite_dataset_definitions["VV_MiniAOD"] = [
-    'WWToLNuQQ_MiniAOD',
-    'WWToLNuLNu_MiniAOD',
-    'WZToLNuQQ_MiniAOD',
-    #'WZToLLQQ_MiniAOD',
-    'WZToLNuNuNu_MiniAOD',
-    'WZToLLLNu_MiniAOD',
-    'ZZToNuNuQQ_MiniAOD',
-    'ZZToLLQQ_MiniAOD',
-    'ZZToLLNuNu_MiniAOD',
-    'ZZToLLLL_MiniAOD',
-    'WG_MiniAOD',
-    'ZG_MiniAOD',
+composite_dataset_definitions["VV"] = [
+    'WWToLNuQQ',
+    'WWToLNuLNu',
+    'WZToLNuQQ',
+    #'WZToLLQQ',
+    'WZToLNuNuNu',
+    'WZToLLLNu',
+    'ZZToNuNuQQ',
+    'ZZToLLQQ',
+    'ZZToLLNuNu',
+    'ZZToLLLL',
+    'WG',
+    'ZG',
 ]
 
-types["WW_MiniAOD"] = "bgMC"
-types["WZ_MiniAOD"] = "bgMC"
-types["ZZ_MiniAOD"] = "bgMC"
-types["VG_MiniAOD"] = "bgMC"
-types["VV_MiniAOD"] = "bgMC"
+types["WW"] = "bgMC"
+types["WZ"] = "bgMC"
+types["ZZ"] = "bgMC"
+types["VG"] = "bgMC"
+types["VV"] = "bgMC"
 
-colors["WW_MiniAOD"] = 390
-colors["WZ_MiniAOD"] = 393
-colors["ZZ_MiniAOD"] = 397
-colors["VG_MiniAOD"] = 400
-colors["VV_MiniAOD"] = 393
+colors["WW"] = 390
+colors["WZ"] = 393
+colors["ZZ"] = 397
+colors["VG"] = 400
+colors["VV"] = 393
 
-labels["DYJetsToLL_50_MiniAOD"] = "Z#rightarrowl^{+}l^{-}"
-labels["DYJetsToNuNu_MiniAOD"] = "Z#rightarrow#nu#bar{#nu}"
-labels["WJetsToLNu_MiniAOD"] = "W#rightarrowl#nu"
-labels["WW_MiniAOD"] = "WW"
-labels["WZ_MiniAOD"] = "WZ"
-labels["ZZ_MiniAOD"] = "ZZ"
-labels["VG_MiniAOD"] = "V#gamma"
-labels["VV_MiniAOD"] = "Diboson"
+labels["DYJetsToLL_50"] = "Z#rightarrowl^{+}l^{-}"
+labels["DYJetsToNuNu"] = "Z#rightarrow#nu#bar{#nu}"
+labels["WJetsToLNu"] = "W#rightarrowl#nu"
+labels["WW"] = "WW"
+labels["WZ"] = "WZ"
+labels["ZZ"] = "ZZ"
+labels["VG"] = "V#gamma"
+labels["VV"] = "Diboson"
