@@ -147,11 +147,10 @@ def getHistIntegral(sample,condor_dir,channel,hist,xlo,xhi):
     # Modeled on getHistIntegrals.py  
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
     inputFile = TFile(dataset_file)
-    histogram = inputFile.Get("OSUAnalysis/"+channel+"/"+hist)
+    histogram = inputFile.Get(channel+"/"+hist)
     if not histogram:
-        print "WARNING: didn't find histogram ", hist, " in file ", dataset_file  
+        print "WARNING: didn't find histogram ", channel + "/" + hist, " in file ", dataset_file  
         return 0
-
     Nxbins = histogram.GetNbinsX()
     xmax = histogram.GetBinContent(Nxbins)
     xloBin = histogram.GetXaxis().FindBin(float(xlo))
@@ -213,10 +212,12 @@ def makeLeptonEst(options):
     outputFile = "tables/" + options['type'] + "VetoEff.tex"
     fout = open (outputFile, "w")
 
-    # Eventually we want this:  
-    (NCtrl, NCtrlErr)   = getYield("WJetsToLNu_MiniAOD",  options['ctrlDir'],       options['ctrlChannel'])
-    (NYield, NYieldErr) = getYield("WJetsToLNu_MiniAOD",  options['disTrkDir'],     options['disTrkChannel'])  
+    (NCtrl, NCtrlErr)   = getYield(options['MCsample'],  options['ctrlDir'],       options['ctrlChannel'])
+    (NYield, NYieldErr) = getYield(options['MCsample'],  options['disTrkDir'],     options['disTrkChannel'])  
 
+    if 'histForYield' in options: 
+        (NYield, NYieldErr) = getHistIntegral(options['MCsample'], options['disTrkDir'], options['disTrkChannel'].replace("CutFlow",""), options['histForYield'], options['histForYieldLoBin'], options['histForYieldHiBin'])  
+        
     P = NYield / NCtrl
     if P: 
         PErr = P * (NYieldErr / NYield)  
@@ -235,14 +236,17 @@ def makeLeptonEst(options):
         PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + "}_{-0} ) "
         PStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
     else:
-        PStr = "ERROR:  This case not yet defined!"  
+        PStr  = "$ (" 
+        PStr += str(round_sigfigs(   P * pow(10, options['ineffScale']),3)) + " \\pm " 
+        PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + ") "
+        PStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
         
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
     content += hline                                                              
     content += hline                                                              
     content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"                               
-    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + str(round_sigfigs(NYield,3)) + "$     \\\\ \n"                             
+    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + str(round_sigfigs(NYield,3)) + " \\pm " + str(round_sigfigs(NYieldErr,3)) + "$     \\\\ \n"                             
     content += hline                                                              
     content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
     content += hline                                                              
@@ -262,7 +266,10 @@ def makeLeptonEst(options):
     if Nlep == 0: 
         NlepStr = "$ " + str(round_sigfigs(Nlep,3)) + " ^{+ " + str(round_sigfigs(NlepErr,3)) + "}_{-0} $" 
     else:
-        NlepStr = "ERROR:  This case not yet defined"  
+        NlepStr  = "$ (" 
+        NlepStr += str(round_sigfigs(Nlep    * pow(10, options['ineffScale']),3)) + " \\pm " 
+        NlepStr += str(round_sigfigs(NlepErr * pow(10, options['ineffScale']),3)) + ") "
+        NlepStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
 
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
@@ -409,6 +416,7 @@ options['disTrkDir'] = candTrkDir
 options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_MiniAOD" 
 elecEstCandTrk = makeLeptonEst(options)  
 
 
@@ -425,6 +433,7 @@ options['disTrkDir'] = candTrkDir
 options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 4 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_MiniAOD" 
 muonEstCandTrk = makeLeptonEst(options)  
 
 
@@ -441,6 +450,7 @@ options['disTrkDir'] = candTrkDir
 options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_MiniAOD" 
 tauEstCandTrk = makeLeptonEst(options)  
 
 ###################################################
@@ -457,6 +467,7 @@ options['disTrkDir'] = disappTrkDir
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_MiniAOD" 
 elecEst = makeLeptonEst(options)  
 
 
@@ -475,6 +486,7 @@ options['disTrkDir'] = disappTrkDir
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 4 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_MiniAOD" 
 muonEst = makeLeptonEst(options)  
 
 
@@ -489,10 +501,14 @@ options['type'] = "tau"
 options['typeStr'] = "\\tau"  
 options['ctrlDir'] = tauCtrlDir 
 options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = disappTrkDir 
+options['disTrkDir'] = disappTrkDir  
 options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
 options['ineffScale'] = 3 
 options['dataset'] = "MET_2015D_05Oct2015"  
+options['MCsample'] = "WJetsToLNu_HT" 
+options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
+options['histForYieldLoBin'] = 1
+options['histForYieldHiBin'] = 1
 tauEst = makeLeptonEst(options)  
 
 
