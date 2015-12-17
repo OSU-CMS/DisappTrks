@@ -162,6 +162,12 @@ TrackMuonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(1000, 0.0, 4.0),
             inputVariables = cms.vstring("fabs (track.eta - muon.eta)"),
         ),
+        cms.PSet (
+            name = cms.string("chargeProduct"),
+            title = cms.string(";q_{#mu}#cdotq_{track}"),
+            binsX = cms.untracked.vdouble(3, -1.5, 1.5),
+            inputVariables = cms.vstring("muon.charge * track.charge"),
+        ),
     )
 )
 

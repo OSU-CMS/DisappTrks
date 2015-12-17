@@ -4,7 +4,7 @@
 ################################################################################
 
 def invMassGivenEnergy (obj, energy):
-    return "sqrt ((" + obj + ".energy + track." + energy + ") * (" + obj + ".energy + track." + energy + ") - (" + obj + ".px + track.px) * (" + obj + ".px + track.px) + (" + obj + ".py + track.py) * (" + obj + ".py + track.py) + (" + obj + ".pz + track.pz) * (" + obj + ".pz + track.pz))"
+    return "sqrt ((" + obj + ".energy + track." + energy + ") * (" + obj + ".energy + track." + energy + ") - (" + obj + ".px + track.px) * (" + obj + ".px + track.px) - (" + obj + ".py + track.py) * (" + obj + ".py + track.py) - (" + obj + ".pz + track.pz) * (" + obj + ".pz + track.pz))"
 
 def invMassWithElectron (obj):
     return invMassGivenEnergy (obj, "energyOfElectron")
