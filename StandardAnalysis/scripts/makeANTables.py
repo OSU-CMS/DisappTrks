@@ -270,6 +270,7 @@ def makeLeptonEst(options):
         NlepStr += str(round_sigfigs(Nlep    * pow(10, options['ineffScale']),3)) + " \\pm " 
         NlepStr += str(round_sigfigs(NlepErr * pow(10, options['ineffScale']),3)) + ") "
         NlepStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
+    leptonEst["NStr"] = NlepStr 
 
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
@@ -598,7 +599,7 @@ NfakeErrDn = NCtrlMet * PErrDn
 
 fakeEst["scaleKin"]    = NCtrlMet / NCtrl
 fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
-
+fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $" 
 
 content  = header 
 content += "\\begin{tabular}{lc}\n"                                                 
@@ -608,7 +609,8 @@ content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrlMe
 #content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
 content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
 content += hline                                                              
-content += "$N^{\\rm fake}$                    & $"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $ \\\\  \n" 
+content += "$N^{\\rm fake}$                    & " + fakeEst["NStr"] + " \\\\  \n" 
+#$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $ \\\\  \n" 
 content += hline                                                              
 content += hline                                                              
 content += "\\end{tabular}\n"                                                       
@@ -617,6 +619,28 @@ fout.close()
 os.system("cat " + outputFile)  
 print "Finished writing " + outputFile + "\n\n\n"
 
+
+###################################################
+# Background summary table  
+###################################################
+content  = header 
+content += "\\begin{tabular}{lc}\n"                                                 
+content += hline                                                              
+content += hline                                                              
+content += "Source  &  Background Prediction (Events)" 
+content += hline                                                              
+content += "Electrons   & " + elecEst["NStr"] + " \\\\ \n" 
+content += "Muons       & " + muonEst["NStr"] + " \\\\ \n" 
+content += "Taus        & " +  tauEst["NStr"] + " \\\\ \n" 
+content += "Fake tracks & " + fakeEst["NStr"] + " \\\\ \n" 
+content += hline                                                              
+content += hline                                                              
+content += "\\end{tabular}\n"                                                       
+outputFile = "tables/bkgdSumm.tex" 
+fout = open(outputFile, "w")
+fout.write(content)
+fout.close()  
+os.system("cat " + outputFile)  
 
 
 ###################################################
