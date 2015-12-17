@@ -56,9 +56,10 @@ tauCtrlDir             = AndrewDir+"tauCtrlSelection" # https://cmshead.mps.ohio
 fullSelecTauIdDir      = AndrewDir+"fullSelectionChannelsForBkgdEstimates"
 
 ## fakeTrkRate.tex and fakeEst.tex
-ZtoMuMuDir        = WellsDir + "ZtoMuMuSkim"  
-ZtoMuMuDisTrkDir  = WellsDir + "ZtoMuMuDisTrk"  
-KinSelDir         = WellsDir + "candTrkSelection"  
+ZtoMuMuDir         = WellsDir + "ZtoMuMuSkim"  
+ZtoMuMuCandTrkDir  = WellsDir + "ZtoMuMuCandTrk"  
+ZtoMuMuDisTrkDir   = WellsDir + "ZtoMuMuDisTrk"  
+KinSelDir          = WellsDir + "candTrkSelection"  
     
 ### parse the command-line options
 parser = OptionParser()
@@ -613,12 +614,12 @@ options["dataDir"]         = candTrkDir
 options["elecCtrlDir"]     = elecCtrlDir
 options["muonCtrlDir"]     = muonCtrlDir
 options["tauCtrlDir"]      = tauCtrlDir 
-options["fakeMuMuCtrlDir"] = ZtoMuMuDisTrkDir # FIXME: Change to ZtoMuMuCandTrkDir
+options["fakeMuMuCtrlDir"] = ZtoMuMuCandTrkDir 
 options["fullSelection"]   = "CandTrkSelectionPlotter" 
 options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
 options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
 options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
-options["fakeMuMuCtrlChannel"]  = "ZtoMuMuDisTrkPlotter"   # FIXME: Change to "ZtoMuMuCandTrk"  
+options["fakeMuMuCtrlChannel"]  = "ZtoMuMuCandTrkPlotter"   
 options["PElec"]    = elecEstCandTrk["P"] 
 options["PElecErr"] = elecEstCandTrk["PErr"] 
 options["PMuon"]    = muonEstCandTrk["P"] 
