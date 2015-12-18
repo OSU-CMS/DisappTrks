@@ -19,7 +19,7 @@ process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
                                  "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
                                  # "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
-                                  # "/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193736/0000/miniAODWithCandidateTracks_1.root", # bkgd MC
+                                 # "/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193736/0000/miniAODWithCandidateTracks_1.root", # bkgd MC
                                  # '/store/user/wulsin/MET/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151011_155240/0000/miniAODWithCandidateTracks_10.root', # data
                              ),
 )
@@ -108,21 +108,30 @@ histSetsMuon = copy.deepcopy(histSets)
 histSetsMuon.append(MuonHistograms)
 histSetsMuon.append(DiMuonHistograms)
 
+
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-#add_channels (process, [metMinimalSkim],    histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [metMinimalSkim],    histSets, weights, collectionMap, variableProducers, True)
 #add_channels (process, [disTrkSelection],    histSets, weights, collectionMap, variableProducers, True)
-add_channels (process, [candTrkSelection],    histSets, weights, collectionMap, variableProducers, True)
+#add_channels (process, [disTrkSelectionMatchGenMuon], histSets, weights, collectionMap, variableProducers, True)
+
+#add_channels (process, [candTrkSelection],    histSets, weights, collectionMap, variableProducers, True)
+# add_channels (process, [candTrkEcaloSdband],    histSets, weights, collectionMap, variableProducers, True)
+# add_channels (process, [candTrkNMissOutSdband], histSets, weights, collectionMap, variableProducers, True)
 #add_channels (process, [isoTrkSelection],    histSets, weights, collectionMap, variableProducers, False)
 #add_channels (process, [nonIsoTrkSelection], histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [elecCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [muonCtrlSelection],  histSets, weights, collectionMap, variableProducers, False)
-#add_channels (process, [tauCtrlSelection],   histSets, weights, collectionMap, variableProducers, False)
+#add_channels (process, [elecCtrlSelection],  histSets, weights, collectionMap, variableProducers, True)
+#add_channels (process, [muonCtrlSelection],  histSets, weights, collectionMap, variableProducers, True)
+#add_channels (process, [tauCtrlSelection],   histSets, weights, collectionMap, variableProducers, True)
 #add_channels (process, [ZtoMuMu],          histSetsMuon, weights, collectionMap, variableProducers, True)
 #add_channels (process, [ZtoMuProbeTrk],  histSetsMuon, weights, collectionMap, variableProducers, False)
-
+#add_channels (process, [ZtoMuMu],          histSetsMuon, weights, collectionMap, variableProducers, True)
+#add_channels (process, [ZtoMuMuCandTrk],          histSetsMuon, weights, collectionMap, variableProducers, True)
+#add_channels (process, [ZtoMuMuDisTrk],          histSetsMuon, weights, collectionMap, variableProducers, True)
+# add_channels (process, [ZtoMuMuCandTrkEcaloSdband],     histSetsMuon, weights, collectionMap, variableProducers, True)
+# add_channels (process, [ZtoMuMuCandTrkNMissOutSdband],  histSetsMuon, weights, collectionMap, variableProducers, True)
 
 
 # uncomment to produce a full python configuration log file

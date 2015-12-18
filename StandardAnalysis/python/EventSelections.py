@@ -81,6 +81,28 @@ disTrkCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
+candTrkEcaloSdband = copy.deepcopy(candTrkSelection) 
+candTrkEcaloSdband.name = cms.string("CandTrkEcaloSdband") 
+cutsToAdd = [ 
+    cutTrkNMissOut, 
+    cutTrkEcaloInv, 
+]
+addCuts(candTrkEcaloSdband.cuts, cutsToAdd)
+candTrkEcaloSdbandCuts = candTrkCuts + cutsToAdd 
+
+##########################################################################
+
+candTrkNMissOutSdband = copy.deepcopy(candTrkSelection) 
+candTrkNMissOutSdband.name = cms.string("CandTrkNMissOutSdband") 
+cutsToAdd = [ 
+    cutTrkEcalo, 
+    cutTrkNMissOutInv, 
+]
+addCuts(candTrkNMissOutSdband.cuts, cutsToAdd)
+candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd 
+
+##########################################################################
+
 # Use this selection for the muon background estimate.   
 disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection) 
 disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon") 

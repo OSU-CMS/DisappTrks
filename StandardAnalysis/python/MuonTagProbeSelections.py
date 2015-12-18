@@ -96,3 +96,18 @@ addCuts(ZtoMuMuCandTrk.cuts, candTrkCuts)
 ZtoMuMuDisTrk = copy.deepcopy(ZtoMuMu)
 ZtoMuMuDisTrk.name = cms.string("ZtoMuMuDisTrk")
 addCuts(ZtoMuMuDisTrk.cuts, disTrkCuts)
+
+##################################################
+## Fake track control sample:  Z->mu mu + candidate track in Ecalo sideband
+##################################################
+ZtoMuMuCandTrkEcaloSdband = copy.deepcopy(ZtoMuMu) 
+ZtoMuMuCandTrkEcaloSdband.name = cms.string("ZtoMuMuCandTrkEcaloSdband") 
+addCuts(ZtoMuMuCandTrkEcaloSdband.cuts, candTrkEcaloSdbandCuts)  
+
+##################################################
+## Fake track control sample:  Z->mu mu + candidate track in NMissOut sideband
+##################################################
+ZtoMuMuCandTrkNMissOutSdband = copy.deepcopy(ZtoMuMu) 
+ZtoMuMuCandTrkNMissOutSdband.name = cms.string("ZtoMuMuCandTrkNMissOutSdband") 
+addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)  
+
