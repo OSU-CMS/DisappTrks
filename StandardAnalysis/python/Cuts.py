@@ -126,6 +126,26 @@ cutTrkNValidHits = cms.PSet(
     cutString = cms.string("numberOfValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNValidHits3 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfValidHits == 3"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNValidHits4 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfValidHits == 4"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNValidHits5 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfValidHits == 5"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNValidHits6 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfValidHits == 6"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNMissIn = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingInnerHits == 0"),
