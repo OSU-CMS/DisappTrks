@@ -270,6 +270,11 @@ cutMuTrkInvMass80To100 = cms.PSet(
     cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuTrkOS = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string("muon.charge * track.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## Functions for adding, removing cuts
