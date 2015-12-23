@@ -114,3 +114,59 @@ ZtoMuMuCandTrkNMissOutSdband = copy.deepcopy(ZtoMuMu)
 ZtoMuMuCandTrkNMissOutSdband.name = cms.string("ZtoMuMuCandTrkNMissOutSdband") 
 addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)  
 
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 3 hits
+##################################################
+ZtoMuMuDisTrkNHits3 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNHits3.name = cms.string("ZtoMuMuDisTrkNHits3")
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits3, 
+]
+removeCuts(ZtoMuMuDisTrkNHits3.cuts, cutsToRemove) 
+addCuts   (ZtoMuMuDisTrkNHits3.cuts, cutsToAdd) 
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 4 hits
+##################################################
+ZtoMuMuDisTrkNHits4 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNHits4.name = cms.string("ZtoMuMuDisTrkNHits4")
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits4, 
+]
+removeCuts(ZtoMuMuDisTrkNHits4.cuts, cutsToRemove) 
+addCuts   (ZtoMuMuDisTrkNHits4.cuts, cutsToAdd) 
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 5 hits
+##################################################
+ZtoMuMuDisTrkNHits5 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNHits5.name = cms.string("ZtoMuMuDisTrkNHits5")
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits5, 
+]
+removeCuts(ZtoMuMuDisTrkNHits5.cuts, cutsToRemove) 
+addCuts   (ZtoMuMuDisTrkNHits5.cuts, cutsToAdd) 
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 6 hits
+##################################################
+ZtoMuMuDisTrkNHits6 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNHits6.name = cms.string("ZtoMuMuDisTrkNHits6")
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits6, 
+]
+removeCuts(ZtoMuMuDisTrkNHits6.cuts, cutsToRemove) 
+addCuts   (ZtoMuMuDisTrkNHits6.cuts, cutsToAdd) 
+
