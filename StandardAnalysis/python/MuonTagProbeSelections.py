@@ -6,8 +6,8 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 ##################################################
 ## Muon tag and probe sample
 ##################################################
-ZtoMuDisTrk = cms.PSet(
-    name = cms.string("ZtoMuDisTrk"),
+ZtoMuProbeTrk = cms.PSet(
+    name = cms.string("ZtoMuProbeTrk"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (),
 )
@@ -21,18 +21,14 @@ tagMuonCuts = [
     cutMuonArbitration,
 ]
 muTrkCuts = [
-    cutMuTrkDeltaR,
     cutMuTrkInvMass10,
-    cutMuTrkInvMass80To100,
+    #cutMuTrkInvMass80To100,
 ]
-addCuts(ZtoMuDisTrk.cuts, tagMuonCuts)
-addCuts(ZtoMuDisTrk.cuts, [cutTrkPt30])
-addCuts(ZtoMuDisTrk.cuts, disTrkCuts)
-addCuts(ZtoMuDisTrk.cuts, muTrkCuts)
-addCuts(ZtoMuDisTrk.cuts, [cutTrkArbitration])
-
-ZtoMuProbeTrk = copy.deepcopy(ZtoMuDisTrk)
-ZtoMuProbeTrk.name = cms.string("ZtoMuProbeTrk")
+addCuts(ZtoMuProbeTrk.cuts, tagMuonCuts)
+addCuts(ZtoMuProbeTrk.cuts, [cutTrkPt30])
+addCuts(ZtoMuProbeTrk.cuts, disTrkCuts)
+addCuts(ZtoMuProbeTrk.cuts, muTrkCuts)
+addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
     cutTrkPt,
     cutTrkMuonVeto,
@@ -40,8 +36,15 @@ cutsToRemove = [
 ]
 removeCuts(ZtoMuProbeTrk.cuts, cutsToRemove)
 
-ZtoMuProbeTrkNoMassCut = copy.deepcopy(ZtoMuProbeTrk)
-removeCuts(ZtoMuProbeTrkNoMassCut.cuts, [cutMuTrkInvMass80To100, cutMuTrkDeltaR])
+ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrk)
+ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
+cutsToAdd = [
+    cutMuTrkInvMass80To100,
+    cutMuTrkOS,
+    cutTrkMuonVeto,
+    cutTrkTauVeto,
+]
+addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 
 os_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
