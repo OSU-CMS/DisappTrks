@@ -103,15 +103,15 @@ TrackExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackTauDeltaRVsTrackElectronDeltaR"),
             title = cms.string(";#DeltaR_{min}(track,electron);#DeltaR_{min}(track,tau)"), 
-            binsX = cms.untracked.vdouble(100, 0, 1),
-            binsY = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(100, 0, 0.001),
+            binsY = cms.untracked.vdouble(100, 0, 0.001),
             inputVariables = cms.vstring("deltaRToClosestElectron", "deltaRToClosestTau"),
             ),
         cms.PSet (
             name = cms.string("trackTauDeltaRVsTrackMuonDeltaR"),
             title = cms.string(";#DeltaR_{min}(track,muon);#DeltaR_{min}(track,tau)"), 
-            binsX = cms.untracked.vdouble(100, 0, 1),
-            binsY = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(100, 0, 0.001),
+            binsY = cms.untracked.vdouble(100, 0, 0.001),
             inputVariables = cms.vstring("deltaRToClosestMuon", "deltaRToClosestTau"),
             ),
         cms.PSet (
