@@ -44,6 +44,7 @@ class CandidateTrack : public reco::Track
     const double deltaRToClosestElectron () const;
     const double deltaRToClosestMuon () const;
     const double deltaRToClosestTau () const;
+    const double deltaRToClosestTauHad () const;
 
     const int missingInnerHits () const;
     const int missingMiddleHits () const;
@@ -73,6 +74,7 @@ class CandidateTrack : public reco::Track
     double deltaRToClosestElectron_;
     double deltaRToClosestMuon_;
     double deltaRToClosestTau_;
+    double deltaRToClosestTauHad_;
 
     double rhoPUCorr_;
     double rhoPUCorrCalo_;
@@ -86,6 +88,7 @@ class CandidateTrack : public reco::Track
     static const int MAX_DR = 99;
 
     template<class T> const double getMinDeltaR (const vector<T> &) const;
+    const double getMinDeltaRToTauHad (const vector<pat::Tau> &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
     const double energyGivenMass (const double) const;

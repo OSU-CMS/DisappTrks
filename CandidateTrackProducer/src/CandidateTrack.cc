@@ -18,6 +18,7 @@ CandidateTrack::CandidateTrack () :
   deltaRToClosestElectron_  (INVALID_VALUE),
   deltaRToClosestMuon_      (INVALID_VALUE),
   deltaRToClosestTau_       (INVALID_VALUE),
+  deltaRToClosestTauHad_    (INVALID_VALUE),
   rhoPUCorr_                (INVALID_VALUE),
   rhoPUCorrCalo_            (INVALID_VALUE),
   rhoPUCorrCentralCalo_     (INVALID_VALUE),
@@ -37,6 +38,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   deltaRToClosestElectron_  (INVALID_VALUE),
   deltaRToClosestMuon_      (INVALID_VALUE),
   deltaRToClosestTau_       (INVALID_VALUE),
+  deltaRToClosestTauHad_    (INVALID_VALUE),
   rhoPUCorr_                (INVALID_VALUE),
   rhoPUCorrCalo_            (INVALID_VALUE),
   rhoPUCorrCentralCalo_     (INVALID_VALUE),
@@ -56,6 +58,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Tra
   deltaRToClosestElectron_ (getMinDeltaR (electrons)),
   deltaRToClosestMuon_     (getMinDeltaR (muons)),
   deltaRToClosestTau_      (getMinDeltaR (taus)),
+  deltaRToClosestTauHad_   (getMinDeltaRToTauHad (taus)),
   rhoPUCorr_               (INVALID_VALUE),
   rhoPUCorrCalo_           (INVALID_VALUE),
   rhoPUCorrCentralCalo_    (INVALID_VALUE),
@@ -77,6 +80,24 @@ CandidateTrack::getMinDeltaR (const vector<T> &objects) const
 
   for (const auto &object : objects)
     {
+      double dR = deltaR (*this, object);
+
+      if (dR < minDeltaR || minDeltaR < 0.0)
+        minDeltaR = dR;
+    }
+
+  return minDeltaR;
+}
+
+const double
+CandidateTrack::getMinDeltaRToTauHad (const vector<pat::Tau> &objects) const
+{
+  double minDeltaR = INVALID_VALUE;
+
+  for (const auto &object : objects)
+    {
+      if (object.tauID ("againstElectronLooseMVA5") < 0.5 || object.tauID ("againstMuonLoose3") < 0.5)
+        continue;
       double dR = deltaR (*this, object);
 
       if (dR < minDeltaR || minDeltaR < 0.0)
@@ -217,6 +238,14 @@ CandidateTrack::deltaRToClosestTau () const
   if (IS_INVALID (this->deltaRToClosestTau_))
     return MAX_DR;  
   return this->deltaRToClosestTau_;
+}
+
+const double
+CandidateTrack::deltaRToClosestTauHad () const
+{
+  if (IS_INVALID (this->deltaRToClosestTauHad_))
+    return MAX_DR;  
+  return this->deltaRToClosestTauHad_;
 }
 
 const double
