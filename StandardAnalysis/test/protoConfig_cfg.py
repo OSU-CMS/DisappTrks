@@ -132,6 +132,8 @@ histSetsMuon.append(DiMuonHistograms)
 #add_channels (process, [ZtoMuMuDisTrk],          histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuCandTrkEcaloSdband],     histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuCandTrkNMissOutSdband],  histSetsMuon, weights, collectionMap, variableProducers, True)
+#add_channels (process, [ZtoMuProbeTrkNoMassCut],  histSetsMuon, weights, collectionMap, variableProducers, False)
+#add_channels (process, [ZtoMuDisTrk],  histSetsMuon, weights, collectionMap, variableProducers, False)
 
 
 # uncomment to produce a full python configuration log file
