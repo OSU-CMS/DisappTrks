@@ -17,7 +17,7 @@ datasetsBkgd = [
 ]
 
 datasetsData = [
-    'MET_2015D_05Oct2015',
+    'MET_2015D',
 ]
 
 datasetsSig = [
