@@ -19,8 +19,6 @@ from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
-from ROOT import Double, TMath  
-
 
 sys.path.append(os.path.abspath(os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/test'))  
 from localConfig import *  # To get list of datasets 
@@ -81,6 +79,9 @@ parser.add_option("-v", "--verbose", action="store_true", dest="verbose", defaul
                   help="verbose output")
 
 (arguments, args) = parser.parse_args()
+
+from ROOT import Double, TMath  
+
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
