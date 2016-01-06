@@ -75,6 +75,10 @@ parser.remove_option("--2D")
 parser.remove_option("-y")
 parser.remove_option("-p")
 
+parser.add_option("-a", "--all", action="store_true", dest="all", default=False,
+                  help="make all tables")
+parser.add_option("-t", "--tableSelection", dest="tableSelection", default="", 
+                  help="comma-separated list of which tables to produce") 
 parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
                   help="verbose output")
 
@@ -405,271 +409,273 @@ def makeBkgdEstimate(options):
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
 
-
-###################################################
-# Electron inefficiency for candidate track bkgd estimate: 
-###################################################
-options = {}
-options['type'] = "elec"
-options['typeStr'] = "e"  
-options['ctrlDir'] = elecCtrlDir
-options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = candTrkDir 
-options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 3 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_MiniAOD" 
-elecEstCandTrk = makeLeptonEst(options)  
-
-
-
-###################################################
-# Muon inefficiency for candidate track bkgd estimate:
-###################################################
-options = {}
-options['type'] = "muon"
-options['typeStr'] = "\\mu"  
-options['ctrlDir'] = muonCtrlDir
-options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = candTrkDir 
-options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 4 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_MiniAOD" 
-muonEstCandTrk = makeLeptonEst(options)  
+if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:  
+    ###################################################
+    # Electron inefficiency for candidate track bkgd estimate: 
+    ###################################################
+    options = {}
+    options['type'] = "elec"
+    options['typeStr'] = "e"  
+    options['ctrlDir'] = elecCtrlDir
+    options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = candTrkDir 
+    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 3 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    elecEstCandTrk = makeLeptonEst(options)  
 
 
 
-###################################################
-# Tau inefficiency for candidate track bkgd estimate:
-###################################################
-options = {}
-options['type'] = "tau"
-options['typeStr'] = "\\tau"  
-options['ctrlDir'] = tauCtrlDir 
-options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = candTrkDir 
-options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 3 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_MiniAOD" 
-tauEstCandTrk = makeLeptonEst(options)  
-
-###################################################
-# Electron inefficiency table:
-# tables/elecVetoEff.tex 
-# tables/elecEst.tex 
-###################################################
-options = {}
-options['type'] = "elec"
-options['typeStr'] = "e"  
-options['ctrlDir'] = elecCtrlDir
-options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = disappTrkDir 
-options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 3 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_MiniAOD" 
-elecEst = makeLeptonEst(options)  
+    ###################################################
+    # Muon inefficiency for candidate track bkgd estimate:
+    ###################################################
+    options = {}
+    options['type'] = "muon"
+    options['typeStr'] = "\\mu"  
+    options['ctrlDir'] = muonCtrlDir
+    options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = candTrkDir 
+    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 4 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    muonEstCandTrk = makeLeptonEst(options)  
 
 
 
-###################################################
-# Muon inefficiency table:
-# tables/muonVetoEff.tex 
-# tables/muonEst.tex 
-###################################################
-options = {}
-options['type'] = "muon"
-options['typeStr'] = "\\mu"  
-options['ctrlDir'] = muonCtrlDir
-options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = disappTrkDir 
-options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 4 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_MiniAOD" 
-muonEst = makeLeptonEst(options)  
+    ###################################################
+    # Tau inefficiency for candidate track bkgd estimate:
+    ###################################################
+    options = {}
+    options['type'] = "tau"
+    options['typeStr'] = "\\tau"  
+    options['ctrlDir'] = tauCtrlDir 
+    options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = candTrkDir 
+    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 3 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    tauEstCandTrk = makeLeptonEst(options)  
+
+if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
+    ###################################################
+    # Electron inefficiency table:
+    # tables/elecVetoEff.tex 
+    # tables/elecEst.tex 
+    ###################################################
+    options = {}
+    options['type'] = "elec"
+    options['typeStr'] = "e"  
+    options['ctrlDir'] = elecCtrlDir
+    options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = disappTrkDir 
+    options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 3 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    elecEst = makeLeptonEst(options)  
+
+
+if arguments.all or "muonEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
+    ###################################################
+    # Muon inefficiency table:
+    # tables/muonVetoEff.tex 
+    # tables/muonEst.tex 
+    ###################################################
+    options = {}
+    options['type'] = "muon"
+    options['typeStr'] = "\\mu"  
+    options['ctrlDir'] = muonCtrlDir
+    options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = disappTrkDir 
+    options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 4 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    muonEst = makeLeptonEst(options)  
 
 
 
-###################################################
-# Tau inefficiency table:
-# tables/tauVetoEff.tex 
-# tables/tauEst.tex  
-###################################################
-options = {}
-options['type'] = "tau"
-options['typeStr'] = "\\tau"  
-options['ctrlDir'] = tauCtrlDir 
-options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
-options['disTrkDir'] = disappTrkDir  
-options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-options['ineffScale'] = 3 
-options['dataset'] = "MET_2015D_05Oct2015"  
-options['MCsample'] = "WJetsToLNu_HT" 
-options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
-options['histForYieldLoBin'] = 1
-options['histForYieldHiBin'] = 1
-tauEst = makeLeptonEst(options)  
+if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
+    ###################################################
+    # Tau inefficiency table:
+    # tables/tauVetoEff.tex 
+    # tables/tauEst.tex  
+    ###################################################
+    options = {}
+    options['type'] = "tau"
+    options['typeStr'] = "\\tau"  
+    options['ctrlDir'] = tauCtrlDir 
+    options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+    options['disTrkDir'] = disappTrkDir  
+    options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
+    options['ineffScale'] = 3 
+    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
+    options['histForYieldLoBin'] = 1
+    options['histForYieldHiBin'] = 1
+    tauEst = makeLeptonEst(options)  
 
 
 
 
+if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
+    ###################################################
+    # Fake track rate table:
+    # tables/fakeTrkRate.tex 
+    # tables/fakeEst.tex 
+    ###################################################
 
-###################################################
-# Fake track rate table:
-# tables/fakeTrkRate.tex 
-# tables/fakeEst.tex 
-###################################################
+    fakeEst = {} 
 
-fakeEst = {} 
+    outputFile = "tables/fakeTrkRate.tex"
+    fout = open (outputFile, "w")
+    (NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu_2015D", ZtoMuMuDir,        "ZtoMuMuCutFlowPlotter")
+    (NYieldMuMu, NYieldErrMuMu) = getYield("SingleMu_2015D", ZtoMuMuDisTrkDir,  "ZtoMuMuDisTrkCutFlowPlotter")
 
-outputFile = "tables/fakeTrkRate.tex"
-fout = open (outputFile, "w")
-(NCtrlMuMu, NCtrlErrMuMu)   = getYield("SingleMu_2015D", ZtoMuMuDir,        "ZtoMuMuCutFlowPlotter")
-(NYieldMuMu, NYieldErrMuMu) = getYield("SingleMu_2015D", ZtoMuMuDisTrkDir,  "ZtoMuMuDisTrkCutFlowPlotter")
+    # (NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", ztoEEDir,        "ZtoEE")
+    # (NYieldEE, NYieldErrEE) = getYield("SingleElectron", ztoEEFakeTrkDir, "ZtoEEFakeTrk")
 
-# (NCtrlEE, NCtrlErrEE)   = getYield("SingleElectron", ztoEEDir,        "ZtoEE")
-# (NYieldEE, NYieldErrEE) = getYield("SingleElectron", ztoEEFakeTrkDir, "ZtoEEFakeTrk")
+    # NYield = NYieldMuMu + NYieldEE
+    # NCtrl = NCtrlEE + NCtrlMuMu
+    NYield = NYieldMuMu 
+    NCtrl = NCtrlMuMu
 
-# NYield = NYieldMuMu + NYieldEE
-# NCtrl = NCtrlEE + NCtrlMuMu
-NYield = NYieldMuMu 
-NCtrl = NCtrlMuMu
+    # NYieldErr = math.sqrt(math.pow(NYieldErrEE, 2) + math.pow(NYieldErrMuMu, 2))
+    # NCtrlErr = math.sqrt(math.pow(NCtrlErrEE, 2) + math.pow(NCtrlErrMuMu, 2))
+    NYieldErr = NYieldErrMuMu
+    NCtrlErr = NCtrlErrMuMu
 
-# NYieldErr = math.sqrt(math.pow(NYieldErrEE, 2) + math.pow(NYieldErrMuMu, 2))
-# NCtrlErr = math.sqrt(math.pow(NCtrlErrEE, 2) + math.pow(NCtrlErrMuMu, 2))
-NYieldErr = NYieldErrMuMu
-NCtrlErr = NCtrlErrMuMu
-
-if NYieldErr == 0: 
-    NYieldErr = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYield + 1)) 
-
-
-
-NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  # done for consistency with muon case, but since it's data, there are no weight factors so NYieldRaw = NYield
-NfakeRaw = NYieldRaw  # Used for bkgd estimate table  
-NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
-NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
-alpha = 0.84
-NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
-NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
-
-P = NYieldRaw / NCtrl
-if NLimitRaw > NYieldErrRaw:
-    PErr = NLimitRaw / NCtrl
-else:
-    PErr = NYieldErrRaw / NCtrl
-
-PErrUp = NYieldErrUpRaw / NCtrl
-PErrDn = NYieldErrDnRaw / NCtrl
-
-fakeEst["P"]    = P
-fakeEst["PErr"] = PErr
-
-if P == 0:
-    PErrUp = NLimitRaw / NCtrl
+    if NYieldErr == 0: 
+        NYieldErr = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYield + 1)) 
 
 
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^{\\Z \\rightarrow ll}$  & $" + str(round_sigfigs(NCtrl / 1.e6,3)) + " \\times 10^{6}$     \\\\ \n"                               
-content += "$N^{\\rm fake}_{\\rm ctrl}$              & $ "+ str(round_sigfigs(NYield,2))     + "$     \\\\ \n"                             
-content += hline                                                              
-content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Z \\rightarrow ll }$ & $ (" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
-content += hline                                                           
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close()
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
+
+    NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  # done for consistency with muon case, but since it's data, there are no weight factors so NYieldRaw = NYield
+    NfakeRaw = NYieldRaw  # Used for bkgd estimate table  
+    NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
+    NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
+    alpha = 0.84
+    NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
+    NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
+
+    P = NYieldRaw / NCtrl
+    if NLimitRaw > NYieldErrRaw:
+        PErr = NLimitRaw / NCtrl
+    else:
+        PErr = NYieldErrRaw / NCtrl
+
+    PErrUp = NYieldErrUpRaw / NCtrl
+    PErrDn = NYieldErrDnRaw / NCtrl
+
+    fakeEst["P"]    = P
+    fakeEst["PErr"] = PErr
+
+    if P == 0:
+        PErrUp = NLimitRaw / NCtrl
 
 
-outputFile = "tables/fakeEst.tex"
-fout = open (outputFile, "w")
-ibin = getBinWithLabel("WJetsToLNu_MiniAOD", KinSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
-(NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D_05Oct2015", KinSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
-Nfake = NCtrlMet * P
-NfakeErr = NCtrlMet * PErr
-NfakeErrUp = NCtrlMet * PErrUp
-NfakeErrDn = NCtrlMet * PErrDn
-
-fakeEst["scaleKin"]    = NCtrlMet / NCtrl
-fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
-fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $" 
-
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrlMet * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
-#content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
-content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
-content += hline                                                              
-content += "$N^{\\rm fake}$                    & " + fakeEst["NStr"] + " \\\\  \n" 
-#$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $ \\\\  \n" 
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-fout.write(content)  
-fout.close() 
-os.system("cat " + outputFile)  
-print "Finished writing " + outputFile + "\n\n\n"
+    content  = header 
+    content += "\\begin{tabular}{lc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "$N^{\\Z \\rightarrow ll}$  & $" + str(round_sigfigs(NCtrl / 1.e6,3)) + " \\times 10^{6}$     \\\\ \n"                               
+    content += "$N^{\\rm fake}_{\\rm ctrl}$              & $ "+ str(round_sigfigs(NYield,2))     + "$     \\\\ \n"                             
+    content += hline                                                              
+    content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Z \\rightarrow ll }$ & $ (" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
+    content += hline                                                           
+    content += hline                                                              
+    content += "\\end{tabular}\n"                                                       
+    fout.write(content)  
+    fout.close()
+    os.system("cat " + outputFile)  
+    print "Finished writing " + outputFile + "\n\n\n"
 
 
-###################################################
-# Background summary table  
-###################################################
-content  = header 
-content += "\\begin{tabular}{lc}\n"                                                 
-content += hline                                                              
-content += hline                                                              
-content += "Source  &  Background Prediction (Events)" 
-content += hline                                                              
-content += "Electrons   & " + elecEst["NStr"] + " \\\\ \n" 
-content += "Muons       & " + muonEst["NStr"] + " \\\\ \n" 
-content += "Taus        & " +  tauEst["NStr"] + " \\\\ \n" 
-content += "Fake tracks & " + fakeEst["NStr"] + " \\\\ \n" 
-content += hline                                                              
-content += hline                                                              
-content += "\\end{tabular}\n"                                                       
-outputFile = "tables/bkgdSumm.tex" 
-fout = open(outputFile, "w")
-fout.write(content)
-fout.close()  
-os.system("cat " + outputFile)  
+    outputFile = "tables/fakeEst.tex"
+    fout = open (outputFile, "w")
+    ibin = getBinWithLabel("WJetsToLNu_MiniAOD", KinSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
+    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D_05Oct2015", KinSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
+    Nfake = NCtrlMet * P
+    NfakeErr = NCtrlMet * PErr
+    NfakeErrUp = NCtrlMet * PErrUp
+    NfakeErrDn = NCtrlMet * PErrDn
 
+    fakeEst["scaleKin"]    = NCtrlMet / NCtrl
+    fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
+    fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $" 
 
-###################################################
-# Background estimate plots: candidate track selection  
-###################################################
-options = {}  
-options["outputFile"]      = "bkgdOptionsCandTrk.py" 
-options["datasetMet"]      = "MET_2015D_05Oct2015"  
-options["datasetSingleMu"] = "SingleMu_2015D"  
-options["dataDir"]         = candTrkDir
-options["elecCtrlDir"]     = elecCtrlDir
-options["muonCtrlDir"]     = muonCtrlDir
-options["tauCtrlDir"]      = tauCtrlDir 
-options["fakeMuMuCtrlDir"] = ZtoMuMuCandTrkDir 
-options["fullSelection"]   = "CandTrkSelectionPlotter" 
-options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
-options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
-options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
-options["fakeMuMuCtrlChannel"]  = "ZtoMuMuCandTrkPlotter"   
-options["PElec"]    = elecEstCandTrk["P"] 
-options["PElecErr"] = elecEstCandTrk["PErr"] 
-options["PMuon"]    = muonEstCandTrk["P"] 
-options["PMuonErr"] = muonEstCandTrk["PErr"] 
-options["PTau"]     =  tauEstCandTrk["P"] 
-options["PTauErr"]  =  tauEstCandTrk["PErr"]  
-options["scaleKin"]     = fakeEst["scaleKin"] 
-options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
-makeBkgdEstimate(options)  
+    content  = header 
+    content += "\\begin{tabular}{lc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrlMet * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
+    #content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
+    content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
+    content += hline                                                              
+    content += "$N^{\\rm fake}$                    & " + fakeEst["NStr"] + " \\\\  \n" 
+    #$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $ \\\\  \n" 
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n"                                                       
+    fout.write(content)  
+    fout.close() 
+    os.system("cat " + outputFile)  
+    print "Finished writing " + outputFile + "\n\n\n"
+
+if arguments.all or "bkgdSumm" in arguments.tableSelection:  
+    ###################################################
+    # Background summary table  
+    ###################################################
+    content  = header 
+    content += "\\begin{tabular}{lc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "Source  &  Background Prediction (Events)" 
+    content += hline                                                              
+    content += "Electrons   & " + elecEst["NStr"] + " \\\\ \n" 
+    content += "Muons       & " + muonEst["NStr"] + " \\\\ \n" 
+    content += "Taus        & " +  tauEst["NStr"] + " \\\\ \n" 
+    content += "Fake tracks & " + fakeEst["NStr"] + " \\\\ \n" 
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n"                                                       
+    outputFile = "tables/bkgdSumm.tex" 
+    fout = open(outputFile, "w")
+    fout.write(content)
+    fout.close()  
+    os.system("cat " + outputFile)  
+
+if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:  
+    ###################################################
+    # Background estimate plots: candidate track selection  
+    ###################################################
+    options = {}  
+    options["outputFile"]      = "bkgdOptionsCandTrk.py" 
+    options["datasetMet"]      = "MET_2015D_05Oct2015"  
+    options["datasetSingleMu"] = "SingleMu_2015D"  
+    options["dataDir"]         = candTrkDir
+    options["elecCtrlDir"]     = elecCtrlDir
+    options["muonCtrlDir"]     = muonCtrlDir
+    options["tauCtrlDir"]      = tauCtrlDir 
+    options["fakeMuMuCtrlDir"] = ZtoMuMuCandTrkDir 
+    options["fullSelection"]   = "CandTrkSelectionPlotter" 
+    options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
+    options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
+    options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
+    options["fakeMuMuCtrlChannel"]  = "ZtoMuMuCandTrkPlotter"   
+    options["PElec"]    = elecEstCandTrk["P"] 
+    options["PElecErr"] = elecEstCandTrk["PErr"] 
+    options["PMuon"]    = muonEstCandTrk["P"] 
+    options["PMuonErr"] = muonEstCandTrk["PErr"] 
+    options["PTau"]     =  tauEstCandTrk["P"] 
+    options["PTauErr"]  =  tauEstCandTrk["PErr"]  
+    options["scaleKin"]     = fakeEst["scaleKin"] 
+    options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
+    makeBkgdEstimate(options)  
 
 
 
