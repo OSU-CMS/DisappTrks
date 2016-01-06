@@ -158,6 +158,8 @@ test = cms.PSet(
 # add_channels (process, [ZtoMuMuDisTrk],          histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuCandTrkEcaloSdband],     histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuCandTrkNMissOutSdband],  histSetsMuon, weights, collectionMap, variableProducers, True)
+#add_channels (process, [ZtoMuProbeTrkNoMassCut],  histSetsMuon, weights, collectionMap, variableProducers, False)
+#add_channels (process, [ZtoMuDisTrk],  histSetsMuon, weights, collectionMap, variableProducers, False)
 # add_channels (process, [ZtoMuMuDisTrkNHits3],        histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuDisTrkNHits4],        histSetsMuon, weights, collectionMap, variableProducers, True)
 # add_channels (process, [ZtoMuMuDisTrkNHits5],        histSetsMuon, weights, collectionMap, variableProducers, True)
