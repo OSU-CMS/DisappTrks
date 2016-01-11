@@ -39,19 +39,17 @@ else:
     os.exit(0)
     
 ## Nominal selection
-candTrkDir            = WellsDir+"candTrkSelection" 
+candTrkDir            = WellsDir+"candTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
+disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/569
 
 ## elecVetoEff.tex and elecEst.tex
-elecCtrlDir             = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/532
-# fullSelecElecIdDir      = AndrewDir+"fullSelectionElecId" # not yet done 
+elecCtrlDir           = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/570
 
 ## muonVetoEff.tex and muonEst.tex
-muonCtrlDir           = WellsDir+"MuonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/528
-disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/529
+muonCtrlDir           = WellsDir+"muonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/571
 
 ## tauVetoEff.tex and tauEst.tex
-tauCtrlDir             = AndrewDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/499
-fullSelecTauIdDir      = AndrewDir+"fullSelectionChannelsForBkgdEstimates"
+tauCtrlDir            = WellsDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/573 
 
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir         = WellsDir + "ZtoMuMuSkim"  
@@ -231,11 +229,22 @@ def makeLeptonEst(options):
         NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
         PErr = NLimitRaw / NCtrl
 
+    (NCtrl, NCtrlErr)   = getYield(options['dataset'], options['ctrlDir'], options['ctrlChannel'])  # data 
+    Nlep = NCtrl * P
+    NlepErr = NCtrl * PErr
+    if int(math.log(Nlep)) < 0:
+        options['ineffScale'] = -1 * int(math.log(Nlep))  
+    else:
+        options['ineffScale'] = 0 
+
+
     leptonEst["P"]    = P
     leptonEst["PErr"] = PErr
 
     # string for inefficiency probability:  
-    if P==0:
+    if options['ineffScale'] == 0:
+        PStr  = "$ " + str(round_sigfigs(P, 3)) + " \\pm " + str(round_sigfigs(PErr, 3)) + " $" 
+    elif P==0:
         PStr  = "$ (" 
         PStr += str(round_sigfigs(   P * pow(10, options['ineffScale']),3)) + " ^{+ " 
         PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + "}_{-0} ) "
@@ -264,11 +273,10 @@ def makeLeptonEst(options):
 
     outputFile = "tables/" + options['type'] + "Est.tex"
     fout = open (outputFile, "w")
-    (NCtrl, NCtrlErr)   = getYield(options['dataset'], options['ctrlDir'], options['ctrlChannel'])  # data 
-    Nlep = NCtrl * P
-    NlepErr = NCtrl * PErr
 
-    if Nlep == 0: 
+    if options['ineffScale'] == 0:
+        NlepStr = "$ " + str(round_sigfigs(Nlep, 3)) + " \\pm " + str(round_sigfigs(NlepErr, 3)) + " $" 
+    elif Nlep == 0: 
         NlepStr = "$ " + str(round_sigfigs(Nlep,3)) + " ^{+ " + str(round_sigfigs(NlepErr,3)) + "}_{-0} $" 
     else:
         NlepStr  = "$ (" 
@@ -421,8 +429,8 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 3 
-    options['dataset'] = "MET_2015D_05Oct2015"  
-    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
     elecEstCandTrk = makeLeptonEst(options)  
 
 
@@ -438,8 +446,8 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 4 
-    options['dataset'] = "MET_2015D_05Oct2015"  
-    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
     muonEstCandTrk = makeLeptonEst(options)  
 
 
@@ -455,8 +463,8 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 3 
-    options['dataset'] = "MET_2015D_05Oct2015"  
-    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
     tauEstCandTrk = makeLeptonEst(options)  
 
 if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
@@ -473,8 +481,8 @@ if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 3 
-    options['dataset'] = "MET_2015D_05Oct2015"  
-    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
     elecEst = makeLeptonEst(options)  
 
 
@@ -492,8 +500,8 @@ if arguments.all or "muonEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 4 
-    options['dataset'] = "MET_2015D_05Oct2015"  
-    options['MCsample'] = "WJetsToLNu_MiniAOD" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
     muonEst = makeLeptonEst(options)  
 
 
@@ -512,7 +520,7 @@ if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in argume
     options['disTrkDir'] = disappTrkDir  
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['ineffScale'] = 3 
-    options['dataset'] = "MET_2015D_05Oct2015"  
+    options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
     options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
     options['histForYieldLoBin'] = 1
@@ -597,8 +605,8 @@ if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in argum
 
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
-    ibin = getBinWithLabel("WJetsToLNu_MiniAOD", KinSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
-    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D_05Oct2015", KinSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
+    ibin = getBinWithLabel("WJetsToLNu_HT", KinSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
+    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", KinSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
     NfakeErrUp = NCtrlMet * PErrUp
@@ -634,7 +642,7 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     content += "\\begin{tabular}{lc}\n"                                                 
     content += hline                                                              
     content += hline                                                              
-    content += "Source  &  Background Prediction (Events)" 
+    content += "Source  &  Background Prediction (Events) \\\\ \n"  
     content += hline                                                              
     content += "Electrons   & " + elecEst["NStr"] + " \\\\ \n" 
     content += "Muons       & " + muonEst["NStr"] + " \\\\ \n" 
@@ -655,7 +663,7 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     ###################################################
     options = {}  
     options["outputFile"]      = "bkgdOptionsCandTrk.py" 
-    options["datasetMet"]      = "MET_2015D_05Oct2015"  
+    options["datasetMet"]      = "MET_2015D"  
     options["datasetSingleMu"] = "SingleMu_2015D"  
     options["dataDir"]         = candTrkDir
     options["elecCtrlDir"]     = elecCtrlDir
@@ -689,11 +697,11 @@ print "Finished running makeANTables.py"
 
 print "Copy tables to AN area with: "
 if user == "wulsin":  
-    print "scp tables/*tex wulsin@lxplus5.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-12-400/trunk/tables/"
+    print "scp tables/*tex wulsin@lxplus.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-15-213/trunk/tables/"
     print "OR: "
-    print "notes/AN-12-400/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdirTemplateDisTrk/tables/*tex\" tables/" 
+    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir/tables/*tex\" tables/" 
 elif user == "hart":  
-    print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-12-400/trunk/tables/"
+    print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/"  
 
 
 
