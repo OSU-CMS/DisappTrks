@@ -46,6 +46,20 @@ cutsToAdd = [
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 
+ZtoMuProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrk)
+ZtoMuProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoMuProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoMuDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuDisTrk)
+ZtoMuDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuDisTrkNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoMuDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
 os_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
     cutString = cms.string("muon.charge * muon.charge < 0"),
