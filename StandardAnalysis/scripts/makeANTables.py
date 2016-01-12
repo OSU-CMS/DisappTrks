@@ -207,19 +207,30 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
 
 # Return a latex string for a number and its uncertainty
 def getLatexNumString(val, err, sigfigs=3):  
-    expo = int(math.floor(math.log10(val)))  
-    if expo >= 0 and expo <= 5:  
-        tex = "$ " + str(round_sigfigs(val, sigfigs)) + " \\pm " + str(round_sigfigs(err, sigfigs)) + " $"  
-    elif val==0:
-        tex  = "$ (" 
-        tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " ^{+ " 
-        tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + "}_{-0} ) "
-        tex += "\\times 10^{" + str(expo) + "} $"   
+    if val != 0: 
+        expo = int(math.floor(math.log10(val)))  
+    elif err != 0:
+        expo = int(math.floor(math.log10(err)))          
+    else: 
+        expo = 0  
+    if val==0:  
+        if expo >= 0 and expo <= 3: 
+            tex  = "$ " 
+            tex += str(round_sigfigs(val, sigfigs)) + " ^{+ " 
+            tex += str(round_sigfigs(err, sigfigs)) + "}_{-0} $"
+        else: 
+            tex  = "$ (" 
+            tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " ^{+ " 
+            tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + "}_{-0} ) "
+            tex += "\\times 10^{" + str(expo) + "} $"   
     else:
-        tex  = "$ (" 
-        tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " \\pm " 
-        tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + ") "
-        tex += "\\times 10^{" + str(expo) + "} $"   
+        if expo >= 0 and expo <= 5:  
+            tex = "$ " + str(round_sigfigs(val, sigfigs)) + " \\pm " + str(round_sigfigs(err, sigfigs)) + " $"  
+        else:
+            tex  = "$ (" 
+            tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " \\pm " 
+            tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + ") "
+            tex += "\\times 10^{" + str(expo) + "} $"   
     return tex  
 
 def makeLeptonEst(options):
@@ -240,10 +251,12 @@ def makeLeptonEst(options):
     P = NYield / NCtrl
     if P: 
         PErr = P * (NYieldErr / NYield)  
+        NYieldStr = getLatexNumString(NYield, NYieldErr) 
     else:
         NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
         NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
         PErr = NLimitRaw / NCtrl
+        NYieldStr = getLatexNumString(NYield, NLimitRaw) 
 
     leptonEst["P"]    = P
     leptonEst["PErr"] = PErr
@@ -254,7 +267,7 @@ def makeLeptonEst(options):
     content += hline                                                              
     content += hline                                                              
     content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"  
-    content += "$N^" + options['typeStr'] + "$ (MC)             & " + getLatexNumString(NYield, NYieldErr) + " \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "$ (MC)             & " + NYieldStr + " \\\\ \n"  
     content += hline                                                              
     content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"  
     content += hline                                                              
@@ -472,6 +485,9 @@ if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 11
     elecEst = makeLeptonEst(options)  
 
 
@@ -491,6 +507,9 @@ if arguments.all or "muonEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['ineffScale'] = 4 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
+    options['histForYieldLoBin'] = 13
+    options['histForYieldHiBin'] = 13
     muonEst = makeLeptonEst(options)  
 
 
@@ -511,9 +530,12 @@ if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in argume
     options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
-    options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
-    options['histForYieldLoBin'] = 1
-    options['histForYieldHiBin'] = 1
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStateIsMatched" # FIXME:  should do this better
+    options['histForYieldLoBin'] = 0
+    options['histForYieldHiBin'] = 0
+    # options['histForYield'] = "Track Plots/genMatchedDirectPromptTauDecayProductFinalStateIsMatched"
+    # options['histForYieldLoBin'] = 1
+    # options['histForYieldHiBin'] = 1
     tauEst = makeLeptonEst(options)  
 
 
