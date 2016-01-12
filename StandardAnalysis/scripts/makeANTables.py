@@ -205,6 +205,22 @@ def getTruthYield(sample,condor_dir,channel,truthParticle):
     inputFile.Close()
     return (yield_, statError_)  
 
+# Return a latex string for a number and its uncertainty
+def getLatexNumString(val, err, sigfigs=3):  
+    expo = int(math.floor(math.log10(val)))  
+    if expo >= 0 and expo <= 5:  
+        tex = "$ " + str(round_sigfigs(val, sigfigs)) + " \\pm " + str(round_sigfigs(err, sigfigs)) + " $"  
+    elif val==0:
+        tex  = "$ (" 
+        tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " ^{+ " 
+        tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + "}_{-0} ) "
+        tex += "\\times 10^{" + str(expo) + "} $"   
+    else:
+        tex  = "$ (" 
+        tex += str(round_sigfigs(val * pow(10, -1*expo),sigfigs)) + " \\pm " 
+        tex += str(round_sigfigs(err * pow(10, -1*expo),sigfigs)) + ") "
+        tex += "\\times 10^{" + str(expo) + "} $"   
+    return tex  
 
 def makeLeptonEst(options):
     # Do the calcultion of the lepton background estimate
@@ -229,40 +245,18 @@ def makeLeptonEst(options):
         NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
         PErr = NLimitRaw / NCtrl
 
-    (NCtrl, NCtrlErr)   = getYield(options['dataset'], options['ctrlDir'], options['ctrlChannel'])  # data 
-    Nlep = NCtrl * P
-    NlepErr = NCtrl * PErr
-    if int(math.log(Nlep)) < 0:
-        options['ineffScale'] = -1 * int(math.log(Nlep))  
-    else:
-        options['ineffScale'] = 0 
-
-
     leptonEst["P"]    = P
     leptonEst["PErr"] = PErr
-
-    # string for inefficiency probability:  
-    if options['ineffScale'] == 0:
-        PStr  = "$ " + str(round_sigfigs(P, 3)) + " \\pm " + str(round_sigfigs(PErr, 3)) + " $" 
-    elif P==0:
-        PStr  = "$ (" 
-        PStr += str(round_sigfigs(   P * pow(10, options['ineffScale']),3)) + " ^{+ " 
-        PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + "}_{-0} ) "
-        PStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
-    else:
-        PStr  = "$ (" 
-        PStr += str(round_sigfigs(   P * pow(10, options['ineffScale']),3)) + " \\pm " 
-        PStr += str(round_sigfigs(PErr * pow(10, options['ineffScale']),3)) + ") "
-        PStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
         
+    PStr = getLatexNumString(P, PErr)  
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
     content += hline                                                              
     content += hline                                                              
-    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"                               
-    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + str(round_sigfigs(NYield,3)) + " \\pm " + str(round_sigfigs(NYieldErr,3)) + "$     \\\\ \n"                             
+    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "$ (MC)             & " + getLatexNumString(NYield, NYieldErr) + " \\\\ \n"  
     content += hline                                                              
-    content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"
+    content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"  
     content += hline                                                              
     content += hline                                                              
     content += "\\end{tabular}\n"                                                       
@@ -274,15 +268,10 @@ def makeLeptonEst(options):
     outputFile = "tables/" + options['type'] + "Est.tex"
     fout = open (outputFile, "w")
 
-    if options['ineffScale'] == 0:
-        NlepStr = "$ " + str(round_sigfigs(Nlep, 3)) + " \\pm " + str(round_sigfigs(NlepErr, 3)) + " $" 
-    elif Nlep == 0: 
-        NlepStr = "$ " + str(round_sigfigs(Nlep,3)) + " ^{+ " + str(round_sigfigs(NlepErr,3)) + "}_{-0} $" 
-    else:
-        NlepStr  = "$ (" 
-        NlepStr += str(round_sigfigs(Nlep    * pow(10, options['ineffScale']),3)) + " \\pm " 
-        NlepStr += str(round_sigfigs(NlepErr * pow(10, options['ineffScale']),3)) + ") "
-        NlepStr += "\\times 10^{-" + str(options['ineffScale']) + "} $"   
+    (NCtrl, NCtrlErr)   = getYield(options['dataset'], options['ctrlDir'], options['ctrlChannel'])  # data 
+    Nlep = NCtrl * P
+    NlepErr = NCtrl * PErr
+    NlepStr = getLatexNumString(Nlep, NlepErr) 
     leptonEst["NStr"] = NlepStr 
 
     content  = header 
