@@ -39,6 +39,7 @@ else:
     os.exit(0)
     
 ## Nominal selection
+BasicSelDir             = "" # FIXME:  Not yet available.  
 candTrkDir            = WellsDir+"candTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
 disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/569
 
@@ -52,10 +53,14 @@ muonCtrlDir           = WellsDir+"muonCtrlSelection" # https://cmshead.mps.ohio-
 tauCtrlDir            = WellsDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/573 
 
 ## fakeTrkRate.tex and fakeEst.tex
-ZtoMuMuDir         = WellsDir + "ZtoMuMuSkim"  
-ZtoMuMuCandTrkDir  = WellsDir + "ZtoMuMuCandTrk"  
-ZtoMuMuDisTrkDir   = WellsDir + "ZtoMuMuDisTrk"  
-KinSelDir          = WellsDir + "candTrkSelection"  
+ZtoMuMuDir                = WellsDir + "ZtoMuMuSkim"  
+ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"  
+ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuDisTrk"  
+ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456" 
+BasicSelDir                 = WellsDir + "candTrkSelection"  
+DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456" 
+
+
     
 ### parse the command-line options
 parser = OptionParser()
@@ -82,14 +87,15 @@ parser.add_option("-v", "--verbose", action="store_true", dest="verbose", defaul
 
 (arguments, args) = parser.parse_args()
 
-from ROOT import Double, TMath  
+from ROOT import gROOT, gStyle, TFile, TH1F, TGraph, TLegend, TCanvas, Double, TMath, TLine  
 
+gROOT.SetBatch()
+gStyle.SetOptStat(0)  
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + arguments.localConfig.split(".")[0] + " import *")
 
-from ROOT import TFile, TH1F
 
 
 def getYield(sample,condor_dir,channel):
@@ -97,7 +103,7 @@ def getYield(sample,condor_dir,channel):
     inputFile = TFile(dataset_file)
     cutFlowHistogram = inputFile.Get(channel + "/cutFlow")  
     if not cutFlowHistogram:
-        print "WARNING: didn't find cutflow histogram ", channel, "CutFlow in file ", dataset_file  
+        print "WARNING: didn't find cutflow histogram ", channel, "/cutFlow in file ", dataset_file  
         return 0
     yield_     = float(cutFlowHistogram.GetBinContent(cutFlowHistogram.GetNbinsX()))
     statError_ = float(cutFlowHistogram.GetBinError  (cutFlowHistogram.GetNbinsX()))
@@ -304,6 +310,47 @@ def makeLeptonEst(options):
     print "Finished writing " + outputFile + "\n\n\n"
 
     return leptonEst  
+
+def getFakeRate(options):  
+    fakeRate = {}      
+
+    # FIXME:  hack until BasicSel skim is available:
+    if options['BasicSelDir'] == BasicSelDir:  
+        (NCtrl, NCtrlErr) = (791000, 890) # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568 
+    else:
+        (NCtrl, NCtrlErr)  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel']) 
+
+    (NYield, NYieldErr) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel']) 
+
+    P    = NYield    / NCtrl
+    PErr = NYieldErr / NCtrl  
+    PErrUp = PErr
+    PErrDn = PErr  
+
+    # Now handle the case in which there are a small number of raw events corresponding to NYield  
+    # in data, there are no weight factors so NYieldRaw = NYield  and NCtrlRaw = NCtrl
+    NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
+    NCtrlRaw  = round(math.pow(NCtrl, 2) / math.pow(NCtrlErr, 2)) if NCtrlErr  else 0  
+
+    if NYieldRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution  
+        NYieldRawErr = NYieldRaw * (NYieldErr / NYield) if NYield else 0
+        # NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
+        alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma  
+        NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
+        NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
+
+        P    =  NYieldRaw / NCtrlRaw
+        PErrUp = NYieldErrUpRaw / NCtrlRaw
+        PErrDn = NYieldErrDnRaw / NCtrlRaw
+        PErr = PErrUp  # Arbitrary choice; usually PErrUp is larger than PErrDn  
+
+    fakeRate["P"]      = P
+    fakeRate["PErr"]   = PErr
+    fakeRate["PErrUp"] = PErrUp
+    fakeRate["PErrDn"] = PErrDn
+
+    return fakeRate
+
 
 def makeBkgdEstimate(options):
     ###################################################
@@ -575,17 +622,17 @@ if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in argum
 
     NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  # done for consistency with muon case, but since it's data, there are no weight factors so NYieldRaw = NYield
     NfakeRaw = NYieldRaw  # Used for bkgd estimate table  
-    NYieldErrRaw = NYieldRaw * (NYieldErr / NYield) if NYield else 0
+    NYieldRawErr = NYieldRaw * (NYieldErr / NYield) if NYield else 0
     NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
     alpha = 0.84
     NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
     NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
 
     P = NYieldRaw / NCtrl
-    if NLimitRaw > NYieldErrRaw:
+    if NLimitRaw > NYieldRawErr:
         PErr = NLimitRaw / NCtrl
     else:
-        PErr = NYieldErrRaw / NCtrl
+        PErr = NYieldRawErr / NCtrl
 
     PErrUp = NYieldErrUpRaw / NCtrl
     PErrDn = NYieldErrDnRaw / NCtrl
@@ -616,8 +663,8 @@ if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in argum
 
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
-    ibin = getBinWithLabel("WJetsToLNu_HT", KinSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
-    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", KinSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
+    ibin = getBinWithLabel("WJetsToLNu_HT", BasicSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
+    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
     NfakeErrUp = NCtrlMet * PErrUp
@@ -696,6 +743,129 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
     makeBkgdEstimate(options)  
 
+
+
+if arguments.all or "fakeSyst" in arguments.tableSelection:
+    ###################################################
+    # Fake track rate table:
+    # tables/fakeEstSyst.tex 
+    # tables/fakeEstSyst.py  
+    ###################################################
+    fakeRateCtrl   = {} 
+    fakeRateSearch = {} 
+    options = {}  
+    options['dataset'] = "MET_2015D"  
+
+    outputFile = "tables/fakeEstSyst.tex"  
+    outputPy   = "tables/fakeEstSyst.py"  
+    fout   = open (outputFile, "w")
+    foutPy = open (outputPy,   "w")
+    content = header
+    content += "\\begin{tabular}{lccc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "Number of hits on track & Basic Selection & Z $\\rightarrow \\ell \\ell$ control sample \\\\ \n"  
+    content += hline
+    textPy  = "fakeRateCtrl   = {} \n"  
+    textPy += "fakeRateSearch = {} \n"  
+    textPy += "ratioSToC      = {} \n"  
+    hC   = TH1F("hC", ";Number of hits on track;P^{fake}_{Z#rightarrowll}", 4, 2.5, 6.5) 
+    hS   = TH1F("hS", ";Number of hits on track;P^{fake}_{Basic}",          4, 2.5, 6.5) 
+    hrat = TH1F("hrat", ";Number of hits on track;P^{fake}_{Basic} / P^{fake}_{Z#rightarrowll}", 4, 2.5, 6.5) 
+    fakeTrkSystErr = -1
+    for n in range(3, 7):   # n is number of hits on candidate track
+        options['BasicSelDir']     =  ZtoMuMuDir 
+        options['BasicSelChannel'] = "ZtoMuMuCutFlowPlotter" 
+        options['DisTrkNHits3456Dir']     =  ZtoMuMuDisTrkNHits3456Dir 
+        options['DisTrkNHits3456Channel'] = "ZtoMuMuDisTrkNHits" + str(n) + "CutFlowPlotter" 
+        fakeRateCtrl = getFakeRate(options) 
+        options['BasicSelDir'] = BasicSelDir 
+        options['BasicSelChannel']   = "BasicSelCutFlowPlotter"  # FIXME
+        options['DisTrkNHits3456Dir'] = DisTrkNHits3456Dir 
+        options['DisTrkNHits3456Channel'] = "DisTrkSelectionNHits" + str(n) + "CutFlowPlotter" 
+        fakeRateSearch = getFakeRate(options) 
+        content += str(n) + " & " 
+        content += getLatexNumString(fakeRateCtrl  ["P"], fakeRateCtrl  ["PErr"]) + " & "
+        content += getLatexNumString(fakeRateSearch["P"], fakeRateSearch["PErr"]) + " & " 
+        ratio = fakeRateSearch["P"] / fakeRateCtrl["P"] 
+        ratioErr = ratio * math.sqrt(pow(fakeRateCtrl  ["PErr"] / fakeRateCtrl  ["P"], 2) +   \
+                                     pow(fakeRateSearch["PErr"] / fakeRateSearch["P"], 2)) 
+        devFromUnity = max(ratio + ratioErr - 1.0, 1.0 - (ratio - ratioErr))  
+        # print "Debug:  for nhits = ", n, ", fakeRateSearch = ", fakeRateSearch, ", fakeRateCtrl = ", fakeRateCtrl  
+        print "Deviation from unity for number of hits = ", n, ": ", devFromUnity  
+        if n == 5:
+            fakeTrkSystErr = devFromUnity  
+        content += getLatexNumString(ratio, ratioErr) + " \\\\ \n"  
+        textPy += "fakeRateCtrl[" + str(n) + "] = {  \n"
+        textPy += "  'P'     : " + str(fakeRateCtrl["P"])      + ",  \n" 
+        textPy += "  'PErr'  : " + str(fakeRateCtrl["PErr"])   + ",  \n" 
+        textPy += "  'PErrUp': " + str(fakeRateCtrl["PErrUp"]) + ",  \n" 
+        textPy += "  'PErrDn': " + str(fakeRateCtrl["PErrDn"]) + ",  \n" 
+        textPy += "] \n" 
+        textPy += "fakeRateSearch[" + str(n) + "] = {  \n"
+        textPy += "  'P'     : " + str(fakeRateSearch["P"])      + ",  \n" 
+        textPy += "  'PErr'  : " + str(fakeRateSearch["PErr"])   + ",  \n" 
+        textPy += "  'PErrUp': " + str(fakeRateSearch["PErrUp"]) + ",  \n" 
+        textPy += "  'PErrDn': " + str(fakeRateSearch["PErrDn"]) + ",  \n" 
+        textPy += "] \n" 
+        textPy += "ratioSToC[" + str(n) + "] = {  \n"
+        textPy += "  'ratio'     : " + str(ratio)    + ",  \n" 
+        textPy += "  'ratioErr'  : " + str(ratioErr) + ",  \n" 
+        textPy += "] \n" 
+        ibin = hC.FindBin(n)
+        hC  .SetBinContent(ibin, fakeRateCtrl["P"])  
+        hC  .SetBinError  (ibin, fakeRateCtrl["PErr"])  
+        hS  .SetBinContent(ibin, fakeRateSearch["P"])  
+        hS  .SetBinError  (ibin, fakeRateSearch["PErr"])  
+        hrat.SetBinContent(ibin, ratio)  
+        hrat.SetBinError  (ibin, ratioErr)  
+        
+
+    content += hline
+    content += hline
+    content += "\\end{tabular}\n"                                                       
+    fout.write(content)
+    fout.close()  
+    foutPy.write(textPy)
+    foutPy.close()  
+    os.system("cat " + outputFile)  
+    print "Finished writing " + outputFile + "\n\n\n"
+
+    ##################################################
+    # Make associated plots
+    ##################################################
+    from DisappTrks.StandardAnalysis.tdrstyle import * 
+    setTDRStyle()  
+    c = TCanvas()
+    c.SetLogy(1)  
+    hC.SetLineColor(4)
+    hC.SetLineWidth(4)
+    hC.SetMarkerColor(4)
+    hC.SetMarkerStyle(21)    
+    hC.Draw("pe x0")
+    hS.SetLineColor(2)
+    hS.SetLineWidth(4)
+    hS.SetMarkerColor(2)
+    hS.SetMarkerStyle(21)    
+    hS.Draw("pe x0 same")
+    leg = TLegend(0.7, 0.7, 0.9, 0.9)
+    leg.AddEntry(hC, "Z#rightarrowll") 
+    leg.AddEntry(hS, "Basic")  
+    leg.SetBorderSize(0) 
+    leg.Draw()
+    os.system("mkdir -p plots/")  
+    c.SaveAs("plots/fakeTrkRate.pdf")  
+    c.Clear()
+    c.SetLogy(0)  
+    hrat.SetLineColor(1)
+    hrat.SetLineWidth(4)
+    hrat.SetMarkerColor(1)
+    hrat.SetMarkerStyle(21)    
+    hrat.Draw("pe x0")
+    l = TLine() 
+    l.SetLineColor(2)
+    l.DrawLine(2.5,1.0,6.5,1.0) 
+    c.SaveAs("plots/fakeTrkRatio.pdf")  
 
 
 ##################################################
