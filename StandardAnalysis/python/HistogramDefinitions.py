@@ -126,6 +126,15 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestTau"),   
             ),
+        cms.PSet (
+            name = cms.string("genMatchedTauDecayProductFinalStateVsPromptFinalStateIsMatched"),
+            title = cms.string(";track is matched to generator particle;track is matched to generator #tau decay product"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5), 
+            binsY = cms.untracked.vdouble(2.0, -0.5, 1.5), 
+            inputVariables = cms.vstring("genMatchedParticle.promptFinalState.isNonnull", "genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull"),  
+        ),
+
+
         )
     )
 
