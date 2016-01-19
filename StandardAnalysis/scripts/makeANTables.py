@@ -311,43 +311,57 @@ def makeLeptonEst(options):
 
     return leptonEst  
 
-def getFakeRate(options):  
-    fakeRate = {}      
+# Get the probability and error for events to pass the given cut
+# Make the calculation based on the total number of events in the sample of interest, NTot
+# and the number of events that pass the cut of interest, NPass 
+def getProb(yields):
+    NTot     = yields["NTot"]
+    NTotErr  = yields["NTotErr"]
+    NPass    = yields["NPass"]
+    NPassErr = yields["NPassErr"]
 
-    # FIXME:  hack until BasicSel skim is available:
-    if options['BasicSelDir'] == BasicSelDir:  
-        (NCtrl, NCtrlErr) = (791000, 890) # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568 
-    else:
-        (NCtrl, NCtrlErr)  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel']) 
-
-    (NYield, NYieldErr) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel']) 
-
-    P    = NYield    / NCtrl
-    PErr = NYieldErr / NCtrl  
+    P    = NPass    / NTot
+    PErr = NPassErr / NTot  
     PErrUp = PErr
     PErrDn = PErr  
 
-    # Now handle the case in which there are a small number of raw events corresponding to NYield  
-    # in data, there are no weight factors so NYieldRaw = NYield  and NCtrlRaw = NCtrl
-    NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
-    NCtrlRaw  = round(math.pow(NCtrl, 2) / math.pow(NCtrlErr, 2)) if NCtrlErr  else 0  
+    # Now handle the case in which there are a small number of raw events corresponding to NPass  
+    # in data, there are no weight factors so NPassRaw = NPass  and NTotRaw = NTot
+    NPassRaw = round(math.pow(NPass,2) / math.pow(NPassErr,2)) if NPassErr else 0  
+    NTotRaw  = round(math.pow(NTot, 2) / math.pow(NTotErr, 2)) if NTotErr  else 0  
 
-    if NYieldRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution  
-        NYieldRawErr = NYieldRaw * (NYieldErr / NYield) if NYield else 0
-        # NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
+    if NPassRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution  
+        NPassRawErr = NPassRaw * (NPassErr / NPass) if NPass else 0
+        # NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NPassRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
         alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma  
-        NYieldErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NYieldRaw + 1)) - NYieldRaw)
-        NYieldErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NYieldRaw ))    - NYieldRaw)
+        NPassErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NPassRaw + 1)) - NPassRaw)
+        NPassErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NPassRaw ))    - NPassRaw)
 
-        P    =  NYieldRaw / NCtrlRaw
-        PErrUp = NYieldErrUpRaw / NCtrlRaw
-        PErrDn = NYieldErrDnRaw / NCtrlRaw
+        P    =  NPassRaw / NTotRaw
+        PErrUp = NPassErrUpRaw / NTotRaw
+        PErrDn = NPassErrDnRaw / NTotRaw
         PErr = PErrUp  # Arbitrary choice; usually PErrUp is larger than PErrDn  
 
-    fakeRate["P"]      = P
-    fakeRate["PErr"]   = PErr
-    fakeRate["PErrUp"] = PErrUp
-    fakeRate["PErrDn"] = PErrDn
+    prob = {}  
+    prob["P"]      = P
+    prob["PErr"]   = PErr
+    prob["PErrUp"] = PErrUp
+    prob["PErrDn"] = PErrDn
+    return prob   
+
+
+def getFakeRate(options):  
+    yields = {}  
+
+    # FIXME:  hack until BasicSel skim is available:
+    if options['BasicSelDir'] == BasicSelDir:  
+        (yields["NTot"], yields["NTotErr"]) = (791000, 890) # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568 
+    else:
+        (yields["NTot"], yields["NTotErr"])  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel']) 
+
+    (yields["NPass"], yields["NPassErr"]) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel']) 
+
+    fakeRate = getProb(yields)  
 
     return fakeRate
 
