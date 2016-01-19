@@ -16,14 +16,14 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # input source when running interactively
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
-                             fileNames = cms.untracked.vstring (
-                                 "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
-                                 # "file:condor/metMinimalSkim/AMSB_chargino_500GeV_100cm/metMinimalSkim/skim_0.root", 
-                                 # "file:condor/candTrkSelection/WJetsToLNu/CandTrkSelection/merged/skim_merged.root",  
-                                 # "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
-                                 # "/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193736/0000/miniAODWithCandidateTracks_1.root", # bkgd MC
-                                 # '/store/user/wulsin/MET/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151011_155240/0000/miniAODWithCandidateTracks_10.root', # data
-                             ),
+    fileNames = cms.untracked.vstring (
+        "/store/user/ahart/AMSB_chargino500GeV_ctau100cm_step4_User.root",  # signal
+        # "file:condor/metMinimalSkim/AMSB_chargino_500GeV_100cm/metMinimalSkim/skim_0.root",
+        # "file:condor/candTrkSelection/WJetsToLNu/CandTrkSelection/merged/skim_merged.root",
+        # "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193826/0001/miniAODWithCandidateTracks_1001.root", # bkgd MC
+        # "/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151009_193736/0000/miniAODWithCandidateTracks_1.root", # bkgd MC
+        # '/store/user/wulsin/MET/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-DisappearingTracks-v1/151011_155240/0000/miniAODWithCandidateTracks_10.root', # data
+    ),
 )
 
 # process.source.eventsToProcess = cms.untracked.VEventRange (
@@ -55,7 +55,6 @@ process.TFileService = cms.Service ('TFileService',
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (100)
-
 )
 
 ################################################################################
@@ -64,8 +63,8 @@ process.maxEvents = cms.untracked.PSet (
 
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
-# collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks')  # For signal (old version)  
-collectionMap.tracks = cms.InputTag ('candidateTrackProducer')       # For data skim and new samples  
+# collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks')  # For signal (old version)
+collectionMap.tracks = cms.InputTag ('candidateTrackProducer')       # For data skim and new samples
 
 ################################################################################
 ##### Set up weights to be used in plotting and cutflows  ######################
@@ -90,6 +89,7 @@ variableProducers = []
 ################################################################################
 
 from DisappTrks.StandardAnalysis.EventSelections import *
+from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
 
 ################################################################################
@@ -117,9 +117,14 @@ histSetsMuon.append(MuonHistograms)
 histSetsMuon.append(DiMuonHistograms)
 histSetsMuon.append(TrackMuonHistograms)
 
+histSetsElectron = copy.deepcopy(histSets)
+histSetsElectron.append(ElectronHistograms)
+histSetsElectron.append(DiElectronHistograms)
+histSetsElectron.append(TrackElectronHistograms)
+
 test = cms.PSet(
     name = cms.string("test"),
-    triggers = cms.vstring(), 
+    triggers = cms.vstring(),
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("primaryvertexs"),
@@ -138,7 +143,7 @@ test = cms.PSet(
 
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [candTrkSelection],       histSets,        weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelection],        histSets,        weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [elecCtrlSelection],      histSets,        weights,  collectionMap,  variableProducers,  True)
@@ -163,12 +168,21 @@ test = cms.PSet(
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits5],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits6],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ZtoMuProbeTrk],                       histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrk],                         histSetsMuon,  weights,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],    histSetsMuon,  weights,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [test],  cms.VPSet  (),  weights,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoEleProbeTrk],                                histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                       histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrk],                                  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],           histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],             histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+
+#add_channels  (process,  [test],  cms.VPSet  (),  weights,  collectionMap,  variableProducers,  False)
 
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
