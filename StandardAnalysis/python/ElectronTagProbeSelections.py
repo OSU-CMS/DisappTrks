@@ -1,41 +1,77 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file 
-from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions  
-
-
-# FIXME:  These channels do not yet work - need to be updated for Run 2.  
+from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
+from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
 ##################################################
-## Electron tag and probe sample 
+## Electron tag and probe sample
 ##################################################
-ZtoElecDisTrk = cms.PSet(
-    name = cms.string("ZtoElecDisTrk"),
-    triggers = triggersSingleElec,
-    cuts = cms.VPSet (), 
+ZtoEleProbeTrk = cms.PSet(
+    name = cms.string("ZtoEleProbeTrk"),
+    triggers = triggersSingleEle,
+    cuts = cms.VPSet (),
 )
 
-tagElecCuts = [
-    cutElecPt20,
-    cutElecEta21,
-    cutElecTightID,  # FIXME:  Must fix this selection
-    #  cutElecPFIso,  # Ask Bing what he uses for this 
+# See SMP-12-023 for example of W->mu nu selection
+tagElectronCuts = [
+    cutElectronPt24,
+    cutElectronEta21,
+    cutElectronTightID,
+    #  cutElectronPFIso,  # Ask Bing what he uses for this
+    cutElectronArbitration,
 ]
-elecTrkCuts = [
-    cutElecTrkDeltaR,
-    cutElecTrkInvMass80To100,
+muTrkCuts = [
+    cutEleTrkInvMass10,
+    #cutEleTrkInvMass80To100,
 ]
-addCuts(ZtoElecDisTrk.cuts, tagElecCuts) 
-addCuts(ZtoElecDisTrk.cuts, disTrkCuts) 
-addCuts(ZtoElecDisTrk.cuts, tauTrkCuts) 
-
-ZtoElecProbeTrk = copy.deepcopy(ZtoElecDisTrk)
-ZtoElecProbeTrk.name = cms.string("ZtoElecProbeTrk")  
+addCuts(ZtoEleProbeTrk.cuts, tagElectronCuts)
+addCuts(ZtoEleProbeTrk.cuts, [cutTrkPt30])
+addCuts(ZtoEleProbeTrk.cuts, disTrkCuts)
+addCuts(ZtoEleProbeTrk.cuts, muTrkCuts)
+addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
+    cutTrkPt,
+    cutTrkEcalo,
     cutTrkElecVeto,
-    cutTrkEcalo, 
+    cutTrkTauVeto,
 ]
-removeCuts(ZtoElecProbeTrk.cuts, cutsToRemove)  
+removeCuts(ZtoEleProbeTrk.cuts, cutsToRemove)
 
+ZtoEleProbeTrkWithZCuts = copy.deepcopy(ZtoEleProbeTrk)
+ZtoEleProbeTrkWithZCuts.name = cms.string("ZtoEleProbeTrkWithZCuts")
+cutsToAdd = [
+    cutEleTrkInvMass80To100,
+    cutEleTrkOS,
+]
+addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrk)
+ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
+cutsToAdd = [
+    cutEleTrkInvMass80To100,
+    cutEleTrkOS,
+    cutTrkElecVeto,
+    cutTrkTauVeto,
+]
+addCuts(ZtoEleDisTrk.cuts, cutsToAdd)
 
+ZtoEleProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrk)
+ZtoEleProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoEleProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
+ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoEleDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrk)
+ZtoEleDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoEleDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
