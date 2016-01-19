@@ -239,6 +239,68 @@ def getLatexNumString(val, err, sigfigs=3):
             tex += "\\times 10^{" + str(expo) + "} $"   
     return tex  
 
+# Find number of raw events that correspond to the weighted number num and weighted error err
+# num = w * N
+# err = w * sqrt(N)
+# N = num^2 / err^2 
+# In data, w = 1, so N = num.  
+def getRawEvts(num, err):
+    N = round(math.pow(num,2) / math.pow(err,2)) if err else 0  
+    return N 
+
+# Get the probability and error for events to pass the given cut
+# Make the calculation based on the total number of events in the sample of interest, NTot
+# and the number of events that pass the cut of interest, NPass 
+def getProb(yields):
+    NTot     = yields["NTot"]
+    NTotErr  = yields["NTotErr"]
+    NPass    = yields["NPass"]
+    NPassErr = yields["NPassErr"]
+
+    P    = NPass    / NTot
+    PErr = NPassErr / NTot  
+    PErrUp = -1
+    PErrDn = -1  
+    NLimit68Raw = -1  
+
+    # Handle the case in which there are a small number of raw events corresponding to NPass.  
+    if "NTotRaw" in yields:
+        NTotRaw = yields["NTotRaw"]
+    else: 
+        NTotRaw  = getRawEvts(NTot,  NTotErr)   
+    NPassRaw = getRawEvts(NPass, NPassErr)
+
+
+    if NPassRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution  
+        print "Debug:  NTotRaw = ", NTotRaw   
+        NPassRawErr = NPassRaw * (NPassErr / NPass) if NPass else 0
+        alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma  
+        NPassErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NPassRaw + 1)) - NPassRaw)
+        NPassErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NPassRaw ))    - NPassRaw)
+
+        P    =  NPassRaw / NTotRaw
+        PErrUp = NPassErrUpRaw / NTotRaw
+        PErrDn = NPassErrDnRaw / NTotRaw
+        PErr = PErrUp  # Arbitrary choice; usually PErrUp is larger than PErrDn  
+
+        # For the case of NPassRaw, use a one-sided 68% confidence interval
+        if NPassRaw == 0: 
+            NLimit68Raw =         0.5 * TMath.ChisquareQuantile (0.68, 2 * (NPassRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
+            PErrUp = NLimit68Raw / NTotRaw
+            PErrDn = 0 
+            PErr = PErrUp  # Arbitrary choice; usually PErrUp is larger than PErrDn  
+        
+
+    prob = {}  
+    prob["P"]      = P
+    prob["PErr"]   = PErr
+    prob["PErrUp"] = PErrUp
+    prob["PErrDn"] = PErrDn
+    prob["NLimit68Raw"] = NLimit68Raw
+
+    return prob   
+
+
 def makeLeptonEst(options):
     # Do the calcultion of the lepton background estimate
     # and produce the associated tables. 
@@ -248,21 +310,31 @@ def makeLeptonEst(options):
     outputFile = "tables/" + options['type'] + "VetoEff.tex"
     fout = open (outputFile, "w")
 
-    (NCtrl, NCtrlErr)   = getYield(options['MCsample'],  options['ctrlDir'],       options['ctrlChannel'])
-    (NYield, NYieldErr) = getYield(options['MCsample'],  options['disTrkDir'],     options['disTrkChannel'])  
+    (NCtrl, NCtrlErr) = getYield(options['MCsample'],  options['ctrlDir'],       options['ctrlChannel'])
+    (NPass, NPassErr) = getYield(options['MCsample'],  options['disTrkDir'],     options['disTrkChannel'])  
 
     if 'histForYield' in options: 
-        (NYield, NYieldErr) = getHistIntegral(options['MCsample'], options['disTrkDir'], options['disTrkChannel'].replace("CutFlow",""), options['histForYield'], options['histForYieldLoBin'], options['histForYieldHiBin'])  
-        
-    P = NYield / NCtrl
+        (NPass, NPassErr) = getHistIntegral(options['MCsample'], options['disTrkDir'], options['disTrkChannel'].replace("CutFlow",""), options['histForYield'], options['histForYieldLoBin'], options['histForYieldHiBin'])  
+
+    yields = {}          
+    yields["NTot"] = NCtrl
+    yields["NTotErr"] = NCtrlErr
+    yields["NPass"] = NPass
+    yields["NPassErr"] = NPassErr
+    prob = getProb(yields)
+
+    P      = prob["P"]
+    PErr   = prob["PErr"]
+    PErrUp = prob["PErrUp"]
+    PErrDn = prob["PErrDn"] 
+    
     if P: 
-        PErr = P * (NYieldErr / NYield)  
-        NYieldStr = getLatexNumString(NYield, NYieldErr) 
+        NTotStr  = getLatexNumString(NCtrl, NCtrlErr) 
+        NPassStr = getLatexNumString(NPass, NPassErr) 
     else:
-        NYieldRaw = round(math.pow(NYield,2) / math.pow(NYieldErr,2)) if NYieldErr else 0  
-        NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NYieldRaw + 1)) # 68% CL upper limit 
-        PErr = NLimitRaw / NCtrl
-        NYieldStr = getLatexNumString(NYield, NLimitRaw) 
+        NTotRaw  = getRawEvts(NCtrl, NCtrlErr)  
+        NTotStr  = getLatexNumString(NTotRaw, math.sqrt(NTotRaw))  
+        NPassStr = getLatexNumString(NPass, prob["NLimit68Raw"])   
 
     leptonEst["P"]    = P
     leptonEst["PErr"] = PErr
@@ -272,8 +344,8 @@ def makeLeptonEst(options):
     content += "\\begin{tabular}{lc}\n"                                                 
     content += hline                                                              
     content += hline                                                              
-    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + str(round_sigfigs(NCtrl,3))  + "$     \\\\ \n"  
-    content += "$N^" + options['typeStr'] + "$ (MC)             & " + NYieldStr + " \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + NTotStr  + "$  \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + NPassStr + "$  \\\\ \n"  
     content += hline                                                              
     content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"  
     content += hline                                                              
@@ -310,45 +382,6 @@ def makeLeptonEst(options):
     print "Finished writing " + outputFile + "\n\n\n"
 
     return leptonEst  
-
-# Get the probability and error for events to pass the given cut
-# Make the calculation based on the total number of events in the sample of interest, NTot
-# and the number of events that pass the cut of interest, NPass 
-def getProb(yields):
-    NTot     = yields["NTot"]
-    NTotErr  = yields["NTotErr"]
-    NPass    = yields["NPass"]
-    NPassErr = yields["NPassErr"]
-
-    P    = NPass    / NTot
-    PErr = NPassErr / NTot  
-    PErrUp = PErr
-    PErrDn = PErr  
-
-    # Now handle the case in which there are a small number of raw events corresponding to NPass  
-    # in data, there are no weight factors so NPassRaw = NPass  and NTotRaw = NTot
-    NPassRaw = round(math.pow(NPass,2) / math.pow(NPassErr,2)) if NPassErr else 0  
-    NTotRaw  = round(math.pow(NTot, 2) / math.pow(NTotErr, 2)) if NTotErr  else 0  
-
-    if NPassRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution  
-        NPassRawErr = NPassRaw * (NPassErr / NPass) if NPass else 0
-        # NLimitRaw      =           0.5 * TMath.ChisquareQuantile (0.68, 2 * (NPassRaw + 1)) # 68% CL upper limit, see https://github.com/OSU-CMS/OSUT3Analysis/blob/master/AnaTools/bin/cutFlowLimits.cpp
-        alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma  
-        NPassErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NPassRaw + 1)) - NPassRaw)
-        NPassErrDnRaw = math.fabs(0.5 * TMath.ChisquareQuantile (1.0 - alpha, 2 * (NPassRaw ))    - NPassRaw)
-
-        P    =  NPassRaw / NTotRaw
-        PErrUp = NPassErrUpRaw / NTotRaw
-        PErrDn = NPassErrDnRaw / NTotRaw
-        PErr = PErrUp  # Arbitrary choice; usually PErrUp is larger than PErrDn  
-
-    prob = {}  
-    prob["P"]      = P
-    prob["PErr"]   = PErr
-    prob["PErrUp"] = PErrUp
-    prob["PErrDn"] = PErrDn
-    return prob   
-
 
 def getFakeRate(options):  
     yields = {}  
@@ -491,7 +524,6 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
     elecEstCandTrk = makeLeptonEst(options)  
@@ -508,7 +540,6 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 4 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
     muonEstCandTrk = makeLeptonEst(options)  
@@ -525,7 +556,6 @@ if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:
     options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = candTrkDir 
     options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
     tauEstCandTrk = makeLeptonEst(options)  
@@ -543,9 +573,8 @@ if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "WJetsToLNu_HT" 
+    options['MCsample'] = "TTJets_Lept" 
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
     options['histForYieldLoBin'] = 11
     options['histForYieldHiBin'] = 11
@@ -565,9 +594,8 @@ if arguments.all or "muonEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 4 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "WJetsToLNu_HT" 
+    options['MCsample'] = "TTJets_Lept"    # More stats than WJetsToLNu_HT"  
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
     options['histForYieldLoBin'] = 13
     options['histForYieldHiBin'] = 13
@@ -588,9 +616,8 @@ if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in argume
     options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
     options['disTrkDir'] = disappTrkDir  
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
-    options['ineffScale'] = 3 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "WJetsToLNu_HT" 
+    options['MCsample'] = "TTJets_Lept"  
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStateIsMatched" # FIXME:  should do this better
     options['histForYieldLoBin'] = 0
     options['histForYieldHiBin'] = 0
