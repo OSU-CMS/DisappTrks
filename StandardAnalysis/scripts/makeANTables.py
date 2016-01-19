@@ -344,8 +344,8 @@ def makeLeptonEst(options):
     content += "\\begin{tabular}{lc}\n"                                                 
     content += hline                                                              
     content += hline                                                              
-    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & $" + NTotStr  + "$  \\\\ \n"  
-    content += "$N^" + options['typeStr'] + "$ (MC)             & $" + NPassStr + "$  \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "_{\\rm ctrl}$ (MC) & " + NTotStr  + "  \\\\ \n"  
+    content += "$N^" + options['typeStr'] + "$ (MC)             & " + NPassStr + "  \\\\ \n"  
     content += hline                                                              
     content += "$P^" + options['typeStr'] + " = N^" + options['typeStr'] + " / N^" + options['typeStr'] + "_{\\rm ctrl}$ & " + PStr + " \\\\  \n"  
     content += hline                                                              
