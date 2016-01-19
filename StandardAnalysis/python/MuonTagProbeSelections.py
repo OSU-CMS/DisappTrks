@@ -36,6 +36,14 @@ cutsToRemove = [
 ]
 removeCuts(ZtoMuProbeTrk.cuts, cutsToRemove)
 
+ZtoMuProbeTrkWithZCuts = copy.deepcopy(ZtoMuProbeTrk)
+ZtoMuProbeTrkWithZCuts.name = cms.string("ZtoMuProbeTrkWithZCuts")
+cutsToAdd = [
+    cutMuTrkInvMass80To100,
+    cutMuTrkOS,
+]
+addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
+
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrk)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 cutsToAdd = [
@@ -52,6 +60,13 @@ cutsToRemove = [
     cutTrkNMissOut, # removed due to mismodelling in the MC
 ]
 removeCuts(ZtoMuProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoMuDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuDisTrk)
 ZtoMuDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuDisTrkNoMissingOuterHitsCut")
