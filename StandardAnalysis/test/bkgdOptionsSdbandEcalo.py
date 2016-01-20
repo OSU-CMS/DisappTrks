@@ -1,6 +1,6 @@
 # Table produced with makeANTables.py  
 #!/usr/bin/env python  
-# ../scripts/bkgdFromData.py -l bkgdOptionsCandTrk.py -w condor_2016_MM_DD_BkgdEstFullSel   
+# ../scripts/bkgdFromData.py -l bkgdOptionsSdbandEcalo.py -w condor_2016_MM_DD_BkgdEstFullSel   
 # mergeOutput.py -q -C -s FakeBkgd -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel  # To combine ee and mumu fake track samples (optional) 
 # makePlots.py       -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel -o stacked_histograms.root   
 # makePlots.py -P paperPlotsOptions.py      
@@ -22,50 +22,50 @@ else:
 impurities = []  # not yet implemented   
        
 bkgd_sources = {   
-    'MET' :  { 'inputDir'   : 'candTrkSelection',   
+    'MET' :  { 'inputDir'   : 'candTrkEcaloSdband',   
                'datasetsIn'  : ['MET_2015D'],   
                'scale_factor' :       1.0,   
                'scale_factor_error' : 0.0,   
                'channel_map' : {   
-    'CandTrkSelectionPlotter' : ['CandTrkSelectionPlotter'],   
+    'CandTrkEcaloSdbandPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                },   
        
     'ElecBkgd' :  { 'inputDir'   : 'elecCtrlSelection',   
                     'datasetsIn'  : ['MET_2015D'],   
-                    'scale_factor' :        0.018394220635,   
-                    'scale_factor_error' :  0.00163412427046,   
+                    'scale_factor' :        0.00534579063707,   
+                    'scale_factor_error' :  0.000837685597082,   
                     'channel_map' : {   
-    'ElecCtrlSelectionPlotter' : ['CandTrkSelectionPlotter'],   
+    'ElecCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                     },   
        
     'MuonBkgd' :  { 'inputDir'   : 'muonCtrlSelection',   
                     'datasetsIn'  : ['MET_2015D'],   
-                    'scale_factor' :        3.3892560583e-05,   
-                    'scale_factor_error' :  7.75639419197e-05,   
+                    'scale_factor' :        0.0,   
+                    'scale_factor_error' :  3.86183454733e-05,   
                     'channel_map' : {   
-    'MuonCtrlSelectionPlotter' : ['CandTrkSelectionPlotter'],   
+    'MuonCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                     },   
        
     'TauBkgd' :  { 'inputDir'   : 'tauCtrlSelection',   
                    'datasetsIn'  : ['MET_2015D'],   
-                   'scale_factor' :        0.0406852971603,   
-                   'scale_factor_error' :  0.00366316359136,   
+                   'scale_factor' :        0.00778015839792,   
+                   'scale_factor_error' :  0.00119623453534,   
                    'channel_map' : {   
-    'TauCtrlSelectionPlotter' : ['CandTrkSelectionPlotter'],   
+    'TauCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                    },   
        
        
        
-    'FakeMuMuBkgd' :  { 'inputDir'   : 'ZtoMuMuCandTrk',   
+    'FakeMuMuBkgd' :  { 'inputDir'   : 'ZtoMuMuCandTrkSdband',   
                     'datasetsIn'  : ['SingleMu_2015D'],   
                     'scale_factor' :        2.63909686671,   
                     'scale_factor_error' :  0.00565947398431,   
                     'channel_map' : {   
-    'ZtoMuMuCandTrkPlotter' : ['CandTrkSelectionPlotter'],   
+    'ZtoMuMuCandTrkEcaloSdbandPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                     },   
        
