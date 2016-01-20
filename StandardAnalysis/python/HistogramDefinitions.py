@@ -173,9 +173,51 @@ TrackMuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("chargeProduct"),
-            title = cms.string(";q_{#mu}#cdotq_{track}"),
+            title = cms.string(";q_{#mu}#timesq_{track}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("muon.charge * track.charge"),
+        ),
+    )
+)
+
+TrackElectronHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "electrons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("invMass"),
+            title = cms.string(";M(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 500.0),
+            inputVariables = cms.vstring(invMassWithElectron ("electron")),
+        ),
+        cms.PSet (
+            name = cms.string("invMassNearZ"),
+            title = cms.string(";M(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 80.0, 100.0),
+            inputVariables = cms.vstring(invMassWithElectron ("electron")),
+        ),
+        cms.PSet (
+            name = cms.string("deltaR"),
+            title = cms.string(";#DeltaR(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaR (track, electron)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhi"),
+            title = cms.string(";#Delta#phi(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaPhi (track, electron)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaEta"),
+            title = cms.string(";#Delta#eta(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 4.0),
+            inputVariables = cms.vstring("fabs (track.eta - electron.eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("chargeProduct"),
+            title = cms.string(";q_{e}#timesq_{track}"),
+            binsX = cms.untracked.vdouble(3, -1.5, 1.5),
+            inputVariables = cms.vstring("electron.charge * track.charge"),
         ),
     )
 )

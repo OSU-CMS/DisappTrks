@@ -26,6 +26,11 @@ triggersSingleMu = cms.vstring(
     "HLT_IsoMu20_v",  # yes available in bkgd MC
 )
 
+triggersSingleEle = cms.vstring(
+    "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
+    "HLT_Ele22_eta2p1_WP75_Gsf_v",    # available in the bkgd MC
+)
+
 ##########################
 ##### List of cuts   #####
 ##########################
@@ -294,16 +299,69 @@ cutMuTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string(invMassWithMuon ("muon") + " > 10"),
     numberRequired = cms.string(">= 1"),
+    alias = cms.string ("invMass(muon,track) > 10"),
 )
 cutMuTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
     numberRequired = cms.string(">= 1"),
+    alias = cms.string ("80 < invMass(muon,track) < 100"),
 )
 cutMuTrkOS = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string("muon.charge * track.charge < 0"),
     numberRequired = cms.string(">= 1"),
+)
+
+##################################################
+## electron-track pairs
+##################################################
+cutEleTrkDeltaR = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string("deltaR ( electron , track ) > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
+cutEleTrkInvMass10 = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string(invMassWithElectron ("electron") + " > 10"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string ("invMass(electron,track) > 10"),
+)
+cutEleTrkInvMass80To100 = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string(invMassWithElectron ("electron") + " > 80 && " + invMassWithElectron ("electron") + " < 100"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string ("80 < invMass(electron,track) < 100"),
+)
+cutEleTrkOS = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string("electron.charge * track.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
+##################################################
+## electrons
+##################################################
+cutElectronPt24 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 24"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronEta21 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronTightID = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("passesTightID_noIsolation"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronArbitration = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 1"),
+    arbitration = cms.string("random"),
 )
 
 ##################################################
