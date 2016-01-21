@@ -1,42 +1,34 @@
-#!/usr/bin/env python   
-# Produced with ../scripts/makeANTables.py  
-
-backgrounds = { 
-'Elec' : {    
-    'N' : '0',    
-    'alpha' : '1.8957',    
-        },    
-'Muon' : {    
-    'N' : '0',    
-    'alpha' : '1.4218',    
-        },    
-'Tau' : {    
-    'N' : '0',    
-    'alpha' : '3.8616',    
-        },    
-'Fake' : {    
-    'N' : '0',    
-    'alpha' : '0.64945',    
-        },    
-    }    
-
-
-
-background_systematics = {    
-    'Elec' : {     
-    'value' : '1.31',    
-                 },   
-    'Muon' : {   
-    'value' : '1.5',    
-                 },   
-    'Tau' : {   
-    'value' : '1.36',    
-                 },   
-    'Fake' : {   
-    'value' : '1.35',    
-                 },   
-
-
-    }    
-
-
+% Table produced with makeANTables.py 
+#!/usr/bin/env python  
+backgrounds = {
+'Elec' : {
+    'N' : '32.0',
+    'alpha' : '0.165312993798',
+        },
+'Muon' : {
+    'N' : '0',
+    'alpha' : '0.0895722407906',
+        },
+'Tau' : {
+    'N' : '10.0',
+    'alpha' : '0.241510408058',
+        },
+'Fake' : {
+    'N' : '0.0',
+    'alpha' : '2.63909686671',
+        },
+    }
+background_systematics = { 
+    'Elec' : {
+    'value' : '1.86',
+                 },
+    'Muon' : {
+    'value' : '8.9',
+                 },
+    'Tau' : {
+    'value' : '2.0',
+                 },
+    'Fake' : {
+    'value' : '1.22',
+                 },
+    }
