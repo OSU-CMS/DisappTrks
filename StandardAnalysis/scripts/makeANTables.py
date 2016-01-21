@@ -2068,9 +2068,9 @@ def makeLeptonEst(options):
     NlepErr = NCtrl * PErr
     NlepStr = getLatexNumString(Nlep, NlepErr) 
     leptonEst["NStr"] = NlepStr 
-    leptonEst["gammaN"] = NPassRaw
+    leptonEst["gammaN"] = int(NPassRaw)  
     if NPassRaw: 
-        leptonEst["gammaAlpha"] = Nlep / NPassRaw  # Ensure that NLep = N * alpha  
+        leptonEst["gammaAlpha"] = Nlep / leptonEst["gammaN"]   # Ensure that NLep = N * alpha  
     else: 
         leptonEst["gammaAlpha"] = NCtrl / NTotRaw  # ratio of size of data and MC control samples 
 
@@ -2504,7 +2504,7 @@ if arguments.all \
     fakeEst["scaleKin"]    = NCtrlMet / NCtrl
     fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
     fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $" 
-    fakeEst["gammaN"] = NfakeRaw 
+    fakeEst["gammaN"] = int(NfakeRaw) 
     fakeEst["gammaAlpha"] = fakeEst["scaleKin"] 
 
     content  = header 
@@ -2548,7 +2548,7 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     fout.close()  
     os.system("cat " + outputFile)  
 
-    content = header
+    content = "# Bkgd configuration file for limit-setting produced with makeANTables.py \n" 
     content += "#!/usr/bin/env python  \n"
 
     content += "backgrounds = {\n"

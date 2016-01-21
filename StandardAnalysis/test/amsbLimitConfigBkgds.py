@@ -1,8 +1,8 @@
-% Table produced with makeANTables.py 
+# Bkgd configuration file for limit-setting produced with makeANTables.py 
 #!/usr/bin/env python  
 backgrounds = {
 'Elec' : {
-    'N' : '32.0',
+    'N' : '32',
     'alpha' : '0.165312993798',
         },
 'Muon' : {
@@ -10,11 +10,11 @@ backgrounds = {
     'alpha' : '0.0895722407906',
         },
 'Tau' : {
-    'N' : '10.0',
+    'N' : '10',
     'alpha' : '0.241510408058',
         },
 'Fake' : {
-    'N' : '0.0',
+    'N' : '0',
     'alpha' : '2.63909686671',
         },
     }
