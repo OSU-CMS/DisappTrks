@@ -291,6 +291,8 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                     limit_dict[lifetime][mass]['theory'] *= theory_error
                 if theory_key is 'down1' or theory_key is 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
+    print "Debug:  limit_dict.keys() = "
+    print limit_dict.keys()  
     for lifetime in sorted (limit_dict.keys ()):
         ordered_masses = sorted (limit_dict[lifetime].keys ())
         first_allowed_mass = ordered_masses[0]
@@ -317,6 +319,9 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
                 mass_limit = 0.0
+        if mass_limit > first_allowed_mass:
+            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            mass_limit = first_allowed_mass  
         x.append (mass_limit)
         y.append (lifetime)
         if arguments.verbose:
