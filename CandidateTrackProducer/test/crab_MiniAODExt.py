@@ -20,7 +20,6 @@ config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1'
 
 config.Site.storageSite = 'T3_US_OSU'
-#config.Site.storageSite = 'T2_US_Purdue'
 
 if __name__ == '__main__':
 
@@ -148,15 +147,16 @@ if __name__ == '__main__':
 
 ##########################################################################
     ## Now do data
-    config.Data.splitting = 'LumiBased'
     config.JobType.pyCfgParams = ['runOnMC=0']
     ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a
 
-    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt'
-
+    config.Data.splitting = 'LumiBased'
     config.Data.unitsPerJob = 4
+    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt'
     config.Data.outputDatasetTag = 'Run2015D-16Dec2015-v1-DisappTrks-v1'
+
+    config.Site.storageSite = 'T2_US_Purdue'
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_16Dec2015'
     config.Data.inputDataset = '/MET/Run2015D-16Dec2015-v1/MINIAOD'
