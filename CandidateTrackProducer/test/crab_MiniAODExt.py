@@ -147,10 +147,12 @@ if __name__ == '__main__':
 
 ##########################################################################
     ## Now do data
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_cfg.py'
     config.JobType.pyCfgParams = ['runOnMC=0']
     ## Warning:  changing pyCfgParams may trigger an error.  See for documentation:
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a
 
+    config.Data.useParent = False
     config.Data.splitting = 'LumiBased'
     config.Data.unitsPerJob = 4
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt'
@@ -158,14 +160,15 @@ if __name__ == '__main__':
 
     config.Site.storageSite = 'T2_US_Purdue'
 
+
     config.General.requestName = 'candidateTrackProducer_MET_2015D_16Dec2015'
-    config.Data.inputDataset = '/MET/Run2015D-16Dec2015-v1/MINIAOD'
+    config.Data.inputDataset = '/MET/Run2015D-v1/RAW'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_16Dec2015'
-    config.Data.inputDataset = '/SingleMuon/Run2015D-16Dec2015-v1/MINIAOD'
+    config.Data.inputDataset = ' /SingleMuon/Run2015D-v1/RAW'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_16Dec2015'
-    config.Data.inputDataset = '/SingleElectron/Run2015D-16Dec2015-v1/MINIAOD'
+    config.Data.inputDataset = '/SingleElectron/Run2015D-v1/RAW'
     #forkAndSubmit(config)
