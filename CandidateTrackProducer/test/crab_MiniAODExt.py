@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt'
 
-    config.Data.unitsPerJob = 3
+    config.Data.unitsPerJob = 4
     config.Data.outputDatasetTag = 'Run2015D-16Dec2015-v1-DisappTrks-v1'
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_16Dec2015'
