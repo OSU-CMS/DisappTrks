@@ -66,7 +66,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('RECO_RAW2DIGI_L1Reco_RECO_EI_PAT.root'),
+    fileName = cms.untracked.string('miniAODWithCandidateTracks.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
