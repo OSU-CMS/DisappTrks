@@ -18,18 +18,18 @@ def customizeMiniAODSIMOutput(process):
 
     process.load('Configuration.EventContent.EventContent_cff')
 
-    process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
+    process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
         compressionAlgorithm = cms.untracked.string('LZMA'),
         compressionLevel = cms.untracked.int32(4),
         dataset = cms.untracked.PSet(
-            dataTier = cms.untracked.string('MINIAOD'),
+            dataTier = cms.untracked.string('MINIAODSIM'),
             filterName = cms.untracked.string('')
         ),
         dropMetaData = cms.untracked.string('ALL'),
         eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
         fastCloning = cms.untracked.bool(False),
         fileName = cms.untracked.string('miniAODWithCandidateTracks.root'),
-        outputCommands = process.MINIAODEventContent.outputCommands,
+        outputCommands = process.MINIAODSIMEventContent.outputCommands,
         overrideInputFileSplitLevels = cms.untracked.bool(True)
     )
     process.MINIAODSIMoutput.outputCommands.extend (disappTrksOutputCommands)
