@@ -1,3 +1,6 @@
+# This config file is modeled on:  
+# https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/7b95f401088e13f8103d00e74fdaebb4/configFile
+
 # Auto generated configuration file
 # using: 
 # Revision: 1.19 
@@ -33,13 +36,14 @@ options.register ('runOnMC',
 options.parseArguments()
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/584/00000/3E8AEC7F-F15B-E511-ADB5-02163E012B39.root",
+        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/584/00000/3E8AEC7F-F15B-E511-ADB5-02163E012B39.root",
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/630/00000/509812F2-795C-E511-9F0B-02163E01444A.root", 
     ),
 )
 
