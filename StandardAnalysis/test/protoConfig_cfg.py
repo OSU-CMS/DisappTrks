@@ -91,6 +91,7 @@ variableProducers = []
 from DisappTrks.StandardAnalysis.EventSelections import *
 from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
+from DisappTrks.StandardAnalysis.TauTagProbeSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -112,15 +113,15 @@ histSetsMetJet = cms.VPSet (
     JetHistograms
 )
 
-histSetsMuon = copy.deepcopy(histSets)
-histSetsMuon.append(MuonHistograms)
-histSetsMuon.append(DiMuonHistograms)
-histSetsMuon.append(TrackMuonHistograms)
-
 histSetsElectron = copy.deepcopy(histSets)
 histSetsElectron.append(ElectronHistograms)
 histSetsElectron.append(DiElectronHistograms)
 histSetsElectron.append(TrackElectronHistograms)
+
+histSetsMuon = copy.deepcopy(histSets)
+histSetsMuon.append(MuonHistograms)
+histSetsMuon.append(DiMuonHistograms)
+histSetsMuon.append(TrackMuonHistograms)
 
 test = cms.PSet(
     name = cms.string("test"),
@@ -168,6 +169,13 @@ test = cms.PSet(
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits5],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits6],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 
+#  add_channels  (process,  [ZtoEleProbeTrk],                                histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                       histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrk],                                  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],           histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],             histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+
 #  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
@@ -175,12 +183,12 @@ test = cms.PSet(
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ZtoEleProbeTrk],                                histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                       histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrk],                                  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],           histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],             histSetsElectron,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  collectionMap,  variableProducers,  True)
 
 #add_channels  (process,  [test],  cms.VPSet  (),  weights,  collectionMap,  variableProducers,  False)
 
