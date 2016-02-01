@@ -1,6 +1,10 @@
 <use name="DataFormats/Common"/>
+<use name="DataFormats/BeamSpot"/>
+<use name="DataFormats/EgammaCandidates"/>
 <use name="DataFormats/PatCandidates"/>
 <use name="DataFormats/TrackReco"/>
+<use name="DataFormats/VertexReco"/>
+<use name="RecoEgamma/EgammaTools"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <export>
   <lib  name="1"/>
