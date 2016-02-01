@@ -14,7 +14,7 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 
 #name of histogram to integrate to get yields
 #integrateHistogramName = "numEvents"
-intLumi = 731
+intLumi = 2457  
 
 #########################
 ### Signal Parameters ###
@@ -36,7 +36,8 @@ else:
     os.exit(0)
     
 # NOTE: The chargino masses are used when actually making the limit plots
-limit_dir = AndrewDir+'limits_20151201'  # LHC-type full CLs
+#limit_dir = AndrewDir+'limits_20151201'  # LHC-type full CLs
+limit_dir = WellsDir+'limits_20160121' # LHC-type full CLs 
 
 masses = ['100', '300', '500', '700']
 

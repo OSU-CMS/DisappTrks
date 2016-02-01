@@ -1,6 +1,34 @@
 #  Use this to register datasets.
 
 ############################
+# 2015
+############################
+# Get cross sections from https://github.com/OSU-CMS/OSUT3Analysis/blob/LS1_Upgrade/Configuration/python/configurationOptions.py 
+#osudb -x 182.7 --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0000 create /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0001 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0002 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0003 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0004 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0005 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+#osudb -a --location /store/user/ahart/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_235344/0006 update /TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+
+
+# Get cross sections from https://twiki.cern.ch/twiki/bin/viewauth/CMS/SummaryTable1G25ns 
+#osudb -x 359.7 --location /store/user/ahart/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234840/0000/ create /WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb    --location /store/user/ahart/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234840/0000/ update /WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb -a --location /store/user/ahart/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234840/0001/ update /WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb -a --location /store/user/ahart/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234840/0002/ update /WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb -a --location /store/user/ahart/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234840/0003/ update /WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+
+#osudb -x 12.05 --location /store/user/ahart/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234925/0000 create /WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb    --location /store/user/ahart/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234925/0000 update /WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb -a --location /store/user/ahart/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234925/0001 update /WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+osudb -a --location /store/user/ahart/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1/160103_234925/0002 update /WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ahart-RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-DisappTrks-v1-fa68c944d30035ca17544772beabcb4d/USER 
+
+
+
+
+############################
 # Data 
 ############################
 #osudb --location /data/se/store/user/jbrinson/disappTrks_calo/2012A  -f BEAN create MET_calo_2012A_V2 
@@ -278,30 +306,30 @@
 
 ##weighted cross sections in spreadsheet taken from values in
 ##https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections
-osudb -x 15.9    update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER
-osudb -x 15.9    update /DisappTrkChargino_LL01_1ns_V5/wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c/USER
-osudb -x 15.9    update /DisappTrkChargino_LL01_5ns_V5/wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97/USER
-osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527/USER
-osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER
-osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER
+#osudb -x 15.9    update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER
+#osudb -x 15.9    update /DisappTrkChargino_LL01_1ns_V5/wulsin-DisappTrkChargino_LL01_1ns_V5-f934c1dfbdd7800327dfb1efb0e7c43c/USER
+#osudb -x 15.9    update /DisappTrkChargino_LL01_5ns_V5/wulsin-DisappTrkChargino_LL01_5ns_V5-1e1e6b73a43d2c88e41db026301a6c97/USER
+#osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_0p5ns_V5-bc901238a19bd91cf436f9dd92d9a527/USER
+#osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_1ns_V5-8d7921bb856d43d2cc7dce00818be4d4/USER
+#osudb -x  2.73   update /DisappTrkChargino_LL01_mGrav50K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav50K_5ns_V5-c797f30334d0feac946adf3f988a6189/USER
 
 #osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_0p2ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p2ns_V5-e2a86264f85e2fe70e651c2aa13c594a/USER
 #osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_0p5ns_V5-4d88979c16cc9eba0e57c6422bc75ffc/USER
 #osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_1ns_V5-c1250bd7ba1be8ecace130ea7b0ea4c7/USER
 #osudb -x  0.819  update /DisappTrkChargino_LL01_mGrav61K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav61K_5ns_V5-615871aff2b8526b13ce8bebdc277506/USER
 
-osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_0p5ns_V5-64e057cfee25eb2da5ad7f4ba073218b/USER
-osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_1ns_V5-d7f3732cf921ea9bbe6178e5308dc945/USER
-osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_5ns_V5-5c3ba9e0f2fc83598aa92e5bd06ecf95/USER
-osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746/USER
-osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219/USER
-osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9/USER
-osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_0p5ns_V5-ec2910f01604ff6f586242de3f1461ab/USER
-osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_1ns_V5-98811528007bf485888cb4fef749973b/USER
-osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_5ns_V5-e888c717604ece62b3bdc4c279569496/USER
-osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378/USER
-osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6/USER
-osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74/USER			
+#osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_0p5ns_V5-64e057cfee25eb2da5ad7f4ba073218b/USER
+#osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_1ns_V5-d7f3732cf921ea9bbe6178e5308dc945/USER
+#osudb -x  0.478  update /DisappTrkChargino_LL01_mGrav75K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav75K_5ns_V5-5c3ba9e0f2fc83598aa92e5bd06ecf95/USER
+#osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_0p5ns_V5-96f5d7b3379f68d36d9c4c8f31395746/USER
+#osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_1ns_V5-342f049f6ad2a5ef899bc9ba72599219/USER
+#osudb -x  0.185  update /DisappTrkChargino_LL01_mGrav100K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav100K_5ns_V5-dbf8f833b677731a66afce2dfb79acf9/USER
+#osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_0p5ns_V5-ec2910f01604ff6f586242de3f1461ab/USER
+#osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_1ns_V5-98811528007bf485888cb4fef749973b/USER
+#osudb -x  0.0525 update /DisappTrkChargino_LL01_mGrav125K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav125K_5ns_V5-e888c717604ece62b3bdc4c279569496/USER
+#osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_0p5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_0p5ns_V5-12870631779f8eb2ee74f4a00c1e2378/USER
+#osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_1ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_1ns_V5-ef856835ec5f6193da0ae300bd8faba6/USER
+#osudb -x  0.0221 update /DisappTrkChargino_LL01_mGrav150K_5ns_V5/wulsin-DisappTrkChargino_LL01_mGrav150K_5ns_V5-0970a0588f939867cb4b23ef11eb7e74/USER			
 
 ##updated cross sections according to calculations done with Prospino
 #osudb -x 13.8    update /DisappTrkChargino_LL01_0p5ns_V5/wulsin-DisappTrkChargino_LL01_0p5ns_V5-d01f5b9f6ef51059166dee85045de929/USER

@@ -42,6 +42,8 @@ else:
 BasicSelDir             = "" # FIXME:  Not yet available.  
 candTrkDir            = WellsDir+"candTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
 disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/569
+candTrkEcaloSdband    = WellsDir+"candTrkEcaloSdband"    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/567  
+candTrkNmissoutSdband = WellsDir+"candTrkNMissOutSdband" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/566 
 
 ## elecVetoEff.tex and elecEst.tex
 elecCtrlDir           = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/570
@@ -55,12 +57,16 @@ tauCtrlDir            = WellsDir+"tauCtrlSelection" # https://cmshead.mps.ohio-s
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir                = WellsDir + "ZtoMuMuSkim"  
 ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"  
+ZtoMuMuCandTrkSdband      = WellsDir + "ZtoMuMuCandTrkSdband"  
 ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuDisTrk"  
 ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456" 
-BasicSelDir                 = WellsDir + "candTrkSelection"  
+BasicSelDir               = WellsDir + "candTrkSelection"  
 DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456" 
 
-
+## Bkgd estimates
+bkgdEstCandTrk            = WellsDir + "condor_2016_01_20_BkgdEstCandTrk" 
+bkgdEstSdbandNmissout     = WellsDir + "condor_2016_01_20_BkgdEstSdbandNmissout"
+bkgdEstSdbandEcalo        = WellsDir + "condor_2016_01_20_BkgdEstSdbandEcalo"  
     
 ### parse the command-line options
 parser = OptionParser()
@@ -314,8 +320,13 @@ def makeLeptonEst(options):
     (NPass, NPassErr) = getYield(options['MCsample'],  options['disTrkDir'],     options['disTrkChannel'])  
 
     if 'histForYield' in options: 
-        (NPass, NPassErr) = getHistIntegral(options['MCsample'], options['disTrkDir'], options['disTrkChannel'].replace("CutFlow",""), options['histForYield'], options['histForYieldLoBin'], options['histForYieldHiBin'])  
-
+        (NPassHist, NPassHistErr) = getHistIntegral(options['MCsample'], options['disTrkDir'], options['disTrkChannel'].replace("CutFlow",""), options['histForYield'], options['histForYieldLoBin'], options['histForYieldHiBin'])  
+        if 'histForYieldExclude' in options and options['histForYieldExclude'] == True: 
+            NPass    -= NPassHist
+            NPassErr  = math.sqrt(pow(NPassErr, 2) - pow(NPassHistErr, 2))  
+        else:  
+            NPass    = NPassHist  
+            NPassErr = NPassHistErr   
     yields = {}          
     yields["NTot"] = NCtrl
     yields["NTotErr"] = NCtrlErr
@@ -328,11 +339,12 @@ def makeLeptonEst(options):
     PErrUp = prob["PErrUp"]
     PErrDn = prob["PErrDn"] 
     
+    NTotRaw  = getRawEvts(NCtrl, NCtrlErr)  
+    NPassRaw = getRawEvts(NPass, NPassErr)  
     if P: 
         NTotStr  = getLatexNumString(NCtrl, NCtrlErr) 
         NPassStr = getLatexNumString(NPass, NPassErr) 
     else:
-        NTotRaw  = getRawEvts(NCtrl, NCtrlErr)  
         NTotStr  = getLatexNumString(NTotRaw, math.sqrt(NTotRaw))  
         NPassStr = getLatexNumString(NPass, prob["NLimit68Raw"])   
 
@@ -364,6 +376,11 @@ def makeLeptonEst(options):
     NlepErr = NCtrl * PErr
     NlepStr = getLatexNumString(Nlep, NlepErr) 
     leptonEst["NStr"] = NlepStr 
+    leptonEst["gammaN"] = int(NPassRaw)  
+    if NPassRaw: 
+        leptonEst["gammaAlpha"] = Nlep / leptonEst["gammaN"]   # Ensure that NLep = N * alpha  
+    else: 
+        leptonEst["gammaAlpha"] = NCtrl / NTotRaw  # ratio of size of data and MC control samples 
 
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
@@ -513,52 +530,130 @@ def makeBkgdEstimate(options):
 hline = "\\hline \n"  
 header = "% Table produced with makeANTables.py \n"
 
-if arguments.all or "candTrkBgkdEst" in arguments.tableSelection:  
+if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:  
+    options = {}
+    options['disTrkDir'] = candTrkDir 
+    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
     ###################################################
     # Electron inefficiency for candidate track bkgd estimate: 
     ###################################################
-    options = {}
     options['type'] = "elec"
     options['typeStr'] = "e"  
     options['ctrlDir'] = elecCtrlDir
     options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
-    options['disTrkDir'] = candTrkDir 
-    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-    options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 12
     elecEstCandTrk = makeLeptonEst(options)  
-
-
 
     ###################################################
     # Muon inefficiency for candidate track bkgd estimate:
     ###################################################
-    options = {}
     options['type'] = "muon"
     options['typeStr'] = "\\mu"  
     options['ctrlDir'] = muonCtrlDir
     options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
-    options['disTrkDir'] = candTrkDir 
-    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
-    options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYieldLoBin'] = 13
+    options['histForYieldHiBin'] = 14
     muonEstCandTrk = makeLeptonEst(options)  
-
-
 
     ###################################################
     # Tau inefficiency for candidate track bkgd estimate:
     ###################################################
-    options = {}
     options['type'] = "tau"
     options['typeStr'] = "\\tau"  
     options['ctrlDir'] = tauCtrlDir 
     options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
-    options['disTrkDir'] = candTrkDir 
-    options['disTrkChannel'] = "CandTrkSelectionCutFlowPlotter" 
+    options['histForYieldExclude'] = True # Include everything except tracks matched to electrons, muons 
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 14  
+    tauEstCandTrk = makeLeptonEst(options)  
+
+if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:  
+    options = {}  
+    options['disTrkDir'] = candTrkEcaloSdband 
+    options['disTrkChannel'] = "CandTrkEcaloSdbandCutFlowPlotter" 
     options['dataset'] = "MET_2015D"  
     options['MCsample'] = "WJetsToLNu_HT" 
-    tauEstCandTrk = makeLeptonEst(options)  
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
+
+    ###################################################
+    # Electron inefficiency for Ecalo sideband bkgd estimate: 
+    ###################################################
+    options['type'] = "elec"
+    options['typeStr'] = "e"  
+    options['ctrlDir'] = elecCtrlDir
+    options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 12
+    elecEstEcaloSdband = makeLeptonEst(options)  
+
+    ###################################################
+    # Muon inefficiency for Ecalo sideband bkgd estimate:
+    ###################################################
+    options['type'] = "muon"
+    options['typeStr'] = "\\mu"  
+    options['ctrlDir'] = muonCtrlDir
+    options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+    options['histForYieldLoBin'] = 13
+    options['histForYieldHiBin'] = 14
+    muonEstEcaloSdband = makeLeptonEst(options)  
+
+    ###################################################
+    # Tau inefficiency for Ecalo sideband bkgd estimate:
+    ###################################################
+    options['type'] = "tau"
+    options['typeStr'] = "\\tau"  
+    options['ctrlDir'] = tauCtrlDir 
+    options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+    options['histForYieldExclude'] = True # Include everything except tracks matched to electrons, muons 
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 14  
+    tauEstEcaloSdband = makeLeptonEst(options)  
+
+if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:  
+    options = {}  
+    options['disTrkDir'] = candTrkNmissoutSdband 
+    options['disTrkChannel'] = "CandTrkNMissOutSdbandCutFlowPlotter" 
+    options['dataset'] = "MET_2015D"  
+    options['MCsample'] = "WJetsToLNu_HT" 
+    options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
+
+    ###################################################
+    # Electron inefficiency for NMissOut sideband bkgd estimate: 
+    ###################################################
+    options['type'] = "elec"
+    options['typeStr'] = "e"  
+    options['ctrlDir'] = elecCtrlDir
+    options['ctrlChannel'] = "ElecCtrlSelectionCutFlowPlotter"
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 12
+    elecEstNmissoutSdband = makeLeptonEst(options)  
+
+    ###################################################
+    # Muon inefficiency for NMissOut sideband bkgd estimate:
+    ###################################################
+    options['type'] = "muon"
+    options['typeStr'] = "\\mu"  
+    options['ctrlDir'] = muonCtrlDir
+    options['ctrlChannel'] = "MuonCtrlSelectionCutFlowPlotter"
+    options['histForYieldLoBin'] = 13
+    options['histForYieldHiBin'] = 14
+    muonEstNmissoutSdband = makeLeptonEst(options)  
+
+    ###################################################
+    # Tau inefficiency for NMissOut sideband bkgd estimate:
+    ###################################################
+    options['type'] = "tau"
+    options['typeStr'] = "\\tau"  
+    options['ctrlDir'] = tauCtrlDir 
+    options['ctrlChannel'] = "TauCtrlSelectionCutFlowPlotter"
+    options['histForYieldExclude'] = True # Include everything except tracks matched to electrons, muons 
+    options['histForYieldLoBin'] = 11
+    options['histForYieldHiBin'] = 14  
+    tauEstNmissoutSdband = makeLeptonEst(options)  
 
 if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
     ###################################################
@@ -629,7 +724,10 @@ if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in argume
 
 
 
-if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in arguments.tableSelection:  
+if arguments.all \
+   or "fakeEst"        in arguments.tableSelection \
+   or "BkgdEst"        in arguments.tableSelection \
+   or "bkgdSumm"       in arguments.tableSelection:  
     ###################################################
     # Fake track rate table:
     # tables/fakeTrkRate.tex 
@@ -714,6 +812,8 @@ if arguments.all or "fakeEst" in arguments.tableSelection or "bkgdSumm" in argum
     fakeEst["scaleKin"]    = NCtrlMet / NCtrl
     fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator  
     fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $" 
+    fakeEst["gammaN"] = int(NfakeRaw) 
+    fakeEst["gammaAlpha"] = fakeEst["scaleKin"] 
 
     content  = header 
     content += "\\begin{tabular}{lc}\n"                                                 
@@ -756,6 +856,53 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     fout.close()  
     os.system("cat " + outputFile)  
 
+
+    content = "# Bkgd configuration file for limit-setting produced with makeANTables.py \n" 
+    content += "#!/usr/bin/env python  \n"
+
+    content += "backgrounds = {\n"
+    content += "'Elec' : {\n"
+    content += "    'N' : '"     + str(elecEst["gammaN"])     + "',\n"
+    content += "    'alpha' : '" + str(elecEst["gammaAlpha"]) + "',\n"
+    content += "        },\n"
+    content += "'Muon' : {\n"
+    content += "    'N' : '"     + str(muonEst["gammaN"])     + "',\n"
+    content += "    'alpha' : '" + str(muonEst["gammaAlpha"]) + "',\n"
+    content += "        },\n"
+    content += "'Tau' : {\n"
+    content += "    'N' : '"     +  str(tauEst["gammaN"])     + "',\n"
+    content += "    'alpha' : '" +  str(tauEst["gammaAlpha"]) + "',\n"
+    content += "        },\n"
+    content += "'Fake' : {\n"
+    content += "    'N' : '"     + str(fakeEst["gammaN"])     + "',\n"
+    content += "    'alpha' : '" + str(fakeEst["gammaAlpha"]) + "',\n"
+    content += "        },\n"
+    content += "    }\n"
+
+    # Put in the bkgd systematic uncertainties by hand
+    content += "background_systematics = { \n"
+    content += "    'Elec' : {\n"
+    content += "    'value' : '1.86',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/586
+    content += "                 },\n"
+    content += "    'Muon' : {\n"
+    content += "    'value' : '8.9',\n"  # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/579
+    content += "                 },\n"
+    content += "    'Tau' : {\n"
+    content += "    'value' : '2.0',\n"  # Dummy value, hopefully conservative  
+    content += "                 },\n"
+    content += "    'Fake' : {\n"
+    content += "    'value' : '1.22',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/581
+    content += "                 },\n"
+    content += "    }\n" 
+
+    outputFile = "amsbLimitConfigBkgds.py" 
+    fout = open(outputFile, "w")
+    fout.write(content)
+    fout.close()  
+    os.system("cat " + outputFile)  
+
+
+
 if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:  
     ###################################################
     # Background estimate plots: candidate track selection  
@@ -784,7 +931,118 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
     makeBkgdEstimate(options)  
 
+if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:  
+    ###################################################
+    # Background estimate plots:  Ecalo sideband    
+    ###################################################
+    options = {}  
+    options["outputFile"]      = "bkgdOptionsSdbandEcalo.py" 
+    options["datasetMet"]      = "MET_2015D"  
+    options["datasetSingleMu"] = "SingleMu_2015D"  
+    options["dataDir"]         = candTrkEcaloSdband 
+    options["elecCtrlDir"]     = elecCtrlDir
+    options["muonCtrlDir"]     = muonCtrlDir
+    options["tauCtrlDir"]      = tauCtrlDir 
+    options["fakeMuMuCtrlDir"] = ZtoMuMuCandTrkSdband 
+    options["fullSelection"]   = "CandTrkEcaloSdbandPlotter" 
+    options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
+    options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
+    options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
+    options["fakeMuMuCtrlChannel"]  = "ZtoMuMuCandTrkEcaloSdbandPlotter"  
+    options["PElec"]    = elecEstEcaloSdband["P"] 
+    options["PElecErr"] = elecEstEcaloSdband["PErr"] 
+    options["PMuon"]    = muonEstEcaloSdband["P"] 
+    options["PMuonErr"] = muonEstEcaloSdband["PErr"] 
+    options["PTau"]     =  tauEstEcaloSdband["P"] 
+    options["PTauErr"]  =  tauEstEcaloSdband["PErr"]  
+    options["scaleKin"]     = fakeEst["scaleKin"] 
+    options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
+    makeBkgdEstimate(options)  
 
+if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:  
+    ###################################################
+    # Background estimate plots:  Ecalo sideband    
+    ###################################################
+    options = {}  
+    options["outputFile"]      = "bkgdOptionsSdbandNmissout.py" 
+    options["datasetMet"]      = "MET_2015D"  
+    options["datasetSingleMu"] = "SingleMu_2015D"  
+    options["dataDir"]         = candTrkNmissoutSdband 
+    options["elecCtrlDir"]     = elecCtrlDir
+    options["muonCtrlDir"]     = muonCtrlDir
+    options["tauCtrlDir"]      = tauCtrlDir 
+    options["fakeMuMuCtrlDir"] = ZtoMuMuCandTrkSdband 
+    options["fullSelection"]   = "CandTrkNMissOutSdbandPlotter" 
+    options["elecCtrlChannel"] = "ElecCtrlSelectionPlotter" 
+    options["muonCtrlChannel"] = "MuonCtrlSelectionPlotter" 
+    options["tauCtrlChannel"]  = "TauCtrlSelectionPlotter" 
+    options["fakeMuMuCtrlChannel"]  = "ZtoMuMuCandTrkNMissOutSdbandPlotter"  
+    options["PElec"]    = elecEstNmissoutSdband["P"] 
+    options["PElecErr"] = elecEstNmissoutSdband["PErr"] 
+    options["PMuon"]    = muonEstNmissoutSdband["P"] 
+    options["PMuonErr"] = muonEstNmissoutSdband["PErr"] 
+    options["PTau"]     =  tauEstNmissoutSdband["P"] 
+    options["PTauErr"]  =  tauEstNmissoutSdband["PErr"]  
+    options["scaleKin"]     = fakeEst["scaleKin"] 
+    options["scaleKinErr"]  = fakeEst["scaleKinErr"]  
+    makeBkgdEstimate(options)  
+
+
+if arguments.all or "bkgdChk" in arguments.tableSelection:
+    ###################################################
+    # Table of comparison of bkgd estimates vs observations
+    # in control regions.  
+    # This table can only be produced if the bkgd estimates
+    # have already been performed!  
+    ###################################################
+    def getOneLine(dirname, label):
+        yieldsFile = "condor/" + dirname + "/yields.txt"
+        yields = open(yieldsFile, "r")
+        yieldObs    = -99
+        yieldObsErr = -99
+        yieldEst    = -99
+        yieldEstErr = -99
+        for line in yields.readlines():
+            # Form of line is:  
+            # MET Yield = 129.0 +- 11.3578166916  
+            # Total bkgd yield = 61.4615057127 +- 6.711
+            words = line.split(" ")  
+            if "MET Yield" in line:
+                for i in range(len(words)):
+                    if "=" in words[i]:
+                        yieldObs    = float(words[i+1]) 
+                        yieldObsErr = float(words[i+3])  
+            if "Total bkgd yield" in line:
+                for i in range(len(words)):
+                    if "=" in words[i]:
+                        yieldEst    = float(words[i+1]) 
+                        yieldEstErr = float(words[i+3])  
+        ratio = yieldObs / yieldEst 
+        ratioErr = ratio * math.sqrt(pow(yieldObsErr/yieldObs, 2) + pow(yieldEstErr/yieldEst, 2))   
+        lineStr =  ('{0:<30}').format(label)  
+        lineStr += " &   " + str(int(yieldObs)) + " &  " 
+        lineStr += " $ " + str(round_sigfigs(yieldEst, 3)) + " \\pm " + str(round_sigfigs(yieldEstErr, 3)) + " $ &  " 
+        lineStr += " $ " + str(round_sigfigs(ratio, 2))    + " \\pm " + str(round_sigfigs(ratioErr, 2)) + " $ \\\\  \n" 
+        return lineStr  
+
+    outputFile = "tables/bkgdValidate.tex"
+    fout = open(outputFile, "w")
+    content = header
+    content += "\\begin{tabular}{lccc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "Sample                                  &  Data   &  Estimate  & Data/Estimate  \\\\ \n"  
+    content += hline                                                              
+    content += getOneLine(bkgdEstCandTrk,        "Candidate track sample")
+    content += getOneLine(bkgdEstSdbandNmissout, "\\calotot sideband sample")
+    content += getOneLine(bkgdEstSdbandEcalo,    "\\Nmissout sideband sample")
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n" 
+    fout.write(content)
+    fout.close()
+    os.system("cat " + outputFile) 
+    print "Finished writing " + outputFile + "\n\n\n"  
 
 if arguments.all or "fakeSyst" in arguments.tableSelection:
     ###################################################
@@ -924,6 +1182,7 @@ if user == "wulsin":
     print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir/tables/*tex\" tables/" 
 elif user == "hart":  
     print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/"  
+
 
 
 

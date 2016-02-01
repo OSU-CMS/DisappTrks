@@ -48,6 +48,9 @@ class CandidateTrackProducer : public edm::EDProducer {
       edm::InputTag electronsTag_;
       edm::InputTag muonsTag_;
       edm::InputTag tausTag_;
+      edm::InputTag beamspotTag_;
+      edm::InputTag verticesTag_;
+      edm::InputTag conversionsTag_;
       edm::InputTag rhoTag_;
       edm::InputTag rhoCaloTag_;
       edm::InputTag rhoCentralCaloTag_;
@@ -55,4 +58,15 @@ class CandidateTrackProducer : public edm::EDProducer {
 
       TrackDetectorAssociator trackAssociator_;
       TrackAssociatorParameters parameters_;
+
+      edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
+      edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;
+      edm::EDGetTokenT<vector<pat::Muon> >         muonsToken_;
+      edm::EDGetTokenT<vector<pat::Tau> >          tausToken_;
+      edm::EDGetTokenT<reco::BeamSpot>             beamspotToken_;
+      edm::EDGetTokenT<vector<reco::Vertex> >      verticesToken_;
+      edm::EDGetTokenT<vector<reco::Conversion> >  conversionsToken_;
+      edm::EDGetTokenT<double>                     rhoToken_;
+      edm::EDGetTokenT<double>                     rhoCaloToken_;
+      edm::EDGetTokenT<double>                     rhoCentralCaloToken_;
 };

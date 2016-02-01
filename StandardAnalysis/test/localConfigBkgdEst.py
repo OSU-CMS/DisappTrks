@@ -31,7 +31,7 @@ labels['MuonBkgd'] = "#mu bkgd"
 labels['ElecBkgd'] = "e bkgd"
 labels['TauBkgd']  = "#tau bkgd"
 labels['OthrBkgd'] = "other bkgd"
-labels['FakeMuMuBkgd'] = "Misid. bkgd"  
+labels['FakeMuMuBkgd'] = "Fake bkgd"  
 labels['MET']      = "2015D MET data" 
 
 

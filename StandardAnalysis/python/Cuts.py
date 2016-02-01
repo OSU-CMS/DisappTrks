@@ -209,12 +209,22 @@ cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingOuterHits <= 2"),
     numberRequired = cms.string(">= 1"),
+)                            
+cutTrkMatchGenElec = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 11"),
+    numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 13"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchNoElecNoMuon = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),  
+    numberRequired = cms.string(">= 1"),
+)  
 cutTrkArbitration = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > -1"),

@@ -48,10 +48,10 @@ masses = ['100', '300', '500', '700']
 #chargino tau values
 lifetimes = ['10', '100', '1000']
 
-lumi = 731
+lumi = 2457
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + 'disTrkSelection_signal'
+signal_condor_dir = WellsDir + 'disTrkSelection'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
@@ -68,10 +68,10 @@ data_dataset = "MET"
 
 #condor directory in which to find data root file
 #data_condor_dir = WellsDir + 'condor_2014_04_29_FullSelectionUnBlinded'
-data_condor_dir = AndrewDir + 'fullSelectionSkim_24June'
+data_condor_dir = WellsDir + 'disTrkSelection' 
 
 #name of event selection from which to take observed events
-data_channel = 'FullSelection'
+data_channel = 'DisTrkSelection'
 
 #############################
 ### Background Parameters ###
@@ -86,31 +86,46 @@ data_channel = 'FullSelection'
 
 external_systematic_uncertainties = [
     # Use order of AN
-     'Isr',
-     'JES',
-     'JER',
-     'PDFWt',
-     'trigEff',
-     'NMissOut',
-     'pileup',
     ]
 
 #uncertainties on signal only (we can alter this if we need to)
+# For now, use the largest value of the uncertainty range from Run 1  
 signal_systematic_uncertainties = {
-    'lumi' :  {
-    'value' : '1.026',
+     'Isr' : { 
+        'value' :'1.11', 
+        }, 
+     'JES' : { 
+        'value' : '1.07', 
+        }, 
+     # 'JER' : { 
+     #    'value' : '', 
+     #    }, 
+     'PDFWt' : { 
+        'value' : '1.10', 
+        }, 
+     'trigEff' : { 
+        'value' : '1.08', 
+        }, 
+     'NMissOut' : { 
+        'value' : '1.07', 
+        }, 
+     'pileup' : { 
+        'value' : '1.02', 
+        }, 
+     'lumi' :  {
+        'value' : '1.046',  # Value for 2015D  
         },
-    'trkReco' :  {
-    'value' : '1.017',
+     'trkReco' :  {
+        'value' : '1.017',
         },
-    'Nmissin' :  {
-    'value' : '1.028', # from tables/systNmissIn.tex from makeANTables.py
-    },
-    'Nmissmid' :  {
-    'value' : '1.018', # from tables/systNmissMid.tex from makeANTables.py
-    },
-    'Ecalo' : {
-    'value' : '1.065', # from tables/systEcalo.tex from makeANTables.py
-    },
-    }
+     'Nmissin' :  {
+        'value' : '1.028', # from tables/systNmissIn.tex from makeANTables.py
+        },
+     'Nmissmid' :  {
+        'value' : '1.018', # from tables/systNmissMid.tex from makeANTables.py
+        },
+     'Ecalo' : {
+        'value' : '1.065', # from tables/systEcalo.tex from makeANTables.py
+        },
+     }
 
