@@ -60,10 +60,13 @@ ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"
 ZtoMuMuCandTrkSdband      = WellsDir + "ZtoMuMuCandTrkSdband"  
 ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuDisTrk"  
 ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456" 
-BasicSelDir                 = WellsDir + "candTrkSelection"  
+BasicSelDir               = WellsDir + "candTrkSelection"  
 DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456" 
 
-
+## Bkgd estimates
+bkgdEstCandTrk            = WellsDir + "condor_2016_01_20_BkgdEstCandTrk" 
+bkgdEstSdbandNmissout     = WellsDir + "condor_2016_01_20_BkgdEstSdbandNmissout"
+bkgdEstSdbandEcalo        = WellsDir + "condor_2016_01_20_BkgdEstSdbandEcalo"  
     
 ### parse the command-line options
 parser = OptionParser()
@@ -985,6 +988,61 @@ if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     makeBkgdEstimate(options)  
 
 
+if arguments.all or "bkgdChk" in arguments.tableSelection:
+    ###################################################
+    # Table of comparison of bkgd estimates vs observations
+    # in control regions.  
+    # This table can only be produced if the bkgd estimates
+    # have already been performed!  
+    ###################################################
+    def getOneLine(dirname, label):
+        yieldsFile = "condor/" + dirname + "/yields.txt"
+        yields = open(yieldsFile, "r")
+        yieldObs    = -99
+        yieldObsErr = -99
+        yieldEst    = -99
+        yieldEstErr = -99
+        for line in yields.readlines():
+            # Form of line is:  
+            # MET Yield = 129.0 +- 11.3578166916  
+            # Total bkgd yield = 61.4615057127 +- 6.711
+            words = line.split(" ")  
+            if "MET Yield" in line:
+                for i in range(len(words)):
+                    if "=" in words[i]:
+                        yieldObs    = float(words[i+1]) 
+                        yieldObsErr = float(words[i+3])  
+            if "Total bkgd yield" in line:
+                for i in range(len(words)):
+                    if "=" in words[i]:
+                        yieldEst    = float(words[i+1]) 
+                        yieldEstErr = float(words[i+3])  
+        ratio = yieldObs / yieldEst 
+        ratioErr = ratio * math.sqrt(pow(yieldObsErr/yieldObs, 2) + pow(yieldEstErr/yieldEst, 2))   
+        lineStr =  ('{0:<30}').format(label)  
+        lineStr += " &   " + str(int(yieldObs)) + " &  " 
+        lineStr += " $ " + str(round_sigfigs(yieldEst, 3)) + " \\pm " + str(round_sigfigs(yieldEstErr, 3)) + " $ &  " 
+        lineStr += " $ " + str(round_sigfigs(ratio, 2))    + " \\pm " + str(round_sigfigs(ratioErr, 2)) + " $ \\\\  \n" 
+        return lineStr  
+
+    outputFile = "tables/bkgdValidate.tex"
+    fout = open(outputFile, "w")
+    content = header
+    content += "\\begin{tabular}{lccc}\n"                                                 
+    content += hline                                                              
+    content += hline                                                              
+    content += "Sample                                  &  Data   &  Estimate  & Data/Estimate  \\\\ \n"  
+    content += hline                                                              
+    content += getOneLine(bkgdEstCandTrk,        "Candidate track sample")
+    content += getOneLine(bkgdEstSdbandNmissout, "\\calotot sideband sample")
+    content += getOneLine(bkgdEstSdbandEcalo,    "\\Nmissout sideband sample")
+    content += hline                                                              
+    content += hline                                                              
+    content += "\\end{tabular}\n" 
+    fout.write(content)
+    fout.close()
+    os.system("cat " + outputFile) 
+    print "Finished writing " + outputFile + "\n\n\n"  
 
 if arguments.all or "fakeSyst" in arguments.tableSelection:
     ###################################################
