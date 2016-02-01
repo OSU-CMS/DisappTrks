@@ -60,6 +60,15 @@ cutMet = cms.PSet(
 )
 
 ##################################################
+## track-met pairs
+##################################################
+cutMuonMT = cms.PSet(
+    inputCollection = cms.vstring("muons", "mets"),
+    cutString = cms.string("transMass (muon, met) < 40"),
+    numberRequired = cms.string(">= 1"),
+)
+
+##################################################
 ## jets
 ##################################################
 cutJetPt = cms.PSet(
