@@ -1,9 +1,9 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
-from OSUT3Analysis.Configuration.miniAODV1Samples import *
+from DisappTrks.StandardAnalysis.miniAODV2Samples import *
 
 config_file = "protoConfig_cfg.py"
 
-intLumi = 2457.4 # See https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/558
+intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
 datasetsBkgd = [
     'WJetsToLNu_HT',
