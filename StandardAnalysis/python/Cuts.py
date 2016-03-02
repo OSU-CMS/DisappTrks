@@ -13,12 +13,11 @@ mZPDG = 91.1876  # Z mass from http://pdglive.lbl.gov/DataBlock.action?node=S044
 ##############################
 
 triggersMet = cms.vstring(
-        "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
-        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",  # monojet trigger in the data, unprescaled for all of 2015
-        "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight_v",  # monojet trigger in the RunIISpring15DR74 MC samples
+    "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 
-        #"HLT_PFMET120_PFMHT120_IDTight_v", # PFMET trigger in the data
-        #"HLT_PFMET120_PFMHT120_IDLoose_v", # PFMET trigger in the RunIISpring15DR74 MC samples
+    # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6     
+    "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D Part 1
+    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D Part 2  && RunIIFall15MiniAODv2_76X MC 
 )
 
 triggersSingleMu = cms.vstring(
