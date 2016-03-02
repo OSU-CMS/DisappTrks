@@ -689,6 +689,23 @@ TauExtraHistograms = cms.PSet(
         )
     )
 
+############################################################################################
 
-
-
+EventVariableHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("lifetimeWeight"),
+            title = cms.string(";lifetime weight"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("lifetimeWeight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("ctau"),
+            title = cms.string(";c#tau [cm]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 50.0),
+            inputVariables = cms.vstring("cTau_1000024_0"),
+        ),
+    )
+)

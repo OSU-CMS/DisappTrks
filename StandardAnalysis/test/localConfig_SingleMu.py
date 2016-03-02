@@ -1,6 +1,6 @@
 from localConfig import * 
 
-intLumi = 2456.9 # See https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/577
+intLumi = 2588.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
 datasetsData = [
     'SingleMu_2015D',  
