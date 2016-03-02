@@ -46,6 +46,7 @@ isoTrkCuts = [
         cutTrkNValidHits,
         cutTrkNMissIn,
         cutTrkNMissMid, 
+        cutTrkD0, 
         cutTrkIso, 
 ]
 addCuts(isoTrkSelection.cuts, isoTrkCuts)
