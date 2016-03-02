@@ -204,11 +204,21 @@ cutTrkEcaloInv = cms.PSet(
     cutString = cms.string("caloTotNoPUDRp5CentralCalo > 10"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkEcaloInv50 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("caloTotNoPUDRp5CentralCalo > 50"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingOuterHits <= 2"),
     numberRequired = cms.string(">= 1"),
 )                            
+cutTrkMatchGenNone = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) == 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 11"),
@@ -219,16 +229,38 @@ cutTrkMatchGenMuon = cms.PSet(
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 13"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchGenPhoton = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 22"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchNoElecNoMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),  
     numberRequired = cms.string(">= 1"),
 )  
+cutTrkNoMuonDRMatch = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestMuon > 0.8"), 
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkArbitration = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
+)
+cutTrkLargeD0 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "beamspots"),
+    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) > 0.1"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("d0 > 0.1"), 
+)
+cutTrkSmallD0 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "beamspots"),
+    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("d0 < 0.1"), 
 )
 
 ##################################################
