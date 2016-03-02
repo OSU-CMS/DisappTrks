@@ -5,6 +5,16 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 
 
 ##########################################################################
+##### Testing #####
+##########################################################################
+NoCuts = cms.PSet(
+    name = cms.string("NoCuts"),
+    triggers = cms.vstring(), 
+    cuts = cms.VPSet (), 
+    )
+
+
+##########################################################################
 ##### Preselection #####
 ##########################################################################
 
@@ -105,6 +115,16 @@ candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd
 ##########################################################################
 
 # Use this selection for the muon background estimate.   
+disTrkSelectionIdElec = copy.deepcopy(disTrkSelection) 
+disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec") 
+cutsToAdd = [ 
+    cutTrkMatchGenElec, 
+]  
+addCuts(disTrkSelectionIdElec.cuts, cutsToAdd) 
+
+##########################################################################
+
+# Use this selection for the muon background estimate.   
 disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection) 
 disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon") 
 cutsToAdd = [ 
@@ -135,6 +155,78 @@ cutsToAdd = [
     cutTrkMatchGenMuon, 
 ]  
 #addCuts(muonCtrlSelection.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcalo = copy.deepcopy(muonCtrlSelection) 
+muonCtrlLoEcalo.name = cms.string("MuonCtrlLoEcalo") 
+cutsToAdd = [ 
+    cutTrkEcalo,
+]  
+addCuts(muonCtrlLoEcalo.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcaloGenMatchNone = copy.deepcopy(muonCtrlLoEcalo) 
+muonCtrlLoEcaloGenMatchNone.name = cms.string("muonCtrlLoEcaloGenMatchNone") 
+cutsToAdd = [ 
+    cutTrkMatchGenNone,
+]  
+addCuts(muonCtrlLoEcaloGenMatchNone.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcaloGenMatchPhoton = copy.deepcopy(muonCtrlLoEcalo) 
+muonCtrlLoEcaloGenMatchPhoton.name = cms.string("muonCtrlLoEcaloGenMatchPhoton") 
+cutsToAdd = [ 
+    cutTrkMatchGenPhoton,
+]  
+addCuts(muonCtrlLoEcaloGenMatchPhoton.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcaloNoMuonDRMatch = copy.deepcopy(muonCtrlLoEcalo) 
+muonCtrlLoEcaloNoMuonDRMatch.name = cms.string("muonCtrlLoEcaloNoMuonDRMatch") 
+cutsToAdd = [ 
+    cutTrkNoMuonDRMatch,
+]  
+addCuts(muonCtrlLoEcaloNoMuonDRMatch.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcaloNoMuonDRMatchLargeD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch) 
+muonCtrlLoEcaloNoMuonDRMatchLargeD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchLargeD0") 
+cutsToAdd = [ 
+    cutTrkLargeD0,
+]  
+addCuts(muonCtrlLoEcaloNoMuonDRMatchLargeD0.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlLoEcaloNoMuonDRMatchSmallD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch) 
+muonCtrlLoEcaloNoMuonDRMatchSmallD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchSmallD0") 
+cutsToAdd = [ 
+    cutTrkSmallD0,
+]  
+addCuts(muonCtrlLoEcaloNoMuonDRMatchSmallD0.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlHiEcalo = copy.deepcopy(muonCtrlSelection) 
+muonCtrlHiEcalo.name = cms.string("MuonCtrlHiEcalo") 
+cutsToAdd = [ 
+    cutTrkEcaloInv50,
+]  
+addCuts(muonCtrlHiEcalo.cuts, cutsToAdd)
+
+##########################################################################
+
+muonCtrlHiEcaloGenMatchMuon = copy.deepcopy(muonCtrlHiEcalo) 
+muonCtrlHiEcaloGenMatchMuon.name = cms.string("muonCtrlHiEcaloGenMatchMuon") 
+cutsToAdd = [ 
+    cutTrkMatchGenMuon, 
+]  
+addCuts(muonCtrlHiEcaloGenMatchMuon.cuts, cutsToAdd)
 
 ##########################################################################
 
@@ -170,5 +262,57 @@ cutsToAdd = [
     cutTrkNMissOutInv, 
 ]
 addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
+
+##########################################################################
+
+disTrkSelectionNHits3 = copy.deepcopy(disTrkSelection) 
+disTrkSelectionNHits3.name = cms.string("DisTrkSelectionNHits3") 
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits3, 
+]
+removeCuts(disTrkSelectionNHits3.cuts, cutsToRemove) 
+addCuts   (disTrkSelectionNHits3.cuts, cutsToAdd) 
+
+##########################################################################
+
+disTrkSelectionNHits4 = copy.deepcopy(disTrkSelection) 
+disTrkSelectionNHits4.name = cms.string("DisTrkSelectionNHits4") 
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits4, 
+]
+removeCuts(disTrkSelectionNHits4.cuts, cutsToRemove) 
+addCuts   (disTrkSelectionNHits4.cuts, cutsToAdd) 
+
+##########################################################################
+
+disTrkSelectionNHits5 = copy.deepcopy(disTrkSelection) 
+disTrkSelectionNHits5.name = cms.string("DisTrkSelectionNHits5") 
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits5, 
+]
+removeCuts(disTrkSelectionNHits5.cuts, cutsToRemove) 
+addCuts   (disTrkSelectionNHits5.cuts, cutsToAdd) 
+
+##########################################################################
+
+disTrkSelectionNHits6 = copy.deepcopy(disTrkSelection) 
+disTrkSelectionNHits6.name = cms.string("DisTrkSelectionNHits6") 
+cutsToRemove = [
+    cutTrkNValidHits, 
+]
+cutsToAdd = [
+    cutTrkNValidHits6, 
+]
+removeCuts(disTrkSelectionNHits6.cuts, cutsToRemove) 
+addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd) 
 
 ##########################################################################

@@ -16,6 +16,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("pt"),
         ),
         cms.PSet (
+            name = cms.string("trackPtWider"),
+            title = cms.string("Track Transverse Momentum;track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 10000),
+            inputVariables = cms.vstring("pt"),
+        ),
+        cms.PSet (
             name = cms.string("trackIsolation"),
             title = cms.string("Relative Track Isolation;relative track isolation"), 
             binsX = cms.untracked.vdouble(100, 0, 0.3),
@@ -77,6 +83,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
+            name = cms.string("trackCaloTot_RhoCorrWide"),
+            title = cms.string("Isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo"),
+            ),
+        cms.PSet (
             name = cms.string("trackCaloTotByP_RhoCorr"),
             title = cms.string("Relative isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5}/p"),
             binsX = cms.untracked.vdouble(100, 0, 2),
@@ -133,7 +145,12 @@ TrackExtraHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(2.0, -0.5, 1.5), 
             inputVariables = cms.vstring("genMatchedParticle.promptFinalState.isNonnull", "genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull"),  
         ),
-
+        cms.PSet (
+            name = cms.string("genMatchedPromptFinalStatePt"),
+            title = cms.string(";p_{T} of matched generator particle [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("genMatchedParticle.promptFinalState.pt"),
+            ),
 
         )
     )
