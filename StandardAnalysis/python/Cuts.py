@@ -180,14 +180,29 @@ cutTrkElecVeto = cms.PSet(
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkVetoElecVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestVetoElectron > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMuonVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestMuon > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkLooseMuonVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestLooseMuon > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkTauVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestTau > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkTauHadVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTauHad > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcalo = cms.PSet(
@@ -371,6 +386,15 @@ cutElectronArbitration = cms.PSet(
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
+)
+
+##################################################
+## track-beamspot
+##################################################
+cutTrkD0 = cms.PSet (
+    inputCollection = cms.vstring("tracks", "beamspots"),
+    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) < 0.02"),
+    numberRequired = cms.string(">= 1"),
 )
 
 ##################################################
