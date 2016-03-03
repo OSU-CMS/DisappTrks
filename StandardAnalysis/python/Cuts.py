@@ -250,6 +250,12 @@ cutTrkArbitration = cms.PSet(
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
 )
+cutTrkD0 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "beamspots"),
+    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("track d0 < 0.02"), 
+)
 cutTrkLargeD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) > 0.1"),

@@ -48,15 +48,16 @@ metMinimalSkim = cms.PSet(
 isoTrkSelection = copy.deepcopy(basicSelection) 
 isoTrkSelection.name = cms.string("IsoTrkSelection") 
 isoTrkCuts = [ 
-        cutTrkPt, 
-        cutTrkEta,
-        cutTrkEcalGapVeto,
-        cutTrkEtaMuonIneff1, 
-        cutTrkEtaMuonIneff2, 
-        cutTrkNValidHits,
-        cutTrkNMissIn,
-        cutTrkNMissMid, 
-        cutTrkIso, 
+    cutTrkPt, 
+    cutTrkEta,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1, 
+    cutTrkEtaMuonIneff2, 
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid, 
+    cutTrkIso, 
+    cutTrkD0, 
 ]
 addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
