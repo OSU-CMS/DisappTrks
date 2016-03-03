@@ -8,7 +8,7 @@ intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/59
 datasetsBkgd = [
     'WJetsToLNu_HT',
     # 'WJetsToLNu',
-    'TTJets_Lept',
+    'TTJets',
     'SingleTop',
     'VV',
 
