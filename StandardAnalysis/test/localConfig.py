@@ -52,13 +52,6 @@ composite_dataset_definitions["WZ"] = [
     'WZToLLLNu',
 ]
 
-composite_dataset_definitions["ZZ"] = [
-    'ZZToNuNuQQ',
-    'ZZToLLQQ',
-    'ZZToLLNuNu',
-    'ZZToLLLL',
-]
-
 composite_dataset_definitions["VG"] = [
     'WG',
     'ZG',
@@ -71,10 +64,8 @@ composite_dataset_definitions["VV"] = [
     #'WZToLLQQ',
     'WZToLNuNuNu',
     'WZToLLLNu',
-    'ZZToNuNuQQ',
-    'ZZToLLQQ',
-    'ZZToLLNuNu',
-    'ZZToLLLL',
+    # Switch to inclusive WZ sample when it is available.  
+    'ZZ', 
     'WG',
     'ZG',
 ]
