@@ -16,8 +16,11 @@ triggersMet = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 
     # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6     
-    "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D Part 1
-    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D Part 2  && RunIIFall15MiniAODv2_76X MC 
+    "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC 
+    "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D 76X ReReco Part 1
+    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D 76X ReReco Part 2  && RunIIFall15MiniAODv2_76X MC 
+
+
 )
 
 triggersSingleMu = cms.vstring(
