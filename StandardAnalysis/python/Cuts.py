@@ -79,6 +79,11 @@ cutJetPt = cms.PSet(
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
 )
+cutJetEta = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("fabs ( eta ) < 2.4"),
+    numberRequired = cms.string(">= 1"),
+)
 cutJetChgHad = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("chargedHadronEnergyFraction > 0.2"),
