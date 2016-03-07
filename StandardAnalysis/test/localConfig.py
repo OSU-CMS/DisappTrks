@@ -38,6 +38,12 @@ datasetsSig = [
     'AMSB_chargino_700GeV_1000cm',
 ]
 
+datasetsSigShort = [
+    'AMSB_chargino_500GeV_10cm',
+    'AMSB_chargino_500GeV_100cm',
+    'AMSB_chargino_500GeV_1000cm',
+]
+
 datasets = datasetsBkgd + datasetsData + datasetsSig  
 
 composite_dataset_definitions["WW"] = [
