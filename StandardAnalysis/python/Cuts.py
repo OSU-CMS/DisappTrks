@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.invMass import *
+from OSUT3Analysis.Configuration.cutUtilities import *
 
 ##############################
 ##### Constants          #####
@@ -76,6 +77,11 @@ cutMuonMT = cms.PSet(
 cutJetPt = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > 110"),
+    numberRequired = cms.string(">= 1"),
+)
+cutJetEta = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("fabs ( eta ) < 2.4"),
     numberRequired = cms.string(">= 1"),
 )
 cutJetChgHad = cms.PSet(
@@ -255,19 +261,19 @@ cutTrkArbitration = cms.PSet(
 )
 cutTrkD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
-    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) < 0.1"),
+    cutString = cms.string("fabs ( " + trackD0WRTBeamspot + " ) < 0.02"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("track d0 < 0.02"), 
 )
 cutTrkLargeD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
-    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) > 0.1"),
+    cutString = cms.string(trackD0WRTBeamspot + " > 0.1"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("d0 > 0.1"), 
 )
 cutTrkSmallD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
-    cutString = cms.string("fabs(((track.vx - beamspot.x0) * track.py - (track.vy - beamspot.y0) * track.px) / track.pt) < 0.1"),
+    cutString = cms.string(trackD0WRTBeamspot + " < 0.1"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("d0 < 0.1"), 
 )
@@ -413,15 +419,3 @@ cutElectronArbitration = cms.PSet(
     arbitration = cms.string("random"),
 )
 
-##################################################
-## Functions for adding, removing cuts
-##################################################
-def addCuts(cutVPset, cutsToAdd):
-    for cut in cutsToAdd:
-        cutVPset.append(cut)
-
-def removeCuts(cutVPset, cutsToRemove):
-    for cut in cutsToRemove:
-        for i in xrange(len(cutVPset) - 1, -1, -1):  # iterate backwards to avoid error
-            if cutVPset[i].cutString == cut.cutString:
-                del cutVPset[i]

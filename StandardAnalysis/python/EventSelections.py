@@ -25,6 +25,7 @@ basicSelection = cms.PSet(
         cutGoodPV,
         cutMet,
         cutJetPt,
+        cutJetEta, 
         cutJetChgHad,
         cutJetChgEm,
         cutJetNeuHad, 
