@@ -93,6 +93,9 @@ def subtractImpurities (Histogram,channel=""):
 
 
 outputLog = open (condor_dir + "/yields.txt", "w")
+
+integralBkgdTot    = 0.0  
+integralBkgdTotErr = 0.0  
                
 #### Loop over each background input source 
 for bkgd in bkgd_sources:  
@@ -194,12 +197,21 @@ for bkgd in bkgd_sources:
                         Histogram.Write ()
                         if arguments.verbose: 
                             print "Debug:  Wrote hist", histogramName
-                        if "numEvents" in str(Histogram.GetName()): 
+                        if "metPt" in str(Histogram.GetName()): 
                             intError = Double (0.0)
                             integral = Histogram.IntegralAndError(1, Histogram.GetNbinsX(), intError)
                             print           "  " + bkgd + " Yield = " + str(integral) + " +- " + str(intError)  
                             outputLog.write( "  " + bkgd + " Yield = " + str(integral) + " +- " + str(intError) + "\n")  
+                            if not "MET" in bkgd:
+                                integralBkgdTot += integral  
+                                # Error is sum in quadrature of individual errors  
+                                integralBkgdTotErr = math.sqrt(pow(integralBkgdTotErr, 2) + \
+                                                               pow(intError,           2))  
 
     outputFile.Close()
+
+
+print           "Total bkgd yield = " + str(integralBkgdTot) + " +- " + str(integralBkgdTotErr) 
+outputLog.write("Total bkgd yield = " + str(integralBkgdTot) + " +- " + str(integralBkgdTotErr))  
 
 outputLog.close ()

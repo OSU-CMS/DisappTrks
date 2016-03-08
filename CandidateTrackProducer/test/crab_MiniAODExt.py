@@ -187,7 +187,7 @@ if __name__ == '__main__':
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_16Dec2015'
-    config.Data.inputDataset = ' /SingleMuon/Run2015D-v1/RAW'
+    config.Data.inputDataset = '/SingleMuon/Run2015D-v1/RAW'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_16Dec2015'
