@@ -74,7 +74,7 @@ if __name__ == '__main__':
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_DYToNuNu_HT-400to600'
-    config.Data.inputDataset = '' # not yet available
+    config.Data.inputDataset = '/ZJetsToNuNu_HT-400To600_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_DYToNuNu_HT-600toInf'
@@ -97,6 +97,26 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
     #forkAndSubmit(config)
 
+    config.General.requestName = 'candidateTrackProducer_WToLNu_HT-600to800'
+    config.Data.inputDataset = '/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_WToLNu_HT-800to1200'
+    config.Data.inputDataset = '/WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_WToLNu_HT-1200to2500'
+    config.Data.inputDataset = '/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_WToLNu_HT-2500toInf'
+    config.Data.inputDataset = '/WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_WToLNu'
+    config.Data.inputDataset = ''
+    #forkAndSubmit(config)
+
     config.General.requestName = 'candidateTrackProducer_WWToLNuQQ'
     config.Data.inputDataset = '/WWToLNuQQ_13TeV-powheg/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/MINIAODSIM'
     #forkAndSubmit(config)
@@ -106,7 +126,7 @@ if __name__ == '__main__':
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_WZ'
-    config.Data.inputDataset = '/WZJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
+    config.Data.inputDataset = '/WZ_TuneCUETP8M1_13TeV-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_ZZ'
@@ -121,6 +141,7 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
     #forkAndSubmit(config)
 
+    config.Data.unitsPerJob = 50  # very big sample
     config.General.requestName = 'candidateTrackProducer_TTbar'
     config.Data.inputDataset = '/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext3-v1/MINIAODSIM'
     #forkAndSubmit(config)
