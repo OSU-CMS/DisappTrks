@@ -6,14 +6,13 @@ config_file = "protoConfig_cfg.py"
 intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
 datasetsBkgd = [
+    'DYJetsToLL_50',
+    'DYJetsToNuNu',
+    'VV',
+    'SingleTop',
+    'TTJets',
     'WJetsToLNu_HT',
     # 'WJetsToLNu',
-    'TTJets',
-    'SingleTop',
-    'VV',
-
-    'DYJetsToNuNu',
-    'DYJetsToLL_50',
 ]
 
 datasetsData = [
