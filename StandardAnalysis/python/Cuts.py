@@ -278,19 +278,19 @@ cutTrkD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string("fabs ( " + trackD0WRTBeamspot + " ) < 0.02"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("track d0 < 0.02"), 
+    alias = cms.string(">= 1 tracks with |d0| < 0.02"), 
 )
 cutTrkLargeD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string(trackD0WRTBeamspot + " > 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("d0 > 0.1"), 
+    alias = cms.string(">= 1 tracks with |d0| > 0.1"), 
 )
 cutTrkSmallD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string(trackD0WRTBeamspot + " < 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("d0 < 0.1"), 
+    alias = cms.string(">= 1 tracks with |d0| < 0.1"), 
 )
 
 ##################################################
@@ -301,20 +301,32 @@ cutMuonPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuonPt25 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMuonEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
     numberRequired = cms.string(">= 1"),
 )
-cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Tight_Muon
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
     numberRequired = cms.string(">= 1"),
 )
-cutMuonPFIso = cms.PSet (  # Get this from Bing
+cutMuonLoosePFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("relPFdBetaIso < 0.12"),
+    cutString = cms.string("(pfIsolationR04_.sumChargedHadronPt + max (0.0, pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5 * pfIsolationR04_.sumPUPt)) / pt < 0.25"),
     numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.25"),
+)
+cutMuonTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("(pfIsolationR04_.sumChargedHadronPt + max (0.0, pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5 * pfIsolationR04_.sumPUPt)) / pt < 0.15"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
 cutMuonPairPt20 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -369,13 +381,13 @@ cutMuTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string(invMassWithMuon ("muon") + " > 10"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string ("invMass(muon,track) > 10"),
+    alias = cms.string (">= 1 muon-track pairs with invMass(muon,track) > 10"),
 )
 cutMuTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string ("80 < invMass(muon,track) < 100"),
+    alias = cms.string (">= 1 muon-track pairs with 80 < invMass(muon,track) < 100"),
 )
 cutMuTrkOS = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
@@ -395,13 +407,13 @@ cutEleTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string(invMassWithElectron ("electron") + " > 10"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string ("invMass(electron,track) > 10"),
+    alias = cms.string (">= 1 electron-track pairs with invMass(electron,track) > 10"),
 )
 cutEleTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string(invMassWithElectron ("electron") + " > 80 && " + invMassWithElectron ("electron") + " < 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string ("80 < invMass(electron,track) < 100"),
+    alias = cms.string (">= 1 electron-track pairs with 80 < invMass(electron,track) < 100"),
 )
 cutEleTrkOS = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
