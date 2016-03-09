@@ -114,7 +114,7 @@ if __name__ == '__main__':
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_WToLNu'
-    config.Data.inputDataset = ''
+    config.Data.inputDataset = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_WWToLNuQQ'
