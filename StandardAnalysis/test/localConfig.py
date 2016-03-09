@@ -6,14 +6,13 @@ config_file = "protoConfig_cfg.py"
 intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
 datasetsBkgd = [
+    'DYJetsToLL_50',
+    'DYJetsToNuNu',
+    'VV',
+    'SingleTop',
+    'TTJets',
     'WJetsToLNu_HT',
     # 'WJetsToLNu',
-    'TTJets_Lept',
-    'SingleTop',
-    'VV',
-
-    'DYJetsToNuNu',
-    'DYJetsToLL_50',
 ]
 
 datasetsData = [
@@ -38,6 +37,12 @@ datasetsSig = [
     'AMSB_chargino_700GeV_1000cm',
 ]
 
+datasetsSigShort = [
+    'AMSB_chargino_500GeV_10cm',
+    'AMSB_chargino_500GeV_100cm',
+    'AMSB_chargino_500GeV_1000cm',
+]
+
 datasets = datasetsBkgd + datasetsData + datasetsSig  
 
 composite_dataset_definitions["WW"] = [
@@ -52,13 +57,6 @@ composite_dataset_definitions["WZ"] = [
     'WZToLLLNu',
 ]
 
-composite_dataset_definitions["ZZ"] = [
-    'ZZToNuNuQQ',
-    'ZZToLLQQ',
-    'ZZToLLNuNu',
-    'ZZToLLLL',
-]
-
 composite_dataset_definitions["VG"] = [
     'WG',
     'ZG',
@@ -71,10 +69,8 @@ composite_dataset_definitions["VV"] = [
     #'WZToLLQQ',
     'WZToLNuNuNu',
     'WZToLLLNu',
-    'ZZToNuNuQQ',
-    'ZZToLLQQ',
-    'ZZToLLNuNu',
-    'ZZToLLLL',
+    # Switch to inclusive WZ sample when it is available.  
+    'ZZ', 
     'WG',
     'ZG',
 ]
