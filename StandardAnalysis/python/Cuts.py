@@ -188,14 +188,29 @@ cutTrkElecVeto = cms.PSet(
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkVetoElecVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestVetoElectron > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMuonVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestMuon > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkLooseMuonVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestLooseMuon > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkTauVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestTau > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkTauHadVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTauHad > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcalo = cms.PSet(
@@ -418,4 +433,3 @@ cutElectronArbitration = cms.PSet(
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
 )
-
