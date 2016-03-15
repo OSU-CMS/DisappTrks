@@ -120,6 +120,9 @@ CandidateTrack::getMinDeltaRToTauHad (const vector<pat::Tau> &objects) const
   for (const auto &object : objects)
     {
       if (object.tauID ("decayModeFinding") < 0.5 || object.tauID ("againstElectronLooseMVA6") < 0.5 || object.tauID ("againstMuonLoose3") < 0.5)
+      // See references:
+      // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID
+      // https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV 
         continue;
       double dR = deltaR (*this, object);
 

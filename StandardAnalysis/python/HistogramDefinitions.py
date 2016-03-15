@@ -1,5 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.invMass import *
+from OSUT3Analysis.Configuration.cutUtilities import *
+
 
 ###############################################
 ##### Set up the histograms to be plotted #####
@@ -107,7 +109,7 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("ptError / pt"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinElecLooseMvaId"),
+            name = cms.string("trackDeltaRToClosestElectron"),
             title = cms.string("deltaRMinElecLooseMvaId;#DeltaR_{min}(track,electron)"), 
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestElectron"),
@@ -127,16 +129,22 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("deltaRToClosestMuon", "deltaRToClosestTau"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinMuonLooseId"),
+            name = cms.string("trackDeltaRToClosestMuon"),
             title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),  
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestMuon"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinTauLooseHadronicId"),
+            name = cms.string("trackDeltaRToClosestTau"),
             title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestTau"),   
+            ),
+        cms.PSet (
+            name = cms.string("trackDeltaRToClosestTauHad"),
+            title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestTauHad"),   
             ),
         cms.PSet (
             name = cms.string("genMatchedTauDecayProductFinalStateVsPromptFinalStateIsMatched"),
@@ -707,5 +715,23 @@ EventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(1000, 0.0, 50.0),
             inputVariables = cms.vstring("cTau_1000024_0"),
         ),
+        cms.PSet (
+            name = cms.string("nJets"),
+            title = cms.string(";Number of jets"),
+            binsX = cms.untracked.vdouble(15, 0.0, 15.0),
+            inputVariables = cms.vstring("nJets"),
+        ),
+        cms.PSet (
+            name = cms.string("dijetMaxDeltaPhi"),
+            title = cms.string("Maximum #Delta#Phi between two jets;#Delta#Phi_{max}(jet pairs)"),
+            binsX = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("dijetMaxDeltaPhi"),
+        ),
     )
 )
+
+
+
+##############################################################################################
+
+
