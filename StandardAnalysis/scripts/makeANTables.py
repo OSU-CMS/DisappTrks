@@ -39,7 +39,6 @@ else:
     os.exit(0)
     
 ## Nominal selection
-BasicSelDir             = "" # FIXME:  Not yet available.  
 candTrkDir            = WellsDir+"candTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
 disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/569
 candTrkEcaloSdband    = WellsDir+"candTrkEcaloSdband"    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/567  
@@ -55,12 +54,13 @@ muonCtrlDir           = WellsDir+"muonCtrlSelection" # https://cmshead.mps.ohio-
 tauCtrlDir            = WellsDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/573 
 
 ## fakeTrkRate.tex and fakeEst.tex
-ZtoMuMuDir                = WellsDir + "ZtoMuMuSkim"  
+ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"  
 ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"  
 ZtoMuMuCandTrkSdband      = WellsDir + "ZtoMuMuCandTrkSdband"  
-ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuDisTrk"  
+ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuTrk_76X"  
 ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456" 
-BasicSelDir               = WellsDir + "candTrkSelection"  
+BasicSelDir               = WellsDir + "isoTrkSelection_76X"  
+BasicSelChan              = "IsoTrkSelection"  
 DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456" 
 
 ## Bkgd estimates
@@ -790,7 +790,7 @@ if arguments.all \
     content += "$N^{\\Z \\rightarrow ll}$  & $" + str(round_sigfigs(NCtrl / 1.e6,3)) + " \\times 10^{6}$     \\\\ \n"                               
     content += "$N^{\\rm fake}_{\\rm ctrl}$              & $ "+ str(round_sigfigs(NYield,2))     + "$     \\\\ \n"                             
     content += hline                                                              
-    content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Z \\rightarrow ll }$ & $ (" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
+    content += "$P^{\\rm fake} = N^{\\rm fake}_{\\rm ctrl} / N^{\\Z \\rightarrow ll }$ & $ (" + str(round_sigfigs(P * 1e6,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e6,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e6,2)) + "}) \\times 10^{-6} $ \\\\  \n"  
     content += hline                                                           
     content += hline                                                              
     content += "\\end{tabular}\n"                                                       
@@ -802,8 +802,8 @@ if arguments.all \
 
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
-    ibin = getBinWithLabel("WJetsToLNu_HT", BasicSelDir, "CandTrkSelectionCutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
-    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, "CandTrkSelectionCutFlowPlotter", ibin)
+    ibin = getBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.  
+    (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin) 
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
     NfakeErrUp = NCtrlMet * PErrUp
@@ -821,7 +821,7 @@ if arguments.all \
     content += hline                                                              
     content += "$N^{\\rm fake}_{\\rm ctrl}$ (data) & $"  + str(round_sigfigs(NCtrlMet * 1e-6,3))  +  " \\times 10^{6} $     \\\\ \n"                               
     #content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " \\pm " + str(round_sigfigs(PErr * 1e7,2)) + ") \\times 10^{-7} $ \\\\  \n"  
-    content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e7,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e7,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e7,2)) + "}) \\times 10^{-7} $ \\\\  \n"  
+    content += "$P^{\\rm fake}$ (data)             & $(" + str(round_sigfigs(P * 1e6,2)) + " ^{+" + str(round_sigfigs(PErrUp * 1e6,2)) + "}_{-" + str(round_sigfigs(PErrDn * 1e6,2)) + "}) \\times 10^{-6} $ \\\\  \n"  
     content += hline                                                              
     content += "$N^{\\rm fake}$                    & " + fakeEst["NStr"] + " \\\\  \n" 
     #$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $ \\\\  \n" 
