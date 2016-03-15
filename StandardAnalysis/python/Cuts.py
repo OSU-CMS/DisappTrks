@@ -24,9 +24,9 @@ triggersMet = cms.vstring(
 
 )
 
-triggersSingleMu = cms.vstring(
-    "HLT_IsoMu18_v",  # not available in bkgd MC
-    "HLT_IsoMu20_v",  # yes available in bkgd MC
+triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
+    "HLT_IsoMu20_v",    # yes available in bkgd MC
+    "HLT_IsoTkMu20_v",  # yes available in bkgd MC
 )
 
 triggersSingleEle = cms.vstring(
