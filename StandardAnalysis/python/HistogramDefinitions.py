@@ -109,7 +109,7 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("ptError / pt"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinElecLooseMvaId"),
+            name = cms.string("trackDeltaRToClosestElectron"),
             title = cms.string("deltaRMinElecLooseMvaId;#DeltaR_{min}(track,electron)"), 
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestElectron"),
@@ -129,16 +129,22 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("deltaRToClosestMuon", "deltaRToClosestTau"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinMuonLooseId"),
+            name = cms.string("trackDeltaRToClosestMuon"),
             title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),  
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestMuon"),
             ),
         cms.PSet (
-            name = cms.string("trackDeltaRMinTauLooseHadronicId"),
+            name = cms.string("trackDeltaRToClosestTau"),
             title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestTau"),   
+            ),
+        cms.PSet (
+            name = cms.string("trackDeltaRToClosestTauHad"),
+            title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestTauHad"),   
             ),
         cms.PSet (
             name = cms.string("genMatchedTauDecayProductFinalStateVsPromptFinalStateIsMatched"),
