@@ -76,7 +76,7 @@ candTrkSelection.name = cms.string("CandTrkSelection")
 cutsToAdd = [ 
     cutTrkElecVeto, 
     cutTrkMuonVeto, 
-    cutTrkTauVeto, 
+    cutTrkTauHadVeto, 
 ]
 addCuts(candTrkSelection.cuts, cutsToAdd)
 candTrkCuts = isoTrkCuts + cutsToAdd 
@@ -140,7 +140,6 @@ elecCtrlSelection = copy.deepcopy(candTrkSelection)
 elecCtrlSelection.name = cms.string("ElecCtrlSelection") 
 cutsToRemove = [ 
     cutTrkElecVeto, 
-    cutTrkTauVeto, 
 ]
 removeCuts(elecCtrlSelection.cuts, cutsToRemove)
 
@@ -150,7 +149,6 @@ muonCtrlSelection = copy.deepcopy(candTrkSelection)
 muonCtrlSelection.name = cms.string("MuonCtrlSelection") 
 cutsToRemove = [ 
     cutTrkMuonVeto, 
-    cutTrkTauVeto,  
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
 cutsToAdd = [ 
