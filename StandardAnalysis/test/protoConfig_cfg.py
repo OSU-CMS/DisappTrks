@@ -18,7 +18,10 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ("PoolSource",
     #bypassVersionCheck = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
-        "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root"
+        "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root", 
+        # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root', 
+        # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root", 
+        # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root", 
     ),
 )
 
@@ -79,6 +82,7 @@ weights = cms.VPSet (
 
 variableProducers = []
 variableProducers.append("LifetimeWeightProducer")
+variableProducers.append("PrimaryVtxVarProducer")
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -99,10 +103,12 @@ from OSUT3Analysis.Configuration.histogramDefinitions import *
 histSets = cms.VPSet (
     TrackHistograms,
     TrackBeamspotHistograms,
+    TrackEventVarHistograms,
     TrackExtraHistograms,
     MetHistograms,
     JetHistograms,
     EventVariableHistograms,
+    EventVariablePVHistograms, 
 )
 
 histSetsMetJet = cms.VPSet (
@@ -132,12 +138,30 @@ test = cms.PSet(
     )
 )
 
+################################################################################
+##### Sets of channels to be run simultaneously over a single skim. ni###############
+################################################################################
+
+ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim 
+    ZtoMuMuCandTrk,
+    ZtoMuMuDisTrk,
+    ZtoMuMuCandTrkEcaloSdband,
+    ZtoMuMuCandTrkNMissOutSdband,
+    ZtoMuMuDisTrkNHits3,
+    ZtoMuMuDisTrkNHits4,
+    ZtoMuMuDisTrkNHits5,
+    ZtoMuMuDisTrkNHits6,
+]
+
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-#  add_channels  (process,  [test],  cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
+
+
+#  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)
@@ -154,17 +178,8 @@ test = cms.PSet(
 #  add_channels  (process,  [disTrkSelectionNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelectionNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ZtoMuMu],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMu],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuCandTrk],                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuDisTrk],                 histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuCandTrkEcaloSdband],     histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuCandTrkNMissOutSdband],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkNoMassCut],        histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits3],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits4],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits5],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits6],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMu],                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  ZtoMuMuTrkChannels,       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
 #  add_channels  (process,  [ZtoEleProbeTrk],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                       histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
