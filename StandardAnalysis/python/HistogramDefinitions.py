@@ -147,6 +147,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("deltaRToClosestTauHad"),   
             ),
         cms.PSet (
+            name = cms.string("trackDRMinJet"),
+            title = cms.string("trackDRMinJet;#DeltaR_{min}(track,jet)"),
+            binsX = cms.untracked.vdouble(100, 0, 2),
+            inputVariables = cms.vstring("dRMinJet"),   
+            ),
+        cms.PSet (
             name = cms.string("genMatchedTauDecayProductFinalStateVsPromptFinalStateIsMatched"),
             title = cms.string(";track is matched to generator particle;track is matched to generator #tau decay product"),
             binsX = cms.untracked.vdouble(2.0, -0.5, 1.5), 
@@ -726,6 +732,18 @@ EventVariableHistograms = cms.PSet(
             title = cms.string("Maximum #Delta#Phi between two jets;#Delta#Phi_{max}(jet pairs)"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
             inputVariables = cms.vstring("dijetMaxDeltaPhi"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeading"),
+            title = cms.string("#Delta#Phi(E_{T}^{miss},leading jet);#Delta#Phi(E_{T}^{miss},leading jet)"),
+            binsX = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaPhiMetJetLeading"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetSubleading"),
+            title = cms.string("#Delta#Phi(E_{T}^{miss},subleading jet);#Delta#Phi(E_{T}^{miss},subleading jet)"),
+            binsX = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("deltaPhiMetJetSubleading"),
         ),
     )
 )
