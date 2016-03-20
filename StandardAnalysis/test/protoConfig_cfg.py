@@ -83,6 +83,7 @@ weights = cms.VPSet (
 variableProducers = []
 variableProducers.append("LifetimeWeightProducer")
 variableProducers.append("PrimaryVtxVarProducer")
+variableProducers.append("EventJetVarProducer")
 
 ################################################################################
 ##### Import the channels to be run ############################################
