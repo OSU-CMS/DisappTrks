@@ -144,10 +144,10 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   }
   
   int nJets = 0; 
-  double dijetMaxDeltaPhi = -999.;  
-  double deltaPhiMetJetLeading  = -999.; 
-  double deltaPhiMetJetSubleading  = -999.; 
-  double ptJetLeading = -999;
+  double dijetMaxDeltaPhi         = -999.;  // default is large negative value
+  double deltaPhiMetJetLeading    =  999.;  // default is large positive value
+  double deltaPhiMetJetSubleading =  999.; 
+  double ptJetLeading    = -999;
   double ptJetSubleading = -999;
   int idx1 = -1;
   for (const auto &jet1 : *jets) {
