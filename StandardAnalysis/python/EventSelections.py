@@ -233,7 +233,7 @@ addCuts(muonCtrlHiEcaloGenMatchMuon.cuts, cutsToAdd)
 tauCtrlSelection = copy.deepcopy(candTrkSelection) 
 tauCtrlSelection.name = cms.string("TauCtrlSelection") 
 cutsToRemove = [ 
-    cutTrkTauVeto, 
+    cutTrkTauHadVeto, 
 ]
 removeCuts(tauCtrlSelection.cuts, cutsToRemove)
 
