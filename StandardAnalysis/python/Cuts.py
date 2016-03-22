@@ -470,8 +470,16 @@ cutElectronEta21 = cms.PSet (
 )
 cutElectronTightID = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesTightID_noIsolation"),
+    cutString = cms.string("passesTightID_noIsolation > 0"),
     numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with isTightElectronWRTVtx > 0"),
+)
+cutElectronTightPFIso = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("((fabs (superCluster.eta) <= 1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0591)) \
+                         || ((fabs (superCluster.eta) >  1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0759))"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with tight #rho-corrected rel. iso."),
 )
 cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),
