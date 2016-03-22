@@ -4,36 +4,40 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
 ##################################################
-## Electron tag and probe sample
+## Electron tag skim
 ##################################################
-ZtoEleProbeTrk = cms.PSet(
-    name = cms.string("ZtoEleProbeTrk"),
+ElectronTagSkim = cms.PSet(
+    name = cms.string("ElectronTagSkim"),
     triggers = triggersSingleEle,
     cuts = cms.VPSet (),
 )
-
-# See SMP-12-023 for example of W->mu nu selection
 tagElectronCuts = [
-    cutElectronPt24,
+    cutElectronPt25,
     cutElectronEta21,
     cutElectronTightID,
-    #  cutElectronPFIso,  # Ask Bing what he uses for this
-    cutElectronArbitration,
+    cutElectronTightPFIso,
 ]
-muTrkCuts = [
+addCuts(ElectronTagSkim.cuts, tagElectronCuts)
+
+##################################################
+## Electron tag and probe sample
+##################################################
+ZtoEleProbeTrk = copy.deepcopy(ElectronTagSkim)
+ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
+
+elTrkCuts = [
     cutEleTrkInvMass10,
     #cutEleTrkInvMass80To100,
 ]
-addCuts(ZtoEleProbeTrk.cuts, tagElectronCuts)
+addCuts(ZtoEleProbeTrk.cuts, [cutElectronArbitration])
 addCuts(ZtoEleProbeTrk.cuts, [cutTrkPt30])
 addCuts(ZtoEleProbeTrk.cuts, disTrkCuts)
-addCuts(ZtoEleProbeTrk.cuts, muTrkCuts)
+addCuts(ZtoEleProbeTrk.cuts, elTrkCuts)
 addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
     cutTrkPt,
     cutTrkEcalo,
-    cutTrkElecVeto,
-    cutTrkTauVeto,
+    cutTrkVetoElecVeto,
 ]
 removeCuts(ZtoEleProbeTrk.cuts, cutsToRemove)
 
@@ -51,7 +55,6 @@ cutsToAdd = [
     cutEleTrkInvMass80To100,
     cutEleTrkOS,
     cutTrkElecVeto,
-    cutTrkTauVeto,
 ]
 addCuts(ZtoEleDisTrk.cuts, cutsToAdd)
 
