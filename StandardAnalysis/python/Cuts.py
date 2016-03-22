@@ -104,6 +104,18 @@ cutJetNeuEm = cms.PSet(
     cutString = cms.string("neutralEmEnergyFraction < 0.7"),
     numberRequired = cms.string(">= 1"),
 )
+cutDijetDeltaPhiMax = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("dijetMaxDeltaPhi < 2.5"),  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("veto pairs of jets with #Delta#Phi > 2.5"), 
+)
+cutJetMetPhi = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("deltaPhiMetJetLeading > 0.5 && deltaPhiMetJetSubleading > 0.5"),  
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#Phi(E_{T}^{miss},jet) > 0.5"), 
+)
 
 ##################################################
 ## tracks
@@ -211,6 +223,11 @@ cutTrkTauVeto = cms.PSet(
 cutTrkTauHadVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestTauHad > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkJetDeltaPhi = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("dRMinJet > 0.5"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcalo = cms.PSet(

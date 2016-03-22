@@ -22,6 +22,7 @@ process.source = cms.Source ("PoolSource",
         # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root', 
         # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root", 
         # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root", 
+        # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root", 
     ),
 )
 
@@ -53,7 +54,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (100)
 )
 
 ################################################################################
@@ -154,6 +155,11 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
+LepCtrlChannels = [ # Run over isoTrkSelection skim
+    elecCtrlSelection, 
+    muonCtrlSelection,
+    tauCtrlSelection, 
+]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -169,7 +175,7 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 #  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [candTrkSelection],       histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [elecCtrlSelection],      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  LepCtrlChannels,          histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [muonCtrlSelection],      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [tauCtrlSelection],       histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [candTrkEcaloSdband],     histSets,        weights,  [],  collectionMap,  variableProducers,  True)

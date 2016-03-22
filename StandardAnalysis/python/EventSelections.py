@@ -30,6 +30,8 @@ basicSelection = cms.PSet(
         cutJetChgEm,
         cutJetNeuHad, 
         cutJetNeuEm,
+        cutDijetDeltaPhiMax, 
+        cutJetMetPhi, 
     )
 )
 
@@ -60,6 +62,7 @@ isoTrkCuts = [
     cutTrkIso, 
     cutTrkD0, 
     cutTrkDZ, 
+    cutTrkJetDeltaPhi, 
 ]
 addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
@@ -233,7 +236,7 @@ addCuts(muonCtrlHiEcaloGenMatchMuon.cuts, cutsToAdd)
 tauCtrlSelection = copy.deepcopy(candTrkSelection) 
 tauCtrlSelection.name = cms.string("TauCtrlSelection") 
 cutsToRemove = [ 
-    cutTrkTauVeto, 
+    cutTrkTauHadVeto, 
 ]
 removeCuts(tauCtrlSelection.cuts, cutsToRemove)
 
