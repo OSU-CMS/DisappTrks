@@ -40,18 +40,18 @@ else:
     
 ## Nominal selection
 candTrkDir            = WellsDir+"candTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
-disappTrkDir          = WellsDir+"disTrkSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/569
+disappTrkDir          = WellsDir+"disTrkSelection_76X_V3" 
 candTrkEcaloSdband    = WellsDir+"candTrkEcaloSdband"    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/567  
 candTrkNmissoutSdband = WellsDir+"candTrkNMissOutSdband" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/566 
 
 ## elecVetoEff.tex and elecEst.tex
-elecCtrlDir           = WellsDir+"elecCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/570
+elecCtrlDir           = WellsDir+"lepCtrlSelection_76X_V3" 
 
 ## muonVetoEff.tex and muonEst.tex
-muonCtrlDir           = WellsDir+"muonCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/571
+muonCtrlDir           = WellsDir+"lepCtrlSelection_76X_V3" 
 
 ## tauVetoEff.tex and tauEst.tex
-tauCtrlDir            = WellsDir+"tauCtrlSelection" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/573 
+tauCtrlDir            = WellsDir+"lepCtrlSelection_76X_V3" 
 
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"  
@@ -669,7 +669,7 @@ if arguments.all or "elecEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "TTJets_Lept" 
+    options['MCsample'] = "TTJets" 
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
     options['histForYieldLoBin'] = 11
     options['histForYieldHiBin'] = 11
@@ -690,7 +690,7 @@ if arguments.all or "muonEst" in arguments.tableSelection or "bkgdSumm" in argum
     options['disTrkDir'] = disappTrkDir 
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "TTJets_Lept"    # More stats than WJetsToLNu_HT"  
+    options['MCsample'] = "TTJets"    # More stats than WJetsToLNu_HT"  
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStatePdgIdNoHadrons"
     options['histForYieldLoBin'] = 13
     options['histForYieldHiBin'] = 13
@@ -712,7 +712,7 @@ if arguments.all or "tauEst" in arguments.tableSelection or "bkgdSumm" in argume
     options['disTrkDir'] = disappTrkDir  
     options['disTrkChannel'] = "DisTrkSelectionCutFlowPlotter" 
     options['dataset'] = "MET_2015D"  
-    options['MCsample'] = "TTJets_Lept"  
+    options['MCsample'] = "TTJets"  
     options['histForYield'] = "Track Plots/genMatchedPromptFinalStateIsMatched" # FIXME:  should do this better
     options['histForYieldLoBin'] = 0
     options['histForYieldHiBin'] = 0
@@ -1073,11 +1073,13 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
     hrat = TH1F("hrat", ";Number of hits on track;P^{fake}_{Basic} / P^{fake}_{Z#rightarrowll}", 4, 2.5, 6.5) 
     fakeTrkSystErr = -1
     for n in range(3, 7):   # n is number of hits on candidate track
+        options['dataset'] = "SingleMu_2015D"  
         options['BasicSelDir']     =  ZtoMuMuDir 
         options['BasicSelChannel'] = "ZtoMuMuCutFlowPlotter" 
         options['DisTrkNHits3456Dir']     =  ZtoMuMuDisTrkNHits3456Dir 
         options['DisTrkNHits3456Channel'] = "ZtoMuMuDisTrkNHits" + str(n) + "CutFlowPlotter" 
         fakeRateCtrl = getFakeRate(options) 
+        options['dataset'] = "MET_2015D"  
         options['BasicSelDir'] = BasicSelDir 
         options['BasicSelChannel']   = "BasicSelCutFlowPlotter"  # FIXME
         options['DisTrkNHits3456Dir'] = DisTrkNHits3456Dir 
