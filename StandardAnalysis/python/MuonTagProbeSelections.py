@@ -4,35 +4,40 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
 ##################################################
-## Muon tag and probe sample
+## Muon tag skim
 ##################################################
-ZtoMuProbeTrk = cms.PSet(
-    name = cms.string("ZtoMuProbeTrk"),
+MuonTagSkim = cms.PSet(
+    name = cms.string("MuonTagSkim"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (),
 )
-
 # See SMP-12-023 for example of W->mu nu selection
 tagMuonCuts = [
-    cutMuonPt20,
+    cutMuonPt25,
     cutMuonEta21,
     cutMuonTightID,
-    #  cutMuonPFIso,  # Ask Bing what he uses for this
-    cutMuonArbitration,
+    cutMuonTightPFIso,
 ]
+addCuts(MuonTagSkim.cuts, tagMuonCuts)
+
+##################################################
+## Muon tag and probe sample
+##################################################
+ZtoMuProbeTrk = copy.deepcopy(MuonTagSkim)
+ZtoMuProbeTrk.name = cms.string("ZtoMuProbeTrk")
+
 muTrkCuts = [
     cutMuTrkInvMass10,
     #cutMuTrkInvMass80To100,
 ]
-addCuts(ZtoMuProbeTrk.cuts, tagMuonCuts)
+addCuts(ZtoMuProbeTrk.cuts, [cutMuonArbitration])
 addCuts(ZtoMuProbeTrk.cuts, [cutTrkPt30])
 addCuts(ZtoMuProbeTrk.cuts, disTrkCuts)
 addCuts(ZtoMuProbeTrk.cuts, muTrkCuts)
 addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
     cutTrkPt,
-    cutTrkMuonVeto,
-    cutTrkTauVeto,
+    cutTrkLooseMuonVeto,
 ]
 removeCuts(ZtoMuProbeTrk.cuts, cutsToRemove)
 
@@ -49,8 +54,7 @@ ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 cutsToAdd = [
     cutMuTrkInvMass80To100,
     cutMuTrkOS,
-    cutTrkMuonVeto,
-    cutTrkTauVeto,
+    cutTrkLooseMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 

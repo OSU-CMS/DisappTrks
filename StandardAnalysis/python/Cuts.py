@@ -24,9 +24,9 @@ triggersMet = cms.vstring(
 
 )
 
-triggersSingleMu = cms.vstring(
-    "HLT_IsoMu18_v",  # not available in bkgd MC
-    "HLT_IsoMu20_v",  # yes available in bkgd MC
+triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
+    "HLT_IsoMu20_v",    # yes available in bkgd MC
+    "HLT_IsoTkMu20_v",  # yes available in bkgd MC
 )
 
 triggersSingleEle = cms.vstring(
@@ -458,6 +458,11 @@ cutElectronPt24 = cms.PSet (
     cutString = cms.string("pt > 24"),
     numberRequired = cms.string(">= 1"),
 )
+cutElectronPt25 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+)
 cutElectronEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -465,8 +470,16 @@ cutElectronEta21 = cms.PSet (
 )
 cutElectronTightID = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesTightID_noIsolation"),
+    cutString = cms.string("passesTightID_noIsolation > 0"),
     numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with isTightElectronWRTVtx > 0"),
+)
+cutElectronTightPFIso = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("((fabs (superCluster.eta) <= 1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0591)) \
+                         || ((fabs (superCluster.eta) >  1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0759))"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with tight #rho-corrected rel. iso."),
 )
 cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),

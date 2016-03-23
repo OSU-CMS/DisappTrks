@@ -6,8 +6,8 @@ config_file = "protoConfig_cfg.py"
 intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
 datasetsBkgd = [
-    'DYJetsToLL_50',
-    'DYJetsToNuNu',
+    'DYJetsToLL',
+    'ZJetsToNuNu',
     'VV',
     'SingleTop',
     'TTJets',
@@ -50,13 +50,6 @@ composite_dataset_definitions["WW"] = [
     'WWToLNuLNu',
 ]
 
-composite_dataset_definitions["WZ"] = [
-    'WZToLNuQQ',
-    #'WZToLLQQ',
-    'WZToLNuNuNu',
-    'WZToLLLNu',
-]
-
 composite_dataset_definitions["VG"] = [
     'WG',
     'ZG',
@@ -65,11 +58,7 @@ composite_dataset_definitions["VG"] = [
 composite_dataset_definitions["VV"] = [
     'WWToLNuQQ',
     'WWToLNuLNu',
-    'WZToLNuQQ',
-    #'WZToLLQQ',
-    'WZToLNuNuNu',
-    'WZToLLLNu',
-    # Switch to inclusive WZ sample when it is available.  
+    'WZ',
     'ZZ', 
     'WG',
     'ZG',
