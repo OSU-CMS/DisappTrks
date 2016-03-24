@@ -6,6 +6,9 @@ datasetsData = [
     'SingleMu_2015D',  
 ]
 
-datasets = datasetsBkgd + datasetsData + datasetsSig 
+datasetsBkgd.remove("WJetsToLNu_HT")  
+datasetsBkgd.append("WJetsToLNu")  
+
+datasets = datasetsBkgd + datasetsData 
 
 
