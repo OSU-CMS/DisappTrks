@@ -225,6 +225,11 @@ cutTrkTauHadVeto = cms.PSet(
     cutString = cms.string("deltaRToClosestTauHad > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkTauHadVetoInv = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTauHad < 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkJetDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRMinJet > 0.5"),
@@ -417,6 +422,12 @@ cutMuTrkInvMass80To100 = cms.PSet(
     cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string (">= 1 muon-track pairs with 80 < invMass(muon,track) < 100"),
+)
+cutMuTrkInvMass40To75 = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string(invMassWithMuon ("muon") + " > 40 && " + invMassWithMuon ("muon") + " < 75"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string (">= 1 muon-track pairs with 40 < invMass(muon,track) < 75"),
 )
 cutMuTrkOS = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),

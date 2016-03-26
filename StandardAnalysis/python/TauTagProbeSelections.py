@@ -2,32 +2,15 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
+from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *  # Get the composite cut definitions
 
 ##################################################
 ## Tau tag and probe sample
 ##################################################
-ZtoTauProbeTrk = cms.PSet(
-    name = cms.string("ZtoTauProbeTrk"),
-    triggers = triggersSingleMu,
-    cuts = cms.VPSet (),
-)
-
-# See SMP-12-023 for example of W->mu nu selection
-tagMuonCuts = [
-    cutMuonPt20,
-    cutMuonEta21,
-    cutMuonTightID,
-    #  cutMuonPFIso,  # Ask Bing what he uses for this
-    cutMuonMT,
-    cutMuonArbitration,
-]
-muTrkCuts = [
-    cutMuTrkInvMass10,
-    #cutMuTrkInvMass80To100,
-]
-metTrkCuts = [
-]
-addCuts(ZtoTauProbeTrk.cuts, tagMuonCuts)
+ZtoTauProbeTrk = copy.deepcopy(MuonTagSkim)
+ZtoTauProbeTrk.name = cms.string("ZtoTauProbeTrk")
+addCuts(ZtoTauProbeTrk.cuts, [cutMuonMT])
+addCuts(ZtoTauProbeTrk.cuts, [cutMuonArbitration])
 addCuts(ZtoTauProbeTrk.cuts, [cutTrkPt30])
 addCuts(ZtoTauProbeTrk.cuts, disTrkCuts)
 addCuts(ZtoTauProbeTrk.cuts, muTrkCuts)
@@ -35,14 +18,22 @@ addCuts(ZtoTauProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
     cutTrkPt,
     cutTrkEcalo,
-    cutTrkTauVeto,
+    cutTrkNMissOut, 
+    cutTrkJetDeltaPhi,  
+    cutTrkTauHadVeto,
 ]
 removeCuts(ZtoTauProbeTrk.cuts, cutsToRemove)
+
+ZtoTauProbeTrkTauId = copy.deepcopy(ZtoTauProbeTrk) 
+ZtoTauProbeTrkTauId.name = cms.string("ZtoTauProbeTrkTauId")
+cutToAdd = cutTrkTauHadVetoInv
+previousExistingCut = cutTrkMuonVeto
+addSingleCut(ZtoTauProbeTrkTauId.cuts, cutToAdd, previousExistingCut)  
 
 ZtoTauProbeTrkWithZCuts = copy.deepcopy(ZtoTauProbeTrk)
 ZtoTauProbeTrkWithZCuts.name = cms.string("ZtoTauProbeTrkWithZCuts")
 cutsToAdd = [
-    cutMuTrkInvMass80To100,
+    cutMuTrkInvMass40To75, 
     cutMuTrkOS,
 ]
 addCuts(ZtoTauProbeTrkWithZCuts.cuts, cutsToAdd)
