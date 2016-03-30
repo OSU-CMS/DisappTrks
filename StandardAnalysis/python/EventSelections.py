@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file 
+from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
 
 ##########################################################################
@@ -9,8 +9,8 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 ##########################################################################
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
-    triggers = cms.vstring(), 
-    cuts = cms.VPSet (), 
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (),
     )
 
 
@@ -20,18 +20,15 @@ NoCuts = cms.PSet(
 
 basicSelection = cms.PSet(
     name = cms.string("BasicSelection"),
-    triggers = triggersMet, 
+    triggers = triggersMet,
     cuts = cms.VPSet (
         cutGoodPV,
         cutMet,
         cutJetPt,
-        cutJetEta, 
-        cutJetChgHad,
-        cutJetChgEm,
-        cutJetNeuHad, 
-        cutJetNeuEm,
-        cutDijetDeltaPhiMax, 
-        cutJetMetPhi, 
+        cutJetEta,
+        cutJetTightLepVeto,
+        cutDijetDeltaPhiMax,
+        cutJetMetPhi,
     )
 )
 
@@ -39,7 +36,7 @@ basicSelection = cms.PSet(
 
 metMinimalSkim = cms.PSet(
     name = cms.string("metMinimalSkim"),
-    triggers = triggersMet, 
+    triggers = triggersMet,
     cuts = cms.VPSet (
         cutGoodPV,
         cutMet,
@@ -48,274 +45,274 @@ metMinimalSkim = cms.PSet(
 
 ##########################################################################
 
-isoTrkSelection = copy.deepcopy(basicSelection) 
-isoTrkSelection.name = cms.string("IsoTrkSelection") 
-isoTrkCuts = [ 
-    cutTrkPt, 
+isoTrkSelection = copy.deepcopy(basicSelection)
+isoTrkSelection.name = cms.string("IsoTrkSelection")
+isoTrkCuts = [
+    cutTrkPt,
     cutTrkEta,
     cutTrkEcalGapVeto,
-    cutTrkEtaMuonIneff1, 
-    cutTrkEtaMuonIneff2, 
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
     cutTrkNValidHits,
     cutTrkNMissIn,
-    cutTrkNMissMid, 
-    cutTrkIso, 
-    cutTrkD0, 
-    cutTrkDZ, 
-    cutTrkJetDeltaPhi, 
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+    cutTrkJetDeltaPhi,
 ]
 addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
 ##########################################################################
 
-nonIsoTrkSelection = copy.deepcopy(isoTrkSelection) 
-nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection") 
+nonIsoTrkSelection = copy.deepcopy(isoTrkSelection)
+nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection")
 removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
 
 ##########################################################################
 
-candTrkSelection = copy.deepcopy(isoTrkSelection) 
-candTrkSelection.name = cms.string("CandTrkSelection") 
-cutsToAdd = [ 
-    cutTrkElecVeto, 
-    cutTrkMuonVeto, 
-    cutTrkTauHadVeto, 
+candTrkSelection = copy.deepcopy(isoTrkSelection)
+candTrkSelection.name = cms.string("CandTrkSelection")
+cutsToAdd = [
+    cutTrkElecVeto,
+    cutTrkMuonVeto,
+    cutTrkTauHadVeto,
 ]
 addCuts(candTrkSelection.cuts, cutsToAdd)
-candTrkCuts = isoTrkCuts + cutsToAdd 
+candTrkCuts = isoTrkCuts + cutsToAdd
 
 ##########################################################################
 
-disTrkSelection = copy.deepcopy(candTrkSelection) 
-disTrkSelection.name = cms.string("DisTrkSelection") 
-cutsToAdd = [ 
-    cutTrkEcalo, 
-    cutTrkNMissOut, 
+disTrkSelection = copy.deepcopy(candTrkSelection)
+disTrkSelection.name = cms.string("DisTrkSelection")
+cutsToAdd = [
+    cutTrkEcalo,
+    cutTrkNMissOut,
 ]
 addCuts(disTrkSelection.cuts, cutsToAdd)
-disTrkCuts = candTrkCuts + cutsToAdd 
+disTrkCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
-candTrkEcaloSdband = copy.deepcopy(candTrkSelection) 
-candTrkEcaloSdband.name = cms.string("CandTrkEcaloSdband") 
-cutsToAdd = [ 
-    cutTrkNMissOut, 
-    cutTrkEcaloInv, 
+candTrkEcaloSdband = copy.deepcopy(candTrkSelection)
+candTrkEcaloSdband.name = cms.string("CandTrkEcaloSdband")
+cutsToAdd = [
+    cutTrkNMissOut,
+    cutTrkEcaloInv,
 ]
 addCuts(candTrkEcaloSdband.cuts, cutsToAdd)
-candTrkEcaloSdbandCuts = candTrkCuts + cutsToAdd 
+candTrkEcaloSdbandCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
-candTrkNMissOutSdband = copy.deepcopy(candTrkSelection) 
-candTrkNMissOutSdband.name = cms.string("CandTrkNMissOutSdband") 
-cutsToAdd = [ 
-    cutTrkEcalo, 
-    cutTrkNMissOutInv, 
+candTrkNMissOutSdband = copy.deepcopy(candTrkSelection)
+candTrkNMissOutSdband.name = cms.string("CandTrkNMissOutSdband")
+cutsToAdd = [
+    cutTrkEcalo,
+    cutTrkNMissOutInv,
 ]
 addCuts(candTrkNMissOutSdband.cuts, cutsToAdd)
-candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd 
+candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
-# Use this selection for the muon background estimate.   
-disTrkSelectionIdElec = copy.deepcopy(disTrkSelection) 
-disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec") 
-cutsToAdd = [ 
-    cutTrkMatchGenElec, 
-]  
-addCuts(disTrkSelectionIdElec.cuts, cutsToAdd) 
+# Use this selection for the muon background estimate.
+disTrkSelectionIdElec = copy.deepcopy(disTrkSelection)
+disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec")
+cutsToAdd = [
+    cutTrkMatchGenElec,
+]
+addCuts(disTrkSelectionIdElec.cuts, cutsToAdd)
 
 ##########################################################################
 
-# Use this selection for the muon background estimate.   
-disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection) 
-disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon") 
-cutsToAdd = [ 
-    cutTrkMatchGenMuon, 
-]  
-addCuts(disTrkSelectionMatchGenMuon.cuts, cutsToAdd) 
+# Use this selection for the muon background estimate.
+disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection)
+disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon")
+cutsToAdd = [
+    cutTrkMatchGenMuon,
+]
+addCuts(disTrkSelectionMatchGenMuon.cuts, cutsToAdd)
 
 ##########################################################################
 
-elecCtrlSelection = copy.deepcopy(candTrkSelection) 
-elecCtrlSelection.name = cms.string("ElecCtrlSelection") 
-cutsToRemove = [ 
-    cutTrkElecVeto, 
+elecCtrlSelection = copy.deepcopy(candTrkSelection)
+elecCtrlSelection.name = cms.string("ElecCtrlSelection")
+cutsToRemove = [
+    cutTrkElecVeto,
 ]
 removeCuts(elecCtrlSelection.cuts, cutsToRemove)
 
 ##########################################################################
 
-muonCtrlSelection = copy.deepcopy(candTrkSelection) 
-muonCtrlSelection.name = cms.string("MuonCtrlSelection") 
-cutsToRemove = [ 
-    cutTrkMuonVeto, 
+muonCtrlSelection = copy.deepcopy(candTrkSelection)
+muonCtrlSelection.name = cms.string("MuonCtrlSelection")
+cutsToRemove = [
+    cutTrkMuonVeto,
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
-cutsToAdd = [ 
-    cutTrkMatchGenMuon, 
-]  
+cutsToAdd = [
+    cutTrkMatchGenMuon,
+]
 #addCuts(muonCtrlSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcalo = copy.deepcopy(muonCtrlSelection) 
-muonCtrlLoEcalo.name = cms.string("MuonCtrlLoEcalo") 
-cutsToAdd = [ 
+muonCtrlLoEcalo = copy.deepcopy(muonCtrlSelection)
+muonCtrlLoEcalo.name = cms.string("MuonCtrlLoEcalo")
+cutsToAdd = [
     cutTrkEcalo,
-]  
+]
 addCuts(muonCtrlLoEcalo.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcaloGenMatchNone = copy.deepcopy(muonCtrlLoEcalo) 
-muonCtrlLoEcaloGenMatchNone.name = cms.string("muonCtrlLoEcaloGenMatchNone") 
-cutsToAdd = [ 
+muonCtrlLoEcaloGenMatchNone = copy.deepcopy(muonCtrlLoEcalo)
+muonCtrlLoEcaloGenMatchNone.name = cms.string("muonCtrlLoEcaloGenMatchNone")
+cutsToAdd = [
     cutTrkMatchGenNone,
-]  
+]
 addCuts(muonCtrlLoEcaloGenMatchNone.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcaloGenMatchPhoton = copy.deepcopy(muonCtrlLoEcalo) 
-muonCtrlLoEcaloGenMatchPhoton.name = cms.string("muonCtrlLoEcaloGenMatchPhoton") 
-cutsToAdd = [ 
+muonCtrlLoEcaloGenMatchPhoton = copy.deepcopy(muonCtrlLoEcalo)
+muonCtrlLoEcaloGenMatchPhoton.name = cms.string("muonCtrlLoEcaloGenMatchPhoton")
+cutsToAdd = [
     cutTrkMatchGenPhoton,
-]  
+]
 addCuts(muonCtrlLoEcaloGenMatchPhoton.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcaloNoMuonDRMatch = copy.deepcopy(muonCtrlLoEcalo) 
-muonCtrlLoEcaloNoMuonDRMatch.name = cms.string("muonCtrlLoEcaloNoMuonDRMatch") 
-cutsToAdd = [ 
+muonCtrlLoEcaloNoMuonDRMatch = copy.deepcopy(muonCtrlLoEcalo)
+muonCtrlLoEcaloNoMuonDRMatch.name = cms.string("muonCtrlLoEcaloNoMuonDRMatch")
+cutsToAdd = [
     cutTrkNoMuonDRMatch,
-]  
+]
 addCuts(muonCtrlLoEcaloNoMuonDRMatch.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcaloNoMuonDRMatchLargeD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch) 
-muonCtrlLoEcaloNoMuonDRMatchLargeD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchLargeD0") 
-cutsToAdd = [ 
+muonCtrlLoEcaloNoMuonDRMatchLargeD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch)
+muonCtrlLoEcaloNoMuonDRMatchLargeD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchLargeD0")
+cutsToAdd = [
     cutTrkLargeD0,
-]  
+]
 addCuts(muonCtrlLoEcaloNoMuonDRMatchLargeD0.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlLoEcaloNoMuonDRMatchSmallD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch) 
-muonCtrlLoEcaloNoMuonDRMatchSmallD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchSmallD0") 
-cutsToAdd = [ 
+muonCtrlLoEcaloNoMuonDRMatchSmallD0 = copy.deepcopy(muonCtrlLoEcaloNoMuonDRMatch)
+muonCtrlLoEcaloNoMuonDRMatchSmallD0.name = cms.string("muonCtrlLoEcaloNoMuonDRMatchSmallD0")
+cutsToAdd = [
     cutTrkSmallD0,
-]  
+]
 addCuts(muonCtrlLoEcaloNoMuonDRMatchSmallD0.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlHiEcalo = copy.deepcopy(muonCtrlSelection) 
-muonCtrlHiEcalo.name = cms.string("MuonCtrlHiEcalo") 
-cutsToAdd = [ 
+muonCtrlHiEcalo = copy.deepcopy(muonCtrlSelection)
+muonCtrlHiEcalo.name = cms.string("MuonCtrlHiEcalo")
+cutsToAdd = [
     cutTrkEcaloInv50,
-]  
+]
 addCuts(muonCtrlHiEcalo.cuts, cutsToAdd)
 
 ##########################################################################
 
-muonCtrlHiEcaloGenMatchMuon = copy.deepcopy(muonCtrlHiEcalo) 
-muonCtrlHiEcaloGenMatchMuon.name = cms.string("muonCtrlHiEcaloGenMatchMuon") 
-cutsToAdd = [ 
-    cutTrkMatchGenMuon, 
-]  
+muonCtrlHiEcaloGenMatchMuon = copy.deepcopy(muonCtrlHiEcalo)
+muonCtrlHiEcaloGenMatchMuon.name = cms.string("muonCtrlHiEcaloGenMatchMuon")
+cutsToAdd = [
+    cutTrkMatchGenMuon,
+]
 addCuts(muonCtrlHiEcaloGenMatchMuon.cuts, cutsToAdd)
 
 ##########################################################################
 
-tauCtrlSelection = copy.deepcopy(candTrkSelection) 
-tauCtrlSelection.name = cms.string("TauCtrlSelection") 
-cutsToRemove = [ 
-    cutTrkTauHadVeto, 
+tauCtrlSelection = copy.deepcopy(candTrkSelection)
+tauCtrlSelection.name = cms.string("TauCtrlSelection")
+cutsToRemove = [
+    cutTrkTauHadVeto,
 ]
 removeCuts(tauCtrlSelection.cuts, cutsToRemove)
 
 ##########################################################################
 
-caloSdbandSelection = copy.deepcopy(disTrkSelection) 
-caloSdbandSelection.name = cms.string("CaloSdbandSelection") 
-cutsToRemove = [ 
-    cutTrkEcalo, 
+caloSdbandSelection = copy.deepcopy(disTrkSelection)
+caloSdbandSelection.name = cms.string("CaloSdbandSelection")
+cutsToRemove = [
+    cutTrkEcalo,
 ]
 removeCuts(caloSdbandSelection.cuts, cutsToRemove)
-cutsToAdd = [ 
-    cutTrkEcaloInv, 
+cutsToAdd = [
+    cutTrkEcaloInv,
 ]
 addCuts(caloSdbandSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
-nMissOutSdbandSelection = copy.deepcopy(disTrkSelection) 
-nMissOutSdbandSelection.name = cms.string("NMissOutSdbandSelection") 
-cutsToRemove = [ 
-    cutTrkNMissOut, 
+nMissOutSdbandSelection = copy.deepcopy(disTrkSelection)
+nMissOutSdbandSelection.name = cms.string("NMissOutSdbandSelection")
+cutsToRemove = [
+    cutTrkNMissOut,
 ]
 removeCuts(nMissOutSdbandSelection.cuts, cutsToRemove)
-cutsToAdd = [ 
-    cutTrkNMissOutInv, 
+cutsToAdd = [
+    cutTrkNMissOutInv,
 ]
 addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
-disTrkSelectionNHits3 = copy.deepcopy(disTrkSelection) 
-disTrkSelectionNHits3.name = cms.string("DisTrkSelectionNHits3") 
+disTrkSelectionNHits3 = copy.deepcopy(disTrkSelection)
+disTrkSelectionNHits3.name = cms.string("DisTrkSelectionNHits3")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits3, 
+    cutTrkNValidHits3,
 ]
-removeCuts(disTrkSelectionNHits3.cuts, cutsToRemove) 
-addCuts   (disTrkSelectionNHits3.cuts, cutsToAdd) 
+removeCuts(disTrkSelectionNHits3.cuts, cutsToRemove)
+addCuts   (disTrkSelectionNHits3.cuts, cutsToAdd)
 
 ##########################################################################
 
-disTrkSelectionNHits4 = copy.deepcopy(disTrkSelection) 
-disTrkSelectionNHits4.name = cms.string("DisTrkSelectionNHits4") 
+disTrkSelectionNHits4 = copy.deepcopy(disTrkSelection)
+disTrkSelectionNHits4.name = cms.string("DisTrkSelectionNHits4")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits4, 
+    cutTrkNValidHits4,
 ]
-removeCuts(disTrkSelectionNHits4.cuts, cutsToRemove) 
-addCuts   (disTrkSelectionNHits4.cuts, cutsToAdd) 
+removeCuts(disTrkSelectionNHits4.cuts, cutsToRemove)
+addCuts   (disTrkSelectionNHits4.cuts, cutsToAdd)
 
 ##########################################################################
 
-disTrkSelectionNHits5 = copy.deepcopy(disTrkSelection) 
-disTrkSelectionNHits5.name = cms.string("DisTrkSelectionNHits5") 
+disTrkSelectionNHits5 = copy.deepcopy(disTrkSelection)
+disTrkSelectionNHits5.name = cms.string("DisTrkSelectionNHits5")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits5, 
+    cutTrkNValidHits5,
 ]
-removeCuts(disTrkSelectionNHits5.cuts, cutsToRemove) 
-addCuts   (disTrkSelectionNHits5.cuts, cutsToAdd) 
+removeCuts(disTrkSelectionNHits5.cuts, cutsToRemove)
+addCuts   (disTrkSelectionNHits5.cuts, cutsToAdd)
 
 ##########################################################################
 
-disTrkSelectionNHits6 = copy.deepcopy(disTrkSelection) 
-disTrkSelectionNHits6.name = cms.string("DisTrkSelectionNHits6") 
+disTrkSelectionNHits6 = copy.deepcopy(disTrkSelection)
+disTrkSelectionNHits6.name = cms.string("DisTrkSelectionNHits6")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits6, 
+    cutTrkNValidHits6,
 ]
-removeCuts(disTrkSelectionNHits6.cuts, cutsToRemove) 
-addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd) 
+removeCuts(disTrkSelectionNHits6.cuts, cutsToRemove)
+addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd)
 
 ##########################################################################
