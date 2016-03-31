@@ -16,10 +16,10 @@ mZPDG = 91.1876  # Z mass from http://pdglive.lbl.gov/DataBlock.action?node=S044
 triggersMet = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 
-    # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6     
-    "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC 
+    # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6
+    "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC
     "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D 76X ReReco Part 1
-    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D 76X ReReco Part 2  && RunIIFall15MiniAODv2_76X MC 
+    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D 76X ReReco Part 2  && RunIIFall15MiniAODv2_76X MC
 
 
 )
@@ -106,15 +106,22 @@ cutJetNeuEm = cms.PSet(
 )
 cutDijetDeltaPhiMax = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("dijetMaxDeltaPhi < 2.5"),  
+    cutString = cms.string("dijetMaxDeltaPhi < 2.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("veto pairs of jets with #Delta#Phi > 2.5"), 
+    alias = cms.string("veto pairs of jets with #Delta#Phi > 2.5"),
 )
 cutJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("deltaPhiMetJetLeading > 0.5 && deltaPhiMetJetSubleading > 0.5"),  
+    cutString = cms.string("deltaPhiMetJetLeading > 0.5 && deltaPhiMetJetSubleading > 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("#Delta#Phi(E_{T}^{miss},jet) > 0.5"), 
+    alias = cms.string("#Delta#Phi(E_{T}^{miss},jet) > 0.5"),
+)
+cutJetTightLepVeto = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("((neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8) && ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.90) || abs(eta)>2.4) && abs(eta)<=3.0) \
+                         || (neutralEmEnergyFraction<0.90 && neutralMultiplicity>10 && abs(eta)>3.0)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
 
 ##################################################
@@ -259,7 +266,7 @@ cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingOuterHits <= 2"),
     numberRequired = cms.string(">= 1"),
-)                            
+)
 cutTrkMatchGenNone = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) == 0"),
@@ -282,12 +289,12 @@ cutTrkMatchGenPhoton = cms.PSet(
 )
 cutTrkMatchNoElecNoMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),  
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),
     numberRequired = cms.string(">= 1"),
-)  
+)
 cutTrkNoMuonDRMatch = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("deltaRToClosestMuon > 0.8"), 
+    cutString = cms.string("deltaRToClosestMuon > 0.8"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkArbitration = cms.PSet(
@@ -300,31 +307,31 @@ cutTrkD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackD0WRTPV + " ) < 0.02"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with |d0| < 0.02"), 
+    alias = cms.string(">= 1 tracks with |d0| < 0.02"),
 )
 cutTrkDZ = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackDZWRTPV + " ) < 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with |dz| < 0.5"), 
+    alias = cms.string(">= 1 tracks with |dz| < 0.5"),
 )
 cutTrkD0BS = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string("fabs ( " + trackD0WRTBeamspot + " ) < 0.02"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with |d0| < 0.02"), 
+    alias = cms.string(">= 1 tracks with |d0| < 0.02"),
 )
 cutTrkLargeD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string(trackD0WRTBeamspot + " > 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with |d0| > 0.1"), 
+    alias = cms.string(">= 1 tracks with |d0| > 0.1"),
 )
 cutTrkSmallD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "beamspots"),
     cutString = cms.string(trackD0WRTBeamspot + " < 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with |d0| < 0.1"), 
+    alias = cms.string(">= 1 tracks with |d0| < 0.1"),
 )
 
 ##################################################

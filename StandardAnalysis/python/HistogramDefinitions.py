@@ -169,6 +169,82 @@ TrackExtraHistograms = cms.PSet(
         )
     )
 
+MuonExtraHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonNumberOfValidHitsVsAbsEta"),
+            title = cms.string("Muon Number of Valid Hits;muon number of valid hits;muon |#eta|"),
+            binsX = cms.untracked.vdouble(40, 0, 40),
+            binsY = cms.untracked.vdouble(40, 0.0, 3.0),
+            inputVariables = cms.vstring("numberOfValidHits", "fabs(eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNormalizedChi2VsAbsEta"),
+            title = cms.string("Muon Chi Squared;muon #chi^{2}/ndf;muon |#eta|"),
+            binsX = cms.untracked.vdouble(40, 0, 20),
+            binsY = cms.untracked.vdouble(40, 0.0, 3.0),
+            inputVariables = cms.vstring("globalTrack.normalizedChi2", "fabs(eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNumberOfMatchedStationsVsAbsEta"),
+            title = cms.string("Muon Track Number of Matched Stations;muon number of matched stations;muon |#eta|"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            binsY = cms.untracked.vdouble(40, 0.0, 3.0),
+            inputVariables = cms.vstring("numberOfMatchedStations", "fabs(eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNumberOfValidPixelHitsVsAbsEta"),
+            title = cms.string("Muon Number of Valid Pixel Hits;muon number of valid pixel hits;muon |#eta|"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsY = cms.untracked.vdouble(40, 0.0, 3.0),
+            inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits", "fabs(eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonTrackerLayersWithMeasurementVsAbsEta"),
+            title = cms.string("Muon Number of Tracker Layer with Measurement;muon tracker layers with measurement;muon |#eta|"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsY = cms.untracked.vdouble(40, 0.0, 3.0),
+            inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement", "fabs(eta)"),
+            ),
+        cms.PSet (
+            name = cms.string("muonNumberOfValidHitsVsEta"),
+            title = cms.string("Muon Number of Valid Hits;muon number of valid hits;muon #eta"),
+            binsX = cms.untracked.vdouble(40, 0, 40),
+            binsY = cms.untracked.vdouble(80, -3.0, 3.0),
+            inputVariables = cms.vstring("numberOfValidHits", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNormalizedChi2VsEta"),
+            title = cms.string("Muon Chi Squared;muon #chi^{2}/ndf;muon #eta"),
+            binsX = cms.untracked.vdouble(40, 0, 20),
+            binsY = cms.untracked.vdouble(80, -3.0, 3.0),
+            inputVariables = cms.vstring("globalTrack.normalizedChi2", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNumberOfMatchedStationsVsEta"),
+            title = cms.string("Muon Track Number of Matched Stations;muon number of matched stations;muon #eta"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            binsY = cms.untracked.vdouble(80, -3.0, 3.0),
+            inputVariables = cms.vstring("numberOfMatchedStations", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNumberOfValidPixelHitsVsEta"),
+            title = cms.string("Muon Number of Valid Pixel Hits;muon number of valid pixel hits;muon #eta"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsY = cms.untracked.vdouble(80, -3.0, 3.0),
+            inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonTrackerLayersWithMeasurementVsEta"),
+            title = cms.string("Muon Number of Tracker Layer with Measurement;muon tracker layers with measurement;muon #eta"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsY = cms.untracked.vdouble(80, -3.0, 3.0),
+            inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement", "eta"),
+            ),
+    )
+)
+
 TrackMuonHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "muons"),
     histograms = cms.VPSet (
