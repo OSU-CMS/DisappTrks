@@ -2,20 +2,20 @@
 #!/usr/bin/env python  
 backgrounds = {
 'Elec' : {
-    'N' : '32',
-    'alpha' : '0.165312993798',
+    'N' : '37',
+    'alpha' : '0.0979428781339',
         },
 'Muon' : {
-    'N' : '0',
-    'alpha' : '0.0895722407906',
+    'N' : '1',
+    'alpha' : '0.101157268045',
         },
 'Tau' : {
-    'N' : '10',
-    'alpha' : '0.241510408058',
+    'N' : '5',
+    'alpha' : '0.157085111161',
         },
 'Fake' : {
-    'N' : '0',
-    'alpha' : '2.63909686671',
+    'N' : '3',
+    'alpha' : '1.3419234778',
         },
     }
 background_systematics = { 
@@ -23,10 +23,10 @@ background_systematics = {
     'value' : '1.86',
                  },
     'Muon' : {
-    'value' : '8.9',
+    'value' : '4.0', # set by hand
                  },
     'Tau' : {
-    'value' : '2.0',
+    'value' : '1.71', # set by hand  
                  },
     'Fake' : {
     'value' : '1.22',
