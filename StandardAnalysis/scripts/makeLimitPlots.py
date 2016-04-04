@@ -15,7 +15,6 @@ from decimal import *
 from fractions import *
 from operator import itemgetter
 from optparse import OptionParser
-from DisappTrks.StandardAnalysis.tdrstyle import *
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -43,6 +42,7 @@ else:
     sys.exit(0)
 
 
+from DisappTrks.StandardAnalysis.tdrstyle import *
 from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
 
 gROOT.SetBatch()
@@ -136,7 +136,7 @@ def makeSignalLogFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
-    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
+    # print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
