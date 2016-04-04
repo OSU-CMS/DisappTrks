@@ -291,8 +291,9 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                     limit_dict[lifetime][mass]['theory'] *= theory_error
                 if theory_key is 'down1' or theory_key is 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
-    print "Debug:  limit_dict.keys() = "
-    print limit_dict.keys()  
+    if arguments.verbose:
+        print "Debug:  limit_dict.keys() = "
+        print limit_dict.keys()  
     for lifetime in sorted (limit_dict.keys ()):
         ordered_masses = sorted (limit_dict[lifetime].keys ())
         first_allowed_mass = ordered_masses[0]
@@ -418,7 +419,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
     limit_dict = {}
-    expTable = open("limits/" + limit_dir + "/" + "expTable.tex", "w")
+    expTable = open("limits/" + arguments.outputDir + "/" + "expTable.tex", "w")
     expTable.write('\\begin{center} \\begin{tabular}{cc}')
     expTable.write('\n')
     expTable.write('\hline \hline')
@@ -477,7 +478,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x.append (mass_limit)
         y.append (lifetime)
 
-        with open ("limits/" + limit_dir + "/" + "expTable.tex", 'a') as file:
+        with open ("limits/" + arguments.outputDir + "/" + "expTable.tex", 'a') as file:
             file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
             file.write('\n')
             expTable.close()
@@ -486,19 +487,19 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
-    expTable = open("limits/" + limit_dir + "/" + "expTable.tex", "a")
+    expTable = open("limits/" + arguments.outputDir + "/" + "expTable.tex", "a")
     expTable.write('\hline \hline')
     expTable.write('\n')
     expTable.write(' \end{tabular} \end{center}')
     expTable.close()
-    print "Table of expected limits for AN stored in: limits/" + limit_dir
+    print "Table of expected limits for AN stored in: limits/" + arguments.outputDir
     return 'Success'
 
 def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
     limit_dict = {}
-    obsTable = open("limits/" + limit_dir + "/" + "obsTable.tex", "w")
+    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable.tex", "w")
     obsTable.write('\\begin{center} \\begin{tabular}{cc}')
     obsTable.write('\n')
     obsTable.write('\hline \hline')
@@ -507,7 +508,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     obsTable.write('\hline')
     obsTable.write('\n')
     obsTable.close()
-    print "Table of observed limits for AN stored in: limits/" + limit_dir
+    print "Table of observed limits for AN stored in: limits/" + arguments.outputDir
 
     for limit in limits:
         mass = float (limit['mass'])
@@ -558,7 +559,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             x.append (mass_limit)
             y.append (lifetime)
 
-            with open ("limits/" + limit_dir + "/" + "obsTable.tex", 'a') as file:
+            with open ("limits/" + arguments.outputDir + "/" + "obsTable.tex", 'a') as file:
                 file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
                 file.write('\n')
             obsTable.close()
@@ -567,12 +568,12 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                 x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
-    obsTable = open("limits/" + limit_dir + "/" + "obsTable.tex", "a")
+    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable.tex", "a")
     obsTable.write('\hline \hline')
     obsTable.write('\n')
     obsTable.write(' \end{tabular} \end{center}')
     obsTable.close()
-    print "Table of observed limits for AN stored in: limits/" + limit_dir
+    print "Table of observed limits for AN stored in: limits/" + arguments.outputDir
     return 'Success'
 
 
@@ -1368,8 +1369,8 @@ def drawPlot(plot, th2fType=""):
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
-    canvas.SetLogy(0)  
-    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
+    # canvas.SetLogy(0)  
+    # canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
     print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"
 
 
@@ -1394,8 +1395,7 @@ for plot in plotDefinitions:
         else:
             for mass in masses:
                 for lifetime in lifetimes:
-                    limit = fetchLimits(mass,lifetime,th2f['source'])
-                    #print limit
+                    limit = fetchLimits(mass,lifetime,[arguments.outputDir])
                     if limit is not -1:
                         th2f['limits'].append(limit)
                     else:
@@ -1407,8 +1407,7 @@ for plot in plotDefinitions:
                 for lifetime in lifetimes:
                     lifetime = lifetime.replace(".0", "")
                     lifetime = lifetime.replace("0.5", "0p5")
-                    #                limit = fetchLimits(graph['mass'],lifetime,graph['br'],graph['source'])
-                    limit = fetchLimits(graph['mass'],lifetime,graph['source'])
+                    limit = fetchLimits(graph['mass'],lifetime,[arguments.outputDir])
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
@@ -1418,19 +1417,17 @@ for plot in plotDefinitions:
                     for lifetime in lifetimes:
                         lifetime = lifetime.replace(".0", "")
                         lifetime = lifetime.replace("0.5", "0p5")
-                        #                limit = fetchLimits(mass,graph['lifetime'],graph['br'],graph['source'])
-                        limit = fetchLimits(mass,graph['lifetime'],graph['source'])
+                        limit = fetchLimits(mass,graph['lifetime'],[arguments.outputDir])
                     if arguments.verbose:
                         print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + str(limit['expected'])
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']
+                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + arguments.outputDir 
             elif 'yAxisType' in plot:
                 for mass in masses:
                     for lifetime in lifetimes:
-                        #                    limit = fetchLimits(mass,lifetime,graph['br'],graph['source'])
-                        limit = fetchLimits(mass,lifetime,graph['source'])
+                        limit = fetchLimits(mass,lifetime,[arguments.outputDir])
                         if limit is not -1:
                             graph['limits'].append(limit)
                             if arguments.verbose:
