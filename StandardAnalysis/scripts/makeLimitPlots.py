@@ -307,9 +307,9 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
-            x1 = previous_mass
+            x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass
+            x2 = first_allowed_mass  # higher mass value 
             x4 = first_allowed_mass
             # Use log10 because the theory cross section is roughly linear 
             # on a log scale, not on a linear scale.  
@@ -323,7 +323,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0            
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
-            mass_limit = first_allowed_mass  
+            mass_limit = previous_mass  
         x.append (mass_limit)
         y.append (lifetime)
         if arguments.verbose:
