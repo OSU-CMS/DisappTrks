@@ -1082,15 +1082,15 @@ def drawPlot(plot, th2fType=""):
                 for graphName in graph['graphsToInclude']:
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                    if plotDrawn:
-                        tGraphs[-1].Draw('3')
-                    else:
-                        tGraphs[-1].Draw('A3')
-                    plotDrawn = True
-                    legendEntry = '#pm 2 #sigma'
-                    if graphName is 'legendEntry':
-                        legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        if plotDrawn:
+                            tGraphs[-1].Draw('3')
+                        else:
+                            tGraphs[-1].Draw('A3')
+                        plotDrawn = True
+                        legendEntry = '#pm 2 #sigma'
+                        if graphName is 'legendEntry':
+                            legendEntry = legendEntry + ": " + graph['legendEntry']
+                        legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
