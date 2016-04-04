@@ -38,14 +38,12 @@ cutsToAdd = [
 ]
 addCuts(ZtoTauProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoTauDisTrk = copy.deepcopy(ZtoTauProbeTrk)
+ZtoTauDisTrk = copy.deepcopy(ZtoTauProbeTrkWithZCuts)
 ZtoTauDisTrk.name = cms.string("ZtoTauDisTrk")
-cutsToAdd = [
-    cutMuTrkInvMass80To100,
-    cutMuTrkOS,
-    cutTrkTauVeto,
-]
-addCuts(ZtoTauDisTrk.cuts, cutsToAdd)
+cutToAdd = cutTrkTauHadVeto  
+previousExistingCut = cutTrkMuonVeto
+addSingleCut(ZtoTauDisTrk.cuts, cutToAdd, previousExistingCut)  
+
 
 ZtoTauProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoTauProbeTrk)
 ZtoTauProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoTauProbeTrkNoMissingOuterHitsCut")

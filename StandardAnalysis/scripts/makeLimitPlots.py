@@ -15,7 +15,6 @@ from decimal import *
 from fractions import *
 from operator import itemgetter
 from optparse import OptionParser
-from DisappTrks.StandardAnalysis.tdrstyle import *
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -43,6 +42,7 @@ else:
     sys.exit(0)
 
 
+from DisappTrks.StandardAnalysis.tdrstyle import *
 from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
 
 gROOT.SetBatch()
@@ -136,7 +136,7 @@ def makeSignalLogFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
-    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
+    # print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
@@ -307,21 +307,23 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
-            x1 = previous_mass
+            x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass
+            x2 = first_allowed_mass  # higher mass value 
             x4 = first_allowed_mass
-            y1 = limit_dict[lifetime][previous_mass]['theory']
-            y3 = limit_dict[lifetime][previous_mass]['experiment']
-            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            # Use log10 because the theory cross section is roughly linear 
+            # on a log scale, not on a linear scale.  
+            y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
+            y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
+            y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0
+                mass_limit = 0.0            
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
-            mass_limit = first_allowed_mass  
+            mass_limit = previous_mass  
         x.append (mass_limit)
         y.append (lifetime)
         if arguments.verbose:
@@ -1082,15 +1084,15 @@ def drawPlot(plot, th2fType=""):
                 for graphName in graph['graphsToInclude']:
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                    if plotDrawn:
-                        tGraphs[-1].Draw('3')
-                    else:
-                        tGraphs[-1].Draw('A3')
-                    plotDrawn = True
-                    legendEntry = '#pm 2 #sigma'
-                    if graphName is 'legendEntry':
-                        legendEntry = legendEntry + ": " + graph['legendEntry']
-                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        if plotDrawn:
+                            tGraphs[-1].Draw('3')
+                        else:
+                            tGraphs[-1].Draw('A3')
+                        plotDrawn = True
+                        legendEntry = '#pm 2 #sigma'
+                        if graphName is 'legendEntry':
+                            legendEntry = legendEntry + ": " + graph['legendEntry']
+                        legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
@@ -1366,6 +1368,8 @@ def drawPlot(plot, th2fType=""):
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
+    canvas.SetLogy(0)  
+    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
     print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"
 
 

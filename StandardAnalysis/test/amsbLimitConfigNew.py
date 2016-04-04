@@ -51,7 +51,7 @@ lifetimes = ['10', '100', '1000']
 lumi = 2457
 
 #condor directory in which to find signal root files
-signal_condor_dir = WellsDir + 'disTrkSelection'
+signal_condor_dir = WellsDir + 'disTrkSelection_76X_V3' 
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
@@ -68,7 +68,7 @@ data_dataset = "MET"
 
 #condor directory in which to find data root file
 #data_condor_dir = WellsDir + 'condor_2014_04_29_FullSelectionUnBlinded'
-data_condor_dir = WellsDir + 'disTrkSelection' 
+data_condor_dir = WellsDir + 'disTrkSelection_76X_V3' 
 
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelection'

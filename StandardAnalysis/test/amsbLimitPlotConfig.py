@@ -1,12 +1,12 @@
-
 #!/usr/bin/env python
 
-# Local options file to be used with makeDataCards.py
+# Local options file to be used with makeLimitPlots.py 
 # Usage:
-# > makeDatacards.py -R -l amsbLimitConfig.py -c test
+# > makeLimitPlots.py -l amsbLimitPlotConfigNew.py -c limitDir 
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
+from DisappTrks.SignalMC.signalCrossSecs import *
 
 ##################################
 ### Event Selection Parameters ###
@@ -14,182 +14,178 @@
 
 #name of histogram to integrate to get yields
 #integrateHistogramName = "numEvents"
-intLumi = 19500
+intLumi = 2457  
 
 #########################
 ### Signal Parameters ###
 #########################
 
+
+import os
+
+cwd = os.getcwd()
+
+if "wulsin" in cwd:
+    WellsDir = ""
+    AndrewDir = "AndrewCondor/"
+elif "hart" in cwd:
+    WellsDir = "WellsCondorNew/"
+    AndrewDir = ""
+else:
+    print "Error:  could not identify user as wulsin or hart."
+    os.exit(0)
+    
 # NOTE: The chargino masses are used when actually making the limit plots
-masses = ['103', '164', '247', '328','408',  '488']
-#limit_dir = 'limits_19MayGamma'
-limit_dir = 'limits_19MayGammaIncludeWjets'
+#limit_dir = AndrewDir+'limits_20151201'  # LHC-type full CLs
+limit_dir = WellsDir+'limits_20160331'  # LHC-type full CLs 
+
+masses = ['100', '300', '500', '700']
 
 #chargino tau values
-lifetimes = ['0.5', '1.0', '5.0']
+lifetimes = ['10', '100', '1000']
 
-signal_cross_sections = { # in pb 
-   '103' : {
-         'value' : '15.9',
-          'error' : '1.1', # dummy 10% error
-         },
-    '164' : {
-         'value' : '2.73',
-          'error' : '1.07',
-         },
 
-    '247' : {
-         'value' : '0.478',
-         'error' : '1.05',
-         },
-    '328' : {
-         'value' : '0.185',
-         'error' : '1.05',
-         },
-   '408' : {
-         'value' : '0.052',
-         'error' : '1.05',
-         },
-   
-    '488' : {
-         'value' : '0.0221',
-         'error' : '1.05',
-         }, 
-    }
 
+convertCmToNs = True 
+makeColorPlot = False 
+convertToMassSplitting = False
+outputName = "limit_plot.root"
+yAxisRangeFor1DMassLimits = [0.01, 10000]  
 
 
 # description of all the plots to be made
 plotDefinitions = [
-
-        #each entry corresponds to a canvas in the output file
-
-        ######################TAU = 0.5 NS
-
-     {
-                # this will be the name of the canvas in the output root file
-    'title' : 'limits_vs_0p5ns',
-
-                # current options are 'mass' and 'lifetime'
-    'xAxisType' : 'mass',
-
-                # xmin, xmax, label
-    'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-    'yAxisLabel' : '#tau = 0.5 ns',
-
-                # optional (scaled automatically if not included)
-                #'yAxis' : [0.0001,100],
-
-                # optional (False if not included)
-                # currently only works if the x-axis is mass
-    'showTheory' : True,
-
-                #define all the curves to include on this canvas
-    'graphs' : [
-                    {
-    'source' : [limit_dir], #output directory from limit running
-    'lifetime' : 0.5,
-    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
-    'colorScheme' : 'brazilian',
-    'legendEntry' : '',
-    },
-                    ],
-    },
-     
-
-     ######################TAU = 1 NS     
-        {
-            # this will be the name of the canvas in the output root file
-    'title' : 'limits_vs_1ns',
-
-            # current options are 'mass' and 'lifetime'
-#    'yAxisType' : 'lifetime',
-    'xAxisType' : 'mass',
-
-            # xmin, xmax, label
-    'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-    'yAxisLabel' : '#tau = 1 ns',
-
-            # optional (scaled automatically if not included)
-            #'yAxis' : [0.0001,100],
-
-            # optional (False if not included)
-            # currently only works if the x-axis is mass
-    'showTheory' : True,
-
-            #define all the curves to include on this canvas
-    'graphs' : [
-                {
-    'source' : [limit_dir], #output directory from limit running
-    'lifetime' : 1.0,
-#    'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-    'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-#    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
-    'colorScheme' : 'brazilian',
-    'legendEntry' : '',
-                },
-                ],
-    },
-
-     ######################TAU = 5 NS     
-         {
-                 # this will be the name of the canvas in the output root file
-     'title' : 'limits_vs_5ns',
-
-                 # current options are 'mass' and 'lifetime'
-     #    'xAxisType' : 'lifetime',
-     'xAxisType' : 'mass',
-
-                 # xmin, xmax, label
-     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-     'yAxisLabel' : '#tau = 5 ns',
-
-                 # optional (scaled automatically if not included)
-                 #'yAxis' : [0.0001,100],
-
-                 # optional (False if not included)
-                 # currently only works if the x-axis is mass
-     'showTheory' : True,
-
-                 #define all the curves to include on this canvas
-     'graphs' : [
-                     {
-     'source' : [limit_dir], #output directory from limit running
-     'lifetime' : 5.0,
-     'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
- #    'graphsToInclude' : ['twoSigma','oneSigma','exp'],
-     'colorScheme' : 'brazilian',
-     'legendEntry' : '',
-                     },
-                                     ],
-         },
-
-
- ######################LIFETIME VS MAS
-     {
-     # this will be the name of the canvas in the output root file
-     'title' : 'limits_vs_mass',
-
-      # current options are 'mass' and 'lifetime'
-     'xAxisType' : 'mass',
-     'yAxisType' : 'lifetime',
-
-     'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-     'yAxisLabel' : '#tau_{#chi^{#pm}} [ns]',
-
-    'showTheory' : True,
-     'graphs' : [
+    
+    #each entry corresponds to a canvas in the output file
+    
+    ######################LIFETIME (ns) VS MASS
     {
-    'source' : [limit_dir], #output directory from limit running
-    'lifetime' : 5.0,
-    'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
-    #'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
-    'colorScheme' : 'brazilian',
-    'legendEntry' : '',
+        # this will be the name of the canvas in the output root file
+        'title' : 'lifetime_vs_mass',
+        
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        'yAxisType' : 'lifetime',
+        
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+        'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
+        
+        'xAxisFixMin' : 100, 
+        'xAxisFixMax' : 600,
+        'yAxisFixMin' : 0.05, 
+        'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
+        
+        'theoryLabel' : 'tan #beta = 5, #mu > 0', 
+        
+        'graphs' : [
+            {
+                'source' : [limit_dir], #output directory from limit running
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'colorScheme' : 'brazilian',
+            },
+        ],
     },
-    ],
-     },
+    
 
-  
-        ]
+    ###################### CTAU = 10 cm 
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'limits_vs_10cm',
+        
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        
+        # xmin, xmax, label
+        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'yAxisLabel' : 'c#tau = 10 cm',
+        
+        'theoryLabel' : '#tau_{#chi^{#pm}} = 10 cm', 
+        
+        # optional (scaled automatically if not included)
+        'yAxis' : yAxisRangeFor1DMassLimits, 
+        
+        # optional (False if not included)
+        # currently only works if the x-axis is mass
+        'showTheory' : True,
+        
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'source' : [limit_dir], #output directory from limit running
+                'lifetime' : 10.0,
+                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'colorScheme' : 'brazilian',
+                'legendEntry' : '',
+            },
+        ],
+    },
+    
+    ###################### CTAU = 100 cm 
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'limits_vs_100cm',
+        
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        
+        # xmin, xmax, label
+        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'yAxisLabel' : 'c#tau = 100 cm',
+        
+        'theoryLabel' : '#tau_{#chi^{#pm}} = 100 cm', 
+        
+        # optional (scaled automatically if not included)
+        'yAxis' : yAxisRangeFor1DMassLimits,  
+        
+        # optional (False if not included)
+        # currently only works if the x-axis is mass
+        'showTheory' : True,
+        
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'source' : [limit_dir], #output directory from limit running
+                'lifetime' : 100.0,
+                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'colorScheme' : 'brazilian',
+                'legendEntry' : '',
+            },
+        ],
+    },
+
+    ###################### CTAU = 1000 cm 
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'limits_vs_1000cm',
+        
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        
+        # xmin, xmax, label
+        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'yAxisLabel' : 'c#tau = 1000 cm',
+        
+        'theoryLabel' : '#tau_{#chi^{#pm}} = 1000 cm', 
+        
+        # optional (scaled automatically if not included)
+        'yAxis' : yAxisRangeFor1DMassLimits, 
+        
+        # optional (False if not included)
+        # currently only works if the x-axis is mass
+        'showTheory' : True,
+        
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'source' : [limit_dir], #output directory from limit running
+                'lifetime' : 1000.0,
+                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'colorScheme' : 'brazilian',
+                'legendEntry' : '',
+            },
+        ],
+    },
+        
+]
+
+
