@@ -311,14 +311,16 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             x3 = previous_mass
             x2 = first_allowed_mass
             x4 = first_allowed_mass
-            y1 = limit_dict[lifetime][previous_mass]['theory']
-            y3 = limit_dict[lifetime][previous_mass]['experiment']
-            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            # Use log10 because the theory cross section is roughly linear 
+            # on a log scale, not on a linear scale.  
+            y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
+            y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
+            y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0
+                mass_limit = 0.0            
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
             mass_limit = first_allowed_mass  
@@ -1366,6 +1368,8 @@ def drawPlot(plot, th2fType=""):
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
+    canvas.SetLogy(0)  
+    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
     print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"
 
 
