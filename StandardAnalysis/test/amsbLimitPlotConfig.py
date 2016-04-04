@@ -72,8 +72,8 @@ plotDefinitions = [
         
         'xAxisFixMin' : 100, 
         'xAxisFixMax' : 600,
-        'yAxisFixMin' : 0.05, 
-        'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
+        'yAxisFixMin' : 0.2, 
+        'yAxisFixMax' : 1000,  # The last point is 10000cm = 333 ns   
         
         'theoryLabel' : 'tan #beta = 5, #mu > 0', 
         
