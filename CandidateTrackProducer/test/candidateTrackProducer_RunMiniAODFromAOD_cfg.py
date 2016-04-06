@@ -1,0 +1,157 @@
+# This config file is modeled on: 
+# https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/dfe66d671a34e88c199fffd9dd3003e5/configFile 
+# which is the config for producing this dataset: 
+# /WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 
+
+# To run on data:
+# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAODFromAOD_cfg.py print runOnMC=0
+# To run on MC:
+# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAODFromAOD_cfg.py 
+
+# Auto generated configuration file
+# using: 
+# Revision: 1.19 
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# with command line options: step1 --filein dbs:/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM --fileout file:SUS-RunIIFall15MiniAODv2-00073.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 76X_mcRun2_asymptotic_v12 --step PAT --era Run2_25ns --python_filename SUS-RunIIFall15MiniAODv2-00073_1_MCM_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1920
+import FWCore.ParameterSet.Config as cms
+
+from Configuration.StandardSequences.Eras import eras
+
+process = cms.Process('PAT',eras.Run2_25ns)
+
+# import of standard configurations
+process.load('Configuration.StandardSequences.Services_cff')
+process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
+process.load('FWCore.MessageService.MessageLogger_cfi')
+process.load('Configuration.EventContent.EventContent_cff')
+process.load('SimGeneral.MixingModule.mixNoPU_cfi')
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.MagneticField_cff')
+process.load('PhysicsTools.PatAlgos.slimming.metFilterPaths_cff')
+process.load('Configuration.StandardSequences.EndOfProcess_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+
+import FWCore.ParameterSet.VarParsing as VarParsing
+options = VarParsing.VarParsing ('analysis')
+options.register ('runOnMC',
+                  1, # default value
+                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
+                  VarParsing.VarParsing.varType.int,          # string, int, or float
+                  "Whether jobs will run over MC (1) or data (0)"
+              )
+options.parseArguments()
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(20)
+)
+
+# Input source
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring('root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0058EAA8-CFC6-E511-9912-B083FED12B5C.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0062E804-C1C6-E511-8F05-B499BAAC00E0.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0216C1C1-33C7-E511-A85C-008CFA110AD0.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/026659DF-E7C6-E511-8DD0-782BCB1F5E6B.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/04E5AFCF-C0C6-E511-9911-0CC47A78A446.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/06564301-33C7-E511-8CF3-008CFA064704.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/081219F4-1EC8-E511-94E7-002590DB923C.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0AC2E22C-1BC7-E511-B034-D4AE527F338C.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0C26781F-C4C6-E511-8F0E-002590593872.root', 
+        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0C807909-D9C6-E511-BD2F-001E67504645.root'),
+    secondaryFileNames = cms.untracked.vstring()
+)
+
+process.options = cms.untracked.PSet(
+    allowUnscheduled = cms.untracked.bool(True)
+)
+
+# Production Info
+process.configurationMetadata = cms.untracked.PSet(
+    annotation = cms.untracked.string('step1 nevts:1920'),
+    name = cms.untracked.string('Applications'),
+    version = cms.untracked.string('$Revision: 1.19 $')
+)
+
+# Output definition
+
+process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
+    compressionAlgorithm = cms.untracked.string('LZMA'),
+    compressionLevel = cms.untracked.int32(4),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('MINIAODSIM'),
+        filterName = cms.untracked.string('')
+    ),
+    dropMetaData = cms.untracked.string('ALL'),
+    eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
+    fastCloning = cms.untracked.bool(False),
+    fileName = cms.untracked.string('file:miniAODWithCandidateTracks.root'), 
+    outputCommands = process.MINIAODSIMEventContent.outputCommands,
+    overrideInputFileSplitLevels = cms.untracked.bool(True)
+)
+
+# Additional output definition
+
+# Other statements
+from Configuration.AlCa.GlobalTag import GlobalTag
+if options.runOnMC:
+    process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
+else:
+    process.GlobalTag = GlobalTag(process.GlobalTag, '76X_dataRun2_v15', '')
+
+
+process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
+process.candidateTracks = cms.Path(process.candidateTrackProducer)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
+process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
+
+# Path and EndPath definitions
+process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
+process.Flag_goodVertices = cms.Path(process.primaryVertexFilter)
+process.Flag_CSCTightHaloFilter = cms.Path(process.CSCTightHaloFilter)
+process.Flag_trkPOGFilters = cms.Path(process.trkPOGFilters)
+process.Flag_trkPOG_logErrorTooManyClusters = cms.Path(~process.logErrorTooManyClusters)
+process.Flag_EcalDeadCellTriggerPrimitiveFilter = cms.Path(process.EcalDeadCellTriggerPrimitiveFilter)
+process.Flag_ecalLaserCorrFilter = cms.Path(process.ecalLaserCorrFilter)
+process.Flag_trkPOG_manystripclus53X = cms.Path(~process.manystripclus53X)
+process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter)
+process.Flag_METFilters = cms.Path(process.metFilters)
+process.Flag_chargedHadronTrackResolutionFilter = cms.Path(process.chargedHadronTrackResolutionFilter)
+process.Flag_CSCTightHaloTrkMuUnvetoFilter = cms.Path(process.CSCTightHaloTrkMuUnvetoFilter)
+process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseIsoFilter)
+process.Flag_hcalLaserEventFilter = cms.Path(process.hcalLaserEventFilter)
+process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseFilter)
+process.Flag_trkPOG_toomanystripclus53X = cms.Path(~process.toomanystripclus53X)
+process.Flag_EcalDeadCellBoundaryEnergyFilter = cms.Path(process.EcalDeadCellBoundaryEnergyFilter)
+process.Flag_HcalStripHaloFilter = cms.Path(process.HcalStripHaloFilter)
+process.Flag_muonBadTrackFilter = cms.Path(process.muonBadTrackFilter)
+process.Flag_CSCTightHalo2015Filter = cms.Path(process.CSCTightHalo2015Filter)
+process.endjob_step = cms.EndPath(process.endOfProcess)
+process.MINIAODSIMoutput_step = cms.EndPath(process.MINIAODSIMoutput)
+
+# Schedule definition
+process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.endjob_step,process.MINIAODSIMoutput_step)
+
+# customisation of the process.
+
+# Automatic addition of the customisation function from Configuration.DataProcessing.Utils
+from Configuration.DataProcessing.Utils import addMonitoring 
+
+#call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
+process = addMonitoring(process)
+
+# End of customisation functions
+#do not add changes to your config after this point (unless you know what you are doing)
+from FWCore.ParameterSet.Utilities import convertToUnscheduled
+process=convertToUnscheduled(process)
+process.load('Configuration.StandardSequences.PATMC_cff')
+from FWCore.ParameterSet.Utilities import cleanUnscheduled
+process=cleanUnscheduled(process)
+
+# customisation of the process.
+
+# Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC 
+
+#call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
+process = miniAOD_customizeAllMC(process)
+
+# End of customisation functions
