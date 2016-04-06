@@ -3,10 +3,8 @@
 # which is the config for producing this dataset: 
 # /WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 
 
-# To run on data:
-# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAODFromAOD_cfg.py print runOnMC=0
-# To run on MC:
-# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAODFromAOD_cfg.py 
+# To run:
+# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAOD_MC_cfg.py 
 
 # Auto generated configuration file
 # using: 
@@ -31,34 +29,18 @@ process.load('PhysicsTools.PatAlgos.slimming.metFilterPaths_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-import FWCore.ParameterSet.VarParsing as VarParsing
-options = VarParsing.VarParsing ('analysis')
-options.register ('runOnMC',
-                  1, # default value
-                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
-                  VarParsing.VarParsing.varType.int,          # string, int, or float
-                  "Whether jobs will run over MC (1) or data (0)"
-              )
-options.parseArguments()
-
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(20)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0058EAA8-CFC6-E511-9912-B083FED12B5C.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0062E804-C1C6-E511-8F05-B499BAAC00E0.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0216C1C1-33C7-E511-A85C-008CFA110AD0.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/026659DF-E7C6-E511-8DD0-782BCB1F5E6B.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/04E5AFCF-C0C6-E511-9911-0CC47A78A446.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/06564301-33C7-E511-8CF3-008CFA064704.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/081219F4-1EC8-E511-94E7-002590DB923C.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0AC2E22C-1BC7-E511-B034-D4AE527F338C.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0C26781F-C4C6-E511-8F0E-002590593872.root', 
-        'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0C807909-D9C6-E511-BD2F-001E67504645.root'),
+    fileNames = cms.untracked.vstring(
+        # 'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0058EAA8-CFC6-E511-9912-B083FED12B5C.root', 
+        "file:/home/wulsin/disappTrksRun2/ntuples_dev/CMSSW_7_6_3/src/DisappTrks/CandidateTrackProducer/test/WJetsToLNu_TuneCUETP8M1_13TeV_AODSIM_numEvent100.root", 
+    ),
     secondaryFileNames = cms.untracked.vstring()
-)
+)    
 
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
@@ -92,10 +74,7 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-if options.runOnMC:
-    process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
-else:
-    process.GlobalTag = GlobalTag(process.GlobalTag, '76X_dataRun2_v15', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
 
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
