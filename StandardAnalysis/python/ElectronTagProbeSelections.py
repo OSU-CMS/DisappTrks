@@ -37,7 +37,7 @@ addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
 cutsToRemove = [
     cutTrkPt,
     cutTrkEcalo,
-    cutTrkVetoElecVeto,
+    cutTrkElecVeto,
 ]
 removeCuts(ZtoEleProbeTrk.cuts, cutsToRemove)
 
@@ -58,6 +58,16 @@ cutsToAdd = [
 ]
 addCuts(ZtoEleDisTrk.cuts, cutsToAdd)
 
+ZtoEleDisTrkWithECaloCut = copy.deepcopy(ZtoEleDisTrk)
+ZtoEleDisTrkWithECaloCut.name = cms.string("ZtoEleDisTrkWithECaloCut")
+cutsToAdd = [
+    cutTrkEcalo,
+]
+addCuts(ZtoEleDisTrkWithECaloCut.cuts, cutsToAdd)
+
+##################################################
+## Electron tag and probe sample with missing outer hits cut removed
+##################################################
 ZtoEleProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrk)
 ZtoEleProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkNoMissingOuterHitsCut")
 cutsToRemove = [
@@ -78,3 +88,10 @@ cutsToRemove = [
     cutTrkNMissOut, # removed due to mismodelling in the MC
 ]
 removeCuts(ZtoEleDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrkWithECaloCut)
+ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut")
+cutsToRemove = [
+    cutTrkNMissOut, # removed due to mismodelling in the MC
+]
+removeCuts(ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.cuts, cutsToRemove)
