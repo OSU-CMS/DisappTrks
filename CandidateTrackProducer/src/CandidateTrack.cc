@@ -17,6 +17,8 @@ CandidateTrack::CandidateTrack () :
   caloHadDRp3_              (INVALID_VALUE),
   caloEMDRp5_               (INVALID_VALUE),
   caloHadDRp5_              (INVALID_VALUE),
+  caloNewEMDRp5_            (INVALID_VALUE),
+  caloNewHadDRp5_           (INVALID_VALUE),
   deltaRToClosestElectron_  (INVALID_VALUE),
   deltaRToClosestVetoElectron_  (INVALID_VALUE),
   deltaRToClosestLooseElectron_  (INVALID_VALUE),
@@ -44,6 +46,8 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   caloHadDRp3_              (INVALID_VALUE),
   caloEMDRp5_               (INVALID_VALUE),
   caloHadDRp5_              (INVALID_VALUE),
+  caloNewEMDRp5_            (INVALID_VALUE),
+  caloNewHadDRp5_           (INVALID_VALUE),
   deltaRToClosestElectron_  (INVALID_VALUE),
   deltaRToClosestVetoElectron_  (INVALID_VALUE),
   deltaRToClosestLooseElectron_  (INVALID_VALUE),
@@ -71,6 +75,8 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Tra
   caloHadDRp3_             (INVALID_VALUE),
   caloEMDRp5_              (INVALID_VALUE),
   caloHadDRp5_             (INVALID_VALUE),
+  caloNewEMDRp5_           (INVALID_VALUE),
+  caloNewHadDRp5_          (INVALID_VALUE),
   deltaRToClosestElectron_ (getMinDeltaR (electrons)),
   deltaRToClosestVetoElectron_ (vertices.size () ? getMinDeltaRToVetoElectron (electrons, beamspot, vertices.at (0), conversions) : INVALID_VALUE),
   deltaRToClosestLooseElectron_ (vertices.size () ? getMinDeltaRToLooseElectron (electrons, beamspot, vertices.at (0), conversions) : INVALID_VALUE),
@@ -308,9 +314,27 @@ CandidateTrack::caloHadDRp5 () const
 }
 
 const double
+CandidateTrack::caloNewEMDRp5 () const
+{
+  return this->caloNewEMDRp5_;
+}
+
+const double
+CandidateTrack::caloNewHadDRp5 () const
+{
+  return this->caloNewHadDRp5_;
+}
+
+const double
 CandidateTrack::caloTotDRp5 () const
 {
   return this->caloEMDRp5_ + this->caloHadDRp5_;
+}
+
+const double
+CandidateTrack::caloNewDRp5 () const
+{
+  return this->caloNewEMDRp5_ + this->caloNewHadDRp5_;
 }
 
 const double
@@ -344,7 +368,13 @@ CandidateTrack::caloTotNoPUDRp5CentralCalo () const
 }
 
 const double
-CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
+CandidateTrack::caloNewNoPUDRp5CentralCalo () const
+{
+  return caloTotNoPU(0.5, CandidateTrack::CentralCalo, true);  
+}
+
+const double
+CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, bool useNewCalc) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1 
   double rho;
@@ -363,6 +393,12 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
   }
 
   double rawCaloTot = caloTotDRp5();  
+  if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
+    rawCaloTot = caloTotDRp3();  
+  }
+  if (useNewCalc) {
+    rawCaloTot = caloNewDRp5();  
+  }  
   double caloCorr = rho * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.  
   double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - caloCorr);  
   return caloTotNoPUDRp5;  

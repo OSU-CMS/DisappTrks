@@ -8,6 +8,31 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 ###############################################
 
 
+TrackDebugEcaloHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackCaloNew_RhoCorr"),
+            title = cms.string("Isolation energy (new calculation, PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloNewOldDiff"),
+            title = cms.string("Isolation energy (new calculation - old calculation);E_{calo}^{#DeltaR<0.5} [GeV] new calc. - old calc."),
+            binsX = cms.untracked.vdouble(100, -10, 100),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo - caloTotNoPUDRp5CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloNewVsOld"),
+            title = cms.string("Isolation energy (new vs. old);E_{calo}^{#DeltaR<0.5} [GeV] old calc.;E_{calo}^{#DeltaR<0.5} [GeV] new calc."),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            binsY = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo", "caloNewNoPUDRp5CentralCalo"),
+            ),
+    )
+)
+
 TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (
