@@ -272,6 +272,11 @@ cutTrkMatchGenNone = cms.PSet(
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) == 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchedGen = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) != 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 11"),
