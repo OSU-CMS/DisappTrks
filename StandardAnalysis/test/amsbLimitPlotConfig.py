@@ -35,16 +35,8 @@ else:
     print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
     
-# NOTE: The chargino masses are used when actually making the limit plots
-#limit_dir = AndrewDir+'limits_20151201'  # LHC-type full CLs
-limit_dir = WellsDir+'limits_20160331'  # LHC-type full CLs 
-
 masses = ['100', '300', '500', '700']
-
-#chargino tau values
-lifetimes = ['10', '100', '1000']
-
-
+lifetimes = ['10', '100', '1000']  # c*tau [cm] 
 
 convertCmToNs = True 
 makeColorPlot = False 
@@ -72,14 +64,13 @@ plotDefinitions = [
         
         'xAxisFixMin' : 100, 
         'xAxisFixMax' : 600,
-        'yAxisFixMin' : 0.05, 
-        'yAxisFixMax' : 300,  # The last point is 10000cm = 333 ns   
+        'yAxisFixMin' : 0.2, 
+        'yAxisFixMax' : 1000,  # The last point is 10000cm = 333 ns   
         
         'theoryLabel' : 'tan #beta = 5, #mu > 0', 
         
         'graphs' : [
             {
-                'source' : [limit_dir], #output directory from limit running
                 'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
             },
@@ -111,7 +102,6 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : [limit_dir], #output directory from limit running
                 'lifetime' : 10.0,
                 'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
                 'colorScheme' : 'brazilian',
@@ -144,7 +134,6 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : [limit_dir], #output directory from limit running
                 'lifetime' : 100.0,
                 'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
                 'colorScheme' : 'brazilian',
@@ -177,7 +166,6 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : [limit_dir], #output directory from limit running
                 'lifetime' : 1000.0,
                 'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
                 'colorScheme' : 'brazilian',
