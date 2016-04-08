@@ -13,6 +13,14 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
+# Use the following block for the Calo calculation.  
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')  
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
+
+
+
 # input source when running interactively
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
@@ -112,6 +120,12 @@ histSets = cms.VPSet (
     EventVariableHistograms,
     EventVariablePVHistograms, 
 )
+
+histSetsDebug = cms.VPSet(
+    TrackHistograms, 
+    TrackExtraHistograms, 
+    TrackDebugEcaloHistograms, 
+) 
 
 histSetsMetJet = cms.VPSet (
     MetHistograms,
