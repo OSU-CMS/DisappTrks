@@ -157,6 +157,16 @@ cutTrkEtaMuonIneff2 = cms.PSet(        # TRACK ETA:  MUON INEFFICIENCY REGION 2
     cutString = cms.string("fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkFiducialElectron = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("isFiducialElectronTrack"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkFiducialMuon = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("isFiducialMuonTrack"),
+    numberRequired = cms.string(">= 1"),
+)
 # cutTrkEtaEcalCrackVeto = cms.PSet(  # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
 #     inputCollection = cms.vstring("tracks"),
 #     cutString = cms.string("fabs ( eta ) "),

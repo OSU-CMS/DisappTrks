@@ -53,6 +53,8 @@ isoTrkCuts = [
     cutTrkEcalGapVeto,
     cutTrkEtaMuonIneff1,
     cutTrkEtaMuonIneff2,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
     cutTrkNValidHits,
     cutTrkNMissIn,
     cutTrkNMissMid,
