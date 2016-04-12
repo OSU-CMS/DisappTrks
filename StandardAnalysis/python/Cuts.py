@@ -118,8 +118,16 @@ cutJetMetPhi = cms.PSet(
 )
 cutJetTightLepVeto = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("((neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8) && ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.90) || abs(eta)>2.4) && abs(eta)<=3.0) \
-                         || (neutralEmEnergyFraction<0.90 && neutralMultiplicity>10 && abs(eta)>3.0)"),
+    cutString = cms.string("\
+    ((\
+    neutralHadronEnergyFraction<0.90 && \
+    neutralEmEnergyFraction<0.90 && \
+    (chargedMultiplicity + neutralMultiplicity)>1 && \
+    muonEnergyFraction<0.8) && \
+    ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.90) || \
+    abs(eta)>2.4) && \
+    abs(eta)<=3.0) \
+    || (neutralEmEnergyFraction<0.90 && neutralMultiplicity>10 && abs(eta)>3.0)"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
