@@ -3,9 +3,9 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
-##################################################
+################################################################################
 ## Muon tag skim
-##################################################
+################################################################################
 MuonTagSkim = cms.PSet(
     name = cms.string("MuonTagSkim"),
     triggers = triggersSingleMu,
@@ -20,26 +20,36 @@ tagMuonCuts = [
 ]
 addCuts(MuonTagSkim.cuts, tagMuonCuts)
 
-##################################################
+################################################################################
 ## Muon tag and probe sample
-##################################################
-ZtoMuProbeTrk = copy.deepcopy(MuonTagSkim)
-ZtoMuProbeTrk.name = cms.string("ZtoMuProbeTrk")
+################################################################################
+ZtoMuIsoTrk = copy.deepcopy(MuonTagSkim)
+ZtoMuIsoTrk.name = cms.string("ZtoMuIsoTrk")
 
 muTrkCuts = [
     cutMuTrkInvMass10,
     #cutMuTrkInvMass80To100,
 ]
-addCuts(ZtoMuProbeTrk.cuts, [cutMuonArbitration])
-addCuts(ZtoMuProbeTrk.cuts, [cutTrkPt30])
-addCuts(ZtoMuProbeTrk.cuts, disTrkCuts)
-addCuts(ZtoMuProbeTrk.cuts, muTrkCuts)
-addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
+addCuts(ZtoMuIsoTrk.cuts, [cutMuonArbitration])
+addCuts(ZtoMuIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoMuIsoTrk.cuts, isoTrkCuts)
+addCuts(ZtoMuIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
     cutTrkPt,
-    cutTrkLooseMuonVeto,
 ]
-removeCuts(ZtoMuProbeTrk.cuts, cutsToRemove)
+removeCuts(ZtoMuIsoTrk.cuts, cutsToRemove)
+
+ZtoMuProbeTrk = copy.deepcopy(ZtoMuIsoTrk)
+ZtoMuProbeTrk.name = cms.string("ZtoMuProbeTrk")
+
+cutsToAdd = [
+    cutTrkVetoElecVeto,
+    cutTrkTauHadVeto,
+    cutTrkEcalo,
+    cutTrkNMissOut,
+]
+addCuts(ZtoMuProbeTrk.cuts, cutsToAdd)
+addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
 
 ZtoMuProbeTrkWithZCuts = copy.deepcopy(ZtoMuProbeTrk)
 ZtoMuProbeTrkWithZCuts.name = cms.string("ZtoMuProbeTrkWithZCuts")
@@ -49,34 +59,34 @@ cutsToAdd = [
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrk)
+ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 cutsToAdd = [
-    cutMuTrkInvMass80To100,
-    cutMuTrkOS,
     cutTrkLooseMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 
-ZtoMuProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrk)
-ZtoMuProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkNoMissingOuterHitsCut")
+################################################################################
+## Muon tag and probe sample -- no missing outer hits cut
+################################################################################
 cutsToRemove = [
     cutTrkNMissOut, # removed due to mismodelling in the MC
 ]
+
+ZtoMuIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuIsoTrk)
+ZtoMuIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuIsoTrkNoMissingOuterHitsCut")
+removeCuts(ZtoMuIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoMuProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrk)
+ZtoMuProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkNoMissingOuterHitsCut")
 removeCuts(ZtoMuProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoMuDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuDisTrk)
 ZtoMuDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuDisTrkNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoMuDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 os_cut = cms.PSet (
