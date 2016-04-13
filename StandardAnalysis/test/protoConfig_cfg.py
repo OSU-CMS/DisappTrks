@@ -213,9 +213,11 @@ LepCtrlChannels = [ # Run over isoTrkSelection skim
 #  add_channels  (process,  [ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
 #  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuIsoTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuIsoTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
