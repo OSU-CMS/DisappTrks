@@ -1,6 +1,7 @@
 <use  name="root"/>
 <use  name="CommonTools/UtilAlgos"/>
 <use  name="DataFormats/Common"/>
+<use  name="DataFormats/TrackReco"/>
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/MessageLogger"/>
@@ -9,6 +10,6 @@
 <use  name="DisappTrks/StandardAnalysis"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
-<library  file="EventJetVarProducer.cc"  name="DisappTrksStandardAnalysisPlugins">
+<library  file="*.cc"  name="DisappTrksStandardAnalysisPlugins">
   <flags  EDM_PLUGIN="1"/>
 </library>
