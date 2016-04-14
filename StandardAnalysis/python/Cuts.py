@@ -270,6 +270,11 @@ cutTrkNMissOut = cms.PSet(
     cutString = cms.string("missingOuterHits >= 3"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNMissOut4 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("missingOuterHits >= 4"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkEcaloInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("caloNewNoPUDRp5CentralCalo > 10"),

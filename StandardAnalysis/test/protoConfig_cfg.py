@@ -170,14 +170,14 @@ BkgdEstChannels = [
     candTrkEcaloSdband,
     candTrkNMissOutSdband,
 ]
+BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels 
+
 FakeTrkSystChannels = [
     disTrkSelectionNHits3, 
     disTrkSelectionNHits4, 
     disTrkSelectionNHits5, 
     disTrkSelectionNHits6, 
 ]
-BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels + FakeTrkSystChannels 
-
 
 ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim 
     ZtoMuMuCandTrk,
@@ -200,6 +200,7 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 #  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  
+#  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 
 ## MANDATORY CHANNELS FOR SINGLEMUON DATASET # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoMuMu],                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
