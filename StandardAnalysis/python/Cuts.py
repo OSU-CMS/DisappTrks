@@ -262,7 +262,7 @@ cutTrkJetDeltaPhi = cms.PSet(
 )
 cutTrkEcalo = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo < 10"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOut = cms.PSet(
@@ -277,12 +277,12 @@ cutTrkNMissOut4 = cms.PSet(
 )
 cutTrkEcaloInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo > 10"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo > 10"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcaloInv50 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo > 50"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo > 50"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOutInv = cms.PSet(
