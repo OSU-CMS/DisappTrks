@@ -266,6 +266,60 @@ CandidateTrack::getMinDeltaRToTightMuon (const vector<pat::Muon> &objects, const
 }
 
 const int
+CandidateTrack::numberOfTrackerHits () const
+{
+  return this->hitPattern ().trackerLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfPixelHits () const
+{
+  return this->hitPattern ().pixelLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfStripHits () const
+{
+  return this->hitPattern ().stripLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfPixelBarrelHits () const
+{
+  return this->hitPattern ().pixelBarrelLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfPixelEndcapHits () const
+{
+  return this->hitPattern ().pixelEndcapLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfStripTIBHits () const
+{
+  return this->hitPattern ().stripTIBLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfStripTIDHits () const
+{
+  return this->hitPattern ().stripTIDLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfStripTOBHits () const
+{
+  return this->hitPattern ().stripTOBLayersWithMeasurement ();
+}
+
+const int
+CandidateTrack::numberOfStripTECHits () const
+{
+  return this->hitPattern ().stripTECLayersWithMeasurement ();
+}
+
+const int
 CandidateTrack::missingInnerHits () const
 {
   return this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS);
@@ -281,6 +335,159 @@ const int
 CandidateTrack::missingOuterHits () const
 {
   return this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS);
+}
+
+const int
+CandidateTrack::missingTrackerHits () const
+{
+  return (this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingPixelHits () const
+{
+  return (this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingStripHits () const
+{
+  return (this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingPixelBarrelHits () const
+{
+  return (this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingPixelEndcapHits () const
+{
+  return (this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingStripTIBHits () const
+{
+  return (this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingStripTIDHits () const
+{
+  return (this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingStripTOBHits () const
+{
+  return (this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::missingStripTECHits () const
+{
+  return (this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedTrackerHits () const
+{
+  return (this->hitPattern ().trackerLayersWithMeasurement ()
+        + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedPixelHits () const
+{
+  return (this->hitPattern ().pixelLayersWithMeasurement ()
+        + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedStripHits () const
+{
+  return (this->hitPattern ().stripLayersWithMeasurement ()
+        + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedPixelBarrelHits () const
+{
+  return (this->hitPattern ().pixelBarrelLayersWithMeasurement ()
+        + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedPixelEndcapHits () const
+{
+  return (this->hitPattern ().pixelEndcapLayersWithMeasurement ()
+        + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedStripTIBHits () const
+{
+  return (this->hitPattern ().stripTIBLayersWithMeasurement ()
+        + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedStripTIDHits () const
+{
+  return (this->hitPattern ().stripTIDLayersWithMeasurement ()
+        + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedStripTOBHits () const
+{
+  return (this->hitPattern ().stripTOBLayersWithMeasurement ()
+        + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+}
+
+const int
+CandidateTrack::expectedStripTECHits () const
+{
+  return (this->hitPattern ().stripTECLayersWithMeasurement ()
+        + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
+        + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS)
+        + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
 const double
