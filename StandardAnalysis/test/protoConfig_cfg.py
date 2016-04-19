@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
 import math
 import os
+import glob
 
 ################################################################################
 ##### Set up the 'process' object ##############################################
@@ -33,6 +34,12 @@ process.source = cms.Source ("PoolSource",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
     ),
 )
+
+# Add all files in a directory:  
+# dirname = "condor/isoTrkSelection/MET_2015D/IsoTrkSelection/"
+# for f in glob.glob(dirname + "skim*.root"):
+#     process.source.fileNames.extend(cms.untracked.vstring('file:' + f))  
+
 
 # process.source.eventsToProcess = cms.untracked.VEventRange (
 #     "1:60:53",
