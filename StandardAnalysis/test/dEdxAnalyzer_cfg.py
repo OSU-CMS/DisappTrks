@@ -13,7 +13,7 @@ process.maxEvents = cms.untracked.PSet (
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        "file:/data/users/hart/pickevents_data.root",
+        "file:/data/users/hart/weirdData/weirdMuons.root",
     ),
 )
 process.TFileService = cms.Service ('TFileService',
@@ -26,7 +26,10 @@ process.TFileService = cms.Service ('TFileService',
 
 process.dEdxAnalyzer = cms.EDAnalyzer ("DEdxAnalyzer",
     tracks = cms.InputTag ("generalTracks", ""),
+    electrons = cms.InputTag ("gedGsfElectrons", ""),
+    muons = cms.InputTag ("muons", ""),
     dEdx = cms.InputTag ("dedxHarmonic2", ""),
+    vetoElectronsOrMuons = cms.string ("muons")
 )
 
 process.myPath = cms.Path (process.dEdxAnalyzer)
