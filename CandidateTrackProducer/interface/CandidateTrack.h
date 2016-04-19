@@ -66,9 +66,43 @@ class CandidateTrack : public reco::Track
     const double deltaRToClosestTau () const;
     const double deltaRToClosestTauHad () const;
 
+    // number of hits differentiated by location in detector
+    const int numberOfTrackerHits () const;
+    const int numberOfPixelHits () const;
+    const int numberOfStripHits () const;
+    const int numberOfPixelBarrelHits () const;
+    const int numberOfPixelEndcapHits () const;
+    const int numberOfStripTIBHits () const;
+    const int numberOfStripTIDHits () const;
+    const int numberOfStripTOBHits () const;
+    const int numberOfStripTECHits () const;
+
+    // missing hits differentiated by location on track
     const int missingInnerHits () const;
     const int missingMiddleHits () const;
     const int missingOuterHits () const;
+
+    // missing hits differentiated by location in detector
+    const int missingTrackerHits () const;
+    const int missingPixelHits () const;
+    const int missingStripHits () const;
+    const int missingPixelBarrelHits () const;
+    const int missingPixelEndcapHits () const;
+    const int missingStripTIBHits () const;
+    const int missingStripTIDHits () const;
+    const int missingStripTOBHits () const;
+    const int missingStripTECHits () const;
+
+    // expected hits differentiated by location in detector
+    const int expectedTrackerHits () const;
+    const int expectedPixelHits () const;
+    const int expectedStripHits () const;
+    const int expectedPixelBarrelHits () const;
+    const int expectedPixelEndcapHits () const;
+    const int expectedStripTIBHits () const;
+    const int expectedStripTIDHits () const;
+    const int expectedStripTOBHits () const;
+    const int expectedStripTECHits () const;
 
     const double rhoPUCorr () const;
     const double rhoPUCorrCalo () const;
