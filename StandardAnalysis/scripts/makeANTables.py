@@ -64,9 +64,10 @@ BasicSelChan              = "IsoTrkSelection"
 DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456"
 
 ## Bkgd estimates
-bkgdEstCandTrk            = AndrewDir + "condor_2016_04_01_BkgdEstCandTrk"
-bkgdEstSdbandNmissout     = AndrewDir + "condor_2016_04_01_BkgdEstSdbandNmissout"
-bkgdEstSdbandEcalo        = AndrewDir + "condor_2016_04_01_BkgdEstSdbandEcalo"
+bkgdEstBase               = WellsDir + "condor_2016_04_20_BkgdEst" 
+bkgdEstCandTrk            = bkgdEstBase + "CandTrk"
+bkgdEstSdbandEcalo        = bkgdEstBase + "SdbandEcalo"
+bkgdEstSdbandNmissout     = bkgdEstBase + "SdbandNmissout"
 
 ### parse the command-line options
 parser = OptionParser()
