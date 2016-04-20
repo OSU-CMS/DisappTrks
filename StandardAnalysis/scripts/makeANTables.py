@@ -55,10 +55,10 @@ tauCtrlDir            = candTrkDir
 
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"
-ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"
-ZtoMuMuCandTrkSdband      = WellsDir + "ZtoMuMuCandTrkSdband"
-ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuTrk_76X"
-ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456"
+ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrk_76X" 
+ZtoMuMuCandTrkSdband      = ZtoMuMuCandTrkDir 
+ZtoMuMuDisTrkDir          = ZtoMuMuCandTrkDir  
+ZtoMuMuDisTrkNHits3456Dir = ZtoMuMuCandTrkDir   
 BasicSelDir               = WellsDir + "isoTrkSelection_76X"
 BasicSelChan              = "IsoTrkSelection"
 DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456"
