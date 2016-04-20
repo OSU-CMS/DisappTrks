@@ -39,19 +39,19 @@ else:
     os.exit(0)
 
 ## Nominal selection
-candTrkDir            = AndrewDir+"candTrkSelection_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
+candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644 
 disappTrkDir          = AndrewDir+"disTrkSelection_76X"
-candTrkEcaloSdband    = AndrewDir+"ecaloSideband_76X"    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/567
-candTrkNmissoutSdband = AndrewDir+"missingOuterHitsSideband_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/566
+candTrkEcaloSdband    = candTrkDir
+candTrkNmissoutSdband = candTrkDir
 
 ## elecVetoEff.tex and elecEst.tex
-elecCtrlDir           = AndrewDir+"leptonControlRegions_76X"
+elecCtrlDir           = candTrkDir
 
 ## muonVetoEff.tex and muonEst.tex
-muonCtrlDir           = AndrewDir+"leptonControlRegions_76X"
+muonCtrlDir           = candTrkDir
 
 ## tauVetoEff.tex and tauEst.tex
-tauCtrlDir            = AndrewDir+"leptonControlRegions_76X"
+tauCtrlDir            = candTrkDir 
 
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"
