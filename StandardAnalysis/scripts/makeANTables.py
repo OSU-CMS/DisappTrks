@@ -130,7 +130,7 @@ def getYieldInBin(sample,condor_dir,channel,ibin):
     return (yield_, statError_)
 
 
-def getBinWithLabel(sample,condor_dir,channel,label):
+def getFirstBinWithLabel(sample,condor_dir,channel,label):
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
     inputFile = TFile(dataset_file)
     cutFlowHistogram = inputFile.Get(channel + "/cutFlow")
@@ -142,6 +142,7 @@ def getBinWithLabel(sample,condor_dir,channel,label):
     for i in range(1, cutFlowHistogram.GetNbinsX()+1):
         if label in cutFlowHistogram.GetXaxis().GetBinLabel(i):
             ibin = i
+            break 
     if ibin < 0:
         print "ERROR:  could not find bin with label containing", label, "for channel", channel
     return ibin
@@ -802,7 +803,8 @@ if arguments.all \
 
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
-    ibin = getBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.
+    ibin = getFirstBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
+    ibin -= 1  # Use the yield before any track cuts.  
     (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
@@ -810,7 +812,7 @@ if arguments.all \
     NfakeErrDn = NCtrlMet * PErrDn
 
     fakeEst["scaleKin"]    = NCtrlMet / NCtrl
-    fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator
+    fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2)) if NCtrl and NCtrlMet else 0  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator
     fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $"
     fakeEst["gammaN"] = int(NfakeRaw)
     fakeEst["gammaAlpha"] = fakeEst["scaleKin"]
