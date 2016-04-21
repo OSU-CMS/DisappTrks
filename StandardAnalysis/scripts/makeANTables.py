@@ -40,7 +40,7 @@ else:
 
 ## Nominal selection
 candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644 
-disappTrkDir          = AndrewDir+"disTrkSelection_76X"
+disappTrkDir          = WellsDir+"disTrkSelection_76X_V2"
 candTrkEcaloSdband    = candTrkDir
 candTrkNmissoutSdband = candTrkDir
 
@@ -1184,7 +1184,7 @@ print "Copy tables to AN area with: "
 if user == "wulsin":
     print "scp tables/*tex wulsin@lxplus.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-15-213/trunk/tables/"
     print "OR: "
-    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir/tables/*tex\" tables/"
+    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir76/tables/*tex\" tables/"
 elif user == "hart":
     print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/"
 
