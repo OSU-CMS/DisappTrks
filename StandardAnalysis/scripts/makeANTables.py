@@ -280,7 +280,7 @@ def getProb(yields):
 
 
     if NPassRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution
-        print "Debug:  NTotRaw = ", NTotRaw
+        # print "Debug:  NTotRaw = ", NTotRaw
         NPassRawErr = NPassRaw * (NPassErr / NPass) if NPass else 0
         alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma
         NPassErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NPassRaw + 1)) - NPassRaw)
@@ -329,10 +329,12 @@ def makeLeptonEst(options):
         else:
             NPass    = NPassHist
             NPassErr = NPassHistErr
+    # print "DEBUG:  For sample", options['MCsample'], "dir=", options['disTrkDir'], " and channel=", options['disTrkChannel'], "NPass=", NPass  
     yields = {}
     yields["NTot"] = NCtrl
     yields["NTotErr"] = NCtrlErr
     yields["NPass"] = NPass
+    leptonEst["NPass"] = NPass
     yields["NPassErr"] = NPassErr
     prob = getProb(yields)
 
@@ -514,7 +516,6 @@ def makeBkgdEstimate(options):
     fout.close()
     os.system("cat " + outputFile)
     print "Finished writing " + outputFile + "\n\n\n"
-
 
 
 
@@ -933,6 +934,9 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     options["PTauErr"]  =  tauEstCandTrk["PErr"]
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
+    # print "DEBUG:  Total MC yield = ", elecEstCandTrk["NPass"], muonEstCandTrk["NPass"], tauEstCandTrk["NPass"]  
+                                                            
+                                                            
     makeBkgdEstimate(options)
 
 if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
@@ -962,6 +966,7 @@ if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
+    # print "DEBUG:  Total MC yield = ", elecEstEcaloSdband["NPass"], muonEstEcaloSdband["NPass"], tauEstEcaloSdband["NPass"]  
 
 if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     ###################################################
@@ -990,7 +995,7 @@ if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
-
+    # print "DEBUG:  Total MC yield = ", elecEstNmissoutSdband["NPass"], muonEstNmissoutSdband["NPass"], tauEstNmissoutSdband["NPass"]  
 
 if arguments.all or "bkgdChk" in arguments.tableSelection:
     ###################################################
