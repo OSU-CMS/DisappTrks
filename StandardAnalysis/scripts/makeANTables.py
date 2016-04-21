@@ -404,12 +404,13 @@ def makeLeptonEst(options):
 
 def getFakeRate(options):
     yields = {}
-
-    # FIXME:  hack until BasicSel skim is available:
-    if options['BasicSelDir'] == BasicSelDir:
-        (yields["NTot"], yields["NTotErr"]) = (791000, 890) # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
-    else:
+    if options['useTotalYield']:
         (yields["NTot"], yields["NTotErr"])  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel'])
+    else: 
+        # Find the yield before any track cuts have been applied.  
+        ibin = getFirstBinWithLabel("WJetsToLNu_HT", options['BasicSelDir'], options['BasicSelChannel'] + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
+        ibin -= 1  # Use the yield before any track cuts.  
+        (yields["NTot"], yields["NTotErr"]) = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
 
     (yields["NPass"], yields["NPassErr"]) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel'])
 
@@ -1081,12 +1082,14 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
         options['BasicSelChannel'] = "ZtoMuMuCutFlowPlotter"
         options['DisTrkNHits3456Dir']     =  ZtoMuMuDisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "ZtoMuMuDisTrkNHits" + str(n) + "CutFlowPlotter"
+        options['useTotalYield'] = True 
         fakeRateCtrl = getFakeRate(options)
         options['dataset'] = "MET_2015D"
         options['BasicSelDir'] = BasicSelDir
-        options['BasicSelChannel']   = "BasicSelCutFlowPlotter"  # FIXME
+        options['BasicSelChannel']   = BasicSelChan 
         options['DisTrkNHits3456Dir'] = DisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "DisTrkSelectionNHits" + str(n) + "CutFlowPlotter"
+        options['useTotalYield'] = False
         fakeRateSearch = getFakeRate(options)
         content += str(n) + " & "
         content += getLatexNumString(fakeRateCtrl  ["P"], fakeRateCtrl  ["PErr"]) + " & "
