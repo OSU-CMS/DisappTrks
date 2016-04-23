@@ -402,6 +402,11 @@ cutMuonPairPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string("== 2"),
 )
+cutMuonPairPt25 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string("== 2"),
+)
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -411,6 +416,12 @@ cutMuonPairTightID = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
     numberRequired = cms.string("== 2"),
+)
+cutMuonPairTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cutMuonTightPFIso.cutString,  
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"), 
 )
 cutMuonArbitration = cms.PSet(
     inputCollection = cms.vstring("muons"),
