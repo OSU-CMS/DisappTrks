@@ -68,6 +68,34 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("missingOuterHits"),
             ),
         cms.PSet (
+            name = cms.string("trackNHitsExpectedTOBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TOB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","expectedStripTOBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsExpectedTIBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TIB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","expectedStripTIBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsObservedTOBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TOB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","numberOfStripTOBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsObservedTIBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TIB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","numberOfStripTIBHits"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsMissingMiddle"),
             title = cms.string("Number of Missing Middle Hits;N_{miss}^{middle}"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
@@ -189,10 +217,23 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string(";p_{T} of matched generator particle [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("genMatchedParticle.promptFinalState.pt"),
-            ),
-
-        )
+        ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingOuterVsEta"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #eta"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(60, -3.0, 3.0),
+            inputVariables = cms.vstring("missingOuterHits", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingOuterVsPhi"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #phi"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("missingOuterHits", "phi"),
+        ),
     )
+)
 
 MuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -350,6 +391,13 @@ TrackElectronHistograms = cms.PSet(
             title = cms.string(";q_{e}#timesq_{track}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("electron.charge * track.charge"),
+        ),
+        cms.PSet (
+            name = cms.string("electronNMissOutVsTrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};electron N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("track.missingOuterHits", "electron.missingOuterHits"),
         ),
     )
 )
