@@ -884,19 +884,20 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     content += "        },\n"
     content += "    }\n"
 
-    # Put in the bkgd systematic uncertainties by hand
+    # Put in the bkgd systematic uncertainties by hand 
+    # FIXME:  calculate systematic uncertainties in script!  
     content += "background_systematics = { \n"
     content += "    'Elec' : {\n"
-    content += "    'value' : '1.86',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/586
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/637 \n" 
     content += "                 },\n"
     content += "    'Muon' : {\n"
-    content += "    'value' : '8.9',\n"  # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/579
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/635 \n"  
     content += "                 },\n"
     content += "    'Tau' : {\n"
-    content += "    'value' : '2.0',\n"  # Dummy value, hopefully conservative
+    content += "    'value' : '1.71',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/621 \n"  
     content += "                 },\n"
     content += "    'Fake' : {\n"
-    content += "    'value' : '1.22',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/581
+    content += "    'value' : '1.22',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/659 \n" 
     content += "                 },\n"
     content += "    }\n"
 
