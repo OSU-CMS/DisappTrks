@@ -28,7 +28,6 @@ ZtoMuIsoTrk.name = cms.string("ZtoMuIsoTrk")
 
 muTrkCuts = [
     cutMuTrkInvMass10,
-    #cutMuTrkInvMass80To100,
 ]
 addCuts(ZtoMuIsoTrk.cuts, [cutMuonArbitration])
 addCuts(ZtoMuIsoTrk.cuts, [cutTrkPt30])
@@ -43,7 +42,7 @@ ZtoMuProbeTrk = copy.deepcopy(ZtoMuIsoTrk)
 ZtoMuProbeTrk.name = cms.string("ZtoMuProbeTrk")
 
 cutsToAdd = [
-    cutTrkVetoElecVeto,
+    cutTrkElecVeto,
     cutTrkTauHadVeto,
     cutTrkEcalo,
     cutTrkNMissOut,
@@ -62,7 +61,7 @@ addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 cutsToAdd = [
-    cutTrkLooseMuonVeto,
+    cutTrkMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 
