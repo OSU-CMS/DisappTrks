@@ -116,15 +116,15 @@ ZtoMuMu = cms.PSet(
     name = cms.string("ZtoMuMu"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (
-         cutMuonPairPt20,
-         cutMuonPairEta21,
-         cutMuonPairTightID,
-         # cutMuonPairPFIso,
-         cutMuMuChargeProduct,
-         cutMuMuInvMassZLo,
-         cutMuMuInvMassZHi,
-         )
+        cutMuonPairPt25,
+        cutMuonPairEta21,
+        cutMuonPairTightID,
+        cutMuonPairTightPFIso,
+        cutMuMuChargeProduct,
+        cutMuMuInvMassZLo,
+        cutMuMuInvMassZHi,
     )
+)
 
 
 ##################################################

@@ -65,6 +65,18 @@ isoTrkCuts = [
 ]
 addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
+
+##########################################################################
+
+isoTrkSelectionNoJetCuts = copy.deepcopy(isoTrkSelection)
+isoTrkSelectionNoJetCuts.name = cms.string("IsoTrkSelectionNoJetCuts")
+cutsToRemove = [
+    cutDijetDeltaPhiMax,
+    cutJetMetPhi,
+    cutTrkJetDeltaPhi,
+]  
+removeCuts(isoTrkSelectionNoJetCuts.cuts, cutsToRemove) 
+
 ##########################################################################
 
 isoTrkSelectionNMissOut4 = copy.deepcopy(isoTrkSelection)
@@ -99,6 +111,7 @@ cutsToAdd = [
 ]
 addCuts(disTrkSelection.cuts, cutsToAdd)
 disTrkCuts = candTrkCuts + cutsToAdd
+
 
 ##########################################################################
 
@@ -283,6 +296,7 @@ cutsToAdd = [
 ]
 removeCuts(disTrkSelectionNHits3.cuts, cutsToRemove)
 addCuts   (disTrkSelectionNHits3.cuts, cutsToAdd)
+
 
 ##########################################################################
 

@@ -2,33 +2,33 @@
 #!/usr/bin/env python  
 backgrounds = {
 'Elec' : {
-    'N' : '37',
-    'alpha' : '0.0979428781339',
+    'N' : '2',
+    'alpha' : '0.1279087414',
         },
 'Muon' : {
-    'N' : '1',
-    'alpha' : '0.101157268045',
+    'N' : '0',
+    'alpha' : '0.134569932947',
         },
 'Tau' : {
-    'N' : '5',
-    'alpha' : '0.157085111161',
+    'N' : '0',
+    'alpha' : '0.196531791908',
         },
 'Fake' : {
-    'N' : '3',
-    'alpha' : '1.3419234778',
+    'N' : '0',
+    'alpha' : '0.569361757681',
         },
     }
 background_systematics = { 
     'Elec' : {
-    'value' : '1.86',
+    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/637 
                  },
     'Muon' : {
-    'value' : '4.0', # set by hand
+    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/635 
                  },
     'Tau' : {
-    'value' : '1.71', # set by hand  
+    'value' : '1.71',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/621 
                  },
     'Fake' : {
-    'value' : '1.22',
+    'value' : '1.22',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/659 
                  },
     }

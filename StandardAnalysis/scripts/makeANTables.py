@@ -39,34 +39,35 @@ else:
     os.exit(0)
 
 ## Nominal selection
-candTrkDir            = AndrewDir+"candTrkSelection_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
-disappTrkDir          = AndrewDir+"disTrkSelection_76X"
-candTrkEcaloSdband    = AndrewDir+"ecaloSideband_76X"    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/567
-candTrkNmissoutSdband = AndrewDir+"missingOuterHitsSideband_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/566
+candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644 
+disappTrkDir          = WellsDir+"disTrkSelection_76X_V2"
+candTrkEcaloSdband    = candTrkDir
+candTrkNmissoutSdband = candTrkDir
 
 ## elecVetoEff.tex and elecEst.tex
-elecCtrlDir           = AndrewDir+"leptonControlRegions_76X"
+elecCtrlDir           = candTrkDir
 
 ## muonVetoEff.tex and muonEst.tex
-muonCtrlDir           = AndrewDir+"leptonControlRegions_76X"
+muonCtrlDir           = candTrkDir
 
 ## tauVetoEff.tex and tauEst.tex
-tauCtrlDir            = AndrewDir+"leptonControlRegions_76X"
+tauCtrlDir            = candTrkDir 
 
 ## fakeTrkRate.tex and fakeEst.tex
-ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"
-ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuCandTrk"
-ZtoMuMuCandTrkSdband      = WellsDir + "ZtoMuMuCandTrkSdband"
-ZtoMuMuDisTrkDir          = WellsDir + "ZtoMuMuTrk_76X"
-ZtoMuMuDisTrkNHits3456Dir = WellsDir + "ZtoMuMuDisTrkNHits3456"
+ZtoMuMuDir                = WellsDir + "ZtoMuMu"
+ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrkChannels" 
+ZtoMuMuCandTrkSdband      = ZtoMuMuCandTrkDir 
+ZtoMuMuDisTrkDir          = ZtoMuMuCandTrkDir  
+ZtoMuMuDisTrkNHits3456Dir = ZtoMuMuCandTrkDir   
 BasicSelDir               = WellsDir + "isoTrkSelection_76X"
 BasicSelChan              = "IsoTrkSelection"
-DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456"
+DisTrkNHits3456Dir        = WellsDir + "fakeTrkSystChannels_76X" 
 
 ## Bkgd estimates
-bkgdEstCandTrk            = AndrewDir + "condor_2016_04_01_BkgdEstCandTrk"
-bkgdEstSdbandNmissout     = AndrewDir + "condor_2016_04_01_BkgdEstSdbandNmissout"
-bkgdEstSdbandEcalo        = AndrewDir + "condor_2016_04_01_BkgdEstSdbandEcalo"
+bkgdEstBase               = WellsDir + "condor_2016_04_20_BkgdEst" 
+bkgdEstCandTrk            = bkgdEstBase + "CandTrk"
+bkgdEstSdbandEcalo        = bkgdEstBase + "SdbandEcalo"
+bkgdEstSdbandNmissout     = bkgdEstBase + "SdbandNmissout"
 
 ### parse the command-line options
 parser = OptionParser()
@@ -130,7 +131,7 @@ def getYieldInBin(sample,condor_dir,channel,ibin):
     return (yield_, statError_)
 
 
-def getBinWithLabel(sample,condor_dir,channel,label):
+def getFirstBinWithLabel(sample,condor_dir,channel,label):
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
     inputFile = TFile(dataset_file)
     cutFlowHistogram = inputFile.Get(channel + "/cutFlow")
@@ -142,6 +143,7 @@ def getBinWithLabel(sample,condor_dir,channel,label):
     for i in range(1, cutFlowHistogram.GetNbinsX()+1):
         if label in cutFlowHistogram.GetXaxis().GetBinLabel(i):
             ibin = i
+            break 
     if ibin < 0:
         print "ERROR:  could not find bin with label containing", label, "for channel", channel
     return ibin
@@ -278,7 +280,7 @@ def getProb(yields):
 
 
     if NPassRaw < 10:  # Crude estimate of when Poisson approximates a binomial, see https://en.wikipedia.org/wiki/Poisson_distribution
-        print "Debug:  NTotRaw = ", NTotRaw
+        # print "Debug:  NTotRaw = ", NTotRaw
         NPassRawErr = NPassRaw * (NPassErr / NPass) if NPass else 0
         alpha = 0.84  # choose alpha such that 68% of distribution is within +/-1 sigma
         NPassErrUpRaw = math.fabs(0.5 * TMath.ChisquareQuantile (alpha,       2 * (NPassRaw + 1)) - NPassRaw)
@@ -327,10 +329,12 @@ def makeLeptonEst(options):
         else:
             NPass    = NPassHist
             NPassErr = NPassHistErr
+    # print "DEBUG:  For sample", options['MCsample'], "dir=", options['disTrkDir'], " and channel=", options['disTrkChannel'], "NPass=", NPass  
     yields = {}
     yields["NTot"] = NCtrl
     yields["NTotErr"] = NCtrlErr
     yields["NPass"] = NPass
+    leptonEst["NPass"] = NPass
     yields["NPassErr"] = NPassErr
     prob = getProb(yields)
 
@@ -402,12 +406,13 @@ def makeLeptonEst(options):
 
 def getFakeRate(options):
     yields = {}
-
-    # FIXME:  hack until BasicSel skim is available:
-    if options['BasicSelDir'] == BasicSelDir:
-        (yields["NTot"], yields["NTotErr"]) = (791000, 890) # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/568
-    else:
+    if options['useTotalYield']:
         (yields["NTot"], yields["NTotErr"])  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel'])
+    else: 
+        # Find the yield before any track cuts have been applied.  
+        ibin = getFirstBinWithLabel("WJetsToLNu_HT", options['BasicSelDir'], options['BasicSelChannel'] + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
+        ibin -= 1  # Use the yield before any track cuts.  
+        (yields["NTot"], yields["NTotErr"]) = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
 
     (yields["NPass"], yields["NPassErr"]) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel'])
 
@@ -511,7 +516,6 @@ def makeBkgdEstimate(options):
     fout.close()
     os.system("cat " + outputFile)
     print "Finished writing " + outputFile + "\n\n\n"
-
 
 
 
@@ -802,7 +806,8 @@ if arguments.all \
 
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
-    ibin = getBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "neutralEmEnergyFraction") # data cutflow histogram has no labels.  Not sure why.
+    ibin = getFirstBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
+    ibin -= 1  # Use the yield before any track cuts.  
     (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
@@ -810,7 +815,7 @@ if arguments.all \
     NfakeErrDn = NCtrlMet * PErrDn
 
     fakeEst["scaleKin"]    = NCtrlMet / NCtrl
-    fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2))  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator
+    fakeEst["scaleKinErr"] = fakeEst["scaleKin"] * math.sqrt(pow(NCtrlMetErr / NCtrlMet, 2) + pow(NCtrlErr / NCtrl, 2)) if NCtrl and NCtrlMet else 0  # relative error of quotient is sum in quadrature of relative errors of numerator and denominator
     fakeEst["NStr"] = "$"  + str(round_sigfigs(Nfake,2)) + " ^{+" + str(round_sigfigs(NfakeErrUp,2)) + "}_{-" + str(round_sigfigs(NfakeErrDn,2)) + "} $"
     fakeEst["gammaN"] = int(NfakeRaw)
     fakeEst["gammaAlpha"] = fakeEst["scaleKin"]
@@ -879,19 +884,20 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     content += "        },\n"
     content += "    }\n"
 
-    # Put in the bkgd systematic uncertainties by hand
+    # Put in the bkgd systematic uncertainties by hand 
+    # FIXME:  calculate systematic uncertainties in script!  
     content += "background_systematics = { \n"
     content += "    'Elec' : {\n"
-    content += "    'value' : '1.86',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/586
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/637 \n" 
     content += "                 },\n"
     content += "    'Muon' : {\n"
-    content += "    'value' : '8.9',\n"  # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/579
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/635 \n"  
     content += "                 },\n"
     content += "    'Tau' : {\n"
-    content += "    'value' : '2.0',\n"  # Dummy value, hopefully conservative
+    content += "    'value' : '1.71',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/621 \n"  
     content += "                 },\n"
     content += "    'Fake' : {\n"
-    content += "    'value' : '1.22',\n" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/581
+    content += "    'value' : '1.22',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/659 \n" 
     content += "                 },\n"
     content += "    }\n"
 
@@ -929,6 +935,9 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     options["PTauErr"]  =  tauEstCandTrk["PErr"]
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
+    # print "DEBUG:  Total MC yield = ", elecEstCandTrk["NPass"], muonEstCandTrk["NPass"], tauEstCandTrk["NPass"]  
+                                                            
+                                                            
     makeBkgdEstimate(options)
 
 if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
@@ -958,6 +967,7 @@ if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
+    # print "DEBUG:  Total MC yield = ", elecEstEcaloSdband["NPass"], muonEstEcaloSdband["NPass"], tauEstEcaloSdband["NPass"]  
 
 if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     ###################################################
@@ -986,7 +996,7 @@ if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
-
+    # print "DEBUG:  Total MC yield = ", elecEstNmissoutSdband["NPass"], muonEstNmissoutSdband["NPass"], tauEstNmissoutSdband["NPass"]  
 
 if arguments.all or "bkgdChk" in arguments.tableSelection:
     ###################################################
@@ -1078,12 +1088,14 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
         options['BasicSelChannel'] = "ZtoMuMuCutFlowPlotter"
         options['DisTrkNHits3456Dir']     =  ZtoMuMuDisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "ZtoMuMuDisTrkNHits" + str(n) + "CutFlowPlotter"
+        options['useTotalYield'] = True 
         fakeRateCtrl = getFakeRate(options)
         options['dataset'] = "MET_2015D"
         options['BasicSelDir'] = BasicSelDir
-        options['BasicSelChannel']   = "BasicSelCutFlowPlotter"  # FIXME
+        options['BasicSelChannel']   = BasicSelChan 
         options['DisTrkNHits3456Dir'] = DisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "DisTrkSelectionNHits" + str(n) + "CutFlowPlotter"
+        options['useTotalYield'] = False
         fakeRateSearch = getFakeRate(options)
         content += str(n) + " & "
         content += getLatexNumString(fakeRateCtrl  ["P"], fakeRateCtrl  ["PErr"]) + " & "
@@ -1181,7 +1193,7 @@ print "Copy tables to AN area with: "
 if user == "wulsin":
     print "scp tables/*tex wulsin@lxplus.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-15-213/trunk/tables/"
     print "OR: "
-    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir/tables/*tex\" tables/"
+    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir76/tables/*tex\" tables/"
 elif user == "hart":
     print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/"
 

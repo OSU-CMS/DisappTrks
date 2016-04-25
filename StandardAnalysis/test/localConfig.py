@@ -45,6 +45,8 @@ datasetsSigShort = [
 
 datasets = datasetsBkgd + datasetsData + datasetsSig  
 
+composite_dataset_definitions["allBkgd"] = datasetsBkgd
+
 composite_dataset_definitions["WW"] = [
     'WWToLNuQQ',
     'WWToLNuLNu',
@@ -69,12 +71,14 @@ types["WZ"] = "bgMC"
 types["ZZ"] = "bgMC"
 types["VG"] = "bgMC"
 types["VV"] = "bgMC"
+types["allBkgd"] = "bkMC"  
 
 colors["WW"] = 390
 colors["WZ"] = 393
 colors["ZZ"] = 397
 colors["VG"] = 400
 colors["VV"] = 393
+colors["allBkgd"] = 601
 
 labels["DYJetsToLL_50"] = "Z#rightarrowl^{+}l^{-}"
 labels["DYJetsToNuNu"] = "Z#rightarrow#nu#bar{#nu}"
@@ -84,3 +88,5 @@ labels["WZ"] = "WZ"
 labels["ZZ"] = "ZZ"
 labels["VG"] = "V#gamma"
 labels["VV"] = "Diboson"
+labels["allBkgd"] = "Total bkgd"  
+
