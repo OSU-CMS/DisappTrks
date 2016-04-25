@@ -21,13 +21,34 @@ def getDASData (query):
 
     return results
 
-def addSecondaryFilesAODSIM (source):
+def addSecondaryFilesAODSIM (fileName):
+    parents = []
+    fileName = re.sub (r'^.*/store/', r'/store/', fileName)
+    parent = getDASData ('parent file=' + fileName + ' instance=prod/phys03 | grep parent.name')
+    for p in parent:
+        if re.search (r'/AODSIM/', p) and not p in parents:
+            parents.append (p)
+
+    return parents
+
+def addSecondaryFilesAOD (fileName):
+    parents = []
+    fileName = re.sub (r'^.*/store/', r'/store/', fileName)
+    parent = getDASData ('parent file=' + fileName + ' instance=prod/phys03 | grep parent.name')
+    for p in parent:
+        sibling = getDASData ('child file=' + p + ' | grep child.name')
+        for s in sibling:
+              if re.search (r'/AOD/16Dec2015', s) and not s in parents:
+                  parents.append (s)
+
+    return parents
+
+def addSecondaryFiles (source):
     parents = []
     for fileName in source.fileNames:
-        fileName = re.sub (r'^.*/store/', r'/store/', fileName)
-        parent = getDASData ('parent file=' + fileName + ' instance=prod/phys03 | grep parent.name')
-        for p in parent:
-            if re.search (r'/AODSIM/', p) and not p in parents:
-                parents.append (p)
+        if re.search (r'Run201', fileName):
+            parents += addSecondaryFilesAOD (fileName)
+        else:
+            parents += addSecondaryFilesAODSIM (fileName)
 
     source.secondaryFileNames = cms.untracked.vstring (parents)
