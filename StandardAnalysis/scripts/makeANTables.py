@@ -54,14 +54,14 @@ muonCtrlDir           = candTrkDir
 tauCtrlDir            = candTrkDir 
 
 ## fakeTrkRate.tex and fakeEst.tex
-ZtoMuMuDir                = WellsDir + "ZtoMuMu_76X"
-ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrk_76X" 
+ZtoMuMuDir                = WellsDir + "ZtoMuMu"
+ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrkChannels" 
 ZtoMuMuCandTrkSdband      = ZtoMuMuCandTrkDir 
 ZtoMuMuDisTrkDir          = ZtoMuMuCandTrkDir  
 ZtoMuMuDisTrkNHits3456Dir = ZtoMuMuCandTrkDir   
 BasicSelDir               = WellsDir + "isoTrkSelection_76X"
 BasicSelChan              = "IsoTrkSelection"
-DisTrkNHits3456Dir        = WellsDir + "disTrkSelectionNHits3456"
+DisTrkNHits3456Dir        = WellsDir + "fakeTrkSystChannels_76X" 
 
 ## Bkgd estimates
 bkgdEstBase               = WellsDir + "condor_2016_04_20_BkgdEst" 
