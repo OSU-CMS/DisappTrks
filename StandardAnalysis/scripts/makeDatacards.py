@@ -219,7 +219,7 @@ def writeDatacard(mass,lifetime):
         signal_error = signalYieldAndError['error']
         signal_error_string = str(round(signal_error,3))
     if arguments.runGamma:
-        row = ['signal_stat','gmN ' + str(int(signal_yield_raw)),' ',signal_error_string]
+        row = ['signal_stat','gmN ' + str(int(round(signal_yield_raw))),' ',signal_error_string]
     else:
         row = ['signal_stat','lnN','',signal_error_string]
     for background in backgrounds:
