@@ -1,4 +1,5 @@
 import FWCore.ParameterSet.Config as cms
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
 import das_client
 import re
 
@@ -45,7 +46,10 @@ def addSecondaryFilesAOD (fileName):
 
 def addSecondaryFiles (source):
     parents = []
-    for fileName in source.fileNames:
+    fileNames = source.fileNames
+    if osusub.batchMode:
+        fileNames = osusub.runList
+    for fileName in fileNames:
         if re.search (r'Run201', fileName):
             parents += addSecondaryFilesAOD (fileName)
         else:
