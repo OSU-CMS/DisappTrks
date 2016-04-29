@@ -1,7 +1,9 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
+from DisappTrks.StandardAnalysis.useAODFiles import *
 import math
 import os
+import glob
 
 ################################################################################
 ##### Set up the 'process' object ##############################################
@@ -25,6 +27,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', ''
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
     #bypassVersionCheck = cms.untracked.bool (True),
+    skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
         "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root",
         # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root', 
@@ -33,6 +36,19 @@ process.source = cms.Source ("PoolSource",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
     ),
 )
+
+# Uncomment the following if you need access to collections in AOD. N.B.: since
+# the data ntuples are not ancestors of the AOD files, this requires special
+# modifications to IOPool/Input. Even after these modifications, saving skims
+# for data will not work.
+
+# addSecondaryFiles (process.source)
+
+# Add all files in a directory:  
+# dirname = "condor/isoTrkSelection/MET_2015D/IsoTrkSelection/"
+# for f in glob.glob(dirname + "skim*.root"):
+#     process.source.fileNames.extend(cms.untracked.vstring('file:' + f))  
+
 
 # process.source.eventsToProcess = cms.untracked.VEventRange (
 #     "1:60:53",
@@ -115,6 +131,7 @@ histSets = cms.VPSet (
     TrackBeamspotHistograms,
     TrackEventVarHistograms,
     TrackExtraHistograms,
+    TrackDebugEcaloHistograms, 
     MetHistograms,
     JetHistograms,
     EventVariableHistograms,
@@ -156,8 +173,27 @@ test = cms.PSet(
 )
 
 ################################################################################
-##### Sets of channels to be run simultaneously over a single skim. ni###############
+##### Sets of channels to be run simultaneously over a single skim. ############
 ################################################################################
+
+LepCtrlChannels = [ # Run over isoTrkSelection skim
+    elecCtrlSelection, 
+    muonCtrlSelection,
+    tauCtrlSelection, 
+]
+BkgdEstChannels = [
+    candTrkSelection, 
+    candTrkEcaloSdband,
+    candTrkNMissOutSdband,
+]
+BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels 
+
+FakeTrkSystChannels = [
+    disTrkSelectionNHits3, 
+    disTrkSelectionNHits4, 
+    disTrkSelectionNHits5, 
+    disTrkSelectionNHits6, 
+]
 
 ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim 
     ZtoMuMuCandTrk,
@@ -170,39 +206,41 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
-LepCtrlChannels = [ # Run over isoTrkSelection skim
-    elecCtrlSelection, 
-    muonCtrlSelection,
-    tauCtrlSelection, 
-]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-
-
-#  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-
+## MANDATORY CHANNELS FOR MET DATASET
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [candTrkSelection],       histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  LepCtrlChannels,          histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [muonCtrlSelection],      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [tauCtrlSelection],       histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [candTrkEcaloSdband],     histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [candTrkNMissOutSdband],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelectionNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelectionNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelectionNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelectionNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  
+#  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ZtoMuMu],                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ZtoMuMuTrkChannels,       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+## MANDATORY CHANNELS FOR SINGLEMUON DATASET 
+#  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMu],                                      histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  ZtoMuMuTrkChannels,                             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
+
+## MANDATORY CHANNELS FOR SINGLEMUON DATASET # FIXME:  NEED TO ORGANIZE
+#  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuIsoTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuIsoTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+
+## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrk],                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -212,21 +250,20 @@ LepCtrlChannels = [ # Run over isoTrkSelection skim
 #  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+## CHANNELS FOR TESTING
+#  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
+## OTHER CHANNELS
+#  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+
+
+
+
+################################################################################
+##### Debugging options 
+################################################################################
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
 

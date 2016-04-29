@@ -4,64 +4,81 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *  # Get the composite cut definitions
 
-##################################################
+################################################################################
 ## Tau tag and probe sample
-##################################################
-ZtoTauProbeTrk = copy.deepcopy(MuonTagSkim)
-ZtoTauProbeTrk.name = cms.string("ZtoTauProbeTrk")
-addCuts(ZtoTauProbeTrk.cuts, [cutMuonMT])
-addCuts(ZtoTauProbeTrk.cuts, [cutMuonArbitration])
-addCuts(ZtoTauProbeTrk.cuts, [cutTrkPt30])
-addCuts(ZtoTauProbeTrk.cuts, disTrkCuts)
-addCuts(ZtoTauProbeTrk.cuts, muTrkCuts)
-addCuts(ZtoTauProbeTrk.cuts, [cutTrkArbitration])
+################################################################################
+ZtoTauIsoTrk = copy.deepcopy(MuonTagSkim)
+ZtoTauIsoTrk.name = cms.string("ZtoTauIsoTrk")
+
+muTrkCuts = [
+    cutMuTrkInvMass10,
+]
+addCuts(ZtoTauIsoTrk.cuts, [cutMuonMT])
+addCuts(ZtoTauIsoTrk.cuts, [cutMuonArbitration])
+addCuts(ZtoTauIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoTauIsoTrk.cuts, isoTrkCuts)
+addCuts(ZtoTauIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
     cutTrkPt,
-    cutTrkEcalo,
-    cutTrkNMissOut, 
-    cutTrkJetDeltaPhi,  
-    cutTrkTauHadVeto,
 ]
-removeCuts(ZtoTauProbeTrk.cuts, cutsToRemove)
+removeCuts(ZtoTauIsoTrk.cuts, cutsToRemove)
 
-ZtoTauProbeTrkTauId = copy.deepcopy(ZtoTauProbeTrk) 
-ZtoTauProbeTrkTauId.name = cms.string("ZtoTauProbeTrkTauId")
-cutToAdd = cutTrkTauHadVetoInv
-previousExistingCut = cutTrkMuonVeto
-addSingleCut(ZtoTauProbeTrkTauId.cuts, cutToAdd, previousExistingCut)  
+ZtoTauProbeTrk = copy.deepcopy(ZtoTauIsoTrk)
+ZtoTauProbeTrk.name = cms.string("ZtoTauProbeTrk")
+
+cutsToAdd = [
+    cutTrkElecVeto,
+    cutTrkMuonVeto,
+    cutTrkNMissOut,
+]
+addCuts(ZtoTauProbeTrk.cuts, cutsToAdd)
+addCuts(ZtoTauProbeTrk.cuts, [cutTrkArbitration])
 
 ZtoTauProbeTrkWithZCuts = copy.deepcopy(ZtoTauProbeTrk)
 ZtoTauProbeTrkWithZCuts.name = cms.string("ZtoTauProbeTrkWithZCuts")
 cutsToAdd = [
-    cutMuTrkInvMass40To75, 
+    cutMuTrkInvMass40To75,
     cutMuTrkOS,
 ]
 addCuts(ZtoTauProbeTrkWithZCuts.cuts, cutsToAdd)
 
 ZtoTauDisTrk = copy.deepcopy(ZtoTauProbeTrkWithZCuts)
 ZtoTauDisTrk.name = cms.string("ZtoTauDisTrk")
-cutToAdd = cutTrkTauHadVeto  
-previousExistingCut = cutTrkMuonVeto
-addSingleCut(ZtoTauDisTrk.cuts, cutToAdd, previousExistingCut)  
+cutsToAdd = [
+    cutTrkTauHadVeto,
+]
+addCuts(ZtoTauDisTrk.cuts, cutsToAdd)
 
+ZtoTauDisTrkWithECaloCut = copy.deepcopy(ZtoTauDisTrk)
+ZtoTauDisTrkWithECaloCut.name = cms.string("ZtoTauDisTrkWithECaloCut")
+cutsToAdd = [
+    cutTrkEcalo,
+]
+addCuts(ZtoTauDisTrkWithECaloCut.cuts, cutsToAdd)
 
-ZtoTauProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoTauProbeTrk)
-ZtoTauProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoTauProbeTrkNoMissingOuterHitsCut")
+################################################################################
+## Tau tag and probe sample -- no missing outer hits cut
+################################################################################
 cutsToRemove = [
     cutTrkNMissOut, # removed due to mismodelling in the MC
 ]
+
+ZtoTauIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoTauIsoTrk)
+ZtoTauIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoTauIsoTrkNoMissingOuterHitsCut")
+removeCuts(ZtoTauIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoTauProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoTauProbeTrk)
+ZtoTauProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoTauProbeTrkNoMissingOuterHitsCut")
 removeCuts(ZtoTauProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoTauProbeTrkWithZCuts)
 ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoTauDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoTauDisTrk)
 ZtoTauDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoTauDisTrkNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoTauDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoTauDisTrkWithECaloCutNoMissingOuterHitsCut = copy.deepcopy(ZtoTauDisTrkWithECaloCut)
+ZtoTauDisTrkWithECaloCutNoMissingOuterHitsCut.name = cms.string("ZtoTauDisTrkWithECaloCutNoMissingOuterHitsCut")
+removeCuts(ZtoTauDisTrkWithECaloCutNoMissingOuterHitsCut.cuts, cutsToRemove)

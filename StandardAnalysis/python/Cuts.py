@@ -118,8 +118,16 @@ cutJetMetPhi = cms.PSet(
 )
 cutJetTightLepVeto = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("((neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8) && ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.90) || abs(eta)>2.4) && abs(eta)<=3.0) \
-                         || (neutralEmEnergyFraction<0.90 && neutralMultiplicity>10 && abs(eta)>3.0)"),
+    cutString = cms.string("\
+    ((\
+    neutralHadronEnergyFraction<0.90 && \
+    neutralEmEnergyFraction<0.90 && \
+    (chargedMultiplicity + neutralMultiplicity)>1 && \
+    muonEnergyFraction<0.8) && \
+    ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.90) || \
+    abs(eta)>2.4) && \
+    abs(eta)<=3.0) \
+    || (neutralEmEnergyFraction<0.90 && neutralMultiplicity>10 && abs(eta)>3.0)"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
@@ -212,6 +220,11 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkGsfTrkVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkElecVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
@@ -254,7 +267,7 @@ cutTrkJetDeltaPhi = cms.PSet(
 )
 cutTrkEcalo = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo < 10"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOut = cms.PSet(
@@ -262,14 +275,19 @@ cutTrkNMissOut = cms.PSet(
     cutString = cms.string("missingOuterHits >= 3"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNMissOut4 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("missingOuterHits >= 4"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkEcaloInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo > 10"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo > 10"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcaloInv50 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("caloTotNoPUDRp5CentralCalo > 50"),
+    cutString = cms.string("caloNewNoPUDRp5CentralCalo > 50"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOutInv = cms.PSet(
@@ -348,6 +366,16 @@ cutTrkSmallD0 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with |d0| < 0.1"),
 )
+cutTrkMatchMC = cms.PSet(
+    inputCollection = cms.vstring("tracks", "mcparticles"),
+    cutString = cms.string("deltaR ( track , mcparticle ) < 0.2"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMCPt = cms.PSet(
+    inputCollection = cms.vstring("mcparticles"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## muons
@@ -389,6 +417,11 @@ cutMuonPairPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string("== 2"),
 )
+cutMuonPairPt25 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string("== 2"),
+)
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -398,6 +431,12 @@ cutMuonPairTightID = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
     numberRequired = cms.string("== 2"),
+)
+cutMuonPairTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cutMuonTightPFIso.cutString,  
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"), 
 )
 cutMuonArbitration = cms.PSet(
     inputCollection = cms.vstring("muons"),

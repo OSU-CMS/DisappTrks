@@ -19,27 +19,34 @@ tagElectronCuts = [
 ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
-##################################################
+################################################################################
 ## Electron tag and probe sample
-##################################################
-ZtoEleProbeTrk = copy.deepcopy(ElectronTagSkim)
-ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
+################################################################################
+ZtoEleIsoTrk = copy.deepcopy(ElectronTagSkim)
+ZtoEleIsoTrk.name = cms.string("ZtoEleIsoTrk")
 
-elTrkCuts = [
-    cutEleTrkInvMass10,
-    #cutEleTrkInvMass80To100,
+eleTrkCuts = [
+    cutMuTrkInvMass10,
 ]
-addCuts(ZtoEleProbeTrk.cuts, [cutElectronArbitration])
-addCuts(ZtoEleProbeTrk.cuts, [cutTrkPt30])
-addCuts(ZtoEleProbeTrk.cuts, disTrkCuts)
-addCuts(ZtoEleProbeTrk.cuts, elTrkCuts)
-addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
+addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
+addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
+addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
 cutsToRemove = [
     cutTrkPt,
-    cutTrkEcalo,
-    cutTrkElecVeto,
 ]
-removeCuts(ZtoEleProbeTrk.cuts, cutsToRemove)
+removeCuts(ZtoEleIsoTrk.cuts, cutsToRemove)
+
+ZtoEleProbeTrk = copy.deepcopy(ZtoEleIsoTrk)
+ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
+
+cutsToAdd = [
+    cutTrkMuonVeto,
+    cutTrkTauHadVeto,
+    cutTrkNMissOut,
+]
+addCuts(ZtoEleProbeTrk.cuts, cutsToAdd)
+addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
 
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ZtoEleProbeTrk)
 ZtoEleProbeTrkWithZCuts.name = cms.string("ZtoEleProbeTrkWithZCuts")
@@ -49,11 +56,9 @@ cutsToAdd = [
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrk)
+ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
 cutsToAdd = [
-    cutEleTrkInvMass80To100,
-    cutEleTrkOS,
     cutTrkElecVeto,
 ]
 addCuts(ZtoEleDisTrk.cuts, cutsToAdd)
@@ -65,33 +70,29 @@ cutsToAdd = [
 ]
 addCuts(ZtoEleDisTrkWithECaloCut.cuts, cutsToAdd)
 
-##################################################
-## Electron tag and probe sample with missing outer hits cut removed
-##################################################
-ZtoEleProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrk)
-ZtoEleProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkNoMissingOuterHitsCut")
+################################################################################
+## Electron tag and probe sample -- no missing outer hits cut
+################################################################################
 cutsToRemove = [
     cutTrkNMissOut, # removed due to mismodelling in the MC
 ]
+
+ZtoEleIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleIsoTrk)
+ZtoEleIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleIsoTrkNoMissingOuterHitsCut")
+removeCuts(ZtoEleIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
+
+ZtoEleProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrk)
+ZtoEleProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkNoMissingOuterHitsCut")
 removeCuts(ZtoEleProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoEleDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrk)
 ZtoEleDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoEleDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
 
 ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrkWithECaloCut)
 ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut")
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
 removeCuts(ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.cuts, cutsToRemove)
