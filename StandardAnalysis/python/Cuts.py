@@ -361,6 +361,16 @@ cutTrkSmallD0 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with |d0| < 0.1"),
 )
+cutTrkMatchMC = cms.PSet(
+    inputCollection = cms.vstring("tracks", "mcparticles"),
+    cutString = cms.string("deltaR ( track , mcparticle ) < 0.2"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMCPt = cms.PSet(
+    inputCollection = cms.vstring("mcparticles"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## muons
