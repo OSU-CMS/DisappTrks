@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
+from DisappTrks.StandardAnalysis.useAODFiles import *
 import math
 import os
 import glob
@@ -26,6 +27,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', ''
 # ---------------------------------------
 process.source = cms.Source ("PoolSource",
     #bypassVersionCheck = cms.untracked.bool (True),
+    skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
         "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root",
         # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root', 
@@ -34,6 +36,13 @@ process.source = cms.Source ("PoolSource",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
     ),
 )
+
+# Uncomment the following if you need access to collections in AOD. N.B.: since
+# the data ntuples are not ancestors of the AOD files, this requires special
+# modifications to IOPool/Input. Even after these modifications, saving skims
+# for data will not work.
+
+# addSecondaryFiles (process.source)
 
 # Add all files in a directory:  
 # dirname = "condor/isoTrkSelection/MET_2015D/IsoTrkSelection/"

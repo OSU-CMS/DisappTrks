@@ -220,6 +220,11 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkGsfTrkVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkElecVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
