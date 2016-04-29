@@ -13,6 +13,11 @@ CandTrackAssociatorParameters.EERecHitCollectionLabel       = cms.InputTag("redu
 CandTrackAssociatorParameters.EBRecHitCollectionLabel       = cms.InputTag("reducedEcalRecHitsEB")
 CandTrackAssociatorParameters.HBHERecHitCollectionLabel     = cms.InputTag("reducedHcalRecHits", "hbhereco")
 CandTrackAssociatorParameters.HORecHitCollectionLabel       = cms.InputTag("reducedHcalRecHits", "horeco")
+# CandTrackAssociatorParameters.dRHcalPreselection            = cms.double(0.2)  # default
+# CandTrackAssociatorParameters.dREcalPreselection            = cms.double(0.05) # default 
+CandTrackAssociatorParameters.dRHcalPreselection            = cms.double(1.0)  
+CandTrackAssociatorParameters.dREcalPreselection            = cms.double(1.0) 
+
 
 candidateTrackProducer = cms.EDProducer ("CandidateTrackProducer",
   tracks             =  cms.InputTag  ("generalTracks",                  ""),
@@ -21,10 +26,14 @@ candidateTrackProducer = cms.EDProducer ("CandidateTrackProducer",
   taus               =  cms.InputTag  ("slimmedTaus",                    ""),
   beamspot           =  cms.InputTag  ("offlineBeamSpot",                ""),
   vertices           =  cms.InputTag  ("offlineSlimmedPrimaryVertices",  ""),
+  # vertices           =  cms.InputTag  ("offlinePrimaryVertices",  ""),
   conversions        =  cms.InputTag  ("reducedEgamma",                  "reducedConversions"),
   rhoTag             =  cms.InputTag  ("fixedGridRhoFastjetAll"),
   rhoCaloTag         =  cms.InputTag  ("fixedGridRhoFastjetAllCalo"),
   rhoCentralCaloTag  =  cms.InputTag  ("fixedGridRhoFastjetCentralCalo"),
-  candMinPt = cms.double(10),
+  EBRecHits          =  cms.InputTag  ("reducedEcalRecHitsEB"),
+  EERecHits          =  cms.InputTag  ("reducedEcalRecHitsEE"),
+  HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"), 
+  candMinPt          =  cms.double(10),
   TrackAssociatorParameters = CandTrackAssociatorParameters,
 )

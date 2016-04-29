@@ -28,6 +28,12 @@
 #include "TrackingTools/TrackAssociator/interface/TrackDetectorAssociator.h"
 #include "TrackingTools/TrackAssociator/interface/TrackAssociatorParameters.h"
 
+#include "FWCore/Framework/interface/ESHandle.h"
+#include "Geometry/CaloGeometry/interface/CaloGeometry.h"
+// #include "DataFormats/EcalRecHit/interface/EcalRecHit.h" 
+#include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
+#include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h" 
+
 using namespace std;
 
 //
@@ -41,7 +47,8 @@ class CandidateTrackProducer : public edm::EDProducer {
 
    private:
       virtual void produce (edm::Event&, const edm::EventSetup&) override;
-      void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track);
+void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits);
+
 
       // ----------member data ---------------------------
       edm::InputTag tracksTag_;
@@ -54,6 +61,9 @@ class CandidateTrackProducer : public edm::EDProducer {
       edm::InputTag rhoTag_;
       edm::InputTag rhoCaloTag_;
       edm::InputTag rhoCentralCaloTag_;
+      edm::InputTag EBRecHitsTag_; 
+      edm::InputTag EERecHitsTag_; 
+      edm::InputTag HBHERecHitsTag_; 
       double candMinPt_;
 
       TrackDetectorAssociator trackAssociator_;
@@ -69,4 +79,14 @@ class CandidateTrackProducer : public edm::EDProducer {
       edm::EDGetTokenT<double>                     rhoToken_;
       edm::EDGetTokenT<double>                     rhoCaloToken_;
       edm::EDGetTokenT<double>                     rhoCentralCaloToken_;
+      edm::EDGetTokenT<EBRecHitCollection>         EBRecHitsToken_;
+      edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
+      edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
+
+  edm::ESHandle<CaloGeometry> caloGeometry_;
+  bool insideCone(CandidateTrack& candTrack, const DetId& id, const double dR);
+  GlobalPoint getPosition( const DetId& id);
+
+//  std::vector<const EcalRecHit*> ecalRecHits;
+
 };
