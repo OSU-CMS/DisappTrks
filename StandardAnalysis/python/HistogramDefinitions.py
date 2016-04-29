@@ -657,27 +657,34 @@ MCParticleExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("mcparticlePdgIdSusy"), 
             title = cms.string("mcparticlePdgIdSusy; pdgId of SUSY mcparticles"),
-            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
-            inputVariables = cms.vstring("id"),
+            binsX = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("pdgId"),
+            ),
+        cms.PSet (
+            name = cms.string("mcparticlePdgId"), 
+            title = cms.string("mcparticlePdgId; |pdgId| of mcparticles"),
+            binsX = cms.untracked.vdouble(30, 0, 30),  
+            inputVariables = cms.vstring("fabs(pdgId)"),
             ),
         cms.PSet (
             name = cms.string("mcparticleAbsPdgIdSusy"), 
             title = cms.string("mcparticlePdgIdSusy; |pdgId| of SUSY mcparticles"),
-            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
-            inputVariables = cms.vstring("fabs(id)"),
+            binsX = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("fabs(pdgId)"),
             ),
         cms.PSet (
             name = cms.string("mcparticleMass"), 
             title = cms.string("mcparticleMass; mcparticle mass [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500),   
+            binsX = cms.untracked.vdouble(100, 0, 1000),   
             inputVariables = cms.vstring("mass"),
             ),
         cms.PSet (
-            name = cms.string("mcpartDeltaPhiMaxSubLeadJet"),
-            title = cms.string("maximum mcparticle-jet #Delta#phi; #Delta#phi_{max}(mcparticle-jet)"),
-            bins = cms.untracked.vdouble(100, 0, 5),
-            inputVariables = cms.vstring("deltaPhiMaxSubLeadJet"),
-            ),                                              
+            name = cms.string("mcparticleVxVy"), 
+            title = cms.string("mcparticle position; X Position of Mcparticle [cm]; Y Position of Mcparticle [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2),   
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2),   
+            inputVariables = cms.vstring("vx", "vy"),
+            ),
         )
     )
 
@@ -901,4 +908,31 @@ EventVariableHistograms = cms.PSet(
 
 ##############################################################################################
 
+
+BeamspotHistograms = cms.PSet(
+    inputCollection = cms.vstring("beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("beamspotXY"),
+            title = cms.string("Beamspot position (XY-plane); Beamspot x position [cm]; Beamspot y position [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2), 
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2), 
+            inputVariables = cms.vstring("beamspot.x0", "beamspot.y0"),
+        ),
+    )
+)
+
+
+PVHistograms = cms.PSet(
+    inputCollection = cms.vstring("beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("beamspotXY"),
+            title = cms.string("Beamspot position (XY-plane); Beamspot x position [cm]; Beamspot y position [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2),  
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2),  
+            inputVariables = cms.vstring("beamspot.x0", "beamspot.y0"),
+        ),
+    )
+)
 
