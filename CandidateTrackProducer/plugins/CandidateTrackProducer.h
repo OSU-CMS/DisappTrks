@@ -25,12 +25,10 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-#include "TrackingTools/TrackAssociator/interface/TrackDetectorAssociator.h"
-#include "TrackingTools/TrackAssociator/interface/TrackAssociatorParameters.h"
-
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/CaloGeometry/interface/CaloGeometry.h"
-// #include "DataFormats/EcalRecHit/interface/EcalRecHit.h" 
+#include "Geometry/Records/interface/CaloGeometryRecord.h"
+
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h" 
 
@@ -65,9 +63,7 @@ void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, Candidate
       edm::InputTag EERecHitsTag_; 
       edm::InputTag HBHERecHitsTag_; 
       double candMinPt_;
-
-      TrackDetectorAssociator trackAssociator_;
-      TrackAssociatorParameters parameters_;
+      bool verbose_; 
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
       edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;
@@ -86,7 +82,5 @@ void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, Candidate
   edm::ESHandle<CaloGeometry> caloGeometry_;
   bool insideCone(CandidateTrack& candTrack, const DetId& id, const double dR);
   GlobalPoint getPosition( const DetId& id);
-
-//  std::vector<const EcalRecHit*> ecalRecHits;
 
 };

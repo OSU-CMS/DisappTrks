@@ -25,6 +25,7 @@
 #include "MagneticField/Engine/interface/MagneticField.h"
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 
+
 #include "DataFormats/Math/interface/deltaR.h"
 #include "Geometry/CaloGeometry/interface/CaloSubdetectorGeometry.h"
 #include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
@@ -69,11 +70,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);  
   HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);  
 
-  edm::ParameterSet parameters = iConfig.getParameter<edm::ParameterSet>("TrackAssociatorParameters");
-  edm::ConsumesCollector iC = consumesCollector();
-  parameters_.loadParameters( parameters, iC);
-  trackAssociator_.useDefaultPropagator();
-
+  verbose_ = false;  
   // edm::Service<TFileService> fs;
 
 
@@ -152,38 +149,6 @@ void
 CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits)
 {
 
-  // Use as example:
-  // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.cc
-  // https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/TrackingTools/TrackAssociator/test/TestTrackAssociator.py
-
-  TrackDetMatchInfo info = trackAssociator_.associate(iEvent, iSetup, trackAssociator_.getFreeTrajectoryState(iSetup, candTrack), parameters_);
-
-  candTrack.set_caloEMDRp3 (info.coneEnergy(0.3, TrackDetMatchInfo::EcalRecHits));
-  candTrack.set_caloHadDRp3(info.coneEnergy(0.3, TrackDetMatchInfo::HcalRecHits));
-  candTrack.set_caloEMDRp5 (info.coneEnergy(0.5, TrackDetMatchInfo::EcalRecHits));
-  candTrack.set_caloHadDRp5(info.coneEnergy(0.5, TrackDetMatchInfo::HcalRecHits));
-
-  GlobalVector trajStateMom = trackAssociator_.getFreeTrajectoryState(iSetup, candTrack).momentum();  
-
-  cout << "Debug: track with "
-       << " pt = " << candTrack.pt()
-       << " eta = " << candTrack.eta()
-       << " phi = " << candTrack.phi()
-       << " px = " << candTrack.px() 
-       << " py = " << candTrack.py() 
-       << " pz = " << candTrack.pz() 
-       << endl << "  " 
-       << "   traj state (px, py, pz) = " 
-       << trajStateMom.x() << ", "
-       << trajStateMom.y() << ", "
-       << trajStateMom.z() << ", "
-       << endl << "  " 
-       << " EcaloEM = " << candTrack.caloEMDRp5()
-       << " EcaloHad = " << candTrack.caloHadDRp5()
-       << " Ecalo = " << candTrack.caloTotNoPUDRp5CentralCalo()  
-       << endl;  
-
-  // Calculate Ecalo "by hand"  
   double dR = 0.5;  
   double eEM = 0;
   int nhitsInConeEB = 0; 
@@ -192,26 +157,26 @@ CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetu
     if (insideCone(candTrack, (*hit).detid(), dR)) {
       eEM += (*hit).energy();
       nhitsInConeEB++; 
-      cout << "       Added EB rec hit with (eta, phi) = " 
-	   << getPosition((*hit).detid()).eta() << ", " 
-	   << getPosition((*hit).detid()).phi() << endl;  
+      if (verbose_) cout << "       Added EB rec hit with (eta, phi) = " 
+			 << getPosition((*hit).detid()).eta() << ", " 
+			 << getPosition((*hit).detid()).phi() << endl;  
     }
   }
   for (EERecHitCollection::const_iterator hit=EERecHits->begin(); hit!=EERecHits->end(); hit++) {
     if (insideCone(candTrack, (*hit).detid(), dR)) {
       eEM += (*hit).energy();
       nhitsInConeEE++; 
-      cout << "       Added EE rec hit with (eta, phi) = " 
-	   << getPosition((*hit).detid()).eta() << ", " 
-	   << getPosition((*hit).detid()).phi() << endl;  
+      if (verbose_) cout << "       Added EE rec hit with (eta, phi) = " 
+			 << getPosition((*hit).detid()).eta() << ", " 
+			 << getPosition((*hit).detid()).phi() << endl;  
     }
   }
-  cout << "  Wells calculation: EcaloECAL = " << eEM 
-       << ", nhitsInConeEB = " << nhitsInConeEB
-       << ", nhitsInConeEE = " << nhitsInConeEE
-       << ", nhitsInConeEcal = " << nhitsInConeEB + nhitsInConeEE 
-       << endl;  
-
+  if (verbose_) cout << "  Ecalo calculation: EcaloECAL = " << eEM 
+		     << ", nhitsInConeEB = " << nhitsInConeEB
+		     << ", nhitsInConeEE = " << nhitsInConeEE
+		     << ", nhitsInConeEcal = " << nhitsInConeEB + nhitsInConeEE 
+		     << endl;  
+  
   double eHad = 0;  
   int nhitsInConeHad = 0; 
   for (HBHERecHitCollection::const_iterator hit = HBHERecHits->begin(); hit != HBHERecHits->end(); hit++) {
@@ -220,10 +185,10 @@ CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetu
       nhitsInConeHad++;  
     }
   }
-  cout << "  Calculated EcaloHad = " << eHad 
-       << ", nhitsInConeHad = " << nhitsInConeHad 
-       << endl;  
-
+  if (verbose_)  cout << "  Calculated EcaloHad = " << eHad 
+		      << ", nhitsInConeHad = " << nhitsInConeHad 
+		      << endl;  
+  
 
 }
 
@@ -233,13 +198,11 @@ bool CandidateTrackProducer::insideCone(CandidateTrack& candTrack, const DetId& 
    if (idPosition.mag()<0.01) return false;
    
    math::XYZVector idPositionRoot( idPosition.x(), idPosition.y(), idPosition.z() );
-   // return ROOT::Math::VectorUtil::DeltaR(candTrack, idPositionRoot) < dR;
    return deltaR(candTrack, idPositionRoot) < dR;  
 }
 
 GlobalPoint CandidateTrackProducer::getPosition( const DetId& id)
 {
-   // this part might be slow
    if ( ! caloGeometry_.isValid() || 
 	! caloGeometry_->getSubdetectorGeometry(id) ||
 	! caloGeometry_->getSubdetectorGeometry(id)->getGeometry(id) ) {
