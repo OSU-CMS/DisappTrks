@@ -399,6 +399,20 @@ TrackElectronHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("track.missingOuterHits", "electron.missingOuterHits"),
         ),
+        cms.PSet (
+            name = cms.string("electronFBremVsTrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("track.missingOuterHits", "electron.fbrem"),
+        ),
+        cms.PSet (
+            name = cms.string("electronFBremVsElectronNMissOut"),
+            title = cms.string(";electron N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("electron.missingOuterHits", "electron.fbrem"),
+        ),
     )
 )
 
