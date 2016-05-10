@@ -220,6 +220,11 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkGsfTrkVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkElecVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
@@ -361,6 +366,16 @@ cutTrkSmallD0 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with |d0| < 0.1"),
 )
+cutTrkMatchMC = cms.PSet(
+    inputCollection = cms.vstring("tracks", "mcparticles"),
+    cutString = cms.string("deltaR ( track , mcparticle ) < 0.2"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMCPt = cms.PSet(
+    inputCollection = cms.vstring("mcparticles"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## muons
@@ -402,6 +417,11 @@ cutMuonPairPt20 = cms.PSet (
     cutString = cms.string("pt > 20"),
     numberRequired = cms.string("== 2"),
 )
+cutMuonPairPt25 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string("== 2"),
+)
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -411,6 +431,12 @@ cutMuonPairTightID = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
     numberRequired = cms.string("== 2"),
+)
+cutMuonPairTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cutMuonTightPFIso.cutString,  
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"), 
 )
 cutMuonArbitration = cms.PSet(
     inputCollection = cms.vstring("muons"),

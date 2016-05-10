@@ -22,7 +22,7 @@ else:
 impurities = []  # not yet implemented   
        
 bkgd_sources = {   
-    'MET' :  { 'inputDir'   : 'ecaloSideband_76X',   
+    'MET' :  { 'inputDir'   : 'bkgdCtrlChannelsWithFiducial_76X',   
                'datasetsIn'  : ['MET_2015D'],   
                'scale_factor' :       1.0,   
                'scale_factor_error' : 0.0,   
@@ -31,28 +31,28 @@ bkgd_sources = {
     }   
                },   
        
-    'ElecBkgd' :  { 'inputDir'   : 'leptonControlRegions_76X',   
+    'ElecBkgd' :  { 'inputDir'   : 'bkgdCtrlChannelsWithFiducial_76X',   
                     'datasetsIn'  : ['MET_2015D'],   
-                    'scale_factor' :        0.00523818456198,   
-                    'scale_factor_error' :  0.00067579279341,   
+                    'scale_factor' :        0.00105017823723,   
+                    'scale_factor_error' :  0.000310461227766,   
                     'channel_map' : {   
     'ElecCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                     },   
        
-    'MuonBkgd' :  { 'inputDir'   : 'leptonControlRegions_76X',   
+    'MuonBkgd' :  { 'inputDir'   : 'bkgdCtrlChannelsWithFiducial_76X',   
                     'datasetsIn'  : ['MET_2015D'],   
                     'scale_factor' :        0.0,   
-                    'scale_factor_error' :  2.55421269489e-05,   
+                    'scale_factor_error' :  2.67875278162e-05,   
                     'channel_map' : {   
     'MuonCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
                     },   
        
-    'TauBkgd' :  { 'inputDir'   : 'leptonControlRegions_76X',   
+    'TauBkgd' :  { 'inputDir'   : 'bkgdCtrlChannelsWithFiducial_76X',   
                    'datasetsIn'  : ['MET_2015D'],   
-                   'scale_factor' :        0.0342844379867,   
-                   'scale_factor_error' :  0.00998100260159,   
+                   'scale_factor' :        0.0462962962963,   
+                   'scale_factor_error' :  0.0311619698883,   
                    'channel_map' : {   
     'TauCtrlSelectionPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
@@ -60,10 +60,10 @@ bkgd_sources = {
        
        
        
-    'FakeMuMuBkgd' :  { 'inputDir'   : 'wellsCondor/ZtoMuMuCandTrkSdband',   
+    'FakeMuMuBkgd' :  { 'inputDir'   : 'ZtoMuMuTrk_76X',   
                     'datasetsIn'  : ['SingleMu_2015D'],   
-                    'scale_factor' :        1.3419234778,   
-                    'scale_factor_error' :  0.00150559004352,   
+                    'scale_factor' :        0.490734603053,   
+                    'scale_factor_error' :  0.000726406991797,   
                     'channel_map' : {   
     'ZtoMuMuCandTrkEcaloSdbandPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   

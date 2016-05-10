@@ -5,6 +5,8 @@ config_file = "protoConfig_cfg.py"
 
 intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
 
+InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
+
 datasetsBkgd = [
     'DYJetsToLL',
     'ZJetsToNuNu',
@@ -45,6 +47,8 @@ datasetsSigShort = [
 
 datasets = datasetsBkgd + datasetsData + datasetsSig  
 
+composite_dataset_definitions["allBkgd"] = datasetsBkgd
+
 composite_dataset_definitions["WW"] = [
     'WWToLNuQQ',
     'WWToLNuLNu',
@@ -69,12 +73,14 @@ types["WZ"] = "bgMC"
 types["ZZ"] = "bgMC"
 types["VG"] = "bgMC"
 types["VV"] = "bgMC"
+types["allBkgd"] = "bkMC"  
 
 colors["WW"] = 390
 colors["WZ"] = 393
 colors["ZZ"] = 397
 colors["VG"] = 400
 colors["VV"] = 393
+colors["allBkgd"] = 601
 
 labels["DYJetsToLL_50"] = "Z#rightarrowl^{+}l^{-}"
 labels["DYJetsToNuNu"] = "Z#rightarrow#nu#bar{#nu}"
@@ -84,3 +90,5 @@ labels["WZ"] = "WZ"
 labels["ZZ"] = "ZZ"
 labels["VG"] = "V#gamma"
 labels["VV"] = "Diboson"
+labels["allBkgd"] = "Total bkgd"  
+

@@ -68,6 +68,34 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("missingOuterHits"),
             ),
         cms.PSet (
+            name = cms.string("trackNHitsExpectedTOBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TOB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","expectedStripTOBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsExpectedTIBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TIB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","expectedStripTIBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsObservedTOBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TOB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","numberOfStripTOBHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsObservedTIBVsMissingOuter"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TIB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("missingOuterHits","numberOfStripTIBHits"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsMissingMiddle"),
             title = cms.string("Number of Missing Middle Hits;N_{miss}^{middle}"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
@@ -189,10 +217,23 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string(";p_{T} of matched generator particle [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("genMatchedParticle.promptFinalState.pt"),
-            ),
-
-        )
+        ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingOuterVsEta"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #eta"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(60, -3.0, 3.0),
+            inputVariables = cms.vstring("missingOuterHits", "eta"),
+        ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingOuterVsPhi"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #phi"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("missingOuterHits", "phi"),
+        ),
     )
+)
 
 MuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -350,6 +391,27 @@ TrackElectronHistograms = cms.PSet(
             title = cms.string(";q_{e}#timesq_{track}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("electron.charge * track.charge"),
+        ),
+        cms.PSet (
+            name = cms.string("electronNMissOutVsTrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};electron N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("track.missingOuterHits", "electron.missingOuterHits"),
+        ),
+        cms.PSet (
+            name = cms.string("electronFBremVsTrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("track.missingOuterHits", "electron.fbrem"),
+        ),
+        cms.PSet (
+            name = cms.string("electronFBremVsElectronNMissOut"),
+            title = cms.string(";electron N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("electron.missingOuterHits", "electron.fbrem"),
         ),
     )
 )
@@ -609,27 +671,34 @@ MCParticleExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("mcparticlePdgIdSusy"), 
             title = cms.string("mcparticlePdgIdSusy; pdgId of SUSY mcparticles"),
-            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
-            inputVariables = cms.vstring("id"),
+            binsX = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("pdgId"),
+            ),
+        cms.PSet (
+            name = cms.string("mcparticlePdgId"), 
+            title = cms.string("mcparticlePdgId; |pdgId| of mcparticles"),
+            binsX = cms.untracked.vdouble(30, 0, 30),  
+            inputVariables = cms.vstring("fabs(pdgId)"),
             ),
         cms.PSet (
             name = cms.string("mcparticleAbsPdgIdSusy"), 
             title = cms.string("mcparticlePdgIdSusy; |pdgId| of SUSY mcparticles"),
-            bins = cms.untracked.vdouble(10, 1000020, 1000030),  
-            inputVariables = cms.vstring("fabs(id)"),
+            binsX = cms.untracked.vdouble(10, 1000020, 1000030),  
+            inputVariables = cms.vstring("fabs(pdgId)"),
             ),
         cms.PSet (
             name = cms.string("mcparticleMass"), 
             title = cms.string("mcparticleMass; mcparticle mass [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500),   
+            binsX = cms.untracked.vdouble(100, 0, 1000),   
             inputVariables = cms.vstring("mass"),
             ),
         cms.PSet (
-            name = cms.string("mcpartDeltaPhiMaxSubLeadJet"),
-            title = cms.string("maximum mcparticle-jet #Delta#phi; #Delta#phi_{max}(mcparticle-jet)"),
-            bins = cms.untracked.vdouble(100, 0, 5),
-            inputVariables = cms.vstring("deltaPhiMaxSubLeadJet"),
-            ),                                              
+            name = cms.string("mcparticleVxVy"), 
+            title = cms.string("mcparticle position; X Position of Mcparticle [cm]; Y Position of Mcparticle [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2),   
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2),   
+            inputVariables = cms.vstring("vx", "vy"),
+            ),
         )
     )
 
@@ -853,4 +922,31 @@ EventVariableHistograms = cms.PSet(
 
 ##############################################################################################
 
+
+BeamspotHistograms = cms.PSet(
+    inputCollection = cms.vstring("beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("beamspotXY"),
+            title = cms.string("Beamspot position (XY-plane); Beamspot x position [cm]; Beamspot y position [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2), 
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2), 
+            inputVariables = cms.vstring("beamspot.x0", "beamspot.y0"),
+        ),
+    )
+)
+
+
+PVHistograms = cms.PSet(
+    inputCollection = cms.vstring("beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("beamspotXY"),
+            title = cms.string("Beamspot position (XY-plane); Beamspot x position [cm]; Beamspot y position [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.2, 0.2),  
+            binsY = cms.untracked.vdouble(100, -0.2, 0.2),  
+            inputVariables = cms.vstring("beamspot.x0", "beamspot.y0"),
+        ),
+    )
+)
 
