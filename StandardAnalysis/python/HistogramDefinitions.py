@@ -232,6 +232,12 @@ TrackExtraHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("missingOuterHits", "phi"),
         ),
+        cms.PSet (
+            name = cms.string("trackIsMatchedToGsfTrack"),
+            title = cms.string(";has GSF track"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("matchedGsfTrack.isNonnull"),
+        ),
     )
 )
 
@@ -349,6 +355,13 @@ TrackMuonHistograms = cms.PSet(
             title = cms.string(";q_{#mu}#timesq_{track}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("muon.charge * track.charge"),
+        ),
+        cms.PSet (
+            name = cms.string("gsfTrackNMissOutVstrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};GSF track N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("muon.missingOuterHits", "track.matchedGsfTrack.missingOuterHits"),
         ),
     )
 )
