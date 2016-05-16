@@ -3,6 +3,8 @@
 
 #ifndef CUSTOM_DATA_FORMAT
 
+  #define DISAPP_TRKS
+
   #include "OSUT3Analysis/AnaTools/interface/DataFormatMiniAOD.h"
 
   #undef  tracks_TYPE
