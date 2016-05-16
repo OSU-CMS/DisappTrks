@@ -16,20 +16,17 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
             'IMSS(22)    = 33    ! Read-in SLHA decay table ',
             'MSEL        = 0     ! General SUSY',
             'MSUB(226)   = 1     ! to double chargino',
-            'MSUB(229)   = 1     ! to neutralino + chargino',  
+            'MSUB(229)   = 1     ! to neutralino + chargino',
             'MDCY(312,1) = 0     ! set the chargino stable.',
             ),
         parameterSets = cms.vstring('pythiaUESettings', 'processParameters', 'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV_Isajet780.slha'),
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_300GeV_Isajet780.slha'),
     ),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_MASSPOINTGeV_Isajet780.slha'),
-# The following parameters are required by Exotica_HSCP_SIM_cfi:  
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_300GeV_Isajet780.slha'),
+# The following parameters are required by Exotica_HSCP_SIM_cfi:
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
-    useregge = cms.bool(False), 
-    hscpFlavor = cms.untracked.string('stau'),          
-    massPoint = cms.untracked.int32(-999),          
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_MASSPOINTGeV_ctauLIFETIMEcm.slha')
-)  
-
-
-
+    useregge = cms.bool(False),
+    hscpFlavor = cms.untracked.string('stau'),
+    massPoint = cms.untracked.int32(300),
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_300GeV_ctau1000cm.slha')
+)
