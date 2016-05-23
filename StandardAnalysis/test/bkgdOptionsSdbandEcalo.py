@@ -60,10 +60,10 @@ bkgd_sources = {
        
        
        
-    'FakeMuMuBkgd' :  { 'inputDir'   : 'ZtoMuMuTrk_76X',   
+    'FakeMuMuBkgd' :  { 'inputDir'   : 'ZtoMuMuTrkChannels',   
                     'datasetsIn'  : ['SingleMu_2015D'],   
-                    'scale_factor' :        0.490734603053,   
-                    'scale_factor_error' :  0.000726406991797,   
+                    'scale_factor' :        0.569361757681,   
+                    'scale_factor_error' :  0.000864734912491,   
                     'channel_map' : {   
     'ZtoMuMuCandTrkEcaloSdbandPlotter' : ['CandTrkEcaloSdbandPlotter'],   
     }   
