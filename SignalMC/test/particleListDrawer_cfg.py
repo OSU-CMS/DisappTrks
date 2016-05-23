@@ -30,7 +30,10 @@ process.maxEvents = cms.untracked.PSet (
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 process.particleListDrawer = cms.EDAnalyzer ('ParticleListDrawer',
     maxEventsToPrint = cms.untracked.int32(-1),
+    printOnlyHardInteraction = cms.untracked.bool(False),
     printVertex = cms.untracked.bool(True),
+    printFlags = cms.untracked.bool(True),
+    useMessageLogger = cms.untracked.bool(False),
 #    src = cms.InputTag("genParticles")
     src = cms.InputTag("genParticlePlusGeant")
 )

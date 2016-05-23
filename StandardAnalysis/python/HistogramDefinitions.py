@@ -59,7 +59,7 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0, 100),  
-            inputVariables = cms.vstring("missingOuterHits", "caloTotNoPUDRp5CentralCalo"),
+            inputVariables = cms.vstring("missingOuterHits", "caloNewNoPUDRp5CentralCalo"),
             ),        
         cms.PSet (
             name = cms.string("trackNHitsMissingOuter"),
@@ -123,31 +123,31 @@ TrackExtraHistograms = cms.PSet(
             name = cms.string("trackCaloTot"),
             title = cms.string("Isolation energy;E_{calo}^{#DeltaR<0.5} (no PU corr.) [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotDRp5"),
+            inputVariables = cms.vstring("caloNewDRp5"),
             ),
         cms.PSet (
             name = cms.string("trackCaloTotByP"),
             title = cms.string("Relative isolation energy;E_{calo}^{#DeltaR<0.5}/p (no PU corr.)"),
             binsX = cms.untracked.vdouble(100, 0, 2),
-            inputVariables = cms.vstring("caloTotDRp5 / p"),
+            inputVariables = cms.vstring("caloNewDRp5 / p"),
             ),
         cms.PSet (
             name = cms.string("trackCaloTot_RhoCorr"),
             title = cms.string("Isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo"),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
             name = cms.string("trackCaloTot_RhoCorrWide"),
             title = cms.string("Isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 1000),
-            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo"),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
             name = cms.string("trackCaloTotByP_RhoCorr"),
             title = cms.string("Relative isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5}/p"),
             binsX = cms.untracked.vdouble(100, 0, 2),
-            inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo / p"),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo / p"),
             ),
         cms.PSet (
             name = cms.string("trackPtError"),
@@ -231,6 +231,12 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("missingOuterHits", "phi"),
+        ),
+        cms.PSet (
+            name = cms.string("trackIsMatchedToGsfTrack"),
+            title = cms.string(";has GSF track"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("matchedGsfTrack.isNonnull"),
         ),
     )
 )
@@ -350,6 +356,13 @@ TrackMuonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("muon.charge * track.charge"),
         ),
+        cms.PSet (
+            name = cms.string("gsfTrackNMissOutVstrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};GSF track N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("muon.missingOuterHits", "track.matchedGsfTrack.missingOuterHits"),
+        ),
     )
 )
 
@@ -398,6 +411,20 @@ TrackElectronHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("track.missingOuterHits", "electron.missingOuterHits"),
+        ),
+        cms.PSet (
+            name = cms.string("electronFBremVsTrackNMissOut"),
+            title = cms.string(";track N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("track.missingOuterHits", "electron.fbrem"),
+        ),
+        cms.PSet (
+            name = cms.string("electronFBremVsElectronNMissOut"),
+            title = cms.string(";electron N_{miss}^{out};electron f_{brem}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0.0, 1.01),
+            inputVariables = cms.vstring("electron.missingOuterHits", "electron.fbrem"),
         ),
     )
 )
