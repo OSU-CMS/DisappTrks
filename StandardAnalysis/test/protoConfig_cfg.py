@@ -1,9 +1,12 @@
 import FWCore.ParameterSet.Config as cms
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
+from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
-import math
-import os
 import glob
+
+data_global_tag = '76X_dataRun2_v15'
+mc_global_tag = '76X_mcRun2_asymptotic_v12'
 
 ################################################################################
 ##### Set up the 'process' object ##############################################
@@ -15,12 +18,16 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
-# Use the following block for the Calo calculation.  
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')  
+# Use the following block for the Calo calculation.
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
-
+process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    print "using global tag " + data_global_tag + "..."
+    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+else:
+    print "using global tag " + mc_global_tag + "..."
 
 
 # input source when running interactively
@@ -30,9 +37,9 @@ process.source = cms.Source ("PoolSource",
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
         "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root",
-        # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root', 
-        # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root", 
-        # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root", 
+        # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root',
+        # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root",
+        # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
     ),
 )
@@ -44,10 +51,10 @@ process.source = cms.Source ("PoolSource",
 
 # addSecondaryFiles (process.source)
 
-# Add all files in a directory:  
+# Add all files in a directory:
 # dirname = "condor/isoTrkSelection/MET_2015D/IsoTrkSelection/"
 # for f in glob.glob(dirname + "skim*.root"):
-#     process.source.fileNames.extend(cms.untracked.vstring('file:' + f))  
+#     process.source.fileNames.extend(cms.untracked.vstring('file:' + f))
 
 
 # process.source.eventsToProcess = cms.untracked.VEventRange (
@@ -131,18 +138,18 @@ histSets = cms.VPSet (
     TrackBeamspotHistograms,
     TrackEventVarHistograms,
     TrackExtraHistograms,
-    TrackDebugEcaloHistograms, 
+    TrackDebugEcaloHistograms,
     MetHistograms,
     JetHistograms,
     EventVariableHistograms,
-    EventVariablePVHistograms, 
+    EventVariablePVHistograms,
 )
 
 histSetsDebug = cms.VPSet(
-    TrackHistograms, 
-    TrackExtraHistograms, 
-    TrackDebugEcaloHistograms, 
-) 
+    TrackHistograms,
+    TrackExtraHistograms,
+    TrackDebugEcaloHistograms,
+)
 
 histSetsMetJet = cms.VPSet (
     MetHistograms,
@@ -177,25 +184,25 @@ test = cms.PSet(
 ################################################################################
 
 LepCtrlChannels = [ # Run over isoTrkSelection skim
-    elecCtrlSelection, 
+    elecCtrlSelection,
     muonCtrlSelection,
-    tauCtrlSelection, 
+    tauCtrlSelection,
 ]
 BkgdEstChannels = [
-    candTrkSelection, 
+    candTrkSelection,
     candTrkEcaloSdband,
     candTrkNMissOutSdband,
 ]
-BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels 
+BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels
 
 FakeTrkSystChannels = [
-    disTrkSelectionNHits3, 
-    disTrkSelectionNHits4, 
-    disTrkSelectionNHits5, 
-    disTrkSelectionNHits6, 
+    disTrkSelectionNHits3,
+    disTrkSelectionNHits4,
+    disTrkSelectionNHits5,
+    disTrkSelectionNHits6,
 ]
 
-ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim 
+ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuCandTrk,
     ZtoMuMuDisTrk,
     ZtoMuMuCandTrkEcaloSdband,
@@ -215,10 +222,10 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  
+#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!
 #  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
 
-## MANDATORY CHANNELS FOR SINGLEMUON DATASET 
+## MANDATORY CHANNELS FOR SINGLEMUON DATASET
 #  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMu],                                      histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  ZtoMuMuTrkChannels,                             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -262,7 +269,7 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 
 
 ################################################################################
-##### Debugging options 
+##### Debugging options
 ################################################################################
 # uncomment to produce a full python configuration log file
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
