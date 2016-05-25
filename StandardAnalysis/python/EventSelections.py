@@ -137,7 +137,39 @@ candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd
 
 ##########################################################################
 
-# Use this selection for the muon background estimate.
+# Use this selection for the electron background estimate.
+candTrkIdElecPt35 = copy.deepcopy(candTrkSelection)
+candTrkIdElecPt35.name = cms.string("CandTrkIdElecPt35")
+cutsToAdd = [
+    cutTrkMatchGenElec,
+    ]
+addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
+addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt) 
+cutsToRemove = [
+    cutTrkPt, 
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutJetMetPhi,    
+    ]
+removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
+
+
+# Use this selection for the electron background estimate. 
+candTrkIdElecPt35NoMet = copy.deepcopy(candTrkIdElecPt35)
+candTrkIdElecPt35NoMet.name = cms.string("CandTrkIdElecPt35NoMet")
+candTrkIdElecPt35NoMet.triggers = cms.vstring() 
+cutsToRemove = [
+    cutMet,
+    ]
+removeCuts(candTrkIdElecPt35NoMet.cuts, cutsToRemove)
+
+
+##########################################################################
+
+# Use this selection for the electron background estimate.
 disTrkSelectionIdElec = copy.deepcopy(disTrkSelection)
 disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec")
 cutsToAdd = [

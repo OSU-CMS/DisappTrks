@@ -19,6 +19,19 @@ tagElectronCuts = [
 ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
+
+##################################################
+## Higher pt to be closer to candidate track selection
+##################################################
+ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
+ElectronTagPt35.name = cms.string("ElectronTagPt35")
+addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
+cutsToRemove = [
+    cutElectronPt25, 
+    ]
+removeCuts(ElectronTagPt35.cuts, cutsToRemove)  
+
+
 ################################################################################
 ## Electron tag and probe sample
 ################################################################################
