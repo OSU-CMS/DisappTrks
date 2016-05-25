@@ -141,6 +141,7 @@ candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd
 candTrkIdElecPt35 = copy.deepcopy(candTrkSelection)
 candTrkIdElecPt35.name = cms.string("CandTrkIdElecPt35")
 cutsToAdd = [
+    cutTrkEcalo, 
     cutTrkMatchGenElec,
     ]
 addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
