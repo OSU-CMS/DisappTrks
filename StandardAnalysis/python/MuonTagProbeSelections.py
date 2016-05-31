@@ -45,7 +45,6 @@ cutsToAdd = [
     cutTrkElecVeto,
     cutTrkTauHadVeto,
     cutTrkEcalo,
-    cutTrkNMissOut,
 ]
 addCuts(ZtoMuProbeTrk.cuts, cutsToAdd)
 addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
@@ -64,49 +63,6 @@ cutsToAdd = [
     cutTrkMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
-
-################################################################################
-## Muon tag and probe sample -- no missing outer hits cut
-################################################################################
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
-
-ZtoMuIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuIsoTrk)
-ZtoMuIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuIsoTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrk)
-ZtoMuProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
-ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut")
-removeCuts(ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuDisTrk)
-ZtoMuDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuDisTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-os_cut = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("muon.charge * muon.charge < 0"),
-    numberRequired = cms.string(">= 1")
-)
-
-zpeak_cut = cms.VPSet (
-    cms.PSet(
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon, muon) > 60"),
-#    cutString = cms.string("invMass (muon, muon) > 60 && invMass (muon, muon) < 120"),  # causes a seg fault
-    numberRequired = cms.string(">= 1")
-    ),
-    cms.PSet(
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon, muon) < 120"),
-    numberRequired = cms.string(">= 1")
-    ),
-)
 
 ##################################################
 ## Fake track control sample:  start with Z->mu mu events
