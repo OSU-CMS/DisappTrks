@@ -241,9 +241,57 @@ TrackExtraHistograms = cms.PSet(
     )
 )
 
+ElectronExtraHistograms = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronMetMinusOnePt"),
+            title = cms.string("Electron Met Minus One;E_{T}^{miss} excluding selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePt"),
+            title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
+    )
+)
+
+TauExtraHistograms = cms.PSet(
+    inputCollection = cms.vstring("taus"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("tauMetMinusOnePt"),
+            title = cms.string("Tau Met Minus One;E_{T}^{miss} excluding selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("tauMetNoMuMinusOnePt"),
+            title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
+    )
+)
+
 MuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
     histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonMetMinusOnePt"),
+            title = cms.string("Muon Met Minus One;E_{T}^{miss} excluding selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonMetNoMuMinusOnePt"),
+            title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 100, 500),
+            inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
         cms.PSet (
             name = cms.string("muonNumberOfValidHitsVsAbsEta"),
             title = cms.string("Muon Number of Valid Hits;muon number of valid hits;muon |#eta|"),
@@ -786,46 +834,10 @@ MetExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("mets"),
     histograms = cms.VPSet (
          cms.PSet (
-             name = cms.string("metSig"),
-             title = cms.string("Met Significance ;E^{miss}_{T} Significance"),
-             bins = cms.untracked.vdouble(100, 0, 100),
-             inputVariables = cms.vstring("significance"),
-             ),
-         cms.PSet (
-            name = cms.string("metVsGenMet"),
-            title = cms.string("reco E^{miss}_{T} vs gen  E^{miss}_{T} ; reco E^{miss}_{T} [GeV];gen E^{miss}_{T} [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
-            inputVariables = cms.vstring("pt", "genPT"),
-            ),
-         cms.PSet (
             name = cms.string("metNoMu"),
-            title = cms.string("MetNoMu;MetNoMu [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500),  
-            inputVariables = cms.vstring("metNoMu"),
-            ),
-        cms.PSet (
-            name = cms.string("metNoElec"),
-            title = cms.string("MetNoElec;MetNoElec [GeV]"),
-            bins = cms.untracked.vdouble(100, 0, 500),  
-            inputVariables = cms.vstring("metNoElec"),
-            ),
-        cms.PSet (
-            name = cms.string("metDeltaPhiMin2Jets"),
-            title = cms.string("deltaPhiMin2Jets;#Delta#phi_{min}(E_{T}^{miss}-jet)"),  
-            bins = cms.untracked.vdouble(20, 0, 3.15),  
-            inputVariables = cms.vstring("deltaPhiMin2Jets"),
-            ),
-        cms.PSet (
-            name = cms.string("metDeltaPhiJet1"),
-            title = cms.string("metDeltaPhiJet1;#Delta#phi^{met-leadjet}"),
-            bins = cms.untracked.vdouble(20, 0, 3.15),  
-            inputVariables = cms.vstring("deltaPhiJet1"),
-            ),
-        cms.PSet (
-            name = cms.string("metDeltaPhiJet2"),
-            title = cms.string("metDeltaPhiJet2;#Delta#phi^{met-subleadjet}"),
-            bins = cms.untracked.vdouble(20, 0, 3.15),  
-            inputVariables = cms.vstring("deltaPhiJet2"),
+            title = cms.string("MetNoMu;E_{T}^{miss} excluding #mu [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),  
+            inputVariables = cms.vstring("noMuPt"),
             ),
         )
     )
