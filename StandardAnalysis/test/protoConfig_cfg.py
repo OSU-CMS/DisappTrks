@@ -140,6 +140,7 @@ histSets = cms.VPSet (
     TrackExtraHistograms,
     TrackDebugEcaloHistograms,
     MetHistograms,
+    MetExtraHistograms,
     JetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
@@ -158,6 +159,7 @@ histSetsMetJet = cms.VPSet (
 
 histSetsElectron = copy.deepcopy(histSets)
 histSetsElectron.append(ElectronHistograms)
+histSetsElectron.append(ElectronExtraHistograms)
 histSetsElectron.append(DiElectronHistograms)
 histSetsElectron.append(TrackElectronHistograms)
 
