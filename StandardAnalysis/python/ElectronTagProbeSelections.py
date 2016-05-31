@@ -26,7 +26,7 @@ ZtoEleIsoTrk = copy.deepcopy(ElectronTagSkim)
 ZtoEleIsoTrk.name = cms.string("ZtoEleIsoTrk")
 
 eleTrkCuts = [
-    cutMuTrkInvMass10,
+    cutEleTrkInvMass10,
 ]
 addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
 addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])
@@ -43,7 +43,6 @@ ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
 cutsToAdd = [
     cutTrkMuonVeto,
     cutTrkTauHadVeto,
-    cutTrkNMissOut,
 ]
 addCuts(ZtoEleProbeTrk.cuts, cutsToAdd)
 addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
@@ -69,30 +68,3 @@ cutsToAdd = [
     cutTrkEcalo,
 ]
 addCuts(ZtoEleDisTrkWithECaloCut.cuts, cutsToAdd)
-
-################################################################################
-## Electron tag and probe sample -- no missing outer hits cut
-################################################################################
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
-
-ZtoEleIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleIsoTrk)
-ZtoEleIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleIsoTrkNoMissingOuterHitsCut")
-removeCuts(ZtoEleIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoEleProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrk)
-ZtoEleProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkNoMissingOuterHitsCut")
-removeCuts(ZtoEleProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
-ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut")
-removeCuts(ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoEleDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrk)
-ZtoEleDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkNoMissingOuterHitsCut")
-removeCuts(ZtoEleDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut = copy.deepcopy(ZtoEleDisTrkWithECaloCut)
-ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.name = cms.string("ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut")
-removeCuts(ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut.cuts, cutsToRemove)
