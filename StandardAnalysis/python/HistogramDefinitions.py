@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.invMass import *
+from OSUT3Analysis.Configuration.pdgIdBins import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
 
@@ -247,15 +248,54 @@ ElectronExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronMetMinusOnePt"),
             title = cms.string("Electron Met Minus One;E_{T}^{miss} excluding selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("electronMetNoMuMinusOnePt"),
             title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedPromptFinalStateIsMatched"),
+            title = cms.string(";electron is matched to generator particle"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("genMatchedParticle.promptFinalState.isNonnull"),
+        ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedPromptFinalStatePdgId"),
+            title = cms.string(";PDG ID of matched generator particle"),
+            binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons", "hadrons"])),
+            inputVariables = cms.vstring("abs (genMatchedParticle.promptFinalState.pdgId)"),
+        ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedPromptFinalStatePdgIdNoHadrons"),
+            title = cms.string(";PDG ID of matched generator particle"),
+            binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons"])),
+            inputVariables = cms.vstring("abs (genMatchedParticle.promptFinalState.pdgId)"),
+        ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedDirectPromptTauDecayProductFinalStateIsMatched"),
+            title = cms.string(";electron is matched to generator #tau decay product"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull"),
+        ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedDirectPromptTauDecayProductFinalStatePdgId"),
+            title = cms.string(";PDG ID of matched generator #tau decay product"),
+            binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons", "hadrons"])),
+            inputVariables = cms.vstring("abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId)"),
+        ),
+        cms.PSet (
+            name = cms.string("elecGenMatchedDirectPromptTauDecayProductFinalStatePdgIdNoHadrons"),
+            title = cms.string(";PDG ID of matched generator #tau decay product"),
+            binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons"])),
+            inputVariables = cms.vstring("abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId)"),
+        ),
+
+
+
     )
 )
 
@@ -265,13 +305,13 @@ TauExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("tauMetMinusOnePt"),
             title = cms.string("Tau Met Minus One;E_{T}^{miss} excluding selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("tauMetNoMuMinusOnePt"),
             title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
     )
@@ -283,13 +323,13 @@ MuonExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonMetMinusOnePt"),
             title = cms.string("Muon Met Minus One;E_{T}^{miss} excluding selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePt"),
             title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 100, 500),
+            binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
         cms.PSet (

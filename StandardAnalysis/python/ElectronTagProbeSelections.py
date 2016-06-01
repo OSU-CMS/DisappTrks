@@ -26,10 +26,30 @@ addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
 addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
+cutsToAdd = [ 
+    cutTrkPt30, 
+    cutTrkMatchRecoElec, 
+]
+addCuts(ElectronTagPt35.cuts, cutsToAdd)  
 cutsToRemove = [
     cutElectronPt25, 
     ]
 removeCuts(ElectronTagPt35.cuts, cutsToRemove)  
+
+ElectronTagPt35NoTrig = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt35NoTrig.name = cms.string("ElectronTagPt35NoTrig")
+ElectronTagPt35NoTrig.triggers = cms.vstring() 
+
+ElectronTagPt35MetTrig = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt35MetTrig.name = cms.string("ElectronTagPt35MetTrig")
+ElectronTagPt35MetTrig.triggers = triggersMet 
+
+ElectronTagPt35MetCut = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt35MetCut.name = cms.string("ElectronTagPt35MetCut")
+cutsToAdd = [ 
+    cutElectronMetMinusOne, 
+]
+addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)  
 
 
 ################################################################################

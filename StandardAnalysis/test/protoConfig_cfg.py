@@ -215,6 +215,15 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
+ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)  
+    ElectronTagPt35, 
+    ElectronTagPt35NoTrig, 
+    ElectronTagPt35MetCut, 
+    ElectronTagPt35MetTrig, 
+    candTrkIdElecPt35,
+    candTrkIdElecPt35NoMet, 
+]
+
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -259,9 +268,12 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 #  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
+
+
 ## CHANNELS FOR TESTING
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  ElecBkgdClosureTestWjets,                       histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
 
 ## OTHER CHANNELS
