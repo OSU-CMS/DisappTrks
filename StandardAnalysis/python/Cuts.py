@@ -376,11 +376,27 @@ cutTrkMatchMC = cms.PSet(
     cutString = cms.string("deltaR ( track , mcparticle ) < 0.2"),
     numberRequired = cms.string(">= 1"),
 )
+
+
+##################################################
+## mcparticles
+##################################################
 cutMCPt = cms.PSet(
     inputCollection = cms.vstring("mcparticles"),
     cutString = cms.string("pt > 40"),
     numberRequired = cms.string(">= 1"),
 )
+cutMCIdElec = cms.PSet(
+    inputCollection = cms.vstring("mcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 11"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMCPt30 = cms.PSet(
+    inputCollection = cms.vstring("mcparticles"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+)
+
 
 ##################################################
 ## muons
@@ -509,6 +525,11 @@ cutEleTrkDeltaR = cms.PSet(
     cutString = cms.string("deltaR ( electron , track ) > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchRecoElec = cms.PSet(
+    inputCollection = cms.vstring("tracks", "electrons"),
+    cutString = cms.string("deltaR ( track , electron ) < 0.1"), 
+    numberRequired = cms.string(">= 1"),
+)
 cutEleTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string(invMassWithElectron ("electron") + " > 10"),
@@ -540,6 +561,11 @@ cutElectronPt25 = cms.PSet (
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1"),
 )
+cutElectronPt35 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 35"),
+    numberRequired = cms.string(">= 1"),
+)
 cutElectronEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -564,3 +590,10 @@ cutElectronArbitration = cms.PSet(
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
 )
+cutElectronMetMinusOne = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("metMinusOnePt > 100"),
+    numberRequired = cms.string(">= 1"),
+)
+
+
