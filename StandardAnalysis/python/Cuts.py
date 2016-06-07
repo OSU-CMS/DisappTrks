@@ -340,6 +340,7 @@ cutTrkArbitration = cms.PSet(
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
+    alias = cms.string("pick random track"),
 )
 cutTrkD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
@@ -411,6 +412,11 @@ cutMuonPt25 = cms.PSet (
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuonPt35 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 35"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMuonEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -464,6 +470,12 @@ cutMuonArbitration = cms.PSet(
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
+    alias = cms.string("pick random muon"),
+)
+cutMuonMetMinusOne = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("metNoMuMinusOnePt > 100"),
+    numberRequired = cms.string(">= 1"),
 )
 
 ##################################################
@@ -492,6 +504,18 @@ cutMuTrkDeltaR = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string("deltaR ( muon , track ) > 0.15"),
     numberRequired = cms.string(">= 1"),
+)
+cutTrkMuDR0p1 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "muons"),
+    cutString = cms.string("deltaR (track, muon) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkMatchRecoMu = cms.PSet(
+    inputCollection = cms.vstring("tracks", "muons"),
+    cutString = cms.string("muon.pt > -1"),
+    numberRequired = cms.string(">= 1"),
+    arbitration = cms.string("-deltaR ( track, muon)"),
+    alias = cms.string("match track to muon"),
 )
 cutMuTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
@@ -589,6 +613,7 @@ cutElectronArbitration = cms.PSet(
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
+    alias = cms.string("pick random electron"),
 )
 cutElectronMetMinusOne = cms.PSet (
     inputCollection = cms.vstring("electrons"),

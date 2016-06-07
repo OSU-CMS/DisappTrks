@@ -20,6 +20,51 @@ tagMuonCuts = [
 ]
 addCuts(MuonTagSkim.cuts, tagMuonCuts)
 
+##################################################
+## Higher pt to be closer to candidate track selection
+##################################################
+MuonTagPt35 = copy.deepcopy(MuonTagSkim)
+MuonTagPt35.name = cms.string("MuonTagPt35")
+addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt25)
+cutsToAdd = [ 
+    cutMuonArbitration,
+    cutTrkPt35,
+    cutTrkMuDR0p1,
+    cutTrkMatchRecoMu,
+    cutTrkEta,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+]
+addCuts(MuonTagPt35.cuts, cutsToAdd)
+cutsToRemove = [
+    cutMuonPt25, 
+    ]
+removeCuts(MuonTagPt35.cuts, cutsToRemove)  
+
+MuonTagPt35NoTrig = copy.deepcopy(MuonTagPt35)
+MuonTagPt35NoTrig.name = cms.string("MuonTagPt35NoTrig")
+MuonTagPt35NoTrig.triggers = cms.vstring() 
+
+MuonTagPt35MetTrig = copy.deepcopy(MuonTagPt35)
+MuonTagPt35MetTrig.name = cms.string("MuonTagPt35MetTrig")
+MuonTagPt35MetTrig.triggers = triggersMet 
+
+MuonTagPt35MetCut = copy.deepcopy(MuonTagPt35)
+MuonTagPt35MetCut.name = cms.string("MuonTagPt35MetCut")
+cutsToAdd = [ 
+    cutMuonMetMinusOne, 
+]
+addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)  
+
 ################################################################################
 ## Muon tag and probe sample
 ################################################################################

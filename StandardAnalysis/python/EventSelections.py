@@ -167,6 +167,37 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdElecPt35NoMet.cuts, cutsToRemove)
 
+##########################################################################
+
+# Use this selection for the muon background estimate.
+candTrkIdMuPt35 = copy.deepcopy(candTrkSelection)
+candTrkIdMuPt35.name = cms.string("CandTrkIdMuPt35")
+cutsToAdd = [
+    cutTrkEcalo, 
+    cutTrkMatchGenMuon,
+    ]
+addCuts(candTrkIdMuPt35.cuts, cutsToAdd)
+addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt) 
+cutsToRemove = [
+    cutTrkPt, 
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutJetMetPhi,    
+    ]
+removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
+
+
+# Use this selection for the electron background estimate. 
+candTrkIdMuPt35NoMet = copy.deepcopy(candTrkIdMuPt35)
+candTrkIdMuPt35NoMet.name = cms.string("CandTrkIdMuPt35NoMet")
+candTrkIdMuPt35NoMet.triggers = cms.vstring() 
+cutsToRemove = [
+    cutMet,
+    ]
+removeCuts(candTrkIdMuPt35NoMet.cuts, cutsToRemove)
 
 ##########################################################################
 

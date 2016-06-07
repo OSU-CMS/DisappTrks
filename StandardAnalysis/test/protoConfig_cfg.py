@@ -215,13 +215,22 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
-ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)  
-    ElectronTagPt35, 
-    ElectronTagPt35NoTrig, 
-    ElectronTagPt35MetCut, 
-    ElectronTagPt35MetTrig, 
+ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+    ElectronTagPt35,
+    ElectronTagPt35NoTrig,
+    ElectronTagPt35MetCut,
+    ElectronTagPt35MetTrig,
     candTrkIdElecPt35,
-    candTrkIdElecPt35NoMet, 
+    candTrkIdElecPt35NoMet,
+]
+
+MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+    MuonTagPt35,
+    MuonTagPt35NoTrig,
+    MuonTagPt35MetCut,
+    MuonTagPt35MetTrig,
+    candTrkIdMuPt35,
+    candTrkIdMuPt35NoMet,
 ]
 
 
@@ -246,7 +255,6 @@ ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-
 
 ## MANDATORY CHANNELS FOR SINGLEMUON DATASET # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -273,7 +281,8 @@ ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 ## CHANNELS FOR TESTING
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ElecBkgdClosureTestWjets,                       histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
 
 
 ## OTHER CHANNELS
