@@ -25,9 +25,11 @@ def getDASData (query):
 
 def addSecondaryFileAOD (fileName):
     parents = []
+    fileName = fileName.rstrip ('\n')
     fileName = re.sub (r'^.*/store/', r'/store/', fileName)
     parent = getDASData ('parent file=' + fileName + ' instance=prod/phys03 | grep parent.name')
     for p in parent:
+        p = p.rstrip ('\n')
         if (re.search (r'/AOD/', p) or re.search (r'/AODSIM/', p)) and not p in parents:
             parents.append (p)
 
@@ -35,6 +37,7 @@ def addSecondaryFileAOD (fileName):
 
 def addSecondaryFileFromSkim (fileName):
     parents = []
+    fileName = fileName.rstrip ('\n')
     fileName = re.sub (r'^file:', r'', fileName)
     jobNumber = re.sub (r'.*/skim_([^/]*)\.root$', r'\1', fileName)
     parentDir = re.sub (r'(.*)/[^/]*/skim_[^/]*\.root$', r'\1/', fileName)
@@ -42,12 +45,15 @@ def addSecondaryFileFromSkim (fileName):
     for line in condorErr:
         if re.search (r'Successfully opened file', line):
             p = re.sub (r'.* Successfully opened file (.*)', r'\1', line)
-            parents.append (p)
+            p = p.rstrip ('\n')
+            if not p in parents:
+                parents.append (p)
 
     return sorted (list (set (parents)))
 
 def addSecondaryFile (fileName):
     parents = []
+    fileName = fileName.rstrip ('\n')
     if re.search (r'/store/', fileName):
         parents = addSecondaryFileAOD (fileName)
     else:

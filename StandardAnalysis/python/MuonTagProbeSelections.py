@@ -20,6 +20,51 @@ tagMuonCuts = [
 ]
 addCuts(MuonTagSkim.cuts, tagMuonCuts)
 
+##################################################
+## Higher pt to be closer to candidate track selection
+##################################################
+MuonTagPt35 = copy.deepcopy(MuonTagSkim)
+MuonTagPt35.name = cms.string("MuonTagPt35")
+addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt25)
+cutsToAdd = [ 
+    cutMuonArbitration,
+    cutTrkPt35,
+    cutTrkMuDR0p1,
+    cutTrkMatchRecoMu,
+    cutTrkEta,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+]
+addCuts(MuonTagPt35.cuts, cutsToAdd)
+cutsToRemove = [
+    cutMuonPt25, 
+    ]
+removeCuts(MuonTagPt35.cuts, cutsToRemove)  
+
+MuonTagPt35NoTrig = copy.deepcopy(MuonTagPt35)
+MuonTagPt35NoTrig.name = cms.string("MuonTagPt35NoTrig")
+MuonTagPt35NoTrig.triggers = cms.vstring() 
+
+MuonTagPt35MetTrig = copy.deepcopy(MuonTagPt35)
+MuonTagPt35MetTrig.name = cms.string("MuonTagPt35MetTrig")
+MuonTagPt35MetTrig.triggers = triggersMet 
+
+MuonTagPt35MetCut = copy.deepcopy(MuonTagPt35)
+MuonTagPt35MetCut.name = cms.string("MuonTagPt35MetCut")
+cutsToAdd = [ 
+    cutMuonMetMinusOne, 
+]
+addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)  
+
 ################################################################################
 ## Muon tag and probe sample
 ################################################################################
@@ -45,7 +90,6 @@ cutsToAdd = [
     cutTrkElecVeto,
     cutTrkTauHadVeto,
     cutTrkEcalo,
-    cutTrkNMissOut,
 ]
 addCuts(ZtoMuProbeTrk.cuts, cutsToAdd)
 addCuts(ZtoMuProbeTrk.cuts, [cutTrkArbitration])
@@ -64,49 +108,6 @@ cutsToAdd = [
     cutTrkMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
-
-################################################################################
-## Muon tag and probe sample -- no missing outer hits cut
-################################################################################
-cutsToRemove = [
-    cutTrkNMissOut, # removed due to mismodelling in the MC
-]
-
-ZtoMuIsoTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuIsoTrk)
-ZtoMuIsoTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuIsoTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuIsoTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuProbeTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrk)
-ZtoMuProbeTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuProbeTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
-ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.name = cms.string("ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut")
-removeCuts(ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-ZtoMuDisTrkNoMissingOuterHitsCut = copy.deepcopy(ZtoMuDisTrk)
-ZtoMuDisTrkNoMissingOuterHitsCut.name = cms.string("ZtoMuDisTrkNoMissingOuterHitsCut")
-removeCuts(ZtoMuDisTrkNoMissingOuterHitsCut.cuts, cutsToRemove)
-
-os_cut = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("muon.charge * muon.charge < 0"),
-    numberRequired = cms.string(">= 1")
-)
-
-zpeak_cut = cms.VPSet (
-    cms.PSet(
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon, muon) > 60"),
-#    cutString = cms.string("invMass (muon, muon) > 60 && invMass (muon, muon) < 120"),  # causes a seg fault
-    numberRequired = cms.string(">= 1")
-    ),
-    cms.PSet(
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon, muon) < 120"),
-    numberRequired = cms.string(">= 1")
-    ),
-)
 
 ##################################################
 ## Fake track control sample:  start with Z->mu mu events
