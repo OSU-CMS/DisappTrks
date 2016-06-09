@@ -27,7 +27,7 @@ ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
 addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
 cutsToAdd = [ 
-    cutTrkPt30, 
+    cutTrkPt35, 
     cutTrkMatchRecoElec, 
 ]
 addCuts(ElectronTagPt35.cuts, cutsToAdd)  
