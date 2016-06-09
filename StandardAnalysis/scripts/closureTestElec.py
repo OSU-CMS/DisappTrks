@@ -3,7 +3,6 @@ import os
 import sys
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1, TH1D 
-from histUtils import * 
 sys.path.append(os.environ['CMSSW_BASE'] + "/src/OSUT3Analysis/Configuration/scripts/")
 #from makeEfficiencyPlots import ratioHistogram 
 
