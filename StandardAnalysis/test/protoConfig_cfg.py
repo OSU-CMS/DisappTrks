@@ -218,7 +218,6 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
 ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     ElectronTagPt35,
     ElectronTagPt35NoTrig,
-    ElectronTagPt35MetCut,
     ElectronTagPt35MetTrig,
     candTrkIdElecPt35,
     candTrkIdElecPt35NoMet,
