@@ -55,7 +55,6 @@ hMetTrigEff.GetXaxis().SetTitle("E_{T}^{miss} excluding muons [GeV]")
 c = TCanvas("can")
 setHistStyle(hMetCtrl)
 hMetCtrl.Draw()
-HeaderLabel.SetLabel("Use for N_{ctrl}")  
 HeaderLabel.Draw()  
 c.SaveAs("hMetCtrl.pdf")  
 setHistStyle(hMetTrigEff)
@@ -84,6 +83,13 @@ c.SaveAs("hMetTrigEffPlusOffline.pdf")
 hMetNoElecCtrl = getHist(sample, condor_dir, "ElectronTagPt35Plotter", "Electron Plots/electronMetNoMuMinusOnePt")  
 hMetNoElecEst  = hMetNoElecCtrl.Clone()  
 
+setHistStyle(hMetNoElecCtrl)
+hMetNoElecCtrl.Draw()
+HeaderLabel.SetLabel("Use for N_{ctrl}")  
+HeaderLabel.Draw()  
+c.SaveAs("hMetNoElecCtrl.pdf")  
+
+
 
 chan =  "ElectronTagPt35Plotter"
 hist =  "Met Plots/metNoMu"  
@@ -98,9 +104,6 @@ print "nCtrl = ", nCtrl
 print "nPassVeto = ", nPassVeto
 print "nPassVetoFracErr = ", nPassVetoFracErr
 
-# err = Double(0.0)
-# val = hMetNoElecEst.IntegralAndError(1, 100, err)  
-# print "Before reset:  integral = ", val, " +- ", err 
 for i in range(1, hMetNoElecEst.GetNbinsX()+1):
     x = hMetNoElecEst.GetXaxis().GetBinCenter(i)  
     metEff = hMetTrigEff.GetBinContent(hMetTrigEff.FindBin(x))  
@@ -111,10 +114,6 @@ for i in range(1, hMetNoElecEst.GetNbinsX()+1):
     estErr = estFracErr * est
     hMetNoElecEst.SetBinContent(i, est)
     hMetNoElecEst.SetBinError  (i, estErr)
-    # if i > 80:
-    #     print "Bin ", i, ": est = ", est, ", estErr = ", estErr, ", estFracErr = ", estFracErr, ", estFracErr1 = ", estFracErr1, ", estFracErr2 = ", estFracErr2 
-# val = hMetNoElecEst.IntegralAndError(1, 100, err)  
-# print "After reset:  integral = ", val, " +- ", err 
 
 setHistStyle(hMetNoElecEst) 
 hMetNoElecEst.Draw("pe")
