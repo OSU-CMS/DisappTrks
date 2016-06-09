@@ -280,8 +280,8 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 ## CHANNELS FOR TESTING
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
 
 
 ## OTHER CHANNELS
