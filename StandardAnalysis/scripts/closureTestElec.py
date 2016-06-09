@@ -8,9 +8,18 @@ sys.path.append(os.environ['CMSSW_BASE'] + "/src/OSUT3Analysis/Configuration/scr
 #from makeEfficiencyPlots import ratioHistogram 
 
 from OSUT3Analysis.Configuration.histogramUtilities import * 
+from DisappTrks.StandardAnalysis.tdrstyle import *
+setTDRStyle()
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)  
+
+def setHistStyle(h):
+    h.SetLineColor(1)
+    h.SetLineWidth(1)
+    h.SetMarkerColor(1)
+    h.SetMarkerStyle(20)
+    h.SetMarkerSize(1.0)
 
 sample = "WJetsToLNu" 
 condor_dir = "ElecBkgdClosureTestWjets"
@@ -25,7 +34,7 @@ effElecTrig = nElectronTagPt35[0] / nElectronTagPt35NoTrig[0]
 print "Efficiency of single electron trigger after offline selection: ", effElecTrig 
 
 # hist = "Electron Plots/electronMetMinusOnePt"
-hist = "Met Plots/metPt"
+hist = "Met Plots/metNoMu"
 hMetCtrl         = getHist(sample, condor_dir, "ElectronTagPt35Plotter",        hist)
 hMetTrig         = getHist(sample, condor_dir, "ElectronTagPt35MetTrigPlotter", hist) 
 hMetBack         = getHist(sample, condor_dir, "CandTrkIdElecPt35Plotter",      hist) 
@@ -35,9 +44,10 @@ print "hMetCtrl.NbinsX() = ", hMetCtrl.GetNbinsX()
 print "hMetTrig.NbinsX() = ", hMetTrig.GetNbinsX() 
 print "hMetCtrl.GetTitle() = ", hMetCtrl.GetTitle()  
 hMetTrigEff = ratioHistogram(hMetTrig, hMetCtrl, False, True)
-hMetTrigEff.GetYaxis().SetTitle("efficiency of Met trigger")  
-hMetTrigEff.GetXaxis().SetTitle(hMetCtrl.GetTitle())  
+hMetTrigEff.GetYaxis().SetTitle("E_{T}^{miss} efficiency:  trigger and offline")  
+hMetTrigEff.GetXaxis().SetTitle("E_{T}^{miss} excluding muons [GeV]")  
 c = TCanvas("can")
+setHistStyle(hMetTrigEff)
 hMetTrigEff.Draw()
 c.SaveAs("hMetTrigEff.pdf")  
 # for i in range(hMetTrigEff.GetNbinsX() - 15, hMetTrigEff.GetNbinsX()+1):
@@ -51,6 +61,11 @@ for i in range(1, hMetTrigEff.GetNbinsX()+1):
     if hMetTrigEff.GetXaxis().GetBinCenter(i) < 100:
         hMetTrigEff.SetBinContent(i, 0.0) 
         hMetTrigEff.SetBinError(i, 0.0) 
+hMetTrigEff.Draw()
+print "marker style: ", hMetTrigEff.GetMarkerStyle()
+print "marker size: ", hMetTrigEff.GetMarkerSize()
+print "line width: ", hMetTrigEff.GetLineWidth()
+print "title size: ", hMetTrigEff.GetMarkerSize()
 c.SaveAs("hMetTrigEffPlusOffline.pdf")  
 
 hMetNoElecCtrl = getHist(sample, condor_dir, "ElectronTagPt35Plotter", "Electron Plots/electronMetMinusOnePt")  
@@ -58,7 +73,7 @@ hMetNoElecEst  = hMetNoElecCtrl.Clone()
 
 
 chan =  "ElectronTagPt35Plotter"
-hist =  "Met Plots/metPt"  
+hist =  "Met Plots/metNoMu"  
 # include under and overflow 
 nCtrl     = getHistIntegral(sample, condor_dir, "ElectronTagPt35Plotter",        hist,  -1, 550)  
 nPassVeto = getHistIntegral(sample, condor_dir, "CandTrkIdElecPt35NoMetPlotter", hist,  -1, 550) 
@@ -83,8 +98,10 @@ for i in range(1, hMetNoElecEst.GetNbinsX()+1):
     hMetNoElecEst.SetBinContent(i, est)
     hMetNoElecEst.SetBinError  (i, estErr)
 
-hMetNoElecEst.Draw()
+setHistStyle(hMetNoElecEst) 
+hMetNoElecEst.Draw("pe")
 c.SaveAs("hMetNoElecEst.pdf") 
+setHistStyle(hMetBack) 
 hMetBack.Draw()
 c.SaveAs("hMetBack.pdf") 
 
