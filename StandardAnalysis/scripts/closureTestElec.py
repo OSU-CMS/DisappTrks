@@ -32,6 +32,13 @@ print "nElectronTagPt35NoTrig = ", nElectronTagPt35NoTrig
 effElecTrig = nElectronTagPt35[0] / nElectronTagPt35NoTrig[0] 
 print "Efficiency of single electron trigger after offline selection: ", effElecTrig 
 
+HeaderLabel = TPaveLabel(0.5, 0.5, 0.9, 0.7,"","NDC")
+HeaderLabel.SetTextFont(42)
+HeaderLabel.SetTextSize(0.3) 
+HeaderLabel.SetBorderSize(0)
+HeaderLabel.SetFillColor(0)
+HeaderLabel.SetFillStyle(0)
+
 # hist = "Electron Plots/electronMetMinusOnePt"
 hist = "Met Plots/metNoMu"
 hMetCtrl         = getHist(sample, condor_dir, "ElectronTagPt35Plotter",        hist)
@@ -46,6 +53,11 @@ hMetTrigEff = ratioHistogram(hMetTrig, hMetCtrl, False, True)
 hMetTrigEff.GetYaxis().SetTitle("E_{T}^{miss} efficiency:  trigger and offline")  
 hMetTrigEff.GetXaxis().SetTitle("E_{T}^{miss} excluding muons [GeV]")  
 c = TCanvas("can")
+setHistStyle(hMetCtrl)
+hMetCtrl.Draw()
+HeaderLabel.SetLabel("Use for N_{ctrl}")  
+HeaderLabel.Draw()  
+c.SaveAs("hMetCtrl.pdf")  
 setHistStyle(hMetTrigEff)
 hMetTrigEff.Draw()
 c.SaveAs("hMetTrigEff.pdf")  
@@ -65,9 +77,11 @@ print "marker style: ", hMetTrigEff.GetMarkerStyle()
 print "marker size: ", hMetTrigEff.GetMarkerSize()
 print "line width: ", hMetTrigEff.GetLineWidth()
 print "title size: ", hMetTrigEff.GetMarkerSize()
+HeaderLabel.SetLabel("Use for P(pass E_{T}^{miss})")  
+HeaderLabel.Draw()  
 c.SaveAs("hMetTrigEffPlusOffline.pdf")  
 
-hMetNoElecCtrl = getHist(sample, condor_dir, "ElectronTagPt35Plotter", "Electron Plots/electronMetMinusOnePt")  
+hMetNoElecCtrl = getHist(sample, condor_dir, "ElectronTagPt35Plotter", "Electron Plots/electronMetNoMuMinusOnePt")  
 hMetNoElecEst  = hMetNoElecCtrl.Clone()  
 
 
@@ -83,38 +97,68 @@ PPassLepVetoErr = nPassVetoFracErr * PPassLepVeto
 print "nCtrl = ", nCtrl
 print "nPassVeto = ", nPassVeto
 print "nPassVetoFracErr = ", nPassVetoFracErr
-print "PPassLepVeto = ", PPassLepVeto, " +- ", PPassLepVetoErr  
 
+# err = Double(0.0)
+# val = hMetNoElecEst.IntegralAndError(1, 100, err)  
+# print "Before reset:  integral = ", val, " +- ", err 
 for i in range(1, hMetNoElecEst.GetNbinsX()+1):
     x = hMetNoElecEst.GetXaxis().GetBinCenter(i)  
     metEff = hMetTrigEff.GetBinContent(hMetTrigEff.FindBin(x))  
-    est = hMetNoElecCtrl.GetBinContent(i) * PPassLepVeto * metEff
+    est = hMetNoElecCtrl.GetBinContent(i) * PPassLepVeto * metEff 
     estFracErr1 = hMetNoElecCtrl.GetBinError(i) / hMetNoElecCtrl.GetBinContent(i)
-    estFracErr2 = PPassLepVetoErr / PPassLepVeto 
-    estFracErr3 = hMetTrigEff.GetBinError(hMetTrigEff.FindBin(x)) / metEff if metEff else 0.0  
-    estFracErr = math.sqrt(pow(estFracErr1, 2) + pow(estFracErr2, 2) + pow(estFracErr3, 2)) 
+    estFracErr2 = hMetTrigEff.GetBinError(hMetTrigEff.FindBin(x)) / metEff if metEff else 0.0  
+    estFracErr = math.sqrt(pow(estFracErr1, 2) + pow(estFracErr2, 2)) 
     estErr = estFracErr * est
     hMetNoElecEst.SetBinContent(i, est)
     hMetNoElecEst.SetBinError  (i, estErr)
+    # if i > 80:
+    #     print "Bin ", i, ": est = ", est, ", estErr = ", estErr, ", estFracErr = ", estFracErr, ", estFracErr1 = ", estFracErr1, ", estFracErr2 = ", estFracErr2 
+# val = hMetNoElecEst.IntegralAndError(1, 100, err)  
+# print "After reset:  integral = ", val, " +- ", err 
 
 setHistStyle(hMetNoElecEst) 
 hMetNoElecEst.Draw("pe")
+HeaderLabel.SetLabel("Use for N_{est}")  
+HeaderLabel.Draw()  
 c.SaveAs("hMetNoElecEst.pdf") 
 setHistStyle(hMetBack) 
 hMetBack.Draw()
+HeaderLabel.SetLabel("Use for N_{back}")  
+HeaderLabel.Draw()  
 c.SaveAs("hMetBack.pdf") 
 
+print "**************************************************"
+print "**************************************************"
+print "**************************************************"
 
-estError  = Double(0.0)  
+estErrUnCorr  = Double(0.0)  
 backError = Double(0.0)  
+ctrlError = Double(0.0)  
 xloBin = 0 # include underflow
-xhiBin = hMetNoElecEst.GetNbinsX()  # exclude overflow
-est = hMetNoElecEst.IntegralAndError(xloBin, xhiBin, estError) 
-print "Estimate:  hMetNoElecEst.Integral() = ", est, " +- ", estError 
-
 xhiBin = hMetBack.GetNbinsX()  # exclude overflow
 back = hMetBack.IntegralAndError(xloBin, xhiBin, backError) 
-print "Observed:  NBack = hMetBack.Integral() = ", back, " +- ", backError  
+
+ctrl = hMetCtrl.IntegralAndError(xloBin, xhiBin, ctrlError) 
+print "N_ctrl = ", ctrl, " +- ", ctrlError 
+
+print "P(pass electron veto) = ", PPassLepVeto, " +- ", PPassLepVetoErr  
+PPassLepVetoFracErr = PPassLepVetoErr / PPassLepVeto 
+
+est = hMetNoElecEst.IntegralAndError(xloBin, xhiBin, estErrUnCorr) 
+estErr = est * math.sqrt(pow(estErrUnCorr / est, 2) + pow(PPassLepVetoFracErr, 2)) 
+# Uncertainty from lepton veto is correlated across all bins, 
+# so add it in quadrature with the errors that are not correlated from bin to bin.  
+
+
+# probability to pass Met trigger and offline criteria, after passing lepton veto
+PPassMet    = est / (ctrl * PPassLepVeto) 
+PPassMetErr = PPassMet * PPassLepVetoFracErr
+
+print "P(pass Met trigger & offline after passing electron veto) = ", PPassMet, " +- ", PPassMetErr  
+print "N_est = ", est, " +- ", estErr
+
+print "N_back = ", back, " +- ", backError  
+
 
 print "Done."
 
