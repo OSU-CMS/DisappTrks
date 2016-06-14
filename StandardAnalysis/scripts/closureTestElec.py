@@ -20,7 +20,9 @@ def setHistStyle(h):
     h.SetMarkerStyle(20)
     h.SetMarkerSize(1.0)
 
-sample = "WJetsToLNu" 
+# sample = "WJetsToLNu" 
+# sample = "TTJets" 
+sample = "DYJetsToLL_50" 
 condor_dir = "ElecBkgdClosureTestWjets"
 
 nElectronTagPt35 = getYield(sample, condor_dir, "ElectronTagPt35CutFlowPlotter")
@@ -45,6 +47,9 @@ hMetCtrl         = getHist(sample, condor_dir, "ElectronTagPt35Plotter",        
 hMetTrig         = getHist(sample, condor_dir, "ElectronTagPt35MetTrigPlotter", hist) 
 hMetBack         = getHist(sample, condor_dir, "CandTrkIdElecPt35Plotter",      hist) 
 hMetCandTrkNoMet = getHist(sample, condor_dir, "CandTrkIdElecPt35NoMetPlotter",      hist) 
+if sample == "WJetsToLNu":
+    hMetBack     = getHist("WJetsToLNu_HT", condor_dir, "CandTrkIdElecPt35Plotter",      hist) 
+
 # hMetTrigEff = TGraphAsymmErrors(hMetTrig, hMetCtrl)
 print "hMetCtrl.NbinsX() = ", hMetCtrl.GetNbinsX() 
 print "hMetTrig.NbinsX() = ", hMetTrig.GetNbinsX() 
@@ -79,6 +84,7 @@ print "title size: ", hMetTrigEff.GetMarkerSize()
 HeaderLabel.SetLabel("Use for P(pass E_{T}^{miss})")  
 HeaderLabel.Draw()  
 c.SaveAs("hMetTrigEffPlusOffline.pdf")  
+
 
 hMetNoElecCtrl = getHist(sample, condor_dir, "ElectronTagPt35Plotter", "Electron Plots/electronMetNoMuMinusOnePt")  
 hMetNoElecEst  = hMetNoElecCtrl.Clone()  
@@ -129,7 +135,9 @@ c.SaveAs("hMetBack.pdf")
 print "**************************************************"
 print "**************************************************"
 print "**************************************************"
-
+print "Closure test for electron background estimate"
+print "Condor directory: ", condor_dir
+print "sample = ", sample 
 estErrUnCorr  = Double(0.0)  
 backError = Double(0.0)  
 ctrlError = Double(0.0)  
