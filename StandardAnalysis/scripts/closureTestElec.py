@@ -23,7 +23,8 @@ def setHistStyle(h):
 # sample = "WJetsToLNu" 
 # sample = "TTJets" 
 sample = "DYJetsToLL_50" 
-condor_dir = "ElecBkgdClosureTestWjets"
+#condor_dir = "ElecBkgdClosureTestWjets"
+condor_dir = "ElecBkgdClosureTestWjets_V2"
 
 nElectronTagPt35 = getYield(sample, condor_dir, "ElectronTagPt35CutFlowPlotter")
 print "nElectronTagPt35 = ", nElectronTagPt35
@@ -114,7 +115,7 @@ for i in range(1, hMetNoElecEst.GetNbinsX()+1):
     x = hMetNoElecEst.GetXaxis().GetBinCenter(i)  
     metEff = hMetTrigEff.GetBinContent(hMetTrigEff.FindBin(x))  
     est = hMetNoElecCtrl.GetBinContent(i) * PPassLepVeto * metEff 
-    estFracErr1 = hMetNoElecCtrl.GetBinError(i) / hMetNoElecCtrl.GetBinContent(i)
+    estFracErr1 = hMetNoElecCtrl.GetBinError(i) / hMetNoElecCtrl.GetBinContent(i) if hMetNoElecCtrl.GetBinContent(i) else 0.0 
     estFracErr2 = hMetTrigEff.GetBinError(hMetTrigEff.FindBin(x)) / metEff if metEff else 0.0  
     estFracErr = math.sqrt(pow(estFracErr1, 2) + pow(estFracErr2, 2)) 
     estErr = estFracErr * est
@@ -166,6 +167,24 @@ print "N_est = ", est, " +- ", estErr
 
 print "N_back = ", back, " +- ", backError  
 
+
+print "**************************************************"
+print "**************************************************"
+print "**************************************************"
+print "Check lepton veto probability in tag and probe sample."  
+sampleTNP = "DYJetsToLL_50"
+condor_dirTNP = "electronTagProbe"
+print "Condor directory: ", condor_dirTNP
+print "sample = ", sampleTNP
+
+(nProbe, nProbeErr) = getYield(sampleTNP, condor_dirTNP, "ZtoEleProbeTrkWithZCutsCutFlowPlotter")
+(nPass,  nPassErr)  = getYield(sampleTNP, condor_dirTNP, "ZtoEleDisTrkCutFlowPlotter")
+
+PPassLepVetoTNP = nPass / nProbe
+PPassLepVetoTNPErr = PPassLepVetoTNP * (nPassErr / nPass)  # Error on efficiency is dominated by the error on the numerator
+
+print "P(pass electron veto) from single lepton sample = ", PPassLepVeto, " +- ", PPassLepVetoErr  
+print "P(pass electron veto) from tag and probe sample = ", PPassLepVetoTNP, " +- ", PPassLepVetoTNPErr  
 
 print "Done."
 
