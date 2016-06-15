@@ -26,13 +26,25 @@ datasetsSig = [
     'AMSB_chargino_100GeV_100cm',
     'AMSB_chargino_100GeV_1000cm',
 
+    'AMSB_chargino_200GeV_10cm',
+    'AMSB_chargino_200GeV_100cm',
+    'AMSB_chargino_200GeV_1000cm',
+
     'AMSB_chargino_300GeV_10cm',
     'AMSB_chargino_300GeV_100cm',
     'AMSB_chargino_300GeV_1000cm',
 
+    'AMSB_chargino_400GeV_10cm',
+    'AMSB_chargino_400GeV_100cm',
+    'AMSB_chargino_400GeV_1000cm',
+
     'AMSB_chargino_500GeV_10cm',
     'AMSB_chargino_500GeV_100cm',
     'AMSB_chargino_500GeV_1000cm',
+
+    'AMSB_chargino_600GeV_10cm',
+    'AMSB_chargino_600GeV_100cm',
+    'AMSB_chargino_600GeV_1000cm',
 
     'AMSB_chargino_700GeV_10cm',
     'AMSB_chargino_700GeV_100cm',
