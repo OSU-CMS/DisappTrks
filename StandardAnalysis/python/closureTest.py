@@ -231,6 +231,7 @@ class LeptonBkgdClosureTest:
 
     def plotTriggerEfficiency (self, passesHist, totalHist):
         if self._fout and self._canvas:
+            self.makePassesConsistentWithTotal (passesHist, totalHist)
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
 
             pt = TPaveText(0.190955,0.806995,0.658292,0.88601,"brNDC")
@@ -300,6 +301,12 @@ class LeptonBkgdClosureTest:
                 print "A TFile and TCanvas must be added. Not making plots..."
         else:
             print "CandTrkIdPt35 not defined. Not plotting MET for N_back..."
+
+    def makePassesConsistentWithTotal (self, passes, total):
+        for i in range (0, passes.GetNbinsX () + 1):
+            if passes.GetBinContent (i) > total.GetBinContent (i):
+                passes.SetBinContent (i, total.GetBinContent (i))
+                passes.SetBinError (i, total.GetBinError (i))
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =                      self.printNctrl             ()
