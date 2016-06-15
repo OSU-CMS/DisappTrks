@@ -235,6 +235,11 @@ cutTrkElecVeto = cms.PSet(
     cutString = cms.string("deltaRToClosestElectron > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkTightElecVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTightElectron > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkVetoElecVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestVetoElectron > 0.15"),

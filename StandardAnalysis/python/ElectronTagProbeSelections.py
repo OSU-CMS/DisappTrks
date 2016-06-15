@@ -25,16 +25,13 @@ addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 ##################################################
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
-addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
-cutsToAdd = [ 
-    cutTrkPt35, 
-    cutTrkMatchRecoElec, 
-]
-addCuts(ElectronTagPt35.cuts, cutsToAdd)  
-cutsToRemove = [
-    cutElectronPt25, 
-    ]
-removeCuts(ElectronTagPt35.cuts, cutsToRemove)  
+addSingleCut(ElectronTagPt35.cuts,  cutElectronPt35, cutElectronPt25)
+removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])  
+addCuts     (ElectronTagPt35.cuts, [cutTrkPt35])
+addCuts     (ElectronTagPt35.cuts,  candTrkCuts)
+removeCuts  (ElectronTagPt35.cuts, [cutTrkPt]) 
+removeCuts  (ElectronTagPt35.cuts, [cutTrkElecVeto])  
+addCuts     (ElectronTagPt35.cuts, [cutTrkMatchRecoElec])
 
 ElectronTagPt35NoTrig = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt35NoTrig.name = cms.string("ElectronTagPt35NoTrig")
@@ -62,7 +59,8 @@ eleTrkCuts = [
     cutEleTrkInvMass10,
 ]
 addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
-addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt35])  
+# addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])  # original 
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
 cutsToRemove = [
@@ -72,13 +70,11 @@ removeCuts(ZtoEleIsoTrk.cuts, cutsToRemove)
 
 ZtoEleProbeTrk = copy.deepcopy(ZtoEleIsoTrk)
 ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
+# Add cuts in reverse order
+addSingleCut(ZtoEleProbeTrk.cuts, cutTrkTauHadVeto, cutTrkJetDeltaPhi) 
+addSingleCut(ZtoEleProbeTrk.cuts, cutTrkMuonVeto,   cutTrkJetDeltaPhi) 
+# addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])  #FIXME:  Is this needed?  
 
-cutsToAdd = [
-    cutTrkMuonVeto,
-    cutTrkTauHadVeto,
-]
-addCuts(ZtoEleProbeTrk.cuts, cutsToAdd)
-addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])
 
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ZtoEleProbeTrk)
 ZtoEleProbeTrkWithZCuts.name = cms.string("ZtoEleProbeTrkWithZCuts")
@@ -90,14 +86,7 @@ addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
-cutsToAdd = [
-    cutTrkElecVeto,
-]
-addCuts(ZtoEleDisTrk.cuts, cutsToAdd)
+# Add cuts in reverse order
+addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutTrkTauHadVeto) 
+addSingleCut(ZtoEleDisTrk.cuts, cutTrkElecVeto, cutTrkTauHadVeto)
 
-ZtoEleDisTrkWithECaloCut = copy.deepcopy(ZtoEleDisTrk)
-ZtoEleDisTrkWithECaloCut.name = cms.string("ZtoEleDisTrkWithECaloCut")
-cutsToAdd = [
-    cutTrkEcalo,
-]
-addCuts(ZtoEleDisTrkWithECaloCut.cuts, cutsToAdd)
