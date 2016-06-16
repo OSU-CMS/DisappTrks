@@ -233,6 +233,7 @@ class LeptonBkgdClosureTest:
         if self._fout and self._canvas:
             self.makePassesConsistentWithTotal (passesHist, totalHist)
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
+            metGraph.SetEditable (0)
 
             pt = TPaveText(0.190955,0.806995,0.658292,0.88601,"brNDC")
             pt.SetBorderSize(0)
@@ -258,11 +259,14 @@ class LeptonBkgdClosureTest:
             nError = getattr (self, "CandTrkIdPt35")["yieldError"]
             if not (n == 0.0):
                 print "N_back: " + str (n) + " +- " + str (nError)
+                return (n, nError)
             else:
                 nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * getattr (self, "CandTrkIdPt35")["weight"]
                 print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                return (n, nUpperLimit)
         else:
             print "CandTrkIdPt35 not defined. Not printing N_back..."
+            return (float ("nan"), float ("nan"))
 
     def plotMetForNback (self):
         if hasattr (self, "CandTrkIdPt35"):
@@ -356,4 +360,3 @@ class LeptonBkgdClosureTest:
             self._canvas.Write ("metMinusOneForNest")
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
-

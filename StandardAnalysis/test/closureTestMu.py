@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import math
 from DisappTrks.StandardAnalysis.closureTest import LeptonBkgdClosureTest
 from ROOT import TCanvas, TFile
 
@@ -26,21 +27,22 @@ muonBkgdClosureTest = LeptonBkgdClosureTest ("muon")
 muonBkgdClosureTest.addTFile (fout)
 muonBkgdClosureTest.addTCanvas (canvas)
 muonBkgdClosureTest.addMetCut (100.0)
-muonBkgdClosureTest.addChannel  ("TagPt35",             "MuonTagPt35",         "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-#muonBkgdClosureTest.addChannel  ("TagPt35NoTrig",       "MuonTagPt35NoTrig",   "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-muonBkgdClosureTest.addChannel  ("TagPt35MetTrig",      "MuonTagPt35MetTrig",  "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-#muonBkgdClosureTest.addChannel  ("TagPt35MetCut",       "MuonTagPt35MetCut",   "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-muonBkgdClosureTest.addChannel  ("CandTrkIdPt35",       "CandTrkIdMuPt35",       "WJetsToLNu_HT",  "withFiducialCuts/muonBkgdClosureTest_LHS")
-muonBkgdClosureTest.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdMuPt35NoMet",  "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest_LHS")
+muonBkgdClosureTest.addChannel  ("TagPt35",             "MuonTagPt35",         "TTJets",  "withFiducialCuts/muonBkgdClosureTest")
+#muonBkgdClosureTest.addChannel  ("TagPt35NoTrig",       "MuonTagPt35NoTrig",   "TTJets",  "withFiducialCuts/muonBkgdClosureTest")
+muonBkgdClosureTest.addChannel  ("TagPt35MetTrig",      "MuonTagPt35MetTrig",  "TTJets",  "withFiducialCuts/muonBkgdClosureTest")
+#muonBkgdClosureTest.addChannel  ("TagPt35MetCut",       "MuonTagPt35MetCut",   "TTJets",  "withFiducialCuts/muonBkgdClosureTest")
+muonBkgdClosureTest.addChannel  ("CandTrkIdPt35",       "CandTrkIdMuPt35",       "TTJets",  "withFiducialCuts/muonBkgdClosureTest_LHS")
+muonBkgdClosureTest.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdMuPt35NoMet",  "TTJets",  "withFiducialCuts/muonBkgdClosureTest_LHS_LHS")
 muonBkgdClosureTest.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
 
-muonBkgdClosureTest.printNest ()
+(nEst, nEstError) = muonBkgdClosureTest.printNest ()
 
 print "--------------------------------------------------------------------------------"
 
-muonBkgdClosureTest.printNback ()
+(nBack, nBackError) = muonBkgdClosureTest.printNback ()
+print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
 
 print "********************************************************************************"
 
