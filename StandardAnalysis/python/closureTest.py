@@ -374,3 +374,20 @@ class LeptonBkgdClosureTest:
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
 
+    def printLepVetoEffTagProbe (self): 
+        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):         
+            total       = getattr (self, "TagProbe")["yield"]
+            totalError  = getattr (self, "TagProbe")["yieldError"]
+            passes      = getattr (self, "TagProbePass")["yield"]
+            passesError = getattr (self, "TagProbePass")["yieldError"]
+            
+            eff = passes / total
+            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
+            return (eff, effError)
+        else:
+            print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
+            return (float ("nan"), float ("nan"))
+
+
+
