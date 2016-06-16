@@ -21,6 +21,23 @@ def setStyle(h):
     h.SetMarkerSize(1.0)
     h.SetTitle("")
 
+def setCanvasStyle(canvas):
+    canvas.SetHighLightColor(2)
+    canvas.SetFillColor(0)
+    canvas.SetBorderMode(0)
+    canvas.SetBorderSize(2)
+    canvas.SetTickx(1)
+    canvas.SetTicky(1)
+    canvas.SetLeftMargin(0.128141)
+    canvas.SetRightMargin(0.0414573)
+    canvas.SetBottomMargin(0.0971503)
+    canvas.SetTopMargin(0.0712435)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+
+
 def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     h.GetXaxis().SetLabelOffset(0.005)
     h.GetXaxis().SetLabelSize(0.04)
@@ -360,3 +377,18 @@ class LeptonBkgdClosureTest:
             self._canvas.Write ("metMinusOneForNest")
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
+
+    def printLepVetoEffTagProbe (self):
+        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
+            total       = getattr (self, "TagProbe")["yield"]
+            totalError  = getattr (self, "TagProbe")["yieldError"]
+            passes      = getattr (self, "TagProbePass")["yield"]
+            passesError = getattr (self, "TagProbePass")["yieldError"]
+
+            eff = passes / total
+            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
+            return (eff, effError)
+        else:
+            print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
+            return (float ("nan"), float ("nan"))
