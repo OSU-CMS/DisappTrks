@@ -21,6 +21,23 @@ def setStyle(h):
     h.SetMarkerSize(1.0)
     h.SetTitle("")
 
+def setCanvasStyle(canvas):
+    canvas.SetHighLightColor(2)
+    canvas.SetFillColor(0)
+    canvas.SetBorderMode(0)
+    canvas.SetBorderSize(2)
+    canvas.SetTickx(1)
+    canvas.SetTicky(1)
+    canvas.SetLeftMargin(0.128141)
+    canvas.SetRightMargin(0.0414573)
+    canvas.SetBottomMargin(0.0971503)
+    canvas.SetTopMargin(0.0712435)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+
+
 def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     h.GetXaxis().SetLabelOffset(0.005)
     h.GetXaxis().SetLabelSize(0.04)
