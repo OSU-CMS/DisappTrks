@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 
 from DisappTrks.StandardAnalysis.closureTest import LeptonBkgdClosureTest
+from DisappTrks.StandardAnalysis.getUser import * 
 from ROOT import TCanvas, TFile
+import os 
+
+
+dirs = getUser() 
 
 print "********************************************************************************"
 
@@ -26,12 +31,12 @@ muonBkgdClosureTest = LeptonBkgdClosureTest ("muon")
 muonBkgdClosureTest.addTFile (fout)
 muonBkgdClosureTest.addTCanvas (canvas)
 muonBkgdClosureTest.addMetCut (100.0)
-muonBkgdClosureTest.addChannel  ("TagPt35",             "MuonTagPt35",         "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-#muonBkgdClosureTest.addChannel  ("TagPt35NoTrig",       "MuonTagPt35NoTrig",   "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-muonBkgdClosureTest.addChannel  ("TagPt35MetTrig",      "MuonTagPt35MetTrig",  "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-#muonBkgdClosureTest.addChannel  ("TagPt35MetCut",       "MuonTagPt35MetCut",   "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest")
-muonBkgdClosureTest.addChannel  ("CandTrkIdPt35",       "CandTrkIdMuPt35",       "WJetsToLNu_HT",  "withFiducialCuts/muonBkgdClosureTest_LHS")
-muonBkgdClosureTest.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdMuPt35NoMet",  "WJetsToLNu",  "withFiducialCuts/muonBkgdClosureTest_LHS")
+muonBkgdClosureTest.addChannel  ("TagPt35",             "MuonTagPt35",           "WJetsToLNu",    dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest")
+#muonBkgdClosureTest.addChannel  ("TagPt35NoTrig",       "MuonTagPt35NoTrig",     "WJetsToLNu",    dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest")
+muonBkgdClosureTest.addChannel  ("TagPt35MetTrig",      "MuonTagPt35MetTrig",    "WJetsToLNu",    dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest")
+#muonBkgdClosureTest.addChannel  ("TagPt35MetCut",       "MuonTagPt35MetCut",     "WJetsToLNu",    dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest")
+muonBkgdClosureTest.addChannel  ("CandTrkIdPt35",       "CandTrkIdMuPt35",       "WJetsToLNu_HT", dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest_LHS")
+muonBkgdClosureTest.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdMuPt35NoMet",  "WJetsToLNu",    dirs['Andrew']+"withFiducialCuts/muonBkgdClosureTest_LHS")
 muonBkgdClosureTest.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
