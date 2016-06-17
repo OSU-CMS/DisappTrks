@@ -41,6 +41,8 @@ process.source = cms.Source ("PoolSource",
         # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root",
         # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
+        # "file:condor/metMinimalSkim_76X/WJetsToLNu/metMinimalSkim/skim_1.root",
+        # "file:condor/electronTagSkim/WJetsToLNu/ElectronTagSkim/skim_0.root",
     ),
 )
 
@@ -223,6 +225,13 @@ ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     candTrkIdElecPt35NoMet,
 ]
 
+ElecTagProbeChannels = [ # run over ZtoEleProbeTrkWithZCuts skim
+    ZtoEleCandTrk, 
+    ZtoEleDisTrk, 
+    ZtoEleCandTrkSdbandEcalo, 
+    ZtoEleCandTrkSdbandNMissOut, 
+] 
+
 MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     MuonTagPt35,
     MuonTagPt35NoTrig,
@@ -270,6 +279,9 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoEleProbeTrk],                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrk],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels(process,     ElecTagProbeChannels,                            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels(process,    [ElectronTagPt35, ElectronTagPt35MetTrig],        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+
 
 
 ## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
@@ -284,6 +296,8 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels  (process,  [ElectronTagPt35],        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels  (process,  [ElectronTagPt35MetTrig], histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
 
 
