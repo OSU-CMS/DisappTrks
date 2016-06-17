@@ -34,6 +34,10 @@ triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WP75_Gsf_v",    # available in the bkgd MC
 )
 
+triggersSingleTau = cms.vstring(
+    "HLT_LooseIsoPFTau50_Trk30_eta2p1_v", # prescaled in data
+)
+
 ##########################
 ##### List of cuts   #####
 ##########################
@@ -307,12 +311,12 @@ cutTrkNMissOutInv = cms.PSet(
 )
 cutTrkMatchGenNone = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) == 0"),
+    cutString = cms.string("genMatchedParticle.promptFinalState.isNnull"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchedGen = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs ( genMatchedParticle.promptFinalState.isNonnull ) != 0"),
+    cutString = cms.string("genMatchedParticle.promptFinalState.isNonnull"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenElec = cms.PSet(
@@ -323,6 +327,11 @@ cutTrkMatchGenElec = cms.PSet(
 cutTrkMatchGenMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs ( genMatchedParticle.promptFinalState.pdgId ) == 13"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkMatchGenTau = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull || genMatchedParticle.directHardProcessTauDecayProductFinalState.isNonnull"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenPhoton = cms.PSet(
@@ -626,4 +635,50 @@ cutElectronMetMinusOne = cms.PSet (
     numberRequired = cms.string(">= 1"),
 )
 
-
+##################################################
+## taus
+##################################################
+cutTauPt50 = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTauEta21 = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTauTightID = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("passesDecayModeReconstruction && passesLightFlavorRejection"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTauTightPFIso = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("passesTightCombinedIsolation"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTauArbitration = cms.PSet(
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 1"),
+    arbitration = cms.string("random"),
+    alias = cms.string("pick random tau"),
+)
+cutTrkTauDR0p1 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "taus"),
+    cutString = cms.string("deltaR (track, tau) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkMatchRecoTau = cms.PSet(
+    inputCollection = cms.vstring("tracks", "taus"),
+    cutString = cms.string("tau.pt > -1"),
+    numberRequired = cms.string(">= 1"),
+    arbitration = cms.string("-deltaR ( track, tau)"),
+    alias = cms.string("match track to tau"),
+)
+cutTauMetMinusOne = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("metNoMuMinusOnePt > 100"),
+    numberRequired = cms.string(">= 1"),
+)
