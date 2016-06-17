@@ -86,10 +86,10 @@ class LeptonBkgdClosureTest:
 
     def printSingleLeptonTriggerEff (self):
         if hasattr (self, "TagPt35") and hasattr (self, "TagPt35NoTrig"):
-            total = getattr (self, "TagPt35NoTrig")["yield"]
-            totalError = getattr (self, "TagPt35NoTrig")["yieldError"]
-            passes = getattr (self, "TagPt35")["yield"]
-            passesError = getattr (self, "TagPt35")["yieldError"]
+            total = self.TagPt35NoTrig["yield"]
+            totalError = self.TagPt35NoTrig["yieldError"]
+            passes = self.TagPt35["yield"]
+            passesError = self.TagPt35["yieldError"]
 
             eff = passes / total
             effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
@@ -102,8 +102,8 @@ class LeptonBkgdClosureTest:
     def printNctrl (self):
         metMinusOne = self.plotMetForNctrl ()
         if hasattr (self, "TagPt35"):
-            n = getattr (self, "TagPt35")["yield"]
-            nError = getattr (self, "TagPt35")["yieldError"]
+            n = self.TagPt35["yield"]
+            nError = self.TagPt35["yieldError"]
             print "N_ctrl: " + str (n) + " +- " + str (nError)
             return (n, nError, metMinusOne)
         else:
@@ -113,9 +113,9 @@ class LeptonBkgdClosureTest:
     def plotMetForNctrl (self):
         if hasattr (self, "TagPt35"):
             if self._fout and self._canvas:
-                sample = getattr (self, "TagPt35")["sample"]
-                condorDir = getattr (self, "TagPt35")["condorDir"]
-                name = getattr (self, "TagPt35")["name"]
+                sample = self.TagPt35["sample"]
+                condorDir = self.TagPt35["condorDir"]
+                name = self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
@@ -154,10 +154,10 @@ class LeptonBkgdClosureTest:
 
     def printPpassVeto (self):
         if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
-            total = getattr (self, "TagPt35")["yield"]
-            totalError = getattr (self, "TagPt35")["yieldError"]
-            passes = getattr (self, "CandTrkIdPt35NoMet")["yield"]
-            passesError = getattr (self, "CandTrkIdPt35NoMet")["yieldError"]
+            total = self.TagPt35["yield"]
+            totalError = self.TagPt35["yieldError"]
+            passes = self.CandTrkIdPt35NoMet["yield"]
+            passesError = self.CandTrkIdPt35NoMet["yieldError"]
 
             eff = passes / total
             effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
@@ -169,18 +169,18 @@ class LeptonBkgdClosureTest:
 
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
-            total = getattr (self, "TagPt35")["yield"]
-            totalError = getattr (self, "TagPt35")["yieldError"]
+            total = self.TagPt35["yield"]
+            totalError = self.TagPt35["yieldError"]
             passes = 0.0
             passesError = 0.0
 
             if hasattr (self, "TagPt35MetCut"):
-                passes = getattr (self, "TagPt35MetCut")["yield"]
-                passesError = getattr (self, "TagPt35MetCut")["yieldError"]
+                passes = self.TagPt35MetCut["yield"]
+                passesError = self.TagPt35MetCut["yieldError"]
             else:
-                sample = getattr (self, "TagPt35")["sample"]
-                condorDir = getattr (self, "TagPt35")["condorDir"]
-                name = getattr (self, "TagPt35")["name"]
+                sample = self.TagPt35["sample"]
+                condorDir = self.TagPt35["condorDir"]
+                name = self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -197,23 +197,23 @@ class LeptonBkgdClosureTest:
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and hasattr (self, "TagPt35MetTrig"):
-            sample = getattr (self, "TagPt35")["sample"]
-            condorDir = getattr (self, "TagPt35")["condorDir"]
-            name = getattr (self, "TagPt35")["name"]
+            sample = self.TagPt35["sample"]
+            condorDir = self.TagPt35["condorDir"]
+            name = self.TagPt35["name"]
             hist = "Met Plots/metNoMu"
             totalHist = getHist (sample, condorDir, name + "Plotter", hist)
 
-            sample = getattr (self, "TagPt35MetTrig")["sample"]
-            condorDir = getattr (self, "TagPt35MetTrig")["condorDir"]
-            name = getattr (self, "TagPt35MetTrig")["name"]
+            sample = self.TagPt35MetTrig["sample"]
+            condorDir = self.TagPt35MetTrig["condorDir"]
+            name = self.TagPt35MetTrig["name"]
             hist = "Met Plots/metNoMu"
             passesHist = getHist (sample, condorDir, name + "Plotter", hist)
 
             self.plotTriggerEfficiency (passesHist, totalHist)
 
-            sample = getattr (self, "TagPt35")["sample"]
-            condorDir = getattr (self, "TagPt35")["condorDir"]
-            name = getattr (self, "TagPt35")["name"]
+            sample = self.TagPt35["sample"]
+            condorDir = self.TagPt35["condorDir"]
+            name = self.TagPt35["name"]
             hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
             metHist = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -226,12 +226,12 @@ class LeptonBkgdClosureTest:
             passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX (), passesError)
 
             if hasattr (self, "TagPt35MetCut"):
-                total = getattr (self, "TagPt35MetCut")["yield"]
-                totalError = getattr (self, "TagPt35MetCut")["yieldError"]
+                total = self.TagPt35MetCut["yield"]
+                totalError = self.TagPt35MetCut["yieldError"]
             else:
-                sample = getattr (self, "TagPt35")["sample"]
-                condorDir = getattr (self, "TagPt35")["condorDir"]
-                name = getattr (self, "TagPt35")["name"]
+                sample = self.TagPt35["sample"]
+                condorDir = self.TagPt35["condorDir"]
+                name = self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -250,6 +250,7 @@ class LeptonBkgdClosureTest:
         if self._fout and self._canvas:
             self.makePassesConsistentWithTotal (passesHist, totalHist)
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
+            metGraph.SetEditable (0)
 
             pt = TPaveText(0.190955,0.806995,0.658292,0.88601,"brNDC")
             pt.SetBorderSize(0)
@@ -271,22 +272,25 @@ class LeptonBkgdClosureTest:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            n = getattr (self, "CandTrkIdPt35")["yield"]
-            nError = getattr (self, "CandTrkIdPt35")["yieldError"]
+            n = self.CandTrkIdPt35["yield"]
+            nError = self.CandTrkIdPt35["yieldError"]
             if not (n == 0.0):
                 print "N_back: " + str (n) + " +- " + str (nError)
+                return (n, nError)
             else:
-                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * getattr (self, "CandTrkIdPt35")["weight"]
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * self.CandTrkIdPt35["weight"]
                 print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                return (n, nUpperLimit)
         else:
             print "CandTrkIdPt35 not defined. Not printing N_back..."
+            return (float ("nan"), float ("nan"))
 
     def plotMetForNback (self):
         if hasattr (self, "CandTrkIdPt35"):
             if self._fout and self._canvas:
-                sample = getattr (self, "CandTrkIdPt35")["sample"]
-                condorDir = getattr (self, "CandTrkIdPt35")["condorDir"]
-                name = getattr (self, "CandTrkIdPt35")["name"]
+                sample = self.CandTrkIdPt35["sample"]
+                condorDir = self.CandTrkIdPt35["condorDir"]
+                name = self.CandTrkIdPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
@@ -376,10 +380,10 @@ class LeptonBkgdClosureTest:
 
     def printLepVetoEffTagProbe (self): 
         if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):         
-            total       = getattr (self, "TagProbe")["yield"]
-            totalError  = getattr (self, "TagProbe")["yieldError"]
-            passes      = getattr (self, "TagProbePass")["yield"]
-            passesError = getattr (self, "TagProbePass")["yieldError"]
+            total       = self.TagProbe["yield"]
+            totalError  = self.TagProbe["yieldError"]
+            passes      = self.TagProbePass["yield"]
+            passesError = self.TagProbePass["yieldError"]
             
             eff = 0.5 * passes / total  
             # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
@@ -398,6 +402,3 @@ class LeptonBkgdClosureTest:
         else:
             print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
             return (float ("nan"), float ("nan"))
-
-
-
