@@ -167,6 +167,38 @@ class LeptonBkgdClosureTest:
             print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
             return (float ("nan"), float ("nan"))
 
+    def printPpassVetoSystErr (self):
+        if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
+            hTotal  = getHist (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", "Track Plots/trackPt")
+            hPasses = getHist (self.CandTrkIdPt35NoMet["sample"], self.CandTrkIdPt35NoMet["condorDir"], self.CandTrkIdPt35NoMet["name"] + "Plotter", "Track Plots/trackPt")
+
+            ptCut = 50.0  
+
+            totalError  = Double(0.0)
+            passesError = Double(0.0)
+            total  =  hTotal.IntegralAndError (0,  hTotal.FindBin(ptCut),  totalError)
+            passes = hPasses.IntegralAndError (0, hPasses.FindBin(ptCut), passesError)
+            effLo = passes / total
+            effLoError = effLo * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
+            print "P_lo (pass lepton veto) for pT < 50 GeV:    " + str (effLo) + " +- " + str (effLoError)
+
+            total  =  hTotal.IntegralAndError ( hTotal.FindBin(ptCut),  hTotal.GetNbinsX() + 1,  totalError) 
+            passes = hPasses.IntegralAndError (hPasses.FindBin(ptCut), hPasses.GetNbinsX() + 1, passesError) 
+            effHi = passes / total
+            effHiError = effHi * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
+            print "P_hi (pass lepton veto) for pT > 50 GeV:    " + str (effHi) + " +- " + str (effHiError)  
+
+            total  =  hTotal.IntegralAndError (0,  hTotal.GetNbinsX() + 1,  totalError) 
+            passes = hPasses.IntegralAndError (0, hPasses.GetNbinsX() + 1, passesError) 
+            effAll = passes / total
+            effAllError = effAll * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
+            print "P_all (pass lepton veto) for all pT:        " + str (effAll) + " +- " + str (effAllError)  
+
+            systErr = (effHi - effAll) / effAll
+            print "The systematic difference in lepton veto efficiency with and without the pT > 50 GeV cut is (P_hi - P_all) / P_all = ", systErr  
+        else:
+            print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
+
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
             total = self.TagPt35["yield"]
@@ -412,7 +444,7 @@ class LeptonBkgdClosureTest:
         (nTP, nTPError)     = self.printPpassVetoTagProbe ()
         (nBase, nBaseError) = self.printPpassVeto ()
         print "|P_tp - P_base| = " + str (abs (nTP - nBase) / math.hypot (nTPError, nBaseError)) + " sigma"
-        
+        self.printPpassVetoSystErr()      
 
         print "********************************************************************************"
 
