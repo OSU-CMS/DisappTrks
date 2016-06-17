@@ -161,7 +161,7 @@ class LeptonBkgdClosureTest:
 
             eff = passes / total
             effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-            print "P (pass lepton veto): " + str (eff) + " +- " + str (effError)
+            print "P (pass lepton veto) in baseline sample: " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
             print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
@@ -330,10 +330,11 @@ class LeptonBkgdClosureTest:
                 passes.SetBinError (i, total.GetBinError (i))
 
     def printNest (self):
-        nCtrl,             nCtrlError,             metMinusOne        =                      self.printNctrl             ()
-        pPassVeto,         pPassVetoError                             =                      self.printPpassVeto         ()
-        pPassMetCut,       pPassMetCutError                           =                      self.printPpassMetCut       ()
-        pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =                      self.printPpassMetTriggers  ()
+        nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
+#        pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
+        pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
+        pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
+        pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
@@ -378,7 +379,7 @@ class LeptonBkgdClosureTest:
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
 
-    def printLepVetoEffTagProbe (self): 
+    def printPpassVetoTagProbe (self): 
         if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):         
             total       = self.TagProbe["yield"]
             totalError  = self.TagProbe["yieldError"]
@@ -396,9 +397,32 @@ class LeptonBkgdClosureTest:
             # so the number of events passing the tag-probe-pass selection is: passes = 200  
 
             # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-            effError = eff * math.sqrt (pow(passesError/passes, 2) + pow(totalError/total, 2)) if passes else 0 # sum relative errors in quadrature  
+            effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature  
             print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
             print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
             return (float ("nan"), float ("nan"))
+
+    def printStdResults (self):
+
+        print "********************************************************************************"
+        print "Compare lepton veto efficiency in tag and probe sample and in baseline sample (latter requires MC truth)." 
+        
+        (nTP, nTPError)     = self.printPpassVetoTagProbe ()
+        (nBase, nBaseError) = self.printPpassVeto ()
+        print "|P_tp - P_base| = " + str (abs (nTP - nBase) / math.hypot (nTPError, nBaseError)) + " sigma"
+        
+
+        print "********************************************************************************"
+
+        (nEst, nEstError) = self.printNest ()
+        
+        print "--------------------------------------------------------------------------------"
+        
+        (nBack, nBackError) = self.printNback ()
+        print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
+        
+        print "********************************************************************************"
+
+
