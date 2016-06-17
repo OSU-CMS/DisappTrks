@@ -5,6 +5,63 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *  # Get the composite cut definitions
 
 ################################################################################
+## Tau tag skim
+################################################################################
+TauTagSkim = cms.PSet(
+    name = cms.string("TauTagSkim"),
+    triggers = triggersSingleTau,
+    cuts = cms.VPSet (),
+)
+# See SMP-12-023 for example of W->mu nu selection
+tagTauCuts = [
+    cutTauPt50,
+    cutTauEta21,
+    cutTauTightID,
+    cutTauTightPFIso,
+]
+addCuts(TauTagSkim.cuts, tagTauCuts)
+
+##################################################
+## Cannot go lower than 50 GeV because of trigger
+##################################################
+TauTagPt50 = copy.deepcopy(TauTagSkim)
+TauTagPt50.name = cms.string("TauTagPt50")
+cutsToAdd = [ 
+    cutTauArbitration,
+    cutTrkPt,
+    cutTrkTauDR0p1,
+    cutTrkMatchRecoTau,
+    cutTrkEta,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+]
+addCuts(TauTagPt50.cuts, cutsToAdd)
+
+TauTagPt50NoTrig = copy.deepcopy(TauTagPt50)
+TauTagPt50NoTrig.name = cms.string("TauTagPt50NoTrig")
+TauTagPt50NoTrig.triggers = cms.vstring() 
+
+TauTagPt50MetTrig = copy.deepcopy(TauTagPt50)
+TauTagPt50MetTrig.name = cms.string("TauTagPt50MetTrig")
+TauTagPt50MetTrig.triggers = triggersMet 
+
+TauTagPt50MetCut = copy.deepcopy(TauTagPt50)
+TauTagPt50MetCut.name = cms.string("TauTagPt50MetCut")
+cutsToAdd = [ 
+    cutTauMetMinusOne, 
+]
+addCuts(TauTagPt50MetCut.cuts, cutsToAdd)  
+
+################################################################################
 ## Tau tag and probe sample
 ################################################################################
 ZtoTauIsoTrk = copy.deepcopy(MuonTagSkim)

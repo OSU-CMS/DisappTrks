@@ -201,6 +201,36 @@ removeCuts(candTrkIdMuPt35NoMet.cuts, cutsToRemove)
 
 ##########################################################################
 
+# Use this selection for the tau background estimate.
+candTrkIdTauPt50 = copy.deepcopy(candTrkSelection)
+candTrkIdTauPt50.name = cms.string("CandTrkIdTauPt50")
+cutsToAdd = [
+    cutTrkEcalo, 
+    cutTrkMatchGenTau,
+    ]
+addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
+cutsToRemove = [
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutJetMetPhi,    
+    ]
+removeCuts(candTrkIdTauPt50.cuts, cutsToRemove)
+
+
+# Use this selection for the electron background estimate. 
+candTrkIdTauPt50NoMet = copy.deepcopy(candTrkIdTauPt50)
+candTrkIdTauPt50NoMet.name = cms.string("CandTrkIdTauPt50NoMet")
+candTrkIdTauPt50NoMet.triggers = cms.vstring() 
+cutsToRemove = [
+    cutMet,
+    ]
+removeCuts(candTrkIdTauPt50NoMet.cuts, cutsToRemove)
+
+##########################################################################
+
 # Use this selection for the electron background estimate.
 disTrkSelectionIdElec = copy.deepcopy(disTrkSelection)
 disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec")

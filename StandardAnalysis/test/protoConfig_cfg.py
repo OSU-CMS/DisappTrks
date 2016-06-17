@@ -215,7 +215,7 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
-ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+ElecBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     ElectronTagPt35,
     ElectronTagPt35NoTrig,
     ElectronTagPt35MetTrig,
@@ -223,13 +223,22 @@ ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     candTrkIdElecPt35NoMet,
 ]
 
-MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     MuonTagPt35,
     MuonTagPt35NoTrig,
     MuonTagPt35MetCut,
     MuonTagPt35MetTrig,
     candTrkIdMuPt35,
     candTrkIdMuPt35NoMet,
+]
+
+TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
+    TauTagPt50,
+    TauTagPt50NoTrig,
+    TauTagPt50MetCut,
+    TauTagPt50MetTrig,
+    candTrkIdTauPt50,
+    candTrkIdTauPt50NoMet,
 ]
 
 
@@ -283,8 +292,9 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 ## CHANNELS FOR TESTING
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  ElecBkgdClosureTest,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  TauBkgdClosureTest,   histSets,          weights,  [],  collectionMap,  variableProducers,  False)
 
 
 ## OTHER CHANNELS
