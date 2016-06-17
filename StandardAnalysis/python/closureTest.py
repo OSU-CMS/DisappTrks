@@ -381,8 +381,18 @@ class LeptonBkgdClosureTest:
             passes      = getattr (self, "TagProbePass")["yield"]
             passesError = getattr (self, "TagProbePass")["yieldError"]
             
-            eff = passes / total
-            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            eff = 0.5 * passes / total  
+            # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
+            # Consider a sample of 1 million simulated Z->ee events.  
+            # The efficiency of the TagProbe selection is close to 100%, so total = 1 million.
+            # Assume that eff = 1e-4.
+            # Then we expect there to be 
+            # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks 
+            # from unrecontstructed electrons from a Z->ee decay.  
+            # so the number of events passing the tag-probe-pass selection is: passes = 200  
+
+            # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            effError = eff * math.sqrt (pow(passesError/passes, 2) + pow(totalError/total, 2)) if passes else 0 # sum relative errors in quadrature  
             print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
