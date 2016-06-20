@@ -140,7 +140,6 @@ histSets = cms.VPSet (
     TrackBeamspotHistograms,
     TrackEventVarHistograms,
     TrackExtraHistograms,
-    TrackDebugEcaloHistograms,
     MetHistograms,
     MetExtraHistograms,
     JetHistograms,
