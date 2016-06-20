@@ -258,10 +258,11 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 
 ## MANDATORY CHANNELS FOR MET DATASET
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!
-#  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
+#  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use isoTrkSelection skim as input
+#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  # use isoTrkSelection skim as input
+#  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
+
 
 ## MANDATORY CHANNELS FOR SINGLEMUON DATASET
 #  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -285,12 +286,10 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET  
-#  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrk],                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrk],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels(process,     ElecTagProbeChannels,                            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels(process,    [ElectronTagPt35, ElectronTagPt35MetTrig],        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # no input skim
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ElectronTagSkim skim as input
+#  add_channels  (process,   ElecTagProbeChannels,                            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ZtoEleProbeTrkWithZCuts skim as input 
+#  add_channels  (process,  [ElectronTagPt35, ElectronTagPt35MetTrig],        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False) # use ElectronTagSkim skim as input 
 
 
 
