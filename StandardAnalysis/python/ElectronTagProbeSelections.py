@@ -59,8 +59,7 @@ eleTrkCuts = [
     cutEleTrkInvMass10,
 ]
 addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
-addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt35])  
-# addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])  # original 
+addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30]) 
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
 cutsToRemove = [
@@ -73,7 +72,6 @@ ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
 # Add cuts in reverse order
 addSingleCut(ZtoEleProbeTrk.cuts, cutTrkTauHadVeto, cutTrkJetDeltaPhi) 
 addSingleCut(ZtoEleProbeTrk.cuts, cutTrkMuonVeto,   cutTrkJetDeltaPhi) 
-# addCuts(ZtoEleProbeTrk.cuts, [cutTrkArbitration])  #FIXME:  Is this needed?  
 
 
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ZtoEleProbeTrk)
@@ -84,9 +82,28 @@ cutsToAdd = [
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
+ZtoEleCandTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
+ZtoEleCandTrk.name = cms.string("ZtoEleCandTrk")
+addSingleCut(ZtoEleCandTrk.cuts, cutTrkElecVeto, cutTrkTauHadVeto)
+
+ZtoEleDisTrk = copy.deepcopy(ZtoEleCandTrk)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
-# Add cuts in reverse order
-addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutTrkTauHadVeto) 
-addSingleCut(ZtoEleDisTrk.cuts, cutTrkElecVeto, cutTrkTauHadVeto)
+addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutTrkElecVeto)
+addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutTrkElecVeto) 
+
+ZtoEleDisTrkNoNMissOut = copy.deepcopy(ZtoEleDisTrk) 
+ZtoEleDisTrkNoNMissOut.name = cms.string("ZtoEleDisTrkNoNMissOut") 
+removeCuts(ZtoEleDisTrkNoNMissOut.cuts, [cutTrkNMissOut])  
+
+ZtoEleCandTrkSdbandEcalo = copy.deepcopy(ZtoEleCandTrk) 
+ZtoEleCandTrkSdbandEcalo.name = cms.string("ZtoEleCandTrkSdbandEcalo")
+addSingleCut(ZtoEleCandTrkSdbandEcalo.cuts, cutTrkEcaloInv, cutTrkElecVeto)
+addSingleCut(ZtoEleCandTrkSdbandEcalo.cuts, cutTrkNMissOut, cutTrkElecVeto)
+
+ZtoEleCandTrkSdbandNMissOut = copy.deepcopy(ZtoEleCandTrk) 
+ZtoEleCandTrkSdbandNMissOut.name = cms.string("ZtoEleCandTrkSdbandNMissOut")
+addSingleCut(ZtoEleCandTrkSdbandNMissOut.cuts, cutTrkNMissOutInv, cutTrkElecVeto) 
+addSingleCut(ZtoEleCandTrkSdbandNMissOut.cuts, cutTrkEcalo,       cutTrkElecVeto) 
+
+
 

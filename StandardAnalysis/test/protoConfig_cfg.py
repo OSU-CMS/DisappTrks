@@ -227,7 +227,8 @@ ElecBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 
 ElecTagProbeChannels = [ # run over ZtoEleProbeTrkWithZCuts skim
     ZtoEleCandTrk, 
-    ZtoEleDisTrk, 
+    ZtoEleDisTrk,     
+    ZtoEleDisTrkNoNMissOut, 
     ZtoEleCandTrkSdbandEcalo, 
     ZtoEleCandTrkSdbandNMissOut, 
 ] 
