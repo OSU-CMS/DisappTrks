@@ -28,6 +28,10 @@ MuonTagPt35.name = cms.string("MuonTagPt35")
 addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt25)
 cutsToAdd = [ 
     cutMuonArbitration,
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
     cutTrkPt35,
     cutTrkMuDR0p1,
     cutTrkMatchRecoMu,
@@ -43,6 +47,7 @@ cutsToAdd = [
     cutTrkIso,
     cutTrkD0,
     cutTrkDZ,
+    cutTrkJetDeltaPhi,
 ]
 addCuts(MuonTagPt35.cuts, cutsToAdd)
 cutsToRemove = [
@@ -64,6 +69,38 @@ cutsToAdd = [
     cutMuonMetMinusOne, 
 ]
 addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)  
+
+##################################################
+## Channels for real life background estimate. Increase pt threshold to that
+## used in search region and add missing outer hits cut.
+##################################################
+MuonTagPt50 = copy.deepcopy(MuonTagPt35)
+MuonTagPt50.name = cms.string("MuonTagPt50")
+addSingleCut(MuonTagPt50.cuts, cutTrkPt, cutTrkPt35)
+cutsToAdd = [
+#    cutTrkEcalo,
+#    cutTrkNMissOut,
+]
+addCuts(MuonTagPt50.cuts, cutsToAdd)
+cutsToRemove = [
+    cutTrkPt35,
+]
+removeCuts(MuonTagPt50.cuts, cutsToRemove)
+
+MuonTagPt50NoTrig = copy.deepcopy(MuonTagPt50)
+MuonTagPt50NoTrig.name = cms.string("MuonTagPt50NoTrig")
+MuonTagPt50NoTrig.triggers = cms.vstring() 
+
+MuonTagPt50MetTrig = copy.deepcopy(MuonTagPt50)
+MuonTagPt50MetTrig.name = cms.string("MuonTagPt50MetTrig")
+MuonTagPt50MetTrig.triggers = triggersMet 
+
+MuonTagPt50MetCut = copy.deepcopy(MuonTagPt50)
+MuonTagPt50MetCut.name = cms.string("MuonTagPt50MetCut")
+cutsToAdd = [ 
+    cutMuonMetMinusOne, 
+]
+addCuts(MuonTagPt50MetCut.cuts, cutsToAdd)  
 
 ################################################################################
 ## Muon tag and probe sample

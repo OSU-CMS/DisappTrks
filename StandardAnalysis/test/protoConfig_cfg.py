@@ -241,6 +241,13 @@ MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     candTrkIdMuPt35NoMet,
 ]
 
+MuonBkgdEstimate = [ # run over data
+    MuonTagPt50,
+    MuonTagPt50NoTrig,
+    MuonTagPt50MetCut,
+    MuonTagPt50MetTrig,
+]
+
 TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     TauTagPt50,
     TauTagPt50NoTrig,
@@ -305,6 +312,7 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  ElecBkgdClosureTest,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  MuonBkgdEstimate,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  TauBkgdClosureTest,   histSets,          weights,  [],  collectionMap,  variableProducers,  False)
 
 
