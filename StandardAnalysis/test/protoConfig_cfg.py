@@ -98,6 +98,7 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
 #collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks')  # For signal (old version)
 collectionMap.tracks = cms.InputTag ('candidateTrackProducer')       # For data skim and new samples
+collectionMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')       # For data skim and new samples
 
 ################################################################################
 ##### Set up weights to be used in plotting and cutflows  ######################
