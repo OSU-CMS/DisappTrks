@@ -17,6 +17,10 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.categories.append ("GenMatchable")
+process.MessageLogger.cerr.GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32(1),
+)
 
 # Use the following block for the Calo calculation.
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
