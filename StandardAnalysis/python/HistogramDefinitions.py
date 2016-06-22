@@ -896,49 +896,6 @@ DiJetHistograms = cms.PSet(
 )  
 
 ############################################################################################
-TauExtraHistograms = cms.PSet(
-    inputCollection = cms.vstring("taus"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("tauHPSagainstElectronLoose"),
-            title = cms.string("Tau HPSagainstElectronLoose;HPSagainstElectronLoose"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSagainstElectronLoose"),
-            ),
-        cms.PSet (
-            name = cms.string("tauHPSagainstElectronMedium"),
-            title = cms.string("Tau HPSagainstElectronMedium;HPSagainstElectronMedium"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSagainstElectronMedium"),
-            ),
-        cms.PSet (
-            name = cms.string("tauHPSagainstElectronTight"),
-            title = cms.string("Tau HPSagainstElectronTight;HPSagainstElectronTight"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSagainstElectronTight"),
-            ),
-        cms.PSet (
-            name = cms.string("tauHPSagainstElectronMVA"),
-            title = cms.string("Tau HPSagainstElectronMVA;HPSagainstElectronMVA"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSagainstElectronMVA"),
-            ),
-        cms.PSet (
-            name = cms.string("tauHPSagainstMuonTight"),
-            title = cms.string("Tau HPSagainstMuonTight;HPSagainstMuonTight"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSagainstMuonTight"),
-            ),
-        cms.PSet (
-            name = cms.string("tauHPSdecayModeFinding"),
-            title = cms.string("Tau HPSdecayModeFinding;HPSdecayModeFinding"),
-            bins = cms.untracked.vdouble(5, -0.5, 4.5),
-            inputVariables = cms.vstring("HPSdecayModeFinding"),
-            ),
-        )
-    )
-
-############################################################################################
 
 EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
