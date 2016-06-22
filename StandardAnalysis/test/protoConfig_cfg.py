@@ -170,6 +170,9 @@ histSetsMuon.append(MuonExtraHistograms)
 histSetsMuon.append(DiMuonHistograms)
 histSetsMuon.append(TrackMuonHistograms)
 
+histSetsTau = copy.deepcopy(histSets)
+histSetsTau.append(TauExtraHistograms)
+
 test = cms.PSet(
     name = cms.string("test"),
     triggers = cms.vstring(),
@@ -313,7 +316,7 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  ElecBkgdClosureTest,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  MuonBkgdEstimate,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  TauBkgdClosureTest,   histSets,          weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  TauBkgdClosureTest,   histSetsTau,          weights,  [],  collectionMap,  variableProducers,  False)
 
 
 ## OTHER CHANNELS
