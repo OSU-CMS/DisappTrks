@@ -248,7 +248,7 @@ for dataset0 in dataset_names:
     ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm', r'\1', dataset0))
     for i in range (2, 9):
         ctau = ctauP = 0.1 * i * ctau0
-        if int (ctau) == ctau:
+        if int (ctau) * 10 == int (ctau * 10):
             ctau = ctauP = str (int (ctau))
         else:
             ctau = ctauP = str (ctau)
