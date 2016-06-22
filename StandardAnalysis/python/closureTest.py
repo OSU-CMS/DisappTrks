@@ -39,6 +39,7 @@ def setCanvasStyle(canvas):
 
 
 def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
+    h.GetXaxis().SetNdivisions(505)
     h.GetXaxis().SetLabelOffset(0.005)
     h.GetXaxis().SetLabelSize(0.04)
     h.GetXaxis().SetTitleOffset(1.0)
@@ -47,6 +48,7 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
         h.GetXaxis().SetTitle(xTitle)
     if xRange[0] != 0 or xRange[1] != 0:
         h.GetXaxis().SetRangeUser(xRange[0], xRange[1])
+    h.GetYaxis().SetNdivisions(505)
     h.GetYaxis().SetLabelOffset(0.005)
     h.GetYaxis().SetLabelSize(0.04)
     h.GetYaxis().SetTitleOffset(1.5)
@@ -172,7 +174,7 @@ class LeptonBkgdClosureTest:
             hTotal  = getHist (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", "Track Plots/trackPt")
             hPasses = getHist (self.CandTrkIdPt35NoMet["sample"], self.CandTrkIdPt35NoMet["condorDir"], self.CandTrkIdPt35NoMet["name"] + "Plotter", "Track Plots/trackPt")
 
-            ptCut = 50.0  
+            ptCut = 50.0
 
             totalError  = Double(0.0)
             passesError = Double(0.0)
@@ -182,20 +184,20 @@ class LeptonBkgdClosureTest:
             effLoError = effLo * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
             print "P_lo (pass lepton veto) for pT < 50 GeV:    " + str (effLo) + " +- " + str (effLoError)
 
-            total  =  hTotal.IntegralAndError ( hTotal.FindBin(ptCut),  hTotal.GetNbinsX() + 1,  totalError) 
-            passes = hPasses.IntegralAndError (hPasses.FindBin(ptCut), hPasses.GetNbinsX() + 1, passesError) 
+            total  =  hTotal.IntegralAndError ( hTotal.FindBin(ptCut),  hTotal.GetNbinsX() + 1,  totalError)
+            passes = hPasses.IntegralAndError (hPasses.FindBin(ptCut), hPasses.GetNbinsX() + 1, passesError)
             effHi = passes / total
             effHiError = effHi * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P_hi (pass lepton veto) for pT > 50 GeV:    " + str (effHi) + " +- " + str (effHiError)  
+            print "P_hi (pass lepton veto) for pT > 50 GeV:    " + str (effHi) + " +- " + str (effHiError)
 
-            total  =  hTotal.IntegralAndError (0,  hTotal.GetNbinsX() + 1,  totalError) 
-            passes = hPasses.IntegralAndError (0, hPasses.GetNbinsX() + 1, passesError) 
+            total  =  hTotal.IntegralAndError (0,  hTotal.GetNbinsX() + 1,  totalError)
+            passes = hPasses.IntegralAndError (0, hPasses.GetNbinsX() + 1, passesError)
             effAll = passes / total
             effAllError = effAll * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P_all (pass lepton veto) for all pT:        " + str (effAll) + " +- " + str (effAllError)  
+            print "P_all (pass lepton veto) for all pT:        " + str (effAll) + " +- " + str (effAllError)
 
             systErr = (effHi - effAll) / effAll
-            print "The systematic difference in lepton veto efficiency with and without the pT > 50 GeV cut is (P_hi - P_all) / P_all = ", systErr  
+            print "The systematic difference in lepton veto efficiency with and without the pT > 50 GeV cut is (P_hi - P_all) / P_all = ", systErr
         else:
             print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
 
@@ -253,9 +255,9 @@ class LeptonBkgdClosureTest:
             metHist.Multiply (passesHist)
 
             total = 0.0
-            totalError = 0.0
+            totalError = Double (0.0)
             passesError = Double (0.0)
-            passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX (), passesError)
+            passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
 
             if hasattr (self, "TagPt35MetCut"):
                 total = self.TagPt35MetCut["yield"]
@@ -264,11 +266,12 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = "Met Plots/metNoMu"
+                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
+                print "total from integral: " + str (total) + " +- " + str (totalError) # hart
 
             eff = passes / total
             effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
@@ -356,14 +359,14 @@ class LeptonBkgdClosureTest:
             print "CandTrkIdPt35 not defined. Not plotting MET for N_back..."
 
     def makePassesConsistentWithTotal (self, passes, total):
-        for i in range (0, passes.GetNbinsX () + 1):
+        for i in range (0, passes.GetNbinsX () + 2):
             if passes.GetBinContent (i) > total.GetBinContent (i):
                 passes.SetBinContent (i, total.GetBinContent (i))
                 passes.SetBinError (i, total.GetBinError (i))
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-#        pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
+        #pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
         pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
@@ -383,7 +386,7 @@ class LeptonBkgdClosureTest:
     def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):
         if self._fout and self._canvas:
             metMinusOne.Multiply (triggerEfficiency)
-            for i in range (0, metMinusOne.GetNbinsX () + 1):
+            for i in range (0, metMinusOne.GetNbinsX () + 2):
                 content = metMinusOne.GetBinContent (i)
                 error = metMinusOne.GetBinError (i)
                 upperEdge = metMinusOne.GetBinLowEdge (i) + metMinusOne.GetBinWidth (i)
@@ -411,25 +414,25 @@ class LeptonBkgdClosureTest:
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
 
-    def printPpassVetoTagProbe (self): 
-        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):         
+    def printPpassVetoTagProbe (self):
+        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
             total       = self.TagProbe["yield"]
             totalError  = self.TagProbe["yieldError"]
             passes      = self.TagProbePass["yield"]
             passesError = self.TagProbePass["yieldError"]
-            
-            eff = 0.5 * passes / total  
+
+            eff = 0.5 * passes / total
             # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
-            # Consider a sample of 1 million simulated Z->ee events.  
+            # Consider a sample of 1 million simulated Z->ee events.
             # The efficiency of the TagProbe selection is close to 100%, so total = 1 million.
             # Assume that eff = 1e-4.
-            # Then we expect there to be 
-            # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks 
-            # from unrecontstructed electrons from a Z->ee decay.  
-            # so the number of events passing the tag-probe-pass selection is: passes = 200  
+            # Then we expect there to be
+            # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks
+            # from unrecontstructed electrons from a Z->ee decay.
+            # so the number of events passing the tag-probe-pass selection is: passes = 200
 
             # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-            effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature  
+            effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
             print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
@@ -439,22 +442,22 @@ class LeptonBkgdClosureTest:
     def printStdResults (self):
 
         print "********************************************************************************"
-        print "Compare lepton veto efficiency in tag and probe sample and in baseline sample (latter requires MC truth)." 
-        
+        print "Compare lepton veto efficiency in tag and probe sample and in baseline sample (latter requires MC truth)."
+
         (nTP, nTPError)     = self.printPpassVetoTagProbe ()
         (nBase, nBaseError) = self.printPpassVeto ()
         print "|P_tp - P_base| = " + str (abs (nTP - nBase) / math.hypot (nTPError, nBaseError)) + " sigma"
-        self.printPpassVetoSystErr()      
+        self.printPpassVetoSystErr()
 
         print "********************************************************************************"
 
         (nEst, nEstError) = self.printNest ()
-        
+
         print "--------------------------------------------------------------------------------"
-        
+
         (nBack, nBackError) = self.printNback ()
         print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
-        
+
         print "********************************************************************************"
 
 
