@@ -64,6 +64,7 @@ class LeptonBkgdClosureTest:
     _fout = None
     _canvas = None
     _metCut = 0.0
+    _pPassVeto = (float ("nan"), float ("nan"))
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -77,6 +78,9 @@ class LeptonBkgdClosureTest:
 
     def addMetCut (self, metCut):
         self._metCut = metCut
+
+    def addPpassVeto (self, (pPassVeto, pPassVetoError)):
+        self._pPassVeto = (pPassVeto, pPassVetoError)
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -155,19 +159,23 @@ class LeptonBkgdClosureTest:
             return None
 
     def printPpassVeto (self):
-        if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
-            total = self.TagPt35["yield"]
-            totalError = self.TagPt35["yieldError"]
-            passes = self.CandTrkIdPt35NoMet["yield"]
-            passesError = self.CandTrkIdPt35NoMet["yieldError"]
+        if math.isnan (self._pPassVeto[0]) or math.isnan (self._pPassVeto[1]):
+            if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
+                total = self.TagPt35["yield"]
+                totalError = self.TagPt35["yieldError"]
+                passes = self.CandTrkIdPt35NoMet["yield"]
+                passesError = self.CandTrkIdPt35NoMet["yieldError"]
 
-            eff = passes / total
-            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-            print "P (pass lepton veto) in baseline sample: " + str (eff) + " +- " + str (effError)
-            return (eff, effError)
+                eff = passes / total
+                effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+                print "P (pass lepton veto) in baseline sample: " + str (eff) + " +- " + str (effError)
+                return (eff, effError)
+            else:
+                print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
+                return (float ("nan"), float ("nan"))
         else:
-            print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
-            return (float ("nan"), float ("nan"))
+            print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
+            return (self._pPassVeto[0], self._pPassVeto[1])
 
     def printPpassVetoSystErr (self):
         if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
@@ -271,7 +279,6 @@ class LeptonBkgdClosureTest:
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
-                print "total from integral: " + str (total) + " +- " + str (totalError) # hart
 
             eff = passes / total
             effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
@@ -415,29 +422,33 @@ class LeptonBkgdClosureTest:
             print "A TFile and TCanvas must be added. Not making plots..."
 
     def printPpassVetoTagProbe (self):
-        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
-            total       = self.TagProbe["yield"]
-            totalError  = self.TagProbe["yieldError"]
-            passes      = self.TagProbePass["yield"]
-            passesError = self.TagProbePass["yieldError"]
+        if math.isnan (self._pPassVeto[0]) or math.isnan (self._pPassVeto[1]):
+            if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
+                total       = self.TagProbe["yield"]
+                totalError  = self.TagProbe["yieldError"]
+                passes      = self.TagProbePass["yield"]
+                passesError = self.TagProbePass["yieldError"]
 
-            eff = 0.5 * passes / total
-            # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
-            # Consider a sample of 1 million simulated Z->ee events.
-            # The efficiency of the TagProbe selection is close to 100%, so total = 1 million.
-            # Assume that eff = 1e-4.
-            # Then we expect there to be
-            # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks
-            # from unrecontstructed electrons from a Z->ee decay.
-            # so the number of events passing the tag-probe-pass selection is: passes = 200
+                eff = 0.5 * passes / total
+                # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
+                # Consider a sample of 1 million simulated Z->ee events.
+                # The efficiency of the TagProbe selection is close to 100%, so total = 1 million.
+                # Assume that eff = 1e-4.
+                # Then we expect there to be
+                # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks
+                # from unrecontstructed electrons from a Z->ee decay.
+                # so the number of events passing the tag-probe-pass selection is: passes = 200
 
-            # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-            effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
-            return (eff, effError)
+                # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+                effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
+                print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
+                return (eff, effError)
+            else:
+                print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
+                return (float ("nan"), float ("nan"))
         else:
-            print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
-            return (float ("nan"), float ("nan"))
+            print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
+            return (self._pPassVeto[0], self._pPassVeto[1])
 
     def printStdResults (self):
 
