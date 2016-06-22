@@ -17,6 +17,10 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.categories.append ("GenMatchable")
+process.MessageLogger.cerr.GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32(1),
+)
 
 # Use the following block for the Calo calculation.
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
@@ -98,6 +102,7 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap  # miniAOD
 
 #collectionMap.tracks = cms.InputTag ('candidateDisappearingTracks')  # For signal (old version)
 collectionMap.tracks = cms.InputTag ('candidateTrackProducer')       # For data skim and new samples
+collectionMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')       # For data skim and new samples
 
 ################################################################################
 ##### Set up weights to be used in plotting and cutflows  ######################
