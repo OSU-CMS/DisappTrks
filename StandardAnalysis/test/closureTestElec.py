@@ -76,3 +76,50 @@ elecBkgdClosureTest_WLNu.printStdResults()
 fout.Close()  
 
 
+print "\n\n"
+print "********************************************************************************"
+print "performing electron background estimate for data in Candidate Track sample..."
+print "--------------------------------------------------------------------------------"
+sample = "SingleEle_2015D"
+fout = TFile.Open ("elecBkgdClosureTest_Data.root", "recreate")
+elecBkgdClosureTest_Data = LeptonBkgdClosureTest ("electron")
+elecBkgdClosureTest_Data.addTFile (fout)
+elecBkgdClosureTest_Data.addTCanvas (canvas)
+elecBkgdClosureTest_Data.addMetCut (100.0)
+elecBkgdClosureTest_Data.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", sample, "ZtoEleProbeTrkWithZCuts") 
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrk",            sample, "ElecTagProbeChannels")  
+elecBkgdClosureTest_Data.addChannel  ("TagPt35",             "ElectronTagPt35",        sample, dirs['Wells']+'ElectronTagPt35')  
+elecBkgdClosureTest_Data.addChannel  ("TagPt35MetTrig",      "ElectronTagPt35MetTrig", sample, dirs['Wells']+"ElectronTagPt35")  
+elecBkgdClosureTest_Data.printStdResults()  
+fout.Close()  
+
+print "\n\n"
+print "********************************************************************************"
+print "performing electron background estimate for data in Ecalo Sdband sample..."
+print "--------------------------------------------------------------------------------"
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandEcalo",  sample, "ElecTagProbeChannels")  
+elecBkgdClosureTest_Data.printStdResults()  
+
+print "\n\n"
+print "********************************************************************************"
+print "performing electron background estimate for data in NMissOut Sdband sample..."
+print "--------------------------------------------------------------------------------"
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandNMissOut", sample, "ElecTagProbeChannels")  
+elecBkgdClosureTest_Data.printStdResults()  
+
+print "\n\n"
+print "********************************************************************************"
+print "performing electron background estimate for data in Disappearing Track sample (no NMissOut cut)..."
+print "--------------------------------------------------------------------------------"
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, "ElecTagProbeChannels")  # No NMissOut cut 
+elecBkgdClosureTest_Data.printStdResults()  
+
+print "\n\n"
+print "********************************************************************************"
+print "performing electron background estimate for data in Disappearing Track sample..."
+print "--------------------------------------------------------------------------------"
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, "ZtoEleDisTrk") 
+elecBkgdClosureTest_Data.printStdResults()  
+
+
+
