@@ -2,18 +2,19 @@
 
 from DisappTrks.StandardAnalysis.closureTest import *  
 from DisappTrks.StandardAnalysis.getUser import * 
-from ROOT import TCanvas, TFile
+from ROOT import TCanvas, TFile, gROOT 
 import os 
 
 
 dirs = getUser() 
 
+gROOT.SetBatch()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
 
 print "********************************************************************************"
-print "performing muon background closure test with sum of TTJets and WJetsToLNu..."
+print "performing electron background closure test with sum of TTJets and WJetsToLNu..."
 print "--------------------------------------------------------------------------------"
 sample = "bkgd_TT_WJets" 
 condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets"
@@ -33,7 +34,7 @@ fout.Close()
 
 print "\n\n"
 print "********************************************************************************"
-print "performing muon background closure test with TTJets..."
+print "performing electron background closure test with TTJets..."
 print "--------------------------------------------------------------------------------"
 sample = "TTJets"
 condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets" 
@@ -55,7 +56,7 @@ fout.Close()
 
 print "\n\n"
 print "********************************************************************************"
-print "performing muon background closure test with WJetsToLNu..."
+print "performing electron background closure test with WJetsToLNu..."
 print "--------------------------------------------------------------------------------"
 sample = "WJetsToLNu"
 condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets"
