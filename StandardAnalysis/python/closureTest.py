@@ -223,7 +223,7 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = "Met Plots/metNoMu"
+                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
 
                 passesError = Double (0.0)
