@@ -48,10 +48,10 @@ masses = ['100', '300', '500', '700']
 #chargino tau values
 lifetimes = ['10', '100', '1000']
 
-lumi = 2457
+lumi = 2590.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = WellsDir + 'disTrkSelection_76X' 
+signal_condor_dir = AndrewDir + 'withFiducialCuts/disTrkSelection_signal/'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
