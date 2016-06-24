@@ -604,6 +604,11 @@ cutElectronPt35 = cms.PSet (
     cutString = cms.string("pt > 35"),
     numberRequired = cms.string(">= 1"),
 )
+cutElectronPt50 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1"),
+)
 cutElectronEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
