@@ -48,6 +48,15 @@ cutsToAdd = [
 ]
 addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)  
 
+ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt50.name = cms.string("ElectronTagPt50")
+addSingleCut(ElectronTagPt50.cuts,  cutElectronPt50, cutElectronPt35)
+removeCuts  (ElectronTagPt50.cuts, [cutElectronPt35])  
+
+ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
+ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
+ElectronTagPt50MetTrig.triggers = triggersMet 
+
 
 ################################################################################
 ## Electron tag and probe sample
