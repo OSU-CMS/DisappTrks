@@ -270,6 +270,12 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     candTrkIdTauPt50NoMet,
 ]
 
+TauBkgdEstimate = [ # run over data
+    TauTagPt50,
+    TauTagPt50NoTrig,
+    TauTagPt50MetCut,
+    TauTagPt50MetTrig,
+]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -320,12 +326,13 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  [TauTagSkim],  histSetsTau,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## CHANNELS FOR TESTING
-#  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [test],               cms.VPSet(),       weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [NoCuts],             cms.VPSet(),       weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  ElecBkgdClosureTest,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  MuonBkgdEstimate,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  TauBkgdClosureTest,   histSetsTau,          weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  MuonBkgdEstimate,     histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  TauBkgdClosureTest,   histSetsTau,       weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  TauBkgdEstimate,      histSetsTau,       weights,  [],  collectionMap,  variableProducers,  True)
 
 ## OTHER CHANNELS
 #  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)
