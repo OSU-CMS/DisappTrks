@@ -65,6 +65,7 @@ class LeptonBkgdClosureTest:
     _canvas = None
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
+    _prescale = 1.0
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -81,6 +82,9 @@ class LeptonBkgdClosureTest:
 
     def addPpassVeto (self, (pPassVeto, pPassVetoError)):
         self._pPassVeto = (pPassVeto, pPassVetoError)
+
+    def addPrescaleFactor (self, prescale):
+        self._prescale = prescale
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -110,6 +114,9 @@ class LeptonBkgdClosureTest:
         if hasattr (self, "TagPt35"):
             n = self.TagPt35["yield"]
             nError = self.TagPt35["yieldError"]
+
+            n *= self._prescale
+
             print "N_ctrl: " + str (n) + " +- " + str (nError)
             return (n, nError, metMinusOne)
         else:
@@ -126,6 +133,8 @@ class LeptonBkgdClosureTest:
                 met = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+
+                metMinusOne.Scale (self._prescale)
 
                 pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
                 pt.SetBorderSize(0)
