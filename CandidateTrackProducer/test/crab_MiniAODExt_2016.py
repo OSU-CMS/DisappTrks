@@ -52,8 +52,8 @@ if __name__ == '__main__':
 
     config.Data.unitsPerJob = 4
 
-    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON.txt'
-    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v1'
+    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt'
+    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v2'
 
     config.Site.storageSite = 'T2_US_Purdue'
 

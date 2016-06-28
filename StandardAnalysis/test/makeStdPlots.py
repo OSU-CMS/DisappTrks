@@ -14,11 +14,17 @@ if len(sys.argv) < 2:
 
 condorDir = "condor/" + sys.argv[1]  
 
+pwd = os.getcwd()
+
 plotDirs = os.listdir(condorDir + "/stacked_histograms_pdfs/") 
+
+outputNames = []
+finalPlotDirs = []
 
 for plotDir in plotDirs:  
     if "Plotter" in plotDir and not "CutFlow" in plotDir:
-        finalPlotDir = os.path.join(condorDir, "stacked_histograms_pdfs", plotDir) 
+	outputNames.append(plotDir + "_mergedStd.pdf")
+        finalPlotDirs.append(os.path.join(condorDir, "stacked_histograms_pdfs", plotDir))
 
 plotsList = [
     "Met_Plots/metPt.pdf", 
@@ -43,18 +49,19 @@ plotsList = [
     "Track_Plots/trackCaloNew_RhoCorr.pdf", 
 ]
 
-output = "mergedStd.pdf"  
+for i in range(0, len(finalPlotDirs)):
 
-os.chdir(finalPlotDir) 
-print "Moving to directory: ", finalPlotDir
+    print "\n\nMoving to directory: ", finalPlotDirs[i]
+    os.chdir(pwd)
+    os.chdir(finalPlotDirs[i])
 
-cmd = "mergePdf.py " + output + " "
-for plot in plotsList:
-    cmd += plot + " " 
-print "Executing command: " + cmd
-os.system(cmd)
+    cmd = "mergePdf.py " + outputNames[i] + " "
+    for plot in plotsList:
+        cmd += plot + " " 
+    print "Executing command: " + cmd
+    os.system(cmd)
 
-os.system("mv " + output + " ../../") 
-print "Finished writing plot to ", os.path.join(condorDir, output) 
+    os.system("mv " + outputNames[i] + " ../../") 
+    print "Finished writing plot to ", os.path.join(condorDir, outputNames[i]) 
 
 
