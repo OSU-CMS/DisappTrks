@@ -28,6 +28,9 @@ TauTagPt50 = copy.deepcopy(TauTagSkim)
 TauTagPt50.name = cms.string("TauTagPt50")
 cutsToAdd = [ 
     cutTauArbitration,
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
     cutTrkPt,
     cutTrkTauDR0p1,
     cutTrkMatchRecoTau,
@@ -43,6 +46,31 @@ cutsToAdd = [
     cutTrkIso,
     cutTrkD0,
     cutTrkDZ,
+]
+addCuts(TauTagPt50.cuts, cutsToAdd)
+
+TauTagPt50NoTrig = copy.deepcopy(TauTagPt50)
+TauTagPt50NoTrig.name = cms.string("TauTagPt50NoTrig")
+TauTagPt50NoTrig.triggers = cms.vstring() 
+
+TauTagPt50MetTrig = copy.deepcopy(TauTagPt50)
+TauTagPt50MetTrig.name = cms.string("TauTagPt50MetTrig")
+TauTagPt50MetTrig.triggers = triggersMet 
+
+TauTagPt50MetCut = copy.deepcopy(TauTagPt50)
+TauTagPt50MetCut.name = cms.string("TauTagPt50MetCut")
+cutsToAdd = [ 
+    cutTauMetMinusOne, 
+]
+addCuts(TauTagPt50MetCut.cuts, cutsToAdd)  
+
+##################################################
+## Channels for real life background estimate. Increase pt threshold to that
+## used in search region and add missing outer hits cut.
+##################################################
+cutsToAdd = [
+#    cutTrkEcalo,
+#    cutTrkNMissOut,
 ]
 addCuts(TauTagPt50.cuts, cutsToAdd)
 
