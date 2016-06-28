@@ -293,11 +293,17 @@ ElectronExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons"])),
             inputVariables = cms.vstring("abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId)"),
         ),
-
-
-
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePtVsPt"),
+            title = cms.string("Electron MetNoMu Minus One Vs. Pt;electron p_{T} [GeV];E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("pt", "electron.metNoMuMinusOnePt"), 
+        ),
     )
 )
+
+
 
 TauExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("taus"),
