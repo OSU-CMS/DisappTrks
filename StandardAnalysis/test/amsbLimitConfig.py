@@ -43,15 +43,17 @@ samplesByGravitinoMass = False
 
 
 #NOTE: These are the chargino masses
-masses = ['100', '300', '500', '700']
+masses = ['100', '200', '300', '400', '500', '600', '700']
 
 #chargino tau values
-lifetimes = ['10', '100', '1000']
+lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+             '20', '30', '40', '50', '60', '70', '80', '90', '100',
+             '200', '300', '400', '500', '600', '700', '800', '900', '1000']
 
-lumi = 2457
+lumi = 2590.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = WellsDir + 'disTrkSelection_76X' 
+signal_condor_dir = AndrewDir + 'withFiducialCuts/disTrkSelection_signal/'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'

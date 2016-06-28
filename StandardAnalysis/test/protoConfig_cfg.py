@@ -282,7 +282,6 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  # use isoTrkSelection skim as input
 #  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
 
-
 ## MANDATORY CHANNELS FOR SINGLEMUON DATASET
 #  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMu],                                      histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -311,15 +310,14 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,   ElecBkgdEstimate,                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False) # use ElectronTagSkim skim as input 
 #  add_channels  (process,   ElecBkgdClosureTest,                              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False) # run over Wjets and TTjets MC sample (no skim)  
 
-
-
 ## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut],   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
-
+## MANDATORY CHANNELS FOR TAU DATASET
+#  add_channels  (process,  [TauTagSkim],  histSetsTau,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## CHANNELS FOR TESTING
 #  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
@@ -328,7 +326,6 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 #  add_channels  (process,  MuonBkgdClosureTest,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  MuonBkgdEstimate,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  TauBkgdClosureTest,   histSetsTau,          weights,  [],  collectionMap,  variableProducers,  False)
-
 
 ## OTHER CHANNELS
 #  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)

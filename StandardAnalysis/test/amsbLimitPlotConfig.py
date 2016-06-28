@@ -14,7 +14,7 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 
 #name of histogram to integrate to get yields
 #integrateHistogramName = "numEvents"
-intLumi = 2457  
+intLumi = 2590.0
 
 #########################
 ### Signal Parameters ###
@@ -63,7 +63,7 @@ plotDefinitions = [
         'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
         
         'xAxisFixMin' : 100, 
-        'xAxisFixMax' : 600,
+        'xAxisFixMax' : 1000,
         'yAxisFixMin' : 0.2, 
         'yAxisFixMax' : 1000,  # The last point is 10000cm = 333 ns   
         
@@ -71,7 +71,7 @@ plotDefinitions = [
         
         'graphs' : [
             {
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
                 'colorScheme' : 'brazilian',
             },
         ],
@@ -103,7 +103,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 10.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -135,7 +135,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 100.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -167,7 +167,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 1000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','obs','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },

@@ -66,7 +66,7 @@ for dataset0 in datasetsSig:
         continue
     mass = re.sub (r'AMSB_chargino_([^_]*)GeV_[^_]*cm', r'\1', dataset0)
     ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm', r'\1', dataset0))
-    for i in range (2, 9):
+    for i in range (2, 10):
         ctau = ctauP = 0.1 * i * ctau0
         if int (ctau) * 10 == int (ctau * 10):
             ctau = ctauP = str (int (ctau))
