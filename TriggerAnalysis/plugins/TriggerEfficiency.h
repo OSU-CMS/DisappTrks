@@ -11,7 +11,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
-#include "DataFormats/PatCandidates/interface/Jet.h" 
+#include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
@@ -58,14 +58,23 @@ class TriggerEfficiency : public edm::EDFilter
     bool isMC_;
     bool matchToHLTTrack_;
 
-    edm::InputTag  mets_;
-    edm::InputTag  muons_;
-    edm::InputTag  tracks_;
-    edm::InputTag  triggerBits_;
-    edm::InputTag  triggerObjs_;
-    edm::InputTag  vertices_;
-    edm::InputTag  genParticles_;
-    edm::InputTag  jets_;
+    edm::InputTag  metsTag_;
+    edm::InputTag  muonsTag_;
+    edm::InputTag  tracksTag_;
+    edm::InputTag  triggerBitsTag_;
+    edm::InputTag  triggerObjsTag_;
+    edm::InputTag  verticesTag_;
+    edm::InputTag  genParticlesTag_;
+    edm::InputTag  jetsTag_;
+
+    edm::EDGetTokenT<vector<pat::MET> > metsToken_;
+    edm::EDGetTokenT<vector<pat::Muon> > muonsToken_;
+    edm::EDGetTokenT<vector<T> > tracksToken_;
+    edm::EDGetTokenT<edm::TriggerResults> triggerBitsToken_;
+    edm::EDGetTokenT<vector<pat::TriggerObjectStandAlone> > triggerObjsToken_;
+    edm::EDGetTokenT<vector<reco::Vertex> > verticesToken_;
+    edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
+    edm::EDGetTokenT<vector<pat::Jet> > jetsToken_;
 
     vector<vector<string> > metTriggersList_;
     vector<string> metTriggerNames_;

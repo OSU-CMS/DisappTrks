@@ -9,14 +9,14 @@ template<class T>
 TriggerEfficiency<T>::TriggerEfficiency (const edm::ParameterSet &cfg) :
   isMC_             (cfg.getParameter<bool>           ("isMC")),
   matchToHLTTrack_  (cfg.getParameter<bool>           ("matchToHLTTrack")),
-  mets_             (cfg.getParameter<edm::InputTag>  ("mets")),
-  muons_            (cfg.getParameter<edm::InputTag>  ("muons")),
-  tracks_           (cfg.getParameter<edm::InputTag>  ("tracks")),
-  triggerBits_      (cfg.getParameter<edm::InputTag>  ("triggerBits")),
-  triggerObjs_      (cfg.getParameter<edm::InputTag>  ("triggerObjs")),
-  vertices_         (cfg.getParameter<edm::InputTag>  ("vertices")),
-  genParticles_     (cfg.getParameter<edm::InputTag>  ("genParticles")),
-  jets_             (cfg.getParameter<edm::InputTag>  ("jets")),
+  metsTag_             (cfg.getParameter<edm::InputTag>  ("mets")),
+  muonsTag_            (cfg.getParameter<edm::InputTag>  ("muons")),
+  tracksTag_           (cfg.getParameter<edm::InputTag>  ("tracks")),
+  triggerBitsTag_      (cfg.getParameter<edm::InputTag>  ("triggerBits")),
+  triggerObjsTag_      (cfg.getParameter<edm::InputTag>  ("triggerObjs")),
+  verticesTag_         (cfg.getParameter<edm::InputTag>  ("vertices")),
+  genParticlesTag_     (cfg.getParameter<edm::InputTag>  ("genParticles")),
+  jetsTag_             (cfg.getParameter<edm::InputTag>  ("jets")),
   metTriggersList_ ({
     {"HLT_IsoMu20_v"},
     {"hltL1sL1ETM60ORETM70"},
@@ -37,6 +37,16 @@ TriggerEfficiency<T>::TriggerEfficiency (const edm::ParameterSet &cfg) :
   }),
   metTriggerNames_ ({})
 {
+
+  metsToken_         = consumes<vector<pat::MET> >                  (metsTag_);
+  muonsToken_        = consumes<vector<pat::Muon> >                    (muonsTag_);
+  tracksToken_       = consumes<vector<T> >                            (tracksTag_);
+  triggerBitsToken_  = consumes<edm::TriggerResults>                   (triggerBitsTag_);
+  triggerObjsToken_  = consumes<vector<pat::TriggerObjectStandAlone> > (triggerObjsTag_);
+  verticesToken_     = consumes<vector<reco::Vertex> >                 (verticesTag_);
+  genParticlesToken_ = consumes<vector<reco::GenParticle> >            (genParticlesTag_);
+  jetsToken_         = consumes<vector<pat::Jet> >                     (jetsTag_);
+
   TH1::SetDefaultSumw2 ();
   TFileDirectory MuMETNoMETNoTrigger_metDir = fs_->mkdir ("MuMETNoMETNoTriggerPlotter/Met Plots"),
                  MuMETNoMETNoTrigger_muonDir = fs_->mkdir ("MuMETNoMETNoTriggerPlotter/Muon Plots"),
@@ -194,22 +204,23 @@ TriggerEfficiency<T>::~TriggerEfficiency ()
 template<class T> bool
 TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 {
+
   edm::Handle<vector<pat::MET> > mets;
-  event.getByLabel (mets_, mets);
+  event.getByToken (metsToken_, mets);
   edm::Handle<vector<pat::Muon> > muons;
-  event.getByLabel (muons_, muons);
+  event.getByToken (muonsToken_, muons);
   edm::Handle<vector<T> > tracks;
-  event.getByLabel (tracks_, tracks);
+  event.getByToken (tracksToken_, tracks);
   edm::Handle<edm::TriggerResults> triggerBits;
-  event.getByLabel (triggerBits_, triggerBits);
+  event.getByToken (triggerBitsToken_, triggerBits);
   edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
-  event.getByLabel (triggerObjs_, triggerObjs);
+  event.getByToken (triggerObjsToken_, triggerObjs);
   edm::Handle<vector<reco::Vertex> > vertices;
-  event.getByLabel (vertices_, vertices);
+  event.getByToken (verticesToken_, vertices);
   edm::Handle<vector<reco::GenParticle> > genParticles;
-  isMC_ && event.getByLabel (genParticles_, genParticles);
+  isMC_ && event.getByToken (genParticlesToken_, genParticles);
   edm::Handle<vector<pat::Jet> > jets;
-  event.getByLabel (jets_, jets);
+  event.getByToken (jetsToken_, jets);
 
   const edm::TriggerNames &triggerNames = event.triggerNames (*triggerBits);
   const reco::Vertex &pv = vertices->at (0);
@@ -222,7 +233,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   bool passesMETFilter = passesTriggerFilter (triggerNames, *triggerObjs, "hltMET75") || passesTriggerFilter (triggerNames, *triggerObjs, "hltMETClean75");
 
   //////////////////////////////////////////////////////////////////////////////
-  // Require leading jet to be central.  
+  // Require leading jet to be central.
   //////////////////////////////////////////////////////////////////////////////
   if (jets->size ())
     {
