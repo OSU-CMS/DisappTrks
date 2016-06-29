@@ -875,7 +875,7 @@ MetExtraHistograms = cms.PSet(
     histograms = cms.VPSet (
          cms.PSet (
             name = cms.string("metNoMu"),
-            title = cms.string("MetNoMu;E_{T}^{miss} excluding #mu [GeV]"),
+            title = cms.string("MetNoMu;E_{T}^{miss} excluding muons [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),  
             inputVariables = cms.vstring("noMuPt"),
             ),
