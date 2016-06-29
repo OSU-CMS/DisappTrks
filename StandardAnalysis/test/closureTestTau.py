@@ -6,6 +6,9 @@ from DisappTrks.StandardAnalysis.getUser import *
 from ROOT import TCanvas, TFile
 import os 
 
+# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/706
+pPassVeto = (0.104, 0.013)
+
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
@@ -82,10 +85,37 @@ tauBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("tau")
 tauBkgdClosureTest_CandTrk.addTFile (fout)
 tauBkgdClosureTest_CandTrk.addTCanvas (canvas)
 tauBkgdClosureTest_CandTrk.addMetCut (100.0)
-tauBkgdClosureTest_CandTrk.addPpassVeto ((0.104, 0.013))
+tauBkgdClosureTest_CandTrk.addPpassVeto (pPassVeto)
 tauBkgdClosureTest_CandTrk.addPrescaleFactor (11.559)
 tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35",         "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
 tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35MetTrig",  "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_CandTrk.printSingleLeptonTriggerEff ()
+
+print "********************************************************************************"
+
+(nEst, nEstError) = tauBkgdClosureTest_CandTrk.printNest ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "performing tau background estimate in disappearing track search region"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
+
+tauBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_CandTrk.addTFile (fout)
+tauBkgdClosureTest_CandTrk.addTCanvas (canvas)
+tauBkgdClosureTest_CandTrk.addMetCut (100.0)
+tauBkgdClosureTest_CandTrk.addPpassVeto (pPassVeto)
+tauBkgdClosureTest_CandTrk.addPrescaleFactor (11.559)
+tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
+tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
 tauBkgdClosureTest_CandTrk.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
