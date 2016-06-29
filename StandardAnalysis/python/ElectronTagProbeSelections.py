@@ -52,6 +52,8 @@ ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt50.name = cms.string("ElectronTagPt50")
 addSingleCut(ElectronTagPt50.cuts,  cutElectronPt50, cutElectronPt35)
 removeCuts  (ElectronTagPt50.cuts, [cutElectronPt35])  
+addSingleCut(ElectronTagPt50.cuts,  cutTrkPt50, cutTrkPt35)
+removeCuts  (ElectronTagPt50.cuts, [cutTrkPt35])  
 
 ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
 ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
