@@ -116,9 +116,15 @@ class LeptonBkgdClosureTest:
             nError = self.TagPt35["yieldError"]
 
             n *= self._prescale
+            nError *= self._prescale
 
-            print "N_ctrl: " + str (n) + " +- " + str (nError)
-            return (n, nError, metMinusOne)
+            if not (n == 0.0):
+                print "N_ctrl: " + str (n) + " +- " + str (nError)
+                return (n, nError, metMinusOne)
+            else:
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * self.CandTrkIdPt35["weight"]
+                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                return (n, nUpperLimit, metMinusOne)
         else:
             print "TagPt35 not defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
@@ -396,7 +402,10 @@ class LeptonBkgdClosureTest:
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
         nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
 
-        print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        if not (nEst == 0):
+            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        else:
+            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError)
         return (nEst, nEstError)
 
     def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):
