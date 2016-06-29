@@ -388,10 +388,12 @@ class LeptonBkgdClosureTest:
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        #pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
         pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
+
+        if math.isnan (pPassVeto) or math.isnan (pPassVetoError):
+            pPassVeto, pPassVetoError = self.printPpassVeto ()
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
