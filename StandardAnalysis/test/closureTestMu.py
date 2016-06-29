@@ -101,6 +101,31 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
+print "performing muon background closure test in missing outer hits sideband region"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("muonBkgdClosureTest_NmissOutSideband.root", "recreate")
+
+muonBkgdClosureTest_NmissOutSideband = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_NmissOutSideband.addTFile (fout)
+muonBkgdClosureTest_NmissOutSideband.addTCanvas (canvas)
+muonBkgdClosureTest_NmissOutSideband.addMetCut (100.0)
+muonBkgdClosureTest_NmissOutSideband.addPpassVeto (pPassVeto)
+muonBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35",         "MuonTagPt50",         "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForMissingOuterHitsSideband")
+muonBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35MetTrig",  "MuonTagPt50MetTrig",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForMissingOuterHitsSideband")
+muonBkgdClosureTest_NmissOutSideband.printSingleLeptonTriggerEff ()
+
+print "********************************************************************************"
+
+(nEst, nEstError) = muonBkgdClosureTest_NmissOutSideband.printNest ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
 print "performing muon background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 

@@ -102,6 +102,33 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
+print "performing tau background closure test in missing outer hits sideband region"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauBkgdClosureTest_NmissOutSideband.root", "recreate")
+
+tauBkgdClosureTest_NmissOutSideband = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_NmissOutSideband.addTFile (fout)
+tauBkgdClosureTest_NmissOutSideband.addTCanvas (canvas)
+tauBkgdClosureTest_NmissOutSideband.addMetCut (100.0)
+tauBkgdClosureTest_NmissOutSideband.addPpassVeto (pPassVeto)
+tauBkgdClosureTest_NmissOutSideband.addPrescaleFactor (11.559)
+tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForMissingOuterHitsSideband")
+tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_NmissOutSideband.printSingleLeptonTriggerEff ()
+
+print "********************************************************************************"
+
+(nEst, nEstError) = tauBkgdClosureTest_NmissOutSideband.printNest ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
 print "performing tau background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
