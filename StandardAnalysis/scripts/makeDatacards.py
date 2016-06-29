@@ -197,17 +197,17 @@ def writeDatacard(mass,lifetime):
         process_index_row.append(str(process_index))
         process_index = process_index + 1
         if not arguments.runGamma:
-            rate_row.append(background_yields[background][:5])
+            rate_row.append(background_yields[background])
         if arguments.runGamma:
-            rate_row.append(str(background_yields[background][:5]))
+            rate_row.append(str(background_yields[background]))
             if arguments.verbose:
                 print "Debug: for background " + str(background)
                 print "Debug: for background " + str(background) + ": " + str(background_yields[background])
-                print "Debug: for background " + str(background) + ": " + str(background_yields[background][:5])
+                print "Debug: for background " + str(background) + ": " + str(background_yields[background])
         empty_row.append('')
 
     datacard_data.append(empty_row)
-    comment_row = empty_row[:]
+    comment_row = empty_row
     comment_row[0] = "# STATISTICAL UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
@@ -235,9 +235,9 @@ def writeDatacard(mass,lifetime):
             if background is process_name:
 
                 if arguments.runGamma:
-                    row.append(background_errors[process_name][:5])
+                    row.append(background_errors[process_name])
                 else:
-                    row.append(background_errors[process_name][:5])
+                    row.append(background_errors[process_name])
                     #row.append(str(round(background_errors[process_name],2)))
             else:
                 row.append('-')
@@ -247,14 +247,14 @@ def writeDatacard(mass,lifetime):
 
 
     datacard_data.append(empty_row)
-    comment_row = empty_row[:]
+    comment_row = empty_row
     comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
 
 
     datacard_data.append(empty_row)
-    comment_row = empty_row[:]
+    comment_row = empty_row
     comment_row[0] = "# SYSTEMATIC UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
@@ -264,7 +264,7 @@ def writeDatacard(mass,lifetime):
         row = [background+"_syst",'lnN','','-']
         for process_name in backgrounds:
             if background is process_name:
-                row.append(background_systematics[background]['value'][:5])
+                row.append(background_systematics[background]['value'])
             else:
                 row.append('-')
         datacard_data.append(row)
