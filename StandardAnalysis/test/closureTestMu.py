@@ -10,14 +10,14 @@ import os
 pPassVeto = (1.73e-5, 0.77e-5)
 
 dirs = getUser()
+canvas = TCanvas("c1", "c1",800,800)
+setCanvasStyle(canvas)
 
 print "********************************************************************************"
 print "performing muon background closure test with WJetsToLNu..."
 print "--------------------------------------------------------------------------------"
 
 fout = TFile.Open ("muonBkgdClosureTest_WJetsToLNu.root", "recreate")
-canvas = TCanvas("c1", "c1",800,800)
-setCanvasStyle(canvas)
 
 muonBkgdClosureTest_WJetsToLNu = LeptonBkgdClosureTest ("muon")
 muonBkgdClosureTest_WJetsToLNu.addTFile (fout)
@@ -80,8 +80,6 @@ print "performing muon background closure test in candidate track control region
 print "--------------------------------------------------------------------------------"
 
 fout = TFile.Open ("muonBkgdClosureTest_CandTrk.root", "recreate")
-canvas = TCanvas("c1", "c1",800,800)
-setCanvasStyle(canvas)
 
 muonBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("muon")
 muonBkgdClosureTest_CandTrk.addTFile (fout)
@@ -107,8 +105,6 @@ print "performing muon background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
 fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
-canvas = TCanvas("c1", "c1",800,800)
-setCanvasStyle(canvas)
 
 muonBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("muon")
 muonBkgdClosureTest_CandTrk.addTFile (fout)
