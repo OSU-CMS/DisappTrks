@@ -35,8 +35,13 @@ else:
     print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
     
-masses = ['100', '300', '500', '700']
-lifetimes = ['10', '100', '1000']  # c*tau [cm] 
+#NOTE: These are the chargino masses
+masses = ['100', '200', '300', '400', '500', '600', '700']
+
+#chargino tau values
+lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+             '20', '30', '40', '50', '60', '70', '80', '90', '100',
+             '200', '300', '400', '500', '600', '700', '800', '900', '1000']
 
 convertCmToNs = True 
 makeColorPlot = False 

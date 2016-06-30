@@ -78,8 +78,8 @@ MuonTagPt50 = copy.deepcopy(MuonTagPt35)
 MuonTagPt50.name = cms.string("MuonTagPt50")
 addSingleCut(MuonTagPt50.cuts, cutTrkPt, cutTrkPt35)
 cutsToAdd = [
-#    cutTrkEcalo,
-#    cutTrkNMissOut,
+    cutTrkEcalo,
+    cutTrkNMissOut,
 ]
 addCuts(MuonTagPt50.cuts, cutsToAdd)
 cutsToRemove = [

@@ -105,6 +105,7 @@ addCuts(ZtoTauIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoTauIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
     cutTrkPt,
+    cutTrkJetDeltaPhi,
 ]
 removeCuts(ZtoTauIsoTrk.cuts, cutsToRemove)
 
