@@ -1,5 +1,6 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.StandardAnalysis.miniAODV2Samples import *
+import copy 
 
 config_file = "protoConfig_cfg.py"
 
@@ -51,7 +52,9 @@ datasetsSig = [
     'AMSB_chargino_700GeV_1000cm',
 ]
 
-datasetsSigShort = [
+datasetsSigShort = copy.deepcopy(datasetsSig)  
+
+datasetsSigVeryShort = [
     'AMSB_chargino_500GeV_10cm',
     'AMSB_chargino_500GeV_100cm',
     'AMSB_chargino_500GeV_1000cm',
