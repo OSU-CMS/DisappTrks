@@ -111,24 +111,32 @@ class LeptonBkgdClosureTest:
 
     def printNctrl (self):
         metMinusOne = self.plotMetForNctrl ()
-        if hasattr (self, "TagPt35"):
-            n = self.TagPt35["yield"]
-            nError = self.TagPt35["yieldError"]
+        if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
+            n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
+            nError = self.TagPt35ForNctrl["yieldError"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yieldError"]
+            weight = self.TagPt35ForNctrl["weight"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["weight"]
 
             n *= self._prescale
+            nError *= self._prescale
+            weight *= self._prescale
 
-            print "N_ctrl: " + str (n) + " +- " + str (nError)
-            return (n, nError, metMinusOne)
+            if not (n == 0.0):
+                print "N_ctrl: " + str (n) + " +- " + str (nError)
+                return (n, nError, metMinusOne)
+            else:
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
+                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                return (n, nUpperLimit, metMinusOne)
         else:
-            print "TagPt35 not defined. Not printing N_ctrl..."
+            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
 
     def plotMetForNctrl (self):
-        if hasattr (self, "TagPt35"):
+        if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             if self._fout and self._canvas:
-                sample = self.TagPt35["sample"]
-                condorDir = self.TagPt35["condorDir"]
-                name = self.TagPt35["name"]
+                sample = self.TagPt35ForNctrl["sample"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["sample"]
+                condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
+                name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
@@ -164,7 +172,7 @@ class LeptonBkgdClosureTest:
                 print "A TFile and TCanvas must be added. Not making plots..."
                 return None
         else:
-            print "TagPt35 not defined. Not plotting MET for N_ctrl..."
+            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET for N_ctrl..."
             return None
 
     def printPpassVeto (self):
@@ -325,11 +333,12 @@ class LeptonBkgdClosureTest:
         if hasattr (self, "CandTrkIdPt35"):
             n = self.CandTrkIdPt35["yield"]
             nError = self.CandTrkIdPt35["yieldError"]
+            weight = self.CandTrkIdPt35["weight"]
             if not (n == 0.0):
                 print "N_back: " + str (n) + " +- " + str (nError)
                 return (n, nError)
             else:
-                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * self.CandTrkIdPt35["weight"]
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
                 print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit)
                 return (n, nUpperLimit)
         else:
@@ -382,10 +391,12 @@ class LeptonBkgdClosureTest:
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        #pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
         pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
+
+        if math.isnan (pPassVeto) or math.isnan (pPassVetoError):
+            pPassVeto, pPassVetoError = self.printPpassVeto ()
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
@@ -396,7 +407,10 @@ class LeptonBkgdClosureTest:
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
         nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
 
-        print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        if not (nEst == 0):
+            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        else:
+            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError)
         return (nEst, nEstError)
 
     def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):

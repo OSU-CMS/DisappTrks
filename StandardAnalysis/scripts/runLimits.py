@@ -52,14 +52,14 @@ if arguments.outputDir:
 
                 
 
-def output_condor(command, options):
+def output_condor(combine_command, datacard, options):
     script = "#!/usr/bin/env bash\n\n"
-    script += command+" "+options+"\n"
+    script += "./combine "+options+"\n"
     f = open ("condor.sh", "w")
     f.write (script)
     f.close ()
     os.chmod ("condor.sh", 0775)
-    command = os.getcwd () + "/condor.sh"
+    command = "condor.sh"
 
     sub_file = ""
 #    if os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/data/condor.sub"):
@@ -77,8 +77,11 @@ def output_condor(command, options):
         sub_file += "Error                   = condor_$(Process).err\n"
         sub_file += "Log                     = condor_$(Process).log\n"
         sub_file += "\n"
-        sub_file += "+IsLocalJob             = true\n"
-        sub_file += "Requirements            = Memory > 1024\n"
+        sub_file += "should_transfer_files   = yes\n"
+        sub_file += "transfer_input_files    = " + combine_command + "," + datacard + "\n"
+        sub_file += "\n"
+        sub_file += "request_memory          = 2048MB\n"
+        sub_file += "request_cpus            = 1\n"
         sub_file += "\n"
         sub_file += "Queue 1\n"
 
@@ -158,7 +161,7 @@ for mass in masses:
             os.system(command)
         else:
             print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
-            output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
+            output_condor(combine_command, datacard_name, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
         if arguments.method == "HybridNew":  # for full CLs, run each expected limit separately
@@ -177,7 +180,7 @@ for mass in masses:
                 else:
                     combine_expected_optionsVary = combine_expected_options.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])  
                     print "combine "+datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name
-                    output_condor(combine_command, datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name+" | tee /dev/null")
+                    output_condor(combine_command, datacard_name, datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name+" | tee /dev/null")
                     os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
                 
         os.chdir("../../..")
@@ -196,7 +199,7 @@ for mass in masses:
 
         else:
             print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
-            output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
+            output_condor(combine_command, datacard_name, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
         os.chdir("../../..")
