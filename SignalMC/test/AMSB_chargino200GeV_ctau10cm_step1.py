@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,DisappTrks/SignalMC/genParticlePlusGeant.customizeProduce,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1.py --no_exec -n 46
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino200GeV_ctau10cm_NoFilter_13TeV.py --fileout file:AMSB_chargino200GeV_ctau10cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,DisappTrks/SignalMC/genParticlePlusGeant.customizeProduce,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino200GeV_ctau10cm_step1.py --no_exec -n 46
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('SIM')
@@ -37,7 +37,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV.py nevts:46'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino200GeV_ctau10cm_NoFilter_13TeV.py nevts:46'),
     name = cms.untracked.string('Applications')
 )
 
@@ -47,7 +47,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RAWSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('file:AMSB_chargino500GeV_ctau100cm_step1.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino200GeV_ctau10cm_step1.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM')
@@ -68,13 +68,13 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(3),
     comEnergy = cms.double(13000.0),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau100cm.slha'),
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_200GeV_ctau10cm.slha'),
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
     useregge = cms.bool(False),
-    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_500GeV_Isajet780.slha'),
-    massPoint = cms.untracked.int32(500),
+    slhaFile = cms.untracked.string('DisappTrks/SignalMC/data/AMSB_chargino_200GeV_Isajet780.slha'),
+    massPoint = cms.untracked.int32(200),
     hscpFlavor = cms.untracked.string('stau'),
     PythiaParameters = cms.PSet(
         pythiaUESettings = cms.vstring('MSTU(21)=1     ! Check on possible errors during program execution', 
@@ -108,7 +108,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters', 
             'SLHAParameters'),
-        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_500GeV_Isajet780.slha')
+        SLHAParameters = cms.vstring('SLHAFILE = DisappTrks/SignalMC/data/AMSB_chargino_200GeV_Isajet780.slha')
     )
 )
 
