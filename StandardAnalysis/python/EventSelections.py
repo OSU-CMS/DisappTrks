@@ -232,22 +232,42 @@ removeCuts(candTrkIdTauPt50NoMet.cuts, cutsToRemove)
 ##########################################################################
 
 # Use this selection for the electron background estimate.
-disTrkSelectionIdElec = copy.deepcopy(disTrkSelection)
-disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec")
+disTrkIdElec = copy.deepcopy(disTrkSelection)
+disTrkIdElec.name = cms.string("DisTrkIdElec")
 cutsToAdd = [
     cutTrkMatchGenElec,
 ]
-addCuts(disTrkSelectionIdElec.cuts, cutsToAdd)
+addCuts(disTrkIdElec.cuts, cutsToAdd)
 
 ##########################################################################
 
 # Use this selection for the muon background estimate.
-disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection)
-disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon")
+disTrkIdMuon = copy.deepcopy(disTrkSelection)
+disTrkIdMuon.name = cms.string("DisTrkIdMuon")
 cutsToAdd = [
     cutTrkMatchGenMuon,
 ]
-addCuts(disTrkSelectionMatchGenMuon.cuts, cutsToAdd)
+addCuts(disTrkIdMuon.cuts, cutsToAdd)
+
+##########################################################################
+
+# Use this selection for the muon background estimate.
+disTrkIdTau = copy.deepcopy(disTrkSelection)
+disTrkIdTau.name = cms.string("DisTrkIdTau")
+cutsToAdd = [
+    cutTrkMatchGenTau,
+]
+addCuts(disTrkIdTau.cuts, cutsToAdd)
+
+##########################################################################
+
+# Use this selection for the fake track background estimate.
+disTrkIdFake = copy.deepcopy(disTrkSelection)
+disTrkIdFake.name = cms.string("DisTrkIdFake")
+cutsToAdd = [
+    cutTrkMatchFake,
+]
+addCuts(disTrkIdFake.cuts, cutsToAdd)
 
 ##########################################################################
 
