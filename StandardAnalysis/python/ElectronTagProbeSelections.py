@@ -59,6 +59,15 @@ ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
 ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
 ElectronTagPt50MetTrig.triggers = triggersMet 
 
+ElectronTagPt50NMissOut = copy.deepcopy(ElectronTagPt50)
+ElectronTagPt50NMissOut.name = cms.string("ElectronTagPt50NMissOut")
+addSingleCut(ElectronTagPt50NMissOut.cuts,  cutTrkNMissOut, cutTrkTauHadVeto) 
+
+ElectronTagPt50NMissOutMetTrig = copy.deepcopy(ElectronTagPt50NMissOut)
+ElectronTagPt50NMissOutMetTrig.name = cms.string("ElectronTagPt50NMissOutMetTrig")
+ElectronTagPt50NMissOutMetTrig.triggrs = triggersMet  
+
+
 
 ################################################################################
 ## Electron tag and probe sample
