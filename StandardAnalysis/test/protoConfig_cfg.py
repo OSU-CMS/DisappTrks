@@ -322,7 +322,7 @@ TauBkgdEstimate = [ # run over data
 #  add_channels  (process,  [ZtoEleIsoTrk],             histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrk],           histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-add_channels  (process,  [ZtoEleDisTrk],             histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrk],             histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  ElecTagProbeChannels,       histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ZtoEleProbeTrkWithZCuts skim as input
 #  add_channels  (process,  ElecBkgdEstimate,           histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ElectronTagSkim skim as input
 #  add_channels  (process,  ElecBkgdClosureTest,        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # run over Wjets and TTjets MC sample
