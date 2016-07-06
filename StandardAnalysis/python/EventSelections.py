@@ -67,6 +67,12 @@ addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
 
 ##########################################################################
+isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
+isoTrkLoosePt.name = copy.deepcopy("IsoTrkLoosePt")
+addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt50)
+removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt50])  
+
+##########################################################################
 
 isoTrkSelectionNoJetCuts = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionNoJetCuts.name = cms.string("IsoTrkSelectionNoJetCuts")
