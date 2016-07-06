@@ -32,6 +32,7 @@ triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/
 triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
     "HLT_Ele22_eta2p1_WP75_Gsf_v",    # available in the bkgd MC
+    "HLT_Ele25_eta2p1_WPLoose_Gsf_v"  # available in the 2016 data
 )
 
 triggersSingleTau = cms.vstring(
@@ -578,10 +579,17 @@ cutEleTrkDeltaR = cms.PSet(
     cutString = cms.string("deltaR ( electron , track ) > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkElecDR0p1 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "electrons"),
+    cutString = cms.string("deltaR (track, electron) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchRecoElec = cms.PSet(
     inputCollection = cms.vstring("tracks", "electrons"),
-    cutString = cms.string("deltaR ( track , electron ) < 0.1"), 
+    cutString = cms.string("electron.pt > -1"),
     numberRequired = cms.string(">= 1"),
+    arbitration = cms.string("-deltaR ( track, electron)"),
+    alias = cms.string("match track to electron"),
 )
 cutEleTrkInvMass10 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
