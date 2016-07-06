@@ -2,13 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino100GeV_ctau1000cm_NoFilter_13TeV.py --fileout file:AMSB_chargino100GeV_ctau1000cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino100GeV_ctau1000cm_step1.py --no_exec -n 5
-#
-# Follow recipe for RunII Winter GS campaign, e.g.:
-# https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/EXO-RunIIFall14GS-00224
-# for /DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIIWinter15GS-MCRUN2_71_V1-v1/GEN-SIM 
-# Add by hand:  
-# genParticlePlusGeant module
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino100GeV_ctau1000cm_NoFilter_13TeV.py --fileout file:AMSB_chargino100GeV_ctau1000cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,DisappTrks/SignalMC/genParticlePlusGeant.customizeProduce,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino100GeV_ctau1000cm_step1.py --no_exec -n 46
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('SIM')
@@ -23,14 +17,14 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.Geometry.GeometrySimDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
 process.load('Configuration.StandardSequences.Generator_cff')
-process.load('IOMC.EventVertexGenerators.VtxSmearedNominalCollision2015_cfi')
+process.load('IOMC.EventVertexGenerators.VtxSmearedRealistic50ns13TeVCollision_cfi')
 process.load('GeneratorInterface.Core.genFilterSummary_cff')
 process.load('Configuration.StandardSequences.SimIdeal_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5)
+    input = cms.untracked.int32(46)
 )
 
 # Input source
@@ -43,7 +37,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino100GeV_ctau1000cm_NoFilter_13TeV.py nevts:5'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino100GeV_ctau1000cm_NoFilter_13TeV.py nevts:46'),
     name = cms.untracked.string('Applications')
 )
 
@@ -121,20 +115,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
-#process.simulation_step = cms.Path(process.psim)
-process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
-                                              src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
-                                              setStatus = cms.int32(8), # set status = 8 for GEANT GPs
-                                              filter = cms.vstring("pt > 10.0"), # just for testing (optional)
-#                                              particleTypes = cms.vstring("~chargino(1)+", "~neutralino(1)"),
-#                                              particleTypes = cms.vstring("1000024"), 
-                                              genParticles = cms.InputTag("genParticles") # original genParticle list
-)
-process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
-process.RAWSIMoutput.outputCommands.extend( [
-        "keep *_genParticlePlusGeant_*_*",
-] ) 
-
+process.simulation_step = cms.Path(process.psim)
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
@@ -146,6 +127,15 @@ for path in process.paths:
 	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
 
 # customisation of the process.
+
+# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeProduce,customizeKeep 
+
+#call to customisation function customizeProduce imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customizeProduce(process)
+
+#call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customizeKeep(process)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
@@ -166,9 +156,3 @@ from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 process = customise(process)
 
 # End of customisation functions
-
-# Memory information:  
-# process.SimpleMemoryCheck.jobReportOutputOnly  = cms.untracked.bool(False)
-# process.SimpleMemoryCheck.monitorPssAndPrivate = cms.untracked.bool(True)
-# process.SimpleMemoryCheck.moduleMemorySummary  = cms.untracked.bool(True)
-

@@ -316,7 +316,7 @@ cutTrkNMissOutInv = cms.PSet(
 )
 cutTrkMatchGenNone = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("genMatchedParticle.promptFinalState.isNnull"),
+    cutString = cms.string("genMatchedParticle.promptFinalState.isNull"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchedGen = cms.PSet(
@@ -337,6 +337,16 @@ cutTrkMatchGenMuon = cms.PSet(
 cutTrkMatchGenTau = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull || genMatchedParticle.directHardProcessTauDecayProductFinalState.isNonnull"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkMatchFake = cms.PSet(
+    # not matched to tau, electron, or muon 
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("\
+    genMatchedParticle.directPromptTauDecayProductFinalState.isNull && \
+    genMatchedParticle.directHardProcessTauDecayProductFinalState.isNull && \
+    abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && \
+    abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenPhoton = cms.PSet(

@@ -206,6 +206,14 @@ BkgdEstChannels = [
 ]
 BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels
 
+DisTrkChannels = [
+    disTrkIdElec, 
+    disTrkIdMuon, 
+    disTrkIdTau, 
+    disTrkIdFake, 
+    disTrkSelection, 
+]
+
 FakeTrkSystChannels = [
     disTrkSelectionNHits3,
     disTrkSelectionNHits4,
@@ -285,7 +293,7 @@ TauBkgdEstimate = [ # run over data
 #  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
 #  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use isoTrkSelection skim as input
-#  add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  # use isoTrkSelection skim as input
+#  add_channels  (process,  DisTrkChannels,        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  Use isoTrkSelection skim as input.  
 #  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
 
 ## MANDATORY CHANNELS FOR SINGLEMUON DATASET
@@ -313,7 +321,7 @@ TauBkgdEstimate = [ # run over data
 #  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # no input skim
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ElectronTagSkim skim as input
 #  add_channels  (process,   ElecTagProbeChannels,                            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ZtoEleProbeTrkWithZCuts skim as input 
-#  add_channels  (process,   ElecBkgdEstimate,                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False) # use ElectronTagSkim skim as input 
+#  add_channels  (process,   ElecBkgdEstimate,                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True) # use ElectronTagSkim skim as input 
 #  add_channels  (process,   ElecBkgdClosureTest,                              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False) # run over Wjets and TTjets MC sample (no skim)  
 
 ## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
