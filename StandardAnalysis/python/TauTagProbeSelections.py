@@ -69,8 +69,9 @@ addCuts(TauTagPt50MetCut.cuts, cutsToAdd)
 ## used in search region and add missing outer hits cut.
 ##################################################
 cutsToAdd = [
-#    cutTrkEcalo,
-#    cutTrkNMissOut,
+    cutTrkEcalo,
+    cutTrkNMissOut,
+    #cutTrkNMissOutInv
 ]
 addCuts(TauTagPt50.cuts, cutsToAdd)
 
