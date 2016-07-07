@@ -131,18 +131,18 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
 
-muonBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("muon")
-muonBkgdClosureTest_CandTrk.addTFile (fout)
-muonBkgdClosureTest_CandTrk.addTCanvas (canvas)
-muonBkgdClosureTest_CandTrk.addMetCut (100.0)
-muonBkgdClosureTest_CandTrk.addPpassVeto (pPassVeto)
-muonBkgdClosureTest_CandTrk.addChannel  ("TagPt35",         "MuonTagPt50",         "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
-muonBkgdClosureTest_CandTrk.addChannel  ("TagPt35MetTrig",  "MuonTagPt50MetTrig",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
-muonBkgdClosureTest_CandTrk.printSingleLeptonTriggerEff ()
+muonBkgdClosureTest_DisTrk = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_DisTrk.addTFile (fout)
+muonBkgdClosureTest_DisTrk.addTCanvas (canvas)
+muonBkgdClosureTest_DisTrk.addMetCut (100.0)
+muonBkgdClosureTest_DisTrk.addPpassVeto (pPassVeto)
+muonBkgdClosureTest_DisTrk.addChannel  ("TagPt35",         "MuonTagPt50",         "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+muonBkgdClosureTest_DisTrk.addChannel  ("TagPt35MetTrig",  "MuonTagPt50MetTrig",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+muonBkgdClosureTest_DisTrk.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
 
-(nEst, nEstError) = muonBkgdClosureTest_CandTrk.printNest ()
+(nEst, nEstError) = muonBkgdClosureTest_DisTrk.printNest ()
 
 print "********************************************************************************"
 
