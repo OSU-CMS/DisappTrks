@@ -3,7 +3,7 @@ import os
 import sys
 import math
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject 
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
@@ -355,6 +355,9 @@ class LeptonBkgdClosureTest:
                 met = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+                if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
+                    print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
+                    return
 
                 pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
                 pt.SetBorderSize(0)

@@ -80,6 +80,7 @@ addSingleCut(MuonTagPt50.cuts, cutTrkPt, cutTrkPt35)
 cutsToAdd = [
     cutTrkEcalo,
     cutTrkNMissOut,
+    #cutTrkNMissOutInv
 ]
 addCuts(MuonTagPt50.cuts, cutsToAdd)
 cutsToRemove = [

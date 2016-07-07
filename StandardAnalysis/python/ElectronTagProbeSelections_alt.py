@@ -19,19 +19,40 @@ tagElectronCuts = [
 ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
-
 ##################################################
 ## Higher pt to be closer to candidate track selection
 ##################################################
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
-addSingleCut(ElectronTagPt35.cuts,  cutElectronPt35, cutElectronPt25)
-removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])  
-addCuts     (ElectronTagPt35.cuts, [cutTrkPt35])
-addCuts     (ElectronTagPt35.cuts,  candTrkCuts)
-removeCuts  (ElectronTagPt35.cuts, [cutTrkPt]) 
-removeCuts  (ElectronTagPt35.cuts, [cutTrkElecVeto])  
-addCuts     (ElectronTagPt35.cuts, [cutTrkMatchRecoElec])
+addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
+cutsToAdd = [ 
+    cutElectronArbitration,
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutTrkPt35,
+    cutTrkElecDR0p1,
+    cutTrkMatchRecoElec,
+    cutTrkEta,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+    cutTrkJetDeltaPhi,
+]
+addCuts(ElectronTagPt35.cuts, cutsToAdd)
+cutsToRemove = [
+    cutElectronPt25, 
+    ]
+removeCuts(ElectronTagPt35.cuts, cutsToRemove)  
 
 ElectronTagPt35NoTrig = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt35NoTrig.name = cms.string("ElectronTagPt35NoTrig")
@@ -48,25 +69,38 @@ cutsToAdd = [
 ]
 addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)  
 
+##################################################
+## Channels for real life background estimate. Increase pt threshold to that
+## used in search region and add missing outer hits cut.
+##################################################
 ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt50.name = cms.string("ElectronTagPt50")
-addSingleCut(ElectronTagPt50.cuts,  cutElectronPt50, cutElectronPt35)
-removeCuts  (ElectronTagPt50.cuts, [cutElectronPt35])  
-addSingleCut(ElectronTagPt50.cuts,  cutTrkPt50, cutTrkPt35)
-removeCuts  (ElectronTagPt50.cuts, [cutTrkPt35])  
+addSingleCut(ElectronTagPt50.cuts, cutTrkPt, cutTrkPt35)
+cutsToAdd = [
+    #cutTrkEcalo,
+    #cutTrkNMissOut,
+    cutTrkNMissOutInv
+]
+addCuts(ElectronTagPt50.cuts, cutsToAdd)
+cutsToRemove = [
+    cutTrkPt35,
+]
+removeCuts(ElectronTagPt50.cuts, cutsToRemove)
+
+ElectronTagPt50NoTrig = copy.deepcopy(ElectronTagPt50)
+ElectronTagPt50NoTrig.name = cms.string("ElectronTagPt50NoTrig")
+ElectronTagPt50NoTrig.triggers = cms.vstring() 
 
 ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
 ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
 ElectronTagPt50MetTrig.triggers = triggersMet 
 
-ElectronTagPt50NMissOut = copy.deepcopy(ElectronTagPt50)
-ElectronTagPt50NMissOut.name = cms.string("ElectronTagPt50NMissOut")
-addSingleCut(ElectronTagPt50NMissOut.cuts,  cutTrkNMissOut, cutTrkTauHadVeto) 
-
-ElectronTagPt50NMissOutMetTrig = copy.deepcopy(ElectronTagPt50NMissOut)
-ElectronTagPt50NMissOutMetTrig.name = cms.string("ElectronTagPt50NMissOutMetTrig")
-ElectronTagPt50NMissOutMetTrig.triggrs = triggersMet  
-
+ElectronTagPt50MetCut = copy.deepcopy(ElectronTagPt50)
+ElectronTagPt50MetCut.name = cms.string("ElectronTagPt50MetCut")
+cutsToAdd = [ 
+    cutElectronMetMinusOne, 
+]
+addCuts(ElectronTagPt50MetCut.cuts, cutsToAdd)  
 
 
 ################################################################################
@@ -82,6 +116,7 @@ addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
 addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30]) 
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
+addSingleCut(ZtoEleIsoTrk.cuts, cutTrkNMissOut, cutTrkNMissMid) 
 cutsToRemove = [
     cutTrkPt,
 ]
@@ -90,8 +125,9 @@ removeCuts(ZtoEleIsoTrk.cuts, cutsToRemove)
 ZtoEleProbeTrk = copy.deepcopy(ZtoEleIsoTrk)
 ZtoEleProbeTrk.name = cms.string("ZtoEleProbeTrk")
 # Add cuts in reverse order
-addSingleCut(ZtoEleProbeTrk.cuts, cutTrkTauHadVeto, cutTrkJetDeltaPhi) 
-addSingleCut(ZtoEleProbeTrk.cuts, cutTrkMuonVeto,   cutTrkJetDeltaPhi) 
+addSingleCut(ZtoEleProbeTrk.cuts, cutTrkArbitration, cutEleTrkInvMass10) 
+addSingleCut(ZtoEleProbeTrk.cuts, cutTrkTauHadVeto, cutEleTrkInvMass10) 
+addSingleCut(ZtoEleProbeTrk.cuts, cutTrkMuonVeto,   cutEleTrkInvMass10) 
 
 
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ZtoEleProbeTrk)
@@ -104,11 +140,11 @@ addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
 ZtoEleCandTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleCandTrk.name = cms.string("ZtoEleCandTrk")
-addSingleCut(ZtoEleCandTrk.cuts, cutTrkElecVeto, cutTrkTauHadVeto)
+addSingleCut(ZtoEleCandTrk.cuts, cutTrkElecVeto, cutEleTrkOS)
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleCandTrk)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
-addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutTrkElecVeto)
+#addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutTrkElecVeto)
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutTrkElecVeto) 
 
 ZtoEleDisTrkNoNMissOut = copy.deepcopy(ZtoEleDisTrk) 
