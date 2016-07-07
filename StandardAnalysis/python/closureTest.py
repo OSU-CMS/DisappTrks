@@ -66,10 +66,12 @@ class LeptonBkgdClosureTest:
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
+    _metMinusOneHist = ""
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
         self._Flavor = self._flavor[0].upper () + self._flavor[1:]
+        self._metMinusOneHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
 
     def addTFile (self, fout):
         self._fout = fout
@@ -85,6 +87,12 @@ class LeptonBkgdClosureTest:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def useMetMinusOneForIntegrals (self, flag = True):
+        if flag:
+            self._metMinusOneHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
+        else:
+            self._metMinusOneHist = "Met Plots/metNoMu"
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -240,8 +248,7 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
@@ -273,8 +280,7 @@ class LeptonBkgdClosureTest:
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
             name = self.TagPt35["name"]
-            hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-            metHist = getHist (sample, condorDir, name + "Plotter", hist)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
             passesHist.Divide (totalHist)
             metHist.Multiply (passesHist)
@@ -291,8 +297,7 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
