@@ -3,9 +3,9 @@
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 
 backgrounds = {
-'Elec' : { # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/707
-    'N' : '457275',
-    'alpha' : '1.524554979146028e-5',
+'Elec' : { # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/715
+    'N' : '44129',
+    'alpha' : '6.276016681071405e-5',
         },
 'Muon' : { # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/705
     'N' : '379',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Elec' : {
-    'value' : '1.2046374740621713',
+    'value' : '1.2057287367251016',
                  },
     'Muon' : {
     'value' : '1.4641395609543109',
