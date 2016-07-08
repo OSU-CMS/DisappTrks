@@ -260,6 +260,11 @@ cutTrkMuonVeto = cms.PSet(
     cutString = cms.string("deltaRToClosestMuon > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkTightMuonVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTightMuon > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkLooseMuonVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestLooseMuon > 0.15"),
