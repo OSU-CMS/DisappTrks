@@ -139,6 +139,10 @@ cutsToAdd = [
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ZtoMuProbeTrkTightVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkTightVeto.name = cms.string("ZtoMuProbeTrkTightVeto")
+addCuts(ZtoMuDisTrk.cuts, [cutTrkMuonVeto]) 
+
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 cutsToAdd = [
