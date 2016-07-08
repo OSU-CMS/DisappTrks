@@ -134,20 +134,20 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
 
-tauBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("tau")
-tauBkgdClosureTest_CandTrk.addTFile (fout)
-tauBkgdClosureTest_CandTrk.addTCanvas (canvas)
-tauBkgdClosureTest_CandTrk.addMetCut (100.0)
-tauBkgdClosureTest_CandTrk.addPpassVeto (pPassVeto)
-tauBkgdClosureTest_CandTrk.addPrescaleFactor (11.559)
-tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
-tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_CandTrk.printSingleLeptonTriggerEff ()
+tauBkgdClosureTest_DisTrk = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_DisTrk.addTFile (fout)
+tauBkgdClosureTest_DisTrk.addTCanvas (canvas)
+tauBkgdClosureTest_DisTrk.addMetCut (100.0)
+tauBkgdClosureTest_DisTrk.addPpassVeto (pPassVeto)
+tauBkgdClosureTest_DisTrk.addPrescaleFactor (11.559)
+tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
+tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
+tauBkgdClosureTest_DisTrk.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
 
-(nEst, nEstError) = tauBkgdClosureTest_CandTrk.printNest ()
+(nEst, nEstError) = tauBkgdClosureTest_DisTrk.printNest ()
 
 print "********************************************************************************"
 
