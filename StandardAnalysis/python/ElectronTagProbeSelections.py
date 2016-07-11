@@ -26,7 +26,15 @@ addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
 addSingleCut(ElectronTagPt35.cuts,  cutElectronPt35, cutElectronPt25)
-removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])  
+removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])
+jetCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    # Exclude cutJetMetPhi  
+]  
+addCuts     (ElectronTagPt35.cuts,  jetCuts) 
 addCuts     (ElectronTagPt35.cuts, [cutTrkPt35])
 addCuts     (ElectronTagPt35.cuts,  candTrkCuts)
 removeCuts  (ElectronTagPt35.cuts, [cutTrkPt]) 
@@ -47,6 +55,13 @@ cutsToAdd = [
     cutElectronMetMinusOne, 
 ]
 addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)  
+
+jetCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+]
 
 ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt50.name = cms.string("ElectronTagPt50")
