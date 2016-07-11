@@ -63,7 +63,7 @@ cutGoodPV = cms.PSet (
 ##################################################
 cutMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
-    cutString = cms.string("pt > 100"),
+    cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
 
@@ -258,6 +258,11 @@ cutTrkVetoElecVeto = cms.PSet(
 cutTrkMuonVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("deltaRToClosestMuon > 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkTightMuonVeto = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deltaRToClosestTightMuon > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkLooseMuonVeto = cms.PSet(
