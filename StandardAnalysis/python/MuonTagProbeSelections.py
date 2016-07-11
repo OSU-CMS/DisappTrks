@@ -103,6 +103,15 @@ cutsToAdd = [
 ]
 addCuts(MuonTagPt55MetCut.cuts, cutsToAdd)  
 
+MuonTagPt55NoNMissOut = copy.deepcopy(MuonTagPt55)
+MuonTagPt55NoNMissOut.name = cms.string("MuonTagPt55NoNMissOut") 
+removeCuts(MuonTagPt55NoNMissOut.cuts, [cutTrkNMissOut])  
+
+MuonTagPt55NoNMissOutMetTrig = copy.deepcopy(MuonTagPt55NoNMissOut)
+MuonTagPt55NoNMissOutMetTrig.name = cms.string("MuonTagPt55NoNMissOutMetTrig")
+MuonTagPt55NoNMissOutMetTrig.triggers = triggersMet 
+
+
 ################################################################################
 ## Muon tag and probe sample
 ################################################################################
