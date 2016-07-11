@@ -116,7 +116,6 @@ addCuts(ZtoEleIsoTrk.cuts, [cutElectronArbitration])
 addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30]) 
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
-addSingleCut(ZtoEleIsoTrk.cuts, cutTrkNMissOut, cutTrkNMissMid) 
 cutsToRemove = [
     cutTrkPt,
 ]
