@@ -140,11 +140,6 @@ cutJetTightLepVeto = cms.PSet(
 ##################################################
 ## tracks
 ##################################################
-cutTrkPt = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("pt > 50"),
-    numberRequired = cms.string(">= 1"),
-)
 cutTrkPt50 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 50"),
