@@ -65,7 +65,7 @@ jetCuts = [
 
 ElectronTagPt55 = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt55.name = cms.string("ElectronTagPt55")
-addSingleCut(ElectronTagPt55.cuts,  cutElectronPt55, cutElectronPt35)
+addSingleCut(ElectronTagPt55.cuts,  cutElectronPt50, cutElectronPt35)
 removeCuts  (ElectronTagPt55.cuts, [cutElectronPt35])  
 addSingleCut(ElectronTagPt55.cuts,  cutTrkPt55, cutTrkPt35)
 removeCuts  (ElectronTagPt55.cuts, [cutTrkPt35])  
