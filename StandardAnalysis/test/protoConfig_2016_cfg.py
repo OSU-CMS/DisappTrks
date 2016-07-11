@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
 import glob
 
-data_global_tag = '80X_dataRun2_Prompt_v8'
+data_global_tag = '80X_dataRun2_Prompt_v9'
 mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
 
 ################################################################################
@@ -247,6 +247,8 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkLooseVeto],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+
 #  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -261,12 +263,12 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
-## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET  
+## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET
 #  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrk],                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrk],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-
+#  add_channels  (process,  [ZtoEleDisTrkLooseVeto],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -296,4 +298,3 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
 
 #process.Tracer = cms.Service("Tracer")
-
