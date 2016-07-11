@@ -13,7 +13,7 @@ dataset_names = {
     # MiniAOD not stored on T3.
     ############################################################################
 
-    'MET_2016B'       : "/MET/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v1-f668e5a3b4cc4d2b938bca8237c77113/USER",
+    'MET_2016B'       : "/MET/ahart-Run2016B-PromptReco-v2-DisappTrks-v2-672566a6fc675a518406a931e162f995/USER",
 
     'SingleMu_2016B'  : "/SingleMuon/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v2-672566a6fc675a518406a931e162f995/USER",
 
