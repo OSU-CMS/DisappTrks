@@ -26,7 +26,7 @@ addCuts(MuonTagSkim.cuts, tagMuonCuts)
 MuonTagPt35 = copy.deepcopy(MuonTagSkim)
 MuonTagPt35.name = cms.string("MuonTagPt35")
 addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt25)
-cutsToAdd = [ 
+cutsToAdd = [
     cutMuonArbitration,
     cutJetPt,
     cutJetEta,
@@ -51,24 +51,24 @@ cutsToAdd = [
 ]
 addCuts(MuonTagPt35.cuts, cutsToAdd)
 cutsToRemove = [
-    cutMuonPt25, 
+    cutMuonPt25,
     ]
-removeCuts(MuonTagPt35.cuts, cutsToRemove)  
+removeCuts(MuonTagPt35.cuts, cutsToRemove)
 
 MuonTagPt35NoTrig = copy.deepcopy(MuonTagPt35)
 MuonTagPt35NoTrig.name = cms.string("MuonTagPt35NoTrig")
-MuonTagPt35NoTrig.triggers = cms.vstring() 
+MuonTagPt35NoTrig.triggers = cms.vstring()
 
 MuonTagPt35MetTrig = copy.deepcopy(MuonTagPt35)
 MuonTagPt35MetTrig.name = cms.string("MuonTagPt35MetTrig")
-MuonTagPt35MetTrig.triggers = triggersMet 
+MuonTagPt35MetTrig.triggers = triggersMet
 
 MuonTagPt35MetCut = copy.deepcopy(MuonTagPt35)
 MuonTagPt35MetCut.name = cms.string("MuonTagPt35MetCut")
-cutsToAdd = [ 
-    cutMuonMetMinusOne, 
+cutsToAdd = [
+    cutMuonMetMinusOne,
 ]
-addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)  
+addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)
 
 ##################################################
 ## Channels for real life background estimate. Increase pt threshold to that
@@ -142,7 +142,7 @@ addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
 ZtoMuProbeTrkTightVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkTightVeto.name = cms.string("ZtoMuProbeTrkTightVeto")
-addCuts(ZtoMuProbeTrkTightVeto.cuts, [cutTrkTightMuonVeto]) 
+addCuts(ZtoMuProbeTrkTightVeto.cuts, [cutTrkTightMuonVeto])
 
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
@@ -150,6 +150,10 @@ cutsToAdd = [
     cutTrkMuonVeto,
 ]
 addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
+
+ZtoMuDisTrkLooseVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
+ZtoMuDisTrkLooseVeto.name = cms.string("ZtoMuDisTrkLooseVeto")
+addCuts(ZtoMuDisTrkLooseVeto.cuts, [cutTrkLooseMuonVeto])
 
 ##################################################
 ## Fake track control sample:  start with Z->mu mu events
@@ -171,11 +175,11 @@ ZtoMuMu = cms.PSet(
 
 
 ##################################################
-## Fake track control sample:  Z->mu mu + candidate track 
+## Fake track control sample:  Z->mu mu + candidate track
 ##################################################
-ZtoMuMuCandTrk = copy.deepcopy(ZtoMuMu) 
-ZtoMuMuCandTrk.name = cms.string("ZtoMuMuCandTrk") 
-addCuts(ZtoMuMuCandTrk.cuts, candTrkCuts)  
+ZtoMuMuCandTrk = copy.deepcopy(ZtoMuMu)
+ZtoMuMuCandTrk.name = cms.string("ZtoMuMuCandTrk")
+addCuts(ZtoMuMuCandTrk.cuts, candTrkCuts)
 
 
 ##################################################
@@ -188,16 +192,16 @@ addCuts(ZtoMuMuDisTrk.cuts, disTrkCuts)
 ##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in Ecalo sideband
 ##################################################
-ZtoMuMuCandTrkEcaloSdband = copy.deepcopy(ZtoMuMu) 
-ZtoMuMuCandTrkEcaloSdband.name = cms.string("ZtoMuMuCandTrkEcaloSdband") 
-addCuts(ZtoMuMuCandTrkEcaloSdband.cuts, candTrkEcaloSdbandCuts)  
+ZtoMuMuCandTrkEcaloSdband = copy.deepcopy(ZtoMuMu)
+ZtoMuMuCandTrkEcaloSdband.name = cms.string("ZtoMuMuCandTrkEcaloSdband")
+addCuts(ZtoMuMuCandTrkEcaloSdband.cuts, candTrkEcaloSdbandCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in NMissOut sideband
 ##################################################
-ZtoMuMuCandTrkNMissOutSdband = copy.deepcopy(ZtoMuMu) 
-ZtoMuMuCandTrkNMissOutSdband.name = cms.string("ZtoMuMuCandTrkNMissOutSdband") 
-addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)  
+ZtoMuMuCandTrkNMissOutSdband = copy.deepcopy(ZtoMuMu)
+ZtoMuMuCandTrkNMissOutSdband.name = cms.string("ZtoMuMuCandTrkNMissOutSdband")
+addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track with 3 hits
@@ -205,13 +209,13 @@ addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)
 ZtoMuMuDisTrkNHits3 = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNHits3.name = cms.string("ZtoMuMuDisTrkNHits3")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits3, 
+    cutTrkNValidHits3,
 ]
-removeCuts(ZtoMuMuDisTrkNHits3.cuts, cutsToRemove) 
-addCuts   (ZtoMuMuDisTrkNHits3.cuts, cutsToAdd) 
+removeCuts(ZtoMuMuDisTrkNHits3.cuts, cutsToRemove)
+addCuts   (ZtoMuMuDisTrkNHits3.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track with 4 hits
@@ -219,13 +223,13 @@ addCuts   (ZtoMuMuDisTrkNHits3.cuts, cutsToAdd)
 ZtoMuMuDisTrkNHits4 = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNHits4.name = cms.string("ZtoMuMuDisTrkNHits4")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits4, 
+    cutTrkNValidHits4,
 ]
-removeCuts(ZtoMuMuDisTrkNHits4.cuts, cutsToRemove) 
-addCuts   (ZtoMuMuDisTrkNHits4.cuts, cutsToAdd) 
+removeCuts(ZtoMuMuDisTrkNHits4.cuts, cutsToRemove)
+addCuts   (ZtoMuMuDisTrkNHits4.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track with 5 hits
@@ -233,13 +237,13 @@ addCuts   (ZtoMuMuDisTrkNHits4.cuts, cutsToAdd)
 ZtoMuMuDisTrkNHits5 = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNHits5.name = cms.string("ZtoMuMuDisTrkNHits5")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits5, 
+    cutTrkNValidHits5,
 ]
-removeCuts(ZtoMuMuDisTrkNHits5.cuts, cutsToRemove) 
-addCuts   (ZtoMuMuDisTrkNHits5.cuts, cutsToAdd) 
+removeCuts(ZtoMuMuDisTrkNHits5.cuts, cutsToRemove)
+addCuts   (ZtoMuMuDisTrkNHits5.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track with 6 hits
@@ -247,11 +251,10 @@ addCuts   (ZtoMuMuDisTrkNHits5.cuts, cutsToAdd)
 ZtoMuMuDisTrkNHits6 = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNHits6.name = cms.string("ZtoMuMuDisTrkNHits6")
 cutsToRemove = [
-    cutTrkNValidHits, 
+    cutTrkNValidHits,
 ]
 cutsToAdd = [
-    cutTrkNValidHits6, 
+    cutTrkNValidHits6,
 ]
-removeCuts(ZtoMuMuDisTrkNHits6.cuts, cutsToRemove) 
-addCuts   (ZtoMuMuDisTrkNHits6.cuts, cutsToAdd) 
-
+removeCuts(ZtoMuMuDisTrkNHits6.cuts, cutsToRemove)
+addCuts   (ZtoMuMuDisTrkNHits6.cuts, cutsToAdd)
