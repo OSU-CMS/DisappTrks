@@ -17,6 +17,7 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.categories.append ("OSUTrackProducer")
 process.MessageLogger.categories.append ("GenMatchable")
 process.MessageLogger.cerr.GenMatchable = cms.untracked.PSet(
     limit = cms.untracked.int32(1),
@@ -41,7 +42,7 @@ process.source = cms.Source ("PoolSource",
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
         "root://xrootd.rcac.purdue.edu//store/user/wulsin/SingleMuon/Run2015D-16Dec2015-v1-DisappTrks-v1/160131_105005/0000/miniAODWithCandidateTracks_1.root",
-        # '/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root',
+        #'/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root',
         # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root",
         # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root",
         # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
@@ -242,8 +243,8 @@ ElecBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 ]
 
 ElecBkgdEstimate = [ # run over data
-    ElectronTagPt50,
-    ElectronTagPt50MetTrig,
+    ElectronTagPt55,
+    ElectronTagPt55MetTrig,
 ]
 
 ElecTagProbeChannels = [ # run over ZtoEleProbeTrkWithZCuts skim
@@ -264,10 +265,10 @@ MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 ]
 
 MuonBkgdEstimate = [ # run over data
-    MuonTagPt50,
-    MuonTagPt50NoTrig,
-    MuonTagPt50MetCut,
-    MuonTagPt50MetTrig,
+    MuonTagPt55,
+    MuonTagPt55NoTrig,
+    MuonTagPt55MetCut,
+    MuonTagPt55MetTrig,
 ]
 
 TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
@@ -280,10 +281,10 @@ TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
 ]
 
 TauBkgdEstimate = [ # run over data
-    TauTagPt50,
-    TauTagPt50NoTrig,
-    TauTagPt50MetCut,
-    TauTagPt50MetTrig,
+    TauTagPt55,
+    TauTagPt55NoTrig,
+    TauTagPt55MetCut,
+    TauTagPt55MetTrig,
 ]
 
 ################################################################################
