@@ -73,34 +73,34 @@ addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)
 ## Channels for real life background estimate. Increase pt threshold to that
 ## used in search region and add missing outer hits cut.
 ##################################################
-ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
-ElectronTagPt50.name = cms.string("ElectronTagPt50")
-addSingleCut(ElectronTagPt50.cuts, cutTrkPt, cutTrkPt35)
+ElectronTagPt55 = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt55.name = cms.string("ElectronTagPt55")
+addSingleCut(ElectronTagPt55.cuts, cutTrkPt55, cutTrkPt35)
 cutsToAdd = [
     #cutTrkEcalo,
     #cutTrkNMissOut,
     cutTrkNMissOutInv
 ]
-addCuts(ElectronTagPt50.cuts, cutsToAdd)
+addCuts(ElectronTagPt55.cuts, cutsToAdd)
 cutsToRemove = [
     cutTrkPt35,
 ]
-removeCuts(ElectronTagPt50.cuts, cutsToRemove)
+removeCuts(ElectronTagPt55.cuts, cutsToRemove)
 
-ElectronTagPt50NoTrig = copy.deepcopy(ElectronTagPt50)
-ElectronTagPt50NoTrig.name = cms.string("ElectronTagPt50NoTrig")
-ElectronTagPt50NoTrig.triggers = cms.vstring() 
+ElectronTagPt55NoTrig = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55NoTrig.name = cms.string("ElectronTagPt55NoTrig")
+ElectronTagPt55NoTrig.triggers = cms.vstring() 
 
-ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
-ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
-ElectronTagPt50MetTrig.triggers = triggersMet 
+ElectronTagPt55MetTrig = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55MetTrig.name = cms.string("ElectronTagPt55MetTrig")
+ElectronTagPt55MetTrig.triggers = triggersMet 
 
-ElectronTagPt50MetCut = copy.deepcopy(ElectronTagPt50)
-ElectronTagPt50MetCut.name = cms.string("ElectronTagPt50MetCut")
+ElectronTagPt55MetCut = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55MetCut.name = cms.string("ElectronTagPt55MetCut")
 cutsToAdd = [ 
     cutElectronMetMinusOne, 
 ]
-addCuts(ElectronTagPt50MetCut.cuts, cutsToAdd)  
+addCuts(ElectronTagPt55MetCut.cuts, cutsToAdd)  
 
 
 ################################################################################
@@ -117,7 +117,7 @@ addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
 cutsToRemove = [
-    cutTrkPt,
+    cutTrkPt55,
 ]
 removeCuts(ZtoEleIsoTrk.cuts, cutsToRemove)
 

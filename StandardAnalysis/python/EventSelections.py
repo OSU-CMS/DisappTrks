@@ -47,7 +47,7 @@ metMinimalSkim = cms.PSet(
 isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
 isoTrkCuts = [
-    cutTrkPt,
+    cutTrkPt55,
     cutTrkEta,
     cutTrkEcalGapVeto,
     cutTrkEtaMuonIneff1,
@@ -68,8 +68,8 @@ addCuts(isoTrkSelection.cuts, isoTrkCuts)
 ##########################################################################
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
 isoTrkLoosePt.name = copy.deepcopy("IsoTrkLoosePt")
-addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt50)
-removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt50])  
+addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt55)
+removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt55])  
 
 ##########################################################################
 
@@ -160,9 +160,9 @@ cutsToAdd = [
     cutTrkMatchGenElec,
     ]
 addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt) 
+addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt55) 
 cutsToRemove = [
-    cutTrkPt, 
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,
@@ -191,9 +191,9 @@ cutsToAdd = [
     cutTrkMatchGenMuon,
     ]
 addCuts(candTrkIdMuPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt) 
+addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt55) 
 cutsToRemove = [
-    cutTrkPt, 
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,
@@ -222,7 +222,9 @@ cutsToAdd = [
     cutTrkMatchGenTau,
     ]
 addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
+addSingleCut(candTrkIdTauPt50.cuts, cutTrkPt50, cutTrkPt55) 
 cutsToRemove = [
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,

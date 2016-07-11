@@ -74,34 +74,34 @@ addCuts(MuonTagPt35MetCut.cuts, cutsToAdd)
 ## Channels for real life background estimate. Increase pt threshold to that
 ## used in search region and add missing outer hits cut.
 ##################################################
-MuonTagPt50 = copy.deepcopy(MuonTagPt35)
-MuonTagPt50.name = cms.string("MuonTagPt50")
-addSingleCut(MuonTagPt50.cuts, cutTrkPt, cutTrkPt35)
+MuonTagPt55 = copy.deepcopy(MuonTagPt35)
+MuonTagPt55.name = cms.string("MuonTagPt55")
+addSingleCut(MuonTagPt55.cuts, cutTrkPt55, cutTrkPt35)
 cutsToAdd = [
     cutTrkEcalo,
     cutTrkNMissOut,
     #cutTrkNMissOutInv
 ]
-addCuts(MuonTagPt50.cuts, cutsToAdd)
+addCuts(MuonTagPt55.cuts, cutsToAdd)
 cutsToRemove = [
     cutTrkPt35,
 ]
-removeCuts(MuonTagPt50.cuts, cutsToRemove)
+removeCuts(MuonTagPt55.cuts, cutsToRemove)
 
-MuonTagPt50NoTrig = copy.deepcopy(MuonTagPt50)
-MuonTagPt50NoTrig.name = cms.string("MuonTagPt50NoTrig")
-MuonTagPt50NoTrig.triggers = cms.vstring() 
+MuonTagPt55NoTrig = copy.deepcopy(MuonTagPt55)
+MuonTagPt55NoTrig.name = cms.string("MuonTagPt55NoTrig")
+MuonTagPt55NoTrig.triggers = cms.vstring() 
 
-MuonTagPt50MetTrig = copy.deepcopy(MuonTagPt50)
-MuonTagPt50MetTrig.name = cms.string("MuonTagPt50MetTrig")
-MuonTagPt50MetTrig.triggers = triggersMet 
+MuonTagPt55MetTrig = copy.deepcopy(MuonTagPt55)
+MuonTagPt55MetTrig.name = cms.string("MuonTagPt55MetTrig")
+MuonTagPt55MetTrig.triggers = triggersMet 
 
-MuonTagPt50MetCut = copy.deepcopy(MuonTagPt50)
-MuonTagPt50MetCut.name = cms.string("MuonTagPt50MetCut")
+MuonTagPt55MetCut = copy.deepcopy(MuonTagPt55)
+MuonTagPt55MetCut.name = cms.string("MuonTagPt55MetCut")
 cutsToAdd = [ 
     cutMuonMetMinusOne, 
 ]
-addCuts(MuonTagPt50MetCut.cuts, cutsToAdd)  
+addCuts(MuonTagPt55MetCut.cuts, cutsToAdd)  
 
 ################################################################################
 ## Muon tag and probe sample
@@ -117,7 +117,7 @@ addCuts(ZtoMuIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoMuIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoMuIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
-    cutTrkPt,
+    cutTrkPt55,
 ]
 removeCuts(ZtoMuIsoTrk.cuts, cutsToRemove)
 

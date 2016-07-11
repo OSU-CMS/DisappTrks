@@ -31,7 +31,7 @@ cutsToAdd = [
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
-    cutTrkPt,
+    cutTrkPt50,
     cutTrkTauDR0p1,
     cutTrkMatchRecoTau,
     cutTrkEta,
@@ -68,27 +68,34 @@ addCuts(TauTagPt50MetCut.cuts, cutsToAdd)
 ## Channels for real life background estimate. Increase pt threshold to that
 ## used in search region and add missing outer hits cut.
 ##################################################
+TauTagPt55 = copy.deepcopy(TauTagPt50)
+TauTagPt55.name = cms.string("TauTagPt55")
+addSingleCut(TauTagPt55.cuts, cutTrkPt55, cutTrkPt50)
 cutsToAdd = [
     cutTrkEcalo,
     cutTrkNMissOut,
     #cutTrkNMissOutInv
 ]
-addCuts(TauTagPt50.cuts, cutsToAdd)
+addCuts(TauTagPt55.cuts, cutsToAdd)
+cutsToRemove = [
+    cutTrkPt50,
+]
+removeCuts(TauTagPt55.cuts, cutsToRemove)
 
-TauTagPt50NoTrig = copy.deepcopy(TauTagPt50)
-TauTagPt50NoTrig.name = cms.string("TauTagPt50NoTrig")
-TauTagPt50NoTrig.triggers = cms.vstring() 
+TauTagPt55NoTrig = copy.deepcopy(TauTagPt55)
+TauTagPt55NoTrig.name = cms.string("TauTagPt55NoTrig")
+TauTagPt55NoTrig.triggers = cms.vstring() 
 
-TauTagPt50MetTrig = copy.deepcopy(TauTagPt50)
-TauTagPt50MetTrig.name = cms.string("TauTagPt50MetTrig")
-TauTagPt50MetTrig.triggers = triggersMet 
+TauTagPt55MetTrig = copy.deepcopy(TauTagPt55)
+TauTagPt55MetTrig.name = cms.string("TauTagPt55MetTrig")
+TauTagPt55MetTrig.triggers = triggersMet 
 
-TauTagPt50MetCut = copy.deepcopy(TauTagPt50)
-TauTagPt50MetCut.name = cms.string("TauTagPt50MetCut")
+TauTagPt55MetCut = copy.deepcopy(TauTagPt55)
+TauTagPt55MetCut.name = cms.string("TauTagPt55MetCut")
 cutsToAdd = [ 
     cutTauMetMinusOne, 
 ]
-addCuts(TauTagPt50MetCut.cuts, cutsToAdd)  
+addCuts(TauTagPt55MetCut.cuts, cutsToAdd)  
 
 ################################################################################
 ## Tau tag and probe sample
@@ -105,7 +112,7 @@ addCuts(ZtoTauIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoTauIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoTauIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
-    cutTrkPt,
+    cutTrkPt55,
     cutTrkJetDeltaPhi,
 ]
 removeCuts(ZtoTauIsoTrk.cuts, cutsToRemove)

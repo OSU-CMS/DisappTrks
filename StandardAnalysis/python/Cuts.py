@@ -140,19 +140,24 @@ cutJetTightLepVeto = cms.PSet(
 ##################################################
 ## tracks
 ##################################################
+cutTrkPt55 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 55"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkPt50 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1"),
 )
-cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("pt > 30"),
-    numberRequired = cms.string(">= 1"),
-)
 cutTrkPt35 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 35"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEta = cms.PSet(
