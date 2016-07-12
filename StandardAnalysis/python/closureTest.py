@@ -98,9 +98,22 @@ class LeptonBkgdClosureTest:
         else:
             self._metMinusOneHist = "Met Plots/metNoMu"
 
-    def addChannel (self, role, name, sample, condorDir):
+    def getPdgRange(self):
+        if   self._flavor == "electron":
+            return 11, 11
+        elif self._flavor == "muon":
+            return 13, 13
+        elif self._flavor == "tau":
+            return 14, 40  # define tau to include everything besides electrons and muons.  Last bin value is for 38.  
+
+    def addChannel (self, role, name, sample, condorDir, useIdMatch = False):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        if useIdMatch:
+            pdgLo, pdgHi = self.getPdgRange()  
+            channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)  
+        else: 
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
