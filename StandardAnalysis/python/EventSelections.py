@@ -107,7 +107,7 @@ candTrkCuts = isoTrkCuts + cutsToAdd
 
 ##########################################################################
 
-candTrkLoose = copy.deepcopy(isoTrkLoosePt)
+candTrkLoose = copy.deepcopy(isoTrkSelection)
 candTrkLoose.name = cms.string("CandTrkLoose")
 cutsToAdd = [
     cutTrkTightElecVeto, 
@@ -115,6 +115,20 @@ cutsToAdd = [
     cutTrkTauHadVeto,
 ]
 addCuts(candTrkLoose.cuts, cutsToAdd)
+
+candTrkLooseElec = copy.deepcopy(candTrkSelection)
+candTrkLooseElec.name = cms.string("CandTrkLooseElec")
+removeCuts(candTrkLooseElec.cuts, [cutTrkElecVeto]) 
+addCuts   (candTrkLooseElec.cuts, [cutTrkTightElecVeto]) 
+
+candTrkLooseMuon = copy.deepcopy(candTrkSelection)
+candTrkLooseMuon.name = cms.string("CandTrkLooseMuon")
+removeCuts(candTrkLooseMuon.cuts, [cutTrkMuonVeto]) 
+addCuts   (candTrkLooseMuon.cuts, [cutTrkTightMuonVeto]) 
+
+candTrkLooseTau = copy.deepcopy(candTrkSelection)
+candTrkLooseTau.name = cms.string("CandTrkLooseTau")
+removeCuts(candTrkLooseTau.cuts, [cutTrkTauHadVeto]) 
 
 ##########################################################################
 

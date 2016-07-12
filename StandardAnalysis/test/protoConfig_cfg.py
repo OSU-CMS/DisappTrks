@@ -45,7 +45,6 @@ process.source = cms.Source ("PoolSource",
         #'/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_1.root',
         # "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root",
         # "/store/user/ahart/AMSB_chargino100GeV_ctau10cm_step4_User/AMSB_chargino_step4_0.root",
-        # "file:condor/isoTrkSelection_76X/AMSB_chargino_500GeV_100cm/IsoTrkSelection/skim_0.root",
         # "file:condor/metMinimalSkim_76X/WJetsToLNu/metMinimalSkim/skim_1.root",
         # "file:condor/electronTagSkim/WJetsToLNu/ElectronTagSkim/skim_0.root",
     ),
@@ -202,6 +201,10 @@ LepCtrlChannels = [ # Run over isoTrkSelection skim
     tauCtrlSelection,
 ]
 BkgdEstChannels = [
+    candTrkLoose,
+    candTrkLooseElec,
+    candTrkLooseMuon, 
+    candTrkLooseTau,
     candTrkSelection,
     candTrkEcaloSdband,
     candTrkNMissOutSdband,
@@ -264,10 +267,15 @@ MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     candTrkIdMuPt35NoMet,
 ]
 
-MuonBkgdEstimate = [ # run over data
+MuonBkgdEstimateNoNMissOut = [ 
+    MuonTagPt55NoNMissOut,
+    MuonTagPt55NoNMissOutMetTrig,
+]
+
+MuonBkgdEstimate = [ 
     MuonTagPt55,
-    MuonTagPt55NoTrig,
-    MuonTagPt55MetCut,
+    # MuonTagPt55NoTrig,
+    # MuonTagPt55MetCut,
     MuonTagPt55MetTrig,
 ]
 
@@ -294,7 +302,8 @@ TauBkgdEstimate = [ # run over data
 ## MANDATORY CHANNELS FOR MET DATASET
 #  add_channels  (process,  [metMinimalSkim],     histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [isoTrkSelection],    histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
-#  add_channels  (process,  BkgdCtrlChannels,     histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use isoTrkSelection skim as input
+# add_channels  (process,  BkgdEstChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use isoTrkSelection skim as input
+#  add_channels  (process,  LepCtrlChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use isoTrkSelection skim as input
 #  add_channels  (process,  DisTrkChannels,       histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!  Use isoTrkSelection skim as input.
 #  add_channels  (process,  FakeTrkSystChannels,  histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # use metMinimalSkim as input
 
@@ -316,6 +325,7 @@ TauBkgdEstimate = [ # run over data
 #  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauDisTrk],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  MuonBkgdClosureTest,        histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  MuonBkgdEstimateNoNMissOut, histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  MuonBkgdEstimate,           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET
