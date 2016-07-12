@@ -67,6 +67,7 @@ class LeptonBkgdClosureTest:
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
     _metMinusOneHist = ""
+    _useIdMatch = False  # match the track to get the true bkgd yield 
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -81,6 +82,9 @@ class LeptonBkgdClosureTest:
 
     def addMetCut (self, metCut):
         self._metCut = metCut
+
+    def useIdMatch (self, match):
+        self._useIdMatch = match
 
     def addPpassVeto (self, (pPassVeto, pPassVetoError)):
         self._pPassVeto = (pPassVeto, pPassVetoError)
@@ -336,7 +340,7 @@ class LeptonBkgdClosureTest:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            n = self.CandTrkIdPt35["yield"]
+            n      = self.CandTrkIdPt35["yield"]
             nError = self.CandTrkIdPt35["yieldError"]
             weight = self.CandTrkIdPt35["weight"]
             if not (n == 0.0):
@@ -357,9 +361,8 @@ class LeptonBkgdClosureTest:
                 condorDir = self.CandTrkIdPt35["condorDir"]
                 name = self.CandTrkIdPt35["name"]
                 hist = "Met Plots/metNoMu"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
-                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-                metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+                met         = getHist (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
                 if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
