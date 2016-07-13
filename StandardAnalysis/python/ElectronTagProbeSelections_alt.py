@@ -77,9 +77,9 @@ ElectronTagPt55 = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt55.name = cms.string("ElectronTagPt55")
 addSingleCut(ElectronTagPt55.cuts, cutTrkPt55, cutTrkPt35)
 cutsToAdd = [
-    #cutTrkEcalo,
-    #cutTrkNMissOut,
-    cutTrkNMissOutInv
+    cutTrkEcalo,
+    cutTrkNMissOut,
+    #cutTrkNMissOutInv
 ]
 addCuts(ElectronTagPt55.cuts, cutsToAdd)
 cutsToRemove = [
