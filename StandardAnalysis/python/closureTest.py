@@ -164,6 +164,10 @@ class LeptonBkgdClosureTest:
                 name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
+
+                # explicitly get metNoMuMinusOne instead of using
+                # _metMinusOneHist since we plot both metNoMu and
+                # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -375,7 +379,12 @@ class LeptonBkgdClosureTest:
                 name = self.CandTrkIdPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met         = getHist (sample, condorDir, name + "Plotter", hist)
-                metMinusOne = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+
+                # explicitly get metNoMuMinusOne instead of using
+                # _metMinusOneHist since we plot both metNoMu and
+                # metNoMuMinusOne here
+                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
+                metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
                 if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
