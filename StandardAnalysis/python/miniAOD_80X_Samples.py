@@ -19,4 +19,5 @@ dataset_names = {
 
     'SingleEle_2016B' : "/SingleElectron/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v2-672566a6fc675a518406a931e162f995/USER",
 
+    'Tau_2016B'        :  "/Tau/ahart-Run2016B-PromptReco-v2-DisappTrks-v2-672566a6fc675a518406a931e162f995/USER",
 }
