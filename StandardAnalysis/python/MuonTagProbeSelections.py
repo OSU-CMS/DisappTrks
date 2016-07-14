@@ -168,7 +168,7 @@ ZtoMuDisTrkLooseVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrkLooseVeto.name = cms.string("ZtoMuDisTrkLooseVeto")
 addCuts(ZtoMuDisTrkLooseVeto.cuts, [cutTrkLooseMuonVeto])
 
-MuonFiducialCalcAfter = copy.deepcopy(MuonFiducialCalcAfter)
+MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
 removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
