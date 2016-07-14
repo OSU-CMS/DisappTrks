@@ -89,18 +89,18 @@ removeCuts(ElectronTagPt55.cuts, cutsToRemove)
 
 ElectronTagPt55NoTrig = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55NoTrig.name = cms.string("ElectronTagPt55NoTrig")
-ElectronTagPt55NoTrig.triggers = cms.vstring() 
+ElectronTagPt55NoTrig.triggers = cms.vstring()
 
 ElectronTagPt55MetTrig = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55MetTrig.name = cms.string("ElectronTagPt55MetTrig")
-ElectronTagPt55MetTrig.triggers = triggersMet 
+ElectronTagPt55MetTrig.triggers = triggersMet
 
 ElectronTagPt55MetCut = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55MetCut.name = cms.string("ElectronTagPt55MetCut")
-cutsToAdd = [ 
-    cutElectronMetMinusOne, 
+cutsToAdd = [
+    cutElectronMetMinusOne,
 ]
-addCuts(ElectronTagPt55MetCut.cuts, cutsToAdd)  
+addCuts(ElectronTagPt55MetCut.cuts, cutsToAdd)
 
 ################################################################################
 ## Electron tag and probe sample
@@ -136,6 +136,10 @@ cutsToAdd = [
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ElectronFiducialCalcBefore = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
+ElectronFiducialCalcBefore.name = cms.string("ElectronFiducialCalcBefore")
+removeCuts(ElectronFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+
 ZtoEleCandTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleCandTrk.name = cms.string("ZtoEleCandTrk")
 addSingleCut(ZtoEleCandTrk.cuts, cutTrkElecVeto, cutEleTrkOS)
@@ -143,6 +147,10 @@ addSingleCut(ZtoEleCandTrk.cuts, cutTrkElecVeto, cutEleTrkOS)
 ZtoEleDisTrkLooseVeto = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrkLooseVeto.name = cms.string("ZtoEleDisTrkLooseVeto")
 addSingleCut(ZtoEleDisTrkLooseVeto.cuts, cutTrkVetoElecVeto, cutEleTrkOS)
+
+ElectronFiducialCalcAfter = copy.deepcopy(ElectronFiducialCalcAfter)
+ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
+removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleCandTrk)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
