@@ -87,9 +87,9 @@ elecBkgdClosureTest_allMC.addTFile (fout)
 elecBkgdClosureTest_allMC.addTCanvas (canvas)
 elecBkgdClosureTest_allMC.addMetCut (100.0) 
 elecBkgdClosureTest_allMC.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoEleProbeTrkWithZCuts") 
-elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")  
-elecBkgdClosureTest_allMC.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  
-elecBkgdClosureTest_allMC.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  
+elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")  # FIXME:  Use directory ElecTagProbeChannels instead (no NMissOut cut), but modify closureTest.py to integrate missing outer hits distribution.  
+elecBkgdClosureTest_allMC.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  # FIXME:  Update with latest version of ElectronTagPt55
+elecBkgdClosureTest_allMC.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  # FIXME:  Update with latest version of ElectronTagPt55MetTrig  
 elecBkgdClosureTest_allMC.addChannel  ("CandTrkIdPt35",       "DisTrkIdElec",            sample, dirs['Wells']+"disTrkChannels")
 elecBkgdClosureTest_allMC.printStdResults()  
 fout.Close()  
@@ -98,7 +98,7 @@ print "\n\n"
 print "********************************************************************************"
 print "performing electron background estimate for all MC in Disappearing Track sample (no NMissOut cut)..."
 print "--------------------------------------------------------------------------------"
-elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ElecTagProbeChannels")  # No NMissOut cut 
+elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ElecTagProbeChannels")  # No NMissOut cut  
 elecBkgdClosureTest_allMC.printStdResults()  
 
 
@@ -139,9 +139,9 @@ elecBkgdClosureTest_Data.addTFile (fout)
 elecBkgdClosureTest_Data.addTCanvas (canvas)
 elecBkgdClosureTest_Data.addMetCut (100.0) 
 elecBkgdClosureTest_Data.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoEleProbeTrkWithZCuts") 
-elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")  
-elecBkgdClosureTest_Data.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  
-elecBkgdClosureTest_Data.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  
+elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")   # FIXME:  Use directory ElecTagProbeChannels instead (no NMissOut cut), but modify closureTest.py to integrate missing outer hits distribution.  
+elecBkgdClosureTest_Data.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  # FIXME:  Update with latest version of ElectronTagPt55
+elecBkgdClosureTest_Data.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  # FIXME:  Update with latest version of ElectronTagPt55MetTrig 
 elecBkgdClosureTest_Data.printStdResults()  
 fout.Close()  
 
