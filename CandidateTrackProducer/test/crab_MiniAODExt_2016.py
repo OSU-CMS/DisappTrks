@@ -48,23 +48,51 @@ if __name__ == '__main__':
 
 ##########################################################################
     ## Now do data
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    config.Data.unitsPerJob = 8
+    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON.txt'
 
-    config.Data.unitsPerJob = 4
-
-    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt'
-    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v2'
+    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v3'
 
     config.Site.storageSite = 'T2_US_Purdue'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016B_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016B-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_METSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_Tau_2016B_PromptReco-v2'
+    config.Data.inputDataset = '/Tau/Run2016B-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_TauSkim_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleMuon_2016B_PromptReco-v2'
     config.Data.inputDataset = '/SingleMuon/Run2016B-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_MuonSkim_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2016B_PromptReco-v2'
     config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v3'
+
+    config.General.requestName = 'candidateTrackProducer_MET_2016C_PromptReco-v2'
+    config.Data.inputDataset = '/MET/Run2016C-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_METSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_Tau_2016C_PromptReco-v2'
+    config.Data.inputDataset = '/Tau/Run2016C-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_TauSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2016C_PromptReco-v2'
+    config.Data.inputDataset = '/SingleMuon/Run2016C-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_MuonSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2016C_PromptReco-v2'
+    config.Data.inputDataset = '/SingleElectron/Run2016C-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
