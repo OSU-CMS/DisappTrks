@@ -212,10 +212,11 @@ BkgdEstChannels = [
 BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels
 
 DisTrkChannels = [
-    disTrkIdElec,
-    disTrkIdMuon,
-    disTrkIdTau,
-    disTrkIdFake,
+    # disTrkIdElec,
+    # disTrkIdMuon,
+    # disTrkIdTau,
+    # disTrkIdFake,
+    disTrkNoNMissOut,
     disTrkSelection,
 ]
 

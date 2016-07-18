@@ -258,6 +258,10 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 
+## Muon Fiducial Map channels
+#  add_channels  (process,  [MuonFiducialCalcBefore],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [MuonFiducialCalcAfter],                        histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
+
 ## OTHER CHANNELS FOR SINGLEMUON DATASET # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
@@ -274,6 +278,10 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrk],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoEleDisTrkLooseVeto],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+
+## Electron Fiducial Map channels
+#  add_channels  (process,  [ElectronFiducialCalcBefore],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ElectronFiducialCalcAfter],                         histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
 
 ## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
 #  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)

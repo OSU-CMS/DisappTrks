@@ -90,26 +90,26 @@ removeCuts(MuonTagPt55.cuts, cutsToRemove)
 
 MuonTagPt55NoTrig = copy.deepcopy(MuonTagPt55)
 MuonTagPt55NoTrig.name = cms.string("MuonTagPt55NoTrig")
-MuonTagPt55NoTrig.triggers = cms.vstring() 
+MuonTagPt55NoTrig.triggers = cms.vstring()
 
 MuonTagPt55MetTrig = copy.deepcopy(MuonTagPt55)
 MuonTagPt55MetTrig.name = cms.string("MuonTagPt55MetTrig")
-MuonTagPt55MetTrig.triggers = triggersMet 
+MuonTagPt55MetTrig.triggers = triggersMet
 
 MuonTagPt55MetCut = copy.deepcopy(MuonTagPt55)
 MuonTagPt55MetCut.name = cms.string("MuonTagPt55MetCut")
-cutsToAdd = [ 
-    cutMuonMetMinusOne, 
+cutsToAdd = [
+    cutMuonMetMinusOne,
 ]
-addCuts(MuonTagPt55MetCut.cuts, cutsToAdd)  
+addCuts(MuonTagPt55MetCut.cuts, cutsToAdd)
 
 MuonTagPt55NoNMissOut = copy.deepcopy(MuonTagPt55)
-MuonTagPt55NoNMissOut.name = cms.string("MuonTagPt55NoNMissOut") 
-removeCuts(MuonTagPt55NoNMissOut.cuts, [cutTrkNMissOut])  
+MuonTagPt55NoNMissOut.name = cms.string("MuonTagPt55NoNMissOut")
+removeCuts(MuonTagPt55NoNMissOut.cuts, [cutTrkNMissOut])
 
 MuonTagPt55NoNMissOutMetTrig = copy.deepcopy(MuonTagPt55NoNMissOut)
 MuonTagPt55NoNMissOutMetTrig.name = cms.string("MuonTagPt55NoNMissOutMetTrig")
-MuonTagPt55NoNMissOutMetTrig.triggers = triggersMet 
+MuonTagPt55NoNMissOutMetTrig.triggers = triggersMet
 
 
 ################################################################################
@@ -149,6 +149,10 @@ cutsToAdd = [
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
+MuonFiducialCalcBefore = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
+MuonFiducialCalcBefore.name = cms.string("MuonFiducialCalcBefore")
+removeCuts(MuonFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+
 ZtoMuProbeTrkTightVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkTightVeto.name = cms.string("ZtoMuProbeTrkTightVeto")
 addCuts(ZtoMuProbeTrkTightVeto.cuts, [cutTrkTightMuonVeto])
@@ -163,6 +167,10 @@ addCuts(ZtoMuDisTrk.cuts, cutsToAdd)
 ZtoMuDisTrkLooseVeto = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrkLooseVeto.name = cms.string("ZtoMuDisTrkLooseVeto")
 addCuts(ZtoMuDisTrkLooseVeto.cuts, [cutTrkLooseMuonVeto])
+
+MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
+MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
+removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
 ##################################################
 ## Fake track control sample:  start with Z->mu mu events

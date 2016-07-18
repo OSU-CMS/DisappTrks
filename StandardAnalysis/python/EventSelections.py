@@ -142,6 +142,11 @@ addCuts(disTrkSelection.cuts, cutsToAdd)
 disTrkCuts = candTrkCuts + cutsToAdd
 
 
+disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
+disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
+removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])  
+
+
 ##########################################################################
 
 candTrkEcaloSdband = copy.deepcopy(candTrkSelection)
