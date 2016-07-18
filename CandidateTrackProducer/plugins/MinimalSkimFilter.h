@@ -28,7 +28,6 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       ~MinimalSkimFilter ();
 
       bool filter (edm::Event &, const edm::EventSetup &);
-      void beginRun (const edm::Run &, const edm::EventSetup &);
       void endRunProduce (edm::Run &, const edm::EventSetup &);
 
    private:
