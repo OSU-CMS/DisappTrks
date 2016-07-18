@@ -1,4 +1,3 @@
-#include <iostream> // hart
 #include "TVector2.h"
 
 #include "DisappTrks/CandidateTrackProducer/plugins/MinimalSkimFilter.h"
