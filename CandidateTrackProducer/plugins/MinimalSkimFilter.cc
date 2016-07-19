@@ -420,10 +420,21 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event, const edm::Trig
   n = 0;
   for (const auto &tau : taus)
     {
-      if (tau.tauID ("decayModeFinding") > 0.5 && tau.tauID ("againstElectronLooseMVA5") > 0.5 && tau.tauID ("againstMuonLoose3") > 0.5)
+      if (tau.isTauIDAvailable ("againstElectronLooseMVA5"))
         {
-          n++;
-          break;
+          if (tau.tauID ("decayModeFinding") > 0.5 && tau.tauID ("againstElectronLooseMVA5") > 0.5 && tau.tauID ("againstMuonLoose3") > 0.5)
+            {
+              n++;
+              break;
+            }
+        }
+      else if (tau.isTauIDAvailable ("againstElectronLooseMVA6"))
+        {
+          if (tau.tauID ("decayModeFinding") > 0.5 && tau.tauID ("againstElectronLooseMVA6") > 0.5 && tau.tauID ("againstMuonLoose3") > 0.5)
+            {
+              n++;
+              break;
+            }
         }
     }
   if ((flag = (n > 0)))
