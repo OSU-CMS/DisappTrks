@@ -1017,14 +1017,14 @@ def drawPlot(plot, th2fType=""):
         canvas.SetLogy()
     if convertToMassSplitting:
 #        legend = TLegend(0.3221477,0.5262238,0.9513423,0.8583916)  # determine coordinates empirically
-        legend = TLegend(0.1825,0.619375,0.5425,0.823125)  # determine coordinates empirically
+        legend = TLegend(0.179198,0.45155,0.538847,0.582041)  # determine coordinates empirically
     else:
-        legend = TLegend(0.1825,0.619375,0.5425,0.823125)
+        legend = TLegend(0.179198,0.45155,0.538847,0.582041)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
     legend.SetTextFont(42)
-    legend.SetTextSize(0.0375)
+    legend.SetTextSize(0.0387597)
 
 #construct tGraph objects for all curves and draw them
     tGraphs = []
@@ -1251,7 +1251,7 @@ def drawPlot(plot, th2fType=""):
         tGraphs[0].GetXaxis ().SetTitleSize (0.04)
         tGraphs[0].GetYaxis ().SetLabelOffset (0.005)
         tGraphs[0].GetYaxis ().SetLabelSize (0.04)
-        tGraphs[0].GetYaxis ().SetTitleOffset (1.5)
+        tGraphs[0].GetYaxis ().SetTitleOffset (1.25)
         tGraphs[0].GetYaxis ().SetTitleSize (0.04)
 
     for tGraph in tGraphs:
@@ -1288,21 +1288,21 @@ def drawPlot(plot, th2fType=""):
 
     HeaderLabel.SetTextAlign(32)
     HeaderLabel.SetTextFont(42)
-    HeaderLabel.SetTextSize(0.739655)
+    HeaderLabel.SetTextSize(0.756287)
     HeaderLabel.SetBorderSize(0)
     HeaderLabel.SetFillColor(0)
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
 
     if convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.19,0.8175,0.38625,0.9175,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.19,0.8175,0.38625,0.9175,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
     if not makeColorPlot and not convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.19,0.8175,0.38625,0.9175,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
-    LumiLabel.SetTextSize(0.516796)
+    LumiLabel.SetTextSize(0.448718)
     LumiLabel.SetBorderSize(0)
     LumiLabel.SetFillColor(0)
     LumiLabel.SetFillStyle(0)
@@ -1311,15 +1311,15 @@ def drawPlot(plot, th2fType=""):
     if 'theoryLabel' in plot:
         #            TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC")
         if convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.4975,0.835,0.91125,0.905,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
         if makeColorPlot:
-            TheoryLabel = TPaveLabel(0.4975,0.835,0.91125,0.905,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
             #               #            TheoryLabel = TPaveLabel(0.4597315,0.7657343,0.8741611,0.8356643,plot['theoryLabel'],"NDC")
         if not makeColorPlot and not convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.4975,0.835,0.91125,0.905,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
         TheoryLabel.SetTextFont(42)
-        TheoryLabel.SetTextSize(0.53625)
+        TheoryLabel.SetTextSize(0.555556)
         TheoryLabel.SetBorderSize(0)
         TheoryLabel.SetFillColor(0)
         TheoryLabel.SetFillStyle(0)
