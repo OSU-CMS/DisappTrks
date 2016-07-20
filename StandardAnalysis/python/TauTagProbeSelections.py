@@ -139,12 +139,6 @@ ZtoTauDisTrk = copy.deepcopy(ZtoTauProbeTrkWithZCuts)
 ZtoTauDisTrk.name = cms.string("ZtoTauDisTrk")
 cutsToAdd = [
     cutTrkTauHadVeto,
-]
-addCuts(ZtoTauDisTrk.cuts, cutsToAdd)
-
-ZtoTauDisTrkWithECaloCut = copy.deepcopy(ZtoTauDisTrk)
-ZtoTauDisTrkWithECaloCut.name = cms.string("ZtoTauDisTrkWithECaloCut")
-cutsToAdd = [
     cutTrkEcalo,
 ]
-addCuts(ZtoTauDisTrkWithECaloCut.cuts, cutsToAdd)
+addCuts(ZtoTauDisTrk.cuts, cutsToAdd)
