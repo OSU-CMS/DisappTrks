@@ -51,7 +51,7 @@ if __name__ == '__main__':
     config.Data.unitsPerJob = 8
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON.txt'
 
-    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v3'
+    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v4'
 
     config.Site.storageSite = 'T2_US_Purdue'
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v3'
+    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v4'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016C_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016C-PromptReco-v2/AOD'
