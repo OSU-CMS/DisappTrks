@@ -21,7 +21,15 @@ triggersMet = cms.vstring(
     "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D 76X ReReco Part 1
     "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",                # 2015D 76X ReReco Part 2  && RunIIFall15MiniAODv2_76X MC
 
+    "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v",
+    "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v",
+    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
 
+    "HLT_PFMET170_BeamHaloCleaned_v",
+    "HLT_PFMET170_HBHECleaned_v",
+    "HLT_PFMET170_JetIdCleaned_v",
+    "HLT_PFMET170_NoiseCleaned_v",
+    "HLT_PFMET170_NotCleaned_v",
 )
 
 triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
