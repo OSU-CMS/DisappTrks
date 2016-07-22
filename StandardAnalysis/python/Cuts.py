@@ -54,8 +54,9 @@ triggersSingleTau = cms.vstring(
 ##################################################
 cutGoodPV = cms.PSet (
     inputCollection = cms.vstring("primaryvertexs"),
-    cutString = cms.string("isValid > 0 && ndof >= 4"),
-    numberRequired = cms.string(">= 1")
+    cutString = cms.string("isValid > 0 && ndof >= 4 && fabs (z) < 24.0 && sqrt (x * x + y * y) < 2.0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 good primary vertices"),
 )
 
 ##################################################
@@ -523,12 +524,12 @@ cutMuMuChargeProduct = cms.PSet(
 )
 cutMuMuInvMassZLo = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass ( muon , muon ) > " + str(mZPDG) + " - 10"),
+    cutString = cms.string("invMass ( muon , muon ) > " + str(mZPDG - 10)),
     numberRequired = cms.string(">= 1"),
 )
 cutMuMuInvMassZHi = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass ( muon , muon ) < " + str(mZPDG) + " + 10"),
+    cutString = cms.string("invMass ( muon , muon ) < " + str(mZPDG + 10)),
     numberRequired = cms.string(">= 1"),
 )
 
@@ -560,15 +561,15 @@ cutMuTrkInvMass10 = cms.PSet(
 )
 cutMuTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
-    cutString = cms.string(invMassWithMuon ("muon") + " > 80 && " + invMassWithMuon ("muon") + " < 100"),
+    cutString = cms.string(invMassWithMuon ("muon") + " > " + str(mZPDG - 10) + " && " + invMassWithMuon ("muon") + " < " + str(mZPDG + 10)),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string (">= 1 muon-track pairs with 80 < invMass(muon,track) < 100"),
+    alias = cms.string (">= 1 muon-track pairs with " + str(mZPDG - 10) + " < invMass(muon,track) < " + str(mZPDG + 10)),
 )
 cutMuTrkInvMass40To75 = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
-    cutString = cms.string(invMassWithMuon ("muon") + " > 40 && " + invMassWithMuon ("muon") + " < 75"),
+    cutString = cms.string(invMassWithMuon ("muon") + " > " + str(mZPDG - 50) + " && " + invMassWithMuon ("muon") + " < " + str(mZPDG - 15)),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string (">= 1 muon-track pairs with 40 < invMass(muon,track) < 75"),
+    alias = cms.string (">= 1 muon-track pairs with " + str(mZPDG - 50) + " < invMass(muon,track) < " + str(mZPDG - 15)),
 )
 cutMuTrkOS = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
@@ -604,9 +605,9 @@ cutEleTrkInvMass10 = cms.PSet(
 )
 cutEleTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
-    cutString = cms.string(invMassWithElectron ("electron") + " > 80 && " + invMassWithElectron ("electron") + " < 100"),
+    cutString = cms.string(invMassWithMuon ("electron") + " > " + str(mZPDG - 10) + " && " + invMassWithMuon ("electron") + " < " + str(mZPDG + 10)),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string (">= 1 electron-track pairs with 80 < invMass(electron,track) < 100"),
+    alias = cms.string (">= 1 electron-track pairs with " + str(mZPDG - 10) + " < invMass(electron,track) < " + str(mZPDG + 10)),
 )
 cutEleTrkOS = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
