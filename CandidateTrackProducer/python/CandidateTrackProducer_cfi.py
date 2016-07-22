@@ -50,10 +50,17 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
     "HLT_MET75_IsoTrk50_v",
-    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v2",
-    "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v2",
-    "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v2",
-    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v2",
+
+    "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",
+    "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v",
+    "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v",
+    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+
+    "HLT_PFMET170_BeamHaloCleaned_v",
+    "HLT_PFMET170_HBHECleaned_v",
+    "HLT_PFMET170_JetIdCleaned_v",
+    "HLT_PFMET170_NoiseCleaned_v",
+    "HLT_PFMET170_NotCleaned_v",
   ),
 )
 
