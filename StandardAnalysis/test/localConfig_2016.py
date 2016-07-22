@@ -10,8 +10,7 @@ InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
 
 datasetsData = [
     'MET_2016B',
-    #'SingleEle_2016B',
-    #'SingleMu_2016B',
+    #'MET_2016C',
 ]
 
 datasets = datasetsData

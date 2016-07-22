@@ -1,10 +1,12 @@
 from localConfig_2016 import *
 
-intLumi = 4011.084
-# Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt
+# 5856.536 (B) + 370.901 (C)
+# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/734
+intLumi = 6227.437
 
 datasetsData = [
     'SingleMu_2016B',
+    'SingleMu_2016C',
 ]
 
 datasets = datasetsData

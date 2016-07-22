@@ -148,7 +148,7 @@ ZtoEleDisTrkLooseVeto = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrkLooseVeto.name = cms.string("ZtoEleDisTrkLooseVeto")
 addSingleCut(ZtoEleDisTrkLooseVeto.cuts, cutTrkVetoElecVeto, cutEleTrkOS)
 
-ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
+ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleDisTrkLooseVeto)
 ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
 removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
