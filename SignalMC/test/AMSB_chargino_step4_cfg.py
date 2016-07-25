@@ -2,11 +2,52 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --filein file:step3.root --fileout file:step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 76X_mcRun2_asymptotic_v12 --step PAT --era Run2_25ns --python_filename AMSB_chargino_step4_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/recoCollectionsToKeep.customize -n 1920
-import copy
+# with command line options: step1 --filein file:EXO-RunIIFall15DR76-02578.root --fileout file:AMSB_chargino_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 76X_mcRun2_asymptotic_v12 --step PAT --era Run2_25ns --python_filename AMSB_chargino_step4.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/recoCollectionsToKeep.customize -n 1786
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
+
+import re
+import os
+
+def addSecondaryFileFromSkim (fileName):
+    parents = []
+    fileName = fileName.rstrip ('\n')
+    fileName = re.sub (r'^file:', r'', fileName)
+    if not os.path.isfile (fileName):
+      return parents
+
+    jobNumber = re.sub (r'.*/[^/]*_([^/_]*)\.root$', r'\1', fileName)
+    parentDir = re.sub (r'(.*)/[^/]*\.root$', r'\1/', fileName)
+    condorErr = open (parentDir + "condor_" + jobNumber + ".err")
+    for line in condorErr:
+        if re.search (r'Successfully opened file', line) and not re.search (r'MinBias', line):
+            p = re.sub (r'.* Successfully opened file (.*)', r'\1', line)
+            p = p.rstrip ('\n')
+            if not p in parents:
+                parents.append (p)
+
+    return sorted (list (set (parents)))
+
+def addSecondaryFile (fileName):
+    parents = []
+    fileName = fileName.rstrip ('\n')
+    skimParents = addSecondaryFileFromSkim (fileName)
+    for p in skimParents:
+      if re.search (r'_step1_', p):
+        parents.append (p)
+      else:
+        parents += addSecondaryFile (p)
+
+    return parents
+
+def addSecondaryFiles (source):
+    parents = []
+    fileNames = source.fileNames
+    for fileName in fileNames:
+        parents += addSecondaryFile (fileName)
+
+    source.secondaryFileNames = cms.untracked.vstring (parents)
 
 process = cms.Process('PAT',eras.Run2_25ns)
 
@@ -23,17 +64,15 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    #input = cms.untracked.int32(1920)
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(1786)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    #fileNames = cms.untracked.vstring('file:step3.root'),
-    fileNames = cms.untracked.vstring('file:condor/AMSB_chargino500GeV_ctau1000cm_step3_User_76X/step3_0.root'),
-
-    secondaryFileNames = cms.untracked.vstring(),
+    fileNames = cms.untracked.vstring('file:EXO-RunIIFall15DR76-02578.root'),
+    secondaryFileNames = cms.untracked.vstring()
 )
+addSecondaryFiles (process.source)
 
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
@@ -41,7 +80,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('step1 nevts:1920'),
+    annotation = cms.untracked.string('step1 nevts:1786'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -58,7 +97,7 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('file:step4.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino_step4.root'),
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
@@ -68,6 +107,11 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', '')
+
+process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
+process.candidateTracks = cms.Path(process.candidateTrackProducer)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
+process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
 
 # Path and EndPath definitions
 process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
@@ -92,11 +136,6 @@ process.Flag_muonBadTrackFilter = cms.Path(process.muonBadTrackFilter)
 process.Flag_CSCTightHalo2015Filter = cms.Path(process.CSCTightHalo2015Filter)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODSIMoutput_step = cms.EndPath(process.MINIAODSIMoutput)
-
-process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
-process.candidateTracks = cms.Path(process.candidateTrackProducer)
-from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
-process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
 
 # Schedule definition
 process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.endjob_step,process.MINIAODSIMoutput_step)
