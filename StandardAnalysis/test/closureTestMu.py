@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.closureTest import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import * 
 from DisappTrks.StandardAnalysis.getUser import * 
 from ROOT import TCanvas, TFile
 import os 
@@ -19,7 +19,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdClosureTest_WJetsToLNu.root", "recreate")
 
-muonBkgdClosureTest_WJetsToLNu = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_WJetsToLNu = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_WJetsToLNu.addTFile (fout)
 muonBkgdClosureTest_WJetsToLNu.addTCanvas (canvas)
 muonBkgdClosureTest_WJetsToLNu.addMetCut (100.0)
@@ -50,7 +50,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdClosureTest_TTJets.root", "recreate")
 
-muonBkgdClosureTest_TTJets = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_TTJets = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_TTJets.addTFile (fout)
 muonBkgdClosureTest_TTJets.addTCanvas (canvas)
 muonBkgdClosureTest_TTJets.addMetCut (100.0)
@@ -81,7 +81,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdClosureTest_CandTrk.root", "recreate")
 
-muonBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_CandTrk = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_CandTrk.addTFile (fout)
 muonBkgdClosureTest_CandTrk.addTCanvas (canvas)
 muonBkgdClosureTest_CandTrk.addMetCut (100.0)
@@ -106,7 +106,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdClosureTest_NmissOutSideband.root", "recreate")
 
-muonBkgdClosureTest_NmissOutSideband = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_NmissOutSideband = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_NmissOutSideband.addTFile (fout)
 muonBkgdClosureTest_NmissOutSideband.addTCanvas (canvas)
 muonBkgdClosureTest_NmissOutSideband.addMetCut (100.0)
@@ -131,7 +131,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
 
-muonBkgdClosureTest_DisTrk = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_DisTrk = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_DisTrk.addTFile (fout)
 muonBkgdClosureTest_DisTrk.addTCanvas (canvas)
 muonBkgdClosureTest_DisTrk.addMetCut (100.0)
@@ -151,7 +151,7 @@ print "-------------------------------------------------------------------------
 
 sample = "allBkgd"
 fout = TFile.Open ("muonBkgdEstimate_MC.root", "recreate")
-muonBkgdClosureTest_DisTrkMC = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_DisTrkMC = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_DisTrkMC.addTFile (fout)
 muonBkgdClosureTest_DisTrkMC.addTCanvas (canvas)
 muonBkgdClosureTest_DisTrkMC.addMetCut (100.0)
@@ -173,7 +173,7 @@ print "-------------------------------------------------------------------------
 #sample = "allBkgd"  
 sample = "TTJets"  
 fout = TFile.Open ("muonBkgdEstimate_CandTrkLooseMC.root", "recreate") 
-muonBkgdClosureTest_CandTrkLooseMC = LeptonBkgdClosureTest ("muon")
+muonBkgdClosureTest_CandTrkLooseMC = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_CandTrkLooseMC.addTFile (fout)
 muonBkgdClosureTest_CandTrkLooseMC.addTCanvas (canvas)
 muonBkgdClosureTest_CandTrkLooseMC.addMetCut (100.0)

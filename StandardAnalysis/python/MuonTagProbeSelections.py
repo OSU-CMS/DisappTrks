@@ -176,7 +176,6 @@ removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMu
 ## Fake track control sample:  start with Z->mu mu events
 ##################################################
 ZtoMuMu = cms.PSet(
-    # Get this example from http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/OSUT3Analysis/AnaTools/python/MyEventSelections.py?revision=1.2&view=markup
     name = cms.string("ZtoMuMu"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (

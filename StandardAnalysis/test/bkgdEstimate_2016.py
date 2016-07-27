@@ -1,34 +1,64 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.closureTest import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import * 
 from DisappTrks.StandardAnalysis.getUser import * 
 from ROOT import TCanvas, TFile
 import os 
+
+metLumi       =  6317.0
+electronLumi  =  6235.971
+muonLumi      =  6227.437
+tauLumi       =  742.02
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
 print "********************************************************************************"
-print "performing electron background estimate in disappearing track search region"
+print "performing fake track background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("electronBkgdClosureTest.root", "recreate")
+fout = TFile.Open ("fakeTrackBkgdEstimate.root", "recreate")
 
-electronBkgdClosureTest = LeptonBkgdClosureTest ("electron")
-electronBkgdClosureTest.addTFile (fout)
-electronBkgdClosureTest.addTCanvas (canvas)
-electronBkgdClosureTest.addMetCut (100.0)
-electronBkgdClosureTest.useMetMinusOneForIntegrals (True)
-electronBkgdClosureTest.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
-electronBkgdClosureTest.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
-electronBkgdClosureTest.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
-electronBkgdClosureTest.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
+fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+fakeTrackBkgdEstimate.addTFile (fout)
+fakeTrackBkgdEstimate.addTCanvas (canvas)
+fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016B",  dirs['Andrew']+"2016/zToMuMu")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016B",  dirs['Andrew']+"2016/zToMuMuTrack")
+fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016B",       dirs['Andrew']+"2016/basicSelection")
 
 print "********************************************************************************"
 
-(nEstElectron, nEstElectronError) = electronBkgdClosureTest.printNest ()
+(nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "performing electron background estimate in disappearing track search region"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("electronBkgdEstimate.root", "recreate")
+
+electronBkgdEstimate = LeptonBkgdEstimate ("electron")
+electronBkgdEstimate.addTFile (fout)
+electronBkgdEstimate.addTCanvas (canvas)
+electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
+electronBkgdEstimate.addMetCut (100.0)
+electronBkgdEstimate.useMetMinusOneForIntegrals (True)
+electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
+electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
+electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
+
+print "********************************************************************************"
+
+(nEstElectron, nEstElectronError) = electronBkgdEstimate.printNest ()
 
 print "********************************************************************************"
 
@@ -40,21 +70,22 @@ print "*************************************************************************
 print "performing muon background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("muonBkgdClosureTest.root", "recreate")
+fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
 
-muonBkgdClosureTest = LeptonBkgdClosureTest ("muon")
-muonBkgdClosureTest.addTFile (fout)
-muonBkgdClosureTest.addTCanvas (canvas)
-muonBkgdClosureTest.addMetCut (100.0)
-muonBkgdClosureTest.useMetMinusOneForIntegrals (False)
-muonBkgdClosureTest.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
-muonBkgdClosureTest.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
-muonBkgdClosureTest.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
-muonBkgdClosureTest.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+muonBkgdEstimate.addTFile (fout)
+muonBkgdEstimate.addTCanvas (canvas)
+muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+muonBkgdEstimate.addMetCut (100.0)
+muonBkgdEstimate.useMetMinusOneForIntegrals (False)
+muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
+muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
+muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
-(nEstMuon, nEstMuonError) = muonBkgdClosureTest.printNest ()
+(nEstMuon, nEstMuonError) = muonBkgdEstimate.printNest ()
 
 print "********************************************************************************"
 

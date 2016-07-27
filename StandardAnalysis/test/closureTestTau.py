@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.closureTest import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import * 
 from DisappTrks.StandardAnalysis.getUser import * 
 from ROOT import TCanvas, TFile
 import os 
@@ -19,7 +19,7 @@ setCanvasStyle(canvas)
 
 #fout = TFile.Open ("tauBkgdClosureTest_WJetsToLNu.root", "recreate")
 
-#tauBkgdClosureTest_WJetsToLNu = LeptonBkgdClosureTest ("tau")
+#tauBkgdClosureTest_WJetsToLNu = LeptonBkgdEstimate ("tau")
 #tauBkgdClosureTest_WJetsToLNu.addTFile (fout)
 #tauBkgdClosureTest_WJetsToLNu.addTCanvas (canvas)
 #tauBkgdClosureTest_WJetsToLNu.addMetCut (100.0)
@@ -50,7 +50,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("tauBkgdClosureTest_TTJets.root", "recreate")
 
-tauBkgdClosureTest_TTJets = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_TTJets = LeptonBkgdEstimate ("tau")
 tauBkgdClosureTest_TTJets.addTFile (fout)
 tauBkgdClosureTest_TTJets.addTCanvas (canvas)
 tauBkgdClosureTest_TTJets.addMetCut (100.0)
@@ -81,7 +81,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("tauBkgdClosureTest_CandTrk.root", "recreate")
 
-tauBkgdClosureTest_CandTrk = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_CandTrk = LeptonBkgdEstimate ("tau")
 tauBkgdClosureTest_CandTrk.addTFile (fout)
 tauBkgdClosureTest_CandTrk.addTCanvas (canvas)
 tauBkgdClosureTest_CandTrk.addMetCut (100.0)
@@ -107,7 +107,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("tauBkgdClosureTest_NmissOutSideband.root", "recreate")
 
-tauBkgdClosureTest_NmissOutSideband = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_NmissOutSideband = LeptonBkgdEstimate ("tau")
 tauBkgdClosureTest_NmissOutSideband.addTFile (fout)
 tauBkgdClosureTest_NmissOutSideband.addTCanvas (canvas)
 tauBkgdClosureTest_NmissOutSideband.addMetCut (100.0)
@@ -134,7 +134,7 @@ print "-------------------------------------------------------------------------
 
 fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
 
-tauBkgdClosureTest_DisTrk = LeptonBkgdClosureTest ("tau")
+tauBkgdClosureTest_DisTrk = LeptonBkgdEstimate ("tau")
 tauBkgdClosureTest_DisTrk.addTFile (fout)
 tauBkgdClosureTest_DisTrk.addTCanvas (canvas)
 tauBkgdClosureTest_DisTrk.addMetCut (100.0)
