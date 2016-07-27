@@ -38,14 +38,9 @@ MinimalSkimFilter<T>::~MinimalSkimFilter ()
 template<MinimalSkim T> void
 MinimalSkimFilter<T>::endRunProduce (edm::Run &run, const edm::EventSetup &setup)
 {
-  clog << "in endRunProduce." << endl;
-  clog << "  putting CutResults into the run..." << endl;
   run.put (cutResults_);
-  clog << "  allocating a new CutResults..." << endl;
   cutResults_.reset (new CutResults ());
-  clog << "  initializing the new CutResults..." << endl;
   initializeCutResults ();
-  clog << "  leaving endRunProduce..." << endl;
 }
 
 template<MinimalSkim T> bool
@@ -70,9 +65,7 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   edm::Handle<double> rho;
   event.getByToken (rhoToken_, rho);
 
-  clog << "incrementing cumulative total..." << endl;
   cutResults_->at (0).cumulativePassCount++;
-  clog << "incrementing accumulative total..." << endl;
   cutResults_->at (0).accumulativePassCount++;
 
   return filterDecision (event, *triggers, *beamspot, vertices->at (0), met->at (0), *electrons, conversions, *muons, *taus, *rho);
