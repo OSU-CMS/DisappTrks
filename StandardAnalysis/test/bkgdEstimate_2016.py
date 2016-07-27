@@ -90,3 +90,21 @@ print "*************************************************************************
 print "********************************************************************************"
 
 fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+#nEst = nEstElectron + nEstMuon + nEstTau
+nEst = nEstElectron + nEstMuon
+#nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
+nEstError = math.hypot (nEstElectronError, nEstMuonError)
+print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
+print "********************************************************************************"
+
+print "\n\n"
+
+print "********************************************************************************"
+nEst += nEstFake
+nEstError = math.hypot (nEstError, nEstFakeError)
+print "total background: " + str (nEst) + " +- " + str (nEstError)
+print "********************************************************************************"

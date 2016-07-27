@@ -50,8 +50,8 @@ electronBkgdEstimate.addTFile (fout)
 electronBkgdEstimate.addTCanvas (canvas)
 electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
 electronBkgdEstimate.addMetCut (100.0)
-electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe")
-electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe")
+electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe_withMissingOuterHitsCut")
+electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe_withMissingOuterHitsCut")
 electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronBkgdForDisappearingTrackSelection")
 electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronBkgdForDisappearingTrackSelection")
 
@@ -76,8 +76,8 @@ muonBkgdEstimate.addTFile (fout)
 muonBkgdEstimate.addTCanvas (canvas)
 muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
 muonBkgdEstimate.addMetCut (100.0)
-muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe")
-muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe")
+muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe_withMissingOuterHitsCut")
+muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe_withMissingOuterHitsCut")
 muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
 muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
 
@@ -118,7 +118,15 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-nEst = nEstFake + nEstElectron + nEstMuon + nEstTau
-nEstError = math.hypot (math.hypot (math.hypot (nEstFakeError, nEstElectronError), nEstMuonError), nEstTauError)
+nEst = nEstElectron + nEstMuon + nEstTau
+nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
+print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
+print "********************************************************************************"
+
+print "\n\n"
+
+print "********************************************************************************"
+nEst += nEstFake
+nEstError = math.hypot (nEstError, nEstFakeError)
 print "total background: " + str (nEst) + " +- " + str (nEstError)
 print "********************************************************************************"

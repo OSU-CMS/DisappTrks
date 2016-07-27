@@ -7,6 +7,7 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
 import re
 import os
 
@@ -44,6 +45,8 @@ def addSecondaryFile (fileName):
 def addSecondaryFiles (source):
     parents = []
     fileNames = source.fileNames
+    if osusub.batchMode:
+        fileNames = osusub.runList
     for fileName in fileNames:
         parents += addSecondaryFile (fileName)
 
