@@ -301,3 +301,6 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/SingleElectron/Run2015D-16Dec2015-v1/AOD'  
     #forkAndSubmit(config)
 
+    config.General.requestName = 'candidateTrackProducer_Tau_2015D_16Dec2015'
+    config.Data.inputDataset = '/Tau/Run2015D-16Dec2015-v1/AOD'  
+    #forkAndSubmit(config)
