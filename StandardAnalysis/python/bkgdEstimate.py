@@ -433,12 +433,25 @@ class LeptonBkgdEstimate:
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
+        N = nCtrl
+        alpha = pPassVeto * pPassMetCut * pPassMetTriggers
+        alphaError = 0.0
+        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
+        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
+        alphaError  =  math.hypot  (alphaError,  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
+
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
         nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
+
+        print "N: " + str (N)
+        if not (alpha == 0):
+            print "alpha: " + str (alpha) + " +- " + str (alphaError)
+        else:
+            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
 
         if not (nEst == 0):
             print "N_est: " + str (nEst) + " +- " + str (nEstError)
@@ -555,7 +568,7 @@ class FakeTrackBkgdEstimate:
                 print "P (fake track): " + str (eff) + " +- " + str (effError)
             else:
                 print "P (fake track): " + str (eff) + " - 0.0 + " + str (effError)
-            return (eff, effError)
+            return (eff, effError, passes, passesError, total, totalError)
         else:
             print "ZtoLL and ZtoLLdisTrk not both defined. Not printing P (fake track)..."
             return (float ("nan"), float ("nan"))
@@ -575,15 +588,25 @@ class FakeTrackBkgdEstimate:
             return (float ("nan"), float ("nan"))
 
     def printNest (self):
-        pFakeTrack,  pFakeTrackError  =  self.printPfakeTrack  ()
+        pFakeTrack,  pFakeTrackError,  passes,  passesError,  total,  totalError  =  self.printPfakeTrack  ()
         nCtrl,       nCtrlError       =  self.printNctrl       ()
+
+        N = passes
+        alpha = nCtrl / total
+        alphaError = math.hypot (nCtrl * totalError, nCtrlError * total) / (total * total)
 
         nEst = nCtrl * pFakeTrack
         nEstError = 0.0
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pFakeTrackError)
         nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pFakeTrack)
 
-        if nEst > 0.0:
+        print "N: " + str (N)
+        if not (alpha == 0):
+            print "alpha: " + str (alpha) + " +- " + str (alphaError)
+        else:
+            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+
+        if not (nEst == 0.0):
             print "N_est: " + str (nEst) + " +- " + str (nEstError)
         else:
             print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError)
