@@ -25,9 +25,9 @@ fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
 fakeTrackBkgdEstimate.addTFile (fout)
 fakeTrackBkgdEstimate.addTCanvas (canvas)
 fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016B",  dirs['Andrew']+"2016/zToMuMu")
-fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016B",  dirs['Andrew']+"2016/zToMuMuTrack")
-fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016B",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016",  dirs['Andrew']+"2016/zToMuMu")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016",  dirs['Andrew']+"2016/zToMuMuTrack")
+fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016",       dirs['Andrew']+"2016/basicSelection")
 
 print "********************************************************************************"
 
@@ -50,11 +50,10 @@ electronBkgdEstimate.addTFile (fout)
 electronBkgdEstimate.addTCanvas (canvas)
 electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
 electronBkgdEstimate.addMetCut (100.0)
-electronBkgdEstimate.useMetMinusOneForIntegrals (True)
-electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
-electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016B",  dirs['Andrew']+"2016/electronTagAndProbe")
-electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016B",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016",  dirs['Andrew']+"2016/electronTagAndProbe_withMissingOuterHitsCut")
+electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016",  dirs['Andrew']+"2016/electronTagAndProbe_withMissingOuterHitsCut")
+electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016",  dirs['Andrew']+"2016/electronBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -77,11 +76,10 @@ muonBkgdEstimate.addTFile (fout)
 muonBkgdEstimate.addTCanvas (canvas)
 muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
 muonBkgdEstimate.addMetCut (100.0)
-muonBkgdEstimate.useMetMinusOneForIntegrals (False)
-muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
-muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonTagAndProbe")
-muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016B",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016",  dirs['Andrew']+"2016/muonTagAndProbe_withMissingOuterHitsCut")
+muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016",  dirs['Andrew']+"2016/muonTagAndProbe_withMissingOuterHitsCut")
+muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016",  dirs['Andrew']+"2016/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -94,10 +92,34 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-#nEst = nEstElectron + nEstMuon + nEstTau
-nEst = nEstElectron + nEstMuon
-#nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
-nEstError = math.hypot (nEstElectronError, nEstMuonError)
+print "performing tau background estimate in disappearing track search region"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
+
+tauBkgdEstimate = LeptonBkgdEstimate ("tau")
+tauBkgdEstimate.addTFile (fout)
+tauBkgdEstimate.addTCanvas (canvas)
+tauBkgdEstimate.addPrescaleFactor (metLumi / tauLumi)
+tauBkgdEstimate.addMetCut (100.0)
+tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2016",  dirs['Andrew']+"2016/tauTagAndProbe_withMissingOuterHitsCut")
+tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2016",  dirs['Andrew']+"2016/tauTagAndProbe_withMissingOuterHitsCut")
+tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",               "Tau_2016",       dirs['Andrew']+"2016/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",        "Tau_2016",       dirs['Andrew']+"2016/tauBkgdForDisappearingTrackSelection")
+
+print "********************************************************************************"
+
+(nEstTau, nEstTauError) = tauBkgdEstimate.printNest ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+nEst = nEstElectron + nEstMuon + nEstTau
+nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
 print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
 print "********************************************************************************"
 
