@@ -130,6 +130,9 @@ def writeDatacard(mass,lifetime):
     signal_yield_raw = pow(signal_yield,2) / pow(signalYieldAndError['absError'],2)
     signal_yield_weight = signal_yield / signal_yield_raw
 
+    signal_yield *= signalScaleFactor
+    signal_yield_weight *= signalScaleFactor
+
     background_yields = { }
     background_errors = { }
     totalBkgd = 0
