@@ -433,12 +433,13 @@ class LeptonBkgdEstimate:
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
-        N = nCtrl
-        alpha = pPassVeto * pPassMetCut * pPassMetTriggers
+        N = nCtrl / self._prescale
+        alpha = self._prescale * pPassVeto * pPassMetCut * pPassMetTriggers
         alphaError = 0.0
         alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
         alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
         alphaError  =  math.hypot  (alphaError,  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
+        alphaError *= self._prescale
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
@@ -452,6 +453,7 @@ class LeptonBkgdEstimate:
             print "alpha: " + str (alpha) + " +- " + str (alphaError)
         else:
             print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+        print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0):
             print "N_est: " + str (nEst) + " +- " + str (nEstError)
@@ -591,9 +593,10 @@ class FakeTrackBkgdEstimate:
         pFakeTrack,  pFakeTrackError,  passes,  passesError,  total,  totalError  =  self.printPfakeTrack  ()
         nCtrl,       nCtrlError       =  self.printNctrl       ()
 
-        N = passes
-        alpha = nCtrl / total
+        N = passes / self._prescale
+        alpha = self._prescale * (nCtrl / total)
         alphaError = math.hypot (nCtrl * totalError, nCtrlError * total) / (total * total)
+        alphaError *= self._prescale
 
         nEst = nCtrl * pFakeTrack
         nEstError = 0.0
@@ -605,6 +608,7 @@ class FakeTrackBkgdEstimate:
             print "alpha: " + str (alpha) + " +- " + str (alphaError)
         else:
             print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+        print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0.0):
             print "N_est: " + str (nEst) + " +- " + str (nEstError)
