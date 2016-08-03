@@ -295,14 +295,14 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
         print "Debug:  limit_dict.keys() = "
         print limit_dict.keys()  
     for lifetime in sorted (limit_dict.keys ()):
-        ordered_masses = sorted (limit_dict[lifetime].keys ())
+        ordered_masses = sorted (limit_dict[lifetime].keys (), reverse=True)
         first_allowed_mass = ordered_masses[0]
         previous_mass = ordered_masses[0]
         for mass in ordered_masses:
-            if limit_dict[lifetime][mass]['theory'] < limit_dict[lifetime][mass]['experiment']:
-                first_allowed_mass = mass
+            if limit_dict[lifetime][mass]['theory'] > limit_dict[lifetime][mass]['experiment']:
+                previous_mass = mass
                 break
-            previous_mass = mass
+            first_allowed_mass = mass
         mass_limit = 0.0
         if previous_mass == first_allowed_mass:
             first_allowed_mass = ordered_masses[1]
@@ -451,30 +451,38 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                     limit_dict[lifetime][mass]['theory'] *= theory_error
                 if theory_key is 'down1' or theory_key is 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
+
     for lifetime in sorted (limit_dict.keys ()):
-        ordered_masses = sorted (limit_dict[lifetime].keys ())
+        ordered_masses = sorted (limit_dict[lifetime].keys (), reverse=True)
         first_allowed_mass = ordered_masses[0]
         previous_mass = ordered_masses[0]
         for mass in ordered_masses:
-            if limit_dict[lifetime][mass]['theory'] < limit_dict[lifetime][mass]['experiment']:
-                first_allowed_mass = mass
+            if limit_dict[lifetime][mass]['theory'] > limit_dict[lifetime][mass]['experiment']:
+                previous_mass = mass
                 break
-            previous_mass = mass
+            first_allowed_mass = mass
         mass_limit = 0.0
+        if previous_mass == first_allowed_mass:
+            first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
-            x1 = previous_mass
+            x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass
+            x2 = first_allowed_mass  # higher mass value 
             x4 = first_allowed_mass
-            y1 = limit_dict[lifetime][previous_mass]['theory']
-            y3 = limit_dict[lifetime][previous_mass]['experiment']
-            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            # Use log10 because the theory cross section is roughly linear 
+            # on a log scale, not on a linear scale.  
+            y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
+            y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
+            y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0
+                mass_limit = 0.0            
+        if mass_limit > first_allowed_mass:
+            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            mass_limit = previous_mass  
         x.append (mass_limit)
         y.append (lifetime)
 
@@ -1016,10 +1024,9 @@ def drawPlot(plot, th2fType=""):
     else:
         canvas.SetLogy()
     if convertToMassSplitting:
-#        legend = TLegend(0.3221477,0.5262238,0.9513423,0.8583916)  # determine coordinates empirically
-        legend = TLegend(0.179198,0.45155,0.538847,0.582041)  # determine coordinates empirically
+        legend = TLegend(0.179198,0.329663,0.538847,0.460154)  # determine coordinates empirically
     else:
-        legend = TLegend(0.179198,0.45155,0.538847,0.582041)
+        legend = TLegend(0.179198,0.329663,0.538847,0.460154)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1295,11 +1302,11 @@ def drawPlot(plot, th2fType=""):
     HeaderLabel.Draw()
 
     if convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
     if not makeColorPlot and not convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.186717,0.660207,0.383459,0.760982,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
     LumiLabel.SetTextSize(0.448718)
@@ -1309,14 +1316,12 @@ def drawPlot(plot, th2fType=""):
     LumiLabel.Draw()
 
     if 'theoryLabel' in plot:
-        #            TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC")
         if convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
         if makeColorPlot:
-            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
-            #               #            TheoryLabel = TPaveLabel(0.4597315,0.7657343,0.8741611,0.8356643,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
         if not makeColorPlot and not convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.586563,0.433584,0.656331,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
         TheoryLabel.SetTextFont(42)
         TheoryLabel.SetTextSize(0.555556)
