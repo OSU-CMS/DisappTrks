@@ -7,7 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
-from amsbLimitConfigBkgds import *    # Produced with ../scripts/makeANTables.py
+from amsbLimitConfigBkgds_2015 import *    # Produced with ../scripts/makeANTables.py
 
 import os
 
@@ -49,8 +49,10 @@ masses = ['100', '200', '300', '400', '500', '600', '700']
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000']
+             #'2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
 lumi = 2590.0
+signalScaleFactor = 2590.0 / (2590.0 + 6317.0) # fraction of integrated luminosity from 2015
 
 #condor directory in which to find signal root files
 signal_condor_dir = AndrewDir + 'withFiducialCuts/disTrkSelection_signal/'

@@ -28,7 +28,6 @@ basicSelection = cms.PSet(
         cutJetEta,
         cutJetTightLepVeto,
         cutDijetDeltaPhiMax,
-        cutJetMetPhi,
     )
 )
 
@@ -48,7 +47,7 @@ metMinimalSkim = cms.PSet(
 isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
 isoTrkCuts = [
-    cutTrkPt,
+    cutTrkPt55,
     cutTrkEta,
     cutTrkEcalGapVeto,
     cutTrkEtaMuonIneff1,
@@ -67,12 +66,17 @@ addCuts(isoTrkSelection.cuts, isoTrkCuts)
 
 
 ##########################################################################
+isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
+isoTrkLoosePt.name = copy.deepcopy("IsoTrkLoosePt")
+addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt55)
+removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt55])  
+
+##########################################################################
 
 isoTrkSelectionNoJetCuts = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionNoJetCuts.name = cms.string("IsoTrkSelectionNoJetCuts")
 cutsToRemove = [
     cutDijetDeltaPhiMax,
-    cutJetMetPhi,
     cutTrkJetDeltaPhi,
 ]  
 removeCuts(isoTrkSelectionNoJetCuts.cuts, cutsToRemove) 
@@ -103,6 +107,31 @@ candTrkCuts = isoTrkCuts + cutsToAdd
 
 ##########################################################################
 
+candTrkLoose = copy.deepcopy(isoTrkSelection)
+candTrkLoose.name = cms.string("CandTrkLoose")
+cutsToAdd = [
+    cutTrkTightElecVeto, 
+    cutTrkTightMuonVeto,
+    cutTrkTauHadVeto,
+]
+addCuts(candTrkLoose.cuts, cutsToAdd)
+
+candTrkLooseElec = copy.deepcopy(candTrkSelection)
+candTrkLooseElec.name = cms.string("CandTrkLooseElec")
+removeCuts(candTrkLooseElec.cuts, [cutTrkElecVeto]) 
+addCuts   (candTrkLooseElec.cuts, [cutTrkTightElecVeto]) 
+
+candTrkLooseMuon = copy.deepcopy(candTrkSelection)
+candTrkLooseMuon.name = cms.string("CandTrkLooseMuon")
+removeCuts(candTrkLooseMuon.cuts, [cutTrkMuonVeto]) 
+addCuts   (candTrkLooseMuon.cuts, [cutTrkTightMuonVeto]) 
+
+candTrkLooseTau = copy.deepcopy(candTrkSelection)
+candTrkLooseTau.name = cms.string("CandTrkLooseTau")
+removeCuts(candTrkLooseTau.cuts, [cutTrkTauHadVeto]) 
+
+##########################################################################
+
 disTrkSelection = copy.deepcopy(candTrkSelection)
 disTrkSelection.name = cms.string("DisTrkSelection")
 cutsToAdd = [
@@ -111,6 +140,11 @@ cutsToAdd = [
 ]
 addCuts(disTrkSelection.cuts, cutsToAdd)
 disTrkCuts = candTrkCuts + cutsToAdd
+
+
+disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
+disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
+removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])  
 
 
 ##########################################################################
@@ -145,15 +179,14 @@ cutsToAdd = [
     cutTrkMatchGenElec,
     ]
 addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt) 
+addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt55) 
 cutsToRemove = [
-    cutTrkPt, 
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
-    cutJetMetPhi,    
     ]
 removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
 
@@ -177,15 +210,14 @@ cutsToAdd = [
     cutTrkMatchGenMuon,
     ]
 addCuts(candTrkIdMuPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt) 
+addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt55) 
 cutsToRemove = [
-    cutTrkPt, 
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
-    cutJetMetPhi,    
     ]
 removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
 
@@ -209,13 +241,14 @@ cutsToAdd = [
     cutTrkMatchGenTau,
     ]
 addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
+addSingleCut(candTrkIdTauPt50.cuts, cutTrkPt50, cutTrkPt55) 
 cutsToRemove = [
+    cutTrkPt55, 
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
-    cutJetMetPhi,    
     ]
 removeCuts(candTrkIdTauPt50.cuts, cutsToRemove)
 
@@ -232,22 +265,42 @@ removeCuts(candTrkIdTauPt50NoMet.cuts, cutsToRemove)
 ##########################################################################
 
 # Use this selection for the electron background estimate.
-disTrkSelectionIdElec = copy.deepcopy(disTrkSelection)
-disTrkSelectionIdElec.name = cms.string("DisTrkSelectionIdElec")
+disTrkIdElec = copy.deepcopy(disTrkSelection)
+disTrkIdElec.name = cms.string("DisTrkIdElec")
 cutsToAdd = [
     cutTrkMatchGenElec,
 ]
-addCuts(disTrkSelectionIdElec.cuts, cutsToAdd)
+addCuts(disTrkIdElec.cuts, cutsToAdd)
 
 ##########################################################################
 
 # Use this selection for the muon background estimate.
-disTrkSelectionMatchGenMuon = copy.deepcopy(disTrkSelection)
-disTrkSelectionMatchGenMuon.name = cms.string("DisTrkSelectionMatchGenMuon")
+disTrkIdMuon = copy.deepcopy(disTrkSelection)
+disTrkIdMuon.name = cms.string("DisTrkIdMuon")
 cutsToAdd = [
     cutTrkMatchGenMuon,
 ]
-addCuts(disTrkSelectionMatchGenMuon.cuts, cutsToAdd)
+addCuts(disTrkIdMuon.cuts, cutsToAdd)
+
+##########################################################################
+
+# Use this selection for the muon background estimate.
+disTrkIdTau = copy.deepcopy(disTrkSelection)
+disTrkIdTau.name = cms.string("DisTrkIdTau")
+cutsToAdd = [
+    cutTrkMatchGenTau,
+]
+addCuts(disTrkIdTau.cuts, cutsToAdd)
+
+##########################################################################
+
+# Use this selection for the fake track background estimate.
+disTrkIdFake = copy.deepcopy(disTrkSelection)
+disTrkIdFake.name = cms.string("DisTrkIdFake")
+cutsToAdd = [
+    cutTrkMatchFake,
+]
+addCuts(disTrkIdFake.cuts, cutsToAdd)
 
 ##########################################################################
 

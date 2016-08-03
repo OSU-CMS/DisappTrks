@@ -26,10 +26,18 @@ addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
 addSingleCut(ElectronTagPt35.cuts,  cutElectronPt35, cutElectronPt25)
-removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])  
+removeCuts  (ElectronTagPt35.cuts, [cutElectronPt25])
+jetCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    # Exclude cutJetMetPhi  
+]  
+addCuts     (ElectronTagPt35.cuts,  jetCuts) 
 addCuts     (ElectronTagPt35.cuts, [cutTrkPt35])
 addCuts     (ElectronTagPt35.cuts,  candTrkCuts)
-removeCuts  (ElectronTagPt35.cuts, [cutTrkPt]) 
+removeCuts  (ElectronTagPt35.cuts, [cutTrkPt55]) 
 removeCuts  (ElectronTagPt35.cuts, [cutTrkElecVeto])  
 addCuts     (ElectronTagPt35.cuts, [cutTrkMatchRecoElec])
 
@@ -48,16 +56,32 @@ cutsToAdd = [
 ]
 addCuts(ElectronTagPt35MetCut.cuts, cutsToAdd)  
 
-ElectronTagPt50 = copy.deepcopy(ElectronTagPt35)
-ElectronTagPt50.name = cms.string("ElectronTagPt50")
-addSingleCut(ElectronTagPt50.cuts,  cutElectronPt50, cutElectronPt35)
-removeCuts  (ElectronTagPt50.cuts, [cutElectronPt35])  
-addSingleCut(ElectronTagPt50.cuts,  cutTrkPt50, cutTrkPt35)
-removeCuts  (ElectronTagPt50.cuts, [cutTrkPt35])  
+jetCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+]
 
-ElectronTagPt50MetTrig = copy.deepcopy(ElectronTagPt50)
-ElectronTagPt50MetTrig.name = cms.string("ElectronTagPt50MetTrig")
-ElectronTagPt50MetTrig.triggers = triggersMet 
+ElectronTagPt55 = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt55.name = cms.string("ElectronTagPt55")
+addSingleCut(ElectronTagPt55.cuts,  cutElectronPt50, cutElectronPt35)
+removeCuts  (ElectronTagPt55.cuts, [cutElectronPt35])  
+addSingleCut(ElectronTagPt55.cuts,  cutTrkPt55, cutTrkPt35)
+removeCuts  (ElectronTagPt55.cuts, [cutTrkPt35])  
+
+ElectronTagPt55MetTrig = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55MetTrig.name = cms.string("ElectronTagPt55MetTrig")
+ElectronTagPt55MetTrig.triggers = triggersMet 
+
+ElectronTagPt55NMissOut = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55NMissOut.name = cms.string("ElectronTagPt55NMissOut")
+addSingleCut(ElectronTagPt55NMissOut.cuts,  cutTrkNMissOut, cutTrkTauHadVeto) 
+
+ElectronTagPt55NMissOutMetTrig = copy.deepcopy(ElectronTagPt55NMissOut)
+ElectronTagPt55NMissOutMetTrig.name = cms.string("ElectronTagPt55NMissOutMetTrig")
+ElectronTagPt55NMissOutMetTrig.triggrs = triggersMet  
+
 
 
 ################################################################################
@@ -74,7 +98,7 @@ addCuts(ZtoEleIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoEleIsoTrk.cuts, eleTrkCuts)
 cutsToRemove = [
-    cutTrkPt,
+    cutTrkPt55,
 ]
 removeCuts(ZtoEleIsoTrk.cuts, cutsToRemove)
 

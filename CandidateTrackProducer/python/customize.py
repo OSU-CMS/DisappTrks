@@ -13,6 +13,7 @@ disappTrksOutputCommands = cms.untracked.vstring(
     "keep *_dt4DSegments_*_*",
     "keep *_cscSegments_*_*",
     "keep recoGsfTracks_*_*_*",
+    "keep CutResults_*_*_*",
 )
 
 def customizeMiniAODSIMOutput(process):

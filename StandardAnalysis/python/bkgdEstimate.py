@@ -3,7 +3,7 @@ import os
 import sys
 import math
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject 
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
@@ -58,7 +58,7 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
-class LeptonBkgdClosureTest:
+class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
     _fout = None
@@ -66,10 +66,13 @@ class LeptonBkgdClosureTest:
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
+    _metMinusOneHist = ""
+    _useIdMatch = False  # match the track to get the true bkgd yield 
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
         self._Flavor = self._flavor[0].upper () + self._flavor[1:]
+        self._metMinusOneHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
 
     def addTFile (self, fout):
         self._fout = fout
@@ -80,15 +83,37 @@ class LeptonBkgdClosureTest:
     def addMetCut (self, metCut):
         self._metCut = metCut
 
+    def useIdMatch (self, match):
+        self._useIdMatch = match
+
     def addPpassVeto (self, (pPassVeto, pPassVetoError)):
         self._pPassVeto = (pPassVeto, pPassVetoError)
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
 
-    def addChannel (self, role, name, sample, condorDir):
+    def useMetMinusOneForIntegrals (self, flag = True):
+        if flag:
+            self._metMinusOneHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
+        else:
+            self._metMinusOneHist = "Met Plots/metNoMu"
+
+    def getPdgRange(self):
+        if   self._flavor == "electron":
+            return 11, 11
+        elif self._flavor == "muon":
+            return 13, 13
+        elif self._flavor == "tau":
+            return 14, 40  # define tau to include everything besides electrons and muons.  Last bin value is for 38.  
+
+    def addChannel (self, role, name, sample, condorDir, useIdMatch = False):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        if useIdMatch:
+            pdgLo, pdgHi = self.getPdgRange()  
+            channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)  
+        else: 
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
@@ -102,7 +127,7 @@ class LeptonBkgdClosureTest:
             passesError = self.TagPt35["yieldError"]
 
             eff = passes / total
-            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
             print "efficiency of single lepton trigger after offline selection: " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
@@ -111,26 +136,38 @@ class LeptonBkgdClosureTest:
 
     def printNctrl (self):
         metMinusOne = self.plotMetForNctrl ()
-        if hasattr (self, "TagPt35"):
-            n = self.TagPt35["yield"]
-            nError = self.TagPt35["yieldError"]
+        if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
+            n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
+            nError = self.TagPt35ForNctrl["yieldError"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yieldError"]
+            weight = self.TagPt35ForNctrl["weight"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["weight"]
 
             n *= self._prescale
+            nError *= self._prescale
+            weight *= self._prescale
 
-            print "N_ctrl: " + str (n) + " +- " + str (nError)
-            return (n, nError, metMinusOne)
+            if not (n == 0.0):
+                print "N_ctrl: " + str (n) + " +- " + str (nError)
+                return (n, nError, metMinusOne)
+            else:
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
+                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                return (n, nUpperLimit, metMinusOne)
         else:
-            print "TagPt35 not defined. Not printing N_ctrl..."
+            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
 
     def plotMetForNctrl (self):
-        if hasattr (self, "TagPt35"):
+        if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             if self._fout and self._canvas:
-                sample = self.TagPt35["sample"]
-                condorDir = self.TagPt35["condorDir"]
-                name = self.TagPt35["name"]
+                sample = self.TagPt35ForNctrl["sample"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["sample"]
+                condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
+                name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
                 hist = "Met Plots/metNoMu"
                 met = getHist (sample, condorDir, name + "Plotter", hist)
+
+                # explicitly get metNoMuMinusOne instead of using
+                # _metMinusOneHist since we plot both metNoMu and
+                # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -164,7 +201,7 @@ class LeptonBkgdClosureTest:
                 print "A TFile and TCanvas must be added. Not making plots..."
                 return None
         else:
-            print "TagPt35 not defined. Not plotting MET for N_ctrl..."
+            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET for N_ctrl..."
             return None
 
     def printPpassVeto (self):
@@ -176,7 +213,7 @@ class LeptonBkgdClosureTest:
                 passesError = self.CandTrkIdPt35NoMet["yieldError"]
 
                 eff = passes / total
-                effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+                effError = math.hypot (total * passesError, totalError * passes) / (total * total)
                 print "P (pass lepton veto) in baseline sample: " + str (eff) + " +- " + str (effError)
                 return (eff, effError)
             else:
@@ -232,14 +269,13 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
 
             eff = passes / total
-            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
             print "P (pass met cut): " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
@@ -265,8 +301,7 @@ class LeptonBkgdClosureTest:
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
             name = self.TagPt35["name"]
-            hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-            metHist = getHist (sample, condorDir, name + "Plotter", hist)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
             passesHist.Divide (totalHist)
             metHist.Multiply (passesHist)
@@ -283,14 +318,13 @@ class LeptonBkgdClosureTest:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met = getHist (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
 
             eff = passes / total
-            effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
             print "P (pass met triggers): " + str (eff) + " +- " + str (effError)
             return (eff, effError, passesHist)
         else:
@@ -323,13 +357,14 @@ class LeptonBkgdClosureTest:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            n = self.CandTrkIdPt35["yield"]
+            n      = self.CandTrkIdPt35["yield"]
             nError = self.CandTrkIdPt35["yieldError"]
+            weight = self.CandTrkIdPt35["weight"]
             if not (n == 0.0):
                 print "N_back: " + str (n) + " +- " + str (nError)
                 return (n, nError)
             else:
-                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * self.CandTrkIdPt35["weight"]
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
                 print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit)
                 return (n, nUpperLimit)
         else:
@@ -343,9 +378,16 @@ class LeptonBkgdClosureTest:
                 condorDir = self.CandTrkIdPt35["condorDir"]
                 name = self.CandTrkIdPt35["name"]
                 hist = "Met Plots/metNoMu"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met         = getHist (sample, condorDir, name + "Plotter", hist)
+
+                # explicitly get metNoMuMinusOne instead of using
+                # _metMinusOneHist since we plot both metNoMu and
+                # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+                if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
+                    print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
+                    return
 
                 pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
                 pt.SetBorderSize(0)
@@ -382,12 +424,22 @@ class LeptonBkgdClosureTest:
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        #pPassVeto,         pPassVetoError                             =  self.printPpassVeto         ()
         pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
 
+        if math.isnan (pPassVeto) or math.isnan (pPassVetoError):
+            pPassVeto, pPassVetoError = self.printPpassVeto ()
+
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
+
+        N = nCtrl / self._prescale
+        alpha = self._prescale * pPassVeto * pPassMetCut * pPassMetTriggers
+        alphaError = 0.0
+        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
+        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
+        alphaError  =  math.hypot  (alphaError,  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
+        alphaError *= self._prescale
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
@@ -396,7 +448,17 @@ class LeptonBkgdClosureTest:
         nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
         nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
 
-        print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        print "N: " + str (N)
+        if not (alpha == 0):
+            print "alpha: " + str (alpha) + " +- " + str (alphaError)
+        else:
+            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+        print "error on alpha: " + str (1.0 + (alphaError / alpha))
+
+        if not (nEst == 0):
+            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        else:
+            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError)
         return (nEst, nEstError)
 
     def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):
@@ -438,18 +500,8 @@ class LeptonBkgdClosureTest:
                 passes      = self.TagProbePass["yield"]
                 passesError = self.TagProbePass["yieldError"]
 
-                eff = 0.5 * passes / total
-                # A factor of 0.5 is needed to account for the fact that there are two electrons per event.
-                # Consider a sample of 1 million simulated Z->ee events.
-                # The efficiency of the TagProbe selection is close to 100%, so total = 1 million.
-                # Assume that eff = 1e-4.
-                # Then we expect there to be
-                # (1 million events) * (2 electrons per event) * (1e-4 electron veto efficiency) = 200 tracks
-                # from unrecontstructed electrons from a Z->ee decay.
-                # so the number of events passing the tag-probe-pass selection is: passes = 200
-
-                # effError = math.sqrt (total * total * passesError * passesError + passes * passes * totalError * totalError) / (total * total)
-                effError = eff * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
+                eff = passes / (2.0 * total - passes)
+                effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
                 print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
                 return (eff, effError)
             else:
@@ -480,4 +532,87 @@ class LeptonBkgdClosureTest:
 
         print "********************************************************************************"
 
+class FakeTrackBkgdEstimate:
+    _fout = None
+    _canvas = None
+    _prescale = 1.0
 
+    def __init__ (self):
+        pass
+
+    def addTFile (self, fout):
+        self._fout = fout
+
+    def addTCanvas (self, canvas):
+        self._canvas = canvas
+
+    def addPrescaleFactor (self, prescale):
+        self._prescale = prescale
+
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        setattr (self, role, channel)
+        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+
+    def printPfakeTrack (self):
+        if hasattr (self, "ZtoLL") and hasattr (self, "ZtoLLdisTrk"):
+            total = self.ZtoLL["yield"]
+            totalError = self.ZtoLL["yieldError"]
+            passes = self.ZtoLLdisTrk["yield"]
+            passesError = self.ZtoLLdisTrk["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.ZtoLLdisTrk["weight"]
+
+            eff = passes / total
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
+            if eff > 0.0:
+                print "P (fake track): " + str (eff) + " +- " + str (effError)
+            else:
+                print "P (fake track): " + str (eff) + " - 0.0 + " + str (effError)
+            return (eff, effError, passes, passesError, total, totalError)
+        else:
+            print "ZtoLL and ZtoLLdisTrk not both defined. Not printing P (fake track)..."
+            return (float ("nan"), float ("nan"))
+
+    def printNctrl (self):
+        if hasattr (self, "Basic"):
+            n = self.Basic["yield"]
+            nError = self.Basic["yieldError"]
+
+            n *= self._prescale
+            nError *= self._prescale
+
+            print "N_ctrl: " + str (n) + " +- " + str (nError)
+            return (n, nError)
+        else:
+            print "Basic not defined. Not printing N_ctrl..."
+            return (float ("nan"), float ("nan"))
+
+    def printNest (self):
+        pFakeTrack,  pFakeTrackError,  passes,  passesError,  total,  totalError  =  self.printPfakeTrack  ()
+        nCtrl,       nCtrlError       =  self.printNctrl       ()
+
+        N = passes / self._prescale
+        alpha = self._prescale * (nCtrl / total)
+        alphaError = math.hypot (nCtrl * totalError, nCtrlError * total) / (total * total)
+        alphaError *= self._prescale
+
+        nEst = nCtrl * pFakeTrack
+        nEstError = 0.0
+        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pFakeTrackError)
+        nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pFakeTrack)
+
+        print "N: " + str (N)
+        if not (alpha == 0):
+            print "alpha: " + str (alpha) + " +- " + str (alphaError)
+        else:
+            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+        print "error on alpha: " + str (1.0 + (alphaError / alpha))
+
+        if not (nEst == 0.0):
+            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+        else:
+            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError)
+
+        return (nEst, nEstError)

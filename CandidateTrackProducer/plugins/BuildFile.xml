@@ -2,12 +2,14 @@
 <use name="rootrflx"/>
 <use name="CommonTools/UtilAlgos"/>
 <use name="CommonTools/Utils"/>
+<use name="DataFormats/BeamSpot"/>
 <use name="DataFormats/Common"/>
 <use name="DataFormats/HepMCCandidate"/>
 <use name="DataFormats/METReco"/>
 <use name="DataFormats/Math"/>
 <use name="DataFormats/PatCandidates"/>
 <use name="DataFormats/TrackReco"/>
+<use name="DataFormats/VertexReco"/>
 <use name="DisappTrks/CandidateTrackProducer"/>
 <use name="FWCore/Common"/>
 <use name="FWCore/Framework"/>
@@ -16,5 +18,6 @@
 <use name="FWCore/Utilities"/>
 <use name="MagneticField/Engine"/>
 <use name="MagneticField/Records"/>
+<use name="RecoEgamma/EgammaTools"/>
 <use name="TrackingTools/TrackAssociator"/>
 <flags EDM_PLUGIN="1"/>

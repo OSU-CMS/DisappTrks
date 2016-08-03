@@ -3,4 +3,14 @@
   <class name="std::vector<CandidateTrack>"/>
   <class name="edm::Wrapper<CandidateTrack>"/>
   <class name="edm::Wrapper<std::vector<CandidateTrack> >"/>
+
+  <class name="CutResult"/>
+  <class name="std::vector<CutResult>"/>
+  <class name="edm::Wrapper<CutResult>"/>
+  <class name="edm::Wrapper<std::vector<CutResult> >"/>
+
+  <class name="CutResults"/>
+  <class name="std::vector<CutResults>"/>
+  <class name="edm::Wrapper<CutResults>"/>
+  <class name="edm::Wrapper<std::vector<CutResults> >"/>
 </lcgdict>
