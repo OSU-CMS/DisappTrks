@@ -1024,9 +1024,9 @@ def drawPlot(plot, th2fType=""):
     else:
         canvas.SetLogy()
     if convertToMassSplitting:
-        legend = TLegend(0.179198,0.329663,0.538847,0.460154)  # determine coordinates empirically
+        legend = TLegend(0.179198,0.406628,0.538847,0.537119)  # determine coordinates empirically
     else:
-        legend = TLegend(0.179198,0.329663,0.538847,0.460154)
+        legend = TLegend(0.179198,0.406628,0.538847,0.537119)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1302,11 +1302,11 @@ def drawPlot(plot, th2fType=""):
     HeaderLabel.Draw()
 
     if convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     if not makeColorPlot and not convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.186717,0.53832,0.383459,0.639095,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
     LumiLabel.SetTextSize(0.448718)
@@ -1317,11 +1317,11 @@ def drawPlot(plot, th2fType=""):
 
     if 'theoryLabel' in plot:
         if convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
         if makeColorPlot:
-            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
         if not makeColorPlot and not convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.464676,0.433584,0.534444,plot['theoryLabel'],"NDC")
+            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
         TheoryLabel.SetTextAlign(32)
         TheoryLabel.SetTextFont(42)
         TheoryLabel.SetTextSize(0.555556)
