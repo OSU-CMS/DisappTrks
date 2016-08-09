@@ -24,12 +24,13 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
 process.source = cms.Source("LHESource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalCentralProd/testDisappTrks/CMSSW_7_1_16_patch2/src/DisappTrks/SignalMC/test/cmsgrid_final.lhe'),
+    # fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalCentralProd/testDisappTrks/CMSSW_7_1_16_patch2/src/DisappTrks/SignalMC/test/cmsgrid_final.lhe'),
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalSUSYSamples/CMSSW_7_1_20_patch3/src/cmsgrid_final.lhe'),  
     inputCommands = cms.untracked.vstring('keep *', 
         'drop LHEXMLStringProduct_*_*_*'),
     dropDescendantsOfDroppedBranches = cms.untracked.bool(False)
@@ -132,7 +133,7 @@ for path in process.paths:
 # customisation of the process.
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep,customizeProduce 
+from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi import customizeKeep,customizeProduce
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
