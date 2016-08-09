@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV_madgraph.py --filein file:/afs/cern.ch/user/w/wulsin/disappTrks/signalCentralProd/testDisappTrks/CMSSW_7_1_16_patch2/src/DisappTrks/SignalMC/test/cmsgrid_final.lhe --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/genParticlePlusGeant.customizeProduce --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1_madgraph.py --no_exec -n 5
+# with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV_madgraph.py --filein file:/afs/cern.ch/user/w/wulsin/disappTrks/signalSUSYSamples/CMSSW_7_1_20_patch3/src/cmsgrid_final.lhe --fileout file:AMSB_chargino500GeV_ctau100cm_step1.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,SimG4Core/CustomPhysics/GenPlusSimParticles_cfi.customizeKeep,SimG4Core/CustomPhysics/GenPlusSimParticles_cfi.customizeProduce --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN,SIM --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step1_madgraph.py --no_exec -n 10
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('SIM')
@@ -29,8 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("LHESource",
-    # fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalCentralProd/testDisappTrks/CMSSW_7_1_16_patch2/src/DisappTrks/SignalMC/test/cmsgrid_final.lhe'),
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalSUSYSamples/CMSSW_7_1_20_patch3/src/cmsgrid_final.lhe'),  
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/w/wulsin/disappTrks/signalSUSYSamples/CMSSW_7_1_20_patch3/src/cmsgrid_final.lhe'),
     inputCommands = cms.untracked.vstring('keep *', 
         'drop LHEXMLStringProduct_*_*_*'),
     dropDescendantsOfDroppedBranches = cms.untracked.bool(False)
@@ -43,7 +42,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV_madgraph.py nevts:5'),
+    annotation = cms.untracked.string('DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV_madgraph.py nevts:10'),
     name = cms.untracked.string('Applications')
 )
 
@@ -84,7 +83,8 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
     hscpFlavor = cms.untracked.string('stau'),
     maxEventsToPrint = cms.untracked.int32(1),
     PythiaParameters = cms.PSet(
-        pythia8CommonSettings = cms.vstring('Main:timesAllowErrors = 10000', 
+        pythia8CommonSettings = cms.vstring('Tune:preferLHAPDF = 2', 
+            'Main:timesAllowErrors = 10000', 
             'Check:epTolErr = 0.01', 
             'Beams:setProductionScalesFromLHEF = off', 
             'SLHA:keepSM = on', 
@@ -132,15 +132,6 @@ for path in process.paths:
 
 # customisation of the process.
 
-# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi import customizeKeep,customizeProduce
-
-#call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
-process = customizeKeep(process)
-
-#call to customisation function customizeProduce imported from DisappTrks.SignalMC.genParticlePlusGeant
-process = customizeProduce(process)
-
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
 
@@ -158,5 +149,14 @@ from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 
 #call to customisation function customise imported from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi
 process = customise(process)
+
+# Automatic addition of the customisation function from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi
+from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi import customizeKeep,customizeProduce 
+
+#call to customisation function customizeKeep imported from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi
+process = customizeKeep(process)
+
+#call to customisation function customizeProduce imported from SimG4Core.CustomPhysics.GenPlusSimParticles_cfi
+process = customizeProduce(process)
 
 # End of customisation functions
