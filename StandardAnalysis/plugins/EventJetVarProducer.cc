@@ -102,6 +102,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["deltaPhiMetJetLeading"]     = deltaPhiMetJetLeading;
   (*eventvariables)["deltaPhiMetJetSubleading"]  = deltaPhiMetJetSubleading;
 
+  (*eventvariables)["eventUnixTime"]  = event.time ().unixTime ();
+  (*eventvariables)["runNumber"]  = event.run ();
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
