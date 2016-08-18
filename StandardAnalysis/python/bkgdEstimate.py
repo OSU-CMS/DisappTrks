@@ -58,6 +58,17 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
+def effAndError (passes, passesError, total, totalError):
+    passesHist = TH1D ("passesHist", "", 1, 0.0, 1.0)
+    totalHist = TH1D ("totalHist", "", 1, 0.0, 1.0)
+    passesHist.SetBinContent (1, passes)
+    passesHist.SetBinError (1, passesError)
+    totalHist.SetBinContent (1, total)
+    totalHist.SetBinError (1, totalError)
+    g = TGraphAsymmErrors (passesHist, totalHist)
+
+    return (passes / total, g.GetErrorYlow (0), g.GetErrorYhigh (0))
+
 class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
@@ -66,6 +77,7 @@ class LeptonBkgdEstimate:
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
+    _luminosityInInvFb = float ("nan")
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield 
 
@@ -91,6 +103,9 @@ class LeptonBkgdEstimate:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def addLuminosityInInvFb (self, luminosityInInvFb):
+        self._luminosityInInvFb = luminosityInInvFb
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -146,11 +161,11 @@ class LeptonBkgdEstimate:
             weight *= self._prescale
 
             if not (n == 0.0):
-                print "N_ctrl: " + str (n) + " +- " + str (nError)
+                print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
                 return (n, nError, metMinusOne)
             else:
                 nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
-                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " - 0 + " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
                 return (n, nUpperLimit, metMinusOne)
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
@@ -283,16 +298,16 @@ class LeptonBkgdEstimate:
             return (float ("nan"), float ("nan"))
 
     def printPpassMetTriggers (self):
-        if hasattr (self, "TagPt35") and hasattr (self, "TagPt35MetTrig"):
-            sample = self.TagPt35["sample"]
-            condorDir = self.TagPt35["condorDir"]
-            name = self.TagPt35["name"]
+        if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
+            sample = self.TrigEffDenom["sample"] if hasattr (self, "TrigEffDenom") else self.TagPt35["sample"]
+            condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
+            name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
             hist = "Met Plots/metNoMu"
             totalHist = getHist (sample, condorDir, name + "Plotter", hist)
 
-            sample = self.TagPt35MetTrig["sample"]
-            condorDir = self.TagPt35MetTrig["condorDir"]
-            name = self.TagPt35MetTrig["name"]
+            sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
+            condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
+            name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
             hist = "Met Plots/metNoMu"
             passesHist = getHist (sample, condorDir, name + "Plotter", hist)
 
@@ -361,11 +376,11 @@ class LeptonBkgdEstimate:
             nError = self.CandTrkIdPt35["yieldError"]
             weight = self.CandTrkIdPt35["weight"]
             if not (n == 0.0):
-                print "N_back: " + str (n) + " +- " + str (nError)
+                print "N_back: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
                 return (n, nError)
             else:
                 nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
-                print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit)
+                print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
                 return (n, nUpperLimit)
         else:
             print "CandTrkIdPt35 not defined. Not printing N_back..."
@@ -456,9 +471,9 @@ class LeptonBkgdEstimate:
         print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0):
-            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+            print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         else:
-            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError)
+            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         return (nEst, nEstError)
 
     def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):
@@ -536,6 +551,7 @@ class FakeTrackBkgdEstimate:
     _fout = None
     _canvas = None
     _prescale = 1.0
+    _luminosityInInvFb = float ("nan")
 
     def __init__ (self):
         pass
@@ -548,6 +564,9 @@ class FakeTrackBkgdEstimate:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def addLuminosityInInvFb (self, luminosityInInvFb):
+        self._luminosityInInvFb = luminosityInInvFb
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -583,7 +602,7 @@ class FakeTrackBkgdEstimate:
             n *= self._prescale
             nError *= self._prescale
 
-            print "N_ctrl: " + str (n) + " +- " + str (nError)
+            print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
             return (n, nError)
         else:
             print "Basic not defined. Not printing N_ctrl..."
@@ -611,8 +630,8 @@ class FakeTrackBkgdEstimate:
         print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0.0):
-            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+            print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         else:
-            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError)
+            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
 
         return (nEst, nEstError)
