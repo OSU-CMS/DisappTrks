@@ -58,17 +58,6 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
-def effAndError (passes, passesError, total, totalError):
-    passesHist = TH1D ("passesHist", "", 1, 0.0, 1.0)
-    totalHist = TH1D ("totalHist", "", 1, 0.0, 1.0)
-    passesHist.SetBinContent (1, passes)
-    passesHist.SetBinError (1, passesError)
-    totalHist.SetBinContent (1, total)
-    totalHist.SetBinError (1, totalError)
-    g = TGraphAsymmErrors (passesHist, totalHist)
-
-    return (passes / total, g.GetErrorYlow (0), g.GetErrorYhigh (0))
-
 class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
@@ -78,6 +67,8 @@ class LeptonBkgdEstimate:
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
+    _luminosityLabel = float ("nan")
+    _plotLabel = float ("nan")
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield 
 
@@ -106,6 +97,12 @@ class LeptonBkgdEstimate:
 
     def addLuminosityInInvFb (self, luminosityInInvFb):
         self._luminosityInInvFb = luminosityInInvFb
+
+    def addLuminosityLabel (self, luminosityLabel):
+        self._luminosityLabel = luminosityLabel
+
+    def addPlotLabel (self, plotLabel):
+        self._plotLabel = plotLabel
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -188,18 +185,34 @@ class LeptonBkgdEstimate:
 
                 metMinusOne.Scale (self._prescale)
 
-                pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
+                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
-                pt.SetTextSize(0.0388601)
-                pt.AddText("use for N_{ctrl}")
+                pt.SetTextSize(0.0387597)
+                pt.AddText(str (self._plotLabel))
+
+                cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+                cmsLabel.SetBorderSize(0)
+                cmsLabel.SetFillStyle(0)
+                cmsLabel.SetTextFont(62)
+                cmsLabel.SetTextSize(0.0387597)
+                cmsLabel.AddText("CMS Preliminary")
+
+                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel.SetBorderSize(0)
+                lumiLabel.SetFillStyle(0)
+                lumiLabel.SetTextFont(42)
+                lumiLabel.SetTextSize(0.0387597)
+                lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
                 setAxisStyle (met)
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metForNctrl")
 
@@ -208,6 +221,8 @@ class LeptonBkgdEstimate:
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneForNctrl")
 
@@ -352,18 +367,34 @@ class LeptonBkgdEstimate:
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
             metGraph.SetEditable (0)
 
-            pt = TPaveText(0.190955,0.806995,0.658292,0.88601,"brNDC")
+            pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
             pt.SetBorderSize(0)
             pt.SetFillStyle(0)
             pt.SetTextFont(42)
-            pt.SetTextSize(0.0388601)
-            pt.AddText("use for P(pass E_{T}^{miss} triggers)")
+            pt.SetTextSize(0.0387597)
+            pt.AddText(str (self._plotLabel))
+
+            cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+            cmsLabel.SetBorderSize(0)
+            cmsLabel.SetFillStyle(0)
+            cmsLabel.SetTextFont(62)
+            cmsLabel.SetTextSize(0.0387597)
+            cmsLabel.AddText("CMS Preliminary")
+
+            lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+            lumiLabel.SetBorderSize(0)
+            lumiLabel.SetFillStyle(0)
+            lumiLabel.SetTextFont(42)
+            lumiLabel.SetTextSize(0.0387597)
+            lumiLabel.AddText(str (self._luminosityLabel))
 
             setStyle (metGraph)
             self._canvas.cd ()
             metGraph.Draw ("ap")
             setAxisStyle (metGraph, "E_{T}^{miss} excluding muons [GeV]", "trigger efficiency", (0.0, 500.0), (0.0, 1.4))
             pt.Draw ("same")
+            cmsLabel.Draw ("same")
+            lumiLabel.Draw ("same")
             self._fout.cd ()
             self._canvas.Write ("triggerEfficiency")
         else:
@@ -404,18 +435,34 @@ class LeptonBkgdEstimate:
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
 
-                pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
+                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
-                pt.SetTextSize(0.0388601)
-                pt.AddText("use for N_{back}")
+                pt.SetTextSize(0.0387597)
+                pt.AddText(str (self._plotLabel))
+
+                cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+                cmsLabel.SetBorderSize(0)
+                cmsLabel.SetFillStyle(0)
+                cmsLabel.SetTextFont(62)
+                cmsLabel.SetTextSize(0.0387597)
+                cmsLabel.AddText("CMS Preliminary")
+
+                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel.SetBorderSize(0)
+                lumiLabel.SetFillStyle(0)
+                lumiLabel.SetTextFont(42)
+                lumiLabel.SetTextSize(0.0387597)
+                lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
                 setAxisStyle (met)
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metForNback")
 
@@ -424,6 +471,8 @@ class LeptonBkgdEstimate:
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneForNback")
             else:
@@ -439,7 +488,7 @@ class LeptonBkgdEstimate:
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        pPassVeto,         pPassVetoError                             =  self.printPpassVetoTagProbe ()
+        pPassVeto,         pPassVetoError, passes, passesError, total, totalError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
 
@@ -448,13 +497,13 @@ class LeptonBkgdEstimate:
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
-        N = nCtrl / self._prescale
-        alpha = self._prescale * pPassVeto * pPassMetCut * pPassMetTriggers
-        alphaError = 0.0
-        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
-        alphaError  =  math.hypot  (alphaError,  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
-        alphaError  =  math.hypot  (alphaError,  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
-        alphaError *= self._prescale
+        N = passes
+        alpha = (nCtrl / total) * pPassMetCut * pPassMetTriggers
+        alphaError  =  0.0
+        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggers       *  totalError)  /  (total  *  total))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggersError  *  total)       /  (total  *  total))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCutError  *  pPassMetTriggers       *  total)       /  (total  *  total))
+        alphaError  =  math.hypot  (alphaError,  (nCtrlError  *  pPassMetCut       *  pPassMetTriggers       *  total)       /  (total  *  total))
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
@@ -490,18 +539,34 @@ class LeptonBkgdEstimate:
                 metMinusOne.SetBinContent (i, newContent)
                 metMinusOne.SetBinError (i, newError)
 
-            pt = TPaveText(0.702261,0.816062,0.908291,0.869171,"brNDC")
+            pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
             pt.SetBorderSize(0)
             pt.SetFillStyle(0)
             pt.SetTextFont(42)
-            pt.SetTextSize(0.0388601)
-            pt.AddText("use for N_{est}")
+            pt.SetTextSize(0.0387597)
+            pt.AddText(str (self._plotLabel))
+
+            cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+            cmsLabel.SetBorderSize(0)
+            cmsLabel.SetFillStyle(0)
+            cmsLabel.SetTextFont(62)
+            cmsLabel.SetTextSize(0.0387597)
+            cmsLabel.AddText("CMS Preliminary")
+
+            lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+            lumiLabel.SetBorderSize(0)
+            lumiLabel.SetFillStyle(0)
+            lumiLabel.SetTextFont(42)
+            lumiLabel.SetTextSize(0.0387597)
+            lumiLabel.AddText(str (self._luminosityLabel))
 
             setStyle (metMinusOne)
             setAxisStyle (metMinusOne)
             self._canvas.cd ()
             metMinusOne.Draw ()
             pt.Draw ("same")
+            cmsLabel.Draw ("same")
+            lumiLabel.Draw ("same")
             self._fout.cd ()
             self._canvas.Write ("metMinusOneForNest")
         else:
@@ -513,12 +578,15 @@ class LeptonBkgdEstimate:
                 total       = self.TagProbe["yield"]
                 totalError  = self.TagProbe["yieldError"]
                 passes      = self.TagProbePass["yield"]
-                passesError = self.TagProbePass["yieldError"]
+                passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
                 eff = passes / (2.0 * total - passes)
                 effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
-                print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
-                return (eff, effError)
+                if eff > 0.0:
+                    print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
+                else:
+                    print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " - 0 + " + str (effError)
+                return (eff, effError, passes, passesError, total, totalError)
             else:
                 print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
                 return (float ("nan"), float ("nan"))
@@ -612,10 +680,9 @@ class FakeTrackBkgdEstimate:
         pFakeTrack,  pFakeTrackError,  passes,  passesError,  total,  totalError  =  self.printPfakeTrack  ()
         nCtrl,       nCtrlError       =  self.printNctrl       ()
 
-        N = passes / self._prescale
-        alpha = self._prescale * (nCtrl / total)
+        N = passes
+        alpha = (nCtrl / total)
         alphaError = math.hypot (nCtrl * totalError, nCtrlError * total) / (total * total)
-        alphaError *= self._prescale
 
         nEst = nCtrl * pFakeTrack
         nEstError = 0.0
@@ -630,8 +697,8 @@ class FakeTrackBkgdEstimate:
         print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0.0):
-            print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
+            print "N_est: " + str (nEst) + " +- " + str (nEstError)
         else:
-            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
+            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError)
 
         return (nEst, nEstError)
