@@ -53,7 +53,7 @@ TrackExtraHistograms = cms.PSet(
             name = cms.string("trackIsolation"),
             title = cms.string("Relative Track Isolation;relative track isolation"), 
             binsX = cms.untracked.vdouble(100, 0, 0.3),
-            inputVariables = cms.vstring("trackIsoDRp3 / pt"),
+            inputVariables = cms.vstring("trackIsoNoPUDRp3 / pt"),
             ),
         cms.PSet (
             name = cms.string("trackFitPlane"),
