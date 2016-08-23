@@ -241,7 +241,7 @@ cutTrkNMissMid = cms.PSet(
 )
 cutTrkIso = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string(" ( trackIsoNoIsoDRp3 / pt ) < 0.05"),
+    cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkGsfTrkVeto = cms.PSet(
