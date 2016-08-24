@@ -19,12 +19,13 @@ print "*************************************************************************
 print "performing fake track background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("fakeTrackBkgdEstimate.root", "recreate")
+fout = TFile.Open ("fakeTrackBkgdEstimate_2015.root", "recreate")
 
 fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
 fakeTrackBkgdEstimate.addTFile (fout)
 fakeTrackBkgdEstimate.addTCanvas (canvas)
 fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
 fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/zToMuMu")
 fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/zToMuMuTrack")
 fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2015D",       dirs['Andrew']+"withFiducialCuts/basicSelection")
@@ -43,17 +44,22 @@ print "*************************************************************************
 print "performing electron background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("electronBkgdEstimate.root", "recreate")
+fout = TFile.Open ("electronBkgdEstimate_2015.root", "recreate")
 
 electronBkgdEstimate = LeptonBkgdEstimate ("electron")
 electronBkgdEstimate.addTFile (fout)
 electronBkgdEstimate.addTCanvas (canvas)
 electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
+electronBkgdEstimate.addLuminosityInInvFb (metLumi)
+electronBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
 electronBkgdEstimate.addMetCut (100.0)
 electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe_withMissingOuterHitsCut")
 electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronTagAndProbe_withMissingOuterHitsCut")
 electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronBkgdForDisappearingTrackSelection")
+#electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"withFiducialCuts/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+electronBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -69,17 +75,22 @@ print "*************************************************************************
 print "performing muon background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
+fout = TFile.Open ("muonBkgdEstimate_2015.root", "recreate")
 
 muonBkgdEstimate = LeptonBkgdEstimate ("muon")
 muonBkgdEstimate.addTFile (fout)
 muonBkgdEstimate.addTCanvas (canvas)
 muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+muonBkgdEstimate.addLuminosityInInvFb (metLumi)
+muonBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
 muonBkgdEstimate.addMetCut (100.0)
 muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe_withMissingOuterHitsCut")
 muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonTagAndProbe_withMissingOuterHitsCut")
 muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+#muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -95,17 +106,22 @@ print "*************************************************************************
 print "performing tau background estimate in disappearing track search region"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
+fout = TFile.Open ("tauBkgdEstimate_2015.root", "recreate")
 
 tauBkgdEstimate = LeptonBkgdEstimate ("tau")
 tauBkgdEstimate.addTFile (fout)
 tauBkgdEstimate.addTCanvas (canvas)
 tauBkgdEstimate.addPrescaleFactor (metLumi / tauLumi)
+tauBkgdEstimate.addLuminosityInInvFb (metLumi)
+tauBkgdEstimate.addLuminosityLabel ("0.225 fb^{-1} (13 TeV)")
+tauBkgdEstimate.addPlotLabel ("Tau 2015D")
 tauBkgdEstimate.addMetCut (100.0)
-tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/tauTagAndProbe_withMissingOuterHitsCut")
-tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/tauTagAndProbe_withMissingOuterHitsCut")
-tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",             "Tau_2015D",       dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
-tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",      "Tau_2015D",       dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/tauTagAndProbe_final")
+tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2015D",  dirs['Andrew']+"withFiducialCuts/tauTagAndProbe_final")
+tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",             "Tau_2015D",       dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection_final")
+#tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",      "Tau_2015D",       dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
+tauBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2015D",   dirs['Andrew']+"withFiducialCuts/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
