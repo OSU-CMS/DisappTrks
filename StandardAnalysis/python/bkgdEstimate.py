@@ -498,12 +498,13 @@ class LeptonBkgdEstimate:
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
         N = passes
-        alpha = (nCtrl / total) * pPassMetCut * pPassMetTriggers
+        alpha = (nCtrl / (2.0 * total - passes)) * pPassMetCut * pPassMetTriggers
         alphaError  =  0.0
-        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggers       *  totalError)  /  (total  *  total))
-        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggersError  *  total)       /  (total  *  total))
-        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCutError  *  pPassMetTriggers       *  total)       /  (total  *  total))
-        alphaError  =  math.hypot  (alphaError,  (nCtrlError  *  pPassMetCut       *  pPassMetTriggers       *  total)       /  (total  *  total))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl  *  pPassMetCut  *  pPassMetTriggers  *  2.0 * totalError)  /  ((2.0  *  total  -  passes)  *  (2.0  *  total  -  passes)))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl  *  pPassMetCut  *  pPassMetTriggers  *       passesError)  /  ((2.0  *  total  -  passes)  *  (2.0  *  total  -  passes)))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggersError)  /  (2.0  *  total  -  passes))
+        alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCutError  *  pPassMetTriggers)       /  (2.0  *  total  -  passes))
+        alphaError  =  math.hypot  (alphaError,  (nCtrlError  *  pPassMetCut       *  pPassMetTriggers)       /  (2.0  *  total  -  passes))
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
