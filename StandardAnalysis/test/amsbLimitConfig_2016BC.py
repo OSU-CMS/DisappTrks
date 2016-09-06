@@ -7,6 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
+from amsbLimitConfigBkgds_2016BC import *    # Produced with ../scripts/makeANTables.py
 
 import os
 
@@ -50,7 +51,8 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = 2590.0 + 12884.361
+lumi = 8530.9
+signalScaleFactor = 8530.9 / (2590.0 + 12884.361) # fraction of integrated luminosity from 2016B+C
 
 #condor directory in which to find signal root files
 signal_condor_dir = AndrewDir + '/2015/disappearingTrackSelection_electronVeto/'

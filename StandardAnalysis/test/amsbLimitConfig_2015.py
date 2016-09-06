@@ -52,10 +52,11 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
 lumi = 2590.0
-signalScaleFactor = 2590.0 / (2590.0 + 6317.0) # fraction of integrated luminosity from 2015
+signalScaleFactor = 2590.0 / (2590.0 + 12884.361) # fraction of integrated luminosity from 2015
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + 'withFiducialCuts/disTrkSelection_signal/'
+signal_condor_dir = AndrewDir + '/2015/disappearingTrackSelection_electronVeto/'
+
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'

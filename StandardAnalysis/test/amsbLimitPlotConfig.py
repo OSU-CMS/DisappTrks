@@ -14,7 +14,7 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 
 #name of histogram to integrate to get yields
 #integrateHistogramName = "numEvents"
-intLumi = 2590.0 + 6317.0
+intLumi = 2590.0 + 12884.361
 
 
 #########################
