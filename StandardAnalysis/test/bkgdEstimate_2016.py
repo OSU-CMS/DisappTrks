@@ -35,7 +35,7 @@ fakeTrackBkgdEstimate.addTCanvas (canvas)
 fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
 fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
 fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/zToMuMu")
-fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/fakeTrackBkgdForDisappearingTrackSelection")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/noPU/fakeTrackBkgdForDisappearingTrackSelection")
 fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016",       dirs['Andrew']+"2016_ICHEP/basicSelection")
 
 print "********************************************************************************"
@@ -47,6 +47,59 @@ print "*************************************************************************
 fout.Close ()
 
 print "\n\n"
+
+#print "********************************************************************************"
+#print "performing fake track background estimate in search region (2016B & 2016C)"
+#print "--------------------------------------------------------------------------------"
+
+#fout = TFile.Open ("fakeTrackBkgdEstimate_2016_v3.root", "recreate")
+
+#fakeTrackBkgdEstimate_v3 = FakeTrackBkgdEstimate ()
+#fakeTrackBkgdEstimate_v3.addTFile (fout)
+#fakeTrackBkgdEstimate_v3.addTCanvas (canvas)
+#fakeTrackBkgdEstimate_v3.addPrescaleFactor (metLumi_v3 / muonLumi_v3)
+#fakeTrackBkgdEstimate_v3.addLuminosityInInvFb (metLumi_v3)
+#fakeTrackBkgdEstimate_v3.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/zToMuMu")
+#fakeTrackBkgdEstimate_v3.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/fakeTrackBkgdForDisappearingTrackSelection")
+#fakeTrackBkgdEstimate_v3.addChannel  ("Basic",        "BasicSelection",  "MET_2016_v3",       dirs['Andrew']+"2016_ICHEP/basicSelection")
+
+#print "********************************************************************************"
+
+#(nEstFake_v3, nEstFakeError_v3) = fakeTrackBkgdEstimate_v3.printNest ()
+
+#print "********************************************************************************"
+
+#fout.Close ()
+
+#print "\n\n"
+
+#print "********************************************************************************"
+#print "performing fake track background estimate in search region (2016D)"
+#print "--------------------------------------------------------------------------------"
+
+#fout = TFile.Open ("fakeTrackBkgdEstimate_2016_v4.root", "recreate")
+
+#fakeTrackBkgdEstimate_v4 = FakeTrackBkgdEstimate ()
+#fakeTrackBkgdEstimate_v4.addTFile (fout)
+#fakeTrackBkgdEstimate_v4.addTCanvas (canvas)
+#fakeTrackBkgdEstimate_v4.addPrescaleFactor (metLumi_v4 / muonLumi_v4)
+#fakeTrackBkgdEstimate_v4.addLuminosityInInvFb (metLumi_v4)
+#fakeTrackBkgdEstimate_v4.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/zToMuMu")
+#fakeTrackBkgdEstimate_v4.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/fakeTrackBkgdForDisappearingTrackSelection")
+#fakeTrackBkgdEstimate_v4.addChannel  ("Basic",        "BasicSelection",  "MET_2016D",       dirs['Andrew']+"2016_ICHEP/basicSelection")
+
+#print "********************************************************************************"
+
+#(nEstFake_v4, nEstFakeError_v4) = fakeTrackBkgdEstimate_v4.printNest ()
+
+#print "********************************************************************************"
+
+#fout.Close ()
+
+#nEstFake = nEstFake_v3 + nEstFake_v4
+#nEstFakeError = math.hypot (nEstFakeError_v3, nEstFakeError_v4)
+
+#print "\n\n"
 
 print "********************************************************************************"
 print "performing electron background estimate in search region (2016B & 2016C)"
@@ -62,12 +115,10 @@ electronBkgdEstimate_v3.addLuminosityInInvFb (metLumi_v3)
 electronBkgdEstimate_v3.addLuminosityLabel ("8.53 fb^{-1} (13 TeV)")
 electronBkgdEstimate_v3.addPlotLabel ("SingleElectron 2016B+C")
 electronBkgdEstimate_v3.addMetCut (100.0)
-electronBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v3.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-#electronBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v3.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v3.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v3.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -93,12 +144,10 @@ electronBkgdEstimate_v4.addLuminosityInInvFb (metLumi_v4)
 electronBkgdEstimate_v4.addLuminosityLabel ("4.35 fb^{-1} (13 TeV)")
 electronBkgdEstimate_v4.addPlotLabel ("SingleElectron 2016D")
 electronBkgdEstimate_v4.addMetCut (100.0)
-electronBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v4.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-#electronBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v4.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-electronBkgdEstimate_v4.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v4.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+electronBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -124,12 +173,10 @@ muonBkgdEstimate_v3.addLuminosityInInvFb (metLumi_v3)
 muonBkgdEstimate_v3.addLuminosityLabel ("8.52 fb^{-1} (13 TeV)")
 muonBkgdEstimate_v3.addPlotLabel ("SingleMuon 2016B+C")
 muonBkgdEstimate_v3.addMetCut (100.0)
-muonBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/muonTagAndProbe_withMissingOuterHitsCut")
-muonBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/muonTagAndProbe_withMissingOuterHitsCut")
-muonBkgdEstimate_v3.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-#muonBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate_v3.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate_v3.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v3.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -155,12 +202,10 @@ muonBkgdEstimate_v4.addLuminosityInInvFb (metLumi_v4)
 muonBkgdEstimate_v4.addLuminosityLabel ("4.35 fb^{-1} (13 TeV)")
 muonBkgdEstimate_v4.addPlotLabel ("SingleMuon 2016D")
 muonBkgdEstimate_v4.addMetCut (100.0)
-muonBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/muonTagAndProbe_withMissingOuterHitsCut")
-muonBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/muonTagAndProbe_withMissingOuterHitsCut")
-muonBkgdEstimate_v4.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-#muonBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate_v4.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-muonBkgdEstimate_v4.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v4.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
+muonBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/muonBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -186,12 +231,12 @@ tauBkgdEstimate_v3.addLuminosityInInvFb (metLumi_v3)
 tauBkgdEstimate_v3.addLuminosityLabel ("0.814 fb^{-1} (13 TeV)")
 tauBkgdEstimate_v3.addPlotLabel ("Tau 2016B+C")
 tauBkgdEstimate_v3.addMetCut (100.0)
-tauBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauTagAndProbe_final")
-tauBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauTagAndProbe_final")
-tauBkgdEstimate_v3.addChannel  ("TagPt35",         "TauTagPt55",               "Tau_2016_v3",       dirs['Andrew']+"2016_ICHEP/tauBkgdForDisappearingTrackSelection_final")
-#tauBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",        "Tau_2016_v3",       dirs['Andrew']+"2016_ICHEP/tauBkgdForDisappearingTrackSelection")
-tauBkgdEstimate_v3.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-tauBkgdEstimate_v3.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016_v3",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v3.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v3.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v3.addChannel  ("TagPt35",         "TauTagPt55",               "Tau_2016_v3",       dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+#tauBkgdEstimate_v3.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",        "Tau_2016_v3",       dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v3.addChannel  ("TrigEffDenom",         "ElectronTagPt55",          "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v3.addChannel  ("TrigEffNumer",  "ElectronTagPt55MetTrig",   "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 
@@ -217,12 +262,12 @@ tauBkgdEstimate_v4.addLuminosityInInvFb (metLumi_v4)
 tauBkgdEstimate_v4.addLuminosityLabel ("0.139 fb^{-1} (13 TeV)")
 tauBkgdEstimate_v4.addPlotLabel ("Tau 2016D")
 tauBkgdEstimate_v4.addMetCut (100.0)
-tauBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/tauTagAndProbe_final")
-tauBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/tauTagAndProbe_final")
-tauBkgdEstimate_v4.addChannel  ("TagPt35",         "TauTagPt55",               "Tau_2016D",       dirs['Andrew']+"2016_ICHEP/tauBkgdForDisappearingTrackSelection_final")
-#tauBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",        "Tau_2016D",       dirs['Andrew']+"2016_ICHEP/tauBkgdForDisappearingTrackSelection")
-tauBkgdEstimate_v4.addChannel  ("TrigEffDenom",    "MuonTagPt55",              "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
-tauBkgdEstimate_v4.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",       "SingleMu_2016D",   dirs['Andrew']+"2016_ICHEP/muonBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoTauProbeTrkWithZCuts",  "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoTauDisTrk",             "SingleMu_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v4.addChannel  ("TagPt35",         "TauTagPt55",               "Tau_2016D",       dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+#tauBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",        "Tau_2016D",       dirs['Andrew']+"2016_ICHEP/noPU/tauBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v4.addChannel  ("TrigEffDenom",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
+tauBkgdEstimate_v4.addChannel  ("TrigEffNumer",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/noPU/electronBkgdForDisappearingTrackSelection")
 
 print "********************************************************************************"
 

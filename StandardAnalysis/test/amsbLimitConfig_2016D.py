@@ -7,7 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
-from amsbLimitConfigBkgds_2016 import *    # Produced with ../scripts/makeANTables.py
+from amsbLimitConfigBkgds_2016D import *    # Produced with ../scripts/makeANTables.py
 
 import os
 
@@ -51,11 +51,11 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = 6317.0
-signalScaleFactor = 6317.0 / (2590.0 + 6317.0) # fraction of integrated luminosity from 2016
+lumi = 4353.4
+signalScaleFactor = 4353.4 / (2590.0 + 12884.361) # fraction of integrated luminosity from 2016B+C
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + 'withFiducialCuts/disTrkSelection_signal/'
+signal_condor_dir = AndrewDir + '/2015/disappearingTrackSelection_electronVeto/'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
