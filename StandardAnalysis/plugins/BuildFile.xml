@@ -2,16 +2,18 @@
 <use  name="CommonTools/UtilAlgos"/>
 <use  name="DataFormats/Common"/>
 <use  name="DataFormats/EgammaCandidates"/>
+<use  name="DataFormats/GsfTrackReco"/>
+<use  name="DataFormats/HepMCCandidate"/>
 <use  name="DataFormats/Math"/>
 <use  name="DataFormats/MuonReco"/>
 <use  name="DataFormats/TrackReco"/>
 <use  name="DataFormats/VertexReco"/>
+<use  name="DisappTrks/StandardAnalysis"/>
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/MessageLogger"/>
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
-<use  name="DisappTrks/StandardAnalysis"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <library  file="*.cc"  name="DisappTrksStandardAnalysisPlugins">
