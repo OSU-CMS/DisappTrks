@@ -13,13 +13,10 @@ process.maxEvents = cms.untracked.PSet (
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        'file:/mnt/hadoop/se/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_613.root',
-        'file:/mnt/hadoop/se/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_614.root',
-        'file:/mnt/hadoop/se/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_615.root',
-        'file:/mnt/hadoop/se/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_616.root',
-        'file:/mnt/hadoop/se/store/user/ahart/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160204_180900/0000/miniAODWithCandidateTracks_617.root',
+        "file:/home/hart/rereco/CMSSW_7_6_6/src/singleElectron.root",
+        "file:/home/hart/rereco/CMSSW_7_6_6/src/singleMuon.root",
     ),
-    eventsToProcess = cms.untracked.VEventRange ('1:14762:8535110'),
+#    eventsToProcess = cms.untracked.VEventRange ('1:14762:8535110'),
 )
 
 ###########################################################
@@ -42,5 +39,6 @@ process.poolOutputModule = cms.OutputModule ("PoolOutputModule",
     outputCommands = process.MINIAODEventContent.outputCommands,
 )
 process.poolOutputModule.outputCommands.append ("keep recoTracks*_*_*_*")
+process.poolOutputModule.outputCommands.append ("keep recoGsfTracks*_*_*_*")
 
 process.myEndPath = cms.EndPath (process.poolOutputModule)
