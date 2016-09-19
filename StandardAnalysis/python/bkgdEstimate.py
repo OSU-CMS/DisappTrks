@@ -700,8 +700,8 @@ class FakeTrackBkgdEstimate:
         print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0.0):
-            print "N_est: " + str (nEst) + " +- " + str (nEstError)
+            print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         else:
-            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError)
+            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
 
         return (nEst, nEstError)
