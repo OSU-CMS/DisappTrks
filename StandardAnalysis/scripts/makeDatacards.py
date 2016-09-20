@@ -72,11 +72,18 @@ def fancyTable(arrays):
 
 
 def GetYieldAndError(condor_dir, process, channel):
+    dirName = channel
+    dirName = re.sub (r"^([^/]*)Plotter\/.*$", r"\1", dirName)
+
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     hist = inputFile.Get(channel+"/"+integrateHistogramName)
     if not hist:
         print "Could not find hist "+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
+    cutFlow = inputFile.Get(dirName+"CutFlowPlotter/cutFlow")
+    if not cutFlow:
+        print "Could not find hist "+dirName+"CutFlowPlotter/cutFlow in " + inputFile.GetName()
+    cutFlow.SetDirectory(0)
     inputFile.Close()
     yieldAndErrorList = {}
     nBinsX = hist.GetNbinsX()
@@ -90,6 +97,7 @@ def GetYieldAndError(condor_dir, process, channel):
     yieldAndErrorList['yield'] = integral
     yieldAndErrorList['error'] = fracError
     yieldAndErrorList['absError'] = intError
+    yieldAndErrorList['weight'] = (cutFlow.GetBinError (1) * cutFlow.GetBinError (1)) / cutFlow.GetBinContent (1)
     return yieldAndErrorList
 
 
@@ -127,8 +135,8 @@ def writeDatacard(mass,lifetime):
         signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
-    signal_yield_raw = pow(signal_yield,2) / pow(signalYieldAndError['absError'],2)
-    signal_yield_weight = signal_yield / signal_yield_raw
+    signal_yield_raw = signal_yield / signalYieldAndError['weight']
+    signal_yield_weight = signalYieldAndError['weight']
 
     signal_yield *= signalScaleFactor
     signal_yield_weight *= signalScaleFactor
