@@ -55,7 +55,7 @@ lumi = 2590.0
 signalScaleFactor = 2590.0 / (2590.0 + 12884.361) # fraction of integrated luminosity from 2015
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + '/2015/disappearingTrackSelection_electronVeto/'
+signal_condor_dir = AndrewDir + '/2015/disappearingTracks/'
 
 
 #name of event selection from which to take signal yields
