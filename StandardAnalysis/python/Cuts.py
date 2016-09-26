@@ -611,7 +611,7 @@ cutMuTrkDeltaPhi = cms.PSet(
 )
 cutMuTrkMETBalance = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks", "mets"),
-    cutString = cms.string("hypot (muon.px + met.px - track.px, muon.py + met.py - track.py) < 45.0"),
+    cutString = cms.string("hypot (muon.px + met.px + track.px, muon.py + met.py + track.py) < 45.0"),
     numberRequired = cms.string(">= 1"),
 )
 
