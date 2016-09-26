@@ -75,6 +75,11 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
+cutLowMet = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("pt < 60"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## track-met pairs
@@ -116,6 +121,11 @@ cutJetNeuHad = cms.PSet(
 cutJetNeuEm = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+)
+cutNJets = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("nJets <= 2"),
     numberRequired = cms.string(">= 1"),
 )
 cutDijetDeltaPhiMax = cms.PSet(
@@ -592,6 +602,16 @@ cutMuTrkInvMass40To75 = cms.PSet(
 cutMuTrkOS = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string("muon.charge * track.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMuTrkDeltaPhi = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string("fabs (deltaPhi (muon, track)) > 2.5"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMuTrkMETBalance = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks", "mets"),
+    cutString = cms.string("hypot (muon.px + met.px - track.px, muon.py + met.py - track.py) < 45.0"),
     numberRequired = cms.string(">= 1"),
 )
 

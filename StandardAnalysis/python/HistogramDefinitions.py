@@ -434,9 +434,9 @@ TrackMuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("deltaPhi"),
-            title = cms.string(";#Delta#phi(#mu,track) [GeV]"),
+            title = cms.string(";|#Delta#phi(#mu,track)| [GeV]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
-            inputVariables = cms.vstring("deltaPhi (track, muon)"),
+            inputVariables = cms.vstring("fabs (deltaPhi (track, muon))"),
         ),
         cms.PSet (
             name = cms.string("deltaEta"),
@@ -459,6 +459,68 @@ TrackMuonHistograms = cms.PSet(
         ),
     )
 )
+
+MuonMETHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons", "mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("transMass"),
+            title = cms.string(";M_{T} (muon, E_{T}^{miss}) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            inputVariables = cms.vstring("transMass (muon, met)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhi"),
+            title = cms.string(";|#Delta#phi(#mu,#vec{E}_{T}^{miss})|"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (deltaPhi (muon, met))"),
+        ),
+    )
+)
+
+TrackMETHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("deltaPhi"),
+            title = cms.string(";|#Delta#phi(track,#vec{E}_{T}^{miss})|"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (deltaPhi (track, met))"),
+        ),
+    )
+)
+
+TrackMuonMETHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "muons", "mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("energyBalance"),
+            title = cms.string(";probe track p_{T} [GeV];W boson p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(100, 0.0, 100.0),
+            inputVariables = cms.vstring("track.pt", "hypot (muon.px + met.px, muon.py + met.py)"),
+        ),
+        cms.PSet (
+            name = cms.string("energyBalanceDiff"),
+            title = cms.string(";W boson p_{T} - probe track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(1000, -100.0, 100.0),
+            inputVariables = cms.vstring("hypot (muon.px + met.px, muon.py + met.py) - track.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("energyBalanceVecDiff"),
+            title = cms.string(";|W boson #vec{p}_{T} - probe track #vec{p}_{T}| [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 200.0),
+            inputVariables = cms.vstring("hypot (muon.px + met.px + track.px, muon.py + met.py + track.py)"),
+        ),
+        cms.PSet (
+            name = cms.string("wBosonAngle"),
+            title = cms.string(";|#Delta#phi(W boson, probe track)|"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (dPhi (compositePhi (muon, met), track.phi))"),
+        ),
+    )
+)
+
 
 TrackElectronHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "electrons"),
@@ -483,9 +545,9 @@ TrackElectronHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("deltaPhi"),
-            title = cms.string(";#Delta#phi(e,track) [GeV]"),
+            title = cms.string(";|#Delta#phi(e,track)| [GeV]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
-            inputVariables = cms.vstring("deltaPhi (track, electron)"),
+            inputVariables = cms.vstring("fabs (deltaPhi (track, electron))"),
         ),
         cms.PSet (
             name = cms.string("deltaEta"),
@@ -894,9 +956,9 @@ DiJetHistograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("dijetDeltaPhi"),
-            title = cms.string(";#Delta#phi(dijet)"),  
+            title = cms.string(";|#Delta#phi(dijet)|"),  
             bins = cms.untracked.vdouble(100, 0, 3.15),   
-            inputVariables = cms.vstring("deltaPhi ( jet , jet )"),
+            inputVariables = cms.vstring("fabs (deltaPhi ( jet , jet ))"),
             ),
     )
 )  
