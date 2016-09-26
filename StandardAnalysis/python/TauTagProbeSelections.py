@@ -107,9 +107,13 @@ ZtoTauIsoTrk.name = cms.string("ZtoTauIsoTrk")
 
 muTrkCuts = [
     cutMuTrkInvMass10,
+    cutMuTrkDeltaPhi,
+    cutMuTrkMETBalance,
 ]
 addCuts(ZtoTauIsoTrk.cuts, [cutMuonMT])
 addCuts(ZtoTauIsoTrk.cuts, [cutMuonArbitration])
+addCuts(ZtoTauIsoTrk.cuts, [cutLowMet])
+addCuts(ZtoTauIsoTrk.cuts, [cutNJets])
 addCuts(ZtoTauIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoTauIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoTauIsoTrk.cuts, muTrkCuts)
