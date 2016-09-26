@@ -508,7 +508,7 @@ TrackMuonMETHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("energyBalanceVecDiff"),
-            title = cms.string(";|W boson #vec{p}_{T} - probe track #vec{p}_{T}| [GeV]"),
+            title = cms.string(";|W boson #vec{p}_{T} + probe track #vec{p}_{T}| [GeV]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 200.0),
             inputVariables = cms.vstring("hypot (muon.px + met.px + track.px, muon.py + met.py + track.py)"),
         ),
