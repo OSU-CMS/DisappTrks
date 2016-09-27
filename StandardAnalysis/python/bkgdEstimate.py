@@ -66,6 +66,7 @@ class LeptonBkgdEstimate:
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
+    _purity = (1.0, 0.0)
     _luminosityInInvFb = float ("nan")
     _luminosityLabel = float ("nan")
     _plotLabel = float ("nan")
@@ -94,6 +95,9 @@ class LeptonBkgdEstimate:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def addPurityFactor (self, purity):
+        self._purity = purity
 
     def addLuminosityInInvFb (self, luminosityInInvFb):
         self._luminosityInInvFb = luminosityInInvFb
@@ -585,6 +589,10 @@ class LeptonBkgdEstimate:
 
                 eff = passes / (2.0 * total - passes)
                 effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
+
+                eff *= self._purity[0]
+                effError = math.hypot (eff * self._purity[1], effError * self._purity[0])
+
                 if eff > 0.0:
                     print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
                 else:
