@@ -585,6 +585,55 @@ TrackElectronHistograms = cms.PSet(
     )
 )
 
+ElectronMETHistograms = cms.PSet(
+    inputCollection = cms.vstring("electrons", "mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("transMass"),
+            title = cms.string(";M_{T} (electron, E_{T}^{miss}) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            inputVariables = cms.vstring("transMass (electron, met)"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhi"),
+            title = cms.string(";|#Delta#phi(e,#vec{E}_{T}^{miss})|"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (deltaPhi (electron, met))"),
+        ),
+    )
+)
+
+TrackElectronMETHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "electrons", "mets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("energyBalance"),
+            title = cms.string(";probe track p_{T} [GeV];W boson p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(100, 0.0, 100.0),
+            inputVariables = cms.vstring("track.pt", "hypot (electron.px + met.px, electron.py + met.py)"),
+        ),
+        cms.PSet (
+            name = cms.string("energyBalanceDiff"),
+            title = cms.string(";W boson p_{T} - probe track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(1000, -100.0, 100.0),
+            inputVariables = cms.vstring("hypot (electron.px + met.px, electron.py + met.py) - track.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("energyBalanceVecDiff"),
+            title = cms.string(";|W boson #vec{p}_{T} + probe track #vec{p}_{T}| [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 200.0),
+            inputVariables = cms.vstring("hypot (electron.px + met.px + track.px, electron.py + met.py + track.py)"),
+        ),
+        cms.PSet (
+            name = cms.string("wBosonAngle"),
+            title = cms.string(";|#Delta#phi(W boson, probe track)|"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (dPhi (compositePhi (electron, met), track.phi))"),
+        ),
+    )
+)
+
 histograms = cms.PSet(  # for testing 
     inputCollection = cms.vstring("muons"),
     histograms = cms.VPSet (
