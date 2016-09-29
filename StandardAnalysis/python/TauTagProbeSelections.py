@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
+from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *  # Get the composite cut definitions
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *  # Get the composite cut definitions
 
 ################################################################################
@@ -102,49 +103,98 @@ addCuts(TauTagPt55MetCut.cuts, cutsToAdd)
 ################################################################################
 ## Tau tag and probe sample
 ################################################################################
-ZtoTauIsoTrk = copy.deepcopy(MuonTagSkim)
-ZtoTauIsoTrk.name = cms.string("ZtoTauIsoTrk")
+ZtoTauToMuIsoTrk = copy.deepcopy(MuonTagSkim)
+ZtoTauToMuIsoTrk.name = cms.string("ZtoTauToMuIsoTrk")
 
 muTrkCuts = [
     cutMuTrkInvMass10,
     cutMuTrkDeltaPhi,
     cutMuTrkMETBalance,
 ]
-addCuts(ZtoTauIsoTrk.cuts, [cutMuonMT])
-addCuts(ZtoTauIsoTrk.cuts, [cutMuonArbitration])
-addCuts(ZtoTauIsoTrk.cuts, [cutLowMet])
-addCuts(ZtoTauIsoTrk.cuts, [cutNJets])
-addCuts(ZtoTauIsoTrk.cuts, [cutTrkPt30])
-addCuts(ZtoTauIsoTrk.cuts, isoTrkCuts)
-addCuts(ZtoTauIsoTrk.cuts, muTrkCuts)
+addCuts(ZtoTauToMuIsoTrk.cuts, [cutMuonMT])
+addCuts(ZtoTauToMuIsoTrk.cuts, [cutMuonArbitration])
+addCuts(ZtoTauToMuIsoTrk.cuts, [cutLowMet])
+addCuts(ZtoTauToMuIsoTrk.cuts, [cutNJets])
+addCuts(ZtoTauToMuIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoTauToMuIsoTrk.cuts, isoTrkCuts)
+addCuts(ZtoTauToMuIsoTrk.cuts, muTrkCuts)
 cutsToRemove = [
     cutTrkPt55,
     cutTrkJetDeltaPhi,
 ]
-removeCuts(ZtoTauIsoTrk.cuts, cutsToRemove)
+removeCuts(ZtoTauToMuIsoTrk.cuts, cutsToRemove)
 
-ZtoTauProbeTrk = copy.deepcopy(ZtoTauIsoTrk)
-ZtoTauProbeTrk.name = cms.string("ZtoTauProbeTrk")
+ZtoTauToMuProbeTrk = copy.deepcopy(ZtoTauToMuIsoTrk)
+ZtoTauToMuProbeTrk.name = cms.string("ZtoTauToMuProbeTrk")
 
 cutsToAdd = [
     cutTrkElecVeto,
     cutTrkMuonVeto,
 ]
-addCuts(ZtoTauProbeTrk.cuts, cutsToAdd)
-addCuts(ZtoTauProbeTrk.cuts, [cutTrkArbitration])
+addCuts(ZtoTauToMuProbeTrk.cuts, cutsToAdd)
+addCuts(ZtoTauToMuProbeTrk.cuts, [cutTrkArbitration])
 
-ZtoTauProbeTrkWithZCuts = copy.deepcopy(ZtoTauProbeTrk)
-ZtoTauProbeTrkWithZCuts.name = cms.string("ZtoTauProbeTrkWithZCuts")
+ZtoTauToMuProbeTrkWithZCuts = copy.deepcopy(ZtoTauToMuProbeTrk)
+ZtoTauToMuProbeTrkWithZCuts.name = cms.string("ZtoTauToMuProbeTrkWithZCuts")
 cutsToAdd = [
     cutMuTrkInvMass40To75,
     cutMuTrkOS,
 ]
-addCuts(ZtoTauProbeTrkWithZCuts.cuts, cutsToAdd)
+addCuts(ZtoTauToMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoTauDisTrk = copy.deepcopy(ZtoTauProbeTrkWithZCuts)
-ZtoTauDisTrk.name = cms.string("ZtoTauDisTrk")
+ZtoTauToMuDisTrk = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
+ZtoTauToMuDisTrk.name = cms.string("ZtoTauToMuDisTrk")
 cutsToAdd = [
     cutTrkTauHadVeto,
     cutTrkEcalo,
 ]
-addCuts(ZtoTauDisTrk.cuts, cutsToAdd)
+addCuts(ZtoTauToMuDisTrk.cuts, cutsToAdd)
+
+################################################################################
+
+ZtoTauToEleIsoTrk = copy.deepcopy(ElectronTagSkim)
+ZtoTauToEleIsoTrk.name = cms.string("ZtoTauToEleIsoTrk")
+
+eleTrkCuts = [
+    cutEleTrkInvMass10,
+    cutEleTrkDeltaPhi,
+    cutEleTrkMETBalance,
+]
+addCuts(ZtoTauToEleIsoTrk.cuts, [cutElectronMT])
+addCuts(ZtoTauToEleIsoTrk.cuts, [cutElectronArbitration])
+addCuts(ZtoTauToEleIsoTrk.cuts, [cutLowMet])
+addCuts(ZtoTauToEleIsoTrk.cuts, [cutNJets])
+addCuts(ZtoTauToEleIsoTrk.cuts, [cutTrkPt30])
+addCuts(ZtoTauToEleIsoTrk.cuts, isoTrkCuts)
+addCuts(ZtoTauToEleIsoTrk.cuts, eleTrkCuts)
+cutsToRemove = [
+    cutTrkPt55,
+    cutTrkJetDeltaPhi,
+]
+removeCuts(ZtoTauToEleIsoTrk.cuts, cutsToRemove)
+
+ZtoTauToEleProbeTrk = copy.deepcopy(ZtoTauToEleIsoTrk)
+ZtoTauToEleProbeTrk.name = cms.string("ZtoTauToEleProbeTrk")
+
+cutsToAdd = [
+    cutTrkElecVeto,
+    cutTrkMuonVeto,
+]
+addCuts(ZtoTauToEleProbeTrk.cuts, cutsToAdd)
+addCuts(ZtoTauToEleProbeTrk.cuts, [cutTrkArbitration])
+
+ZtoTauToEleProbeTrkWithZCuts = copy.deepcopy(ZtoTauToEleProbeTrk)
+ZtoTauToEleProbeTrkWithZCuts.name = cms.string("ZtoTauToEleProbeTrkWithZCuts")
+cutsToAdd = [
+    cutEleTrkInvMass40To75,
+    cutEleTrkOS,
+]
+addCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, cutsToAdd)
+
+ZtoTauToEleDisTrk = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
+ZtoTauToEleDisTrk.name = cms.string("ZtoTauToEleDisTrk")
+cutsToAdd = [
+    cutTrkTauHadVeto,
+    cutTrkEcalo,
+]
+addCuts(ZtoTauToEleDisTrk.cuts, cutsToAdd)

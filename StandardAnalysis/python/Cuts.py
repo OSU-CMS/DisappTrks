@@ -89,6 +89,11 @@ cutMuonMT = cms.PSet(
     cutString = cms.string("transMass (muon, met) < 40"),
     numberRequired = cms.string(">= 1"),
 )
+cutElectronMT = cms.PSet(
+    inputCollection = cms.vstring("electrons", "mets"),
+    cutString = cms.string("transMass (electron, met) < 40"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## jets
@@ -647,9 +652,25 @@ cutEleTrkInvMass80To100 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string (">= 1 electron-track pairs with " + str(mZPDG - 10) + " < invMass(electron,track) < " + str(mZPDG + 10)),
 )
+cutEleTrkInvMass40To75 = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string(invMassWithMuon ("electron") + " > " + str(mZPDG - 50) + " && " + invMassWithMuon ("electron") + " < " + str(mZPDG - 15)),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string (">= 1 electron-track pairs with " + str(mZPDG - 50) + " < invMass(electron,track) < " + str(mZPDG - 15)),
+)
 cutEleTrkOS = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string("electron.charge * track.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutEleTrkDeltaPhi = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string("fabs (deltaPhi (electron, track)) > 2.5"),
+    numberRequired = cms.string(">= 1"),
+)
+cutEleTrkMETBalance = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks", "mets"),
+    cutString = cms.string("hypot (electron.px + met.px + track.px, electron.py + met.py + track.py) < 45.0"),
     numberRequired = cms.string(">= 1"),
 )
 
