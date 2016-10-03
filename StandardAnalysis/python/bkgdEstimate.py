@@ -587,6 +587,12 @@ class LeptonBkgdEstimate:
                 passes      = self.TagProbePass["yield"]
                 passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
+                if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
+                    total        += self.TagProbe1["yield"]
+                    totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
+                    passes       += self.TagProbePass1["yield"]
+                    passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"])
+
                 eff = passes / (2.0 * total - passes)
                 effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
 
