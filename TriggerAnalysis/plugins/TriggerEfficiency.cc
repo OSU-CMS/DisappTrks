@@ -282,6 +282,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMET channel
+      // MET leg denominator in data
       //////////////////////////////////////////////////////////////////////////////
       if (passesMETTriggers)
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
@@ -296,6 +297,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMETMuSeed channel
+      // MET leg numerator in data
       //////////////////////////////////////////////////////////////////////////////
       if (passesMuSeed && passesMETTriggers)
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMETMuSeed", metTriggerNames_.at (i));
@@ -303,6 +305,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPt channel
+      // track leg denominator in data
       //////////////////////////////////////////////////////////////////////////////
       if (selectedTracks.size () && passesMETFilter && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
@@ -317,6 +320,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPtMuSeed channel
+      // track leg numerator in data
       //////////////////////////////////////////////////////////////////////////////
       if (selectedTracks.size () && passesMETFilter && passesMuSeed && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPtMuSeed", metTriggerNames_.at (i));
