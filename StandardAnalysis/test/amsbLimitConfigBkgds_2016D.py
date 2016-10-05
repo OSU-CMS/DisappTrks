@@ -17,7 +17,7 @@ backgrounds = {
     },
     'Tau2016D' : {
         'N' : '1',
-        'alpha' : '1.40110768497',
+        'alpha' : '0.505818504653',
     },
 }
 
@@ -32,6 +32,6 @@ background_systematics = {
         'value' : '1.01684539919',
     },
     'Tau2016D' : { # error on alpha
-        'value' : '1.08654141461',
+        'value' : '1.08545941572',
     },
 }
