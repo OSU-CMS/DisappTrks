@@ -10,6 +10,7 @@ config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC_cfg.py'  # For MC only
+config.JobType.allowUndistributedCMSSW = True
 
 config.Data.inputDataset = ''
 config.Data.useParent = False
