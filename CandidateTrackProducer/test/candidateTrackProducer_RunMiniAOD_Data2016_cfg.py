@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: PAT -s PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 80X_dataRun2_Prompt_v9 --eventcontent MINIAOD --datatier MINIAOD --filein blah.root -n 100 --no_exec --python_filename=candidateTrackProducer_RunMiniAOD_Data_cfg.py --no_exec
+# with command line options: PAT -s PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 80X_dataRun2_Prompt_v14 --eventcontent MINIAOD --datatier MINIAOD --filein blah.root -n 100 --no_exec --python_filename=candidateTrackProducer_RunMiniAOD_Data_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('PAT')
@@ -60,7 +60,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v9', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v14', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)

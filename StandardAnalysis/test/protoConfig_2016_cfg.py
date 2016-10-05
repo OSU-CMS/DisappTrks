@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
 import glob
 
-data_global_tag = '80X_dataRun2_Prompt_v9'
+data_global_tag = '80X_dataRun2_Prompt_v14'
 mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
 
 ################################################################################

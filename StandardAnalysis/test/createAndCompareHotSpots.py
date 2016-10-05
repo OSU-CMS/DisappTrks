@@ -4,10 +4,81 @@
 # Usage:
 # createAndCompareHotSpots.py MYCONDORDIR
 
-from ROOT import TFile, TH2D
+from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas
 import os
 import sys
 import math
+
+doPlots = True
+
+gROOT.SetBatch()
+
+def MakePlots(filePath, plotName):
+    gStyle.SetOptStat(0)
+    gStyle.SetOptTitle(0)
+    can = TCanvas('can', 'can', 10, 10, 800, 600)
+
+    inputFile = TFile(filePath, 'read')
+
+    beforeVeto = inputFile.Get('beforeVeto')
+    afterVeto = inputFile.Get('afterVeto')
+
+    beforeVeto.Draw('colz')
+    can.SaveAs('test_beforeVeto_' + plotName + '.pdf')
+
+    afterVeto.Draw('colz')
+    can.SaveAs('test_afterVeto_' + plotName + '.pdf')
+
+    a = 0
+    aErr2 = 0
+    b = 0
+    bErr2 = 0
+
+    for xbin in range(1, beforeVeto.GetXaxis().GetNbins()):
+        for ybin in range(1, beforeVeto.GetYaxis().GetNbins()):
+
+            contentBeforeVeto = beforeVeto.GetBinContent(xbin, ybin)
+            errorBeforeVeto = beforeVeto.GetBinError(xbin, ybin)
+
+            if contentBeforeVeto == 0:
+                continue
+
+            contentAfterVeto = afterVeto.GetBinContent(xbin, ybin)
+            errorAfterVeto = afterVeto.GetBinError(xbin, ybin)
+
+            a += contentAfterVeto
+            aErr2 += errorAfterVeto * errorAfterVeto
+
+            b += contentBeforeVeto
+            bErr2 += errorBeforeVeto * errorBeforeVeto
+
+    mean = a / b
+    meanErr = mean * math.hypot(math.sqrt(aErr2) / a, math.sqrt(bErr2) / b)
+
+    afterVeto.Divide(beforeVeto)
+    can.SetLogz(True)
+    afterVeto.Draw('colz')
+    can.SaveAs('test_efficiency_' + plotName + '.pdf')
+
+    for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
+        for ybin in range(1, afterVeto.GetYaxis().GetNbins()):
+            content = afterVeto.GetBinContent(xbin, ybin)
+            error = afterVeto.GetBinError(xbin, ybin)
+
+            if content == 0:
+                continue
+
+            valueInSigma = (content - mean) / math.hypot(error, meanErr)
+            if valueInSigma < 0:
+                valueInSigma = 0
+
+            afterVeto.SetBinContent(xbin, ybin, valueInSigma)
+
+    can.SetLogz(False)
+    afterVeto.Draw('colz')
+    can.SaveAs('test_efficiencyInSigma_' + plotName + '.pdf')
+
+    inputFile.Close()
 
 def FindHotSpots(filePath):
 
@@ -166,9 +237,17 @@ if foundHistogramsMu:
     outputFileMu.cd()
     beforeVetoMu.Write('beforeVeto')
     afterVetoMu.Write('afterVeto')
+    outputFileMu.Close()
+
+if doPlots:
+    if foundHistogramsEle:
+        MakePlots(os.getcwd() + '/test_newElectronMap.root', 'ele')
+    if foundHistogramsMu:
+        MakePlots(os.getcwd() + '/test_newMuonMap.root', 'muon')
 
 # now compare to the existing maps
 if foundHistogramsEle:
+
     existingMapEle = FindHotSpots(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root')
     newMapEle = FindHotSpots(os.getcwd() + '/test_newElectronMap.root')
 
@@ -179,4 +258,3 @@ if foundHistogramsMu:
     newMapMu = FindHotSpots(os.getcwd() + '/test_newMuonMap.root')
 
     CompareHotSpots(existingMapMu, newMapMu)
-
