@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 
-#values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginocharginoCMS and
-# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVcharginoneutralinoCMS
+#values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1wino and
+# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVn2x1wino
 signal_cross_sections = { # in pb, in terms of chargino mass
     '100' : {
     'value' : '34.282',
