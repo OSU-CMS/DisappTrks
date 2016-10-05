@@ -229,6 +229,11 @@ cutTrkFiducialECAL = cms.PSet(
 #     cutString = cms.string("fabs ( eta ) "),
 #     numberRequired = cms.string(">= 1"),
 # )
+cutTrkNValidPixelHits = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern.numberOfValidPixelHits >= 1"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNValidHits = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("numberOfValidHits >= 7"),
