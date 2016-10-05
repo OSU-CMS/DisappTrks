@@ -68,7 +68,7 @@ class LeptonBkgdEstimate:
     _prescale = 1.0
     _purity = (1.0, 0.0)
     _luminosityInInvFb = float ("nan")
-    _luminosityLabel = float ("nan")
+    _luminosityLabel = "13 TeV"
     _plotLabel = float ("nan")
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield 
