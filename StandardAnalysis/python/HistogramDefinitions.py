@@ -252,10 +252,22 @@ ElectronExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
+            name = cms.string("electronMetMinusOneUpPt"),
+            title = cms.string("Electron Met Minus One;E_{T}^{miss} excluding selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metMinusOneUpPt"),
+        ),
+        cms.PSet (
             name = cms.string("electronMetNoMuMinusOnePt"),
             title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOneUpPt"),
+            title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
         ),
         cms.PSet (
             name = cms.string("elecGenMatchedPromptFinalStateIsMatched"),
@@ -315,10 +327,22 @@ TauExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
+            name = cms.string("tauMetMinusOneUpPt"),
+            title = cms.string("Tau Met Minus One;E_{T}^{miss} excluding selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metMinusOneUpPt"),
+        ),
+        cms.PSet (
             name = cms.string("tauMetNoMuMinusOnePt"),
             title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("tauMetNoMuMinusOneUpPt"),
+            title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
         ),
     )
 )
@@ -333,10 +357,22 @@ MuonExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
+            name = cms.string("muonMetMinusOneUpPt"),
+            title = cms.string("Muon Met Minus One;E_{T}^{miss} excluding selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metMinusOneUpPt"),
+        ),
+        cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePt"),
             title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonMetNoMuMinusOneUpPt"),
+            title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
         ),
         cms.PSet (
             name = cms.string("muonNumberOfValidHitsVsAbsEta"),
