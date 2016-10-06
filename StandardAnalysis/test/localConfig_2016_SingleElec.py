@@ -9,6 +9,9 @@ datasetsData = [
     'SingleEle_2016B',
     'SingleEle_2016C',
     'SingleEle_2016D',
+    'SingleEle_2016E',
+    'SingleEle_2016F',
+    'SingleEle_2016G',
 ]
 
 datasets = datasetsData

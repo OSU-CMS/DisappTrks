@@ -1,0 +1,9 @@
+Create data pileup distributions:
+./GetDataPileupDistributions.sh
+
+Create signal pileup distributions:
+cd ..
+osusub.py -l localPileupConfig.py -w PU_DIR
+...
+mergeOutputHadd.py -l localPileupConfig.py -w PU_DIR
+makePU.py -l localPileupConfig.py -w PU_DIR
