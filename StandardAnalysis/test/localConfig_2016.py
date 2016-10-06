@@ -12,6 +12,9 @@ datasetsData = [
     'MET_2016B',
     'MET_2016C',
     'MET_2016D',
+    'MET_2016E',
+    'MET_2016F',
+    'MET_2016G',
 ]
 
 datasets = datasetsData

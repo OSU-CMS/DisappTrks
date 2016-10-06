@@ -4,7 +4,7 @@
 #split --lines=40 -d list.txt list_N.
 
 let number=$1+1
-let submitdir=$3
+submitdir=$3
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 

@@ -8,6 +8,9 @@ datasetsData = [
     'Tau_2016B',
     'Tau_2016C',
     'Tau_2016D',
+    'Tau_2016E',
+    'Tau_2016F',
+    'Tau_2016G',
 ]
 
 datasets = datasetsData
