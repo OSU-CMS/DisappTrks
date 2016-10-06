@@ -108,13 +108,13 @@ ZtoTauToMuIsoTrk.name = cms.string("ZtoTauToMuIsoTrk")
 
 muTrkCuts = [
     cutMuTrkInvMass10,
-    cutMuTrkDeltaPhi,
-    cutMuTrkMETBalance,
+    #cutMuTrkDeltaPhi,
+    #cutMuTrkMETBalance,
 ]
 addCuts(ZtoTauToMuIsoTrk.cuts, [cutMuonMT])
 addCuts(ZtoTauToMuIsoTrk.cuts, [cutMuonArbitration])
-addCuts(ZtoTauToMuIsoTrk.cuts, [cutLowMet])
-addCuts(ZtoTauToMuIsoTrk.cuts, [cutNJets])
+#addCuts(ZtoTauToMuIsoTrk.cuts, [cutLowMet])
+#addCuts(ZtoTauToMuIsoTrk.cuts, [cutNJets])
 addCuts(ZtoTauToMuIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoTauToMuIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoTauToMuIsoTrk.cuts, muTrkCuts)
@@ -157,13 +157,13 @@ ZtoTauToEleIsoTrk.name = cms.string("ZtoTauToEleIsoTrk")
 
 eleTrkCuts = [
     cutEleTrkInvMass10,
-    cutEleTrkDeltaPhi,
-    cutEleTrkMETBalance,
+    #cutEleTrkDeltaPhi,
+    #cutEleTrkMETBalance,
 ]
 addCuts(ZtoTauToEleIsoTrk.cuts, [cutElectronMT])
 addCuts(ZtoTauToEleIsoTrk.cuts, [cutElectronArbitration])
-addCuts(ZtoTauToEleIsoTrk.cuts, [cutLowMet])
-addCuts(ZtoTauToEleIsoTrk.cuts, [cutNJets])
+#addCuts(ZtoTauToEleIsoTrk.cuts, [cutLowMet])
+#addCuts(ZtoTauToEleIsoTrk.cuts, [cutNJets])
 addCuts(ZtoTauToEleIsoTrk.cuts, [cutTrkPt30])
 addCuts(ZtoTauToEleIsoTrk.cuts, isoTrkCuts)
 addCuts(ZtoTauToEleIsoTrk.cuts, eleTrkCuts)
