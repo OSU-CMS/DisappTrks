@@ -95,7 +95,7 @@ class FakeTrackSystematic:
             ratio = fakeRate[1] / fakeRate[0]
             ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0]))
 
-            print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", ratio: " + str (ratio) + " +- " + str (ratioError)
+            print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
             return (fakeRate, fakeRateError, ratio, ratioError)
         else:
             print "Basic, ZtoMuMu, DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
@@ -158,6 +158,7 @@ class FakeTrackSystematic:
         leg = TLegend(0.7550251,0.7759067,0.9459799,0.8795337)
         leg.SetBorderSize(0)
         leg.SetTextSize(0.0388601)
+        leg.SetTextFont(42)
         leg.SetLineColor(1)
         leg.SetLineStyle(1)
         leg.SetLineWidth(1)
