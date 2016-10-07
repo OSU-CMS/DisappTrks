@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
-from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *  # Get the composite cut definitions
+from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *  # Get the composite cut definitions
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *  # Get the composite cut definitions
 
 ################################################################################
