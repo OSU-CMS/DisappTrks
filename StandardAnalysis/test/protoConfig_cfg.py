@@ -3,6 +3,7 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
+from DisappTrks.StandardAnalysis.switchToBestTrack import *
 import glob
 
 data_global_tag = '76X_dataRun2_v15'
@@ -129,8 +130,7 @@ variableProducers.append("EventJetVarProducer")
 ################################################################################
 
 from DisappTrks.StandardAnalysis.EventSelections import *
-from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *
-#from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *
+from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
 from DisappTrks.StandardAnalysis.TauTagProbeSelections import *
 
@@ -295,6 +295,41 @@ TauBkgdEstimate = [ # run over data
     TauTagPt55MetCut,
     TauTagPt55MetTrig,
 ]
+
+switchToBestTrack (disTrkSelection, histSets)
+
+switchToBestTrack (ZtoEleProbeTrkWithZCuts, histSetsElectron)
+switchToBestTrack (ZtoEleDisTrk, histSetsElectron)
+switchToBestTrack (ElectronTagPt55, histSetsElectron)
+switchToBestTrack (ElectronTagPt55MetTrig, histSetsElectron)
+
+switchToBestTrack (ZtoMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoMuDisTrk, histSetsMuon)
+switchToBestTrack (MuonTagPt55, histSetsMuon)
+switchToBestTrack (MuonTagPt55MetTrig, histSetsMuon)
+
+switchToBestTrack (ZtoTauToEleProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToEleDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoTauToMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToMuDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoMuMuCandTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkEcaloSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkNMissOutSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits3, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits4, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits5, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits6, histSetsMuon)
+
+switchToBestTrack (disTrkSelectionNHits3, histSets)
+switchToBestTrack (disTrkSelectionNHits4, histSets)
+switchToBestTrack (disTrkSelectionNHits5, histSets)
+switchToBestTrack (disTrkSelectionNHits6, histSets)
+
+switchToBestTrack (TauTagPt55, histSetsTau)
+switchToBestTrack (TauTagPt55MetTrig, histSetsTau)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################

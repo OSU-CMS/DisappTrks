@@ -3,6 +3,7 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
+from DisappTrks.StandardAnalysis.switchToBestTrack import *
 import glob
 
 data_global_tag = '80X_dataRun2_Prompt_v14'
@@ -123,7 +124,7 @@ variableProducers.append("EventJetVarProducer")
 ################################################################################
 
 from DisappTrks.StandardAnalysis.EventSelections import *
-from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *
+from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *
 from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
 from DisappTrks.StandardAnalysis.TauTagProbeSelections import *
 
@@ -169,6 +170,9 @@ histSetsMuon.append(MuonHistograms)
 histSetsMuon.append(MuonExtraHistograms)
 histSetsMuon.append(DiMuonHistograms)
 histSetsMuon.append(TrackMuonHistograms)
+
+histSetsTau = copy.deepcopy(histSets)
+histSetsTau.append(TauExtraHistograms)
 
 test = cms.PSet(
     name = cms.string("test"),
@@ -233,6 +237,40 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     candTrkIdMuPt35NoMet,
 ]
 
+switchToBestTrack (disTrkSelection, histSets)
+
+switchToBestTrack (ZtoEleProbeTrkWithZCuts, histSetsElectron)
+switchToBestTrack (ZtoEleDisTrk, histSetsElectron)
+switchToBestTrack (ElectronTagPt55, histSetsElectron)
+switchToBestTrack (ElectronTagPt55MetTrig, histSetsElectron)
+
+switchToBestTrack (ZtoMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoMuDisTrk, histSetsMuon)
+switchToBestTrack (MuonTagPt55, histSetsMuon)
+switchToBestTrack (MuonTagPt55MetTrig, histSetsMuon)
+
+switchToBestTrack (ZtoTauToEleProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToEleDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoTauToMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToMuDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoMuMuCandTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkEcaloSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkNMissOutSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits3, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits4, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits5, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits6, histSetsMuon)
+
+switchToBestTrack (disTrkSelectionNHits3, histSets)
+switchToBestTrack (disTrkSelectionNHits4, histSets)
+switchToBestTrack (disTrkSelectionNHits5, histSets)
+switchToBestTrack (disTrkSelectionNHits6, histSets)
+
+switchToBestTrack (TauTagPt55, histSetsTau)
+switchToBestTrack (TauTagPt55MetTrig, histSetsTau)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
