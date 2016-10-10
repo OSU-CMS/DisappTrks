@@ -42,6 +42,7 @@ cutsToAdd = [
     cutTrkFiducialElectron,
     cutTrkFiducialMuon,
     cutTrkFiducialECAL,
+    cutTrkNValidPixelHits,
     cutTrkNValidHits,
     cutTrkNMissIn,
     cutTrkNMissMid,
