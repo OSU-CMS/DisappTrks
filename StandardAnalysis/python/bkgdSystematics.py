@@ -196,3 +196,127 @@ class FakeTrackSystematic:
         lumiLabel.Draw ("same")
         self._fout.cd ()
         self._canvas.Write ("fakeRateRatio")
+
+class LeptonEnergySystematic:
+    _Flavor = ""
+    _flavor = ""
+    _fout = None
+    _canvas = None
+    _metCut = 0.0
+    _luminosityLabel = "13 TeV"
+
+    def addTFile (self, fout):
+        self._fout = fout
+
+    def addTCanvas (self, canvas):
+        self._canvas = canvas
+
+    def addMetCut (self, metCut):
+        self._metCut = metCut
+
+    def addLuminosityLabel (self, luminosityLabel):
+        self._luminosityLabel = luminosityLabel
+
+    def __init__ (self, flavor):
+        self._flavor = flavor.lower ()
+        self._Flavor = self._flavor[0].upper () + self._flavor[1:]
+
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        setattr (self, role, channel)
+        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+
+    def printPpassMetTriggers (self, metMinusOneHist):
+        if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
+            sample = self.TrigEffDenom["sample"] if hasattr (self, "TrigEffDenom") else self.TagPt35["sample"]
+            condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
+            name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
+            hist = "Met Plots/metNoMu"
+            totalHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+            sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
+            condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
+            name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
+            hist = "Met Plots/metNoMu"
+            passesHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+            sample = self.TagPt35["sample"]
+            condorDir = self.TagPt35["condorDir"]
+            name = self.TagPt35["name"]
+            metHist = getHist (sample, condorDir, name + "Plotter", self._Flavor + " Plots/" + self._flavor + metMinusOneHist)
+
+            passesHist.Divide (totalHist)
+            metHist.Multiply (passesHist)
+
+            total = 0.0
+            totalError = Double (0.0)
+            passesError = Double (0.0)
+            passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
+
+            if hasattr (self, "TagPt35MetCut"):
+                total = self.TagPt35MetCut["yield"]
+                totalError = self.TagPt35MetCut["yieldError"]
+            else:
+                sample = self.TagPt35["sample"]
+                condorDir = self.TagPt35["condorDir"]
+                name = self.TagPt35["name"]
+                met = getHist (sample, condorDir, name + "Plotter", self._Flavor + " Plots/" + self._flavor + metMinusOneHist)
+
+                totalError = Double (0.0)
+                total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
+
+            eff = passes / total
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
+            print "P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
+            return (eff, effError, passesHist)
+        else:
+            print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
+            return (float ("nan"), float ("nan"))
+
+    def printPpassMetCut (self, metMinusOneHist):
+        if hasattr (self, "TagPt35"):
+            total = self.TagPt35["yield"]
+            totalError = self.TagPt35["yieldError"]
+            passes = 0.0
+            passesError = 0.0
+
+            if hasattr (self, "TagPt35MetCut"):
+                passes = self.TagPt35MetCut["yield"]
+                passesError = self.TagPt35MetCut["yieldError"]
+            else:
+                sample = self.TagPt35["sample"]
+                condorDir = self.TagPt35["condorDir"]
+                name = self.TagPt35["name"]
+                met = getHist (sample, condorDir, name + "Plotter", self._Flavor + " Plots/" + self._flavor + metMinusOneHist)
+
+                passesError = Double (0.0)
+                passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
+
+            eff = passes / total
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
+            print "P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
+            return (eff, effError)
+        else:
+            print "TagPt35 not defined. Not printing P (pass met cut)..."
+            return (float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+        pPassMetCut0       =  self.printPpassMetCut       ("MetNoMuMinusOnePt")
+        pPassMetCut1       =  self.printPpassMetCut       ("MetNoMuMinusOneUpPt")
+        pPassMetTriggers0  =  self.printPpassMetTriggers  ("MetNoMuMinusOnePt")
+        pPassMetTriggers1  =  self.printPpassMetTriggers  ("MetNoMuMinusOneUpPt")
+
+        ratio = (pPassMetCut1[0] * pPassMetTriggers1[0]) / (pPassMetCut0[0] * pPassMetTriggers0[0])
+        ratioError = 0.0
+        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[1])
+        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[1] * pPassMetTriggers1[0])
+        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[1] * pPassMetCut1[0] * pPassMetTriggers1[0])
+        ratioError = math.hypot (ratioError, pPassMetCut0[1] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[0])
+        ratioError /= ((pPassMetCut0[0] * pPassMetTriggers0[0]) * (pPassMetCut0[0] * pPassMetTriggers0[0]))
+
+        print "ratio: " + str (ratio) + " +- " + str (ratioError)
+
+        print "systematic uncertainty: " + str ((abs (ratio - 1.0) + ratioError) * 100.0) + "%"
