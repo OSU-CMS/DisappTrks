@@ -104,7 +104,9 @@ process.muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
     "HLT_IsoMu20_v",
+    "HLT_IsoMu22_v",
     "HLT_IsoTkMu20_v",
+    "HLT_IsoTkMu22_v",
   ),
 )
 

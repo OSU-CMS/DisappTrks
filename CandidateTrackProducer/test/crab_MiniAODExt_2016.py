@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     # Run2016B
 
-    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016B_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016B-PromptReco-v2/AOD'
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # Run2016C
 
-    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016C_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016C-PromptReco-v2/AOD'
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     # Run2016D
 
-    config.Data.outputDatasetTag = 'Run2016D-PromptReco-v2-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run2016D-PromptReco-v2-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016D_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016D-PromptReco-v2/AOD'
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     # Run2016E
 
-    config.Data.outputDatasetTag = 'Run2016E-PromptReco-v2-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run2016E-PromptReco-v2-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016E_PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016E-PromptReco-v2/AOD'
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Run2016F
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
-    config.Data.outputDatasetTag = 'Run2016F-PromptReco-v1-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run2016F-PromptReco-v1-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016F_PromptReco-v1'
     config.Data.inputDataset = '/MET/Run2016F-PromptReco-v1/AOD'
@@ -178,7 +178,7 @@ if __name__ == '__main__':
     # Run2016G
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
-    config.Data.outputDatasetTag = 'Run201G-PromptReco-v1-DisappTrks-v6'
+    config.Data.outputDatasetTag = 'Run201G-PromptReco-v1-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016G_PromptReco-v1'
     config.Data.inputDataset = '/MET/Run2016G-PromptReco-v1/AOD'

@@ -17,7 +17,7 @@ candidateTrackProducer = cms.EDProducer ("CandidateTrackProducer",
   rhoCentralCaloTag  =  cms.InputTag  ("fixedGridRhoFastjetCentralCalo"),
   EBRecHits          =  cms.InputTag  ("reducedEcalRecHitsEB"),
   EERecHits          =  cms.InputTag  ("reducedEcalRecHitsEE"),
-  HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"), 
+  HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"),
   candMinPt          =  cms.double(10),
 )
 
@@ -91,7 +91,9 @@ muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
     "HLT_IsoMu20_v",
+    "HLT_IsoMu22_v",
     "HLT_IsoTkMu20_v",
+    "HLT_IsoTkMu22_v",
   ),
 )
 

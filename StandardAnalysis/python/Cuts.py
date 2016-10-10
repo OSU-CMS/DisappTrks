@@ -37,6 +37,11 @@ triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/
     "HLT_IsoTkMu20_v",  # yes available in bkgd MC
 )
 
+triggersSingleMu2016 = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
+    "HLT_IsoMu22_v",    # yes available in bkgd MC
+    "HLT_IsoTkMu22_v",  # yes available in bkgd MC
+)
+
 triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
     "HLT_Ele22_eta2p1_WP75_Gsf_v",    # available in the bkgd MC
@@ -385,7 +390,7 @@ cutTrkMatchGenTau = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchFake = cms.PSet(
-    # not matched to tau, electron, or muon 
+    # not matched to tau, electron, or muon
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("\
     genMatchedParticle.directPromptTauDecayProductFinalState.isNull && \
@@ -535,9 +540,9 @@ cutMuonPairTightID = cms.PSet (
 )
 cutMuonPairTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
     inputCollection = cms.vstring("muons"),
-    cutString = cutMuonTightPFIso.cutString,  
+    cutString = cutMuonTightPFIso.cutString,
     numberRequired = cms.string("== 2"),
-    alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"), 
+    alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
 cutMuonArbitration = cms.PSet(
     inputCollection = cms.vstring("muons"),

@@ -125,8 +125,8 @@ variableProducers.append("EventJetVarProducer")
 
 from DisappTrks.StandardAnalysis.EventSelections import *
 from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *
-from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
-from DisappTrks.StandardAnalysis.TauTagProbeSelections import *
+from DisappTrks.StandardAnalysis.MuonTagProbeSelections_2016 import *
+from DisappTrks.StandardAnalysis.TauTagProbeSelections_2016 import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
