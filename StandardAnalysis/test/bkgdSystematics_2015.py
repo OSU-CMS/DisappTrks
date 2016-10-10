@@ -38,3 +38,51 @@ fakeTrackSystematic.printSystematic ()
 print "********************************************************************************"
 
 fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating electron energy systematic"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("electronEnergySystematic_2015.root", "recreate")
+
+electronEnergySystematic = LeptonEnergySystematic ("electron")
+electronEnergySystematic.addTFile (fout)
+electronEnergySystematic.addTCanvas (canvas)
+electronEnergySystematic.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+electronEnergySystematic.addMetCut (100.0)
+electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
+electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
+
+print "********************************************************************************"
+
+electronEnergySystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating tau energy systematic"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauEnergySystematic_2015.root", "recreate")
+
+tauEnergySystematic = LeptonEnergySystematic ("tau")
+tauEnergySystematic.addTFile (fout)
+tauEnergySystematic.addTCanvas (canvas)
+tauEnergySystematic.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+tauEnergySystematic.addMetCut (100.0)
+tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2015D",  dirs['Andrew']+"2015/tauBackgroundControlRegion")
+tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2015D",  dirs['Andrew']+"2015/tauBackgroundControlRegion")
+
+print "********************************************************************************"
+
+tauEnergySystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
