@@ -69,3 +69,99 @@ fakeTrackSystematic_v4.printSystematic ()
 print "********************************************************************************"
 
 fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating electron energy systematic (2016B & 2016C)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("electronEnergySystematic_201^_v3.root", "recreate")
+
+electronEnergySystematic_v3 = LeptonEnergySystematic ("electron")
+electronEnergySystematic_v3.addTFile (fout)
+electronEnergySystematic_v3.addTCanvas (canvas)
+electronEnergySystematic_v3.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+electronEnergySystematic_v3.addMetCut (100.0)
+electronEnergySystematic_v3.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+electronEnergySystematic_v3.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+
+print "********************************************************************************"
+
+electronEnergySystematic_v3.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating electron energy systematic (2016D)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("electronEnergySystematic_201^_v4.root", "recreate")
+
+electronEnergySystematic_v4 = LeptonEnergySystematic ("electron")
+electronEnergySystematic_v4.addTFile (fout)
+electronEnergySystematic_v4.addTCanvas (canvas)
+electronEnergySystematic_v4.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+electronEnergySystematic_v4.addMetCut (100.0)
+electronEnergySystematic_v4.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+electronEnergySystematic_v4.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+
+print "********************************************************************************"
+
+electronEnergySystematic_v4.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating tau energy systematic (2016B & 2016C)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauEnergySystematic_201^_v3.root", "recreate")
+
+tauEnergySystematic_v3 = LeptonEnergySystematic ("tau")
+tauEnergySystematic_v3.addTFile (fout)
+tauEnergySystematic_v3.addTCanvas (canvas)
+tauEnergySystematic_v3.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+tauEnergySystematic_v3.addMetCut (100.0)
+tauEnergySystematic_v3.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+tauEnergySystematic_v3.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+
+print "********************************************************************************"
+
+tauEnergySystematic_v3.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating tau energy systematic (2016D)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("tauEnergySystematic_201^_v4.root", "recreate")
+
+tauEnergySystematic_v4 = LeptonEnergySystematic ("tau")
+tauEnergySystematic_v4.addTFile (fout)
+tauEnergySystematic_v4.addTCanvas (canvas)
+tauEnergySystematic_v4.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+tauEnergySystematic_v4.addMetCut (100.0)
+tauEnergySystematic_v4.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2016D",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+tauEnergySystematic_v4.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016D",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+
+print "********************************************************************************"
+
+tauEnergySystematic_v4.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
