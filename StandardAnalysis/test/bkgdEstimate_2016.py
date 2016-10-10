@@ -145,7 +145,7 @@ electronBkgdEstimate_v4.addLuminosityLabel ("4.35 fb^{-1} (13 TeV)")
 electronBkgdEstimate_v4.addPlotLabel ("SingleElectron 2016D")
 electronBkgdEstimate_v4.addMetCut (100.0)
 electronBkgdEstimate_v4.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackground")
-electronBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackground")
+electronBkgdEstimate_v4.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016D_rereco",  dirs['Andrew']+"2016_ICHEP/electronBackground")
 electronBkgdEstimate_v4.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
 electronBkgdEstimate_v4.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
 
