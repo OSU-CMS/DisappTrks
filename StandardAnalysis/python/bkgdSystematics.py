@@ -325,7 +325,7 @@ class LeptonEnergySystematic:
 
         print "ratio: " + str (ratio) + " +- " + str (ratioError)
 
-        print "systematic uncertainty: " + str ((abs (ratio - 1.0) + ratioError) * 100.0) + "%"
+        print "systematic uncertainty: " + str (abs (ratio - 1.0) * 100.0) + "%"
 
     def plotMet (self):
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
