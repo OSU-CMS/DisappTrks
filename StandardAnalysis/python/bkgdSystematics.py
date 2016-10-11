@@ -204,6 +204,7 @@ class LeptonEnergySystematic:
     _canvas = None
     _metCut = 0.0
     _luminosityLabel = "13 TeV"
+    _plotLabel = float ("nan")
 
     def addTFile (self, fout):
         self._fout = fout
@@ -216,6 +217,9 @@ class LeptonEnergySystematic:
 
     def addLuminosityLabel (self, luminosityLabel):
         self._luminosityLabel = luminosityLabel
+
+    def addPlotLabel (self, plotLabel):
+        self._plotLabel = plotLabel
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -271,7 +275,7 @@ class LeptonEnergySystematic:
             eff = passes / total
             effError = math.hypot (total * passesError, totalError * passes) / (total * total)
             print "P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
-            return (eff, effError, passesHist)
+            return (eff, effError)
         else:
             print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
             return (float ("nan"), float ("nan"))
@@ -304,6 +308,8 @@ class LeptonEnergySystematic:
             return (float ("nan"), float ("nan"))
 
     def printSystematic (self):
+        self.plotMet ()
+
         pPassMetCut0       =  self.printPpassMetCut       ("MetNoMuMinusOnePt")
         pPassMetCut1       =  self.printPpassMetCut       ("MetNoMuMinusOneUpPt")
         pPassMetTriggers0  =  self.printPpassMetTriggers  ("MetNoMuMinusOnePt")
@@ -320,3 +326,66 @@ class LeptonEnergySystematic:
         print "ratio: " + str (ratio) + " +- " + str (ratioError)
 
         print "systematic uncertainty: " + str ((abs (ratio - 1.0) + ratioError) * 100.0) + "%"
+
+    def plotMet (self):
+        if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
+            if self._fout and self._canvas:
+                sample = self.TagPt35ForNctrl["sample"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["sample"]
+                condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
+                name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
+
+                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
+                metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+                hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOneUpPt"
+                metMinusOneUp = getHist (sample, condorDir, name + "Plotter", hist)
+
+                pt = TPaveText(0.398496,0.839147,0.798246,0.886951,"brNDC")
+                pt.SetBorderSize(0)
+                pt.SetFillStyle(0)
+                pt.SetTextFont(42)
+                pt.SetTextSize(0.0387597)
+                pt.AddText(str (self._plotLabel))
+
+                cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+                cmsLabel.SetBorderSize(0)
+                cmsLabel.SetFillStyle(0)
+                cmsLabel.SetTextFont(62)
+                cmsLabel.SetTextSize(0.0387597)
+                cmsLabel.AddText("CMS Preliminary")
+
+                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel.SetBorderSize(0)
+                lumiLabel.SetFillStyle(0)
+                lumiLabel.SetTextFont(42)
+                lumiLabel.SetTextSize(0.0387597)
+                lumiLabel.AddText(str (self._luminosityLabel))
+
+                leg = TLegend(0.414787,0.726098,0.606516,0.829457)
+                leg.SetBorderSize(0)
+                leg.SetTextSize(0.0388601)
+                leg.SetTextFont(42)
+                leg.SetLineColor(1)
+                leg.SetLineStyle(1)
+                leg.SetLineWidth(1)
+                leg.SetFillColor(0)
+                leg.SetFillStyle(0)
+                leg.AddEntry (metMinusOne, "nominal (#mu = " + str (round (metMinusOne.GetMean (), 1)) + " #pm " + str (round (metMinusOne.GetMeanError (), 1)) + ")", "p")
+                leg.AddEntry (metMinusOneUp, "scaled down (#mu = " + str (round (metMinusOneUp.GetMean (), 1)) + " #pm " + str (round (metMinusOneUp.GetMeanError (), 1)) + ")", "p")
+
+                setStyle (metMinusOne, 600)
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                setStyle (metMinusOneUp, 632)
+                setAxisStyle (metMinusOneUp, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                self._canvas.cd ()
+                metMinusOneUp.Draw ()
+                metMinusOne.Draw ("same")
+                pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
+                leg.Draw ("same")
+                self._fout.cd ()
+                self._canvas.Write ("metMinusOneComparison")
+            else:
+                print "A TFile and TCanvas must be added. Not making plots..."
+        else:
+            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET..."
