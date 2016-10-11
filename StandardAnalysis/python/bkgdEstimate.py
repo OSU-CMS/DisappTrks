@@ -211,7 +211,7 @@ class LeptonBkgdEstimate:
                 lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
-                setAxisStyle (met)
+                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]")
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
@@ -221,7 +221,7 @@ class LeptonBkgdEstimate:
                 self._canvas.Write ("metForNctrl")
 
                 setStyle (metMinusOne)
-                setAxisStyle (metMinusOne)
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
@@ -395,7 +395,7 @@ class LeptonBkgdEstimate:
             setStyle (metGraph)
             self._canvas.cd ()
             metGraph.Draw ("ap")
-            setAxisStyle (metGraph, "E_{T}^{miss} excluding muons [GeV]", "trigger efficiency", (0.0, 500.0), (0.0, 1.4))
+            setAxisStyle (metGraph, "E_{T}^{miss, no #mu} [GeV]", "trigger efficiency", (0.0, 500.0), (0.0, 1.4))
             pt.Draw ("same")
             cmsLabel.Draw ("same")
             lumiLabel.Draw ("same")
@@ -461,7 +461,7 @@ class LeptonBkgdEstimate:
                 lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
-                setAxisStyle (met)
+                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]")
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
@@ -471,7 +471,7 @@ class LeptonBkgdEstimate:
                 self._canvas.Write ("metForNback")
 
                 setStyle (metMinusOne)
-                setAxisStyle (metMinusOne)
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
@@ -568,7 +568,7 @@ class LeptonBkgdEstimate:
             lumiLabel.AddText(str (self._luminosityLabel))
 
             setStyle (metMinusOne)
-            setAxisStyle (metMinusOne)
+            setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
             self._canvas.cd ()
             metMinusOne.Draw ()
             pt.Draw ("same")
