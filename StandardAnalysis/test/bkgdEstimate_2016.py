@@ -23,30 +23,30 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-#print "********************************************************************************"
-#print "performing fake track background estimate in search region"
-#print "--------------------------------------------------------------------------------"
+print "********************************************************************************"
+print "performing fake track background estimate in search region"
+print "--------------------------------------------------------------------------------"
 
-#fout = TFile.Open ("fakeTrackBkgdEstimate_2016.root", "recreate")
+fout = TFile.Open ("fakeTrackBkgdEstimate_2016.root", "recreate")
 
-#fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-#fakeTrackBkgdEstimate.addTFile (fout)
-#fakeTrackBkgdEstimate.addTCanvas (canvas)
-#fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-#fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
-#fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/zToMuMu")
-#fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/fakeTrackBackground")
-#fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016",       dirs['Andrew']+"2016_ICHEP/basicSelection")
+fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+fakeTrackBkgdEstimate.addTFile (fout)
+fakeTrackBkgdEstimate.addTCanvas (canvas)
+fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
+fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/zToMuMu")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016",  dirs['Andrew']+"2016_ICHEP/fakeTrackBackground")
+fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016",       dirs['Andrew']+"2016_ICHEP/basicSelection")
 
-#print "********************************************************************************"
+print "********************************************************************************"
 
-#(nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
+(nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
 
-#print "********************************************************************************"
+print "********************************************************************************"
 
-#fout.Close ()
+fout.Close ()
 
-#print "\n\n"
+print "\n\n"
 
 print "********************************************************************************"
 print "performing fake track background estimate in search region (2016B & 2016C)"
@@ -95,9 +95,6 @@ print "*************************************************************************
 print "********************************************************************************"
 
 fout.Close ()
-
-nEstFake = nEstFake_v3 + nEstFake_v4
-nEstFakeError = math.hypot (nEstFakeError_v3, nEstFakeError_v4)
 
 print "\n\n"
 
@@ -290,15 +287,28 @@ nEstMuon = nEstMuon_v3 + nEstMuon_v4
 nEstMuonError = math.hypot (nEstMuonError_v3, nEstMuonError_v4)
 nEstTau = nEstTau_v3 + nEstTau_v4
 nEstTauError = math.hypot (nEstTauError_v3, nEstTauError_v4)
+
+nEst_v3 = nEstElectron_v3 + nEstMuon_v3 + nEstTau_v3
+nEst_v4 = nEstElectron_v4 + nEstMuon_v4 + nEstTau_v4
 nEst = nEstElectron + nEstMuon + nEstTau
+nEstError_v3 = math.hypot (math.hypot (nEstElectronError_v3, nEstMuonError_v3), nEstTauError_v3)
+nEstError_v4 = math.hypot (math.hypot (nEstElectronError_v4, nEstMuonError_v4), nEstTauError_v4)
 nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
+print "total background from leptons (2016B & 2016C): " + str (nEst_v3) + " +- " + str (nEstError_v3)
+print "total background from leptons (2016D): " + str (nEst_v4) + " +- " + str (nEstError_v4)
 print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
 print "********************************************************************************"
 
 print "\n\n"
 
 print "********************************************************************************"
+nEst_v3 += nEstFake_v3
+nEst_v4 += nEstFake_v4
 nEst += nEstFake
+nEstError_v3 = math.hypot (nEstError_v3, nEstFakeError_v3)
+nEstError_v4 = math.hypot (nEstError_v4, nEstFakeError_v4)
 nEstError = math.hypot (nEstError, nEstFakeError)
+print "total background (2016B & 2016C): " + str (nEst_v3) + " +- " + str (nEstError_v3)
+print "total background (2016D): " + str (nEst_v4) + " +- " + str (nEstError_v4)
 print "total background: " + str (nEst) + " +- " + str (nEstError)
 print "********************************************************************************"
