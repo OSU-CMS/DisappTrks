@@ -135,7 +135,9 @@ tauEnergySystematic_v3.addLuminosityLabel ("0.814 fb^{-1} (13 TeV)")
 tauEnergySystematic_v3.addPlotLabel ("Tau 2016B+C")
 tauEnergySystematic_v3.addMetCut (100.0)
 tauEnergySystematic_v3.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
-tauEnergySystematic_v3.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+#tauEnergySystematic_v3.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016_v3",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+tauEnergySystematic_v3.addChannel  ("TrigEffDenom",         "ElectronTagPt55",          "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+tauEnergySystematic_v3.addChannel  ("TrigEffNumer",  "ElectronTagPt55MetTrig",   "SingleEle_2016_v3",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
 
 print "********************************************************************************"
 
@@ -160,7 +162,9 @@ tauEnergySystematic_v4.addLuminosityLabel ("0.139 fb^{-1} (13 TeV)")
 tauEnergySystematic_v4.addPlotLabel ("Tau 2016D")
 tauEnergySystematic_v4.addMetCut (100.0)
 tauEnergySystematic_v4.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2016D",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
-tauEnergySystematic_v4.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016D",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+#tauEnergySystematic_v4.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2016D",  dirs['Andrew']+"2016_ICHEP/tauBackgroundControlRegion")
+tauEnergySystematic_v4.addChannel  ("TrigEffDenom",         "ElectronTagPt55",          "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
+tauEnergySystematic_v4.addChannel  ("TrigEffNumer",  "ElectronTagPt55MetTrig",   "SingleEle_2016D",  dirs['Andrew']+"2016_ICHEP/electronBackgroundControlRegion")
 
 print "********************************************************************************"
 

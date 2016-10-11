@@ -79,7 +79,9 @@ tauEnergySystematic.addLuminosityLabel ("0.225 fb^{-1} (13 TeV)")
 tauEnergySystematic.addPlotLabel ("Tau 2015D")
 tauEnergySystematic.addMetCut (100.0)
 tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",          "Tau_2015D",  dirs['Andrew']+"2015/tauBackgroundControlRegion")
-tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2015D",  dirs['Andrew']+"2015/tauBackgroundControlRegion")
+#tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",   "Tau_2015D",  dirs['Andrew']+"2015/tauBackgroundControlRegion")
+tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
+tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
 
 print "********************************************************************************"
 
