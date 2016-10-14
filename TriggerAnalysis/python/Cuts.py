@@ -3,6 +3,13 @@ import copy
 from DisappTrks.StandardAnalysis.invMass import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
+dummyCut = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("noMuPt > -100"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("noMuPt > -100 : fix me only here to get Plotter to work"),
+)
+
 ##############################
 ##### List of triggers   #####
 ##############################
@@ -98,7 +105,7 @@ cutTrkMatchHLTTrack = cms.PSet(
     cutString = cms.string("trackMatchToHLTTrack > 0"),
     numberRequired = cms.string(">= 1"),
 )
-#durp -- deltaR match to charginos
+# fixme -- deltaR match to charginos for MC
 
 ##############################################################################
 ## Good muon
@@ -121,12 +128,12 @@ cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/vi
 )
 cutMuonNMissIn = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("innerTrack.missingInnerHits == 0"),
+    cutString = cms.string("missingInnerHits == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutMuonNMissMid = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("innerTrack.missingMiddleHits == 0"),
+    cutString = cms.string("missingMiddleHits == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutMuonTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation

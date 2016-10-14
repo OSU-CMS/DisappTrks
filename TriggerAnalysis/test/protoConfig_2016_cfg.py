@@ -68,21 +68,13 @@ collectionMap.tracks = cms.InputTag  ("generalTracks", "")
 ##### Set up weights to be used in plotting and cutflows  ######################
 ################################################################################
 
-weights = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-)
+weights = cms.VPSet ()
 
 ################################################################################
 ##### Set up any user-defined variable producers ###############################
 ################################################################################
 
 variableProducers = []
-variableProducers.append("LifetimeWeightProducer")
-variableProducers.append("PrimaryVtxVarProducer")
-variableProducers.append("EventJetVarProducer")
 variableProducers.append("EventTriggerVarProducer")
 
 ################################################################################

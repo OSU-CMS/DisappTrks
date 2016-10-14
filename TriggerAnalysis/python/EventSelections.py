@@ -9,6 +9,7 @@ METLegDenominator = cms.PSet(
     name = cms.string("METLegDenominator"),
     triggers = cms.vstring(),
     cuts = cms.VPSet(
+        dummyCut,
         cutLeadJetCentral,
     )
 )
