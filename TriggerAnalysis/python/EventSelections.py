@@ -15,16 +15,16 @@ METLegDenominator = cms.PSet(
 
 METLegNumerator = copy.deepcopy(METLegDenominator)
 METLegNumerator.name = cms.string("METLegNumerator")
-METLegNumerator.triggerFilters = cms.vstring('hltMET75')
+addCuts(METLegNumerator.cuts, [passesTriggerFilter])
 
 # Track leg with muons
 
 TrackLegDenominatorWithMuons = cms.PSet(
     name = cms.string("TrackLegDenominatorWithMuons"),
     triggers = triggersSingleMu2016,
-    triggerFilters = cms.vstring('hltMET75'),
     cuts = cms.VPSet(
         cutLeadJetCentral,
+        passesTriggerFilter,
         cutMuonPt25,
         cutMuonEta21,
         cutMuonTightID,
@@ -44,9 +44,9 @@ addCuts(TrackLegNumeratorWithMuons.cuts, [passesMainTrigger])
 TrackLegDenominatorWithTracks = cms.PSet(
     name = cms.string("TrackLegDenominatorWithTracks"),
     triggers = triggersSingleMu2016,
-    triggerFilters = cms.vstring('hltMET75'),
     cuts = cms.VPSet(
         cutLeadJetCentral,
+        passesTriggerFilter,
         cutTrkEta,
         cutTrkNormalizedChi2,
         cutTrkD0,

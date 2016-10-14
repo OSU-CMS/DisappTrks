@@ -39,8 +39,11 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   }
 
   // Pass hltMET75
+  edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
+  event.getByToken(tokenTriggerObjs_, triggerObjs);
+
   bool passesTriggerFilter = false;
-  for(auto triggerObj : triggerObjs) {
+  for(auto triggerObj : *triggerObjs) {
     triggerObj.unpackPathNames(triggerNames);
     for(const auto &filterLabel : triggerObj.filterLabels()) {
       if(filterLabel == "hltMET75") {
@@ -51,17 +54,6 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
     if(passesTriggerFilter) break;
   }
 
-  for (auto triggerObj : triggerObjs)
-    {
-      triggerObj.unpackPathNames (triggerNames);
-      for (const auto &filterLabel : triggerObj.filterLabels ())
-        {
-          if (filterLabel == filter)
-            return true;
-        }
-    }
-  return false;
-
   // Match to HLT track
 
   edm::Handle<vector<TYPE(tracks)> > tracks;
@@ -69,9 +61,6 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
   edm::Handle<vector<TYPE(muons)> > muons;
   event.getByToken(tokenMuons_, muons);
-
-  edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
-  event.getByToken(tokenTriggerObjs_, triggerObjs);
 
   edm::Handle<vector<reco::Vertex> > vertices;
   event.getByToken(tokenVertices_, vertices);

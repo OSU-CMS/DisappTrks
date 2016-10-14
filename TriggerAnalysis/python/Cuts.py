@@ -24,6 +24,13 @@ passesMainTrigger = cms.PSet(
     alias = cms.string("HLT_MET75_IsoTrk50_v")
 )
 
+passesTriggerFilter = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesTriggerFilter > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("hltMET75")
+)
+
 ##############################################################################
 ## Require leading jet to be central
 ##############################################################################

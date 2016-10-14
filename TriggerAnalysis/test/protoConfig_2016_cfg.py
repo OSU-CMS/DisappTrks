@@ -109,8 +109,8 @@ histSets = cms.VPSet(
 DataChannels = [
     METLegDenominator,
     METLegNumerator,
-    TrackLegDenominatorWithTracks,
-    TrackLegNumeratorWithTracks,
+    #TrackLegDenominatorWithTracks,
+    #TrackLegNumeratorWithTracks,
     TrackLegDenominatorWithMuons,
     TrackLegNumeratorWithMuons,
 ]
