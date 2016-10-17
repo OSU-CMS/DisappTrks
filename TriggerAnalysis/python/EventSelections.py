@@ -67,34 +67,34 @@ addCuts(TrackLegNumeratorWithTracks.cuts, [passesMainTrigger])
 
 TrackLegDenominatorWithMuonsLeadHLTMatch = copy.deepcopy(TrackLegDenominatorWithMuons)
 TrackLegDenominatorWithMuonsLeadHLTMatch.name = cms.string("TrackLegDenominatorWithMuonsLeadHLTMatch")
-addCuts(TrackLegDenominatorWithMuonsLeadHLTMatch, [cutLeadMuonMatchHLTTrack])
+addCuts(TrackLegDenominatorWithMuonsLeadHLTMatch.cuts, [cutLeadMuonMatchHLTTrack])
 
 TrackLegNumeratorWithMuonsLeadHLTMatch = copy.deepcopy(TrackLegNumeratorWithMuons)
 TrackLegNumeratorWithMuonsLeadHLTMatch.name = cms.string("TrackLegNumeratorWithMuonsLeadHLTMatch")
-addCuts(TrackLegNumeratorWithMuonsLeadHLTMatch, [cutLeadMuonMatchHLTTrack])
+addCuts(TrackLegNumeratorWithMuonsLeadHLTMatch.cuts, [cutLeadMuonMatchHLTTrack])
 
 TrackLegDenominatorWithTracksLeadHLTMatch = copy.deepcopy(TrackLegDenominatorWithTracks)
 TrackLegDenominatorWithTracksLeadHLTMatch.name = cms.string("TrackLegDenominatorWithTracksLeadHLTMatch")
-addCuts(TrackLegDenominatorWithTracksLeadHLTMatch, [cutLeadTrkMatchHLTTrack])
+addCuts(TrackLegDenominatorWithTracksLeadHLTMatch.cuts, [cutLeadTrkMatchHLTTrack])
 
 TrackLegNumeratorWithTracksLeadHLTMatch = copy.deepcopy(TrackLegNumeratorWithTracks)
 TrackLegNumeratorWithTracksLeadHLTMatch.name = cms.string("TrackLegNumeratorWithTracksLeadHLTMatch")
-addCuts(TrackLegNumeratorWithTracksLeadHLTMatch, [cutLeadTrkMatchHLTTrack])
+addCuts(TrackLegNumeratorWithTracksLeadHLTMatch.cuts, [cutLeadTrkMatchHLTTrack])
 
 # Track leg with any muon/track matched to HLT track
 
 TrackLegDenominatorWithMuonsAnyHLTMatch = copy.deepcopy(TrackLegDenominatorWithMuons)
 TrackLegDenominatorWithMuonsAnyHLTMatch.name = cms.string("TrackLegDenominatorWithMuonsAnyHLTMatch")
-addCuts(TrackLegDenominatorWithMuonsAnyHLTMatch, [cutAnyMuonMatchHLTTrack])
+addCuts(TrackLegDenominatorWithMuonsAnyHLTMatch.cuts, [cutAnyMuonMatchHLTTrack])
 
 TrackLegNumeratorWithMuonsAnyHLTMatch = copy.deepcopy(TrackLegNumeratorWithMuons)
 TrackLegNumeratorWithMuonsAnyHLTMatch.name = cms.string("TrackLegNumeratorWithMuonsAnyHLTMatch")
-addCuts(TrackLegNumeratorWithMuonsAnyHLTMatch, [cutAnyMuonMatchHLTTrack])
+addCuts(TrackLegNumeratorWithMuonsAnyHLTMatch.cuts, [cutAnyMuonMatchHLTTrack])
 
 TrackLegDenominatorWithTracksAnyHLTMatch = copy.deepcopy(TrackLegDenominatorWithTracks)
 TrackLegDenominatorWithTracksAnyHLTMatch.name = cms.string("TrackLegDenominatorWithTracksAnyHLTMatch")
-addCuts(TrackLegDenominatorWithTracksAnyHLTMatch, [cutAnyTrkMatchHLTTrack])
+addCuts(TrackLegDenominatorWithTracksAnyHLTMatch.cuts, [cutAnyTrkMatchHLTTrack])
 
 TrackLegNumeratorWithTracksAnyHLTMatch = copy.deepcopy(TrackLegNumeratorWithTracks)
 TrackLegNumeratorWithTracksAnyHLTMatch.name = cms.string("TrackLegNumeratorWithTracksAnyHLTMatch")
-addCuts(TrackLegNumeratorWithTracksAnyHLTMatch, [cutAnyTrkMatchHLTTrack])
+addCuts(TrackLegNumeratorWithTracksAnyHLTMatch.cuts, [cutAnyTrkMatchHLTTrack])

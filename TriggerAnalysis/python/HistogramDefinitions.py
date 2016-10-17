@@ -51,4 +51,3 @@ TrackHistograms = cms.PSet(
             ),
         )
     )
-)
