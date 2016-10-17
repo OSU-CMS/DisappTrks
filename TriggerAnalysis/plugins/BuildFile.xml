@@ -13,6 +13,7 @@
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
+<use  name="OSUT3Analysis/AnaTools"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <library  file="*.cc"  name="DisappTrksTriggerAnalysisPlugins">
   <flags  EDM_PLUGIN="1"/>
