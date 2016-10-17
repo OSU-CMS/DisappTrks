@@ -10,6 +10,18 @@ dummyCut = cms.PSet(
     alias = cms.string("noMuPt > -100 : fix me only here to get Plotter to work"),
 )
 
+cutMet600 = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("noMuPt > 600"),
+    numberRequired = cms.string(">= 1"),
+)
+failsTriggerFilter = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesTriggerFilter == 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("hltMET75")
+)
+
 ##############################
 ##### List of triggers   #####
 ##############################

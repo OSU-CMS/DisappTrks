@@ -101,6 +101,8 @@ histSets = cms.VPSet(
 DataChannels = [
     METLegDenominator,
     METLegNumerator,
+    METLegDenominatorWithGoodMuon,
+    METLegDenominatorWithGoodMuon,
     TrackLegDenominatorWithMuons,
     TrackLegNumeratorWithMuons,
     TrackLegDenominatorWithMuonsLeadHLTMatch,
@@ -114,6 +116,7 @@ DataChannels = [
 ################################################################################
 
 add_channels(process, DataChannels, histSets, weights, [], collectionMap, variableProducers, False)
+add_channels(process, [SkimLargeMETFailsFilter], histSets, weights, [], collectionMap, variableProducers, True)
 
 ################################################################################
 ##### Debugging options

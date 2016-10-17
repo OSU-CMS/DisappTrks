@@ -3,6 +3,15 @@ import copy
 
 from DisappTrks.TriggerAnalysis.Cuts import *
 
+SkimLargeMETFailsFilter = cms.PSet(
+    name = cms.string("SkimLargeMETFailsFilter"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(
+        cutMet600,
+        failsTriggerFilter,
+    )
+)
+
 # MET leg
 
 METLegDenominator = cms.PSet(
@@ -17,6 +26,26 @@ METLegDenominator = cms.PSet(
 METLegNumerator = copy.deepcopy(METLegDenominator)
 METLegNumerator.name = cms.string("METLegNumerator")
 addCuts(METLegNumerator.cuts, [passesTriggerFilter])
+
+# MET leg with good muon
+
+METLegDenominatorWithGoodMuon = cms.PSet(
+    name = cms.string("METLegDenominatorWithGoodMuon"),
+    triggers = triggersSingleMu2016,
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
+        cutMuonPt25,
+        cutMuonEta21,
+        cutMuonTightID,
+        cutMuonNMissIn,
+        cutMuonNMissMid,
+        cutMuonTightPFIso,
+    )
+)
+
+METLegNumeratorWithGoodMuon = copy.deepcopy(METLegNumeratorWithGoodMuon)
+METLegNumeratorWithGoodMuon.name = cms.string("METLegNumeratorWithGoodMuon")
+addCuts(METLegNumeratorWithGoodMuon.cuts, [passesTriggerFilter])
 
 # Track leg with muons
 
