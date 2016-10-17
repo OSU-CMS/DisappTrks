@@ -86,8 +86,8 @@ CandidateTrackProducer::~CandidateTrackProducer ()
 //
 
 // ------------ method called to produce the data  ------------
-void
-CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSetup)
+bool
+CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   edm::Handle<vector<reco::Track> > tracks;
   iEvent.getByToken (tracksToken_, tracks );
@@ -142,6 +142,8 @@ CandidateTrackProducer::produce (edm::Event& iEvent, const edm::EventSetup& iSet
 
   // save the vector
   iEvent.put (candTracks);
+
+  return true;
 }
 
 

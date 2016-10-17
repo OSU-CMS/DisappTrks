@@ -19,7 +19,7 @@
 //
 
 // user include files
-#include "FWCore/Framework/interface/EDProducer.h"
+#include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -38,13 +38,13 @@ using namespace std;
 // class declaration
 //
 
-class CandidateTrackProducer : public edm::EDProducer {
+class CandidateTrackProducer : public edm::EDFilter {
    public:
       explicit CandidateTrackProducer (const edm::ParameterSet&);
       ~CandidateTrackProducer ();
 
    private:
-      virtual void produce (edm::Event&, const edm::EventSetup&) override;
+      virtual bool filter (edm::Event&, const edm::EventSetup&) override;
 void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits);
 
 
