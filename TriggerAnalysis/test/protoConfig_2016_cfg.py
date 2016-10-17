@@ -91,7 +91,7 @@ from DisappTrks.TriggerAnalysis.HistogramDefinitions import *
 
 histSets = cms.VPSet(
     METHistograms,
-    TrackHistograms,
+    MuonHistograms,
 )
 
 ################################################################################
@@ -101,10 +101,12 @@ histSets = cms.VPSet(
 DataChannels = [
     METLegDenominator,
     METLegNumerator,
-    #TrackLegDenominatorWithTracks,
-    #TrackLegNumeratorWithTracks,
     TrackLegDenominatorWithMuons,
     TrackLegNumeratorWithMuons,
+    TrackLegDenominatorWithMuonsLeadHLTMatch,
+    TrackLegNumeratorWithMuonsLeadHLTMatch,
+    TrackLegDenominatorWithMuonsAnyHLTMatch,
+    TrackLegNumeratorWithMuonsAnyHLTMatch,
 ]
 
 ################################################################################

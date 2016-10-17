@@ -100,9 +100,14 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.01"),
     numberRequired = cms.string(">= 1"),
 )
-cutTrkMatchHLTTrack = cms.PSet(
+cutLeadTrkMatchHLTTrack = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("trackMatchToHLTTrack > 0"),
+    cutString = cms.string("leadTrackMatchToHLTTrack > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutAnyTrkMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("anyTrackMatchToHLTTrack > 0"),
     numberRequired = cms.string(">= 1"),
 )
 # fixme -- deltaR match to charginos for MC
@@ -142,8 +147,13 @@ cutMuonTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
-cutMuonMatchHLTTrack = cms.PSet(
+cutLeadMuonMatchHLTTrack = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("muonMatchToHLTTrack > 0"),
+    cutString = cms.string("leadMuonMatchToHLTTrack > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutAnyMuonMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("anyMuonMatchToHLTTrack > 0"),
     numberRequired = cms.string(">= 1"),
 )

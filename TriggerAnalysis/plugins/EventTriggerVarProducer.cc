@@ -71,38 +71,46 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
   const pat::TriggerObjectStandAlone &isoTrk = getHLTObj(triggerNames, *triggerObjs, "hltTrk50Filter");
 
+  bool anyTrackMatchToHLTTrack = false;
   vector<const TYPE(tracks)*> selectedTracks;
   if(hasTracks) {
     for(const auto &track : *tracks) {
         bool goodTrack = isMC ? isGoodTrack(track, pv, *tracks, *genParticles) : isGoodTrack(track, pv, *tracks);
         if(!goodTrack) continue;
         selectedTracks.push_back (&track);
+        if(deltaR(track, isoTrk) < 0.1) anyTrackMatchToHLTTrack = true;
       }
       sort(selectedTracks.begin(),
            selectedTracks.end(),
            [](const TYPE(tracks) *a, const TYPE(tracks) *b) -> bool { return (a->pt() > b->pt()); });
   }
 
+  bool anyMuonMatchToHLTTrack = false;
   vector<const pat::Muon*> selectedMuons;
   for(const auto &muon : *muons) {
     bool goodMuon = isGoodMuon(muon, pv, *muons);
     if(!goodMuon) continue;
     selectedMuons.push_back(&muon);
+    if(deltaR(muon, isoTrk) < 0.1) anyMuonMatchToHLTTrack = true;
   }
   sort(selectedMuons.begin(),
        selectedMuons.end(),
        [](const pat::Muon *a, const pat::Muon *b) -> bool { return (a->pt() > b->pt()); });
 
-   bool trackMatchToHLTTrack = hasTracks ? (selectedTracks.size() > 0 && deltaR(*selectedTracks.at(0), isoTrk) < 0.1) : false;
-   bool muonMatchToHLTTrack  = (selectedMuons.size() > 0 && deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
+   bool leadTrackMatchToHLTTrack = hasTracks ? (selectedTracks.size() > 0 && deltaR(*selectedTracks.at(0), isoTrk) < 0.1) : false;
+   bool leadMuonMatchToHLTTrack  = (selectedMuons.size() > 0 && deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
 
   // Insert event variables
 
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
   (*eventvariables)["passesMainTrigger"] = passesMainTrigger;
   (*eventvariables)["passesTriggerFilter"] = passesTriggerFilter;
-  (*eventvariables)["trackMatchToHLTTrack"] = trackMatchToHLTTrack;
-  (*eventvariables)["muonMatchToHLTTrack"] = muonMatchToHLTTrack;
+
+  (*eventvariables)["leadTrackMatchToHLTTrack"] = leadTrackMatchToHLTTrack;
+  (*eventvariables)["anyTrackMatchToHLTTrack"] = anyTrackMatchToHLTTrack;
+  
+  (*eventvariables)["leadMuonMatchToHLTTrack"] = leadMuonMatchToHLTTrack;
+  (*eventvariables)["anyMuonMatchToHLTTrack"] = anyMuonMatchToHLTTrack;
 
 }
 

@@ -28,7 +28,7 @@ METHistograms = cms.PSet(
         )
     )
 
-TrackHistograms = cms.PSet(
+MuonHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
     histograms = cms.VPSet(
         cms.PSet(
@@ -39,3 +39,16 @@ TrackHistograms = cms.PSet(
             ),
         )
     )
+
+TrackHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("trackPt"),
+            title = cms.string("Track Transverse Momentum; track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(bins),
+            inputVariables = cms.vstring("pt"),
+            ),
+        )
+    )
+)
