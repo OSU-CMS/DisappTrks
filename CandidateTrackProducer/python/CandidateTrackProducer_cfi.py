@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 from Configuration.StandardSequences.GeometryRecoDB_cff import *
 from Configuration.StandardSequences.MagneticField_38T_cff import *
 
-candidateTrackProducer = cms.EDProducer ("CandidateTrackProducer",
+candidateTrackProducer = cms.EDFilter ("CandidateTrackProducer",
   tracks             =  cms.InputTag  ("generalTracks",                  ""),
   electrons          =  cms.InputTag  ("slimmedElectrons",               ""),
   muons              =  cms.InputTag  ("slimmedMuons",                   ""),
