@@ -376,17 +376,17 @@ cutTrkMatchedGen = cms.PSet(
 )
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11 || abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId) == 11"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 13 || abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId) == 13"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 13"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenTau = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 15 && abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId) != 11 && abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId) != 13"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchFake = cms.PSet(
