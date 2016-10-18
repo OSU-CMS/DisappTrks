@@ -78,7 +78,7 @@ plotDefinitions = [
 
         'graphs' : [
             {
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
             },
         ],
@@ -110,7 +110,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 10.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -142,7 +142,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 100.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -174,7 +174,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 1000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -206,7 +206,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 2000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -238,7 +238,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 3000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -270,7 +270,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 4000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -302,7 +302,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 5000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -334,7 +334,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 6000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -366,7 +366,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 7000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -398,7 +398,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 8000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -430,7 +430,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 9000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -462,7 +462,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 10000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
