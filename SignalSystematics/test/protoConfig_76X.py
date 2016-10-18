@@ -3,6 +3,7 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
+from DisappTrks.StandardAnalysis.switchToBestTrack import *
 import glob
 
 data_global_tag = '76X_dataRun2_v15'
@@ -197,11 +198,24 @@ LepCtrlChannels = [ # Run over isoTrkSelection skim
     tauCtrlSelection,
 ]
 BkgdEstChannels = [
+    candTrkLoose,
+    candTrkLooseElec,
+    candTrkLooseMuon,
+    candTrkLooseTau,
     candTrkSelection,
     candTrkEcaloSdband,
     candTrkNMissOutSdband,
 ]
 BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels
+
+DisTrkChannels = [
+    # disTrkIdElec,
+    # disTrkIdMuon,
+    # disTrkIdTau,
+    # disTrkIdFake,
+    disTrkNoNMissOut,
+    disTrkSelection,
+]
 
 FakeTrkSystChannels = [
     disTrkSelectionNHits3,
@@ -221,7 +235,7 @@ ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
     ZtoMuMuDisTrkNHits6,
 ]
 
-ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+ElecBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     ElectronTagPt35,
     ElectronTagPt35NoTrig,
     ElectronTagPt35MetTrig,
@@ -229,7 +243,20 @@ ElecBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     candTrkIdElecPt35NoMet,
 ]
 
-MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
+ElecBkgdEstimate = [ # run over data
+    ElectronTagPt55,
+    ElectronTagPt55MetTrig,
+]
+
+ElecTagProbeChannels = [ # run over ZtoEleProbeTrkWithZCuts skim
+    ZtoEleCandTrk,
+    ZtoEleDisTrk,
+    ZtoEleDisTrkNoNMissOut,
+    ZtoEleCandTrkSdbandEcalo,
+    ZtoEleCandTrkSdbandNMissOut,
+]
+
+MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
     MuonTagPt35,
     MuonTagPt35NoTrig,
     MuonTagPt35MetCut,
@@ -238,73 +265,75 @@ MuonBkgdClosureTestWjets = [ # run over Wjets MC sample (no skim)
     candTrkIdMuPt35NoMet,
 ]
 
+MuonBkgdEstimateNoNMissOut = [
+    MuonTagPt55NoNMissOut,
+    MuonTagPt55NoNMissOutMetTrig,
+]
+
+MuonBkgdEstimate = [
+    MuonTagPt55,
+    # MuonTagPt55NoTrig,
+    # MuonTagPt55MetCut,
+    MuonTagPt55MetTrig,
+]
+
+TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
+    TauTagPt50,
+    TauTagPt50NoTrig,
+    TauTagPt50MetCut,
+    TauTagPt50MetTrig,
+    candTrkIdTauPt50,
+    candTrkIdTauPt50NoMet,
+]
+
+TauBkgdEstimate = [ # run over data
+    TauTagPt55,
+    TauTagPt55NoTrig,
+    TauTagPt55MetCut,
+    TauTagPt55MetTrig,
+]
+
+switchToBestTrack (disTrkSelection, histSets)
+
+switchToBestTrack (ZtoEleProbeTrkWithZCuts, histSetsElectron)
+switchToBestTrack (ZtoEleDisTrk, histSetsElectron)
+switchToBestTrack (ElectronTagPt55, histSetsElectron)
+switchToBestTrack (ElectronTagPt55MetTrig, histSetsElectron)
+
+switchToBestTrack (ZtoMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoMuDisTrk, histSetsMuon)
+switchToBestTrack (MuonTagPt55, histSetsMuon)
+switchToBestTrack (MuonTagPt55MetTrig, histSetsMuon)
+
+switchToBestTrack (ZtoTauToEleProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToEleDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoTauToMuProbeTrkWithZCuts, histSetsMuon)
+switchToBestTrack (ZtoTauToMuDisTrk, histSetsMuon)
+
+switchToBestTrack (ZtoMuMuCandTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrk, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkEcaloSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuCandTrkNMissOutSdband, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits3, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits4, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits5, histSetsMuon)
+switchToBestTrack (ZtoMuMuDisTrkNHits6, histSetsMuon)
+
+switchToBestTrack (disTrkSelectionNHits3, histSets)
+switchToBestTrack (disTrkSelectionNHits4, histSets)
+switchToBestTrack (disTrkSelectionNHits5, histSets)
+switchToBestTrack (disTrkSelectionNHits6, histSets)
+
+switchToBestTrack (TauTagPt55, histSetsTau)
+switchToBestTrack (TauTagPt55MetTrig, histSetsTau)
+
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-## MANDATORY CHANNELS FOR MET DATASET
-#  add_channels  (process,  [metMinimalSkim],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [isoTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  BkgdCtrlChannels,         histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-add_channels  (process,  [disTrkSelection],        histSets,        weights,  [],  collectionMap,  variableProducers,  True)  # For MC only!
-#  add_channels  (process,  FakeTrkSystChannels,      histSets,        weights,  [],  collectionMap,  variableProducers,  True)
-
-## MANDATORY CHANNELS FOR SINGLEMUON DATASET
-#  add_channels  (process,  [MuonTagSkim],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuMu],                                      histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ZtoMuMuTrkChannels,                             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrkLooseVeto],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-
-#  add_channels  (process,  [ZtoTauProbeTrk],                                histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauProbeTrkWithZCuts],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauDisTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-
-## Muon Fiducial Map channels
-#  add_channels  (process,  [MuonFiducialCalcBefore],                       histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [MuonFiducialCalcAfter],                        histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-
-## OTHER CHANNELS FOR SINGLEMUON DATASET # FIXME:  NEED TO ORGANIZE
-#  add_channels  (process,  [ZtoTauProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuIsoTrk],                                  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuIsoTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkNoMissingOuterHitsCut],           histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoMissingOuterHitsCut],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoMuDisTrkNoMissingOuterHitsCut],             histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  True)
-
-## MANDATORY CHANNELS FOR SINGLEELECTRON DATASET
-#  add_channels  (process,  [ElectronTagSkim],                                histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrk],                                 histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrk],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrkLooseVeto],                                   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-
-## Electron Fiducial Map channels
-#  add_channels  (process,  [ElectronFiducialCalcBefore],                        histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ElectronFiducialCalcAfter],                         histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-
-## OTHER CHANNELS FOR SINGLEELECTRON DATASET  # FIXME:  NEED TO ORGANIZE
-#  add_channels  (process,  [ZtoEleProbeTrkNoMissingOuterHitsCut],            histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoMissingOuterHitsCut],   histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrkNoMissingOuterHitsCut],              histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoEleDisTrkWithECaloCutNoMissingOuterHitsCut],  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  True)
-
-
-
-## CHANNELS FOR TESTING
-#  add_channels  (process,  [test],   cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [NoCuts], cms.VPSet(),  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  ElecBkgdClosureTestWjets,  histSetsElectron,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  MuonBkgdClosureTestWjets,  histSetsMuon,      weights,  [],  collectionMap,  variableProducers,  False)
-
-
-## OTHER CHANNELS
-#  add_channels  (process,  [nonIsoTrkSelection],     histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+add_channels(process, [disTrkSelection], histSets, weights, [], collectionMap, variableProducers, True)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("data2015")
