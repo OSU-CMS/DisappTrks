@@ -94,6 +94,9 @@ external_systematic_uncertainties = [
 #uncertainties on signal only (we can alter this if we need to)
 # For now, use the largest value of the uncertainty range from Run 1  
 signal_systematic_uncertainties = {
+     'lumi' :  {
+        'value' : '1.062',  # Value for 2015D  
+        },
      'Isr' : { 
         'value' :'1.11', 
         }, 
@@ -103,9 +106,6 @@ signal_systematic_uncertainties = {
      # 'JER' : { 
      #    'value' : '', 
      #    }, 
-     'PDFWt' : { 
-        'value' : '1.10', 
-        }, 
      'trigEff' : { 
         'value' : '1.08', 
         }, 
@@ -115,9 +115,6 @@ signal_systematic_uncertainties = {
      'pileup' : { 
         'value' : '1.02', 
         }, 
-     'lumi' :  {
-        'value' : '1.046',  # Value for 2015D  
-        },
      'trkReco' :  {
         'value' : '1.017',
         },
