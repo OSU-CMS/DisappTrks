@@ -540,40 +540,48 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                     limit_dict[lifetime][mass]['theory'] *= theory_error
                 if theory_key is 'down1' or theory_key is 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
+
     for lifetime in sorted (limit_dict.keys ()):
-        ordered_masses = sorted (limit_dict[lifetime].keys ())
+        ordered_masses = sorted (limit_dict[lifetime].keys (), reverse=True)
         first_allowed_mass = ordered_masses[0]
         previous_mass = ordered_masses[0]
         for mass in ordered_masses:
-            if limit_dict[lifetime][mass]['theory'] < limit_dict[lifetime][mass]['experiment']:
-                first_allowed_mass = mass
+            if limit_dict[lifetime][mass]['theory'] > limit_dict[lifetime][mass]['experiment']:
+                previous_mass = mass
                 break
-            previous_mass = mass
+            first_allowed_mass = mass
         mass_limit = 0.0
+        if previous_mass == first_allowed_mass:
+            first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
-            x1 = previous_mass
+            x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass
+            x2 = first_allowed_mass  # higher mass value 
             x4 = first_allowed_mass
-            y1 = limit_dict[lifetime][previous_mass]['theory']
-            y3 = limit_dict[lifetime][previous_mass]['experiment']
-            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            # Use log10 because the theory cross section is roughly linear 
+            # on a log scale, not on a linear scale.  
+            y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
+            y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
+            y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0
-            x.append (mass_limit)
-            y.append (lifetime)
+                mass_limit = 0.0            
+        if mass_limit > first_allowed_mass:
+            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            mass_limit = previous_mass  
+        x.append (mass_limit)
+        y.append (lifetime)
 
-            with open ("limits/" + arguments.outputDir + "/" + "obsTable.tex", 'a') as file:
-                file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
-                file.write('\n')
-            obsTable.close()
+        with open ("limits/" + arguments.outputDir + "/" + "obsTable.tex", 'a') as file:
+            file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
+            file.write('\n')
+        obsTable.close()
 
-            if x_key is 'lifetime' and y_key is 'mass':
-                x[-1], y[-1] = y[-1], x[-1]
+    if x_key is 'lifetime' and y_key is 'mass':
+        x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
     obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable.tex", "a")
