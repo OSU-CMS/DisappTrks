@@ -47,7 +47,6 @@ else:
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
-
 def fancyTable(arrays):
 
     def areAllEqual(lst):
@@ -125,7 +124,7 @@ def ReadYieldAndError(condor_dir, process):
 
 
 
-def writeDatacard(mass,lifetime):
+def writeDatacard(mass,lifetime,observation):
 
     lifetime = lifetime.replace(".0", "")
     lifetime = lifetime.replace("0.5", "0p5")
@@ -272,9 +271,9 @@ def writeDatacard(mass,lifetime):
 
     #add a row for the systematic error of each background
     for background in background_systematics:
-        row = [background+"_syst",'lnN','','-']
+        row = [background,'lnN','','-']
         for process_name in backgrounds:
-            if background is process_name:
+            if background_systematics[background]['background'] is process_name:
                 row.append(background_systematics[background]['value'])
             else:
                 row.append('-')
@@ -387,6 +386,7 @@ for systematic in external_systematic_uncertainties:
 
 
 ###setting up observed number of events
+observation = 0
 if not run_blind_limits:
     observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
@@ -396,7 +396,7 @@ if not run_blind_limits:
 ###looping over signal models and writing a datacard for each
 for mass in masses:
     for lifetime in lifetimes:
-        writeDatacard(mass,lifetime)
+        writeDatacard(mass,lifetime,observation)
 
 
 
