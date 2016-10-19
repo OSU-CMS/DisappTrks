@@ -43,7 +43,7 @@ METLegDenominatorWithGoodMuon = cms.PSet(
     )
 )
 
-METLegNumeratorWithGoodMuon = copy.deepcopy(METLegNumeratorWithGoodMuon)
+METLegNumeratorWithGoodMuon = copy.deepcopy(METLegDenominatorWithGoodMuon)
 METLegNumeratorWithGoodMuon.name = cms.string("METLegNumeratorWithGoodMuon")
 addCuts(METLegNumeratorWithGoodMuon.cuts, [passesTriggerFilter])
 
