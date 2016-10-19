@@ -12,8 +12,10 @@ EventTriggerVarProducer::EventTriggerVarProducer(const edm::ParameterSet &cfg) :
 
 void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
+  //////////////////////////////////////////////////////////////////////////////
   // Leading jet eta
   // first jet is always leading jet (https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/PhysicsTools/PatAlgos/plugins/PATJetProducer.cc#L406)
+  //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<vector<TYPE(jets)> > jets;
   if(!event.getByToken(tokenJets_, jets)) {
@@ -23,7 +25,9 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
   double etaJetLeading = jets->size() ? jets->at(0).eta() : -999.;
 
+  //////////////////////////////////////////////////////////////////////////////
   // Pass HLT_MET75_IsoTrk50_v
+  //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<edm::TriggerResults> triggerBits;
   if(!event.getByToken(tokenTriggerBits_, triggerBits)) {
@@ -38,23 +42,28 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
       if(name.find("HLT_MET75_IsoTrk50_v") == 0) passesMainTrigger |= triggerBits->accept(i);
   }
 
+  //////////////////////////////////////////////////////////////////////////////
   // Pass hltMET75
+  //////////////////////////////////////////////////////////////////////////////
+
   edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
   event.getByToken(tokenTriggerObjs_, triggerObjs);
 
-  bool passesTriggerFilter = false;
+  bool passesHLTMet75 = false;
   for(auto triggerObj : *triggerObjs) {
     triggerObj.unpackPathNames(triggerNames);
     for(const auto &filterLabel : triggerObj.filterLabels()) {
       if(filterLabel == "hltMET75") {
-        passesTriggerFilter = true;
+        passesHLTMet75 = true;
         break;
       }
     }
-    if(passesTriggerFilter) break;
+    if(passesHLTMet75) break;
   }
 
+  //////////////////////////////////////////////////////////////////////////////
   // Match to HLT track
+  //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<vector<TYPE(tracks)> > tracks;
   bool hasTracks = event.getByToken(tokenTracks_, tracks);
@@ -69,7 +78,8 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   edm::Handle<vector<reco::GenParticle> > genParticles;
   bool isMC = event.getByToken(tokenGenParticles_, genParticles);
 
-  const pat::TriggerObjectStandAlone &isoTrk = getHLTObj(triggerNames, *triggerObjs, "hltTrk50Filter");
+  pat::TriggerObjectStandAlone isoTrk;
+  bool passesHLTTrk50Filter = getHLTObj(triggerNames, *triggerObjs, "hltTrk50Filter", isoTrk);
 
   bool anyTrackMatchToHLTTrack = false;
   vector<const TYPE(tracks)*> selectedTracks;
@@ -78,7 +88,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
         bool goodTrack = isMC ? isGoodTrack(track, pv, *tracks, *genParticles) : isGoodTrack(track, pv, *tracks);
         if(!goodTrack) continue;
         selectedTracks.push_back (&track);
-        if(deltaR(track, isoTrk) < 0.1) anyTrackMatchToHLTTrack = true;
+        if(passesHLTTrk50Filter && deltaR(track, isoTrk) < 0.1) anyTrackMatchToHLTTrack = true;
       }
       sort(selectedTracks.begin(),
            selectedTracks.end(),
@@ -91,26 +101,42 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
     bool goodMuon = isGoodMuon(muon, pv, *muons);
     if(!goodMuon) continue;
     selectedMuons.push_back(&muon);
-    if(deltaR(muon, isoTrk) < 0.1) anyMuonMatchToHLTTrack = true;
+    if(passesHLTTrk50Filter && deltaR(muon, isoTrk) < 0.1) anyMuonMatchToHLTTrack = true;
   }
   sort(selectedMuons.begin(),
        selectedMuons.end(),
        [](const pat::Muon *a, const pat::Muon *b) -> bool { return (a->pt() > b->pt()); });
 
-   bool leadTrackMatchToHLTTrack = hasTracks ? (selectedTracks.size() > 0 && deltaR(*selectedTracks.at(0), isoTrk) < 0.1) : false;
-   bool leadMuonMatchToHLTTrack  = (selectedMuons.size() > 0 && deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
+   bool leadTrackMatchToHLTTrack = (selectedTracks.size() > 0 &&
+                                    passesHLTTrk50Filter &&
+                                    deltaR(*selectedTracks.at(0), isoTrk) < 0.1);
+   bool leadMuonMatchToHLTTrack  = (selectedMuons.size() > 0 &&
+                                    passesHLTTrk50Filter &&
+                                    deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
 
+  //////////////////////////////////////////////////////////////////////////////
+  // Lead muon and track pt
+  //////////////////////////////////////////////////////////////////////////////
+
+  double leadMuonPt = selectedMuons.size() ? selectedMuons.at(0)->pt() : -1.0;
+  double leadTrackPt = selectedTracks.size() ? selectedTracks.at(0)->pt() : -1.0;
+
+  //////////////////////////////////////////////////////////////////////////////
   // Insert event variables
+  //////////////////////////////////////////////////////////////////////////////
 
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
   (*eventvariables)["passesMainTrigger"] = passesMainTrigger;
-  (*eventvariables)["passesTriggerFilter"] = passesTriggerFilter;
+  (*eventvariables)["passesHLTMet75"] = passesHLTMet75;
 
   (*eventvariables)["leadTrackMatchToHLTTrack"] = leadTrackMatchToHLTTrack;
   (*eventvariables)["anyTrackMatchToHLTTrack"] = anyTrackMatchToHLTTrack;
 
   (*eventvariables)["leadMuonMatchToHLTTrack"] = leadMuonMatchToHLTTrack;
   (*eventvariables)["anyMuonMatchToHLTTrack"] = anyMuonMatchToHLTTrack;
+
+  (*eventvariables)["leadMuonPt"] = leadMuonPt;
+  (*eventvariables)["leadTrackPt"] = leadTrackPt;
 
 }
 
@@ -142,23 +168,30 @@ bool EventTriggerVarProducer::genMatched(const pat::Muon &muon,
   return false;
 }
 
-const pat::TriggerObjectStandAlone & EventTriggerVarProducer::getHLTObj(const edm::TriggerNames &triggerNames,
-                                                                        const vector<pat::TriggerObjectStandAlone> &triggerObjs,
-                                                                        const string &collection) const {
-  unsigned i = 0, leadingIndex = 0;
-  double leadingPt = -1.0;
-  for(auto triggerObj : triggerObjs) {
-      triggerObj.unpackPathNames(triggerNames);
-      if(triggerObj.collection() == (collection + "::HLT")) {
-          if(triggerObj.pt() > leadingPt) {
-              leadingIndex = i;
-              leadingPt = triggerObj.pt ();
-            }
-        }
-      i++;
-    }
+bool EventTriggerVarProducer::getHLTObj(const edm::TriggerNames &triggerNames,
+                                        const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                        const string &collection,
+                                        pat::TriggerObjectStandAlone &obj) const {
 
-  return triggerObjs.at(leadingIndex);
+  // Finds the leading trigger object from "collection::HLT" and sets "obj" to it
+  // Returns true if it found any "collection::HLT", and false if not
+
+  double leadingPt = -1.0;
+
+  for(auto triggerObj : triggerObjs) {
+    triggerObj.unpackPathNames(triggerNames);
+    if(triggerObj.collection() == (collection + "::HLT")) {
+
+      if(triggerObj.pt() > leadingPt) {
+        obj = triggerObj;
+        leadingPt = obj.pt();
+      }
+
+    }
+  }
+
+  return (leadingPt > 0.0);
+
 }
 
 bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,

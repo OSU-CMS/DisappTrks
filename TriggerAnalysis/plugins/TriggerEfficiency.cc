@@ -306,8 +306,14 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPt channel
       // track leg denominator in data
+      // has a good muon (any pt by bug)
+      // pass hltMET75
+      // pass HLT_IsoMu20_v OR (HLT_MET75_IsoTrk50_v && matchToHLTTrack)
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () && passesMETFilter && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
+      if (selectedTracks.size () &&
+          passesMETFilter &&
+          (passesMETTriggers ||
+            (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPt", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
@@ -321,8 +327,16 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPtMuSeed channel
       // track leg numerator in data
+      // has a good muon (any pt by bug)
+      // pass hltMET75
+      // has good muon (pt >= 25) && HLT_IsoMu20_v
+      // pass (HLT_MET75_IsoTrk50_v && matchToHLTTrack)
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () && passesMETFilter && passesMuSeed && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
+      if (selectedTracks.size () &&
+          passesMETFilter &&
+          passesMuSeed &&
+          (passesMETTriggers ||
+            (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPtMuSeed", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
     }
@@ -417,7 +431,9 @@ TriggerEfficiency<T>::fillTrackHistograms (const T &track, const vector<pat::MET
 }
 
 template<class T> const pat::TriggerObjectStandAlone &
-TriggerEfficiency<T>::getHLTObj (const edm::TriggerNames &triggerNames, const vector<pat::TriggerObjectStandAlone> &triggerObjs, const string &collection) const
+TriggerEfficiency<T>::getHLTObj (const edm::TriggerNames &triggerNames,
+                                 const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                 const string &collection) const
 {
   unsigned i = 0, leadingIndex = 0;
   double leadingPt = -1.0;
@@ -434,6 +450,8 @@ TriggerEfficiency<T>::getHLTObj (const edm::TriggerNames &triggerNames, const ve
         }
       i++;
     }
+
+    // bug bug: if it doesn't find collection::HLT, it just returns at(0)
 
   return triggerObjs.at (leadingIndex);
 }
