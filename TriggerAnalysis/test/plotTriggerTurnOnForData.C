@@ -45,12 +45,12 @@ void plot(const TString file,
   TFile * fin;
 
   TString metHistName = "Met Plots/metNoMu";
-  TString trackHistName = useTracks ? "Track Plots/trackPt" : "Muon Plots/muonPt";
+  TString trackHistName = useTracks ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
   TString metNumeratorDir = "METLegNumerator";
   TString metDenominatorDir = "METLegDenominator";
 
-  TString trackNumeratorDir = useTracks ? "TrackLegNumeratorWithTracks" : "TrackLegNumeratorWithMuons";
+  TString trackNumeratorDir = useTracks ? "TrackLegNumeratorWithTracksLeadHLTMatch" : "TrackLegNumeratorWithMuonsLeadHLTMatch";
   TString trackDenominatorDir = useTracks ? "TrackLegDenominatorWithTracks" : "TrackLegDenominatorWithMuons";
 
   fin = TFile::Open(file);

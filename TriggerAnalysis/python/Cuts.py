@@ -15,9 +15,9 @@ cutMet600 = cms.PSet(
     cutString = cms.string("noMuPt > 600"),
     numberRequired = cms.string(">= 1"),
 )
-failsTriggerFilter = cms.PSet(
+failsHLTMet75 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesTriggerFilter == 0"),
+    cutString = cms.string("passesHLTMet75 == 0"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("hltMET75")
 )
@@ -43,9 +43,9 @@ passesMainTrigger = cms.PSet(
     alias = cms.string("HLT_MET75_IsoTrk50_v")
 )
 
-passesTriggerFilter = cms.PSet(
+passesHLTMet75 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesTriggerFilter > 0"),
+    cutString = cms.string("passesHLTMet75 > 0"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("hltMET75")
 )

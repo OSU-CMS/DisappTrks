@@ -8,7 +8,7 @@ SkimLargeMETFailsFilter = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(
         cutMet600,
-        failsTriggerFilter,
+        failsHLTMet75,
     )
 )
 
@@ -25,7 +25,7 @@ METLegDenominator = cms.PSet(
 
 METLegNumerator = copy.deepcopy(METLegDenominator)
 METLegNumerator.name = cms.string("METLegNumerator")
-addCuts(METLegNumerator.cuts, [passesTriggerFilter])
+addCuts(METLegNumerator.cuts, [passesHLTMet75])
 
 # MET leg with good muon
 
@@ -45,7 +45,7 @@ METLegDenominatorWithGoodMuon = cms.PSet(
 
 METLegNumeratorWithGoodMuon = copy.deepcopy(METLegDenominatorWithGoodMuon)
 METLegNumeratorWithGoodMuon.name = cms.string("METLegNumeratorWithGoodMuon")
-addCuts(METLegNumeratorWithGoodMuon.cuts, [passesTriggerFilter])
+addCuts(METLegNumeratorWithGoodMuon.cuts, [passesHLTMet75])
 
 # Track leg with muons
 
@@ -54,7 +54,7 @@ TrackLegDenominatorWithMuons = cms.PSet(
     triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        passesTriggerFilter,
+        passesHLTMet75,
         cutMuonPt25,
         cutMuonEta21,
         cutMuonTightID,
@@ -75,7 +75,7 @@ TrackLegDenominatorWithTracks = cms.PSet(
     triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        passesTriggerFilter,
+        passesHLTMet75,
         cutTrkEta,
         cutTrkNormalizedChi2,
         cutTrkD0,

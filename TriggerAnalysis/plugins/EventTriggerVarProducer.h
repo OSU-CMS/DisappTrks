@@ -14,9 +14,11 @@ public:
   ~EventTriggerVarProducer() {};
 
 private:
-  const pat::TriggerObjectStandAlone &getHLTObj(const edm::TriggerNames &,
-                                                const vector<pat::TriggerObjectStandAlone> &,
-                                                const string &) const;
+  bool getHLTObj(const edm::TriggerNames &triggerNames,
+                 const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                 const string &collection,
+                 pat::TriggerObjectStandAlone &obj) const;
+
   bool genMatched(const TYPE(tracks) &, const vector<reco::GenParticle> &, const int, const int, const double) const;
   bool genMatched(const pat::Muon &, const vector<reco::GenParticle> &, const int, const int, const double) const;
 

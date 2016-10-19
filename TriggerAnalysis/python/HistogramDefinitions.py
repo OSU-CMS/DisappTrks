@@ -51,3 +51,21 @@ TrackHistograms = cms.PSet(
             ),
         )
     )
+
+EventVariableHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("leadMuonPt"),
+            title = cms.string("Muon Transverse Momentum; muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(bins),
+            inputVariables = cms.vstring("leadMuonPt"),
+        ),
+        cms.PSet(
+            name = cms.string("leadTrackPt"),
+            title = cms.string("Track Transverse Momentum; muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(bins),
+            inputVariables = cms.vstring("leadTrackPt"),
+        ),
+    )
+)

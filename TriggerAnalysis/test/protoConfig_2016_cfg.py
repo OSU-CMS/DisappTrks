@@ -92,6 +92,7 @@ from DisappTrks.TriggerAnalysis.HistogramDefinitions import *
 histSets = cms.VPSet(
     METHistograms,
     MuonHistograms,
+    EventVariableHistograms,
 )
 
 ################################################################################
@@ -116,7 +117,8 @@ DataChannels = [
 ################################################################################
 
 add_channels(process, DataChannels, histSets, weights, [], collectionMap, variableProducers, False)
-add_channels(process, [SkimLargeMETFailsFilter], histSets, weights, [], collectionMap, variableProducers, True)
+
+#add_channels(process, [SkimLargeMETFailsFilter], histSets, weights, [], collectionMap, variableProducers, True)
 
 ################################################################################
 ##### Debugging options
