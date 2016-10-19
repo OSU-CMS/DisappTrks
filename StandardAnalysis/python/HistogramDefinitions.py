@@ -1061,6 +1061,13 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("puWeight"),
+            title = cms.string(";lifetime weight"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("puScalingFactor")
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
             name = cms.string("ctau"),
             title = cms.string(";c#tau [cm]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 50.0),
