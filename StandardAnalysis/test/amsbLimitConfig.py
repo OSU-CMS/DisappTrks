@@ -23,14 +23,6 @@ else:
     print "Error:  could not identify user as wulsin or hart."
     os.exit(0)
 
-
-##################################
-### Event Selection Parameters ###
-##################################
-
-#name of histogram to integrate to get yields
-integrateHistogramName = "metPt"
-
 #########################
 ### Signal Parameters ###
 #########################
@@ -51,37 +43,3 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
 lumi = 2590.0 + 12884.361
-
-#condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + '/2015/disappearingTracks/'
-
-#name of event selection from which to take signal yields
-signal_channel = 'DisTrkSelectionPlotter/Met Plots'
-
-
-#######################
-### Data Parameters ###
-#######################
-
-#this just sets the observed number of events equal to the total background expectation
-run_blind_limits = True
-
-data_dataset = "MET"
-
-#condor directory in which to find data root file
-data_condor_dir = signal_condor_dir   # not yet unblinded 
-
-#name of event selection from which to take observed events
-data_channel = 'DisTrkSelection'
-
-#############################
-### Background Parameters ###
-#############################
-
-
-
-#############################
-### Systematic Uncertainties ###
-#############################
-
-
