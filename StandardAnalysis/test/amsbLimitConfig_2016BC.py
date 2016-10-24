@@ -52,10 +52,12 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
 lumi = 8530.9
-signalScaleFactor = 8530.9 / (2590.0 + 12884.361) # fraction of integrated luminosity from 2016B+C
+signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + '/2015/disappearingTracks/'
+signal_condor_dir = AndrewDir + '/2016_ICHEP/disappearingTracks_signal_weightedToBC/'
+
+signal_suffix = '80X'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
