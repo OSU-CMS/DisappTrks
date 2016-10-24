@@ -91,7 +91,8 @@ data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 external_systematic_uncertainties = [
     # Use order of AN
-    ]
+     'pileup_2016BC',
+]
 
 #uncertainties on signal only (we can alter this if we need to)
 # For now, use the largest value of the uncertainty range from Run 1  
@@ -113,9 +114,6 @@ signal_systematic_uncertainties = {
         }, 
      'NMissOut' : { 
         'value' : '1.07', 
-        }, 
-     'pileup' : { 
-        'value' : '1.02', 
         }, 
      'trkReco' :  {
         'value' : '1.017',
