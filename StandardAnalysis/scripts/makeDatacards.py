@@ -71,32 +71,26 @@ def fancyTable(arrays):
 
 
 def GetYieldAndError(condor_dir, process, channel):
-    dirName = channel
-    dirName = re.sub (r"^([^/]*)Plotter\/.*$", r"\1", dirName)
-
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     hist = inputFile.Get(channel+"/"+integrateHistogramName)
     if not hist:
         print "Could not find hist "+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
-    cutFlow = inputFile.Get(dirName+"CutFlowPlotter/cutFlow")
-    if not cutFlow:
-        print "Could not find hist "+dirName+"CutFlowPlotter/cutFlow in " + inputFile.GetName()
-    cutFlow.SetDirectory(0)
     inputFile.Close()
     yieldAndErrorList = {}
     nBinsX = hist.GetNbinsX()
 
     intError = Double (0.0)
     integral = hist.IntegralAndError(0,nBinsX+1,intError)
-    fracError = 0.0
-    if integral > 0.0:
-        fracError = 1.0 + (intError / integral)
+    fracError = 1.0 + (intError / integral) if integral > 0.0 else 1.0
+
+    raw_integral = hist.GetEntries ()
 
     yieldAndErrorList['yield'] = integral
+    yieldAndErrorList['rawYield'] = raw_integral
     yieldAndErrorList['error'] = fracError
     yieldAndErrorList['absError'] = intError
-    yieldAndErrorList['weight'] = (cutFlow.GetBinError (1) * cutFlow.GetBinError (1)) / cutFlow.GetBinContent (1)
+    yieldAndErrorList['weight'] = integral / raw_integral if raw_integral > 0.0 else 0.0
     return yieldAndErrorList
 
 
@@ -129,12 +123,12 @@ def writeDatacard(mass,lifetime,observation):
     lifetime = lifetime.replace(".0", "")
     lifetime = lifetime.replace("0.5", "0p5")
     if samplesByGravitinoMass:
-        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
+        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
     else:
-        signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
+        signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
-    signal_yield_raw = signal_yield / signalYieldAndError['weight']
+    signal_yield_raw = signalYieldAndError['rawYield']
     signal_yield_weight = signalYieldAndError['weight']
 
     signal_yield *= signalScaleFactor
@@ -197,7 +191,7 @@ def writeDatacard(mass,lifetime,observation):
     process_name_row.append(signal_dataset)
     process_index_row.append(str(process_index))
     process_index = process_index + 1
-    rate_row.append(str(round(signal_yield,6)))
+    rate_row.append(str(round(signal_yield,12)))
     empty_row.append('')
 
     #add background yields
@@ -224,14 +218,14 @@ def writeDatacard(mass,lifetime,observation):
 
     #add a row for the statistical error of the signal
     if arguments.runGamma:
-        signal_error_string = str(round(signal_yield_weight,6))
+        signal_error_string = str(round(signal_yield_weight,12))
     else:
         signal_error = signalYieldAndError['error']
-        signal_error_string = str(round(signal_error,3))
+        signal_error_string = str(round(signal_error,12))
     if arguments.runGamma:
-        row = ['signal_stat','gmN ' + str(int(round(signal_yield_raw))),' ',signal_error_string]
+        row = ['signal_stat_'+signal_suffix,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
     else:
-        row = ['signal_stat','lnN','',signal_error_string]
+        row = ['signal_stat_'+signal_suffix,'lnN','',signal_error_string]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
@@ -281,7 +275,7 @@ def writeDatacard(mass,lifetime,observation):
 
 
     #add a row for the cross-section error for the signal
-    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
+    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),6))]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
