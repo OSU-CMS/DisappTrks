@@ -95,20 +95,23 @@ class PileupSystematic:
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupCentral["suffix"]
             condorDir = self.PileupCentral["condorDir"]
             name = self.PileupCentral["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            central = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupDown["suffix"]
             condorDir = self.PileupDown["condorDir"]
             name = self.PileupDown["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            down = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            down = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupUp["suffix"]
             condorDir = self.PileupUp["condorDir"]
             name = self.PileupUp["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            up = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            up = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
