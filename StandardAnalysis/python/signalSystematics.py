@@ -155,3 +155,46 @@ class PileupSystematic:
                         self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
 
                 self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
+
+class ECaloSystematic:
+
+    _integrateHistogram = "Track Plots/trackCaloTot_RhoCorr"
+
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        setattr (self, role, channel)
+        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+
+    def addIntegrateHistogram (self, integrateHistogram):
+        self._integrateHistogram = integrateHistogram
+
+    def printECaloSystematic (self, dataOrMC = "Data"):
+        if hasattr (self, dataOrMC):
+            channel = getattr (self, dataOrMC)
+            sample = channel["sample"]
+            condorDir = channel["condorDir"]
+            name = channel["name"]
+            ecalo = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+
+            passesError = Double (0.0)
+            totalError = Double (0.0)
+            passes = ecalo.IntegralAndError (0, ecalo.FindBin (10.0) - 1, passesError)
+            total = ecalo.IntegralAndError (0, ecalo.GetNbinsX () + 1, totalError)
+
+            eff = passes / total
+            effError = math.hypot (passes * totalError, passesError * total) / (total * total)
+
+            print "efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " +- " + str (effError)
+            return (eff, effError)
+        else:
+            print dataOrMC + " not defined. Not printing ECalo systematic..."
+            return (float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+        data, dataError = self.printECaloSystematic ("Data")
+        mc, mcError = self.printECaloSystematic ("MC")
+
+        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
