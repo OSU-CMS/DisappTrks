@@ -76,3 +76,21 @@ pileupSystematic.printSystematic ()
 print "********************************************************************************"
 
 fout.close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating ECalo systematic"
+print "--------------------------------------------------------------------------------"
+
+ecaloSystematic = ECaloSystematic ()
+ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
+ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4",  "DYJetsToLL_50",   dirs['Andrew']+"2015/ecaloSystematic")
+
+print "********************************************************************************"
+
+ecaloSystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.close ()
