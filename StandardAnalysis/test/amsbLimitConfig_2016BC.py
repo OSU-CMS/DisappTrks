@@ -125,7 +125,7 @@ signal_systematic_uncertainties = {
         'value' : '1.018', # from tables/systNmissMid.tex from makeANTables.py
         },
      'Ecalo' : {
-        'value' : '1.065', # from tables/systEcalo.tex from makeANTables.py
+        'value' : '1.00626555065492',
         },
      }
 
