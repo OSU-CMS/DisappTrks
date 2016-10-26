@@ -109,7 +109,7 @@ variableProducers.append('PUScalingFactorProducer')
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisappTrks.SignalSystematics.SignalSystematicsSelections import *
+from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -143,13 +143,11 @@ histSetsMuon.append(TrackMuonHistograms)
 
 ISRStudyChannels = [
     ZtoMuMuISRStudy,
-    ZtoMuMuISRStudyNoMet,
-    ZtoMuMuISRStudyNoMetJet30,
+    ZtoMuMuISRStudyJet30,
 ]
 
 switchToBestTrack(ZtoMuMuISRStudy, histSetsMuon)
-switchToBestTrack(ZtoMuMuISRStudyNoMet, histSetsMuon)
-switchToBestTrack(ZtoMuMuISRStudyNoMetJet30, histSetsMuon)
+switchToBestTrack(ZtoMuMuISRStudyJet30, histSetsMuon)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
