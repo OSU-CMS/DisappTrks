@@ -84,8 +84,8 @@ print "evaluating ECalo systematic"
 print "--------------------------------------------------------------------------------"
 
 ecaloSystematic = ECaloSystematic ()
-ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
-ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4",  "DYJetsToLL_50",   dirs['Andrew']+"2015/ecaloSystematic")
+ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
+ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",   dirs['Andrew']+"2015/ecaloSystematic")
 
 print "********************************************************************************"
 
