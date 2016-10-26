@@ -184,17 +184,16 @@ class ECaloSystematic:
             passes = ecalo.IntegralAndError (0, ecalo.FindBin (10.0) - 1, passesError)
             total = ecalo.IntegralAndError (0, ecalo.GetNbinsX () + 1, totalError)
 
-            eff = passes / total
-            effError = math.hypot (passes * totalError, passesError * total) / (total * total)
+            eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-            print "efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " +- " + str (effError)
-            return (eff, effError)
+            print "efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh)
+            return (eff, effErrorLow, effErrorHigh)
         else:
             print dataOrMC + " not defined. Not printing ECalo systematic..."
-            return (float ("nan"), float ("nan"))
+            return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
-        data, dataError = self.printECaloSystematic ("Data")
-        mc, mcError = self.printECaloSystematic ("MC")
+        data, dataErrorLow, dataErrorHigh = self.printECaloSystematic ("Data")
+        mc, mcErrorLow, mcErrorHigh = self.printECaloSystematic ("MC")
 
         print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
