@@ -1,7 +1,7 @@
 COM_ENERGY = 13000.
 CROSS_SECTION = 1.0
 MCHI = 500  # GeV
-CTAU = 100  # cm
+CTAU = 1000  # cm
 SLHA_TABLE="""
 ## Important note!
 ## This file has been modified by hand to give the gluino and the 
@@ -124,7 +124,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
 #    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU))
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/empty.slha' % (MCHI, CTAU))  
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/empty.slha') 
 )
 
 ProductionFilterSequence = cms.Sequence(generator)
