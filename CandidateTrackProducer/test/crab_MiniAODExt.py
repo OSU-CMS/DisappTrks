@@ -9,7 +9,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC_cfg.py'  # For MC only 
+config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC_cfg.py'  # For MC only
 
 config.Data.inputDataset = ''
 config.Data.useParent = False
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     config.Data.unitsPerJob = 10
     config.General.requestName = 'candidateTrackProducer_DYToNuNu_HT-100to200'
-    config.Data.inputDataset = '/ZJetsToNuNu_HT-100To200_13TeV-madgraph/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM' 
+    config.Data.inputDataset = '/ZJetsToNuNu_HT-100To200_13TeV-madgraph/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM'
     #forkAndSubmit(config)
 
     config.Data.unitsPerJob = 10
@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
     config.Data.unitsPerJob = 10
     config.General.requestName = 'candidateTrackProducer_TW'
-    config.Data.inputDataset = '/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM' 
+    config.Data.inputDataset = '/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM'
     #forkAndSubmit(config)
 
     config.Data.unitsPerJob = 10
@@ -189,7 +189,7 @@ if __name__ == '__main__':
 
     config.Data.unitsPerJob = 10
     config.General.requestName = 'candidateTrackProducer_SingleT_t-channel_ext1'
-    config.Data.inputDataset = '/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM' 
+    config.Data.inputDataset = '/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM'
     #forkAndSubmit(config)
 
     config.Data.unitsPerJob = 10
@@ -290,17 +290,21 @@ if __name__ == '__main__':
 
 
     config.General.requestName = 'candidateTrackProducer_MET_2015D_16Dec2015'
-    config.Data.inputDataset = '/MET/Run2015D-16Dec2015-v1/AOD' 
+    config.Data.inputDataset = '/MET/Run2015D-16Dec2015-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data_METSkim_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleMuon_2015D_16Dec2015'
-    config.Data.inputDataset = '/SingleMuon/Run2015D-16Dec2015-v1/AOD' 
+    config.Data.inputDataset = '/SingleMuon/Run2015D-16Dec2015-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data_MuonSkim_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2015D_16Dec2015'
-    config.Data.inputDataset = '/SingleElectron/Run2015D-16Dec2015-v1/AOD'  
+    config.Data.inputDataset = '/SingleElectron/Run2015D-16Dec2015-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_Tau_2015D_16Dec2015'
-    config.Data.inputDataset = '/Tau/Run2015D-16Dec2015-v1/AOD'  
+    config.Data.inputDataset = '/Tau/Run2015D-16Dec2015-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data_TauSkim_cfg.py'
     #forkAndSubmit(config)
