@@ -6,8 +6,8 @@ from DisappTrks.StandardAnalysis.useAODFiles import *
 from DisappTrks.StandardAnalysis.switchToBestTrack import *
 import glob
 
-data_global_tag = '76X_dataRun2_v15'
-mc_global_tag = '76X_mcRun2_asymptotic_v12'
+data_global_tag = '80X_dataRun2_Prompt_v14'
+mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
 
 ################################################################################
 ##### Set up the 'process' object ##############################################
@@ -90,8 +90,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso_76X')
-ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID_76X')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso_80X')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID_80X')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(False)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -142,14 +142,14 @@ histSetsMuon.append(TrackMuonHistograms)
 ################################################################################
 
 ISRStudyChannels = [
-    ZtoMuMuISRStudy,
-    ZtoMuMuISRStudyNoMet,
-    ZtoMuMuISRStudyNoMetJet30,
+    ZtoMuMuISRStudy2016,
+    ZtoMuMuISRStudy2016NoMet,
+    ZtoMuMuISRStudy2016NoMetJet30,
 ]
 
-switchToBestTrack(ZtoMuMuISRStudy, histSetsMuon)
-switchToBestTrack(ZtoMuMuISRStudyNoMet, histSetsMuon)
-switchToBestTrack(ZtoMuMuISRStudyNoMetJet30, histSetsMuon)
+switchToBestTrack(ZtoMuMuISRStudy2016, histSetsMuon)
+switchToBestTrack(ZtoMuMuISRStudy2016NoMet, histSetsMuon)
+switchToBestTrack(ZtoMuMuISRStudy2016NoMetJet30, histSetsMuon)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################

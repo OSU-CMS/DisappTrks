@@ -7,22 +7,29 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 ################################################################################
 ## ISR signal systematic
 ################################################################################
-# doesn't use puJetId
+
 ZtoMuMuISRStudy = cms.PSet(
     name = cms.string("ZtoMuMuISRStudy"),
     triggers = triggersDoubleMu,
     cuts = cms.VPSet(
-        cutMuonPairPt20,
-        cutMuonPairEta24,
+        cutMet, # > 100
+
+        # >=1 jets
+        cutGoodPV, # has PV
+        cutJetPt, # > 110
+        cutJetEta, # < 2.4
+        cutJetTightLepVeto, # tight ID
+        cutDijetDeltaPhiMax, # deltaPhi(jets)
+
+        # >=2 muons
+        cutMuonPairPt20,  # track pt > 55
+        cutMuonPairEta21, # track abs(eta) < 2.1
         cutMuonPairTightID,
-        cutMuonPairLoosePFIso,
         cutMuMuChargeProduct,
         cutMuMuInvMassZLo,
         cutMuMuInvMassZHi,
         cutMuonPairVetoThirdMuon,
-        cutJetPt30,
-        cutJetEta25,
-        cutJetLooseID,
+        cutMuonPairJetDeltaRVeto,
     )
 )
 
@@ -30,36 +37,39 @@ ZtoMuMuISRStudy2016 = copy.deepcopy(ZtoMuMuISRStudy)
 ZtoMuMuISRStudy2016.name = cms.string("ZtoMuMuISRStudy2016")
 ZtoMuMuISRStudy2016.triggers = triggersDoubleMu2016
 
-# Veto bjets (doesn't reweight in MC yet)
+# Drop MET requirement
+ZtoMuMuISRStudyNoMet = copy.deepcopy(ZtoMuMuISRStudy)
+ZtoMuMuISRStudyNoMet.name = cms.string("ZtoMuMuISRStudyNoMet")
+removeCuts(ZtoMuMuISRStudyNoMet.cuts, [cutMet])
 
-ZtoMuMuISRStudyVetoBjets = copy.deepcopy(ZtoMuMuISRStudy)
-ZtoMuMuISRStudyVetoBjets.name = cms.string("ZtoMuMuISRStudyVetoBjets")
-addCuts(ZtoMuMuISRStudyVetoBjets.cuts, [cutJetVetoCSVv2M])
+ZtoMuMuISRStudy2016NoMet = copy.deepcopy(ZtoMuMuISRStudy2016)
+ZtoMuMuISRStudy2016NoMet.name = cms.string("ZtoMuMuISRStudy2016NoMet")
+removeCuts(ZtoMuMuISRStudy2016NoMet.cuts, [cutMet])
 
-ZtoMuMuISRStudy2016VetoBjets = copy.deepcopy(ZtoMuMuISRStudy2016)
-ZtoMuMuISRStudy2016VetoBjets.name = cms.string("ZtoMuMuISRStudy2016VetoBjets")
-addCuts(ZtoMuMuISRStudy2016VetoBjets.cuts, [cutJetVetoCSVv2M])
-
-# Jet |eta| < 2.4, goodPV, no btagging
-ZtoMuMuISRStudyMoreSimilar = cms.PSet(
-    name = cms.string("ZtoMuMuISRStudyMoreSimiliar"),
+# Drop MET requirement, jet pt requirement of only 30
+ZtoMuMuISRStudyNoMetJet30 = cms.PSet(
+    name = cms.string("ZtoMuMuISRStudyNoMetJet30"),
     triggers = triggersDoubleMu,
     cuts = cms.VPSet(
-        cutGoodPV,
-        cutMuonPairPt20,
-        cutMuonPairEta24,
+        # >=1 jets
+        cutGoodPV, # has PV
+        cutJetPt30, # > 30
+        cutJetEta, # < 2.4
+        cutJetTightLepVeto, # tight ID
+        cutDijetDeltaPhiMax, # deltaPhi(jets)
+
+        # >=2 muons
+        cutMuonPairPt20,  # track pt > 55
+        cutMuonPairEta21, # track abs(eta) < 2.1
         cutMuonPairTightID,
-        cutMuonPairLoosePFIso,
         cutMuMuChargeProduct,
         cutMuMuInvMassZLo,
         cutMuMuInvMassZHi,
         cutMuonPairVetoThirdMuon,
-        cutJetPt30,
-        cutJetEta,
-        cutJetTightLepVeto,
+        cutMuonPairJetDeltaRVeto,
     )
 )
 
-ZtoMuMuISRStudyMoreSimilar2016 = copy.deepcopy(ZtoMuMuISRStudyMoreSimilar)
-ZtoMuMuISRStudyMoreSimilar2016.name = cms.string("ZtoMuMuISRStudyMoreSimilar2016")
-ZtoMuMuISRStudyMoreSimilar2016.triggers = triggersDoubleMu2016
+ZtoMuMuISRStudy2016NoMetJet30 = copy.deepcopy(ZtoMuMuISRStudyNoMetJet30)
+ZtoMuMuISRStudy2016NoMetJet30.name = cms.string("ZtoMuMuISRStudy2016NoMetJet30")
+ZtoMuMuISRStudy2016NoMetJet30.triggers = triggersDoubleMu2016

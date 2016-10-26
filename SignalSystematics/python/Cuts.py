@@ -37,11 +37,6 @@ cutJetPt30 = cms.PSet(
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
 )
-cutJetEta25 = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("fabs ( eta ) < 2.5"),
-    numberRequired = cms.string(">= 1"),
-)
 cutJetLooseID = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("\
@@ -78,4 +73,11 @@ cutMuonPairVetoThirdMuon = cms.PSet(
     cutString = cms.string("pt > 10"),
     numberRequired = cms.string("< 3"),
     alias = cms.string("reject events with third muon with p_{T} > 10 GeV"),
+)
+cutMuonPairJetDeltaRVeto = cms.PSet(
+    inputCollection = cms.vstring("muons", "jets"),
+    cutString = cms.string("deltaR(muon, jet) < 0.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("muon near jet veto")
 )
