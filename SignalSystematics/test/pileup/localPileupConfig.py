@@ -83,6 +83,13 @@ datasets = datasetsSig + datasetsBkgd
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 
+composite_dataset_definitions["SingleTop"] = [
+    'SingleTop_s_channel',
+    'SingleTop_t_channel',
+    'SingleTop_tW',
+    'SingleTop_tbarW',
+]
+
 composite_dataset_definitions["WW"] = [
     'WWToLNuQQ',
     'WWToLNuLNu',

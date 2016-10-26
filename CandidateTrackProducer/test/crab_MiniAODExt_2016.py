@@ -178,7 +178,7 @@ if __name__ == '__main__':
     # Run2016G
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
-    config.Data.outputDatasetTag = 'Run201G-PromptReco-v1-DisappTrks-v7'
+    config.Data.outputDatasetTag = 'Run2016G-PromptReco-v1-DisappTrks-v7'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016G_PromptReco-v1'
     config.Data.inputDataset = '/MET/Run2016G-PromptReco-v1/AOD'

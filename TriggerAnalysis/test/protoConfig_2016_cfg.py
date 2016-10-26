@@ -103,7 +103,7 @@ DataChannels = [
     METLegDenominator,
     METLegNumerator,
     METLegDenominatorWithGoodMuon,
-    METLegDenominatorWithGoodMuon,
+    METLegNumeratorWithGoodMuon,
     TrackLegDenominatorWithMuons,
     TrackLegNumeratorWithMuons,
     TrackLegDenominatorWithMuonsLeadHLTMatch,

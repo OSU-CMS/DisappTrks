@@ -283,6 +283,8 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMET channel
       // MET leg denominator in data
+      // has good muon
+      // passes HLT_Isomu20_v
       //////////////////////////////////////////////////////////////////////////////
       if (passesMETTriggers)
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMET", metTriggerNames_.at (i));
@@ -298,6 +300,9 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMETMuSeed channel
       // MET leg numerator in data
+      // has good muon
+      // HLT_IsoMu20_v
+      // hltMET75
       //////////////////////////////////////////////////////////////////////////////
       if (passesMuSeed && passesMETTriggers)
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *tracks, "MuMETNoMETMuSeed", metTriggerNames_.at (i));

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 #include "TFile.h"
 #include "TH1D.h"
@@ -25,16 +26,20 @@ const double yhi = 1.5;
 
 using namespace std;
 
+vector<TString> filesToCompare;
+vector<TString> directoriesForComparison;
+
 void invert(TH1D * const);
 template<class T> void setStyle(T * const, const int, const int, const int = 1);
 double normCDF(double *, double *);
 void foldHistogram(TH1D *, bool);
 void logSpace(const unsigned, const double, const double, vector<double> &);
 
-void plot(const TString file,
+void plot(const TString dir, const TString file,
           const unsigned int rebinFactorMet,
           const unsigned int rebinFactorTracks,
           const TString datasetLabel, const TString lumiLabel,
+          const bool addToCompareList = true,
           const bool useTracks = false,
           const bool doFit = true) {
 
@@ -47,13 +52,13 @@ void plot(const TString file,
   TString metHistName = "Met Plots/metNoMu";
   TString trackHistName = useTracks ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
-  TString metNumeratorDir = "METLegNumerator";
-  TString metDenominatorDir = "METLegDenominator";
+  TString metNumeratorDir = "METLegNumeratorWithGoodMuon";
+  TString metDenominatorDir = "METLegDenominatorWithGoodMuon";
 
   TString trackNumeratorDir = useTracks ? "TrackLegNumeratorWithTracksLeadHLTMatch" : "TrackLegNumeratorWithMuonsLeadHLTMatch";
   TString trackDenominatorDir = useTracks ? "TrackLegDenominatorWithTracks" : "TrackLegDenominatorWithMuons";
 
-  fin = TFile::Open(file);
+  fin = TFile::Open(dir + "/" + file + ".root");
 
   TH1D * metNumerator =(TH1D*)fin->Get(metNumeratorDir + "Plotter/" + metHistName);
   TH1D * metDenominator =(TH1D*)fin->Get(metDenominatorDir + "Plotter/" + metHistName);
@@ -68,7 +73,7 @@ void plot(const TString file,
 
   fin->Close();
 
-/*
+  /*
   vector<double> bins;
   logSpace(NBINS, 1.0, 3.0, bins);
 
@@ -77,7 +82,7 @@ void plot(const TString file,
 
   trackNumerator->Rebin(bins.size() - 1, "trackLegNumerator", bins.data());
   trackDenominator->Rebin(bins.size() - 1, "trackLegDenominator", bins.data);
-*/
+  */
 
   metNumerator->Rebin(rebinFactorMet);
   metDenominator->Rebin(rebinFactorMet);
@@ -274,13 +279,25 @@ void plot(const TString file,
   f0->SetNpx(10000);
   f0->Draw("same");
   pt_metFit->Draw("same");
-  c1->SaveAs("condor/trigEff80X/metLeg.pdf");
+  c1->SaveAs(dir + "/" + file + "_metLegEfficiency.pdf");
 
   c2->cd();
   f1->SetNpx(10000);
   f1->Draw("same");
   pt_trackFit->Draw("same");
-  c2->SaveAs("condor/trigEff80X/trackLeg.pdf");
+  c2->SaveAs(dir + "/" + file + "_trackLegEfficiency.pdf");
+
+  TFile * fOutput = new TFile(dir + "/" + file + "_triggerEfficiencies.root", "RECREATE");
+  metEfficiency->Write("metLeg");
+  f0->Write("metLeg_fit");
+  trackEfficiency->Write("trackLeg");
+  f1->Write("trackLeg_fit");
+  fOutput->Close();
+
+  if(addToCompareList) {
+    filesToCompare.push_back(file);
+    directoriesForComparison.push_back(dir);
+  }
 
 }
 
@@ -348,8 +365,119 @@ void logSpace(const unsigned n, const double a, const double b, vector<double> &
     bins.push_back(pow(10.0, i));
 }
 
+void compare(bool useTracks = false) {
+
+  vector<TFile*> openFiles;
+  vector<TGraphAsymmErrors*> graphs_met;
+  vector<TGraphAsymmErrors*> graphs_tracks;
+
+  TLegend * leg = new TLegend(0.2, 0.55, 0.55, 0.85, NULL, "brNDC");
+  leg->SetFillColor(0);
+  leg->SetTextSize(0.028);
+
+  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+    openFiles.push_back(new TFile(directoriesForComparison[i] + "/" + filesToCompare[i] + "_triggerEfficiencies.root"));
+    graphs_met.push_back((TGraphAsymmErrors*)openFiles[i]->Get("metLeg"));
+    graphs_tracks.push_back((TGraphAsymmErrors*)openFiles[i]->Get("trackLeg"));
+
+    leg->AddEntry(graphs_met[i], filesToCompare[i], "L");
+  }
+
+  TCanvas * c1 = new TCanvas("c1", "c1", 561, 482, 800, 830);
+  c1->Range(0.644391, -0.1480839, 3.167468, 1.19299);
+  c1->SetFillColor(0);
+  c1->SetBorderMode(0);
+  c1->SetBorderSize(2);
+  c1->SetLogx();
+  c1->SetTickx(1);
+  c1->SetTicky(1);
+  c1->SetLeftMargin(0.122807);
+  c1->SetRightMargin(0.05012531);
+  c1->SetTopMargin(0.06947891);
+  c1->SetBottomMargin(0.1104218);
+  c1->SetFrameFillStyle(0);
+  c1->SetFrameBorderMode(0);
+  c1->SetFrameFillStyle(0);
+  c1->SetFrameBorderMode(0);
+
+  TCanvas * c2 = new TCanvas("c2", "c2", 561, 482, 800, 830);
+  c2->Range(0.644391, -0.1480839, 3.167468, 1.19299);
+  c2->SetFillColor(0);
+  c2->SetBorderMode(0);
+  c2->SetBorderSize(2);
+  c2->SetLogx();
+  c2->SetTickx(1);
+  c2->SetTicky(1);
+  c2->SetLeftMargin(0.122807);
+  c2->SetRightMargin(0.05012531);
+  c2->SetTopMargin(0.06947891);
+  c2->SetBottomMargin(0.1104218);
+  c2->SetFrameFillStyle(0);
+  c2->SetFrameBorderMode(0);
+  c2->SetFrameFillStyle(0);
+  c2->SetFrameBorderMode(0);
+
+  c1->cd();
+
+  TH1D * metBackgroundHist = new TH1D("metBackgroundHist", "metBackgroundHist", 1, xlo, xhi);
+  metBackgroundHist->GetYaxis()->SetTitle("Trigger Efficiency");
+  metBackgroundHist->GetYaxis()->SetRangeUser(ylo, yhi);
+  metBackgroundHist->GetXaxis()->SetTitle("PF E_{T}^{miss} (no muons) [GeV]");
+  metBackgroundHist->Draw();
+
+  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+    graphs_met[i]->SetLineColor(i+1);
+    graphs_met[i]->SetMarkerColor(i+1);
+    graphs_met[i]->SetMarkerSize(0.5);
+    graphs_met[i]->SetLineWidth(2);
+    graphs_met[i]->Draw("L same");
+  }
+  leg->Draw("same");
+
+  c1->SaveAs("compareMetLeg.pdf");
+
+  c2->cd();
+
+  TH1D * trackBackgroundHist = new TH1D("trackBackgroundHist", "trackBackgroundHist", 1, xlo, xhi);
+  trackBackgroundHist->GetYaxis()->SetTitle("Trigger Efficiency");
+  trackBackgroundHist->GetYaxis()->SetRangeUser(ylo, yhi);
+  trackBackgroundHist->GetXaxis()->SetTitle(useTracks ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
+  trackBackgroundHist->Draw();
+
+  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+    graphs_tracks[i]->SetLineColor(i+1);
+    graphs_tracks[i]->SetMarkerColor(i+1);
+    graphs_tracks[i]->SetMarkerSize(0.5);
+    graphs_tracks[i]->SetLineWidth(2);
+    graphs_tracks[i]->Draw("L same");
+  }
+  leg->Draw("same");
+
+  c2->SaveAs("compareTrackLeg.pdf");
+
+  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+    openFiles[i]->Close();
+  }
+
+}
+
 void plotTriggerTurnOnForData() {
 
-  plot("condor/trigEff80X/SingleMu_2016.root", 10, 10, "2016 B-G", "28.6 fb^{-1}, 13 TeV");
+  // 28629.903 = B (6108.362) + C (2963.704) + D (4485.279) + E (4243.920) + F (3177.925) + G (7650.713)
+  // plot(directory, fileName, rebinFactorMet, rebinFactorTracks, datasetLabel, lumiLabel, addToCompareList = true);
 
+  plot("condor/trigEff80X_v4", "SingleMu_2016BC", 10, 10, "2016 B+C", "9.07 fb^{-1}, 13 TeV", false);
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016DEFG", 10, 10, "2016 D-G", "19.6 fb^{-1}, 13 TeV", false);
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016B-G", 10, 10, "2016 B-G", "28.6 fb^{-1}, 13 TeV", false);
+
+  plot("condor/trigEff80X_v4", "SingleMu_2016B", 10, 10, "2016 B", "6.11 fb^{-1}, 13 TeV");
+  plot("condor/trigEff80X_v4", "SingleMu_2016C", 10, 10, "2016 C", "2.96 fb^{-1}, 13 TeV");
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016D", 10, 10, "2016 D", "4.49 fb^{-1}, 13 TeV");
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016E", 10, 10, "2016 E", "4.24 fb^{-1}, 13 TeV");
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016F", 10, 10, "2016 F", "3.18 fb^{-1}, 13 TeV");
+  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016G", 10, 10, "2016 G", "7.65 fb^{-1}, 13 TeV");
+
+
+
+  compare();
 }
