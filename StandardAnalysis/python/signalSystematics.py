@@ -197,3 +197,65 @@ class ECaloSystematic:
         mc, mcErrorLow, mcErrorHigh = self.printECaloSystematic ("MC")
 
         print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
+
+class HitsSystematic:
+
+    _integrateHistogram = "Track Plots/trackNHitsMissingMiddleVsInner"
+
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        setattr (self, role, channel)
+        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+
+    def addIntegrateHistogram (self, integrateHistogram):
+        self._integrateHistogram = integrateHistogram
+
+    def printHitsSystematic (self, dataOrMC = "Data", xOrY = "XY"):
+        if hasattr (self, dataOrMC):
+            channel = getattr (self, dataOrMC)
+            sample = channel["sample"]
+            condorDir = channel["condorDir"]
+            name = channel["name"]
+            hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+
+            passesError = Double (0.0)
+            totalError = Double (0.0)
+            passes = 0.0
+            total = hits.IntegralAndError (0, hits.GetNbinsX () + 1, 0, hits.GetNbinsY () + 1, totalError)
+            label = ""
+            if xOrY == "XY":
+                passes = hits.IntegralAndError (0, hits.GetXaxis ().FindBin (0.0), 0, hits.GetYaxis ().FindBin (0.0), passesError)
+                label = "combined"
+            elif xOrY == "X":
+                passes = hits.IntegralAndError (0, hits.GetXaxis ().FindBin (0.0), 0, hits.GetNbinsY () + 1, passesError)
+                label = hits.GetXaxis ().GetTitle ()
+            elif xOrY == "Y":
+                passes = hits.IntegralAndError (0, hits.GetNbinsX () + 1, 0, hits.GetYaxis ().FindBin (0.0), passesError)
+                label = hits.GetYaxis ().GetTitle ()
+
+            eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
+
+            print "efficiency of " + label + " cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh)
+            return (eff, effErrorLow, effErrorHigh)
+        else:
+            print dataOrMC + " not defined. Not printing hits systematic..."
+            return (float ("nan"), float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+        data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "X")
+        mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "X")
+
+        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n"
+
+        data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "Y")
+        mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "Y")
+
+        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n"
+
+        data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data")
+        mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC")
+
+        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
