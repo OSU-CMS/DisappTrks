@@ -636,6 +636,17 @@ cutMuTrkMETBalance = cms.PSet(
 )
 
 ##################################################
+## muon-jet pairs
+##################################################
+cutMuonPairJetDeltaRVeto = cms.PSet(
+    inputCollection = cms.vstring("muons", "jets"),
+    cutString = cms.string("deltaR(muon, jet) < 0.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("muon near jet veto")
+)
+
+##################################################
 ## electron-track pairs
 ##################################################
 cutEleTrkDeltaR = cms.PSet(

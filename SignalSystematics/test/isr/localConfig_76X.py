@@ -19,10 +19,10 @@ datasetsBkgd = [
 ]
 
 datasetsData = [
-    'DoubleMu_2015D',
+    'SingleMu_2016D',
 ]
 
-datasets = datasetsBkg + datasetsData
+datasets = datasetsBkgd + datasetsData
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 
