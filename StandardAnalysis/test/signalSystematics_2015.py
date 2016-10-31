@@ -85,7 +85,7 @@ print "-------------------------------------------------------------------------
 
 ecaloSystematic = ECaloSystematic ()
 ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
-ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",   dirs['Andrew']+"2015/ecaloSystematic")
+ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",      dirs['Andrew']+"2015/ecaloSystematic")
 
 print "********************************************************************************"
 
@@ -100,8 +100,8 @@ print "evaluating hits systematic"
 print "--------------------------------------------------------------------------------"
 
 hitsSystematic = HitsSystematic ()
-hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",  dirs['Andrew']+"2015/hitsSystematics")
-hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "WJetsToLNu_HT",   dirs['Andrew']+"2015/hitsSystematics")
+hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hitsSystematics")
+hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
 
 print "********************************************************************************"
 
