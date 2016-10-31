@@ -108,6 +108,11 @@ cutJetPt = cms.PSet(
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
 )
+cutJetPt30 = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+)
 cutJetEta = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("fabs ( eta ) < 2.4"),

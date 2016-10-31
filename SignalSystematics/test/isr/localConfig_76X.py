@@ -19,7 +19,7 @@ datasetsBkgd = [
 ]
 
 datasetsData = [
-    'SingleMu_2016D',
+    'SingleMu_2015D',
 ]
 
 datasets = datasetsBkgd + datasetsData
