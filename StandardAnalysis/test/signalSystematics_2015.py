@@ -93,4 +93,18 @@ ecaloSystematic.printSystematic ()
 
 print "********************************************************************************"
 
-fout.close ()
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating hits systematic"
+print "--------------------------------------------------------------------------------"
+
+hitsSystematic = HitsSystematic ()
+hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",  dirs['Andrew']+"2015/hitsSystematics")
+hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "WJetsToLNu_HT",   dirs['Andrew']+"2015/hitsSystematics")
+
+print "********************************************************************************"
+
+hitsSystematic.printSystematic ()
+
+print "********************************************************************************"
