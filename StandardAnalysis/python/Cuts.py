@@ -254,6 +254,11 @@ cutTrkNValidHits4 = cms.PSet(
     cutString = cms.string("numberOfValidHits == 4"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNValidHitsLE4 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfValidHits <= 4"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNValidHits5 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("numberOfValidHits == 5"),
