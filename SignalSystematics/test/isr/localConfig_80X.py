@@ -1,5 +1,5 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
-from DisappTrks.StandardAnalysis.miniAODV2Samples import *
+from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
 import copy
 
 config_file = "protoConfig_80X.py"

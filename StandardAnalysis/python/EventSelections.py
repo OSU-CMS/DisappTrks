@@ -72,7 +72,7 @@ addCuts(isoTrkSelection.cuts, isoTrkCuts)
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
 isoTrkLoosePt.name = copy.deepcopy("IsoTrkLoosePt")
 addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt55)
-removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt55])  
+removeCuts  (isoTrkLoosePt.cuts, [cutTrkPt55])
 
 ##########################################################################
 
@@ -81,14 +81,14 @@ isoTrkSelectionNoJetCuts.name = cms.string("IsoTrkSelectionNoJetCuts")
 cutsToRemove = [
     cutDijetDeltaPhiMax,
     cutTrkJetDeltaPhi,
-]  
-removeCuts(isoTrkSelectionNoJetCuts.cuts, cutsToRemove) 
+]
+removeCuts(isoTrkSelectionNoJetCuts.cuts, cutsToRemove)
 
 ##########################################################################
 
 isoTrkSelectionNMissOut4 = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionNMissOut4.name = cms.string("IsoTrkSelectionNMissOut4")
-addCuts(isoTrkSelectionNMissOut4.cuts, [cutTrkNMissOut4])  
+addCuts(isoTrkSelectionNMissOut4.cuts, [cutTrkNMissOut4])
 
 ##########################################################################
 
@@ -113,7 +113,7 @@ candTrkCuts = isoTrkCuts + cutsToAdd
 candTrkLoose = copy.deepcopy(isoTrkSelection)
 candTrkLoose.name = cms.string("CandTrkLoose")
 cutsToAdd = [
-    cutTrkTightElecVeto, 
+    cutTrkTightElecVeto,
     cutTrkTightMuonVeto,
     cutTrkTauHadVeto,
 ]
@@ -121,17 +121,17 @@ addCuts(candTrkLoose.cuts, cutsToAdd)
 
 candTrkLooseElec = copy.deepcopy(candTrkSelection)
 candTrkLooseElec.name = cms.string("CandTrkLooseElec")
-removeCuts(candTrkLooseElec.cuts, [cutTrkElecVeto]) 
-addCuts   (candTrkLooseElec.cuts, [cutTrkTightElecVeto]) 
+removeCuts(candTrkLooseElec.cuts, [cutTrkElecVeto])
+addCuts   (candTrkLooseElec.cuts, [cutTrkTightElecVeto])
 
 candTrkLooseMuon = copy.deepcopy(candTrkSelection)
 candTrkLooseMuon.name = cms.string("CandTrkLooseMuon")
-removeCuts(candTrkLooseMuon.cuts, [cutTrkMuonVeto]) 
-addCuts   (candTrkLooseMuon.cuts, [cutTrkTightMuonVeto]) 
+removeCuts(candTrkLooseMuon.cuts, [cutTrkMuonVeto])
+addCuts   (candTrkLooseMuon.cuts, [cutTrkTightMuonVeto])
 
 candTrkLooseTau = copy.deepcopy(candTrkSelection)
 candTrkLooseTau.name = cms.string("CandTrkLooseTau")
-removeCuts(candTrkLooseTau.cuts, [cutTrkTauHadVeto]) 
+removeCuts(candTrkLooseTau.cuts, [cutTrkTauHadVeto])
 
 ##########################################################################
 
@@ -147,8 +147,12 @@ disTrkCuts = candTrkCuts + cutsToAdd
 
 disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
 disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
-removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])  
+removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])
 
+
+disTrkNoMet = copy.deepcopy(disTrkSelection)
+disTrkNoMet.name = cms.string("DisTrkNoMet")
+removeCuts(disTrkNoMet.cuts, [cutMet])
 
 ##########################################################################
 
@@ -181,10 +185,10 @@ cutsToAdd = [
     cutTrkMatchGenElec,
     ]
 addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt55) 
+addSingleCut(candTrkIdElecPt35.cuts, cutTrkPt35, cutTrkPt55)
 cutsToRemove = [
-    cutTrkPt55, 
-    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutTrkPt55,
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
@@ -193,10 +197,10 @@ cutsToRemove = [
 removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
 
 
-# Use this selection for the electron background estimate. 
+# Use this selection for the electron background estimate.
 candTrkIdElecPt35NoMet = copy.deepcopy(candTrkIdElecPt35)
 candTrkIdElecPt35NoMet.name = cms.string("CandTrkIdElecPt35NoMet")
-candTrkIdElecPt35NoMet.triggers = cms.vstring() 
+candTrkIdElecPt35NoMet.triggers = cms.vstring()
 cutsToRemove = [
     cutMet,
     ]
@@ -208,14 +212,14 @@ removeCuts(candTrkIdElecPt35NoMet.cuts, cutsToRemove)
 candTrkIdMuPt35 = copy.deepcopy(candTrkSelection)
 candTrkIdMuPt35.name = cms.string("CandTrkIdMuPt35")
 cutsToAdd = [
-    cutTrkEcalo, 
+    cutTrkEcalo,
     cutTrkMatchGenMuon,
     ]
 addCuts(candTrkIdMuPt35.cuts, cutsToAdd)
-addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt55) 
+addSingleCut(candTrkIdMuPt35.cuts, cutTrkPt35, cutTrkPt55)
 cutsToRemove = [
-    cutTrkPt55, 
-    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutTrkPt55,
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
@@ -224,10 +228,10 @@ cutsToRemove = [
 removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
 
 
-# Use this selection for the electron background estimate. 
+# Use this selection for the electron background estimate.
 candTrkIdMuPt35NoMet = copy.deepcopy(candTrkIdMuPt35)
 candTrkIdMuPt35NoMet.name = cms.string("CandTrkIdMuPt35NoMet")
-candTrkIdMuPt35NoMet.triggers = cms.vstring() 
+candTrkIdMuPt35NoMet.triggers = cms.vstring()
 cutsToRemove = [
     cutMet,
     ]
@@ -242,10 +246,10 @@ cutsToAdd = [
     cutTrkMatchGenTau,
     ]
 addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
-addSingleCut(candTrkIdTauPt50.cuts, cutTrkPt50, cutTrkPt55) 
+addSingleCut(candTrkIdTauPt50.cuts, cutTrkPt50, cutTrkPt55)
 cutsToRemove = [
-    cutTrkPt55, 
-    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.  
+    cutTrkPt55,
+    # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
@@ -254,10 +258,10 @@ cutsToRemove = [
 removeCuts(candTrkIdTauPt50.cuts, cutsToRemove)
 
 
-# Use this selection for the electron background estimate. 
+# Use this selection for the electron background estimate.
 candTrkIdTauPt50NoMet = copy.deepcopy(candTrkIdTauPt50)
 candTrkIdTauPt50NoMet.name = cms.string("CandTrkIdTauPt50NoMet")
-candTrkIdTauPt50NoMet.triggers = cms.vstring() 
+candTrkIdTauPt50NoMet.triggers = cms.vstring()
 cutsToRemove = [
     cutMet,
     ]
