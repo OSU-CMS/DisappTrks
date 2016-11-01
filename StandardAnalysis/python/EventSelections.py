@@ -178,7 +178,6 @@ candTrkNMissOutSdbandCuts = candTrkCuts + cutsToAdd
 candTrkIdElecPt35 = copy.deepcopy(candTrkSelection)
 candTrkIdElecPt35.name = cms.string("CandTrkIdElecPt35")
 cutsToAdd = [
-    cutTrkEcalo, 
     cutTrkMatchGenElec,
     ]
 addCuts(candTrkIdElecPt35.cuts, cutsToAdd)
@@ -240,7 +239,6 @@ removeCuts(candTrkIdMuPt35NoMet.cuts, cutsToRemove)
 candTrkIdTauPt50 = copy.deepcopy(candTrkSelection)
 candTrkIdTauPt50.name = cms.string("CandTrkIdTauPt50")
 cutsToAdd = [
-    cutTrkEcalo, 
     cutTrkMatchGenTau,
     ]
 addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
@@ -322,10 +320,16 @@ cutsToRemove = [
     cutTrkMuonVeto,
 ]
 removeCuts(muonCtrlSelection.cuts, cutsToRemove)
-cutsToAdd = [
-    cutTrkMatchGenMuon,
+
+##########################################################################
+
+hitsSystematicsCtrlSelection = copy.deepcopy(muonCtrlSelection)
+hitsSystematicsCtrlSelection.name = cms.string("HitsSystematicsCtrlSelection")
+cutsToRemove = [
+    cutTrkNMissIn,
+    cutTrkNMissMid,
 ]
-#addCuts(muonCtrlSelection.cuts, cutsToAdd)
+removeCuts(hitsSystematicsCtrlSelection.cuts, cutsToRemove)
 
 ##########################################################################
 
