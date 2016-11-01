@@ -104,9 +104,16 @@ TrackExtraHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingInner"),
-            title = cms.string("Number of Missing Inner Hits;N_{miss}^{in}"),
+            title = cms.string("Number of Missing Inner Hits;N_{miss}^{inner}"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
             inputVariables = cms.vstring("missingInnerHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingMiddleVsInner"),
+            title = cms.string(";N_{miss}^{inner};N_{miss}^{middle}"),
+            binsX = cms.untracked.vdouble(6, -0.5, 5.5),
+            binsY = cms.untracked.vdouble(6, -0.5, 5.5),
+            inputVariables = cms.vstring("missingInnerHits", "missingMiddleHits"),
             ),
         cms.PSet (
             name = cms.string("trackCaloEMDeltaRp5"),
@@ -238,6 +245,13 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string(";has GSF track"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),
             inputVariables = cms.vstring("matchedGsfTrack.isNonnull"),
+        ),
+        cms.PSet (
+            name = cms.string("trackNumberOfValidHitsVsEta"),
+            title = cms.string(";track |#eta|;number of valid hits"),
+            binsX = cms.untracked.vdouble(8, 0.0, 2.4),
+            binsY = cms.untracked.vdouble(100, -0.5, 99.5),
+            inputVariables = cms.vstring("fabs (eta)", "numberOfValidHits"),
         ),
     )
 )
@@ -1070,6 +1084,13 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";lifetime weight"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("puScalingFactor"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("missingOuterHitsWeight"),
+            title = cms.string(";missing outer hits weight"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("trackScalingFactor"),
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
