@@ -259,3 +259,89 @@ class HitsSystematic:
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC")
 
         print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
+
+class MissingOuterHitsSystematic:
+
+    _integrateHistogram = "Met Plots/metNoMu"
+    _masses = []
+    _lifetimes = []
+    _fout = ""
+    _extraSamples = {}
+
+    def addChannel (self, role, name, suffix, condorDir):
+        channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
+        setattr (self, role, channel)
+
+    def addIntegrateHistogram (self, integrateHistogram):
+        self._integrateHistogram = integrateHistogram
+
+    def addMasses (self, masses):
+        self._masses = masses
+
+    def addLifetimes (self, lifetimes):
+        self._lifetimes = lifetimes
+
+    def addFout (self, fout):
+        self._fout = fout
+
+    def addExtraSamples (self, extraSamples):
+        self._extraSamples = extraSamples
+
+    def __init__ (self, masses, lifetimes):
+        self.addMasses (masses)
+        self.addLifetimes (lifetimes)
+
+    def printMissingOuterHitsSystematic (self, mass, lifetime):
+        if hasattr (self, "MissingOuterHitsCentral") and hasattr (self, "MissingOuterHitsShift"):
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.MissingOuterHitsCentral["suffix"]
+            condorDir = self.MissingOuterHitsCentral["condorDir"]
+            name = self.MissingOuterHitsCentral["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
+
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.MissingOuterHitsShift["suffix"]
+            condorDir = self.MissingOuterHitsShift["condorDir"]
+            name = self.MissingOuterHitsShift["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            shift = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
+
+            relDiffShift = (shift - central) / central if central > 0.0 else 0.0
+
+            print "(" + sample + ") central: " + str (central) + ", shifted: " + str (shift) + ", systematic uncertainty: " + str (relDiffShift * 100.0) + "%"
+            return (sample, relDiffShift)
+        else:
+            print "MissingOuterHitsCentral and MissingOuterHitsShift not both defined. Not printing missing outer hits systematic..."
+            return (float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+        systematic = []
+        maxSystematic = 0.0
+        averageSystematic = 0.0
+        n = 0
+        for mass in self._masses:
+            for lifetime in self._lifetimes:
+                sample, relDiffShift = self.printMissingOuterHitsSystematic (mass, lifetime)
+                systematic.append ([sample, str (1.0 + relDiffShift)])
+
+                if abs (relDiffShift) > maxSystematic:
+                  maxSystematic = abs (relDiffShift)
+
+                averageSystematic += abs (relDiffShift)
+                n += 1
+        averageSystematic /= n
+
+        print "maximum systematic: " + str (maxSystematic * 100.0) + "%"
+        print "average systematic: " + str (averageSystematic * 100.0) + "%"
+
+        if self._fout:
+            width = max (len (word) for row in systematic for word in row) + 2
+            for row in systematic:
+                if row[0] in self._extraSamples:
+                    extraRow = copy.deepcopy (row)
+                    for sample in self._extraSamples[row[0]]:
+                        extraRow[0] = sample
+                        self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
+
+                self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
