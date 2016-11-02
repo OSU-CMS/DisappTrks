@@ -108,3 +108,22 @@ print "*************************************************************************
 hitsSystematic.printSystematic ()
 
 print "********************************************************************************"
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating missing outer hits systematic"
+print "--------------------------------------------------------------------------------"
+
+fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__NMissOut_2015.txt", "w")
+
+missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, lifetimes)
+missingOuterHitsSystematic.addFout (fout)
+missingOuterHitsSystematic.addExtraSamples (extraSamples)
+missingOuterHitsSystematic.addChannel  ("MissingOuterHitsCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal")
+missingOuterHitsSystematic.addChannel  ("MissingOuterHitsShift",    "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/missingOuterHitsSystematic")
+missingOuterHitsSystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.close ()
