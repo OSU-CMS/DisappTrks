@@ -262,7 +262,7 @@ VertexAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByLabel("g4SimHits", simtracks);
    
    // // Need to check that SimTrackContainer is sorted; otherwise, copy and sort :-(
-   // std::auto_ptr<SimTrackContainer> simtracksTmp;
+   // std::unique_ptr<SimTrackContainer> simtracksTmp;
    // const SimTrackContainer* simtracksSorted = &* simtracks;
    // if (!__gnu_cxx::is_sorted(simtracks->begin(), simtracks->end(), LessById())) {
    //   simtracksTmp.reset(new SimTrackContainer(*simtracks));

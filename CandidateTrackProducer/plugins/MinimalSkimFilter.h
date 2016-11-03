@@ -58,5 +58,5 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       edm::EDGetTokenT<vector<pat::Tau> >          tausToken_;
       edm::EDGetTokenT<double>                     rhoToken_;
 
-      auto_ptr<CutResults> cutResults_;
+      unique_ptr<CutResults> cutResults_;
 };

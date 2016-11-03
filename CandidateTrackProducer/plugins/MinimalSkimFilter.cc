@@ -38,7 +38,7 @@ MinimalSkimFilter<T>::~MinimalSkimFilter ()
 template<MinimalSkim T> void
 MinimalSkimFilter<T>::endRunProduce (edm::Run &run, const edm::EventSetup &setup)
 {
-  run.put (cutResults_);
+  run.put (std::move (cutResults_));
   cutResults_.reset (new CutResults ());
   initializeCutResults ();
 }

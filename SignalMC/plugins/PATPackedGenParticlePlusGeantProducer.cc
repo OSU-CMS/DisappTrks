@@ -104,7 +104,7 @@ void pat::PATPackedGenParticlePlusGeantProducer::produce(edm::StreamID, edm::Eve
 	reverseMap.insert(std::pair<edm::Ref<reco::GenParticleCollection>,edm::Ref<reco::GenParticleCollection>>(newRef,originalRef));
     }
 
-    std::auto_ptr< std::vector<pat::PackedGenParticle> > outPtrP( new std::vector<pat::PackedGenParticle> );
+    std::unique_ptr< std::vector<pat::PackedGenParticle> > outPtrP( new std::vector<pat::PackedGenParticle> );
 
     unsigned int packed=0;
     for(unsigned int ic=0, nc = cands->size(); ic < nc; ++ic) {
@@ -128,13 +128,13 @@ void pat::PATPackedGenParticlePlusGeantProducer::produce(edm::StreamID, edm::Eve
     }
 
 
-    edm::OrphanHandle<std::vector<pat::PackedGenParticle> > oh= iEvent.put( outPtrP );
+    edm::OrphanHandle<std::vector<pat::PackedGenParticle> > oh= iEvent.put (std::move ( outPtrP ));
 
-    std::auto_ptr<edm::Association< std::vector<pat::PackedGenParticle> > > gp2pgp(new edm::Association< std::vector<pat::PackedGenParticle> > (oh   ));
+    std::unique_ptr<edm::Association< std::vector<pat::PackedGenParticle> > > gp2pgp(new edm::Association< std::vector<pat::PackedGenParticle> > (oh   ));
     edm::Association< std::vector<pat::PackedGenParticle> >::Filler gp2pgpFiller(*gp2pgp);
     gp2pgpFiller.insert(genOrigs, mapping.begin(), mapping.end());
     gp2pgpFiller.fill();
-    iEvent.put(gp2pgp);
+    iEvent.put (std::move (gp2pgp));
  
 
 }

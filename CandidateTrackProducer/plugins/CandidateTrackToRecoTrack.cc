@@ -17,11 +17,11 @@ CandidateTrackToRecoTrack::produce (edm::Event &event, const edm::EventSetup &se
   edm::Handle<vector<CandidateTrack> > tracks;
   event.getByToken (tracksToken_, tracks);
 
-  auto_ptr<vector<reco::Track> > recoTracks (new vector<reco::Track> ());
+  unique_ptr<vector<reco::Track> > recoTracks (new vector<reco::Track> ());
   for (const auto &track : *tracks)
     recoTracks->push_back (track);
 
-  event.put (recoTracks);
+  event.put (std::move (recoTracks));
 }
 
 DEFINE_FWK_MODULE (CandidateTrackToRecoTrack);

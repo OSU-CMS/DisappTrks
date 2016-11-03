@@ -127,7 +127,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken(HBHERecHitsToken_, HBHERecHits);
   if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";  
 
-  auto_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
+  unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
     if (track.pt () < candMinPt_)
       continue;
@@ -141,7 +141,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   }
 
   // save the vector
-  iEvent.put (candTracks);
+  iEvent.put (std::move (candTracks));
 
   return true;
 }
