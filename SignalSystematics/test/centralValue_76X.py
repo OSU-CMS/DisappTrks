@@ -118,11 +118,7 @@ variableProducers.append('PUScalingFactorProducer')
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisappTrks.StandardAnalysis.EventSelections import *
-#from DisappTrks.StandardAnalysis.ElectronTagProbeSelections import *
-from DisappTrks.StandardAnalysis.ElectronTagProbeSelections_alt import *
-from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
-from DisappTrks.StandardAnalysis.TauTagProbeSelections import *
+from DisappTrks.SignalSystematics.EventSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -144,211 +140,37 @@ histSets = cms.VPSet (
     EventVariablePVHistograms,
 )
 
-histSetsDebug = cms.VPSet(
-    TrackHistograms,
-    TrackExtraHistograms,
-    TrackDebugEcaloHistograms,
-)
-
-histSetsMetJet = cms.VPSet (
-    MetHistograms,
-    JetHistograms
-)
-
-histSetsElectron = copy.deepcopy(histSets)
-histSetsElectron.append(ElectronHistograms)
-histSetsElectron.append(ElectronExtraHistograms)
-histSetsElectron.append(DiElectronHistograms)
-histSetsElectron.append(TrackElectronHistograms)
-histSetsElectron.append(ElectronMETHistograms)
-histSetsElectron.append(TrackMETHistograms)
-histSetsElectron.append(TrackElectronMETHistograms)
-
-histSetsMuon = copy.deepcopy(histSets)
-histSetsMuon.append(MuonHistograms)
-histSetsMuon.append(MuonExtraHistograms)
-histSetsMuon.append(DiMuonHistograms)
-histSetsMuon.append(TrackMuonHistograms)
-histSetsMuon.append(MuonMETHistograms)
-histSetsMuon.append(TrackMETHistograms)
-histSetsMuon.append(TrackMuonMETHistograms)
-
-histSetsTau = copy.deepcopy(histSets)
-histSetsTau.append(TauExtraHistograms)
-
-test = cms.PSet(
-    name = cms.string("test"),
-    triggers = cms.vstring(),
-    cuts = cms.VPSet (
-        cms.PSet (
-            inputCollection = cms.vstring("primaryvertexs"),
-            cutString = cms.string("isValid > 0 && ndof >= 4"),
-            numberRequired = cms.string(">= 1")
-        )
-    )
-)
-
 ################################################################################
 ##### Sets of channels to be run simultaneously over a single skim. ############
 ################################################################################
 
-LepCtrlChannels = [ # Run over isoTrkSelection skim
-    elecCtrlSelection,
-    muonCtrlSelection,
-    tauCtrlSelection,
-]
-BkgdEstChannels = [
-    candTrkLoose,
-    candTrkLooseElec,
-    candTrkLooseMuon,
-    candTrkLooseTau,
-    candTrkSelection,
-    candTrkEcaloSdband,
-    candTrkNMissOutSdband,
-]
-BkgdCtrlChannels = LepCtrlChannels + BkgdEstChannels
-
-DisTrkChannels = [
-    # disTrkIdElec,
-    # disTrkIdMuon,
-    # disTrkIdTau,
-    # disTrkIdFake,
-    disTrkNoNMissOut,
+SignalChannels = [
     disTrkSelection,
+    disTrkNoMet,
+    disTrkSelectionJECUp,
+    disTrkSelectionJECDown,
+    disTrkSelectionSmearedJets,
+    disTrkSelectionSmearedJetsUp,
+    disTrkSelectionSmearedJetsDown,
+    disTrkSelectionSmearedJetsJECUp,
+    disTrkSelectionSmearedJetsJECDown,
 ]
 
-FakeTrkSystChannels = [
-    disTrkSelectionNHits3,
-    disTrkSelectionNHits4,
-    disTrkSelectionNHits5,
-    disTrkSelectionNHits6,
+ISRStudyChannels = [
+    ZtoMuMuISRStudy,
+    ZtoMuMuISRStudyJet30,
 ]
 
-ZtoMuMuTrkChannels = [ # run over ZtoMuMu skim
-    ZtoMuMuCandTrk,
-    ZtoMuMuDisTrk,
-    ZtoMuMuCandTrkEcaloSdband,
-    ZtoMuMuCandTrkNMissOutSdband,
-    ZtoMuMuDisTrkNHits3,
-    ZtoMuMuDisTrkNHits4,
-    ZtoMuMuDisTrkNHits5,
-    ZtoMuMuDisTrkNHits6,
-]
-
-ElecBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
-    #ElectronTagPt35,
-    #ElectronTagPt35MetTrig,
-    candTrkIdElecPt35,
-]
-
-ElecBkgdEstimate = [ # run over data
-    ElectronTagPt55,
-    ElectronTagPt55MetTrig,
-]
-
-ElecTagProbeChannels = [ # run over ZtoEleProbeTrkWithZCuts skim
-    ZtoEleCandTrk,
-    ZtoEleDisTrk,
-    ZtoEleDisTrkNoNMissOut,
-    ZtoEleCandTrkSdbandEcalo,
-    ZtoEleCandTrkSdbandNMissOut,
-]
-
-MuonBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
-    MuonTagPt35,
-    MuonTagPt35MetTrig,
-    #candTrkIdMuPt35,
-]
-
-MuonBkgdEstimateNoNMissOut = [
-    MuonTagPt55NoNMissOut,
-    MuonTagPt55NoNMissOutMetTrig,
-]
-
-MuonBkgdEstimate = [
-    MuonTagPt55,
-    MuonTagPt55MetTrig,
-]
-
-TauBkgdClosureTest = [ # run over Wjets and TTjets MC sample (no skim)
-    TauTagPt50,
-    TauTagPt50MetTrig,
-    candTrkIdTauPt50,
-]
-
-TauBkgdEstimate = [ # run over data
-    TauTagPt55,
-    TauTagPt55MetTrig,
-]
-
-addSingleCut (ZtoEleDisTrk.cuts, cutTrkNMissOut, cutTrkEcalo)
-
-addSingleCut (ZtoMuDisTrk.cuts, cutTrkNMissOut, cutTrkMuonVeto)
-
-addSingleCut (ZtoTauToEleDisTrk.cuts, cutTrkJetDeltaPhi, cutTrkEcalo)
-addSingleCut (ZtoTauToEleDisTrk.cuts, cutTrkNMissOut, cutTrkJetDeltaPhi)
-
-addSingleCut (ZtoTauToMuDisTrk.cuts, cutTrkJetDeltaPhi, cutTrkEcalo)
-addSingleCut (ZtoTauToMuDisTrk.cuts, cutTrkNMissOut, cutTrkJetDeltaPhi)
-
-removeCuts (ElectronTagPt55.cuts, [cutTrkEcalo])
-removeCuts (ElectronTagPt55MetTrig.cuts, [cutTrkEcalo])
-
-removeCuts (ElectronTagPt55.cuts, [cutTrkNMissOut])
-removeCuts (ElectronTagPt55MetTrig.cuts, [cutTrkNMissOut])
-
-removeCuts (MuonTagPt55.cuts, [cutTrkNMissOut])
-removeCuts (MuonTagPt55MetTrig.cuts, [cutTrkNMissOut])
-
-removeCuts (TauTagPt55.cuts, [cutTrkEcalo])
-removeCuts (TauTagPt55MetTrig.cuts, [cutTrkEcalo])
-
-removeCuts (TauTagPt55.cuts, [cutTrkJetDeltaPhi])
-removeCuts (TauTagPt55MetTrig.cuts, [cutTrkJetDeltaPhi])
-
-removeCuts (TauTagPt55.cuts, [cutTrkNMissOut])
-removeCuts (TauTagPt55MetTrig.cuts, [cutTrkNMissOut])
-
-switchToBestTrack (disTrkSelection, histSets)
-
-switchToBestTrack (ZtoEleProbeTrkWithZCuts, histSetsElectron)
-switchToBestTrack (ZtoEleDisTrk, histSetsElectron)
-switchToBestTrack (ElectronTagPt55, histSetsElectron)
-switchToBestTrack (ElectronTagPt55MetTrig, histSetsElectron)
-
-switchToBestTrack (ZtoMuProbeTrkWithZCuts, histSetsMuon)
-switchToBestTrack (ZtoMuDisTrk, histSetsMuon)
-switchToBestTrack (MuonTagPt55, histSetsMuon)
-switchToBestTrack (MuonTagPt55MetTrig, histSetsMuon)
-
-switchToBestTrack (ZtoTauToEleProbeTrkWithZCuts, histSetsMuon)
-switchToBestTrack (ZtoTauToEleDisTrk, histSetsMuon)
-
-switchToBestTrack (ZtoTauToMuProbeTrkWithZCuts, histSetsMuon)
-switchToBestTrack (ZtoTauToMuDisTrk, histSetsMuon)
-
-switchToBestTrack (ZtoMuMuCandTrk, histSetsMuon)
-switchToBestTrack (ZtoMuMuDisTrk, histSetsMuon)
-switchToBestTrack (ZtoMuMuCandTrkEcaloSdband, histSetsMuon)
-switchToBestTrack (ZtoMuMuCandTrkNMissOutSdband, histSetsMuon)
-switchToBestTrack (ZtoMuMuDisTrkNHits3, histSetsMuon)
-switchToBestTrack (ZtoMuMuDisTrkNHits4, histSetsMuon)
-switchToBestTrack (ZtoMuMuDisTrkNHits5, histSetsMuon)
-switchToBestTrack (ZtoMuMuDisTrkNHits6, histSetsMuon)
-
-switchToBestTrack (disTrkSelectionNHits3, histSets)
-switchToBestTrack (disTrkSelectionNHits4, histSets)
-switchToBestTrack (disTrkSelectionNHits5, histSets)
-switchToBestTrack (disTrkSelectionNHits6, histSets)
-
-switchToBestTrack (TauTagPt55, histSetsTau)
-switchToBestTrack (TauTagPt55MetTrig, histSetsTau)
+for ch in SignalChannels:
+    switchToBestTrack(ch, histSets)
+for ch in ISRStudyChannels:
+    switchToBestTrack(ch, histSets)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels  (process,  [disTrkSelection, disTrkNoMet],       histSets,        weights,  [],  collectionMap,  variableProducers,  False)  # For MC only!  Use isoTrkSelection skim as input.
+add_channels(process, SignalChannels, histSets, weights, [], collectionMap, variableProducers, False)  # For MC only!  Use isoTrkSelection skim as input.
 
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
 process.PUScalingFactorProducer.target = cms.string("data2015")
