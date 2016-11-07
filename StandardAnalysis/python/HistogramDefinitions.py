@@ -476,7 +476,7 @@ MuonExtraHistograms = cms.PSet(
             title = cms.string(";N_{miss}^{middle};number of tracker layers with measurement"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
             binsY = cms.untracked.vdouble(50, -0.5, 49.5),
-            inputVariables = cms.vstring("innerTrack.hitPattern_.stripLayersWithMeasurement", "missingMiddleHits"),
+            inputVariables = cms.vstring("missingMiddleHits", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
             ),
     )
 )
