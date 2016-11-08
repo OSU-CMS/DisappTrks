@@ -87,18 +87,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("hipAndTOBDrop_missingOuterHits"),
             ),
         cms.PSet (
-            name = cms.string("trackNHitsTOBVsMissingOuter"),
-            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N^{TOB}"),
+            name = cms.string("trackNHitsStripLayersVsTOBLayersVsMissingOuter"),
+            title = cms.string(";N_{miss}^{outer};number of TOB layers with measurement;number of strip layers with measurement"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement"),
-            ),
-        cms.PSet (
-            name = cms.string("trackNHitsTOBVsMissingOuter_HIPDropCorrected"),
-            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N^{TOB}"),
-            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("hipDrop_missingOuterHits", "hipDrop_stripTOBHits"),
+            binsZ = cms.untracked.vdouble(20, -0.5, 19.5),
+            inputVariables = cms.vstring("missingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement", "hitPattern_.stripLayersWithMeasurement"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsExpectedTOBVsMissingOuter"),
@@ -491,11 +485,12 @@ MuonExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement", "eta"),
             ),
         cms.PSet (
-            name = cms.string("muonNHitsStripLayersVsMissingOuter"),
-            title = cms.string(";N_{miss}^{outer};number of tracker layers with measurement"),
+            name = cms.string("muonNHitsStripLayersVsTOBLayersVsMissingOuter"),
+            title = cms.string(";N_{miss}^{outer};number of TOB layers with measurement;number of strip layers with measurement"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            binsY = cms.untracked.vdouble(20, -0.5, 19.5),
-            inputVariables = cms.vstring("missingOuterHits", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsZ = cms.untracked.vdouble(20, -0.5, 19.5),
+            inputVariables = cms.vstring("missingOuterHits", "innerTrack.hitPattern_.stripTOBLayersWithMeasurement", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
             ),
     )
 )
