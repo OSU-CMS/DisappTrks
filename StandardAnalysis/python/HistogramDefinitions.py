@@ -69,17 +69,36 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("missingOuterHits"),
             ),
         cms.PSet (
+            name = cms.string("trackNHitsMissingOuter_TOBDropCorrected"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("tobDrop_missingOuterHits"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsMissingOuter_HIPDropCorrected"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("hipDrop_missingOuterHits"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsMissingOuterCorrected"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("tobDrop0p007_missingOuterHits"),
+            inputVariables = cms.vstring("hipAndTOBDrop_missingOuterHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsTOBVsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N^{TOB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits", "tobDrop1p0_missingOuterHits - missingOuterHits"),
+            inputVariables = cms.vstring("missingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement"),
+            ),
+        cms.PSet (
+            name = cms.string("trackNHitsTOBVsMissingOuter_HIPDropCorrected"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N^{TOB}"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(16, -0.5, 15.5),
+            inputVariables = cms.vstring("hipDrop_missingOuterHits", "hipDrop_stripTOBHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsExpectedTOBVsMissingOuter"),
@@ -472,11 +491,11 @@ MuonExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement", "eta"),
             ),
         cms.PSet (
-            name = cms.string("muonNHitsStripLayersVsMissingMiddle"),
-            title = cms.string(";N_{miss}^{middle};number of tracker layers with measurement"),
-            binsX = cms.untracked.vdouble(6, -0.5, 5.5),
-            binsY = cms.untracked.vdouble(50, -0.5, 49.5),
-            inputVariables = cms.vstring("missingMiddleHits", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
+            name = cms.string("muonNHitsStripLayersVsMissingOuter"),
+            title = cms.string(";N_{miss}^{outer};number of tracker layers with measurement"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(20, -0.5, 19.5),
+            inputVariables = cms.vstring("missingOuterHits", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
             ),
     )
 )
