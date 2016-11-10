@@ -6,8 +6,8 @@ from DisappTrks.StandardAnalysis.useAODFiles import *
 from DisappTrks.StandardAnalysis.switchToBestTrack import *
 import glob
 
-data_global_tag = '80X_dataRun2_Prompt_v14'
-mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+data_global_tag = '76X_dataRun2_v15'
+mc_global_tag = '76X_mcRun2_asymptotic_v12'
 
 ################################################################################
 ##### Set up the 'process' object ##############################################
@@ -42,9 +42,9 @@ process.source = cms.Source ("PoolSource",
     #bypassVersionCheck = cms.untracked.bool (True),
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
-        "root://cmsxrootd-site2.fnal.gov:1092//store/data/Run2016G/SingleMuon/MINIAOD/23Sep2016-v1/90001/FCE3D2A7-8299-E611-899F-549F3525BF58.root",
-	    #"root://cmsxrootd-site2.fnal.gov:1093//store/mc/RunIISpring16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/20000/C6562975-AB56-E611-B9A4-0025905B8566.root",
-        #"file:/data/users/hart/condor/signalMC/2016/AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6_step4/hist_365.root",
+        "root://cmsxrootd-site2.fnal.gov:1092//store/data/Run2015D/SingleMuon/MINIAOD/16Dec2015-v1/10000/FE1F64A7-DCA8-E511-A327-002590593920.root",
+        #"root://cmsxrootd-site1.fnal.gov:1092//store/mc/RunIIFall15MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/20000/DED6DE26-BDBE-E511-BFC0-02163E0166A9.root",
+        #"file:/data/users/hart/condor/AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6_step4/hist_26.root",
     ),
 )
 
@@ -94,7 +94,7 @@ variableProducers.append('PUScalingFactorProducer')
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisappTrks.TriggerAnalysis.EventSelections_2016 import *
+from DisappTrks.TriggerAnalysis.EventSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -147,8 +147,8 @@ add_channels(process, DataWJetsChannels, histSets, weights, [], collectionMap, v
 #add_channels(process, SignalChannels, histSetsTracks, weights, [], collectionMap, variableProducers, False)
 
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-process.PUScalingFactorProducer.target = cms.string("data2016")
-process.PUScalingFactorProducer.dataset = cms.string("data2016")
+process.PUScalingFactorProducer.target = cms.string("data2015")
+process.PUScalingFactorProducer.dataset = cms.string("data2015")
 process.PUScalingFactorProducer.type = cms.string("data")
 
 ################################################################################

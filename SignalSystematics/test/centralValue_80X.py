@@ -7,7 +7,7 @@ import glob
 import re
 
 data_global_tag = '80X_dataRun2_Prompt_v14'
-mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 def switchToBestTrack (channel, histogramSets):
     for cut in channel.cuts:
@@ -64,7 +64,7 @@ process.source = cms.Source ("PoolSource",
     bypassVersionCheck = cms.untracked.bool (True),
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
-        "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160318_192308/0000/miniAODWithCandidateTracks_1.root",
+        "file:/data/users/hart/condor/signalMC/2016/AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6_step4/hist_365.root",
     ),
 )
 #addSecondaryFiles (process.source)
@@ -112,13 +112,13 @@ variableProducers = []
 variableProducers.append("LifetimeWeightProducer")
 variableProducers.append("PrimaryVtxVarProducer")
 variableProducers.append("EventJetVarProducer")
-variableProducers.append('PUScalingFactorProducer')
+variableProducers.append("PUScalingFactorProducer")
 
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisappTrks.SignalSystematics.EventSelections import *
+from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -156,7 +156,14 @@ SignalChannels = [
     disTrkSelectionSmearedJetsJECDown,
 ]
 
+ISRStudyChannels = [
+    ZtoMuMuISRStudy2016,
+    ZtoMuMuISRStudy2016Jet30,
+]
+
 for ch in SignalChannels:
+    switchToBestTrack(ch, histSets)
+for ch in ISRStudyChannels:
     switchToBestTrack(ch, histSets)
 
 ################################################################################

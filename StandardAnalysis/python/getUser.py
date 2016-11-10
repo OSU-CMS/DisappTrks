@@ -1,9 +1,9 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
-import os 
+import os
 
 def getUser():
-    dirs = {}  
+    dirs = {}
     cwd = os.getcwd()
     if "wulsin" in cwd:
         dirs['Andrew'] = "hartCondor/"
@@ -17,13 +17,10 @@ def getUser():
         user = "hart"
     elif "bfrancis" in cwd:
         dirs['Andrew'] = "hartCondor/"
-        dirs['Brian']  = "francisCondor/"
+        dirs['Brian']  = ""
         dirs['Wells']  = "wellsCondor/"
         user = "bfrancis"
     else:
         print "Error:  could not identify user as brancis, hart, or wulsin."
         os.exit(0)
-    return dirs 
-
-
-
+    return dirs

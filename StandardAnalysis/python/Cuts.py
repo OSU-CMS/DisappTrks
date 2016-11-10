@@ -128,7 +128,7 @@ cutJetJERSmearedPtJECUp = cms.PSet(
     cutString = cms.string("smearedPt * (1 + jecUncertainty) > 110"),
     numberRequired = cms.string(">= 1"),
 )
-cutJetJERSmearedPtDown = cms.PSet(
+cutJetJERSmearedPtJECDown = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("smearedPt * (1 - jecUncertainty) > 110"),
     numberRequired = cms.string(">= 1"),

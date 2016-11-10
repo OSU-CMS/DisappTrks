@@ -64,7 +64,7 @@ process.source = cms.Source ("PoolSource",
     bypassVersionCheck = cms.untracked.bool (True),
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring ([
-        "file:/home/hart/CMSSW_7_6_3/src/DisappTrks/StandardAnalysis/test/condor/2015/baseSkims/DYJetsToLL_50/metMinimalSkim/skim_972.root"
+        "file:/data/users/hart/condor/AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6_step4/hist_26.root",
     ]),
 )
 #addSecondaryFiles (process.source)
@@ -112,13 +112,13 @@ variableProducers = []
 variableProducers.append("LifetimeWeightProducer")
 variableProducers.append("PrimaryVtxVarProducer")
 variableProducers.append("EventJetVarProducer")
-variableProducers.append('PUScalingFactorProducer')
+variableProducers.append("PUScalingFactorProducer")
 
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisappTrks.SignalSystematics.EventSelections import *
+from DisappTrks.SignalSystematics.SignalSystematicsSelections import *
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

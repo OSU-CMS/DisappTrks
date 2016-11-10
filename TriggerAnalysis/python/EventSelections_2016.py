@@ -7,7 +7,7 @@ from DisappTrks.TriggerAnalysis.Cuts import *
 
 METLegDenominator = cms.PSet(
     name = cms.string("METLegDenominator"),
-    triggers = triggersSingleMu,
+    triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         cutMuonPt25,
@@ -27,7 +27,7 @@ addCuts(METLegNumerator.cuts, [passesHLTMet75])
 
 TrackLegDenominatorWithMuons = cms.PSet(
     name = cms.string("TrackLegDenominatorWithMuons"),
-    triggers = triggersSingleMu,
+    triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet75,
@@ -48,7 +48,7 @@ addCuts(TrackLegNumeratorWithMuons.cuts, [cutLeadMuonMatchHLTTrack, passesMainTr
 
 TrackLegDenominatorWithTracks = cms.PSet(
     name = cms.string("TrackLegDenominatorWithTracks"),
-    triggers = triggersSingleMu,
+    triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet75,

@@ -40,7 +40,7 @@ void plot(const TString dir, const TString file,
           const unsigned int rebinFactorTracks,
           const TString datasetLabel, const TString lumiLabel,
           const bool addToCompareList = true,
-          const bool useTracks = false,
+          const bool isMC = false,
           const bool doFit = true) {
 
   gStyle->SetOptStat(0);
@@ -50,13 +50,13 @@ void plot(const TString dir, const TString file,
   TFile * fin;
 
   TString metHistName = "Met Plots/metNoMu";
-  TString trackHistName = useTracks ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
+  TString trackHistName = isMC ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
-  TString metNumeratorDir = "METLegNumeratorWithGoodMuon";
-  TString metDenominatorDir = "METLegDenominatorWithGoodMuon";
+  TString metNumeratorDir = "METLegNumerator";
+  TString metDenominatorDir = "METLegDenominator";
 
-  TString trackNumeratorDir = useTracks ? "TrackLegNumeratorWithTracksLeadHLTMatch" : "TrackLegNumeratorWithMuonsLeadHLTMatch";
-  TString trackDenominatorDir = useTracks ? "TrackLegDenominatorWithTracks" : "TrackLegDenominatorWithMuons";
+  TString trackNumeratorDir = isMC ? "TrackLegNumeratorWithTracksNoTrig" : "TrackLegNumeratorWithMuons";
+  TString trackDenominatorDir = isMC ? "TrackLegDenominatorWithTracksNoTrig" : "TrackLegDenominatorWithMuons";
 
   fin = TFile::Open(dir + "/" + file + ".root");
 
@@ -186,7 +186,7 @@ void plot(const TString dir, const TString file,
   TH1D * trackBackgroundHist = new TH1D("trackBackgroundHist", "trackBackgroundHist", 1, xlo, xhi);
   trackBackgroundHist->GetYaxis()->SetTitle("Trigger Efficiency");
   trackBackgroundHist->GetYaxis()->SetRangeUser(ylo, yhi);
-  trackBackgroundHist->GetXaxis()->SetTitle(useTracks ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
+  trackBackgroundHist->GetXaxis()->SetTitle(isMC ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
 
   trackEfficiency->SetName("trackTriggerEfficiency");
   setStyle(trackEfficiency, kBlack, 20);
@@ -365,7 +365,7 @@ void logSpace(const unsigned n, const double a, const double b, vector<double> &
     bins.push_back(pow(10.0, i));
 }
 
-void compare(bool useTracks = false) {
+void compare(bool isMC = false) {
 
   vector<TFile*> openFiles;
   vector<TGraphAsymmErrors*> graphs_met;
@@ -441,7 +441,7 @@ void compare(bool useTracks = false) {
   TH1D * trackBackgroundHist = new TH1D("trackBackgroundHist", "trackBackgroundHist", 1, xlo, xhi);
   trackBackgroundHist->GetYaxis()->SetTitle("Trigger Efficiency");
   trackBackgroundHist->GetYaxis()->SetRangeUser(ylo, yhi);
-  trackBackgroundHist->GetXaxis()->SetTitle(useTracks ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
+  trackBackgroundHist->GetXaxis()->SetTitle(isMC ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
   trackBackgroundHist->Draw();
 
   for(unsigned int i = 0; i < filesToCompare.size(); i++) {
@@ -461,7 +461,7 @@ void compare(bool useTracks = false) {
 
 }
 
-void plotTriggerTurnOnForData() {
+void plotTriggerTurnOn() {
 
   // 28629.903 = B (6108.362) + C (2963.704) + D (4485.279) + E (4243.920) + F (3177.925) + G (7650.713)
   // plot(directory, fileName, rebinFactorMet, rebinFactorTracks, datasetLabel, lumiLabel, addToCompareList = true);
@@ -476,8 +476,6 @@ void plotTriggerTurnOnForData() {
   plot("condor/trigEff80X_v4_D-G", "SingleMu_2016E", 10, 10, "2016 E", "4.24 fb^{-1}, 13 TeV");
   plot("condor/trigEff80X_v4_D-G", "SingleMu_2016F", 10, 10, "2016 F", "3.18 fb^{-1}, 13 TeV");
   plot("condor/trigEff80X_v4_D-G", "SingleMu_2016G", 10, 10, "2016 G", "7.65 fb^{-1}, 13 TeV");
-
-
 
   compare();
 }
