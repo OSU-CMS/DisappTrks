@@ -8,8 +8,8 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, 
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
-setTDRStyle()
 
+setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
@@ -38,7 +38,6 @@ def setCanvasStyle(canvas):
     canvas.SetFrameFillStyle(0)
     canvas.SetFrameBorderMode(0)
 
-
 def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     h.GetXaxis().SetNdivisions(505)
     h.GetXaxis().SetLabelOffset(0.005)
@@ -58,6 +57,198 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
         h.GetYaxis().SetTitle(yTitle)
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
+
+# defines a base class simply comparing the yields between central and up/down channels
+class YieldSystematic:
+
+    def __init__ (self, masses, lifetimes):
+        self._masses = masses
+        self._lifetimes = lifetimes
+
+        self._integrateHistogram = "Met Plots/metNoMu"
+        self._fout = ""
+        self._doFout = False
+        self._extraSamples = {}
+
+        self._systematic = []
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
+
+    def addChannel (self, role, name, suffix, condorDir):
+        channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
+        setattr (self, role, channel)
+
+    def addIntegrateHistogram (self, integrateHistogram):
+        self._integrateHistogram = integrateHistogram
+
+    def addFout (self, fout):
+        self._fout = fout
+        self._doFout = True
+
+    def addExtraSamples (self, extraSamples):
+        self._extraSamples = extraSamples
+
+    def printSampleSystematic (self, mass, lifetime):
+        if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+
+            metHist = getHist (sample, self.central["condorDir"], self.central["name"] + "Plotter", self._integrateHistogram)
+            central = metHist.Integral ()
+
+            metHist = getHist (sample, self.down["condorDir"], self.down["name"] + "Plotter", self._integrateHistogram)
+            down = metHist.Integral ()
+
+            metHist = getHist (sample, self.up["condorDir"], self.up["name"] + "Plotter", self._integrateHistogram)
+            up = metHist.Integral ()
+
+            relDiffDown = (down - central) / central if central > 0.0 else 0.0
+            relDiffUp = (up - central) / central if central > 0.0 else 0.0
+
+            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            return (sample, relDiffDown, relDiffUp)
+        else:
+            print "central, down, and up not all defined. Not printing systematic..."
+            return (float ("nan"), float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+
+        for mass in self._masses:
+            for lifetime in self._lifetimes:
+                sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime)
+                self._systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+
+                if abs (relDiffDown) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffDown)
+                if abs (relDiffUp) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffUp)
+
+                self._averageSystematic += abs (relDiffDown)
+                self._averageSystematic += abs (relDiffUp)
+                self._n += 2
+        self._averageSystematic /= self._n
+
+        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
+        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+
+        if self._fout:
+            width = max (len (word) for row in self._systematic for word in row) + 2
+            for row in self._systematic:
+                if row[0] in self._extraSamples:
+                    extraRow = copy.deepcopy (row)
+                    for sample in self._extraSamples[row[0]]:
+                        extraRow[0] = sample
+                        self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
+
+                self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
+
+class MetSystematic(YieldSystematic):
+
+    def __init__ (self, masses, lifetimes):
+        YieldSystematic.__init__ (self, masses, lifetimes)
+        self._metCut = 100.0
+        self._metTypes = []
+        self._foutPrefix = ""
+        self._foutSuffix = ""
+
+        self._overallMaxSystematic = 0.0
+        self._overallAverageSystematic = 0.0
+        self._nMetSystematics = 0
+
+    def addMetTypes (self, metTypes):
+        self._metTypes = metTypes
+
+    def setMetCut (self, metCut):
+        self._metCut = metCut
+
+    def setFoutNames (self, prefix, suffix):
+        self._foutPrefix = prefix
+        self._foutSuffix = suffix
+        self._doFout = True
+
+    def printSampleSystematic (self, mass, lifetime, metType):
+        if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            condorDir = self.central["condorDir"]
+            name = self.central["name"]
+
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            central = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram + "_" + metType + "Down")
+            down = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram + "_" + metType + "Up")
+            up = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+
+            relDiffDown = (down - central) / central if central > 0.0 else 0.0
+            relDiffUp = (up - central) / central if central > 0.0 else 0.0
+
+            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            return (sample, relDiffDown, relDiffUp)
+
+        else:
+            print "central, down, and up not all defined. Not printing systematic..."
+            return (float ("nan"), float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+
+        self._overallMaxSystematic = 0.0
+        self._overallAverageSystematic = 0.0
+        self._nMetSystematics = 0
+
+        for metType in self._metTypes:
+            self._systematic = []
+            self._maxSystematic = 0.0
+            self._averageSystematic = 0.0
+            self._n = 0
+            for mass in self._masses:
+                for lifetime in self._lifetimes:
+                    sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime, metType)
+                    self._systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+
+                    if abs(relDiffDown) > self._maxSystematic:
+                        self._maxSystematic = abs (relDiffDown)
+                    if abs (relDiffUp) > self._maxSystematic:
+                        self._maxSystematic = abs (relDiffUp)
+
+                    if abs(relDiffDown) > self._overallMaxSystematic:
+                        self._overallMaxSystematic = abs (relDiffDown)
+                    if abs(relDiffUp) > self._overallMaxSystematic:
+                        self._overallMaxSystematic = abs (relDiffUp)
+
+                    self._averageSystematic += abs (relDiffDown)
+                    self._averageSystematic += abs (relDiffUp)
+                    self._n += 2
+
+                    self._overallAverageSystematic += abs (relDiffDown)
+                    self._overallAverageSystematic += abs (relDiffUp)
+                    self._nMetSystematics += 2
+
+            self._averageSystematic /= self._n
+
+            print "maximum %s systematic: %f%%" % (metType, self._maxSystematic * 100.0)
+            print "average %s systematic: %f%%" % (metType, self._averageSystematic * 100.0)
+
+            if self._doFout:
+                fout = open(self._foutPrefix + metType + "_" + self._foutSuffix, "w")
+                width = max (len (word) for row in self._systematic for word in row) + 2
+                for row in systematic:
+                    if row[0] in self._extraSamples:
+                        extraRow = copy.deepcopy (row)
+                        for sample in self._extraSamples[row[0]]:
+                            extraRow[0] = sample
+                            fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
+
+                    fout.write ("".join (word.ljust (width) for word in row) + "\n")
+
+                fout.close ()
+
+        self._overallAverageSystematic /= self._nMetSystematics
+
+        print "\n"
+        print "maximum met systematic (all types): %f%%" % (self._overallMaxSystematic * 100.0)
+        print "average met systematic (all types): %f%%" % (self._overallAverageSystematic * 100.0)
 
 class PileupSystematic:
 

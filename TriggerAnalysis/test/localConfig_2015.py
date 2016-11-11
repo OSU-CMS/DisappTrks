@@ -1,12 +1,19 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
-from DisappTrks.StandardAnalysis.miniAODV2Samples import *
-import copy
+from DisappTrks.TriggerAnalysis.miniAODSamples_76X import *
 
-config_file = "centralValue_76X.py"
+config_file = "protoConfig_2015_cfg.py"
 
-intLumi = 2590.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/595
+intLumi = 2670.0 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/670
 
 InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
+
+datasetsData = [
+    'SingleMu_2015D',
+]
+
+datasetsBkg = [
+    'WJetsToLNu',
+]
 
 datasetsSig = [
     'AMSB_chargino_100GeV_10cm_76X',
@@ -77,4 +84,5 @@ for dataset0 in datasetsSig:
 datasetsSig.extend (new_datasetsSig)
 ################################################################################
 
-datasets = datasetsSigShort
+datasets = datasetsBkg + datasetsData
+#datasets = datasetsSigShort

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.signalSystematics import * 
-from DisappTrks.StandardAnalysis.getUser import * 
+from DisappTrks.StandardAnalysis.signalSystematics import *
+from DisappTrks.StandardAnalysis.getUser import *
 from ROOT import TCanvas, TFile
 import os
 import re
@@ -72,6 +72,73 @@ pileupSystematic.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dir
 pileupSystematic.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puDown")
 pileupSystematic.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puUp")
 pileupSystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating met systematics"
+print "--------------------------------------------------------------------------------"
+
+metVaryTypes = [
+    'JetRes',
+    'JetEn',
+    'ElectronEn',
+    'TauEn',
+    'UnclusteredEn',
+    'PhotonEn',
+]
+
+metSystematic = MetSystematic (masses, lifetimes)
+metSystematic.addExtraSamples (extraSamples)
+metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+metSystematic.addMetTypes (metVaryTypes)
+metSystematic.setMetCut (100.0)
+metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2015.txt")
+metSystematic.printSystematic ()
+
+print "********************************************************************************"
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating JEC systematic"
+print "--------------------------------------------------------------------------------"
+
+fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jec_2015.txt", "w")
+
+jecSystematic = YieldSystematic (masses, lifetimes)
+jecSystematic.addFout (fout)
+jecSystematic.addExtraSamples (extraSamples)
+jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jecSystematic.printSystematic ()
+
+print "********************************************************************************"
+
+fout.close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating JER systematic"
+print "--------------------------------------------------------------------------------"
+
+fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jer_2015.txt", "w")
+
+jerSystematic = YieldSystematic (masses, lifetimes)
+jerSystematic.addFout (fout)
+jerSystematic.addExtraSamples (extraSamples)
+jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+jerSystematic.printSystematic ()
 
 print "********************************************************************************"
 
