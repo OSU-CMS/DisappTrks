@@ -69,22 +69,10 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("missingOuterHits"),
             ),
         cms.PSet (
-            name = cms.string("trackNHitsMissingOuter_TOBDropCorrected"),
-            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
-            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("tobDrop_missingOuterHits"),
-            ),
-        cms.PSet (
-            name = cms.string("trackNHitsMissingOuter_HIPDropCorrected"),
-            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
-            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("hipDrop_missingOuterHits"),
-            ),
-        cms.PSet (
             name = cms.string("trackNHitsMissingOuterCorrected"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("hipAndTOBDrop_missingOuterHits"),
+            inputVariables = cms.vstring("hitAndTOBDrop_missingOuterHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsStripLayersVsTOBLayersVsMissingOuter"),
