@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -28,7 +29,8 @@ main ()
   cin >> events;
   cout << endl;
 
-  default_random_engine generator (time (NULL));
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  default_random_engine generator (seed);
   uniform_real_distribution<double> distribution (0.0, 1.0);
   double x = 0.0, y = 0.0, dx, dy, measuredInefficiency, measuredInefficiencyError, correctedInefficiency, correctedInefficiencyError;
   unsigned outputEvery = (unsigned) round (events / 62.0);
