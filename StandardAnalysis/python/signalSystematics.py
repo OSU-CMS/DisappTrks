@@ -262,86 +262,43 @@ class HitsSystematic:
 
 class MissingOuterHitsSystematic:
 
-    _integrateHistogram = "Met Plots/metNoMu"
-    _masses = []
-    _lifetimes = []
+    _integrateHistogram = "Track Plots/trackNHitsMissingOuterCorrected"
     _fout = ""
-    _extraSamples = {}
 
-    def addChannel (self, role, name, suffix, condorDir):
-        channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
+        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
 
-    def addMasses (self, masses):
-        self._masses = masses
+    def printMissingOuterHitsSystematic (self, dataOrMC = "Data"):
+        if hasattr (self, dataOrMC):
+            channel = getattr (self, dataOrMC)
+            sample = channel["sample"]
+            condorDir = channel["condorDir"]
+            name = channel["name"]
+            hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
 
-    def addLifetimes (self, lifetimes):
-        self._lifetimes = lifetimes
+            passesError = Double (0.0)
+            totalError = Double (0.0)
+            passes = hits.IntegralAndError (hits.FindBin (1), hits.GetNbinsX () + 1, totalError)
+            total = hits.IntegralAndError (0, hits.GetNbinsX () + 1, totalError)
 
-    def addFout (self, fout):
-        self._fout = fout
+            eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-    def addExtraSamples (self, extraSamples):
-        self._extraSamples = extraSamples
-
-    def __init__ (self, masses, lifetimes):
-        self.addMasses (masses)
-        self.addLifetimes (lifetimes)
-
-    def printMissingOuterHitsSystematic (self, mass, lifetime):
-        if hasattr (self, "MissingOuterHitsCentral") and hasattr (self, "MissingOuterHitsShift"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.MissingOuterHitsCentral["suffix"]
-            condorDir = self.MissingOuterHitsCentral["condorDir"]
-            name = self.MissingOuterHitsCentral["name"]
-            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
-
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.MissingOuterHitsShift["suffix"]
-            condorDir = self.MissingOuterHitsShift["condorDir"]
-            name = self.MissingOuterHitsShift["name"]
-            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            shift = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
-
-            relDiffShift = (shift - central) / central if central > 0.0 else 0.0
-
-            print "(" + sample + ") central: " + str (central) + ", shifted: " + str (shift) + ", systematic uncertainty: " + str (relDiffShift * 100.0) + "%"
-            return (sample, relDiffShift)
+            print "rate of accidental missing outer hits in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh)
+            return (eff, effErrorLow, effErrorHigh)
         else:
-            print "MissingOuterHitsCentral and MissingOuterHitsShift not both defined. Not printing missing outer hits systematic..."
-            return (float ("nan"), float ("nan"))
+            print dataOrMC + " not defined. Not printing missing outer hits systematic..."
+            return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
-        systematic = []
-        maxSystematic = 0.0
-        averageSystematic = 0.0
-        n = 0
-        for mass in self._masses:
-            for lifetime in self._lifetimes:
-                sample, relDiffShift = self.printMissingOuterHitsSystematic (mass, lifetime)
-                systematic.append ([sample, str (1.0 + relDiffShift)])
+        data, dataErrorLow, dataErrorHigh = self.printMissingOuterHitsSystematic ("Data")
+        mc, mcErrorLow, mcErrorHigh = self.printMissingOuterHitsSystematic ("MC")
 
-                if abs (relDiffShift) > maxSystematic:
-                  maxSystematic = abs (relDiffShift)
-
-                averageSystematic += abs (relDiffShift)
-                n += 1
-        averageSystematic /= n
-
-        print "maximum systematic: " + str (maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (averageSystematic * 100.0) + "%"
-
-        if self._fout:
-            width = max (len (word) for row in systematic for word in row) + 2
-            for row in systematic:
-                if row[0] in self._extraSamples:
-                    extraRow = copy.deepcopy (row)
-                    for sample in self._extraSamples[row[0]]:
-                        extraRow[0] = sample
-                        self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
-
-                self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
+        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
