@@ -386,12 +386,12 @@ cutTrkEcalo = cms.PSet(
 )
 cutTrkNMissOut = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("missingOuterHits >= 3"),
+    cutString = cms.string("hitAndTOBDrop_missingOuterHits >= 3"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOut4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("missingOuterHits >= 4"),
+    cutString = cms.string("hitAndTOBDrop_missingOuterHits >= 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcaloInv = cms.PSet(
@@ -406,7 +406,7 @@ cutTrkEcaloInv50 = cms.PSet(
 )
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("missingOuterHits <= 2"),
+    cutString = cms.string("hitAndTOBDrop_missingOuterHits <= 2"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenNone = cms.PSet(
