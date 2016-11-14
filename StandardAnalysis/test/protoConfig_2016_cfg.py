@@ -169,6 +169,7 @@ histSetsMuon = copy.deepcopy(histSets)
 histSetsMuon.append(MuonHistograms)
 histSetsMuon.append(MuonExtraHistograms)
 histSetsMuon.append(DiMuonHistograms)
+histSetsMuon.append(DiMuonExtraHistograms)
 histSetsMuon.append(TrackMuonHistograms)
 
 histSetsTau = copy.deepcopy(histSets)
