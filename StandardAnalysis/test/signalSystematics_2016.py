@@ -6,6 +6,7 @@ from DisappTrks.StandardAnalysis.getUser import *
 from ROOT import TCanvas, TFile
 import os
 import re
+import sys
 
 dirs = getUser()
 masses = [100, 200, 300, 400, 500, 600, 700]
@@ -59,38 +60,45 @@ for sample in extraSamples:
 
         extraSamples[sample].append (dataset)
 
-print "********************************************************************************"
-print "evaluating pileup systematic (2016B & 2016C)"
-print "--------------------------------------------------------------------------------"
+systematic = "all"
+if len (sys.argv) > 1:
+    systematic = sys.argv[1]
+systematic = systematic.upper ()
 
-fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016BC.txt", "w")
+if systematic == "PILEUP" or systematic == "ALL":
 
-pileupSystematic_v3 = PileupSystematic (masses, lifetimes)
-pileupSystematic_v3.addFout (fout)
-pileupSystematic_v3.addExtraSamples (extraSamples)
-pileupSystematic_v3.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC")
-pileupSystematic_v3.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC_puDown")
-pileupSystematic_v3.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC_puUp")
-pileupSystematic_v3.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating pileup systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016BC.txt", "w")
 
-fout.close ()
+    pileupSystematic_v3 = PileupSystematic (masses, lifetimes)
+    pileupSystematic_v3.addFout (fout)
+    pileupSystematic_v3.addExtraSamples (extraSamples)
+    pileupSystematic_v3.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC")
+    pileupSystematic_v3.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC_puDown")
+    pileupSystematic_v3.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToBC_puUp")
+    pileupSystematic_v3.printSystematic ()
 
-print "********************************************************************************"
-print "evaluating pileup systematic (2016D)"
-print "--------------------------------------------------------------------------------"
+    print "********************************************************************************"
 
-fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016D.txt", "w")
+    fout.close ()
 
-pileupSystematic_v4 = PileupSystematic (masses, lifetimes)
-pileupSystematic_v4.addFout (fout)
-pileupSystematic_v4.addExtraSamples (extraSamples)
-pileupSystematic_v4.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD")
-pileupSystematic_v4.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD_puDown")
-pileupSystematic_v4.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD_puUp")
-pileupSystematic_v4.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating pileup systematic (2016D)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016D.txt", "w")
 
-fout.close ()
+    pileupSystematic_v4 = PileupSystematic (masses, lifetimes)
+    pileupSystematic_v4.addFout (fout)
+    pileupSystematic_v4.addExtraSamples (extraSamples)
+    pileupSystematic_v4.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD")
+    pileupSystematic_v4.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD_puDown")
+    pileupSystematic_v4.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2016_ICHEP/disappearingTracks_signal_weightedToD_puUp")
+    pileupSystematic_v4.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.close ()

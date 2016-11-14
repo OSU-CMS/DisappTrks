@@ -6,6 +6,7 @@ from DisappTrks.StandardAnalysis.getUser import *
 from ROOT import TCanvas, TFile
 import os
 import re
+import sys
 
 dirs = getUser()
 masses = [100, 200, 300, 400, 500, 600, 700]
@@ -59,139 +60,160 @@ for sample in extraSamples:
 
         extraSamples[sample].append (dataset)
 
-print "********************************************************************************"
-print "evaluating pileup systematic"
-print "--------------------------------------------------------------------------------"
+systematic = "all"
+if len (sys.argv) > 1:
+    systematic = sys.argv[1]
+systematic = systematic.upper ()
 
-fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2015.txt", "w")
+if systematic == "PILEUP" or systematic == "ALL":
 
-pileupSystematic = PileupSystematic (masses, lifetimes)
-pileupSystematic.addFout (fout)
-pileupSystematic.addExtraSamples (extraSamples)
-pileupSystematic.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal")
-pileupSystematic.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puDown")
-pileupSystematic.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puUp")
-pileupSystematic.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating pileup systematic"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2015.txt", "w")
 
-fout.close ()
+    pileupSystematic = PileupSystematic (masses, lifetimes)
+    pileupSystematic.addFout (fout)
+    pileupSystematic.addExtraSamples (extraSamples)
+    pileupSystematic.addChannel  ("PileupCentral",  "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal")
+    pileupSystematic.addChannel  ("PileupDown",     "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puDown")
+    pileupSystematic.addChannel  ("PileupUp",       "DisTrkSelection",  suffix,  dirs['Andrew']+"2015/disappearingTracks_signal_puUp")
+    pileupSystematic.printSystematic ()
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating met systematics"
-print "--------------------------------------------------------------------------------"
+    fout.close ()
 
-metVaryTypes = [
-    'JetRes',
-    'JetEn',
-    'ElectronEn',
-    'TauEn',
-    'UnclusteredEn',
-    'PhotonEn',
-]
+    print "\n\n"
 
-metSystematic = MetSystematic (masses, lifetimes)
-metSystematic.addExtraSamples (extraSamples)
-metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
-metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
-metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
-metSystematic.addMetTypes (metVaryTypes)
-metSystematic.setMetCut (100.0)
-metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2015.txt")
-metSystematic.printSystematic ()
+if systematic == "MET" or systematic == "ALL":
 
-print "********************************************************************************"
+    print "********************************************************************************"
+    print "evaluating met systematics"
+    print "--------------------------------------------------------------------------------"
 
-print "\n\n"
+    metVaryTypes = [
+        'JetRes',
+        'JetEn',
+        'ElectronEn',
+        'TauEn',
+        'UnclusteredEn',
+        'PhotonEn',
+    ]
 
-print "********************************************************************************"
-print "evaluating JEC systematic"
-print "--------------------------------------------------------------------------------"
+    metSystematic = MetSystematic (masses, lifetimes)
+    metSystematic.addExtraSamples (extraSamples)
+    metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+    metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+    metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+    metSystematic.addMetTypes (metVaryTypes)
+    metSystematic.setMetCut (100.0)
+    metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2015.txt")
+    metSystematic.printSystematic ()
 
-fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jec_2015.txt", "w")
+    print "********************************************************************************"
 
-jecSystematic = YieldSystematic (masses, lifetimes)
-jecSystematic.addFout (fout)
-jecSystematic.addExtraSamples (extraSamples)
-jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jecSystematic.printSystematic ()
+    print "\n\n"
 
-print "********************************************************************************"
+if systematic == "JEC" or systematic == "ALL":
 
-fout.close ()
+    print "********************************************************************************"
+    print "evaluating JEC systematic"
+    print "--------------------------------------------------------------------------------"
 
-print "\n\n"
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jec_2015.txt", "w")
 
-print "********************************************************************************"
-print "evaluating JER systematic"
-print "--------------------------------------------------------------------------------"
+    jecSystematic = YieldSystematic (masses, lifetimes)
+    jecSystematic.addFout (fout)
+    jecSystematic.addExtraSamples (extraSamples)
+    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jecSystematic.printSystematic ()
 
-fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jer_2015.txt", "w")
+    print "********************************************************************************"
 
-jerSystematic = YieldSystematic (masses, lifetimes)
-jerSystematic.addFout (fout)
-jerSystematic.addExtraSamples (extraSamples)
-jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-jerSystematic.printSystematic ()
+    fout.close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-fout.close ()
+if systematic == "JER" or systematic == "ALL":
 
-print "\n\n"
+    print "********************************************************************************"
+    print "evaluating JER systematic"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
-print "evaluating ECalo systematic"
-print "--------------------------------------------------------------------------------"
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jer_2015.txt", "w")
 
-ecaloSystematic = ECaloSystematic ()
-ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
-ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",      dirs['Andrew']+"2015/ecaloSystematic")
+    jerSystematic = YieldSystematic (masses, lifetimes)
+    jerSystematic.addFout (fout)
+    jerSystematic.addExtraSamples (extraSamples)
+    jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jerSystematic.printSystematic ()
 
-print "********************************************************************************"
+    print "********************************************************************************"
 
-ecaloSystematic.printSystematic ()
+    fout.close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-print "\n\n"
+if systematic == "ECALO" or systematic == "ALL":
 
-print "********************************************************************************"
-print "evaluating hits systematic"
-print "--------------------------------------------------------------------------------"
+    print "********************************************************************************"
+    print "evaluating ECalo systematic"
+    print "--------------------------------------------------------------------------------"
 
-hitsSystematic = HitsSystematic ()
-hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hitsSystematics")
-hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
+    ecaloSystematic = ECaloSystematic ()
+    ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2015D",  dirs['Andrew']+"2015/ecaloSystematic")
+    ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",      dirs['Andrew']+"2015/ecaloSystematic")
 
-print "********************************************************************************"
+    print "********************************************************************************"
 
-hitsSystematic.printSystematic ()
+    ecaloSystematic.printSystematic ()
 
-print "********************************************************************************"
+    print "********************************************************************************"
 
-print "\n\n"
+    print "\n\n"
 
-print "********************************************************************************"
-print "evaluating missing outer hits systematic"
-print "--------------------------------------------------------------------------------"
+if systematic == "HITS" or systematic == "ALL":
 
-missingOuterHitsSystematic = MissingOuterHitsSystematic ()
-missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hipAndTOBDrop_new")
-missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2015/hipAndTOBDrop_new")
-missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
-print "--------------------------------------------------------------------------------"
-print "before correction to missing outer hits"
-missingOuterHitsSystematic.printSystematic ()
-missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-print "--------------------------------------------------------------------------------"
-print "after correction to missing outer hits"
-missingOuterHitsSystematic.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating hits systematic"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    hitsSystematic = HitsSystematic ()
+    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hitsSystematics")
+    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
+
+    print "********************************************************************************"
+
+    hitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating missing outer hits systematic"
+    print "--------------------------------------------------------------------------------"
+
+    missingOuterHitsSystematic = MissingOuterHitsSystematic ()
+    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hipAndTOBDrop_new")
+    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2015/hipAndTOBDrop_new")
+    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing outer hits"
+    missingOuterHitsSystematic.printSystematic ()
+    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing outer hits"
+    missingOuterHitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
