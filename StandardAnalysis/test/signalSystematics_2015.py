@@ -104,9 +104,9 @@ if systematic == "MET" or systematic == "ALL":
 
     metSystematic = MetSystematic (masses, lifetimes)
     metSystematic.addExtraSamples (extraSamples)
-    metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
-    metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
-    metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Brian']+"jecJerSystematics_76X_v2")
+    metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Andrew']+"2015/jetSystematics")
+    metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Andrew']+"2015/jetSystematics")
+    metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Andrew']+"2015/jetSystematics")
     metSystematic.addMetTypes (metVaryTypes)
     metSystematic.setMetCut (100.0)
     metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2015.txt")
@@ -127,9 +127,9 @@ if systematic == "JEC" or systematic == "ALL":
     jecSystematic = YieldSystematic (masses, lifetimes)
     jecSystematic.addFout (fout)
     jecSystematic.addExtraSamples (extraSamples)
-    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Andrew']+"2015/jetSystematics")
+    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Andrew']+"2015/jetSystematics")
+    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Andrew']+"2015/jetSystematics")
     jecSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -149,9 +149,9 @@ if systematic == "JER" or systematic == "ALL":
     jerSystematic = YieldSystematic (masses, lifetimes)
     jerSystematic.addFout (fout)
     jerSystematic.addExtraSamples (extraSamples)
-    jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-    jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
-    jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Brian']+"jecJerSystematics_76X_v2")
+    jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Andrew']+"2015/jetSystematics")
+    jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Andrew']+"2015/jetSystematics")
+    jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Andrew']+"2015/jetSystematics")
     jerSystematic.printSystematic ()
 
     print "********************************************************************************"
