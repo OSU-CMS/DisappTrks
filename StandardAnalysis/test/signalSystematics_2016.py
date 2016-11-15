@@ -102,3 +102,78 @@ if systematic == "PILEUP" or systematic == "ALL":
     print "********************************************************************************"
 
     fout.close ()
+
+if systematic == "MET" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating met systematics"
+    print "--------------------------------------------------------------------------------"
+
+    metVaryTypes = [
+        'JetRes',
+        'JetEn',
+        'ElectronEn',
+        'TauEn',
+        'UnclusteredEn',
+        'PhotonEn',
+    ]
+
+    metSystematic = MetSystematic (masses, lifetimes)
+    metSystematic.addExtraSamples (extraSamples)
+    metSystematic.addChannel ("central", "DisTrkNoMet", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    metSystematic.addChannel ("down",    "DisTrkNoMet", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    metSystematic.addMetTypes (metVaryTypes)
+    metSystematic.setMetCut (100.0)
+    metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2016.txt")
+    metSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+if systematic == "JEC" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating JEC systematic"
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jec_2016.txt", "w")
+
+    jecSystematic = YieldSystematic (masses, lifetimes)
+    jecSystematic.addFout (fout)
+    jecSystematic.addExtraSamples (extraSamples)
+    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets",         suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp",    suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown",  suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jecSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.close ()
+
+    print "\n\n"
+
+if systematic == "JER" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating JER systematic"
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jer_2016.txt", "w")
+
+    jerSystematic = YieldSystematic (masses, lifetimes)
+    jerSystematic.addFout (fout)
+    jerSystematic.addExtraSamples (extraSamples)
+    jerSystematic.addChannel  ("central", "disTrkSelectionSmearedJets",      suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jerSystematic.addChannel  ("up",      "disTrkSelectionSmearedJetsUp",    suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jerSystematic.addChannel  ("down",    "disTrkSelectionSmearedJetsDown",  suffix,  dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    jerSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.close ()
+
+    print "\n\n"
+
+
