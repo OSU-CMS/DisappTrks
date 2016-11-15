@@ -92,15 +92,25 @@ class YieldSystematic:
     def printSampleSystematic (self, mass, lifetime):
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            condorDir = self.central["condorDir"]
+            name = self.central["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            metHist = getHist (sample, self.central["condorDir"], self.central["name"] + "Plotter", self._integrateHistogram)
-            central = metHist.Integral ()
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.down["suffix"]
+            condorDir = self.down["condorDir"]
+            name = self.down["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            down = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            metHist = getHist (sample, self.down["condorDir"], self.down["name"] + "Plotter", self._integrateHistogram)
-            down = metHist.Integral ()
-
-            metHist = getHist (sample, self.up["condorDir"], self.up["name"] + "Plotter", self._integrateHistogram)
-            up = metHist.Integral ()
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.up["suffix"]
+            condorDir = self.up["condorDir"]
+            name = self.up["name"]
+            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            up = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
@@ -113,6 +123,9 @@ class YieldSystematic:
 
     def printSystematic (self):
 
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime)
@@ -173,13 +186,16 @@ class MetSystematic(YieldSystematic):
             name = self.central["name"]
 
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-            central = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+            total = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            central = metHist.Integral (metHist.GetXaxis ().FindBin (self._metCut), metHist.GetNbinsX () + 1) / total if total > 0.0 else 0.0
 
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram + "_" + metType + "Down")
-            down = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+            total = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            down = metHist.Integral (metHist.GetXaxis ().FindBin (self._metCut), metHist.GetNbinsX () + 1) / total if total > 0.0 else 0.0
 
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram + "_" + metType + "Up")
-            up = metHist.Integral (metHist.GetXaxis().FindBin(self._metCut), -1)
+            total = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            up = metHist.Integral (metHist.GetXaxis ().FindBin (self._metCut), metHist.GetNbinsX () + 1) / total if total > 0.0 else 0.0
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
@@ -233,7 +249,7 @@ class MetSystematic(YieldSystematic):
             if self._doFout:
                 fout = open(self._foutPrefix + metType + "_" + self._foutSuffix, "w")
                 width = max (len (word) for row in self._systematic for word in row) + 2
-                for row in systematic:
+                for row in self._systematic:
                     if row[0] in self._extraSamples:
                         extraRow = copy.deepcopy (row)
                         for sample in self._extraSamples[row[0]]:
