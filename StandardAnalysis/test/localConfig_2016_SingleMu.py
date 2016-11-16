@@ -1,9 +1,7 @@
 from localConfig_2016 import *
 
-# ICHEP 2016 dataset
-# 5877.897 (B) + 2645.968 (C) + 4353.449 (D)
-# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/738
-intLumi = 12877.314
+# 8502.903 (B&C) + 18669.511 (D&E&F&G)
+intLumi = 27172.414
 
 datasetsData = [
     'SingleMu_2016B',

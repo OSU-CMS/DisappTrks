@@ -3,8 +3,9 @@ from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
 
 config_file = "protoConfig_2016_cfg.py"
 
-# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/741
-intLumi = 12884.361
+# 8530.912 (B&C) + 11545.996 (D&E&F)
+# 2016G is currently processing, not included
+intLumi = 20076.908
 
 InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
 
