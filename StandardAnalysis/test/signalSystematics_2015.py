@@ -203,8 +203,8 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     missingOuterHitsSystematic = MissingOuterHitsSystematic ()
-    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hipAndTOBDrop_new")
-    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2015/hipAndTOBDrop_new")
+    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hipAndTOBDrop")
+    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2015/hipAndTOBDrop")
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
     print "--------------------------------------------------------------------------------"
     print "before correction to missing outer hits"
