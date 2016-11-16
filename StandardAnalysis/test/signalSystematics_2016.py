@@ -176,4 +176,20 @@ if systematic == "JER" or systematic == "ALL":
 
     print "\n\n"
 
+if systematic == "HITS" or systematic == "ALL":
 
+    print "********************************************************************************"
+    print "evaluating hits systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
+
+    hitsSystematic = HitsSystematic ()
+    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016BC",  dirs['Andrew']+"2016/hitsSystematics")
+    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
+
+    print "********************************************************************************"
+
+    hitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
