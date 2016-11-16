@@ -1,7 +1,7 @@
 from localConfig_2016 import *
 
 # unprescaled: 8526.330 (B&C) + 18662.158 (D&E&F&G) = 27188.488
-# 813.478 (B&C) + 427.067 (D&E&F&G) 
+# 813.478 (B&C) + 427.067 (D&E&F&G)
 intLumi = 1240.545 # luminosity for HLT_LooseIsoPFTau50_Trk30_eta2p1_v* path
 
 datasetsData = [
