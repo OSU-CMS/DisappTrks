@@ -18,7 +18,7 @@ dataset_names = {
     'MET_2016D'       : "/MET/ahart-Run2016D-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016E'       : "/MET/ahart-Run2016E-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
-    'MET_2016G'       : "",
+    'MET_2016G'       : "/MET/bfrancis-Run2016G-PromptReco-v1-DisappTrks-v6-9b2edbeb3fa0a9ecef990a505ab27439/USER",
 
     'SingleEle_2016B' : "/SingleElectron/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v6-136b6bd54d5297516ccc5e4597ba027d/USER",
     'SingleEle_2016C' : "/SingleElectron/bfrancis-Run2016C-PromptReco-v2-DisappTrks-v6-136b6bd54d5297516ccc5e4597ba027d/USER",

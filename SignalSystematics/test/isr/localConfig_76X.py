@@ -14,15 +14,63 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
     'TTJets',
-    'WJetsToLNu_HT',
-    # 'WJetsToLNu',
+    #'WJetsToLNu_HT',
+    'WJetsToLNu',
 ]
 
 datasetsData = [
     'SingleMu_2015D',
 ]
 
+datasetsSig = [
+    'AMSB_chargino_100GeV_10cm_76X',
+    'AMSB_chargino_100GeV_100cm_76X',
+    'AMSB_chargino_100GeV_1000cm_76X',
+    'AMSB_chargino_100GeV_10000cm_76X',
+
+    'AMSB_chargino_200GeV_10cm_76X',
+    'AMSB_chargino_200GeV_100cm_76X',
+    'AMSB_chargino_200GeV_1000cm_76X',
+    'AMSB_chargino_200GeV_10000cm_76X',
+
+    'AMSB_chargino_300GeV_10cm_76X',
+    'AMSB_chargino_300GeV_100cm_76X',
+    'AMSB_chargino_300GeV_1000cm_76X',
+    'AMSB_chargino_300GeV_10000cm_76X',
+
+    'AMSB_chargino_400GeV_10cm_76X',
+    'AMSB_chargino_400GeV_100cm_76X',
+    'AMSB_chargino_400GeV_1000cm_76X',
+    'AMSB_chargino_400GeV_10000cm_76X',
+
+    'AMSB_chargino_500GeV_10cm_76X',
+    'AMSB_chargino_500GeV_100cm_76X',
+    'AMSB_chargino_500GeV_1000cm_76X',
+    'AMSB_chargino_500GeV_10000cm_76X',
+
+    'AMSB_chargino_600GeV_10cm_76X',
+    'AMSB_chargino_600GeV_100cm_76X',
+    'AMSB_chargino_600GeV_1000cm_76X',
+    'AMSB_chargino_600GeV_10000cm_76X',
+
+    'AMSB_chargino_700GeV_10cm_76X',
+    'AMSB_chargino_700GeV_100cm_76X',
+    'AMSB_chargino_700GeV_1000cm_76X',
+    'AMSB_chargino_700GeV_10000cm_76X',
+]
+
+datasetsSigShort = copy.deepcopy(datasetsSig)
+
+datasetsSigVeryShort = [
+    'AMSB_chargino_500GeV_10cm_76X',
+    'AMSB_chargino_500GeV_100cm_76X',
+    'AMSB_chargino_500GeV_1000cm_76X',
+    'AMSB_chargino_500GeV_10000cm_76X',
+]
+
+#datasets = datasetsBkgd + datasetsData + datasetsSigShort
 datasets = datasetsBkgd + datasetsData
+#datasets = datasetsSigShort
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 
