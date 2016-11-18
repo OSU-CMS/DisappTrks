@@ -83,6 +83,13 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("missingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement", "hitPattern_.stripLayersWithMeasurement"),
             ),
         cms.PSet (
+            name = cms.string("trackNHitsStripLayersVsMissingMiddle"),
+            title = cms.string(";N_{miss}^{middle};number of strip layers with measurement"),
+            binsX = cms.untracked.vdouble(6, -0.5, 5.5),
+            binsY = cms.untracked.vdouble(20, -0.5, 19.5),
+            inputVariables = cms.vstring("missingMiddleHits", "hitPattern_.stripLayersWithMeasurement"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsExpectedTOBVsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TOB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
