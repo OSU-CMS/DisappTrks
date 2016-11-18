@@ -140,14 +140,14 @@ TrackExtraHistograms = cms.PSet(
             name = cms.string("trackNHitsMissingMiddleCorrected"),
             title = cms.string("Number of Missing Middle Hits;N_{miss}^{middle}"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
-            inputVariables = cms.vstring("hitAndTOBDrop_missingMiddleHits"),
+            inputVariables = cms.vstring("hitDrop_missingMiddleHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingMiddleCorrectedVsInner"),
             title = cms.string(";N_{miss}^{inner};N_{miss}^{middle}"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
             binsY = cms.untracked.vdouble(6, -0.5, 5.5),
-            inputVariables = cms.vstring("missingInnerHits", "hitAndTOBDrop_missingMiddleHits"),
+            inputVariables = cms.vstring("missingInnerHits", "hitDrop_missingMiddleHits"),
             ),
         cms.PSet (
             name = cms.string("trackCaloEMDeltaRp5"),
