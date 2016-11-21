@@ -4,7 +4,7 @@
 # Usage:
 # createAndCompareHotSpots.py MYCONDORDIR
 
-from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas
+from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse
 import os
 import sys
 import math
@@ -13,7 +13,7 @@ doPlots = True
 
 gROOT.SetBatch()
 
-def MakePlots(filePath, plotName):
+def MakePlots(filePath, plotName, hotSpotsList):
     gStyle.SetOptStat(0)
     gStyle.SetOptTitle(0)
     can = TCanvas('can', 'can', 10, 10, 800, 600)
@@ -76,6 +76,17 @@ def MakePlots(filePath, plotName):
 
     can.SetLogz(False)
     afterVeto.Draw('colz')
+
+    circles = []
+
+    for spots in hotSpotsList:
+        circle = TEllipse(float(spots[0]), float(spots[1]), 0.05)
+        circle.SetLineColor(2)
+        circle.SetLineWidth(1)
+        circle.SetFillStyle(0)
+        circle.Draw("same")
+        circles.append(circle)
+
     can.SaveAs('test_efficiencyInSigma_' + plotName + '.pdf')
 
     inputFile.Close()
@@ -239,12 +250,6 @@ if foundHistogramsMu:
     afterVetoMu.Write('afterVeto')
     outputFileMu.Close()
 
-if doPlots:
-    if foundHistogramsEle:
-        MakePlots(os.getcwd() + '/test_newElectronMap.root', 'ele')
-    if foundHistogramsMu:
-        MakePlots(os.getcwd() + '/test_newMuonMap.root', 'muon')
-
 # now compare to the existing maps
 if foundHistogramsEle:
 
@@ -253,8 +258,14 @@ if foundHistogramsEle:
 
     CompareHotSpots(existingMapEle, newMapEle)
 
+    if doPlots:
+        MakePlots(os.getcwd() + '/test_newElectronMap.root', 'ele', newMapEle)
+
 if foundHistogramsMu:
     existingMapMu = FindHotSpots(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root')
     newMapMu = FindHotSpots(os.getcwd() + '/test_newMuonMap.root')
 
     CompareHotSpots(existingMapMu, newMapMu)
+
+    if doPlots:
+        MakePlots(os.getcwd() + '/test_newMuonMap.root', 'muon', newMapMu)
