@@ -277,3 +277,8 @@ cutsToAdd = [
 ]
 removeCuts(ZtoMuMuDisTrkNHits6.cuts, cutsToRemove)
 addCuts   (ZtoMuMuDisTrkNHits6.cuts, cutsToAdd)
+
+ZtoMuMuDisTrkNHits4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNHits4)
+ZtoMuMuDisTrkNHits4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNHits4NoECaloCut")
+removeCuts(ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHits4, cutTrkEcalo])
+addCuts (ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsLE4])
