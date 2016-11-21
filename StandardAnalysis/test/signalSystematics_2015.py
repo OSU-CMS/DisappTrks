@@ -185,11 +185,15 @@ if systematic == "HITS" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hitsSystematics")
-    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
-
-    print "********************************************************************************"
-
+    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hitsSystematics_hist_new")
+    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics_hist_new")
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
     hitsSystematic.printSystematic ()
 
     print "********************************************************************************"
