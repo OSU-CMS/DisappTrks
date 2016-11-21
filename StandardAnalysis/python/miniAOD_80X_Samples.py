@@ -6,12 +6,11 @@
 
 dataset_names = {
     ############################################################################
-    # MiniAOD stored on T3.
-    ############################################################################
-
-    ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
+
+    'DYJetsToLL_50'      :  "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
+    'WJetsToLNu'  :  "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
 
     'MET_2016B'       : "/MET/ahart-Run2016B-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016C'       : "/MET/ahart-Run2016C-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
