@@ -183,12 +183,38 @@ if systematic == "HITS" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016BC",  dirs['Andrew']+"2016/hitsSystematics")
-    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2015/hitsSystematics")
+    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016BC",   dirs['Andrew']+"2016/hitsSystematics")
+    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2016/hitsSystematics_hist")
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
+    hitsSystematic.printSystematic ()
 
     print "********************************************************************************"
 
-    hitsSystematic.printSystematic ()
+    print "\n\n"
+
+if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating missing outer hits systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
+
+    missingOuterHitsSystematic = MissingOuterHitsSystematic ()
+    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016BC",   dirs['Andrew']+"2016/hipAndTOBDrop")
+    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2016/hipAndTOBDrop_new")
+    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing outer hits"
+    missingOuterHitsSystematic.printSystematic ()
+    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing outer hits"
+    missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"
 
