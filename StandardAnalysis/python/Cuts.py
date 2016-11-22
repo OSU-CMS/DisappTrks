@@ -316,7 +316,7 @@ cutTrkNMissIn = cms.PSet(
 )
 cutTrkNMissMid = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("missingMiddleHits == 0"),
+    cutString = cms.string("hitDrop_missingMiddleHits == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkIso = cms.PSet(
