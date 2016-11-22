@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.invMass import *
 from OSUT3Analysis.Configuration.cutUtilities import *
+import os
 
 ##############################
 ##### Constants          #####
@@ -37,10 +38,11 @@ triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/
     "HLT_IsoTkMu20_v",  # yes available in bkgd MC
 )
 
-triggersSingleMu2016 = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
-    "HLT_IsoMu22_v",    # yes available in bkgd MC
-    "HLT_IsoTkMu22_v",  # yes available in bkgd MC
-)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
+        "HLT_IsoMu22_v",    # yes available in bkgd MC
+        "HLT_IsoTkMu22_v",  # yes available in bkgd MC
+    )
 
 triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
@@ -386,12 +388,12 @@ cutTrkEcalo = cms.PSet(
 )
 cutTrkNMissOut = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitAndTOBDrop_missingOuterHits >= 3"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 3"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOut4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitAndTOBDrop_missingOuterHits >= 4"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEcaloInv = cms.PSet(
@@ -406,7 +408,7 @@ cutTrkEcaloInv50 = cms.PSet(
 )
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitAndTOBDrop_missingOuterHits <= 2"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits <= 2"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenNone = cms.PSet(

@@ -1,4 +1,5 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
+from DisappTrks.StandardAnalysis.addLifetimeReweighting import *
 from DisappTrks.TriggerAnalysis.miniAODSamples_80X import *
 
 config_file = "protoConfig_2016_cfg.py"
@@ -67,28 +68,7 @@ datasetsSigVeryShort = [
     'AMSB_chargino_500GeV_10000cm_80X',
 ]
 
-################################################################################
-# add the lifetime reweighted samples
-################################################################################
-new_datasetsSig = []
-for dataset0 in datasetsSig:
-    if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_80X', dataset0):
-        continue
-    mass = re.sub (r'AMSB_chargino_([^_]*)GeV_[^_]*cm_80X', r'\1', dataset0)
-    ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm_80X', r'\1', dataset0))
-    for i in range (2, 10):
-        ctau = ctauP = 0.1 * i * ctau0
-        if int (ctau) * 10 == int (ctau * 10):
-            ctau = ctauP = str (int (ctau))
-        else:
-            ctau = ctauP = str (ctau)
-            ctauP = re.sub (r'\.', r'p', ctau)
-        dataset = 'AMSB_chargino_' + mass + 'GeV_' + ctauP + 'cm_80X'
-
-        new_datasetsSig.append (dataset)
-
-datasetsSig.extend (new_datasetsSig)
-################################################################################
+addLifetimeReweighting (datasetsSig)
 
 datasets = datasetsBkg + datasetsData
 #datasets = datasetsSigShort

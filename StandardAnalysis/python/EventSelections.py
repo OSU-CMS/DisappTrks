@@ -24,12 +24,15 @@ basicSelection = cms.PSet(
     cuts = cms.VPSet (
         cutGoodPV,
         cutMet,
-        cutJetPt,
-        cutJetEta,
-        cutJetTightLepVeto,
-        cutDijetDeltaPhiMax,
     )
 )
+jetCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+]
+addCuts(basicSelection.cuts, jetCuts)
 
 ##########################################################################
 
@@ -47,7 +50,6 @@ metMinimalSkim = cms.PSet(
 isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
 isoTrkCuts = [
-    cutTrkPt55,
     cutTrkEta,
     cutTrkEcalGapVeto,
     cutTrkEtaMuonIneff1,
@@ -65,7 +67,7 @@ isoTrkCuts = [
     cutTrkDZ,
     cutTrkJetDeltaPhi,
 ]
-addCuts(isoTrkSelection.cuts, isoTrkCuts)
+addCuts(isoTrkSelection.cuts, [cutTrkPt55] + isoTrkCuts)
 
 
 ##########################################################################
@@ -100,13 +102,13 @@ removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso])
 
 candTrkSelection = copy.deepcopy(isoTrkSelection)
 candTrkSelection.name = cms.string("CandTrkSelection")
-cutsToAdd = [
+leptonVetoes = [
     cutTrkElecVeto,
     cutTrkMuonVeto,
     cutTrkTauHadVeto,
 ]
-addCuts(candTrkSelection.cuts, cutsToAdd)
-candTrkCuts = isoTrkCuts + cutsToAdd
+addCuts(candTrkSelection.cuts, leptonVetoes)
+candTrkCuts = isoTrkCuts + leptonVetoes
 
 ##########################################################################
 

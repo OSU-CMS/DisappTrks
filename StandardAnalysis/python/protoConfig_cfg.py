@@ -1,0 +1,176 @@
+import FWCore.ParameterSet.Config as cms
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
+from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.processingUtilities import *
+import os
+
+data_global_tag = '76X_dataRun2_v15'
+mc_global_tag = '76X_mcRun2_asymptotic_v12'
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    data_global_tag = '80X_dataRun2_Prompt_v14'
+    mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+
+################################################################################
+# Create the skeleton process
+################################################################################
+process = cms.Process ('OSUAnalysis')
+
+process.source = cms.Source ("PoolSource",
+    bypassVersionCheck = cms.untracked.bool (True),
+    skipBadFiles = cms.untracked.bool (True),
+    fileNames = cms.untracked.vstring (),
+)
+
+process.TFileService = cms.Service ('TFileService',
+    fileName = cms.string ('hist.root')
+)
+
+process.maxEvents = cms.untracked.PSet (
+    input = cms.untracked.int32 (-1)
+)
+################################################################################
+
+################################################################################
+# Add the message logger
+################################################################################
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.categories.append ("OSUTrackProducer")
+#process.MessageLogger.categories.append ("osu_Track")
+process.MessageLogger.categories.append ("GenMatchable")
+process.MessageLogger.cerr.GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32(0),
+)
+################################################################################
+
+################################################################################
+# Add the global tag
+################################################################################
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    print "using global tag " + data_global_tag + "..."
+    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+else:
+    print "using global tag " + mc_global_tag + "..."
+################################################################################
+
+################################################################################
+# Set up the collectionMap
+################################################################################
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
+
+collectionMap.tracks = cms.InputTag ('candidateTrackProducer')
+collectionMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
+################################################################################
+
+################################################################################
+# Set up the default event weights
+################################################################################
+weights = cms.VPSet (
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+)
+################################################################################
+
+################################################################################
+# Set up the default object weights
+################################################################################
+ObjectScalingFactorProducer = {}
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+
+ObjectScalingFactorProducer['doEleSF']      = cms.bool(False)
+ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
+ObjectScalingFactorProducer['electronWp']   = cms.string("")
+
+ObjectScalingFactorProducer['doMuSF']   = cms.bool(False)
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
+ObjectScalingFactorProducer['muonWp']   = cms.string("")
+
+ObjectScalingFactorProducer['doTrackSF'] = cms.bool(False)
+ObjectScalingFactorProducer['trackFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSF.root')
+
+scaleFactorProducers = []
+scaleFactorProducers.append (ObjectScalingFactorProducer)
+################################################################################
+
+################################################################################
+# Set up the default variable producers
+################################################################################
+variableProducers = []
+variableProducers.append("LifetimeWeightProducer")
+variableProducers.append("PrimaryVtxVarProducer")
+variableProducers.append("EventJetVarProducer")
+variableProducers.append('PUScalingFactorProducer')
+################################################################################
+
+################################################################################
+# Set up the collections of channels
+################################################################################
+from DisappTrks.StandardAnalysis.EventSelections import *
+from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *
+from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
+from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *
+from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
+################################################################################
+
+################################################################################
+# Set up the collections of histograms
+################################################################################
+from DisappTrks.StandardAnalysis.HistogramDefinitions import *
+from OSUT3Analysis.Configuration.histogramDefinitions import *
+
+histSets = cms.VPSet (
+    TrackHistograms,
+    TrackBeamspotHistograms,
+    TrackEventVarHistograms,
+    TrackExtraHistograms,
+    MetHistograms,
+    MetExtraHistograms,
+    JetHistograms,
+    EventVariableHistograms,
+    EventVariablePVHistograms,
+)
+
+histSetsDebug = cms.VPSet(
+    TrackHistograms,
+    TrackExtraHistograms,
+    TrackDebugEcaloHistograms,
+)
+
+histSetsMetJet = cms.VPSet (
+    MetHistograms,
+    JetHistograms
+)
+
+histSetsElectron = copy.deepcopy(histSets)
+histSetsElectron.append(ElectronHistograms)
+histSetsElectron.append(ElectronExtraHistograms)
+histSetsElectron.append(DiElectronHistograms)
+histSetsElectron.append(TrackElectronHistograms)
+histSetsElectron.append(ElectronMETHistograms)
+histSetsElectron.append(TrackMETHistograms)
+histSetsElectron.append(TrackElectronMETHistograms)
+
+histSetsMuon = copy.deepcopy(histSets)
+histSetsMuon.append(MuonHistograms)
+histSetsMuon.append(MuonExtraHistograms)
+histSetsMuon.append(DiMuonHistograms)
+histSetsMuon.append(TrackMuonHistograms)
+histSetsMuon.append(MuonMETHistograms)
+histSetsMuon.append(TrackMETHistograms)
+histSetsMuon.append(TrackMuonMETHistograms)
+
+histSetsTau = copy.deepcopy(histSets)
+histSetsTau.append(TauExtraHistograms)
+histSetsTau.append(TrackTauHistograms)
+histSetsTau.append(TrackMETHistograms)
+################################################################################

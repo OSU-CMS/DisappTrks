@@ -71,7 +71,7 @@ if systematic == "PILEUP" or systematic == "ALL":
     print "evaluating pileup systematic (2016B & 2016C)"
     print "--------------------------------------------------------------------------------"
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016BC.txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2016BC.txt", "w")
 
     pileupSystematic_v3 = PileupSystematic (masses, lifetimes)
     pileupSystematic_v3.addFout (fout)
@@ -89,7 +89,7 @@ if systematic == "PILEUP" or systematic == "ALL":
     print "evaluating pileup systematic (2016D)"
     print "--------------------------------------------------------------------------------"
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__pileup_2016D.txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2016D.txt", "w")
 
     pileupSystematic_v4 = PileupSystematic (masses, lifetimes)
     pileupSystematic_v4.addFout (fout)
@@ -125,7 +125,7 @@ if systematic == "MET" or systematic == "ALL":
     metSystematic.addChannel ("up",      "DisTrkNoMet", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
     metSystematic.addMetTypes (metVaryTypes)
     metSystematic.setMetCut (100.0)
-    metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__metVary", "2016.txt")
+    metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__metVary", "2016.txt")
     metSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -138,7 +138,7 @@ if systematic == "JEC" or systematic == "ALL":
     print "evaluating JEC systematic"
     print "--------------------------------------------------------------------------------"
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jec_2016.txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jec_2016.txt", "w")
 
     jecSystematic = YieldSystematic (masses, lifetimes)
     jecSystematic.addFout (fout)
@@ -160,7 +160,7 @@ if systematic == "JER" or systematic == "ALL":
     print "evaluating JER systematic"
     print "--------------------------------------------------------------------------------"
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__jer_2016.txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jer_2016.txt", "w")
 
     jerSystematic = YieldSystematic (masses, lifetimes)
     jerSystematic.addFout (fout)
@@ -226,7 +226,7 @@ if systematic == "ISR" or systematic == "ALL":
     print "evaluating ISR systematic"
     print "--------------------------------------------------------------------------------"
 
-    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__isr_2016.txt", "w")
+    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2016.txt", "w")
 
     isrSystematic = YieldSystematic (masses, lifetimes)
     isrSystematic.addFout (fout)

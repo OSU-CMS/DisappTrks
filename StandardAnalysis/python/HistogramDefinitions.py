@@ -3,11 +3,11 @@ from DisappTrks.StandardAnalysis.invMass import *
 from OSUT3Analysis.Configuration.pdgIdBins import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
-
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
 
+metBins = cms.untracked.vdouble(2000, 0.0, 10000.0)
 
 TrackDebugEcaloHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
@@ -60,19 +60,19 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("missingOuterHits", "caloNewNoPUDRp5CentralCalo"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "caloNewNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingOuterCorrected"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("hitAndTOBDrop_missingOuterHits"),
+            inputVariables = cms.vstring("hitAndTOBDrop_bestTrackMissingOuterHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsStripLayersVsTOBLayersVsMissingOuter"),
@@ -80,7 +80,7 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             binsZ = cms.untracked.vdouble(20, -0.5, 19.5),
-            inputVariables = cms.vstring("missingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement", "hitPattern_.stripLayersWithMeasurement"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "hitPattern_.stripTOBLayersWithMeasurement", "hitPattern_.stripLayersWithMeasurement"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsStripLayersVsMissingMiddle"),
@@ -94,28 +94,28 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TOB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits","expectedStripTOBHits"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits","expectedStripTOBHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsExpectedTIBVsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{exp}^{TIB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits","expectedStripTIBHits"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits","expectedStripTIBHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsObservedTOBVsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TOB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits","numberOfStripTOBHits"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits","numberOfStripTOBHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsObservedTIBVsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};N_{obs}^{TIB}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("missingOuterHits","numberOfStripTIBHits"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits","numberOfStripTIBHits"),
             ),
         cms.PSet (
             name = cms.string("trackNHitsMissingMiddle"),
@@ -265,14 +265,14 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #eta"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(60, -3.0, 3.0),
-            inputVariables = cms.vstring("missingOuterHits", "eta"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "eta"),
         ),
         cms.PSet (
             name = cms.string("trackNHitsMissingOuterVsPhi"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};track #phi"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(64, -3.2, 3.2),
-            inputVariables = cms.vstring("missingOuterHits", "phi"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "phi"),
         ),
         cms.PSet (
             name = cms.string("trackIsMatchedToGsfTrack"),
@@ -308,25 +308,25 @@ ElectronExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronMetMinusOnePt"),
             title = cms.string("Electron Met Minus One;E_{T}^{miss} excluding selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("electronMetMinusOneUpPt"),
             title = cms.string("Electron Met Minus One;E_{T}^{miss} excluding selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOneUpPt"),
         ),
         cms.PSet (
             name = cms.string("electronMetNoMuMinusOnePt"),
             title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("electronMetNoMuMinusOneUpPt"),
             title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss} excluding muons and selected electron [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
         ),
         cms.PSet (
@@ -369,13 +369,11 @@ ElectronExtraHistograms = cms.PSet(
             name = cms.string("electronMetNoMuMinusOnePtVsPt"),
             title = cms.string("Electron MetNoMu Minus One Vs. Pt;electron p_{T} [GeV];E_{T}^{miss} excluding muons and selected electron [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
-            binsY = cms.untracked.vdouble(100, 0, 500),
+            binsY = metBins,
             inputVariables = cms.vstring("pt", "electron.metNoMuMinusOnePt"),
         ),
     )
 )
-
-
 
 TauExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("taus"),
@@ -383,26 +381,46 @@ TauExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("tauMetMinusOnePt"),
             title = cms.string("Tau Met Minus One;E_{T}^{miss} excluding selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("tauMetMinusOneUpPt"),
             title = cms.string("Tau Met Minus One;E_{T}^{miss} excluding selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOneUpPt"),
         ),
         cms.PSet (
             name = cms.string("tauMetNoMuMinusOnePt"),
             title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("tauMetNoMuMinusOneUpPt"),
             title = cms.string("Tau MetNoMu Minus One;E_{T}^{miss} excluding muons and selected tau [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
+        ),
+    )
+)
+
+TrackTauHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "taus"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
+            title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons and selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "tau.metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialMuonTrack"),
+            title = cms.string(";max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialMuonTrack", "tau.metNoMuMinusOnePt"),
         ),
     )
 )
@@ -413,25 +431,25 @@ MuonExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonMetMinusOnePt"),
             title = cms.string("Muon Met Minus One;E_{T}^{miss} excluding selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("muonMetMinusOneUpPt"),
             title = cms.string("Muon Met Minus One;E_{T}^{miss} excluding selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metMinusOneUpPt"),
         ),
         cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePt"),
             title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("muonMetNoMuMinusOneUpPt"),
             title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss} excluding muons and selected muon [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("metNoMuMinusOneUpPt"),
         ),
         cms.PSet (
@@ -510,7 +528,7 @@ MuonExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             binsZ = cms.untracked.vdouble(20, -0.5, 19.5),
-            inputVariables = cms.vstring("missingOuterHits", "innerTrack.hitPattern_.stripTOBLayersWithMeasurement", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "innerTrack.hitPattern_.stripTOBLayersWithMeasurement", "innerTrack.hitPattern_.stripLayersWithMeasurement"),
             ),
     )
 )
@@ -559,7 +577,21 @@ TrackMuonHistograms = cms.PSet(
             title = cms.string(";track N_{miss}^{out};GSF track N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("muon.missingOuterHits", "track.matchedGsfTrack.missingOuterHits"),
+            inputVariables = cms.vstring("muon.bestTrackMissingOuterHits", "track.matchedGsfTrack.bestTrackMissingOuterHits"),
+        ),
+        cms.PSet (
+            name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
+            title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons and selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "muon.metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialMuonTrack"),
+            title = cms.string(";max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialMuonTrack", "muon.metNoMuMinusOnePt"),
         ),
     )
 )
@@ -590,6 +622,20 @@ TrackMETHistograms = cms.PSet(
             title = cms.string(";|#Delta#phi(track,#vec{E}_{T}^{miss})|"),
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
             inputVariables = cms.vstring("fabs (deltaPhi (track, met))"),
+        ),
+        cms.PSet (
+            name = cms.string("metNoMuVsMaxSigmaForFiducialElectronTrack"),
+            title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "met.noMuPt"),
+        ),
+        cms.PSet (
+            name = cms.string("metNoMuVsMaxSigmaForFiducialMuonTrack"),
+            title = cms.string(";max #sigma for fiducial muon track;E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialMuonTrack", "met.noMuPt"),
         ),
     )
 )
@@ -670,22 +716,37 @@ TrackElectronHistograms = cms.PSet(
             title = cms.string(";track N_{miss}^{out};electron N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
-            inputVariables = cms.vstring("track.missingOuterHits", "electron.missingOuterHits"),
+            inputVariables = cms.vstring("track.bestTrackMissingOuterHits", "electron.bestTrackMissingOuterHits"),
         ),
         cms.PSet (
             name = cms.string("electronFBremVsTrackNMissOut"),
             title = cms.string(";track N_{miss}^{out};electron f_{brem}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0.0, 1.01),
-            inputVariables = cms.vstring("track.missingOuterHits", "electron.fbrem"),
+            inputVariables = cms.vstring("track.bestTrackMissingOuterHits", "electron.fbrem"),
         ),
         cms.PSet (
             name = cms.string("electronFBremVsElectronNMissOut"),
             title = cms.string(";electron N_{miss}^{out};electron f_{brem}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0.0, 1.01),
-            inputVariables = cms.vstring("electron.missingOuterHits", "electron.fbrem"),
+            inputVariables = cms.vstring("electron.bestTrackMissingOuterHits", "electron.fbrem"),
         ),
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
+            title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "electron.metNoMuMinusOnePt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialMuonTrack"),
+            title = cms.string(";max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialMuonTrack", "electron.metNoMuMinusOnePt"),
+        ),
+
     )
 )
 
@@ -1168,7 +1229,7 @@ MetExtraHistograms = cms.PSet(
          cms.PSet (
             name = cms.string("metNoMu"),
             title = cms.string("MetNoMu;E_{T}^{miss} excluding muons [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt"),
             ),
         )
@@ -1181,74 +1242,74 @@ MetShiftHistograms = cms.PSet(
         cms.PSet(
             name = cms.string("metNoMu_JetResUp"),
             title = cms.string("MetNoMu_JetResUp;E_{T}^{miss} excluding muons (jet res up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_JetResUp"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_JetEnUp"),
             title = cms.string("MetNoMu_JetEnUp;E_{T}^{miss} excluding muons (jet energy up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_JetEnUp"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_ElectronEnUp"),
             title = cms.string("MetNoMu_ElectronEnUp;E_{T}^{miss} excluding muons (electron energy up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_ElectronEnUp"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_TauEnUp"),
             title = cms.string("MetNoMu_TauEnUp;E_{T}^{miss} excluding muons (tau energy up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_TauEnUp"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_UnclusteredEnUp"),
             title = cms.string("MetNoMu_UnclusteredEnUp;E_{T}^{miss} excluding muons (unclustered energy up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_UnclusteredEnUp"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_PhotonEnUp"),
             title = cms.string("MetNoMu_PhotonEnUp;E_{T}^{miss} excluding muons (photon energy up) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_PhotonEnUp"),
         ),
         # shift down -1sigma
         cms.PSet(
             name = cms.string("metNoMu_JetResDown"),
             title = cms.string("MetNoMu_JetResDown;E_{T}^{miss} excluding muons (jet res down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_JetResDown"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_JetEnDown"),
             title = cms.string("MetNoMu_JetEnUp;E_{T}^{miss} excluding muons (jet energy down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_JetEnDown"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_ElectronEnDown"),
             title = cms.string("MetNoMu_ElectronEnUp;E_{T}^{miss} excluding muons (electron energy down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_ElectronEnDown"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_TauEnDown"),
             title = cms.string("MetNoMu_TauEnUp;E_{T}^{miss} excluding muons (tau energy down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_TauEnDown"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_UnclusteredEnDown"),
             title = cms.string("MetNoMu_UnclusteredEnUp;E_{T}^{miss} excluding muons (unclustered energy down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_UnclusteredEnDown"),
         ),
         cms.PSet(
             name = cms.string("metNoMu_PhotonEnDown"),
             title = cms.string("MetNoMu_PhotonEnUp;E_{T}^{miss} excluding muons (photon energy down) [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsX = metBins,
             inputVariables = cms.vstring("noMuPt_PhotonEnDown"),
         ),
     )
