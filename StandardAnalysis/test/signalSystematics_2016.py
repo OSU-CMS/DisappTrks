@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.signalSystematics import * 
-from DisappTrks.StandardAnalysis.getUser import * 
+from DisappTrks.StandardAnalysis.signalSystematics import *
+from DisappTrks.StandardAnalysis.getUser import *
 from ROOT import TCanvas, TFile
 import os
 import re
@@ -217,5 +217,27 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"
+
+    print "\n\n"
+
+if systematic == "ISR" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating ISR systematic"
+    print "--------------------------------------------------------------------------------"
+
+    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/StandardAnalysis/data/systematic_values__isr_2016.txt", "w")
+
+    isrSystematic = YieldSystematic (masses, lifetimes)
+    isrSystematic.addFout (fout)
+    isrSystematic.addExtraSamples (extraSamples)
+    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"isrSystematic_80X")
+    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    isrSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.close ()
 
     print "\n\n"
