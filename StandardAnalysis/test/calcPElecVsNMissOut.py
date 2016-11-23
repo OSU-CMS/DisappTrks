@@ -3,7 +3,7 @@
 # Calculate the electron veto probability, for different cuts on number of missing outer hits.  
 
 from OSUT3Analysis.Configuration.histogramUtilities import * 
-from DisappTrks.StandardAnalysis.getUser import * 
+from DisappTrks.StandardAnalysis.utilities import * 
 dirs = getUser() 
 
 def getEff(num, numerr, den, denerr):

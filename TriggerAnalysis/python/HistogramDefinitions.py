@@ -1,5 +1,4 @@
 import FWCore.ParameterSet.Config as cms
-from DisappTrks.StandardAnalysis.invMass import *
 from OSUT3Analysis.Configuration.pdgIdBins import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 

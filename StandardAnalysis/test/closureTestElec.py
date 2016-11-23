@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from DisappTrks.StandardAnalysis.bkgdEstimate import *  
-from DisappTrks.StandardAnalysis.getUser import * 
+from DisappTrks.StandardAnalysis.utilities import * 
 from ROOT import TCanvas, TFile, gROOT 
 import os 
 

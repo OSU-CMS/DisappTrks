@@ -2,7 +2,7 @@
 
 import math
 from DisappTrks.StandardAnalysis.signalSystematics import *
-from DisappTrks.StandardAnalysis.getUser import *
+from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
 import os
 import re

@@ -1,5 +1,5 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
-from DisappTrks.StandardAnalysis.addLifetimeReweighting import *
+from DisappTrks.StandardAnalysis.utilities import *
 import copy
 import os
 import re

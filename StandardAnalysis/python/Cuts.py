@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrks.StandardAnalysis.invMass import *
+from DisappTrks.StandardAnalysis.utilities import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 import os
 

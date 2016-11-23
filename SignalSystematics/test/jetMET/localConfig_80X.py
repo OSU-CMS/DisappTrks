@@ -1,6 +1,6 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
-from DisappTrks.StandardAnalysis.addLifetimeReweighting import *
+from DisappTrks.StandardAnalysis.utilities import *
 import copy
 
 config_file = "centralValue_80X.py"
