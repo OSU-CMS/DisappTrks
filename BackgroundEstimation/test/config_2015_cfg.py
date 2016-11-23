@@ -69,8 +69,5 @@ process.source.fileNames = cms.untracked.vstring (
 
 process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
 process.PUScalingFactorProducer.target = cms.string ("data2015")
-if osusub.batchMode:
-    if "Run2016B" in osusub.dataset or "Run2016C" in osusub.dataset:
-        process.PUScalingFactorProducer.target = cms.string ("data2016_BC")
-    elif "Run2016" in osusub.dataset:
-        process.PUScalingFactorProducer.target = cms.string ("data2016_DEFG")
+
+setMissingHitsCorrection (process, "2015")
