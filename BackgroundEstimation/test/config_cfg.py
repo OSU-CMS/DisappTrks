@@ -66,3 +66,6 @@ process.source.fileNames = cms.untracked.vstring (
 #  add_channels  (process,  [TauTagPt55],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [TauTagPt55MetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 ################################################################################
+
+process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+process.PUScalingFactorProducer.target = cms.string ("data2016_ICHEP_BC")
