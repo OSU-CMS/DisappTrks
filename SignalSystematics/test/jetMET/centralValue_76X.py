@@ -3,27 +3,12 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
+from DisappTrks.StandardAnalysis.utilities import *
 import glob
 import re
 
 data_global_tag = '76X_dataRun2_v15'
 mc_global_tag = '76X_mcRun2_asymptotic_v12'
-
-def switchToBestTrack (channel, histogramSets):
-    for cut in channel.cuts:
-        cutString = cut.cutString.pythonValue ()[1:-1]
-        if re.search (r"missingOuterHits", cutString):
-            cutString = re.sub (r"missingOuterHits", r"bestTrackMissingOuterHits", cutString)
-        cut.cutString = cms.string (cutString)
-
-    for histogramSet in histogramSets:
-        for histogram in histogramSet.histograms:
-            i = 0
-            for inputVariable in histogram.inputVariables:
-                if re.search (r"missingOuterHits", inputVariable):
-                    inputVariable = re.sub (r"missingOuterHits", r"bestTrackMissingOuterHits", inputVariable)
-                histogram.inputVariables[i] = inputVariable
-                i += 1
 
 ################################################################################
 ##### Set up the 'process' object ##############################################

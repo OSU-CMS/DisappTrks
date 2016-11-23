@@ -1,6 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 import copy
-from DisappTrks.StandardAnalysis.invMass import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
 dummyCut = cms.PSet(

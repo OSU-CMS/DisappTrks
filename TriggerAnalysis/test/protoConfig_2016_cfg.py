@@ -3,7 +3,7 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from DisappTrks.StandardAnalysis.useAODFiles import *
-from DisappTrks.StandardAnalysis.switchToBestTrack import *
+from DisappTrks.StandardAnalysis.utilities import *
 import glob
 
 data_global_tag = '80X_dataRun2_Prompt_v14'

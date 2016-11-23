@@ -1,6 +1,6 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.StandardAnalysis.miniAODV2Samples import *
-from DisappTrks.StandardAnalysis.addLifetimeReweighting import *
+from DisappTrks.StandardAnalysis.utilities import *
 import copy
 
 config_file = "centralValue_76X.py"

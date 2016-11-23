@@ -1,5 +1,5 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
-from DisappTrks.StandardAnalysis.addLifetimeReweighting import *
+from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.TriggerAnalysis.miniAODSamples_76X import *
 
 config_file = "protoConfig_2015_cfg.py"
