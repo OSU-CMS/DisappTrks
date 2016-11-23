@@ -1,8 +1,7 @@
 from DisappTrks.StandardAnalysis.localConfig import *
 
-# 8530.912 (B&C) + 11545.996 (D&E&F)
-# 2016G is currently processing, not included
-intLumi = 20076.908
+# 8530.912 (B&C) + 11545.996 (D&E&F) + 7101.431 (G)
+intLumi = 27178.339
 
 datasetsData = [
     'MET_2016B',

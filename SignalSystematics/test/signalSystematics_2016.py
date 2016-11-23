@@ -231,9 +231,9 @@ if systematic == "ISR" or systematic == "ALL":
     isrSystematic = YieldSystematic (masses, lifetimes)
     isrSystematic.addFout (fout)
     isrSystematic.addExtraSamples (extraSamples)
-    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_80X")
     isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"isrSystematic_80X")
-    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Andrew']+"2016_ICHEP/jetSystematics")
+    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_80X”)
     isrSystematic.printSystematic ()
 
     print "********************************************************************************"

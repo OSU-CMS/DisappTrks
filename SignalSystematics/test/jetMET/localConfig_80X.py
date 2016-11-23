@@ -5,7 +5,8 @@ import copy
 
 config_file = "centralValue_80X.py"
 
-intLumi = 12884.361
+# 8530.912 (B&C) + 11545.996 (D&E&F) + 7101.431 (G)
+intLumi = 27178.339
 
 InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
 

@@ -152,6 +152,7 @@ process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
 process.ISRWeightProducer.weightHist = cms.string('SingleMu_2015D')
+process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
 ################################################################################
 ##### Debugging options
