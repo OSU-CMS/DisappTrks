@@ -1,4 +1,5 @@
 import FWCore.ParameterSet.Config as cms
+from DisappTrks.StandardAnalysis.MissingHitsCorrections_cff import *
 import re
 import os
 
@@ -101,3 +102,12 @@ def setDatasetType (datasets, composite_dataset_definitions, types, newType):
         if dataset in composite_dataset_definitions:
             for constituent in composite_dataset_definitions[dataset]:
                 types[constituent] = newType
+
+def setMissingHitsCorrection (process, correction):
+    for a in dir (process):
+        x = getattr (process, a)
+        if not hasattr (x, "type_"):
+            continue
+        if x.type_ () == "OSUTrackProducer":
+            for y in MissingHitsCorrections[correction]:
+                setattr (x, y, MissingHitsCorrections[correction][y])

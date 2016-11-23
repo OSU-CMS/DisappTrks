@@ -35,7 +35,7 @@ process.maxEvents = cms.untracked.PSet (
 ################################################################################
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
-process.MessageLogger.categories.append ("OSUTrackProducer")
+#process.MessageLogger.categories.append ("OSUTrackProducer")
 #process.MessageLogger.categories.append ("osu_Track")
 process.MessageLogger.categories.append ("GenMatchable")
 process.MessageLogger.cerr.GenMatchable = cms.untracked.PSet(
