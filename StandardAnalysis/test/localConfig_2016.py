@@ -3,9 +3,8 @@ from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
 
 config_file = "protoConfig_2016_cfg.py"
 
-# 8530.912 (B&C) + 11545.996 (D&E&F)
-# 2016G is currently processing, not included
-intLumi = 20076.908
+# 8530.912 (B&C) + 11545.996 (D&E&F) + 7101.431 (G)
+intLumi = 27178.339
 
 InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
 
@@ -55,7 +54,7 @@ datasetsSig = [
     'AMSB_chargino_700GeV_10000cm_80X',
 ]
 
-datasetsSigShort = copy.deepcopy(datasetsSig)  
+datasetsSigShort = copy.deepcopy(datasetsSig)
 
 datasetsSigVeryShort = [
     'AMSB_chargino_500GeV_10cm_80X',

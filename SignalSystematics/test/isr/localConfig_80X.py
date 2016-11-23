@@ -4,10 +4,8 @@ import copy
 
 config_file = "protoConfig_80X.py"
 
-# ICHEP 2016 dataset
-# 5877.897 (B) + 2645.968 (C) + 4353.449 (D)
-# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/738
-intLumi = 12877.314
+# 8530.912 (B&C) + 11545.996 (D&E&F) + 7101.431 (G)
+intLumi = 27178.339
 
 datasets = [
     'SingleMu_2016B',

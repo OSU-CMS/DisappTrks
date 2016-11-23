@@ -2,6 +2,8 @@
 
 dataset_names = {
 
+    'SingleMu_2015D'  : "/SingleMuon/Run2015D-16Dec2015-v1/MINIAOD",
+
     'SingleMu_2016B'  : "/SingleMuon/Run2016B-PromptReco-v2/MINIAOD",
     'SingleMu_2016C'  : "/SingleMuon/Run2016C-PromptReco-v2/MINIAOD",
     'SingleMu_2016D'  : "/SingleMuon/Run2016D-PromptReco-v2/MINIAOD",
