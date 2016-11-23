@@ -51,10 +51,10 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
-    print "using global tag " + data_global_tag + "..."
+    print "Using global tag " + data_global_tag + "..."
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
-    print "using global tag " + mc_global_tag + "..."
+    print "Using global tag " + mc_global_tag + "..."
 ################################################################################
 
 ################################################################################

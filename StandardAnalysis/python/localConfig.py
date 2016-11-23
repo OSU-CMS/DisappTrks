@@ -6,7 +6,10 @@ import re
 
 from DisappTrks.StandardAnalysis.miniAODV2Samples import *
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "Using datasets from miniAOD_80X_Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
     from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
+else:
+    print "Using datasets from miniAODV2Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 config_file = "config_cfg.py"
 
@@ -63,8 +66,11 @@ datasetsSig = [
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "Switching to 80X signal samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
+else:
+    print "Using 76X signal samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 datasetsSigShort = copy.deepcopy(datasetsSig)
 

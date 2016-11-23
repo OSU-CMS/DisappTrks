@@ -39,10 +39,13 @@ triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "Switching to 2016 single muon triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
     triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
         "HLT_IsoMu22_v",    # yes available in bkgd MC
         "HLT_IsoTkMu22_v",  # yes available in bkgd MC
     )
+else:
+    print "Using 2015 single muon triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
