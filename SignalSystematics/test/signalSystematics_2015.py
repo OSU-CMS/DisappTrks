@@ -173,7 +173,7 @@ if systematic == "ISR" or systematic == "ALL":
     isrSystematic.addExtraSamples (extraSamples)
     isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_76X")
     isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"isrSystematic_76X")
-    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_76X”)
+    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_76X")
     isrSystematic.printSystematic ()
 
     print "********************************************************************************"
