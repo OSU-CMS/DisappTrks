@@ -409,6 +409,14 @@ TrackTauHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "taus"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected tau [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+	        binsY = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsZ = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "tau.metNoMuMinusOnePt"),
+        ),
+	cms.PSet (
             name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons and selected tau [GeV]"),
             binsX = cms.untracked.vdouble(100, 0.0, 10.0),
@@ -579,6 +587,14 @@ TrackMuonHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("muon.bestTrackMissingOuterHits", "track.matchedGsfTrack.bestTrackMissingOuterHits"),
         ),
+	cms.PSet (
+            name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected muon [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsZ = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "muon.metNoMuMinusOnePt"),
+        ),
         cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss} excluding muons and selected muon [GeV]"),
@@ -622,6 +638,14 @@ TrackMETHistograms = cms.PSet(
             title = cms.string(";|#Delta#phi(track,#vec{E}_{T}^{miss})|"),
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
             inputVariables = cms.vstring("fabs (deltaPhi (track, met))"),
+        ),
+	cms.PSet (
+            name = cms.string("metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsZ = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "met.noMuPt"),
         ),
         cms.PSet (
             name = cms.string("metNoMuVsMaxSigmaForFiducialElectronTrack"),
@@ -731,6 +755,14 @@ TrackElectronHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
             binsY = cms.untracked.vdouble(100, 0.0, 1.01),
             inputVariables = cms.vstring("electron.bestTrackMissingOuterHits", "electron.fbrem"),
+        ),
+	cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss} excluding muons and selected electron [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsY = cms.untracked.vdouble(100, 0.0, 10.0),
+            binsZ = metBins,
+            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "electron.metNoMuMinusOnePt"),
         ),
         cms.PSet (
             name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
