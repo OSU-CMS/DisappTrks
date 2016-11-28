@@ -26,8 +26,8 @@ datasetsBkgd = [
 ]
 datasetsBkgdForMET = copy.deepcopy(datasetsBkgd)
 
-datasetsBkgd += 'WJetsToLNu'
-datasetsBkgdForMET += 'WJetsToLNu_HT'
+datasetsBkgd.append ('WJetsToLNu')
+datasetsBkgdForMET.append ('WJetsToLNu_HT')
 
 datasetsSig = [
     'AMSB_chargino_100GeV_10cm_76X',
