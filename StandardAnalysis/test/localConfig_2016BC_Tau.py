@@ -2,8 +2,7 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2016BC_cfg.py"
 
-# unprescaled: 8526.330 (B&C)
-intLumi = 813.478 # luminosity for HLT_LooseIsoPFTau50_Trk30_eta2p1_v* path
+intLumi = lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]
 
 datasetsData = [
     'Tau_2016B',
@@ -11,3 +10,6 @@ datasetsData = [
 ]
 
 datasets = datasetsData + datasetsSig
+
+#setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
+#setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")

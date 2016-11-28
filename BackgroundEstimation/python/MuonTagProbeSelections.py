@@ -107,3 +107,11 @@ ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkNMissOut, cutMuTrkOS)
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkMuonVeto, cutMuTrkOS)
+
+# create copies of all above selections with the fiducial electron/muon cuts removed
+for selection in list (locals ()):
+    if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
+        continue
+    locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
+    locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
+    removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])

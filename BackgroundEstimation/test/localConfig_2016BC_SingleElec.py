@@ -2,9 +2,7 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2016BC_cfg.py"
 
-# 5883.947 (B) + 2645.968 (C)
-# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/788
-intLumi = 8529.915
+intLumi = lumi["SingleElectron_2016BC"]
 
 datasetsData = [
     'SingleEle_2016B',
@@ -12,3 +10,6 @@ datasetsData = [
 ]
 
 datasets = datasetsData + datasetsSig
+
+#setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
+#setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")

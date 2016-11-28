@@ -2,7 +2,7 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2016BC_cfg.py"
 
-intLumi = 8502.903
+intLumi = lumi["SingleMuon_2016BC"]
 
 datasetsData = [
     'SingleMu_2016B',
@@ -10,3 +10,6 @@ datasetsData = [
 ]
 
 datasets = datasetsData + datasetsSig
+
+#setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
+#setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")

@@ -164,3 +164,11 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutEleTrkMETBalance, cutEleTrkI
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutEleTrkDeltaPhi, cutEleTrkInvMass10)
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutNJets, cutElectronArbitration)
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitration)
+
+# create copies of all above selections with the fiducial electron/muon cuts removed
+for selection in list (locals ()):
+    if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
+        continue
+    locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
+    locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
+    removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
