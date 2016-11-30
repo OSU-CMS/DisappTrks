@@ -1,17 +1,14 @@
 from DisappTrks.StandardAnalysis.localConfig import *
 
-config_file = "config_2016DEFG_cfg.py"
+config_file = "config_2015_cfg.py"
 
-intLumi = lumi["MET_2016DEFG"]
+intLumi = lumi["SingleMuon_2015D"]
 
 datasetsData = [
-    'MET_2016D',
-    'MET_2016E',
-    'MET_2016F',
-    'MET_2016G',
+    'SingleMu_2015D',
 ]
 
-datasets = datasetsData + datasetsSig + datasetsSig
+datasets = datasetsBkgd + datasetsData + datasetsSig
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")
