@@ -109,5 +109,24 @@ def setMissingHitsCorrection (process, correction):
         if not hasattr (x, "type_"):
             continue
         if x.type_ () == "OSUTrackProducer":
+            print "Setting missing hits corrections for \"" + correction + "\"..."
             for y in MissingHitsCorrections[correction]:
                 setattr (x, y, MissingHitsCorrections[correction][y])
+                print "  " + y + ": " + str (getattr (x, y).value ())
+
+def setThresholdForVeto (process, threshold):
+    fiducialMaps = ["electrons", "muons"]
+
+    for a in dir (process):
+        x = getattr (process, a)
+        if not hasattr (x, "type_"):
+            continue
+        if x.type_ () == "OSUTrackProducer":
+            if hasattr (x, "fiducialMaps"):
+                y = getattr (x, "fiducialMaps")
+                for fiducialMap in fiducialMaps:
+                    if hasattr (y, fiducialMap):
+                        z = getattr (y, fiducialMap)
+                        for i in range (0, len (z)):
+                            print "Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "..."
+                            setattr (z[i], "thresholdForVeto", cms.double (threshold))
