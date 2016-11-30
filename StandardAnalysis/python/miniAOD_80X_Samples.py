@@ -4,14 +4,10 @@
 #########  LIST OF MINIAOD 2016 80X DATASETS  ##################################################################
 ############################################################################################################
 
-dataset_names = {
+dataset_names_data = {
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
-
-    'DYJetsToLL_50'      :  "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
-    'WJetsToLNu'  :  "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
-
     'MET_2016B'       : "/MET/ahart-Run2016B-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016C'       : "/MET/ahart-Run2016C-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016D'       : "/MET/ahart-Run2016D-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
@@ -39,7 +35,20 @@ dataset_names = {
     'Tau_2016E'        :  "/Tau/ahart-Run2016E-PromptReco-v2-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
     'Tau_2016F'        :  "/Tau/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
     'Tau_2016G'        :  ["/Tau/ahart-Run201G-PromptReco-v1-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER", "/Tau/ahart-Run201G-PromptReco-v1-DisappTrks-v6-cb3e0f46a2f7f32830a4152107df81ff/USER"],
+}
 
+dataset_names_bkgd = {
+    ############################################################################
+    # MiniAOD not stored on T3.
+    ############################################################################
+    'DYJetsToLL_50'      :  "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
+    'WJetsToLNu'  :  "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
+}
+
+dataset_names_sig = {
+    ############################################################################
+    # MiniAOD not stored on T3.
+    ############################################################################
     'AMSB_chargino_100GeV_10cm_80X'    :  "/AMSB_chargino_M-100_CTau-10_TuneZ2star_13TeV_pythia6/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_2016_miniAODv2_v1-v1/MINIAODSIM",
     'AMSB_chargino_100GeV_100cm_80X'   :  "/AMSB_chargino_M-100_CTau-100_TuneZ2star_13TeV_pythia6/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_2016_miniAODv2_v1-v1/MINIAODSIM",
     'AMSB_chargino_100GeV_1000cm_80X'  :  "/AMSB_chargino_M-100_CTau-1000_TuneZ2star_13TeV_pythia6/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_2016_miniAODv2_v1-v1/MINIAODSIM",
@@ -75,6 +84,11 @@ dataset_names = {
     'AMSB_chargino_700GeV_1000cm_80X'  :  "/AMSB_chargino_M-700_CTau-1000_TuneZ2star_13TeV_pythia6/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_2016_miniAODv2_v1-v1/MINIAODSIM",
     'AMSB_chargino_700GeV_10000cm_80X'  :  "/AMSB_chargino_M-700_CTau-10000_TuneZ2star_13TeV_pythia6/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_2016_miniAODv2_v1-v1/MINIAODSIM",
 }
+
+dataset_names = {}
+dataset_names.update (dataset_names_data)
+dataset_names.update (dataset_names_bkgd)
+dataset_names.update (dataset_names_sig)
 
 import re
 

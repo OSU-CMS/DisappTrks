@@ -9,6 +9,9 @@ from DisappTrks.StandardAnalysis.miniAODV2Samples import *
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "Using datasets from miniAOD_80X_Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
     from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
+    print "Using background samples from miniAODV2Samples..."
+    from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
+    dataset_names.update (dataset_names_bkgd)
 else:
     print "Using datasets from miniAODV2Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
