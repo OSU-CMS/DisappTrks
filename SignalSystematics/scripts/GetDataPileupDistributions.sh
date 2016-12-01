@@ -36,6 +36,16 @@ wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Colli
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/$json16
 
 ########################################################
+# Split up 2016 into BC and DEFG
+########################################################
+
+json16BC=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2_BC.txt
+json16DEFG=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2_DEFG.txt
+
+filterJSON.py --min 272007 --max 276283 $json16 --output $json16BC
+filterJSON.py --min 276315 --max 280385 $json16 --output $json16DEFG
+
+########################################################
 # Get data distributions using JSONs as masks
 ########################################################
 
@@ -46,6 +56,14 @@ pileupCalc.py -i $json15 --inputLumiJSON pileup_2015.txt --calcMode true --minBi
 pileupCalc.py -i $json16 --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016_central.root
 pileupCalc.py -i $json16 --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016_up.root
 pileupCalc.py -i $json16 --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016_down.root
+
+pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016BC_central.root
+pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016BC_up.root
+pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016BC_down.root
+
+pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_central.root
+pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_up.root
+pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_down.root
 
 ########################################################
 # Combine ROOT files and clean up
@@ -58,3 +76,4 @@ rm puData_2015_*.root
 rm puData_2016_*.root
 
 echo "Created combined file puData.root"
+
