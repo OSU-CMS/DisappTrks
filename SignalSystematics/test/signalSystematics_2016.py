@@ -241,3 +241,29 @@ if systematic == "ISR" or systematic == "ALL":
     fout.close ()
 
     print "\n\n"
+
+if systematic == "TRIGGER" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating trigger efficiency systematics"
+    print "--------------------------------------------------------------------------------"
+
+    triggerFluctuations = [
+        'metLegWeightData',
+        'metLegWeightMC',
+        'triggerLegWeightData',
+        'triggerLegWeightMC',
+    ]
+
+    triggerSystematic = TriggerSystematic (masses, lifetimes)
+    triggerSystematic.addExtraSamples (extraSamples)
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
+    triggerSystematic.addTriggerFluctuations (triggerFluctuations)
+    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger", "2016.txt")
+    triggerSystematic.printSystematic ()
+
+    print "********************************************************************************\n\n"
+
+    print "\n\n""

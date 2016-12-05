@@ -46,7 +46,7 @@ TauTagPt50NoTrig.triggers = cms.vstring()
 
 TauTagPt50MetTrig = copy.deepcopy(TauTagPt50)
 TauTagPt50MetTrig.name = cms.string("TauTagPt50MetTrig")
-TauTagPt50MetTrig.triggers += triggersMet
+TauTagPt50MetTrig.triggers = triggersMet
 
 TauTagPt50MetCut = copy.deepcopy(TauTagPt50)
 TauTagPt50MetCut.name = cms.string("TauTagPt50MetCut")
@@ -67,7 +67,7 @@ TauTagPt55NoTrig.triggers = cms.vstring()
 
 TauTagPt55MetTrig = copy.deepcopy(TauTagPt55)
 TauTagPt55MetTrig.name = cms.string("TauTagPt55MetTrig")
-TauTagPt55MetTrig.triggers += triggersMet
+TauTagPt55MetTrig.triggers = triggersMet
 
 TauTagPt55MetCut = copy.deepcopy(TauTagPt55)
 TauTagPt55MetCut.name = cms.string("TauTagPt55MetCut")

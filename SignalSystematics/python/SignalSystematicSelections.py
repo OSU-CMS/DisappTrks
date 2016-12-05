@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *
-from DisappTrks.StandardAnalysis.MuonTagProbeSelections import *
+from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 
 ################################################################################
 ## ISR signal systematic
@@ -18,10 +18,6 @@ cutsToAdd = [
 ]
 addCuts(ZtoMuMuISRStudy.cuts, cutsToAdd)
 
-ZtoMuMuISRStudy2016 = copy.deepcopy(ZtoMuMuISRStudy)
-ZtoMuMuISRStudy2016.name = cms.string("ZtoMuMuISRStudy2016")
-ZtoMuMuISRStudy2016.triggers = triggersSingleMu2016
-
 # Drop MET requirement, jet pt requirement of only 30
 ZtoMuMuISRStudyJet30 = copy.deepcopy(ZtoMuMu)
 ZtoMuMuISRStudyJet30.name = cms.string("ZtoMuMuISRStudyJet30")
@@ -32,10 +28,6 @@ cutsToAdd = [
     cutDijetDeltaPhiMax,
 ]
 addCuts(ZtoMuMuISRStudyJet30.cuts, cutsToAdd)
-
-ZtoMuMuISRStudy2016Jet30 = copy.deepcopy(ZtoMuMuISRStudyJet30)
-ZtoMuMuISRStudy2016Jet30.name = cms.string("ZtoMuMuISRStudy2016Jet30")
-ZtoMuMuISRStudy2016Jet30.triggers = triggersSingleMu2016
 
 ################################################################################
 ## JEC signal systematic
@@ -79,3 +71,15 @@ disTrkSelectionSmearedJetsJECDown = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJECDown")
 removeCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetPt])
 addCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetJERSmearedPtJECDown])
+
+################################################################################
+## MET signal systematic
+################################################################################
+
+disTrkNoMet = copy.deepcopy(disTrkSelection)
+disTrkNoMet.name = cms.string("DisTrkNoMet")
+removeCuts(disTrkNoMet.cuts, [cutMet])
+
+disTrkNoMetSmearedJets = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkNoMetSmearedJets.name = cms.string("DisTrkNoMetSmearedJets")
+removeCuts(disTrkNoMetSmearedJets.cuts, [cutMet])

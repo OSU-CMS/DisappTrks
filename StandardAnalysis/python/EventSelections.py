@@ -151,11 +151,6 @@ disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
 disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
 removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])
 
-
-disTrkNoMet = copy.deepcopy(disTrkSelection)
-disTrkNoMet.name = cms.string("DisTrkNoMet")
-removeCuts(disTrkNoMet.cuts, [cutMet])
-
 ##########################################################################
 
 candTrkEcaloSdband = copy.deepcopy(candTrkSelection)

@@ -45,7 +45,7 @@ MuonTagPt35NoTrig.triggers = cms.vstring()
 
 MuonTagPt35MetTrig = copy.deepcopy(MuonTagPt35)
 MuonTagPt35MetTrig.name = cms.string("MuonTagPt35MetTrig")
-MuonTagPt35MetTrig.triggers += triggersMet
+MuonTagPt35MetTrig.triggers = triggersMet
 
 MuonTagPt35MetCut = copy.deepcopy(MuonTagPt35)
 MuonTagPt35MetCut.name = cms.string("MuonTagPt35MetCut")
@@ -67,7 +67,7 @@ MuonTagPt55NoTrig.triggers = cms.vstring()
 
 MuonTagPt55MetTrig = copy.deepcopy(MuonTagPt55)
 MuonTagPt55MetTrig.name = cms.string("MuonTagPt55MetTrig")
-MuonTagPt55MetTrig.triggers += triggersMet
+MuonTagPt55MetTrig.triggers = triggersMet
 
 MuonTagPt55MetCut = copy.deepcopy(MuonTagPt55)
 MuonTagPt55MetCut.name = cms.string("MuonTagPt55MetCut")
