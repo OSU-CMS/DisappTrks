@@ -44,7 +44,7 @@ ElectronTagPt35NoTrig.triggers = cms.vstring()
 
 ElectronTagPt35MetTrig = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt35MetTrig.name = cms.string("ElectronTagPt35MetTrig")
-ElectronTagPt35MetTrig.triggers += triggersMet
+ElectronTagPt35MetTrig.triggers = triggersMet
 
 ElectronTagPt35MetCut = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt35MetCut.name = cms.string("ElectronTagPt35MetCut")
@@ -65,7 +65,7 @@ ElectronTagPt55NoTrig.triggers = cms.vstring()
 
 ElectronTagPt55MetTrig = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55MetTrig.name = cms.string("ElectronTagPt55MetTrig")
-ElectronTagPt55MetTrig.triggers += triggersMet
+ElectronTagPt55MetTrig.triggers = triggersMet
 
 ElectronTagPt55MetCut = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55MetCut.name = cms.string("ElectronTagPt55MetCut")

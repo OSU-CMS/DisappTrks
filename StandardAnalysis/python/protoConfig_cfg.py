@@ -53,6 +53,10 @@ process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
+process.MessageLogger.categories.append ("disappTrks_TriggerWeightProducer")
+process.MessageLogger.cerr.disappTrks_TriggerWeightProducer = cms.untracked.PSet(
+    limit = cms.untracked.int32(0),
+)
 ################################################################################
 
 ################################################################################
@@ -90,7 +94,47 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
     ),
+    cms.PSet (
+	    inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("metLegWeight")
+    ),
+    cms.PSet (
+	    inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("trackLegWeight")
+    ),
 )
+
+# weights including ISR reweighting (only for signal systematic)
+weightsISR = copy.deepcopy(weights)
+weightsISR.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("isrWeight")
+    )
+)
+
+# weights including trigger scale factor fluctuations
+weightsFluctuateTrigger = cms.VPSet (
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+	    inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("metLegWeight"),
+        fluctuations = cms.vstring("metLegWeightMCUp", "metLegWeightMCDown", "metLegWeightDataUp", "metLegWeightDataDown")
+    ),
+    cms.PSet (
+	    inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("trackLegWeight"),
+        fluctuations = cms.vstring("trackLegWeightMCUp", "trackLegWeightMCDown", "trackLegWeightDataUp", "trackLegWeightDataDown")
+    ),
+)
+
 ################################################################################
 
 ################################################################################
@@ -122,6 +166,8 @@ variableProducers.append("LifetimeWeightProducer")
 variableProducers.append("PrimaryVtxVarProducer")
 variableProducers.append("EventJetVarProducer")
 variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('ISRWeightProducer')
+variableProducers.append('TriggerWeightProducer')
 ################################################################################
 
 ################################################################################
@@ -132,6 +178,7 @@ from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
+from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 ################################################################################
 
 ################################################################################
@@ -176,6 +223,7 @@ histSetsMuon = copy.deepcopy(histSets)
 histSetsMuon.append(MuonHistograms)
 histSetsMuon.append(MuonExtraHistograms)
 histSetsMuon.append(DiMuonHistograms)
+histSetsMuon.append(DiMuonExtraHistograms)
 histSetsMuon.append(TrackMuonHistograms)
 histSetsMuon.append(MuonMETHistograms)
 histSetsMuon.append(TrackMETHistograms)
