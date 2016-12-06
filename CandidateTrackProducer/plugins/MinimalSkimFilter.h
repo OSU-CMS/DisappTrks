@@ -31,8 +31,10 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       void endRunProduce (edm::Run &, const edm::EventSetup &);
 
    private:
-      bool passesTightID_noIsolation (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-      double effectiveArea (const pat::Electron &) const;
+      bool passesTightID_noIsolation_2015 (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
+      bool passesTightID_noIsolation_2016 (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
+      double effectiveArea_2015 (const pat::Electron &) const;
+      double effectiveArea_2016 (const pat::Electron &) const;
       bool passesTrigger (const edm::Event &, const edm::TriggerResults &) const;
       void initializeCutResults ();
       bool filterDecision (const edm::Event &event, const edm::TriggerResults &, const reco::BeamSpot &, const reco::Vertex &, const pat::MET &, const vector<pat::Electron> &, const edm::Handle<vector<reco::Conversion> > &, const vector<pat::Muon> &, const vector<pat::Tau> &, const double) const;

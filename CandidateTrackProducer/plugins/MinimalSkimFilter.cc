@@ -92,7 +92,7 @@ MinimalSkimFilter<T>::passesTrigger (const edm::Event &event, const edm::Trigger
 }
 
 template<MinimalSkim T> bool
-MinimalSkimFilter<T>::passesTightID_noIsolation (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions) const
+MinimalSkimFilter<T>::passesTightID_noIsolation_2015 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions) const
 {
   bool passes = false;
 
@@ -124,8 +124,41 @@ MinimalSkimFilter<T>::passesTightID_noIsolation (const pat::Electron &electron, 
   return passes;
 }
 
+template<MinimalSkim T> bool
+MinimalSkimFilter<T>::passesTightID_noIsolation_2016 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions) const
+{
+  bool passes = false;
+
+  if (fabs (electron.superCluster ()->eta ()) <= 1.479)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                                                                 <   0.00998
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx () - electron.superCluster ()->eta () + electron.superCluster ()->seed ()->eta ())  <   0.00308
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                                                                 <   0.0816
+             && electron.hadronicOverEm ()                                                                                                        <   0.0414
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.05
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.10
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+  else if (fabs (electron.superCluster ()->eta ()) < 2.5)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                                                                 <   0.0292
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx () - electron.superCluster ()->eta () + electron.superCluster ()->seed ()->eta ())  <   0.00605
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                                                                 <   0.0394
+             && electron.hadronicOverEm ()                                                                                                        <   0.0641
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.10
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.20
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+
+  return passes;
+}
+
 template<MinimalSkim T> double
-MinimalSkimFilter<T>::effectiveArea (const pat::Electron &electron) const
+MinimalSkimFilter<T>::effectiveArea_2015 (const pat::Electron &electron) const
 {
   if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
     return 0.1752;
@@ -141,6 +174,26 @@ MinimalSkimFilter<T>::effectiveArea (const pat::Electron &electron) const
     return 0.2243;
   if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
     return 0.2687;
+  return 0.0;
+}
+
+template<MinimalSkim T> double
+MinimalSkimFilter<T>::effectiveArea_2016 (const pat::Electron &electron) const
+{
+  if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
+    return 0.1703;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.0000 && fabs (electron.superCluster ()->eta ()) < 1.4790)
+    return 0.1715;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.4790 && fabs (electron.superCluster ()->eta ()) < 2.0000)
+    return 0.1213;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.0000 && fabs (electron.superCluster ()->eta ()) < 2.2000)
+    return 0.1230;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.2000 && fabs (electron.superCluster ()->eta ()) < 2.3000)
+    return 0.1635;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.3000 && fabs (electron.superCluster ()->eta ()) < 2.4000)
+    return 0.1937;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
+    return 0.2393;
   return 0.0;
 }
 
@@ -246,7 +299,7 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event, const edm:
   n = 0;
   for (const auto &electron : electrons)
     {
-      if (passesTightID_noIsolation (electron, beamspot, vertex, conversions))
+      if (passesTightID_noIsolation_2015 (electron, beamspot, vertex, conversions) || passesTightID_noIsolation_2016 (electron, beamspot, vertex, conversions))
         {
           n++;
           break;
@@ -260,8 +313,12 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event, const edm:
   n = 0;
   for (const auto &electron : electrons)
     {
-      if (((fabs (electron.superCluster ()->eta ()) <= 1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea (electron))) / electron.pt ()) < 0.0591)) \
-       || ((fabs (electron.superCluster ()->eta ()) >  1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea (electron))) / electron.pt ()) < 0.0759)))
+      bool passesTightIso_2015 = ((fabs (electron.superCluster ()->eta ()) <= 1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2015 (electron))) / electron.pt ()) < 0.0591)) \
+                              || ((fabs (electron.superCluster ()->eta ()) >  1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2015 (electron))) / electron.pt ()) < 0.0759)),
+           passesTightIso_2016 = ((fabs (electron.superCluster ()->eta ()) <= 1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2016 (electron))) / electron.pt ()) < 0.0588)) \
+                              || ((fabs (electron.superCluster ()->eta ()) >  1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2016 (electron))) / electron.pt ()) < 0.0571));
+
+      if (passesTightIso_2015 || passesTightIso_2016)
         {
           n++;
           break;
