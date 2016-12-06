@@ -8,6 +8,7 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, T
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+
 setTDRStyle()
 
 gROOT.SetBatch()
@@ -704,7 +705,11 @@ class FakeTrackBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+
+        if role == "Basic" or role == "ZtoLL":
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        else:
+            channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
