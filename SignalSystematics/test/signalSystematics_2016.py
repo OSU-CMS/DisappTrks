@@ -245,25 +245,49 @@ if systematic == "ISR" or systematic == "ALL":
 if systematic == "TRIGGER" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating trigger efficiency systematics"
+    print "evaluating trigger efficiency systematics (2016BC)"
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
         'metLegWeightData',
         'metLegWeightMC',
-        'triggerLegWeightData',
-        'triggerLegWeightMC',
+        'trackLegWeightData',
+        'trackLegWeightMC',
     ]
 
     triggerSystematic = TriggerSystematic (masses, lifetimes)
     triggerSystematic.addExtraSamples (extraSamples)
-    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
-    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
-    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics")
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
-    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger", "2016.txt")
+    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016BC.txt")
     triggerSystematic.printSystematic ()
 
     print "********************************************************************************\n\n"
 
-    print "\n\n""
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating trigger efficiency systematics (2016DEFG)"
+    print "--------------------------------------------------------------------------------"
+
+    triggerFluctuations = [
+        'metLegWeightData',
+        'metLegWeightMC',
+        'trackLegWeightData',
+        'trackLegWeightMC',
+    ]
+
+    triggerSystematic = TriggerSystematic (masses, lifetimes)
+    triggerSystematic.addExtraSamples (extraSamples)
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFG")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFG")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFG")
+    triggerSystematic.addTriggerFluctuations (triggerFluctuations)
+    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016DEFG.txt")
+    triggerSystematic.printSystematic ()
+
+    print "********************************************************************************\n\n"
+
+    print "\n\n"

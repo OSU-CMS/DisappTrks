@@ -243,3 +243,29 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "********************************************************************************"
 
     print "\n\n"
+
+if systematic == "TRIGGER" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating trigger efficiency systematics"
+    print "--------------------------------------------------------------------------------"
+
+    triggerFluctuations = [
+        'metLegWeightData',
+        'metLegWeightMC',
+        'trackLegWeightData',
+        'trackLegWeightMC',
+    ]
+
+    triggerSystematic = TriggerSystematic (masses, lifetimes)
+    triggerSystematic.addExtraSamples (extraSamples)
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
+    triggerSystematic.addTriggerFluctuations (triggerFluctuations)
+    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016BC.txt")
+    triggerSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
