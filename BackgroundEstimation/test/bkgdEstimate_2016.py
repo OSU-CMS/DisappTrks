@@ -16,31 +16,30 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-if False:
-    print "********************************************************************************"
-    print "performing fake track background estimate in search region"
-    print "--------------------------------------------------------------------------------"
+print "********************************************************************************"
+print "performing fake track background estimate in search region"
+print "--------------------------------------------------------------------------------"
 
-    fout = TFile.Open ("fakeTrackBkgdEstimate_2016.root", "recreate")
+fout = TFile.Open ("fakeTrackBkgdEstimate_2016.root", "recreate")
 
-    fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-    fakeTrackBkgdEstimate.addTFile (fout)
-    fakeTrackBkgdEstimate.addTCanvas (canvas)
-    fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-    fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
-    fakeTrackBkgdEstimate.addChannel  ("ZtoLL",       "ZtoMuMu",                                 "SingleMu_2016",  dirs['Brian']+"2016/zToMuMu_noSkim")
-    fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk", "ZtoMuMuDisTrkNoElectronMuonFiducialCuts", "SingleMu_2016",  dirs['Brian']+"2016/fakeTrackBackground")
-    fakeTrackBkgdEstimate.addChannel  ("Basic",       "BasicSelection",                          "MET_2016",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+fakeTrackBkgdEstimate.addTFile (fout)
+fakeTrackBkgdEstimate.addTCanvas (canvas)
+fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
+fakeTrackBkgdEstimate.addChannel  ("ZtoLL",       "ZtoMuMu",                                 "SingleMu_2016",  dirs['Brian']+"2016/zToMuMu_noSkim")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk", "ZtoMuMuDisTrkNoElectronMuonFiducialCuts", "SingleMu_2016",  dirs['Brian']+"2016/fakeTrackBackground")
+fakeTrackBkgdEstimate.addChannel  ("Basic",       "BasicSelection",                          "MET_2016",       dirs['Andrew']+"2016/basicSelection")
 
-    print "********************************************************************************"
+print "********************************************************************************"
 
-    (nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
+(nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
 
-    print "********************************************************************************"
+print "********************************************************************************"
 
-    fout.Close ()
+fout.Close ()
 
-    print "\n\n"
+print "\n\n"
 
 print "********************************************************************************"
 print "performing fake track background estimate in search region (2016BC)"
@@ -165,7 +164,7 @@ muonBkgdEstimateBC.addLuminosityLabel ("8.52 fb^{-1} (13 TeV)")
 muonBkgdEstimateBC.addPlotLabel ("SingleMuon 2016B+C")
 muonBkgdEstimateBC.addMetCut (100.0)
 muonBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2")
-muonBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2")
+muonBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016BC_rereco",  dirs['Brian']+"2016/muonBackground_v2")
 muonBkgdEstimateBC.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2")
 muonBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",	    "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2NoTrig")
 
@@ -194,7 +193,7 @@ muonBkgdEstimateDEFG.addLuminosityLabel ("4.35 fb^{-1} (13 TeV)")
 muonBkgdEstimateDEFG.addPlotLabel ("SingleMuon 2016D")
 muonBkgdEstimateDEFG.addMetCut (100.0)
 muonBkgdEstimateDEFG.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2")
-muonBkgdEstimateDEFG.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2")
+muonBkgdEstimateDEFG.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016EFG_rereco",  dirs['Brian']+"2016/muonBackground_v2")
 muonBkgdEstimateDEFG.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2")
 muonBkgdEstimateDEFG.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",	    "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2NoTrig")
 
@@ -223,7 +222,7 @@ tauBkgdEstimateBC.addLuminosityLabel ("0.814 fb^{-1} (13 TeV)")
 tauBkgdEstimateBC.addPlotLabel ("Tau 2016B+C")
 tauBkgdEstimateBC.addMetCut (100.0)
 tauBkgdEstimateBC.addChannel  ("TagProbe",       "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2")
-tauBkgdEstimateBC.addChannel  ("TagProbePass",   "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016BC",  dirs['Brian']+"2016/muonBackground_v2")
+tauBkgdEstimateBC.addChannel  ("TagProbePass",   "ZtoMuDisTrkNoElectronMuonFiducialCuts",                  "SingleMu_2016BC_rereco",  dirs['Brian']+"2016/muonBackground_v2")
 tauBkgdEstimateBC.addChannel  ("TagProbe1",      "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts", "SingleEle_2016BC", dirs['Brian']+"2016/electronBackground_v2")
 tauBkgdEstimateBC.addChannel  ("TagProbePass1",  "ZtoEleDisTrkNoElectronMuonFiducialCuts",                 "SingleEle_2016BC_rereco", dirs['Brian']+"2016/electronBackground_v2")
 tauBkgdEstimateBC.addChannel  ("TagPt35",        "TauTagPt55NoElectronMuonFiducialCuts",                   "Tau_2016BC",	   dirs['Brian']+"2016/tauBackground_v2")
@@ -256,7 +255,7 @@ tauBkgdEstimateDEFG.addLuminosityLabel ("0.139 fb^{-1} (13 TeV)")
 tauBkgdEstimateDEFG.addPlotLabel ("Tau 2016D")
 tauBkgdEstimateDEFG.addMetCut (100.0)
 tauBkgdEstimateDEFG.addChannel  ("TagProbe",       "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2")
-tauBkgdEstimateDEFG.addChannel  ("TagProbePass",   "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016DEFG",  dirs['Brian']+"2016/muonBackground_v2")
+tauBkgdEstimateDEFG.addChannel  ("TagProbePass",   "ZtoMuDisTrkNoElectronMuonFiducialCuts",                  "SingleMu_2016EFG_rereco",  dirs['Brian']+"2016/muonBackground_v2")
 tauBkgdEstimateDEFG.addChannel  ("TagProbe1",      "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts", "SingleEle_2016DEFG", dirs['Brian']+"2016/electronBackground_v2")
 tauBkgdEstimateDEFG.addChannel  ("TagProbePass1",  "ZtoEleDisTrkNoElectronMuonFiducialCuts",                 "SingleEle_2016DEG_rereco", dirs['Brian']+"2016/electronBackground_v2")
 tauBkgdEstimateDEFG.addChannel  ("TagPt35",        "TauTagPt55NoElectronMuonFiducialCuts",                   "Tau_2016DEFG",	   dirs['Brian']+"2016/tauBackground_v2")
