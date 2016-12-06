@@ -263,7 +263,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
     triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
     triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
-    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016BC.txt")
+    triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2015.txt")
     triggerSystematic.printSystematic ()
 
     print "********************************************************************************"
