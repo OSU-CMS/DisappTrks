@@ -52,6 +52,19 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
     # trigger developed for disappearing tracks
     "HLT_MET75_IsoTrk50_v",
 
+    # all other MET triggers that remained unprescaled for 2015
+    "HLT_MET250_v",
+    "HLT_PFMET120_PFMHT120_IDTight_v",
+    "HLT_PFMET170_HBHECleaned_v",
+    "HLT_PFMET170_JetIdCleaned_v",
+    "HLT_PFMET170_NoiseCleaned_v",
+    "HLT_PFMET170_v",
+    "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",
+
+    # these two are missing ~10/pb in 2015, but they're close enough
+    "HLT_PFMET90_PFMHT90_IDTight_v",
+    "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",
+
     # all other MET triggers that remained unprescaled for 2016
     "HLT_MET200_v",
     "HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v",
@@ -73,6 +86,14 @@ electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
+    # all single electron triggers that remained unprescaled for 2015
+    "HLT_Ele32_eta2p1_WPTight_Gsf_v",
+
+    # these two are missing ~10/pb in 2015, but they're close enough
+    "HLT_Ele22_eta2p1_WPLoose_Gsf_v",
+    "HLT_Ele22_eta2p1_WPTight_Gsf_v",
+    "HLT_Ele23_WPLoose_Gsf_v",
+
     # all single electron triggers that remained unprescaled for 2016
     "HLT_Ele25_eta2p1_WPTight_Gsf_v",
     "HLT_Ele27_WPTight_Gsf_v",
