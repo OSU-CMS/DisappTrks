@@ -60,35 +60,7 @@ if __name__ == '__main__':
 
     config.Site.storageSite = 'T2_US_Purdue'
 
-    # Run2016B-v1 (Tau and SingleMuon are v1, while MET and SingleElectron are v2)
-
-    config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v2-DisappTrks-v1'
-
-    config.General.requestName = 'candidateTrackProducer_MET_2016B-23Sep2016-v2'
-    config.Data.inputDataset = '/MET/Run2016B-23Sep2016-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_METSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v1-DisappTrks-v1'
-
-    config.General.requestName = 'candidateTrackProducer_Tau_2016B-23Sep2016-v1'
-    config.Data.inputDataset = '/Tau/Run2016B-23Sep2016-v1/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_TauSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2016B-23Sep2016-v1'
-    config.Data.inputDataset = '/SingleMuon/Run2016B-23Sep2016-v1/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_MuonSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v2-DisappTrks-v1'
-
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2016B-23Sep2016-v2'
-    config.Data.inputDataset = '/SingleElectron/Run2016B-23Sep2016-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    # Run2016B-v2 (all datasets are v3)
+    # Run2016B-v3
 
     config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v3-DisappTrks-v1'
 
