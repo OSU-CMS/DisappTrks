@@ -7,6 +7,8 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, T
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+
 setTDRStyle()
 
 gROOT.SetBatch()
@@ -614,22 +616,32 @@ class LeptonBkgdEstimate:
                 passes      = self.TagProbePass["yield"]
                 passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
-                if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
-                    total        += self.TagProbe1["yield"]
-                    totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
-                    passes       += self.TagProbePass1["yield"]
-                    passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"])
+                LumiScaleFactorDEG = lumi["MET_2016DEFG"] / (lumi["MET_2016DEFG"] - lumi["MET_2016F"])
+                LumiScaleFactorEFG = lumi["MET_2016DEFG"] / (lumi["MET_2016DEFG"] - lumi["MET_2016D"])
 
-                # NOTE: this is only temporary when 2016F RAW doesn't exist yet
+                # NOTE: this is only temporary when 2016F RAW doesn't exist yet for /SingleElectron/
                 if self.TagProbePass["sample"] == "SingleEle_2016DEG_rereco":
-                    LumiScaleFactorDEG = lumi["MET_2016DEFG"] / (lumi["MET_2016DEFG"] - lumi["MET_2016F"])
-
                     passes = passes * LumiScaleFactorDEG
                     passesError = passesError * LumiScaleFactorDEG
 
-                    if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
-                        passes     += self.TagProbePass1["yield"] * LumiScaleFactorDEG
-                        passesError = math.hypot (passesError, self.TagProbePass1["yieldError"] * LumiScaleFactorDEG)
+                # NOTE: this is only temporary when 2016D RAW doesn't exist yet for SingleMuon
+                if self.TagProbePass["sample"] == "SingleMu_2016EFG_rereco":
+                    passes = passes * LumiScaleFactorEFG
+                    passesError = passesError * LumiScaleFactorEFG
+
+                if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
+                    total        += self.TagProbe1["yield"]
+                    totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
+
+                    if self.TagProbePass1["sample"] == "SingleEle_2016DEG_rereco":
+                        passes       += self.TagProbePass1["yield"] * LumiScaleFactorDEG
+                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * LumiScaleFactorDEG)
+                    elif self.TagProbePass1["sample"] == "SingleMu_2016EFG_rereco":
+                        passes       += self.TagProbePass1["yield"] * LumiScaleFactorEFG
+                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * LumiScaleFactorEFG)
+                    else:
+                        passes       += self.TagProbePass1["yield"]
+                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"])
 
                 eff = passes / (2.0 * total - passes)
                 effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
@@ -693,7 +705,11 @@ class FakeTrackBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+
+        if role == "Basic" or role == "ZtoLL":
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        else:
+            channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)

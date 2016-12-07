@@ -12,7 +12,7 @@ process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/s
 process.ISRWeightProducer.weightHist = cms.string('SingleMu_2015D')
 process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
-process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_2015D.root')
 process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
 process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
 

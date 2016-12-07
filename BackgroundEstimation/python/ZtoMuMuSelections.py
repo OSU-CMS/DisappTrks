@@ -25,28 +25,28 @@ ZtoMuMu = cms.PSet(
 ##################################################
 ZtoMuMuCandTrk = copy.deepcopy(ZtoMuMu)
 ZtoMuMuCandTrk.name = cms.string("ZtoMuMuCandTrk")
-addCuts(ZtoMuMuCandTrk.cuts, candTrkCuts)
+addCuts(ZtoMuMuCandTrk.cuts, [cutTrkPt55] + candTrkCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track
 ##################################################
 ZtoMuMuDisTrk = copy.deepcopy(ZtoMuMu)
 ZtoMuMuDisTrk.name = cms.string("ZtoMuMuDisTrk")
-addCuts(ZtoMuMuDisTrk.cuts, disTrkCuts)
+addCuts(ZtoMuMuDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in Ecalo sideband
 ##################################################
 ZtoMuMuCandTrkEcaloSdband = copy.deepcopy(ZtoMuMu)
 ZtoMuMuCandTrkEcaloSdband.name = cms.string("ZtoMuMuCandTrkEcaloSdband")
-addCuts(ZtoMuMuCandTrkEcaloSdband.cuts, candTrkEcaloSdbandCuts)
+addCuts(ZtoMuMuCandTrkEcaloSdband.cuts, [cutTrkPt55] + candTrkEcaloSdbandCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in NMissOut sideband
 ##################################################
 ZtoMuMuCandTrkNMissOutSdband = copy.deepcopy(ZtoMuMu)
 ZtoMuMuCandTrkNMissOutSdband.name = cms.string("ZtoMuMuCandTrkNMissOutSdband")
-addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, candTrkNMissOutSdbandCuts)
+addCuts(ZtoMuMuCandTrkNMissOutSdband.cuts, [cutTrkPt55] + candTrkNMissOutSdbandCuts)
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + disappearing track with 3 hits
