@@ -54,32 +54,32 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
 
   edm::Handle<vector<TYPE(mets)> > mets;
   if(!event.getByToken(metsToken_, mets)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Cout not find mets collection. Skipping trigger weights...";
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find mets collection. Skipping trigger weights...";
     return;
   }
 
   edm::Handle<vector<TYPE(muons)> > muons;
   if(!event.getByToken(muonsToken_, muons)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Cout not find muons collection. Skipping trigger weights...";
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find muons collection. Skipping trigger weights...";
     return;
   }
 
   edm::Handle<vector<TYPE(tracks)> > tracks;
   if(!event.getByToken(tracksToken_, tracks)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Cout not find tracks collection. Skipping trigger weights...";
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find tracks collection. Skipping trigger weights...";
     return;
   }
 
   edm::Handle<vector<reco::Vertex> > vertices;
   if(!event.getByToken(vertexToken_, vertices)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Cout not find primaryvertexs collection. Skipping trigger weights...";
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find primaryvertexs collection. Skipping trigger weights...";
     return;
   }
   const reco::Vertex &pv = vertices->at(0);
 
   edm::Handle<vector<reco::GenParticle> > genParticles;
   if(!event.getByToken(mcparticlesToken_, genParticles)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Cout not find hardInteractionMcparticles collection. Skipping trigger weights...";
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find hardInteractionMcparticles collection. Skipping trigger weights...";
     return;
   }
 
