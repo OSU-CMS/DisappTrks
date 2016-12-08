@@ -130,3 +130,21 @@ def setThresholdForVeto (process, threshold):
                         for i in range (0, len (z)):
                             print "Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "..."
                             setattr (z[i], "thresholdForVeto", cms.double (threshold))
+
+def setFiducialMaps (process, electrons, muons):
+    fiducialMaps = ["electrons", "muons"]
+
+    for a in dir (process):
+        x = getattr (process, a)
+        if not hasattr (x, "type_"):
+            continue
+        if x.type_ () == "OSUTrackProducer":
+            if hasattr (x, "fiducialMaps"):
+                y = getattr (x, "fiducialMaps")
+                for fiducialMap in fiducialMaps:
+                    if hasattr (y, fiducialMap):
+                        z = getattr (y, fiducialMap)
+                        histFile = electrons if fiducialMap == "electrons" else muons
+                        for i in range (0, len (z)):
+                            print "Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
+                            setattr (z[i], "histFile", cms.FileInPath (histFile))

@@ -24,3 +24,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # THE disappearing tracks search region
 #  add_channels  (process,  [disTrkSelectionNoElectronMuonFiducialCuts],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+  setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
+else:
+  setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
