@@ -95,11 +95,11 @@ weights = cms.VPSet (
         inputVariable = cms.string("puScalingFactor")
     ),
     cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("metLegWeight")
     ),
     cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("trackLegWeight")
     ),
 )
@@ -124,12 +124,12 @@ weightsFluctuateTrigger = cms.VPSet (
         inputVariable = cms.string("puScalingFactor")
     ),
     cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("metLegWeight"),
         fluctuations = cms.vstring("metLegWeightMCUp", "metLegWeightMCDown", "metLegWeightDataUp", "metLegWeightDataDown")
     ),
     cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("trackLegWeight"),
         fluctuations = cms.vstring("trackLegWeightMCUp", "trackLegWeightMCDown", "trackLegWeightDataUp", "trackLegWeightDataDown")
     ),
