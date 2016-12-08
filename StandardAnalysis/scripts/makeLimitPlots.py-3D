@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Fixme:  Merge this script with makeLimitPlots.py 
+# Fixme:  Merge this script with makeLimitPlots.py
 
 import time
 import os
@@ -22,7 +22,7 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
-parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, 
+parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
                   help="verbose output")
 
 (arguments, args) = parser.parse_args()
@@ -81,7 +81,7 @@ colorSchemes = {
         'oneSigma' : 78, #410,
         'twoSigma' : 88, #393,
     },
-    
+
     'theory' : {
         'obs' : 1,
         'exp' : 2,
@@ -199,7 +199,7 @@ def getTheoryOneSigmaGraph():
     graph.SetFillStyle(0)
     graph.SetLineColor(colorSchemes['theory']['oneSigma'])
     graph.SetMarkerColor(colorSchemes['theory']['oneSigma'])
-    
+
     return graph
 
 
@@ -278,8 +278,8 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
                 deltaM = lowerlimit * (1.0 + precision)
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
-                                                                                                                                                                             
-                                                    
+
+
 
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
@@ -337,8 +337,8 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
         y.append (lifetime)
         if arguments.verbose:
             print "Debug getGraph2D:  adding point: " + str(mass_limit) + ", " + str(lifetime)
-            print "  Debug:  previous_mass=" + str(previous_mass) + ", first_allowed_mass=" + str(first_allowed_mass)  
-            print "  Debug:  limit_dict[lifetime][first_allowed_mass]['experiment'] = " + str(limit_dict[lifetime][first_allowed_mass]['experiment']) + ", experiment_key = " + experiment_key 
+            print "  Debug:  previous_mass=" + str(previous_mass) + ", first_allowed_mass=" + str(first_allowed_mass)
+            print "  Debug:  limit_dict[lifetime][first_allowed_mass]['experiment'] = " + str(limit_dict[lifetime][first_allowed_mass]['experiment']) + ", experiment_key = " + experiment_key
             if previous_mass != first_allowed_mass:
                 print "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ","
         if x_key is 'lifetime' and y_key is 'mass':
@@ -347,9 +347,9 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
         print "Debug:  about to print all the values that go into TGraph:"
         for i in range(len(x)):
             print i, ": ", x[i], ", ", y[i]
-            
+
         lifetimeInCm = copy.deepcopy(y)
-        
+
         print "Debug:  about to print all the values that go into TGraph, after converting to massSplitting:"
         for i in range(len(y)):
             y[i] = convertFromCmToMassSplitting_v3(x[i], y[i])
@@ -381,7 +381,7 @@ def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
     for limit in limits:
         mass = float (limit['mass'])
         lifetime = float (limit['lifetime'])
-        
+
         if lifetime not in limit_dict:
             limit_dict[lifetime] = {}
         if mass not in limit_dict[lifetime]:
@@ -432,9 +432,9 @@ def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
     #th2f.GetYaxis().SetTitleOffset(1.5)
     #th2f.GetXaxis().SetTitle(x_key)
     #th2f.GetYaxis().SetTitle(y_key)
-    
+
     return th2f
-                                                                                                                                                                                                                                                                                                                                                                
+
 
 
 
@@ -509,7 +509,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
             file.write('\n')
             expTable.close()
-                
+
     if x_key is 'lifetime' and y_key is 'mass':
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
@@ -519,7 +519,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     expTable.write('\n')
     expTable.write(' \end{tabular} \end{center}')
     expTable.close()
-    print "Table of expected limits for AN stored in: limits/" + limit_dir 
+    print "Table of expected limits for AN stored in: limits/" + limit_dir
     return 'Success'
 
 def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
@@ -535,7 +535,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     obsTable.write('\hline')
     obsTable.write('\n')
     obsTable.close()
-    
+
     for limit in limits:
         mass = float (limit['mass'])
         lifetime = float (limit['lifetime'])
@@ -584,16 +584,16 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0
             x.append (mass_limit)
             y.append (lifetime)
-            
+
             with open ("limits/" + limit_dir + "/" + "obsTable.tex", 'a') as file:
                 file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
                 file.write('\n')
             obsTable.close()
-            
+
             if x_key is 'lifetime' and y_key is 'mass':
                 x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
-        
+
     obsTable = open("limits/" + limit_dir + "/" + "obsTable.tex", "a")
     obsTable.write('\hline \hline')
     obsTable.write('\n')
@@ -603,7 +603,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     return 'Success'
 
 
-    
+
 def getObservedGraph(limits,xAxisType,colorScheme):
     graph = getGraph(limits, xAxisType, 'observed')
     graph.SetLineWidth(5)
@@ -732,7 +732,7 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
         x.append (xPoint)
         y.append (yPoint)
         if arguments.verbose:
-            print "Debug:  appending point: (" + str(xPoint) + ", " + str(yPoint) 
+            print "Debug:  appending point: (" + str(xPoint) + ", " + str(yPoint)
         if y_key is 'lifetime':
             eXHigh.append (upXPoint)
             eXLow.append (downXPoint)
@@ -764,7 +764,7 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
         borderGraph = getBorderGraph (graph, 'vertical')
     return borderGraph
 
-    
+
 def getOneSigmaGraph(limits,xAxisType,colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up1', 'down1')
     graph.SetFillColor(colorSchemes[colorScheme]['oneSigma'])
@@ -805,7 +805,7 @@ def fetchLimits(mass,lifetime,directories):
     limit['expected'] = 1.0e12
 
     if arguments.verbose:
-        print "Debug:  running fetchLimits for mass = " + str(mass) + "; lifetime = " + str(lifetime) + "; directories = " + str(directories) 
+        print "Debug:  running fetchLimits for mass = " + str(mass) + "; lifetime = " + str(lifetime) + "; directories = " + str(directories)
     for directory in directories:
         if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+directory+"/method.txt"):
             print "Returning -1 for no method.txt file"
@@ -843,7 +843,7 @@ def fetchLimits(mass,lifetime,directories):
             if not file.GetNkeys():
                 print "Returning -1 for file.GetNKeys"
                 return -1
-            
+
             limit_tree = file.Get('limit')
             if not limit_tree:
                 print "Returning -1 for no limit_tree"
@@ -867,7 +867,7 @@ def fetchLimits(mass,lifetime,directories):
             tmp_limit['up2'] = 99999.
             tmp_limit['down1'] = 99999.
             tmp_limit['down2'] = 99999.
-            
+
             # print "Debug: opening file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
             # print makeSignalLogFileName(mass,lifetime,directory,"expected")
@@ -881,7 +881,7 @@ def fetchLimits(mass,lifetime,directories):
                     # print "Debug: Setting limit from line: ", line
             file.close()
             print "Debug: found expected limit: ", tmp_limit['expected']
-                    
+
             # print "Debug: opening observed file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
             for line in file:
@@ -889,7 +889,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['observed'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             print "Debug: found observed limit: ", tmp_limit['observed']
-                    
+
             # print "Debug: opening up1 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up1"))
             for line in file:
@@ -897,7 +897,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['up1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             print "Debug: found up1 limit: ", tmp_limit['up1']
-                            
+
             # print "Debug: opening up2 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up2"))
             for line in file:
@@ -905,7 +905,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['up2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             print "Debug: found up2 limit: ", tmp_limit['up2']
-                                    
+
             # print "Debug: opening down1 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down1"))
             for line in file:
@@ -913,7 +913,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             print "Debug: found down1 limit: ", tmp_limit['down1']
-                                            
+
             # print "Debug: opening down2 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down2"))
             for line in file:
@@ -921,36 +921,36 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             print "Debug: found down2 limit: ", tmp_limit['down2']
-                                                    
+
 
         # for other methods, get the ranges from the log file
         else:
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
 #            print "Debug:  opening file: "
-#            print makeSignalLogFileName(mass,lifetime,directory,"expected")  
+#            print makeSignalLogFileName(mass,lifetime,directory,"expected")
             for line in file:
-#                print "Debug: line = " + line  
+#                print "Debug: line = " + line
                 line = line.rstrip("\n").split(":")
-                if line[0] == "median expected limit": 
+                if line[0] == "median expected limit":
                     tmp_limit['expected'] = float(line[1].split(" ")[3])
-                elif line[0] == "   68% expected band ": 
+                elif line[0] == "   68% expected band ":
                     tmp_limit['down1'] = float(line[1].split(" ")[1])
-                    tmp_limit['up1'] = float(line[1].split(" ")[5])             
-                elif line[0] == "   95% expected band ": 
+                    tmp_limit['up1'] = float(line[1].split(" ")[5])
+                elif line[0] == "   95% expected band ":
                     tmp_limit['down2'] = float(line[1].split(" ")[1])
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
-#            print "Debug:  finished expected"  
+#            print "Debug:  finished expected"
 
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
 #            print "Debug:  opening observed file: "
-#            print makeSignalLogFileName(mass,lifetime,directory,"observed")  
+#            print makeSignalLogFileName(mass,lifetime,directory,"observed")
             for line in file:
                 line = line.rstrip("\n").split(":")
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
             file.close()
-                    
+
         tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
         tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
         tmp_limit['down2'] = math.fabs(tmp_limit['down2'] - tmp_limit['expected'])
@@ -964,14 +964,14 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['expected'] *= xSection
         tmp_limit['down1'] *= xSection
         tmp_limit['down2'] *= xSection
-        
-        print "Debug:  observed limit with xSection = ", tmp_limit['observed']  
+
+        print "Debug:  observed limit with xSection = ", tmp_limit['observed']
 
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
         if convertCmToNs:
             speedLightCmPerNs = 29.979  # speed of light in cm / ns
-            tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs  
+            tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
@@ -998,8 +998,8 @@ def drawPlot(plot):
                 elif th2f is 'exp':
                     canvasName = plot['title'] + '_expected_cross_section_upper_limit'
 #                tmp_canvas = TCanvas(canvasName, canvasName, 1486, 112, 1114, 786)
-#                tmp_canvas = TCanvas(canvasName)  
-                tmp_canvas = TCanvas(canvasName, canvasName, 600, 500)  
+#                tmp_canvas = TCanvas(canvasName)
+                tmp_canvas = TCanvas(canvasName, canvasName, 600, 500)
                 generalCanvas.append(tmp_canvas)
                 #tmp_canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
 
@@ -1061,7 +1061,7 @@ def drawPlot(plot):
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
-        legend.SetTextFont(42)  
+        legend.SetTextFont(42)
 
     #construct tGraph objects for all curves and draw them
         tGraphs = []
@@ -1082,7 +1082,7 @@ def drawPlot(plot):
 
                                 drawOption = tGraph.GetName() + ' same'
                                 tGraph.Draw(drawOption)
-                                
+
                     if type is 'obs':
                         tTh2fs.append(getTH2F(th2f['limits'],plot['xAxisType'],plot['yAxisType'],'observed', 'theory'))
                         if 'obs' in canvas.GetName():
@@ -1151,7 +1151,7 @@ def drawPlot(plot):
                                 legendEntry = legendEntry + ": " + graph['legendEntry']
                             legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         if graphName is 'obs':
-                            print "Drawing observed graph: 1" 
+                            print "Drawing observed graph: 1"
                             tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                             if plotDrawn:
                                 tGraphs[-1].Draw('L')
@@ -1196,7 +1196,7 @@ def drawPlot(plot):
                             tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
                     #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
                             makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory')
-                    
+
                             if plotDrawn:
                                 tGraphs[-1].Draw('L')
                             else:
@@ -1275,12 +1275,12 @@ def drawPlot(plot):
                     absMax = plotMax
 
         for tGraph in tGraphs:
-            print "Debug:  doing tGraph:  ", tGraph.GetName()  
+            print "Debug:  doing tGraph:  ", tGraph.GetName()
             tGraph.SetTitle("")
             tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
-            if 'xAxisFixMin' in plot:  
-                tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])  
-                tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])    
+            if 'xAxisFixMin' in plot:
+                tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])
+                tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
             else:
                 tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
                 tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
@@ -1293,9 +1293,9 @@ def drawPlot(plot):
                     tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
             else:
                 tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
-                if 'yAxisFixMin' in plot:  
-                    tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])  
-                    tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])    
+                if 'yAxisFixMin' in plot:
+                    tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])
+                    tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])
                 else:
                     tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
                     tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
@@ -1317,22 +1317,22 @@ def drawPlot(plot):
 #                th2f.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])
                 th2f.GetYaxis().SetRangeUser(       plot['yAxisFixMin'],       plot['yAxisFixMax'])
                 print "Debug:  setting y axis to ", plot['yAxisFixMin'], ", ", plot['yAxisFixMax']
-            th2f.GetYaxis().SetRangeUser(0.07, 300)    # not sure why previous if block doesn't work  
+            th2f.GetYaxis().SetRangeUser(0.07, 300)    # not sure why previous if block doesn't work
             if 'xAxisFixMin' in plot:
 #                th2f.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])
-                th2f.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax']) 
+                th2f.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
                 print "Debug:  setting x axis to ", plot['xAxisFixMin'], ", ", plot['xAxisFixMax']
-            print "Debug:  max x range is ", th2f.GetXaxis().GetBinLowEdge(1), ", ", th2f.GetXaxis().GetBinLowEdge(1+th2f.GetXaxis().GetNbins())  
-            print "Debug:  max y range is ", th2f.GetYaxis().GetBinLowEdge(1), ", ", th2f.GetYaxis().GetBinLowEdge(1+th2f.GetYaxis().GetNbins())  
-            th2f.GetZaxis().SetTitle("95% CL upper limit on cross section [pb]")  
+            print "Debug:  max x range is ", th2f.GetXaxis().GetBinLowEdge(1), ", ", th2f.GetXaxis().GetBinLowEdge(1+th2f.GetXaxis().GetNbins())
+            print "Debug:  max y range is ", th2f.GetYaxis().GetBinLowEdge(1), ", ", th2f.GetYaxis().GetBinLowEdge(1+th2f.GetYaxis().GetNbins())
+            th2f.GetZaxis().SetTitle("95% CL upper limit on cross section [pb]")
             th2f.GetZaxis().SetTitleSize(0.05)
             th2f.GetZaxis().SetLabelSize(0.04)
-            th2f.GetXaxis().SetNdivisions(509)  
-                
+            th2f.GetXaxis().SetNdivisions(509)
+
     #draw the header label
 #    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
         HeaderLabel = TPaveLabel(0.08557047,0.9458042,0.9647651,0.9965035,HeaderText,"NDC") # from makePlots.py
-        
+
         HeaderLabel.SetTextAlign(32)
         HeaderLabel.SetTextFont(42)
         HeaderLabel.SetBorderSize(0)
@@ -1352,8 +1352,8 @@ def drawPlot(plot):
         LumiLabel.SetFillColor(0)
         LumiLabel.SetFillStyle(0)
         LumiLabel.Draw()
-        
-        if 'theoryLabel' in plot: 
+
+        if 'theoryLabel' in plot:
             #            TheoryLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['theoryLabel'],"NDC")
             if convertToMassSplitting:
                 TheoryLabel = TPaveLabel(0.4983221,0.8618881,0.9127517,0.9318182,plot['theoryLabel'],"NDC")
@@ -1368,7 +1368,7 @@ def drawPlot(plot):
             TheoryLabel.SetFillColor(0)
             TheoryLabel.SetFillStyle(0)
             TheoryLabel.Draw()
-            
+
         if 'massLabel' in plot:
             MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
             MassLabel.SetTextSize(0.5454546)
@@ -1377,7 +1377,7 @@ def drawPlot(plot):
             MassLabel.SetFillColor(0)
             MassLabel.SetFillStyle(0)
             MassLabel.Draw()
-            
+
         if 'brLabel' in plot:
             BRLabel = TPaveLabel(0.1609195,0.779661,0.5014368,0.8368644,plot['brLabel'],"NDC")
             BRLabel.SetTextSize(0.6666667)
@@ -1387,12 +1387,12 @@ def drawPlot(plot):
             BRLabel.SetFillStyle(0)
             BRLabel.Draw()
 
-        if makeColorPlot:    
+        if makeColorPlot:
             canvas.SetLeftMargin(0.15)
             canvas.SetRightMargin(0.15)
-        print "Debug:  margins:  ", canvas.GetLeftMargin(), ", ", canvas.GetRightMargin()  
+        print "Debug:  margins:  ", canvas.GetLeftMargin(), ", ", canvas.GetRightMargin()
         canvas.Update()
-        
+
         canvas.RedrawAxis('g')
         if 'drawTheoryCurve' in plot and plot['drawTheoryCurve']:
             function = TF1("function","-413.315+305.383*log(x) - 60.8831*log(x)^2 + 5.41948 * log(x)^3 - 0.181509*log(x)^4",100,600)
@@ -1413,7 +1413,7 @@ def drawPlot(plot):
 
         canvas.Write()
         canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
- 
+
 
 
 
@@ -1442,7 +1442,7 @@ for plot in plotDefinitions:
                         else:
                             print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " mm"
     if plot.has_key('graphs'):
-                            
+
         for graph in plot['graphs']:
             graph['limits'] = []
             if plot['xAxisType'] is 'lifetime' and 'yAxisType' not in plot:
@@ -1459,15 +1459,15 @@ for plot in plotDefinitions:
                 for mass in masses:
                     for lifetime in lifetimes:
                         lifetime = lifetime.replace(".0", "")
-                        lifetime = lifetime.replace("0.5", "0p5")    
+                        lifetime = lifetime.replace("0.5", "0p5")
                         #                limit = fetchLimits(mass,graph['lifetime'],graph['br'],graph['source'])
                         limit = fetchLimits(mass,graph['lifetime'],graph['source'])
                     if arguments.verbose:
-                        print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + limit['expected'] 
+                        print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + limit['expected']
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']  
+                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + graph['source']
             elif 'yAxisType' in plot:
                 for mass in masses:
                     for lifetime in lifetimes:

@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step1 --filein file:EXO-RunIISummer15GS-06491.root --fileout file:AMSB_chargino_step2.root --pileup_input dbs:/MinBias_TuneCUETP8M1_13TeV-pythia8/RunIISummer15GS-MCRUN2_71_V1-v2/GEN-SIM --mc --eventcontent RAWSIM --pileup 2015_25ns_FallMC_matchData_PoissonOOTPU --datatier GEN-SIM-RAW --conditions 76X_mcRun2_asymptotic_v12 --step DIGI,L1,DIGI2RAW,HLT:@frozen25ns --era Run2_25ns --python_filename AMSB_chargino_step2.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep -n 131
 import FWCore.ParameterSet.Config as cms
 
@@ -32,22 +32,22 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     dropDescendantsOfDroppedBranches = cms.untracked.bool(False),
     fileNames = cms.untracked.vstring('file:EXO-RunIISummer15GS-06491.root'),
-    inputCommands = cms.untracked.vstring('keep *', 
-        'drop *_genParticles_*_*', 
-        'drop *_genParticlesForJets_*_*', 
-        'drop *_kt4GenJets_*_*', 
-        'drop *_kt6GenJets_*_*', 
-        'drop *_iterativeCone5GenJets_*_*', 
-        'drop *_ak4GenJets_*_*', 
-        'drop *_ak7GenJets_*_*', 
-        'drop *_ak8GenJets_*_*', 
-        'drop *_ak4GenJetsNoNu_*_*', 
-        'drop *_ak8GenJetsNoNu_*_*', 
-        'drop *_genCandidatesForMET_*_*', 
-        'drop *_genParticlesForMETAllVisible_*_*', 
-        'drop *_genMetCalo_*_*', 
-        'drop *_genMetCaloAndNonPrompt_*_*', 
-        'drop *_genMetTrue_*_*', 
+    inputCommands = cms.untracked.vstring('keep *',
+        'drop *_genParticles_*_*',
+        'drop *_genParticlesForJets_*_*',
+        'drop *_kt4GenJets_*_*',
+        'drop *_kt6GenJets_*_*',
+        'drop *_iterativeCone5GenJets_*_*',
+        'drop *_ak4GenJets_*_*',
+        'drop *_ak7GenJets_*_*',
+        'drop *_ak8GenJets_*_*',
+        'drop *_ak4GenJetsNoNu_*_*',
+        'drop *_ak8GenJetsNoNu_*_*',
+        'drop *_genCandidatesForMET_*_*',
+        'drop *_genParticlesForMETAllVisible_*_*',
+        'drop *_genMetCalo_*_*',
+        'drop *_genMetCaloAndNonPrompt_*_*',
+        'drop *_genMetTrue_*_*',
         'drop *_genMetIC5GenJs_*_*'),
     secondaryFileNames = cms.untracked.vstring()
 )
@@ -98,19 +98,19 @@ process.schedule.extend([process.endjob_step,process.RAWSIMoutput_step])
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
 
 # Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
-from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforFullSim 
+from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforFullSim
 
 #call to customisation function customizeHLTforFullSim imported from HLTrigger.Configuration.customizeHLTforMC
 process = customizeHLTforFullSim(process)

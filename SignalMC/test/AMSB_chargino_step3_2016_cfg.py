@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step2 --filein file:EXO-RunIISpring16DR80-02856_step1.root --fileout file:EXO-RunIISpring16DR80-02856.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 80X_mcRun2_asymptotic_v14 --step RAW2DIGI,RECO,EI --nThreads 4 --era Run2_2016 --python_filename reco_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 960
 import FWCore.ParameterSet.Config as cms
 
@@ -81,13 +81,13 @@ process.options.numberOfStreams=cms.untracked.uint32(0)
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)

@@ -20,7 +20,7 @@
 #include "DataFormats/GsfTrackReco/interface/GsfTrack.h"
 #include "DataFormats/MuonReco/interface/Muon.h"
 
-#include "TrackingTools/IPTools/interface/IPTools.h" 
+#include "TrackingTools/IPTools/interface/IPTools.h"
 #include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
 #include "TrackingTools/Records/interface/TransientTrackRecord.h"
 
@@ -41,9 +41,9 @@ namespace pat {
   public:
     explicit PATPackedGenParticlePlusGeantProducer(const edm::ParameterSet&);
     ~PATPackedGenParticlePlusGeantProducer();
-    
+
     virtual void produce(edm::StreamID, edm::Event&, const edm::EventSetup&) const;
-    
+
   private:
     const edm::EDGetTokenT<reco::GenParticleCollection>    Cands_;
     const edm::EDGetTokenT<reco::GenParticleCollection>    GenOrigs_;
@@ -98,10 +98,10 @@ void pat::PATPackedGenParticlePlusGeantProducer::produce(edm::StreamID, edm::Eve
     //invert the value map from Orig2New to New2Orig
     std::map< edm::Ref<reco::GenParticleCollection> ,  edm::Ref<reco::GenParticleCollection> > reverseMap;
     for(unsigned int ic=0, nc = genOrigs->size(); ic < nc; ++ic)
-    {	
-	edm::Ref<reco::GenParticleCollection> originalRef = edm::Ref<reco::GenParticleCollection>(genOrigs,ic);
-	edm::Ref<reco::GenParticleCollection> newRef = (*assoOriginal)[originalRef];
-	reverseMap.insert(std::pair<edm::Ref<reco::GenParticleCollection>,edm::Ref<reco::GenParticleCollection>>(newRef,originalRef));
+    {
+        edm::Ref<reco::GenParticleCollection> originalRef = edm::Ref<reco::GenParticleCollection>(genOrigs,ic);
+        edm::Ref<reco::GenParticleCollection> newRef = (*assoOriginal)[originalRef];
+        reverseMap.insert(std::pair<edm::Ref<reco::GenParticleCollection>,edm::Ref<reco::GenParticleCollection>>(newRef,originalRef));
     }
 
     std::unique_ptr< std::vector<pat::PackedGenParticle> > outPtrP( new std::vector<pat::PackedGenParticle> );
@@ -109,22 +109,22 @@ void pat::PATPackedGenParticlePlusGeantProducer::produce(edm::StreamID, edm::Eve
     unsigned int packed=0;
     for(unsigned int ic=0, nc = cands->size(); ic < nc; ++ic) {
         const reco::GenParticle &cand=(*cands)[ic];
-	if((cand.status() ==1 || cand.status() ==8) && std::abs(cand.y()) < maxRapidity_)
+        if((cand.status() ==1 || cand.status() ==8) && std::abs(cand.y()) < maxRapidity_)
         {
-		// Obtain original gen particle collection reference from input reference and map
-		edm::Ref<reco::GenParticleCollection> inputRef = edm::Ref<reco::GenParticleCollection>(cands,ic);
-		edm::Ref<reco::GenParticleCollection> originalRef=reverseMap[inputRef];
-		mapping[originalRef.key()]=packed;
-		packed++;
-		if(cand.numberOfMothers() > 0) {
-			edm::Ref<reco::GenParticleCollection> newRef=(*asso)[cand.motherRef(0)];
-	        	outPtrP->push_back( pat::PackedGenParticle(cand,newRef));
-		} else {
-	        	outPtrP->push_back( pat::PackedGenParticle(cand,edm::Ref<reco::GenParticleCollection>()));
-			
-		}
+                // Obtain original gen particle collection reference from input reference and map
+                edm::Ref<reco::GenParticleCollection> inputRef = edm::Ref<reco::GenParticleCollection>(cands,ic);
+                edm::Ref<reco::GenParticleCollection> originalRef=reverseMap[inputRef];
+                mapping[originalRef.key()]=packed;
+                packed++;
+                if(cand.numberOfMothers() > 0) {
+                        edm::Ref<reco::GenParticleCollection> newRef=(*asso)[cand.motherRef(0)];
+                        outPtrP->push_back( pat::PackedGenParticle(cand,newRef));
+                } else {
+                        outPtrP->push_back( pat::PackedGenParticle(cand,edm::Ref<reco::GenParticleCollection>()));
 
-	}	
+                }
+
+        }
     }
 
 
@@ -135,7 +135,7 @@ void pat::PATPackedGenParticlePlusGeantProducer::produce(edm::StreamID, edm::Eve
     gp2pgpFiller.insert(genOrigs, mapping.begin(), mapping.end());
     gp2pgpFiller.fill();
     iEvent.put (std::move (gp2pgp));
- 
+
 
 }
 

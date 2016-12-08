@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# Local options file to be used with makeLimitPlots.py 
+# Local options file to be used with makeLimitPlots.py
 # Usage:
-# > makeLimitPlots.py -l amsbLimitPlotConfig1DShort.py -c limitDir 
+# > makeLimitPlots.py -l amsbLimitPlotConfig1DShort.py -c limitDir
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
@@ -30,7 +30,7 @@ outputName = "limit_plot1DShort.root"
 
 # description of all the plots to be made
 plotDefinitions = [
-    
+
 ##     #each entry corresponds to a canvas in the output file
 
      ######################

@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: RECO -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v3 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=recoskim_Run2016.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -113,7 +113,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

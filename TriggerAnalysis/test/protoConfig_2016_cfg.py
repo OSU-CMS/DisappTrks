@@ -43,7 +43,7 @@ process.source = cms.Source ("PoolSource",
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
         "root://cmsxrootd-site2.fnal.gov:1092//store/data/Run2016G/SingleMuon/MINIAOD/23Sep2016-v1/90001/FCE3D2A7-8299-E611-899F-549F3525BF58.root",
-	    #"root://cmsxrootd-site2.fnal.gov:1093//store/mc/RunIISpring16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/20000/C6562975-AB56-E611-B9A4-0025905B8566.root",
+            #"root://cmsxrootd-site2.fnal.gov:1093//store/mc/RunIISpring16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/20000/C6562975-AB56-E611-B9A4-0025905B8566.root",
         #"file:/data/users/hart/condor/signalMC/2016/AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6_step4/hist_365.root",
     ),
 )

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.bkgdSystematics import * 
-from DisappTrks.StandardAnalysis.utilities import * 
+from DisappTrks.StandardAnalysis.bkgdSystematics import *
+from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
-import os 
+import os
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)

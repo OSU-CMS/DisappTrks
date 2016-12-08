@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.bkgdEstimate import * 
-from DisappTrks.StandardAnalysis.utilities import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import *
+from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
-import os 
+import os
 
 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/706
 pPassVeto = (0.104, 0.013)

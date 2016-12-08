@@ -49,10 +49,10 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   rhoTag_           (iConfig.getParameter<edm::InputTag> ("rhoTag")),
   rhoCaloTag_       (iConfig.getParameter<edm::InputTag> ("rhoCaloTag")),
   rhoCentralCaloTag_(iConfig.getParameter<edm::InputTag> ("rhoCentralCaloTag")),
-  EBRecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EBRecHits")), 
-  EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")), 
-  HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")), 
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt")) 
+  EBRecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EBRecHits")),
+  EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
+  HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
 
@@ -66,11 +66,11 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   rhoToken_             =  consumes<double>                     (rhoTag_);
   rhoCaloToken_         =  consumes<double>                     (rhoCaloTag_);
   rhoCentralCaloToken_  =  consumes<double>                     (rhoCentralCaloTag_);
-  EBRecHitsToken_       =  consumes<EBRecHitCollection>         (EBRecHitsTag_);  
-  EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);  
-  HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);  
+  EBRecHitsToken_       =  consumes<EBRecHitCollection>         (EBRecHitsTag_);
+  EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);
+  HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);
 
-  verbose_ = false;  
+  verbose_ = false;
   // edm::Service<TFileService> fs;
 
 
@@ -119,13 +119,13 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
   edm::Handle<EBRecHitCollection> EBRecHits;
   iEvent.getByToken(EBRecHitsToken_, EBRecHits);
-  if (!EBRecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EBRecHitCollection in the event!\n";  
+  if (!EBRecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EBRecHitCollection in the event!\n";
   edm::Handle<EERecHitCollection> EERecHits;
   iEvent.getByToken(EERecHitsToken_, EERecHits);
-  if (!EERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EERecHitCollection in the event!\n";  
+  if (!EERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EERecHitCollection in the event!\n";
   edm::Handle<HBHERecHitCollection> HBHERecHits;
   iEvent.getByToken(HBHERecHitsToken_, HBHERecHits);
-  if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";  
+  if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";
 
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
@@ -151,46 +151,46 @@ void
 CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits)
 {
 
-  double dR = 0.5;  
+  double dR = 0.5;
   double eEM = 0;
-  int nhitsInConeEB = 0; 
-  int nhitsInConeEE = 0; 
+  int nhitsInConeEB = 0;
+  int nhitsInConeEE = 0;
   for (EBRecHitCollection::const_iterator hit=EBRecHits->begin(); hit!=EBRecHits->end(); hit++) {
     if (insideCone(candTrack, (*hit).detid(), dR)) {
       eEM += (*hit).energy();
-      nhitsInConeEB++; 
-      if (verbose_) cout << "       Added EB rec hit with (eta, phi) = " 
-			 << getPosition((*hit).detid()).eta() << ", " 
-			 << getPosition((*hit).detid()).phi() << endl;  
+      nhitsInConeEB++;
+      if (verbose_) cout << "       Added EB rec hit with (eta, phi) = "
+                         << getPosition((*hit).detid()).eta() << ", "
+                         << getPosition((*hit).detid()).phi() << endl;
     }
   }
   for (EERecHitCollection::const_iterator hit=EERecHits->begin(); hit!=EERecHits->end(); hit++) {
     if (insideCone(candTrack, (*hit).detid(), dR)) {
       eEM += (*hit).energy();
-      nhitsInConeEE++; 
-      if (verbose_) cout << "       Added EE rec hit with (eta, phi) = " 
-			 << getPosition((*hit).detid()).eta() << ", " 
-			 << getPosition((*hit).detid()).phi() << endl;  
+      nhitsInConeEE++;
+      if (verbose_) cout << "       Added EE rec hit with (eta, phi) = "
+                         << getPosition((*hit).detid()).eta() << ", "
+                         << getPosition((*hit).detid()).phi() << endl;
     }
   }
-  if (verbose_) cout << "  Ecalo calculation: EcaloECAL = " << eEM 
-		     << ", nhitsInConeEB = " << nhitsInConeEB
-		     << ", nhitsInConeEE = " << nhitsInConeEE
-		     << ", nhitsInConeEcal = " << nhitsInConeEB + nhitsInConeEE 
-		     << endl;  
-  
-  double eHad = 0;  
-  int nhitsInConeHad = 0; 
+  if (verbose_) cout << "  Ecalo calculation: EcaloECAL = " << eEM
+                     << ", nhitsInConeEB = " << nhitsInConeEB
+                     << ", nhitsInConeEE = " << nhitsInConeEE
+                     << ", nhitsInConeEcal = " << nhitsInConeEB + nhitsInConeEE
+                     << endl;
+
+  double eHad = 0;
+  int nhitsInConeHad = 0;
   for (HBHERecHitCollection::const_iterator hit = HBHERecHits->begin(); hit != HBHERecHits->end(); hit++) {
     if (insideCone(candTrack, (*hit).detid(), dR)) {
-      eHad += (*hit).energy(); 
-      nhitsInConeHad++;  
+      eHad += (*hit).energy();
+      nhitsInConeHad++;
     }
   }
-  if (verbose_)  cout << "  Calculated EcaloHad = " << eHad 
-		      << ", nhitsInConeHad = " << nhitsInConeHad 
-		      << endl;  
-  
+  if (verbose_)  cout << "  Calculated EcaloHad = " << eHad
+                      << ", nhitsInConeHad = " << nhitsInConeHad
+                      << endl;
+
 
 }
 
@@ -198,16 +198,16 @@ CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetu
 bool CandidateTrackProducer::insideCone(CandidateTrack& candTrack, const DetId& id, const double dR) {
    GlobalPoint idPosition = getPosition(id);
    if (idPosition.mag()<0.01) return false;
-   
+
    math::XYZVector idPositionRoot( idPosition.x(), idPosition.y(), idPosition.z() );
-   return deltaR(candTrack, idPositionRoot) < dR;  
+   return deltaR(candTrack, idPositionRoot) < dR;
 }
 
 GlobalPoint CandidateTrackProducer::getPosition( const DetId& id)
 {
-   if ( ! caloGeometry_.isValid() || 
-	! caloGeometry_->getSubdetectorGeometry(id) ||
-	! caloGeometry_->getSubdetectorGeometry(id)->getGeometry(id) ) {
+   if ( ! caloGeometry_.isValid() ||
+        ! caloGeometry_->getSubdetectorGeometry(id) ||
+        ! caloGeometry_->getSubdetectorGeometry(id)->getGeometry(id) ) {
       throw cms::Exception("FatalError") << "Failed to access geometry for DetId: " << id.rawId();
       return GlobalPoint(0,0,0);
    }

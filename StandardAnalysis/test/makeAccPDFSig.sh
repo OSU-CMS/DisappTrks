@@ -1,32 +1,32 @@
-#!/bin/sh                                                                  
+#!/bin/sh
 
-PDFSETS="condor_2014_10_06_pdfSyst_CTEQ condor_2014_10_06_pdfSyst_MSTW condor_2014_10_06_pdfSyst_NNPDF" 
+PDFSETS="condor_2014_10_06_pdfSyst_CTEQ condor_2014_10_06_pdfSyst_MSTW condor_2014_10_06_pdfSyst_NNPDF"
 BASEPATH=/data/users/jbrinson/condor/
 
 CALCULATORFILE=${PWD}/calcUncert
 
 for pdfSet in ${PDFSETS}; do
-    
-    PDFSCF=1.64485 #C90 for CTEQ                                                                                                                                            
-    NPDFSETS=45 #For CTEQ                                                                                                                   
-    NFIELDS=47 #FOR CTEQ 44 pdf memebrs + 2 astrong + 1 nominal                                                                                           
-    ASSCF=0.83333333 #C59=5/6 for CTEQ                                                                                                                    
+
+    PDFSCF=1.64485 #C90 for CTEQ
+    NPDFSETS=45 #For CTEQ
+    NFIELDS=47 #FOR CTEQ 44 pdf memebrs + 2 astrong + 1 nominal
+    ASSCF=0.83333333 #C59=5/6 for CTEQ
     PDFSETNO=1
     if [ ${pdfSet} == "condor_2014_10_06_pdfSyst_MSTW" ]
-	then
-	PDFSCF=1 #for MSTW                                                                                                                                                   
-	NPDFSETS=41 #for MSTW                                                                                                                                             
-	NFIELDS=43 #FOR MSTW 40 pdf members + 2 astrogn +  1 nominal                                                               
-	ASSCF=1.25 #C79=5/4 for MSTW                                                                                                                                        
-	PDFSETNO=2
+        then
+        PDFSCF=1 #for MSTW
+        NPDFSETS=41 #for MSTW
+        NFIELDS=43 #FOR MSTW 40 pdf members + 2 astrogn +  1 nominal
+        ASSCF=1.25 #C79=5/4 for MSTW
+        PDFSETNO=2
     elif [ ${pdfSet} == "condor_2014_10_06_pdfSyst_NNPDF" ]
-	then
-    #not used for NNPDF except NPDFSETS                                                                                                                                      
-	PDFSCF=1 #for NNPDF NEED TO CHECK                                                                                                                          
-	NPDFSETS=101 #for NNPDF CHECK CHEC                                                                                                                                
-	NFIELDS=101 #FOR NNPDF 100 pdf members + 1 nominal K                                                                                                               
-	ASSCF=1 #CHECK                                                                                                                                                   
-	PDFSETNO=3
+        then
+    #not used for NNPDF except NPDFSETS
+        PDFSCF=1 #for NNPDF NEED TO CHECK
+        NPDFSETS=101 #for NNPDF CHECK CHEC
+        NFIELDS=101 #FOR NNPDF 100 pdf members + 1 nominal K
+        ASSCF=1 #CHECK
+        PDFSETNO=3
     fi
 
     #PDFPATH=/data/users/wulsin/condor/analysisTemplateV3/${pdfSet}
@@ -41,44 +41,44 @@ for pdfSet in ${PDFSETS}; do
     for sampleSet in `find ${PDFPATH} -type d -name "AMSB*" -printf '%P\n'`; do
 
 
-	echo "**********************************************"
-	echo "Working with sample "${sampleSet}
+        echo "**********************************************"
+        echo "Working with sample "${sampleSet}
 
-	ALLPDFFILE=${PDFPATH}/all_${sampleSet}.txt
-	SUMSFILE=${PDFPATH}/sums_${sampleSet}.txt
-	MINMAXFILE=${PDFPATH}/minMax_${sampleSet}.txt
-	UPDOWNFILE=${PDFPATH}/upDown_${sampleSet}.txt
-	
-	rm -f ${ALLPDFFILE}
-	rm -f ${SUMSFILE}
-	rm -f ${MINMAXFILE}
-	rm -f ${UPDOWNFILE}
+        ALLPDFFILE=${PDFPATH}/all_${sampleSet}.txt
+        SUMSFILE=${PDFPATH}/sums_${sampleSet}.txt
+        MINMAXFILE=${PDFPATH}/minMax_${sampleSet}.txt
+        UPDOWNFILE=${PDFPATH}/upDown_${sampleSet}.txt
 
-	dir=${PDFPATH}/${sampleSet}
-	echo $dir
-	cd $dir
-	
-#	grep -h "XXX" *.out | sed 's/XXX //g' > ${ALLPDFFILE} #This file has all the PDF weights for the set of samples
-	grep -h "XXX" *.out > ${ALLPDFFILE} #This file has all the PDF weights for the set of samples
+        rm -f ${ALLPDFFILE}
+        rm -f ${SUMSFILE}
+        rm -f ${MINMAXFILE}
+        rm -f ${UPDOWNFILE}
 
-	if [ -s ${ALLPDFFILE} ]; #check if empty
-	    then
-	    #echo "File not empty, proceeding with sums"
-	    echo ""
-	else
-	    #fill with zeros according to Number of fields
-	    echo "$!$!$! File "${ALLPDFFILE}" has no events, filling with "${NFIELDS}" zeros"
-	    awk -v nfields=${NFIELDS} 'BEGIN{for (i=0; i<nfields; ++i){printf "0.0 "}; printf "\n"}' > ${ALLPDFFILE}
-	fi
+        dir=${PDFPATH}/${sampleSet}
+        echo $dir
+        cd $dir
+
+#        grep -h "XXX" *.out | sed 's/XXX //g' > ${ALLPDFFILE} #This file has all the PDF weights for the set of samples
+        grep -h "XXX" *.out > ${ALLPDFFILE} #This file has all the PDF weights for the set of samples
+
+        if [ -s ${ALLPDFFILE} ]; #check if empty
+            then
+            #echo "File not empty, proceeding with sums"
+            echo ""
+        else
+            #fill with zeros according to Number of fields
+            echo "$!$!$! File "${ALLPDFFILE}" has no events, filling with "${NFIELDS}" zeros"
+            awk -v nfields=${NFIELDS} 'BEGIN{for (i=0; i<nfields; ++i){printf "0.0 "}; printf "\n"}' > ${ALLPDFFILE}
+        fi
 
 
-	cd ..
+        cd ..
 
-	echo "Producing sums of pdf weights in file "${SUMSFILE}
+        echo "Producing sums of pdf weights in file "${SUMSFILE}
         awk '{for (i=1; i<=NF; ++i) sum[i] += $i; j=NF } END {for (i=1; i <= j; ++i) {printf "%s ",sum[i]}; printf "\n"}' ${ALLPDFFILE} > ${SUMSFILE}
 
-	echo "Putting nominal eff, centr eff and errors on central in file "${UPDOWNFILE}
-        echo "Running command:  ${CALCULATORFILE} ${ALLPDFFILE} ${NPDFSETS} ${PDFSETNO} 1 > ${UPDOWNFILE}"  
+        echo "Putting nominal eff, centr eff and errors on central in file "${UPDOWNFILE}
+        echo "Running command:  ${CALCULATORFILE} ${ALLPDFFILE} ${NPDFSETS} ${PDFSETNO} 1 > ${UPDOWNFILE}"
         ${CALCULATORFILE} ${ALLPDFFILE} ${NPDFSETS} ${PDFSETNO} 1 > ${UPDOWNFILE}
 
     done

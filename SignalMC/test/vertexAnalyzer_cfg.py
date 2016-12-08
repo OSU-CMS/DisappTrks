@@ -1,9 +1,9 @@
 import sys
-import os  
+import os
 import FWCore.ParameterSet.Config as cms
 
 # Run with:
-#  /afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/testSimVertex/CMSSW_6_1_2/src/Demo/DemoAnalyzer > cmsRun vertexAnalyzer_cfg.py 2>&1 | tee vertexAnalyzer_cfg.log 
+#  /afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/testSimVertex/CMSSW_6_1_2/src/Demo/DemoAnalyzer > cmsRun vertexAnalyzer_cfg.py 2>&1 | tee vertexAnalyzer_cfg.log
 
 
 process = cms.Process("Demo")
@@ -18,8 +18,8 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
 #        'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN-bkup.root'
 #'file:condor_2014_03_11_FullSelectionStopCtauZero_AMSB_mGrav100K_5ns_pickevents_merged.root'
-#    'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-testLongLife1.root' 
-    'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM.root' 
+#    'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-testLongLife1.root'
+    'file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM.root'
         )
 )
 
@@ -43,33 +43,33 @@ process.TFileService = cms.Service("TFileService",
 ## process.source.fileNames = cms.untracked.vstring('file:condor_2014_03_11_FullSelectionStopCtauNonZero_AMSB_mGrav100K_5ns_pickevents_merged.root')
 
 
-## Test long lifetime:  
+## Test long lifetime:
 ## process.TFileService.fileName = cms.string('histo_testLongLife1.root')
 ## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-testLongLife1.root')
 
-## Test 5ns:  
+## Test 5ns:
 ## process.TFileService.fileName = cms.string('histo_test5ns.root')
-## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-5ns.root') 
+## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-5ns.root')
 
-    
-## Test 50ns:  
+
+## Test 50ns:
 ## process.TFileService.fileName = cms.string('histo_test50ns.root')
-## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-50ns.root') 
+## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/chargino_amsb_GEN_SIM-50ns.root')
 
-## ## Test 5ns-noDecays:  
+## ## Test 5ns-noDecays:
 ## process.TFileService.fileName = cms.string('histo_test5nsNoDecays.root')
 ## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_GEN_SIM.root')
 
-## Test 5ns-WithDecays:  
+## Test 5ns-WithDecays:
 ## process.TFileService.fileName = cms.string('histo_test5nsWithDecays.root')
 ## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_5nsWithDecays.root')
 
 
-## Test 5ns-WithDecays:  
-## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_GEN_SIM_5nsDefault.root')  
+## Test 5ns-WithDecays:
+## process.source.fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/w/wulsin/public/disappTrk/signalMCGenV2/CMSSW_5_3_11/src/DisappTrks/SignalMC/charginoPartGun_GEN_SIM_5nsDefault.root')
 ## process.TFileService.fileName = cms.string('charginoPartGun_5nsDefault.root')
 
-## Test new Beans: 
+## Test new Beans:
 process.source.fileNames = cms.untracked.vstring()
 dir = 'condor/AMSB_chargino_200GeV_ctau1000cm/'
 for file in os.listdir(dir):

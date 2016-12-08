@@ -5,8 +5,8 @@ TString inputFiles[12] = {"puData_2015_central", "puData_2015_up", "puData_2015_
 
 TString histNames[12] = {"data2015", "data2015Up", "data2015Down",
                          "data2016", "data2016Up", "data2016Down",
-			 "data2016_BC", "data2016_BCUp", "data2016_BCDown",
-			 "data2016_DEFG", "data2016_DEFGUp", "data2016_DEFGDown"};
+                         "data2016_BC", "data2016_BCUp", "data2016_BCDown",
+                         "data2016_DEFG", "data2016_DEFGUp", "data2016_DEFGDown"};
 
 void combineDataFiles() {
 

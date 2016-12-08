@@ -3,13 +3,13 @@
 # Script to average several efficiency histograms, produced with makeEfficiencyPlots.py --noTGraph
 #
 # Example usage:
-# getAvgEffPlots.py -i condor/condor_2014_07_26_ModelIndepFullSel/eff_histograms100cmRebin10.root -o condor/condor_2014_07_26_ModelIndepFullSel/eff_histogramsAvg.root -n stopDecayVxyZoom 
+# getAvgEffPlots.py -i condor/condor_2014_07_26_ModelIndepFullSel/eff_histograms100cmRebin10.root -o condor/condor_2014_07_26_ModelIndepFullSel/eff_histogramsAvg.root -n stopDecayVxyZoom
 
 import sys
 import math
-import os 
+import os
 from optparse import OptionParser
-from ROOT import gROOT, TFile, gDirectory, TH1F, TCanvas, TPad, TIter, TPaveLabel, TGraphErrors  
+from ROOT import gROOT, TFile, gDirectory, TH1F, TCanvas, TPad, TIter, TPaveLabel, TGraphErrors
 
 
 
@@ -27,9 +27,9 @@ parser.add_option("-v", "--verbose", action="store_true", dest="verbose", defaul
 
 (arguments, args) = parser.parse_args()
 
-gROOT.SetBatch()  # Do not open TCanvas 
+gROOT.SetBatch()  # Do not open TCanvas
 
-def getAvgHist(infile): 
+def getAvgHist(infile):
     global outRootFile
 
     inputFile = TFile(infile, "READ")
@@ -39,7 +39,7 @@ def getAvgHist(infile):
         print "Could not find TCanvas " + can + " in " + inputFile
 
     isFirstHist = True
-    for obj in can.GetListOfPrimitives():  
+    for obj in can.GetListOfPrimitives():
         if arguments.verbose:
             print "Reading: ", obj.GetName()
         if obj.InheritsFrom("TH1"):
@@ -47,20 +47,20 @@ def getAvgHist(infile):
                 isFirstHist = False
                 havg = obj.Clone()
                 hwts = obj.Clone()
-                havg.SetDirectory(0)  
+                havg.SetDirectory(0)
                 havg.Reset()
                 hwts.Reset()
                 # Define average efficiency as weighted arithmetic mean:
-                # (See http://en.wikipedia.org/wiki/Weighted_arithmetic_mean) 
+                # (See http://en.wikipedia.org/wiki/Weighted_arithmetic_mean)
                 # <eff> = (1/N) * Sum_i (eff_i   / sigma_i^2)
                 # <err> = sqrt(1/N)
                 # weight_i = 1 / sigma_i^2
-                # normalization: N = Sum_i (1 / sigma_i^2) 
+                # normalization: N = Sum_i (1 / sigma_i^2)
             for i in range(1,obj.GetNbinsX()+1):
                 eff = obj.GetBinContent(i)
                 err = obj.GetBinError(i)
                 if arguments.verbose:
-                    print "Debug:  bin ", i, ": eff=", eff, ", err=", err  
+                    print "Debug:  bin ", i, ": eff=", eff, ", err=", err
                 # If error is 0, then reset to be very large value, so that it does not contribute much to the sum
                 if err == 0:
                     err = 9.E9
@@ -73,14 +73,14 @@ def getAvgHist(infile):
 
     # After looping over all hists, calculate average
     for i in range(1,havg.GetNbinsX()+1):
-        havg.SetBinContent(i, havg.GetBinContent(i) / hwts.GetBinContent(i)) 
+        havg.SetBinContent(i, havg.GetBinContent(i) / hwts.GetBinContent(i))
         havg.SetBinError  (i, math.sqrt(        1.0 / hwts.GetBinContent(i)))
         if arguments.verbose:
-            print "Bin ", i, ": range: (", havg.GetBinLowEdge(i), ", ", havg.GetBinLowEdge(i+1), "): value=", havg.GetBinContent(i), ", error=", havg.GetBinError(i)  
+            print "Bin ", i, ": range: (", havg.GetBinLowEdge(i), ", ", havg.GetBinLowEdge(i+1), "): value=", havg.GetBinContent(i), ", error=", havg.GetBinError(i)
 
-    outRootFile.cd()  
-    canOrig.SetName(canOrig.GetName() + "_orig")  
-    canOrig.Write()  
+    outRootFile.cd()
+    canOrig.SetName(canOrig.GetName() + "_orig")
+    canOrig.Write()
     can.cd()
     can.Clear("D")
     canNew = TCanvas("canNew", "canNew", can.GetWw(), can.GetWh())
@@ -88,13 +88,13 @@ def getAvgHist(infile):
     canNew.SetLeftMargin  (can.GetLeftMargin())
     havg.SetMaximum(1.1)
     if arguments.canName == "totalMcparticleStatus3SusyIdPt":
-        havg.GetXaxis().SetTitle(havg.GetXaxis().GetTitle().replace("#sum", ""))  
+        havg.GetXaxis().SetTitle(havg.GetXaxis().GetTitle().replace("#sum", ""))
     if arguments.canName == "stopDecayVxyZoom":
-        #        print "Debug:  setting max to 0.8"  
+        #        print "Debug:  setting max to 0.8"
         havg.SetMaximum(0.8)
-    havg.GetYaxis().SetTitleOffset(1.4)  
-    havg.GetXaxis().SetTitleOffset(1.4)  
-    havg.GetXaxis().SetNdivisions(509) 
+    havg.GetYaxis().SetTitleOffset(1.4)
+    havg.GetXaxis().SetTitleOffset(1.4)
+    havg.GetXaxis().SetNdivisions(509)
     havg.Draw("P, E")
 
 
@@ -118,38 +118,38 @@ def getAvgHist(infile):
     HeaderLabel.Draw()
 
     outputPdf = arguments.outfile[:arguments.outfile.rfind("/")]
-#    outputPdf += "/" + canNew.GetName() + ".pdf"    
-    outputPdf += "/" + havg.GetName() + "_avgEff.pdf"    
-    canNew.SaveAs(outputPdf)  
+#    outputPdf += "/" + canNew.GetName() + ".pdf"
+    outputPdf += "/" + havg.GetName() + "_avgEff.pdf"
+    canNew.SaveAs(outputPdf)
     canNew.Write()
-    print "Saving pdf: ", outputPdf  
+    print "Saving pdf: ", outputPdf
     inputFile.Close()
 
     return havg
-# End getAvgHist(infile)  
+# End getAvgHist(infile)
 
 
 def makeGraphAvg(havg, gravg):
-    inputFile = TFile(arguments.infile, "READ")    
+    inputFile = TFile(arguments.infile, "READ")
     can = inputFile.Get(arguments.canName).Clone()
     canNew = TCanvas("canNewGraph", "canNewGraph", can.GetWw(), can.GetWh())
     canNew.SetBottomMargin(can.GetBottomMargin())
     canNew.SetLeftMargin  (can.GetLeftMargin())
-    newtitle = havg.GetYaxis().GetTitle() 
-    newtitle = newtitle[:newtitle.rfind("(")]  # Exclude bin width from title  
-    havg.GetYaxis().SetTitle(newtitle)  
-    havg.SetMinimum(0)  
+    newtitle = havg.GetYaxis().GetTitle()
+    newtitle = newtitle[:newtitle.rfind("(")]  # Exclude bin width from title
+    havg.GetYaxis().SetTitle(newtitle)
+    havg.SetMinimum(0)
     havg.Draw("AXIS")
-    gravg.SetMarkerStyle(21) 
+    gravg.SetMarkerStyle(21)
     gravg.SetLineWidth(2)
-    gravg.Draw("SAME P0")  
+    gravg.Draw("SAME P0")
     outRootFile.cd()
     canNew.Write()
     outputPdf = arguments.outfile[:arguments.outfile.rfind("/")]
-    outputPdf += "/" + havg.GetName() + "_avgEffGraph.pdf"    
+    outputPdf += "/" + havg.GetName() + "_avgEffGraph.pdf"
     canNew.SaveAs(outputPdf)
-    print "Saved pdf: ", outputPdf 
-# End def makeGraphAvg(havg, gravg) 
+    print "Saved pdf: ", outputPdf
+# End def makeGraphAvg(havg, gravg)
 
 def combineTwoAvgHists(havg, havg2):
     # Define average efficiency as weighted arithmetic mean:
@@ -157,7 +157,7 @@ def combineTwoAvgHists(havg, havg2):
     # <eff> = (1/N) * Sum_i (eff_i   / sigma_i^2)
     # <err> = sqrt(1/N)
     # weight_i = 1 / sigma_i^2
-    # normalization: N = Sum_i (1 / sigma_i^2)   
+    # normalization: N = Sum_i (1 / sigma_i^2)
     # Calculate a simple average:
     # <eff> = (eff1 + eff2) / 2
     # <err> = sqrt(1/N)
@@ -171,14 +171,14 @@ def combineTwoAvgHists(havg, havg2):
         effAvg = (eff1 + eff2) / 2
         errAvg = math.sqrt(1.0 / N)
         havg.SetBinContent(i, effAvg)
-        havg.SetBinError  (i, errAvg)          
+        havg.SetBinError  (i, errAvg)
     return havg
 
 outRootFile = TFile(arguments.outfile, "RECREATE")
 havg = getAvgHist(arguments.infile)
 if arguments.infile2:
     havg2 = getAvgHist(arguments.infile2)
-    havg = combineTwoAvgHists(havg, havg2)  
+    havg = combineTwoAvgHists(havg, havg2)
 
 
 
@@ -186,10 +186,10 @@ if arguments.infile2:
 ## Make tables
 ######################################
 def getAvgOfBins(havg, gravg, lo, hi, option):
-    # Calculate the average of several bins, and return a string corresponding to the line that should go in the table.  
+    # Calculate the average of several bins, and return a string corresponding to the line that should go in the table.
 
     # First get bin range
-    lobin = havg.GetNbinsX()+1 
+    lobin = havg.GetNbinsX()+1
     hibin = -1
     for i in range(1, havg.GetNbinsX()+1):
         midbin = havg.GetBinCenter(i)
@@ -219,32 +219,32 @@ def getAvgOfBins(havg, gravg, lo, hi, option):
         if arguments.verbose:
             print "Debug:  adding bin ", i
     if isZeroBin:
-        effSum = 0  # Set sum to 0 if any of bins is zero (so that first bin of DisappTrk efficiency is 0)  
-    effAvg = effSum / N if N else 0  
+        effSum = 0  # Set sum to 0 if any of bins is zero (so that first bin of DisappTrk efficiency is 0)
+    effAvg = effSum / N if N else 0
     errAvg = math.sqrt(1.0 / N) if N else 0
 
     if errAvg > 10:  # protect against very large errors
         errAvg = 0.0
-        
+
     line = ""
     if option == "max":
-        line += "   $>" + str(lo) + "$ & " 
+        line += "   $>" + str(lo) + "$ & "
     elif option == "min":
-        line += "   $<" + str(hi) + "$ & " 
+        line += "   $<" + str(hi) + "$ & "
     else:
-        line += str(lo) + "--" + str(hi) + "  & " 
+        line += str(lo) + "--" + str(hi) + "  & "
     line += "{:0.1f}".format(100*effAvg) + " $\pm$ " + "{:0.1f}".format(100*errAvg) + " \\\\  \n"
     if arguments.verbose:
         print "Debug: line = ", line
 
-    n = gravg.GetN() 
+    n = gravg.GetN()
     center    = (hi + lo) / 2
-    halfwidth = (hi - lo) / 2 
+    halfwidth = (hi - lo) / 2
     gravg.SetPoint     (n,    center, effAvg)
     gravg.SetPointError(n, halfwidth, errAvg)
-    if arguments.verbose: 
-        print "Setting point ", n, " center = ", center, ", effAvg = ", effAvg  
-    return line 
+    if arguments.verbose:
+        print "Setting point ", n, " center = ", center, ", effAvg = ", effAvg
+    return line
 # End def getAvgOfBins(havg, lo, hi, option):
 
 
@@ -254,15 +254,15 @@ def getAvgOfBins(havg, gravg, lo, hi, option):
 hline = "\\hline \n"
 if arguments.canName == "stopDecayVxyZoom":
     header  = "% Table produced with ../scripts/getAvgEffPlots.py -i " + arguments.infile + " --infile2 " + arguments.infile2 + " -o " + arguments.outfile + " -n " + arguments.canName + " \n"
-    header += "% Full list of arguments: " + str(sys.argv) + " \n"  
+    header += "% Full list of arguments: " + str(sys.argv) + " \n"
     outputFile = "tables/modelIndepDisTrk.tex"
     fout = open (outputFile, "w")
-    
+
     content = header
     content += "\\begin{tabular}{lc}\n"
     content += hline
     content += hline
-    content += "$L_{xy}$ [cm]    &  Disappearing track efficiency (\\%) \\\\ \n"  
+    content += "$L_{xy}$ [cm]    &  Disappearing track efficiency (\\%) \\\\ \n"
     content += hline
     gravg = TGraphErrors()
     content += getAvgOfBins(havg, gravg,   0,  30, "min")
@@ -284,16 +284,16 @@ if arguments.canName == "stopDecayVxyZoom":
 
 elif arguments.canName == "totalMcparticleStatus3SusyIdPt":
     header  = "% Table produced with ../scripts/getAvgEffPlots.py -i " + arguments.infile + " -o " + arguments.outfile + " -n " + arguments.canName + " \n"
-    header += "% Full list of arguments: " + str(sys.argv) + " \n"  
+    header += "% Full list of arguments: " + str(sys.argv) + " \n"
     outputFile = "tables/modelIndepBasic.tex"
-    fout = open (outputFile, "w")    
+    fout = open (outputFile, "w")
     content = header
     content += "\\begin{tabular}{lc}\n"
     content += hline
     content += hline
     content += "$\\pt(\\tilde{\\chi}\\tilde{\\chi})$ [GeV]    &  Basic selection efficiency (\\%) \\\\  \n"
     content += hline
-    gravg = TGraphErrors()  
+    gravg = TGraphErrors()
     content += getAvgOfBins(havg, gravg,   0, 100, "min")
     content += getAvgOfBins(havg, gravg, 100, 125, "")
     content += getAvgOfBins(havg, gravg, 125, 150, "")
@@ -307,7 +307,7 @@ elif arguments.canName == "totalMcparticleStatus3SusyIdPt":
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    makeGraphAvg(havg, gravg)  
+    makeGraphAvg(havg, gravg)
     print "Finished writing " + outputFile + "\n\n\n"
 
 
@@ -315,7 +315,7 @@ outRootFile.Close()
 
 
 
-print "Finished writing average efficiency histogram " + arguments.canName + " to " + arguments.outfile 
-            
-            
-                                
+print "Finished writing average efficiency histogram " + arguments.canName + " to " + arguments.outfile
+
+
+

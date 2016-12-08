@@ -26,23 +26,23 @@ using std::endl;
 #ifndef __CINT__
 #endif
 
-// ----------------------------------------------                                                                                        
-// -- Global variables                         --                                                                                        
-// -- Set these when running randomCommands(). --                                                                                        
-// ----------------------------------------------                                                                                        
+// ----------------------------------------------
+// -- Global variables                         --
+// -- Set these when running randomCommands(). --
+// ----------------------------------------------
 TString inDir_ = "sigStudies/inputPlots/";
 TString outdir = "sigStudies/outputPlots/";
 TCanvas* can;
 
-// -------------------------                                                                                                             
-// -- Function prototypes --                                                                                                             
-// -------------------------  
+// -------------------------
+// -- Function prototypes --
+// -------------------------
 void significance();
 void getSig();
 
-// -------------------------                                                                                                             
-// -- Functions           --                                                                                                             
-// -------------------------        
+// -------------------------
+// -- Functions           --
+// -------------------------
 
 void significance() {
 
@@ -120,47 +120,47 @@ void getSig(){
     double intS = hCaloSig0p5ns ->Integral(1, i);
     double intB = hCaloBkgd->Integral(1, i);
     double significance = intS / sqrt(intS + intB);
-    
+
     hCaloSignif0p5ns->SetBinContent(i, significance);
   }
-  
+
   for (int i=0; i<(hCaloBkgd->GetNbinsX()); i++){
     double intS = hCaloSig1ns ->Integral(1, i);
     double intB = hCaloBkgd->Integral(1, i);
     double significance = intS / sqrt(intS + intB);
-    
+
     hCaloSignif1ns->SetBinContent(i, significance);
   }
-  
+
   for (int i=0; i<(hCaloBkgd->GetNbinsX()); i++){
     double intS = hCaloSig5ns ->Integral(1, i);
     double intB = hCaloBkgd->Integral(1, i);
     double significance = intS / sqrt(intS + intB);
-    
+
     hCaloSignif5ns->SetBinContent(i, significance);
   }
-  
+
   for (int i=0; i<(hPtBkgd->GetNbinsX()); i++){
     double intS = hPtSig0p5ns ->Integral(i, 100);
     double intB = hPtBkgd->Integral(i, 100);
     double significance = intS / sqrt(intS + intB);
-    
+
     hPtSignif0p5ns->SetBinContent(i, significance);
   }
-  
+
   for (int i=0; i<(hPtBkgd->GetNbinsX()); i++){
     double intS = hPtSig1ns ->Integral(i, 100);
     double intB = hPtBkgd->Integral(i, 100);
     double significance = intS / sqrt(intS + intB);
-    
+
     hPtSignif1ns->SetBinContent(i, significance);
   }
-  
+
   for (int i=0; i<(hPtBkgd->GetNbinsX()); i++){
     double intS = hPtSig5ns ->Integral(i, 100);
     double intB = hPtBkgd->Integral(i, 100);
     double significance = intS / sqrt(intS + intB);
-    
+
     hPtSignif5ns->SetBinContent(i, significance);
   }
 
@@ -301,13 +301,13 @@ void getSig(){
 
   cout << "Integral for hCaloSig0p5ns = " << hCaloSig0p5ns->Integral() << endl;
   cout << "Integral for hCaloSig1ns = "   << hCaloSig1ns->Integral()   << endl;
-  cout << "Integral for hCaloSig5ns = "   << hCaloSig5ns->Integral()   << endl; 
-  cout << "Integral for hCaloBkgd = "     << hCaloBkgd->Integral()     << endl << endl; 
+  cout << "Integral for hCaloSig5ns = "   << hCaloSig5ns->Integral()   << endl;
+  cout << "Integral for hCaloBkgd = "     << hCaloBkgd->Integral()     << endl << endl;
 
   cout << "Integral for hPtSig0p5ns = "   << hPtSig0p5ns->Integral()   << endl;
   cout << "Integral for hPtSig1ns = "     << hPtSig1ns->Integral()     << endl;
   cout << "Integral for hPtSig5ns = "     << hPtSig5ns->Integral()     << endl;
-  cout << "Integral for hPtBkgd = "       << hPtBkgd->Integral()       << endl << endl; 
+  cout << "Integral for hPtBkgd = "       << hPtBkgd->Integral()       << endl << endl;
 
 
 

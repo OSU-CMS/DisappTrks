@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step1 --filein dbs:/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/RunIISummer15wmLHEGS-MCRUN2_71_V1-v1/GEN-SIM --fileout file:EXO-RunIISpring16DR80-02856_step1.root --pileup_input dbs:/Neutrino_E-10_gun/RunIISpring15PrePremix-PU2016_80X_mcRun2_asymptotic_v14-v2/GEN-SIM-DIGI-RAW --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 80X_mcRun2_asymptotic_v14 --step DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:25ns10e33_v2 --nThreads 4 --datamix PreMix --era Run2_2016 --python_filename digi_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 960
 import FWCore.ParameterSet.Config as cms
 
@@ -32,15 +32,15 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/00CA136C-B93C-E611-8999-0025905C3E38.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/022C5F76-B93C-E611-84E1-0025905C42F2.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/0872B1B9-093D-E611-91FB-001E675A6D10.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/14345472-FE3C-E611-ABA8-FA163E7F9948.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/1698DF88-D33C-E611-9A65-0CC47A78A414.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/18456E54-013D-E611-89CC-002590D60038.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/1E6AF736-013D-E611-B2B1-FA163E999600.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/205A752B-C53C-E611-87CA-0CC47A7452DA.root', 
-        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/2E880440-033D-E611-8947-001A648F1A4E.root', 
+    fileNames = cms.untracked.vstring('/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/00CA136C-B93C-E611-8999-0025905C3E38.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/022C5F76-B93C-E611-84E1-0025905C42F2.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/0872B1B9-093D-E611-91FB-001E675A6D10.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/14345472-FE3C-E611-ABA8-FA163E7F9948.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/1698DF88-D33C-E611-9A65-0CC47A78A414.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/18456E54-013D-E611-89CC-002590D60038.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/1E6AF736-013D-E611-B2B1-FA163E999600.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/205A752B-C53C-E611-87CA-0CC47A7452DA.root',
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/2E880440-033D-E611-8947-001A648F1A4E.root',
         '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/38E2BCA5-033D-E611-B3EC-003048CDBB94.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
@@ -97,19 +97,19 @@ process.options.numberOfStreams=cms.untracked.uint32(0)
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
 
 # Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
-from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforFullSim 
+from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforFullSim
 
 #call to customisation function customizeHLTforFullSim imported from HLTrigger.Configuration.customizeHLTforMC
 process = customizeHLTforFullSim(process)

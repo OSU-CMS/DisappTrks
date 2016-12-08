@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Documentation of the combine tool:  https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit  
+# Documentation of the combine tool:  https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit
 
 import time
 import os
@@ -50,7 +50,7 @@ if arguments.outputDir:
         os.system("mkdir limits/%s" % (arguments.outputDir))
 #   os.mkdir("limits/"+arguments.outputDir)
 
-                
+
 
 def output_condor(combine_command, datacard, options):
     script = "#!/usr/bin/env bash\n\n"
@@ -104,10 +104,10 @@ for mass in masses:
     for lifetime in lifetimes:
         lifetime = lifetime.replace(".0", "")
         lifetime = lifetime.replace("0.5", "0p5")
-        if samplesByGravitinoMass: 
-            signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns" 
-        else: 
-            signal_name = "AMSB_mChi" + mass + "_" + lifetime + "cm" 
+        if samplesByGravitinoMass:
+            signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns"
+        else:
+            signal_name = "AMSB_mChi" + mass + "_" + lifetime + "cm"
         condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
         condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
         datacard_name = "datacard_"+signal_name+".txt"
@@ -128,9 +128,9 @@ for mass in masses:
             hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01f
             #            hybridExtraOptions = "--fork 4 --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01g
             #            hybridExtraOptions = " --rRelAcc 0.5 -t 10 --saveToys -s -1 " # limits_2014_08_05:  testing only for toy production!
-            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 4000 " # limits_2014_09_30:  test more toys 
-            combine_expected_options = combine_expected_options + hybridExtraOptions + " --expectedFromGrid 0.5 "  
-            combine_observed_options = combine_observed_options + hybridExtraOptions  
+            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 4000 " # limits_2014_09_30:  test more toys
+            combine_expected_options = combine_expected_options + hybridExtraOptions + " --expectedFromGrid 0.5 "
+            combine_observed_options = combine_observed_options + hybridExtraOptions
         elif arguments.method == "MarkovChainMC":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
@@ -140,10 +140,10 @@ for mass in masses:
             combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
             combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
         if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
-            if float(lifetime) > 9 and float(lifetime) < 300:   # Use a smaller maximum for lifetimes with a larger signal yield 
+            if float(lifetime) > 9 and float(lifetime) < 300:   # Use a smaller maximum for lifetimes with a larger signal yield
                 combine_expected_options += " --rMin 0.00000001 --rMax 0.1 "
                 combine_observed_options += " --rMin 0.00000001 --rMax 0.1 "
-            else:  
+            else:
                 combine_expected_options += " --rMin 0.00000001 --rMax 2 "
                 combine_observed_options += " --rMin 0.00000001 --rMax 2 "
 
@@ -166,30 +166,30 @@ for mass in masses:
 
         if arguments.method == "HybridNew":  # for full CLs, run each expected limit separately
             expectedVariations = [("up1", "0.84"), ("up2", "0.975"), ("down1", "0.16"), ("down2", "0.025")]
-            for vary in expectedVariations: 
+            for vary in expectedVariations:
                 os.chdir("../../..")
-                condor_expected_dirVary = condor_expected_dir + "_" + vary[0]  
+                condor_expected_dirVary = condor_expected_dir + "_" + vary[0]
                 shutil.rmtree(condor_expected_dirVary, True)
                 os.mkdir(condor_expected_dirVary)
-                shutil.copy(datacard_src_name, condor_expected_dirVary + "/" + datacard_name)  
+                shutil.copy(datacard_src_name, condor_expected_dirVary + "/" + datacard_name)
                 os.chdir(condor_expected_dirVary)
                 if not arguments.batchMode:
-                    commandVary = command.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])  
+                    commandVary = command.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])
                     print commandVary
                     os.system(commandVary)
                 else:
-                    combine_expected_optionsVary = combine_expected_options.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])  
+                    combine_expected_optionsVary = combine_expected_options.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])
                     print "combine "+datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name
                     output_condor(combine_command, datacard_name, datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name+" | tee /dev/null")
                     os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-                
+
         os.chdir("../../..")
 
         shutil.rmtree(condor_observed_dir, True)
         os.mkdir(condor_observed_dir)
         shutil.copy(datacard_src_name, datacard_dst_observed_name)
         os.chdir(condor_observed_dir)
-        
+
         if not arguments.batchMode:
             #            command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
             command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
@@ -205,6 +205,6 @@ for mass in masses:
         os.chdir("../../..")
 
         if arguments.quick:
-            sys.exit("Finished running one point.")  
+            sys.exit("Finished running one point.")
 
 

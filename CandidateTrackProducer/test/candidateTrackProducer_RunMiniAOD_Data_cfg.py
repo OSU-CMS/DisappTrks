@@ -1,17 +1,17 @@
-# This config file is modeled on: 
+# This config file is modeled on:
 # https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/24964e61f2a56113a7b3db9c0413c141/configFile
-# which is the config for producing this dataset: 
+# which is the config for producing this dataset:
 # /SingleMuon/Run2015D-16Dec2015-v1/AOD
-# Remove the RAW2DIGI,L1Reco,RECO,EI steps.  
+# Remove the RAW2DIGI,L1Reco,RECO,EI steps.
 
-# To run:  
-# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAOD_Data_cfg.py 
+# To run:
+# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAOD_Data_cfg.py
 
 
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: PAT -s PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 76X_dataRun2_v15 --eventcontent MINIAOD --datatier MINIAOD --filein blah.root -n 100 --no_exec --python_filename=candidateTrackProducer_RunMiniAOD_Data_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -35,8 +35,8 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/AOD/16Dec2015-v1/10000/0069A0A7-6EA8-E511-8DF1-0CC47A4C8E56.root", 
-        "file:/home/wulsin/disappTrksRun2/ntuples_dev/CMSSW_7_6_3/src/DisappTrks/CandidateTrackProducer/test/SingleMuon2015D_AOD_numEvent100.root", 
+        # "root://cmsxrootd.fnal.gov///store/data/Run2015D/SingleMuon/AOD/16Dec2015-v1/10000/0069A0A7-6EA8-E511-8DF1-0CC47A4C8E56.root",
+        "file:/home/wulsin/disappTrksRun2/ntuples_dev/CMSSW_7_6_3/src/DisappTrks/CandidateTrackProducer/test/SingleMuon2015D_AOD_numEvent100.root",
     ),
     secondaryFileNames = cms.untracked.vstring()
 )
@@ -121,7 +121,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

@@ -19,7 +19,7 @@ from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
-from OSUT3Analysis.Configuration.histogramUtilities import * 
+from OSUT3Analysis.Configuration.histogramUtilities import *
 
 sys.path.append(os.path.abspath(os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/test'))
 from localConfig import *  # To get list of datasets
@@ -40,7 +40,7 @@ else:
     os.exit(0)
 
 ## Nominal selection
-candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644 
+candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644
 disappTrkDir          = WellsDir+"disTrkSelection_76X_V2"
 candTrkEcaloSdband    = candTrkDir
 candTrkNmissoutSdband = candTrkDir
@@ -52,21 +52,21 @@ elecCtrlDir           = candTrkDir
 muonCtrlDir           = candTrkDir
 
 ## tauVetoEff.tex and tauEst.tex
-tauCtrlDir            = candTrkDir 
+tauCtrlDir            = candTrkDir
 
 ## fakeTrkRate.tex and fakeEst.tex
 ZtoMuMuDir                = WellsDir + "ZtoMuMu"
-# ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrkChannels" 
-ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrk_76XOld" 
-ZtoMuMuCandTrkSdband      = ZtoMuMuCandTrkDir 
-ZtoMuMuDisTrkDir          = ZtoMuMuCandTrkDir  
-ZtoMuMuDisTrkNHits3456Dir = ZtoMuMuCandTrkDir   
+# ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrkChannels"
+ZtoMuMuCandTrkDir         = WellsDir + "ZtoMuMuTrk_76XOld"
+ZtoMuMuCandTrkSdband      = ZtoMuMuCandTrkDir
+ZtoMuMuDisTrkDir          = ZtoMuMuCandTrkDir
+ZtoMuMuDisTrkNHits3456Dir = ZtoMuMuCandTrkDir
 BasicSelDir               = WellsDir + "isoTrkSelection_76X"
 BasicSelChan              = "IsoTrkSelection"
-DisTrkNHits3456Dir        = WellsDir + "fakeTrkSystChannels_76X" 
+DisTrkNHits3456Dir        = WellsDir + "fakeTrkSystChannels_76X"
 
 ## Bkgd estimates
-bkgdEstBase               = WellsDir + "condor_2016_04_20_BkgdEst" 
+bkgdEstBase               = WellsDir + "condor_2016_04_20_BkgdEst"
 bkgdEstCandTrk            = bkgdEstBase + "CandTrk"
 bkgdEstSdbandEcalo        = bkgdEstBase + "SdbandEcalo"
 bkgdEstSdbandNmissout     = bkgdEstBase + "SdbandNmissout"
@@ -207,7 +207,7 @@ def makeLeptonEst(options):
         else:
             NPass    = NPassHist
             NPassErr = NPassHistErr
-    # print "DEBUG:  For sample", options['MCsample'], "dir=", options['disTrkDir'], " and channel=", options['disTrkChannel'], "NPass=", NPass  
+    # print "DEBUG:  For sample", options['MCsample'], "dir=", options['disTrkDir'], " and channel=", options['disTrkChannel'], "NPass=", NPass
     yields = {}
     yields["NTot"] = NCtrl
     yields["NTotErr"] = NCtrlErr
@@ -286,10 +286,10 @@ def getFakeRate(options):
     yields = {}
     if options['useTotalYield']:
         (yields["NTot"], yields["NTotErr"])  = getYield(options['dataset'], options['BasicSelDir'], options['BasicSelChannel'])
-    else: 
-        # Find the yield before any track cuts have been applied.  
+    else:
+        # Find the yield before any track cuts have been applied.
         ibin = getFirstBinWithLabel("WJetsToLNu_HT", options['BasicSelDir'], options['BasicSelChannel'] + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
-        ibin -= 1  # Use the yield before any track cuts.  
+        ibin -= 1  # Use the yield before any track cuts.
         (yields["NTot"], yields["NTotErr"]) = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
 
     (yields["NPass"], yields["NPassErr"]) = getYield(options['dataset'], options['DisTrkNHits3456Dir'], options['DisTrkNHits3456Channel'])
@@ -685,7 +685,7 @@ if arguments.all \
     outputFile = "tables/fakeEst.tex"
     fout = open (outputFile, "w")
     ibin = getFirstBinWithLabel("WJetsToLNu_HT", BasicSelDir, BasicSelChan + "CutFlowPlotter", "tracks with") # data cutflow histogram has no labels.  Not sure why.
-    ibin -= 1  # Use the yield before any track cuts.  
+    ibin -= 1  # Use the yield before any track cuts.
     (NCtrlMet, NCtrlMetErr)   = getYieldInBin("MET_2015D", BasicSelDir, BasicSelChan + "CutFlowPlotter", ibin)
     Nfake = NCtrlMet * P
     NfakeErr = NCtrlMet * PErr
@@ -762,20 +762,20 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
     content += "        },\n"
     content += "    }\n"
 
-    # Put in the bkgd systematic uncertainties by hand 
-    # FIXME:  calculate systematic uncertainties in script!  
+    # Put in the bkgd systematic uncertainties by hand
+    # FIXME:  calculate systematic uncertainties in script!
     content += "background_systematics = { \n"
     content += "    'Elec' : {\n"
-    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/637 \n" 
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/637 \n"
     content += "                 },\n"
     content += "    'Muon' : {\n"
-    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/635 \n"  
+    content += "    'value' : '2.5',     # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/635 \n"
     content += "                 },\n"
     content += "    'Tau' : {\n"
-    content += "    'value' : '1.71',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/621 \n"  
+    content += "    'value' : '1.71',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/621 \n"
     content += "                 },\n"
     content += "    'Fake' : {\n"
-    content += "    'value' : '1.22',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/659 \n" 
+    content += "    'value' : '1.22',    # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/659 \n"
     content += "                 },\n"
     content += "    }\n"
 
@@ -813,9 +813,9 @@ if arguments.all or "candTrkBkgdEst" in arguments.tableSelection:
     options["PTauErr"]  =  tauEstCandTrk["PErr"]
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
-    # print "DEBUG:  Total MC yield = ", elecEstCandTrk["NPass"], muonEstCandTrk["NPass"], tauEstCandTrk["NPass"]  
-                                                            
-                                                            
+    # print "DEBUG:  Total MC yield = ", elecEstCandTrk["NPass"], muonEstCandTrk["NPass"], tauEstCandTrk["NPass"]
+
+
     makeBkgdEstimate(options)
 
 if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
@@ -845,7 +845,7 @@ if arguments.all or "sdbandEcaloBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
-    # print "DEBUG:  Total MC yield = ", elecEstEcaloSdband["NPass"], muonEstEcaloSdband["NPass"], tauEstEcaloSdband["NPass"]  
+    # print "DEBUG:  Total MC yield = ", elecEstEcaloSdband["NPass"], muonEstEcaloSdband["NPass"], tauEstEcaloSdband["NPass"]
 
 if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     ###################################################
@@ -874,7 +874,7 @@ if arguments.all or "sdbandNmissoutBkgdEst" in arguments.tableSelection:
     options["scaleKin"]     = fakeEst["scaleKin"]
     options["scaleKinErr"]  = fakeEst["scaleKinErr"]
     makeBkgdEstimate(options)
-    # print "DEBUG:  Total MC yield = ", elecEstNmissoutSdband["NPass"], muonEstNmissoutSdband["NPass"], tauEstNmissoutSdband["NPass"]  
+    # print "DEBUG:  Total MC yield = ", elecEstNmissoutSdband["NPass"], muonEstNmissoutSdband["NPass"], tauEstNmissoutSdband["NPass"]
 
 if arguments.all or "bkgdChk" in arguments.tableSelection:
     ###################################################
@@ -966,11 +966,11 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
         options['BasicSelChannel'] = "ZtoMuMuCutFlowPlotter"
         options['DisTrkNHits3456Dir']     =  ZtoMuMuDisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "ZtoMuMuDisTrkNHits" + str(n) + "CutFlowPlotter"
-        options['useTotalYield'] = True 
+        options['useTotalYield'] = True
         fakeRateCtrl = getFakeRate(options)
         options['dataset'] = "MET_2015D"
         options['BasicSelDir'] = BasicSelDir
-        options['BasicSelChannel']   = BasicSelChan 
+        options['BasicSelChannel']   = BasicSelChan
         options['DisTrkNHits3456Dir'] = DisTrkNHits3456Dir
         options['DisTrkNHits3456Channel'] = "DisTrkSelectionNHits" + str(n) + "CutFlowPlotter"
         options['useTotalYield'] = False

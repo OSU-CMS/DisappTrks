@@ -43,8 +43,8 @@ PUDependence::analyze (const edm::Event &event, const edm::EventSetup &setup)
 
   for (const auto &track : *tracks)
     {
-      if (fabs(track.eta()) > 2.5) 
-	continue;  
+      if (fabs(track.eta()) > 2.5)
+        continue;
       if (!genMatched (track, *genParticles, 1000024, 3, 0.1))
         continue;
       oneDHists_.at ("nVertices")->Fill (vertices->size ());
@@ -56,9 +56,9 @@ PUDependence::analyze (const edm::Event &event, const edm::EventSetup &setup)
       twoDHists_.at ("rhoPUCorrCalo")->Fill (vertices->size (), track.rhoPUCorrCalo());
       twoDHists_.at ("rhoPUCorrCentralCalo")->Fill (vertices->size (), track.rhoPUCorrCentralCalo());
 
-      if (track.caloTotDRp5 () < 10)  
+      if (track.caloTotDRp5 () < 10)
         oneDHists_.at ("passCaloTot")    ->Fill (vertices->size ());
-      if (track.caloTotNoPUDRp5 () < 10) 
+      if (track.caloTotNoPUDRp5 () < 10)
         oneDHists_.at ("passCaloTotNoPU")->Fill (vertices->size ());
       if (track.trackIsoDRp5 () < 0.05 * track.pt ())
         oneDHists_.at ("isoTrack")->Fill (vertices->size ());

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.bkgdEstimate import * 
-from DisappTrks.StandardAnalysis.utilities import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import *
+from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
-import os 
+import os
 
 # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/672
 pPassVeto = (1.73e-5, 0.77e-5)
@@ -144,7 +144,7 @@ print "*************************************************************************
 
 (nEst, nEstError) = muonBkgdClosureTest_DisTrk.printNest ()
 
-print "\n\n" 
+print "\n\n"
 print "********************************************************************************"
 print "performing muon background estimate in disappearing track search region without missing outer hits cut for MC"
 print "--------------------------------------------------------------------------------"
@@ -155,35 +155,35 @@ muonBkgdClosureTest_DisTrkMC = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_DisTrkMC.addTFile (fout)
 muonBkgdClosureTest_DisTrkMC.addTCanvas (canvas)
 muonBkgdClosureTest_DisTrkMC.addMetCut (100.0)
-muonBkgdClosureTest_DisTrkMC.addChannel  ("TagProbe",       "ZtoMuProbeTrkWithZCuts",       sample, dirs['Wells']+"ZtoMuProbeTrkWithZCuts") 
-muonBkgdClosureTest_DisTrkMC.addChannel  ("TagProbePass",   "ZtoMuDisTrk",                  sample, dirs['Wells']+"ZtoMuDisTrk")  
-muonBkgdClosureTest_DisTrkMC.addChannel  ("TagPt35",        "MuonTagPt55NoNMissOut",        sample, dirs['Wells']+"MuonTagPt55NoNMissOut")  
-muonBkgdClosureTest_DisTrkMC.addChannel  ("TagPt35MetTrig", "MuonTagPt55NoNMissOutMetTrig", sample, dirs['Wells']+"MuonTagPt55NoNMissOut")  
+muonBkgdClosureTest_DisTrkMC.addChannel  ("TagProbe",       "ZtoMuProbeTrkWithZCuts",       sample, dirs['Wells']+"ZtoMuProbeTrkWithZCuts")
+muonBkgdClosureTest_DisTrkMC.addChannel  ("TagProbePass",   "ZtoMuDisTrk",                  sample, dirs['Wells']+"ZtoMuDisTrk")
+muonBkgdClosureTest_DisTrkMC.addChannel  ("TagPt35",        "MuonTagPt55NoNMissOut",        sample, dirs['Wells']+"MuonTagPt55NoNMissOut")
+muonBkgdClosureTest_DisTrkMC.addChannel  ("TagPt35MetTrig", "MuonTagPt55NoNMissOutMetTrig", sample, dirs['Wells']+"MuonTagPt55NoNMissOut")
 muonBkgdClosureTest_DisTrkMC.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"
 
 (nEst, nEstError) = muonBkgdClosureTest_DisTrkMC.printNest ()
 
-print "\n\n" 
+print "\n\n"
 print "********************************************************************************"
 print "performing muon background estimate in loose candidate track region for MC"
 print "--------------------------------------------------------------------------------"
 
-#sample = "allBkgd"  
-sample = "TTJets"  
-fout = TFile.Open ("muonBkgdEstimate_CandTrkLooseMC.root", "recreate") 
+#sample = "allBkgd"
+sample = "TTJets"
+fout = TFile.Open ("muonBkgdEstimate_CandTrkLooseMC.root", "recreate")
 muonBkgdClosureTest_CandTrkLooseMC = LeptonBkgdEstimate ("muon")
 muonBkgdClosureTest_CandTrkLooseMC.addTFile (fout)
 muonBkgdClosureTest_CandTrkLooseMC.addTCanvas (canvas)
 muonBkgdClosureTest_CandTrkLooseMC.addMetCut (100.0)
-muonBkgdClosureTest_CandTrkLooseMC.useMetMinusOneForIntegrals (False) 
-muonBkgdClosureTest_CandTrkLooseMC.useIdMatch (True) 
-muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagProbe",       "ZtoMuProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoMuProbeTrkWithZCuts") 
-muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagProbePass",   "ZtoMuProbeTrkTightVeto",            sample, dirs['Wells']+"ZtoMuDisTrk")  
-muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagPt35",        "MuonTagPt55NoNMissOut",        sample, dirs['Wells']+"MuonTagPt55NoNMissOut")  
-muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagPt35MetTrig", "MuonTagPt55NoNMissOutMetTrig", sample, dirs['Wells']+"MuonTagPt55NoNMissOut")  
-muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("CandTrkIdPt35",  "CandTrkLoose",                 sample, dirs['Wells']+"candTrkLooseV2", True) 
+muonBkgdClosureTest_CandTrkLooseMC.useMetMinusOneForIntegrals (False)
+muonBkgdClosureTest_CandTrkLooseMC.useIdMatch (True)
+muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagProbe",       "ZtoMuProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoMuProbeTrkWithZCuts")
+muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagProbePass",   "ZtoMuProbeTrkTightVeto",            sample, dirs['Wells']+"ZtoMuDisTrk")
+muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagPt35",        "MuonTagPt55NoNMissOut",        sample, dirs['Wells']+"MuonTagPt55NoNMissOut")
+muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("TagPt35MetTrig", "MuonTagPt55NoNMissOutMetTrig", sample, dirs['Wells']+"MuonTagPt55NoNMissOut")
+muonBkgdClosureTest_CandTrkLooseMC.addChannel  ("CandTrkIdPt35",  "CandTrkLoose",                 sample, dirs['Wells']+"candTrkLooseV2", True)
 muonBkgdClosureTest_CandTrkLooseMC.printSingleLeptonTriggerEff ()
 
 print "********************************************************************************"

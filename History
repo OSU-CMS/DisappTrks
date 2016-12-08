@@ -6,17 +6,17 @@ Tag naming convention:  VXX-YY, where XX is incremented for substantial revision
 Tag V00-02
 =============
 20130515 HWW
-Set pileup reweighting to true by default in trackAnalyzerCondor_cfg.py.  
+Set pileup reweighting to true by default in trackAnalyzerCondor_cfg.py.
 
 Tag V00-01
 =============
 20130512 HWW
-Update to be compatible with V01-01-00 OSUT3Analysis.  
+Update to be compatible with V01-01-00 OSUT3Analysis.
 
 Tag V00-00
 =============
 20130430 HWW
-First tag.  
+First tag.
 
 
 

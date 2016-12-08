@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.bkgdEstimate import * 
-from DisappTrks.StandardAnalysis.utilities import * 
+from DisappTrks.StandardAnalysis.bkgdEstimate import *
+from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
-import os 
+import os
 
 metLumi       =  2590.0
 electronLumi  =  2670.0

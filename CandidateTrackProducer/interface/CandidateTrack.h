@@ -23,7 +23,7 @@ class CandidateTrack : public reco::Track
     CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &, const reco::BeamSpot &, const vector<reco::Vertex> &, const edm::Handle<vector<reco::Conversion> > &);
     ~CandidateTrack ();
 
-    
+
     enum RhoType { All, Calo, CentralCalo };
 
     const double caloEMDRp3 () const;
@@ -32,17 +32,17 @@ class CandidateTrack : public reco::Track
     const double caloEMDRp5 () const;
     const double caloHadDRp5 () const;
     const double caloTotDRp5 () const;
-    const double caloNewEMDRp5 () const;   // New calculation that uses all rec hits in DR<0.5 cone.  
-    const double caloNewHadDRp5 () const;  // New calculation that uses all rec hits in DR<0.5 cone.  
-    const double caloNewDRp5 () const;     // New calculation that uses all rec hits in DR<0.5 cone.  
+    const double caloNewEMDRp5 () const;   // New calculation that uses all rec hits in DR<0.5 cone.
+    const double caloNewHadDRp5 () const;  // New calculation that uses all rec hits in DR<0.5 cone.
+    const double caloNewDRp5 () const;     // New calculation that uses all rec hits in DR<0.5 cone.
     const double caloTotNoPU (double dR = 0.5, RhoType rhoType = All, bool useNewCalc = false) const;
     const double caloTotNoPUDRp3 () const;
     const double caloTotNoPUDRp4 () const;
     const double caloTotNoPUDRp5 () const;
-    const double caloNewNoPUDRp5 () const; // New calculation that uses all rec hits in DR<0.5 cone.  
+    const double caloNewNoPUDRp5 () const; // New calculation that uses all rec hits in DR<0.5 cone.
     const double caloTotNoPUDRp5Calo () const;
     const double caloTotNoPUDRp5CentralCalo () const;
-    const double caloNewNoPUDRp5CentralCalo () const; // New calculation that uses all rec hits in DR<0.5 cone.  
+    const double caloNewNoPUDRp5CentralCalo () const; // New calculation that uses all rec hits in DR<0.5 cone.
 
     void set_caloEMDRp3 (double value) { caloEMDRp3_  = value; }
     void set_caloHadDRp3(double value) { caloHadDRp3_ = value; }
@@ -124,8 +124,8 @@ class CandidateTrack : public reco::Track
     double caloHadDRp3_;
     double caloEMDRp5_;
     double caloHadDRp5_;
-    double caloNewEMDRp5_;   // New calculation that uses all rec hits in DR<0.5 cone. 
-    double caloNewHadDRp5_;  // New calculation that uses all rec hits in DR<0.5 cone. 
+    double caloNewEMDRp5_;   // New calculation that uses all rec hits in DR<0.5 cone.
+    double caloNewHadDRp5_;  // New calculation that uses all rec hits in DR<0.5 cone.
 
     double deltaRToClosestElectron_;
     double deltaRToClosestVetoElectron_;

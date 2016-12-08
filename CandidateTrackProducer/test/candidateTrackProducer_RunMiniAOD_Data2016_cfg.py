@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: PAT -s PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 80X_dataRun2_Prompt_v14 --eventcontent MINIAOD --datatier MINIAOD --filein blah.root -n 100 --no_exec --python_filename=candidateTrackProducer_RunMiniAOD_Data_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -110,7 +110,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

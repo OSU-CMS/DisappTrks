@@ -293,7 +293,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
     if arguments.verbose:
         print "Debug:  limit_dict.keys() = "
-        print limit_dict.keys()  
+        print limit_dict.keys()
     for lifetime in sorted (limit_dict.keys ()):
         ordered_masses = sorted (limit_dict[lifetime].keys (), reverse=True)
         first_allowed_mass = ordered_masses[0]
@@ -310,21 +310,21 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
             x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass  # higher mass value 
+            x2 = first_allowed_mass  # higher mass value
             x4 = first_allowed_mass
-            # Use log10 because the theory cross section is roughly linear 
-            # on a log scale, not on a linear scale.  
+            # Use log10 because the theory cross section is roughly linear
+            # on a log scale, not on a linear scale.
             y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
             y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
             y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
-            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0            
+                mass_limit = 0.0
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
-            mass_limit = previous_mass  
+            mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
         if arguments.verbose:
@@ -468,21 +468,21 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
             x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass  # higher mass value 
+            x2 = first_allowed_mass  # higher mass value
             x4 = first_allowed_mass
-            # Use log10 because the theory cross section is roughly linear 
-            # on a log scale, not on a linear scale.  
+            # Use log10 because the theory cross section is roughly linear
+            # on a log scale, not on a linear scale.
             y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
             y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
             y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
-            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0            
+                mass_limit = 0.0
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
-            mass_limit = previous_mass  
+            mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
 
@@ -557,21 +557,21 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
             x1 = previous_mass  # lower mass value
             x3 = previous_mass
-            x2 = first_allowed_mass  # higher mass value 
+            x2 = first_allowed_mass  # higher mass value
             x4 = first_allowed_mass
-            # Use log10 because the theory cross section is roughly linear 
-            # on a log scale, not on a linear scale.  
+            # Use log10 because the theory cross section is roughly linear
+            # on a log scale, not on a linear scale.
             y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
             y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
             y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
-            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])  
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
-                mass_limit = 0.0            
+                mass_limit = 0.0
         if mass_limit > first_allowed_mass:
             print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
-            mass_limit = previous_mass  
+            mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
 
@@ -1382,7 +1382,7 @@ def drawPlot(plot, th2fType=""):
     canvas.Write()
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
     canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
-    # canvas.SetLogy(0)  
+    # canvas.SetLogy(0)
     # canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
     print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"
 
@@ -1436,7 +1436,7 @@ for plot in plotDefinitions:
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + arguments.outputDir 
+                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + arguments.outputDir
             elif 'yAxisType' in plot:
                 for mass in masses:
                     for lifetime in lifetimes:

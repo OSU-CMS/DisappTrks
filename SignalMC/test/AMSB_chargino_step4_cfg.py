@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step1 --filein file:EXO-RunIIFall15DR76-02578.root --fileout file:AMSB_chargino_step4.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 76X_mcRun2_asymptotic_v12 --step PAT --era Run2_25ns --python_filename AMSB_chargino_step4.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring,DisappTrks/SignalMC/genParticlePlusGeant.customizeKeep,DisappTrks/SignalMC/recoCollectionsToKeep.customize -n 1786
 import FWCore.ParameterSet.Config as cms
 
@@ -146,19 +146,19 @@ process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENo
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.recoCollectionsToKeep
-from DisappTrks.SignalMC.recoCollectionsToKeep import customize 
+from DisappTrks.SignalMC.recoCollectionsToKeep import customize
 
 #call to customisation function customize imported from DisappTrks.SignalMC.recoCollectionsToKeep
 process = customize(process)
@@ -174,13 +174,13 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeMiniAOD 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeMiniAOD
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeMiniAOD(process)

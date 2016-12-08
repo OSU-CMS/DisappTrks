@@ -1,10 +1,10 @@
-# This config file is modeled on:  
+# This config file is modeled on:
 # https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/7b95f401088e13f8103d00e74fdaebb4/configFile
 
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: RECO -s RAW2DIGI,L1Reco,RECO,EI,PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 76X_dataRun2_v15 --eventcontent MINIAOD --datatier MINIAOD --customise Configuration/DataProcessing/RecoTLR.customiseDataRun2Common_25ns --filein blah.root -n 100 --no_exec --python_filename=reco_Run2015D_MET.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -43,7 +43,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         # "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/584/00000/3E8AEC7F-F15B-E511-ADB5-02163E012B39.root",
-        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/630/00000/509812F2-795C-E511-9F0B-02163E01444A.root", 
+        "root://cmsxrootd.fnal.gov///store/data/Run2015D/MET/RAW/v1/000/256/630/00000/509812F2-795C-E511-9F0B-02163E01444A.root",
     ),
 )
 
@@ -124,7 +124,7 @@ process.options.numberOfStreams=cms.untracked.uint32(0)
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.RecoTLR
-from Configuration.DataProcessing.RecoTLR import customiseDataRun2Common_25ns 
+from Configuration.DataProcessing.RecoTLR import customiseDataRun2Common_25ns
 
 #call to customisation function customiseDataRun2Common_25ns imported from Configuration.DataProcessing.RecoTLR
 process = customiseDataRun2Common_25ns(process)
@@ -140,7 +140,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

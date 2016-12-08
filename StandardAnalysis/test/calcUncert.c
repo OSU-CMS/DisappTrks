@@ -1,7 +1,7 @@
 // Compile with:
-// > g++ calcUncert.c -o calcUncert  
-// 
-// Usage: 
+// > g++ calcUncert.c -o calcUncert
+//
+// Usage:
 // ./calcUncert <filename> <npdf> [PDFSET]
 // filename: file containing the sums of weights
 // npdf: NUmber of PDF members: 45 for CTEQ 41 for MSTW (?) 101 for NNPDF (?)
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <iomanip>
 #include <string.h>
-using std::string;  
+using std::string;
 using std::cout;
 using std::endl;
 
@@ -31,7 +31,7 @@ int main(int argc, char * argv[]){
     if(argc<3){
       std::cout<<"Usage: "<<argv[0]<< " "<<" <file name> <nPdfMembers> [pdfset] [print_all_info]"<<std::endl;
       return 0;
-    
+
     }
 
     if(argc>4)
@@ -42,9 +42,9 @@ int main(int argc, char * argv[]){
     pdfSet = atoi(argv[3]);
 
     std::ifstream rndat;
-    
+
     rndat.open(fname);
-    
+
     if(!rndat.is_open()){
         std::cout<<"File not found!"<<std::endl;
         return 0;
@@ -58,17 +58,17 @@ int main(int argc, char * argv[]){
 
     double sum2_all,sum2_selected;
 
-    
+
     int originalEvents_, selectedEvents_;
-    
+
     double sum_all, sum_selected;
-    
+
     string tmp;
-    tmp = "";  
-    while (tmp != "XXX") { 
-      rndat >> tmp; 
-    } 
-    
+    tmp = "";
+    while (tmp != "XXX") {
+      rndat >> tmp;
+    }
+
     rndat >> originalEvents_;
     rndat >> selectedEvents_;
     rndat >> sum_all;
@@ -83,37 +83,37 @@ int main(int argc, char * argv[]){
 
 
 
-    
+
     std::cout << "Debug:  original events = " << originalEvents_
-	      << "; selectedEvents_=" << selectedEvents_ 
-	      << "; sum_all=" << sum_all
-	      << "; sum_selected=" << sum_selected 
-	      << endl; 
+              << "; selectedEvents_=" << selectedEvents_
+              << "; sum_all=" << sum_all
+              << "; sum_selected=" << sum_selected
+              << endl;
 
-    cout << "Printing weighted selected events: " << endl;  
-    for(int i=0; i<nmembers; i++){        
-	double we=0.0;
-	double ws=0.0;
+    cout << "Printing weighted selected events: " << endl;
+    for(int i=0; i<nmembers; i++){
+        double we=0.0;
+        double ws=0.0;
         rndat>>we;
-	weightedEvents_[i]=we;
+        weightedEvents_[i]=we;
         rndat>>ws;
-	weightedSelectedEvents_[i]=ws;
+        weightedSelectedEvents_[i]=ws;
 
-	std::cout << weightedSelectedEvents_[i]<<" "<<weightedEvents_[i]<<std::endl;
-	
+        std::cout << weightedSelectedEvents_[i]<<" "<<weightedEvents_[i]<<std::endl;
+
     }
-    cout << endl;  
+    cout << endl;
     rndat.close();
-    
 
-    
-    
+
+
+
     bool nnpdfFlag = false;
-    
+
     if(pdfSet==3) nnpdfFlag=true;
-    
+
     unsigned int npairs = (nmembers-1)/2;
-    
+
     //double originalAcceptance = double(selectedEvents_)/originalEvents_;
 
     double originalAcceptance = sum_selected/sum_all;
@@ -125,8 +125,8 @@ int main(int argc, char * argv[]){
     double acc2_central = 0.;
 
     if (weightedEvents_[0]>0) {
-      acc_central  = weightedSelectedEvents_[0]/weightedEvents_[0]; 
-      acc2_central = weighted2SelectedEvents_  /weightedEvents_[0]; 
+      acc_central  = weightedSelectedEvents_[0]/weightedEvents_[0];
+      acc2_central = weighted2SelectedEvents_  /weightedEvents_[0];
     }
 
 
@@ -138,13 +138,13 @@ int main(int argc, char * argv[]){
     double xi = acc_central-originalAcceptance;
 
     double deltaxi = (acc2_central-(originalAcceptance+2*xi+xi*xi))/originalEvents_;
-    
+
     //std::cout<<"deltaxi2: "<<deltaxi<<std::endl;
     if (deltaxi>0) deltaxi = sqrt(deltaxi); //else deltaxi = 0.;
     if(print_all) std::cerr<< "\ti.e. [" << std::setprecision(4) << 100*xi/originalAcceptance << " +- " << std::setprecision(4) << 100*deltaxi/originalAcceptance << "] % relative variation with respect to the original PDF"<<std::endl;
-    
-    
-    
+
+
+
     double wplus = 0.;
     double wminus = 0.;
     unsigned int nplus = 0;
@@ -156,14 +156,14 @@ int main(int argc, char * argv[]){
         if (weightedEvents_[2*j+2]>0) wb = (weightedSelectedEvents_[2*j+2]/weightedEvents_[2*j+2])/acc_central-1.;
         if (nnpdfFlag) {
             if (wa>0.) {
-                wplus += wa*wa; 
+                wplus += wa*wa;
                 nplus++;
             } else {
                 wminus += wa*wa;
                 nminus++;
             }
             if (wb>0.) {
-                wplus += wb*wb; 
+                wplus += wb*wb;
                 nplus++;
             } else {
                 wminus += wb*wb;
@@ -200,5 +200,5 @@ int main(int argc, char * argv[]){
     std::cout <<                                            wplus<<" "<<wminus<<std::endl;
 
     return 0;
- 
+
 }

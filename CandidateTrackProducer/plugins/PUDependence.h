@@ -11,7 +11,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
-#include "DataFormats/PatCandidates/interface/Jet.h" 
+#include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"

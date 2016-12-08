@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step1 --filein dbs:/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring16DR80-premix_withHLT_80X_mcRun2_asymptotic_v14-v1/AODSIM --fileout file:EXO-RunIISpring16MiniAODv2-04791.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 80X_mcRun2_asymptotic_v14 --step PAT --era Run2_2016 --python_filename pat_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 960
 import FWCore.ParameterSet.Config as cms
 
@@ -49,15 +49,15 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/02ABAE37-0D6D-E611-A212-848F69FD292B.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/14E6994A-0D6D-E611-A386-002590E7DE26.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/A218F63C-0D6D-E611-9044-0242AC130003.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/AA799271-BA6C-E611-B7C9-0025905C3D98.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/CA41DB7F-206D-E611-BA47-A0369F5BD91C.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/D669E554-0D6D-E611-BB5B-0025904C637A.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/DAF55649-0D6D-E611-9CBB-D4AE5269DC07.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/DED341CD-C16C-E611-AFBD-0025905D1E08.root', 
-        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/EAB26748-0D6D-E611-B271-6C3BE5B5F218.root', 
+    fileNames = cms.untracked.vstring('/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/02ABAE37-0D6D-E611-A212-848F69FD292B.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/14E6994A-0D6D-E611-A386-002590E7DE26.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/A218F63C-0D6D-E611-9044-0242AC130003.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/AA799271-BA6C-E611-B7C9-0025905C3D98.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/CA41DB7F-206D-E611-BA47-A0369F5BD91C.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/D669E554-0D6D-E611-BB5B-0025904C637A.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/DAF55649-0D6D-E611-9CBB-D4AE5269DC07.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/DED341CD-C16C-E611-AFBD-0025905D1E08.root',
+        '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/EAB26748-0D6D-E611-B271-6C3BE5B5F218.root',
         '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/FE92C0FD-AB6C-E611-A8B7-0025905C53DA.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
@@ -135,19 +135,19 @@ process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENo
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.recoCollectionsToKeep
-from DisappTrks.SignalMC.recoCollectionsToKeep import customize 
+from DisappTrks.SignalMC.recoCollectionsToKeep import customize
 
 #call to customisation function customize imported from DisappTrks.SignalMC.recoCollectionsToKeep
 process = customize(process)
@@ -163,13 +163,13 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)
 
 # Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
-from DisappTrks.SignalMC.genParticlePlusGeant import customizeMiniAOD 
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeMiniAOD
 
 #call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
 process = customizeMiniAOD(process)

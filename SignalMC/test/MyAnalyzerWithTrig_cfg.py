@@ -25,7 +25,7 @@ process.source = cms.Source("PoolSource",
 process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 
-                
+
 process.demo = cms.EDAnalyzer("MyTrigAnalyzer",
                               tracks = cms.untracked.InputTag("generalTracks"),
                               hltTracks = cms.untracked.InputTag("hltIter2Merged"),
@@ -39,7 +39,7 @@ process.demo = cms.EDAnalyzer("MyTrigAnalyzer",
                               trigOn = cms.untracked.bool(True),
                               triggerResults = cms.untracked.InputTag("TriggerResults::TEST"),
 
-                              
+
                               )
 #process.triggerSelection = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::TEST", HLTPaths = ["HLT_MET0_*"])
 #process.triggerSelection = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::TEST", HLTPaths = ["HLT_MET75_IsoTrk50_v*"])

@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step2 --filein file:EXO-RunIIFall15DR76-02579_step1.root --fileout file:AMSB_chargino_step3.root --mc --eventcontent RECOSIM --runUnscheduled --datatier RECOSIM --conditions 76X_mcRun2_asymptotic_v12 --step RAW2DIGI,L1Reco,RECO,EI --era Run2_25ns --python_filename AMSB_chargino_step3.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 131
 import FWCore.ParameterSet.Config as cms
 
@@ -78,7 +78,7 @@ process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,proces
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)

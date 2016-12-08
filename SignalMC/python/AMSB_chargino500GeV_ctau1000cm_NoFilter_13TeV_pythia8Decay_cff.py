@@ -4,7 +4,7 @@ MCHI = 500  # GeV
 CTAU = 1000  # cm
 SLHA_TABLE="""
 ## Important note!
-## This file has been modified by hand to give the gluino and the 
+## This file has been modified by hand to give the gluino and the
 ## stop_1 a very narrow width, such that it can be used to try out
 ## the R-hadron machinery. It is not a realistic SUSY scenario.
 ##
@@ -45,8 +45,8 @@ BLOCK DCINFO  # Decay Program information
      2   1.1a        # version number
 #
 BLOCK SPINFO  # Spectrum calculator information
-     1   SOFTSUSY    # spectrum calculator                 
-     2   2.0.5         # version number                    
+     1   SOFTSUSY    # spectrum calculator
+     2   2.0.5         # version number
 #
 BLOCK MODSEL  # Model selection
      1     1   sugra
@@ -61,11 +61,11 @@ BLOCK SMINPUTS  # Standard Model inputs
      7     1.77700000E+00   # mtau pole mass
 #
 BLOCK MINPAR  # Input parameters - minimal models
-     1     1.00000000E+02   # m0                  
-     2     2.50000000E+02   # m12                 
-     3     1.00000000E+01   # tanb                
-     4     1.00000000E+00   # sign(mu)            
-     5    -1.00000000E+02   # A0                  
+     1     1.00000000E+02   # m0
+     2     2.50000000E+02   # m12
+     3     1.00000000E+01   # tanb
+     4     1.00000000E+00   # sign(mu)
+     5    -1.00000000E+02   # A0
 #
 BLOCK MASS  # Mass Spectrum
 # PDG code           mass       particle
@@ -85,7 +85,7 @@ BLOCK MASS  # Mass Spectrum
 #         PDG            Width
 DECAY   1000024     1.9732e-17  # chargino decay
 #          BR         NDA      ID1       ID2
-	   1.0        2        1000022   211
+           1.0        2        1000022   211
 """
 
 import FWCore.ParameterSet.Config as cms
@@ -103,27 +103,27 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     crossSection = cms.untracked.double(CROSS_SECTION),
     maxEventsToPrint = cms.untracked.int32(0),
     PythiaParameters = cms.PSet(
-		 pythia8CommonSettingsBlock,
+                 pythia8CommonSettingsBlock,
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
-            'Tune:pp  = 5', 
+            'Tune:pp  = 5',
             'SUSY:all = off',
-            'SUSY:qqbar2chi+chi- = on', 
-            '1000024:tau0 = 3000.',                                        
+            'SUSY:qqbar2chi+chi- = on',
+            '1000024:tau0 = 3000.',
             'ParticleDecays:tau0Max = 10000',
-       ), 
+       ),
         parameterSets = cms.vstring(
-	    'pythia8CommonSettings',
-	    'pythia8CUEP8M1Settings',
+            'pythia8CommonSettings',
+            'pythia8CUEP8M1Settings',
             'processParameters')
     ),
-    # The following parameters are required by Exotica_HSCP_SIM_cfi: 
-    slhaFile = cms.untracked.string(''),   # value not used 
+    # The following parameters are required by Exotica_HSCP_SIM_cfi:
+    slhaFile = cms.untracked.string(''),   # value not used
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSBchargino_%sGeV_nodecay.slha' % MCHI) 
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSBchargino_%sGeV_nodecay.slha' % MCHI)
 )
 
 ProductionFilterSequence = cms.Sequence(generator)

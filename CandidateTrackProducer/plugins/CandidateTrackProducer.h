@@ -30,7 +30,7 @@
 #include "Geometry/Records/interface/CaloGeometryRecord.h"
 
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
-#include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h" 
+#include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
 
 using namespace std;
 
@@ -59,11 +59,11 @@ void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, Candidate
       edm::InputTag rhoTag_;
       edm::InputTag rhoCaloTag_;
       edm::InputTag rhoCentralCaloTag_;
-      edm::InputTag EBRecHitsTag_; 
-      edm::InputTag EERecHitsTag_; 
-      edm::InputTag HBHERecHitsTag_; 
+      edm::InputTag EBRecHitsTag_;
+      edm::InputTag EERecHitsTag_;
+      edm::InputTag HBHERecHitsTag_;
       double candMinPt_;
-      bool verbose_; 
+      bool verbose_;
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
       edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;

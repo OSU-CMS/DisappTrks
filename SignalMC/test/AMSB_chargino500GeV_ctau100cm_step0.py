@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: DisappTrks/SignalMC/python/AMSB_chargino500GeV_ctau100cm_NoFilter_13TeV_pythia8.py --fileout file:AMSB_chargino500GeV_ctau100cm_step0.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN --conditions MCRUN2_71_V1::All --beamspot NominalCollision2015 --step GEN --magField 38T_PostLS1 --python_filename AMSB_chargino500GeV_ctau100cm_step0.py --no_exec -n 100000
 import FWCore.ParameterSet.Config as cms
 
@@ -71,28 +71,28 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     crossSection = cms.untracked.double(1.0),
     maxEventsToPrint = cms.untracked.int32(0),
     PythiaParameters = cms.PSet(
-        pythia8CommonSettings = cms.vstring('Main:timesAllowErrors = 10000', 
-            'Check:epTolErr = 0.01', 
-            'Beams:setProductionScalesFromLHEF = off', 
-            'SLHA:keepSM = on', 
-            'SLHA:minMassSM = 1000.', 
-            'ParticleDecays:limitTau0 = on', 
-            'ParticleDecays:tau0Max = 10', 
+        pythia8CommonSettings = cms.vstring('Main:timesAllowErrors = 10000',
+            'Check:epTolErr = 0.01',
+            'Beams:setProductionScalesFromLHEF = off',
+            'SLHA:keepSM = on',
+            'SLHA:minMassSM = 1000.',
+            'ParticleDecays:limitTau0 = on',
+            'ParticleDecays:tau0Max = 10',
             'ParticleDecays:allowPhotonRadiation = on'),
-        pythia8CUEP8M1Settings = cms.vstring('Tune:pp 14', 
-            'Tune:ee 7', 
-            'MultipartonInteractions:pT0Ref=2.4024', 
-            'MultipartonInteractions:ecmPow=0.25208', 
+        pythia8CUEP8M1Settings = cms.vstring('Tune:pp 14',
+            'Tune:ee 7',
+            'MultipartonInteractions:pT0Ref=2.4024',
+            'MultipartonInteractions:ecmPow=0.25208',
             'MultipartonInteractions:expPow=1.6'),
-        processParameters = cms.vstring('SUSY:all = off', 
-            'SUSY:qqbar2chi+-chi0 = on', 
-            'SUSY:qqbar2chi+chi- = on', 
+        processParameters = cms.vstring('SUSY:all = off',
+            'SUSY:qqbar2chi+-chi0 = on',
+            'SUSY:qqbar2chi+chi- = on',
             'SpaceShower:weakShower = on', # weak ISR
             'TimeShower:weakShower = on',  # weak FSR
-            '1000022:mayDecay = false', 
+            '1000022:mayDecay = false',
             '1000024:mayDecay = false'),
-        parameterSets = cms.vstring('pythia8CommonSettings', 
-            'pythia8CUEP8M1Settings', 
+        parameterSets = cms.vstring('pythia8CommonSettings',
+            'pythia8CUEP8M1Settings',
             'processParameters')
     )
 )
@@ -110,18 +110,18 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.endjob_step,process.RAWSIMoutput_step)
 # filter all path with the production filter sequence
 for path in process.paths:
-	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq 
+        getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq
 
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from SLHCUpgradeSimulations.Configuration.postLS1Customs
-from SLHCUpgradeSimulations.Configuration.postLS1Customs import customisePostLS1 
+from SLHCUpgradeSimulations.Configuration.postLS1Customs import customisePostLS1
 
 #call to customisation function customisePostLS1 imported from SLHCUpgradeSimulations.Configuration.postLS1Customs
 process = customisePostLS1(process)

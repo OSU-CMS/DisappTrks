@@ -17,7 +17,7 @@ parser = OptionParser()
 parser = set_commandline_arguments(parser)
 
 parser.add_option("-x", "--xsec", dest="xsecFile",
-                  help="Use as denominator of efficiency the lumi * cross section")  
+                  help="Use as denominator of efficiency the lumi * cross section")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -28,7 +28,7 @@ if arguments.xsecFile:
     sys.path.append(os.getcwd())
     exec("from " + re.sub (r".py$", r"", arguments.xsecFile) + " import *")
 
-intLumi = 19500.  # integrated lumi in /pb  
+intLumi = 19500.  # integrated lumi in /pb
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, TH1F, TCanvas, TString, TLegend, TLegendEntry, TIter, TKey, TPaveLabel, gPad, TGraphAsymmErrors
 
@@ -92,7 +92,7 @@ markers = {
     'square' : 21,
     'triangle' : 22,
     'star' : 3,
-    'circSmall' : 4, 
+    'circSmall' : 4,
     }
 fills = {
     'solid' : 0,
@@ -103,19 +103,19 @@ fills = {
 
 def MakeOneHist(varXaxis, varConst, xvalues, constval):
 
-    if len(xvalues)<=1:  
-        return # Do not make plot if there is only 1 xvalue 
+    if len(xvalues)<=1:
+        return # Do not make plot if there is only 1 xvalue
     Legend = TLegend()
     Legend.SetBorderSize(0)
     Legend.SetFillColor(0)
     Legend.SetFillStyle(0)
-    Canvas = TCanvas("sigEff_"+varConst+str(constval)+"_vs_"+varXaxis)  
+    Canvas = TCanvas("sigEff_"+varConst+str(constval)+"_vs_"+varXaxis)
     Histograms = []
     LegendEntries = []
     colorIndex = 0
     for source in input_sources: # loop over different input sources in config file
-#        print "Debug:  running over input_source from: ", source['condor_dir'], " for varXaxis=", varXaxis, ", varConst=", varConst  
-        
+#        print "Debug:  running over input_source from: ", source['condor_dir'], " for varXaxis=", varXaxis, ", varConst=", varConst
+
         # Create histogram of efficiencies with appropriate binning
         xAxisBins = array('d')
         xBinWidth = xvalues[1] - xvalues[0]
@@ -137,7 +137,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
             else:
                 print "Unrecognized value of varXaxis=", varXaxis
                 return
-            dataset_file = "condor/%s/%s.root" % (source['condor_dir'],dataset)  
+            dataset_file = "condor/%s/%s.root" % (source['condor_dir'],dataset)
             dataset_file = dataset_file.replace("MASS",     str(mass))
             dataset_file = dataset_file.replace("LIFETIME", str(lifetime))
             inputFile = TFile(dataset_file)
@@ -149,16 +149,16 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
             # calculate efficiency
             nbinsCutflow = HistCutflow.GetNbinsX()
             if arguments.xsecFile:
-                xsec = float(signal_cross_sections[str(mass)]['value'])  
-                denom = xsec * intLumi  
-            else:  
-                denom = HistCutflow.GetBinContent(1)  # denominator is the first entry in the cutflow histogram  
+                xsec = float(signal_cross_sections[str(mass)]['value'])
+                denom = xsec * intLumi
+            else:
+                denom = HistCutflow.GetBinContent(1)  # denominator is the first entry in the cutflow histogram
             eff    = HistCutflow.GetBinContent(nbinsCutflow) / denom
             effErr = HistCutflow.GetBinError  (nbinsCutflow) / denom
             ibin = Histogram.FindBin(xval)
             Histogram.SetBinContent(ibin, eff)
             Histogram.SetBinError  (ibin, effErr)
-            print "Setting bin content for varConst = ", varConst, " = ", constval, " in ibin=", ibin, ", xval=", xval, ", eff=", eff, " +- ", effErr, ", fractional error =", effErr/eff, " numerator = ", HistCutflow.GetBinContent(nbinsCutflow), " denom = ", denom, " from file: ", dataset_file  
+            print "Setting bin content for varConst = ", varConst, " = ", constval, " in ibin=", ibin, ", xval=", xval, ", eff=", eff, " +- ", effErr, ", fractional error =", effErr/eff, " numerator = ", HistCutflow.GetBinContent(nbinsCutflow), " denom = ", denom, " from file: ", dataset_file
             inputFile.Close()
 
         if varXaxis=="mass":
@@ -169,7 +169,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
             print "Unrecognized value of varXaxis=", varXaxis
             return
 
-        yAxisLabel = "efficiency"  
+        yAxisLabel = "efficiency"
 
         if 'color' in source:
             Histogram.SetMarkerColor(colors[source['color']])
@@ -206,7 +206,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
     finalMax = 0
     for histogram in Histograms:
 #        currentMax = histogram.GetMaximum() + histogram.GetBinError(histogram.GetMaximumBin())
-        currentMax = histogram.GetMaximum() 
+        currentMax = histogram.GetMaximum()
         if(currentMax > finalMax):
             finalMax = currentMax
     finalMax = 1.5*finalMax
@@ -241,9 +241,9 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
         gPad.Update()
         gPad.Draw()
         Canvas.cd(1)
-        
+
     histCounter = 0
-    plotting_options = "pe, x0"   # x0 suppresses the error bar along x  
+    plotting_options = "pe, x0"   # x0 suppresses the error bar along x
 ##         if arguments.plot_hist:
 ##             plotting_options = "HIST"
 
@@ -263,7 +263,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
             elif histogram.InheritsFrom("TGraph"):
                 plotting_options = "P"
         histCounter = histCounter + 1
-        
+
     x_left = 0.15
     x_right = 0.55
     y_min = 0.6
@@ -280,13 +280,13 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
     elif varConst == "lifetime":
         customText += " cm"
     customText = customText.replace("lifetime", "c#tau")
-    
-    CustomLabel = TPaveLabel(x_left, 0.8, x_right, 0.9, customText, "NDC")  
+
+    CustomLabel = TPaveLabel(x_left, 0.8, x_right, 0.9, customText, "NDC")
     CustomLabel.SetBorderSize(0)
     CustomLabel.SetFillColor(0)
     CustomLabel.SetFillStyle(0)
-    CustomLabel.Draw()  
-        
+    CustomLabel.Draw()
+
     #drawing the ratio or difference plot if requested
     if makeRatioPlots or makeDiffPlots:
         Canvas.cd(2)
@@ -294,7 +294,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
 #            Comparison = ratioHistogram(Histograms[0],Histograms[1], 1000)
             Comparison = Histograms[0].Clone()
             Comparison.Divide(Histograms[1])
-            Comparison.GetYaxis().SetTitle("ratio") 
+            Comparison.GetYaxis().SetTitle("ratio")
         elif makeDiffPlots:
             Comparison = Histograms[0].Clone("diff")
             Comparison.Add(Histograms[1],-1)
@@ -311,7 +311,7 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
 #            RatioYRange = 1.15
             if arguments.ratioYRange:
                 RatioYRange = float(arguments.ratioYRange)
-            Comparison.GetYaxis().SetRangeUser(0.7, 1.3)  
+            Comparison.GetYaxis().SetRangeUser(0.7, 1.3)
         elif makeDiffPlots:
             YMax = Comparison.GetMaximum()
             YMin = Comparison.GetMinimum()
@@ -326,8 +326,8 @@ def MakeOneHist(varXaxis, varConst, xvalues, constval):
                     Comparison.GetYaxis().SetRangeUser(-1.2*YMin,1.2*YMin)
         Comparison.GetYaxis().SetNdivisions(205)
 #        Comparison.Draw("E0")
-        Comparison.Draw("PE, X0")  # X0 suppresses error bar in x direction  
-        
+        Comparison.Draw("PE, X0")  # X0 suppresses error bar in x direction
+
     outputFile.cd()
     Canvas.Write()
     if arguments.savePDFs:

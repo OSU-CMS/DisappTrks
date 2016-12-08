@@ -4,10 +4,10 @@
 
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 
-// FIXME:  Once OSUT3Analysis works with ROOT6, i.e., releases > CMSSW_7_4_5_ROOT5, 
-// then uncomment the following line:  
+// FIXME:  Once OSUT3Analysis works with ROOT6, i.e., releases > CMSSW_7_4_5_ROOT5,
+// then uncomment the following line:
 // #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
-// and remove these two lines:  
+// and remove these two lines:
 #define INVALID_VALUE (numeric_limits<int>::min ())
 #define IS_INVALID(x) (x <= INVALID_VALUE + 1)
 
@@ -128,7 +128,7 @@ CandidateTrack::getMinDeltaRToTauHad (const vector<pat::Tau> &objects) const
       if (object.tauID ("decayModeFinding") < 0.5 || object.tauID ("againstElectronLooseMVA6") < 0.5 || object.tauID ("againstMuonLoose3") < 0.5)
       // See references:
       // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID
-      // https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV 
+      // https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV
         continue;
       double dR = deltaR (*this, object);
 
@@ -547,75 +547,75 @@ CandidateTrack::caloNewDRp5 () const
 const double
 CandidateTrack::caloTotNoPUDRp3 () const
 {
-  return caloTotNoPU(0.3);  
+  return caloTotNoPU(0.3);
 }
 
 const double
 CandidateTrack::caloTotNoPUDRp4 () const
 {
-  return caloTotNoPU(0.4);  
+  return caloTotNoPU(0.4);
 }
 
 const double
 CandidateTrack::caloTotNoPUDRp5 () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::All);  
+  return caloTotNoPU(0.5, CandidateTrack::All);
 }
 
 const double
 CandidateTrack::caloTotNoPUDRp5Calo () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::Calo);  
+  return caloTotNoPU(0.5, CandidateTrack::Calo);
 }
 
 const double
 CandidateTrack::caloTotNoPUDRp5CentralCalo () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::CentralCalo);  
+  return caloTotNoPU(0.5, CandidateTrack::CentralCalo);
 }
 
 const double
 CandidateTrack::caloNewNoPUDRp5CentralCalo () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::CentralCalo, true);  
+  return caloTotNoPU(0.5, CandidateTrack::CentralCalo, true);
 }
 
 const double
 CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, bool useNewCalc) const
 {
-  // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1 
+  // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1
   double rho;
   switch (rhoType) {
-  case All:  
-    rho = rhoPUCorr();  
+  case All:
+    rho = rhoPUCorr();
     break;
-  case Calo:  
-    rho = rhoPUCorrCalo();  
+  case Calo:
+    rho = rhoPUCorrCalo();
     break;
-  case CentralCalo:  
-    rho = rhoPUCorrCentralCalo();  
-    break;  
+  case CentralCalo:
+    rho = rhoPUCorrCentralCalo();
+    break;
   default:
-    throw cms::Exception("FatalError") << "Unkown or not implemented rho type requested, type:" << rhoType; 
+    throw cms::Exception("FatalError") << "Unkown or not implemented rho type requested, type:" << rhoType;
   }
 
-  double rawCaloTot = caloTotDRp5();  
+  double rawCaloTot = caloTotDRp5();
   if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-    rawCaloTot = caloTotDRp3();  
+    rawCaloTot = caloTotDRp3();
   }
   if (useNewCalc) {
-    rawCaloTot = caloNewDRp5();  
-  }  
-  double caloCorr = rho * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.  
-  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - caloCorr);  
-  return caloTotNoPUDRp5;  
+    rawCaloTot = caloNewDRp5();
+  }
+  double caloCorr = rho * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.
+  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - caloCorr);
+  return caloTotNoPUDRp5;
 }
 
 const double
 CandidateTrack::deltaRToClosestElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestElectron_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestElectron_;
 }
 
@@ -623,7 +623,7 @@ const double
 CandidateTrack::deltaRToClosestVetoElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestVetoElectron_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestVetoElectron_;
 }
 
@@ -631,7 +631,7 @@ const double
 CandidateTrack::deltaRToClosestLooseElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestLooseElectron_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestLooseElectron_;
 }
 
@@ -639,7 +639,7 @@ const double
 CandidateTrack::deltaRToClosestMediumElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestMediumElectron_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestMediumElectron_;
 }
 
@@ -647,7 +647,7 @@ const double
 CandidateTrack::deltaRToClosestTightElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestTightElectron_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestTightElectron_;
 }
 
@@ -655,7 +655,7 @@ const double
 CandidateTrack::deltaRToClosestMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestMuon_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestMuon_;
 }
 
@@ -663,7 +663,7 @@ const double
 CandidateTrack::deltaRToClosestLooseMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestLooseMuon_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestLooseMuon_;
 }
 
@@ -671,7 +671,7 @@ const double
 CandidateTrack::deltaRToClosestMediumMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestMediumMuon_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestMediumMuon_;
 }
 
@@ -679,7 +679,7 @@ const double
 CandidateTrack::deltaRToClosestTightMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestTightMuon_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestTightMuon_;
 }
 
@@ -687,7 +687,7 @@ const double
 CandidateTrack::deltaRToClosestTau () const
 {
   if (IS_INVALID (this->deltaRToClosestTau_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestTau_;
 }
 
@@ -695,7 +695,7 @@ const double
 CandidateTrack::deltaRToClosestTauHad () const
 {
   if (IS_INVALID (this->deltaRToClosestTauHad_))
-    return MAX_DR;  
+    return MAX_DR;
   return this->deltaRToClosestTauHad_;
 }
 

@@ -9,8 +9,8 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 process.source = cms.Source("PoolSource",
-#    fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN.root')  
-    fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN_SIM.root')  
+#    fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN.root')
+    fileNames = cms.untracked.vstring('file:AMSB_chargino_test_GEN_SIM.root')
 )
 
 process.dummy = cms.EDAnalyzer("GenFilterEfficiencyAnalyzer")

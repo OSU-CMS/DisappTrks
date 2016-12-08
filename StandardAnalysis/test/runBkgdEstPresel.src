@@ -1,4 +1,4 @@
-# First pass, just use MC:  
+# First pass, just use MC:
 #../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o MuonBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o ElecBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId      -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o TauBkgd.root
@@ -6,8 +6,8 @@
 #../scripts/bkgdFromData.py -q condor_2014_01_13_PreSelIdOther -l bkgdFromDataOptions.py -c condor_2014_01_13_BkgdEstFromData -o OthrBkgd.root
 #makePlots.py -b 5 -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData
 
-# 2014-01-13:  
-#cp condor/condor_2014_01_08_PreselMet100/MET.root                                       condor/condor_2014_01_13_BkgdEstFromData2/ 
+# 2014-01-13:
+#cp condor/condor_2014_01_08_PreselMet100/MET.root                                       condor/condor_2014_01_13_BkgdEstFromData2/
 #../scripts/bkgdFromData.py -q condor_2014_01_09_PreSelectionElec     -l bkgdFromDataElec.py -c condor_2014_01_13_BkgdEstFromData2 -o ElecBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_09_PreSelectionMuon     -l bkgdFromDataMuon.py -c condor_2014_01_13_BkgdEstFromData2 -o MuonBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_12_PreSelId             -l bkgdFromDataTau.py  -c condor_2014_01_13_BkgdEstFromData2 -o TauBkgd.root
@@ -16,8 +16,8 @@
 #makePlots.py -y -r -b 5 -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData2  -o stacked_histogramsRebin5.root
 #makePlots.py -y -r      -l localOptionsBkgdEst.py -c condor_2014_01_13_BkgdEstFromData2  -o stacked_histogramsNoRebin.root
 
-# 2014-01-14:  
-#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_13_BkgdEstFromData3/ 
+# 2014-01-14:
+#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_13_BkgdEstFromData3/
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionElec     -l bkgdFromDataElec.py     -c condor_2014_01_13_BkgdEstFromData3 -o ElecBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionElec     -l bkgdFromDataElecHiPt.py -c condor_2014_01_13_BkgdEstFromData3 -o ElecBkgdHiPt.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionMuon     -l bkgdFromDataMuon.py     -c condor_2014_01_13_BkgdEstFromData3 -o MuonBkgd.root
@@ -34,8 +34,8 @@
 #makePlots.py -y -r -b 5  -l localOptionsBkgdEstHiPt.py -c condor_2014_01_13_BkgdEstFromData3  -o stacked_histogramsHiPtRebin5.root
 #makePlots.py -y -r       -l localOptionsBkgdEstHiPt.py -c condor_2014_01_13_BkgdEstFromData3  -o stacked_histogramsHiPt.root
 
-# 2014-01-15:  
-#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_15_BkgdEstFromData4/ 
+# 2014-01-15:
+#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_15_BkgdEstFromData4/
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionElec     -l bkgdFromDataElec.py     -c condor_2014_01_15_BkgdEstFromData4 -o ElecBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionElec     -l bkgdFromDataElecHiPt.py -c condor_2014_01_15_BkgdEstFromData4 -o ElecBkgdHiPt.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionMuon     -l bkgdFromDataMuon.py     -c condor_2014_01_15_BkgdEstFromData4 -o MuonBkgd.root
@@ -52,8 +52,8 @@
 #makePlots.py -y -r -b 5  -l localOptionsBkgdEstHiPt.py -c condor_2014_01_15_BkgdEstFromData4  -o stacked_histogramsHiPtRebin5.root
 #makePlots.py -y -r       -l localOptionsBkgdEstHiPt.py -c condor_2014_01_15_BkgdEstFromData4  -o stacked_histogramsHiPt.root
 
-# 2014-01-15:  
-#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_15_BkgdEstFromData5/ 
+# 2014-01-15:
+#cp condor/condor_2014_01_14_PreSelection/MET.root                                           condor/condor_2014_01_15_BkgdEstFromData5/
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionElec     -l bkgdFromDataElec.py     -c condor_2014_01_15_BkgdEstFromData5 -o ElecBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionMuon     -l bkgdFromDataMuon.py     -c condor_2014_01_15_BkgdEstFromData5 -o MuonBkgd.root
 #../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelectionTau      -l bkgdFromDataTauHiPt.py  -c condor_2014_01_15_BkgdEstFromData5 -o TauBkgd.root
@@ -63,19 +63,19 @@
 #makePlots.py -y -r -b 5  -l localOptionsBkgdEst.py     -c condor_2014_01_15_BkgdEstFromData5  -o stacked_histogramsRebin5.root
 #makePlots.py -y -r       -l localOptionsBkgdEst.py     -c condor_2014_01_15_BkgdEstFromData5  -o stacked_histograms.root
 
-# 2014-01-15:  
-#cp condor/condor_2014_01_14_PreSelection/*.root                                             condor/condor_2014_01_15_BkgdEstFromData6/ 
+# 2014-01-15:
+#cp condor/condor_2014_01_14_PreSelection/*.root                                             condor/condor_2014_01_15_BkgdEstFromData6/
 #rm -f                                                                                       condor/condor_2014_01_15_BkgdEstFromData6/stack*root
-#../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelection -l bkgdFromWjetsScaleHiptToIncl.py -c condor_2014_01_15_BkgdEstFromData6 -o WjetsHighPt.root  
+#../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelection -l bkgdFromWjetsScaleHiptToIncl.py -c condor_2014_01_15_BkgdEstFromData6 -o WjetsHighPt.root
 #makePlots.py -y -r -b 10 -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_15_BkgdEstFromData6  -o stacked_histogramsRebin10.root
 #makePlots.py -y -r -b 5  -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_15_BkgdEstFromData6  -o stacked_histogramsRebin5.root
 #makePlots.py -y -r       -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_15_BkgdEstFromData6  -o stacked_histograms.root
 
 
-# 2014-01-16:  
-#cp condor/condor_2014_01_14_PreSelection/*.root                                             condor/condor_2014_01_16_BkgdEstFromData7/ 
+# 2014-01-16:
+#cp condor/condor_2014_01_14_PreSelection/*.root                                             condor/condor_2014_01_16_BkgdEstFromData7/
 #rm -f                                                                                       condor/condor_2014_01_16_BkgdEstFromData7/stack*root
-#../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelection -l bkgdFromWjetsScaleHiptToIncl.py -c condor_2014_01_16_BkgdEstFromData7 -o WjetsHighPt.root  
+#../scripts/bkgdFromData.py -q condor_2014_01_14_PreSelection -l bkgdFromWjetsScaleHiptToIncl.py -c condor_2014_01_16_BkgdEstFromData7 -o WjetsHighPt.root
 #makePlots.py -y -r -b 10 -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_16_BkgdEstFromData7  -o stacked_histogramsRebin10.root
 #makePlots.py -y -r -b 5  -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_16_BkgdEstFromData7  -o stacked_histogramsRebin5.root
 #makePlots.py -y -r       -E 100 -l localOptionsBkgdDataHiPt.py    -c condor_2014_01_16_BkgdEstFromData7  -o stacked_histograms.root

@@ -1,15 +1,15 @@
-# This config file is modeled on: 
-# https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/dfe66d671a34e88c199fffd9dd3003e5/configFile 
-# which is the config for producing this dataset: 
-# /WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 
+# This config file is modeled on:
+# https://cmsweb.cern.ch/couchdb/reqmgr_config_cache/dfe66d671a34e88c199fffd9dd3003e5/configFile
+# which is the config for producing this dataset:
+# /WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM
 
 # To run:
-# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAOD_MC_cfg.py 
+# DisappTrks/CandidateTrackProducer/test]$ cmsRun candidateTrackProducer_RunMiniAOD_MC_cfg.py
 
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: step1 --filein dbs:/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM --fileout file:SUS-RunIIFall15MiniAODv2-00073.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 76X_mcRun2_asymptotic_v12 --step PAT --era Run2_25ns --python_filename SUS-RunIIFall15MiniAODv2-00073_1_MCM_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1920
 import FWCore.ParameterSet.Config as cms
 
@@ -36,11 +36,11 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        # 'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0058EAA8-CFC6-E511-9912-B083FED12B5C.root', 
-        "file:/home/wulsin/disappTrksRun2/ntuples_dev/CMSSW_7_6_3/src/DisappTrks/CandidateTrackProducer/test/WJetsToLNu_TuneCUETP8M1_13TeV_AODSIM_numEvent100.root", 
+        # 'root://cmsxrootd.fnal.gov///store/mc/RunIIFall15DR76/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/0058EAA8-CFC6-E511-9912-B083FED12B5C.root',
+        "file:/home/wulsin/disappTrksRun2/ntuples_dev/CMSSW_7_6_3/src/DisappTrks/CandidateTrackProducer/test/WJetsToLNu_TuneCUETP8M1_13TeV_AODSIM_numEvent100.root",
     ),
     secondaryFileNames = cms.untracked.vstring()
-)    
+)
 
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
@@ -65,7 +65,7 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('file:miniAODWithCandidateTracks.root'), 
+    fileName = cms.untracked.string('file:miniAODWithCandidateTracks.root'),
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
@@ -112,7 +112,7 @@ process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENo
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+from Configuration.DataProcessing.Utils import addMonitoring
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
@@ -128,7 +128,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)

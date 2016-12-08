@@ -1,6 +1,6 @@
 # Modeled from:
-# https://twiki.cern.ch/twiki/pub/CMSPublic/WorkBookEDMTutorialProducer/trackandpointsproducer_332_cfg.py.txt 
-# in: 
+# https://twiki.cern.ch/twiki/pub/CMSPublic/WorkBookEDMTutorialProducer/trackandpointsproducer_332_cfg.py.txt
+# in:
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookEDMTutorialProducer
 
 import FWCore.ParameterSet.Config as cms
@@ -24,7 +24,7 @@ dir = 'condor/AMSB_chargino_200GeV_ctau10cm_FilterSumPt50_RECO/'
 for file in os.listdir(dir):
     if file.find(".root") != -1 and file.find("RECO") != -1: # Skip over files that do not contain .root.
         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
-        
+
 process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 process.genParticlePlusGEANT = cms.EDProducer("GenPlusSimParticleProducer",
@@ -39,14 +39,14 @@ process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('myGenPlusSimFile.root')
     ,outputCommands = cms.untracked.vstring(
     #    'drop *',   # Remove the 'drop *' command if you want to keep all collections
-    "keep *_*_*_*", 
+    "keep *_*_*_*",
     "keep *_genParticles_*_*",
     "keep *_generalTracks_*_*",
-    "keep *_genParticlePlusGEANT_*_*" 
-    )                              
+    "keep *_genParticlePlusGEANT_*_*"
+    )
                                )
-  
-process.p = cms.Path(process.genParticlePlusGEANT)  
+
+process.p = cms.Path(process.genParticlePlusGEANT)
 
 process.e = cms.EndPath(process.out)
 

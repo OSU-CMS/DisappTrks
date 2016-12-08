@@ -1,13 +1,13 @@
 # Make plots for use in AN, or talks.
 
-#makeSinglePlot.py -l plotIsoPionElecNoMatchWJets.py    -c condor_2013_03_25_WJetsTruthStudies -o condor/condor_2013_03_25_WJetsTruthStudies/plotIsoPionElecNoMatchWJets.root --pdf  
-#makeSinglePlot.py -l plotIsoByPPionElecNoMatchWJets.py -c condor_2013_03_25_WJetsTruthStudies -o condor/condor_2013_03_25_WJetsTruthStudies/plotIsoByPPionElecNoMatchWJets.root --pdf  
+#makeSinglePlot.py -l plotIsoPionElecNoMatchWJets.py    -c condor_2013_03_25_WJetsTruthStudies -o condor/condor_2013_03_25_WJetsTruthStudies/plotIsoPionElecNoMatchWJets.root --pdf
+#makeSinglePlot.py -l plotIsoByPPionElecNoMatchWJets.py -c condor_2013_03_25_WJetsTruthStudies -o condor/condor_2013_03_25_WJetsTruthStudies/plotIsoByPPionElecNoMatchWJets.root --pdf
 
 
-makeSinglePlot.py -l plotIsoPionElecNoMatchWJets.py    -c condor_2013_03_26_BkgdTruthStudies2 -o condor/condor_2013_03_26_BkgdTruthStudies2/plotIsoPionElecNoMatchWJets.root --pdf  
-makeSinglePlot.py -l plotIsoByPPionElecNoMatchWJets.py -c condor_2013_03_26_BkgdTruthStudies2 -o condor/condor_2013_03_26_BkgdTruthStudies2/plotIsoByPPionElecNoMatchWJets.root --pdf  
+makeSinglePlot.py -l plotIsoPionElecNoMatchWJets.py    -c condor_2013_03_26_BkgdTruthStudies2 -o condor/condor_2013_03_26_BkgdTruthStudies2/plotIsoPionElecNoMatchWJets.root --pdf
+makeSinglePlot.py -l plotIsoByPPionElecNoMatchWJets.py -c condor_2013_03_26_BkgdTruthStudies2 -o condor/condor_2013_03_26_BkgdTruthStudies2/plotIsoByPPionElecNoMatchWJets.root --pdf
 
-#makeSinglePlot.py -l plotIsoPionElecNoMatchQCD470to600.py    -c condor_2013_03_25_QCDTruthStudies -o condor/condor_2013_03_25_QCDTruthStudies/plotIsoPionElecNoMatchQCD470to600.root --pdf  
-#makeSinglePlot.py -l plotIsoByPPionElecNoMatchQCD470to600.py -c condor_2013_03_25_QCDTruthStudies -o condor/condor_2013_03_25_QCDTruthStudies/plotIsoByPPionElecNoMatchQCD470to600.root --pdf  
+#makeSinglePlot.py -l plotIsoPionElecNoMatchQCD470to600.py    -c condor_2013_03_25_QCDTruthStudies -o condor/condor_2013_03_25_QCDTruthStudies/plotIsoPionElecNoMatchQCD470to600.root --pdf
+#makeSinglePlot.py -l plotIsoByPPionElecNoMatchQCD470to600.py -c condor_2013_03_25_QCDTruthStudies -o condor/condor_2013_03_25_QCDTruthStudies/plotIsoByPPionElecNoMatchQCD470to600.root --pdf
 
 

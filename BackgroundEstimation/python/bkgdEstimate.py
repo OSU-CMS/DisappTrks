@@ -3,7 +3,7 @@ import os
 import sys
 import math
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject 
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
@@ -71,7 +71,7 @@ class LeptonBkgdEstimate:
     _luminosityLabel = "13 TeV"
     _plotLabel = float ("nan")
     _metMinusOneHist = ""
-    _useIdMatch = False  # match the track to get the true bkgd yield 
+    _useIdMatch = False  # match the track to get the true bkgd yield
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -120,16 +120,16 @@ class LeptonBkgdEstimate:
         elif self._flavor == "muon":
             return 13, 13
         elif self._flavor == "tau":
-            return 14, 40  # define tau to include everything besides electrons and muons.  Last bin value is for 38.  
+            return 14, 40  # define tau to include everything besides electrons and muons.  Last bin value is for 38.
 
     def addChannel (self, role, name, sample, condorDir, useIdMatch = False):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         if useIdMatch:
-            pdgLo, pdgHi = self.getPdgRange()  
-            channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)  
-        else: 
+            pdgLo, pdgHi = self.getPdgRange()
+            channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
+        else:
             channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
-        
+
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)

@@ -22,7 +22,7 @@ process.maxEvents = cms.untracked.PSet (
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-    #  'file:miniAODWithCandidateTracks.root', 
+    #  'file:miniAODWithCandidateTracks.root',
         #"/store/user/ahart/" + prefix + ".root"
         'file:/data/users/hart/condor/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_0.root',
         'file:/data/users/hart/condor/AMSB_chargino700GeV_ctau1000cm_step4_User/AMSB_chargino_step4_1.root',

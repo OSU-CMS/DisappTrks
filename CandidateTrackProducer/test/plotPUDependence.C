@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "TROOT.h" 
+#include "TROOT.h"
 #include "TFile.h"
 #include "TH1D.h"
 #include "TH2D.h"
@@ -31,7 +31,7 @@ plot ()
 
 
   TH1D *denominator, *numerator, *numeratorNoPU;
-  TH2D *caloTot, *passCaloTot, *passCaloTotNoPU;   
+  TH2D *caloTot, *passCaloTot, *passCaloTotNoPU;
 
   TFile *fin;
   fin = TFile::Open ("test.root");
@@ -53,7 +53,7 @@ plot ()
   numerator->Rebin (4);
   numeratorNoPU->Rebin (4);
   passCaloTot->Rebin(4);
-  passCaloTotNoPU->Rebin(4);  
+  passCaloTotNoPU->Rebin(4);
 
   TGraphAsymmErrors *puDependence, *puDependenceNoPU;
   puDependence = new TGraphAsymmErrors (numerator, denominator, "cp");
@@ -147,12 +147,12 @@ plot ()
   l->Clone ()->Draw ("same");
 
   c1->SaveAs("puDependence.pdf[");  // start file
-  c1->SaveAs("puDependence.pdf");   // add a page 
+  c1->SaveAs("puDependence.pdf");   // add a page
 
-  c1->Clear();  
-  c1->SetRightMargin(0.15);  
-  caloTot->Draw("colz");  
-  c1->SaveAs("puDependence.pdf");   // add a page 
+  c1->Clear();
+  c1->SetRightMargin(0.15);
+  caloTot->Draw("colz");
+  c1->SaveAs("puDependence.pdf");   // add a page
 
   (clones["caloPuDependence"] = (TGraphAsymmErrors *) caloPuDependence->Clone ())->Draw ("ap");
   (clones["caloPuDependenceNoPU"] = (TGraphAsymmErrors *) caloPuDependenceNoPU->Clone ())->Draw ("p same");
@@ -169,10 +169,10 @@ plot ()
   l->SetX2 (max (clones.at ("caloPuDependence")->GetXaxis ()->GetXmax (), clones.at ("caloPuDependenceNoPU")->GetXaxis ()->GetXmax ()));
   l->Clone ()->Draw ("same");
 
-  c1->SaveAs("puDependence.pdf");   // add a page 
+  c1->SaveAs("puDependence.pdf");   // add a page
 
 
-  c1->SaveAs("puDependence.pdf]");   // close file 
+  c1->SaveAs("puDependence.pdf]");   // close file
 
 }
 

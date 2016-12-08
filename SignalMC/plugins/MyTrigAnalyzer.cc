@@ -2,7 +2,7 @@
 //
 // Package:    Demo/MyTrigAnalyzer
 // Class:      MyTrigAnalyzer
-// 
+//
 /**\class MyTrigAnalyzer MyTrigAnalyzer.cc Demo/MyTrigAnalyzer/plugins/MyTrigAnalyzer.cc
 
  Description: [one line class summary]
@@ -75,9 +75,9 @@ class MyTrigAnalyzer : public edm::EDAnalyzer {
 
 
       // ----------member data ---------------------------
-  edm::InputTag trackTags_; 
-  edm::InputTag hltTrackTags_; 
-  edm::InputTag muonTags_; 
+  edm::InputTag trackTags_;
+  edm::InputTag hltTrackTags_;
+  edm::InputTag muonTags_;
   edm::InputTag genPartTags_;
   edm::InputTag metTags_;
   edm::InputTag genMetTags_;
@@ -89,20 +89,20 @@ class MyTrigAnalyzer : public edm::EDAnalyzer {
   edm::InputTag l1metTags_;
 
 //used to select what tracks to read from configuration file
-  TH1D * trackPt; 
-  TH1D * trackRes; 
-  TH1D * trackDeltaR; 
-  TH1D * hltTrackPt; 
-  TH1D * metPt; 
-  TH1D * genMetPt; 
-  TH1D * hltmetPt; 
-  TH1D * l1metPt; 
-  TH1D * trackEta; 
-  TH2D * hltMetVsGenMet; 
-  TH2D * pfMetVsGenMet; 
-  TH2D * pfMetVsHltMet; 
-  TH2D * pfMetVsL1Met; 
-  TH2D * trackPtVsHltTrackPt; 
+  TH1D * trackPt;
+  TH1D * trackRes;
+  TH1D * trackDeltaR;
+  TH1D * hltTrackPt;
+  TH1D * metPt;
+  TH1D * genMetPt;
+  TH1D * hltmetPt;
+  TH1D * l1metPt;
+  TH1D * trackEta;
+  TH2D * hltMetVsGenMet;
+  TH2D * pfMetVsGenMet;
+  TH2D * pfMetVsHltMet;
+  TH2D * pfMetVsL1Met;
+  TH2D * trackPtVsHltTrackPt;
 };
 
 //
@@ -158,7 +158,7 @@ hltTrackPt = fs->make<TH1D>("hltPt" , "pT; HLT track pT [GeV]" , 100 , 0 , 500 )
 
 MyTrigAnalyzer::~MyTrigAnalyzer()
 {
- 
+
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
 
@@ -219,52 +219,52 @@ MyTrigAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       numMu++;
     }
         if (numMu == 0) {
-    
+
     //fill met histograms
     metPt->Fill(mets->front().pt());
-    std::cout<<"******************************************" << std::endl; 
-   if (mets->front().pt() > 300) std::cout << "EVENT HAS > 300 MET: " << std:: endl; 
+    std::cout<<"******************************************" << std::endl;
+   if (mets->front().pt() > 300) std::cout << "EVENT HAS > 300 MET: " << std:: endl;
     std::cout << "PF MET in this event = " << mets->front().pt() << std::endl;
     genMetPt->Fill(genMets->front().pt());
     if (trigOn_)  hltmetPt->Fill(hltmets->front().pt());
     std::cout << "HLT MET in this event = " << hltmets->front().pt() << std::endl;
     l1metPt->Fill(l1mets->front().pt());
     std::cout << "L1 MET in this event = " << l1mets->front().pt() << std::endl;
-    std::cout<<"******************************************" << std::endl; 
+    std::cout<<"******************************************" << std::endl;
     hltMetVsGenMet->Fill( genMets->front().pt(), hltmets->front().pt());
     pfMetVsGenMet->Fill( genMets->front().pt(), mets->front().pt());
     pfMetVsHltMet->Fill( hltmets->front().pt(), mets->front().pt());
     pfMetVsL1Met->Fill( l1mets->front().pt(), mets->front().pt());
 
     for(TrackCollection::const_iterator itTrack = tracks->begin();
-        itTrack != tracks->end();                      
+        itTrack != tracks->end();
         ++itTrack) {
-      
+
       double ptTemp = itTrack->pt();
       if(ptTemp > ptMax) {
-	ptMax = ptTemp;
-	etaTrk = itTrack->eta();
-	for(TrackCollection::const_iterator ithltTrack = hltTracks->begin();
-	    ithltTrack != hltTracks->end();
-	    ++ithltTrack) {
-	  deltaRTemp = deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi());
-	  if (deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi())< 0.005){
-	  std::cout << "Track eta, phi = " << itTrack->eta() << ", " << itTrack->phi() << std::endl;
-	  std::cout << "hlt Track eta, phi = " << ithltTrack->eta() << ", " << ithltTrack->phi() << std::endl;
-	    std::cout << "DeltaR between track pT and hlt track pT = " << deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi()) << std::endl;
-	    	    std::cout << "ptMax = " << ptMax<< std::endl;
-	    hltPtMax = ithltTrack->pt();
-	    std::cout << "hltPtMax = " << hltPtMax<< std::endl;
-	    if (hltPtMax < 100 && ptMax > 100 ) std::cout << "PT MISMATCH" << std::endl;
-	     }
-	  
-	}
+        ptMax = ptTemp;
+        etaTrk = itTrack->eta();
+        for(TrackCollection::const_iterator ithltTrack = hltTracks->begin();
+            ithltTrack != hltTracks->end();
+            ++ithltTrack) {
+          deltaRTemp = deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi());
+          if (deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi())< 0.005){
+          std::cout << "Track eta, phi = " << itTrack->eta() << ", " << itTrack->phi() << std::endl;
+          std::cout << "hlt Track eta, phi = " << ithltTrack->eta() << ", " << ithltTrack->phi() << std::endl;
+            std::cout << "DeltaR between track pT and hlt track pT = " << deltaR (itTrack->eta(), itTrack->phi(), ithltTrack->eta(), ithltTrack->phi()) << std::endl;
+                        std::cout << "ptMax = " << ptMax<< std::endl;
+            hltPtMax = ithltTrack->pt();
+            std::cout << "hltPtMax = " << hltPtMax<< std::endl;
+            if (hltPtMax < 100 && ptMax > 100 ) std::cout << "PT MISMATCH" << std::endl;
+             }
+
+        }
       }
     }
-    
+
     trackPt->Fill( ptMax );
     trackEta->Fill( etaTrk );
-    trackDeltaR->Fill(deltaRTemp);    
+    trackDeltaR->Fill(deltaRTemp);
     hltTrackPt->Fill( hltPtMax );
     trackPtVsHltTrackPt->Fill( ptMax, hltPtMax );
     trackRes->Fill( (hltPtMax - ptMax)/ptMax);
@@ -273,7 +273,7 @@ MyTrigAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    Handle<ExampleData> pIn;
    iEvent.getByLabel("example",pIn);
 #endif
-   
+
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
    ESHandle<SetupData> pSetup;
    iSetup.get<SetupRecord>().get(pSetup);
@@ -282,14 +282,14 @@ MyTrigAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
 // ------------ method called once each job just before starting event loop  ------------
-void 
+void
 MyTrigAnalyzer::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
-void 
-MyTrigAnalyzer::endJob() 
+void
+MyTrigAnalyzer::endJob()
 {
   //  l1metEff = (TH1D*) l1metPt->Clone("l1metEff");
   //  l1metEff->Divide(metPt);
@@ -299,7 +299,7 @@ MyTrigAnalyzer::endJob()
 
 // ------------ method called when starting to processes a run  ------------
 /*
-void 
+void
 MyTrigAnalyzer::beginRun(edm::Run const&, edm::EventSetup const&)
 {
 }
@@ -307,7 +307,7 @@ MyTrigAnalyzer::beginRun(edm::Run const&, edm::EventSetup const&)
 
 // ------------ method called when ending the processing of a run  ------------
 /*
-void 
+void
 MyTrigAnalyzer::endRun(edm::Run const&, edm::EventSetup const&)
 {
 }
@@ -315,7 +315,7 @@ MyTrigAnalyzer::endRun(edm::Run const&, edm::EventSetup const&)
 
 // ------------ method called when starting to processes a luminosity block  ------------
 /*
-void 
+void
 MyTrigAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
@@ -323,7 +323,7 @@ MyTrigAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetu
 
 // ------------ method called when ending the processing of a luminosity block  ------------
 /*
-void 
+void
 MyTrigAnalyzer::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }

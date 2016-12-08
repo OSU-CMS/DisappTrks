@@ -1,7 +1,7 @@
-# Crab script to copy files from one site to another 
+# Crab script to copy files from one site to another
 #
 # Usage:
-# $ python crab_copy.py 
+# $ python crab_copy.py
 
 #!/usr/bin/env python
 
@@ -14,9 +14,9 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'copy_cfg.py' 
+config.JobType.psetName = 'copy_cfg.py'
 
-config.Data.inputDBS = 'phys03'  
+config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
@@ -41,29 +41,29 @@ if __name__ == '__main__':
     #############################################################################################
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
-    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v3' 
-    config.General.requestName = 'copy_MET_2015D_PromptReco_v3'  
+    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v3'
+    config.General.requestName = 'copy_MET_2015D_PromptReco_v3'
     config.Data.inputDataset = '/MET/wulsin-Run2015D-PromptReco-v3-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 
-    config.General.requestName = 'copy_SingleMuon_2015D_PromptReco_v3'   
+    config.General.requestName = 'copy_SingleMuon_2015D_PromptReco_v3'
     config.Data.inputDataset = '/SingleMuon/wulsin-Run2015D-PromptReco-v4-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 
-    config.General.requestName = 'copy_SingleElectron_2015D_PromptReco_v3'  
+    config.General.requestName = 'copy_SingleElectron_2015D_PromptReco_v3'
     config.Data.inputDataset = '/SingleElectron/wulsin-Run2015D-PromptReco-v3-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 
-    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4' 
-    config.General.requestName = 'copy_MET_2015D_PromptReco_v4'  
+    config.Data.outputDatasetTag = 'Run2015D-PromptReco-v4'
+    config.General.requestName = 'copy_MET_2015D_PromptReco_v4'
     config.Data.inputDataset = '/MET/wulsin-Run2015D-PromptReco-v4-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 
-    config.General.requestName = 'copy_SingleMuon_2015D_PromptReco_v4'   
-    config.Data.inputDataset = '/SingleMuon/wulsin-Run2015D-PromptReco-v4-5e1b2f90f66dd8f324805a21b41c0bb6/USER'  
+    config.General.requestName = 'copy_SingleMuon_2015D_PromptReco_v4'
+    config.Data.inputDataset = '/SingleMuon/wulsin-Run2015D-PromptReco-v4-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 
-    config.General.requestName = 'copy_SingleElectron_2015D_PromptReco_v4'  
+    config.General.requestName = 'copy_SingleElectron_2015D_PromptReco_v4'
     config.Data.inputDataset = '/SingleElectron/wulsin-Run2015D-PromptReco-v4-5e1b2f90f66dd8f324805a21b41c0bb6/USER'
     submit(config)
 

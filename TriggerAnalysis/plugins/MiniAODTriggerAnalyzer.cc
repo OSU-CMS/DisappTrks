@@ -48,9 +48,9 @@ void MiniAODTriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventS
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
     std::cout << "\n === TRIGGER PATHS === " << std::endl;
     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
-        std::cout << "Trigger " << names.triggerName(i) << 
+        std::cout << "Trigger " << names.triggerName(i) <<
                 ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
-                ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)") 
+                ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)")
                 << std::endl;
     }
     std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
@@ -73,10 +73,10 @@ void MiniAODTriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventS
         // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
         std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
         for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
-            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true ); 
-            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true ); 
-            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
-            bool isNone = obj.hasPathName( pathNamesAll[h], false, false ); 
+            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true );
+            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
+            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false );
+            bool isNone = obj.hasPathName( pathNamesAll[h], false, false );
             std::cout << "   " << pathNamesAll[h];
             if (isBoth) std::cout << "(L,3)";
             if (isL3 && !isBoth) std::cout << "(*,3)";

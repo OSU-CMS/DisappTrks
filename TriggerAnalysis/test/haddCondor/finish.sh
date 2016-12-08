@@ -10,8 +10,8 @@ cd output/
 
 for (( i=0; i<$blocks; i++ ))
 do
-	hadd output$i.root output_$i\_*.root
-	rm output_$i\_*.root
+        hadd output$i.root output_$i\_*.root
+        rm output_$i\_*.root
 done
 
 hadd result.root output*.root
