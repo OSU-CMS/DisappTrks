@@ -1395,6 +1395,20 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("metLegTriggerWeight"),
+            title = cms.string(";trigger weight for E_{T}^{miss} leg"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("metLegWeight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("trackLegTriggerWeight"),
+            title = cms.string(";trigger weight for track leg"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("trackLegWeight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
             name = cms.string("ctau"),
             title = cms.string(";c#tau [cm]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 50.0),
