@@ -7,7 +7,9 @@ lumi = {
     "MET_2016D" : 4350.209,
     "MET_2016E" : 4043.113,
     "MET_2016F" : 3152.673,
-    "MET_2016G" : 7101.431,
+    # NOTE: temporary fix with an impartial re-creation of G
+    "MET_2016G" : 6685.201,
+    #"MET_2016G" : 7101.431,
 
     "SingleElectron_2015D" : 2669.639,
     "SingleElectron_2016B" : 5883.947,
