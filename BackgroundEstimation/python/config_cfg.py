@@ -6,6 +6,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # Base skim
 #  add_channels  (process,  [ElectronTagSkim],  histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 
+# Tag-and-probe channels for fiducial map
+#  add_channels  (process,  [ElectronFiducialCalcBefore],  histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ElectronFiducialCalcAfter],   histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 # Tag-and-probe channels for electron background estimate
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoElectronMuonFiducialCuts],  histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoEleDisTrkNoElectronMuonFiducialCuts],             histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
@@ -26,6 +30,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # Base skim and ZtoMuMu
 #  add_channels  (process,  [MuonTagSkim],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+
+# Tag-and-probe channels for muon background estimate
+#  add_channels  (process,  [MuonFiducialCalcBefore],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [MuonFiducialCalcAfter],   histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
 # Tag-and-probe channels for muon background estimate
 #  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
