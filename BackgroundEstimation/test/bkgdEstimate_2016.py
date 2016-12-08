@@ -10,7 +10,7 @@ import os
 metLumi      =  lumi["MET_2016BC"] + lumi["MET_2016DEFG"]
 electronLumi =  lumi["SingleElectron_2016BC"] + lumi["SingleElectron_2016DEFG"]
 muonLumi     =  lumi["SingleMuon_2016BC"] + lumi["SingleMuon_2016DEFG"]
-tauLumi      =  lumi["Tau_2016BC"] + lumi["Tau_2016DEFG"]
+tauLumi      =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"]
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
@@ -221,7 +221,7 @@ fout = TFile.Open ("tauBkgdEstimate_2016BC.root", "recreate")
 tauBkgdEstimateBC = LeptonBkgdEstimate ("tau")
 tauBkgdEstimateBC.addTFile (fout)
 tauBkgdEstimateBC.addTCanvas (canvas)
-tauBkgdEstimateBC.addPrescaleFactor (lumi["MET_2016BC"] / lumi["Tau_2016BC"])
+tauBkgdEstimateBC.addPrescaleFactor (lumi["MET_2016BC"] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"])
 tauBkgdEstimateBC.addLuminosityInInvFb (lumi["MET_2016BC"])
 tauBkgdEstimateBC.addLuminosityLabel ("0.814 fb^{-1} (13 TeV)")
 tauBkgdEstimateBC.addPlotLabel ("Tau 2016B+C")
@@ -254,7 +254,7 @@ fout = TFile.Open ("tauBkgdEstimate_2016DEFG.root", "recreate")
 tauBkgdEstimateDEFG = LeptonBkgdEstimate ("tau")
 tauBkgdEstimateDEFG.addTFile (fout)
 tauBkgdEstimateDEFG.addTCanvas (canvas)
-tauBkgdEstimateDEFG.addPrescaleFactor (lumi["MET_2016DEFG"] / lumi["Tau_2016DEFG"])
+tauBkgdEstimateDEFG.addPrescaleFactor (lumi["MET_2016DEFG"] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"])
 tauBkgdEstimateDEFG.addLuminosityInInvFb (lumi["MET_2016DEFG"])
 tauBkgdEstimateDEFG.addLuminosityLabel ("0.139 fb^{-1} (13 TeV)")
 tauBkgdEstimateDEFG.addPlotLabel ("Tau 2016D")
