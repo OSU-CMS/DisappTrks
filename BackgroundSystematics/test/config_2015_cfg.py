@@ -1,4 +1,4 @@
-from DisappTrks.StandardAnalysis.config_cfg import *
+from DisappTrks.BackgroundSystematics.config_cfg import *
 import sys
 
 if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_"):
