@@ -649,7 +649,7 @@ TrackMETHistograms = cms.PSet(
             inputVariables = cms.vstring("fabs (deltaPhi (track, met))"),
         ),
         cms.PSet (
-            name = cms.string("metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"), ## MinusOne is a typo but for the moment let's not change it...
+            name = cms.string("metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"), ## MinusOne is a typo but for the moment let's not change it... OK
             title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss} excluding muons [GeV]"),
             binsX = cms.untracked.vdouble(51, 0.0, 5.1),
             binsY = cms.untracked.vdouble(51, 0.0, 5.1),
