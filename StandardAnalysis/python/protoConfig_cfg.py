@@ -197,6 +197,7 @@ histSets = cms.VPSet (
     JetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
+    TrackMETHistograms,
 )
 
 histSetsDebug = cms.VPSet(
@@ -216,7 +217,6 @@ histSetsElectron.append(ElectronExtraHistograms)
 histSetsElectron.append(DiElectronHistograms)
 histSetsElectron.append(TrackElectronHistograms)
 histSetsElectron.append(ElectronMETHistograms)
-histSetsElectron.append(TrackMETHistograms)
 histSetsElectron.append(TrackElectronMETHistograms)
 
 histSetsMuon = copy.deepcopy(histSets)
@@ -226,11 +226,9 @@ histSetsMuon.append(DiMuonHistograms)
 histSetsMuon.append(DiMuonExtraHistograms)
 histSetsMuon.append(TrackMuonHistograms)
 histSetsMuon.append(MuonMETHistograms)
-histSetsMuon.append(TrackMETHistograms)
 histSetsMuon.append(TrackMuonMETHistograms)
 
 histSetsTau = copy.deepcopy(histSets)
 histSetsTau.append(TauExtraHistograms)
 histSetsTau.append(TrackTauHistograms)
-histSetsTau.append(TrackMETHistograms)
 ################################################################################
