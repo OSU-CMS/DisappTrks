@@ -2,6 +2,7 @@
 import os
 import sys
 import math
+import functools
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine
 
@@ -11,6 +12,12 @@ setTDRStyle()
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
+
+fiducialElectronSigmaCut = 2.0
+fiducialMuonSigmaCut = 2.0
+
+getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
+getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
 
 class FakeTrackSystematic:
     _fout = None
@@ -28,19 +35,22 @@ class FakeTrackSystematic:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        if role == "Basic" or role == "ZtoLL":
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        else:
+            channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
     def printFakeRateRatio (self, nHits):
-        if hasattr (self, "Basic") and hasattr (self, "ZtoMuMu") and hasattr (self, "DisTrkNHits" + str (nHits)) and hasattr (self, "ZtoMuMuDisTrkNHits" + str (nHits)):
+        if hasattr (self, "Basic") and hasattr (self, "ZtoLL") and hasattr (self, "DisTrkNHits" + str (nHits)) and hasattr (self, "ZtoMuMuDisTrkNHits" + str (nHits)):
             disTrkNHits = getattr (self, "DisTrkNHits" + str (nHits))
             zToMuMuDisTrkNHits = getattr (self, "ZtoMuMuDisTrkNHits" + str (nHits))
 
-            total = (self.Basic["yield"], self.ZtoMuMu["yield"])
-            totalError = (self.Basic["yieldError"], self.ZtoMuMu["yieldError"])
+            total = (self.Basic["yield"], self.ZtoLL["yield"])
+            totalError = (self.Basic["yieldError"], self.ZtoLL["yieldError"])
             passes = (disTrkNHits["yield"], zToMuMuDisTrkNHits["yield"])
             passesError = (disTrkNHits["yieldError"], zToMuMuDisTrkNHits["yieldError"])
 
@@ -52,7 +62,7 @@ class FakeTrackSystematic:
             print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
             return (fakeRate, fakeRateError, ratio, ratioError)
         else:
-            print "Basic, ZtoMuMu, DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
+            print "Basic, ZtoLL, DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
 
