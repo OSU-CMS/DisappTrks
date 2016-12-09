@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.BackgroundEstimation.bkgdEstimate_3dprojection import *
+from DisappTrks.BackgroundEstimation.bkgdEstimate import *
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import TCanvas, TFile
