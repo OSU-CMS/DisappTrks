@@ -151,13 +151,13 @@ def setFiducialMaps (process, electrons, muons):
                             print "Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
-def setStyle(h):
-    h.SetLineColor(1)
+def setStyle(h, color = 1):
+    h.SetLineColor(color)
     h.SetLineStyle(1)
-    h.SetLineWidth(1)
-    h.SetMarkerColor(1)
+    h.SetLineWidth(2)
+    h.SetMarkerColor(color)
     h.SetMarkerStyle(20)
-    h.SetMarkerSize(1.0)
+    h.SetMarkerSize(1.5)
     h.SetTitle("")
 
 def setCanvasStyle(canvas):
