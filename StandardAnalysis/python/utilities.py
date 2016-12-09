@@ -1,5 +1,7 @@
 import FWCore.ParameterSet.Config as cms
+from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.MissingHitsCorrections_cff import *
+from DisappTrks.StandardAnalysis.tdrstyle import *
 import re
 import os
 
@@ -148,3 +150,66 @@ def setFiducialMaps (process, electrons, muons):
                         for i in range (0, len (z)):
                             print "Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
+
+def setStyle(h):
+    h.SetLineColor(1)
+    h.SetLineStyle(1)
+    h.SetLineWidth(1)
+    h.SetMarkerColor(1)
+    h.SetMarkerStyle(20)
+    h.SetMarkerSize(1.0)
+    h.SetTitle("")
+
+def setCanvasStyle(canvas):
+    canvas.SetHighLightColor(2)
+    canvas.SetFillColor(0)
+    canvas.SetBorderMode(0)
+    canvas.SetBorderSize(2)
+    canvas.SetTickx(1)
+    canvas.SetTicky(1)
+    canvas.SetLeftMargin(0.128141)
+    canvas.SetRightMargin(0.0414573)
+    canvas.SetBottomMargin(0.0971503)
+    canvas.SetTopMargin(0.0712435)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+
+def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
+    h.GetXaxis().SetNdivisions(505)
+    h.GetXaxis().SetLabelOffset(0.005)
+    h.GetXaxis().SetLabelSize(0.04)
+    h.GetXaxis().SetTitleOffset(1.0)
+    h.GetXaxis().SetTitleSize(0.04)
+    if xTitle is not "":
+        h.GetXaxis().SetTitle(xTitle)
+    if xRange[0] != 0 or xRange[1] != 0:
+        h.GetXaxis().SetRangeUser(xRange[0], xRange[1])
+    h.GetYaxis().SetNdivisions(505)
+    h.GetYaxis().SetLabelOffset(0.005)
+    h.GetYaxis().SetLabelSize(0.04)
+    h.GetYaxis().SetTitleOffset(1.5)
+    h.GetYaxis().SetTitleSize(0.04)
+    if yTitle is not "":
+        h.GetYaxis().SetTitle(yTitle)
+    if yRange[0] != 0 or yRange[1] != 0:
+        h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
+
+def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut):
+    countProjections = 0 if not hasattr (getHistFromProjectionZ, "countProjections") else getattr (getHistFromProjectionZ, "countProjections")
+    h3d = getHist (sample, condor_dir, channel, hist)
+    h = h3d.ProjectionZ (hist + "_pz" + str(countProjections),
+                         0, h3d.GetXaxis().FindBin(fiducialElectronSigmaCut) - 1,
+                         0, h3d.GetYaxis().FindBin(fiducialMuonSigmaCut) - 1, "e")
+
+    countProjections += 1
+    setattr (getHistFromProjectionZ, "countProjections", countProjections)
+    return h
+
+def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectronSigmaCut, fiducialMuonSigmaCut):
+    hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
+    h = getHistFromProjectionZ (sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut)
+    statError_ = Double(0.0)
+    yield_ = h.IntegralAndError(0, -1, statError_)
+    return (yield_, statError_)
