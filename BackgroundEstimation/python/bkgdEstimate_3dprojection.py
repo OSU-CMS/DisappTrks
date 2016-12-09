@@ -89,6 +89,8 @@ class LeptonBkgdEstimate:
     _metCut = 0.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
+    _tagProbePassScaleFactor = 1.0
+    _tagProbePass1ScaleFactor = 1.0
     _purity = (1.0, 0.0)
     _luminosityInInvFb = float ("nan")
     _luminosityLabel = "13 TeV"
@@ -118,6 +120,12 @@ class LeptonBkgdEstimate:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def addTagProbePassScaleFactor (self, tagProbePassScaleFactor):
+        self._tagProbePassScaleFactor = tagProbePassScaleFactor
+
+    def addTagProbePass1ScaleFactor (self, tagProbePass1ScaleFactor):
+        self._tagProbePass1ScaleFactor = tagProbePass1ScaleFactor
 
     def addPurityFactor (self, purity):
         self._purity = purity
@@ -616,32 +624,15 @@ class LeptonBkgdEstimate:
                 passes      = self.TagProbePass["yield"]
                 passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
-                LumiScaleFactorDEG = lumi["MET_2016DEFG"] / (lumi["MET_2016DEFG"] - lumi["MET_2016F"])
-                LumiScaleFactorEFG = lumi["MET_2016DEFG"] / (lumi["MET_2016DEFG"] - lumi["MET_2016D"])
-
-                # NOTE: this is only temporary when 2016F RAW doesn't exist yet for /SingleElectron/
-                if self.TagProbePass["sample"] == "SingleEle_2016DEG_rereco":
-                    passes = passes * LumiScaleFactorDEG
-                    passesError = passesError * LumiScaleFactorDEG
-
-                # NOTE: this is only temporary when 2016D RAW doesn't exist yet for SingleMuon
-                if self.TagProbePass["sample"] == "SingleMu_2016EFG_rereco":
-                    passes = passes * LumiScaleFactorEFG
-                    passesError = passesError * LumiScaleFactorEFG
+                passes = passes * self._tagProbePassScaleFactor
+                passesError = passesError * self._tagProbePassScaleFactor
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     total        += self.TagProbe1["yield"]
                     totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
 
-                    if self.TagProbePass1["sample"] == "SingleEle_2016DEG_rereco":
-                        passes       += self.TagProbePass1["yield"] * LumiScaleFactorDEG
-                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * LumiScaleFactorDEG)
-                    elif self.TagProbePass1["sample"] == "SingleMu_2016EFG_rereco":
-                        passes       += self.TagProbePass1["yield"] * LumiScaleFactorEFG
-                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * LumiScaleFactorEFG)
-                    else:
-                        passes       += self.TagProbePass1["yield"]
-                        passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"])
+                    passes       += self.TagProbePass1["yield"] * self._tagProbePass1ScaleFactor
+                    passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * self._tagProbePass1ScaleFactor)
 
                 eff = passes / (2.0 * total - passes)
                 effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
