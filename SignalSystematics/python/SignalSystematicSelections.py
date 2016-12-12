@@ -52,6 +52,10 @@ disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
 removeCuts(disTrkSelectionSmearedJets.cuts, [cutJetPt])
 addCuts(disTrkSelectionSmearedJets.cuts, [cutJetJERSmearedPt])
 
+disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts.name = cms.string("disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts")
+removeCuts (disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+
 disTrkSelectionSmearedJetsUp = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsUp.name = cms.string("disTrkSelectionSmearedJetsUp")
 removeCuts(disTrkSelectionSmearedJetsUp.cuts, [cutJetPt])

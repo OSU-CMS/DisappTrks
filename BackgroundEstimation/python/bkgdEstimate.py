@@ -13,12 +13,6 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-fiducialElectronSigmaCut = 2.0
-fiducialMuonSigmaCut = 2.0
-
-getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
-getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
-
 class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
@@ -35,6 +29,11 @@ class LeptonBkgdEstimate:
     _plotLabel = float ("nan")
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield
+    _fiducialElectronSigmaCut = 2.0
+    _fiducialMuonSigmaCut = 2.0
+
+    getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
+    getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
 
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
@@ -83,6 +82,12 @@ class LeptonBkgdEstimate:
         else:
             self._metMinusOneHist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
 
+    def setFiducialMapCuts (self, cutValueEle, cutValueMuon):
+        self._fiducialElectronSigmaCut = cutValueEle
+        self._fiducialMuonSigmaCut = cutValueMuon
+        self.getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = self._fiducialElectronSigmaCut, fiducialMuonSigmaCut = self._fiducialMuonSigmaCut)
+        self.getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = self._fiducialElectronSigmaCut, fiducialMuonSigmaCut = self._fiducialMuonSigmaCut)
+
     def getPdgRange(self):
         if   self._flavor == "electron":
             return 11, 11
@@ -99,7 +104,7 @@ class LeptonBkgdEstimate:
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
             channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
-            channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            channel["yield"], channel["yieldError"] = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
 
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
@@ -150,13 +155,13 @@ class LeptonBkgdEstimate:
                 condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
                 name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
 
                 metMinusOne.Scale (self._prescale)
 
@@ -276,7 +281,7 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
@@ -295,20 +300,20 @@ class LeptonBkgdEstimate:
             condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
             name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
             hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-            totalHist = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+            totalHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
 
             sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
             condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
             name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
             hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-            passesHist = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+            passesHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
 
             self.plotTriggerEfficiency (passesHist, totalHist)
 
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
             name = self.TagPt35["name"]
-            metHist = getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+            metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
             passesHist.Divide (totalHist)
             metHist.Multiply (passesHist)
@@ -326,7 +331,7 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
@@ -402,14 +407,14 @@ class LeptonBkgdEstimate:
                 condorDir = self.CandTrkIdPt35["condorDir"]
                 name = self.CandTrkIdPt35["name"]
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "NoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
                 if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
@@ -616,6 +621,11 @@ class FakeTrackBkgdEstimate:
     _canvas = None
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
+    _fiducialElectronSigmaCut = 2.0
+    _fiducialMuonSigmaCut = 2.0
+
+    getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
+    getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
 
     def __init__ (self):
         pass
@@ -632,13 +642,19 @@ class FakeTrackBkgdEstimate:
     def addLuminosityInInvFb (self, luminosityInInvFb):
         self._luminosityInInvFb = luminosityInInvFb
 
+    def setFiducialMapCuts (self, cutValueEle, cutValueMuon):
+        self._fiducialElectronSigmaCut = cutValueEle
+        self._fiducialMuonSigmaCut = cutValueMuon
+        self.getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = self._fiducialElectronSigmaCut, fiducialMuonSigmaCut = self._fiducialMuonSigmaCut)
+        self.getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = self._fiducialElectronSigmaCut, fiducialMuonSigmaCut = self._fiducialMuonSigmaCut)
+
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
 
         if role == "Basic" or role == "ZtoLL":
             channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
         else:
-            channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            channel["yield"], channel["yieldError"] = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
