@@ -1,6 +1,7 @@
 # all luminosities should be in inverse picobarns
 
 lumi = {
+    # luminosities for the 23Sep2016 rereco are commented out for now
     "MET_2015D" : 2672.144,
     "MET_2016B" : 5884.944,
     "MET_2016C" : 2645.968,
@@ -9,7 +10,9 @@ lumi = {
     "MET_2016F" : 3152.673,
     # NOTE: temporary fix with an impartial re-creation of G
     "MET_2016G" : 6685.201,
-    #"MET_2016G" : 7101.431,
+
+    #"MET_2016G" : 7554.454,
+    #"MET_2016H" : 8761.822,
 
     "SingleElectron_2015D" : 2669.639,
     "SingleElectron_2016B" : 5883.947,
@@ -26,6 +29,10 @@ lumi = {
     "SingleMuon_2016E" : 4049.732,
     "SingleMuon_2016F" : 3150.361,
     "SingleMuon_2016G" : 7115.969,
+
+    #"SingleMuon_2016F" : 3160.088,
+    #"SingleMuon_2016G" : 7553.249,
+    #"SingleMuon_2016H" : 8761.822,
 
     "Tau_2015D" : 2672.153,
     "Tau_2016B" : 5880.362,

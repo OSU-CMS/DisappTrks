@@ -8,12 +8,18 @@ dataset_names_data = {
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
+
+    # ntuples for the 23Sep2016 rereco are commented out for now
+
     'MET_2016B'       : "/MET/ahart-Run2016B-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016C'       : "/MET/ahart-Run2016C-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016D'       : "/MET/ahart-Run2016D-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016E'       : "/MET/ahart-Run2016E-PromptReco-v2-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016G'       : "/MET/bfrancis-Run2016G-PromptReco-v1-DisappTrks-v7-v2-9b2edbeb3fa0a9ecef990a505ab27439/USER",
+
+    #'MET_2016G'       : "/MET/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
+    #'MET_2016H'       : ["/MET/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER", "/MET/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER"],
 
     'SingleEle_2016B' : "/SingleElectron/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v6-136b6bd54d5297516ccc5e4597ba027d/USER",
     'SingleEle_2016C' : "/SingleElectron/bfrancis-Run2016C-PromptReco-v2-DisappTrks-v6-136b6bd54d5297516ccc5e4597ba027d/USER",
@@ -28,6 +34,10 @@ dataset_names_data = {
     'SingleMu_2016E'  : "/SingleMuon/wulsin-Run2016E-PromptReco-v2-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
     'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
     'SingleMu_2016G'  : "/SingleMuon/wulsin-Run201G-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
+
+    #'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
+    #'SingleMu_2016G'  : "/SingleMuon/wulsin-Run2016G-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
+    #'SingleMu_2016H'  : ["/SingleMuon/wulsin-Run2016H-PromptReco-v2-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER", "/SingleMuon/wulsin-Run2016H-PromptReco-v3-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER"],
 
     'Tau_2016B'        :  "/Tau/ahart-Run2016B-PromptReco-v2-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
     'Tau_2016C'        :  "/Tau/ahart-Run2016C-PromptReco-v2-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
