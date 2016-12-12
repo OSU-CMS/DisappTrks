@@ -1,5 +1,12 @@
 MissingHitsCorrections = {}
 
+MissingHitsCorrections["uncorrected"] = {
+    "dropTOBProbability"          :  0.0,
+    "preTOBDropHitInefficiency"   :  0.0,
+    "postTOBDropHitInefficiency"  :  0.0,
+    "hitInefficiency"             :  0.0,
+}
+
 MissingHitsCorrections["2015"] = {
     "dropTOBProbability"          :  0.00830971251971,
     "preTOBDropHitInefficiency"   :  0.00515089150972,
