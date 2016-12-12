@@ -291,3 +291,37 @@ if systematic == "TRIGGER" or systematic == "ALL":
     print "********************************************************************************\n\n"
 
     print "\n\n"
+
+if systematic == "ECALO" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating ECalo systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
+
+    ecaloSystematic_2016BC = ECaloSystematic ()
+    ecaloSystematic_2016BC.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016BC",  dirs['Andrew']+"2016/ecaloSystematic")
+    ecaloSystematic_2016BC.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",       dirs['Andrew']+"2016/ecaloSystematic")
+
+    print "********************************************************************************"
+
+    ecaloSystematic_2016BC.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating ECalo systematic (2016DEFG)"
+    print "--------------------------------------------------------------------------------"
+
+    ecaloSystematic_2016DEFG = ECaloSystematic ()
+    ecaloSystematic_2016DEFG.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/ecaloSystematic")
+    ecaloSystematic_2016DEFG.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",         dirs['Andrew']+"2016/ecaloSystematic")
+
+    print "********************************************************************************"
+
+    ecaloSystematic_2016DEFG.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
