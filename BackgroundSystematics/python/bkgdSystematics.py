@@ -337,9 +337,9 @@ class LeptonEnergySystematic:
                 leg.AddEntry (metMinusOneUp, "scaled down (#mu = " + str (round (metMinusOneUp.GetMean (), 1)) + " #pm " + str (round (metMinusOneUp.GetMeanError (), 1)) + ")", "p")
 
                 setStyle (metMinusOne, 600)
-                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + " [GeV]")
                 setStyle (metMinusOneUp, 632)
-                setAxisStyle (metMinusOneUp, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                setAxisStyle (metMinusOneUp, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + " [GeV]")
                 self._canvas.cd ()
                 metMinusOneUp.Draw ()
                 metMinusOne.Draw ("same")
