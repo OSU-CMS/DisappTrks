@@ -3,9 +3,15 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # MET channels
 ################################################################################
-# Channels requiring only MET+jet
+# Channel requiring only MET
 #  add_channels  (process,  [metMinimalSkim],  histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [basicSelection],  histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
+
+# Channels needed for background estimates and systematics
+#  add_channels  (process,  [basicSelection],                                   histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [disTrkSelectionNHits3NoElectronMuonFiducialCuts],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits4NoElectronMuonFiducialCuts],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits5NoElectronMuonFiducialCuts],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits6NoElectronMuonFiducialCuts],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
 
 # Channels requiring MET+jet+track
 #  add_channels  (process,  [isoTrkSelectionNoElectronMuonFiducialCuts],    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
