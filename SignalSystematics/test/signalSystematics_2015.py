@@ -12,53 +12,7 @@ dirs = getUser()
 masses = [100, 200, 300, 400, 500, 600, 700]
 lifetimes = [10, 100, 1000, 10000]
 suffix = "76X"
-extraSamples = {
-    "AMSB_chargino_100GeV_10000cm_76X" : [],
-    "AMSB_chargino_100GeV_1000cm_76X" : [],
-    "AMSB_chargino_100GeV_100cm_76X" : [],
-    "AMSB_chargino_100GeV_10cm_76X" : [],
-    "AMSB_chargino_200GeV_10000cm_76X" : [],
-    "AMSB_chargino_200GeV_1000cm_76X" : [],
-    "AMSB_chargino_200GeV_100cm_76X" : [],
-    "AMSB_chargino_200GeV_10cm_76X" : [],
-    "AMSB_chargino_300GeV_10000cm_76X" : [],
-    "AMSB_chargino_300GeV_1000cm_76X" : [],
-    "AMSB_chargino_300GeV_100cm_76X" : [],
-    "AMSB_chargino_300GeV_10cm_76X" : [],
-    "AMSB_chargino_400GeV_10000cm_76X" : [],
-    "AMSB_chargino_400GeV_1000cm_76X" : [],
-    "AMSB_chargino_400GeV_100cm_76X" : [],
-    "AMSB_chargino_400GeV_10cm_76X" : [],
-    "AMSB_chargino_500GeV_10000cm_76X" : [],
-    "AMSB_chargino_500GeV_1000cm_76X" : [],
-    "AMSB_chargino_500GeV_100cm_76X" : [],
-    "AMSB_chargino_500GeV_10cm_76X" : [],
-    "AMSB_chargino_600GeV_10000cm_76X" : [],
-    "AMSB_chargino_600GeV_1000cm_76X" : [],
-    "AMSB_chargino_600GeV_100cm_76X" : [],
-    "AMSB_chargino_600GeV_10cm_76X" : [],
-    "AMSB_chargino_700GeV_10000cm_76X" : [],
-    "AMSB_chargino_700GeV_1000cm_76X" : [],
-    "AMSB_chargino_700GeV_100cm_76X" : [],
-    "AMSB_chargino_700GeV_10cm_76X" : [],
-}
-
-for sample in extraSamples:
-    if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_.*', sample):
-        continue
-    mass = re.sub (r'AMSB_chargino_([^_]*)GeV_[^_]*cm_.*', r'\1', sample)
-    ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm_.*', r'\1', sample))
-    suffix = re.sub (r'AMSB_chargino_[^_]*GeV_[^_]*cm_(.*)', r'\1', sample)
-    for i in range (2, 10):
-        ctau = ctauP = 0.1 * i * ctau0
-        if int (ctau) * 10 == int (ctau * 10):
-            ctau = ctauP = str (int (ctau))
-        else:
-            ctau = ctauP = str (ctau)
-            ctauP = re.sub (r'\.', r'p', ctau)
-        dataset = 'AMSB_chargino_' + mass + 'GeV_' + ctauP + 'cm_' + suffix
-
-        extraSamples[sample].append (dataset)
+extraSamples = getExtraSamples (suffix)
 
 systematic = "all"
 if len (sys.argv) > 1:
