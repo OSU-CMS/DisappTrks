@@ -7,21 +7,10 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
+from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
 
-import os
-
-cwd = os.getcwd()
-#print "Current directory: " + cwd
-
-if "wulsin" in cwd:
-    WellsDir = ""
-    AndrewDir = "AndrewCondor/"
-elif "hart" in cwd:
-    WellsDir = "WellsCondorNew/"
-    AndrewDir = ""
-else:
-    print "Error:  could not identify user as wulsin or hart."
-    os.exit(0)
+dirs = getUser ()
 
 #########################
 ### Signal Parameters ###
@@ -32,14 +21,13 @@ else:
 
 samplesByGravitinoMass = False
 
-
-#NOTE: These are the chargino masses
+#NOTE: These are the chargino masses in GeV
 masses = ['100', '200', '300', '400', '500', '600', '700']
 
-#chargino tau values
+#chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = 2590.0 + 12884.361
+lumi = lumi["MET_2015"] + lumi["MET_2016"]

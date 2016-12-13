@@ -7,39 +7,23 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
+from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
 
 ##################################
 ### Event Selection Parameters ###
 ##################################
 
-#name of histogram to integrate to get yields
-#integrateHistogramName = "numEvents"
-intLumi = 2590.0 + 12884.361
-
+intLumi = lumi["MET_2015"] + lumi["MET_2016"]
 
 #########################
 ### Signal Parameters ###
 #########################
 
-
-import os
-
-cwd = os.getcwd()
-
-if "wulsin" in cwd:
-    WellsDir = ""
-    AndrewDir = "AndrewCondor/"
-elif "hart" in cwd:
-    WellsDir = "WellsCondorNew/"
-    AndrewDir = ""
-else:
-    print "Error:  could not identify user as wulsin or hart."
-    os.exit(0)
-
-#NOTE: These are the chargino masses
+#NOTE: These are the chargino masses in GeV
 masses = ['100', '200', '300', '400', '500', '600', '700']
 
-#chargino tau values
+#chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
@@ -50,7 +34,6 @@ makeColorPlot = False
 convertToMassSplitting = False
 outputName = "limit_plot.root"
 yAxisRangeFor1DMassLimits = [0.01, 10000]
-
 
 # description of all the plots to be made
 plotDefinitions = [

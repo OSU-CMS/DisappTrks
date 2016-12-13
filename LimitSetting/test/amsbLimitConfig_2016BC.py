@@ -7,23 +7,9 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
+from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
 from amsbLimitConfigBkgds_2016BC import *    # Produced with ../scripts/makeANTables.py
-
-import os
-
-cwd = os.getcwd()
-#print "Current directory: " + cwd
-
-if "wulsin" in cwd:
-    WellsDir = ""
-    AndrewDir = "AndrewCondor/"
-elif "hart" in cwd:
-    WellsDir = "WellsCondorNew/"
-    AndrewDir = ""
-else:
-    print "Error:  could not identify user as wulsin or hart."
-    os.exit(0)
-
 
 ##################################
 ### Event Selection Parameters ###
@@ -41,27 +27,25 @@ integrateHistogramName = "metPt"
 
 samplesByGravitinoMass = False
 
-
-#NOTE: These are the chargino masses
+#NOTE: These are the chargino masses in GeV
 masses = ['100', '200', '300', '400', '500', '600', '700']
 
-#chargino tau values
+#chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = 8530.9
+lumi = lumi["MET_2016BC"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = AndrewDir + '/2016_ICHEP/disappearingTracks_signal_weightedToBC/'
+signal_condor_dir = dir["Andrew"] + '/2016_ICHEP/disappearingTracks_signal_weightedToBC/'
 
 signal_suffix = '80X'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
-
 
 #######################
 ### Data Parameters ###
@@ -73,59 +57,52 @@ run_blind_limits = False
 data_dataset = "MET_2016_v3"
 
 #condor directory in which to find data root file
-data_condor_dir = AndrewDir + '/2016_ICHEP/disappearingTracks/'
+data_condor_dir = dir["Andrew"] + '/2016_ICHEP/disappearingTracks/'
 
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 #############################
-### Background Parameters ###
-#############################
-
-
-
-#############################
 ### Systematic Uncertainties ###
 #############################
 
-
 external_systematic_uncertainties = [
     # Use order of AN
-     'pileup_2016BC',
+    "isr_2016",
+    "jec_2016",
+    "jer_2016",
+    "metVaryElectronEn_2016",
+    "metVaryJetEn_2016",
+    "metVaryJetRes_2016",
+    "metVaryPhotonEn_2016",
+    "metVaryTauEn_2016",
+    "metVaryUnclusteredEn_2016",
+    "pileup_2016BC",
+    "trigger_metLegWeightData_2016BC",
+    "trigger_metLegWeightMC_2016BC",
+    "trigger_trackLegWeightData_2016BC",
+    "trigger_trackLegWeightMC_2016BC",
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
 # For now, use the largest value of the uncertainty range from Run 1
 signal_systematic_uncertainties = {
-     'lumi' :  {
-        'value' : '1.062',  # Value for 2015D
-        },
-     'Isr' : {
-        'value' :'1.11',
-        },
-     'JES' : {
+    'lumi' :  {
+        'value' : '1.062',
+    },
+    'NMissOut' : {
         'value' : '1.07',
-        },
-     # 'JER' : {
-     #    'value' : '',
-     #    },
-     'trigEff' : {
-        'value' : '1.08',
-        },
-     'NMissOut' : {
-        'value' : '1.07',
-        },
-     'trkReco' :  {
+    },
+    'trkReco' :  {
         'value' : '1.017',
-        },
-     'Nmissin' :  {
-        'value' : '1.028', # from tables/systNmissIn.tex from makeANTables.py
-        },
-     'Nmissmid' :  {
-        'value' : '1.018', # from tables/systNmissMid.tex from makeANTables.py
-        },
-     'Ecalo' : {
+    },
+    'Nmissin' :  {
+        'value' : '1.028',
+    },
+    'Nmissmid' :  {
+        'value' : '1.018',
+    },
+    'Ecalo' : {
         'value' : '1.00626555065492',
-        },
-     }
-
+    },
+}
