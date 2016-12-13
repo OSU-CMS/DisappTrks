@@ -18,6 +18,7 @@ dataset_names_data = {
     'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016G'       : "/MET/bfrancis-Run2016G-PromptReco-v1-DisappTrks-v7-v2-9b2edbeb3fa0a9ecef990a505ab27439/USER",
 
+    #'MET_2016E'       : "/MET/ahart-Run2016E-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016F'       : "/MET/ahart-Run2016F-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016G'       : "/MET/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016H'       : ["/MET/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER", "/MET/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER"],

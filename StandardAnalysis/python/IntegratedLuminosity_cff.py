@@ -12,6 +12,7 @@ lumi = {
     # NOTE: temporary fix with an impartial re-creation of G
     "MET_2016G" : 6685.201,
 
+    #"MET_2016E" : 4049.255,
     #"MET_2016F" : 3160.088,
     #"MET_2016G" : 7554.454,
     #"MET_2016H" : 8761.822,
