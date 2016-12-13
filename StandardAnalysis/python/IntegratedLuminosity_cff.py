@@ -2,6 +2,7 @@
 
 lumi = {
     # luminosities for the 23Sep2016 rereco are commented out for now
+
     "MET_2015D" : 2672.144,
     "MET_2016B" : 5884.944,
     "MET_2016C" : 2645.968,
@@ -11,6 +12,7 @@ lumi = {
     # NOTE: temporary fix with an impartial re-creation of G
     "MET_2016G" : 6685.201,
 
+    #"MET_2016F" : 3160.088,
     #"MET_2016G" : 7554.454,
     #"MET_2016H" : 8761.822,
 
@@ -30,6 +32,7 @@ lumi = {
     "SingleMuon_2016F" : 3150.361,
     "SingleMuon_2016G" : 7115.969,
 
+    #"SingleMuon_2016E" : 4049.732,
     #"SingleMuon_2016F" : 3160.088,
     #"SingleMuon_2016G" : 7553.249,
     #"SingleMuon_2016H" : 8761.822,
