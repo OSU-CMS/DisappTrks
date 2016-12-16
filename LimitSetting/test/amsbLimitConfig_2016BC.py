@@ -8,8 +8,10 @@
 
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.utilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from amsbLimitConfigBkgds_2016BC import *    # Produced with ../scripts/makeANTables.py
+
+dirs = getUser ()
 
 ##################################
 ### Event Selection Parameters ###
@@ -40,7 +42,7 @@ lumi = lumi["MET_2016BC"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dir["Andrew"] + '/2016/disappearingTracks_signal_BC/'
+signal_condor_dir = dirs["Andrew"] + '/2016/disappearingTracks_signal_BC/'
 
 signal_suffix = '80X'
 
@@ -57,7 +59,7 @@ run_blind_limits = True
 data_dataset = "MET_2016_v3"
 
 #condor directory in which to find data root file
-data_condor_dir = dir["Andrew"] + '/2016_ICHEP/disappearingTracks/'
+data_condor_dir = dirs["Andrew"] + '/2016_ICHEP/disappearingTracks/'
 
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelectionPlotter/Met Plots'

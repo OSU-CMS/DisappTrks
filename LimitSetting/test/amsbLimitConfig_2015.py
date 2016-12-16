@@ -8,8 +8,10 @@
 
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.utilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from amsbLimitConfigBkgds_2015 import *
+
+dirs = getUser ()
 
 ##################################
 ### Event Selection Parameters ###
@@ -57,7 +59,7 @@ run_blind_limits = True
 data_dataset = "MET_2015D"
 
 #condor directory in which to find data root file
-data_condor_dir = dir["Andrew"] + '/2015/disappearingTracks/'
+data_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks/'
 
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelectionPlotter/Met Plots'

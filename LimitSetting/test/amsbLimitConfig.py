@@ -8,7 +8,7 @@
 
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.utilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
 dirs = getUser ()
 
