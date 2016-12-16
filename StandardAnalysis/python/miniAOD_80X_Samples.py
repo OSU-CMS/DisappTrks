@@ -18,6 +18,7 @@ dataset_names_data = {
     'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-c54ccc1822dfa6717a0025c44fd621af/USER",
     'MET_2016G'       : "/MET/bfrancis-Run2016G-PromptReco-v1-DisappTrks-v7-v2-9b2edbeb3fa0a9ecef990a505ab27439/USER",
 
+    #'MET_2016D'       : "/MET/ahart-Run2016D-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016E'       : "/MET/ahart-Run2016E-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016F'       : "/MET/ahart-Run2016F-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     #'MET_2016G'       : "/MET/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
@@ -37,6 +38,8 @@ dataset_names_data = {
     'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
     'SingleMu_2016G'  : "/SingleMuon/wulsin-Run201G-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
 
+    #'SingleMu_2016C'  : "/SingleMuon/wulsin-Run2016C-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
+    #'SingleMu_2016D'  : "/SingleMuon/wulsin-Run2016D-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016E'  : "/SingleMuon/wulsin-Run2016E-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016G'  : "/SingleMuon/wulsin-Run2016G-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
@@ -48,6 +51,10 @@ dataset_names_data = {
     'Tau_2016E'        :  "/Tau/ahart-Run2016E-PromptReco-v2-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
     'Tau_2016F'        :  "/Tau/ahart-Run2016F-PromptReco-v1-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER",
     'Tau_2016G'        :  ["/Tau/ahart-Run201G-PromptReco-v1-DisappTrks-v6-08dfac7d0c5e48045e9a5164b5e2f763/USER", "/Tau/ahart-Run201G-PromptReco-v1-DisappTrks-v6-cb3e0f46a2f7f32830a4152107df81ff/USER"],
+
+    #'Tau_2016B'        :  "/Tau/ahart-Run2016B-23Sep2016-v3-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
+    #'Tau_2016C'        :  "/Tau/ahart-Run2016C-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
+    #'Tau_2016G'        :  "/Tau/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
 }
 
 dataset_names_bkgd = {

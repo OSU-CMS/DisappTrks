@@ -12,6 +12,7 @@ lumi = {
     # NOTE: temporary fix with an impartial re-creation of G
     "MET_2016G" : 6685.201,
 
+    #"MET_2016D" : 4353.449,
     #"MET_2016E" : 4049.255,
     #"MET_2016F" : 3160.088,
     #"MET_2016G" : 7554.454,
@@ -33,6 +34,8 @@ lumi = {
     "SingleMuon_2016F" : 3150.361,
     "SingleMuon_2016G" : 7115.969,
 
+    #"SingleMuon_2016C" : 2645.968,
+    #"SingleMuon_2016D" : 4177.221,
     #"SingleMuon_2016E" : 4049.732,
     #"SingleMuon_2016F" : 3160.088,
     #"SingleMuon_2016G" : 7553.249,
@@ -46,6 +49,10 @@ lumi = {
     "Tau_2016F" : 3157.974,
     "Tau_2016G" : 7115.969,
 
+    #"Tau_2016B" : 5933.309,
+    #"Tau_2016C" : 3.425,
+    #"Tau_2016G" : 7552.514,
+
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v*" : {
         "Tau_2015D" : 225.172,
         "Tau_2016B" : 729.733,
@@ -54,6 +61,10 @@ lumi = {
         "Tau_2016E" : 116.665,
         "Tau_2016F" : 66.607,
         "Tau_2016G" : 104.906,
+
+        #"Tau_2016B" : 740.713,
+        #"Tau_2016C" : 0.128,
+        #"Tau_2016G" : 114.196,
     },
 }
 
