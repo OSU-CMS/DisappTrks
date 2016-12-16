@@ -23,7 +23,6 @@ class LeptonBkgdEstimate:
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
     _tagProbePass1ScaleFactor = 1.0
-    _purity = (1.0, 0.0)
     _luminosityInInvFb = float ("nan")
     _luminosityLabel = "13 TeV"
     _plotLabel = float ("nan")
@@ -63,9 +62,6 @@ class LeptonBkgdEstimate:
 
     def addTagProbePass1ScaleFactor (self, tagProbePass1ScaleFactor):
         self._tagProbePass1ScaleFactor = tagProbePass1ScaleFactor
-
-    def addPurityFactor (self, purity):
-        self._purity = purity
 
     def addLuminosityInInvFb (self, luminosityInInvFb):
         self._luminosityInInvFb = luminosityInInvFb
@@ -110,21 +106,6 @@ class LeptonBkgdEstimate:
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
-
-    def printSingleLeptonTriggerEff (self):
-        if hasattr (self, "TagPt35") and hasattr (self, "TagPt35NoTrig"):
-            total = self.TagPt35NoTrig["yield"]
-            totalError = self.TagPt35NoTrig["yieldError"]
-            passes = self.TagPt35["yield"]
-            passesError = self.TagPt35["yieldError"]
-
-            eff = passes / total
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
-            print "efficiency of single lepton trigger after offline selection: " + str (eff) + " +- " + str (effError)
-            return (eff, effError)
-        else:
-            print "TagPt35 and TagPt35NoTrig not both defined. Not printing single lepton trigger efficiency..."
-            return (float ("nan"), float ("nan"))
 
     def printNctrl (self):
         metMinusOne = self.plotMetForNctrl ()
@@ -232,40 +213,6 @@ class LeptonBkgdEstimate:
         else:
             print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
             return (self._pPassVeto[0], self._pPassVeto[1])
-
-    def printPpassVetoSystErr (self):
-        if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
-            # NOTE: since we're not applying the fiducial map cuts to these channels, need to change these
-            #       to "Track Plots/trackPtVsMaxSigmaForFiducialTracks" and use getHistFromProjectionZ
-            hTotal  = getHist (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", "Track Plots/trackPt")
-            hPasses = getHist (self.CandTrkIdPt35NoMet["sample"], self.CandTrkIdPt35NoMet["condorDir"], self.CandTrkIdPt35NoMet["name"] + "Plotter", "Track Plots/trackPt")
-
-            ptCut = 50.0
-
-            totalError  = Double(0.0)
-            passesError = Double(0.0)
-            total  =  hTotal.IntegralAndError (0,  hTotal.FindBin(ptCut),  totalError)
-            passes = hPasses.IntegralAndError (0, hPasses.FindBin(ptCut), passesError)
-            effLo = passes / total
-            effLoError = effLo * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P_lo (pass lepton veto) for pT < 50 GeV:    " + str (effLo) + " +- " + str (effLoError)
-
-            total  =  hTotal.IntegralAndError ( hTotal.FindBin(ptCut),  hTotal.GetNbinsX() + 1,  totalError)
-            passes = hPasses.IntegralAndError (hPasses.FindBin(ptCut), hPasses.GetNbinsX() + 1, passesError)
-            effHi = passes / total
-            effHiError = effHi * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P_hi (pass lepton veto) for pT > 50 GeV:    " + str (effHi) + " +- " + str (effHiError)
-
-            total  =  hTotal.IntegralAndError (0,  hTotal.GetNbinsX() + 1,  totalError)
-            passes = hPasses.IntegralAndError (0, hPasses.GetNbinsX() + 1, passesError)
-            effAll = passes / total
-            effAllError = effAll * math.hypot(passesError/passes, totalError/total) if passes else 0 # sum relative errors in quadrature
-            print "P_all (pass lepton veto) for all pT:        " + str (effAll) + " +- " + str (effAllError)
-
-            systErr = (effHi - effAll) / effAll
-            print "The systematic difference in lepton veto efficiency with and without the pT > 50 GeV cut is (P_hi - P_all) / P_all = ", systErr
-        else:
-            print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
 
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
@@ -472,7 +419,7 @@ class LeptonBkgdEstimate:
 
     def printNest (self):
         nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        pPassVeto,         pPassVetoError, passes, passesError, total, totalError                             =  self.printPpassVetoTagProbe ()
+        pPassVeto,         pPassVetoError, passes, passesError, passes1, passes1Error, total, totalError                             =  self.printPpassVetoTagProbe ()
         pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
         pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
 
@@ -481,23 +428,20 @@ class LeptonBkgdEstimate:
 
         self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
 
-        N = alpha = alphaError = float ("nan")
-        if not math.isnan (passes) and not math.isnan (passesError) and not math.isnan (total) and not math.isnan (totalError):
-            N = passes
-            alpha = (nCtrl / (2.0 * total - passes)) * pPassMetCut * pPassMetTriggers
-            alphaError  =  0.0
-            alphaError  =  math.hypot  (alphaError,  (nCtrl  *  pPassMetCut  *  pPassMetTriggers  *  2.0 * totalError)  /  ((2.0  *  total  -  passes)  *  (2.0  *  total  -  passes)))
-            alphaError  =  math.hypot  (alphaError,  (nCtrl  *  pPassMetCut  *  pPassMetTriggers  *       passesError)  /  ((2.0  *  total  -  passes)  *  (2.0  *  total  -  passes)))
-            alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCut       *  pPassMetTriggersError)  /  (2.0  *  total  -  passes))
-            alphaError  =  math.hypot  (alphaError,  (nCtrl       *  pPassMetCutError  *  pPassMetTriggers)       /  (2.0  *  total  -  passes))
-            alphaError  =  math.hypot  (alphaError,  (nCtrlError  *  pPassMetCut       *  pPassMetTriggers)       /  (2.0  *  total  -  passes))
-
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
-        nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
+        nEstError  =  math.hypot  (nEstError,  nCtrlError / nCtrl)
+        nEstError  =  math.hypot  (nEstError,  pPassVetoError / pPassVeto)
+        nEstError  =  math.hypot  (nEstError,  pPassMetCutError / pPassMetCut)
+        nEstError  =  math.hypot  (nEstError,  pPassMetTriggersError / pPassMetTriggers)
+        nEstError *= nEst
+
+        N = alpha = alphaError = float ("nan")
+        if not math.isnan (passes) and not math.isnan (passesError) and not math.isnan (total) and not math.isnan (totalError):
+            N = passes + passes1
+            alpha = (1 / (passes + passes1)) * ((passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor) / (2.0 * total - (passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor))) * nCtrl * pPassMetCut * pPassMetTriggers
+            # the following is copied straight from a calculation done in maxima
+            alphaError = math.sqrt((4*nCtrl**2*pPassMetCut**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2*totalError**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**4)+passesError**2*((self._tagProbePassScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers)/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))-(nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))+(self._tagProbePassScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))**2+passes1Error**2*((self._tagProbePass1ScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers)/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))-(nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))+(self._tagProbePass1ScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))**2+(nCtrl**2*pPassMetCut**2*pPassMetTriggersError**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2)+(nCtrl**2*pPassMetCutError**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2)+(nCtrlError**2*pPassMetCut**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))
 
         print "N: " + str (N)
         if not (alpha == 0):
@@ -567,54 +511,33 @@ class LeptonBkgdEstimate:
                 passes      = self.TagProbePass["yield"]
                 passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
-                passes = passes * self._tagProbePassScaleFactor
-                passesError = passesError * self._tagProbePassScaleFactor
+                passes1 = 0.0
+                passes1Error = 0.0
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     total        += self.TagProbe1["yield"]
                     totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
 
-                    passes       += self.TagProbePass1["yield"] * self._tagProbePass1ScaleFactor
-                    passesError   = math.hypot (passesError, self.TagProbePass1["yieldError"] * self._tagProbePass1ScaleFactor)
+                    passes1       = self.TagProbePass1["yield"]
+                    passes1Error  = self.TagProbePass1["yieldError"]
 
-                eff = passes / (2.0 * total - passes)
-                effError = 2.0 * math.hypot (passesError * total, passes * totalError) / ((2.0 * total - passes) * (2.0 * total - passes))
+                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
+                scaledPassesError = math.hypot (passesError * self._tagProbePassScaleFactor, passes1Error * self._tagProbePass1ScaleFactor)
 
-                eff *= self._purity[0]
-                effError = math.hypot (eff * self._purity[1], effError * self._purity[0])
+                eff = scaledPasses / (2.0 * total - scaledPasses)
+                effError = 2.0 * math.hypot (scaledPassesError * total, scaledPasses * totalError) / ((2.0 * total - scaledPasses) * (2.0 * total - scaledPasses))
 
                 if eff > 0.0:
                     print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
                 else:
                     print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " - 0 + " + str (effError)
-                return (eff, effError, passes, passesError, total, totalError)
+                return (eff, effError, passes, passesError, passes1, passes1Error, total, totalError)
             else:
                 print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
-                return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
+                return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
         else:
             print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
-            return (self._pPassVeto[0], self._pPassVeto[1], float ("nan"), float ("nan"), float ("nan"), float ("nan"))
-
-    def printStdResults (self):
-
-        print "********************************************************************************"
-        print "Compare lepton veto efficiency in tag and probe sample and in baseline sample (latter requires MC truth)."
-
-        (nTP, nTPError)     = self.printPpassVetoTagProbe ()
-        (nBase, nBaseError) = self.printPpassVeto ()
-        print "|P_tp - P_base| = " + str (abs (nTP - nBase) / math.hypot (nTPError, nBaseError)) + " sigma"
-        self.printPpassVetoSystErr()
-
-        print "********************************************************************************"
-
-        (nEst, nEstError) = self.printNest ()
-
-        print "--------------------------------------------------------------------------------"
-
-        (nBack, nBackError) = self.printNback ()
-        print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
-
-        print "********************************************************************************"
+            return (self._pPassVeto[0], self._pPassVeto[1], float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
 class FakeTrackBkgdEstimate:
     _fout = None
