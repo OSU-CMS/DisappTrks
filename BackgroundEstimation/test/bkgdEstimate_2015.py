@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import math
-from DisappTrks.StandardAnalysis.bkgdEstimate import *
+from DisappTrks.BackgroundEstimation.bkgdEstimate import *
 from DisappTrks.StandardAnalysis.utilities import *
 from ROOT import TCanvas, TFile
 import os
@@ -15,132 +15,147 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-print "********************************************************************************"
-print "performing fake track background estimate in disappearing track search region"
-print "--------------------------------------------------------------------------------"
+background = "all"
+if len (sys.argv) > 1:
+    background = sys.argv[1]
+background = background.upper ()
 
-fout = TFile.Open ("fakeTrackBkgdEstimate_2015.root", "recreate")
+if background == "FAKE" or background == "ALL":
 
-fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-fakeTrackBkgdEstimate.addTFile (fout)
-fakeTrackBkgdEstimate.addTCanvas (canvas)
-fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
-fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2015D",  dirs['Andrew']+"2015/zToMuMu")
-fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2015D",  dirs['Andrew']+"2015/fakeTrackBackground")
-fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2015D",       dirs['Andrew']+"2015/basicSelection")
+    print "********************************************************************************"
+    print "performing fake track background estimate in disappearing track search region"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("fakeTrackBkgdEstimate_2015.root", "recreate")
 
-(nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
+    fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+    fakeTrackBkgdEstimate.addTFile (fout)
+    fakeTrackBkgdEstimate.addTCanvas (canvas)
+    fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+    fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
+    fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2015D",  dirs['Andrew']+"2015/zToMuMu")
+    fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2015D",  dirs['Andrew']+"2015/fakeTrackBackground")
+    fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2015D",       dirs['Andrew']+"2015/basicSelection")
 
-print "********************************************************************************"
+    print "********************************************************************************"
 
-fout.Close ()
+    (nEstFake, nEstFakeError) = fakeTrackBkgdEstimate.printNest ()
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "performing electron background estimate in disappearing track search region"
-print "--------------------------------------------------------------------------------"
+    fout.Close ()
 
-fout = TFile.Open ("electronBkgdEstimate_2015.root", "recreate")
+    print "\n\n"
 
-electronBkgdEstimate = LeptonBkgdEstimate ("electron")
-electronBkgdEstimate.addTFile (fout)
-electronBkgdEstimate.addTCanvas (canvas)
-electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
-electronBkgdEstimate.addLuminosityInInvFb (metLumi)
-electronBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
-electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
-electronBkgdEstimate.addMetCut (100.0)
-electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackground")
-electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Andrew']+"2015/electronBackground")
-electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
-electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
+if background == "ELECTRON" or background == "ALL":
 
-print "********************************************************************************"
+    print "********************************************************************************"
+    print "performing electron background estimate in disappearing track search region"
+    print "--------------------------------------------------------------------------------"
 
-(nEstElectron, nEstElectronError) = electronBkgdEstimate.printNest ()
+    fout = TFile.Open ("electronBkgdEstimate_2015.root", "recreate")
 
-print "********************************************************************************"
+    electronBkgdEstimate = LeptonBkgdEstimate ("electron")
+    electronBkgdEstimate.addTFile (fout)
+    electronBkgdEstimate.addTCanvas (canvas)
+    electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
+    electronBkgdEstimate.addLuminosityInInvFb (metLumi)
+    electronBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+    electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
+    electronBkgdEstimate.addMetCut (100.0)
+    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Andrew']+"2015/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
+    electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackgroundControlRegion")
 
-fout.Close ()
+    print "********************************************************************************"
 
-print "\n\n"
+    (nEstElectron, nEstElectronError) = electronBkgdEstimate.printNest ()
 
-print "********************************************************************************"
-print "performing muon background estimate in disappearing track search region"
-print "--------------------------------------------------------------------------------"
+    print "********************************************************************************"
 
-fout = TFile.Open ("muonBkgdEstimate_2015.root", "recreate")
+    fout.Close ()
 
-muonBkgdEstimate = LeptonBkgdEstimate ("muon")
-muonBkgdEstimate.addTFile (fout)
-muonBkgdEstimate.addTCanvas (canvas)
-muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-muonBkgdEstimate.addLuminosityInInvFb (metLumi)
-muonBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
-muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
-muonBkgdEstimate.addMetCut (100.0)
-muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
-muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D_rereco",  dirs['Andrew']+"2015/muonBackground")
-muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
-muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
+    print "\n\n"
 
-print "********************************************************************************"
+if background == "MUON" or background == "ALL":
 
-(nEstMuon, nEstMuonError) = muonBkgdEstimate.printNest ()
+    print "********************************************************************************"
+    print "performing muon background estimate in disappearing track search region"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("muonBkgdEstimate_2015.root", "recreate")
 
-fout.Close ()
+    muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+    muonBkgdEstimate.addTFile (fout)
+    muonBkgdEstimate.addTCanvas (canvas)
+    muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
+    muonBkgdEstimate.addLuminosityInInvFb (metLumi)
+    muonBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+    muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
+    muonBkgdEstimate.addMetCut (100.0)
+    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D_rereco",  dirs['Andrew']+"2015/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "performing tau background estimate in disappearing track search region"
-print "--------------------------------------------------------------------------------"
+    (nEstMuon, nEstMuonError) = muonBkgdEstimate.printNest ()
 
-fout = TFile.Open ("tauBkgdEstimate_2015.root", "recreate")
+    print "********************************************************************************"
 
-tauBkgdEstimate = LeptonBkgdEstimate ("tau")
-tauBkgdEstimate.addTFile (fout)
-tauBkgdEstimate.addTCanvas (canvas)
-tauBkgdEstimate.addPrescaleFactor (metLumi / tauLumi)
-tauBkgdEstimate.addLuminosityInInvFb (metLumi)
-tauBkgdEstimate.addLuminosityLabel ("0.225 fb^{-1} (13 TeV)")
-tauBkgdEstimate.addPlotLabel ("Tau 2015D")
-tauBkgdEstimate.addMetCut (100.0)
-tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2015D",          dirs['Andrew']+"2015/tauBackground")
-tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2015D_rereco",   dirs['Andrew']+"2015/tauBackground")
-tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Andrew']+"2015/tauBackground")
-tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Andrew']+"2015/tauBackground")
-tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackgroundControlRegion")
-#tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackgroundControlRegion")
-tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
-tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-(nEstTau, nEstTauError) = tauBkgdEstimate.printNest ()
+if background == "TAU" or background == "ALL":
 
-print "********************************************************************************"
+    print "********************************************************************************"
+    print "performing tau background estimate in disappearing track search region"
+    print "--------------------------------------------------------------------------------"
 
-fout.Close ()
+    fout = TFile.Open ("tauBkgdEstimate_2015.root", "recreate")
 
-print "\n\n"
+    tauBkgdEstimate = LeptonBkgdEstimate ("tau")
+    tauBkgdEstimate.addTFile (fout)
+    tauBkgdEstimate.addTCanvas (canvas)
+    tauBkgdEstimate.addPrescaleFactor (metLumi / tauLumi)
+    tauBkgdEstimate.addLuminosityInInvFb (metLumi)
+    tauBkgdEstimate.addLuminosityLabel ("0.225 fb^{-1} (13 TeV)")
+    tauBkgdEstimate.addPlotLabel ("Tau 2015D")
+    tauBkgdEstimate.addMetCut (100.0)
+    tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2015D",          dirs['Andrew']+"2015/tauBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2015D_rereco",   dirs['Andrew']+"2015/tauBackground")
+    tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Andrew']+"2015/tauBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Andrew']+"2015/tauBackground")
+    tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackgroundControlRegion")
+    #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackgroundControlRegion")
+    tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
+    tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackgroundControlRegion")
 
-print "********************************************************************************"
-nEst = nEstElectron + nEstMuon + nEstTau
-nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
-print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
-print "********************************************************************************"
+    print "********************************************************************************"
 
-print "\n\n"
+    (nEstTau, nEstTauError) = tauBkgdEstimate.printNest ()
 
-print "********************************************************************************"
-nEst += nEstFake
-nEstError = math.hypot (nEstError, nEstFakeError)
-print "total background: " + str (nEst) + " +- " + str (nEstError)
-print "********************************************************************************"
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+if background == "ALL":
+
+    print "********************************************************************************"
+    nEst = nEstElectron + nEstMuon + nEstTau
+    nEstError = math.hypot (math.hypot (nEstElectronError, nEstMuonError), nEstTauError)
+    print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
+    print "********************************************************************************"
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    nEst += nEstFake
+    nEstError = math.hypot (nEstError, nEstFakeError)
+    print "total background: " + str (nEst) + " +- " + str (nEstError)
+    print "********************************************************************************"
