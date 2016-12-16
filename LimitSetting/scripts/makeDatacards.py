@@ -361,7 +361,7 @@ def writeDatacard(mass,lifetime,observation):
 ###getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open(os.environ['CMSSW_BASE']+"/src/DisappTrks/StandardAnalysis/data/systematic_values__" + systematic + ".txt")
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisappTrks/SignalSystematics/data/systematic_values__" + systematic + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
         intermediateLine = '~'.join(line.rstrip("\n").split())
@@ -374,7 +374,8 @@ for systematic in external_systematic_uncertainties:
             systematics_dictionary[systematic][dataset]= newLine[1]+"/"+newLine[2]
 
             # turn off systematic when the central yield is zero
-            if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
+            if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0' \
+            or systematics_dictionary[systematic][dataset] == '0.0' or systematics_dictionary[systematic][dataset] == '0.0/0.0':
                 systematics_dictionary[systematic][dataset] = '-'
 
 
