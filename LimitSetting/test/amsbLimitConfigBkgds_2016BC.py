@@ -4,38 +4,38 @@
 
 backgrounds = {
     'Fake2016BC' : {
-        'N' : '1',
-        'alpha' : '0.629547132408',
+        'N' : '0',
+        'alpha' : '0.613186900771',
     },
     'Elec2016BC' : {
-        'N' : '18',
-        'alpha' : '0.0797038926066',
+        'N' : '19',
+        'alpha' : '0.112543527986',
     },
     'Muon2016BC' : {
-        'N' : '24',
-        'alpha' : '0.0560294594353',
+        'N' : '25',
+        'alpha' : '0.056900137794',
     },
     'Tau2016BC' : {
-        'N' : '9',
-        'alpha' : '0.328950658721',
+        'N' : '8',
+        'alpha' : '0.0135152593502',
     },
 }
 
 background_systematics = {
     'Fake2016BC_alpha' : { # error on alpha
-        'value' : '1.000851615',
+        'value' : '1.00084739905',
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_alpha' : { # error on alpha
-        'value' : '1.01383679285',
+        'value' : '1.01452781398',
         'background' : 'Elec2016BC',
     },
     'Muon2016BC_alpha' : { # error on alpha
-        'value' : '1.00687178273',
+        'value' : '1.00714427592',
         'background' : 'Muon2016BC',
     },
     'Tau2016BC_alpha' : { # error on alpha
-        'value' : '1.03365705835',
+        'value' : '1.16704422709',
         'background' : 'Tau2016BC',
     },
 
@@ -44,12 +44,12 @@ background_systematics = {
         'background' : 'Elec2016BC',
     },
     'Tau2016BC_energy' : { # error on energy assumption
-        'value' : '1.168',
+        'value' : '1.200',
         'background' : 'Tau2016BC',
     },
 
     'Fake2016BC_syst' : { # error on fake track rate assumption
-        'value' : '1.371',
+        'value' : '1.314',
         'background' : 'Fake2016BC',
     },
 }

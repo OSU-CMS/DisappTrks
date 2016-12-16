@@ -40,7 +40,7 @@ lumi = lumi["MET_2015"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks_signal/'
+signal_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks_signal_new/'
 
 signal_suffix = '76X'
 
@@ -52,7 +52,7 @@ signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 #######################
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = False
+run_blind_limits = True
 
 data_dataset = "MET_2015D"
 
@@ -90,16 +90,16 @@ signal_systematic_uncertainties = {
         'value' : '1.027',
     },
     'NMissOut' : {
-        'value' : '1.07',
+        'value' : '1.0659198442926',
     },
     'trkReco' :  {
         'value' : '1.017',
     },
     'Nmissin' :  {
-        'value' : '1.028',
+        'value' : '1.0116347975146',
     },
     'Nmissmid' :  {
-        'value' : '1.018',
+        'value' : '1.0026902546109',
     },
     'Ecalo' : {
         'value' : '1.00626555065492',

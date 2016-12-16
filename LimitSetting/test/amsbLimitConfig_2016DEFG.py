@@ -9,7 +9,7 @@
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosities import *
-from amsbLimitConfigBkgds_2016D import *    # Produced with ../scripts/makeANTables.py
+from amsbLimitConfigBkgds_2016DEFG import *    # Produced with ../scripts/makeANTables.py
 
 ##################################
 ### Event Selection Parameters ###
@@ -40,7 +40,7 @@ lumi = lumi["MET_2016DEFG"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dir["Andrew"] + '/2016_ICHEP/disappearingTracks_signal_weightedToD/'
+signal_condor_dir = dir["Andrew"] + '/2016/disappearingTracks_signal_DEFG/'
 
 signal_suffix = '80X'
 
@@ -52,7 +52,7 @@ signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 #######################
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = False
+run_blind_limits = True
 
 data_dataset = "MET_2016DEFG"
 
@@ -91,16 +91,16 @@ signal_systematic_uncertainties = {
         'value' : '1.062',
     },
     'NMissOut' : {
-        'value' : '1.07',
+        'value' : '1.0659198442926',
     },
     'trkReco' :  {
         'value' : '1.017',
     },
     'Nmissin' :  {
-        'value' : '1.028',
+        'value' : '1.0116347975146',
     },
     'Nmissmid' :  {
-        'value' : '1.018',
+        'value' : '1.0026902546109',
     },
     'Ecalo' : {
         'value' : '1.00626555065492',
