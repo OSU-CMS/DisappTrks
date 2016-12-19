@@ -17,7 +17,10 @@ else:
 
 config_file = "config_cfg.py"
 
-InputCondorArguments = {'request_memory': '2048MB', 'request_cpus': '1'}
+InputCondorArguments = {
+    'request_memory': '2048MB',
+    'request_cpus': '1',
+}
 
 datasetsBkgd = [
     'QCD',
