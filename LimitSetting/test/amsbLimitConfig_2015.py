@@ -44,7 +44,7 @@ signalScaleFactor = 1.0
 #condor directory in which to find signal root files
 signal_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks_signal_new/'
 
-signal_suffix = '76X'
+signal_suffix = signal_suffix_in_datacard = '76X'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'

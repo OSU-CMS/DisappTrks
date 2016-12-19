@@ -45,6 +45,7 @@ signalScaleFactor = 1.0
 signal_condor_dir = dirs["Andrew"] + '/2016/disappearingTracks_signal_DEFG/'
 
 signal_suffix = '80X'
+signal_suffix_in_datacard = '80X_DEFG'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
