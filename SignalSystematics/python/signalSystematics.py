@@ -135,7 +135,7 @@ class YieldSystematic:
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime)
-                self._systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+                self._systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
 
                 if abs (relDiffDown) > self._maxSystematic:
                   self._maxSystematic = abs (relDiffDown)
@@ -220,7 +220,7 @@ class TriggerSystematic(YieldSystematic):
             for mass in self._masses:
                 for lifetime in self._lifetimes:
                     sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime, fluctuation)
-                    self._systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+                    self._systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
 
                     if abs(relDiffDown) > self._maxSystematic:
                         self._maxSystematic = abs (relDiffDown)
@@ -331,7 +331,7 @@ class MetSystematic(YieldSystematic):
             for mass in self._masses:
                 for lifetime in self._lifetimes:
                     sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime, metType)
-                    self._systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+                    self._systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
 
                     if abs(relDiffDown) > self._maxSystematic:
                         self._maxSystematic = abs (relDiffDown)
@@ -447,7 +447,7 @@ class PileupSystematic:
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample, relDiffDown, relDiffUp = self.printPileupSystematic (mass, lifetime)
-                systematic.append ([sample, str (1.0 + relDiffDown), str (1.0 + relDiffUp)])
+                systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
 
                 if abs (relDiffDown) > maxSystematic:
                   maxSystematic = abs (relDiffDown)
