@@ -223,9 +223,9 @@ def writeDatacard(mass,lifetime,observation):
         signal_error = signalYieldAndError['error']
         signal_error_string = str(round(signal_error,12))
     if arguments.runGamma:
-        row = ['signal_stat_'+signal_suffix,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
+        row = ['signal_stat_'+signal_suffix_in_datacard,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
     else:
-        row = ['signal_stat_'+signal_suffix,'lnN','',signal_error_string]
+        row = ['signal_stat_'+signal_suffix_in_datacard,'lnN','',signal_error_string]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
