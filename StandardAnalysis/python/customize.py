@@ -45,3 +45,5 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
 
         setMissingHitsCorrection (process, "2016DEFG")
+
+    return process
