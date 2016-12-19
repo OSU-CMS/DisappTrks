@@ -226,7 +226,7 @@ const double TriggerWeightProducer::getLeadTrackPt(const vector<TYPE(tracks)> &t
        selectedTracks.end(),
        [](const TYPE(tracks) *a, const TYPE(tracks) *b) -> bool { return (a->pt() > b->pt()); });
 
-  return selectedTracks.size() ? selectedTracks.at(0)->pt() : -1.0;
+  return selectedTracks.size() ? selectedTracks.at(0)->pt() : 1.0e12;
 }
 
 bool TriggerWeightProducer::isGoodTrack(const TYPE(tracks) &track,
