@@ -234,14 +234,32 @@ def moveVariableProducer (process, producerName):
         x = getattr (process, a)
         if type (x) == cms.Path:
             for b in x.moduleNames ():
-                if b == producer.label ():
+                if b == producerLabel:
                     producerPath = copy.deepcopy (x)
                     producerPathLabel = copy.deepcopy (a)
-                if b == plotter.label ():
+                if b == plotterLabel:
                     plotterPath = copy.deepcopy (x)
                     plotterPathLabel = copy.deepcopy (a)
 
-    getattr (process, producerPathLabel).remove (getattr (process, producerLabel))
+    producer.collections = copy.deepcopy (plotter.collections)
+    setattr (process, producerLabel + "Copy", producer)
+    producer = getattr (process, producerLabel + "Copy")
+
+    if hasattr (plotter.collections, "eventvariables"):
+        eventvariables = getattr (plotter.collections, "eventvariables")
+        for i in range (0, len (eventvariables)):
+            if eventvariables[i].getModuleLabel () == producerLabel:
+                eventvariables[i].setModuleLabel (producerLabel + "Copy")
+        setattr (plotter.collections, "eventvariables", eventvariables)
+    if hasattr (plotter.collections, "uservariables"):
+        uservariables = getattr (plotter.collections, "uservariables")
+        for i in range (0, len (uservariables)):
+            if uservariables[i].getModuleLabel () == producerLabel:
+                uservariables[i].setModuleLabel (producerLabel + "Copy")
+        setattr (plotter.collections, "uservariables", uservariables)
+    setattr (process, plotterLabel, plotter)
+    plotter = getattr (process, plotterLabel)
+
     getattr (process, plotterPathLabel).remove (getattr (process, plotterLabel))
     producerPath = getattr (process, producerPathLabel)
     plotterPath = getattr (process, plotterPathLabel)
@@ -249,6 +267,3 @@ def moveVariableProducer (process, producerName):
     plotterPath += plotter
     setattr (process, producerPathLabel, producerPath)
     setattr (process, plotterPathLabel, plotterPath)
-
-    producer.collections = copy.deepcopy (plotter.collections)
-    setattr (process, producerLabel, producer)
