@@ -4,6 +4,7 @@ from DisappTrks.StandardAnalysis.MissingHitsCorrections_cff import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
 import re
 import os
+import copy
 
 def addLifetimeReweighting (datasets):
     new_datasets = []
@@ -213,3 +214,41 @@ def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectron
     statError_ = Double(0.0)
     yield_ = h.IntegralAndError(0, -1, statError_)
     return (yield_, statError_)
+
+def moveVariableProducer (process, producerName):
+    producer = plotter = None
+    producerLabel = plotterLabel = ""
+    producerPath = plotterPath = None
+    producerPathLabel = plotterPathLabel = ""
+    for a in dir (process):
+        x = getattr (process, a)
+        if hasattr (x, "type_"):
+            if x.type_ () == producerName:
+                producer = copy.deepcopy (x)
+                producerLabel = copy.deepcopy (a)
+            if x.type_ () == "Plotter":
+                plotter = copy.deepcopy (x)
+                plotterLabel = copy.deepcopy (a)
+
+    for a in dir (process):
+        x = getattr (process, a)
+        if type (x) == cms.Path:
+            for b in x.moduleNames ():
+                if b == producer.label ():
+                    producerPath = copy.deepcopy (x)
+                    producerPathLabel = copy.deepcopy (a)
+                if b == plotter.label ():
+                    plotterPath = copy.deepcopy (x)
+                    plotterPathLabel = copy.deepcopy (a)
+
+    getattr (process, producerPathLabel).remove (getattr (process, producerLabel))
+    getattr (process, plotterPathLabel).remove (getattr (process, plotterLabel))
+    producerPath = getattr (process, producerPathLabel)
+    plotterPath = getattr (process, plotterPathLabel)
+    plotterPath += producer
+    plotterPath += plotter
+    setattr (process, producerPathLabel, producerPath)
+    setattr (process, plotterPathLabel, plotterPath)
+
+    producer.collections = copy.deepcopy (plotter.collections)
+    setattr (process, producerLabel, producer)
