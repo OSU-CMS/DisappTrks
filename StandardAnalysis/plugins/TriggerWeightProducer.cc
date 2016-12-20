@@ -12,7 +12,7 @@ class TriggerWeightProducer : public EventVariableProducer
 {
 public:
   TriggerWeightProducer(const edm::ParameterSet &);
-  ~TriggerWeightProducer() {};
+  ~TriggerWeightProducer();
 
 private:
   edm::EDGetTokenT<vector<TYPE(mets)> > metsToken_;
@@ -25,6 +25,11 @@ private:
   string efficiencyFile_;
   string dataset_;
   string target_;
+
+  TGraphAsymmErrors * metLegNumerator_;
+  TGraphAsymmErrors * metLegDenominator_;
+  TGraphAsymmErrors * trackLegNumerator_;
+  TGraphAsymmErrors * trackLegDenominator_;
 
   void FindEfficiency(TGraphAsymmErrors *, double, double &, double &, double &);
   const TVector2 getPFMETNoMu(const vector<TYPE(mets)> &, const vector<TYPE(muons)> &) const;
@@ -41,13 +46,29 @@ TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
   efficiencyFile_ (cfg.getParameter<string> ("efficiencyFile")),
   dataset_        (cfg.getParameter<string> ("dataset")),
-  target_         (cfg.getParameter<string> ("target"))
+  target_         (cfg.getParameter<string> ("target")),
+  metLegNumerator_ (NULL),
+  metLegDenominator_ (NULL),
+  trackLegNumerator_ (NULL),
+  trackLegDenominator_ (NULL)
 {
   metsToken_         = consumes<vector<TYPE(mets)> >        (collections_.getParameter<edm::InputTag> ("mets"));
   muonsToken_        = consumes<vector<TYPE(muons)> >       (collections_.getParameter<edm::InputTag> ("muons"));
   tracksToken_       = consumes<vector<TYPE(tracks)> >      (collections_.getParameter<edm::InputTag> ("tracks"));
   vertexToken_       = consumes<vector<reco::Vertex> >      (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
   mcparticlesToken_  = consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
+}
+
+TriggerWeightProducer::~TriggerWeightProducer()
+{
+  if (metLegNumerator_)
+    delete metLegNumerator_;
+  if (metLegDenominator_)
+    delete metLegDenominator_;
+  if (trackLegNumerator_)
+    delete trackLegNumerator_;
+  if (trackLegDenominator_)
+    delete trackLegDenominator_;
 }
 
 void TriggerWeightProducer::AddVariables(const edm::Event &event) {
@@ -105,33 +126,39 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
 
   const double leadTrackPt = getLeadTrackPt(*tracks, *genParticles, pv);
 
-  TFile * fin = TFile::Open(efficiencyFile_.c_str());
-  if(!fin || fin->IsZombie()) {
-    clog << "ERROR [TriggerWeightProducer]: Could not find file: " << efficiencyFile_
-         << "; would cause a seg fault." << endl;
-    exit(1);
-  }
+  if (!metLegNumerator_ || !metLegDenominator_ || !trackLegNumerator_ || !trackLegDenominator_)
+    {
+      TFile * fin = TFile::Open(efficiencyFile_.c_str());
+      if(!fin || fin->IsZombie()) {
+        clog << "ERROR [TriggerWeightProducer]: Could not find file: " << efficiencyFile_
+             << "; would cause a seg fault." << endl;
+        exit(1);
+      }
 
-  TGraphAsymmErrors * metLegNumerator     = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
-  TGraphAsymmErrors * metLegDenominator   = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
-  TGraphAsymmErrors * trackLegNumerator   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
-  TGraphAsymmErrors * trackLegDenominator = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
+      metLegNumerator_     = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
+      metLegDenominator_   = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
+      trackLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
+      trackLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
 
-  if(!metLegNumerator || !metLegDenominator || !trackLegNumerator || !trackLegDenominator) {
-    clog << "ERROR [TriggerWeightProducer]: Could not find all efficiency graphs: " << endl
-         << "\t" << dataset_ << "/metLeg (/trackLeg), " << endl
-         << "\t" << target_ << "/metLeg (/trackLeg)" << endl
-         << "Would cause a seg fault." << endl;
-    exit(1);
-  }
+      if(!metLegNumerator_ || !metLegDenominator_ || !trackLegNumerator_ || !trackLegDenominator_) {
+        clog << "ERROR [TriggerWeightProducer]: Could not find all efficiency graphs: " << endl
+             << "\t" << dataset_ << "/metLeg (/trackLeg), " << endl
+             << "\t" << target_ << "/metLeg (/trackLeg)" << endl
+             << "Would cause a seg fault." << endl;
+        exit(1);
+      }
+
+      fin->Close ();
+      delete fin;
+    }
 
   double numerator, numeratorUp, numeratorDown;
   double denominator, denominatorUp, denominatorDown;
 
   // met leg
 
-  FindEfficiency(metLegNumerator, metNoMuPt, numerator, numeratorUp, numeratorDown);
-  FindEfficiency(metLegDenominator, metNoMuPt, denominator, denominatorUp, denominatorDown);
+  FindEfficiency(metLegNumerator_, metNoMuPt, numerator, numeratorUp, numeratorDown);
+  FindEfficiency(metLegDenominator_, metNoMuPt, denominator, denominatorUp, denominatorDown);
 
   double metWeight = (denominator > 0) ? numerator / denominator : 0.;
   double metWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
@@ -141,8 +168,8 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
 
   // track leg
 
-  FindEfficiency(trackLegNumerator, leadTrackPt, numerator, numeratorUp, numeratorDown);
-  FindEfficiency(trackLegDenominator, leadTrackPt, denominator, denominatorUp, denominatorDown);
+  FindEfficiency(trackLegNumerator_, leadTrackPt, numerator, numeratorUp, numeratorDown);
+  FindEfficiency(trackLegDenominator_, leadTrackPt, denominator, denominatorUp, denominatorDown);
 
   double trackWeight = (denominator > 0) ? numerator / denominator : 0.;
   double trackWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
@@ -163,12 +190,6 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
   (*eventvariables)["trackLegWeightMCDown"] = trackWeightMCDown;
   (*eventvariables)["trackLegWeightDataUp"] = trackWeightDataUp;
   (*eventvariables)["trackLegWeightDataDown"] = trackWeightDataDown;
-
-  delete metLegNumerator;
-  delete metLegDenominator;
-  delete trackLegNumerator;
-  delete trackLegDenominator;
-
 }
 
 void TriggerWeightProducer::FindEfficiency(TGraphAsymmErrors * graph, double value,
