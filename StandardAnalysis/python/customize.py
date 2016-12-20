@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.Triggers import *
 import os
 
 def customize (process, runPeriod):
@@ -15,6 +16,8 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_2015D.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMet
+        moveVariableProducer (process, "TriggerWeightProducer")
 
         setMissingHitsCorrection (process, "2015")
 
@@ -29,6 +32,8 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016BC')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMet
+        moveVariableProducer (process, "TriggerWeightProducer")
 
         setMissingHitsCorrection (process, "2016BC")
 
@@ -43,6 +48,8 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFG')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMet
+        moveVariableProducer (process, "TriggerWeightProducer")
 
         setMissingHitsCorrection (process, "2016DEFG")
 
