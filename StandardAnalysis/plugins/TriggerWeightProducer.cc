@@ -1,7 +1,15 @@
 #ifndef TRIGGER_WEIGHT_PRODUCER
 #define TRIGGER_WEIGHT_PRODUCER
 
+#include <unordered_map>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include "FWCore/Common/interface/TriggerNames.h"
+
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
+#include "OSUT3Analysis/Collections/interface/Track.h"
 
 #include "TFile.h"
 #include "TGraphAsymmErrors.h"
@@ -17,14 +25,16 @@ public:
 private:
   edm::EDGetTokenT<vector<TYPE(mets)> > metsToken_;
   edm::EDGetTokenT<vector<TYPE(muons)> > muonsToken_;
-  edm::EDGetTokenT<vector<TYPE(tracks)> > tracksToken_;
-  edm::EDGetTokenT<vector<reco::Vertex> > vertexToken_;
-  edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
-  edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > mcparticlesToken_;
+  edm::EDGetTokenT<vector<osu::Track> > tracksToken_;
+  edm::EDGetTokenT<TYPE(triggers)> triggersToken_;
 
   string efficiencyFile_;
   string dataset_;
   string target_;
+
+  edm::ParameterSetID triggerNamesPSetID_;
+  unordered_map<string, unordered_set<unsigned> > triggerIndices_;
+  vector<string> inclusiveMetTriggers_;
 
   TGraphAsymmErrors * metLegNumerator_;
   TGraphAsymmErrors * metLegDenominator_;
@@ -33,11 +43,8 @@ private:
 
   void FindEfficiency(TGraphAsymmErrors *, double, double &, double &, double &);
   const TVector2 getPFMETNoMu(const vector<TYPE(mets)> &, const vector<TYPE(muons)> &) const;
-  const double getLeadTrackPt(const vector<TYPE(tracks)> &, const vector<reco::GenParticle> &, const reco::Vertex &) const;
-
-  bool isGoodTrack(const TYPE(tracks) &, const reco::Vertex &) const;
-  bool isGoodTrack(const TYPE(tracks) &, const reco::Vertex &, const vector<reco::GenParticle> &) const;
-  bool genMatched(const TYPE(tracks) &, const vector<reco::GenParticle> &, const int, const int, const double) const;
+  const osu::Track &getLeadTrack (const vector<osu::Track> &) const;
+  bool passesInclusiveMetTriggers (const edm::Event &, const edm::TriggerResults &);
 
   void AddVariables(const edm::Event &);
 };
@@ -47,16 +54,19 @@ TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
   efficiencyFile_ (cfg.getParameter<string> ("efficiencyFile")),
   dataset_        (cfg.getParameter<string> ("dataset")),
   target_         (cfg.getParameter<string> ("target")),
+  inclusiveMetTriggers_ (cfg.getParameter<vector<string> > ("inclusiveMetTriggers")),
   metLegNumerator_ (NULL),
   metLegDenominator_ (NULL),
   trackLegNumerator_ (NULL),
   trackLegDenominator_ (NULL)
 {
-  metsToken_         = consumes<vector<TYPE(mets)> >        (collections_.getParameter<edm::InputTag> ("mets"));
-  muonsToken_        = consumes<vector<TYPE(muons)> >       (collections_.getParameter<edm::InputTag> ("muons"));
-  tracksToken_       = consumes<vector<TYPE(tracks)> >      (collections_.getParameter<edm::InputTag> ("tracks"));
-  vertexToken_       = consumes<vector<reco::Vertex> >      (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
-  mcparticlesToken_  = consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
+  metsToken_            = consumes<vector<TYPE(mets)> >        (collections_.getParameter<edm::InputTag> ("mets"));
+  muonsToken_           = consumes<vector<TYPE(muons)> >       (collections_.getParameter<edm::InputTag> ("muons"));
+  tracksToken_          = consumes<vector<osu::Track> >      (collections_.getParameter<edm::InputTag> ("tracks"));
+  triggersToken_  = consumes<TYPE(triggers)> (collections_.getParameter<edm::InputTag> ("triggers"));
+
+  triggerNamesPSetID_.reset ();
+  triggerIndices_.clear ();
 }
 
 TriggerWeightProducer::~TriggerWeightProducer()
@@ -85,22 +95,15 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
     return;
   }
 
-  edm::Handle<vector<TYPE(tracks)> > tracks;
+  edm::Handle<vector<osu::Track> > tracks;
   if(!event.getByToken(tracksToken_, tracks)) {
     edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find tracks collection. Skipping trigger weights...";
     return;
   }
 
-  edm::Handle<vector<reco::Vertex> > vertices;
-  if(!event.getByToken(vertexToken_, vertices)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find primaryvertexs collection. Skipping trigger weights...";
-    return;
-  }
-  const reco::Vertex &pv = vertices->at(0);
-
-  edm::Handle<vector<reco::GenParticle> > genParticles;
-  if(!event.getByToken(mcparticlesToken_, genParticles)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find hardInteractionMcparticles collection. Skipping trigger weights...";
+  edm::Handle<edm::TriggerResults> triggers;;
+  if(!event.getByToken(triggersToken_, triggers)) {
+    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find triggers collection. Skipping trigger weights...";
     return;
   }
 
@@ -123,8 +126,6 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
 
   const TVector2 metNoMu = getPFMETNoMu(*mets, *muons);
   double metNoMuPt = metNoMu.Mod();
-
-  const double leadTrackPt = getLeadTrackPt(*tracks, *genParticles, pv);
 
   if (!metLegNumerator_ || !metLegDenominator_ || !trackLegNumerator_ || !trackLegDenominator_)
     {
@@ -152,8 +153,8 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
       delete fin;
     }
 
-  double numerator, numeratorUp, numeratorDown;
-  double denominator, denominatorUp, denominatorDown;
+  double numerator = 0.0, numeratorUp = 0.0, numeratorDown = 0.0;
+  double denominator = 0.0, denominatorUp = 0.0, denominatorDown = 0.0;
 
   // met leg
 
@@ -168,14 +169,28 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
 
   // track leg
 
-  FindEfficiency(trackLegNumerator_, leadTrackPt, numerator, numeratorUp, numeratorDown);
-  FindEfficiency(trackLegDenominator_, leadTrackPt, denominator, denominatorUp, denominatorDown);
+  double trackWeight = 1.0;
+  double trackWeightMCUp = 1.0;
+  double trackWeightMCDown = 1.0;
+  double trackWeightDataUp = 1.0;
+  double trackWeightDataDown = 1.0;
 
-  double trackWeight = (denominator > 0) ? numerator / denominator : 0.;
-  double trackWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
-  double trackWeightMCDown = (denominatorDown > 0) ? numerator / denominatorDown : 0.;
-  double trackWeightDataUp = (denominator > 0) ? numeratorUp / denominator : 0.;
-  double trackWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
+  if (!passesInclusiveMetTriggers (event, *triggers))
+    {
+      if (tracks->size ())
+        {
+          const osu::Track &leadTrack = getLeadTrack(*tracks);
+
+          FindEfficiency(trackLegNumerator_, leadTrack.pt (), numerator, numeratorUp, numeratorDown);
+          FindEfficiency(trackLegDenominator_, leadTrack.pt (), denominator, denominatorUp, denominatorDown);
+        }
+
+      trackWeight = (denominator > 0) ? numerator / denominator : 0.;
+      trackWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
+      trackWeightMCDown = (denominatorDown > 0) ? numerator / denominatorDown : 0.;
+      trackWeightDataUp = (denominator > 0) ? numeratorUp / denominator : 0.;
+      trackWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
+    }
 
   // store variables
 
@@ -234,62 +249,67 @@ const TVector2 TriggerWeightProducer::getPFMETNoMu(const vector<TYPE(mets)> &met
   return metNoMu;
 }
 
-const double TriggerWeightProducer::getLeadTrackPt(const vector<TYPE(tracks)> &tracks,
-                                                   const vector<reco::GenParticle> &genParticles,
-                                                   const reco::Vertex &pv) const {
-
-  vector<const TYPE(tracks)*> selectedTracks;
-  for(const auto &track : tracks) {
-      if(isGoodTrack(track, pv, genParticles)) selectedTracks.push_back(&track);
-  }
-
-  sort(selectedTracks.begin(),
-       selectedTracks.end(),
-       [](const TYPE(tracks) *a, const TYPE(tracks) *b) -> bool { return (a->pt() > b->pt()); });
-
-  return selectedTracks.size() ? selectedTracks.at(0)->pt() : 1.0e12;
-}
-
-bool TriggerWeightProducer::isGoodTrack(const TYPE(tracks) &track,
-                                        const reco::Vertex &pv,
-                                        const vector<reco::GenParticle> &genParticles) const {
-
-  return (isGoodTrack(track, pv) &&
-          (genParticles.size() == 0 || genMatched(track, genParticles, 1000024, 3, 0.1)));
-
-}
-
-bool TriggerWeightProducer::isGoodTrack(const TYPE(tracks) &track,
-                                        const reco::Vertex &pv) const {
-  if(fabs(track.eta()) < 2.5 &&
-     track.normalizedChi2() < 10.0 &&
-     fabs(track.dxy(pv.position())) < 0.2 &&
-     fabs(track.dz(pv.position())) < 0.5 &&
-     track.hitPattern().numberOfValidPixelHits() >= 1 &&
-     track.hitPattern().trackerLayersWithMeasurement() >= 6 &&
-     track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) == 0 &&
-     track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
-     track.trackIsoNoPUDRp3() / track.pt() < 0.01) {
-       return true;
-     }
-
-     return false;
-}
-
-bool TriggerWeightProducer::genMatched(const TYPE(tracks) &track,
-                                       const vector<reco::GenParticle> &genParticles,
-                                       const int pdgId,
-                                       const int status,
-                                       const double maxDeltaR) const {
-  for(const auto &genParticle : genParticles) {
-      if(abs(genParticle.pdgId()) != abs (pdgId)) continue;
-      if(genParticle.status() != status) break;
-      if(deltaR(track, genParticle) > maxDeltaR) continue;
-      return true;
+const osu::Track &
+TriggerWeightProducer::getLeadTrack (const vector<osu::Track> &tracks) const
+{
+  double leadPt = -1.0;
+  int leadIndex = -1;
+  for (unsigned i = 0; i < tracks.size (); i++)
+    {
+      if (tracks.at (i).pt () > leadPt)
+        {
+          leadPt = tracks.at (i).pt ();
+          leadIndex = i;
+        }
     }
-  return false;
+
+  return tracks.at (leadIndex);
 }
 
+bool
+TriggerWeightProducer::passesInclusiveMetTriggers (const edm::Event &event, const edm::TriggerResults &triggers)
+{
+  bool flag = false;
+  const edm::TriggerNames &triggerNames = event.triggerNames (triggers);
+  if (triggerNamesPSetID_ != triggerNames.parameterSetID ())
+    {
+      triggerIndices_.clear ();
+      triggerNamesPSetID_ = triggerNames.parameterSetID ();
+    }
+  if (!triggerIndices_.size ())
+    {
+      for (unsigned i = 0; i < triggerNames.size (); i++)
+        {
+          string name = triggerNames.triggerName (i);
+          bool pass = triggers.accept (i);
+
+          for (unsigned triggerIndex = 0; triggerIndex != inclusiveMetTriggers_.size (); triggerIndex++)
+            {
+              if (name.find (inclusiveMetTriggers_.at (triggerIndex)) == 0)
+                {
+                  triggerIndices_[inclusiveMetTriggers_.at (triggerIndex)];
+                  triggerIndices_.at (inclusiveMetTriggers_.at (triggerIndex)).insert (i);
+                  flag = flag || pass;
+                }
+            }
+        }
+    }
+  else
+    {
+      for (unsigned triggerIndex = 0; triggerIndex != inclusiveMetTriggers_.size (); triggerIndex++)
+        {
+          if (!triggerIndices_.count (inclusiveMetTriggers_.at (triggerIndex)))
+            continue;
+          for (const auto &i : triggerIndices_.at (inclusiveMetTriggers_.at (triggerIndex)))
+            {
+              bool pass = triggers.accept (i);
+              flag = flag || pass;
+            }
+        }
+    }
+
+  return flag;
+}
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 DEFINE_FWK_MODULE(TriggerWeightProducer);
