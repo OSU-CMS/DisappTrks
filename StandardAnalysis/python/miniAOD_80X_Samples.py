@@ -39,6 +39,7 @@ dataset_names_data = {
     'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
     'SingleMu_2016G'  : "/SingleMuon/wulsin-Run201G-PromptReco-v1-DisappTrks-v7-9400a0756dc17512d543a143a2bde30d/USER",
 
+    #'SingleMu_2016B'  : "/SingleMuon/ahart-Run2016B-23Sep2016-v3-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016C'  : "/SingleMuon/wulsin-Run2016C-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016D'  : "/SingleMuon/wulsin-Run2016D-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
     #'SingleMu_2016E'  : "/SingleMuon/wulsin-Run2016E-23Sep2016-v1-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
