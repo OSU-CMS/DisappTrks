@@ -1,9 +1,11 @@
 import FWCore.ParameterSet.Config as cms
 import os
 
-triggersMet = cms.vstring(
+triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
+)
 
+triggersMetInclusive = cms.vstring(
     # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6
     "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC
     "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",   # 2015D 76X ReReco Part 1
@@ -19,6 +21,8 @@ triggersMet = cms.vstring(
     "HLT_PFMET170_NoiseCleaned_v",
     "HLT_PFMET170_NotCleaned_v",
 )
+
+triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
 
 triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
     "HLT_IsoMu20_v",    # yes available in bkgd MC
