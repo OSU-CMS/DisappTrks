@@ -217,9 +217,12 @@ def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectron
 
 def moveVariableProducer (process, producerName):
     producer = plotter = None
+    producer = plotter = eventvariableProducer = None
     producerLabel = plotterLabel = ""
-    producerPath = plotterPath = None
-    producerPathLabel = plotterPathLabel = ""
+    plotterPath = None
+    plotterPathLabel = ""
+
+    # find the variable producer and Plotter
     for a in dir (process):
         x = getattr (process, a)
         if hasattr (x, "type_"):
@@ -229,41 +232,60 @@ def moveVariableProducer (process, producerName):
             if x.type_ () == "Plotter":
                 plotter = copy.deepcopy (x)
                 plotterLabel = copy.deepcopy (a)
+            if x.type_ () == "EventvariableProducer":
+                eventvariableProducer = copy.deepcopy (x)
 
+    # find the path for the Plotter
     for a in dir (process):
         x = getattr (process, a)
         if type (x) == cms.Path:
             for b in x.moduleNames ():
-                if b == producerLabel:
-                    producerPath = copy.deepcopy (x)
-                    producerPathLabel = copy.deepcopy (a)
                 if b == plotterLabel:
                     plotterPath = copy.deepcopy (x)
                     plotterPathLabel = copy.deepcopy (a)
 
-    producer.collections = copy.deepcopy (plotter.collections)
+    # change the tracks input tag for the variable producer to that used by the
+    # Plotter and create a copy of the variable producer which we will put
+    # before the Plotter
+    if hasattr (plotter.collections, "tracks"):
+        producer.collections.tracks = copy.deepcopy (plotter.collections.tracks)
     setattr (process, producerLabel + "Copy", producer)
     producer = getattr (process, producerLabel + "Copy")
 
-    if hasattr (plotter.collections, "eventvariables"):
-        eventvariables = getattr (plotter.collections, "eventvariables")
-        for i in range (0, len (eventvariables)):
-            if eventvariables[i].getModuleLabel () == producerLabel:
-                eventvariables[i].setModuleLabel (producerLabel + "Copy")
-        setattr (plotter.collections, "eventvariables", eventvariables)
-    if hasattr (plotter.collections, "uservariables"):
-        uservariables = getattr (plotter.collections, "uservariables")
+    # create an EventvariableProducer for the copy of the variable producer we
+    # created above  with input tags pointing to the products of the copy
+    if hasattr (eventvariableProducer.collections, "eventvariables") and hasattr (eventvariableProducer.collections, "uservariables"):
+        eventvariables = getattr (eventvariableProducer.collections, "eventvariables")
+        uservariables = getattr (eventvariableProducer.collections, "uservariables")
+        eventvariables.setModuleLabel (producerLabel + "Copy")
         for i in range (0, len (uservariables)):
-            if uservariables[i].getModuleLabel () == producerLabel:
+            if uservariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
                 uservariables[i].setModuleLabel (producerLabel + "Copy")
+        setattr (eventvariableProducer.collections, "eventvariables", eventvariables)
+        setattr (eventvariableProducer.collections, "uservariables", uservariables)
+    setattr (process, "objectProducerCopy", eventvariableProducer)
+    eventvariableProducer = getattr (process, "objectProducerCopy")
+
+    # change the input tags for the Plotter which point to products of the
+    # variable producer to those produced by the copy of the variable producer
+    # we created above
+    if hasattr (plotter.collections, "eventvariables") and hasattr (plotter.collections, "uservariables"):
+        eventvariables = getattr (plotter.collections, "eventvariables")
+        uservariables = getattr (plotter.collections, "uservariables")
+        for i in range (0, len (eventvariables)):
+            if eventvariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
+                eventvariables[i].setModuleLabel ("objectProducerCopy")
+                uservariables[i].setModuleLabel ("objectProducerCopy")
+        setattr (plotter.collections, "eventvariables", eventvariables)
         setattr (plotter.collections, "uservariables", uservariables)
     setattr (process, plotterLabel, plotter)
     plotter = getattr (process, plotterLabel)
 
+    # insert the copy of the variable producer we created above into the path
+    # of the Plotter, right before the Plotter
     getattr (process, plotterPathLabel).remove (getattr (process, plotterLabel))
-    producerPath = getattr (process, producerPathLabel)
     plotterPath = getattr (process, plotterPathLabel)
     plotterPath += producer
+    plotterPath += eventvariableProducer
     plotterPath += plotter
-    setattr (process, producerPathLabel, producerPath)
     setattr (process, plotterPathLabel, plotterPath)
