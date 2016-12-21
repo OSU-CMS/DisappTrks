@@ -1382,7 +1382,7 @@ EventVariableHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("puWeight"),
-            title = cms.string(";lifetime weight"),
+            title = cms.string(";pileup weight"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("puScalingFactor"),
             weight = cms.untracked.bool(False),
