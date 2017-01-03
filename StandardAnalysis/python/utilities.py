@@ -272,7 +272,7 @@ def moveVariableProducer (process, producerName):
     if hasattr (plotter.collections, "eventvariables") and hasattr (plotter.collections, "uservariables"):
         eventvariables = getattr (plotter.collections, "eventvariables")
         uservariables = getattr (plotter.collections, "uservariables")
-        for i in range (0, len (eventvariables)):
+        for i in range (0, min (len (eventvariables), len (uservariables))):
             if eventvariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
                 eventvariables[i].setModuleLabel ("objectProducerCopy")
                 uservariables[i].setModuleLabel ("objectProducerCopy")
