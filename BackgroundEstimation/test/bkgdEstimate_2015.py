@@ -3,6 +3,7 @@
 import math
 from DisappTrks.BackgroundEstimation.bkgdEstimate import *
 from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import TCanvas, TFile
 import os
 
@@ -31,8 +32,8 @@ if background == "FAKE" or background == "ALL":
     fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
     fakeTrackBkgdEstimate.addTFile (fout)
     fakeTrackBkgdEstimate.addTCanvas (canvas)
-    fakeTrackBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-    fakeTrackBkgdEstimate.addLuminosityInInvFb (metLumi)
+    fakeTrackBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["SingleMuon_2015"])
+    fakeTrackBkgdEstimate.addLuminosityInInvFb (lumi["MET_2015"] / 1000.0)
     fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2015D",  dirs['Andrew']+"2015/zToMuMu")
     fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2015D",  dirs['Andrew']+"2015/fakeTrackBackground")
     fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2015D",       dirs['Andrew']+"2015/basicSelection")
@@ -58,9 +59,9 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimate = LeptonBkgdEstimate ("electron")
     electronBkgdEstimate.addTFile (fout)
     electronBkgdEstimate.addTCanvas (canvas)
-    electronBkgdEstimate.addPrescaleFactor (metLumi / electronLumi)
-    electronBkgdEstimate.addLuminosityInInvFb (metLumi)
-    electronBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+    electronBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["SingleElectron_2015"])
+    electronBkgdEstimate.addLuminosityInInvFb (lumi["MET_2015"] / 1000.0)
+    electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
     electronBkgdEstimate.addMetCut (100.0)
     electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackground")
@@ -89,9 +90,9 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimate = LeptonBkgdEstimate ("muon")
     muonBkgdEstimate.addTFile (fout)
     muonBkgdEstimate.addTCanvas (canvas)
-    muonBkgdEstimate.addPrescaleFactor (metLumi / muonLumi)
-    muonBkgdEstimate.addLuminosityInInvFb (metLumi)
-    muonBkgdEstimate.addLuminosityLabel ("2.67 fb^{-1} (13 TeV)")
+    muonBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["SingleMuon_2015"])
+    muonBkgdEstimate.addLuminosityInInvFb (lumi["MET_2015"] / 1000.0)
+    muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
     muonBkgdEstimate.addMetCut (100.0)
     muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground")
@@ -120,9 +121,9 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimate = LeptonBkgdEstimate ("tau")
     tauBkgdEstimate.addTFile (fout)
     tauBkgdEstimate.addTCanvas (canvas)
-    tauBkgdEstimate.addPrescaleFactor (metLumi / tauLumi)
-    tauBkgdEstimate.addLuminosityInInvFb (metLumi)
-    tauBkgdEstimate.addLuminosityLabel ("0.225 fb^{-1} (13 TeV)")
+    tauBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"])
+    tauBkgdEstimate.addLuminosityInInvFb (lumi["MET_2015"] / 1000.0)
+    tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     tauBkgdEstimate.addPlotLabel ("Tau 2015D")
     tauBkgdEstimate.addMetCut (100.0)
     tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2015D",          dirs['Andrew']+"2015/tauBackground")
