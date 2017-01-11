@@ -11,7 +11,7 @@ datasetsData = [
     'SingleMu_2016G',
 ]
 
-datasets = datasetsData + datasetsSig
+datasets = datasetsBkgd + datasetsData + datasetsSig
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")
