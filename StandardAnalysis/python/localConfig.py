@@ -136,3 +136,21 @@ labels["ZZ"] = "ZZ"
 labels["VG"] = "V#gamma"
 labels["VV"] = "Diboson"
 labels["allBkgd"] = "Total bkgd"
+
+# add dataset attributes for 2016BC and 2016DEFG
+for attribute in list (locals ()):
+    if not isinstance (locals ()[attribute], dict) or attribute == "lumi":
+        continue
+    newKeys = {}
+    for a in locals ()[attribute]:
+        if re.match (r".*2016B.*", a):
+            b = re.sub (r"(.*)2016B(.*)", r"\g<1>2016BC\2", a)
+            newKeys[b] = copy.deepcopy (locals ()[attribute][a])
+            if isinstance (newKeys[b], str) and re.match (r".*2016B.*", newKeys[b]):
+                newKeys[b] = re.sub (r"(.*)2016B(.*)", r"\g<1>2016B+C\2", newKeys[b])
+        if re.match (r".*2016D.*", a):
+            b = re.sub (r"(.*)2016D(.*)", r"\g<1>2016DEFG\2", a)
+            newKeys[b] = copy.deepcopy (locals ()[attribute][a])
+            if isinstance (newKeys[b], str) and re.match (r".*2016D.*", newKeys[b]):
+                newKeys[b] = re.sub (r"(.*)2016B(.*)", r"\g<1>2016D-G\2", newKeys[b])
+    locals ()[attribute].update (newKeys)
