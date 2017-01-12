@@ -136,13 +136,13 @@ class LeptonBkgdEstimate:
                 condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
                 name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
                 metMinusOne.Scale (self._prescale)
 
@@ -228,7 +228,7 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
@@ -247,20 +247,20 @@ class LeptonBkgdEstimate:
             condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
             name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
             hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-            totalHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+            totalHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
             sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
             condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
             name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
             hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-            passesHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+            passesHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
             self.plotTriggerEfficiency (passesHist, totalHist)
 
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
             name = self.TagPt35["name"]
-            metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+            metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
             passesHist.Divide (totalHist)
             metHist.Multiply (passesHist)
@@ -278,7 +278,7 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
@@ -354,14 +354,14 @@ class LeptonBkgdEstimate:
                 condorDir = self.CandTrkIdPt35["condorDir"]
                 name = self.CandTrkIdPt35["name"]
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "NoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
                 if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
