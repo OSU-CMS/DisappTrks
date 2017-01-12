@@ -15,15 +15,15 @@ MissingHitsCorrections["2015"] = {
 }
 
 MissingHitsCorrections["2016BC"] = {
-    "dropTOBProbability"          :  0.0491958017999,
-    "preTOBDropHitInefficiency"   :  0.00875755824495,
-    "postTOBDropHitInefficiency"  :  0.248185545664,
-    "hitInefficiency"             :  0.0400979524991,
+    "dropTOBProbability"          :  0.0392897956267,
+    "preTOBDropHitInefficiency"   :  0.00655833662008,
+    "postTOBDropHitInefficiency"  :  0.250983800618,
+    "hitInefficiency"             :  0.0392360890179,
 }
 
 MissingHitsCorrections["2016DEFG"] = {
-    "dropTOBProbability"          :  0.0399776783622,
-    "preTOBDropHitInefficiency"   :  0.00635672350483,
-    "postTOBDropHitInefficiency"  :  0.275670583626,
-    "hitInefficiency"             :  0.0372338330037,
+    "dropTOBProbability"          :  0.0312783037961,
+    "preTOBDropHitInefficiency"   :  0.00304143256982,
+    "postTOBDropHitInefficiency"  :  0.274662763333,
+    "hitInefficiency"             :  0.0365664143323,
 }
