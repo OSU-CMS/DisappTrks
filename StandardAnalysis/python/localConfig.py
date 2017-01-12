@@ -152,5 +152,5 @@ for attribute in list (locals ()):
             b = re.sub (r"(.*)2016D(.*)", r"\g<1>2016DEFG\2", a)
             newKeys[b] = copy.deepcopy (locals ()[attribute][a])
             if isinstance (newKeys[b], str) and re.match (r".*2016D.*", newKeys[b]):
-                newKeys[b] = re.sub (r"(.*)2016B(.*)", r"\g<1>2016D-G\2", newKeys[b])
+                newKeys[b] = re.sub (r"(.*)2016D(.*)", r"\g<1>2016D-G\2", newKeys[b])
     locals ()[attribute].update (newKeys)
