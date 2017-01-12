@@ -210,7 +210,7 @@ if systematic == "ECALO" or systematic == "ALL":
 
     ecaloSystematic_2016BC = ECaloSystematic ()
     ecaloSystematic_2016BC.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016BC",  dirs['Andrew']+"2016/ecaloSystematic")
-    ecaloSystematic_2016BC.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",       dirs['Andrew']+"2016/ecaloSystematic")
+    ecaloSystematic_2016BC.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",       dirs['Andrew']+"2016/ecaloSystematic_BC")
 
     print "********************************************************************************"
 
@@ -226,7 +226,7 @@ if systematic == "ECALO" or systematic == "ALL":
 
     ecaloSystematic_2016DEFG = ECaloSystematic ()
     ecaloSystematic_2016DEFG.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/ecaloSystematic")
-    ecaloSystematic_2016DEFG.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",         dirs['Andrew']+"2016/ecaloSystematic")
+    ecaloSystematic_2016DEFG.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",         dirs['Andrew']+"2016/ecaloSystematic_DEFG")
 
     print "********************************************************************************"
 
@@ -242,17 +242,37 @@ if systematic == "HITS" or systematic == "ALL":
     print "evaluating hits systematic (2016B & 2016C)"
     print "--------------------------------------------------------------------------------"
 
-    hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016BC",   dirs['Andrew']+"2016/hitsSystematics")
-    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2016/hitsSystematics_hist")
-    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    hitsSystematic_2016BC = HitsSystematic ()
+    hitsSystematic_2016BC.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016BC",  dirs['Andrew']+"2016/hitsSystematics")
+    hitsSystematic_2016BC.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",  dirs['Andrew']+"2016/hitsSystematics_BC_new")
+    hitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
     print "--------------------------------------------------------------------------------"
     print "before correction to missing middle hits"
-    hitsSystematic.printSystematic ()
-    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    hitsSystematic_2016BC.printSystematic ()
+    hitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
     print "--------------------------------------------------------------------------------"
     print "after correction to missing middle hits"
-    hitsSystematic.printSystematic ()
+    hitsSystematic_2016BC.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating hits systematic (2016DEFG)"
+    print "--------------------------------------------------------------------------------"
+
+    hitsSystematic_2016DEFG = HitsSystematic ()
+    hitsSystematic_2016DEFG.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2016DEFG",  dirs['Andrew']+"2016/hitsSystematics")
+    hitsSystematic_2016DEFG.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "Background",    dirs['Andrew']+"2016/hitsSystematics_DEFG_new")
+    hitsSystematic_2016DEFG.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic_2016DEFG.printSystematic ()
+    hitsSystematic_2016DEFG.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
+    hitsSystematic_2016DEFG.printSystematic ()
 
     print "********************************************************************************"
 
@@ -264,17 +284,37 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "evaluating missing outer hits systematic (2016B & 2016C)"
     print "--------------------------------------------------------------------------------"
 
-    missingOuterHitsSystematic = MissingOuterHitsSystematic ()
-    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016BC",   dirs['Andrew']+"2016/hipAndTOBDrop")
-    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background",  dirs['Andrew']+"2016/hipAndTOBDrop_new")
-    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
+    missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic ()
+    missingOuterHitsSystematic_2016BC.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016BC",  dirs['Andrew']+"2016/hipAndTOBDrop")
+    missingOuterHitsSystematic_2016BC.addChannel  ("MC",    "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_BC_new")
+    missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
     print "--------------------------------------------------------------------------------"
     print "before correction to missing outer hits"
-    missingOuterHitsSystematic.printSystematic ()
-    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    missingOuterHitsSystematic_2016BC.printSystematic ()
+    missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     print "--------------------------------------------------------------------------------"
     print "after correction to missing outer hits"
-    missingOuterHitsSystematic.printSystematic ()
+    missingOuterHitsSystematic_2016BC.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating missing outer hits systematic (2016DEFG)"
+    print "--------------------------------------------------------------------------------"
+
+    missingOuterHitsSystematic_2016DEFG = MissingOuterHitsSystematic ()
+    missingOuterHitsSystematic_2016DEFG.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016DEFG",  dirs['Andrew']+"2016/hipAndTOBDrop")
+    missingOuterHitsSystematic_2016DEFG.addChannel  ("MC",    "MuonCtrlSelection",  "Background_noQCD",    dirs['Andrew']+"2016/hitsSystematics_DEFG_new")
+    missingOuterHitsSystematic_2016DEFG.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing outer hits"
+    missingOuterHitsSystematic_2016DEFG.printSystematic ()
+    missingOuterHitsSystematic_2016DEFG.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing outer hits"
+    missingOuterHitsSystematic_2016DEFG.printSystematic ()
 
     print "********************************************************************************"
 
