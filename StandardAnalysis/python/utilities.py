@@ -197,9 +197,16 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
-def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut):
+def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = ""):
     countProjections = 0 if not hasattr (getHistFromProjectionZ, "countProjections") else getattr (getHistFromProjectionZ, "countProjections")
     h3d = getHist (sample, condor_dir, channel, hist)
+    if not h3d:
+        h = None
+        if alternate1DHist:
+            print "WARNING: not applying fiducial cuts via projections."
+            h = getHist (sample, condor_dir, channel, alternate1DHist)
+        return h
+
     h = h3d.ProjectionZ (hist + "_pz" + str(countProjections),
                          0, h3d.GetXaxis().FindBin(fiducialElectronSigmaCut) - 1,
                          0, h3d.GetYaxis().FindBin(fiducialMuonSigmaCut) - 1, "e")
@@ -210,7 +217,7 @@ def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSi
 
 def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectronSigmaCut, fiducialMuonSigmaCut):
     hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-    h = getHistFromProjectionZ (sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut)
+    h = getHistFromProjectionZ (sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = "Met Plots/metNoMu")
     statError_ = Double(0.0)
     yield_ = h.IntegralAndError(0, -1, statError_)
     return (yield_, statError_)
