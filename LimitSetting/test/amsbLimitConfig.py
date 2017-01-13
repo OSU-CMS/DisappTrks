@@ -7,7 +7,7 @@
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
 
 from DisappTrks.SignalMC.signalCrossSecs import *
-from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
 dirs = getUser ()
