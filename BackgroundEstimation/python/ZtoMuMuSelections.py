@@ -104,6 +104,51 @@ cutsToAdd = [
 removeCuts(ZtoMuMuDisTrkNHits6.cuts, cutsToRemove)
 addCuts   (ZtoMuMuDisTrkNHits6.cuts, cutsToAdd)
 
+##################################################
+## Fake track control sample:  Z->mu mu + jet
+##################################################
+ZtoMuMuJet = copy.deepcopy(ZtoMuMu)
+ZtoMuMuJet.name = cms.string("ZtoMuMuJet")
+addCuts   (ZtoMuMuJet.cuts, [cutNJetsGE1])
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track + jet
+##################################################
+ZtoMuMuDisTrkJet = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkJet.name = cms.string("ZtoMuMuDisTrkJet")
+addCuts   (ZtoMuMuDisTrkJet.cuts, [cutNJetsGE1])
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 3 hits + jet
+##################################################
+ZtoMuMuDisTrkNHits3Jet = copy.deepcopy(ZtoMuMuDisTrkNHits3)
+ZtoMuMuDisTrkNHits3Jet.name = cms.string("ZtoMuMuDisTrkNHits3Jet")
+addCuts   (ZtoMuMuDisTrkNHits3Jet.cuts, [cutNJetsGE1])
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 4 hits + jet
+##################################################
+ZtoMuMuDisTrkNHits4Jet = copy.deepcopy(ZtoMuMuDisTrkNHits4)
+ZtoMuMuDisTrkNHits4Jet.name = cms.string("ZtoMuMuDisTrkNHits4Jet")
+addCuts   (ZtoMuMuDisTrkNHits4Jet.cuts, [cutNJetsGE1])
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 5 hits + jet
+##################################################
+ZtoMuMuDisTrkNHits5Jet = copy.deepcopy(ZtoMuMuDisTrkNHits5)
+ZtoMuMuDisTrkNHits5Jet.name = cms.string("ZtoMuMuDisTrkNHits5Jet")
+addCuts   (ZtoMuMuDisTrkNHits5Jet.cuts, [cutNJetsGE1])
+
+##################################################
+## Fake track control sample:  Z->mu mu + disappearing track with 6 hits + jet
+##################################################
+ZtoMuMuDisTrkNHits6Jet = copy.deepcopy(ZtoMuMuDisTrkNHits6)
+ZtoMuMuDisTrkNHits6Jet.name = cms.string("ZtoMuMuDisTrkNHits6Jet")
+addCuts   (ZtoMuMuDisTrkNHits6Jet.cuts, [cutNJetsGE1])
+
+##################################################
+## ECalo control sample:  Z->mu mu + disappearing track with <= 4 hits
+##################################################
 ZtoMuMuDisTrkNHits4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNHits4)
 ZtoMuMuDisTrkNHits4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNHits4NoECaloCut")
 removeCuts(ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHits4, cutTrkEcalo])

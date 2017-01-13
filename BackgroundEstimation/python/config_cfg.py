@@ -58,6 +58,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCutNoElectronMuonFiducialCuts],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
+# TESTING: Z->mumu+jet channels for fake track background estimate
+#  add_channels  (process,  [ZtoMuMuJet],                                                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMuDisTrkJetNoElectronMuonFiducialCuts],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
