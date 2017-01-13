@@ -93,19 +93,19 @@ signal_systematic_uncertainties = {
     'lumi' :  {
         'value' : '1.062',
     },
-    'NMissOut' : {
-        'value' : '1.0659198442926',
-    },
     'trkReco' :  {
         'value' : '1.017',
     },
+    'Ecalo' : {
+        'value' : str (1.0 + 0.979019194585 / 100.0),
+    },
     'Nmissin' :  {
-        'value' : '1.0116347975146',
+        'value' : str (1.0 + 1.93428533987 / 100.0),
     },
     'Nmissmid' :  {
-        'value' : '1.0026902546109',
+        'value' : str (1.0 + 2.94687501319 / 100.0),
     },
-    'Ecalo' : {
-        'value' : '1.00626555065492',
+    'NMissOut' : {
+        'value' : str (1.0 + 13.052783179 / 100.0),
     },
 }

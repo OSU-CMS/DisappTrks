@@ -39,17 +39,18 @@ background_systematics = {
         'background' : 'Tau2016DEFG',
     },
 
+
+
+    'Fake2016DEFG_syst' : { # error on fake track rate assumption
+        'value' : str (1.0 + 42.9312574306 / 100.0),
+        'background' : 'Fake2016DEFG',
+    },
     'Elec2016DEFG_energy' : { # error on energy assumption
-        'value' : '1.112',
+        'value' : str (1.0 + 11.1844265418 / 100.0),
         'background' : 'Elec2016DEFG',
     },
     'Tau2016DEFG_energy' : { # error on energy assumption
-        'value' : '1.184',
+        'value' : str (1.0 + 18.3795697837 / 100.0),
         'background' : 'Tau2016DEFG',
-    },
-
-    'Fake2016DEFG_syst' : { # error on fake track rate assumption
-        'value' : '1.429',
-        'background' : 'Fake2016DEFG',
     },
 }
