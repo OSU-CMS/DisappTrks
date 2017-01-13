@@ -81,7 +81,7 @@ addCuts(TauTagPt55MetCut.cuts, [cutTauMetMinusOne])
     #cutMuTrkMETBalance,
 # after muon arbitration
     #cutLowMet,
-    #cutNJets,
+    #cutNJetsLE2,
 
 ZtoTauToMuProbeTrkWithZCuts = copy.deepcopy(MuonTagSkim)
 ZtoTauToMuProbeTrkWithZCuts.name = cms.string("ZtoTauToMuProbeTrkWithZCuts")
@@ -113,14 +113,14 @@ ZtoTauToMuProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToMuProbeTrkWithZC
 ZtoTauToMuProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToMuProbeTrkWithZCutsBetterPurity")
 addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutMuTrkMETBalance, cutMuTrkInvMass10)
 addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutMuTrkDeltaPhi, cutMuTrkInvMass10)
-addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutNJets, cutMuonArbitration)
+addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutNJetsLE2, cutMuonArbitration)
 addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutLowMet, cutMuonArbitration)
 
 ZtoTauToMuDisTrkBetterPurity = copy.deepcopy(ZtoTauToMuDisTrk)
 ZtoTauToMuDisTrkBetterPurity.name = cms.string("ZtoTauToMuDisTrkBetterPurity")
 addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutMuTrkMETBalance, cutMuTrkInvMass10)
 addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutMuTrkDeltaPhi, cutMuTrkInvMass10)
-addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutNJets, cutMuonArbitration)
+addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutNJetsLE2, cutMuonArbitration)
 addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutLowMet, cutMuonArbitration)
 
 ################################################################################
@@ -155,14 +155,14 @@ ZtoTauToEleProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToEleProbeTrkWith
 ZtoTauToEleProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToEleProbeTrkWithZCutsBetterPurity")
 addSingleCut(ZtoTauToEleProbeTrkWithZCutsBetterPurity.cuts, cutEleTrkMETBalance, cutEleTrkInvMass10)
 addSingleCut(ZtoTauToEleProbeTrkWithZCutsBetterPurity.cuts, cutEleTrkDeltaPhi, cutEleTrkInvMass10)
-addSingleCut(ZtoTauToEleProbeTrkWithZCutsBetterPurity.cuts, cutNJets, cutElectronArbitration)
+addSingleCut(ZtoTauToEleProbeTrkWithZCutsBetterPurity.cuts, cutNJetsLE2, cutElectronArbitration)
 addSingleCut(ZtoTauToEleProbeTrkWithZCutsBetterPurity.cuts, cutLowMet, cutElectronArbitration)
 
 ZtoTauToEleDisTrkBetterPurity = copy.deepcopy(ZtoTauToEleDisTrk)
 ZtoTauToEleDisTrkBetterPurity.name = cms.string("ZtoTauToEleDisTrkBetterPurity")
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutEleTrkMETBalance, cutEleTrkInvMass10)
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutEleTrkDeltaPhi, cutEleTrkInvMass10)
-addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutNJets, cutElectronArbitration)
+addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutNJetsLE2, cutElectronArbitration)
 addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitration)
 
 # create copies of all above selections with the fiducial electron/muon cuts removed

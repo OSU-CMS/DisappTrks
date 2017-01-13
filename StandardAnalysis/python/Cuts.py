@@ -132,9 +132,14 @@ cutJetNeuEm = cms.PSet(
     cutString = cms.string("neutralEmEnergyFraction < 0.7"),
     numberRequired = cms.string(">= 1"),
 )
-cutNJets = cms.PSet(
+cutNJetsLE2 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("nJets <= 2"),
+    numberRequired = cms.string(">= 1"),
+)
+cutNJetsGE1 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("nJets >= 1"),
     numberRequired = cms.string(">= 1"),
 )
 cutDijetDeltaPhiMax = cms.PSet(
