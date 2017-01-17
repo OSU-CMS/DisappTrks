@@ -61,6 +61,7 @@ dataset_names_data = {
     #'Tau_2016E'        :  "/Tau/ahart-Run2016E-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
     #'Tau_2016F'        :  "/Tau/ahart-Run2016F-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
     #'Tau_2016G'        :  "/Tau/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
+    #'Tau_2016H'        :  ["/Tau/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER", "/Tau/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER"],
 }
 
 dataset_names_bkgd = {
