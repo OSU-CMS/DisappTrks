@@ -48,14 +48,25 @@ cutLowMet = cms.PSet(
 ##################################################
 ## track-met pairs
 ##################################################
-cutMuonMT = cms.PSet(
+cutMuonLowMT = cms.PSet(
     inputCollection = cms.vstring("muons", "mets"),
     cutString = cms.string("transMass (muon, met) < 40"),
     numberRequired = cms.string(">= 1"),
 )
-cutElectronMT = cms.PSet(
+cutElectronLowMT = cms.PSet(
     inputCollection = cms.vstring("electrons", "mets"),
     cutString = cms.string("transMass (electron, met) < 40"),
+    numberRequired = cms.string(">= 1"),
+)
+
+cutMuonHighMT = cms.PSet(
+    inputCollection = cms.vstring("muons", "mets"),
+    cutString = cms.string("transMass (muon, met) > 40"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronHighMT = cms.PSet(
+    inputCollection = cms.vstring("electrons", "mets"),
+    cutString = cms.string("transMass (electron, met) > 40"),
     numberRequired = cms.string(">= 1"),
 )
 
@@ -565,6 +576,11 @@ cutMuonMetMinusOne = cms.PSet (
     cutString = cms.string("metNoMuMinusOnePt > 100"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuonExactlyOne = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
+)
 
 ##################################################
 ## muon-muon pairs
@@ -756,6 +772,11 @@ cutElectronMetMinusOne = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("metMinusOnePt > 100"),
     numberRequired = cms.string(">= 1"),
+)
+cutElectronExactlyOne = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
 )
 
 ##################################################

@@ -86,7 +86,7 @@ addCuts(TauTagPt55MetCut.cuts, [cutTauMetMinusOne])
 ZtoTauToMuProbeTrkWithZCuts = copy.deepcopy(MuonTagSkim)
 ZtoTauToMuProbeTrkWithZCuts.name = cms.string("ZtoTauToMuProbeTrkWithZCuts")
 cutsToAdd = [
-    cutMuonMT,
+    cutMuonLowMT,
     cutMuonArbitration,
     cutTrkPt30,
 ]
@@ -128,7 +128,7 @@ addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutLowMet, cutMuonArbitration)
 ZtoTauToEleProbeTrkWithZCuts = copy.deepcopy(ElectronTagSkim)
 ZtoTauToEleProbeTrkWithZCuts.name = cms.string("ZtoTauToEleProbeTrkWithZCuts")
 cutsToAdd = [
-    cutElectronMT,
+    cutElectronLowMT,
     cutElectronArbitration,
     cutTrkPt30,
 ]
