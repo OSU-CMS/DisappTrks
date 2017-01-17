@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from DisappTrks.StandardAnalysis.bkgdEstimate import *
-from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.plotUtilities import *
 from ROOT import TCanvas, TFile, gROOT
 import os
 
@@ -173,4 +173,3 @@ elecBkgdClosureTest_Data.printStdResults()
 # print "--------------------------------------------------------------------------------"
 # elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandNMissOut", sample, dirs['Wells']+"ElecTagProbeChannels")
 # elecBkgdClosureTest_Data.printStdResults()
-

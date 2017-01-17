@@ -2,7 +2,7 @@
 
 import math
 from DisappTrks.BackgroundSystematics.bkgdSystematics import *
-from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.plotUtilities import *
 from ROOT import TCanvas, TFile
 import os
 

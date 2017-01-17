@@ -6,7 +6,7 @@ import functools
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject
 
-from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.plotUtilities import *
 
 setTDRStyle()
 

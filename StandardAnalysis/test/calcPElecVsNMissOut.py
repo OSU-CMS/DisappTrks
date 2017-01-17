@@ -3,7 +3,7 @@
 # Calculate the electron veto probability, for different cuts on number of missing outer hits.
 
 from OSUT3Analysis.Configuration.histogramUtilities import *
-from DisappTrks.StandardAnalysis.utilities import *
+from DisappTrks.StandardAnalysis.plotUtilities import *
 dirs = getUser()
 
 def getEff(num, numerr, den, denerr):
@@ -43,4 +43,3 @@ printValues(sample, condorDir, condorDirDen, channel, channelDen, hist, lo, hi)
 lo = 3
 hi = 15
 printValues(sample, condorDir, condorDirDen, channel, channelDen, hist, lo, hi)
-

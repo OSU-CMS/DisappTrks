@@ -41,7 +41,7 @@ using std::endl;
 #include "TPaveText.h"
 #include "TStyle.h"
 
-#include "/afs/cern.ch/user/w/wulsin/workspace/public/root/tdrstyle.C"
+#include "tdrstyle.C"
 
 #ifndef __CINT__
 #endif
@@ -591,5 +591,3 @@ void setAxes(TGraphAsymmErrors* gr) {
    gr->GetXaxis()->SetLimits(100,500);
 
 }
-
-
