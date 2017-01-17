@@ -126,6 +126,7 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     tauBkgdEstimate.addPlotLabel ("Tau 2015D")
     tauBkgdEstimate.addMetCut (100.0)
+    tauBkgdEstimate.addRebinFactor (4)
     tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2015D",          dirs['Andrew']+"2015/tauBackground")
     tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2015D_rereco",   dirs['Andrew']+"2015/tauBackground")
     tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Andrew']+"2015/tauBackground")
