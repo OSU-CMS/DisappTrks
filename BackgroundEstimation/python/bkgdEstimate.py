@@ -30,6 +30,7 @@ class LeptonBkgdEstimate:
     _useIdMatch = False  # match the track to get the true bkgd yield
     _fiducialElectronSigmaCut = 2.0
     _fiducialMuonSigmaCut = 2.0
+    _rebinFactor = 1
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -71,6 +72,9 @@ class LeptonBkgdEstimate:
 
     def addPlotLabel (self, plotLabel):
         self._plotLabel = plotLabel
+
+    def addRebinFactor (self, rebinFactor):
+        self._rebinFactor = rebinFactor
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -144,7 +148,8 @@ class LeptonBkgdEstimate:
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
                 metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
-                metMinusOne.Scale (self._prescale)
+                met.Rebin (self._rebinFactor)
+                metMinusOne.Rebin (self._rebinFactor)
 
                 pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
@@ -168,7 +173,7 @@ class LeptonBkgdEstimate:
                 lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
-                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]")
+                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]", "Entries / " + str (met.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
@@ -178,7 +183,7 @@ class LeptonBkgdEstimate:
                 self._canvas.Write ("metForNctrl")
 
                 setStyle (metMinusOne)
-                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
@@ -293,6 +298,9 @@ class LeptonBkgdEstimate:
 
     def plotTriggerEfficiency (self, passesHist, totalHist):
         if self._fout and self._canvas:
+            passesHist.Rebin (self._rebinFactor)
+            totalHist.Rebin (self._rebinFactor)
+
             self.makePassesConsistentWithTotal (passesHist, totalHist)
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
             metGraph.SetEditable (0)
@@ -366,6 +374,9 @@ class LeptonBkgdEstimate:
                     print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
                     return
 
+                met.Rebin (self._rebinFactor)
+                metMinusOne.Rebin (self._rebinFactor)
+
                 pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
@@ -388,7 +399,7 @@ class LeptonBkgdEstimate:
                 lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
-                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]")
+                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]", "Entries / " + str (met.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
                 met.Draw ()
                 pt.Draw ("same")
@@ -398,7 +409,7 @@ class LeptonBkgdEstimate:
                 self._canvas.Write ("metForNback")
 
                 setStyle (metMinusOne)
-                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
@@ -470,6 +481,8 @@ class LeptonBkgdEstimate:
                 metMinusOne.SetBinContent (i, newContent)
                 metMinusOne.SetBinError (i, newError)
 
+            metMinusOne.Rebin (self._rebinFactor)
+
             pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
             pt.SetBorderSize(0)
             pt.SetFillStyle(0)
@@ -492,7 +505,7 @@ class LeptonBkgdEstimate:
             lumiLabel.AddText(str (self._luminosityLabel))
 
             setStyle (metMinusOne)
-            setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]")
+            setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
             self._canvas.cd ()
             metMinusOne.Draw ()
             pt.Draw ("same")
@@ -504,6 +517,7 @@ class LeptonBkgdEstimate:
             print "A TFile and TCanvas must be added. Not making plots..."
 
     def printPpassVetoTagProbe (self):
+        self.plotPpassVetoPtDependence ()
         if math.isnan (self._pPassVeto[0]) or math.isnan (self._pPassVeto[1]):
             if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
                 total       = self.TagProbe["yield"]
@@ -538,6 +552,10 @@ class LeptonBkgdEstimate:
         else:
             print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
             return (self._pPassVeto[0], self._pPassVeto[1], float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
+
+    def plotPpassVetoPtDependence (self):
+        if self._fout and self._canvas:
+            print "UNDER CONSTRUCTION: plotPpassVetoPtDependence"
 
 class FakeTrackBkgdEstimate:
     _fout = None
