@@ -105,6 +105,70 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
+print "evaluating fake track systematic with jet requirement (2016DEFG)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFG.root", "recreate")
+
+fakeTrackSystematicWithJetDEFG = FakeTrackSystematic ()
+fakeTrackSystematicWithJetDEFG.addTFile (fout)
+fakeTrackSystematicWithJetDEFG.addTCanvas (canvas)
+fakeTrackSystematicWithJetDEFG.addLuminosityLabel (str (round (lumi["MET_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+fakeTrackSystematicWithJetDEFG.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016DEFG",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+
+print "********************************************************************************"
+
+fakeTrackSystematicWithJetDEFG.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+print "\n\n"
+
+print "********************************************************************************"
+print "evaluating fake track systematic with jet requirement (2016G)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("fakeTrackSystematicWithJet_2016G.root", "recreate")
+
+fakeTrackSystematicWithJetG = FakeTrackSystematic ()
+fakeTrackSystematicWithJetG.addTFile (fout)
+fakeTrackSystematicWithJetG.addTCanvas (canvas)
+fakeTrackSystematicWithJetG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+fakeTrackSystematicWithJetG.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016G",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetG.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+
+print "********************************************************************************"
+
+fakeTrackSystematicWithJetG.printSystematic ()
+
+print "********************************************************************************"
+
+fout.Close ()
+
+
+
+print "\n\n"
+
+print "********************************************************************************"
 print "evaluating electron energy systematic (2016B & 2016C)"
 print "--------------------------------------------------------------------------------"
 
