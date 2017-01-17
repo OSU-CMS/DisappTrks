@@ -52,8 +52,8 @@ void plot(const TString dir, const TString file,
   TString metHistName = "Met Plots/metNoMu";
   TString trackHistName = isMC ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
-  TString metNumeratorDir = "METLegNumerator";
-  TString metDenominatorDir = "METLegDenominator";
+  TString metNumeratorDir = "METLegNumeratorWithGoodMuon";
+  TString metDenominatorDir = "METLegDenominatorWithGoodMuon";
 
   TString trackNumeratorDir = isMC ? "TrackLegNumeratorWithTracksNoTrig" : "TrackLegNumeratorWithMuons";
   TString trackDenominatorDir = isMC ? "TrackLegDenominatorWithTracksNoTrig" : "TrackLegDenominatorWithMuons";
@@ -65,6 +65,15 @@ void plot(const TString dir, const TString file,
 
   TH1D * trackNumerator =(TH1D*)fin->Get(trackNumeratorDir + "Plotter/" + trackHistName);
   TH1D * trackDenominator =(TH1D*)fin->Get(trackDenominatorDir + "Plotter/" + trackHistName);
+
+  if (!metNumerator || !metDenominator)
+    {
+      metNumeratorDir = "METLegNumerator";
+      metDenominatorDir = "METLegDenominator";
+
+      metNumerator =(TH1D*)fin->Get(metNumeratorDir + "Plotter/" + metHistName);
+      metDenominator =(TH1D*)fin->Get(metDenominatorDir + "Plotter/" + metHistName);
+    }
 
   metNumerator->SetDirectory(0);
   metDenominator->SetDirectory(0);
