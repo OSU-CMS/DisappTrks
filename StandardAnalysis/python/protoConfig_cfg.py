@@ -177,6 +177,7 @@ from DisappTrks.StandardAnalysis.EventSelections import *
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *
+from DisappTrks.BackgroundEstimation.WtoMuNuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 ################################################################################
