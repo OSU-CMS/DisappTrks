@@ -778,6 +778,11 @@ cutElectronExactlyOne = cms.PSet (
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string("== 1"),
 )
+cutElectronExactlyZero = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 0"),
+)
 
 ##################################################
 ## taus

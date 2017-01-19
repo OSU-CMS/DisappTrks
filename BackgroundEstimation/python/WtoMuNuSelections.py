@@ -11,6 +11,7 @@ WtoMuNu = cms.PSet(
     cuts = cms.VPSet (
         cutMuonPt25,
         cutMuonExactlyOne,
+        cutElectronExactlyZero,
         cutMuonEta21,
         cutMuonTightID,
         cutMuonTightPFIso,
