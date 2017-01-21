@@ -1,8 +1,8 @@
 # all luminosities should be in inverse picobarns
 
 lumi = {
-    #23Sep2016 re-reco datasets
 
+    "MET_2015D" : 2672.144,
     "MET_2016B" : 5933.309,
     "MET_2016C" : 2645.968,
     "MET_2016D" : 4353.449,
@@ -11,6 +11,7 @@ lumi = {
     "MET_2016G" : 7554.454,
     "MET_2016H" : 8761.822,
 
+    "SingleElectron_2015D" : 2669.639,
     "SingleElectron_2016B" : 5933.313,
     "SingleElectron_2016C" : 2645.968,
     "SingleElectron_2016D" : 4353.449,
@@ -20,6 +21,7 @@ lumi = {
     # 2016H-v2 = 8635.321, 2016H-v3 = 221.442
     "SingleElectron_2016H" : 8856.763,
 
+    "SingleMuon_2015D" : 2669.752,
     "SingleMuon_2016B" : 5929.002,
     "SingleMuon_2016C" : 2645.968,
     "SingleMuon_2016D" : 4177.221,
@@ -28,6 +30,7 @@ lumi = {
     "SingleMuon_2016G" : 7553.249,
     "SingleMuon_2016H" : 8761.822,
 
+    "Tau_2015D" : 2672.153,
     "Tau_2016B" : 5933.309,
     "Tau_2016C" : 3.425,
     "Tau_2016D" : 4353.449,
@@ -37,6 +40,7 @@ lumi = {
     "Tau_2016H" : 8857.033,
 
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v*" : {
+        "Tau_2015D" : 225.172,
         "Tau_2016B" : 740.713,
         "Tau_2016C" : 0.128,
         "Tau_2016D" : 138.891,

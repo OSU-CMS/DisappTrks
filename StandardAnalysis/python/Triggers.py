@@ -10,7 +10,7 @@ triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
 
-triggersMetInclusive2015 = cms.vstring(
+triggersMetInclusive = cms.vstring(
     # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6
     "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC
 
@@ -28,23 +28,21 @@ triggersMetInclusive2015 = cms.vstring(
     "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",
 )
 
-triggersMetInclusive2016 = cms.vstring(
-    # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6
-    "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC
-
-    # all other MET triggers that remained unprescaled for 2016
-    "HLT_MET200_v",
-    "HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v",
-    "HLT_PFMET120_PFMHT120_IDTight_v",
-    "HLT_PFMET170_HBHECleaned_v",
-    "HLT_PFMET300_v",
-    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
-)
-
-triggersMet = triggersMetAndIsoTrk + triggersMetInclusive2015
-
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    triggersMet = triggersMetAndIsoTrk + triggersMetInclusive2016
+    triggersMetInclusive = cms.vstring(
+        # monojet triggers in the data, unprescaled for all of 2015, see EXO-15-003 PAS / AN2015_072_v8 Table 6
+        "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v",   # 74X MC
+
+        # all other MET triggers that remained unprescaled for 2016
+        "HLT_MET200_v",
+        "HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v",
+        "HLT_PFMET120_PFMHT120_IDTight_v",
+        "HLT_PFMET170_HBHECleaned_v",
+        "HLT_PFMET300_v",
+        "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+    )
+
+triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
 
 triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
     "HLT_IsoMu20_v",    # yes available in bkgd MC
@@ -60,7 +58,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 triggersSingleEle = cms.vstring(
     "HLT_Ele22_eta2p1_WPLoose_Gsf_v", # available in the data
     "HLT_Ele22_eta2p1_WP75_Gsf_v",    # available in the bkgd MC
-}
+)
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     triggersSingleEle = cms.vstring(
