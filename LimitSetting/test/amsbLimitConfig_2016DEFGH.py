@@ -9,7 +9,7 @@
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
-from amsbLimitConfigBkgds_2016DEFG import *    # Produced with ../scripts/makeANTables.py
+from amsbLimitConfigBkgds_2016DEFGH import *    # Produced with ../scripts/makeANTables.py
 
 dirs = getUser ()
 
@@ -38,14 +38,14 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = lumi["MET_2016DEFG"]
+lumi = lumi["MET_2016DEFGH"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Andrew"] + '/2016/disappearingTracks_signal_DEFG_v2/'
+signal_condor_dir = dirs["Andrew"] + '/2016/disappearingTracks_signal_DEFGH_v2/'
 
 signal_suffix = '80X'
-signal_suffix_in_datacard = '80X_DEFG'
+signal_suffix_in_datacard = '80X_DEFGH'
 
 #name of event selection from which to take signal yields
 signal_channel = 'DisTrkSelectionPlotter/Met Plots'
@@ -57,7 +57,7 @@ signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 #this just sets the observed number of events equal to the total background expectation
 run_blind_limits = True
 
-data_dataset = "MET_2016DEFG"
+data_dataset = "MET_2016DEFGH"
 
 #condor directory in which to find data root file
 data_condor_dir = dirs["Andrew"] + '/2016_ICHEP/disappearingTracks/'
@@ -81,10 +81,10 @@ external_systematic_uncertainties = [
     "metVaryTauEn_2016",
     "metVaryUnclusteredEn_2016",
     "pileup_2016D",
-    "trigger_metLegWeightData_2016DEFG",
-    "trigger_metLegWeightMC_2016DEFG",
-    "trigger_trackLegWeightData_2016DEFG",
-    "trigger_trackLegWeightMC_2016DEFG",
+    "trigger_metLegWeightData_2016DEFGH",
+    "trigger_metLegWeightMC_2016DEFGH",
+    "trigger_trackLegWeightData_2016DEFGH",
+    "trigger_trackLegWeightMC_2016DEFGH",
 ]
 
 #uncertainties on signal only (we can alter this if we need to)

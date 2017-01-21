@@ -31,8 +31,8 @@ triggersSingleMu = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/
 )
 
 triggersSingleMu2016 = cms.vstring( # recommended here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Trigger
-    "HLT_IsoMu22_v",    # yes available in bkgd MC
-    "HLT_IsoTkMu22_v",  # yes available in bkgd MC
+    "HLT_IsoMu24_v",    # yes available in bkgd MC
+    "HLT_IsoTkMu24_v",  # yes available in bkgd MC
 )
 
 passesMainTrigger = cms.PSet(
@@ -135,6 +135,11 @@ cutMuonEta21 = cms.PSet (
 cutMuonPt25 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMuonPt26 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 26"),
     numberRequired = cms.string(">= 1"),
 )
 cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Tight_Muon

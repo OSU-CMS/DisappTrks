@@ -1,106 +1,74 @@
 # all luminosities should be in inverse picobarns
 
 lumi = {
-    # luminosities for the 23Sep2016 rereco are commented out for now
+    #23Sep2016 re-reco datasets
 
-    "MET_2015D" : 2672.144,
-    "MET_2016B" : 5884.944,
+    "MET_2016B" : 5933.309,
     "MET_2016C" : 2645.968,
-    "MET_2016D" : 4350.209,
-    "MET_2016E" : 4043.113,
-    "MET_2016F" : 3152.673,
-    # NOTE: temporary fix with an impartial re-creation of G
-    "MET_2016G" : 6685.201,
+    "MET_2016D" : 4353.449,
+    "MET_2016E" : 4049.255,
+    "MET_2016F" : 3160.088,
+    "MET_2016G" : 7554.454,
+    "MET_2016H" : 8761.822,
 
-    #"MET_2016B" : 5933.309,
-    #"MET_2016C" : 2645.968,
-    #"MET_2016D" : 4353.449,
-    #"MET_2016E" : 4049.255,
-    #"MET_2016F" : 3160.088,
-    #"MET_2016G" : 7554.454,
-    #"MET_2016H" : 8761.822,
-
-    "SingleElectron_2015D" : 2669.639,
-    "SingleElectron_2016B" : 5883.947,
+    "SingleElectron_2016B" : 5933.313,
     "SingleElectron_2016C" : 2645.968,
-    "SingleElectron_2016D" : 4352.417,
-    "SingleElectron_2016E" : 4049.732,
-    "SingleElectron_2016F" : 3148.581,
-    "SingleElectron_2016G" : 7108.192,
+    "SingleElectron_2016D" : 4353.449,
+    "SingleElectron_2016E" : 4117.098,
+    "SingleElectron_2016F" : 3185.972,
+    "SingleElectron_2016G" : 7721.057,
+    # 2016H-v2 = 8635.321, 2016H-v3 = 221.442
+    "SingleElectron_2016H" : 8856.763,
 
-    "SingleMuon_2015D" : 2669.752,
-    "SingleMuon_2016B" : 5874.068,
-    "SingleMuon_2016C" : 2628.835,
-    "SingleMuon_2016D" : 4353.449,
+    "SingleMuon_2016B" : 5929.002,
+    "SingleMuon_2016C" : 2645.968,
+    "SingleMuon_2016D" : 4177.221,
     "SingleMuon_2016E" : 4049.732,
-    "SingleMuon_2016F" : 3150.361,
-    "SingleMuon_2016G" : 7115.969,
+    "SingleMuon_2016F" : 3160.088,
+    "SingleMuon_2016G" : 7553.249,
+    "SingleMuon_2016H" : 8761.822,
 
-    #"SingleMuon_2016B" : 5929.002,
-    #"SingleMuon_2016C" : 2645.968,
-    #"SingleMuon_2016D" : 4177.221,
-    #"SingleMuon_2016E" : 4049.732,
-    #"SingleMuon_2016F" : 3160.088,
-    #"SingleMuon_2016G" : 7553.249,
-    #"SingleMuon_2016H" : 8761.822,
-
-    "Tau_2015D" : 2672.153,
-    "Tau_2016B" : 5880.362,
-    "Tau_2016C" : 2645.968,
+    "Tau_2016B" : 5933.309,
+    "Tau_2016C" : 3.425,
     "Tau_2016D" : 4353.449,
-    "Tau_2016E" : 4034.766,
-    "Tau_2016F" : 3157.974,
-    "Tau_2016G" : 7115.969,
-
-    #"Tau_2016B" : 5933.309,
-    #"Tau_2016C" : 3.425,
-    #"Tau_2016D" : 4353.449,
-    #"Tau_2016E" : 4049.255,
-    #"Tau_2016F" : 3160.088,
-    #"Tau_2016G" : 7552.514,
-    #"Tau_2016H" : 8857.033,
+    "Tau_2016E" : 4049.255,
+    "Tau_2016F" : 3160.088,
+    "Tau_2016G" : 7552.514,
+    "Tau_2016H" : 8857.033,
 
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v*" : {
-        "Tau_2015D" : 225.172,
-        "Tau_2016B" : 729.733,
-        "Tau_2016C" : 83.745,
+        "Tau_2016B" : 740.713,
+        "Tau_2016C" : 0.128,
         "Tau_2016D" : 138.891,
-        "Tau_2016E" : 116.665,
-        "Tau_2016F" : 66.607,
-        "Tau_2016G" : 104.906,
-
-        #"Tau_2016B" : 740.713,
-        #"Tau_2016C" : 0.128,
-        #"Tau_2016D" : 138.891,
-        #"Tau_2016E" : 117.140,
-        #"Tau_2016F" : 66.659,
-        #"Tau_2016G" : 114.196,
-        #"Tau_2016H" : 122.857,
+        "Tau_2016E" : 117.140,
+        "Tau_2016F" : 66.659,
+        "Tau_2016G" : 114.196,
+        "Tau_2016H" : 122.857,
     },
 }
 
 # set up some composite aliases for convenience
 
-lumi["MET_2015"]                                         =  lumi["MET_2015D"]
-lumi["SingleElectron_2015"]                              =  lumi["SingleElectron_2015D"]
-lumi["SingleMuon_2015"]                                  =  lumi["SingleMuon_2015D"]
-lumi["Tau_2015"]                                         =  lumi["Tau_2015D"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015D"]
+lumi["MET_2015"]                                        = lumi["MET_2015D"]
+lumi["SingleElectron_2015"]                             = lumi["SingleElectron_2015D"]
+lumi["SingleMuon_2015"]                                 = lumi["SingleMuon_2015D"]
+lumi["Tau_2015"]                                        = lumi["Tau_2015D"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"] = lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015D"]
 
-lumi["MET_2016BC"]                                         =  lumi["MET_2016B"]                                         +  lumi["MET_2016C"]
-lumi["SingleElectron_2016BC"]                              =  lumi["SingleElectron_2016B"]                              +  lumi["SingleElectron_2016C"]
-lumi["SingleMuon_2016BC"]                                  =  lumi["SingleMuon_2016B"]                                  +  lumi["SingleMuon_2016C"]
-lumi["Tau_2016BC"]                                         =  lumi["Tau_2016B"]                                         +  lumi["Tau_2016C"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016B"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016C"]
+lumi["MET_2016BC"]                                        = lumi["MET_2016B"]                                        + lumi["MET_2016C"]
+lumi["SingleElectron_2016BC"]                             = lumi["SingleElectron_2016B"]                             + lumi["SingleElectron_2016C"]
+lumi["SingleMuon_2016BC"]                                 = lumi["SingleMuon_2016B"]                                 + lumi["SingleMuon_2016C"]
+lumi["Tau_2016BC"]                                        = lumi["Tau_2016B"]                                        + lumi["Tau_2016C"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] = lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016B"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016C"]
 
-lumi["MET_2016DEFG"]                                         =  lumi["MET_2016D"]                                         +  lumi["MET_2016E"]                                         +  lumi["MET_2016F"]                                         +  lumi["MET_2016G"]
-lumi["SingleElectron_2016DEFG"]                              =  lumi["SingleElectron_2016D"]                              +  lumi["SingleElectron_2016E"]                              +  lumi["SingleElectron_2016F"]                              +  lumi["SingleElectron_2016G"]
-lumi["SingleMuon_2016DEFG"]                                  =  lumi["SingleMuon_2016D"]                                  +  lumi["SingleMuon_2016E"]                                  +  lumi["SingleMuon_2016F"]                                  +  lumi["SingleMuon_2016G"]
-lumi["Tau_2016DEFG"]                                         =  lumi["Tau_2016D"]                                         +  lumi["Tau_2016E"]                                         +  lumi["Tau_2016F"]                                         +  lumi["Tau_2016G"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016G"]
+lumi["MET_2016DEFGH"]                                        = lumi["MET_2016D"]                                        + lumi["MET_2016E"]                                        + lumi["MET_2016F"]                                        + lumi["MET_2016G"]                                        + lumi["MET_2016H"]
+lumi["SingleElectron_2016DEFGH"]                             = lumi["SingleElectron_2016D"]                             + lumi["SingleElectron_2016E"]                             + lumi["SingleElectron_2016F"]                             + lumi["SingleElectron_2016G"]                             + lumi["SingleElectron_2016H"]
+lumi["SingleMuon_2016DEFGH"]                                 = lumi["SingleMuon_2016D"]                                 + lumi["SingleMuon_2016E"]                                 + lumi["SingleMuon_2016F"]                                 + lumi["SingleMuon_2016G"]                                 + lumi["SingleMuon_2016H"]
+lumi["Tau_2016DEFGH"]                                        = lumi["Tau_2016D"]                                        + lumi["Tau_2016E"]                                        + lumi["Tau_2016F"]                                        + lumi["Tau_2016G"]                                        + lumi["Tau_2016H"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] = lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016G"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]
 
-lumi["MET_2016"]                                         =  lumi["MET_2016BC"]                                         +  lumi["MET_2016DEFG"]
-lumi["SingleElectron_2016"]                              =  lumi["SingleElectron_2016BC"]                              +  lumi["SingleElectron_2016DEFG"]
-lumi["SingleMuon_2016"]                                  =  lumi["SingleMuon_2016BC"]                                  +  lumi["SingleMuon_2016DEFG"]
-lumi["Tau_2016"]                                         =  lumi["Tau_2016BC"]                                         +  lumi["Tau_2016DEFG"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"]
+lumi["MET_2016"]                                         = lumi["MET_2016BC"]                                        + lumi["MET_2016DEFGH"]
+lumi["SingleElectron_2016"]                              = lumi["SingleElectron_2016BC"]                             + lumi["SingleElectron_2016DEFGH"]
+lumi["SingleMuon_2016"]                                  = lumi["SingleMuon_2016BC"]                                 + lumi["SingleMuon_2016DEFGH"]
+lumi["Tau_2016"]                                         = lumi["Tau_2016BC"]                                        + lumi["Tau_2016DEFGH"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016"]  = lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"]

@@ -338,7 +338,7 @@ MinimalSkimFilter<MUON>::initializeCutResults ()
   cutResults_->clear ();
   cutResults_->push_back (string ("total"));
   cutResults_->push_back (string ("trigger"));
-  cutResults_->push_back (string (">= 1 muon with pt > 25"));
+  cutResults_->push_back (string (">= 1 muon with pt > 26"));
   cutResults_->push_back (string (">= 1 muon with |eta| < 2.1"));
   cutResults_->push_back (string (">= 1 muon passing tight ID"));
   cutResults_->push_back (string (">= 1 muon passing tight isolation"));
@@ -359,7 +359,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event, const edm::Tri
   n = 0;
   for (const auto &muon : muons)
     {
-      if (muon.pt () > 25.0)
+      if (muon.pt () > 26.0)
         {
           n++;
           break;

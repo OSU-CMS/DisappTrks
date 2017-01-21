@@ -7,7 +7,7 @@ import os
 data_global_tag = '76X_dataRun2_v15'
 mc_global_tag = '76X_mcRun2_asymptotic_v12'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    data_global_tag = '80X_dataRun2_Prompt_v14'
+    data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
 
 ################################################################################

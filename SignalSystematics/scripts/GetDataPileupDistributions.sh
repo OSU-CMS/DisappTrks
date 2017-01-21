@@ -10,7 +10,7 @@ json15=Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt
 minBias15=69000
 minBiasUncertainty15=0.046
 
-json16=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt
+json16=Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 minBias16=69200
 minBiasUncertainty16=0.046
 
@@ -33,17 +33,17 @@ curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Colli
 curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/PileUp/pileup_latest.txt > pileup_2016.txt
 
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Reprocessing/$json15
-wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/$json16
+wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/$json16
 
 ########################################################
-# Split up 2016 into BC and DEFG
+# Split up 2016 into BC and DEFGH
 ########################################################
 
 json16BC=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2_BC.txt
-json16DEFG=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2_DEFG.txt
+json16DEFGH=Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2_DEFGH.txt
 
 filterJSON.py --min 272007 --max 276283 $json16 --output $json16BC
-filterJSON.py --min 276315 --max 280385 $json16 --output $json16DEFG
+filterJSON.py --min 276315 --max 284044 $json16 --output $json16DEFGH
 
 ########################################################
 # Get data distributions using JSONs as masks
@@ -61,9 +61,9 @@ pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --min
 pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016BC_up.root
 pileupCalc.py -i $json16BC --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016BC_down.root
 
-pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_central.root
-pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_up.root
-pileupCalc.py -i $json16DEFG --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFG_down.root
+pileupCalc.py -i $json16DEFGH --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFGH_central.root
+pileupCalc.py -i $json16DEFGH --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFGH_up.root
+pileupCalc.py -i $json16DEFGH --inputLumiJSON pileup_2016.txt --calcMode true --minBiasXsec $minBias16Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2016DEFGH_down.root
 
 ########################################################
 # Combine ROOT files and clean up
@@ -76,4 +76,3 @@ rm puData_2015_*.root
 rm puData_2016_*.root
 
 echo "Created combined file puData.root"
-

@@ -1,12 +1,12 @@
 TString inputFiles[12] = {"puData_2015_central", "puData_2015_up", "puData_2015_down",
                           "puData_2016_central", "puData_2016_up", "puData_2016_down",
                           "puData_2016BC_central", "puData_2016BC_up", "puData_2016BC_down",
-                          "puData_2016DEFG_central", "puData_2016DEFG_up", "puData_2016DEFG_down"};
+                          "puData_2016DEFGH_central", "puData_2016DEFGH_up", "puData_2016DEFGH_down"};
 
 TString histNames[12] = {"data2015", "data2015Up", "data2015Down",
                          "data2016", "data2016Up", "data2016Down",
                          "data2016_BC", "data2016_BCUp", "data2016_BCDown",
-                         "data2016_DEFG", "data2016_DEFGUp", "data2016_DEFGDown"};
+                         "data2016_DEFGH", "data2016_DEFGHUp", "data2016_DEFGHDown"};
 
 void combineDataFiles() {
 
@@ -29,4 +29,3 @@ cout << "working on " << inputFiles[i] << ".root" << endl;
   output->Close();
 
 }
-

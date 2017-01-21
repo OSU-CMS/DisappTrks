@@ -232,7 +232,7 @@ bool EventTriggerVarProducer::isGoodMuon(const pat::Muon &muon,
                      0.5 * muon.pfIsolationR04().sumPUPt);
 
   if(fabs(muon.eta()) < 2.1 &&
-     muon.pt() > 25.0 &&
+     muon.pt() > 26.0 &&
      muon.isGlobalMuon() &&
      muon.isPFMuon() &&
      muon.globalTrack()->normalizedChi2() < 10.0 &&
