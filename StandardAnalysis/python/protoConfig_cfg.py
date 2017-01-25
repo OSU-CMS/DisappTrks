@@ -209,6 +209,7 @@ histSetsDebug = cms.VPSet(
 
 histSetsMetJet = cms.VPSet (
     MetHistograms,
+    MetExtraHistograms,
     JetHistograms
 )
 
