@@ -10,7 +10,7 @@ METLegDenominator = cms.PSet(
     triggers = triggersSingleMu2016,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        cutMuonPt25,
+        cutMuonPt26,
         cutMuonEta21,
         cutMuonTightID,
         cutMuonNMissIn,
@@ -31,7 +31,7 @@ TrackLegDenominatorWithMuons = cms.PSet(
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet75,
-        cutMuonPt25,
+        cutMuonPt26,
         cutMuonEta21,
         cutMuonTightID,
         cutMuonNMissIn,

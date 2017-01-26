@@ -43,29 +43,29 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-print "evaluating fake track systematic (2016DEFG)"
+print "evaluating fake track systematic (2016DEFGH)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("fakeTrackSystematic_2016DEFG.root", "recreate")
+fout = TFile.Open ("fakeTrackSystematic_2016DEFGH.root", "recreate")
 
-fakeTrackSystematicDEFG = FakeTrackSystematic ()
-fakeTrackSystematicDEFG.addTFile (fout)
-fakeTrackSystematicDEFG.addTCanvas (canvas)
-fakeTrackSystematicDEFG.addLuminosityLabel (str (round (lumi["MET_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicDEFG.addChannel  ("Basic",                "BasicSelection",                                   "MET_2016DEFG",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicDEFG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",  "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",  "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",  "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",  "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFG.addChannel  ("ZtoLL",                "ZtoMuMu",                                          "SingleMu_2016DEFG",  dirs['Brian']+"2016/zToMuMu_noSkim")
-fakeTrackSystematicDEFG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3NoElectronMuonFiducialCuts",    "SingleMu_2016DEFG",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4NoElectronMuonFiducialCuts",    "SingleMu_2016DEFG",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts",    "SingleMu_2016DEFG",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts",    "SingleMu_2016DEFG",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+fakeTrackSystematicDEFGH = FakeTrackSystematic ()
+fakeTrackSystematicDEFGH.addTFile (fout)
+fakeTrackSystematicDEFGH.addTCanvas (canvas)
+fakeTrackSystematicDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+fakeTrackSystematicDEFGH.addChannel  ("Basic",                "BasicSelection",                                   "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicDEFGH.addChannel  ("ZtoLL",                "ZtoMuMu",                                          "SingleMu_2016DEFGH",  dirs['Brian']+"2016/zToMuMu_noSkim")
+fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
 
 print "********************************************************************************"
 
-fakeTrackSystematicDEFG.printSystematic ()
+fakeTrackSystematicDEFGH.printSystematic ()
 
 print "********************************************************************************"
 
@@ -105,29 +105,29 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-print "evaluating fake track systematic with jet requirement (2016DEFG)"
+print "evaluating fake track systematic with jet requirement (2016DEFGH)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFG.root", "recreate")
+fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFGH.root", "recreate")
 
-fakeTrackSystematicWithJetDEFG = FakeTrackSystematic ()
-fakeTrackSystematicWithJetDEFG.addTFile (fout)
-fakeTrackSystematicWithJetDEFG.addTCanvas (canvas)
-fakeTrackSystematicWithJetDEFG.addLuminosityLabel (str (round (lumi["MET_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicWithJetDEFG.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016DEFG",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016DEFG",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFGH = FakeTrackSystematic ()
+fakeTrackSystematicWithJetDEFGH.addTFile (fout)
+fakeTrackSystematicWithJetDEFGH.addTCanvas (canvas)
+fakeTrackSystematicWithJetDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
 
 print "********************************************************************************"
 
-fakeTrackSystematicWithJetDEFG.printSystematic ()
+fakeTrackSystematicWithJetDEFGH.printSystematic ()
 
 print "********************************************************************************"
 
@@ -194,23 +194,23 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-print "evaluating electron energy systematic (2016DEFG)"
+print "evaluating electron energy systematic (2016DEFGH)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("electronEnergySystematic_2016DEFG.root", "recreate")
+fout = TFile.Open ("electronEnergySystematic_2016DEFGH.root", "recreate")
 
-electronEnergySystematicDEFG = LeptonEnergySystematic ("electron")
-electronEnergySystematicDEFG.addTFile (fout)
-electronEnergySystematicDEFG.addTCanvas (canvas)
-electronEnergySystematicDEFG.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-electronEnergySystematicDEFG.addPlotLabel ("SingleElectron 2016D-G")
-electronEnergySystematicDEFG.addMetCut (100.0)
-electronEnergySystematicDEFG.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFG",         dirs['Brian']+"2016/electronBackground_v2")
-electronEnergySystematicDEFG.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFG",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+electronEnergySystematicDEFGH = LeptonEnergySystematic ("electron")
+electronEnergySystematicDEFGH.addTFile (fout)
+electronEnergySystematicDEFGH.addTCanvas (canvas)
+electronEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+electronEnergySystematicDEFGH.addPlotLabel ("SingleElectron 2016D-G")
+electronEnergySystematicDEFGH.addMetCut (100.0)
+electronEnergySystematicDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
+electronEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
 
 print "********************************************************************************"
 
-electronEnergySystematicDEFG.printSystematic ()
+electronEnergySystematicDEFGH.printSystematic ()
 
 print "********************************************************************************"
 
@@ -246,25 +246,25 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-print "evaluating tau energy systematic (2016DEFG)"
+print "evaluating tau energy systematic (2016DEFGH)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("tauEnergySystematic_2016DEFG.root", "recreate")
+fout = TFile.Open ("tauEnergySystematic_2016DEFGH.root", "recreate")
 
-tauEnergySystematicDEFG = LeptonEnergySystematic ("tau")
-tauEnergySystematicDEFG.addTFile (fout)
-tauEnergySystematicDEFG.addTCanvas (canvas)
-tauEnergySystematicDEFG.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-tauEnergySystematicDEFG.addPlotLabel ("Tau 2016D")
-tauEnergySystematicDEFG.addMetCut (100.0)
-tauEnergySystematicDEFG.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFG",              dirs['Brian']+"2016/tauBackground_v2")
-#tauEnergySystematicDEFG.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFG",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
-tauEnergySystematicDEFG.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFG",        dirs['Brian']+"2016/electronBackground_v2")
-tauEnergySystematicDEFG.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFG",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
+tauEnergySystematicDEFGH = LeptonEnergySystematic ("tau")
+tauEnergySystematicDEFGH.addTFile (fout)
+tauEnergySystematicDEFGH.addTCanvas (canvas)
+tauEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+tauEnergySystematicDEFGH.addPlotLabel ("Tau 2016D")
+tauEnergySystematicDEFGH.addMetCut (100.0)
+tauEnergySystematicDEFGH.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2")
+#tauEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
+tauEnergySystematicDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
+tauEnergySystematicDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
 
 print "********************************************************************************"
 
-tauEnergySystematicDEFG.printSystematic ()
+tauEnergySystematicDEFGH.printSystematic ()
 
 print "********************************************************************************"
 
