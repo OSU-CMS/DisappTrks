@@ -40,6 +40,7 @@ lumi = {
     #"SingleMuon_2016E" : 4117.098,
     #"SingleMuon_2016F" : 3185.972,
     #"SingleMuon_2016G" : 7721.368,
+    #"SingleMuon_2016H" : 8857.033,
 
     "Tau_2015D" : 2672.153,
     "Tau_2016B" : 5880.362,
