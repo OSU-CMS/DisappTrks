@@ -22,7 +22,7 @@ lumi = {
     "SingleElectron_2016H" : 8856.763,
 
     "SingleMuon_2016B" : 5929.002,
-    "SingleMuon_2016C" : 0.0, # to be updated
+    "SingleMuon_2016C" : 2645.968,
     "SingleMuon_2016D" : 0.0, # to be udpated
     "SingleMuon_2016E" : 4117.098,
     "SingleMuon_2016F" : 3185.972,
