@@ -26,7 +26,7 @@ dataset_names_data = {
     'SingleEle_2016H' : ["/SingleElectron/bfrancis-Run2016H-PromptReco-v2-DisappTrks-v1-addfbe4d6f0cf1056130ceadde75d969/USER", "/SingleElectron/bfrancis-Run2016H-PromptReco-v3-DisappTrks-v1-addfbe4d6f0cf1056130ceadde75d969/USER"],
 
     'SingleMu_2016B'  : "/SingleMuon/ahart-Run2016B-23Sep2016-v3-DisappTrks-v1-ba21f67961b05c35438052e716a22b53/USER",
-    'SingleMu_2016C'  : "", # to be updated
+    'SingleMu_2016C'  : "/SingleMuon/wulsin-Run2016C-23Sep2016-v1-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016D'  : "", # to be updated
     'SingleMu_2016E'  : "/SingleMuon/wulsin-Run2016E-23Sep2016-v1-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-23Sep2016-v1-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER",
