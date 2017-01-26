@@ -63,7 +63,7 @@ triggersSingleEle = cms.vstring(
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     triggersSingleEle = cms.vstring(
         "HLT_Ele25_eta2p1_WPTight_Gsf_v",
-        #"HLT_Ele27_WPTight_Gsf_v", # only in case we need to look at electrons with |eta| ≥ 1
+        #"HLT_Ele27_WPTight_Gsf_v", # only in case we need to look at electrons with |eta| >= 2.1
         "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
     )
 
