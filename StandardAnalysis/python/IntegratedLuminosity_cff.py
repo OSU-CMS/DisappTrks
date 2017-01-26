@@ -37,6 +37,7 @@ lumi = {
     "SingleMuon_2016G" : 7115.969,
 
     #"SingleMuon_2016B" : 5929.002,
+    #"SingleMuon_2016C" : 2645.968,
     #"SingleMuon_2016E" : 4117.098,
     #"SingleMuon_2016F" : 3185.972,
     #"SingleMuon_2016G" : 7721.368,
