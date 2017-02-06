@@ -21,6 +21,7 @@ lumi = {
     # 2016H-v2 = 8635.321, 2016H-v3 = 221.442
     "SingleElectron_2016H" : 8856.763,
 
+    "SingleMuon_2015D" : 2669.752,
     "SingleMuon_2016B" : 5929.002,
     "SingleMuon_2016C" : 2645.968,
     "SingleMuon_2016D" : 4350.505,
