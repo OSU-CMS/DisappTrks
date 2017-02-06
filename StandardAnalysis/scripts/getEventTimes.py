@@ -62,16 +62,21 @@ print "extracting times from output files..."
 command = ["find", condorDir, "-type", "f", "-regex", ".*\/condor_[^/]*\.err$"]
 stdErrFiles = subprocess.check_output (command).split ()
 for stdErrFile in stdErrFiles:
+  isFinished = False
   f = open (stdErrFile, "r")
   for line in f:
     if not re.match (r".*CPU time.*", line) and not re.match (r".*real time.*", line):
       continue
+    isFinished = True
     timePerEvent = float (re.sub (r".*\(([^ ]*) seconds per event\)$", r"\1", line))
     if re.match (r".*CPU time.*", line):
       cpuTimePerEvent.append (timePerEvent)
     if re.match (r".*real time.*", line):
       realTimePerEvent.append (timePerEvent)
   f.close ()
+
+  if not isFinished:
+    continue
 
   logFile = re.sub (r"(.*)\.err$", r"\1.log", stdErrFile)
   f = open (logFile, "r")
