@@ -30,46 +30,60 @@ def MakePlots(filePath, plotName, hotSpotsList):
     afterVeto.Draw('colz')
     can.SaveAs('test_afterVeto_' + plotName + '.pdf')
 
-    a = 0
-    aErr2 = 0
-    b = 0
-    bErr2 = 0
+    totalEventsBeforeVeto = 0
+    totalEventsAfterVeto = 0
 
+    nRegionsWithTag = 0
+
+    # loop over all bins in eta-phi and count events before/after to calculate the mean inefficiency
     for xbin in range(1, beforeVeto.GetXaxis().GetNbins()):
         for ybin in range(1, beforeVeto.GetYaxis().GetNbins()):
 
-            contentBeforeVeto = beforeVeto.GetBinContent(xbin, ybin)
-            errorBeforeVeto = beforeVeto.GetBinError(xbin, ybin)
-
-            if contentBeforeVeto == 0:
+            if beforeVeto.GetBinContent(xbin, ybin) > 0:
+                nRegionsWithTag += 1
+            else:
                 continue
 
-            contentAfterVeto = afterVeto.GetBinContent(xbin, ybin)
-            errorAfterVeto = afterVeto.GetBinError(xbin, ybin)
+            totalEventsBeforeVeto += beforeVeto.GetBinContent(xbin, ybin)
+            totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
 
-            a += contentAfterVeto
-            aErr2 += errorAfterVeto * errorAfterVeto
+    meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
 
-            b += contentBeforeVeto
-            bErr2 += errorBeforeVeto * errorBeforeVeto
+    # now with the mean, calculate the standard deviation as stdDev^2 = 1/(N-1) * sum(inefficiency - meanInefficiency)^2
 
-    mean = a / b
-    meanErr = mean * math.hypot(math.sqrt(aErr2) / a, math.sqrt(bErr2) / b)
+    stdDevInefficiency = 0
 
     afterVeto.Divide(beforeVeto)
+
+    for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
+        for ybin in range(1, afterVeto.GetYaxis().GetNbins()):
+
+            if beforeVeto.GetBinContent(xbin, ybin) == 0:
+                continue
+
+            thisInefficiency = afterVeto.GetBinContent(xbin, ybin)
+
+            stdDevInefficiency += (thisInefficiency - meanInefficiency)**2
+
+    if nRegionsWithTag < 2:
+        print 'Only ', nRegionsWithTag, ' regions with a tag lepton exist, cannot calculate fiducial map!!!'
+        exit()
+
+    stdDevInefficiency /= nRegionsWithTag - 1
+    stdDevInefficiency = math.sqrt(stdDevInefficiency)
+
     can.SetLogz(True)
     afterVeto.Draw('colz')
     can.SaveAs('test_efficiency_' + plotName + '.pdf')
 
     for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
         for ybin in range(1, afterVeto.GetYaxis().GetNbins()):
-            content = afterVeto.GetBinContent(xbin, ybin)
-            error = afterVeto.GetBinError(xbin, ybin)
 
-            if content == 0:
+            thisInefficiency = afterVeto.GetBinContent(xbin, ybin)
+            if thisInefficiency == 0:
                 continue
 
-            valueInSigma = (content - mean) / math.hypot(error, meanErr)
+            valueInSigma = (thisInefficiency - meanInefficiency) / stdDevInefficiency
             if valueInSigma < 0:
                 valueInSigma = 0
 
@@ -94,7 +108,6 @@ def MakePlots(filePath, plotName, hotSpotsList):
 
 def FindHotSpots(filePath):
 
-    minDeltaR = 0.05
     threshold = 2.0
 
     inputFile = TFile(filePath, 'read')
@@ -102,58 +115,62 @@ def FindHotSpots(filePath):
     beforeVeto = inputFile.Get('beforeVeto')
     afterVeto = inputFile.Get('afterVeto')
 
-    a = 0
-    aErr2 = 0
-    b = 0
-    bErr2 = 0
+    totalEventsBeforeVeto = 0
+    totalEventsAfterVeto = 0
 
     nRegionsWithTag = 0
 
+    # loop over all bins in eta-phi and count events before/after to calculate the mean inefficiency
     for xbin in range(1, beforeVeto.GetXaxis().GetNbins()):
         for ybin in range(1, beforeVeto.GetYaxis().GetNbins()):
-            binRadius = math.hypot(0.5 * beforeVeto.GetXaxis().GetBinWidth(xbin), 0.5 * beforeVeto.GetYaxis().GetBinWidth(ybin))
-            if binRadius > minDeltaR:
-                minDeltaR = binRadius
 
-            contentBeforeVeto = beforeVeto.GetBinContent(xbin, ybin)
-            errorBeforeVeto = beforeVeto.GetBinError(xbin, ybin)
-
-            if contentBeforeVeto == 0:
+            if beforeVeto.GetBinContent(xbin, ybin) > 0:
+                nRegionsWithTag += 1
+            else:
                 continue
 
-            nRegionsWithTag += 1
+            totalEventsBeforeVeto += beforeVeto.GetBinContent(xbin, ybin)
+            totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
 
-            contentAfterVeto = afterVeto.GetBinContent(xbin, ybin)
-            errorAfterVeto = afterVeto.GetBinError(xbin, ybin)
+    meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
 
-            a += contentAfterVeto
-            aErr2 += errorAfterVeto * errorAfterVeto
+    # now with the mean, calculate the standard deviation as stdDev^2 = 1/(N-1) * sum(inefficiency - meanInefficiency)^2
 
-            b += contentBeforeVeto
-            bErr2 += errorBeforeVeto * errorBeforeVeto
-
-    print 'For file ', os.path.basename(filePath), ' total regions with tag activity = ', nRegionsWithTag
-
-    mean = a / b
-    meanErr = mean * math.hypot(math.sqrt(aErr2) / a, math.sqrt(bErr2) / b)
-
-    print 'For file ', os.path.basename(filePath), ' the overall inefficiency is: ', mean, ' +/- ', meanErr
+    stdDevInefficiency = 0
 
     afterVeto.Divide(beforeVeto)
+
+    for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
+        for ybin in range(1, afterVeto.GetYaxis().GetNbins()):
+
+            if beforeVeto.GetBinContent(xbin, ybin) == 0:
+                continue
+
+            thisInefficiency = afterVeto.GetBinContent(xbin, ybin)
+
+            stdDevInefficiency += (thisInefficiency - meanInefficiency)**2
+
+    if nRegionsWithTag < 2:
+        print 'Only ', nRegionsWithTag, ' regions with a tag lepton exist, cannot calculate fiducial map!!!'
+        exit()
+
+    stdDevInefficiency /= nRegionsWithTag - 1
+    stdDevInefficiency = math.sqrt(stdDevInefficiency)
+
+    # now find hot spots where the inefficiency is larger than the meanInefficiency by at least threshold * stdDevInefficiency
 
     hotSpots = []
 
     for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
         for ybin in range(1, afterVeto.GetYaxis().GetNbins()):
-            content = afterVeto.GetBinContent(xbin, ybin)
-            error = afterVeto.GetBinError(xbin, ybin)
-            eta = "{0:0.2f}".format(afterVeto.GetXaxis().GetBinCenter(xbin))
-            phi = "{0:0.2f}".format(afterVeto.GetYaxis().GetBinCenter(ybin))
 
-            if content == 0:
+            thisInefficiency = afterVeto.GetBinContent(xbin, ybin)
+            if thisInefficiency == 0:
                 continue
 
-            if (content - mean) > threshold * math.hypot(error, meanErr):
+            if (thisInefficiency - meanInefficiency) > threshold * stdDevInefficiency:
+                eta = "{0:0.2f}".format(afterVeto.GetXaxis().GetBinCenter(xbin))
+                phi = "{0:0.2f}".format(afterVeto.GetYaxis().GetBinCenter(ybin))
                 hotSpots.append((eta, phi))
 
     inputFile.Close()
@@ -236,7 +253,9 @@ def BreakdownHotSpots(hotSpots, afterVeto_PerRun):
 
     overallRatesPerRun = {}
     for period, after in afterVeto_PerRun:
-	overallRatesPerRun[period] = [0, 0]
+        overallRatesPerRun[period] = [0, 0]
+
+    breakdown = ''
 
     for eta, phi in hotSpots:
 
@@ -253,25 +272,23 @@ def BreakdownHotSpots(hotSpots, afterVeto_PerRun):
             nEvents = after.GetBinContent( after.FindBin(float(eta), float(phi)) )
             nPicobarns = lumi[lumiName] / 1000
 
-#            breakdown += str('%.2g' % nEvents / nPicobarns)
-
-	    breakdown += "{0:0.2f}".format(nEvents / nPicobarns)
+            breakdown += "{0:0.2f}".format(nEvents / nPicobarns)
             breakdown += ' / '
 
 	    overallRatesPerRun[period][0] = overallRatesPerRun[period][0] + nEvents / nPicobarns
 	    overallRatesPerRun[period][1] = math.hypot( overallRatesPerRun[period][1], math.sqrt(nEvents) / nPicobarns )
 
-	breakdown += '\n'
+        breakdown += '\n'
 
         output.write(breakdown)
 
     output.write('\nOverall:\n')
     for period in overallRatesPerRun:
-	output.write(period + ' -- ')
-	output.write("{0:0.2f}".format(overallRatesPerRun[period][0]))
-	output.write(' +/- ')
-	output.write("{0:0.2f}".format(overallRatesPerRun[period][1]))
-	output.write('\n')
+        output.write(period + ' -- ')
+        output.write("{0:0.2f}".format(overallRatesPerRun[period][0]))
+        output.write(' +/- ')
+        output.write("{0:0.2f}".format(overallRatesPerRun[period][1]))
+        output.write('\n')
 
     output.close()
 
