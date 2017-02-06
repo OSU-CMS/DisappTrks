@@ -9,6 +9,8 @@ class HLTRate:
   _denominator = 0
   _numerator = {}
   _crossSectionInPb = 0.0
+  _nFiles = 0
+  _iFile = 0
 
   def addFile (self, fileName):
     if not fileName:
@@ -20,7 +22,7 @@ class HLTRate:
       print "\"" + fileName + "\" does not look like a CRAB log file!"
       return
 
-    print "  Processing file \"" + fileName + "\"..."
+    print "  (" + str (self._iFile) + " / " + str (self._nFiles) + ") Processing file \"" + re.sub (r".*\/([^/]+)$", r"\1", fileName) + "\"..."
 
     n = re.sub (r".*\/cmsRun_(.*)\.log\.tar\.gz", r"\1", fileName)
 
@@ -55,7 +57,11 @@ class HLTRate:
 
     print "Processing directory \"" + dirName + "\"..."
 
-    for logFile in glob.glob (dirName + "/cmsRun_*.log.tar.gz"):
+    logFiles = glob.glob (dirName + "/cmsRun_*.log.tar.gz")
+    self._nFiles = len (logFiles)
+    self._iFile = 0
+    for logFile in logFiles:
+      self._iFile += 1
       self.addFile (logFile)
 
   def setCrossSectionInPb (self, crossSectionInPb):
