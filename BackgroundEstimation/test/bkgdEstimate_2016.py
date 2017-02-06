@@ -67,22 +67,22 @@ if background == "FAKE" or background == "ALL":
     print "\n\n"
 
     print "********************************************************************************"
-    print "performing fake track background estimate in search region (2016DEFG)"
+    print "performing fake track background estimate in search region (2016DEFGH)"
     print "--------------------------------------------------------------------------------"
 
-    fout = TFile.Open ("fakeTrackBkgdEstimate_2016DEFG.root", "recreate")
+    fout = TFile.Open ("fakeTrackBkgdEstimate_2016DEFGH.root", "recreate")
 
-    fakeTrackBkgdEstimateDEFG = FakeTrackBkgdEstimate ()
-    fakeTrackBkgdEstimateDEFG.addTFile (fout)
-    fakeTrackBkgdEstimateDEFG.addTCanvas (canvas)
-    fakeTrackBkgdEstimateDEFG.addLuminosityInInvFb (lumi["MET_2016DEFG"] / 1000.)
-    fakeTrackBkgdEstimateDEFG.addChannel  ("ZtoLL",        "ZtoMuMu",                                  "SingleMu_2016DEFG",  dirs['Brian']+"2016/zToMuMu_noSkim")
-    fakeTrackBkgdEstimateDEFG.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrkNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-    fakeTrackBkgdEstimateDEFG.addChannel  ("Basic",        "BasicSelection",                           "MET_2016DEFG",       dirs['Andrew']+"2016/basicSelection")
+    fakeTrackBkgdEstimateDEFGH = FakeTrackBkgdEstimate ()
+    fakeTrackBkgdEstimateDEFGH.addTFile (fout)
+    fakeTrackBkgdEstimateDEFGH.addTCanvas (canvas)
+    fakeTrackBkgdEstimateDEFGH.addLuminosityInInvFb (lumi["MET_2016DEFGH"] / 1000.)
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLL",        "ZtoMuMu",                                  "SingleMu_2016DEFGH",  dirs['Brian']+"2016/zToMuMu_noSkim")
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrkNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("Basic",        "BasicSelection",                           "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
 
     print "********************************************************************************"
 
-    (nEstFakeDEFG, nEstFakeErrorDEFG) = fakeTrackBkgdEstimateDEFG.printNest ()
+    (nEstFakeDEFGH, nEstFakeErrorDEFGH) = fakeTrackBkgdEstimateDEFGH.printNest ()
 
     print "********************************************************************************"
 
@@ -122,28 +122,28 @@ if background == "ELECTRON" or background == "ALL":
     print "\n\n"
 
     print "********************************************************************************"
-    print "performing electron background estimate in search region (2016DEFG)"
+    print "performing electron background estimate in search region (2016DEFGH)"
     print "--------------------------------------------------------------------------------"
 
-    fout = TFile.Open ("electronBkgdEstimate_2016DEFG.root", "recreate")
+    fout = TFile.Open ("electronBkgdEstimate_2016DEFGH.root", "recreate")
 
-    electronBkgdEstimateDEFG = LeptonBkgdEstimate ("electron")
-    electronBkgdEstimateDEFG.addTFile (fout)
-    electronBkgdEstimateDEFG.addTCanvas (canvas)
-    electronBkgdEstimateDEFG.addPrescaleFactor (lumi["MET_2016DEFG"] / lumi["SingleElectron_2016DEFG"])
-    electronBkgdEstimateDEFG.addTagProbePassScaleFactor (lumi["SingleElectron_2016DEFG"] / (lumi["SingleElectron_2016DEFG"] - lumi["SingleElectron_2016F"]))
-    electronBkgdEstimateDEFG.addLuminosityInInvFb (lumi["MET_2016DEFG"] / 1000.)
-    electronBkgdEstimateDEFG.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    electronBkgdEstimateDEFG.addPlotLabel ("SingleElectron 2016D-G")
-    electronBkgdEstimateDEFG.addMetCut (100.0)
-    electronBkgdEstimateDEFG.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFG",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateDEFG.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEFG_rereco",  dirs['Andrew']+"2016/electronBackground")
-    electronBkgdEstimateDEFG.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFG",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateDEFG.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFG",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    electronBkgdEstimateDEFGH = LeptonBkgdEstimate ("electron")
+    electronBkgdEstimateDEFGH.addTFile (fout)
+    electronBkgdEstimateDEFGH.addTCanvas (canvas)
+    electronBkgdEstimateDEFGH.addPrescaleFactor (lumi["MET_2016DEFGH"] / lumi["SingleElectron_2016DEFGH"])
+    electronBkgdEstimateDEFGH.addTagProbePassScaleFactor (lumi["SingleElectron_2016DEFGH"] / (lumi["SingleElectron_2016DEFGH"] - lumi["SingleElectron_2016F"]))
+    electronBkgdEstimateDEFGH.addLuminosityInInvFb (lumi["MET_2016DEFGH"] / 1000.)
+    electronBkgdEstimateDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    electronBkgdEstimateDEFGH.addPlotLabel ("SingleElectron 2016D-G")
+    electronBkgdEstimateDEFGH.addMetCut (100.0)
+    electronBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
+    electronBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEFGH_rereco",  dirs['Andrew']+"2016/electronBackground")
+    electronBkgdEstimateDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
+    electronBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
 
     print "********************************************************************************"
 
-    (nEstElectronDEFG, nEstElectronErrorDEFG) = electronBkgdEstimateDEFG.printNest ()
+    (nEstElectronDEFGH, nEstElectronErrorDEFGH) = electronBkgdEstimateDEFGH.printNest ()
 
     print "********************************************************************************"
 
@@ -183,28 +183,28 @@ if background == "MUON" or background == "ALL":
     print "\n\n"
 
     print "********************************************************************************"
-    print "performing muon background estimate in search region (2016DEFG)"
+    print "performing muon background estimate in search region (2016DEFGH)"
     print "--------------------------------------------------------------------------------"
 
-    fout = TFile.Open ("muonBkgdEstimate_2016DEFG.root", "recreate")
+    fout = TFile.Open ("muonBkgdEstimate_2016DEFGH.root", "recreate")
 
-    muonBkgdEstimateDEFG = LeptonBkgdEstimate ("muon")
-    muonBkgdEstimateDEFG.addTFile (fout)
-    muonBkgdEstimateDEFG.addTCanvas (canvas)
-    muonBkgdEstimateDEFG.addPrescaleFactor (lumi["MET_2016DEFG"] / lumi["SingleMuon_2016DEFG"])
-    muonBkgdEstimateDEFG.addTagProbePassScaleFactor (lumi["SingleMuon_2016DEFG"] / (lumi["SingleMuon_2016DEFG"] - lumi["SingleMuon_2016D"]))
-    muonBkgdEstimateDEFG.addLuminosityInInvFb (lumi["MET_2016DEFG"] / 1000.)
-    muonBkgdEstimateDEFG.addLuminosityLabel (str (round (lumi["SingleMuon_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    muonBkgdEstimateDEFG.addPlotLabel ("SingleMuon 2016D-G")
-    muonBkgdEstimateDEFG.addMetCut (100.0)
-    muonBkgdEstimateDEFG.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016DEFG",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateDEFG.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016DEFG_rereco",  dirs['Andrew']+"2016/muonBackground")
-    muonBkgdEstimateDEFG.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016DEFG",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateDEFG.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",      "SingleMu_2016DEFG",         dirs['Brian']+"2016/muonBackground_v2NoTrig")
+    muonBkgdEstimateDEFGH = LeptonBkgdEstimate ("muon")
+    muonBkgdEstimateDEFGH.addTFile (fout)
+    muonBkgdEstimateDEFGH.addTCanvas (canvas)
+    muonBkgdEstimateDEFGH.addPrescaleFactor (lumi["MET_2016DEFGH"] / lumi["SingleMuon_2016DEFGH"])
+    muonBkgdEstimateDEFGH.addTagProbePassScaleFactor (lumi["SingleMuon_2016DEFGH"] / (lumi["SingleMuon_2016DEFGH"] - lumi["SingleMuon_2016D"]))
+    muonBkgdEstimateDEFGH.addLuminosityInInvFb (lumi["MET_2016DEFGH"] / 1000.)
+    muonBkgdEstimateDEFGH.addLuminosityLabel (str (round (lumi["SingleMuon_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    muonBkgdEstimateDEFGH.addPlotLabel ("SingleMuon 2016D-G")
+    muonBkgdEstimateDEFGH.addMetCut (100.0)
+    muonBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
+    muonBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016DEFGH_rereco",  dirs['Andrew']+"2016/muonBackground")
+    muonBkgdEstimateDEFGH.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
+    muonBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",      "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2NoTrig")
 
     print "********************************************************************************"
 
-    (nEstMuonDEFG, nEstMuonErrorDEFG) = muonBkgdEstimateDEFG.printNest ()
+    (nEstMuonDEFGH, nEstMuonErrorDEFGH) = muonBkgdEstimateDEFGH.printNest ()
 
     print "********************************************************************************"
 
@@ -249,34 +249,34 @@ if background == "TAU" or background == "ALL":
     print "\n\n"
 
     print "********************************************************************************"
-    print "performing tau background estimate in search region (2016DEFG)"
+    print "performing tau background estimate in search region (2016DEFGH)"
     print "--------------------------------------------------------------------------------"
 
-    fout = TFile.Open ("tauBkgdEstimate_2016DEFG.root", "recreate")
+    fout = TFile.Open ("tauBkgdEstimate_2016DEFGH.root", "recreate")
 
-    tauBkgdEstimateDEFG = LeptonBkgdEstimate ("tau")
-    tauBkgdEstimateDEFG.addTFile (fout)
-    tauBkgdEstimateDEFG.addTCanvas (canvas)
-    tauBkgdEstimateDEFG.addPrescaleFactor (lumi["MET_2016DEFG"] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"])
-    tauBkgdEstimateDEFG.addTagProbePassScaleFactor (lumi["SingleMuon_2016DEFG"] / (lumi["SingleMuon_2016DEFG"] - lumi["SingleMuon_2016D"]))
-    tauBkgdEstimateDEFG.addTagProbePass1ScaleFactor (lumi["SingleElectron_2016DEFG"] / (lumi["SingleElectron_2016DEFG"] - lumi["SingleElectron_2016F"]))
-    tauBkgdEstimateDEFG.addLuminosityInInvFb (lumi["MET_2016DEFG"] / 1000.)
-    tauBkgdEstimateDEFG.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    tauBkgdEstimateDEFG.addPlotLabel ("Tau 2016D-G")
-    tauBkgdEstimateDEFG.addMetCut (100.0)
-    tauBkgdEstimateDEFG.addRebinFactor (4)
-    tauBkgdEstimateDEFG.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",   "SingleMu_2016DEFG",         dirs['Brian']+"2016/muonBackground_v2")
-    tauBkgdEstimateDEFG.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",              "SingleMu_2016EFG_rereco",   dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateDEFG.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFG",        dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateDEFG.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEG_rereco",  dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateDEFG.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFG",              dirs['Brian']+"2016/tauBackground_v2")
-    #tauBkgdEstimateDEFG.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFG",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
-    tauBkgdEstimateDEFG.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFG",        dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateDEFG.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFG",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    tauBkgdEstimateDEFGH = LeptonBkgdEstimate ("tau")
+    tauBkgdEstimateDEFGH.addTFile (fout)
+    tauBkgdEstimateDEFGH.addTCanvas (canvas)
+    tauBkgdEstimateDEFGH.addPrescaleFactor (lumi["MET_2016DEFGH"] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"])
+    tauBkgdEstimateDEFGH.addTagProbePassScaleFactor (lumi["SingleMuon_2016DEFGH"] / (lumi["SingleMuon_2016DEFGH"] - lumi["SingleMuon_2016D"]))
+    tauBkgdEstimateDEFGH.addTagProbePass1ScaleFactor (lumi["SingleElectron_2016DEFGH"] / (lumi["SingleElectron_2016DEFGH"] - lumi["SingleElectron_2016F"]))
+    tauBkgdEstimateDEFGH.addLuminosityInInvFb (lumi["MET_2016DEFGH"] / 1000.)
+    tauBkgdEstimateDEFGH.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    tauBkgdEstimateDEFGH.addPlotLabel ("Tau 2016D-G")
+    tauBkgdEstimateDEFGH.addMetCut (100.0)
+    tauBkgdEstimateDEFGH.addRebinFactor (4)
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",   "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",              "SingleMu_2016EFG_rereco",   dirs['Brian']+"2016/tauBackground_v2")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEG_rereco",  dirs['Brian']+"2016/tauBackground_v2")
+    tauBkgdEstimateDEFGH.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2")
+    #tauBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
+    tauBkgdEstimateDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
+    tauBkgdEstimateDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
 
     print "********************************************************************************"
 
-    (nEstTauDEFG, nEstTauErrorDEFG) = tauBkgdEstimateDEFG.printNest ()
+    (nEstTauDEFGH, nEstTauErrorDEFGH) = tauBkgdEstimateDEFGH.printNest ()
 
     print "********************************************************************************"
 
@@ -288,21 +288,21 @@ if background == "TAU" or background == "ALL":
 if background == "ALL":
 
     print "********************************************************************************"
-    nEstElectron  =  nEstElectronBC  +  nEstElectronDEFG
-    nEstMuon      =  nEstMuonBC      +  nEstMuonDEFG
-    nEstTau       =  nEstTauBC       +  nEstTauDEFG
-    nEstElectronError  =  math.hypot  (nEstElectronErrorBC,  nEstElectronErrorDEFG)
-    nEstMuonError      =  math.hypot  (nEstMuonErrorBC,      nEstMuonErrorDEFG)
-    nEstTauError       =  math.hypot  (nEstTauErrorBC,       nEstTauErrorDEFG)
+    nEstElectron  =  nEstElectronBC  +  nEstElectronDEFGH
+    nEstMuon      =  nEstMuonBC      +  nEstMuonDEFGH
+    nEstTau       =  nEstTauBC       +  nEstTauDEFGH
+    nEstElectronError  =  math.hypot  (nEstElectronErrorBC,  nEstElectronErrorDEFGH)
+    nEstMuonError      =  math.hypot  (nEstMuonErrorBC,      nEstMuonErrorDEFGH)
+    nEstTauError       =  math.hypot  (nEstTauErrorBC,       nEstTauErrorDEFGH)
 
     nEstBC    =  nEstElectronBC    +  nEstMuonBC    +  nEstTauBC
-    nEstDEFG  =  nEstElectronDEFG  +  nEstMuonDEFG  +  nEstTauDEFG
+    nEstDEFGH  =  nEstElectronDEFGH  +  nEstMuonDEFGH  +  nEstTauDEFGH
     nEst      =  nEstElectron      +  nEstMuon      +  nEstTau
     nEstErrorBC    =  math.hypot  (math.hypot  (nEstElectronErrorBC,    nEstMuonErrorBC),    nEstTauErrorBC)
-    nEstErrorDEFG  =  math.hypot  (math.hypot  (nEstElectronErrorDEFG,  nEstMuonErrorDEFG),  nEstTauErrorDEFG)
+    nEstErrorDEFGH  =  math.hypot  (math.hypot  (nEstElectronErrorDEFGH,  nEstMuonErrorDEFGH),  nEstTauErrorDEFGH)
     nEstError      =  math.hypot  (math.hypot  (nEstElectronError,      nEstMuonError),      nEstTauError)
     print "total background from leptons (2016B & 2016C): " + str (nEstBC) + " +- " + str (nEstErrorBC)
-    print "total background from leptons (2016DEFG): " + str (nEstDEFG) + " +- " + str (nEstErrorDEFG)
+    print "total background from leptons (2016DEFGH): " + str (nEstDEFGH) + " +- " + str (nEstErrorDEFGH)
     print "total background from leptons: " + str (nEst) + " +- " + str (nEstError)
     print "********************************************************************************"
 
@@ -310,12 +310,12 @@ if background == "ALL":
 
     print "********************************************************************************"
     nEstBC    +=  nEstFakeBC
-    nEstDEFG  +=  nEstFakeDEFG
+    nEstDEFGH  +=  nEstFakeDEFGH
     nEst      +=  nEstFake
     nEstErrorBC    =  math.hypot  (nEstErrorBC,    nEstFakeErrorBC)
-    nEstErrorDEFG  =  math.hypot  (nEstErrorDEFG,  nEstFakeErrorDEFG)
+    nEstErrorDEFGH  =  math.hypot  (nEstErrorDEFGH,  nEstFakeErrorDEFGH)
     nEstError      =  math.hypot  (nEstError,      nEstFakeError)
     print "total background (2016B & 2016C): " + str (nEstBC) + " +- " + str (nEstErrorBC)
-    print "total background (2016DEFG): " + str (nEstDEFG) + " +- " + str (nEstErrorDEFG)
+    print "total background (2016DEFGH): " + str (nEstDEFGH) + " +- " + str (nEstErrorDEFGH)
     print "total background: " + str (nEst) + " +- " + str (nEstError)
     print "********************************************************************************"

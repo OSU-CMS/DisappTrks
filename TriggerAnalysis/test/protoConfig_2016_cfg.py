@@ -6,7 +6,7 @@ from DisappTrks.StandardAnalysis.useAODFiles import *
 from DisappTrks.StandardAnalysis.utilities import *
 import glob
 
-data_global_tag = '80X_dataRun2_Prompt_v14'
+data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
 mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 ################################################################################

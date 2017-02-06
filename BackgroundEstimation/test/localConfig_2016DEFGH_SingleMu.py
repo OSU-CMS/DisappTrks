@@ -1,14 +1,15 @@
 from DisappTrks.StandardAnalysis.localConfig import *
 
-config_file = "config_2016DEFG_cfg.py"
+config_file = "config_2016DEFGH_cfg.py"
 
-intLumi = lumi["MET_2016DEFG"]
+intLumi = lumi["SingleMuon_2016DEFGH"]
 
 datasetsData = [
-    'MET_2016D',
-    'MET_2016E',
-    'MET_2016F',
-    'MET_2016G',
+    'SingleMu_2016D',
+    'SingleMu_2016E',
+    'SingleMu_2016F',
+    'SingleMu_2016G',
+    'SingleMu_2016H',
 ]
 
 datasets = datasetsData + datasetsSig
