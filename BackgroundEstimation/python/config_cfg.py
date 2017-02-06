@@ -31,7 +31,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # Base skim and ZtoMuMu
 #  add_channels  (process,  [MuonTagSkim],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 
-# Tag-and-probe channels for muon background estimate
+# Tag-and-probe channels for fiducial map
 #  add_channels  (process,  [MuonFiducialCalcBefore],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [MuonFiducialCalcAfter],   histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
