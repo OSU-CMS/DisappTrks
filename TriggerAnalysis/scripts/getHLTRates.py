@@ -116,8 +116,8 @@ class HLTRate:
 hltRates = []
 hltRates.append (copy.deepcopy (HLTRate ("WJetsToLNu", "/store/user/ahart/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_hlt_WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/170203_210125/0000/log/", 5.07E+04)))
 hltRates.append (copy.deepcopy (HLTRate ("DYToLL", "/store/user/ahart/DYToLL_M_1_TuneCUETP8M1_13TeV_pythia8/crab_hlt_DYToLL_M_1_TuneCUETP8M1_13TeV_pythia8/170203_204751/0000/log/", 2.00E+04)))
-hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_15to30", "/store/user/ahart/QCD_Pt_15to30_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_15to30_TuneCUETP8M1_13TeV_pythia8/170203_204832/0000/log/", 1.84E+09)))
-hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_30to50", "/store/user/ahart/QCD_Pt_30to50_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_30to50_TuneCUETP8M1_13TeV_pythia8/170203_204901/0000/log/", 1.41E+08)))
+#hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_15to30", "/store/user/ahart/QCD_Pt_15to30_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_15to30_TuneCUETP8M1_13TeV_pythia8/170203_204832/0000/log/", 1.84E+09)))
+#hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_30to50", "/store/user/ahart/QCD_Pt_30to50_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_30to50_TuneCUETP8M1_13TeV_pythia8/170203_204901/0000/log/", 1.41E+08)))
 hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_50to80", "/store/user/ahart/QCD_Pt_50to80_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_50to80_TuneCUETP8M1_13TeV_pythia8/170203_204922/0000/log/", 1.92E+07)))
 hltRates[-1].addDir ("/store/user/ahart/QCD_Pt_50to80_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_50to80_TuneCUETP8M1_13TeV_pythia8_ext1/170203_211149/0000/log/")
 hltRates.append (copy.deepcopy (HLTRate ("QCD_Pt_80to120", "/store/user/ahart/QCD_Pt_80to120_TuneCUETP8M1_13TeV_pythia8/crab_hlt_QCD_Pt_80to120_TuneCUETP8M1_13TeV_pythia8/170203_204943/0000/log/", 2.76E+06)))
