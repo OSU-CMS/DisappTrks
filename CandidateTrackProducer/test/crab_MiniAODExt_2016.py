@@ -15,7 +15,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC_cfg.py'  # For MC only
+config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC2016_cfg.py'  # For MC only
 config.JobType.allowUndistributedCMSSW = True
 
 config.Data.inputDataset = ''
@@ -24,7 +24,7 @@ config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased' # for both MC and data
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1'
+config.Data.outputDatasetTag = 'RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-DisappTrks-v1'
 
 config.Site.storageSite = 'T3_US_OSU'
 
@@ -54,6 +54,19 @@ if __name__ == '__main__':
     #############################################################################################
 
 ##########################################################################
+    ## Do the MC first
+
+    config.Data.unitsPerJob = 75
+    config.General.requestName = 'candidateTrackProducer_DYToLL'
+    config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
+    #forkAndSubmit(config)
+
+    config.Data.unitsPerJob = 75
+    config.General.requestName = 'candidateTrackProducer_WToLNu'
+    config.Data.inputDataset = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
+    #forkAndSubmit(config)
+
+##########################################################################
     ## Now do data
     config.Data.unitsPerJob = 10
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
@@ -62,7 +75,7 @@ if __name__ == '__main__':
 
     # Run2016B-v3
 
-    config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v3-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016B-23Sep2016-v3-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016B-23Sep2016-v3'
     config.Data.inputDataset = '/MET/Run2016B-23Sep2016-v3/AOD'
@@ -86,7 +99,7 @@ if __name__ == '__main__':
 
     # Run2016C
 
-    config.Data.outputDatasetTag = 'Run2016C-23Sep2016-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016C-23Sep2016-v1-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016C-23Sep2016-v1'
     config.Data.inputDataset = '/MET/Run2016C-23Sep2016-v1/AOD'
@@ -110,7 +123,7 @@ if __name__ == '__main__':
 
     # Run2016D
 
-    config.Data.outputDatasetTag = 'Run2016D-23Sep2016-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016D-23Sep2016-v1-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016D-23Sep2016-v1'
     config.Data.inputDataset = '/MET/Run2016D-23Sep2016-v1/AOD'
@@ -134,7 +147,7 @@ if __name__ == '__main__':
 
     # Run2016E
 
-    config.Data.outputDatasetTag = 'Run2016E-23Sep2016-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016E-23Sep2016-v1-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016E-23Sep2016-v1'
     config.Data.inputDataset = '/MET/Run2016E-23Sep2016-v1/AOD'
@@ -158,7 +171,7 @@ if __name__ == '__main__':
 
     # Run2016F
 
-    config.Data.outputDatasetTag = 'Run2016F-23Sep2016-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016F-23Sep2016-v1-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016F-23Sep2016-v1'
     config.Data.inputDataset = '/MET/Run2016F-23Sep2016-v1/AOD'
@@ -182,7 +195,7 @@ if __name__ == '__main__':
 
     # Run2016G
 
-    config.Data.outputDatasetTag = 'Run2016G-23Sep2016-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016G-23Sep2016-v1-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016G-23Sep2016-v1'
     config.Data.inputDataset = '/MET/Run2016G-23Sep2016-v1/AOD'
@@ -206,7 +219,7 @@ if __name__ == '__main__':
 
     # Run2016H-v2 (no lumi sections from the Golden JSON are in PromptReco-v1)
 
-    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v2-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v2-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016H-PromptReco-v2'
     config.Data.inputDataset = '/MET/Run2016H-PromptReco-v2/AOD'
@@ -230,7 +243,7 @@ if __name__ == '__main__':
 
     # Run2016H-v3
 
-    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v3-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v3-DisappTrks-v2'
 
     config.General.requestName = 'candidateTrackProducer_MET_2016H-PromptReco-v3'
     config.Data.inputDataset = '/MET/Run2016H-PromptReco-v3/AOD'
