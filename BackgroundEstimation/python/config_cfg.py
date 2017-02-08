@@ -52,7 +52,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # Z->mumu channels for fake track background estimate
 #  add_channels  (process,  [ZtoMuMu],                        histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuCandTrk],                 histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuMuDisTrk],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrk],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits3],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits4],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits5],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
