@@ -18,267 +18,136 @@ background = background.upper ()
 
 useJetRequirementForFakes = False
 
+# '' will gives you Dataset_2016.root for the whole year
+#runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
+runPeriods = ['BC', 'DEFGH', '']
+
 if background == "FAKE" or background == "ALL":
 
-    print "********************************************************************************"
-    print "evaluating fake track systematic (2016B & 2016C)"
-    print "--------------------------------------------------------------------------------"
+    for runPeriod in runPeriods:
 
-    fout = TFile.Open ("fakeTrackSystematic_2016BC.root", "recreate")
+        print "********************************************************************************"
+        print "evaluating fake track systematic (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
 
-    fakeTrackSystematicBC = FakeTrackSystematic ()
-    fakeTrackSystematicBC.addTFile (fout)
-    fakeTrackSystematicBC.addTCanvas (canvas)
-    fakeTrackSystematicBC.addLuminosityLabel (str (round (lumi["MET_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    fakeTrackSystematicBC.addChannel  ("Basic",                "BasicSelection",         "MET_2016BC",       dirs['Andrew']+"2016_final/basicSelection")
-    fakeTrackSystematicBC.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicBC.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicBC.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicBC.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicBC.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016BC",  dirs['Andrew']+"2016_final/zToMuMu")
-    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+        fout = TFile.Open ("fakeTrackSystematic_2016" + runPeriod + ".root", "recreate")
 
-    print "********************************************************************************"
+        fakeTrackSystematic = FakeTrackSystematic ()
+        fakeTrackSystematic.addTFile (fout)
+        fakeTrackSystematic.addTCanvas (canvas)
+        fakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        fakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",         "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final/basicSelection")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+        fakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final/zToMuMu")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
 
-    fakeTrackSystematicBC.printSystematic ()
+        print "********************************************************************************"
 
-    print "********************************************************************************"
+        fakeTrackSystematic.printSystematic ()
 
-    fout.Close ()
+        print "********************************************************************************"
 
-    print "\n\n"
+        fout.Close ()
 
-    print "********************************************************************************"
-    print "evaluating fake track systematic (2016DEFGH)"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("fakeTrackSystematic_2016DEFGH.root", "recreate")
-
-    fakeTrackSystematicDEFGH = FakeTrackSystematic ()
-    fakeTrackSystematicDEFGH.addTFile (fout)
-    fakeTrackSystematicDEFGH.addTCanvas (canvas)
-    fakeTrackSystematicDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    fakeTrackSystematicDEFGH.addChannel  ("Basic",                "BasicSelection",         "MET_2016DEFGH",       dirs['Andrew']+"2016_final/basicSelection")
-    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicDEFGH.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016DEFGH",  dirs['Andrew']+"2016_final/zToMuMu")
-    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-
-    print "********************************************************************************"
-
-    fakeTrackSystematicDEFGH.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
-
-    print "\n\n"
-
-    print "********************************************************************************"
-    print "evaluating fake track systematic (2016G)"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("fakeTrackSystematic_2016G.root", "recreate")
-
-    fakeTrackSystematicG = FakeTrackSystematic ()
-    fakeTrackSystematicG.addTFile (fout)
-    fakeTrackSystematicG.addTCanvas (canvas)
-    fakeTrackSystematicG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    fakeTrackSystematicG.addChannel  ("Basic",                "BasicSelection",         "MET_2016G",       dirs['Andrew']+"2016_final/basicSelection")
-    fakeTrackSystematicG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
-    fakeTrackSystematicG.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016G",  dirs['Andrew']+"2016_final/zToMuMu")
-    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-
-    print "********************************************************************************"
-
-    fakeTrackSystematicG.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
-
-    print "\n\n"
+        print "\n\n"
 
     if useJetRequirementForFakes:
 
-        print "********************************************************************************"
-        print "evaluating fake track systematic with jet requirement (2016DEFGH)"
-        print "--------------------------------------------------------------------------------"
+        for runPeriod in runPeriods:
 
-        fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFGH.root", "recreate")
+            print "********************************************************************************"
+            print "evaluating fake track systematic with jet requirement (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
 
-        fakeTrackSystematicWithJetDEFGH = FakeTrackSystematic ()
-        fakeTrackSystematicWithJetDEFGH.addTFile (fout)
-        fakeTrackSystematicWithJetDEFGH.addTCanvas (canvas)
-        fakeTrackSystematicWithJetDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("Basic",                "BasicSelection",          "MET_2016DEFGH",       dirs['Andrew']+"2016_final/basicSelection")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoLL",                "ZtoMuMuJet",              "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+            fout = TFile.Open ("fakeTrackSystematicWithJet_2016" + runPeriod + ".root", "recreate")
 
-        print "********************************************************************************"
+            fakeTrackSystematicWithJet = FakeTrackSystematic ()
+            fakeTrackSystematicWithJet.addTFile (fout)
+            fakeTrackSystematicWithJet.addTCanvas (canvas)
+            fakeTrackSystematicWithJet.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+            fakeTrackSystematicWithJet.addChannel  ("Basic",                "BasicSelection",          "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final/basicSelection")
+            fakeTrackSystematicWithJet.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",   "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+            fakeTrackSystematicWithJet.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",   "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+            fakeTrackSystematicWithJet.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",   "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+            fakeTrackSystematicWithJet.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",   "MET_2016" + runPeriod,       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+            fakeTrackSystematicWithJet.addChannel  ("ZtoLL",                "ZtoMuMuJet",              "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+            fakeTrackSystematicWithJet.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3Jet",  "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+            fakeTrackSystematicWithJet.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4Jet",  "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+            fakeTrackSystematicWithJet.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5Jet",  "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+            fakeTrackSystematicWithJet.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6Jet",  "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
 
-        fakeTrackSystematicWithJetDEFGH.printSystematic ()
+            print "********************************************************************************"
 
-        print "********************************************************************************"
+            fakeTrackSystematicWithJet.printSystematic ()
 
-        fout.Close ()
+            print "********************************************************************************"
 
-        print "\n\n"
+            fout.Close ()
 
-        print "********************************************************************************"
-        print "evaluating fake track systematic with jet requirement (2016G)"
-        print "--------------------------------------------------------------------------------"
-
-        fout = TFile.Open ("fakeTrackSystematicWithJet_2016G.root", "recreate")
-
-        fakeTrackSystematicWithJetG = FakeTrackSystematic ()
-        fakeTrackSystematicWithJetG.addTFile (fout)
-        fakeTrackSystematicWithJetG.addTCanvas (canvas)
-        fakeTrackSystematicWithJetG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        fakeTrackSystematicWithJetG.addChannel  ("Basic",                "BasicSelection",          "MET_2016G",       dirs['Andrew']+"2016_final/basicSelection")
-        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
-        fakeTrackSystematicWithJetG.addChannel  ("ZtoLL",                "ZtoMuMuJet",              "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-
-        print "********************************************************************************"
-
-        fakeTrackSystematicWithJetG.printSystematic ()
-
-        print "********************************************************************************"
-
-        fout.Close ()
-
-        print "\n\n"
+            print "\n\n"
 
 if background == "ELECTRON" or background == "ALL":
 
-    print "********************************************************************************"
-    print "evaluating electron energy systematic (2016B & 2016C)"
-    print "--------------------------------------------------------------------------------"
+    for runPeriod in runPeriods:
 
-    fout = TFile.Open ("electronEnergySystematic_2016BC.root", "recreate")
+        print "********************************************************************************"
+        print "evaluating electron energy systematic (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
 
-    electronEnergySystematicBC = LeptonEnergySystematic ("electron")
-    electronEnergySystematicBC.addTFile (fout)
-    electronEnergySystematicBC.addTCanvas (canvas)
-    electronEnergySystematicBC.addLuminosityLabel (str (round (lumi["SingleElectron_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    electronEnergySystematicBC.addPlotLabel ("SingleElectron 2016B+C")
-    electronEnergySystematicBC.addMetCut (100.0)
-    electronEnergySystematicBC.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
-    electronEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+        fout = TFile.Open ("electronEnergySystematic_2016" + runPeriod + ".root", "recreate")
 
-    print "********************************************************************************"
+        electronEnergySystematic = LeptonEnergySystematic ("electron")
+        electronEnergySystematic.addTFile (fout)
+        electronEnergySystematic.addTCanvas (canvas)
+        electronEnergySystematic.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        electronEnergySystematic.addPlotLabel ("SingleElectron 2016" + runPeriod)
+        electronEnergySystematic.addMetCut (100.0)
+        electronEnergySystematic.addChannel  ("TagPt35",        "ElectronTagPt55",        "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
+        electronEnergySystematic.addChannel  ("TagPt35MetTrig", "ElectronTagPt55MetTrig", "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
 
-    electronEnergySystematicBC.printSystematic ()
+        print "********************************************************************************"
 
-    print "********************************************************************************"
+        electronEnergySystematic.printSystematic ()
 
-    fout.Close ()
+        print "********************************************************************************"
 
-    print "\n\n"
+        fout.Close ()
 
-    print "********************************************************************************"
-    print "evaluating electron energy systematic (2016DEFGH)"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("electronEnergySystematic_2016DEFGH.root", "recreate")
-
-    electronEnergySystematicDEFGH = LeptonEnergySystematic ("electron")
-    electronEnergySystematicDEFGH.addTFile (fout)
-    electronEnergySystematicDEFGH.addTCanvas (canvas)
-    electronEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    electronEnergySystematicDEFGH.addPlotLabel ("SingleElectron 2016D-G")
-    electronEnergySystematicDEFGH.addMetCut (100.0)
-    electronEnergySystematicDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
-    electronEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
-
-    print "********************************************************************************"
-
-    electronEnergySystematicDEFGH.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
-
-    print "\n\n"
+        print "\n\n"
 
 if background == "TAU" or background == "ALL":
 
-    print "********************************************************************************"
-    print "evaluating tau energy systematic (2016B & 2016C)"
-    print "--------------------------------------------------------------------------------"
+    for runPeriod in runPeriods:
 
-    fout = TFile.Open ("tauEnergySystematic_2016BC.root", "recreate")
+        print "********************************************************************************"
+        print "evaluating tau energy systematic (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
 
-    tauEnergySystematicBC = LeptonEnergySystematic ("tau")
-    tauEnergySystematicBC.addTFile (fout)
-    tauEnergySystematicBC.addTCanvas (canvas)
-    tauEnergySystematicBC.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    tauEnergySystematicBC.addPlotLabel ("Tau 2016B+C")
-    tauEnergySystematicBC.addMetCut (100.0)
-    tauEnergySystematicBC.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
-    #tauEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
-    tauEnergySystematicBC.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
-    tauEnergySystematicBC.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+        fout = TFile.Open ("tauEnergySystematic_2016" + runPeriod + ".root", "recreate")
 
-    print "********************************************************************************"
+        tauEnergySystematic = LeptonEnergySystematic ("tau")
+        tauEnergySystematic.addTFile (fout)
+        tauEnergySystematic.addTCanvas (canvas)
+        tauEnergySystematic.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        tauEnergySystematic.addPlotLabel ("Tau 2016" + runPeriod)
+        tauEnergySystematic.addMetCut (100.0)
+        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",             "Tau_2016" + runPeriod,       dirs['Andrew']+"2016_final/tauBackground")
+        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",      "Tau_2016" + runPeriod,       dirs['Andrew']+"2016_final/tauBackground")
+        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",        "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
+        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig", "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
 
-    tauEnergySystematicBC.printSystematic ()
+        print "********************************************************************************"
 
-    print "********************************************************************************"
+        tauEnergySystematic.printSystematic ()
 
-    fout.Close ()
+        print "********************************************************************************"
 
-    print "\n\n"
+        fout.Close ()
 
-    print "********************************************************************************"
-    print "evaluating tau energy systematic (2016DEFGH)"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("tauEnergySystematic_2016DEFGH.root", "recreate")
-
-    tauEnergySystematicDEFGH = LeptonEnergySystematic ("tau")
-    tauEnergySystematicDEFGH.addTFile (fout)
-    tauEnergySystematicDEFGH.addTCanvas (canvas)
-    tauEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    tauEnergySystematicDEFGH.addPlotLabel ("Tau 2016D")
-    tauEnergySystematicDEFGH.addMetCut (100.0)
-    tauEnergySystematicDEFGH.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016DEFGH",              dirs['Andrew']+"2016_final/tauBackground")
-    #tauEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016DEFGH",              dirs['Andrew']+"2016_final/tauBackground")
-    tauEnergySystematicDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016_rereco/eleTagPt55")
-    tauEnergySystematicDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016_rereco/eleTagPt55")
-
-    print "********************************************************************************"
-
-    tauEnergySystematicDEFGH.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
+        print "\n\n"

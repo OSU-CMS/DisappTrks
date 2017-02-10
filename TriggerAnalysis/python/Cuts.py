@@ -42,11 +42,25 @@ passesMainTrigger = cms.PSet(
     alias = cms.string("HLT_MET75_IsoTrk50_v")
 )
 
+passesHigherMetTrigger = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesHigherMetTrigger > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("HLT_MET90_IsoTrk50_v")
+)
+
 passesHLTMet75 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("passesHLTMet75 > 0"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("hltMET75")
+)
+
+passesHLTMet90 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesHLTMet90 > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("hltMET90")
 )
 
 ##############################################################################

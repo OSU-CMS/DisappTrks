@@ -126,6 +126,14 @@ DataWJetsChannels = [
     TrackLegNumeratorWithMuonsAnyHLTMatch,
 ]
 
+DataWJetsMet90Channels = [
+    # METLegDenominator,
+    MET90LegNumerator,
+    TrackLegDenominatorWithMuonsMet90,
+    TrackLegNumeratorWithMuonsMet90,
+    TrackLegNumeratorWithMuonsAnyHLTMatchMet90,
+]
+
 SignalChannels = [
     METLegDenominator,
     METLegNumerator,
@@ -133,10 +141,23 @@ SignalChannels = [
     TrackLegNumeratorWithTracksNoTrig,
 ]
 
+SignalMet90Channels = [
+    # METLegDenominator,
+    MET90LegNumerator,
+    TrackLegDenominatorWithTracksNoTrigMet90,
+    TrackLegNumeratorWithTracksNoTrigMet90,
+]
+
 for ch in DataWJetsChannels:
     switchToBestTrack(ch, histSets)
 
+for ch in DataWJetsMet90Channels:
+    switchToBestTrack(ch, histSets)
+
 for ch in SignalChannels:
+    switchToBestTrack(ch, histSetsTracks)
+
+for ch in SignalMet90Channels:
     switchToBestTrack(ch, histSetsTracks)
 
 ################################################################################
@@ -144,6 +165,7 @@ for ch in SignalChannels:
 ################################################################################
 
 add_channels(process, DataWJetsChannels, histSets, weights, [], collectionMap, variableProducers, False)
+#add_channels(process, DataWJetsMet90Channels, histSets, weights, [], collectionMap, variableProducers, False)
 #add_channels(process, SignalChannels, histSetsTracks, weights, [], collectionMap, variableProducers, False)
 
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
