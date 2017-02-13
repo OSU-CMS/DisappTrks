@@ -74,6 +74,11 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [WtoMuNuDisTrkNHits4],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [WtoMuNuDisTrkNHits5],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [WtoMuNuDisTrkNHits6],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
+# TESTING: Z->mumu channels with relaxed missing outer hits requirements
+#  add_channels  (process,  [ZtoMuMuDisTrk2],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 ################################################################################
 
 ################################################################################
