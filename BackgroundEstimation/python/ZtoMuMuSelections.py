@@ -154,6 +154,30 @@ ZtoMuMuDisTrkNHits4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNHits4NoECaloCut")
 removeCuts(ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHits4, cutTrkEcalo])
 addCuts (ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsLE4])
 
+##################################################
+## Fake track control sample: Z->mu mu + disappearing track with >=2 missing outer htis
+##################################################
+ZtoMuMuDisTrkNMissOut2 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNMissOut2.name = cms.string('ZtoMuMuDisTrkNMissOut2')
+removeCuts(ZtoMuMuDisTrkNMissOut2.cuts, [cutTrkNMissOut])
+addCuts (ZtoMuMuDisTrkNMissOut2.cuts, [cutTrkNMissOut2])
+
+##################################################
+## Fake track control sample: Z->mu mu + disappearing track with >=1 missing outer htis
+##################################################
+ZtoMuMuDisTrkNMissOut1 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNMissOut1.name = cms.string('ZtoMuMuDisTrkNMissOut1')
+removeCuts(ZtoMuMuDisTrkNMissOut1.cuts, [cutTrkNMissOut])
+addCuts (ZtoMuMuDisTrkNMissOut1.cuts, [cutTrkNMissOut1])
+
+##################################################
+## Fake track control sample: Z->mu mu + disappearing track with >=0 missing outer htis
+##################################################
+ZtoMuMuDisTrkNMissOut0 = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNMissOut0.name = cms.string('ZtoMuMuDisTrkNMissOut1')
+removeCuts(ZtoMuMuDisTrkNMissOut0.cuts, [cutTrkNMissOut])
+addCuts (ZtoMuMuDisTrkNMissOut0.cuts, [cutTrkNMissOut0])
+
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
     if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):

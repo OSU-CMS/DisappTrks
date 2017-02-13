@@ -359,6 +359,21 @@ cutTrkEcalo = cms.PSet(
     cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNMissOut0 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNMissOut1 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNMissOut2 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 2"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNMissOut = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 3"),
