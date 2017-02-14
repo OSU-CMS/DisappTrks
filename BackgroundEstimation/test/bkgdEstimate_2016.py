@@ -28,9 +28,9 @@ if background == "FAKE" or background == "ALL":
     fakeTrackBkgdEstimate.addTFile (fout)
     fakeTrackBkgdEstimate.addTCanvas (canvas)
     fakeTrackBkgdEstimate.addLuminosityInInvFb (lumi["MET_2016"] / 1000.)
-    fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",                                  "SingleMu_2016",  dirs['Brian']+"2016/zToMuMu_noSkim")
-    fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrkNoElectronMuonFiducialCuts",  "SingleMu_2016",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-    fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",                           "MET_2016",       dirs['Andrew']+"2016/basicSelection")
+    fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",        "SingleMu_2016",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",  "SingleMu_2016",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection", "MET_2016",       dirs['Andrew']+"2016_final/basicSelection")
 
     print "********************************************************************************"
 
@@ -52,9 +52,9 @@ if background == "FAKE" or background == "ALL":
     fakeTrackBkgdEstimateBC.addTFile (fout)
     fakeTrackBkgdEstimateBC.addTCanvas (canvas)
     fakeTrackBkgdEstimateBC.addLuminosityInInvFb (lumi["MET_2016BC"] / 1000.)
-    fakeTrackBkgdEstimateBC.addChannel  ("ZtoLL",        "ZtoMuMu",                                  "SingleMu_2016BC",  dirs['Brian']+"2016/zToMuMu_noSkim")
-    fakeTrackBkgdEstimateBC.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrkNoElectronMuonFiducialCuts",  "SingleMu_2016BC",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-    fakeTrackBkgdEstimateBC.addChannel  ("Basic",        "BasicSelection",                           "MET_2016BC",       dirs['Andrew']+"2016/basicSelection")
+    fakeTrackBkgdEstimateBC.addChannel  ("ZtoLL",        "ZtoMuMu",        "SingleMu_2016BC",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackBkgdEstimateBC.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",  "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackBkgdEstimateBC.addChannel  ("Basic",        "BasicSelection", "MET_2016BC",       dirs['Andrew']+"2016_final/basicSelection")
 
     print "********************************************************************************"
 
@@ -76,9 +76,9 @@ if background == "FAKE" or background == "ALL":
     fakeTrackBkgdEstimateDEFGH.addTFile (fout)
     fakeTrackBkgdEstimateDEFGH.addTCanvas (canvas)
     fakeTrackBkgdEstimateDEFGH.addLuminosityInInvFb (lumi["MET_2016DEFGH"] / 1000.)
-    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLL",        "ZtoMuMu",                                  "SingleMu_2016DEFGH",  dirs['Brian']+"2016/zToMuMu_noSkim")
-    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrkNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-    fakeTrackBkgdEstimateDEFGH.addChannel  ("Basic",        "BasicSelection",                           "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLL",        "ZtoMuMu",        "SingleMu_2016DEFGH",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",  "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackBkgdEstimateDEFGH.addChannel  ("Basic",        "BasicSelection", "MET_2016DEFGH",       dirs['Andrew']+"2016_final/basicSelection")
 
     print "********************************************************************************"
 
@@ -106,10 +106,10 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimateBC.addLuminosityLabel (str (round (lumi["SingleElectron_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronBkgdEstimateBC.addPlotLabel ("SingleElectron 2016B+C")
     electronBkgdEstimateBC.addMetCut (100.0)
-    electronBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016BC_rereco",  dirs['Andrew']+"2016/electronBackground")
-    electronBkgdEstimateBC.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    electronBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/electronBackgrounds")
+    electronBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016BC_rereco",  dirs['Brian']+"2016_rereco/electronBackgrounds")
+    electronBkgdEstimateBC.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    electronBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
     print "********************************************************************************"
 
@@ -136,10 +136,10 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimateDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronBkgdEstimateDEFGH.addPlotLabel ("SingleElectron 2016D-G")
     electronBkgdEstimateDEFGH.addMetCut (100.0)
-    electronBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEFGH_rereco",  dirs['Andrew']+"2016/electronBackground")
-    electronBkgdEstimateDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
-    electronBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    electronBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/electronBackgrounds")
+    electronBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016DEFGH_rereco",  dirs['Andrew']+"2016/electronBackground")
+    electronBkgdEstimateDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    electronBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
     print "********************************************************************************"
 
@@ -167,10 +167,10 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimateBC.addLuminosityLabel (str (round (lumi["SingleMuon_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     muonBkgdEstimateBC.addPlotLabel ("SingleMuon 2016B+C")
     muonBkgdEstimateBC.addMetCut (100.0)
-    muonBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016BC",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016BC_rereco",  dirs['Andrew']+"2016/muonBackground")
-    muonBkgdEstimateBC.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016BC",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",      "SingleMu_2016BC",         dirs['Brian']+"2016/muonBackground_v2NoTrig")
+    muonBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016BC",         dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016BC_rereco",  dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateBC.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016BC",         dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016BC",         dirs['Andrew']+"2016_final/muonBackground")
 
     print "********************************************************************************"
 
@@ -197,10 +197,10 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimateDEFGH.addLuminosityLabel (str (round (lumi["SingleMuon_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     muonBkgdEstimateDEFGH.addPlotLabel ("SingleMuon 2016D-G")
     muonBkgdEstimateDEFGH.addMetCut (100.0)
-    muonBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoMuDisTrkNoElectronMuonFiducialCuts",             "SingleMu_2016DEFGH_rereco",  dirs['Andrew']+"2016/muonBackground")
-    muonBkgdEstimateDEFGH.addChannel  ("TagPt35",         "MuonTagPt55NoElectronMuonFiducialCuts",             "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
-    muonBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrigNoElectronMuonFiducialCuts",      "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2NoTrig")
+    muonBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016DEFGH",         dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016DEFGH_rereco",  dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateDEFGH.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016DEFGH",         dirs['Andrew']+"2016_final/muonBackground")
+    muonBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016DEFGH",         dirs['Andrew']+"2016_final/muonBackground")
 
     print "********************************************************************************"
 
@@ -229,14 +229,14 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimateBC.addPlotLabel ("Tau 2016B+C")
     tauBkgdEstimateBC.addMetCut (100.0)
     tauBkgdEstimateBC.addRebinFactor (4)
-    tauBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",   "SingleMu_2016BC",          dirs['Brian']+"2016/muonBackground_v2")
-    tauBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",              "SingleMu_2016BC_rereco",   dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateBC.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateBC.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016BC_rereco",  dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateBC.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016BC",               dirs['Brian']+"2016/tauBackground_v2")
-    #tauBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016BC",               dirs['Brian']+"2016/tauBackground_v2NoTrig")
-    tauBkgdEstimateBC.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateBC.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    tauBkgdEstimateBC.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016BC",          dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateBC.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016BC_rereco",   dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateBC.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/electronBackgrounds")
+    tauBkgdEstimateBC.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016BC_rereco",  dirs['Brian']+"2016_rereco/electronBackgrounds")
+    tauBkgdEstimateBC.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
+    #tauBkgdEstimateBC.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateBC.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    tauBkgdEstimateBC.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
     print "********************************************************************************"
 
@@ -265,14 +265,14 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimateDEFGH.addPlotLabel ("Tau 2016D-G")
     tauBkgdEstimateDEFGH.addMetCut (100.0)
     tauBkgdEstimateDEFGH.addRebinFactor (4)
-    tauBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCutsNoElectronMuonFiducialCuts",   "SingleMu_2016DEFGH",         dirs['Brian']+"2016/muonBackground_v2")
-    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoElectronMuonFiducialCuts",              "SingleMu_2016EFG_rereco",   dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateDEFGH.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCutsNoElectronMuonFiducialCuts",  "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoElectronMuonFiducialCuts",             "SingleEle_2016DEG_rereco",  dirs['Brian']+"2016/tauBackground_v2")
-    tauBkgdEstimateDEFGH.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2")
-    #tauBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
-    tauBkgdEstimateDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
-    tauBkgdEstimateDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016DEFGH",         dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016EFG_rereco",   dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016DEFGH",       dirs['Brian']+"2016_rereco/electronBackgrounds")
+    tauBkgdEstimateDEFGH.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016DEG_rereco",  dirs['Brian']+"2016_rereco/electronBackgrounds")
+    tauBkgdEstimateDEFGH.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016DEFGH",             dirs['Andrew']+"2016_final/tauBackground")
+    #tauBkgdEstimateDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016DEFGH",             dirs['Andrew']+"2016_final/tauBackground")
+    tauBkgdEstimateDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016DEFGH",       dirs['Brian']+"2016_rereco/eleTagPt55")
+    tauBkgdEstimateDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016DEFGH",       dirs['Brian']+"2016_rereco/eleTagPt55")
 
     print "********************************************************************************"
 

@@ -11,261 +11,274 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-print "********************************************************************************"
-print "evaluating fake track systematic (2016B & 2016C)"
-print "--------------------------------------------------------------------------------"
+background = "all"
+if len (sys.argv) > 1:
+    background = sys.argv[1]
+background = background.upper ()
 
-fout = TFile.Open ("fakeTrackSystematic_2016BC.root", "recreate")
-
-fakeTrackSystematicBC = FakeTrackSystematic ()
-fakeTrackSystematicBC.addTFile (fout)
-fakeTrackSystematicBC.addTCanvas (canvas)
-fakeTrackSystematicBC.addLuminosityLabel (str (round (lumi["MET_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicBC.addChannel  ("Basic",                "BasicSelection",                                   "MET_2016BC",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicBC.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",  "MET_2016BC",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicBC.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",  "MET_2016BC",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicBC.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",  "MET_2016BC",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicBC.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",  "MET_2016BC",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicBC.addChannel  ("ZtoLL",                "ZtoMuMu",                                          "SingleMu_2016BC",  dirs['Brian']+"2016/zToMuMu_noSkim")
-fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3NoElectronMuonFiducialCuts",    "SingleMu_2016BC",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4NoElectronMuonFiducialCuts",    "SingleMu_2016BC",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts",    "SingleMu_2016BC",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts",    "SingleMu_2016BC",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+useJetRequirementForFakes = False
 
-print "********************************************************************************"
+if background == "FAKE" or background == "ALL":
 
-fakeTrackSystematicBC.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating fake track systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("fakeTrackSystematic_2016BC.root", "recreate")
 
-fout.Close ()
+    fakeTrackSystematicBC = FakeTrackSystematic ()
+    fakeTrackSystematicBC.addTFile (fout)
+    fakeTrackSystematicBC.addTCanvas (canvas)
+    fakeTrackSystematicBC.addLuminosityLabel (str (round (lumi["MET_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    fakeTrackSystematicBC.addChannel  ("Basic",                "BasicSelection",         "MET_2016BC",       dirs['Andrew']+"2016_final/basicSelection")
+    fakeTrackSystematicBC.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicBC.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicBC.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicBC.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016BC",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicBC.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016BC",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicBC.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016BC",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating fake track systematic (2016DEFGH)"
-print "--------------------------------------------------------------------------------"
+    fakeTrackSystematicBC.printSystematic ()
 
-fout = TFile.Open ("fakeTrackSystematic_2016DEFGH.root", "recreate")
+    print "********************************************************************************"
 
-fakeTrackSystematicDEFGH = FakeTrackSystematic ()
-fakeTrackSystematicDEFGH.addTFile (fout)
-fakeTrackSystematicDEFGH.addTCanvas (canvas)
-fakeTrackSystematicDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicDEFGH.addChannel  ("Basic",                "BasicSelection",                                   "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",  "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicDEFGH.addChannel  ("ZtoLL",                "ZtoMuMu",                                          "SingleMu_2016DEFGH",  dirs['Brian']+"2016/zToMuMu_noSkim")
-fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-fakeTrackSystematicDEFGH.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating fake track systematic (2016DEFGH)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("fakeTrackSystematic_2016DEFGH.root", "recreate")
 
-fout.Close ()
+    fakeTrackSystematicDEFGH = FakeTrackSystematic ()
+    fakeTrackSystematicDEFGH.addTFile (fout)
+    fakeTrackSystematicDEFGH.addTCanvas (canvas)
+    fakeTrackSystematicDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    fakeTrackSystematicDEFGH.addChannel  ("Basic",                "BasicSelection",         "MET_2016DEFGH",       dirs['Andrew']+"2016_final/basicSelection")
+    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicDEFGH.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016DEFGH",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016DEFGH",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating fake track systematic (2016G)"
-print "--------------------------------------------------------------------------------"
+    fakeTrackSystematicDEFGH.printSystematic ()
 
-fout = TFile.Open ("fakeTrackSystematic_2016G.root", "recreate")
+    print "********************************************************************************"
 
-fakeTrackSystematicG = FakeTrackSystematic ()
-fakeTrackSystematicG.addTFile (fout)
-fakeTrackSystematicG.addTCanvas (canvas)
-fakeTrackSystematicG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicG.addChannel  ("Basic",                "BasicSelection",                                   "MET_2016G",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",  "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",  "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",  "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",  "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicG.addChannel  ("ZtoLL",                "ZtoMuMu",                                          "SingleMu_2016G",  dirs['Brian']+"2016/zToMuMu_noSkim")
-fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3NoElectronMuonFiducialCuts",    "SingleMu_2016G",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4NoElectronMuonFiducialCuts",    "SingleMu_2016G",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5NoElectronMuonFiducialCuts",    "SingleMu_2016G",  dirs['Brian']+"2016/fakeTrackBackground_v2")
-fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6NoElectronMuonFiducialCuts",    "SingleMu_2016G",  dirs['Brian']+"2016/fakeTrackBackground_v2")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-fakeTrackSystematicG.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating fake track systematic (2016G)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("fakeTrackSystematic_2016G.root", "recreate")
 
-fout.Close ()
+    fakeTrackSystematicG = FakeTrackSystematic ()
+    fakeTrackSystematicG.addTFile (fout)
+    fakeTrackSystematicG.addTCanvas (canvas)
+    fakeTrackSystematicG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    fakeTrackSystematicG.addChannel  ("Basic",                "BasicSelection",         "MET_2016G",       dirs['Andrew']+"2016_final/basicSelection")
+    fakeTrackSystematicG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics")
+    fakeTrackSystematicG.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016G",  dirs['Andrew']+"2016_final/zToMuMu")
+    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
+    fakeTrackSystematicG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016G",  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating fake track systematic with jet requirement (2016DEFGH)"
-print "--------------------------------------------------------------------------------"
+    fakeTrackSystematicG.printSystematic ()
 
-fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFGH.root", "recreate")
+    print "********************************************************************************"
 
-fakeTrackSystematicWithJetDEFGH = FakeTrackSystematic ()
-fakeTrackSystematicWithJetDEFGH.addTFile (fout)
-fakeTrackSystematicWithJetDEFGH.addTCanvas (canvas)
-fakeTrackSystematicWithJetDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016DEFGH",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016DEFGH",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-fakeTrackSystematicWithJetDEFGH.printSystematic ()
+    if useJetRequirementForFakes:
 
-print "********************************************************************************"
+        print "********************************************************************************"
+        print "evaluating fake track systematic with jet requirement (2016DEFGH)"
+        print "--------------------------------------------------------------------------------"
 
-fout.Close ()
+        fout = TFile.Open ("fakeTrackSystematicWithJet_2016DEFGH.root", "recreate")
 
-print "\n\n"
+        fakeTrackSystematicWithJetDEFGH = FakeTrackSystematic ()
+        fakeTrackSystematicWithJetDEFGH.addTFile (fout)
+        fakeTrackSystematicWithJetDEFGH.addTCanvas (canvas)
+        fakeTrackSystematicWithJetDEFGH.addLuminosityLabel (str (round (lumi["MET_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("Basic",                "BasicSelection",          "MET_2016DEFGH",       dirs['Andrew']+"2016_final/basicSelection")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",   "MET_2016DEFGH",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoLL",                "ZtoMuMuJet",              "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetDEFGH.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6Jet",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
 
-print "********************************************************************************"
-print "evaluating fake track systematic with jet requirement (2016G)"
-print "--------------------------------------------------------------------------------"
+        print "********************************************************************************"
 
-fout = TFile.Open ("fakeTrackSystematicWithJet_2016G.root", "recreate")
+        fakeTrackSystematicWithJetDEFGH.printSystematic ()
 
-fakeTrackSystematicWithJetG = FakeTrackSystematic ()
-fakeTrackSystematicWithJetG.addTFile (fout)
-fakeTrackSystematicWithJetG.addTCanvas (canvas)
-fakeTrackSystematicWithJetG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-fakeTrackSystematicWithJetG.addChannel  ("Basic",                "BasicSelection",                                    "MET_2016G",       dirs['Andrew']+"2016/basicSelection")
-fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6NoElectronMuonFiducialCuts",   "MET_2016G",       dirs['Andrew']+"2016/fakeTrackSystematics")
-fakeTrackSystematicWithJetG.addChannel  ("ZtoLL",                "ZtoMuMuJet",                                        "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
-fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6JetNoElectronMuonFiducialCuts",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        print "********************************************************************************"
 
-print "********************************************************************************"
+        fout.Close ()
 
-fakeTrackSystematicWithJetG.printSystematic ()
+        print "\n\n"
 
-print "********************************************************************************"
+        print "********************************************************************************"
+        print "evaluating fake track systematic with jet requirement (2016G)"
+        print "--------------------------------------------------------------------------------"
 
-fout.Close ()
+        fout = TFile.Open ("fakeTrackSystematicWithJet_2016G.root", "recreate")
 
+        fakeTrackSystematicWithJetG = FakeTrackSystematic ()
+        fakeTrackSystematicWithJetG.addTFile (fout)
+        fakeTrackSystematicWithJetG.addTCanvas (canvas)
+        fakeTrackSystematicWithJetG.addLuminosityLabel (str (round (lumi["MET_2016G"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        fakeTrackSystematicWithJetG.addChannel  ("Basic",                "BasicSelection",          "MET_2016G",       dirs['Andrew']+"2016_final/basicSelection")
+        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetG.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",   "MET_2016G",       dirs['Brian']+"2016_rereco/fakeTrackSystematics_v2")
+        fakeTrackSystematicWithJetG.addChannel  ("ZtoLL",                "ZtoMuMuJet",              "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
+        fakeTrackSystematicWithJetG.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6Jet",  "SingleMu_2016G",  dirs['Andrew']+"2016/fakeTrackBackgroundWithJet")
 
+        print "********************************************************************************"
 
-print "\n\n"
+        fakeTrackSystematicWithJetG.printSystematic ()
 
-print "********************************************************************************"
-print "evaluating electron energy systematic (2016B & 2016C)"
-print "--------------------------------------------------------------------------------"
+        print "********************************************************************************"
 
-fout = TFile.Open ("electronEnergySystematic_2016BC.root", "recreate")
+        fout.Close ()
 
-electronEnergySystematicBC = LeptonEnergySystematic ("electron")
-electronEnergySystematicBC.addTFile (fout)
-electronEnergySystematicBC.addTCanvas (canvas)
-electronEnergySystematicBC.addLuminosityLabel (str (round (lumi["SingleElectron_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-electronEnergySystematicBC.addPlotLabel ("SingleElectron 2016B+C")
-electronEnergySystematicBC.addMetCut (100.0)
-electronEnergySystematicBC.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-electronEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+        print "\n\n"
 
-print "********************************************************************************"
+if background == "ELECTRON" or background == "ALL":
 
-electronEnergySystematicBC.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating electron energy systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("electronEnergySystematic_2016BC.root", "recreate")
 
-fout.Close ()
+    electronEnergySystematicBC = LeptonEnergySystematic ("electron")
+    electronEnergySystematicBC.addTFile (fout)
+    electronEnergySystematicBC.addTCanvas (canvas)
+    electronEnergySystematicBC.addLuminosityLabel (str (round (lumi["SingleElectron_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    electronEnergySystematicBC.addPlotLabel ("SingleElectron 2016B+C")
+    electronEnergySystematicBC.addMetCut (100.0)
+    electronEnergySystematicBC.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    electronEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating electron energy systematic (2016DEFGH)"
-print "--------------------------------------------------------------------------------"
+    electronEnergySystematicBC.printSystematic ()
 
-fout = TFile.Open ("electronEnergySystematic_2016DEFGH.root", "recreate")
+    print "********************************************************************************"
 
-electronEnergySystematicDEFGH = LeptonEnergySystematic ("electron")
-electronEnergySystematicDEFGH.addTFile (fout)
-electronEnergySystematicDEFGH.addTCanvas (canvas)
-electronEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-electronEnergySystematicDEFGH.addPlotLabel ("SingleElectron 2016D-G")
-electronEnergySystematicDEFGH.addMetCut (100.0)
-electronEnergySystematicDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55NoElectronMuonFiducialCuts",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2")
-electronEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-electronEnergySystematicDEFGH.printSystematic ()
+    print "********************************************************************************"
+    print "evaluating electron energy systematic (2016DEFGH)"
+    print "--------------------------------------------------------------------------------"
 
-print "********************************************************************************"
+    fout = TFile.Open ("electronEnergySystematic_2016DEFGH.root", "recreate")
 
-fout.Close ()
+    electronEnergySystematicDEFGH = LeptonEnergySystematic ("electron")
+    electronEnergySystematicDEFGH.addTFile (fout)
+    electronEnergySystematicDEFGH.addTCanvas (canvas)
+    electronEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["SingleElectron_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    electronEnergySystematicDEFGH.addPlotLabel ("SingleElectron 2016D-G")
+    electronEnergySystematicDEFGH.addMetCut (100.0)
+    electronEnergySystematicDEFGH.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    electronEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016DEFGH",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
-print "\n\n"
+    print "********************************************************************************"
 
-print "********************************************************************************"
-print "evaluating tau energy systematic (2016B & 2016C)"
-print "--------------------------------------------------------------------------------"
+    electronEnergySystematicDEFGH.printSystematic ()
 
-fout = TFile.Open ("tauEnergySystematic_2016BC.root", "recreate")
+    print "********************************************************************************"
 
-tauEnergySystematicBC = LeptonEnergySystematic ("tau")
-tauEnergySystematicBC.addTFile (fout)
-tauEnergySystematicBC.addTCanvas (canvas)
-tauEnergySystematicBC.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-tauEnergySystematicBC.addPlotLabel ("Tau 2016B+C")
-tauEnergySystematicBC.addMetCut (100.0)
-tauEnergySystematicBC.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016BC",               dirs['Brian']+"2016/tauBackground_v2")
-#tauEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016BC",               dirs['Brian']+"2016/tauBackground_v2NoTrig")
-tauEnergySystematicBC.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2")
-tauEnergySystematicBC.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016BC",         dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    fout.Close ()
 
-print "********************************************************************************"
+    print "\n\n"
 
-tauEnergySystematicBC.printSystematic ()
+if background == "TAU" or background == "ALL":
 
-print "********************************************************************************"
+    print "********************************************************************************"
+    print "evaluating tau energy systematic (2016B & 2016C)"
+    print "--------------------------------------------------------------------------------"
 
-fout.Close ()
+    fout = TFile.Open ("tauEnergySystematic_2016BC.root", "recreate")
 
-print "\n\n"
+    tauEnergySystematicBC = LeptonEnergySystematic ("tau")
+    tauEnergySystematicBC.addTFile (fout)
+    tauEnergySystematicBC.addTCanvas (canvas)
+    tauEnergySystematicBC.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    tauEnergySystematicBC.addPlotLabel ("Tau 2016B+C")
+    tauEnergySystematicBC.addMetCut (100.0)
+    tauEnergySystematicBC.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
+    #tauEnergySystematicBC.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016BC",               dirs['Andrew']+"2016_final/tauBackground")
+    tauEnergySystematicBC.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
+    tauEnergySystematicBC.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016BC",         dirs['Brian']+"2016_rereco/eleTagPt55")
 
-print "********************************************************************************"
-print "evaluating tau energy systematic (2016DEFGH)"
-print "--------------------------------------------------------------------------------"
+    print "********************************************************************************"
 
-fout = TFile.Open ("tauEnergySystematic_2016DEFGH.root", "recreate")
+    tauEnergySystematicBC.printSystematic ()
 
-tauEnergySystematicDEFGH = LeptonEnergySystematic ("tau")
-tauEnergySystematicDEFGH.addTFile (fout)
-tauEnergySystematicDEFGH.addTCanvas (canvas)
-tauEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-tauEnergySystematicDEFGH.addPlotLabel ("Tau 2016D")
-tauEnergySystematicDEFGH.addMetCut (100.0)
-tauEnergySystematicDEFGH.addChannel  ("TagPt35",         "TauTagPt55NoElectronMuonFiducialCuts",                    "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2")
-#tauEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrigNoElectronMuonFiducialCuts",             "Tau_2016DEFGH",              dirs['Brian']+"2016/tauBackground_v2NoTrig")
-tauEnergySystematicDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55NoElectronMuonFiducialCuts",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2")
-tauEnergySystematicDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrigNoElectronMuonFiducialCuts",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016/electronBackground_v2NoTrig")
+    print "********************************************************************************"
 
-print "********************************************************************************"
+    fout.Close ()
 
-tauEnergySystematicDEFGH.printSystematic ()
+    print "\n\n"
 
-print "********************************************************************************"
+    print "********************************************************************************"
+    print "evaluating tau energy systematic (2016DEFGH)"
+    print "--------------------------------------------------------------------------------"
 
-fout.Close ()
+    fout = TFile.Open ("tauEnergySystematic_2016DEFGH.root", "recreate")
+
+    tauEnergySystematicDEFGH = LeptonEnergySystematic ("tau")
+    tauEnergySystematicDEFGH.addTFile (fout)
+    tauEnergySystematicDEFGH.addTCanvas (canvas)
+    tauEnergySystematicDEFGH.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    tauEnergySystematicDEFGH.addPlotLabel ("Tau 2016D")
+    tauEnergySystematicDEFGH.addMetCut (100.0)
+    tauEnergySystematicDEFGH.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016DEFGH",              dirs['Andrew']+"2016_final/tauBackground")
+    #tauEnergySystematicDEFGH.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016DEFGH",              dirs['Andrew']+"2016_final/tauBackground")
+    tauEnergySystematicDEFGH.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016DEFGH",        dirs['Brian']+"2016_rereco/eleTagPt55")
+    tauEnergySystematicDEFGH.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016DEFGH",        dirs['Brian']+"2016_rereco/eleTagPt55")
+
+    print "********************************************************************************"
+
+    tauEnergySystematicDEFGH.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
