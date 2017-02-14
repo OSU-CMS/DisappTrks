@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <utility>
 
 #include "TFile.h"
 #include "TH1D.h"
@@ -26,9 +27,6 @@ const double yhi = 1.5;
 
 using namespace std;
 
-vector<TString> filesToCompare;
-vector<TString> directoriesForComparison;
-
 void invert(TH1D * const);
 template<class T> void setStyle(T * const, const int, const int, const int = 1);
 double normCDF(double *, double *);
@@ -39,7 +37,7 @@ void plot(const TString dir, const TString file,
           const unsigned int rebinFactorMet,
           const unsigned int rebinFactorTracks,
           const TString datasetLabel, const TString lumiLabel,
-          const bool addToCompareList = true,
+          const bool useMet90Trigger = false,
           const bool isMC = false,
           const bool doFit = true) {
 
@@ -52,11 +50,19 @@ void plot(const TString dir, const TString file,
   TString metHistName = "Met Plots/metNoMu";
   TString trackHistName = isMC ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
-  TString metNumeratorDir = "METLegNumeratorWithGoodMuon";
-  TString metDenominatorDir = "METLegDenominatorWithGoodMuon";
+  TString metNumeratorDir = "METLegNumerator";
+  TString metDenominatorDir = "METLegDenominator";
 
   TString trackNumeratorDir = isMC ? "TrackLegNumeratorWithTracksNoTrig" : "TrackLegNumeratorWithMuons";
   TString trackDenominatorDir = isMC ? "TrackLegDenominatorWithTracksNoTrig" : "TrackLegDenominatorWithMuons";
+
+  if(useMet90Trigger) {
+    metNumeratorDir = "MET90LegNumerator";
+
+    trackNumeratorDir += "Met90";
+    trackDenominatorDir += "Met90";
+
+  }
 
   fin = TFile::Open(dir + "/" + file + ".root");
 
@@ -65,15 +71,6 @@ void plot(const TString dir, const TString file,
 
   TH1D * trackNumerator =(TH1D*)fin->Get(trackNumeratorDir + "Plotter/" + trackHistName);
   TH1D * trackDenominator =(TH1D*)fin->Get(trackDenominatorDir + "Plotter/" + trackHistName);
-
-  if (!metNumerator || !metDenominator)
-    {
-      metNumeratorDir = "METLegNumerator";
-      metDenominatorDir = "METLegDenominator";
-
-      metNumerator =(TH1D*)fin->Get(metNumeratorDir + "Plotter/" + metHistName);
-      metDenominator =(TH1D*)fin->Get(metDenominatorDir + "Plotter/" + metHistName);
-    }
 
   metNumerator->SetDirectory(0);
   metDenominator->SetDirectory(0);
@@ -207,106 +204,115 @@ void plot(const TString dir, const TString file,
   pt_trackLeg->Draw("same");
   oneLine->Draw("same");
 
-  if (!doFit) return;
-
   TF1 * f0 = new TF1("f0", normCDF, 1.0e1, 1.0e3, 4);
   TF1 * f1 = new TF1("f1", normCDF, 1.0e1, 1.0e3, 4);
 
-  f0->SetParameter(0, 75.0);
-  f0->SetParLimits(0, 1.0e1, 1.0e3);
-  f0->SetParameter(1, 5.0);
-  f0->FixParameter(2, 0.99);
-  f0->SetParLimits(2, 0.0, 1.0);
-  f0->FixParameter(3, 0.01);
-  f0->SetParLimits(3, 0.0, 1.0);
-
-  f1->SetParameter(0, 50.0);
-  f1->SetParLimits(0, 1.0e1, 1.0e3);
-  f1->SetParameter(1, 1.0);
-  f1->FixParameter(2, 0.85);
-  f1->SetParLimits(2, 0.0, 1.0);
-  f1->FixParameter(3, 0.0);
-  f1->SetParLimits(3, 0.0, 1.0);
-
-  for(unsigned i = 0; i < 100; i++) metEfficiency->Fit(f0, "emrq0");
-  for(unsigned i = 0; i < 100; i++) trackEfficiency->Fit(f1, "emrq0");
-
-  f0->ReleaseParameter(2);
-  f0->ReleaseParameter(3);
-  f1->ReleaseParameter(2);
-  f1->ReleaseParameter(3);
-
-  for(unsigned i = 0; i < 100; i++) metEfficiency->Fit(f0, "emrq0");
-  metEfficiency->Fit(f0, "emr0");
-
-  for(unsigned i = 0; i < 100; i++) trackEfficiency->Fit(f1, "emrq0");
-  trackEfficiency->Fit(f1, "emr0");
-
   TPaveText * pt_metFit = new TPaveText(0.159148, 0.689055, 0.342105, 0.774876, "brNDC");
-  pt_metFit->SetBorderSize(0);
-  pt_metFit->SetFillStyle(0);
-  pt_metFit->SetTextFont(42);
-  pt_metFit->SetTextSize(0.0349127);
-  pt_metFit->SetTextAlign(12);
-
-  stringstream ss;
-  ss.str("");
-  ss << "#mu: (" << setprecision(3) << f0->GetParameter(0)
-     << " #pm " << setprecision(2) << f0->GetParError(0)
-     << ") GeV";
-  pt_metFit->AddText(ss.str().c_str());
-
-  ss.str("");
-  ss << "#sigma: (" << setprecision(3) << f0->GetParameter(1)
-     << " #pm " << setprecision(2) << f0->GetParError(1)
-     << ") GeV";
-  pt_metFit->AddText(ss.str().c_str());
-
   TPaveText * pt_trackFit = new TPaveText(0.160804,0.665423,0.322864,0.746269,"brNDC");
-  pt_trackFit->SetBorderSize(0);
-  pt_trackFit->SetFillStyle(0);
-  pt_trackFit->SetTextFont(42);
-  pt_trackFit->SetTextSize(0.0349127);
-  pt_trackFit->SetTextAlign(12);
 
-  ss.str("");
-  ss << "#mu: (" << setprecision(3) << f1->GetParameter(0)
-     << " #pm " << setprecision(2) << f1->GetParError(0)
-     << ") GeV";
-  pt_trackFit->AddText(ss.str().c_str());
+  if(doFit) {
 
-  ss.str("");
-  ss << "#sigma: (" << setprecision(3) << f1->GetParameter(1)
-     << " #pm " << setprecision(2) << f1->GetParError(1)
-     << ") GeV";
-  pt_trackFit->AddText(ss.str().c_str());
+    f0->SetParameter(0, 75.0);
+    f0->SetParLimits(0, 1.0e1, 1.0e3);
+    f0->SetParameter(1, 5.0);
+    f0->FixParameter(2, 0.99);
+    f0->SetParLimits(2, 0.0, 1.0);
+    f0->FixParameter(3, 0.01);
+    f0->SetParLimits(3, 0.0, 1.0);
 
-  f0->SetLineWidth(3);
-  f1->SetLineWidth(3);
+    f1->SetParameter(0, 50.0);
+    f1->SetParLimits(0, 1.0e1, 1.0e3);
+    f1->SetParameter(1, 1.0);
+    f1->FixParameter(2, 0.85);
+    f1->SetParLimits(2, 0.0, 1.0);
+    f1->FixParameter(3, 0.0);
+    f1->SetParLimits(3, 0.0, 1.0);
+
+    for(unsigned i = 0; i < 100; i++) metEfficiency->Fit(f0, "emrq0");
+    for(unsigned i = 0; i < 100; i++) trackEfficiency->Fit(f1, "emrq0");
+
+    f0->ReleaseParameter(2);
+    f0->ReleaseParameter(3);
+    f1->ReleaseParameter(2);
+    f1->ReleaseParameter(3);
+
+    for(unsigned i = 0; i < 100; i++) metEfficiency->Fit(f0, "emrq0");
+    metEfficiency->Fit(f0, "emr0");
+
+    for(unsigned i = 0; i < 100; i++) trackEfficiency->Fit(f1, "emrq0");
+    trackEfficiency->Fit(f1, "emr0");
+
+    pt_metFit->SetBorderSize(0);
+    pt_metFit->SetFillStyle(0);
+    pt_metFit->SetTextFont(42);
+    pt_metFit->SetTextSize(0.0349127);
+    pt_metFit->SetTextAlign(12);
+
+    stringstream ss;
+    ss.str("");
+    ss << "#mu: (" << setprecision(3) << f0->GetParameter(0)
+       << " #pm " << setprecision(2) << f0->GetParError(0)
+       << ") GeV";
+    pt_metFit->AddText(ss.str().c_str());
+
+    ss.str("");
+    ss << "#sigma: (" << setprecision(3) << f0->GetParameter(1)
+       << " #pm " << setprecision(2) << f0->GetParError(1)
+       << ") GeV";
+    pt_metFit->AddText(ss.str().c_str());
+
+    pt_trackFit->SetBorderSize(0);
+    pt_trackFit->SetFillStyle(0);
+    pt_trackFit->SetTextFont(42);
+    pt_trackFit->SetTextSize(0.0349127);
+    pt_trackFit->SetTextAlign(12);
+
+    ss.str("");
+    ss << "#mu: (" << setprecision(3) << f1->GetParameter(0)
+       << " #pm " << setprecision(2) << f1->GetParError(0)
+       << ") GeV";
+    pt_trackFit->AddText(ss.str().c_str());
+
+    ss.str("");
+    ss << "#sigma: (" << setprecision(3) << f1->GetParameter(1)
+       << " #pm " << setprecision(2) << f1->GetParError(1)
+       << ") GeV";
+    pt_trackFit->AddText(ss.str().c_str());
+
+    f0->SetLineWidth(3);
+    f1->SetLineWidth(3);
+  }
 
   c1->cd();
-  f0->SetNpx(10000);
-  f0->Draw("same");
-  pt_metFit->Draw("same");
-  c1->SaveAs(dir + "/" + file + "_metLegEfficiency.pdf");
+  if(doFit) {
+    f0->SetNpx(10000);
+    f0->Draw("same");
+    pt_metFit->Draw("same");
+  }
+  TString metLegPlotName = dir + "/" + file + "_metLegEfficiency.pdf";
+  if(useMet90Trigger) metLegPlotName = dir + "/" + file + "_metLegEfficiency_met90.pdf";
+  c1->SaveAs(metLegPlotName);
 
   c2->cd();
-  f1->SetNpx(10000);
-  f1->Draw("same");
-  pt_trackFit->Draw("same");
-  c2->SaveAs(dir + "/" + file + "_trackLegEfficiency.pdf");
-
-  TFile * fOutput = new TFile(dir + "/" + file + "_triggerEfficiencies.root", "RECREATE");
-  metEfficiency->Write("metLeg");
-  f0->Write("metLeg_fit");
-  trackEfficiency->Write("trackLeg");
-  f1->Write("trackLeg_fit");
-  fOutput->Close();
-
-  if(addToCompareList) {
-    filesToCompare.push_back(file);
-    directoriesForComparison.push_back(dir);
+  if(doFit) {
+    f1->SetNpx(10000);
+    f1->Draw("same");
+    pt_trackFit->Draw("same");
   }
+  TString trackLegPlotName = dir + "/" + file + "_trackLegEfficiency.pdf";
+  if(useMet90Trigger) trackLegPlotName = dir + "/" + file + "_trackLegEfficiency_met90.pdf";
+  c2->SaveAs(trackLegPlotName);
+
+  TString outputFileName = dir + "/" + file + "_triggerEfficiencies.root";
+  if(useMet90Trigger) outputFileName = dir + "/" + file + "_triggerEfficiencies_met90.root";
+  TFile * fOutput = new TFile(outputFileName, "RECREATE");
+  metEfficiency->Write("metLeg");
+  if(doFit) {
+    f0->Write("metLeg_fit");
+    f1->Write("trackLeg_fit");
+  }
+  trackEfficiency->Write("trackLeg");
+  fOutput->Close();
 
 }
 
@@ -374,22 +380,23 @@ void logSpace(const unsigned n, const double a, const double b, vector<double> &
     bins.push_back(pow(10.0, i));
 }
 
-void compare(bool isMC = false) {
+void compare(vector< pair<TString, TString> > filesAndLegends, TString legendHeader,
+             TString outputFilePrefix, bool isMC = false) {
 
   vector<TFile*> openFiles;
   vector<TGraphAsymmErrors*> graphs_met;
   vector<TGraphAsymmErrors*> graphs_tracks;
 
-  TLegend * leg = new TLegend(0.2, 0.55, 0.55, 0.85, NULL, "brNDC");
+  TLegend * leg = new TLegend(0.2, 0.6, 0.55, 0.85, legendHeader, "brNDC");
   leg->SetFillColor(0);
   leg->SetTextSize(0.028);
 
-  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
-    openFiles.push_back(new TFile(directoriesForComparison[i] + "/" + filesToCompare[i] + "_triggerEfficiencies.root"));
+  for(unsigned int i = 0; i < filesAndLegends.size(); i++) {
+    openFiles.push_back(new TFile(filesAndLegends[i].first));
     graphs_met.push_back((TGraphAsymmErrors*)openFiles[i]->Get("metLeg"));
     graphs_tracks.push_back((TGraphAsymmErrors*)openFiles[i]->Get("trackLeg"));
 
-    leg->AddEntry(graphs_met[i], filesToCompare[i], "L");
+    leg->AddEntry(graphs_met[i], filesAndLegends[i].second, "L");
   }
 
   TCanvas * c1 = new TCanvas("c1", "c1", 561, 482, 800, 830);
@@ -434,7 +441,7 @@ void compare(bool isMC = false) {
   metBackgroundHist->GetXaxis()->SetTitle("PF E_{T}^{miss} (no muons) [GeV]");
   metBackgroundHist->Draw();
 
-  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+  for(unsigned int i = 0; i < filesAndLegends.size(); i++) {
     graphs_met[i]->SetLineColor(i+1);
     graphs_met[i]->SetMarkerColor(i+1);
     graphs_met[i]->SetMarkerSize(0.5);
@@ -443,7 +450,7 @@ void compare(bool isMC = false) {
   }
   leg->Draw("same");
 
-  c1->SaveAs("compareMetLeg.pdf");
+  c1->SaveAs("compareMetLeg_" + outputFilePrefix + ".pdf");
 
   c2->cd();
 
@@ -453,7 +460,7 @@ void compare(bool isMC = false) {
   trackBackgroundHist->GetXaxis()->SetTitle(isMC ? "Track p_{T} [GeV]" : "Muon p_{T} [GeV]");
   trackBackgroundHist->Draw();
 
-  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+  for(unsigned int i = 0; i < filesAndLegends.size(); i++) {
     graphs_tracks[i]->SetLineColor(i+1);
     graphs_tracks[i]->SetMarkerColor(i+1);
     graphs_tracks[i]->SetMarkerSize(0.5);
@@ -462,9 +469,9 @@ void compare(bool isMC = false) {
   }
   leg->Draw("same");
 
-  c2->SaveAs("compareTrackLeg.pdf");
+  c2->SaveAs("compareTrackLeg_" + outputFilePrefix + ".pdf");
 
-  for(unsigned int i = 0; i < filesToCompare.size(); i++) {
+  for(unsigned int i = 0; i < filesAndLegends.size(); i++) {
     openFiles[i]->Close();
   }
 
@@ -472,19 +479,91 @@ void compare(bool isMC = false) {
 
 void plotTriggerTurnOn() {
 
-  // 28629.903 = B (6108.362) + C (2963.704) + D (4485.279) + E (4243.920) + F (3177.925) + G (7650.713)
-  // plot(directory, fileName, rebinFactorMet, rebinFactorTracks, datasetLabel, lumiLabel, addToCompareList = true);
+  // ReReco JSONs
 
-  plot("condor/trigEff80X_v4", "SingleMu_2016BC", 10, 10, "2016 B+C", "9.07 fb^{-1}, 13 TeV", false);
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016DEFG", 10, 10, "2016 D-G", "19.6 fb^{-1}, 13 TeV", false);
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016B-G", 10, 10, "2016 B-G", "28.6 fb^{-1}, 13 TeV", false);
+  double lumi_2015D = 2669.752;
 
-  plot("condor/trigEff80X_v4", "SingleMu_2016B", 10, 10, "2016 B", "6.11 fb^{-1}, 13 TeV");
-  plot("condor/trigEff80X_v4", "SingleMu_2016C", 10, 10, "2016 C", "2.96 fb^{-1}, 13 TeV");
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016D", 10, 10, "2016 D", "4.49 fb^{-1}, 13 TeV");
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016E", 10, 10, "2016 E", "4.24 fb^{-1}, 13 TeV");
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016F", 10, 10, "2016 F", "3.18 fb^{-1}, 13 TeV");
-  plot("condor/trigEff80X_v4_D-G", "SingleMu_2016G", 10, 10, "2016 G", "7.65 fb^{-1}, 13 TeV");
+  double lumi_2016B = 5929.002;
+  double lumi_2016C = 2645.968;
+  double lumi_2016D = 4350.505;
+  double lumi_2016E = 4117.098;
+  double lumi_2016F = 3185.972;
+  double lumi_2016G = 7721.368;
+  double lumi_2016H = 8635.591 + 221.442;
 
-  compare();
+  double lumi_2016 = lumi_2016B + lumi_2016C + lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G + lumi_2016H;
+
+  // plot(directory, fileName,
+  //      rebinFactorMet, rebinFactorTracks,
+  //      datasetLabel, lumiLabel,
+  //      useMet90Trigger = false
+  //      isMC = false,
+  //      doFit = true)
+
+  // 2016 BC
+
+  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016BC",
+       10, 10,
+       "2016 B+C", Form("%.2f fb^{-1}, 13 TeV", lumi_2016B + lumi_2016C),
+       false,
+       false,
+       false);
+
+  // HLT_MET90_IsoTrk50_v
+  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016BC",
+      10, 10,
+      "2016 B+C", Form("%.2f fb^{-1}, 13 TeV", lumi_2016B + lumi_2016C),
+      true, // use met90
+      false,
+      false);
+
+  // 2016 DEFG
+
+  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016DEFG",
+       10, 10,
+       "2016 D-G", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G),
+       false,
+       false,
+       false);
+
+  // HLT_MET90_IsoTrk50_v
+  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016DEFG",
+      10, 10,
+      "2016 D-G", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G),
+      true, // use met90
+      false,
+      false);
+
+  // Now compare files as desired
+
+  vector< pair<TString, TString> > filesAndLegends;
+
+  // compare MET75 to MET90 in BC
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
+  compare(filesAndLegends, "SingleMu 2016 B+C", "BC_75to90");
+
+  filesAndLegends.clear();
+
+  // compare MET75 to MET90 in DEFG
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
+  compare(filesAndLegends, "SingleMu 2016 D-G", "DEFG_75to90");
+
+  filesAndLegends.clear();
+
+  // compare prompt to rereco in BC
+  filesAndLegends.push_back(make_pair("condor/trigEff80X_v4/SingleMu_2016BC_triggerEfficiencies.root", "Prompt"));
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies_met90.root", "ReReco"));
+  compare(filesAndLegends, "SingleMu 2016 B+C", "BC_PromptToReReco");
+
+  filesAndLegends.clear();
+
+  // compare prompt to rereco in DEFG
+  filesAndLegends.push_back(make_pair("condor/trigEff80X_v4_D-G/SingleMu_2016DEFG_triggerEfficiencies.root", "Prompt"));
+  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies_met90.root", "ReReco"));
+  compare(filesAndLegends, "SingleMu 2016 D-G", "DEFG_PromptToReReco");
+
+  filesAndLegends.clear();
+
 }

@@ -26,7 +26,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   double etaJetLeading = jets->size() ? jets->at(0).eta() : -999.;
 
   //////////////////////////////////////////////////////////////////////////////
-  // Pass HLT_MET75_IsoTrk50_v
+  // Pass HLT_MET75(90)_IsoTrk50_v
   //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<edm::TriggerResults> triggerBits;
@@ -37,13 +37,15 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   const edm::TriggerNames &triggerNames = event.triggerNames(*triggerBits);
 
   bool passesMainTrigger = false;
+  bool passesHigherMetTrigger = false;
   for(unsigned i = 0; i < triggerNames.size(); i++) {
       string name = triggerNames.triggerName(i);
       if(name.find("HLT_MET75_IsoTrk50_v") == 0) passesMainTrigger |= triggerBits->accept(i);
+      if(name.find("HLT_MET90_IsoTrk50_v") == 0) passesHigherMetTrigger |= triggerBits->accept(i);
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Pass hltMET75
+  // Pass hltMET75(90)
   //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
@@ -59,6 +61,18 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
       }
     }
     if(passesHLTMet75) break;
+  }
+
+  bool passesHLTMet90 = false;
+  for(auto triggerObj : *triggerObjs) {
+    triggerObj.unpackPathNames(triggerNames);
+    for(const auto &filterLabel : triggerObj.filterLabels()) {
+      if(filterLabel == "hltMET90") {
+        passesHLTMet90 = true;
+        break;
+      }
+    }
+    if(passesHLTMet90) break;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -127,7 +141,9 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
   (*eventvariables)["passesMainTrigger"] = passesMainTrigger;
+  (*eventvariables)["passesHigherMetTrigger"] = passesHigherMetTrigger;
   (*eventvariables)["passesHLTMet75"] = passesHLTMet75;
+  (*eventvariables)["passesHLTMet90"] = passesHLTMet90;
 
   (*eventvariables)["leadTrackMatchToHLTTrack"] = leadTrackMatchToHLTTrack;
   (*eventvariables)["anyTrackMatchToHLTTrack"] = anyTrackMatchToHLTTrack;

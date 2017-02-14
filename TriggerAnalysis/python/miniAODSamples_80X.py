@@ -2,12 +2,13 @@
 
 dataset_names = {
 
-    'SingleMu_2016B'  : "/SingleMuon/Run2016B-PromptReco-v2/MINIAOD",
-    'SingleMu_2016C'  : "/SingleMuon/Run2016C-PromptReco-v2/MINIAOD",
-    'SingleMu_2016D'  : "/SingleMuon/Run2016D-PromptReco-v2/MINIAOD",
-    'SingleMu_2016E'  : "/SingleMuon/Run2016E-PromptReco-v2/MINIAOD",
-    'SingleMu_2016F'  : "/SingleMuon/Run2016F-PromptReco-v1/MINIAOD",
-    'SingleMu_2016G'  : "/SingleMuon/Run2016G-PromptReco-v1/MINIAOD",
+    'SingleMu_2016B'  : "/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD",
+    'SingleMu_2016C'  : "/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD",
+    'SingleMu_2016D'  : "/SingleMuon/Run2016D-23Sep2016-v1/MINIAOD",
+    'SingleMu_2016E'  : "/SingleMuon/Run2016E-23Sep2016-v1/MINIAOD",
+    'SingleMu_2016F'  : "/SingleMuon/Run2016F-23Sep2016-v1/MINIAOD",
+    'SingleMu_2016G'  : "/SingleMuon/Run2016G-23Sep2016-v1/MINIAOD",
+    'SingleMu_2016H'  : ["/SingleMuon/Run2016H-PromptReco-v2/MINIAOD", "/SingleMuon/Run2016H-PromptReco-v3/MINIAOD"],
 
     'WJetsToLNu'  :  '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM',
 
