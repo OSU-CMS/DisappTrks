@@ -1,5 +1,7 @@
 <use  name="root"/>
 <use  name="CommonTools/UtilAlgos"/>
+<use  name="CondFormats/DataRecord"/>
+<use  name="CondFormats/RunInfo"/>
 <use  name="DataFormats/Common"/>
 <use  name="DataFormats/EgammaCandidates"/>
 <use  name="DataFormats/GsfTrackReco"/>
@@ -7,13 +9,19 @@
 <use  name="DataFormats/Math"/>
 <use  name="DataFormats/MuonReco"/>
 <use  name="DataFormats/TrackReco"/>
+<use  name="DataFormats/TrackerCommon"/>
+<use  name="DataFormats/TrackingRecHit"/>
 <use  name="DataFormats/VertexReco"/>
+<use  name="DisappTrks/CandidateTrackProducer"/>
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/MessageLogger"/>
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
+<use  name="FWCore/Utilities"/>
+<use  name="Geometry/Records"/>
 <use  name="OSUT3Analysis/AnaTools"/>
+<use  name="TrackingTools/TrackAssociator"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <library  file="*.cc"  name="DisappTrksStandardAnalysisPlugins">
   <flags  EDM_PLUGIN="1"/>
