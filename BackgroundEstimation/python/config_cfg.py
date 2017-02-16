@@ -67,6 +67,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits5Jet],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkNHits6Jet],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
+# TESTING: Z->mumu+jet channels for fake track background estimate with one jet and ==16 PV
+#  add_channels  (process,  [ZtoMuMuOneJet16PV],             histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers, False)
+#  add_channels  (process,  [ZtoMuMuOneJet16PVDisTrk,        histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMuOneJet16PVDisTrkNHits3,  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuOneJet16PVDisTrkNHits4,  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuOneJet16PVDisTrkNHits5,  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuOneJet16PVDisTrkNHits6,  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 # TESTING: W->munu for fake track background estimate
 #  add_channels  (process,  [WtoMuNu],              histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [WtoMuNuDisTrk],        histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
@@ -74,6 +82,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [WtoMuNuDisTrkNHits4],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [WtoMuNuDisTrkNHits5],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [WtoMuNuDisTrkNHits6],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
+# TESTING: W->munu for fake track background estimate with one jet and ==16 PV
+#  add_channels  (process,  [WtoMuNuOneJet16PV],              histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [WtoMuNuOneJet16PVDisTrk],        histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [WtoMuNuOneJet16PVDisTrkNHits3],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [WtoMuNuOneJet16PVDisTrkNHits4],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [WtoMuNuOneJet16PVDisTrkNHits5],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [WtoMuNuOneJet16PVDisTrkNHits6],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
 # TESTING: Z->mumu channels with relaxed missing outer hits requirements
 #  add_channels  (process,  [ZtoMuMuDisTrk2],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)

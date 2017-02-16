@@ -31,6 +31,13 @@ cutGoodPV = cms.PSet (
     alias = cms.string(">= 1 good primary vertices"),
 )
 
+cutNumPV16 = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("numPVReco == 16"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("== 16 good primary vertices"),
+)
+
 ##################################################
 ## mets
 ##################################################
@@ -141,6 +148,11 @@ cutJetNeuHad = cms.PSet(
 cutJetNeuEm = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("neutralEmEnergyFraction < 0.7"),
+    numberRequired = cms.string(">= 1"),
+)
+cutNJetsEQ1 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("nJets == 1"),
     numberRequired = cms.string(">= 1"),
 )
 cutNJetsLE2 = cms.PSet(

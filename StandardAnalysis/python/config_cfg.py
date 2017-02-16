@@ -31,6 +31,16 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelection],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
 
+################################################################################
+## Testing channels
+################################################################################
+
+#  add_channels  (process,  [basicSelectionOneJet16PV],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionOneJet16PVNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionOneJet16PVNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionOneJet16PVNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionOneJet16PVNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
   setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016ReReco_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016ReReco_data.root")
 else:

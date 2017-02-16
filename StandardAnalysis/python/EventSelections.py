@@ -492,6 +492,39 @@ cutsToAdd = [
 removeCuts(disTrkSelectionNHits6.cuts, cutsToRemove)
 addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd)
 
+
+##########################################################################
+
+oneJet16PVCuts = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutNJetsEQ1,
+    cutNumPV16
+]
+
+basicSelectionOneJet16PV = copy.deepcopy(basicSelection)
+basicSelectionOneJet16PV.name = cms.string("BasicSelection")
+addCuts(basicSelectionOneJet16PV.cuts, [cutNJetsEQ1, cutNumPV16])
+
+disTrkSelectionOneJet16PVNHits3 = copy.deepcopy(disTrkSelectionNHits3)
+disTrkSelectionOneJet16PVNHits3.name = cms.string("DisTrkSelectionOneJet16PVNHits3")
+addCuts(disTrkSelectionOneJet16PVNHits3.cuts, oneJet16PVCuts)
+
+disTrkSelectionOneJet16PVNHits4 = copy.deepcopy(disTrkSelectionNHits4)
+disTrkSelectionOneJet16PVNHits4.name = cms.string("DisTrkSelectionOneJet16PVNHits4")
+addCuts(disTrkSelectionOneJet16PVNHits4.cuts, oneJet16PVCuts)
+
+disTrkSelectionOneJet16PVNHits5 = copy.deepcopy(disTrkSelectionNHits5)
+disTrkSelectionOneJet16PVNHits5.name = cms.string("DisTrkSelectionOneJet16PVNHits5")
+addCuts(disTrkSelectionOneJet16PVNHits5.cuts, oneJet16PVCuts)
+
+disTrkSelectionOneJet16PVNHits6 = copy.deepcopy(disTrkSelectionNHits6)
+disTrkSelectionOneJet16PVNHits6.name = cms.string("DisTrkSelectionOneJet16PVNHits6")
+addCuts(disTrkSelectionOneJet16PVNHits6.cuts, oneJet16PVCuts)
+
+
 ##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
