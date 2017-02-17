@@ -540,9 +540,9 @@ cutMuonPt25 = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
 else:
-    print "Using muon pt cut of >25 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Using muon pt cut of >25 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 cutMuonPt35 = cms.PSet (
     inputCollection = cms.vstring("muons"),

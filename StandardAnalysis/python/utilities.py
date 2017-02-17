@@ -110,10 +110,10 @@ def setMissingHitsCorrection (process, correction):
         if not hasattr (x, "type_"):
             continue
         if x.type_ () == "OSUTrackProducer":
-            print "Setting missing hits corrections for \"" + correction + "\"..."
+            print "# Setting missing hits corrections for \"" + correction + "\"..."
             for y in MissingHitsCorrections[correction]:
                 setattr (x, y, MissingHitsCorrections[correction][y])
-                print "  " + y + ": " + str (getattr (x, y).value ())
+                print "#   " + y + ": " + str (getattr (x, y).value ())
 
 def setThresholdForVeto (process, threshold):
     fiducialMaps = ["electrons", "muons"]
@@ -129,7 +129,7 @@ def setThresholdForVeto (process, threshold):
                     if hasattr (y, fiducialMap):
                         z = getattr (y, fiducialMap)
                         for i in range (0, len (z)):
-                            print "Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "..."
+                            print "# Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "..."
                             setattr (z[i], "thresholdForVeto", cms.double (threshold))
 
 def setFiducialMaps (process, electrons, muons):
@@ -147,7 +147,7 @@ def setFiducialMaps (process, electrons, muons):
                         z = getattr (y, fiducialMap)
                         histFile = electrons if fiducialMap == "electrons" else muons
                         for i in range (0, len (z)):
-                            print "Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
+                            print "# Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
 def moveVariableProducer (process, producerName):

@@ -2,9 +2,9 @@ import FWCore.ParameterSet.Config as cms
 import os
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "Switching to 2016 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Switching to 2016 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
 else:
-    print "Using 2015 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Using 2015 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
