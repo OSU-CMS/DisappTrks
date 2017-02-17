@@ -51,12 +51,3 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-  setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016ReReco_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016ReReco_data.root")
-else:
-  setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
-
-# set this to our arbitrary, default value for any studies that are not
-# sensitive to it
-#setThresholdForVeto (process, 2.0)

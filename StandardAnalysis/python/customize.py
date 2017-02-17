@@ -19,6 +19,9 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         moveVariableProducer (process, "TriggerWeightProducer")
 
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
+        setThresholdForVeto (process, 2.0)
+
         setMissingHitsCorrection (process, "2015")
 
     elif runPeriod == "2016BC":
@@ -35,6 +38,9 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         moveVariableProducer (process, "TriggerWeightProducer")
 
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
+        setThresholdForVeto (process, 2.0)
+
         setMissingHitsCorrection (process, "2016BC")
 
     elif runPeriod == "2016DEFGH":
@@ -50,6 +56,9 @@ def customize (process, runPeriod):
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         moveVariableProducer (process, "TriggerWeightProducer")
+
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
+        setThresholdForVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
