@@ -505,7 +505,7 @@ oneJet16PVCuts = [
 ]
 
 basicSelectionOneJet16PV = copy.deepcopy(basicSelection)
-basicSelectionOneJet16PV.name = cms.string("BasicSelection")
+basicSelectionOneJet16PV.name = cms.string("BasicSelectionOneJet16PV")
 addCuts(basicSelectionOneJet16PV.cuts, [cutNJetsEQ1, cutNumPV16])
 
 disTrkSelectionOneJet16PVNHits3 = copy.deepcopy(disTrkSelectionNHits3)
