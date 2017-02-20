@@ -12,6 +12,9 @@ lumi = {
     "MET_2016H_v2"  :  8635.591,
     "MET_2016H_v3"  :  221.442,
 
+    #"MET_2016F"     :  3096.281,
+    #"MET_2016G"     :  7525.901,
+
     "SingleElectron_2015D"     :  2669.639,
     "SingleElectron_2016B"     :  5933.313,
     "SingleElectron_2016C"     :  2645.968,
@@ -31,6 +34,8 @@ lumi = {
     "SingleMuon_2016G"     :  7721.368,
     "SingleMuon_2016H_v2"  :  8635.591,
     "SingleMuon_2016H_v3"  :  221.442,
+
+    #"SingleMuon_2016C"     :  2573.399,
 
     "Tau_2015D"     :  2672.153,
     "Tau_2016B"     :  5933.309,

@@ -5,6 +5,9 @@
 ############################################################################################################
 
 dataset_names_data = {
+
+    # Remade PromptReco ntuples are commented out for now.
+
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
@@ -16,6 +19,9 @@ dataset_names_data = {
     'MET_2016F'       : "/MET/ahart-Run2016F-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     'MET_2016G'       : "/MET/ahart-Run2016G-23Sep2016-v1-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER",
     'MET_2016H'       : ["/MET/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER", "/MET/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER"],
+
+    #'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
+    #'MET_2016G'       : "/MET/ahart-Run2016G-PromptReco-v1-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
 
     'SingleEle_2016B' : "/SingleElectron/bfrancis-Run2016B-23Sep2016-v3-DisappTrks-v1-addfbe4d6f0cf1056130ceadde75d969/USER",
     'SingleEle_2016C' : "/SingleElectron/bfrancis-Run2016C-23Sep2016-v1-DisappTrks-v1-addfbe4d6f0cf1056130ceadde75d969/USER",
@@ -32,6 +38,8 @@ dataset_names_data = {
     'SingleMu_2016F'  : "/SingleMuon/wulsin-Run2016F-23Sep2016-v1-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016G'  : "/SingleMuon/wulsin-Run2016G-23Sep2016-v1-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016H'  : ["/SingleMuon/ahart-Run2016H-PromptReco-v2-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER", "/SingleMuon/wulsin-Run2016H-PromptReco-v3-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER"],
+
+    #'SingleMu_2016C'  : "/SingleMuon/ahart-Run2016C-PromptReco-v2-DisappTrks-v8-c0937f7e1b09431ec4046954bdd16494/USER",
 
     'Tau_2016B'        :  "/Tau/ahart-Run2016B-23Sep2016-v3-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
     'Tau_2016C'        :  "/Tau/ahart-Run2016C-23Sep2016-v1-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER",
