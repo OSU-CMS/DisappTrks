@@ -57,6 +57,39 @@ if background == "FAKE" or background == "ALL":
 
         print "\n\n"
 
+    for runPeriod in runPeriods:
+
+        print "********************************************************************************"
+        print "evaluating fake track systematic with 1 jet, 16 PV (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
+
+        fout = TFile.Open ("fakeTrackSystematicOneJet16PV_2016" + runPeriod + ".root", "recreate")
+
+        fakeTrackSystematicOneJet16PV = FakeTrackSystematic ()
+        fakeTrackSystematicOneJet16PV.addTFile (fout)
+        fakeTrackSystematicOneJet16PV.addTCanvas (canvas)
+        fakeTrackSystematicOneJet16PV.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        fakeTrackSystematicOneJet16PV.addChannel  ("Basic",                "BasicSelection",                   "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("DisTrkNHits3",         "DisTrkSelectionOneJet16PVNHits3",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("DisTrkNHits4",         "DisTrkSelectionOneJet16PVNHits4",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("DisTrkNHits5",         "DisTrkSelectionOneJet16PVNHits5",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("DisTrkNHits6",         "DisTrkSelectionOneJet16PVNHits6",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("ZtoLL",                "ZtoMuMuOneJet16PV",                "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuOneJet16PVDisTrkNHits3",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuOneJet16PVDisTrkNHits4",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuOneJet16PVDisTrkNHits5",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet16PV")
+        fakeTrackSystematicOneJet16PV.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuOneJet16PVDisTrkNHits6",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet16PV")
+
+        print "********************************************************************************"
+
+        fakeTrackSystematicOneJet16PV.printSystematic ()
+
+        print "********************************************************************************"
+
+        fout.Close ()
+
+        print "\n\n"
+
     if useJetRequirementForFakes:
 
         for runPeriod in runPeriods:
