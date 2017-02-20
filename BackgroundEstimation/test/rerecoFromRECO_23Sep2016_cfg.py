@@ -490,6 +490,12 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v3', '')
 
+process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
+process.candidateTracks = cms.Path(process.metSkimFilter*process.candidateTrackProducer)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
+process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
+process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
+
 # Path and EndPath definitions
 process.reconstruction_step = cms.Path(process.reconstruction_fromRECO)
 process.eventinterpretaion_step = cms.Path(process.EIsequence)
@@ -519,7 +525,7 @@ process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODoutput_step = cms.EndPath(process.MINIAODoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.reconstruction_step,process.eventinterpretaion_step,process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.endjob_step,process.MINIAODoutput_step)
+process.schedule = cms.Schedule(process.reconstruction_step,process.eventinterpretaion_step,process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.endjob_step,process.MINIAODoutput_step)
 
 #Setup FWK for multithreaded
 process.options.numberOfThreads=cms.untracked.uint32(4)
