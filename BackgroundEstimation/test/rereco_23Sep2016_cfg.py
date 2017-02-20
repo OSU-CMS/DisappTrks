@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: RECO -s RAW2DIGI,L1Reco,RECO,ALCA:HcalCalNoise,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v3 --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2016 --filein file:pippo.root -n 100 --python_filename=rereco_23Sep2016_cfg.py --no_exec
+# with command line options: RECO -s RAW2DIGI,L1Reco,RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v3 --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2016 --filein file:pippo.root -n 100 --python_filename=rereco_23Sep2016_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -19,7 +19,6 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.RawToDigi_Data_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.Reconstruction_Data_cff')
-process.load('Configuration.StandardSequences.AlCaRecoStreams_cff')
 process.load('CommonTools.ParticleFlow.EITopPAG_cff')
 process.load('PhysicsTools.PatAlgos.slimming.metFilterPaths_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
@@ -58,29 +57,14 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('RECO_RAW2DIGI_L1Reco_RECO_ALCA_EI_PAT.root'),
+    fileName = cms.untracked.string('RECO_RAW2DIGI_L1Reco_RECO_EI_PAT.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
 
 # Additional output definition
-process.ALCARECOStreamHcalCalNoise = cms.OutputModule("PoolOutputModule",
-    SelectEvents = cms.untracked.PSet(
-        SelectEvents = cms.vstring('pathALCARECOHcalCalNoise')
-    ),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('ALCARECO'),
-        filterName = cms.untracked.string('HcalCalNoise')
-    ),
-    eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-    fileName = cms.untracked.string('HcalCalNoise.root'),
-    outputCommands = cms.untracked.vstring('drop *', 
-        'keep *_HcalNoiseProd_*_*', 
-        'keep edmTriggerResults_*_*_HLT')
-)
 
 # Other statements
-process.ALCARECOEventContent.outputCommands.extend(process.OutALCARECOHcalCalNoise_noDrop.outputCommands)
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v3', '')
 
@@ -113,10 +97,9 @@ process.Flag_muonBadTrackFilter = cms.Path(process.muonBadTrackFilter)
 process.Flag_CSCTightHalo2015Filter = cms.Path(process.CSCTightHalo2015Filter)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODoutput_step = cms.EndPath(process.MINIAODoutput)
-process.ALCARECOStreamHcalCalNoiseOutPath = cms.EndPath(process.ALCARECOStreamHcalCalNoise)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.pathALCARECOHcalCalNoise,process.eventinterpretaion_step,process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.endjob_step,process.MINIAODoutput_step,process.ALCARECOStreamHcalCalNoiseOutPath)
+process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.eventinterpretaion_step,process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.endjob_step,process.MINIAODoutput_step)
 
 #Setup FWK for multithreaded
 process.options.numberOfThreads=cms.untracked.uint32(4)
