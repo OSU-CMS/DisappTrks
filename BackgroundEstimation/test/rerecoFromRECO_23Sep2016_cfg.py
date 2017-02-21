@@ -491,10 +491,9 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v3', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
-process.candidateTracks = cms.Path(process.metSkimFilter*process.candidateTrackProducer)
+process.candidateTracks = cms.Path(process.candidateTrackProducer)
 from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
-process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
 
 # Path and EndPath definitions
 process.reconstruction_step = cms.Path(process.reconstruction_fromRECO)
