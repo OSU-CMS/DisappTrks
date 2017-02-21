@@ -109,6 +109,14 @@ addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkEcalo, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkJetDeltaPhi, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkTauHadVeto, cutMuTrkOS)
 
+ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
+ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut")
+removeCuts(ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])
+
+ZtoTauToMuDisTrkNoValidHitsCut = copy.deepcopy(ZtoTauToMuDisTrk)
+ZtoTauToMuDisTrkNoValidHitsCut.name = cms.string("ZtoTauToMuDisTrkNoValidHitsCut")
+removeCuts(ZtoTauToMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHits])
+
 ZtoTauToMuProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToMuProbeTrkWithZCutsBetterPurity")
 addSingleCut(ZtoTauToMuProbeTrkWithZCutsBetterPurity.cuts, cutMuTrkMETBalance, cutMuTrkInvMass10)
@@ -150,6 +158,14 @@ addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkNMissOut, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkEcalo, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkJetDeltaPhi, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkTauHadVeto, cutEleTrkOS)
+
+ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
+ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut")
+removeCuts(ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])
+
+ZtoTauToEleDisTrkNoValidHitsCut = copy.deepcopy(ZtoTauToEleDisTrk)
+ZtoTauToEleDisTrkNoValidHitsCut.name = cms.string("ZtoTauToEleDisTrkNoValidHitsCut")
+removeCuts(ZtoTauToEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHits])
 
 ZtoTauToEleProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToEleProbeTrkWithZCutsBetterPurity")
