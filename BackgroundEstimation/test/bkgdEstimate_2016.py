@@ -18,7 +18,8 @@ background = background.upper ()
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEFGH', '']
+#runPeriods = ['BC', 'DEFGH', '']
+runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEFGH', '']
 
 nEstFake = []
 nEstElectron = []
@@ -39,9 +40,9 @@ for runPeriod in runPeriods:
         fakeTrackBkgdEstimate.addTFile (fout)
         fakeTrackBkgdEstimate.addTCanvas (canvas)
         fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",        "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final/zToMuMu")
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",  "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_rereco/fakeTrackBackground_v2")
-        fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection", "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final/basicSelection")
+        fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016/zToMuMu_noSkim")
+        fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016/fakeTrackBackground")
+        fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016/basicSelection")
 
         print "********************************************************************************"
 
@@ -69,10 +70,10 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronBkgdEstimate.addMetCut (100.0)
-        electronBkgdEstimate.addChannel  ("TagProbe",       "ZtoEleProbeTrkWithZCuts", "SingleEle_2016" + runPeriod,              dirs['Brian']+"2016_rereco/electronBackgrounds")
-        electronBkgdEstimate.addChannel  ("TagProbePass",   "ZtoEleDisTrk",            "SingleEle_2016" + runPeriod + "_rereco",  dirs['Brian']+"2016_rereco/electronBackgrounds")
-        electronBkgdEstimate.addChannel  ("TagPt35",        "ElectronTagPt55",         "SingleEle_2016" + runPeriod,              dirs['Brian']+"2016_rereco/eleTagPt55")
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig", "ElectronTagPt55MetTrig",  "SingleEle_2016" + runPeriod,              dirs['Brian']+"2016_rereco/eleTagPt55")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
 
         print "********************************************************************************"
 
@@ -86,81 +87,89 @@ for runPeriod in runPeriods:
 
     if background == "MUON" or background == "ALL":
 
-        print "********************************************************************************"
-        print "performing muon background estimate in search region (2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
+        if runPeriod == "D":
+            nEstMuon.append( (0.0, 0.0) )
+        else:
 
-        fout = TFile.Open ("muonBkgdEstimate_2016" + runPeriod + ".root", "recreate")
+            print "********************************************************************************"
+            print "performing muon background estimate in search region (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
 
-        muonBkgdEstimate = LeptonBkgdEstimate ("muon")
-        muonBkgdEstimate.addTFile (fout)
-        muonBkgdEstimate.addTCanvas (canvas)
-        muonBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleMuon_2016" + runPeriod])
-        muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
-        muonBkgdEstimate.addMetCut (100.0)
-        muonBkgdEstimate.addChannel  ("TagProbe",       "ZtoMuProbeTrkWithZCuts", "SingleMu_2016" + runPeriod,             dirs['Andrew']+"2016_final/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagProbePass",   "ZtoMuDisTrk",            "SingleMu_2016" + runPeriod + "_rereco", dirs['Andrew']+"2016_final/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagPt35",        "MuonTagPt55",            "SingleMu_2016" + runPeriod,             dirs['Andrew']+"2016_final/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagPt35MetTrig", "MuonTagPt55MetTrig",     "SingleMu_2016" + runPeriod,             dirs['Andrew']+"2016_final/muonBackground")
+            fout = TFile.Open ("muonBkgdEstimate_2016" + runPeriod + ".root", "recreate")
 
-        print "********************************************************************************"
+            muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+            muonBkgdEstimate.addTFile (fout)
+            muonBkgdEstimate.addTCanvas (canvas)
+            muonBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleMuon_2016" + runPeriod])
+            if "D" in runPeriod or runPeriod == "":
+              muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
+            muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
+            muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+            muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
+            muonBkgdEstimate.addMetCut (100.0)
+            muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
 
-        nEstMuon.append( muonBkgdEstimate.printNest () )
+            print "********************************************************************************"
 
-        print "********************************************************************************"
+            nEstMuon.append( muonBkgdEstimate.printNest () )
 
-        fout.Close ()
+            print "********************************************************************************"
 
-        print "\n\n"
+            fout.Close ()
+
+            print "\n\n"
 
     if background == "TAU" or background == "ALL":
 
-        print "********************************************************************************"
-        print "performing tau background estimate in search region (2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
+        if runPeriod == "D":
+            nEstTau.append ( (0.0, 0.0) )
+        else:
 
-        fout = TFile.Open ("tauBkgdEstimate_2016" + runPeriod + ".root", "recreate")
+            print "********************************************************************************"
+            print "performing tau background estimate in search region (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
 
-        tauBkgdEstimate = LeptonBkgdEstimate ("tau")
-        tauBkgdEstimate.addTFile (fout)
-        tauBkgdEstimate.addTCanvas (canvas)
-        tauBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod])
-        tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
-        tauBkgdEstimate.addMetCut (100.0)
-        tauBkgdEstimate.addRebinFactor (4)
-        tauBkgdEstimate.addChannel  ("TagProbe",       "ZtoTauToMuProbeTrkWithZCuts",  "SingleMu_2016" + runPeriod,         dirs['Andrew']+"2016_final/muonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass",   "ZtoTauToMuDisTrk",             "SingleMu_2016" + runPeriod + "_rereco",  dirs['Andrew']+"2016_final/muonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbe1",      "ZtoTauToEleProbeTrkWithZCuts", "SingleEle_2016" + runPeriod,        dirs['Brian']+"2016_rereco/electronBackgrounds")
-        tauBkgdEstimate.addChannel  ("TagProbePass1",  "ZtoTauToEleDisTrk",            "SingleEle_2016" + runPeriod + "_rereco", dirs['Brian']+"2016_rereco/electronBackgrounds")
-        tauBkgdEstimate.addChannel  ("TagPt35",        "TauTagPt55",                   "Tau_2016" + runPeriod,              dirs['Andrew']+"2016_final/tauBackground")
-        #tauBkgdEstimate.addChannel  ("TagPt35MetTrig", "TauTagPt55MetTrig",            "Tau_2016" + runPeriod,              dirs['Andrew']+"2016_final/tauBackground")
-        tauBkgdEstimate.addChannel  ("TrigEffDenom",   "ElectronTagPt55",              "SingleEle_2016" + runPeriod,        dirs['Brian']+"2016_rereco/eleTagPt55")
-        tauBkgdEstimate.addChannel  ("TrigEffNumer",   "ElectronTagPt55MetTrig",       "SingleEle_2016" + runPeriod,        dirs['Brian']+"2016_rereco/eleTagPt55")
+            fout = TFile.Open ("tauBkgdEstimate_2016" + runPeriod + ".root", "recreate")
 
-        print "********************************************************************************"
+            tauBkgdEstimate = LeptonBkgdEstimate ("tau")
+            tauBkgdEstimate.addTFile (fout)
+            tauBkgdEstimate.addTCanvas (canvas)
+            tauBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod])
+            if "D" in runPeriod or runPeriod == "":
+              tauBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
+            tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
+            tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+            tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
+            tauBkgdEstimate.addMetCut (100.0)
+            tauBkgdEstimate.addRebinFactor (4)
+            tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016"   +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
+            tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016"   +  runPeriod + "_rereco",  dirs['Andrew']+"2016/tauBackground")
+            tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
+            tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/tauBackground")
+            tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"        +  runPeriod,              dirs['Andrew']+"2016/tauBackground")
+            #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"        +  runPeriod,              dirs['Andrew']+"2016/tauBackground")
+            tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
+            tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
 
-        nEstTau.append ( tauBkgdEstimate.printNest () )
+            print "********************************************************************************"
 
-        print "********************************************************************************"
+            nEstTau.append ( tauBkgdEstimate.printNest () )
 
-        fout.Close ()
+            print "********************************************************************************"
 
-        print "\n\n"
+            fout.Close ()
+
+            print "\n\n"
 
 # print sums
 if background == "ALL":
-    for iRunPeriod in len(runPeriods):
+    for iRunPeriod in range(0,len(runPeriods)):
         print "********************************************************************************"
         nLeptons = nEstElectron[iRunPeriod][0] + nEstMuon[iRunPeriod][0] + nEstTau[iRunPeriod][0]
-        nLeptonsError = math.sqrt(
-            nEstElectron[iRunPeriod][1]**2 +
-            nEstMuon[iRunPeriod][1]**2 +
-            nEstTau[iRunPeriod][1]**2
-            )
+        nLeptonsError = math.hypot (math.hypot (nEstElectron[iRunPeriod][1], nEstMuon[iRunPeriod][1]), nEstTau[iRunPeriod][1])
         nTotal = nLeptons + nEstFake[iRunPeriod][0]
         nTotalError = math.hypot(nLeptonsError, nEstFake[iRunPeriod][1])
         print "Total background from leptons (2016", runPeriods[iRunPeriod], "): ", nLeptons, " +/- ", nLeptonsError
