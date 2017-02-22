@@ -20,8 +20,8 @@ lumi = {
     "SingleElectron_2016C"     :  2357.325,
     "SingleElectron_2016D"     :  3942.136,
     "SingleElectron_2016E"     :  2924.728,
-    "SingleElectron_2016F"     :  1888.193
-    "SingleElectron_2016G"     :  4053.038
+    "SingleElectron_2016F"     :  1888.193,
+    "SingleElectron_2016G"     :  4053.038,
     "SingleElectron_2016H_v2"  :  8390.278,
     "SingleElectron_2016H_v3"  :  215.149,
 
