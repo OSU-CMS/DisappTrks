@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: RECO -s RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v3 --inputEventContent RECO --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2016 --filein file:pippo.root -n 100 --python_filename=rerecoFromRECO_23Sep2016_cfg.py --no_exec
+# with command line options: RECO -s RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_Prompt_v15 --inputEventContent RECO --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2016 --filein file:pippo.root -n 100 --python_filename=rerecoFromRECO_23Sep2016_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -488,7 +488,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v3', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v15', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
