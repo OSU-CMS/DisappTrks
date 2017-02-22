@@ -64,8 +64,8 @@ class LeptonBkgdEstimate:
     def addTagProbePass1ScaleFactor (self, tagProbePass1ScaleFactor):
         self._tagProbePass1ScaleFactor = tagProbePass1ScaleFactor
 
-    def addLuminosityInInvFb (self, luminosityInInvFb):
-        self._luminosityInInvFb = luminosityInInvFb
+    def addLuminosityInInvPb (self, luminosityInInvPb):
+        self._luminosityInInvFb = luminosityInInvPb / 1000.0
 
     def addLuminosityLabel (self, luminosityLabel):
         self._luminosityLabel = luminosityLabel
@@ -580,8 +580,8 @@ class FakeTrackBkgdEstimate:
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
 
-    def addLuminosityInInvFb (self, luminosityInInvFb):
-        self._luminosityInInvFb = luminosityInInvFb
+    def addLuminosityInInvPb (self, luminosityInInvPb):
+        self._luminosityInInvFb = luminosityInInvPb / 1000.0
 
     def setFiducialMapCuts (self, cutValueEle, cutValueMuon):
         self._fiducialElectronSigmaCut = cutValueEle
