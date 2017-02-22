@@ -27,8 +27,20 @@ def copyAllKeys (fin, key, cwd, cwdOut, fout):
       key = nextIter ()
   else:
     obj = fin.Get (cwd + "/" + name)
+    if name == "cutFlow":
+      fixPtCut (obj)
     fout.cd (cwdOut)
     obj.Write (name)
+################################################################################
+
+################################################################################
+# Function for changing the label in the cutFlow histogram for the pt cut
+################################################################################
+def fixPtCut (obj):
+  for i in range (1, obj.GetNbinsX () + 1):
+    label = obj.GetXaxis ().GetBinLabel (i)
+    label = re.sub (r"pt > 26", r"pt > 25", label)
+    obj.GetXaxis ().SetBinLabel (i, label)
 ################################################################################
 
 ################################################################################
