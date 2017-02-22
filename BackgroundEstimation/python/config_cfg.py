@@ -23,6 +23,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # Single electron control regions
 #  add_channels  (process,  [ElectronTagPt55],         histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ElectronTagPt55MetTrig],  histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
+# Testing for fake track systematic investigation
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoValidHitsCut],     histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoEleDisTrkNoValidHitsCut],                histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoValidHitsCut],      histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuDisTrkNoValidHitsCut],                 histSetsElectron,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 ################################################################################
 
 ################################################################################
@@ -95,6 +102,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMuDisTrk2],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+
+# Testing for fake track systematic investigation
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoValidHitsCut],       histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuDisTrkNoValidHitsCut],                  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut], histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoTauToEleDisTrkNoValidHitsCut],            histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 ################################################################################
 
 ################################################################################
