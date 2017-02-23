@@ -4,8 +4,10 @@ import math
 from DisappTrks.BackgroundEstimation.bkgdEstimate import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
-from ROOT import TCanvas, TFile
+from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 import os
+
+gROOT.SetBatch ()
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
@@ -19,7 +21,7 @@ background = background.upper ()
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
 #runPeriods = ['BC', 'DEFGH', '']
-runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEFGH', '']
+runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'GH', 'DEFGH', '']
 
 nEstFake = []
 nEstElectron = []
@@ -178,3 +180,30 @@ if background == "ALL":
         print "Total background (2016", runPeriods[iRunPeriod], "): ", nTotal, " +/- ", nTotalError
         print "********************************************************************************"
         print "\n\n"
+
+    x = array ("d"); ex = array ("d")
+    electron   =  array  ("d");  muon   =  array  ("d");  tau   =  array  ("d");  fake   =  array  ("d")
+    eElectron  =  array  ("d");  eMuon  =  array  ("d");  eTau  =  array  ("d");  eFake  =  array  ("d")
+
+    x.append (0.0); x.append (1.0); x.append (2.0); ex.append (0.0); ex.append (0.0); ex.append (0.0)
+    electron.append   (nEstElectron[runPeriods.index ("BC")][0]  /  lumi["MET_2016BC"]);  electron.append   (nEstElectron[runPeriods.index ("DEF")][0]  /  lumi["MET_2016DEF"]);  electron.append   (nEstElectron[runPeriods.index ("GH")][0]  /  lumi["MET_2016GH"])
+    muon.append       (nEstMuon[runPeriods.index ("BC")][0]      /  lumi["MET_2016BC"]);  muon.append       (nEstMuon[runPeriods.index ("DEF")][0]      /  lumi["MET_2016DEF"]);  muon.append       (nEstMuon[runPeriods.index ("GH")][0]      /  lumi["MET_2016GH"])
+    tau.append        (nEstTau[runPeriods.index ("BC")][0]       /  lumi["MET_2016BC"]);  tau.append        (nEstTau[runPeriods.index ("DEF")][0]       /  lumi["MET_2016DEF"]);  tau.append        (nEstTau[runPeriods.index ("GH")][0]       /  lumi["MET_2016GH"])
+    fake.append       (nEstFake[runPeriods.index ("BC")][0]      /  lumi["MET_2016BC"]);  fake.append       (nEstFake[runPeriods.index ("DEF")][0]      /  lumi["MET_2016DEF"]);  fake.append       (nEstFake[runPeriods.index ("GH")][0]      /  lumi["MET_2016GH"])
+    eElectron.append  (nEstElectron[runPeriods.index ("BC")][1]  /  lumi["MET_2016BC"]);  eElectron.append  (nEstElectron[runPeriods.index ("DEF")][1]  /  lumi["MET_2016DEF"]);  eElectron.append  (nEstElectron[runPeriods.index ("GH")][1]  /  lumi["MET_2016GH"])
+    eMuon.append      (nEstMuon[runPeriods.index ("BC")][1]      /  lumi["MET_2016BC"]);  eMuon.append      (nEstMuon[runPeriods.index ("DEF")][1]      /  lumi["MET_2016DEF"]);  eMuon.append      (nEstMuon[runPeriods.index ("GH")][1]      /  lumi["MET_2016GH"])
+    eTau.append       (nEstTau[runPeriods.index ("BC")][1]       /  lumi["MET_2016BC"]);  eTau.append       (nEstTau[runPeriods.index ("DEF")][1]       /  lumi["MET_2016DEF"]);  eTau.append       (nEstTau[runPeriods.index ("GH")][1]       /  lumi["MET_2016GH"])
+    eFake.append      (nEstFake[runPeriods.index ("BC")][1]      /  lumi["MET_2016BC"]);  eFake.append      (nEstFake[runPeriods.index ("DEF")][1]      /  lumi["MET_2016DEF"]);  eFake.append      (nEstFake[runPeriods.index ("GH")][1]      /  lumi["MET_2016GH"])
+
+    gElectron  =  TGraphErrors  (len  (x),  x,  electron,  ex,  eElectron)
+    gMuon      =  TGraphErrors  (len  (x),  x,  muon,      ex,  eMuon)
+    gTau       =  TGraphErrors  (len  (x),  x,  tau,       ex,  eTau)
+    gFake      =  TGraphErrors  (len  (x),  x,  fake,      ex,  eFake)
+
+    fout = TFile.Open ("backgroundCrossSections_2016.root", "recreate")
+    fout.cd ()
+    gElectron.Write ("electron")
+    gMuon.Write ("muon")
+    gTau.Write ("tau")
+    gFake.Write ("fake")
+    fout.Close ()
