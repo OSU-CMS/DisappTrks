@@ -42,7 +42,7 @@ background_systematics = {
 
 
     'Fake2016BC_syst' : { # error on fake track rate assumption
-        'value' : str (1.0 + 50.0 / 100.0), # set to 50% for now
+        'value' : str (1.0 + 25.0 / 100.0), # set to 25% for now
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_energy' : { # error on energy assumption
