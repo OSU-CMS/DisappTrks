@@ -81,10 +81,10 @@ external_systematic_uncertainties = [
     "metVaryTauEn_2016",
     "metVaryUnclusteredEn_2016",
     "pileup_2016D",
-    "trigger_metLegWeightData_2016DEFGH",
-    "trigger_metLegWeightMC_2016DEFGH",
-    "trigger_trackLegWeightData_2016DEFGH",
-    "trigger_trackLegWeightMC_2016DEFGH",
+    "trigger_metLegWeightData_2016DEFG",
+    "trigger_metLegWeightMC_2016DEFG",
+    "trigger_trackLegWeightData_2016DEFG",
+    "trigger_trackLegWeightMC_2016DEFG",
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
