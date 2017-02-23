@@ -9,15 +9,15 @@ backgrounds = {
     },
     'Elec2016BC' : {
         'N' : '19',
-        'alpha' : '0.112543527986',
+        'alpha' : '0.177452650345',
     },
     'Muon2016BC' : {
         'N' : '25',
-        'alpha' : '0.056900137794',
+        'alpha' : '0.0642229296235',
     },
     'Tau2016BC' : {
         'N' : '8',
-        'alpha' : '0.0135152593502',
+        'alpha' : '0.0284378512051',
     },
 }
 
@@ -27,30 +27,30 @@ background_systematics = {
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_alpha' : { # error on alpha
-        'value' : '1.01452781398',
+        'value' : '1.01191468162',
         'background' : 'Elec2016BC',
     },
     'Muon2016BC_alpha' : { # error on alpha
-        'value' : '1.00714427592',
+        'value' : '1.00705392262',
         'background' : 'Muon2016BC',
     },
     'Tau2016BC_alpha' : { # error on alpha
-        'value' : '1.16704422709',
+        'value' : '1.15551218977',
         'background' : 'Tau2016BC',
     },
 
 
 
     'Fake2016BC_syst' : { # error on fake track rate assumption
-        'value' : str (1.0 + 31.3831354534 / 100.0),
+        'value' : str (1.0 + 50.0 / 100.0), # set to 50% for now
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_energy' : { # error on energy assumption
-        'value' : str (1.0 + 10.8548021022 / 100.0),
+        'value' : str (1.0 + 7.72837713652 / 100.0),
         'background' : 'Elec2016BC',
     },
     'Tau2016BC_energy' : { # error on energy assumption
-        'value' : str (1.0 + 20.0071895962 / 100.0),
+        'value' : str (1.0 + 17.3996520517 / 100.0),
         'background' : 'Tau2016BC',
     },
 }

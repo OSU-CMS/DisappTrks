@@ -4,53 +4,53 @@
 
 backgrounds = {
     'Fake2016DEFGH' : {
-        'N' : '6',
-        'alpha' : '0.661830275689',
+        'N' : '15',
+        'alpha' : '0.698083620114',
     },
     'Elec2016DEFGH' : {
-        'N' : '16',
-        'alpha' : '0.126214658384',
+        'N' : '40',
+        'alpha' : '0.229769448904',
     },
     'Muon2016DEFGH' : {
-        'N' : '37',
-        'alpha' : '0.0710305889952',
+        'N' : '70',
+        'alpha' : '0.0935154403886',
     },
     'Tau2016DEFGH' : {
-        'N' : '8',
-        'alpha' : '0.0180731308251',
+        'N' : '36',
+        'alpha' : '0.0362799589318',
     },
 }
 
 background_systematics = {
     'Fake2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.00062310167',
+        'value' : '1.00053905695',
         'background' : 'Fake2016DEFGH',
     },
     'Elec2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.01241747438',
+        'value' : '1.00768666445',
         'background' : 'Elec2016DEFGH',
     },
     'Muon2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.00511767979',
+        'value' : '1.00376956141',
         'background' : 'Muon2016DEFGH',
     },
     'Tau2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.23274943284',
+        'value' : '1.19101194579',
         'background' : 'Tau2016DEFGH',
     },
 
 
 
     'Fake2016DEFGH_syst' : { # error on fake track rate assumption
-        'value' : str (1.0 + 42.9312574306 / 100.0),
+        'value' : str (1.0 + 50.0 / 100.0), # set to 50% for now
         'background' : 'Fake2016DEFGH',
     },
     'Elec2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 11.1844265418 / 100.0),
+        'value' : str (1.0 + 8.2654483433 / 100.0),
         'background' : 'Elec2016DEFGH',
     },
     'Tau2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 18.3795697837 / 100.0),
+        'value' : str (1.0 + 15.424041458 / 100.0),
         'background' : 'Tau2016DEFGH',
     },
 }
