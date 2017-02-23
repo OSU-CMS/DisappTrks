@@ -141,8 +141,8 @@ if background == "ELECTRON" or background == "ALL":
         electronEnergySystematic.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronEnergySystematic.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronEnergySystematic.addMetCut (100.0)
-        electronEnergySystematic.addChannel  ("TagPt35",        "ElectronTagPt55",        "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
-        electronEnergySystematic.addChannel  ("TagPt35MetTrig", "ElectronTagPt55MetTrig", "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
+        electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
+        electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
 
         print "********************************************************************************"
 
@@ -170,10 +170,10 @@ if background == "TAU" or background == "ALL":
         tauEnergySystematic.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         tauEnergySystematic.addPlotLabel ("Tau 2016" + runPeriod)
         tauEnergySystematic.addMetCut (100.0)
-        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",             "Tau_2016" + runPeriod,       dirs['Andrew']+"2016_final/tauBackground")
-        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",      "Tau_2016" + runPeriod,       dirs['Andrew']+"2016_final/tauBackground")
-        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",        "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
-        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig", "SingleEle_2016" + runPeriod, dirs['Brian']+"2016_rereco/eleTagPt55")
+        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016/tauBackground")
+        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016/tauBackground")
+        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
+        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
 
         print "********************************************************************************"
 
