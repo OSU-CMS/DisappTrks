@@ -1,11 +1,13 @@
 # Auto generated configuration file
-# using:
-# Revision: 1.19
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
-# with command line options: PAT -s PAT --runUnscheduled --nThreads 4 --data --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v6 --eventcontent MINIAOD --datatier MINIAOD --filein blah.root -n 100 --no_exec --python_filename=candidateTrackProducer_RunMiniAOD_Data_cfg.py --no_exec
+# using: 
+# Revision: 1.19 
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# with command line options: RECO -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_2016SeptRepro_v3 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=recoskim_Run2016.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('PAT')
+from Configuration.StandardSequences.Eras import eras
+
+process = cms.Process('PAT',eras.Run2_2016)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -24,7 +26,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/data/Run2016B/MET/AOD/PromptReco-v2/000/273/150/00000/1E8BD2D1-D819-E611-B776-02163E012298.root'),
+    fileNames = cms.untracked.vstring('file:pippo.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -34,7 +36,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('PAT nevts:100'),
+    annotation = cms.untracked.string('RECO nevts:100'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -51,7 +53,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('PAT_PAT.root'),
+    fileName = cms.untracked.string('RECO_PAT.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
     overrideInputFileSplitLevels = cms.untracked.bool(True)
 )
@@ -60,7 +62,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v6', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v3', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
@@ -110,7 +112,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)
