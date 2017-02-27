@@ -495,34 +495,34 @@ addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd)
 
 ##########################################################################
 
-oneJet16PVCuts = [
+oneJet14to18PVCuts = [
     cutJetPt,
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
     cutNJetsEQ1,
-    cutNumPV16
+    cutNumPV14to18
 ]
 
-basicSelectionOneJet16PV = copy.deepcopy(basicSelection)
-basicSelectionOneJet16PV.name = cms.string("BasicSelectionOneJet16PV")
-addCuts(basicSelectionOneJet16PV.cuts, [cutNJetsEQ1, cutNumPV16])
+basicSelectionOneJet14to18PV = copy.deepcopy(basicSelection)
+basicSelectionOneJet14to18PV.name = cms.string("BasicSelectionOneJet14to18PV")
+addCuts(basicSelectionOneJet14to18PV.cuts, [cutNJetsEQ1, cutNumPV14to18])
 
-disTrkSelectionOneJet16PVNHits3 = copy.deepcopy(disTrkSelectionNHits3)
-disTrkSelectionOneJet16PVNHits3.name = cms.string("DisTrkSelectionOneJet16PVNHits3")
-addCuts(disTrkSelectionOneJet16PVNHits3.cuts, oneJet16PVCuts)
+disTrkSelectionOneJet14to18PVNHits3 = copy.deepcopy(disTrkSelectionNHits3)
+disTrkSelectionOneJet14to18PVNHits3.name = cms.string("DisTrkSelectionOneJet14to18PVNHits3")
+addCuts(disTrkSelectionOneJet14to18PVNHits3.cuts, oneJet14to18PVCuts)
 
-disTrkSelectionOneJet16PVNHits4 = copy.deepcopy(disTrkSelectionNHits4)
-disTrkSelectionOneJet16PVNHits4.name = cms.string("DisTrkSelectionOneJet16PVNHits4")
-addCuts(disTrkSelectionOneJet16PVNHits4.cuts, oneJet16PVCuts)
+disTrkSelectionOneJet14to18PVNHits4 = copy.deepcopy(disTrkSelectionNHits4)
+disTrkSelectionOneJet14to18PVNHits4.name = cms.string("DisTrkSelectionOneJet14to18PVNHits4")
+addCuts(disTrkSelectionOneJet14to18PVNHits4.cuts, oneJet14to18PVCuts)
 
-disTrkSelectionOneJet16PVNHits5 = copy.deepcopy(disTrkSelectionNHits5)
-disTrkSelectionOneJet16PVNHits5.name = cms.string("DisTrkSelectionOneJet16PVNHits5")
-addCuts(disTrkSelectionOneJet16PVNHits5.cuts, oneJet16PVCuts)
+disTrkSelectionOneJet14to18PVNHits5 = copy.deepcopy(disTrkSelectionNHits5)
+disTrkSelectionOneJet14to18PVNHits5.name = cms.string("DisTrkSelectionOneJet14to18PVNHits5")
+addCuts(disTrkSelectionOneJet14to18PVNHits5.cuts, oneJet14to18PVCuts)
 
-disTrkSelectionOneJet16PVNHits6 = copy.deepcopy(disTrkSelectionNHits6)
-disTrkSelectionOneJet16PVNHits6.name = cms.string("DisTrkSelectionOneJet16PVNHits6")
-addCuts(disTrkSelectionOneJet16PVNHits6.cuts, oneJet16PVCuts)
+disTrkSelectionOneJet14to18PVNHits6 = copy.deepcopy(disTrkSelectionNHits6)
+disTrkSelectionOneJet14to18PVNHits6.name = cms.string("DisTrkSelectionOneJet14to18PVNHits6")
+addCuts(disTrkSelectionOneJet14to18PVNHits6.cuts, oneJet14to18PVCuts)
 
 
 ##########################################################################

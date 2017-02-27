@@ -31,11 +31,11 @@ cutGoodPV = cms.PSet (
     alias = cms.string(">= 1 good primary vertices"),
 )
 
-cutNumPV16 = cms.PSet (
+cutNumPV14to18 = cms.PSet (
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("numPVReco == 16"),
+    cutString = cms.string("numPVReco >= 14 && numPVReco <= 18"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("== 16 good primary vertices"),
+    alias = cms.string("14-18 good primary vertices"),
 )
 
 ##################################################

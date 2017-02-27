@@ -92,82 +92,82 @@ removeCuts(WtoMuNuDisTrkNHits6.cuts, cutsToRemove)
 addCuts   (WtoMuNuDisTrkNHits6.cuts, cutsToAdd)
 
 ##################################################
-## Now copied channels for one jet (pt > 110 GeV) and ==16 PV
+## Now copied channels for one jet (pt > 110 GeV) and 14-18 PV
 ##################################################
 
 ##################################################
 ## Fake track control sample:  W->mu nu
 ##################################################
-WtoMuNuOneJet16PV = copy.deepcopy(WtoMuNu)
-WtoMuNuOneJet16PV.name = cms.string("WtoMuNuOneJet16PV")
-addCuts(WtoMuNuOneJet16PV.cuts, oneJet16PVCuts)
+WtoMuNuOneJet14to18PV = copy.deepcopy(WtoMuNu)
+WtoMuNuOneJet14to18PV.name = cms.string("WtoMuNuOneJet14to18PV")
+addCuts(WtoMuNuOneJet14to18PV.cuts, oneJet14to18PVCuts)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track
 ##################################################
-WtoMuNuOneJet16PVCandTrk = copy.deepcopy(WtoMuNuOneJet16PV)
-WtoMuNuOneJet16PVCandTrk.name = cms.string("WtoMuNuOneJet16PVCandTrk")
-addCuts(WtoMuNuOneJet16PVCandTrk.cuts, [cutTrkPt55] + candTrkCuts)
+WtoMuNuOneJet14to18PVCandTrk = copy.deepcopy(WtoMuNuOneJet14to18PV)
+WtoMuNuOneJet14to18PVCandTrk.name = cms.string("WtoMuNuOneJet14to18PVCandTrk")
+addCuts(WtoMuNuOneJet14to18PVCandTrk.cuts, [cutTrkPt55] + candTrkCuts)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track
 ##################################################
-WtoMuNuOneJet16PVDisTrk = copy.deepcopy(WtoMuNuOneJet16PV)
-WtoMuNuOneJet16PVDisTrk.name = cms.string("WtoMuNuOneJet16PVDisTrk")
-addCuts(WtoMuNuOneJet16PVDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
+WtoMuNuOneJet14to18PVDisTrk = copy.deepcopy(WtoMuNuOneJet14to18PV)
+WtoMuNuOneJet14to18PVDisTrk.name = cms.string("WtoMuNuOneJet14to18PVDisTrk")
+addCuts(WtoMuNuOneJet14to18PVDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track with 3 hits
 ##################################################
-WtoMuNuOneJet16PVDisTrkNHits3 = copy.deepcopy(WtoMuNuOneJet16PVDisTrk)
-WtoMuNuOneJet16PVDisTrkNHits3.name = cms.string("WtoMuNuOneJet16PVDisTrkNHits3")
+WtoMuNuOneJet14to18PVDisTrkNHits3 = copy.deepcopy(WtoMuNuOneJet14to18PVDisTrk)
+WtoMuNuOneJet14to18PVDisTrkNHits3.name = cms.string("WtoMuNuOneJet14to18PVDisTrkNHits3")
 cutsToRemove = [
     cutTrkNValidHits,
 ]
 cutsToAdd = [
     cutTrkNValidHits3,
 ]
-removeCuts(WtoMuNuOneJet16PVDisTrkNHits3.cuts, cutsToRemove)
-addCuts   (WtoMuNuOneJet16PVDisTrkNHits3.cuts, cutsToAdd)
+removeCuts(WtoMuNuOneJet14to18PVDisTrkNHits3.cuts, cutsToRemove)
+addCuts   (WtoMuNuOneJet14to18PVDisTrkNHits3.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track with 4 hits
 ##################################################
-WtoMuNuOneJet16PVDisTrkNHits4 = copy.deepcopy(WtoMuNuOneJet16PVDisTrk)
-WtoMuNuOneJet16PVDisTrkNHits4.name = cms.string("WtoMuNuOneJet16PVDisTrkNHits4")
+WtoMuNuOneJet14to18PVDisTrkNHits4 = copy.deepcopy(WtoMuNuOneJet14to18PVDisTrk)
+WtoMuNuOneJet14to18PVDisTrkNHits4.name = cms.string("WtoMuNuOneJet14to18PVDisTrkNHits4")
 cutsToRemove = [
     cutTrkNValidHits,
 ]
 cutsToAdd = [
     cutTrkNValidHits4,
 ]
-removeCuts(WtoMuNuOneJet16PVDisTrkNHits4.cuts, cutsToRemove)
-addCuts   (WtoMuNuOneJet16PVDisTrkNHits4.cuts, cutsToAdd)
+removeCuts(WtoMuNuOneJet14to18PVDisTrkNHits4.cuts, cutsToRemove)
+addCuts   (WtoMuNuOneJet14to18PVDisTrkNHits4.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track with 5 hits
 ##################################################
-WtoMuNuOneJet16PVDisTrkNHits5 = copy.deepcopy(WtoMuNuOneJet16PVDisTrk)
-WtoMuNuOneJet16PVDisTrkNHits5.name = cms.string("WtoMuNuOneJet16PVDisTrkNHits5")
+WtoMuNuOneJet14to18PVDisTrkNHits5 = copy.deepcopy(WtoMuNuOneJet14to18PVDisTrk)
+WtoMuNuOneJet14to18PVDisTrkNHits5.name = cms.string("WtoMuNuOneJet14to18PVDisTrkNHits5")
 cutsToRemove = [
     cutTrkNValidHits,
 ]
 cutsToAdd = [
     cutTrkNValidHits5,
 ]
-removeCuts(WtoMuNuOneJet16PVDisTrkNHits5.cuts, cutsToRemove)
-addCuts   (WtoMuNuOneJet16PVDisTrkNHits5.cuts, cutsToAdd)
+removeCuts(WtoMuNuOneJet14to18PVDisTrkNHits5.cuts, cutsToRemove)
+addCuts   (WtoMuNuOneJet14to18PVDisTrkNHits5.cuts, cutsToAdd)
 
 ##################################################
 ## Fake track control sample:  W->mu nu + disappearing track with 6 hits
 ##################################################
-WtoMuNuOneJet16PVDisTrkNHits6 = copy.deepcopy(WtoMuNuOneJet16PVDisTrk)
-WtoMuNuOneJet16PVDisTrkNHits6.name = cms.string("WtoMuNuOneJet16PVDisTrkNHits6")
+WtoMuNuOneJet14to18PVDisTrkNHits6 = copy.deepcopy(WtoMuNuOneJet14to18PVDisTrk)
+WtoMuNuOneJet14to18PVDisTrkNHits6.name = cms.string("WtoMuNuOneJet14to18PVDisTrkNHits6")
 cutsToRemove = [
     cutTrkNValidHits,
 ]
 cutsToAdd = [
     cutTrkNValidHits6,
 ]
-removeCuts(WtoMuNuOneJet16PVDisTrkNHits6.cuts, cutsToRemove)
-addCuts   (WtoMuNuOneJet16PVDisTrkNHits6.cuts, cutsToAdd)
+removeCuts(WtoMuNuOneJet14to18PVDisTrkNHits6.cuts, cutsToRemove)
+addCuts   (WtoMuNuOneJet14to18PVDisTrkNHits6.cuts, cutsToAdd)
