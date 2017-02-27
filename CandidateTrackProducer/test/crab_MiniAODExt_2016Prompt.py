@@ -98,11 +98,6 @@ if __name__ == '__main__':
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016B-PromptReco-v2'
-    config.Data.inputDataset = '/MinimumBias/Run2016B-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
-    #forkAndSubmit(config)
-
     # Run2016C
 
     config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v8'
@@ -125,11 +120,6 @@ if __name__ == '__main__':
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2016C-PromptReco-v2'
     config.Data.inputDataset = '/SingleElectron/Run2016C-PromptReco-v2/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016C-PromptReco-v2'
-    config.Data.inputDataset = '/MinimumBias/Run2016C-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
     #forkAndSubmit(config)
 
     # Run2016D
@@ -156,11 +146,6 @@ if __name__ == '__main__':
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016D-PromptReco-v2'
-    config.Data.inputDataset = '/MinimumBias/Run2016D-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
-    #forkAndSubmit(config)
-
     # Run2016E
 
     config.Data.outputDatasetTag = 'Run2016E-PromptReco-v2-DisappTrks-v8'
@@ -183,11 +168,6 @@ if __name__ == '__main__':
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2016E-PromptReco-v2'
     config.Data.inputDataset = '/SingleElectron/Run2016E-PromptReco-v2/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016E-PromptReco-v2'
-    config.Data.inputDataset = '/MinimumBias/Run2016E-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
     #forkAndSubmit(config)
 
     # Run2016F
@@ -215,11 +195,6 @@ if __name__ == '__main__':
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016F-PromptReco-v1'
-    config.Data.inputDataset = '/MinimumBias/Run2016F-PromptReco-v1/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
-    #forkAndSubmit(config)
-
     # Run2016G
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
@@ -243,11 +218,6 @@ if __name__ == '__main__':
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2016G-PromptReco-v1'
     config.Data.inputDataset = '/SingleElectron/Run2016G-PromptReco-v1/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016G-PromptReco-v1'
-    config.Data.inputDataset = '/MinimumBias/Run2016G-PromptReco-v1/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
     #forkAndSubmit(config)
 
     # Run2016H-v2 (no lumi sections from the Golden JSON are in PromptReco-v1)
@@ -274,11 +244,6 @@ if __name__ == '__main__':
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016H-PromptReco-v2'
-    config.Data.inputDataset = '/MinimumBias/Run2016H-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
-    #forkAndSubmit(config)
-
     # Run2016H-v3
 
     config.Data.outputDatasetTag = 'Run2016H-PromptReco-v3-DisappTrks-v8'
@@ -301,6 +266,45 @@ if __name__ == '__main__':
     config.General.requestName = 'candidateTrackProducer_SingleElectron_2016H-PromptReco-v3'
     config.Data.inputDataset = '/SingleElectron/Run2016H-PromptReco-v3/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_ElectronSkim_cfg.py'
+    #forkAndSubmit(config)
+
+    # MinimumBias
+
+    config.Data.lumiMask = '' # MinimumBias is disjoint from golden JSON
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016B-PromptReco-v2'
+    config.Data.inputDataset = '/MinimumBias/Run2016B-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016C-PromptReco-v2'
+    config.Data.inputDataset = '/MinimumBias/Run2016C-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016D-PromptReco-v2'
+    config.Data.inputDataset = '/MinimumBias/Run2016D-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016E-PromptReco-v2'
+    config.Data.inputDataset = '/MinimumBias/Run2016E-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016F-PromptReco-v1'
+    config.Data.inputDataset = '/MinimumBias/Run2016F-PromptReco-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016G-PromptReco-v1'
+    config.Data.inputDataset = '/MinimumBias/Run2016G-PromptReco-v1/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'candidateTrackProducer_MinimumBias_2016H-PromptReco-v2'
+    config.Data.inputDataset = '/MinimumBias/Run2016H-PromptReco-v2/AOD'
+    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2016_cfg.py'
     #forkAndSubmit(config)
 
     config.General.requestName = 'candidateTrackProducer_MinimumBias_2016H-PromptReco-v3'
