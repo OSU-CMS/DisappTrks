@@ -125,7 +125,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # ZeroBias channels
 ################################################################################
-#  add_channels  (process,  [zeroBiasSelection],              histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelection],              histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [zeroBiasSelectionDisTrkNHits3],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [zeroBiasSelectionDisTrkNHits4],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [zeroBiasSelectionDisTrkNHits5],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
