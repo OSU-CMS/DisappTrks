@@ -125,8 +125,9 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # ZeroBias channels
 ################################################################################
-#  add_channels  (process,  [zeroBiasSelectionNHits3],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [zeroBiasSelectionNHits4],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [zeroBiasSelectionNHits5],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [zeroBiasSelectionNHits6],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelection],              histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelectionDisTrkNHits3],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelectionDisTrkNHits4],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelectionDisTrkNHits5],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [zeroBiasSelectionDisTrkNHits6],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################

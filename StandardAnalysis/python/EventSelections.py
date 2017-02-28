@@ -541,27 +541,30 @@ zeroBiasSelection = cms.PSet(
         cutGoodPV,
     )
 )
-addCuts   (zeroBiasSelection.cuts, disTrkCuts)
 
-zeroBiasSelectionNHits3 = copy.deepcopy (zeroBiasSelection)
-zeroBiasSelectionNHits3.name = cms.string ("ZeroBiasSelectionNHits3")
-removeCuts (zeroBiasSelectionNHits3.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionNHits3.cuts, [cutTrkNValidHits3])
+zeroBiasSelectionDisTrk = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionDisTrk.name = cms.string ("ZeroBiasSelectionDisTrk")
+addCuts (zeroBiasSelectionDisTrk.cuts, disTrkCuts)
 
-zeroBiasSelectionNHits4 = copy.deepcopy (zeroBiasSelection)
-zeroBiasSelectionNHits4.name = cms.string ("ZeroBiasSelectionNHits4")
-removeCuts (zeroBiasSelectionNHits4.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionNHits4.cuts, [cutTrkNValidHits4])
+zeroBiasSelectionDisTrkNHits3 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits3.name = cms.string ("ZeroBiasSelectionNHits3")
+removeCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits3])
 
-zeroBiasSelectionNHits5 = copy.deepcopy (zeroBiasSelection)
-zeroBiasSelectionNHits5.name = cms.string ("ZeroBiasSelectionNHits5")
-removeCuts (zeroBiasSelectionNHits5.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionNHits5.cuts, [cutTrkNValidHits5])
+zeroBiasSelectionDisTrkNHits4 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits4.name = cms.string ("ZeroBiasSelectionNHits4")
+removeCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits4])
 
-zeroBiasSelectionNHits6 = copy.deepcopy (zeroBiasSelection)
-zeroBiasSelectionNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
-removeCuts (zeroBiasSelectionNHits6.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionNHits6.cuts, [cutTrkNValidHits6])
+zeroBiasSelectionDisTrkNHits5 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits5.name = cms.string ("ZeroBiasSelectionNHits5")
+removeCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits5])
+
+zeroBiasSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
+removeCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
 ##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
