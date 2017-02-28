@@ -531,6 +531,39 @@ addCuts(disTrkSelectionOneJet14to18PVNHits6.cuts, oneJet14to18PVCuts)
 
 ##########################################################################
 
+##########################################################################
+##### ZeroBias selections #####
+##########################################################################
+zeroBiasSelection = cms.PSet(
+    name = cms.string("ZeroBiasSelection"),
+    triggers = triggersZeroBias,
+    cuts = cms.VPSet (
+        cutGoodPV,
+    )
+)
+addCuts   (zeroBiasSelection.cuts, disTrkCuts)
+
+zeroBiasSelectionNHits3 = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionNHits3.name = cms.string ("ZeroBiasSelectionNHits3")
+removeCuts (zeroBiasSelectionNHits3.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionNHits3.cuts, [cutTrkNValidHits3])
+
+zeroBiasSelectionNHits4 = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionNHits4.name = cms.string ("ZeroBiasSelectionNHits4")
+removeCuts (zeroBiasSelectionNHits4.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionNHits4.cuts, [cutTrkNValidHits4])
+
+zeroBiasSelectionNHits5 = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionNHits5.name = cms.string ("ZeroBiasSelectionNHits5")
+removeCuts (zeroBiasSelectionNHits5.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionNHits5.cuts, [cutTrkNValidHits5])
+
+zeroBiasSelectionNHits6 = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
+removeCuts (zeroBiasSelectionNHits6.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionNHits6.cuts, [cutTrkNValidHits6])
+##########################################################################
+
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
     if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
