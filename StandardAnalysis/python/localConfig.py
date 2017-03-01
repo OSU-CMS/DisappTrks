@@ -124,7 +124,7 @@ colors["WW"] = 390
 colors["WZ"] = 393
 colors["ZZ"] = 397
 colors["VG"] = 400
-colors["VV"] = 393
+colors["VV"] = 800
 colors["allBkgd"] = 601
 
 labels["DYJetsToLL_50"] = "Z#rightarrowl^{+}l^{-}"
