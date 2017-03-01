@@ -70,3 +70,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 triggersSingleTau = cms.vstring(
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v", # prescaled in data
 )
+
+triggersZeroBias = cms.vstring(
+    "HLT_ZeroBias_v", # very prescaled in data
+)

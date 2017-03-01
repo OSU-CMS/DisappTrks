@@ -531,6 +531,42 @@ addCuts(disTrkSelectionOneJet14to18PVNHits6.cuts, oneJet14to18PVCuts)
 
 ##########################################################################
 
+##########################################################################
+##### ZeroBias selections #####
+##########################################################################
+zeroBiasSelection = cms.PSet(
+    name = cms.string("ZeroBiasSelection"),
+    triggers = triggersZeroBias,
+    cuts = cms.VPSet (
+        cutGoodPV,
+    )
+)
+
+zeroBiasSelectionDisTrk = copy.deepcopy (zeroBiasSelection)
+zeroBiasSelectionDisTrk.name = cms.string ("ZeroBiasSelectionDisTrk")
+addCuts (zeroBiasSelectionDisTrk.cuts, disTrkCuts)
+
+zeroBiasSelectionDisTrkNHits3 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits3.name = cms.string ("ZeroBiasSelectionNHits3")
+removeCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits3])
+
+zeroBiasSelectionDisTrkNHits4 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits4.name = cms.string ("ZeroBiasSelectionNHits4")
+removeCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits4])
+
+zeroBiasSelectionDisTrkNHits5 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits5.name = cms.string ("ZeroBiasSelectionNHits5")
+removeCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits5])
+
+zeroBiasSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasSelectionDisTrk)
+zeroBiasSelectionDisTrkNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
+removeCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
+##########################################################################
+
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
     if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
