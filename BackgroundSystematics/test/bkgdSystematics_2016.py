@@ -24,6 +24,37 @@ runPeriods = ['BC', 'DEFGH', '']
 
 if background == "FAKE" or background == "ALL":
 
+    print "********************************************************************************"
+    print "evaluating fake track systematic with ZeroBias data (2016D)"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("zeroBiasFakeTrackSystematic_2016D" + ".root", "recreate")
+
+    zeroBiasFakeTrackSystematic = FakeTrackSystematic ()
+    zeroBiasFakeTrackSystematic.addTFile (fout)
+    zeroBiasFakeTrackSystematic.addTCanvas (canvas)
+    zeroBiasFakeTrackSystematic.addLuminosityLabel (str (round (lumi["ZeroBias_2016D"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    zeroBiasFakeTrackSystematic.addChannel  ("Basic",                "ZeroBiasSelection",         "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBias")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "ZeroBiasSelectionNHits3",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "ZeroBiasSelectionNHits4",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "ZeroBiasSelectionNHits5",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "ZeroBiasSelectionNHits6",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016D",  dirs['Andrew']+"2016/zToMuMu_noSkim")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+
+    print "********************************************************************************"
+
+    zeroBiasFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
     for runPeriod in runPeriods:
 
         print "********************************************************************************"
