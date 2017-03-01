@@ -127,9 +127,11 @@ colors["VG"] = 400
 colors["VV"] = 800
 colors["allBkgd"] = 601
 
-labels["DYJetsToLL_50"] = "Z#rightarrowl^{+}l^{-}"
+labels["DYJetsToLL_50"] = "Z#rightarrowll"
+labels["DYJetsToLL"] = "Z#rightarrowll"
 labels["DYJetsToNuNu"] = "Z#rightarrow#nu#bar{#nu}"
 labels["WJetsToLNu"] = "W#rightarrowl#nu"
+labels["WJetsToLNu_HT"] = "W#rightarrowl#nu"
 labels["WW"] = "WW"
 labels["WZ"] = "WZ"
 labels["ZZ"] = "ZZ"
