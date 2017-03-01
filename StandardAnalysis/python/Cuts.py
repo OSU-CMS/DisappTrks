@@ -85,6 +85,11 @@ cutJetPt = cms.PSet(
     cutString = cms.string("pt > 110"),
     numberRequired = cms.string(">= 1"),
 )
+cutJetPt55 = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > 55"),
+    numberRequired = cms.string(">= 1"),
+)
 cutJetPtJECUp = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt * (1 + jecUncertainty) > 110"),

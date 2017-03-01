@@ -565,6 +565,41 @@ zeroBiasSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasSelectionDisTrk)
 zeroBiasSelectionDisTrkNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
 removeCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
+
+zeroBiasJetSelection = cms.PSet(
+    name = cms.string("ZeroBiasJetSelection"),
+    triggers = triggersZeroBias,
+    cuts = cms.VPSet (
+        cutGoodPV,
+        cutJetPt55,
+        cutJetEta,
+        cutJetTightLepVeto,
+    )
+)
+
+zeroBiasJetSelectionDisTrk = copy.deepcopy (zeroBiasJetSelection)
+zeroBiasJetSelectionDisTrk.name = cms.string ("ZeroBiasJetSelectionDisTrk")
+addCuts (zeroBiasJetSelectionDisTrk.cuts, disTrkCuts)
+
+zeroBiasJetSelectionDisTrkNHits3 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
+zeroBiasJetSelectionDisTrkNHits3.name = cms.string ("ZeroBiasJetSelectionNHits3")
+removeCuts (zeroBiasJetSelectionDisTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasJetSelectionDisTrkNHits3.cuts, [cutTrkNValidHits3])
+
+zeroBiasJetSelectionDisTrkNHits4 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
+zeroBiasJetSelectionDisTrkNHits4.name = cms.string ("ZeroBiasJetSelectionNHits4")
+removeCuts (zeroBiasJetSelectionDisTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasJetSelectionDisTrkNHits4.cuts, [cutTrkNValidHits4])
+
+zeroBiasJetSelectionDisTrkNHits5 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
+zeroBiasJetSelectionDisTrkNHits5.name = cms.string ("ZeroBiasJetSelectionNHits5")
+removeCuts (zeroBiasJetSelectionDisTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasJetSelectionDisTrkNHits5.cuts, [cutTrkNValidHits5])
+
+zeroBiasJetSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
+zeroBiasJetSelectionDisTrkNHits6.name = cms.string ("ZeroBiasJetSelectionNHits6")
+removeCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
 ##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
