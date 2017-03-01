@@ -9,11 +9,11 @@ backgrounds = {
     },
     'Elec2016DEFGH' : {
         'N' : '40',
-        'alpha' : '0.229769448904',
+        'alpha' : '0.0477671531131',
     },
     'Muon2016DEFGH' : {
         'N' : '70',
-        'alpha' : '0.0935154403886',
+        'alpha' : '0.0320408223978',
     },
     'Tau2016DEFGH' : {
         'N' : '36',
@@ -27,11 +27,11 @@ background_systematics = {
         'background' : 'Fake2016DEFGH',
     },
     'Elec2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.00768666445',
+        'value' : '1.01382669814',
         'background' : 'Elec2016DEFGH',
     },
     'Muon2016DEFGH_alpha' : { # error on alpha
-        'value' : '1.00376956141',
+        'value' : '1.00429522169',
         'background' : 'Muon2016DEFGH',
     },
     'Tau2016DEFGH_alpha' : { # error on alpha
@@ -46,11 +46,11 @@ background_systematics = {
         'background' : 'Fake2016DEFGH',
     },
     'Elec2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 8.2654483433 / 100.0),
+        'value' : str (1.0 + 12.1625167129 / 100.0),
         'background' : 'Elec2016DEFGH',
     },
     'Tau2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 15.424041458 / 100.0),
+        'value' : str (1.0 + 19.085523118 / 100.0),
         'background' : 'Tau2016DEFGH',
     },
 }
