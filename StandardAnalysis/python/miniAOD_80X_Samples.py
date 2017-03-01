@@ -53,6 +53,8 @@ dataset_names_data = {
 
     'ZeroBias_2016C' : "/ZeroBias/ahart-Run2016C-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016D' : "/ZeroBias/ahart-Run2016D-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
+    'ZeroBias_2016E' : "/ZeroBias/ahart-Run2016E-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
+    'ZeroBias_2016H' : ["/ZeroBias/ahart-Run2016H-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER", "/ZeroBias/ahart-Run2016H-PromptReco-v3-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER"],
 }
 
 dataset_names_bkgd = {

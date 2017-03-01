@@ -65,22 +65,22 @@ lumi = {
     "ZeroBias_2016B"     :  0.0,
     "ZeroBias_2016C"     :  2573.399,
     "ZeroBias_2016D"     :  4248.383,
-    "ZeroBias_2016E"     :  0.0,
+    "ZeroBias_2016E"     :  4009.130,
     "ZeroBias_2016F"     :  0.0,
     "ZeroBias_2016G"     :  0.0,
-    "ZeroBias_2016H_v2"  :  0.0,
-    "ZeroBias_2016H_v3"  :  0.0,
+    "ZeroBias_2016H_v2"  :  8390.540,
+    "ZeroBias_2016H_v3"  :  215.149,
 
     "HLT_ZeroBias_v*" : {
         "ZeroBias_2015D"     :  0.0,
         "ZeroBias_2016B"     :  0.0,
         "ZeroBias_2016C"     :  0.001267369,
         "ZeroBias_2016D"     :  0.001898671,
-        "ZeroBias_2016E"     :  0.0,
+        "ZeroBias_2016E"     :  0.00301127,
         "ZeroBias_2016F"     :  0.0,
         "ZeroBias_2016G"     :  0.0,
-        "ZeroBias_2016H_v2"  :  0.0,
-        "ZeroBias_2016H_v3"  :  0.0,
+        "ZeroBias_2016H_v2"  :  0.005520328,
+        "ZeroBias_2016H_v3"  :  0.000180316,
     },
 }
 
