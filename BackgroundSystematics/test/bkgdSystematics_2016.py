@@ -20,7 +20,7 @@ useJetRequirementForFakes = False
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEFG', 'H', '']
+runPeriods = ['BC', 'DEFG', 'DEFGH', 'H', '']
 
 if background == "FAKE" or background == "ALL":
 
@@ -204,7 +204,9 @@ if background == "ELECTRON" or background == "ALL":
         electronEnergySystematic.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronEnergySystematic.addMetCut (100.0)
         electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
-        electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
+        #electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
+        electronEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
+        electronEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
 
         print "********************************************************************************"
 
@@ -234,7 +236,7 @@ if background == "TAU" or background == "ALL":
         tauEnergySystematic.addMetCut (100.0)
         tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016/tauBackground")
         #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2016H",                     dirs['Andrew']+"2016/tauBackground")
-        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
+        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
         tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
 
         print "********************************************************************************"
