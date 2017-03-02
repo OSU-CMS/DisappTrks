@@ -21,7 +21,7 @@ background = background.upper ()
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
 #runPeriods = ['BC', 'DEFGH', '']
-runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'DEFG', 'GH', 'H', '']
+runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'DEFG', 'DEFGH', 'GH', 'H', '']
 
 nEstFake = []
 nEstElectron = []
