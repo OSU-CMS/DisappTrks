@@ -9,11 +9,11 @@ backgrounds = {
     },
     'Elec2016BC' : {
         'N' : '19',
-        'alpha' : '0.0832868565966',
+        'alpha' : '0.0746685456719',
     },
     'Muon2016BC' : {
         'N' : '25',
-        'alpha' : '0.059507923086',
+        'alpha' : '0.0498223406972',
     },
     'Tau2016BC' : {
         'N' : '8',
@@ -27,11 +27,11 @@ background_systematics = {
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_alpha' : { # error on alpha
-        'value' : '1.01699517685',
+        'value' : '1.01637053352',
         'background' : 'Elec2016BC',
     },
     'Muon2016BC_alpha' : { # error on alpha
-        'value' : '1.00711547145',
+        'value' : '1.0068438557',
         'background' : 'Muon2016BC',
     },
     'Tau2016BC_alpha' : { # error on alpha
@@ -46,11 +46,11 @@ background_systematics = {
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_energy' : { # error on energy assumption
-        'value' : str (1.0 + 12.4150579033 / 100.0),
+        'value' : str (1.0 + 12.3565749086 / 100.0),
         'background' : 'Elec2016BC',
     },
     'Tau2016BC_energy' : { # error on energy assumption
-        'value' : str (1.0 + 16.2605147923 / 100.0),
+        'value' : str (1.0 + 14.2109057314 / 100.0),
         'background' : 'Tau2016BC',
     },
 }
