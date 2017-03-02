@@ -20,7 +20,7 @@ useJetRequirementForFakes = False
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEFGH', '']
+runPeriods = ['BC', 'DEFG', 'H', '']
 
 if background == "FAKE" or background == "ALL":
 

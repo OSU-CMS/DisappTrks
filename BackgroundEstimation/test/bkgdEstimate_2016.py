@@ -21,7 +21,7 @@ background = background.upper ()
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
 #runPeriods = ['BC', 'DEFGH', '']
-runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'GH', 'DEFGH', '']
+runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'DEFG', 'GH', 'H', '']
 
 nEstFake = []
 nEstElectron = []
@@ -186,7 +186,8 @@ if background == "ALL":
     eElectron  =  array  ("d");  eMuon  =  array  ("d");  eTau  =  array  ("d");  eFake  =  array  ("d")
 
     #runPeriodsToPlot = ["B", "C", "D", "E", "F", "G", "H"]
-    runPeriodsToPlot = ["BC", "DEF", "GH"]
+    #runPeriodsToPlot = ["BC", "DEF", "GH"]
+    runPeriodsToPlot = ["BC", "DEF", "G", "H"]
     i = 0.0
 
     for runPeriod in runPeriodsToPlot:
