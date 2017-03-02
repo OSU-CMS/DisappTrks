@@ -38,8 +38,8 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = lumi["MET_2015"]
 signalScaleFactor = 1.0
+lumi = lumi["MET_2015"]
 
 #condor directory in which to find signal root files
 signal_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks_signal_v2/'
@@ -89,7 +89,7 @@ external_systematic_uncertainties = [
 #uncertainties on signal only (we can alter this if we need to)
 signal_systematic_uncertainties = {
     'lumi' :  {
-        'value' : '1.027',
+        'value' : '1.023',
     },
     'trkReco' :  {
         'value' : '1.017',
