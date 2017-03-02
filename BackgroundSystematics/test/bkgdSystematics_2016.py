@@ -34,20 +34,51 @@ if background == "FAKE" or background == "ALL":
     zeroBiasFakeTrackSystematic.addTFile (fout)
     zeroBiasFakeTrackSystematic.addTCanvas (canvas)
     zeroBiasFakeTrackSystematic.addLuminosityLabel (str (round (lumi["ZeroBias_2016D"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    zeroBiasFakeTrackSystematic.addChannel  ("Basic",                "ZeroBiasSelection",         "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBias")
-    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "ZeroBiasSelectionNHits3",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
-    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "ZeroBiasSelectionNHits4",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
-    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "ZeroBiasSelectionNHits5",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
-    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "ZeroBiasSelectionNHits6",  "ZeroBias_2016D",       dirs['Andrew']+"2016/zeroBiasDisTrk")
-    zeroBiasFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016D",  dirs['Andrew']+"2016/zToMuMu_noSkim")
-    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
-    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
-    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
-    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("Basic",                "ZeroBiasSelection",        "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBias")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "ZeroBiasSelectionNHits3",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "ZeroBiasSelectionNHits4",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "ZeroBiasSelectionNHits5",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "ZeroBiasSelectionNHits6",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasDisTrk")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                  "SingleMu_2016D",  dirs['Andrew']+"2016/zToMuMu_noSkim")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",      "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",      "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",      "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",      "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
 
     print "********************************************************************************"
 
     zeroBiasFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating fake track systematic with ZeroBias data with jet cut (2016D)"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("zeroBiasJetFakeTrackSystematic_2016D" + ".root", "recreate")
+
+    zeroBiasJetFakeTrackSystematic = FakeTrackSystematic ()
+    zeroBiasJetFakeTrackSystematic.addTFile (fout)
+    zeroBiasJetFakeTrackSystematic.addTCanvas (canvas)
+    zeroBiasJetFakeTrackSystematic.addLuminosityLabel (str (round (lumi["ZeroBias_2016D"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("Basic",                "ZeroBiasJetSelection",        "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasJetDisTrk")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "ZeroBiasJetSelectionNHits3",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasJetDisTrk")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "ZeroBiasJetSelectionNHits4",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasJetDisTrk")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "ZeroBiasJetSelectionNHits5",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasJetDisTrk")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "ZeroBiasJetSelectionNHits6",  "ZeroBias_2016D",  dirs['Andrew']+"2016/zeroBiasJetDisTrk")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                     "SingleMu_2016D",  dirs['Andrew']+"2016/zToMuMu_noSkim")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",         "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",         "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",         "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+    zeroBiasJetFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",         "SingleMu_2016D",  dirs['Andrew']+"2016/fakeTrackBackground")
+
+    print "********************************************************************************"
+
+    zeroBiasJetFakeTrackSystematic.printSystematic ()
 
     print "********************************************************************************"
 
