@@ -149,7 +149,7 @@ class LeptonBkgdEstimate:
                 metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
                 met.Rebin (self._rebinFactor)
-                metMinusOne.Rebin (self._rebinFactor)
+                metMinusOneRebin = metMinusOne.Rebin (self._rebinFactor, "metMinusOneRebin")
 
                 pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
@@ -182,10 +182,10 @@ class LeptonBkgdEstimate:
                 self._fout.cd ()
                 self._canvas.Write ("metForNctrl")
 
-                setStyle (metMinusOne)
-                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
+                setStyle (metMinusOneRebin)
+                setAxisStyle (metMinusOneRebin, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOneRebin.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
-                metMinusOne.Draw ()
+                metMinusOneRebin.Draw ()
                 pt.Draw ("same")
                 cmsLabel.Draw ("same")
                 lumiLabel.Draw ("same")
@@ -268,6 +268,7 @@ class LeptonBkgdEstimate:
             metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
             passesHist.Divide (totalHist)
+            print "multiplying \"" + metHist.GetName () + "\" (" + str (metHist.GetNbinsX ()) + ") and \"" + passesHist.GetName () + "\" (" + str (passesHist.GetNbinsX ()) + ")..."
             metHist.Multiply (passesHist)
 
             total = 0.0
@@ -298,8 +299,8 @@ class LeptonBkgdEstimate:
 
     def plotTriggerEfficiency (self, passesHist, totalHist):
         if self._fout and self._canvas:
-            passesHist.Rebin (self._rebinFactor)
-            totalHist.Rebin (self._rebinFactor)
+            passesHist = passesHist.Rebin (self._rebinFactor, "passesHist")
+            totalHist = totalHist.Rebin (self._rebinFactor, "totalHist")
 
             self.makePassesConsistentWithTotal (passesHist, totalHist)
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
@@ -481,7 +482,7 @@ class LeptonBkgdEstimate:
                 metMinusOne.SetBinContent (i, newContent)
                 metMinusOne.SetBinError (i, newError)
 
-            metMinusOne.Rebin (self._rebinFactor)
+            metMinusOne = metMinusOne.Rebin (self._rebinFactor, "metMinusOne")
 
             pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
             pt.SetBorderSize(0)
