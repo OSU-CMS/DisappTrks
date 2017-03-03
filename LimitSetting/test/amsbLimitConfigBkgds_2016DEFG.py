@@ -9,15 +9,15 @@ backgrounds = {
     },
     'Elec2016DEFG' : {
         'N' : '19',
-        'alpha' : '0.115960747897',
+        'alpha' : '0.115972937871',
     },
     'Muon2016DEFG' : {
         'N' : '37',
-        'alpha' : '0.0879435400098',
+        'alpha' : '0.088005132021',
     },
     'Tau2016DEFG' : {
         'N' : '8',
-        'alpha' : '0.0486588451592',
+        'alpha' : '0.0128195952619',
     },
 }
 
@@ -27,15 +27,15 @@ background_systematics = {
         'background' : 'Fake2016DEFG',
     },
     'Elec2016DEFG_alpha' : { # error on alpha
-        'value' : '1.01598334658',
+        'value' : '1.01598292145',
         'background' : 'Elec2016DEFG',
     },
     'Muon2016DEFG_alpha' : { # error on alpha
-        'value' : '1.00540268693',
+        'value' : '1.00540255412',
         'background' : 'Muon2016DEFG',
     },
     'Tau2016DEFG_alpha' : { # error on alpha
-        'value' : '1.21817575234',
+        'value' : '1.25287915869',
         'background' : 'Tau2016DEFG',
     },
 
