@@ -12,7 +12,7 @@ datasetsData = [
     'MET_2016H',
 ]
 
-datasets = datasetsData + datasetsSig
+datasets = datasetsBkgdForMET + datasetsData + datasetsSig
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")
