@@ -268,7 +268,6 @@ class LeptonBkgdEstimate:
             metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
 
             passesHist.Divide (totalHist)
-            print "multiplying \"" + metHist.GetName () + "\" (" + str (metHist.GetNbinsX ()) + ") and \"" + passesHist.GetName () + "\" (" + str (passesHist.GetNbinsX ()) + ")..."
             metHist.Multiply (passesHist)
 
             total = 0.0
