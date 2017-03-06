@@ -190,8 +190,8 @@ if background == "ALL":
     eElectron  =  array  ("d");  eMuon  =  array  ("d");  eTau  =  array  ("d");  eFake  =  array  ("d")
 
     #runPeriodsToPlot = ["B", "C", "D", "E", "F", "G", "H"]
-    #runPeriodsToPlot = ["BC", "DEF", "GH"]
-    runPeriodsToPlot = ["BC", "DEF", "G", "H"]
+    runPeriodsToPlot = ["BC", "DEF", "GH"]
+    #runPeriodsToPlot = ["BC", "DEF", "G", "H"]
     i = 0.0
 
     for runPeriod in runPeriodsToPlot:
