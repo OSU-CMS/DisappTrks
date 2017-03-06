@@ -75,3 +75,16 @@ def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectron
     statError_ = Double(0.0)
     yield_ = h.IntegralAndError(0, -1, statError_)
     return (yield_, statError_)
+
+def getYield(sample,condor_dir,channel):
+    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    inputFile = TFile(dataset_file)
+    metPtHistogram = inputFile.Get(channel + "/Met Plots/metPt")
+    if not metPtHistogram:
+        print "ERROR: didn't find histogram ", channel+str("/Met Plots/metPt"), "in file ", dataset_file
+        return 0
+    statError_ = Double (0.0)
+    yield_     = float(metPtHistogram.IntegralAndError (0, metPtHistogram.GetNbinsX () + 1, statError_))
+
+    inputFile.Close()
+    return (yield_, statError_)
