@@ -593,7 +593,7 @@ class FakeTrackBkgdEstimate:
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
 
         if role == "Basic" or role == "ZtoLL":
-            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
         else:
             channel["yield"], channel["yieldError"] = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
