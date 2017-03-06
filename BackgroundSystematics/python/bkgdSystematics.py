@@ -36,7 +36,7 @@ class FakeTrackSystematic:
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         if role == "Basic" or role == "ZtoLL":
-            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
         else:
             channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
@@ -169,6 +169,7 @@ class LeptonEnergySystematic:
     _metCut = 0.0
     _luminosityLabel = "13 TeV"
     _plotLabel = float ("nan")
+    _rebinFactor = 1
 
     def addTFile (self, fout):
         self._fout = fout
@@ -185,13 +186,16 @@ class LeptonEnergySystematic:
     def addPlotLabel (self, plotLabel):
         self._plotLabel = plotLabel
 
+    def addRebinFactor (self, rebinFactor):
+        self._rebinFactor = rebinFactor
+
     def __init__ (self, flavor):
         self._flavor = flavor.lower ()
         self._Flavor = self._flavor[0].upper () + self._flavor[1:]
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
@@ -302,6 +306,9 @@ class LeptonEnergySystematic:
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOneUpPt"
                 metMinusOneUp = getHist (sample, condorDir, name + "Plotter", hist)
+
+                metMinusOne.Rebin (self._rebinFactor)
+                metMinusOneUp.Rebin (self._rebinFactor)
 
                 pt = TPaveText(0.398496,0.839147,0.798246,0.886951,"brNDC")
                 pt.SetBorderSize(0)
