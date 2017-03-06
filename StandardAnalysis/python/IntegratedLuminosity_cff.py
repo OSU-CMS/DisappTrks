@@ -17,6 +17,18 @@ lumi = {
     #"MET_2016G"     :  7525.901,
 
     "SingleElectron_2015D"     :  2669.639,
+
+    # SingleEle 2016 PromptReco
+    #"SingleElectron_2016B"     :  5740.121,
+    #"SingleElectron_2016C"     :  2573.399,
+    #"SingleElectron_2016D"     :  4248.384,
+    #"SingleElectron_2016E"     :  4007.001,
+    #"SingleElectron_2016F"     :  3090.341,
+    #"SingleElectron_2016G"     :  7535.488,
+    #"SingleElectron_2016H_v2"  :  8390.278,
+    #"SingleElectron_2016H_v3"  :  215.149,
+
+    # SingleEle 23Sep2016
     "SingleElectron_2016B"     :  5678.099,
     "SingleElectron_2016C"     :  2357.325,
     "SingleElectron_2016D"     :  3942.136,
@@ -27,6 +39,8 @@ lumi = {
     "SingleElectron_2016H_v3"  :  215.149,
 
     "SingleMuon_2015D"     :  2669.752,
+
+    # SingleMuon 23Sep2016
     "SingleMuon_2016B"     :  5735.866,
     "SingleMuon_2016C"     :  2573.399,
     "SingleMuon_2016D"     :  4248.384,
@@ -40,6 +54,18 @@ lumi = {
     #"SingleMuon_2016G"     :  7540.488,
 
     "Tau_2015D"     :  2672.153,
+
+    # Tau 2016 PromptReco
+    #"Tau_2016B"     :  5933.309,
+    #"Tau_2016C"     :  3.425,
+    #"Tau_2016D"     :  4353.449,
+    #"Tau_2016E"     :  4049.255,
+    #"Tau_2016F"     :  3160.088,
+    #"Tau_2016G"     :  7552.514,
+    #"Tau_2016H_v2"  :  8635.591,
+    #"Tau_2016H_v3"  :  221.442,
+
+    # Tau 23Sep2016
     "Tau_2016B"     :  5933.309,
     "Tau_2016C"     :  3.425,
     "Tau_2016D"     :  4353.449,
@@ -60,6 +86,27 @@ lumi = {
         "Tau_2016H_v2"  :  116.278,
         "Tau_2016H_v3"  :  3.092,
     },
+
+    # Tau 2016 PromptReco
+    #"Tau_2016B"     :  5737.738,
+    #"Tau_2016C"     :  2573.399,
+    #"Tau_2016D"     :  4248.384,
+    #"Tau_2016E"     :  4008.663,
+    #"Tau_2016F"     :  3099.583,
+    #"Tau_2016G"     :  7534.265,
+    #"Tau_2016H_v2"  :  8635.591,
+    #"Tau_2016H_v3"  :  221.442,
+
+    #"HLT_LooseIsoPFTau50_Trk30_eta2p1_v*" : {
+    #    "Tau_2016B"     :  712.32,
+    #    "Tau_2016C"     :  81.448,
+    #    "Tau_2015D"     :  135.498,
+    #    "Tau_2016E"     :  116.127,
+    #    "Tau_2016F"     :  66.043,
+    #    "Tau_2016G"     :  114.311,
+    #    "Tau_2016H_v2"  :  116.278,
+    #    "Tau_2016H_v3"  :  3.092,
+    #},
 
     "ZeroBias_2015D"     :  0.0,
     "ZeroBias_2016B"     :  0.0,
