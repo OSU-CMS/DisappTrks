@@ -161,7 +161,7 @@ justADisTrk = cms.PSet(
     cuts = cms.VPSet (
     )
 )
-addCuts(justADisTrk.cuts, disTrkCuts)
+addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
 ##########################################################################
 
