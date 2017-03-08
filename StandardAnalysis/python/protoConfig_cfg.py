@@ -31,6 +31,15 @@ process.source = cms.Source ("PoolSource",
         "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_106.root",
         "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_107.root",
     ]),
+    inputCommands = cms.untracked.vstring ([
+      "keep *",
+      "drop *_cscSegments_*_*",
+      #"drop *_reducedEcalRecHitsEE_*_*",
+      #"drop *_reducedHcalRecHits_*_*",
+      #"drop *_reducedEcalRecHitsEB_*_*",
+      #"drop *_reducedHcalRecHits_*_*",
+      "drop *_dt4DSegments_*_*",
+    ]),
 )
 
 process.TFileService = cms.Service ('TFileService',
