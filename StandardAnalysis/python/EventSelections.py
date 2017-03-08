@@ -155,6 +155,14 @@ disTrkNoEcalo = copy.deepcopy(disTrkSelection)
 disTrkNoEcalo.name = cms.string("DisTrkNoEcalo")
 removeCuts(disTrkNoEcalo.cuts, [cutTrkEcalo])
 
+justADisTrk = cms.PSet(
+    name = cms.string("JustADisTrk"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+    )
+)
+addCuts(justADisTrk.cuts, disTrkCuts)
+
 ##########################################################################
 
 candTrkEcaloSdband = copy.deepcopy(candTrkSelection)
