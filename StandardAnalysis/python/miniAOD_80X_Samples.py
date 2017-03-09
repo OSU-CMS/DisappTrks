@@ -13,9 +13,13 @@ dataset_names_data = {
     ############################################################################
 
     # MET 2016 PromptReco
+    'MET_2016B'       : "/MET/ahart-Run2016B-PromptReco-v2-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
     'MET_2016C'       : "/MET/ahart-Run2016C-PromptReco-v2-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
+    'MET_2016D'       : "/MET/ahart-Run2016D-PromptReco-v2-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
+    'MET_2016E'       : "/MET/ahart-Run2016E-PromptReco-v2-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
     'MET_2016F'       : "/MET/ahart-Run2016F-PromptReco-v1-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
     'MET_2016G'       : "/MET/ahart-Run2016G-PromptReco-v1-DisappTrks-v8-58d73df75df4f7c009ddc0cc54b0773f/USER",
+    'MET_2016H'       : ["/MET/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER", "/MET/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-58d73df75df4f7c009ddc0cc54b0773f/USER"],
 
     # SingleEle PromptReco
     'SingleEle_2016B' : "/SingleElectron/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v8-addfbe4d6f0cf1056130ceadde75d969/USER",
