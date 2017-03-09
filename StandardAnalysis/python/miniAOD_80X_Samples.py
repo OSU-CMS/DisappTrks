@@ -48,10 +48,12 @@ dataset_names_data = {
     'Tau_2016H'        :  ["/Tau/ahart-Run2016H-PromptReco-v2-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER", "/Tau/ahart-Run2016H-PromptReco-v3-DisappTrks-v1-baeccab93c8c5cab5837a97f96996439/USER"],
 
     # ZeroBias PromptReco
+    'ZeroBias_2016B' : "/ZeroBias/ahart-Run2016B-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016C' : "/ZeroBias/ahart-Run2016C-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016D' : "/ZeroBias/ahart-Run2016D-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016E' : "/ZeroBias/ahart-Run2016E-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016F' : "/ZeroBias/ahart-Run2016F-PromptReco-v1-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
+    'ZeroBias_2016G' : "/ZeroBias/ahart-Run2016G-PromptReco-v1-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER",
     'ZeroBias_2016H' : ["/ZeroBias/ahart-Run2016H-PromptReco-v2-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER", "/ZeroBias/ahart-Run2016H-PromptReco-v3-DisappTrks-v8-369b4fc9d4b0224d59848b34d927552e/USER"],
 }
 
