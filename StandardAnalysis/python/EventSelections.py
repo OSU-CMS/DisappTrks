@@ -163,6 +163,26 @@ justADisTrk = cms.PSet(
 )
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
+justADisTrkNHits3 = copy.deepcopy (justADisTrk)
+justADisTrkNHits3.name = cms.string ("JustADisTrkNHits3")
+removeCuts (justADisTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (justADisTrkNHits3.cuts, [cutTrkNValidHits3])
+
+justADisTrkNHits4 = copy.deepcopy (justADisTrk)
+justADisTrkNHits4.name = cms.string ("JustADisTrkNHits4")
+removeCuts (justADisTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (justADisTrkNHits4.cuts, [cutTrkNValidHits4])
+
+justADisTrkNHits5 = copy.deepcopy (justADisTrk)
+justADisTrkNHits5.name = cms.string ("JustADisTrkNHits5")
+removeCuts (justADisTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (justADisTrkNHits5.cuts, [cutTrkNValidHits5])
+
+justADisTrkNHits6 = copy.deepcopy (justADisTrk)
+justADisTrkNHits6.name = cms.string ("JustADisTrkNHits6")
+removeCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits6])
+
 ##########################################################################
 
 candTrkEcaloSdband = copy.deepcopy(candTrkSelection)
