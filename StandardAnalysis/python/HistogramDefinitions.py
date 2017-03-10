@@ -1421,6 +1421,12 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("nJets"),
         ),
         cms.PSet (
+            name = cms.string("nTracks"),
+            title = cms.string(";number of tracks"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 10000.0),
+            inputVariables = cms.vstring("nTracks"),
+        ),
+        cms.PSet (
             name = cms.string("dijetMaxDeltaPhi"),
             title = cms.string("Maximum #Delta#Phi between two jets;#Delta#Phi_{max}(jet pairs)"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
