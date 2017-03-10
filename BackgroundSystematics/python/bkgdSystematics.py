@@ -23,6 +23,7 @@ class FakeTrackSystematic:
     _fout = None
     _canvas = None
     _luminosityLabel = "13 TeV"
+    _getTruthFakeRate = False
 
     def addTFile (self, fout):
         self._fout = fout
@@ -44,15 +45,27 @@ class FakeTrackSystematic:
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
+    def getTruthFakeRate (self, getTruthFakeRate):
+        self._getTruthFakeRate = getTruthFakeRate
+
     def printFakeRateRatio (self, nHits):
-        if hasattr (self, "Basic") and hasattr (self, "ZtoLL") and hasattr (self, "DisTrkNHits" + str (nHits)) and hasattr (self, "ZtoMuMuDisTrkNHits" + str (nHits)):
+        if hasattr (self, "DisTrkNHits" + str (nHits)) and hasattr (self, "ZtoMuMuDisTrkNHits" + str (nHits)):
             disTrkNHits = getattr (self, "DisTrkNHits" + str (nHits))
             zToMuMuDisTrkNHits = getattr (self, "ZtoMuMuDisTrkNHits" + str (nHits))
 
-            total = (self.Basic["yield"], self.ZtoLL["yield"])
-            totalError = (self.Basic["yieldError"], self.ZtoLL["yieldError"])
-            passes = (disTrkNHits["yield"], zToMuMuDisTrkNHits["yield"])
-            passesError = (disTrkNHits["yieldError"], zToMuMuDisTrkNHits["yieldError"])
+            total = (disTrkNHits["total"], zToMuMuDisTrkNHits["total"])
+            totalError = (disTrkNHits["totalError"], zToMuMuDisTrkNHits["totalError"])
+            if hasattr (self, "Basic") and hasattr (self, "ZtoLL"):
+                total = (self.Basic["yield"], self.ZtoLL["yield"])
+                totalError = (self.Basic["yieldError"], self.ZtoLL["yieldError"])
+
+            disTrkCorrection = zToMuMuDisTrkCorrection = 1.0
+            disTrkCorrectionError = zToMuMuDisTrkCorrectionError = 0.0
+            if self._getTruthFakeRate:
+                (disTrkCorrection, disTrkCorrectionError) = self.getTruthFakeRateCorrection (disTrkNHits)
+                (zToMuMuDisTrkCorrection, zToMuMuDisTrkCorrectionError) = self.getTruthFakeRateCorrection (zToMuMuDisTrkNHits)
+            passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
+            passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
 
             fakeRate = (passes[0] / total[0], passes[1] / total[1])
             fakeRateError = (math.hypot ((passes[0] * totalError[0]) / (total[0] * total[0]), (passesError[0] * total[0]) / (total[0] * total[0])), math.hypot ((passes[1] * totalError[1]) / (total[1] * total[1]), (passesError[1] * total[1]) / (total[1] * total[1])))
@@ -62,9 +75,23 @@ class FakeTrackSystematic:
             print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
             return (fakeRate, fakeRateError, ratio, ratioError)
         else:
-            print "Basic, ZtoLL, DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
+            print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
+    def getTruthFakeRateCorrection (self, channel):
+        sample = channel["sample"]
+        condorDir = channel["condorDir"]
+        name = channel["name"]
+        hist = "Track Plots/bestMatchPdgId"
+        genMatch = getHist (sample, condorDir, name + "Plotter", hist)
+
+        totalError = Double (0.0)
+        total = genMatch.IntegralAndError (0, genMatch.GetNbinsX () + 1, totalError)
+        passes = genMatch.GetBinContent (1)
+        passesError = genMatch.GetBinError (1)
+
+        (correction, correctionErrorLow, correctionErrorHigh) = getEfficiency (passes, passesError, total, totalError)
+        return (correction, max (correctionErrorLow, correctionErrorHigh))
 
     def printSystematic (self):
         fakeRate3, fakeRate3Error, ratio3, ratio3Error = self.printFakeRateRatio (3)
