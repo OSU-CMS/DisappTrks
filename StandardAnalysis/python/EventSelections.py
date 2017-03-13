@@ -155,12 +155,16 @@ disTrkNoEcalo = copy.deepcopy(disTrkSelection)
 disTrkNoEcalo.name = cms.string("DisTrkNoEcalo")
 removeCuts(disTrkNoEcalo.cuts, [cutTrkEcalo])
 
-justADisTrk = cms.PSet(
-    name = cms.string("JustADisTrk"),
+justAVertex = cms.PSet(
+    name = cms.string("JustAVertex"),
     triggers = cms.vstring(),
     cuts = cms.VPSet (
+        cutGoodPV,
     )
 )
+
+justADisTrk = copy.deepcopy (justAVertex)
+justADisTrk.name = cms.string ("JustADisTrk")
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
 justADisTrkNHits3 = copy.deepcopy (justADisTrk)
