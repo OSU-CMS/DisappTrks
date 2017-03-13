@@ -1447,6 +1447,25 @@ EventVariableHistograms = cms.PSet(
     )
 )
 
+TrackEventVariableHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks", "eventvariables"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("nJetsVsTrackPhi"),
+            title = cms.string(";track #phi;number of jets"),
+            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(15, 0.0, 15.0),
+            inputVariables = cms.vstring("track.phi", "nJets"),
+        ),
+        cms.PSet (
+            name = cms.string("nTracksVsTrackPhi"),
+            title = cms.string(";track #phi;number of tracks"),
+            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
+            inputVariables = cms.vstring("track.phi", "nTracks"),
+        ),
+    )
+)
 
 
 ##############################################################################################
