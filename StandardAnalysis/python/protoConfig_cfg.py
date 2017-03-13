@@ -208,6 +208,7 @@ histSets = cms.VPSet (
     EventVariableHistograms,
     EventVariablePVHistograms,
     TrackMETHistograms,
+    TrackEventVariableHistograms,
 )
 
 histSetsDebug = cms.VPSet(
