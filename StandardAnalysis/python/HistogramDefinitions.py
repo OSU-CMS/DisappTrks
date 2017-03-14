@@ -1427,6 +1427,12 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("nTracks"),
         ),
         cms.PSet (
+            name = cms.string("trackRho"),
+            title = cms.string(";#rho_{track}"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 1000.0),
+            inputVariables = cms.vstring("trackRho"),
+        ),
+        cms.PSet (
             name = cms.string("dijetMaxDeltaPhi"),
             title = cms.string("Maximum #Delta#Phi between two jets;#Delta#Phi_{max}(jet pairs)"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
@@ -1463,6 +1469,13 @@ TrackEventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(1, -3.2, 3.2),
             binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.nTracks"),
+        ),
+        cms.PSet (
+            name = cms.string("trackRhoVsTrackPhi"),
+            title = cms.string(";track #phi;#rho_{track}"),
+            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(1000, 0.0, 1000.0),
+            inputVariables = cms.vstring("track.phi", "eventvariable.trackRho"),
         ),
     )
 )
