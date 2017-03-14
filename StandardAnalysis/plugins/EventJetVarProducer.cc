@@ -1,6 +1,8 @@
 #ifndef EVENT_JET_VAR_PRODUCER
 #define EVENT_JET_VAR_PRODUCER
 
+#include "TH2D.h"
+#include "TH1D.h"
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "TLorentzVector.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
@@ -24,6 +26,8 @@ private:
   edm::EDGetTokenT<vector<reco::Track> >            tokenLostTracks_;
 
   bool IsValidJet(const TYPE(jets) & jet);
+
+  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<reco::Track> > &, double &) const;
 };
 
 
@@ -109,14 +113,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     nJets++;
   }
 
-  unsigned nTracks = 0;
-  for (const auto &pfCand : *pfCands)
-    {
-      if (pfCand.charge () && pfCand.numberOfHits () > 0)
-        nTracks++;
-    }
-  if (lostTracks.isValid ())
-    nTracks += lostTracks->size ();
+  double trackRho = 0.0;
+  unsigned nTracks = getNTracks (pfCands, lostTracks, trackRho);
 
   (*eventvariables)["nJets"]            = nJets;
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
@@ -127,6 +125,56 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["runNumber"]  = event.run ();
 
   (*eventvariables)["nTracks"]  = nTracks;
+  (*eventvariables)["trackRho"]  = trackRho;
+}
+
+unsigned
+EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<reco::Track> > &lostTracks, double &trackRho) const
+{
+  unsigned nTracks = 0.0;
+  TH2D *etaPhi = new TH2D ("etaPhi", ";#phi;#eta", 20, -3.142, 3.142, 20, -2.5, 2.5);
+  for (const auto &pfCand : *pfCands)
+    {
+      if (pfCand.charge () && pfCand.numberOfHits () > 0)
+        {
+          nTracks++;
+          etaPhi->Fill (pfCand.phi (), pfCand.eta ());
+        }
+    }
+  if (lostTracks.isValid ())
+    {
+      nTracks += lostTracks->size ();
+      for (const auto &lostTrack : *lostTracks)
+        etaPhi->Fill (lostTrack.phi (), lostTrack.eta ());
+    }
+
+  set<double> trackNumberDensity;
+  for (int iPhi = 1; iPhi <= etaPhi->GetXaxis ()->GetNbins (); iPhi++)
+    {
+      for (int iEta = 1; iEta <= etaPhi->GetYaxis ()->GetNbins (); iEta++)
+        {
+          double phiWidth = etaPhi->GetXaxis ()->GetBinWidth (iPhi),
+                 etaWidth = etaPhi->GetYaxis ()->GetBinWidth (iEta),
+                 area = phiWidth * etaWidth,
+                 number = etaPhi->GetBinContent (iPhi, iEta);
+
+          trackNumberDensity.insert (number / area);
+        }
+    }
+
+  unsigned i = 0, n = trackNumberDensity.size ();
+  trackRho = 0.0;
+  for (set<double>::const_iterator numberDensity = trackNumberDensity.cbegin (); i <= n / 2.0 && numberDensity != trackNumberDensity.cend (); numberDensity++, i++)
+    {
+      if (n % 2 && i == (n - 1) / 2)
+        trackRho = *numberDensity;
+      if (!(n % 2) && (i == (n / 2) - 1 || i == n / 2))
+        trackRho += *numberDensity;
+    }
+  if (!(n % 2))
+    trackRho /= 2.0;
+
+  return nTracks;
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
