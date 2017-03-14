@@ -161,6 +161,7 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
           trackNumberDensity.insert (number / area);
         }
     }
+  delete etaPhi;
 
   unsigned i = 0, n = trackNumberDensity.size ();
   trackRho = 0.0;
