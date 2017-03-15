@@ -37,6 +37,7 @@ dataset_names_data = {
     'SingleMu_2016E'  : "/SingleMuon/ahart-Run2016E-PromptReco-v2-DisappTrks-v8-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016F'  : "/SingleMuon/ahart-Run2016F-PromptReco-v1-DisappTrks-v8-c0937f7e1b09431ec4046954bdd16494/USER",
     'SingleMu_2016G'  : "/SingleMuon/ahart-Run2016G-PromptReco-v1-DisappTrks-v8-c0937f7e1b09431ec4046954bdd16494/USER",
+    'SingleMu_2016H'  : ["/SingleMuon/ahart-Run2016H-PromptReco-v2-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER", "/SingleMuon/wulsin-Run2016H-PromptReco-v3-DisappTrks-v2-c0937f7e1b09431ec4046954bdd16494/USER"],
 
     # Tau PromptReco
     'Tau_2016B'        : "/Tau/bfrancis-Run2016B-PromptReco-v2-DisappTrks-v8-e69bca4a9575e4a5110aaa47eb9af51b/USER",
