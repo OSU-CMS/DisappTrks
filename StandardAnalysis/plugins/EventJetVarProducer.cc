@@ -23,13 +23,13 @@ private:
   edm::EDGetTokenT<vector<TYPE(jets)> >             tokenJets_;
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
-  edm::EDGetTokenT<vector<reco::Track> >            tokenLostTracks_;
+  edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
 
   bool isFirstEvent_;
 
   bool IsValidJet(const TYPE(jets) & jet);
 
-  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<reco::Track> > &, double &);
+  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, double &);
 };
 
 
@@ -41,7 +41,7 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenJets_        =  consumes<vector<TYPE(jets)> >             (collections_.getParameter<edm::InputTag>  ("jets"));
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
   tokenPFCands_     =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("pfCandidates"));
-  tokenLostTracks_  =  consumes<vector<reco::Track> >            (collections_.getParameter<edm::InputTag>  ("lostTracks"));
+  tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -78,7 +78,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     return;
   }
 
-  edm::Handle<vector<reco::Track> > lostTracks;
+  edm::Handle<vector<pat::PackedCandidate> > lostTracks;
   event.getByToken (tokenLostTracks_, lostTracks);
 
   int nJets = 0;
@@ -134,7 +134,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 }
 
 unsigned
-EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<reco::Track> > &lostTracks, double &trackRho)
+EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<pat::PackedCandidate> > &lostTracks, double &trackRho)
 {
   unsigned nTracks = 0.0;
   TH2D *etaPhi = new TH2D ("etaPhi", ";#phi;#eta", 20, -3.142, 3.142, 20, -2.5, 2.5);
