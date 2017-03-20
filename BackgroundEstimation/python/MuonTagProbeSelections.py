@@ -13,7 +13,7 @@ MuonTagSkim = cms.PSet(
 )
 # See SMP-12-023 for example of W->mu nu selection
 tagMuonCuts = [
-    cutMuonPt25,
+    cutMuonPt, # this will be >22 for 76X and >26 for 80X
     cutMuonEta21,
     cutMuonTightID,
     cutMuonTightPFIso,
@@ -25,8 +25,8 @@ addCuts(MuonTagSkim.cuts, tagMuonCuts)
 ##################################################
 MuonTagPt35 = copy.deepcopy(MuonTagSkim)
 MuonTagPt35.name = cms.string("MuonTagPt35")
-addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt25)
-removeCuts(MuonTagPt35.cuts, [cutMuonPt25])
+addSingleCut(MuonTagPt35.cuts, cutMuonPt35, cutMuonPt)
+removeCuts(MuonTagPt35.cuts, [cutMuonPt])
 cutsToAdd = [
     cutMuonArbitration,
 ]

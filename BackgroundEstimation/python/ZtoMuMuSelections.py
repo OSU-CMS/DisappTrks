@@ -10,7 +10,7 @@ ZtoMuMu = cms.PSet(
     name = cms.string("ZtoMuMu"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet (
-        cutMuonPairPt25,
+        cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
         cutMuonPairEta21,
         cutMuonPairTightID,
         cutMuonPairTightPFIso,

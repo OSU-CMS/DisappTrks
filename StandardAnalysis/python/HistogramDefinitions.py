@@ -1510,3 +1510,47 @@ PVHistograms = cms.PSet(
         ),
     )
 )
+
+##################################################
+##### LogX bins for trigger efficiency plots #####
+##################################################
+
+binsLogX = []
+nBinsLogX = 1000
+binsLogXPowerHi = 3.0
+binsLogXPowerLo = 0.0
+
+binsLogXPowerWidth = (binsLogXPowerHi - binsLogXPowerLo) / nBinsLogX
+
+for ibin in range(nBinsLogX+1):
+    binsLogX.append(pow(10, binsLogXPowerLo + ibin * binsLogXPowerWidth))
+
+MetTriggerHistograms = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    histograms = cms.VPSet (
+         cms.PSet (
+            name = cms.string("metNoMuLogX"),
+            title = cms.string("MetNoMu;E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("noMuPt"),
+            ),
+        )
+    )
+
+EventTriggerVarHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("leadMuonPt"),
+            title = cms.string("Muon Transverse Momentum; muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("leadMuonPt"),
+        ),
+        cms.PSet(
+            name = cms.string("leadTrackPt"),
+            title = cms.string("Track Transverse Momentum; muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("leadTrackPt"),
+        ),
+    )
+)

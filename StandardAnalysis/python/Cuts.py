@@ -533,21 +533,18 @@ cutMCPt30 = cms.PSet(
 ##################################################
 ## muons
 ##################################################
-cutMuonPt20 = cms.PSet (
+
+cutMuonPt = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 1"),
-)
-cutMuonPt25 = cms.PSet (
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 25"),
+    cutString = cms.string("pt > 22"),
     numberRequired = cms.string(">= 1"),
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    cutMuonPt.cutString = cms.string("pt > 26")
 else:
-    print "# Using muon pt cut of >25 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Using muon pt cut of >22 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
 cutMuonPt35 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -576,16 +573,17 @@ cutMuonTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
-cutMuonPairPt20 = cms.PSet (
+
+cutMuonPairPt = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("pt > 22"),
     numberRequired = cms.string("== 2"),
 )
-cutMuonPairPt25 = cms.PSet (
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 25"),
-    numberRequired = cms.string("== 2"),
-)
+
+# already printed info message above
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    cutMuonPairPt.cutString = cms.string("pt > 26")
+
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -867,5 +865,95 @@ cutTrkMatchRecoTau = cms.PSet(
 cutTauMetMinusOne = cms.PSet (
     inputCollection = cms.vstring("taus"),
     cutString = cms.string("metNoMuMinusOnePt > 100"),
+    numberRequired = cms.string(">= 1"),
+)
+
+##################################################
+## Cuts used in the trigger efficiency measurement
+## Produced only with variableProducers.append('EventTriggerVarProducer')
+##################################################
+
+passesMainTrigger = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesMainTrigger > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("HLT_MET75_IsoTrk50_v")
+)
+passesHigherMetTrigger = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesHigherMetTrigger > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("HLT_MET90_IsoTrk50_v")
+)
+passesHLTMet75 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesHLTMet75 > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("hltMET75")
+)
+passesHLTMet90 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesHLTMet90 > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("hltMET90")
+)
+
+cutLeadJetCentral = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("fabs(etaJetLeading) <= 2.4"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Require leading jet to be central")
+)
+
+cutTrkEta25 = cms.PSet( # Cut for trigger efficiency measurement
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("fabs(eta) < 2.5"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNormalizedChi2 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("normalizedChi2 < 10.0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNLayersWMeasurement = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement >= 6"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkIsoTight = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.01"),
+    numberRequired = cms.string(">= 1"),
+)
+cutLeadTrkMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("leadTrackMatchToHLTTrack > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutAnyTrkMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("anyTrackMatchToHLTTrack > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+# to add -- deltaR match to charginos for MC
+
+cutMuonNMissIn = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("missingInnerHits == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMuonNMissMid = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("missingMiddleHits == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutLeadMuonMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("leadMuonMatchToHLTTrack > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutAnyMuonMatchHLTTrack = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("anyMuonMatchToHLTTrack > 0"),
     numberRequired = cms.string(">= 1"),
 )
