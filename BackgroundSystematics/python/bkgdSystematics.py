@@ -24,6 +24,10 @@ class FakeTrackSystematic:
     _canvas = None
     _luminosityLabel = "13 TeV"
     _getTruthFakeRate = False
+    _reweightToSample = None
+    _reweightToCondorDir = None
+    _reweightToChannel = None
+    _reweightToHist = None
 
     def addTFile (self, fout):
         self._fout = fout
@@ -44,6 +48,12 @@ class FakeTrackSystematic:
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+
+    def reweightTo (self, sampleName, condorDir, channelName, histName):
+        self._reweightToSample = sampleName
+        self._reweightToCondorDir = condorDir
+        self._reweightToChannel = channelName
+        self._reweightToHist = histName
 
     def getTruthFakeRate (self, getTruthFakeRate):
         self._getTruthFakeRate = getTruthFakeRate
@@ -67,6 +77,10 @@ class FakeTrackSystematic:
             passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
             passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
 
+            if self._reweightToSample and self._reweightToCondorDir and self._reweightToChannel and self._reweightToHist:
+                print "REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING"
+                total, totalError, passes, passesError = self.getReweightedYields (disTrkNHits, zToMuMuDisTrkNHits)
+
             fakeRate = (passes[0] / total[0], passes[1] / total[1])
             fakeRateError = (math.hypot ((passes[0] * totalError[0]) / (total[0] * total[0]), (passesError[0] * total[0]) / (total[0] * total[0])), math.hypot ((passes[1] * totalError[1]) / (total[1] * total[1]), (passesError[1] * total[1]) / (total[1] * total[1])))
             ratio = fakeRate[1] / fakeRate[0]
@@ -77,6 +91,53 @@ class FakeTrackSystematic:
         else:
             print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
+
+    def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits):
+        if hasattr (self, "Basic") and hasattr (self, "ZtoLL"):
+            sample = self.Basic["sample"]
+            condorDir = self.Basic["condorDir"]
+            name = self.Basic["name"]
+            disTrkTotalHist = getHist (sample, condorDir, name + "Plotter", self._reweightToHist)
+
+            sample = self.ZtoLL["sample"]
+            condorDir = self.ZtoLL["condorDir"]
+            name = self.ZtoLL["name"]
+            zToMuMuDisTrkTotalHist = getHist (sample, condorDir, name + "Plotter", self._reweightToHist)
+
+            sample = disTrkNHits["sample"]
+            condorDir = disTrkNHits["condorDir"]
+            name = disTrkNHits["name"]
+            disTrkPassesHist = getHist (sample, condorDir, name + "Plotter", self._reweightToHist)
+
+            sample = zToMuMuDisTrkNHits["sample"]
+            condorDir = zToMuMuDisTrkNHits["condorDir"]
+            name = zToMuMuDisTrkNHits["name"]
+            zToMuMuDisTrkPassesHist = getHist (sample, condorDir, name + "Plotter", self._reweightToHist)
+
+            weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, self._reweightToChannel + "Plotter", self._reweightToHist)
+            weightHist.Scale (1.0 / weightHist.Integral ())
+
+            disTrkTotalHist.Multiply (weightHist.Clone ())
+            zToMuMuDisTrkTotalHist.Multiply (weightHist.Clone ())
+            disTrkPassesHist.Multiply (weightHist.Clone ())
+            zToMuMuDisTrkPassesHist.Multiply (weightHist.Clone ())
+
+            N = (disTrkTotalHist.GetNbinsX (), zToMuMuDisTrkTotalHist.GetNbinsX ())
+            disTrkTotalError = Double (0.0)
+            zToMuMuDisTrkTotalError = Double (0.0)
+            total = (disTrkTotalHist.IntegralAndError (0, N[0] + 1, disTrkTotalError), zToMuMuDisTrkTotalHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkTotalError))
+            totalError = (disTrkTotalError, zToMuMuDisTrkTotalError)
+
+            N = (disTrkPassesHist.GetNbinsX (), zToMuMuDisTrkPassesHist.GetNbinsX ())
+            disTrkPassesError = Double (0.0)
+            zToMuMuDisTrkPassesError = Double (0.0)
+            passes = (disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError), zToMuMuDisTrkPassesHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkPassesError))
+            passesError = (disTrkPassesError, zToMuMuDisTrkPassesError)
+
+            return (total, totalError, passes, passesError)
+        else:
+            print "Basic and ZtoLL are not defined. Not reweighting fake track rates..."
+            return ((float ("nan"), float ("nan")), (float ("nan"), float ("nan")), (float ("nan"), float ("nan")), (float ("nan"), float ("nan")))
 
     def getTruthFakeRateCorrection (self, channel):
         sample = channel["sample"]
