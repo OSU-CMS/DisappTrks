@@ -171,9 +171,9 @@ scaleFactorProducers.append (ObjectScalingFactorProducer)
 # Set up the default variable producers
 ################################################################################
 variableProducers = []
-variableProducers.append("LifetimeWeightProducer")
-variableProducers.append("PrimaryVtxVarProducer")
-variableProducers.append("EventJetVarProducer")
+variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('PrimaryVtxVarProducer')
+variableProducers.append('EventJetVarProducer')
 variableProducers.append('PUScalingFactorProducer')
 variableProducers.append('ISRWeightProducer')
 variableProducers.append('TriggerWeightProducer')
@@ -189,6 +189,7 @@ from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.WtoMuNuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
+from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
 
 ################################################################################
@@ -243,4 +244,8 @@ histSetsMuon.append(TrackMuonMETHistograms)
 histSetsTau = copy.deepcopy(histSets)
 histSetsTau.append(TauExtraHistograms)
 histSetsTau.append(TrackTauHistograms)
+
+histSetsTrigger = copy.deepcopy(histSetsMuon)
+histSetsTrigger.append(MetTriggerHistograms)
+histSetsTrigger.append(EventTriggerVarHistograms)
 ################################################################################

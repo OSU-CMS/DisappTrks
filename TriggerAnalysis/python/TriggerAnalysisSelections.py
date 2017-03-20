@@ -1,16 +1,16 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-from DisappTrks.TriggerAnalysis.Cuts import *
+from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
 # MET leg
 
 METLegDenominator = cms.PSet(
     name = cms.string("METLegDenominator"),
-    triggers = triggersSingleMu2016,
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        cutMuonPt26,
+        cutMuonPt, # this will be >22 for 76X and >26 for 80X
         cutMuonEta21,
         cutMuonTightID,
         cutMuonNMissIn,
@@ -31,11 +31,11 @@ addCuts(MET90LegNumerator.cuts, [passesHLTMet90])
 
 TrackLegDenominatorWithMuons = cms.PSet(
     name = cms.string("TrackLegDenominatorWithMuons"),
-    triggers = triggersSingleMu2016,
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet75,
-        cutMuonPt26,
+        cutMuonPt,
         cutMuonEta21,
         cutMuonTightID,
         cutMuonNMissIn,
@@ -46,11 +46,11 @@ TrackLegDenominatorWithMuons = cms.PSet(
 
 TrackLegDenominatorWithMuonsMet90 = cms.PSet(
     name = cms.string("TrackLegDenominatorWithMuonsMet90"),
-    triggers = triggersSingleMu2016,
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet90,
-        cutMuonPt26,
+        cutMuonPt,
         cutMuonEta21,
         cutMuonTightID,
         cutMuonNMissIn,
@@ -71,11 +71,11 @@ addCuts(TrackLegNumeratorWithMuonsMet90.cuts, [cutLeadMuonMatchHLTTrack, passesH
 
 TrackLegDenominatorWithTracks = cms.PSet(
     name = cms.string("TrackLegDenominatorWithTracks"),
-    triggers = triggersSingleMu2016,
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet75,
-        cutTrkEta,
+        cutTrkEta25,
         cutTrkNormalizedChi2,
         cutTrkD0,
         cutTrkDZ,
@@ -83,17 +83,17 @@ TrackLegDenominatorWithTracks = cms.PSet(
         cutTrkNLayersWMeasurement,
         cutTrkNMissIn,
         cutTrkNMissMid,
-        cutTrkIso,
+        cutTrkIsoTight,
     )
 )
 
 TrackLegDenominatorWithTracksMet90 = cms.PSet(
     name = cms.string("TrackLegDenominatorWithTracksMet90"),
-    triggers = triggersSingleMu2016,
+    triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
         passesHLTMet90,
-        cutTrkEta,
+        cutTrkEta25,
         cutTrkNormalizedChi2,
         cutTrkD0,
         cutTrkDZ,
@@ -101,7 +101,7 @@ TrackLegDenominatorWithTracksMet90 = cms.PSet(
         cutTrkNLayersWMeasurement,
         cutTrkNMissIn,
         cutTrkNMissMid,
-        cutTrkIso,
+        cutTrkIsoTight,
     )
 )
 

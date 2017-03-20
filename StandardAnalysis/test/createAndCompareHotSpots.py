@@ -17,7 +17,7 @@ gROOT.SetBatch()
 def MakePlots(filePath, plotName, hotSpotsList):
     gStyle.SetOptStat(0)
     gStyle.SetOptTitle(0)
-    can = TCanvas('can', 'can', 10, 10, 800, 600)
+    can = TCanvas('can', 'can', 10, 10, 800, 800)
 
     inputFile = TFile(filePath, 'read')
 
@@ -73,6 +73,7 @@ def MakePlots(filePath, plotName, hotSpotsList):
     stdDevInefficiency = math.sqrt(stdDevInefficiency)
 
     can.SetLogz(True)
+    afterVeto.GetZaxis().SetLabelSize(0.025)
     afterVeto.Draw('colz')
     can.SaveAs('test_efficiency_' + plotName + '.pdf')
 
@@ -90,6 +91,7 @@ def MakePlots(filePath, plotName, hotSpotsList):
             afterVeto.SetBinContent(xbin, ybin, valueInSigma)
 
     can.SetLogz(False)
+    afterVeto.GetZaxis().SetLabelSize(0.04)
     afterVeto.Draw('colz')
 
     circles = []

@@ -11,7 +11,7 @@ WtoMuNu = cms.PSet(
     triggers = triggersSingleMu,
     cuts = cms.VPSet (
         cutGoodPV,
-        cutMuonPt25,
+        cutMuonPt, # this will be >22 for 76X and >26 for 80X
         cutMuonExactlyOne,
         cutElectronExactlyZero,
         cutMuonEta21,

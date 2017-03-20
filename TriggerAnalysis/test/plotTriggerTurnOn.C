@@ -47,7 +47,7 @@ void plot(const TString dir, const TString file,
 
   TFile * fin;
 
-  TString metHistName = "Met Plots/metNoMu";
+  TString metHistName = "Met Plots/metNoMuLogX";
   TString trackHistName = isMC ? "Eventvariable Plots/leadTrackPt" : "Eventvariable Plots/leadMuonPt";
 
   TString metNumeratorDir = "METLegNumerator";
@@ -479,17 +479,17 @@ void compare(vector< pair<TString, TString> > filesAndLegends, TString legendHea
 
 void plotTriggerTurnOn() {
 
-  // ReReco JSONs
-
   double lumi_2015D = 2669.752;
 
-  double lumi_2016B = 5929.002;
-  double lumi_2016C = 2645.968;
-  double lumi_2016D = 4350.505;
-  double lumi_2016E = 4117.098;
-  double lumi_2016F = 3185.972;
-  double lumi_2016G = 7721.368;
-  double lumi_2016H = 8635.591 + 221.442;
+  // Prompt JSONs
+
+  double lumi_2016B = 5733.079;
+  double lumi_2016C = 2573.399;
+  double lumi_2016D = 4071.484;
+  double lumi_2016E = 4009.132;
+  double lumi_2016F = 3092.106;
+  double lumi_2016G = 7540.488;
+  double lumi_2016H = 8390.540 + 215.149;
 
   double lumi_2016 = lumi_2016B + lumi_2016C + lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G + lumi_2016H;
 
@@ -502,7 +502,7 @@ void plotTriggerTurnOn() {
 
   // 2016 BC
 
-  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016BC",
+  plot("condor/2016_final/triggerEfficiency", "SingleMu_2016BC",
        10, 10,
        "2016 B+C", Form("%.2f fb^{-1}, 13 TeV", lumi_2016B + lumi_2016C),
        false,
@@ -510,26 +510,26 @@ void plotTriggerTurnOn() {
        false);
 
   // HLT_MET90_IsoTrk50_v
-  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016BC",
+  plot("condor/2016_final/triggerEfficiency", "SingleMu_2016BC",
       10, 10,
       "2016 B+C", Form("%.2f fb^{-1}, 13 TeV", lumi_2016B + lumi_2016C),
       true, // use met90
       false,
       false);
 
-  // 2016 DEFG
+  // 2016 DEFGH
 
-  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016DEFG",
+  plot("condor/2016_final/triggerEfficiency", "SingleMu_2016DEFGH",
        10, 10,
-       "2016 D-G", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G),
+       "2016 D-H", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G + lumi_2016H),
        false,
        false,
        false);
 
   // HLT_MET90_IsoTrk50_v
-  plot("condor/2016_rereco/triggerEfficiency", "SingleMu_2016DEFG",
+  plot("condor/2016_final/triggerEfficiency", "SingleMu_2016DEFGH",
       10, 10,
-      "2016 D-G", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G),
+      "2016 D-H", Form("%.2f fb^{-1}, 13 TeV", lumi_2016D + lumi_2016E + lumi_2016F + lumi_2016G + lumi_2016H),
       true, // use met90
       false,
       false);
@@ -539,30 +539,16 @@ void plotTriggerTurnOn() {
   vector< pair<TString, TString> > filesAndLegends;
 
   // compare MET75 to MET90 in BC
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
+  filesAndLegends.push_back(make_pair("condor/2016_final/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
+  filesAndLegends.push_back(make_pair("condor/2016_final/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
   compare(filesAndLegends, "SingleMu 2016 B+C", "BC_75to90");
 
   filesAndLegends.clear();
 
   // compare MET75 to MET90 in DEFG
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
-  compare(filesAndLegends, "SingleMu 2016 D-G", "DEFG_75to90");
-
-  filesAndLegends.clear();
-
-  // compare prompt to rereco in BC
-  filesAndLegends.push_back(make_pair("condor/trigEff80X_v4/SingleMu_2016BC_triggerEfficiencies.root", "Prompt"));
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016BC_triggerEfficiencies_met90.root", "ReReco"));
-  compare(filesAndLegends, "SingleMu 2016 B+C", "BC_PromptToReReco");
-
-  filesAndLegends.clear();
-
-  // compare prompt to rereco in DEFG
-  filesAndLegends.push_back(make_pair("condor/trigEff80X_v4_D-G/SingleMu_2016DEFG_triggerEfficiencies.root", "Prompt"));
-  filesAndLegends.push_back(make_pair("condor/2016_rereco/triggerEfficiency/SingleMu_2016DEFG_triggerEfficiencies_met90.root", "ReReco"));
-  compare(filesAndLegends, "SingleMu 2016 D-G", "DEFG_PromptToReReco");
+  filesAndLegends.push_back(make_pair("condor/2016_final/triggerEfficiency/SingleMu_2016DEFGH_triggerEfficiencies.root", "HLT_MET75_IsoTrk50_v*"));
+  filesAndLegends.push_back(make_pair("condor/2016_final/triggerEfficiency/SingleMu_2016DEFGH_triggerEfficiencies_met90.root", "HLT_MET90_IsoTrk50_v*"));
+  compare(filesAndLegends, "SingleMu 2016 D-H", "DEFG_75to90");
 
   filesAndLegends.clear();
 
