@@ -25,15 +25,18 @@ private:
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
   edm::EDGetTokenT<vector<reco::Track> >            tokenLostTracks_;
 
+  bool isFirstEvent_;
+
   bool IsValidJet(const TYPE(jets) & jet);
 
-  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<reco::Track> > &, double &) const;
+  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<reco::Track> > &, double &);
 };
 
 
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
-  EventVariableProducer(cfg)
+  EventVariableProducer(cfg),
+  isFirstEvent_ (true)
 {
   tokenJets_        =  consumes<vector<TYPE(jets)> >             (collections_.getParameter<edm::InputTag>  ("jets"));
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
@@ -126,10 +129,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   (*eventvariables)["nTracks"]  = nTracks;
   (*eventvariables)["trackRho"]  = trackRho;
+
+  isFirstEvent_ = false;
 }
 
 unsigned
-EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<reco::Track> > &lostTracks, double &trackRho) const
+EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<reco::Track> > &lostTracks, double &trackRho)
 {
   unsigned nTracks = 0.0;
   TH2D *etaPhi = new TH2D ("etaPhi", ";#phi;#eta", 20, -3.142, 3.142, 20, -2.5, 2.5);
@@ -143,9 +148,16 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
     }
   if (lostTracks.isValid ())
     {
+      if (isFirstEvent_)
+        clog << "[EventJetVarProducer] using lost tracks collection..." << endl;
       nTracks += lostTracks->size ();
       for (const auto &lostTrack : *lostTracks)
         etaPhi->Fill (lostTrack.phi (), lostTrack.eta ());
+    }
+  else
+    {
+      if (isFirstEvent_)
+        clog << "[EventJetVarProducer] NOT using lost tracks collection..." << endl;
     }
 
   set<double> trackNumberDensity;
