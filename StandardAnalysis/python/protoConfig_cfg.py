@@ -220,7 +220,9 @@ histSetsDebug = cms.VPSet(
 histSetsMetJet = cms.VPSet (
     MetHistograms,
     MetExtraHistograms,
-    JetHistograms
+    JetHistograms,
+    EventVariableHistograms,
+    EventVariablePVHistograms,
 )
 
 histSetsElectron = copy.deepcopy(histSets)
