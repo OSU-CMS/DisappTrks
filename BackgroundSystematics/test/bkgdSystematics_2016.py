@@ -89,6 +89,70 @@ if background == "FAKE" or background == "ALL":
     print "\n\n"
 
     print "********************************************************************************"
+    print "evaluating fake track systematic with nTracks reweighting with lost tracks"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("nTracksReweightedWithLostTracksFakeTrackSystematic_2016H" + ".root", "recreate")
+
+    nTracksReweightedWithLostTracksFakeTrackSystematic = FakeTrackSystematic ()
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addTFile (fout)
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addTCanvas (canvas)
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016H"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("Basic",         "BasicSelection",         "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits3",  "DisTrkSelectionNHits3",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits4",  "DisTrkSelectionNHits4",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits5",  "DisTrkSelectionNHits5",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits6",  "DisTrkSelectionNHits6",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.reweightTo  ("MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks",  "BasicSelection",  "Eventvariable Plots/nTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",              "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    nTracksReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+
+    print "********************************************************************************"
+
+    nTracksReweightedWithLostTracksFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating fake track systematic with trackRho reweighting with lost tracks"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("rhoReweightedWithLostTracksFakeTrackSystematic_2016H" + ".root", "recreate")
+
+    rhoReweightedWithLostTracksFakeTrackSystematic = FakeTrackSystematic ()
+    rhoReweightedWithLostTracksFakeTrackSystematic.addTFile (fout)
+    rhoReweightedWithLostTracksFakeTrackSystematic.addTCanvas (canvas)
+    rhoReweightedWithLostTracksFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016H"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("Basic",         "BasicSelection",         "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits3",  "DisTrkSelectionNHits3",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits4",  "DisTrkSelectionNHits4",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits5",  "DisTrkSelectionNHits5",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("DisTrkNHits6",  "DisTrkSelectionNHits6",  "MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.reweightTo  ("MET_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematicTestWithLostTracks",  "BasicSelection",  "Eventvariable Plots/trackRho")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",              "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+    rhoReweightedWithLostTracksFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",  "SingleMu_2016H",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackgroundTestWithLostTracks")
+
+    print "********************************************************************************"
+
+    rhoReweightedWithLostTracksFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
     print "evaluating fake track systematic in MC"
     print "--------------------------------------------------------------------------------"
 
