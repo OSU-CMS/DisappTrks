@@ -115,6 +115,7 @@ class FakeTrackSystematic:
             zToMuMuDisTrkPassesHist = getHist (sample, condorDir, name + "Plotter", self._reweightToHist)
 
             weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, self._reweightToChannel + "Plotter", self._reweightToHist)
+            #weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, disTrkNHits["name"] + "Plotter", self._reweightToHist)
             weightHist.Scale (1.0 / weightHist.Integral ())
 
             disTrkTotalHist.Multiply (weightHist.Clone ())
