@@ -24,10 +24,16 @@ class FakeTrackSystematic:
     _canvas = None
     _luminosityLabel = "13 TeV"
     _getTruthFakeRate = False
+
     _reweightToSample = None
     _reweightToCondorDir = None
     _reweightToChannel = None
     _reweightToHist = None
+
+    _reweightDenominatorToSample = None
+    _reweightDenominatorToCondorDir = None
+    _reweightDenominatorToChannel = None
+    _reweightDenominatorToHist = None
 
     def addTFile (self, fout):
         self._fout = fout
@@ -54,6 +60,12 @@ class FakeTrackSystematic:
         self._reweightToCondorDir = condorDir
         self._reweightToChannel = channelName
         self._reweightToHist = histName
+
+    def reweightDenominatorTo (self, sampleName, condorDir, channelName, histName):
+        self._reweightDenominatorToSample = sampleName
+        self._reweightDenominatorToCondorDir = condorDir
+        self._reweightDenominatorToChannel = channelName
+        self._reweightDenominatorToHist = histName
 
     def getTruthFakeRate (self, getTruthFakeRate):
         self._getTruthFakeRate = getTruthFakeRate
@@ -116,6 +128,12 @@ class FakeTrackSystematic:
 
             weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, self._reweightToChannel + "Plotter", self._reweightToHist)
             weightHist.Scale (1.0 / weightHist.Integral ())
+
+            weightHistDenominator = getHist (self._reweightDenominatorToSample, self._reweightDenominatorToCondorDir, self._reweightDenominatorToChannel + "Plotter", self._reweightDenominatorToHist)
+            weightHistDenominator.Scale (1.0 / weightHistDenominator.Integral ())
+
+            weightHist.Divide( weightHistDenominator )
+            #weightHist.Scale( 1.0 / weightHist.Integral ())
 
             disTrkTotalHist.Multiply (weightHist.Clone ())
             zToMuMuDisTrkTotalHist.Multiply (weightHist.Clone ())
