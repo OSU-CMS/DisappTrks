@@ -187,6 +187,30 @@ justADisTrkNHits6.name = cms.string ("JustADisTrkNHits6")
 removeCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits6])
 
+justAFakeTrk = copy.deepcopy (justADisTrk)
+justAFakeTrk.name = cms.string ("JustAFakeTrk")
+addCuts(justAFakeTrk.cuts, [cutTrkMatchFake])
+
+justAFakeTrkNHits3 = copy.deepcopy (justAFakeTrk)
+justAFakeTrkNHits3.name = cms.string ("JustAFakeTrkNHits3")
+removeCuts (justAFakeTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNHits3.cuts, [cutTrkNValidHits3])
+
+justAFakeTrkNHits4 = copy.deepcopy (justAFakeTrk)
+justAFakeTrkNHits4.name = cms.string ("JustAFakeTrkNHits4")
+removeCuts (justAFakeTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNHits4.cuts, [cutTrkNValidHits4])
+
+justAFakeTrkNHits5 = copy.deepcopy (justAFakeTrk)
+justAFakeTrkNHits5.name = cms.string ("JustAFakeTrkNHits5")
+removeCuts (justAFakeTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNHits5.cuts, [cutTrkNValidHits5])
+
+justAFakeTrkNHits6 = copy.deepcopy (justAFakeTrk)
+justAFakeTrkNHits6.name = cms.string ("JustAFakeTrkNHits6")
+removeCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits6])
+
 ##########################################################################
 
 candTrkEcaloSdband = copy.deepcopy(candTrkSelection)
