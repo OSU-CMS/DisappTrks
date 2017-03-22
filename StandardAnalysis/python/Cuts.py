@@ -444,11 +444,7 @@ cutTrkMatchGenTau = cms.PSet(
 cutTrkMatchFake = cms.PSet(
     # not matched to tau, electron, or muon
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("\
-    genMatchedParticle.directPromptTauDecayProductFinalState.isNull && \
-    genMatchedParticle.directHardProcessTauDecayProductFinalState.isNull && \
-    abs ( genMatchedParticle.promptFinalState.pdgId ) != 11 && \
-    abs ( genMatchedParticle.promptFinalState.pdgId ) != 13"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenPhoton = cms.PSet(
