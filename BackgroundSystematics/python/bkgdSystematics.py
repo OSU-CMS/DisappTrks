@@ -28,6 +28,7 @@ class FakeTrackSystematic:
     _reweightToCondorDir = None
     _reweightToChannel = None
     _reweightToHist = None
+    _plotDiff = False
 
     def addTFile (self, fout):
         self._fout = fout
@@ -57,6 +58,9 @@ class FakeTrackSystematic:
 
     def getTruthFakeRate (self, getTruthFakeRate):
         self._getTruthFakeRate = getTruthFakeRate
+
+    def plotDiff (self, plotDiff = True):
+        self._plotDiff = plotDiff
 
     def printFakeRateRatio (self, nHits):
         if hasattr (self, "DisTrkNHits" + str (nHits)) and hasattr (self, "ZtoMuMuDisTrkNHits" + str (nHits)):
@@ -88,6 +92,9 @@ class FakeTrackSystematic:
             ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0]))
 
             print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
+            if self._plotDiff:
+                ratio = fakeRate[1] - fakeRate[0]
+                ratioError = math.hypot (fakeRateError[1], fakeRateError[0])
             return (fakeRate, fakeRateError, ratio, ratioError)
         else:
             print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
@@ -236,7 +243,7 @@ class FakeTrackSystematic:
         line.SetLineColor (1)
 
         setStyle (ratio)
-        setAxisStyle (ratio, yTitle = "P_{fake}^{Z#rightarrow#mu#mu} / P_{fake}^{basic}")
+        setAxisStyle (ratio, yTitle = ("P_{fake}^{Z#rightarrow#mu#mu} / P_{fake}^{basic}" if not self._plotDiff else "P_{fake}^{Z#rightarrow#mu#mu} - P_{fake}^{basic}"))
         self._canvas.cd ()
         self._canvas.SetLogy (False)
         ratio.Draw ()
