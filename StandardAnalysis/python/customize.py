@@ -3,7 +3,7 @@ from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
 import os
 
-def customize (process, runPeriod):
+def customize (process, runPeriod, applyPUReweighting = True):
 
     if runPeriod == "2015":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
@@ -61,5 +61,9 @@ def customize (process, runPeriod):
         setThresholdForVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
+
+    if not applyPUReweighting:
+        process.PUScalingFactorProducer.PU     = cms.string ("")
+        process.PUScalingFactorProducer.target = cms.string ("")
 
     return process
