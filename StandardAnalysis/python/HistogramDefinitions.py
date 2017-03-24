@@ -1433,6 +1433,20 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("trackRho"),
         ),
         cms.PSet (
+            name = cms.string("nTracksVsNPV"),
+            title = cms.string(";number of primary vertices;number of tracks"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
+            inputVariables = cms.vstring("numPVReco", "nTracks"),
+        ),
+        cms.PSet (
+            name = cms.string("trackRhoVsNPV"),
+            title = cms.string(";number of primary vertices;#rho_{track}"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(1000, 0.0, 1000.0),
+            inputVariables = cms.vstring("numPVReco", "trackRho"),
+        ),
+        cms.PSet (
             name = cms.string("dijetMaxDeltaPhi"),
             title = cms.string("Maximum #Delta#Phi between two jets;#Delta#Phi_{max}(jet pairs)"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
@@ -1449,26 +1463,6 @@ EventVariableHistograms = cms.PSet(
             title = cms.string("#Delta#Phi(E_{T}^{miss},subleading jet);#Delta#Phi(E_{T}^{miss},subleading jet)"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
             inputVariables = cms.vstring("deltaPhiMetJetSubleading"),
-        ),
-    )
-)
-
-EventVariableEventVariableHistograms = cms.PSet(
-    inputCollection = cms.vstring("eventvariables", "eventvariables"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("nTracksVsNPV"),
-            title = cms.string(";number of primary vertices;number of tracks"),
-            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
-            binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
-            inputVariables = cms.vstring("eventvariable.numPVReco", "eventvariable.nTracks"),
-        ),
-        cms.PSet (
-            name = cms.string("trackRhoVsNPV"),
-            title = cms.string(";number of primary vertices;#rho_{track}"),
-            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
-            binsY = cms.untracked.vdouble(1000, 0.0, 1000.0),
-            inputVariables = cms.vstring("eventvariable.numPVReco", "eventvariable.trackRho"),
         ),
     )
 )
