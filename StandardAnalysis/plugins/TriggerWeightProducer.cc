@@ -41,6 +41,8 @@ private:
   TGraphAsymmErrors * trackLegNumerator_;
   TGraphAsymmErrors * trackLegDenominator_;
 
+  bool isFirstEvent_;
+
   void FindEfficiency(TGraphAsymmErrors *, double, double &, double &, double &);
   const TVector2 getPFMETNoMu(const vector<TYPE(mets)> &, const vector<TYPE(muons)> &) const;
   const osu::Track &getLeadTrack (const vector<osu::Track> &) const;
@@ -58,7 +60,8 @@ TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
   metLegNumerator_ (NULL),
   metLegDenominator_ (NULL),
   trackLegNumerator_ (NULL),
-  trackLegDenominator_ (NULL)
+  trackLegDenominator_ (NULL),
+  isFirstEvent_ (true)
 {
   metsToken_            = consumes<vector<TYPE(mets)> >        (collections_.getParameter<edm::InputTag> ("mets"));
   muonsToken_           = consumes<vector<TYPE(muons)> >       (collections_.getParameter<edm::InputTag> ("muons"));
@@ -107,7 +110,9 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
     return;
   }
 
-  if(event.isRealData()) {
+  if(event.isRealData() || efficiencyFile_ == "" || dataset_ == "" || target_ == "") {
+    if (isFirstEvent_)
+      clog << "[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false") << ", efficiencyFile_: \"" << efficiencyFile_ << "\", dataset_: \"" << dataset_ << "\", target_: \"" << target_ << "\")" << endl;
 
     (*eventvariables)["metLegWeight"] = 1;
     (*eventvariables)["metLegWeightMCUp"] = 1;
@@ -120,6 +125,8 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
     (*eventvariables)["trackLegWeightMCDown"] = 1;
     (*eventvariables)["trackLegWeightDataUp"] = 1;
     (*eventvariables)["trackLegWeightDataDown"] = 1;
+
+    isFirstEvent_ = false;
 
     return;
   }
@@ -192,6 +199,9 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
       trackWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
     }
 
+  if (isFirstEvent_)
+    clog << "[TriggerWeightProducer] Applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false") << ", efficiencyFile_: \"" << efficiencyFile_ << "\", dataset_: \"" << dataset_ << "\", target_: \"" << target_ << "\")" << endl;
+
   // store variables
 
   (*eventvariables)["metLegWeight"] = metWeight;
@@ -205,6 +215,8 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
   (*eventvariables)["trackLegWeightMCDown"] = trackWeightMCDown;
   (*eventvariables)["trackLegWeightDataUp"] = trackWeightDataUp;
   (*eventvariables)["trackLegWeightDataDown"] = trackWeightDataDown;
+
+  isFirstEvent_ = false;
 }
 
 void TriggerWeightProducer::FindEfficiency(TGraphAsymmErrors * graph, double value,
