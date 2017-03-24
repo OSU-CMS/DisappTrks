@@ -3,7 +3,7 @@ from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
 import os
 
-def customize (process, runPeriod, applyPUReweighting = True):
+def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True):
 
     if runPeriod == "2015":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
@@ -65,5 +65,10 @@ def customize (process, runPeriod, applyPUReweighting = True):
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")
         process.PUScalingFactorProducer.target = cms.string ("")
+
+    if not applyTriggerReweighting:
+        process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
+        process.TriggerWeightProducer.dataset         =  cms.string  ("")
+        process.TriggerWeightProducer.target          =  cms.string  ("")
 
     return process
