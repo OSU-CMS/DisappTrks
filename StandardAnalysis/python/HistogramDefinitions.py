@@ -1453,6 +1453,26 @@ EventVariableHistograms = cms.PSet(
     )
 )
 
+EventVariableEventVariableHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "eventvariables"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("nTracksVsNPV"),
+            title = cms.string(";number of primary vertices;number of tracks"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
+            inputVariables = cms.vstring("eventvariable.numPVReco", "eventvariable.nTracks"),
+        ),
+        cms.PSet (
+            name = cms.string("trackRhoVsNPV"),
+            title = cms.string(";number of primary vertices;#rho_{track}"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(1000, 0.0, 1000.0),
+            inputVariables = cms.vstring("eventvariable.numPVReco", "eventvariable.trackRho"),
+        ),
+    )
+)
+
 TrackEventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     histograms = cms.VPSet (
