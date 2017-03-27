@@ -17,7 +17,6 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
-        moveVariableProducer (process, "TriggerWeightProducer")
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
         setThresholdForVeto (process, 2.0)
@@ -36,7 +35,6 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016BC')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
-        moveVariableProducer (process, "TriggerWeightProducer")
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
         setThresholdForVeto (process, 2.0)
@@ -55,7 +53,6 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
-        moveVariableProducer (process, "TriggerWeightProducer")
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
         setThresholdForVeto (process, 2.0)
@@ -70,5 +67,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
         process.TriggerWeightProducer.dataset         =  cms.string  ("")
         process.TriggerWeightProducer.target          =  cms.string  ("")
+
+    moveVariableProducer (process, "TriggerWeightProducer")
 
     return process
