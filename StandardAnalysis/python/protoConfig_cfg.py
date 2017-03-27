@@ -58,6 +58,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.categories.append ("OSUTrackProducer")
 #process.MessageLogger.categories.append ("osu_Track")
+process.MessageLogger.categories.append ("InfoPrinter")
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
