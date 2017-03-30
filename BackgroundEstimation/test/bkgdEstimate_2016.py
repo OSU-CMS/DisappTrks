@@ -68,16 +68,27 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addTFile (fout)
         electronBkgdEstimate.addTCanvas (canvas)
         electronBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleElectron_2016" + runPeriod])
+
+        # RAW/RECO missing for 2/9 events in C, 8/15 in E, and 3/6 events in F
+        electronTagProbeEffectiveLumi = lumi["SingleMuon_2016" + runPeriod]
+        if "C" in runPeriod or runPeriod == "":
+            electronTagProbeEffectiveLumi -= (2./9.) * lumi["SingleMuon_2016C"]
+        if "E" in runPeriod or runPeriod == "":
+            electronTagProbeEffectiveLumi -= (8./15.) * lumi["SingleMuon_2016E"]
+        if "F" in runPeriod or runPeriod == "":
+            electronTagProbeEffectiveLumi -= (3./6.) * lumi["SingleMuon_2016F"]
+        electronBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / electronTagProbeEffectiveLumi)
+
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronBkgdEstimate.addMetCut (100.0)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
-        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
-        electronBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",          "SingleEle_2016H",                           dirs['Andrew']+"2016/electronBackground")
-        electronBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",   "SingleEle_2016H",                           dirs['Andrew']+"2016/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+        electronBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",          "SingleEle_2016H",                           dirs['Brian']+"2016_final/electronBackground")
+        electronBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",   "SingleEle_2016H",                           dirs['Brian']+"2016_final/electronBackground")
 
         print "********************************************************************************"
 
@@ -144,8 +155,12 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addTFile (fout)
             tauBkgdEstimate.addTCanvas (canvas)
             tauBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod])
+
             if "D" in runPeriod or runPeriod == "":
               tauBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
+
+            # Fix me: SingleEle_2016F doesn't have the rereco thing, couldn't find RAW or RECO
+
             tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
             tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
             tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
