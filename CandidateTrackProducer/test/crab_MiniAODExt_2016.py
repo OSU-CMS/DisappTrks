@@ -14,7 +14,6 @@ config.General.workArea = 'crab'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
-config.JobType.numCores = 4
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC2016_cfg.py'  # For MC only
 config.JobType.allowUndistributedCMSSW = True
@@ -57,6 +56,8 @@ if __name__ == '__main__':
 ##########################################################################
     ## Do the MC first
 
+    config.Site.storageSite = 'T2_US_Purdue'
+
     config.Data.unitsPerJob = 75
     config.General.requestName = 'candidateTrackProducer_DYToLL'
     config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
@@ -67,8 +68,15 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
     #forkAndSubmit(config)
 
+    config.Data.unitsPerJob = 2
+    config.General.requestName = 'candidateTrackProducer_TT_RecoDebug'
+    config.Data.inputDataset = '/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/RunIISpring16DR80-PUSpring16_RECODEBUG_80X_mcRun2_asymptotic_2016_v3_ext1-v1/GEN-SIM-RECODEBUG'
+    #forkAndSubmit(config)
+
 ##########################################################################
     ## Now do data
+    config.JobType.numCores = 4
+
     config.Data.unitsPerJob = 10
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
 
