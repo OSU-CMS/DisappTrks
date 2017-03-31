@@ -25,6 +25,129 @@ runPeriods = ['BC', 'DEFG', 'DEFGH', 'H', '']
 if background == "FAKE" or background == "ALL":
 
     print "********************************************************************************"
+    print "evaluating fake track systematic in MC with nTracks reweighting"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("mcNTracksReweightedFakeTrackSystematic" + ".root", "recreate")
+
+    mcNTracksReweightedFakeTrackSystematic = FakeTrackSystematic ()
+    mcNTracksReweightedFakeTrackSystematic.addTFile (fout)
+    mcNTracksReweightedFakeTrackSystematic.addTCanvas (canvas)
+    mcNTracksReweightedFakeTrackSystematic.addLuminosityLabel ("13 TeV")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("Basic",         "JustAVertex",        "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits3",  "JustADisTrkNHits3",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits4",  "JustADisTrkNHits4",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits5",  "JustADisTrkNHits5",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits6",  "JustADisTrkNHits6",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.reweightTo  ("TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho",  "JustAVertex",  "Eventvariable Plots/nTracks")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("ZtoLL",                "JustAVertex",        "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcNTracksReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+
+    print "********************************************************************************"
+
+    mcNTracksReweightedFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating fake track systematic in MC with trackRho reweighting"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("mcTrackRhoReweightedFakeTrackSystematic" + ".root", "recreate")
+
+    mcTrackRhoReweightedFakeTrackSystematic = FakeTrackSystematic ()
+    mcTrackRhoReweightedFakeTrackSystematic.addTFile (fout)
+    mcTrackRhoReweightedFakeTrackSystematic.addTCanvas (canvas)
+    mcTrackRhoReweightedFakeTrackSystematic.addLuminosityLabel ("13 TeV")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("Basic",         "JustAVertex",        "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits3",  "JustADisTrkNHits3",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits4",  "JustADisTrkNHits4",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits5",  "JustADisTrkNHits5",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("DisTrkNHits6",  "JustADisTrkNHits6",  "TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.reweightTo  ("TTJets",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho",  "JustAVertex",  "Eventvariable Plots/trackRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("ZtoLL",                "JustAVertex",        "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTrackRhoReweightedFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+
+    print "********************************************************************************"
+
+    mcTrackRhoReweightedFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating fake track systematic in MC"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("mcFakeTrackSystematic" + ".root", "recreate")
+
+    mcFakeTrackSystematic = FakeTrackSystematic ()
+    mcFakeTrackSystematic.addTFile (fout)
+    mcFakeTrackSystematic.addTCanvas (canvas)
+    mcFakeTrackSystematic.addLuminosityLabel ("13 TeV")
+    mcFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "JustADisTrkNHits3",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "JustADisTrkNHits4",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "JustADisTrkNHits5",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "JustADisTrkNHits6",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+
+    print "********************************************************************************"
+
+    mcFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
+    print "evaluating fake track systematic in MC truth"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("mcTruthFakeTrackSystematic" + ".root", "recreate")
+
+    mcTruthFakeTrackSystematic = FakeTrackSystematic ()
+    mcTruthFakeTrackSystematic.addTFile (fout)
+    mcTruthFakeTrackSystematic.addTCanvas (canvas)
+    mcTruthFakeTrackSystematic.addLuminosityLabel ("13 TeV")
+    mcTruthFakeTrackSystematic.getTruthFakeRate (True)
+    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "JustADisTrkNHits3",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "JustADisTrkNHits4",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "JustADisTrkNHits5",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "JustADisTrkNHits6",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonWithRho")
+
+    print "********************************************************************************"
+
+    mcTruthFakeTrackSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
     print "evaluating fake track systematic with nTracks reweighting"
     print "--------------------------------------------------------------------------------"
 
@@ -145,65 +268,6 @@ if background == "FAKE" or background == "ALL":
     print "********************************************************************************"
 
     rhoReweightedWithLostTracksFakeTrackSystematic.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
-
-    print "\n\n"
-
-    print "********************************************************************************"
-    print "evaluating fake track systematic in MC"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("mcFakeTrackSystematic_2016D" + ".root", "recreate")
-
-    mcFakeTrackSystematic = FakeTrackSystematic ()
-    mcFakeTrackSystematic.addTFile (fout)
-    mcFakeTrackSystematic.addTCanvas (canvas)
-    mcFakeTrackSystematic.addLuminosityLabel ("13 TeV")
-    mcFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "JustADisTrkNHits3",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "JustADisTrkNHits4",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "JustADisTrkNHits5",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "JustADisTrkNHits6",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-
-    print "********************************************************************************"
-
-    mcFakeTrackSystematic.printSystematic ()
-
-    print "********************************************************************************"
-
-    fout.Close ()
-
-    print "\n\n"
-
-    print "********************************************************************************"
-    print "evaluating fake track systematic in MC truth"
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open ("mcTruthFakeTrackSystematic_2016D" + ".root", "recreate")
-
-    mcTruthFakeTrackSystematic = FakeTrackSystematic ()
-    mcTruthFakeTrackSystematic.addTFile (fout)
-    mcTruthFakeTrackSystematic.addTCanvas (canvas)
-    mcTruthFakeTrackSystematic.addLuminosityLabel ("13 TeV")
-    mcTruthFakeTrackSystematic.getTruthFakeRate (True)
-    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "JustADisTrkNHits3",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "JustADisTrkNHits4",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "JustADisTrkNHits5",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "JustADisTrkNHits6",  "TTJets",         dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "JustADisTrkNHits3",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "JustADisTrkNHits4",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "JustADisTrkNHits5",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-    mcTruthFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "JustADisTrkNHits6",  "DYJetsToLL_50",  dirs['Andrew']+"2015/fakeTrackProbabilityComparisonNHits")
-
-    print "********************************************************************************"
-
-    mcTruthFakeTrackSystematic.printSystematic ()
 
     print "********************************************************************************"
 
