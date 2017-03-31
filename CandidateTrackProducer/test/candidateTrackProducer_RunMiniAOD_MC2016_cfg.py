@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --filein file:HIG-RunIISpring16reHLT80-01472.root --fileout file:HIG-RunIISpring16MiniAODv2-02804.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 80X_mcRun2_asymptotic_v14 --customise_commands process.patTrigger.processName = cms.string(HLT2) --step PAT --era Run2_2016 --python_filename candidateTrackProducer_RunMiniAOD_MC2016_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1920
+# with command line options: step1 --filein file:HIG-RunIISpring16reHLT80-01472.root --fileout file:HIG-RunIISpring16MiniAODv2-02804.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 80X_mcRun2_asymptotic_v20 --customise_commands process.patTrigger.processName = cms.string(HLT2) --step PAT --era Run2_2016 --python_filename candidateTrackProducer_RunMiniAOD_MC2016_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1920
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -63,7 +63,7 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_v14', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_v20', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
