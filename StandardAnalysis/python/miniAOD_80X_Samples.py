@@ -64,6 +64,8 @@ dataset_names_bkgd = {
     ############################################################################
     'DYJetsToLL_50'      :  "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
     'WJetsToLNu'  :  "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM",
+
+    'TTJets_Debug' : "/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ahart-RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-DisappTrks-v1-6f0ba34bbc7f2d7f1e9cafc7dfe6265a/USER",
 }
 
 dataset_names_sig = {
