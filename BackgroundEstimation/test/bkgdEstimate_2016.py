@@ -20,8 +20,8 @@ background = background.upper ()
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-#runPeriods = ['BC', 'DEFGH', '']
-runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'DEFG', 'DEFGH', 'GH', 'H', '']
+runPeriods = ['BC', 'DEFGH', '']
+#runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'BC', 'DEF', 'DEFG', 'DEFGH', 'GH', 'H', '']
 
 nEstFake = []
 nEstElectron = []
@@ -122,12 +122,12 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
             muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
             muonBkgdEstimate.addMetCut (100.0)
-            muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
-            muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/muonBackground")
-            muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
-            #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"  +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
-            muonBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",             "SingleMu_2016H",                           dirs['Andrew']+"2016/muonBackground")
-            muonBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",      "SingleMu_2016H",                           dirs['Andrew']+"2016/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/muonBackground")
+            muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
+            #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
+            muonBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",             "SingleMu_2016H",                           dirs['Brian']+"2016_final/muonBackground")
+            muonBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",      "SingleMu_2016H",                           dirs['Brian']+"2016_final/muonBackground")
 
             print "********************************************************************************"
 
@@ -166,14 +166,14 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
             tauBkgdEstimate.addMetCut (100.0)
             tauBkgdEstimate.addRebinFactor (4)
-            tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016"   +  runPeriod,              dirs['Andrew']+"2016/muonBackground")
-            tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016"   +  runPeriod + "_rereco",  dirs['Andrew']+"2016/tauBackground")
-            tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Andrew']+"2016/electronBackground")
-            tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Andrew']+"2016/tauBackground")
-            tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"        +  runPeriod,              dirs['Andrew']+"2016/tauBackground")
-            #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016H",                                 dirs['Andrew']+"2016/tauBackground")
-            tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016H",                           dirs['Andrew']+"2016/electronBackground")
-            tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016H",                           dirs['Andrew']+"2016/electronBackground")
+            tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016"   +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
+            tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016"   +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/muonBackground")
+            tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+            tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/electronBackground")
+            tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"        +  runPeriod,              dirs['Brian']+"2016_final/tauBackground")
+            #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016H",                                 dirs['Brian']+"2016_final/tauBackground")
+            tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016H",                           dirs['Brian']+"2016_final/electronBackground")
+            tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016H",                           dirs['Brian']+"2016_final/electronBackground")
 
             print "********************************************************************************"
 
