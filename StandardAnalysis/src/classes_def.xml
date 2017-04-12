@@ -1,0 +1,25 @@
+<lcgdict>
+  <class name="SiGlobalPixelCluster">
+   <field name="err_x" transient="true"/>
+   <field name="err_y" transient="true"/>
+  </class>
+  <class name="std::vector<SiGlobalPixelCluster>"/>
+  <class name="edm::DetSet<SiGlobalPixelCluster>"/>
+  <class name="std::vector<edm::DetSet<SiGlobalPixelCluster> >"/>
+  <class name="edm::DetSetVector<SiGlobalPixelCluster>"/>
+  <class name="edmNew::DetSetVector<SiGlobalPixelCluster>"/>
+  <class name="edm::Wrapper<edm::DetSetVector<SiGlobalPixelCluster> >" />
+  <class name="edm::Wrapper<edmNew::DetSetVector<SiGlobalPixelCluster> >" />
+  <class name="edm::RefProd<edm::DetSetVector<SiGlobalPixelCluster> >" />
+  <class name="edm::Ref<edm::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edm::refhelper::FindForDetSetVector<SiGlobalPixelCluster> >" />
+  <class name="edm::ContainerMask<edmNew::DetSetVector<SiGlobalPixelCluster> >"/>
+  <class name="edm::Wrapper<edm::ContainerMask<edmNew::DetSetVector<SiGlobalPixelCluster> > >"/>
+  <class name="SiGlobalPixelClusterRefNew" />
+  <class name="edm::Ref<edm::DetSetVector<SiGlobalPixelCluster>,edm::DetSet<SiGlobalPixelCluster>,edm::refhelper::FindDetSetForDetSetVector<SiGlobalPixelCluster,edm::DetSetVector<SiGlobalPixelCluster> > >" />
+  <class name="edm::DetSetRefVector<SiGlobalPixelCluster,edm::DetSetVector<SiGlobalPixelCluster> >" />
+
+  <class name="std::vector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> >" />
+  <class name="edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> >" />
+  <class name="edm::Wrapper<edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> > >" />
+</lcgdict>
+

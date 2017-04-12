@@ -1,0 +1,13 @@
+<use name="root"/>
+<use name="rootrflx"/>
+<use name="boost"/>
+<use name="DataFormats/Common"/>
+<use name="DataFormats/DetId"/>
+<use name="DataFormats/GeometryVector"/>
+<use name="DataFormats/SiPixelCluster"/>
+<use name="Geometry/CommonDetUnit"/>
+<use name="Geometry/TrackerGeometryBuilder"/>
+<flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
+<export>
+  <lib  name="1"/>
+</export>
