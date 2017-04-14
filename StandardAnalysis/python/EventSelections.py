@@ -21,6 +21,7 @@ NoCuts = cms.PSet(
 basicSelection = cms.PSet(
     name = cms.string("BasicSelection"),
     triggers = triggersMet,
+    metFilters = metFilters,
     cuts = cms.VPSet (
         cutGoodPV,
         cutMet,
@@ -39,6 +40,7 @@ addCuts(basicSelection.cuts, jetCuts)
 metMinimalSkim = cms.PSet(
     name = cms.string("metMinimalSkim"),
     triggers = triggersMet,
+    metFilters = metFilters,
     cuts = cms.VPSet (
         cutGoodPV,
         cutMet,

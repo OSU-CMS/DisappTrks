@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
+from DisappTrks.StandardAnalysis.METFilters import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 import os
 
