@@ -1273,6 +1273,13 @@ MetExtraHistograms = cms.PSet(
             binsX = metBins,
             inputVariables = cms.vstring("noMuPt"),
             ),
+         cms.PSet (
+            name = cms.string("metNoMuVsMET"),
+            title = cms.string(";E_{T}^{miss} [GeV];E_{T}^{miss} excluding muons [GeV]"),
+            binsX = metBins,
+            binsY = metBins,
+            inputVariables = cms.vstring("pt", "noMuPt"),
+            ),
         )
     )
 
