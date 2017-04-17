@@ -24,12 +24,14 @@ private:
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
+  edm::EDGetTokenT<vector<reco::GenParticle> >      tokenMcparticles_;
 
   bool isFirstEvent_;
 
   bool IsValidJet(const TYPE(jets) & jet);
 
-  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, double &);
+  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, double &) const;
+  bool hasNeutralino (const edm::Handle<vector<reco::GenParticle> > &) const;
 };
 
 
@@ -42,6 +44,7 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
   tokenPFCands_     =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("pfCandidates"));
   tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
+  tokenMcparticles_ =  consumes<vector<reco::GenParticle> >      (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -81,6 +84,9 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   edm::Handle<vector<pat::PackedCandidate> > lostTracks;
   event.getByToken (tokenLostTracks_, lostTracks);
 
+  edm::Handle<vector<reco::GenParticle> > mcParticles;
+  event.getByToken (tokenMcparticles_, mcParticles);
+
   int nJets = 0;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
   double deltaPhiMetJetLeading    =  999.;  // default is large positive value
@@ -119,6 +125,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   double trackRho = 0.0;
   unsigned nTracks = getNTracks (pfCands, lostTracks, trackRho);
 
+  bool hasNeutralinoFlag = hasNeutralino (mcParticles);
+
   (*eventvariables)["nJets"]            = nJets;
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["deltaPhiMetJetLeading"]     = deltaPhiMetJetLeading;
@@ -130,11 +138,14 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["nTracks"]  = nTracks;
   (*eventvariables)["trackRho"]  = trackRho;
 
+  (*eventvariables)["isCharginoChargino"]  = !hasNeutralinoFlag;
+  (*eventvariables)["isCharginoNeutralino"]  = hasNeutralinoFlag;
+
   isFirstEvent_ = false;
 }
 
 unsigned
-EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<pat::PackedCandidate> > &lostTracks, double &trackRho)
+EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<pat::PackedCandidate> > &lostTracks, double &trackRho) const
 {
   unsigned nTracks = 0.0;
   TH2D *etaPhi = new TH2D ("etaPhi", ";#phi;#eta", 20, -3.142, 3.142, 20, -2.5, 2.5);
@@ -155,10 +166,8 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
         etaPhi->Fill (lostTrack.phi (), lostTrack.eta ());
     }
   else
-    {
-      if (isFirstEvent_)
-        clog << "[EventJetVarProducer] NOT using lost tracks collection..." << endl;
-    }
+    if (isFirstEvent_)
+      clog << "[EventJetVarProducer] NOT using lost tracks collection..." << endl;
 
   set<double> trackNumberDensity;
   for (int iPhi = 1; iPhi <= etaPhi->GetXaxis ()->GetNbins (); iPhi++)
@@ -188,6 +197,21 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
     trackRho /= 2.0;
 
   return nTracks;
+}
+
+bool
+EventJetVarProducer::hasNeutralino (const edm::Handle<vector<reco::GenParticle> > &mcParticles) const
+{
+  if (mcParticles.isValid ())
+    {
+      for (const auto &mcParticle : *mcParticles)
+        if (abs (mcParticle.pdgId ()) == 1000022)
+          return true;
+    }
+  else
+    if (isFirstEvent_)
+      clog << "[EventJetVarProducer] NOT determining generated signal event type..." << endl;
+  return false;
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
