@@ -62,6 +62,11 @@ cutMetBadChargedCandidateFilter = cms.PSet(
     cutString = cms.string("badChargedCandidateFilter"),
     numberRequired = cms.string(">= 1"),
 )
+cutMetFilters = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("badPFMuonFilter && badChargedCandidateFilter"),
+    numberRequired = cms.string(">= 1"),
+)
 
 ##################################################
 ## track-met pairs

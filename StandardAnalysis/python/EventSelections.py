@@ -23,8 +23,7 @@ basicSelection = cms.PSet(
     triggers = triggersMet,
     metFilters = metFilters,
     cuts = cms.VPSet (
-        cutMetBadPFMuonFilter,
-        cutMetBadChargedCandidateFilter,
+        cutMetFilters,
         cutGoodPV,
         cutMet,
     )
@@ -44,8 +43,7 @@ metMinimalSkim = cms.PSet(
     triggers = triggersMet,
     metFilters = metFilters,
     cuts = cms.VPSet (
-        cutMetBadPFMuonFilter,
-        cutMetBadChargedCandidateFilter,
+        cutMetFilters,
         cutGoodPV,
         cutMet,
     )
