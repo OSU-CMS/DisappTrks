@@ -30,11 +30,6 @@ SiGlobalClusterProducer::produce (edm::Event &event, const edm::EventSetup &setu
       for (edmNew::DetSet<SiPixelCluster>::const_iterator cluster = detSet->begin (); cluster != detSet->end (); cluster++)
         filler.push_back (SiGlobalPixelCluster (*cluster, detId, theTracker));
     }
-  /*for (edmNew::DetSetVector<SiGlobalPixelCluster>::const_iterator detSetIter = globalPixelClusters_->begin (); detSetIter != globalPixelClusters_->end (); detSetIter++)
-    {
-      edmNew::DetSet<SiGlobalPixelCluster> detSet (*globalPixelClusters_, (*detSetIter)[0], true);
-      cout << "pixel cluster (x, y, z): (" << detSet[0].globalX () << ", " << detSet[0].globalY () << ", " << detSet[0].globalZ () << ")" << endl;
-    }*/
 
   event.put (move (globalPixelClusters_), "globalPixelClusters");
 }
