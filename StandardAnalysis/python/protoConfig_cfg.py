@@ -83,6 +83,18 @@ else:
     print "# Using global tag " + mc_global_tag + "..."
 ################################################################################
 
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.BadPFMuonFilter.taggingMode = cms.bool(True)
+
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
+
+process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
+
 ################################################################################
 # Set up the collectionMap
 ################################################################################

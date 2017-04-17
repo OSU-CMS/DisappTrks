@@ -69,5 +69,6 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.target          =  cms.string  ("")
 
     moveVariableProducer (process, "TriggerWeightProducer")
+    process.schedule.insert (0, process.metFilterPath)
 
     return process
