@@ -9,9 +9,11 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 ElectronTagSkim = cms.PSet(
     name = cms.string("ElectronTagSkim"),
     triggers = triggersSingleEle,
+    metFilters = metFilters,
     cuts = cms.VPSet (),
 )
 tagElectronCuts = [
+    cutMetFilters,
     cutElectronPt25,
     cutElectronEta21,
     cutElectronTightID,

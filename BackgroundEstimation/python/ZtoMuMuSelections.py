@@ -9,7 +9,9 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 ZtoMuMu = cms.PSet(
     name = cms.string("ZtoMuMu"),
     triggers = triggersSingleMu,
+    metFilters = metFilters,
     cuts = cms.VPSet (
+        cutMetFilters,
         cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
         cutMuonPairEta21,
         cutMuonPairTightID,

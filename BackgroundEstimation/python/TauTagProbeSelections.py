@@ -11,10 +11,12 @@ from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *  # Get the 
 TauTagSkim = cms.PSet(
     name = cms.string("TauTagSkim"),
     triggers = triggersSingleTau,
+    metFilters = metFilters,
     cuts = cms.VPSet (),
 )
 # See SMP-12-023 for example of W->mu nu selection
 tagTauCuts = [
+    cutMetFilters,
     cutTauPt50,
     cutTauEta21,
     cutTauTightID,

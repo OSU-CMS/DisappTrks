@@ -9,10 +9,12 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 MuonTagSkim = cms.PSet(
     name = cms.string("MuonTagSkim"),
     triggers = triggersSingleMu,
+    metFilters = metFilters,
     cuts = cms.VPSet (),
 )
 # See SMP-12-023 for example of W->mu nu selection
 tagMuonCuts = [
+    cutMetFilters,
     cutMuonPt, # this will be >22 for 76X and >26 for 80X
     cutMuonEta21,
     cutMuonTightID,
