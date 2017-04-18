@@ -24,14 +24,14 @@ private:
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
-  edm::EDGetTokenT<vector<reco::GenParticle> >      tokenMcparticles_;
+  edm::EDGetTokenT<vector<pat::PackedGenParticle> >      tokenMcparticles_;
 
   bool isFirstEvent_;
 
   bool IsValidJet(const TYPE(jets) & jet);
 
   unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, double &) const;
-  bool hasNeutralino (const edm::Handle<vector<reco::GenParticle> > &) const;
+  bool hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
 };
 
 
@@ -44,7 +44,7 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
   tokenPFCands_     =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("pfCandidates"));
   tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
-  tokenMcparticles_ =  consumes<vector<reco::GenParticle> >      (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
+  tokenMcparticles_ =  consumes<vector<pat::PackedGenParticle> >      (collections_.getParameter<edm::InputTag>  ("mcparticles"));
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -84,7 +84,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   edm::Handle<vector<pat::PackedCandidate> > lostTracks;
   event.getByToken (tokenLostTracks_, lostTracks);
 
-  edm::Handle<vector<reco::GenParticle> > mcParticles;
+  edm::Handle<vector<pat::PackedGenParticle> > mcParticles;
   event.getByToken (tokenMcparticles_, mcParticles);
 
   int nJets = 0;
@@ -138,8 +138,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["nTracks"]  = nTracks;
   (*eventvariables)["trackRho"]  = trackRho;
 
-  (*eventvariables)["isCharginoChargino"]  = !hasNeutralinoFlag;
-  (*eventvariables)["isCharginoNeutralino"]  = hasNeutralinoFlag;
+  (*eventvariables)["isCharginoChargino"]  = (mcParticles.isValid () ? !hasNeutralinoFlag : false);
+  (*eventvariables)["isCharginoNeutralino"]  = (mcParticles.isValid () ? hasNeutralinoFlag : false);
 
   isFirstEvent_ = false;
 }
@@ -200,13 +200,18 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
 }
 
 bool
-EventJetVarProducer::hasNeutralino (const edm::Handle<vector<reco::GenParticle> > &mcParticles) const
+EventJetVarProducer::hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &mcParticles) const
 {
   if (mcParticles.isValid ())
     {
+      unsigned i = 0;
       for (const auto &mcParticle : *mcParticles)
-        if (abs (mcParticle.pdgId ()) == 1000022)
-          return true;
+        {
+          if (abs (mcParticle.pdgId ()) == 1000022)
+            return true;
+          if ((++i) >= 10)
+            break;
+        }
     }
   else
     if (isFirstEvent_)
