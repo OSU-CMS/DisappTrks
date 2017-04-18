@@ -672,6 +672,22 @@ disTrkSelectionCharginoChargino.cuts.insert (0, cutMCCharginoChargino)
 disTrkSelectionCharginoNeutralino = copy.deepcopy (disTrkSelection)
 disTrkSelectionCharginoNeutralino.name = cms.string ("DisTrkSelectionCharginoNeutralino")
 disTrkSelectionCharginoNeutralino.cuts.insert (0, cutMCCharginoNeutralino)
+
+charginoChargino = cms.PSet(
+    name = cms.string("CharginoChargino"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutMCCharginoChargino,
+    )
+)
+
+charginoNeutralino = cms.PSet(
+    name = cms.string("CharginoNeutralino"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutMCCharginoNeutralino,
+    )
+)
 ##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed

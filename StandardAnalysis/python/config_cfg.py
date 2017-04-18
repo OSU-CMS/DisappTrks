@@ -32,6 +32,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoNeutralino],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [charginoChargino],                   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [charginoNeutralino],                 histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
