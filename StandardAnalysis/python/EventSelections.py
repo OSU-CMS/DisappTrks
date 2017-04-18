@@ -62,7 +62,7 @@ isoTrkCuts = [
     cutTrkFiducialElectron,
     cutTrkFiducialMuon,
     cutTrkFiducialECAL,
-    cutTrkNValidPixelHits,
+    cutTrkNValidPixelHits3,
     cutTrkNValidHits,
     cutTrkNMissIn,
     cutTrkNMissMid,
