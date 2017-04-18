@@ -662,6 +662,18 @@ removeCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
 ##########################################################################
 
+##########################################################################
+# Selections including generated signal event type.
+##########################################################################
+disTrkSelectionCharginoChargino = copy.deepcopy (disTrkSelection)
+disTrkSelectionCharginoChargino.name = cms.string ("DisTrkSelectionCharginoChargino")
+disTrkSelectionCharginoChargino.cuts.insert (0, cutMCCharginoChargino)
+
+disTrkSelectionCharginoNeutralino = copy.deepcopy (disTrkSelection)
+disTrkSelectionCharginoNeutralino.name = cms.string ("DisTrkSelectionCharginoNeutralino")
+disTrkSelectionCharginoNeutralino.cuts.insert (0, cutMCCharginoNeutralino)
+##########################################################################
+
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
     if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):

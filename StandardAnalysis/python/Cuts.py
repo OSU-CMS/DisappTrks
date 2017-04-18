@@ -540,6 +540,16 @@ cutMCPt30 = cms.PSet(
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
 )
+cutMCCharginoChargino = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("isCharginoChargino"),
+    numberRequired = cms.string(">= 1"),
+)
+cutMCCharginoNeutralino = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("isCharginoNeutralino"),
+    numberRequired = cms.string(">= 1"),
+)
 
 
 ##################################################
