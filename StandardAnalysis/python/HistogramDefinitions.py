@@ -1575,3 +1575,92 @@ EventTriggerVarHistograms = cms.PSet(
         ),
     )
 )
+
+TrackDebugHitPatternHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("firstLayerWithValidHit"),
+            title = cms.string("First layer with VALID hit (pattern)"),
+            binsX = cms.untracked.vdouble(200, 0, 200),
+            inputVariables = cms.vstring("firstLayerWithValidHit"),
+        ),
+        cms.PSet (
+            name = cms.string("lastLayerWithValidHit"),
+            title = cms.string("Last layer with VALID hit (pattern)"),
+            binsX = cms.untracked.vdouble(200, 0, 200),
+            inputVariables = cms.vstring("lastLayerWithValidHit"),
+        ),
+        cms.PSet (
+            name = cms.string("packedPixelBarrelHitPattern"),
+            title = cms.string("Packed pixel barrel hit pattern"),
+            binsX = cms.untracked.vdouble(512, 0, 512),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern"),
+        ),
+        cms.PSet (
+            name = cms.string("packedPixelEndcapHitPattern"),
+            title = cms.string("Packed pixel endcap hit pattern"),
+            binsX = cms.untracked.vdouble(64, 0, 64),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer1"),
+            title = cms.string("hasValidHitInPixelBarrelLayer1"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer1"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer2"),
+            title = cms.string("hasValidHitInPixelBarrelLayer2"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer2"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer3"),
+            title = cms.string("hasValidHitInPixelBarrelLayer3"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer3"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelEndcapLayer1"),
+            title = cms.string("hasValidHitInPixelEndcapLayer1"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer1"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelEndcapLayer2"),
+            title = cms.string("hasValidHitInPixelEndcapLayer2"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer2"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingInnerHitsVspackedPixelBarrelHitPattern"),
+            title = cms.string("bestTrackMissingInnerHits vs packedPixelBarrelHitPattern"),
+            binsX = cms.untracked.vdouble(512, 0, 512),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "bestTrackMissingInnerHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelBarrelHitPattern"),
+            title = cms.string("bestTrackMissingMiddleHits vs packedPixelBarrelHitPattern"),
+            binsX = cms.untracked.vdouble(512, 0, 512),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "bestTrackMissingMiddleHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingInnerHitsVspackedPixelEndcapHitPattern"),
+            title = cms.string("bestTrackMissingInnerHits vs packedPixelEndcapHitPattern"),
+            binsX = cms.untracked.vdouble(64, 0, 64),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "bestTrackMissingInnerHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelEndcapHitPattern"),
+            title = cms.string("bestTrackMissingMiddleHits vs packedPixelEndcapHitPattern"),
+            binsX = cms.untracked.vdouble(64, 0, 64),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "bestTrackMissingMiddleHits"),
+        ),
+
+    )
+)
