@@ -1638,28 +1638,28 @@ TrackDebugHitPatternHistograms = cms.PSet(
             title = cms.string("bestTrackMissingInnerHits vs packedPixelBarrelHitPattern"),
             binsX = cms.untracked.vdouble(512, 0, 512),
             binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "bestTrackMissingInnerHits"),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "missingInnerHits"),
         ),
         cms.PSet (
             name = cms.string("bestTrackMissingMiddleHitsVspackedPixelBarrelHitPattern"),
             title = cms.string("bestTrackMissingMiddleHits vs packedPixelBarrelHitPattern"),
             binsX = cms.untracked.vdouble(512, 0, 512),
             binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "bestTrackMissingMiddleHits"),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "hitDrop_missingMiddleHits"),
         ),
         cms.PSet (
             name = cms.string("bestTrackMissingInnerHitsVspackedPixelEndcapHitPattern"),
             title = cms.string("bestTrackMissingInnerHits vs packedPixelEndcapHitPattern"),
             binsX = cms.untracked.vdouble(64, 0, 64),
             binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "bestTrackMissingInnerHits"),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "missingInnerHits"),
         ),
         cms.PSet (
             name = cms.string("bestTrackMissingMiddleHitsVspackedPixelEndcapHitPattern"),
             title = cms.string("bestTrackMissingMiddleHits vs packedPixelEndcapHitPattern"),
             binsX = cms.untracked.vdouble(64, 0, 64),
             binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "bestTrackMissingMiddleHits"),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "hitDrop_missingMiddleHits"),
         ),
 
     )
