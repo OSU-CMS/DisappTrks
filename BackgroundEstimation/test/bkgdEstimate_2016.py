@@ -41,9 +41,9 @@ for runPeriod in runPeriods:
         fakeTrackBkgdEstimate.addTFile (fout)
         fakeTrackBkgdEstimate.addTCanvas (canvas)
         fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016/zToMuMu_noSkim")
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016/fakeTrackBackground")
-        fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016/basicSelection")
+        fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
+        fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
+        fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection")
 
         print "********************************************************************************"
 
