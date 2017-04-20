@@ -332,6 +332,26 @@ cutTrkNValidHits6 = cms.PSet(
     cutString = cms.string("numberOfValidHits == 6"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNLayers3 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 3"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNLayers4 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 4"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNLayers5 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 5"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNLayers6 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 6"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNMissIn = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingInnerHits == 0"),
