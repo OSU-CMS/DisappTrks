@@ -150,7 +150,6 @@ cutsToAdd = [
 addCuts(disTrkSelection.cuts, cutsToAdd)
 disTrkCuts = candTrkCuts + cutsToAdd
 
-
 disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
 disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
 removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])
@@ -688,6 +687,60 @@ charginoNeutralino = cms.PSet(
         cutMCCharginoNeutralino,
     )
 )
+##########################################################################
+# Selections inverting or dropping the D0 cut
+##########################################################################
+
+# channel not blinded -- includes signal region!
+disTrkSelectionNoD0Cut = copy.deepcopy(disTrkSelection)
+disTrkSelection.name = cms.string("DisTrkSelectionNoD0Cut")
+removeCuts(disTrkSelectionNoD0Cut.cuts, [cutTrkD0])
+
+disTrkSelectionInvertD0Cut = copy.deepcopy(disTrkSelection)
+disTrkSelectionInvertD0Cut.name = cms.string("DisTrkSelectionInvertD0Cut")
+addSingleCut(disTrkSelectionInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
+removeCuts(disTrkSelectionInvertD0Cut.cuts, [cutTrkD0])
+
+disTrkSelectionNoD0CutNHits3 = copy.deepcopy(disTrkSelectionNoD0Cut)
+disTrkSelectionNoD0CutNHits3.name = cms.string("DisTrkSelectionNoD0CutNHits3")
+removeCuts(disTrkSelectionNoD0CutNHits3.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionNoD0CutNHits3.cuts, [cutTrkNValidHits3])
+
+disTrkSelectionInvertD0CutNHits3 = copy.deepcopy(disTrkSelectionInvertD0Cut)
+disTrkSelectionInvertD0CutNHits3.name = cms.string("DisTrkSelectionInvertD0CutNHits3")
+removeCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits3])
+
+disTrkSelectionNoD0CutNHits4 = copy.deepcopy(disTrkSelectionNoD0Cut)
+disTrkSelectionNoD0CutNHits4.name = cms.string("DisTrkSelectionNoD0CutNHits4")
+removeCuts(disTrkSelectionNoD0CutNHits4.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionNoD0CutNHits4.cuts, [cutTrkNValidHits4])
+
+disTrkSelectionInvertD0CutNHits4 = copy.deepcopy(disTrkSelectionInvertD0Cut)
+disTrkSelectionInvertD0CutNHits4.name = cms.string("DisTrkSelectionInvertD0CutNHits4")
+removeCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits4])
+
+disTrkSelectionNoD0CutNHits5 = copy.deepcopy(disTrkSelectionNoD0Cut)
+disTrkSelectionNoD0CutNHits5.name = cms.string("DisTrkSelectionNoD0CutNHits5")
+removeCuts(disTrkSelectionNoD0CutNHits5.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionNoD0CutNHits5.cuts, [cutTrkNValidHits5])
+
+disTrkSelectionInvertD0CutNHits5 = copy.deepcopy(disTrkSelectionInvertD0Cut)
+disTrkSelectionInvertD0CutNHits5.name = cms.string("DisTrkSelectionInvertD0CutNHits5")
+removeCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits5])
+
+disTrkSelectionNoD0CutNHits6 = copy.deepcopy(disTrkSelectionNoD0Cut)
+disTrkSelectionNoD0CutNHits6.name = cms.string("DisTrkSelectionNoD0CutNHits6")
+removeCuts(disTrkSelectionNoD0CutNHits6.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionNoD0CutNHits6.cuts, [cutTrkNValidHits6])
+
+disTrkSelectionInvertD0CutNHits6 = copy.deepcopy(disTrkSelectionInvertD0Cut)
+disTrkSelectionInvertD0CutNHits6.name = cms.string("DisTrkSelectionInvertD0CutNHits6")
+removeCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits6])
+
 ##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed

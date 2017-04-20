@@ -40,6 +40,16 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ## Testing channels
 ################################################################################
 
+#  add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+
+#  add_channels  (process,  [disTrkSelectionInvertD0CutNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionInvertD0CutNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionInvertD0CutNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionInvertD0CutNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+
 #  add_channels  (process,  [basicSelectionOneJet14to18PV],         histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
