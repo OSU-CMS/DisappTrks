@@ -229,6 +229,7 @@ histSetsDebug = cms.VPSet(
     TrackHistograms,
     TrackExtraHistograms,
     TrackDebugEcaloHistograms,
+    TrackDebugHitPatternHistograms,
 )
 
 histSetsMetJet = cms.VPSet (
