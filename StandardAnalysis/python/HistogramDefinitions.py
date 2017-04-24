@@ -1459,17 +1459,45 @@ EventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
             inputVariables = cms.vstring("dijetMaxDeltaPhi"),
         ),
+
+    )
+)
+
+MetEventVariableHistograms = cms.PSet(
+    inputCollection = cms.vstring("mets", "eventvariables"),
+    histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("deltaPhiMetJetLeading"),
-            title = cms.string("#Delta#Phi(E_{T}^{miss},leading jet);#Delta#Phi(E_{T}^{miss},leading jet)"),
+            title = cms.string(";|#Delta#Phi(E_{T}^{miss, no #mu},leading jet)|"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
-            inputVariables = cms.vstring("deltaPhiMetJetLeading"),
+            inputVariables = cms.vstring("fabs (dPhi (met.noMuPhi, eventvariable.phiJetLeading))"),
         ),
         cms.PSet (
             name = cms.string("deltaPhiMetJetSubleading"),
-            title = cms.string("#Delta#Phi(E_{T}^{miss},subleading jet);#Delta#Phi(E_{T}^{miss},subleading jet)"),
+            title = cms.string(";|#Delta#Phi(E_{T}^{miss, no #mu},subleading jet)|"),
             binsX = cms.untracked.vdouble(64, 0.0, 3.2),
-            inputVariables = cms.vstring("deltaPhiMetJetSubleading"),
+            inputVariables = cms.vstring("fabs (dPhi (met.noMuPhi, eventvariable.phiJetSubleading))"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeadingVsMET"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];|#Delta#Phi(E_{T}^{miss, no #mu},leading jet)|"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("met.noMuPt", "fabs (dPhi (met.noMuPhi, eventvariable.phiJetLeading))"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetSubleadingVsMET"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];|#Delta#Phi(E_{T}^{miss, no #mu},subleading jet)|"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("met.noMuPt", "fabs (dPhi (met.noMuPhi, eventvariable.phiJetSubleading))"),
+        ),
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeadingVsdeltaPhiMetJetSubleading"),
+            title = cms.string(";|#Delta#Phi(E_{T}^{miss, no #mu},subleading jet)|;|#Delta#Phi(E_{T}^{miss, no #mu},leading jet)|"),
+            binsX = cms.untracked.vdouble(64, 0.0, 3.2),
+            binsY = cms.untracked.vdouble(64, 0.0, 3.2),
+            inputVariables = cms.vstring("fabs (dPhi (met.noMuPhi, eventvariable.phiJetSubleading))", "fabs (dPhi (met.noMuPhi, eventvariable.phiJetLeading))"),
         ),
     )
 )
