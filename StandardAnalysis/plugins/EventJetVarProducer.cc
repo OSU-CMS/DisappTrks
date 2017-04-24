@@ -93,6 +93,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   double deltaPhiMetJetSubleading =  999.;
   double ptJetLeading    = -999;
   double ptJetSubleading = -999;
+  double phiJetLeading = -999;
+  double phiJetSubleading = -999;
   int idx1 = -1;
   for (const auto &jet1 : *jets) {
     idx1++;
@@ -102,11 +104,14 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
       double dPhi = fabs(deltaPhi(jet1, mets->at(0)));
       if (jet1.pt() > ptJetLeading) {
         ptJetSubleading = ptJetLeading;
+        phiJetSubleading = phiJetLeading;
         deltaPhiMetJetSubleading = deltaPhiMetJetLeading;
         ptJetLeading = jet1.pt();
+        phiJetLeading = jet1.phi();
         deltaPhiMetJetLeading = dPhi;
       } else {
         ptJetSubleading = jet1.pt();
+        phiJetSubleading = jet1.phi();
         deltaPhiMetJetSubleading = dPhi;
       }
     }
@@ -129,6 +134,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   (*eventvariables)["nJets"]            = nJets;
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
+  (*eventvariables)["phiJetLeading"]     = phiJetLeading;
+  (*eventvariables)["phiJetSubleading"]  = phiJetSubleading;
   (*eventvariables)["deltaPhiMetJetLeading"]     = deltaPhiMetJetLeading;
   (*eventvariables)["deltaPhiMetJetSubleading"]  = deltaPhiMetJetSubleading;
 
