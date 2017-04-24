@@ -218,6 +218,7 @@ histSets = cms.VPSet (
     TrackExtraHistograms,
     MetHistograms,
     MetExtraHistograms,
+    MetEventVariableHistograms,
     JetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
@@ -235,6 +236,7 @@ histSetsDebug = cms.VPSet(
 histSetsMetJet = cms.VPSet (
     MetHistograms,
     MetExtraHistograms,
+    MetEventVariableHistograms,
     JetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
