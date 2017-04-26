@@ -1,13 +1,16 @@
 #include "EventTriggerVarProducer.h"
 
 EventTriggerVarProducer::EventTriggerVarProducer(const edm::ParameterSet &cfg) : EventVariableProducer(cfg) {
-  tokenJets_        = consumes<vector<TYPE(jets)> >(collections_.getParameter<edm::InputTag>("jets"));
-  tokenTracks_      = consumes<vector<TYPE(tracks)> >(collections_.getParameter<edm::InputTag>("tracks"));
-  tokenMuons_       = consumes<vector<pat::Muon> >(collections_.getParameter<edm::InputTag>("muons"));
-  tokenVertices_    = consumes<vector<reco::Vertex> >(collections_.getParameter<edm::InputTag>("primaryvertexs"));
-  tokenTriggerBits_ = consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
-  tokenTriggerObjs_ = consumes<vector<pat::TriggerObjectStandAlone> >(collections_.getParameter<edm::InputTag>("trigobjs"));
+  tokenJets_         = consumes<vector<TYPE(jets)> >(collections_.getParameter<edm::InputTag>("jets"));
+  tokenTracks_       = consumes<vector<TYPE(tracks)> >(collections_.getParameter<edm::InputTag>("tracks"));
+  tokenMuons_        = consumes<vector<pat::Muon> >(collections_.getParameter<edm::InputTag>("muons"));
+  tokenVertices_     = consumes<vector<reco::Vertex> >(collections_.getParameter<edm::InputTag>("primaryvertexs"));
+  tokenTriggerBits_  = consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
+  tokenTriggerObjs_  = consumes<vector<pat::TriggerObjectStandAlone> >(collections_.getParameter<edm::InputTag>("trigobjs"));
   tokenGenParticles_ = consumes<vector<reco::GenParticle> >(collections_.getParameter<edm::InputTag>("mcparticles"));
+
+  triggerNames = cfg.getParameter<vector<string> >("triggerNames");
+  filterNames  = cfg.getParameter<vector<string> >("filterNames");
 }
 
 void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
@@ -26,7 +29,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   double etaJetLeading = jets->size() ? jets->at(0).eta() : -999.;
 
   //////////////////////////////////////////////////////////////////////////////
-  // Pass HLT_MET75(90)_IsoTrk50_v
+  // Passes individual triggers
   //////////////////////////////////////////////////////////////////////////////
 
   edm::Handle<edm::TriggerResults> triggerBits;
@@ -34,45 +37,41 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
     clog << "ERROR:  Could not find triggerBits collection." << endl;
     return;
   }
-  const edm::TriggerNames &triggerNames = event.triggerNames(*triggerBits);
+  const edm::TriggerNames &allTriggerNames = event.triggerNames(*triggerBits);
 
-  bool passesMainTrigger = false;
-  bool passesHigherMetTrigger = false;
-  for(unsigned i = 0; i < triggerNames.size(); i++) {
-      string name = triggerNames.triggerName(i);
-      if(name.find("HLT_MET75_IsoTrk50_v") == 0) passesMainTrigger |= triggerBits->accept(i);
-      if(name.find("HLT_MET90_IsoTrk50_v") == 0) passesHigherMetTrigger |= triggerBits->accept(i);
+  for(auto name : triggerNames) triggerFires[name] = false;
+
+  for(unsigned i = 0; i < allTriggerNames.size(); i++) {
+      string thisName = allTriggerNames.triggerName(i);
+      for(auto name : triggerNames) {
+        if(thisName.find(name) == 0) {
+          triggerFires[name] |= triggerBits->accept(i);
+          break;
+        }
+      }
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Pass hltMET75(90)
+  // Pass individual trigger filters
   //////////////////////////////////////////////////////////////////////////////
+
 
   edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
   event.getByToken(tokenTriggerObjs_, triggerObjs);
 
-  bool passesHLTMet75 = false;
-  for(auto triggerObj : *triggerObjs) {
-    triggerObj.unpackPathNames(triggerNames);
-    for(const auto &filterLabel : triggerObj.filterLabels()) {
-      if(filterLabel == "hltMET75") {
-        passesHLTMet75 = true;
-        break;
-      }
-    }
-    if(passesHLTMet75) break;
-  }
+  for(auto name : filterNames) filterFires[name] = false;
 
-  bool passesHLTMet90 = false;
   for(auto triggerObj : *triggerObjs) {
-    triggerObj.unpackPathNames(triggerNames);
-    for(const auto &filterLabel : triggerObj.filterLabels()) {
-      if(filterLabel == "hltMET90") {
-        passesHLTMet90 = true;
-        break;
+    triggerObj.unpackPathNames(allTriggerNames);
+    for(const auto &thisFilterName : triggerObj.filterLabels()) {
+      for(auto name : filterNames) {
+        if(name == thisFilterName) {
+          filterFires[thisFilterName] = true;
+          break;
+        }
       }
+      if(filterFires[thisFilterName]) continue;
     }
-    if(passesHLTMet90) break;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -93,7 +92,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   bool isMC = event.getByToken(tokenGenParticles_, genParticles);
 
   pat::TriggerObjectStandAlone isoTrk;
-  bool passesHLTTrk50Filter = getHLTObj(triggerNames, *triggerObjs, "hltTrk50Filter", isoTrk);
+  bool passesHLTTrk50Filter = getHLTObj(allTriggerNames, *triggerObjs, "hltTrk50Filter", isoTrk);
 
   bool anyTrackMatchToHLTTrack = false;
   vector<const TYPE(tracks)*> selectedTracks;
@@ -139,11 +138,15 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   // Insert event variables
   //////////////////////////////////////////////////////////////////////////////
 
+  for(const auto& trig : triggerFires) {
+    (*eventvariables)["fires_" + trig.first] = trig.second;
+  }
+
+  for(const auto& filt : filterFires) {
+    (*eventvariables)["fires_" + filt.first] = filt.second;
+  }
+
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
-  (*eventvariables)["passesMainTrigger"] = passesMainTrigger;
-  (*eventvariables)["passesHigherMetTrigger"] = passesHigherMetTrigger;
-  (*eventvariables)["passesHLTMet75"] = passesHLTMet75;
-  (*eventvariables)["passesHLTMet90"] = passesHLTMet90;
 
   (*eventvariables)["leadTrackMatchToHLTTrack"] = leadTrackMatchToHLTTrack;
   (*eventvariables)["anyTrackMatchToHLTTrack"] = anyTrackMatchToHLTTrack;

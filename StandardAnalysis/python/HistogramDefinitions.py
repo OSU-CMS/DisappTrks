@@ -1674,6 +1674,26 @@ EventTriggerVarHistograms = cms.PSet(
     )
 )
 
+EventTriggerVarVsMetHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "mets"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("leadMuonPtVsMetNoMu"),
+            title = cms.string("Muon Transverse Momentum vs MetNoMu;muon p_{T} [GeV];E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("noMuPt", "leadMuonPt"),
+        ),
+        cms.PSet(
+            name = cms.string("leadTrackPtVsMetNoMu"),
+            title = cms.string("Track Transverse Momentum vs MetNoMu;muon p_{T} [GeV];E_{T}^{miss} excluding muons [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("noMuPt", "leadTrackPt"),
+        ),
+    )
+)
+
 TrackDebugHitPatternHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (

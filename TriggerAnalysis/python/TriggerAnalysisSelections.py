@@ -1,40 +1,18 @@
 import FWCore.ParameterSet.Config as cms
 import copy
+import re
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
-# MET leg
+##########################################################################################################
+# MET leg denominator for all paths
+##########################################################################################################
 
 METLegDenominator = cms.PSet(
     name = cms.string("METLegDenominator"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        cutMuonPt, # this will be >22 for 76X and >26 for 80X
-        cutMuonEta21,
-        cutMuonTightID,
-        cutMuonNMissIn,
-        cutMuonNMissMid,
-        cutMuonTightPFIso,
-    )
-)
-
-METLegNumerator = copy.deepcopy(METLegDenominator)
-METLegNumerator.name = cms.string("METLegNumerator")
-addCuts(METLegNumerator.cuts, [passesHLTMet75])
-
-MET90LegNumerator = copy.deepcopy(METLegDenominator)
-MET90LegNumerator.name = cms.string("MET90LegNumerator")
-addCuts(MET90LegNumerator.cuts, [passesHLTMet90])
-
-# Track leg with muons
-
-TrackLegDenominatorWithMuons = cms.PSet(
-    name = cms.string("TrackLegDenominatorWithMuons"),
-    triggers = triggersSingleMu,
-    cuts = cms.VPSet(
-        cutLeadJetCentral,
-        passesHLTMet75,
         cutMuonPt,
         cutMuonEta21,
         cutMuonTightID,
@@ -44,127 +22,118 @@ TrackLegDenominatorWithMuons = cms.PSet(
     )
 )
 
-TrackLegDenominatorWithMuonsMet90 = cms.PSet(
-    name = cms.string("TrackLegDenominatorWithMuonsMet90"),
-    triggers = triggersSingleMu,
-    cuts = cms.VPSet(
-        cutLeadJetCentral,
-        passesHLTMet90,
-        cutMuonPt,
-        cutMuonEta21,
-        cutMuonTightID,
-        cutMuonNMissIn,
-        cutMuonNMissMid,
-        cutMuonTightPFIso,
+##########################################################################################################
+# MET leg numerators
+##########################################################################################################
+
+METLegNumerator = {}
+for trig in triggersMet:
+    METLegNumerator[trig] = copy.deepcopy(METLegDenominator)
+    METLegNumerator[trig].name = cms.string(re.sub(r"_", "", trig) + "METLegNumerator")
+    for filt in triggerFiltersMet[trig]:
+        addCuts(METLegNumerator[trig].cuts, [firesFilter[filt]])
+
+##########################################################################################################
+# Track leg with muons (data)
+##########################################################################################################
+
+TrackLegDenominatorWithMuons = {}
+for trig in triggerFiltersTrack.keys():
+    TrackLegDenominatorWithMuons[trig] = cms.PSet(
+        name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithMuons"),
+        triggers = triggersSingleMu,
+        cuts = cms.VPSet(
+            cutLeadJetCentral,
+            cutMuonPt,
+            cutMuonEta21,
+            cutMuonTightID,
+            cutMuonNMissIn,
+            cutMuonNMissMid,
+            cutMuonTightPFIso,
+        )
     )
-)
+    for filt in triggerFiltersMet[trig]:
+        addCuts(TrackLegDenominatorWithMuons[trig].cuts, [firesFilter[filt]])
 
-TrackLegNumeratorWithMuons = copy.deepcopy(TrackLegDenominatorWithMuons)
-TrackLegNumeratorWithMuons.name = cms.string("TrackLegNumeratorWithMuons")
-addCuts(TrackLegNumeratorWithMuons.cuts, [cutLeadMuonMatchHLTTrack, passesMainTrigger])
+TrackLegNumeratorWithMuons = {}
+for trig in triggerFiltersTrack.keys():
+    TrackLegNumeratorWithMuons[trig] = copy.deepcopy(TrackLegDenominatorWithMuons[trig])
+    TrackLegNumeratorWithMuons[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithMuons")
+    addCuts(TrackLegNumeratorWithMuons[trig].cuts, [cutLeadMuonMatchHLTTrack, firesTrigger[trig]])
 
-TrackLegNumeratorWithMuonsMet90 = copy.deepcopy(TrackLegDenominatorWithMuonsMet90)
-TrackLegNumeratorWithMuonsMet90.name = cms.string("TrackLegNumeratorWithMuonsMet90")
-addCuts(TrackLegNumeratorWithMuonsMet90.cuts, [cutLeadMuonMatchHLTTrack, passesHigherMetTrigger])
+##########################################################################################################
+# Track leg with tracks (MC)
+##########################################################################################################
 
-# Track leg with tracks
-
-TrackLegDenominatorWithTracks = cms.PSet(
-    name = cms.string("TrackLegDenominatorWithTracks"),
-    triggers = triggersSingleMu,
-    cuts = cms.VPSet(
-        cutLeadJetCentral,
-        passesHLTMet75,
-        cutTrkEta25,
-        cutTrkNormalizedChi2,
-        cutTrkD0,
-        cutTrkDZ,
-        cutTrkNValidPixelHits,
-        cutTrkNLayersWMeasurement,
-        cutTrkNMissIn,
-        cutTrkNMissMid,
-        cutTrkIsoTight,
+TrackLegDenominatorWithTracks = {}
+for trig in triggerFiltersTrack.keys():
+    TrackLegDenominatorWithTracks[trig] = cms.PSet(
+        name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracks"),
+        triggers = triggersSingleMu,
+        cuts = cms.VPSet(
+            cutLeadJetCentral,
+            cutTrkEta25,
+            cutTrkNormalizedChi2,
+            cutTrkD0,
+            cutTrkDZ,
+            cutTrkNValidPixelHits,
+            cutTrkNLayersWMeasurement,
+            cutTrkNMissIn,
+            cutTrkNMissMid,
+            cutTrkIsoTight,
+        )
     )
-)
+    for filt in triggerFiltersMet[trig]:
+        addCuts(TrackLegDenominatorWithTracks[trig].cuts, [firesFilter[filt]])
 
-TrackLegDenominatorWithTracksMet90 = cms.PSet(
-    name = cms.string("TrackLegDenominatorWithTracksMet90"),
-    triggers = triggersSingleMu,
-    cuts = cms.VPSet(
-        cutLeadJetCentral,
-        passesHLTMet90,
-        cutTrkEta25,
-        cutTrkNormalizedChi2,
-        cutTrkD0,
-        cutTrkDZ,
-        cutTrkNValidPixelHits,
-        cutTrkNLayersWMeasurement,
-        cutTrkNMissIn,
-        cutTrkNMissMid,
-        cutTrkIsoTight,
-    )
-)
+TrackLegNumeratorWithTracks = {}
+for trig in triggerFiltersTrack.keys():
+    TrackLegNumeratorWithTracks[trig] = copy.deepcopy(TrackLegDenominatorWithTracks[trig])
+    TrackLegNumeratorWithTracks[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracks")
+    addCuts(TrackLegNumeratorWithTracks[trig].cuts, [cutLeadTrkMatchHLTTrack, firesTrigger[trig]])
 
-TrackLegNumeratorWithTracks = copy.deepcopy(TrackLegDenominatorWithTracks)
-TrackLegNumeratorWithTracks.name = cms.string("TrackLegNumeratorWithTracks")
-addCuts(TrackLegNumeratorWithTracks.cuts, [cutLeadTrkMatchHLTTrack, passesMainTrigger])
+##########################################################################################################
+# Track leg with no SingleMu triggers (MC)
+##########################################################################################################
 
-TrackLegNumeratorWithTracksMet90 = copy.deepcopy(TrackLegDenominatorWithTracksMet90)
-TrackLegNumeratorWithTracksMet90.name = cms.string("TrackLegNumeratorWithTracksMet90")
-addCuts(TrackLegNumeratorWithTracksMet90.cuts, [cutLeadTrkMatchHLTTrack, passesHigherMetTrigger])
+TrackLegDenominatorWithMuonsNoTrig = {}
+for trig in TrackLegDenominatorWithMuons:
+    TrackLegDenominatorWithMuonsNoTrig[trig] = copy.deepcopy(TrackLegDenominatorWithMuons[trig])
+    TrackLegDenominatorWithMuonsNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithMuonsNoTrig")
+    TrackLegDenominatorWithMuonsNoTrig[trig].triggers = cms.vstring()
 
-# Track leg with no singleMu triggers (for MC)
+TrackLegNumeratorWithMuonsNoTrig = {}
+for trig in TrackLegNumeratorWithMuons:
+    TrackLegNumeratorWithMuonsNoTrig[trig] = copy.deepcopy(TrackLegNumeratorWithMuons[trig])
+    TrackLegNumeratorWithMuonsNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "_rackLegNumeratorWithMuonsNoTrig")
+    TrackLegNumeratorWithMuonsNoTrig[trig].triggers = cms.vstring()
 
-TrackLegDenominatorWithMuonsNoTrig = copy.deepcopy(TrackLegDenominatorWithMuons)
-TrackLegDenominatorWithMuonsNoTrig.name = cms.string("TrackLegDenominatorWithMuonsNoTrig")
-TrackLegDenominatorWithMuonsNoTrig.triggers = cms.vstring()
+TrackLegDenominatorWithTracksNoTrig = {}
+for trig in TrackLegDenominatorWithTracks:
+    TrackLegDenominatorWithTracksNoTrig[trig] = copy.deepcopy(TrackLegDenominatorWithTracks[trig])
+    TrackLegDenominatorWithTracksNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracksNoTrig")
+    TrackLegDenominatorWithTracksNoTrig[trig].triggers = cms.vstring()
 
-TrackLegDenominatorWithMuonsNoTrigMet90 = copy.deepcopy(TrackLegDenominatorWithMuonsMet90)
-TrackLegDenominatorWithMuonsNoTrigMet90.name = cms.string("TrackLegDenominatorWithMuonsNoTrigMet90")
-TrackLegDenominatorWithMuonsNoTrigMet90.triggers = cms.vstring()
+TrackLegNumeratorWithTracksNoTrig = {}
+for trig in TrackLegNumeratorWithTracks:
+    TrackLegNumeratorWithTracksNoTrig[trig] = copy.deepcopy(TrackLegNumeratorWithTracks[trig])
+    TrackLegNumeratorWithTracksNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracksNoTrig")
+    TrackLegNumeratorWithTracksNoTrig[trig].triggers = cms.vstring()
 
-TrackLegNumeratorWithMuonsNoTrig = copy.deepcopy(TrackLegNumeratorWithMuons)
-TrackLegNumeratorWithMuonsNoTrig.name = cms.string("TrackLegNumeratorWithMuonsNoTrig")
-TrackLegNumeratorWithMuonsNoTrig.triggers = cms.vstring()
+##########################################################################################################
+# Track leg with any muon/track matched to HLT track (rather than only the leading one) (testing)
+##########################################################################################################
 
-TrackLegNumeratorWithMuonsNoTrigMet90 = copy.deepcopy(TrackLegNumeratorWithMuonsMet90)
-TrackLegNumeratorWithMuonsNoTrigMet90.name = cms.string("TrackLegNumeratorWithMuonsNoTrigMet90")
-TrackLegNumeratorWithMuonsNoTrigMet90.triggers = cms.vstring()
+TrackLegDenominatorWithTracksAnyHLTMatch = {}
+for trig in TrackLegDenominatorWithTracks:
+    TrackLegDenominatorWithTracksAnyHLTMatch[trig] = copy.deepcopy(TrackLegDenominatorWithTracks[trig])
+    TrackLegDenominatorWithTracksAnyHLTMatch[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracksAnyHLTMatch")
+    removeCuts(TrackLegDenominatorWithTracksAnyHLTMatch[trig].cuts, [cutLeadMuonMatchHLTTrack])
+    addCuts(TrackLegDenominatorWithTracksAnyHLTMatch[trig].cuts, [cutAnyMuonMatchHLTTrack])
 
-TrackLegDenominatorWithTracksNoTrig = copy.deepcopy(TrackLegDenominatorWithTracks)
-TrackLegDenominatorWithTracksNoTrig.name = cms.string("TrackLegDenominatorWithTracksNoTrig")
-TrackLegDenominatorWithTracksNoTrig.triggers = cms.vstring()
-
-TrackLegDenominatorWithTracksNoTrigMet90 = copy.deepcopy(TrackLegDenominatorWithTracksMet90)
-TrackLegDenominatorWithTracksNoTrigMet90.name = cms.string("TrackLegDenominatorWithTracksNoTrigMet90")
-TrackLegDenominatorWithTracksNoTrigMet90.triggers = cms.vstring()
-
-TrackLegNumeratorWithTracksNoTrig = copy.deepcopy(TrackLegNumeratorWithTracks)
-TrackLegNumeratorWithTracksNoTrig.name = cms.string("TrackLegNumeratorWithTracksNoTrig")
-TrackLegNumeratorWithTracksNoTrig.triggers = cms.vstring()
-
-TrackLegNumeratorWithTracksNoTrigMet90 = copy.deepcopy(TrackLegNumeratorWithTracksMet90)
-TrackLegNumeratorWithTracksNoTrigMet90.name = cms.string("TrackLegNumeratorWithTracksNoTrigMet90")
-TrackLegNumeratorWithTracksNoTrigMet90.triggers = cms.vstring()
-
-# Track leg numerators with any muon/track matched to HLT track
-
-TrackLegNumeratorWithMuonsAnyHLTMatch = copy.deepcopy(TrackLegNumeratorWithMuons)
-TrackLegNumeratorWithMuonsAnyHLTMatch.name = cms.string("TrackLegNumeratorWithMuonsAnyHLTMatch")
-removeCuts(TrackLegNumeratorWithMuonsAnyHLTMatch.cuts, [cutLeadMuonMatchHLTTrack])
-addCuts(TrackLegNumeratorWithMuonsAnyHLTMatch.cuts, [cutAnyMuonMatchHLTTrack])
-
-TrackLegNumeratorWithMuonsAnyHLTMatchMet90 = copy.deepcopy(TrackLegNumeratorWithMuonsMet90)
-TrackLegNumeratorWithMuonsAnyHLTMatchMet90.name = cms.string("TrackLegNumeratorWithMuonsAnyHLTMatchMet90")
-removeCuts(TrackLegNumeratorWithMuonsAnyHLTMatchMet90.cuts, [cutLeadMuonMatchHLTTrack])
-addCuts(TrackLegNumeratorWithMuonsAnyHLTMatchMet90.cuts, [cutAnyMuonMatchHLTTrack])
-
-TrackLegNumeratorWithTracksAnyHLTMatch = copy.deepcopy(TrackLegNumeratorWithTracks)
-TrackLegNumeratorWithTracksAnyHLTMatch.name = cms.string("TrackLegNumeratorWithTracksAnyHLTMatch")
-removeCuts(TrackLegNumeratorWithTracksAnyHLTMatch.cuts, [cutLeadMuonMatchHLTTrack])
-addCuts(TrackLegNumeratorWithTracksAnyHLTMatch.cuts, [cutAnyTrkMatchHLTTrack])
-
-TrackLegNumeratorWithTracksAnyHLTMatchMet90 = copy.deepcopy(TrackLegNumeratorWithTracksMet90)
-TrackLegNumeratorWithTracksAnyHLTMatchMet90.name = cms.string("TrackLegNumeratorWithTracksAnyHLTMatchMet90")
-removeCuts(TrackLegNumeratorWithTracksAnyHLTMatchMet90.cuts, [cutLeadMuonMatchHLTTrack])
-addCuts(TrackLegNumeratorWithTracksAnyHLTMatchMet90.cuts, [cutAnyTrkMatchHLTTrack])
+TrackLegNumeratorWithTracksAnyHLTMatch = {}
+for trig in TrackLegNumeratorWithTracks:
+    TrackLegNumeratorWithTracksAnyHLTMatch[trig] = copy.deepcopy(TrackLegNumeratorWithTracks[trig])
+    TrackLegNumeratorWithTracksAnyHLTMatch[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracksAnyHLTMatch")
+    removeCuts(TrackLegNumeratorWithTracksAnyHLTMatch[trig].cuts, [cutLeadMuonMatchHLTTrack])
+    addCuts(TrackLegNumeratorWithTracksAnyHLTMatch[trig].cuts, [cutAnyMuonMatchHLTTrack])

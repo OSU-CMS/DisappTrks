@@ -269,4 +269,5 @@ histSetsTau.append(TauEventVariableHistograms)
 histSetsTrigger = copy.deepcopy(histSetsMuon)
 histSetsTrigger.append(MetTriggerHistograms)
 histSetsTrigger.append(EventTriggerVarHistograms)
+histSetsTrigger.append(EventTriggerVarVsMetHistograms)
 ################################################################################
