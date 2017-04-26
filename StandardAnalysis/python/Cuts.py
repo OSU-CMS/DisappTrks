@@ -192,6 +192,18 @@ cutDijetDeltaPhiMax = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string("veto pairs of jets with #Delta#Phi > 2.5"),
 )
+cutLeadingJetMetPhi = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "mets"),
+    cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetLeading) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#Phi(E_{T}^{miss},jet) > 0.5"),
+)
+cutSubleadingJetMetPhi = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "mets"),
+    cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetSubleading) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#Phi(E_{T}^{miss},jet) > 0.5"),
+)
 cutJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
     cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetLeading) > 0.5 && dPhi (met.noMuPhi, eventvariable.phiJetSubleading) > 0.5"),

@@ -15,6 +15,7 @@ cutsToAdd = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
 ]
 addCuts(ZtoMuMuISRStudy.cuts, cutsToAdd)
 
@@ -26,6 +27,7 @@ cutsToAdd = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
 ]
 addCuts(ZtoMuMuISRStudyJet30.cuts, cutsToAdd)
 

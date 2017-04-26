@@ -33,6 +33,7 @@ jetCuts = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
 ]
 addCuts(basicSelection.cuts, jetCuts)
 
@@ -86,6 +87,7 @@ isoTrkSelectionNoJetCuts = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionNoJetCuts.name = cms.string("IsoTrkSelectionNoJetCuts")
 cutsToRemove = [
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
     cutTrkJetDeltaPhi,
 ]
 removeCuts(isoTrkSelectionNoJetCuts.cuts, cutsToRemove)
@@ -253,6 +255,7 @@ cutsToRemove = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
     ]
 removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
 
@@ -284,6 +287,7 @@ cutsToRemove = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
     ]
 removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
 
@@ -314,6 +318,7 @@ cutsToRemove = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
     ]
 removeCuts(candTrkIdTauPt50.cuts, cutsToRemove)
 
@@ -563,6 +568,7 @@ oneJet14to18PVCuts = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
     cutNJetsEQ1,
     cutNumPV14to18
 ]
