@@ -911,35 +911,30 @@ cutTauMetMinusOne = cms.PSet (
     numberRequired = cms.string(">= 1"),
 )
 
-##################################################
+############################################################################
 ## Cuts used in the trigger efficiency measurement
 ## Produced only with variableProducers.append('EventTriggerVarProducer')
-##################################################
+############################################################################
 
-passesMainTrigger = cms.PSet(
-    inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesMainTrigger > 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("HLT_MET75_IsoTrk50_v")
-)
-passesHigherMetTrigger = cms.PSet(
-    inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesHigherMetTrigger > 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("HLT_MET90_IsoTrk50_v")
-)
-passesHLTMet75 = cms.PSet(
-    inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesHLTMet75 > 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("hltMET75")
-)
-passesHLTMet90 = cms.PSet(
-    inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("passesHLTMet90 > 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("hltMET90")
-)
+firesTrigger = {}
+for trig in triggersForEfficiency:
+    firesTrigger[trig] = cms.PSet(
+        inputCollection = cms.vstring("eventvariables"),
+        cutString = cms.string("fires_" + trig + " > 0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string(trig),
+    )
+
+firesFilter = {}
+for trig in triggerFiltersMet:
+    for filt in triggerFiltersMet[trig]:
+        if not filt in firesFilter:
+            firesFilter[filt] = cms.PSet(
+                inputCollection = cms.vstring("eventvariables"),
+                cutString = cms.string("fires_" + filt + " > 0"),
+                numberRequired = cms.string(">= 1"),
+                alias = cms.string(filt),
+            )
 
 cutLeadJetCentral = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),

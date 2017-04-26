@@ -36,6 +36,12 @@ private:
   edm::EDGetTokenT<edm::TriggerResults> tokenTriggerBits_;
   edm::EDGetTokenT<vector<pat::TriggerObjectStandAlone> > tokenTriggerObjs_;
   edm::EDGetTokenT<vector<reco::GenParticle> > tokenGenParticles_;
+
+  std::vector<string> triggerNames;
+  std::vector<string> filterNames;
+
+  std::map<string, bool> triggerFires;
+  std::map<string, bool> filterFires;
 };
 
 #endif
