@@ -55,6 +55,38 @@ if background == "FAKE" or background == "ALL":
 
         print "\n\n"
 
+        print "********************************************************************************"
+        print "evaluating fake track systematic with reweighting (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
+
+        fout = TFile.Open ("fakeTrackSystematicWithReweighting_2016" + runPeriod + ".root", "recreate")
+
+        fakeTrackSystematicWithReweighting = FakeTrackSystematic ()
+        fakeTrackSystematicWithReweighting.addTFile (fout)
+        fakeTrackSystematicWithReweighting.addTCanvas (canvas)
+        fakeTrackSystematicWithReweighting.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        fakeTrackSystematicWithReweighting.addChannel  ("Basic",                "BasicSelection",         "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+        fakeTrackSystematicWithReweighting.reweightTo  ("MET_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist",  "BasicSelection",  "Eventvariable Plots/nTracks")
+        fakeTrackSystematicWithReweighting.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+
+        print "********************************************************************************"
+
+        fakeTrackSystematicWithReweighting.printSystematic ()
+
+        print "********************************************************************************"
+
+        fout.Close ()
+
+        print "\n\n"
+
 if background == "ELECTRON" or background == "ALL":
 
     for runPeriod in runPeriods:

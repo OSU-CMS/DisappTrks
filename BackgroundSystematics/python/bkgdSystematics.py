@@ -127,7 +127,7 @@ class FakeTrackSystematic:
             #weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, zToMuMuDisTrkNHits["name"] + "Plotter", self._reweightToHist) # uncomment to reweight to ZtoMuMuDisTrkNHits* channels
             weightHist.Scale (1.0 / weightHist.Integral ())
 
-            rebinFactor = 1
+            rebinFactor = 6
             disTrkTotalHist.Rebin (rebinFactor)
             zToMuMuDisTrkTotalHist.Rebin (rebinFactor)
             disTrkPassesHist.Rebin (rebinFactor)
