@@ -8,10 +8,11 @@ DEdxAnalyzer::DEdxAnalyzer (const edm::ParameterSet &cfg) :
   electrons_ (cfg.getParameter<edm::InputTag> ("electrons")),
   muons_ (cfg.getParameter<edm::InputTag> ("muons")),
   dEdx_ (cfg.getParameter<edm::InputTag> ("dEdx")),
+  minPt_ (cfg.getParameter<double> ("minPt")),
   vetoElectronsOrMuons_ (cfg.getParameter<string> ("vetoElectronsOrMuons"))
 {
   vector<double> pLogBins, dEdxLogBins;
-  logSpace (200, 1.0, 2.3, pLogBins);
+  logSpace (200, 1.0, 3.3, pLogBins);
   logSpace (200, -1.0, 1.0, dEdxLogBins);
 
   TH1::SetDefaultSumw2();
@@ -48,11 +49,13 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
       const edm::Ref<vector<reco::Track> > trackRef (tracks, i);
       const reco::DeDxData &dEdxData = (*dEdx)[trackRef];
 
-      if (trackRef->pt () < 25.0)
+      if (trackRef->pt () < minPt_)
         continue;
       if (vetoElectronsOrMuons_ == "electrons" && isNearElectron (*trackRef, *electrons))
         continue;
       if (vetoElectronsOrMuons_ == "muons" && isNearMuon (*trackRef, *muons))
+        continue;
+      if (vetoElectronsOrMuons_ == "both" && (isNearElectron (*trackRef, *electrons) || isNearMuon (*trackRef, *muons)))
         continue;
 
       selectedTracks.push_back (SlimTrack (*trackRef, dEdxData.dEdx ()));
@@ -62,7 +65,7 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
   if (selectedTracks.size () < 1)
     return;
 
-  unsigned selectedIndex = 0;
+  /*unsigned selectedIndex = 0;
   if (selectedTracks.size () > 1)
     {
       do
@@ -79,12 +82,15 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
         }
       while (selectedIndex > selectedTracks.size () - 1);
     }
-  const SlimTrack &selectedTrack = selectedTracks.at (selectedIndex);
+  const SlimTrack &selectedTrack = selectedTracks.at (selectedIndex);*/
 
-  twoDHists_.at ("dedxVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
-  twoDHists_.at ("dedxVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
-  twoDHists_.at ("dedxLogVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
-  twoDHists_.at ("dedxLogVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
+  for (const auto &selectedTrack : selectedTracks)
+    {
+      twoDHists_.at ("dedxVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
+      twoDHists_.at ("dedxVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
+      twoDHists_.at ("dedxLogVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
+      twoDHists_.at ("dedxLogVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
+    }
 }
 
 void

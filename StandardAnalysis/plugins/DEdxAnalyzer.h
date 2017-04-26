@@ -59,6 +59,7 @@ class DEdxAnalyzer : public edm::EDAnalyzer {
       edm::EDGetTokenT<vector<reco::Muon> > muonsToken_;
       edm::InputTag dEdx_;
       edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > dEdxToken_;
+      double minPt_;
       string vetoElectronsOrMuons_;
 
       edm::Service<TFileService> fs_;

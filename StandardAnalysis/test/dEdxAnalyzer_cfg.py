@@ -29,7 +29,8 @@ process.dEdxAnalyzer = cms.EDAnalyzer ("DEdxAnalyzer",
     electrons = cms.InputTag ("gedGsfElectrons", ""),
     muons = cms.InputTag ("muons", ""),
     dEdx = cms.InputTag ("dedxHarmonic2", ""),
-    vetoElectronsOrMuons = cms.string ("muons")
+    minPt = cms.double (50.0),
+    vetoElectronsOrMuons = cms.string ("both")
 )
 
 process.myPath = cms.Path (process.dEdxAnalyzer)
