@@ -86,7 +86,7 @@ class FakeTrackSystematic:
 
             if self._reweightToSample and self._reweightToCondorDir and self._reweightToChannel and self._reweightToHist:
                 print "REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING"
-                fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits, zToMuMuDisTrkNHits)
+                fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits, zToMuMuDisTrkNHits, str (nHits))
 
             ratio = fakeRate[1] / fakeRate[0]
             ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0]))
@@ -100,7 +100,7 @@ class FakeTrackSystematic:
             print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
-    def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits):
+    def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits, outputLabel = ""):
         if hasattr (self, "Basic") and hasattr (self, "ZtoLL"):
             sample = self.Basic["sample"]
             condorDir = self.Basic["condorDir"]
@@ -127,11 +127,43 @@ class FakeTrackSystematic:
             #weightHist = getHist (self._reweightToSample, self._reweightToCondorDir, zToMuMuDisTrkNHits["name"] + "Plotter", self._reweightToHist) # uncomment to reweight to ZtoMuMuDisTrkNHits* channels
             weightHist.Scale (1.0 / weightHist.Integral ())
 
+            rebinFactor = 1
+            disTrkTotalHist.Rebin (rebinFactor)
+            zToMuMuDisTrkTotalHist.Rebin (rebinFactor)
+            disTrkPassesHist.Rebin (rebinFactor)
+            zToMuMuDisTrkPassesHist.Rebin (rebinFactor)
+            weightHist.Rebin (rebinFactor)
+
+            self._canvas.cd ()
+            weightHist.Draw ()
+            self._fout.cd ()
+            self._canvas.Write ("weightHist_" + outputLabel)
+
             disTrkPassesHist.Divide (disTrkTotalHist.Clone ())
             zToMuMuDisTrkPassesHist.Divide (zToMuMuDisTrkTotalHist.Clone ())
 
+            self._canvas.cd ()
+            disTrkPassesHist.Draw ()
+            self._fout.cd ()
+            self._canvas.Write ("basicFakeRateBeforeReweighting_" + outputLabel)
+
+            self._canvas.cd ()
+            zToMuMuDisTrkPassesHist.Draw ()
+            self._fout.cd ()
+            self._canvas.Write ("zToMuMuFakeRateBeforeReweighting_" + outputLabel)
+
             disTrkPassesHist.Multiply (weightHist.Clone ())
             zToMuMuDisTrkPassesHist.Multiply (weightHist.Clone ())
+
+            self._canvas.cd ()
+            disTrkPassesHist.Draw ()
+            self._fout.cd ()
+            self._canvas.Write ("basicFakeRateAfterReweighting_" + outputLabel)
+
+            self._canvas.cd ()
+            zToMuMuDisTrkPassesHist.Draw ()
+            self._fout.cd ()
+            self._canvas.Write ("zToMuMuFakeRateAfterReweighting_" + outputLabel)
 
             N = (disTrkPassesHist.GetNbinsX (), zToMuMuDisTrkPassesHist.GetNbinsX ())
             disTrkPassesError = Double (0.0)
