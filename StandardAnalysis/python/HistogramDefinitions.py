@@ -530,7 +530,7 @@ ElectronEventVariableHistograms = cms.PSet(
             title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected electron,leading jet)|"),
             binsX = metBins,
             binsY = deltaPhiBins,
-            inputVariables = cms.vstring("metNoMuMinusOneUpPt", "fabs (dPhi (electron.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
+            inputVariables = cms.vstring("electron.metNoMuMinusOneUpPt", "fabs (dPhi (electron.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
         ),
 
     )
@@ -551,7 +551,7 @@ MuonEventVariableHistograms = cms.PSet(
             title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected muon,leading jet)|"),
             binsX = metBins,
             binsY = deltaPhiBins,
-            inputVariables = cms.vstring("metNoMuMinusOneUpPt", "fabs (dPhi (muon.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
+            inputVariables = cms.vstring("muon.metNoMuMinusOneUpPt", "fabs (dPhi (muon.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
         ),
 
     )
@@ -572,7 +572,7 @@ TauEventVariableHistograms = cms.PSet(
             title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected tau,leading jet)|"),
             binsX = metBins,
             binsY = deltaPhiBins,
-            inputVariables = cms.vstring("metNoMuMinusOneUpPt", "fabs (dPhi (tau.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
+            inputVariables = cms.vstring("tau.metNoMuMinusOneUpPt", "fabs (dPhi (tau.metNoMuMinusOneUpPhi, eventvariable.phiJetLeading))"),
         ),
 
     )
@@ -1532,7 +1532,7 @@ MetEventVariableHistograms = cms.PSet(
             title = cms.string(";E_{T}^{miss, no #mu} [GeV];|#Delta#phi(E_{T}^{miss, no #mu},leading jet)|"),
             binsX = metBins,
             binsY = deltaPhiBins,
-            inputVariables = cms.vstring("metNoMuPt", "fabs (dPhi (met.noMuPhi, eventvariable.phiJetLeading))"),
+            inputVariables = cms.vstring("met.noMuPt", "fabs (dPhi (met.noMuPhi, eventvariable.phiJetLeading))"),
         ),
     )
 )
