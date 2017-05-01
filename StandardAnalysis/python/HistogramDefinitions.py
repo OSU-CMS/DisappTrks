@@ -1462,6 +1462,30 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("nTracks"),
         ),
         cms.PSet (
+            name = cms.string("HT"),
+            title = cms.string(";HT [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("HT"),
+        ),
+        cms.PSet (
+            name = cms.string("MHT"),
+            title = cms.string(";HT_{T}^{miss} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("MHT"),
+        ),
+        cms.PSet (
+            name = cms.string("HTNoMu"),
+            title = cms.string(";HT^{no #mu} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("HTNoMu"),
+        ),
+        cms.PSet (
+            name = cms.string("MHTNoMu"),
+            title = cms.string(";HT_{T}^{miss, no #mu} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("MHTNoMu"),
+        ),
+        cms.PSet (
             name = cms.string("trackRho"),
             title = cms.string(";#rho_{track}"),
             binsX = cms.untracked.vdouble(1000, 0.0, 1000.0),
@@ -1487,7 +1511,13 @@ EventVariableHistograms = cms.PSet(
             binsX = deltaPhiBins,
             inputVariables = cms.vstring("dijetMaxDeltaPhi"),
         ),
-
+        cms.PSet (
+            name = cms.string("packedTriggerFiresBit"),
+            title = cms.string("Packed bit for individual trigger fires;Bit"),
+            # For N triggers in DisappTrks.StandardAnalysis.Triggers triggersForEff, need 2**N bins
+            binsX = cms.untracked.vdouble(2**12, 0, 2**12),
+            inputVariables = cms.vstring("packedTriggerFiresBit"),
+        ),
     )
 )
 
@@ -1652,9 +1682,15 @@ MetTriggerHistograms = cms.PSet(
             title = cms.string("MetNoMu;E_{T}^{miss, no #mu} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("noMuPt"),
-            ),
-        )
+         ),
+         cms.PSet (
+            name = cms.string("metLogX"),
+            title = cms.string("Met;E_{T}^{miss} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("pt"),
+         ),
     )
+)
 
 EventTriggerVarHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
@@ -1671,6 +1707,37 @@ EventTriggerVarHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("leadTrackPt"),
         ),
+        cms.PSet (
+            name = cms.string("HTLogX"),
+            title = cms.string(";HT [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("HT"),
+        ),
+        cms.PSet (
+            name = cms.string("MHTLogX"),
+            title = cms.string(";HT_{T}^{miss} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("MHT"),
+        ),
+        cms.PSet (
+            name = cms.string("HTNoMuLogX"),
+            title = cms.string(";HT^{no #mu} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("HTNoMu"),
+        ),
+        cms.PSet (
+            name = cms.string("MHTNoMuLogX"),
+            title = cms.string(";HT_{T}^{miss, no #mu} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("MHTNoMu"),
+        ),
+        cms.PSet (
+            name = cms.string("packedTriggerFiresBit"),
+            title = cms.string("Packed bit for individual trigger fires;Bit"),
+            # For N triggers in DisappTrks.StandardAnalysis.Triggers triggersForEff, need 2**N bins
+            binsX = cms.untracked.vdouble(2**12, 0, 2**12),
+            inputVariables = cms.vstring("packedTriggerFiresBit"),
+        ),
     )
 )
 
@@ -1679,18 +1746,33 @@ EventTriggerVarVsMetHistograms = cms.PSet(
     histograms = cms.VPSet(
         cms.PSet(
             name = cms.string("leadMuonPtVsMetNoMu"),
-            title = cms.string("Muon Transverse Momentum vs MetNoMu;muon p_{T} [GeV];E_{T}^{miss} excluding muons [GeV]"),
+            title = cms.string("Muon Transverse Momentum vs MetNoMu;E_{T}^{miss, no #mu} [GeV];muon p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             binsY = cms.untracked.vdouble(binsLogX),
-            inputVariables = cms.vstring("noMuPt", "leadMuonPt"),
+            inputVariables = cms.vstring("met.noMuPt", "eventvariable.leadMuonPt"),
         ),
         cms.PSet(
             name = cms.string("leadTrackPtVsMetNoMu"),
-            title = cms.string("Track Transverse Momentum vs MetNoMu;muon p_{T} [GeV];E_{T}^{miss} excluding muons [GeV]"),
+            title = cms.string("Track Transverse Momentum vs MetNoMu;E_{T}^{miss, no #mu} [GeV];track p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             binsY = cms.untracked.vdouble(binsLogX),
-            inputVariables = cms.vstring("noMuPt", "leadTrackPt"),
+            inputVariables = cms.vstring("met.noMuPt", "eventvariable.leadTrackPt"),
         ),
+        cms.PSet (
+            name = cms.string("MHTVsMet"),
+            title = cms.string("MHT vs Met;E_{T}^{miss} [GeV];H_{T}^{miss} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("met.pt", "eventvariable.MHT"),
+        ),
+        cms.PSet (
+            name = cms.string("MetNoMuVsMHTNoMu"),
+            title = cms.string("MetNoMu vs MHTNoMu;H_{T}^{miss, no #mu} [GeV];E_{T}^{miss, no #mu} [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("met.pt", "eventvariable.MHTNoMu"),
+        ),
+
     )
 )
 

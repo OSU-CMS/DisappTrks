@@ -30,15 +30,21 @@ METLegNumerator = {}
 for trig in triggersMet:
     METLegNumerator[trig] = copy.deepcopy(METLegDenominator)
     METLegNumerator[trig].name = cms.string(re.sub(r"_", "", trig) + "METLegNumerator")
-    for filt in triggerFiltersMet[trig]:
-        addCuts(METLegNumerator[trig].cuts, [firesFilter[filt]])
+
+    # if not IsoTrk50, just use the whole path
+    if not trig in triggerFiltersTrack:
+        addCuts(METLegNumerator[trig].cuts, [firesTrigger[trig]])
+    # otherwise add all the filters for MET before IsoTrk50
+    else:
+        for filt in triggerFiltersMet[trig]:
+            addCuts(METLegNumerator[trig].cuts, [firesFilter[filt]])
 
 ##########################################################################################################
 # Track leg with muons (data)
 ##########################################################################################################
 
 TrackLegDenominatorWithMuons = {}
-for trig in triggerFiltersTrack.keys():
+for trig in triggerFiltersTrack:
     TrackLegDenominatorWithMuons[trig] = cms.PSet(
         name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithMuons"),
         triggers = triggersSingleMu,
@@ -56,7 +62,7 @@ for trig in triggerFiltersTrack.keys():
         addCuts(TrackLegDenominatorWithMuons[trig].cuts, [firesFilter[filt]])
 
 TrackLegNumeratorWithMuons = {}
-for trig in triggerFiltersTrack.keys():
+for trig in triggerFiltersTrack:
     TrackLegNumeratorWithMuons[trig] = copy.deepcopy(TrackLegDenominatorWithMuons[trig])
     TrackLegNumeratorWithMuons[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithMuons")
     addCuts(TrackLegNumeratorWithMuons[trig].cuts, [cutLeadMuonMatchHLTTrack, firesTrigger[trig]])
@@ -66,7 +72,7 @@ for trig in triggerFiltersTrack.keys():
 ##########################################################################################################
 
 TrackLegDenominatorWithTracks = {}
-for trig in triggerFiltersTrack.keys():
+for trig in triggerFiltersTrack:
     TrackLegDenominatorWithTracks[trig] = cms.PSet(
         name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracks"),
         triggers = triggersSingleMu,
@@ -87,7 +93,7 @@ for trig in triggerFiltersTrack.keys():
         addCuts(TrackLegDenominatorWithTracks[trig].cuts, [firesFilter[filt]])
 
 TrackLegNumeratorWithTracks = {}
-for trig in triggerFiltersTrack.keys():
+for trig in triggerFiltersTrack:
     TrackLegNumeratorWithTracks[trig] = copy.deepcopy(TrackLegDenominatorWithTracks[trig])
     TrackLegNumeratorWithTracks[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracks")
     addCuts(TrackLegNumeratorWithTracks[trig].cuts, [cutLeadTrkMatchHLTTrack, firesTrigger[trig]])

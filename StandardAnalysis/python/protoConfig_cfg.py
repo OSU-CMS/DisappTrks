@@ -266,8 +266,10 @@ histSetsTau.append(TauExtraHistograms)
 histSetsTau.append(TrackTauHistograms)
 histSetsTau.append(TauEventVariableHistograms)
 
-histSetsTrigger = copy.deepcopy(histSetsMuon)
-histSetsTrigger.append(MetTriggerHistograms)
-histSetsTrigger.append(EventTriggerVarHistograms)
-histSetsTrigger.append(EventTriggerVarVsMetHistograms)
+histSetsTrigger = cms.VPSet(
+    MetTriggerHistograms,
+    EventTriggerVarHistograms,
+    EventTriggerVarVsMetHistograms,
+)
+
 ################################################################################

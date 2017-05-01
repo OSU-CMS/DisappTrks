@@ -4,7 +4,7 @@
 # Usage:
 # createAndCompareHotSpots.py MYCONDORDIR
 
-from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse
+from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse, TLatex
 import os
 import sys
 import math
@@ -19,15 +19,66 @@ def MakePlots(filePath, plotName, hotSpotsList):
     gStyle.SetOptTitle(0)
     can = TCanvas('can', 'can', 10, 10, 800, 800)
 
+    circles = []
+
+    for spots in hotSpotsList:
+        circle = TEllipse(float(spots[0]), float(spots[1]), 0.06)
+        circle.SetLineColor(2)
+        circle.SetLineWidth(1)
+        circle.SetFillStyle(0)
+        circles.append(circle)
+
+    topLeft_x_left    = 0.16129
+    topLeft_y_bottom  = 0.832117
+    topLeft_x_right   = 0.512673
+    topLeft_y_top     = 0.892944
+    topLeft_y_offset  = 0.04
+
+    nFemtobarns = lumi['SingleElectron_2016'] / 1000.
+    if 'muon' in plotName:
+        nFemtobarns = lumi['SingleMuon_2016'] / 1000.
+
+    LumiText = str.format('{0:.1f}', nFemtobarns) + " fb^{-1} (13 TeV)"
+
+    pasLumiLatex = TLatex()
+    pasLumiLatex.SetNDC()
+    pasLumiLatex.SetTextAngle(0)
+    #pasLumiLatex.SetTextColor(kBlack)
+    pasLumiLatex.SetTextFont(42)
+    pasLumiLatex.SetTextAlign(32)
+    pasLumiLatex.SetTextSize(0.04)
+
+    pasCMSLatex = TLatex()
+    pasCMSLatex.SetNDC()
+    pasCMSLatex.SetTextAngle(0)
+    #pasCMSLatex.SetTextColor(kBlack)
+    pasCMSLatex.SetTextFont(62)
+    pasCMSLatex.SetTextAlign(12)
+    pasCMSLatex.SetTextSize(0.04)
+
+    pasPrelimLatex = TLatex()
+    pasPrelimLatex.SetNDC()
+    pasPrelimLatex.SetTextAngle(0)
+    #pasPrelimLatex.SetTextColor(kBlack)
+    pasPrelimLatex.SetTextFont(62)
+    pasPrelimLatex.SetTextAlign(12)
+    pasPrelimLatex.SetTextSize(0.04)
+
     inputFile = TFile(filePath, 'read')
 
     beforeVeto = inputFile.Get('beforeVeto')
     afterVeto = inputFile.Get('afterVeto')
 
     beforeVeto.Draw('colz')
+    pasLumiLatex.DrawLatex(0.96, 0.93, LumiText)
+    pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
+    #pasPrelimLatex.DrawLatex(0.23, 0.925, "Preliminary")
     can.SaveAs('test_beforeVeto_' + plotName + '.pdf')
 
     afterVeto.Draw('colz')
+    pasLumiLatex.DrawLatex(0.96, 0.93, LumiText)
+    pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
+    #pasPrelimLatex.DrawLatex(0.23, 0.925, "Preliminary")
     can.SaveAs('test_afterVeto_' + plotName + '.pdf')
 
     totalEventsBeforeVeto = 0
@@ -72,9 +123,19 @@ def MakePlots(filePath, plotName, hotSpotsList):
     stdDevInefficiency /= nRegionsWithTag - 1
     stdDevInefficiency = math.sqrt(stdDevInefficiency)
 
-    can.SetLogz(True)
+    if 'ele' in plotName:
+        afterVeto.GetZaxis().SetRangeUser(0, 0.5)
+    elif 'muon' in plotName:
+        afterVeto.GetZaxis().SetRangeUser(0, 0.05)
     afterVeto.GetZaxis().SetLabelSize(0.025)
     afterVeto.Draw('colz')
+
+    for circle in circles:
+        circle.Draw("same")
+
+    pasLumiLatex.DrawLatex(0.96, 0.93, LumiText)
+    pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
+    #pasPrelimLatex.DrawLatex(0.23, 0.925, "Preliminary")
     can.SaveAs('test_efficiency_' + plotName + '.pdf')
 
     for xbin in range(1, afterVeto.GetXaxis().GetNbins()):
@@ -94,16 +155,12 @@ def MakePlots(filePath, plotName, hotSpotsList):
     afterVeto.GetZaxis().SetLabelSize(0.04)
     afterVeto.Draw('colz')
 
-    circles = []
-
-    for spots in hotSpotsList:
-        circle = TEllipse(float(spots[0]), float(spots[1]), 0.05)
-        circle.SetLineColor(2)
-        circle.SetLineWidth(1)
-        circle.SetFillStyle(0)
+    for circle in circles:
         circle.Draw("same")
-        circles.append(circle)
 
+    pasLumiLatex.DrawLatex(0.96, 0.93, LumiText)
+    pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
+    #pasPrelimLatex.DrawLatex(0.23, 0.925, "Preliminary")
     can.SaveAs('test_efficiencyInSigma_' + plotName + '.pdf')
 
     inputFile.Close()
