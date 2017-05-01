@@ -6,12 +6,25 @@
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "TLorentzVector.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
+#include "DataFormats/Math/interface/deltaR.h"
 #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
 #include "OSUT3Analysis/AnaTools/interface/ValueLookupTree.h"
 #include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
+struct PhysicsObject
+{
+  PhysicsObject (double eta, double phi) : eta_ (eta), phi_ (phi) {};
+  template<class T> PhysicsObject (T obj) : eta_ (obj.eta ()), phi_ (obj.phi ()) {};
+
+  const double eta () const { return eta_ ; };
+  const double phi () const { return phi_; };
+
+  private:
+    double eta_;
+    double phi_;
+};
 
 class EventJetVarProducer : public EventVariableProducer {
 public:
@@ -30,7 +43,8 @@ private:
 
   bool IsValidJet(const TYPE(jets) & jet);
 
-  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, double &) const;
+  unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, const vector<PhysicsObject> &, double &, unsigned &, unsigned &) const;
+  bool isInJet (const pat::PackedCandidate &, const vector<PhysicsObject> &) const;
   bool hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
 };
 
@@ -87,7 +101,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   edm::Handle<vector<pat::PackedGenParticle> > mcParticles;
   event.getByToken (tokenMcparticles_, mcParticles);
 
-  int nJets = 0;
+  vector<PhysicsObject> validJets;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
   double deltaPhiMetJetLeading    =  999.;  // default is large positive value
   double deltaPhiMetJetSubleading =  999.;
@@ -124,15 +138,16 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
         dijetMaxDeltaPhi = dPhi;
       }
     }
-    nJets++;
+    validJets.emplace_back (jet1);
   }
 
   double trackRho = 0.0;
-  unsigned nTracks = getNTracks (pfCands, lostTracks, trackRho);
+  unsigned nTracksInsideJets = 0, nTracksOutsideJets = 0;
+  unsigned nTracks = getNTracks (pfCands, lostTracks, validJets, trackRho, nTracksInsideJets, nTracksOutsideJets);
 
   bool hasNeutralinoFlag = hasNeutralino (mcParticles);
 
-  (*eventvariables)["nJets"]            = nJets;
+  (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["phiJetLeading"]     = phiJetLeading;
   (*eventvariables)["phiJetSubleading"]  = phiJetSubleading;
@@ -143,6 +158,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["runNumber"]  = event.run ();
 
   (*eventvariables)["nTracks"]  = nTracks;
+  (*eventvariables)["nTracksInsideJets"]  = nTracksInsideJets;
+  (*eventvariables)["nTracksOutsideJets"]  = nTracksOutsideJets;
   (*eventvariables)["trackRho"]  = trackRho;
 
   (*eventvariables)["isCharginoChargino"]  = (mcParticles.isValid () ? !hasNeutralinoFlag : false);
@@ -152,7 +169,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 }
 
 unsigned
-EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<pat::PackedCandidate> > &lostTracks, double &trackRho) const
+EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &pfCands, const edm::Handle<vector<pat::PackedCandidate> > &lostTracks, const vector<PhysicsObject> &jets, double &trackRho, unsigned &nTracksInsideJets, unsigned &nTracksOutsideJets) const
 {
   unsigned nTracks = 0.0;
   TH2D *etaPhi = new TH2D ("etaPhi", ";#phi;#eta", 20, -3.142, 3.142, 20, -2.5, 2.5);
@@ -161,6 +178,10 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
       if (pfCand.charge () && pfCand.numberOfHits () > 0)
         {
           nTracks++;
+          if (isInJet (pfCand, jets))
+            nTracksInsideJets++;
+          else
+            nTracksOutsideJets++;
           etaPhi->Fill (pfCand.phi (), pfCand.eta ());
         }
     }
@@ -204,6 +225,15 @@ EventJetVarProducer::getNTracks (const edm::Handle<vector<pat::PackedCandidate> 
     trackRho /= 2.0;
 
   return nTracks;
+}
+
+bool
+EventJetVarProducer::isInJet (const pat::PackedCandidate &cand, const vector<PhysicsObject> &jets) const
+{
+  for (const auto &jet : jets)
+    if (deltaR (cand, jet) < 0.4)
+      return true;
+  return false;
 }
 
 bool
