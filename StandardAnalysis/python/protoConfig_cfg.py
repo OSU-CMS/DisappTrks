@@ -83,17 +83,23 @@ else:
     print "# Using global tag " + mc_global_tag + "..."
 ################################################################################
 
-process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-process.BadPFMuonFilter.taggingMode = cms.bool(True)
+process.metFilterPath = cms.Path ()
 
-process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# Using BadPFMuonFilter and BadChargedCandidateFilter since we are in 80X..."
+    process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+    process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+    process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadPFMuonFilter.taggingMode = cms.bool(True)
 
-process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
+    process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+    process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+    process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
+
+    process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
+else:
+    print "# Not using BadPFMuonFilter and BadChargedCandidateFilter since we are in 76X..."
 
 ################################################################################
 # Set up the collectionMap
