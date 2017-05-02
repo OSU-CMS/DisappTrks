@@ -51,3 +51,5 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
+
+process.EventJetVarProducer.triggerNames = triggersForEfficiency

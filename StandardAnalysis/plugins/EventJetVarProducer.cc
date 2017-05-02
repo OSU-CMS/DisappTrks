@@ -37,18 +37,21 @@ private:
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
-  edm::EDGetTokenT<vector<pat::PackedGenParticle> >      tokenMcparticles_;
+  edm::EDGetTokenT<vector<pat::PackedGenParticle> > tokenMcparticles_;
+  edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
 
   bool isFirstEvent_;
 
   bool IsValidJet(const TYPE(jets) & jet);
+  bool IsValidHTJet(const TYPE(jets) & jet);
 
   unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, const vector<PhysicsObject> &, double &, unsigned &, unsigned &) const;
   bool isInJet (const pat::PackedCandidate &, const vector<PhysicsObject> &) const;
   bool hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
+  uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
+
+  vector<string> triggerNames;
 };
-
-
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
@@ -58,13 +61,16 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
   tokenPFCands_     =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("pfCandidates"));
   tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
-  tokenMcparticles_ =  consumes<vector<pat::PackedGenParticle> >      (collections_.getParameter<edm::InputTag>  ("mcparticles"));
+  tokenMcparticles_ =  consumes<vector<pat::PackedGenParticle> > (collections_.getParameter<edm::InputTag>  ("mcparticles"));
+  tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
+
+  triggerNames = cfg.getParameter<vector<string> >("triggerNames");
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
 
 bool
-EventJetVarProducer::IsValidJet(const TYPE(jets) & jet){
+EventJetVarProducer::IsValidJet(const TYPE(jets) & jet) {
 
   if (!(jet.pt() > 30))         return false;
   if (!(fabs(jet.eta()) < 4.5)) return false;
@@ -73,6 +79,14 @@ EventJetVarProducer::IsValidJet(const TYPE(jets) & jet){
   return true;
 }
 
+bool
+EventJetVarProducer::IsValidHTJet(const TYPE(jets) & jet) {
+  if (!(jet.pt() > 20))         return false;
+  if (!(fabs(jet.eta()) < 5.2)) return false;
+  if (!anatools::jetPassesTightLepVeto (jet)) return false;
+
+  return true;
+}
 
 void
 EventJetVarProducer::AddVariables (const edm::Event &event) {
@@ -101,6 +115,9 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   edm::Handle<vector<pat::PackedGenParticle> > mcParticles;
   event.getByToken (tokenMcparticles_, mcParticles);
 
+  edm::Handle<edm::TriggerResults> triggerBits;
+  event.getByToken(tokenTriggerBits_, triggerBits);
+
   vector<PhysicsObject> validJets;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
   double deltaPhiMetJetLeading    =  999.;  // default is large positive value
@@ -109,6 +126,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   double ptJetSubleading = -999;
   double phiJetLeading = -999;
   double phiJetSubleading = -999;
+
   int idx1 = -1;
   for (const auto &jet1 : *jets) {
     idx1++;
@@ -141,6 +159,33 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     validJets.emplace_back (jet1);
   }
 
+  double ht = 0., mht_x = 0., mht_y = 0.;
+
+  for (const auto &jet : *jets) {
+    if (!IsValidHTJet(jet)) continue;
+    ht += jet.pt();
+    mht_x -= jet.px();
+    mht_y -= jet.py();
+  }
+
+  for (const auto &pfCand : *pfCands) {
+    if(abs(pfCand.pdgId()) == 11) {
+      ht += pfCand.pt();
+      mht_x -= pfCand.px();
+      mht_y -= pfCand.py();
+    }
+  }
+
+  double htNoMu = ht, mhtNoMu_x = mht_x, mhtNoMu_y = mht_y;
+
+  for (const auto &pfCand : *pfCands) {
+    if(abs(pfCand.pdgId()) == 13) {
+      ht += pfCand.pt();
+      mht_x -= pfCand.px();
+      mht_y -= pfCand.py();
+    }
+  }
+
   double trackRho = 0.0;
   unsigned nTracksInsideJets = 0, nTracksOutsideJets = 0;
   unsigned nTracks = getNTracks (pfCands, lostTracks, validJets, trackRho, nTracksInsideJets, nTracksOutsideJets);
@@ -157,6 +202,11 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["eventUnixTime"]  = event.time ().unixTime ();
   (*eventvariables)["runNumber"]  = event.run ();
 
+  (*eventvariables)["HT"] = ht;
+  (*eventvariables)["MHT"] = hypot(mht_x, mht_y);
+  (*eventvariables)["HTNoMu"] = htNoMu;
+  (*eventvariables)["MHTNoMu"] = hypot(mhtNoMu_x, mhtNoMu_y);
+
   (*eventvariables)["nTracks"]  = nTracks;
   (*eventvariables)["nTracksInsideJets"]  = nTracksInsideJets;
   (*eventvariables)["nTracksOutsideJets"]  = nTracksOutsideJets;
@@ -164,6 +214,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   (*eventvariables)["isCharginoChargino"]  = (mcParticles.isValid () ? !hasNeutralinoFlag : false);
   (*eventvariables)["isCharginoNeutralino"]  = (mcParticles.isValid () ? hasNeutralinoFlag : false);
+
+  (*eventvariables)["packedTriggerFiresBit"] = (triggerBits.isValid () ? packTriggerFires(event, triggerBits) : 0);
 
   isFirstEvent_ = false;
 }
@@ -254,6 +306,31 @@ EventJetVarProducer::hasNeutralino (const edm::Handle<vector<pat::PackedGenParti
     if (isFirstEvent_)
       clog << "[EventJetVarProducer] NOT determining generated signal event type..." << endl;
   return false;
+}
+
+uint32_t
+EventJetVarProducer::packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &triggerBits) const
+{
+
+  const edm::TriggerNames &allTriggerNames = event.triggerNames(*triggerBits);
+
+  uint32_t value = 0;
+
+  // for all paths in the full list of paths stored in the event...
+  for(unsigned i = 0; i < allTriggerNames.size(); i++) {
+      string thisName = allTriggerNames.triggerName(i);
+
+      // check if they match the j'th trigger you're interested in
+      for(unsigned int j = 0; j < triggerNames.size(); j++) {
+        if(thisName.find(triggerNames[j]) == 0) {
+          // and set the j'th bit to its fire status
+          value |= (triggerBits->accept(i) & 0x1) << j;
+          break;
+        }
+      }
+  }
+  // if you never found a path you're interested in in allTriggerNames, then it's safe to say it didn't fire
+  return value;
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

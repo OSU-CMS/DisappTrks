@@ -27,5 +27,6 @@ variableProducers.append('EventTriggerVarProducer')
 
 ################################################################################
 
+process.EventJetVarProducer.triggerNames = triggersForEfficiency
 process.EventTriggerVarProducer.triggerNames = triggersForEfficiency
 process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive
