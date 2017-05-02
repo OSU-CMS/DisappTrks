@@ -25,6 +25,38 @@ runPeriods = ['BC', 'DEFG', 'DEFGH', 'H', '']
 if background == "FAKE" or background == "ALL":
 
     print "********************************************************************************"
+    print "evaluating fake track systematic with lower track pt threshold (2016)"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("fakeTrackSystematicTrkPt30_2016.root", "recreate")
+
+    fakeTrackSystematicWithReweighting = FakeTrackSystematic ()
+    fakeTrackSystematicWithReweighting.addTFile (fout)
+    fakeTrackSystematicWithReweighting.addTCanvas (canvas)
+    fakeTrackSystematicWithReweighting.addLuminosityLabel (str (round (lumi["MET_2016"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    fakeTrackSystematicWithReweighting.addChannel  ("Basic",                "BasicSelection",         "MET_2016",       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
+    fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016",       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016",       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016",       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016",       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_trkPt30")
+    fakeTrackSystematicWithReweighting.reweightTo  ("MET_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist",  "BasicSelection",  "Eventvariable Plots/nTracks")
+    fakeTrackSystematicWithReweighting.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
+    fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_trkPt30")
+    fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016",  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_trkPt30")
+
+    print "********************************************************************************"
+
+    fakeTrackSystematicWithReweighting.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+
+    print "********************************************************************************"
     print "evaluating fake track systematic in MC with nTracks reweighting"
     print "--------------------------------------------------------------------------------"
 
