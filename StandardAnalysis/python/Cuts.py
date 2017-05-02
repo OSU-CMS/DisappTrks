@@ -3,6 +3,7 @@ import copy
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
 from DisappTrks.StandardAnalysis.METFilters import *
+from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 import os
 
@@ -949,7 +950,7 @@ cutTauMetMinusOne = cms.PSet (
 ############################################################################
 
 firesTrigger = {}
-for trig in triggersForEfficiency:
+for trig in triggerFiltersMet:
     firesTrigger[trig] = cms.PSet(
         inputCollection = cms.vstring("eventvariables"),
         cutString = cms.string("fires_" + trig + " > 0"),
@@ -967,6 +968,14 @@ for trig in triggerFiltersMet:
                 numberRequired = cms.string(">= 1"),
                 alias = cms.string(filt),
             )
+
+firesGrandOrTrigger = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesGrandOrTrigger > 0"),
+    numberRequired = cms.string(">= 1"),
+    # Apparently if you alias a cut to end in trigger (contain it?) it prints out the "triggers = " string again?
+    #alias = cms.string("passes OR of all signal triggers"),
+)
 
 cutLeadJetCentral = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),

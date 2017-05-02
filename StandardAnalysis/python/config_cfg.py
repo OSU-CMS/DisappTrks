@@ -70,4 +70,4 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [justAFakeTrkNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
-process.EventJetVarProducer.triggerNames = triggersForEfficiency
+process.EventJetVarProducer.triggerNames = triggerNamesInclusive

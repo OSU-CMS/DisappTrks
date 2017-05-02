@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from DisappTrks.TriggerAnalysis.triggerEfficiency import *
-from DisappTrks.StandardAnalysis.Triggers import *
+from DisappTrks.TriggerAnalysis.AllTriggers import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import gROOT, TCanvas, TFile
