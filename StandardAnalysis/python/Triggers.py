@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import os
+import copy
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Switching to 2016 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
@@ -41,7 +42,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
 
 # List of triggers for EventTriggerVarProducer -- distinct from triggersMet since we don't use HLT_MET90_IsoTrk50_v for the main analysis
-triggersForEfficiency = triggersMet
+triggersForEfficiency = copy.deepcopy (triggersMet)
 triggersForEfficiency.append("HLT_MET90_IsoTrk50_v")
 
 ##########################################################################################################
