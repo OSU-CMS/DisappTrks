@@ -4,17 +4,17 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # SingleMuon ISR study channels (to get weights)
 ################################################################################
 # Base skim
-#  add_channels  (process,  [ZtoMuMu],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMu],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 
 # Channels for zToMuMu for isr weights calculation
-#  add_channels  (process,  [ZtoMuMuISRStudy],       histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuMuISRStudyJet30],  histSetsMuon,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuISRStudy],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuISRStudyJet30],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
 # SingleMuon channel for Ecalo systematic
 ################################################################################
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCut],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCut],  histSets,  weightsWithMuonSF,  [],  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
