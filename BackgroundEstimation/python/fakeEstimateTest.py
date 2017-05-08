@@ -13,8 +13,8 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-d0CutValue = 0.02
-maxSidebandValue = 0.5
+d0CutValue = 0.02 - 0.001
+maxSidebandValue = 0.1 - 0.001
 
 class FakeTrackBkgdEstimate:
     _fout = None
@@ -39,16 +39,14 @@ class FakeTrackBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
-        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, maxSidebandValue)
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
     def printTransferFactor (self):
         if hasattr (self, "Basic3hits"):
-            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["name"], "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, d0CutValue)
-            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["name"], "Track-eventvariable Plots/trackd0WRTPVMag", d0CutValue, maxSidebandValue)
+            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, d0CutValue)
+            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", d0CutValue, maxSidebandValue)
 
             if fails > 0.0:
                 transferFactor = passes / fails
@@ -81,12 +79,17 @@ class FakeTrackBkgdEstimate:
         xi, xiError, xiPass, xiPassError, xiFail, xiFailError = self.printTransferFactor ()
         nCtrl, nCtrlError = self.printNctrl ()
 
+        nEst = 0.0
+        nEstError = 0.0
+
+        if nCtrl == 0.0:
+            nCtrlError = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (nCtrl + 1))
+
         nEst = xi * nCtrl
         nEstError = nEst * math.hypot (xiError/xi, nCtrl/nCtrlError)
-
         if nEst > 0.0:
             print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         else:
-            print "N_est: " + str (nEst) + " - 0.0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
+            print "N_est: " + str (nEst) + " + " + str (nEstError) + " - 0.0 (" + str (nEst / self._luminosityInInvFb) + " + " + str (nEstError / self._luminosityInInvFb) + " - 0.0 fb)"
 
         return (nEst, nEstError)

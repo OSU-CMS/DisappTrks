@@ -698,7 +698,7 @@ charginoNeutralino = cms.PSet(
     )
 )
 ##########################################################################
-# Selections inverting or dropping the D0 cut
+# Selections inverting, dropping, or loosening the D0 cut
 ##########################################################################
 
 # channel not blinded -- includes signal region!
@@ -711,6 +711,11 @@ disTrkSelectionInvertD0Cut.name = cms.string("DisTrkSelectionInvertD0Cut")
 addSingleCut(disTrkSelectionInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(disTrkSelectionInvertD0Cut.cuts, [cutTrkD0])
 
+disTrkSelectionSidebandD0Cut = copy.deepcopy(disTrkSelection)
+disTrkSelectionSidebandD0Cut.name = cms.string("DisTrkSelectionSidebandD0Cut")
+addSingleCut(disTrkSelectionSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(disTrkSelectionSidebandD0Cut.cuts, [cutTrkD0])
+
 disTrkSelectionNoD0CutNHits3 = copy.deepcopy(disTrkSelectionNoD0Cut)
 disTrkSelectionNoD0CutNHits3.name = cms.string("DisTrkSelectionNoD0CutNHits3")
 removeCuts(disTrkSelectionNoD0CutNHits3.cuts, [cutTrkNValidHits])
@@ -720,6 +725,11 @@ disTrkSelectionInvertD0CutNHits3 = copy.deepcopy(disTrkSelectionInvertD0Cut)
 disTrkSelectionInvertD0CutNHits3.name = cms.string("DisTrkSelectionInvertD0CutNHits3")
 removeCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits])
 addCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits3])
+
+disTrkSelectionSidebandD0CutNHits3 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
+disTrkSelectionSidebandD0CutNHits3.name = cms.string("DisTrkSelectionSidebandD0CutNHits3")
+removeCuts(disTrkSelectionSidebandD0CutNHits3.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionSidebandD0CutNHits3.cuts, [cutTrkNValidHits3])
 
 disTrkSelectionNoD0CutNHits4 = copy.deepcopy(disTrkSelectionNoD0Cut)
 disTrkSelectionNoD0CutNHits4.name = cms.string("DisTrkSelectionNoD0CutNHits4")
@@ -731,6 +741,11 @@ disTrkSelectionInvertD0CutNHits4.name = cms.string("DisTrkSelectionInvertD0CutNH
 removeCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits])
 addCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits4])
 
+disTrkSelectionSidebandD0CutNHits4 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
+disTrkSelectionSidebandD0CutNHits4.name = cms.string("DisTrkSelectionSidebandD0CutNHits4")
+removeCuts(disTrkSelectionSidebandD0CutNHits4.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionSidebandD0CutNHits4.cuts, [cutTrkNValidHits4])
+
 disTrkSelectionNoD0CutNHits5 = copy.deepcopy(disTrkSelectionNoD0Cut)
 disTrkSelectionNoD0CutNHits5.name = cms.string("DisTrkSelectionNoD0CutNHits5")
 removeCuts(disTrkSelectionNoD0CutNHits5.cuts, [cutTrkNValidHits])
@@ -741,6 +756,11 @@ disTrkSelectionInvertD0CutNHits5.name = cms.string("DisTrkSelectionInvertD0CutNH
 removeCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits])
 addCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits5])
 
+disTrkSelectionSidebandD0CutNHits5 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
+disTrkSelectionSidebandD0CutNHits5.name = cms.string("DisTrkSelectionSidebandD0CutNHits5")
+removeCuts(disTrkSelectionSidebandD0CutNHits5.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionSidebandD0CutNHits5.cuts, [cutTrkNValidHits5])
+
 disTrkSelectionNoD0CutNHits6 = copy.deepcopy(disTrkSelectionNoD0Cut)
 disTrkSelectionNoD0CutNHits6.name = cms.string("DisTrkSelectionNoD0CutNHits6")
 removeCuts(disTrkSelectionNoD0CutNHits6.cuts, [cutTrkNValidHits])
@@ -750,6 +770,11 @@ disTrkSelectionInvertD0CutNHits6 = copy.deepcopy(disTrkSelectionInvertD0Cut)
 disTrkSelectionInvertD0CutNHits6.name = cms.string("DisTrkSelectionInvertD0CutNHits6")
 removeCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits])
 addCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits6])
+
+disTrkSelectionSidebandD0CutNHits6 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
+disTrkSelectionSidebandD0CutNHits6.name = cms.string("DisTrkSelectionSidebandD0CutNHits6")
+removeCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits])
+addCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits6])
 
 ##########################################################################
 

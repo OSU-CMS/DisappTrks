@@ -539,6 +539,12 @@ cutTrkD0 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with |d0| < 0.02"),
 )
+cutTrkSidebandD0 = cms.PSet(
+    inputCollection = cms.vstring("tracks", "eventvariables"),
+    cutString = cms.string("fabs ( " + trackD0WRTPV + " ) >= 0.02 && fabs ( " + trackD0WRTPV + " ) < 0.1"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 tracks with 0.02 <= |d0| < 0.1"),
+)
 cutTrkInvertD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackD0WRTPV + " ) >= 0.02"),

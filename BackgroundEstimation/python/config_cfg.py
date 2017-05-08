@@ -80,6 +80,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMuDisTrkInvertD0CutNHits5], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuDisTrkInvertD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
+# TESTING: Z->mumu channels for fake track background estimate with loosened D0 requirement on the isoTrk
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0Cut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits3], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits4], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits5], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 # TESTING: Z->mumu+jet channels for fake track background estimate
 #  add_channels  (process,  [ZtoMuMuJet],              histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrkJet],        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
