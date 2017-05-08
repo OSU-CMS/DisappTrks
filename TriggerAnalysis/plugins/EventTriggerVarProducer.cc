@@ -11,6 +11,8 @@ EventTriggerVarProducer::EventTriggerVarProducer(const edm::ParameterSet &cfg) :
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
   filterNames  = cfg.getParameter<vector<string> >("filterNames");
+
+  signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
 }
 
 void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
@@ -72,6 +74,23 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
       }
       if(filterFires[thisFilterName]) continue;
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Passes the Grand Or of signal triggers
+  //////////////////////////////////////////////////////////////////////////////
+
+  signalGrandOrFires = false;
+
+  for(unsigned i = 0; i < allTriggerNames.size(); i++) {
+    string thisName = allTriggerNames.triggerName(i);
+    for(auto name : signalTriggerNames) {
+      if(thisName.find(name) == 0 && triggerBits->accept(i)) {
+        signalGrandOrFires = true;
+        break;
+      }
+    }
+    if(signalGrandOrFires) break;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -145,6 +164,8 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   for(const auto& filt : filterFires) {
     (*eventvariables)["fires_" + filt.first] = filt.second;
   }
+
+  (*eventvariables)["passesGrandOrTrigger"] = signalGrandOrFires;
 
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
 

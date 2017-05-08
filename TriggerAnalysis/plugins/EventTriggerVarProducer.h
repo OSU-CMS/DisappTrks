@@ -38,10 +38,13 @@ private:
   edm::EDGetTokenT<vector<reco::GenParticle> > tokenGenParticles_;
 
   std::vector<string> triggerNames;
-  std::vector<string> filterNames;
-
   std::map<string, bool> triggerFires;
+
+  std::vector<string> filterNames;
   std::map<string, bool> filterFires;
+
+  std::vector<string> signalTriggerNames;
+  bool signalGrandOrFires;
 };
 
 #endif

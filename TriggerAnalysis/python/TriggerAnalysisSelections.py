@@ -3,6 +3,7 @@ import copy
 import re
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
+from DisappTrks.TriggerAnalysis.AllTriggers import *
 
 ##########################################################################################################
 # MET leg denominator for all paths
@@ -23,11 +24,21 @@ METLegDenominator = cms.PSet(
 )
 
 ##########################################################################################################
+# Numerator for the Grand Or of all signal HLT paths
+##########################################################################################################
+
+# Have to add the signal OR'd triggers as a cut rather than extend the triggers, since you need
+# (IsoMu || IsoTkMu) && (MET75_IsoTrk50 || PFMET250 || ...)
+GrandORNumerator = copy.deepcopy(METLegDenominator)
+GrandORNumerator.name = cms.string("GrandOrNumerator")
+addCuts(GrandORNumerator.cuts, [firesGrandOrTrigger])
+
+##########################################################################################################
 # MET leg numerators
 ##########################################################################################################
 
 METLegNumerator = {}
-for trig in triggersMet:
+for trig in triggerFiltersMet:
     METLegNumerator[trig] = copy.deepcopy(METLegDenominator)
     METLegNumerator[trig].name = cms.string(re.sub(r"_", "", trig) + "METLegNumerator")
 
