@@ -3,7 +3,7 @@ from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
 import os
 
-def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True):
+def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True, runMETFilters = True):
 
     if runPeriod == "2015":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
@@ -69,6 +69,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.target          =  cms.string  ("")
 
     moveVariableProducer (process, "TriggerWeightProducer")
-    process.schedule.insert (0, process.metFilterPath)
+
+    if runMETFilters:
+        process.schedule.insert (0, process.metFilterPath)
 
     return process
