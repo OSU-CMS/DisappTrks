@@ -707,7 +707,7 @@ charginoNeutralino = cms.PSet(
 
 # channel not blinded -- includes signal region!
 disTrkSelectionNoD0Cut = copy.deepcopy(disTrkSelection)
-disTrkSelection.name = cms.string("DisTrkSelectionNoD0Cut")
+disTrkSelectionNoD0Cut.name = cms.string("DisTrkSelectionNoD0Cut")
 removeCuts(disTrkSelectionNoD0Cut.cuts, [cutTrkD0])
 
 disTrkSelectionInvertD0Cut = copy.deepcopy(disTrkSelection)
