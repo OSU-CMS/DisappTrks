@@ -52,6 +52,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionInvertD0CutNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionInvertD0CutNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
 
+#  add_channels  (process,  [disTrkSelectionSidebandD0Cut],        histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits3],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits4],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collectionMap,  variableProducers,  False)
+
 #  add_channels  (process,  [basicSelectionOneJet14to18PV],         histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits3],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits4],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)

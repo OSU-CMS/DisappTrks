@@ -113,77 +113,35 @@ collectionMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusG
 ################################################################################
 # Set up the default event weights
 ################################################################################
-weights = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("metLegWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("trackLegWeight")
-    ),
-)
-
-# weights including ISR reweighting (only for signal systematic)
-weightsISR = copy.deepcopy(weights)
-weightsISR.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("isrWeight")
-    )
-)
-
-# weights including trigger scale factor fluctuations
-weightsFluctuateTrigger = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("metLegWeight"),
-        fluctuations = cms.vstring("metLegWeightMCUp", "metLegWeightMCDown", "metLegWeightDataUp", "metLegWeightDataDown")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("trackLegWeight"),
-        fluctuations = cms.vstring("trackLegWeightMCUp", "trackLegWeightMCDown", "trackLegWeightDataUp", "trackLegWeightDataDown")
-    ),
-)
-
+from DisappTrks.StandardAnalysis.EventWeights import *
 ################################################################################
 
 ################################################################################
 # Set up the default object weights
+# N.B.: this is just a producer, so everything is set to True. The application of the SFs is controlled by the weights.
+#       Also, give 76X as defaults in case customize() is not called to change them.
+#       Further a general note: there are indeed "VetoID" scale factors for electrons, but to implement this you need to throw random numbers on these SFs, a la b-tagging SFs...call this a to-do.
 ################################################################################
-ObjectScalingFactorProducer = {}
-ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer = {
+    'name'         : 'ObjectScalingFactorProducer',
 
-ObjectScalingFactorProducer['doEleSF']      = cms.bool(False)
-ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['electronWp']   = cms.string("")
+    'doEleSF'      : cms.bool(True),
+    'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root'),
+    'electronWp'   : cms.string("RecoTightID_76X"), # since we use cutElectronTightID
 
-ObjectScalingFactorProducer['doMuSF']   = cms.bool(False)
-ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
-ObjectScalingFactorProducer['muonWp']   = cms.string("")
+    'doMuSF'       : cms.bool(True),
+    'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root'),
+    'muonWp'       : cms.string("TightIDIsoTrig_76X"), # since we use isTightMuonWRTVtx
 
-ObjectScalingFactorProducer['doTrackSF'] = cms.bool(False)
-ObjectScalingFactorProducer['trackFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSF.root')
+    'doTrackSF'    : cms.bool(True),
+    'trackFile'    : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSF.root'),
+}
 
-scaleFactorProducers = []
-scaleFactorProducers.append (ObjectScalingFactorProducer)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    ObjectScalingFactorProducer['electronWp'] = cms.string("RecoTightID_80X") # since we use cutElectronTightID
+    ObjectScalingFactorProducer['muonWp']     = cms.string("TightIDIso_80X") # since we use isTightMuonWRTVtx
+
+scaleFactorProducers = [ObjectScalingFactorProducer]
 ################################################################################
 
 ################################################################################

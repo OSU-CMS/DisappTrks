@@ -310,7 +310,7 @@ addCuts (ZtoMuMuOneJet14to18PVDisTrkNMissOut0.cuts, [cutTrkNMissOut0])
 
 ##################################################
 ## Fake track control samples:  Z->mu mu + disappearing track
-## With inverted or dropped D0 cuts
+## With inverted, dropped, or loosened D0 cuts
 ##################################################
 
 ZtoMuMuDisTrkNoD0Cut = copy.deepcopy(ZtoMuMuDisTrk)
@@ -322,6 +322,11 @@ ZtoMuMuDisTrkInvertD0Cut.name = cms.string("ZtoMuMuDisTrkInvertD0Cut")
 addSingleCut(ZtoMuMuDisTrkInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkInvertD0Cut.cuts, [cutTrkD0])
 
+ZtoMuMuDisTrkSidebandD0Cut = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkSidebandD0Cut.name = cms.string("ZtoMuMuDisTrkSidebandD0Cut")
+addSingleCut(ZtoMuMuDisTrkSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(ZtoMuMuDisTrkSidebandD0Cut.cuts, [cutTrkD0])
+
 ZtoMuMuDisTrkNoD0CutNHits3 = copy.deepcopy(ZtoMuMuDisTrkNHits3)
 ZtoMuMuDisTrkNoD0CutNHits3.name = cms.string("ZtoMuMuDisTrkNoD0CutNHits3")
 removeCuts(ZtoMuMuDisTrkNoD0CutNHits3.cuts, [cutTrkD0])
@@ -330,6 +335,11 @@ ZtoMuMuDisTrkInvertD0CutNHits3 = copy.deepcopy(ZtoMuMuDisTrkNHits3)
 ZtoMuMuDisTrkInvertD0CutNHits3.name = cms.string("ZtoMuMuDisTrkInvertD0CutNHits3")
 addSingleCut(ZtoMuMuDisTrkInvertD0CutNHits3.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkInvertD0CutNHits3.cuts, [cutTrkD0])
+
+ZtoMuMuDisTrkSidebandD0CutNHits3 = copy.deepcopy(ZtoMuMuDisTrkNHits3)
+ZtoMuMuDisTrkSidebandD0CutNHits3.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNHits3")
+addSingleCut(ZtoMuMuDisTrkSidebandD0CutNHits3.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(ZtoMuMuDisTrkSidebandD0CutNHits3.cuts, [cutTrkD0])
 
 ZtoMuMuDisTrkNoD0CutNHits4 = copy.deepcopy(ZtoMuMuDisTrkNHits4)
 ZtoMuMuDisTrkNoD0CutNHits4.name = cms.string("ZtoMuMuDisTrkNoD0CutNHits4")
@@ -340,6 +350,11 @@ ZtoMuMuDisTrkInvertD0CutNHits4.name = cms.string("ZtoMuMuDisTrkInvertD0CutNHits4
 addSingleCut(ZtoMuMuDisTrkInvertD0CutNHits4.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkInvertD0CutNHits4.cuts, [cutTrkD0])
 
+ZtoMuMuDisTrkSidebandD0CutNHits4 = copy.deepcopy(ZtoMuMuDisTrkNHits4)
+ZtoMuMuDisTrkSidebandD0CutNHits4.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNHits4")
+addSingleCut(ZtoMuMuDisTrkSidebandD0CutNHits4.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(ZtoMuMuDisTrkSidebandD0CutNHits4.cuts, [cutTrkD0])
+
 ZtoMuMuDisTrkNoD0CutNHits5 = copy.deepcopy(ZtoMuMuDisTrkNHits5)
 ZtoMuMuDisTrkNoD0CutNHits5.name = cms.string("ZtoMuMuDisTrkNoD0CutNHits5")
 removeCuts(ZtoMuMuDisTrkNoD0CutNHits5.cuts, [cutTrkD0])
@@ -349,6 +364,11 @@ ZtoMuMuDisTrkInvertD0CutNHits5.name = cms.string("ZtoMuMuDisTrkInvertD0CutNHits5
 addSingleCut(ZtoMuMuDisTrkInvertD0CutNHits5.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkInvertD0CutNHits5.cuts, [cutTrkD0])
 
+ZtoMuMuDisTrkSidebandD0CutNHits5 = copy.deepcopy(ZtoMuMuDisTrkNHits5)
+ZtoMuMuDisTrkSidebandD0CutNHits5.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNHits5")
+addSingleCut(ZtoMuMuDisTrkSidebandD0CutNHits5.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(ZtoMuMuDisTrkSidebandD0CutNHits5.cuts, [cutTrkD0])
+
 ZtoMuMuDisTrkNoD0CutNHits6 = copy.deepcopy(ZtoMuMuDisTrkNHits6)
 ZtoMuMuDisTrkNoD0CutNHits6.name = cms.string("ZtoMuMuDisTrkNoD0CutNHits6")
 removeCuts(ZtoMuMuDisTrkNoD0CutNHits6.cuts, [cutTrkD0])
@@ -357,6 +377,11 @@ ZtoMuMuDisTrkInvertD0CutNHits6 = copy.deepcopy(ZtoMuMuDisTrkNHits6)
 ZtoMuMuDisTrkInvertD0CutNHits6.name = cms.string("ZtoMuMuDisTrkInvertD0CutNHits6")
 addSingleCut(ZtoMuMuDisTrkInvertD0CutNHits6.cuts, cutTrkInvertD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkInvertD0CutNHits6.cuts, [cutTrkD0])
+
+ZtoMuMuDisTrkSidebandD0CutNHits6 = copy.deepcopy(ZtoMuMuDisTrkNHits6)
+ZtoMuMuDisTrkSidebandD0CutNHits6.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNHits6")
+addSingleCut(ZtoMuMuDisTrkSidebandD0CutNHits6.cuts, cutTrkSidebandD0, cutTrkD0)
+removeCuts(ZtoMuMuDisTrkSidebandD0CutNHits6.cuts, [cutTrkD0])
 
 ##################################################
 
