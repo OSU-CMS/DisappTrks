@@ -164,6 +164,10 @@ disTrkNoTrigger = copy.deepcopy(disTrkSelection)
 disTrkNoTrigger.name = cms.string("DisTrkNoTrigger")
 disTrkNoTrigger.triggers = cms.vstring ()
 
+disTrkJustMainTrigger = copy.deepcopy(disTrkSelection)
+disTrkJustMainTrigger.name = cms.string("DisTrkJustMainTrigger")
+disTrkJustMainTrigger.triggers = triggersMetAndIsoTrk
+
 justAVertex = cms.PSet(
     name = cms.string("JustAVertex"),
     triggers = cms.vstring(),
