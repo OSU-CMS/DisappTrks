@@ -18,10 +18,6 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("metLegWeight")
     ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("trackLegWeight")
-    ),
 )
 
 # weights including electron scale factors (only for selections requiring electrons)
@@ -74,10 +70,5 @@ weightsFluctuateTrigger = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("metLegWeight"),
         fluctuations = cms.vstring("metLegWeightMCUp", "metLegWeightMCDown", "metLegWeightDataUp", "metLegWeightDataDown")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("trackLegWeight"),
-        fluctuations = cms.vstring("trackLegWeightMCUp", "trackLegWeightMCDown", "trackLegWeightDataUp", "trackLegWeightDataDown")
     ),
 )

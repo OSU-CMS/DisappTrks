@@ -41,6 +41,21 @@ for runPeriod in runPeriods:
 
     fout = TFile.Open("triggerEfficiency_2016" + runPeriod + ".root", "recreate")
 
+    if path == 'GrandOr' or path == "all":
+
+        print "********************************************************************************"
+        print "Calculating efficiency of the Grand Or in search region (2016 ", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
+
+        grandEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
+        grandEfficiency.addTFile(fout)
+        grandEfficiency.addTCanvas(canvas)
+        grandEfficiency.addLuminosityInInvPb(lumi["SingleMuon_2016" + runPeriod])
+        grandEfficiency.addChannel("Numerator", "GrandOrNumerator", "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths_v3")
+        grandEfficiency.addChannel("Denominator", "METLegDenominator", "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths_v3")
+        grandEfficiency.plotEfficiency()
+        print "********************************************************************************"
+
     for trigger in triggerFiltersMet:
 
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
@@ -66,8 +81,8 @@ for runPeriod in runPeriods:
                 efficiency.addTFile(fout)
                 efficiency.addTCanvas(canvas)
                 efficiency.addLuminosityInInvPb(lumi["SingleMuon_2016" + runPeriod])
-                efficiency.addChannel("Numerator", numeratorName, "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths")
-                efficiency.addChannel("Denominator", denominatorName, "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths")
+                efficiency.addChannel("Numerator", numeratorName, "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths_v3")
+                efficiency.addChannel("Denominator", denominatorName, "SingleMu_2016" + runPeriod, dirs['Brian'] + "2016_final/triggerEfficiency_allPaths_v3")
                 efficiency.plotEfficiency()
                 print "********************************************************************************"
 

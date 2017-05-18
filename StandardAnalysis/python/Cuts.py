@@ -633,6 +633,11 @@ cutMuonPt35 = cms.PSet (
     cutString = cms.string("pt > 35"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuonPt55 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 55"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMuonEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("fabs(eta) < 2.1"),
