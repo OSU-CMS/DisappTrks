@@ -2,7 +2,7 @@
 
 if [ $# -ne 3 ]
 then
-  echo "Usage: $0 CONDOR_DIR SKIM_NAME OUTPUT_FILE"
+  echo "Usage: $(basename $0) CONDOR_DIR SKIM_NAME OUTPUT_FILE"
   exit 1
 fi
 

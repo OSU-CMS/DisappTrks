@@ -2,7 +2,7 @@
 
 if [ $# -lt 1 ]
 then
-  echo "Usage: $0 LIST_OF_FILES"
+  echo "Usage: $(basename $0) LIST_OF_FILES"
   exit 1
 fi
 
