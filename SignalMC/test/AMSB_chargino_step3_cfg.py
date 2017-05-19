@@ -83,10 +83,15 @@ from Configuration.DataProcessing.Utils import addMonitoring
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
 process = addMonitoring(process)
 
+# Automatic addition of the customisation function from DisappTrks.SignalMC.genParticlePlusGeant
+from DisappTrks.SignalMC.genParticlePlusGeant import customizeKeep
+
+#call to customisation function customizeKeep imported from DisappTrks.SignalMC.genParticlePlusGeant
+process = customizeKeep(process)
+
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)
 from FWCore.ParameterSet.Utilities import convertToUnscheduled
 process=convertToUnscheduled(process)
 from FWCore.ParameterSet.Utilities import cleanUnscheduled
 process=cleanUnscheduled(process)
-
