@@ -5,6 +5,7 @@ import sys
 import re
 import numpy
 import socket
+import os
 
 from ROOT import TFile, TH1D, TH2D
 
@@ -42,7 +43,7 @@ coresPerNode = {
 }
 
 if len (sys.argv) < 2:
-  print "Usage: " + sys.argv[0] + " CONDOR_DIR [OUTPUT_FILE]"
+  print "Usage: " + os.path.basename (sys.argv[0]) + " CONDOR_DIR [OUTPUT_FILE]"
   sys.exit (1)
 condorDir = sys.argv[1]
 outputFile = "eventTimes.root"
