@@ -36,10 +36,16 @@ private:
   unordered_map<string, unordered_set<unsigned> > triggerIndices_;
   vector<string> inclusiveMetTriggers_;
 
+  bool produceMetLeg_;
+  bool produceTrackLeg_;
+  bool produceGrandOr_;
+
   TGraphAsymmErrors * metLegNumerator_;
   TGraphAsymmErrors * metLegDenominator_;
   TGraphAsymmErrors * trackLegNumerator_;
   TGraphAsymmErrors * trackLegDenominator_;
+  TGraphAsymmErrors * grandOrNumerator_;
+  TGraphAsymmErrors * grandOrDenominator_;
 
   bool isFirstEvent_;
 
@@ -52,21 +58,26 @@ private:
 };
 
 TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
-  EventVariableProducer(cfg),
-  efficiencyFile_ (cfg.getParameter<string> ("efficiencyFile")),
-  dataset_        (cfg.getParameter<string> ("dataset")),
-  target_         (cfg.getParameter<string> ("target")),
+  EventVariableProducer (cfg),
+  efficiencyFile_       (cfg.getParameter<string> ("efficiencyFile")),
+  dataset_              (cfg.getParameter<string> ("dataset")),
+  target_               (cfg.getParameter<string> ("target")),
   inclusiveMetTriggers_ (cfg.getParameter<vector<string> > ("inclusiveMetTriggers")),
-  metLegNumerator_ (NULL),
-  metLegDenominator_ (NULL),
-  trackLegNumerator_ (NULL),
-  trackLegDenominator_ (NULL),
-  isFirstEvent_ (true)
+  produceMetLeg_        (cfg.getParameter<bool> ("produceMetLeg")),
+  produceTrackLeg_      (cfg.getParameter<bool> ("produceTrackLeg")),
+  produceGrandOr_       (cfg.getParameter<bool> ("produceGrandOr")),
+  metLegNumerator_      (NULL),
+  metLegDenominator_    (NULL),
+  trackLegNumerator_    (NULL),
+  trackLegDenominator_  (NULL),
+  grandOrNumerator_     (NULL),
+  grandOrDenominator_   (NULL),
+  isFirstEvent_         (true)
 {
-  metsToken_            = consumes<vector<TYPE(mets)> >        (collections_.getParameter<edm::InputTag> ("mets"));
-  muonsToken_           = consumes<vector<TYPE(muons)> >       (collections_.getParameter<edm::InputTag> ("muons"));
-  tracksToken_          = consumes<vector<osu::Track> >      (collections_.getParameter<edm::InputTag> ("tracks"));
-  triggersToken_  = consumes<TYPE(triggers)> (collections_.getParameter<edm::InputTag> ("triggers"));
+  metsToken_            = consumes<vector<TYPE(mets)> >  (collections_.getParameter<edm::InputTag> ("mets"));
+  muonsToken_           = consumes<vector<TYPE(muons)> > (collections_.getParameter<edm::InputTag> ("muons"));
+  tracksToken_          = consumes<vector<osu::Track> >  (collections_.getParameter<edm::InputTag> ("tracks"));
+  triggersToken_        = consumes<TYPE(triggers)>       (collections_.getParameter<edm::InputTag> ("triggers"));
 
   triggerNamesPSetID_.reset ();
   triggerIndices_.clear ();
@@ -82,9 +93,86 @@ TriggerWeightProducer::~TriggerWeightProducer()
     delete trackLegNumerator_;
   if (trackLegDenominator_)
     delete trackLegDenominator_;
+  if (grandOrNumerator_)
+    delete grandOrNumerator_;
+  if (grandOrDenominator_)
+    delete grandOrDenominator_;
 }
 
 void TriggerWeightProducer::AddVariables(const edm::Event &event) {
+
+  if(!produceMetLeg_ && !produceTrackLeg_ && !produceGrandOr_) {
+    if(isFirstEvent_) {
+      clog << "[TriggerWeightProducer] No weights requested to be produced. Moving on!" << endl;
+      isFirstEvent_ = false;
+    }
+    return;
+  }
+
+  if(event.isRealData() || efficiencyFile_ == "" || dataset_ == "" || target_ == "") {
+    if (isFirstEvent_) {
+      clog << "[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false")
+           << ", efficiencyFile_: \"" << efficiencyFile_
+           << "\", dataset_: \"" << dataset_
+           << "\", target_: \"" << target_ << "\")" << endl;
+      isFirstEvent_ = false;
+    }
+
+    if(produceMetLeg_) {
+      (*eventvariables)["metLegWeight"] = 1;
+      (*eventvariables)["metLegWeightMCUp"] = 1;
+      (*eventvariables)["metLegWeightMCDown"] = 1;
+      (*eventvariables)["metLegWeightDataUp"] = 1;
+      (*eventvariables)["metLegWeightDataDown"] = 1;
+    }
+
+    if(produceTrackLeg_) {
+      (*eventvariables)["trackLegWeight"] = 1;
+      (*eventvariables)["trackLegWeightMCUp"] = 1;
+      (*eventvariables)["trackLegWeightMCDown"] = 1;
+      (*eventvariables)["trackLegWeightDataUp"] = 1;
+      (*eventvariables)["trackLegWeightDataDown"] = 1;
+    }
+
+    if(produceGrandOr_) {
+      (*eventvariables)["grandOrWeight"] = 1;
+      (*eventvariables)["grandOrWeightMCUp"] = 1;
+      (*eventvariables)["grandOrWeightMCDown"] = 1;
+      (*eventvariables)["grandOrWeightDataUp"] = 1;
+      (*eventvariables)["grandOrWeightDataDown"] = 1;
+    }
+
+    return;
+  }
+
+  if (isFirstEvent_) {
+    TFile * fin = TFile::Open(efficiencyFile_.c_str());
+    if(!fin || fin->IsZombie()) {
+      clog << "ERROR [TriggerWeightProducer]: Could not find file: " << efficiencyFile_
+           << "; would cause a seg fault." << endl;
+      exit(1);
+    }
+
+    metLegNumerator_     = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
+    metLegDenominator_   = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
+    trackLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
+    trackLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
+    grandOrNumerator_    = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/grandOr");
+    grandOrDenominator_  = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/grandOr");
+
+    if(!metLegNumerator_   || !metLegDenominator_ ||
+       !trackLegNumerator_ || !trackLegDenominator_ ||
+       !grandOrNumerator_  || !grandOrDenominator_) {
+      clog << "ERROR [TriggerWeightProducer]: Could not find all efficiency graphs: " << endl
+           << "\t" << dataset_ << "/metLeg (/trackLeg), " << endl
+           << "\t" << target_ << "/metLeg (/trackLeg)" << endl
+           << "Would cause a seg fault." << endl;
+      exit(1);
+    }
+
+    fin->Close ();
+    delete fin;
+  }
 
   edm::Handle<vector<TYPE(mets)> > mets;
   if(!event.getByToken(metsToken_, mets)) {
@@ -98,99 +186,57 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
     return;
   }
 
-  edm::Handle<vector<osu::Track> > tracks;
-  if(!event.getByToken(tracksToken_, tracks)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find tracks collection. Skipping trigger weights...";
-    return;
-  }
-
-  edm::Handle<edm::TriggerResults> triggers;;
-  if(!event.getByToken(triggersToken_, triggers)) {
-    edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find triggers collection. Skipping trigger weights...";
-    return;
-  }
-
-  if(event.isRealData() || efficiencyFile_ == "" || dataset_ == "" || target_ == "") {
-    if (isFirstEvent_)
-      clog << "[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false") << ", efficiencyFile_: \"" << efficiencyFile_ << "\", dataset_: \"" << dataset_ << "\", target_: \"" << target_ << "\")" << endl;
-
-    (*eventvariables)["metLegWeight"] = 1;
-    (*eventvariables)["metLegWeightMCUp"] = 1;
-    (*eventvariables)["metLegWeightMCDown"] = 1;
-    (*eventvariables)["metLegWeightDataUp"] = 1;
-    (*eventvariables)["metLegWeightDataDown"] = 1;
-
-    (*eventvariables)["trackLegWeight"] = 1;
-    (*eventvariables)["trackLegWeightMCUp"] = 1;
-    (*eventvariables)["trackLegWeightMCDown"] = 1;
-    (*eventvariables)["trackLegWeightDataUp"] = 1;
-    (*eventvariables)["trackLegWeightDataDown"] = 1;
-
-    isFirstEvent_ = false;
-
-    return;
-  }
-
   const TVector2 metNoMu = getPFMETNoMu(*mets, *muons);
   double metNoMuPt = metNoMu.Mod();
-
-  if (!metLegNumerator_ || !metLegDenominator_ || !trackLegNumerator_ || !trackLegDenominator_)
-    {
-      TFile * fin = TFile::Open(efficiencyFile_.c_str());
-      if(!fin || fin->IsZombie()) {
-        clog << "ERROR [TriggerWeightProducer]: Could not find file: " << efficiencyFile_
-             << "; would cause a seg fault." << endl;
-        exit(1);
-      }
-
-      metLegNumerator_     = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
-      metLegDenominator_   = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
-      trackLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
-      trackLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
-
-      if(!metLegNumerator_ || !metLegDenominator_ || !trackLegNumerator_ || !trackLegDenominator_) {
-        clog << "ERROR [TriggerWeightProducer]: Could not find all efficiency graphs: " << endl
-             << "\t" << dataset_ << "/metLeg (/trackLeg), " << endl
-             << "\t" << target_ << "/metLeg (/trackLeg)" << endl
-             << "Would cause a seg fault." << endl;
-        exit(1);
-      }
-
-      fin->Close ();
-      delete fin;
-    }
 
   double numerator = 0.0, numeratorUp = 0.0, numeratorDown = 0.0;
   double denominator = 0.0, denominatorUp = 0.0, denominatorDown = 0.0;
 
   // met leg
+  if(produceMetLeg_) {
+    FindEfficiency(metLegNumerator_, metNoMuPt, numerator, numeratorUp, numeratorDown);
+    FindEfficiency(metLegDenominator_, metNoMuPt, denominator, denominatorUp, denominatorDown);
 
-  FindEfficiency(metLegNumerator_, metNoMuPt, numerator, numeratorUp, numeratorDown);
-  FindEfficiency(metLegDenominator_, metNoMuPt, denominator, denominatorUp, denominatorDown);
+    double metWeight = (denominator > 0) ? numerator / denominator : 0.;
+    double metWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
+    double metWeightMCDown = (denominatorDown > 0) ? numerator / denominatorDown : 0.;
+    double metWeightDataUp = (denominator > 0) ? numeratorUp / denominator : 0.;
+    double metWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
 
-  double metWeight = (denominator > 0) ? numerator / denominator : 0.;
-  double metWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
-  double metWeightMCDown = (denominatorDown > 0) ? numerator / denominatorDown : 0.;
-  double metWeightDataUp = (denominator > 0) ? numeratorUp / denominator : 0.;
-  double metWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
+    (*eventvariables)["metLegWeight"] = metWeight;
+    (*eventvariables)["metLegWeightMCUp"] = metWeightMCUp;
+    (*eventvariables)["metLegWeightMCDown"] = metWeightMCDown;
+    (*eventvariables)["metLegWeightDataUp"] = metWeightDataUp;
+    (*eventvariables)["metLegWeightDataDown"] = metWeightDataDown;
+  }
 
   // track leg
+  if(produceTrackLeg_) {
+    edm::Handle<vector<osu::Track> > tracks;
+    if(!event.getByToken(tracksToken_, tracks)) {
+      edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find tracks collection. Skipping trigger weights...";
+      return;
+    }
 
-  double trackWeight = 1.0;
-  double trackWeightMCUp = 1.0;
-  double trackWeightMCDown = 1.0;
-  double trackWeightDataUp = 1.0;
-  double trackWeightDataDown = 1.0;
+    edm::Handle<edm::TriggerResults> triggers;;
+    if(!event.getByToken(triggersToken_, triggers)) {
+      edm::LogWarning ("disappTrks_TriggerWeightProducer") << "Could not find triggers collection. Skipping trigger weights...";
+      return;
+    }
 
-  if (!passesInclusiveMetTriggers (event, *triggers))
-    {
-      if (tracks->size ())
-        {
-          const osu::Track &leadTrack = getLeadTrack(*tracks);
+    double trackWeight = 1.0;
+    double trackWeightMCUp = 1.0;
+    double trackWeightMCDown = 1.0;
+    double trackWeightDataUp = 1.0;
+    double trackWeightDataDown = 1.0;
 
-          FindEfficiency(trackLegNumerator_, leadTrack.pt (), numerator, numeratorUp, numeratorDown);
-          FindEfficiency(trackLegDenominator_, leadTrack.pt (), denominator, denominatorUp, denominatorDown);
-        }
+    if (!passesInclusiveMetTriggers (event, *triggers)) {
+      if (tracks->size ()) {
+        const osu::Track &leadTrack = getLeadTrack(*tracks);
+
+        FindEfficiency(trackLegNumerator_, leadTrack.pt (), numerator, numeratorUp, numeratorDown);
+        FindEfficiency(trackLegDenominator_, leadTrack.pt (), denominator, denominatorUp, denominatorDown);
+      }
 
       trackWeight = (denominator > 0) ? numerator / denominator : 0.;
       trackWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
@@ -199,24 +245,39 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
       trackWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
     }
 
-  if (isFirstEvent_)
-    clog << "[TriggerWeightProducer] Applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false") << ", efficiencyFile_: \"" << efficiencyFile_ << "\", dataset_: \"" << dataset_ << "\", target_: \"" << target_ << "\")" << endl;
+    (*eventvariables)["trackLegWeight"] = trackWeight;
+    (*eventvariables)["trackLegWeightMCUp"] = trackWeightMCUp;
+    (*eventvariables)["trackLegWeightMCDown"] = trackWeightMCDown;
+    (*eventvariables)["trackLegWeightDataUp"] = trackWeightDataUp;
+    (*eventvariables)["trackLegWeightDataDown"] = trackWeightDataDown;
+  }
 
-  // store variables
+  // grand OR of triggers
+  if(produceGrandOr_) {
+    FindEfficiency(grandOrNumerator_, metNoMuPt, numerator, numeratorUp, numeratorDown);
+    FindEfficiency(grandOrDenominator_, metNoMuPt, denominator, denominatorUp, denominatorDown);
 
-  (*eventvariables)["metLegWeight"] = metWeight;
-  (*eventvariables)["metLegWeightMCUp"] = metWeightMCUp;
-  (*eventvariables)["metLegWeightMCDown"] = metWeightMCDown;
-  (*eventvariables)["metLegWeightDataUp"] = metWeightDataUp;
-  (*eventvariables)["metLegWeightDataDown"] = metWeightDataDown;
+    double grandOrWeight = (denominator > 0) ? numerator / denominator : 0.;
+    double grandOrWeightMCUp = (denominatorUp > 0) ? numerator / denominatorUp : 0.;
+    double grandOrWeightMCDown = (denominatorDown > 0) ? numerator / denominatorDown : 0.;
+    double grandOrWeightDataUp = (denominator > 0) ? numeratorUp / denominator : 0.;
+    double grandOrWeightDataDown = (denominator > 0) ? numeratorDown / denominator : 0.;
 
-  (*eventvariables)["trackLegWeight"] = trackWeight;
-  (*eventvariables)["trackLegWeightMCUp"] = trackWeightMCUp;
-  (*eventvariables)["trackLegWeightMCDown"] = trackWeightMCDown;
-  (*eventvariables)["trackLegWeightDataUp"] = trackWeightDataUp;
-  (*eventvariables)["trackLegWeightDataDown"] = trackWeightDataDown;
+    (*eventvariables)["grandOrWeight"] = grandOrWeight;
+    (*eventvariables)["grandOrWeightMCUp"] = grandOrWeightMCUp;
+    (*eventvariables)["grandOrWeightMCDown"] = grandOrWeightMCDown;
+    (*eventvariables)["grandOrWeightDataUp"] = grandOrWeightDataUp;
+    (*eventvariables)["grandOrWeightDataDown"] = grandOrWeightDataDown;
+  }
 
-  isFirstEvent_ = false;
+  if (isFirstEvent_) {
+    clog << "[TriggerWeightProducer] Applying trigger reweighting (isRealData: " << (event.isRealData () ? "true" : "false")
+         << ", efficiencyFile_: \"" << efficiencyFile_
+         << "\", dataset_: \"" << dataset_
+         << "\", target_: \"" << target_ << "\")" << endl;
+    isFirstEvent_ = false;
+  }
+
 }
 
 void TriggerWeightProducer::FindEfficiency(TGraphAsymmErrors * graph, double value,

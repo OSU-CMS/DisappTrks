@@ -4,17 +4,17 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # SingleMuon ISR study channels (to get weights)
 ################################################################################
 # Base skim
-#  add_channels  (process,  [ZtoMuMu],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuMu],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 
 # Channels for zToMuMu for isr weights calculation
-#  add_channels  (process,  [ZtoMuMuISRStudy],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuMuISRStudyJet30],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuISRStudy],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuISRStudyJet30],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
 # SingleMuon channel for Ecalo systematic
 ################################################################################
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCut],  histSets,  weightsWithMuonSF,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCut],  histSets,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
@@ -48,8 +48,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # MET channels for missing inner/middle/outer hits systematics
 ################################################################################
 # Channels used for the missing inner/middle/outer hits systematics
-#  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive

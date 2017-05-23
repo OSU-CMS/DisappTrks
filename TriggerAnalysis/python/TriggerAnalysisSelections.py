@@ -14,6 +14,21 @@ METLegDenominator = cms.PSet(
     triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
+        cutMuonPt,
+        cutMuonEta21,
+        cutMuonTightID,
+        cutMuonNMissIn,
+        cutMuonNMissMid,
+        cutMuonTightPFIso,
+    )
+)
+
+# Muon pt > 55 for the grand combination of triggers
+GrandOrDenominator = cms.PSet(
+    name = cms.string("METLegDenominator"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
         cutMuonPt55,
         cutMuonEta21,
         cutMuonTightID,
@@ -29,7 +44,7 @@ METLegDenominator = cms.PSet(
 
 # Have to add the signal OR'd triggers as a cut rather than extend the triggers, since you need
 # (IsoMu || IsoTkMu) && (MET75_IsoTrk50 || PFMET250 || ...)
-GrandORNumerator = copy.deepcopy(METLegDenominator)
+GrandORNumerator = copy.deepcopy(GrandOrDenominator)
 GrandORNumerator.name = cms.string("GrandOrNumerator")
 addCuts(GrandORNumerator.cuts, [firesGrandOrTrigger])
 

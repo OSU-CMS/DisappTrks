@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from DisappTrks.TriggerAnalysis.triggerEfficiency import *
+from DisappTrks.StandardAnalysis.Triggers import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
@@ -54,12 +55,13 @@ for dataset in datasets:
         grandEfficiency.addTCanvas(canvas)
         if 'SingleMu' in dataset:
             grandEfficiency.addLuminosityInInvPb(lumi["SingleMuon_2015D"])
-        grandEfficiency.addChannel("Numerator", "GrandOrNumerator", dataset, dirs['Brian'] + "2015/triggerEfficiency_allPaths_v2")
-        grandEfficiency.addChannel("Denominator", "METLegDenominator", dataset, dirs['Brian'] + "2015/triggerEfficiency_allPaths_v2")
+        grandEfficiency.addChannel("Numerator", "GrandOrNumerator", dataset, dirs['Brian'] + "2015/triggerEfficiency_grandOr")
+        grandEfficiency.addChannel("Denominator", "METLegDenominator", dataset, dirs['Brian'] + "2015/triggerEfficiency_grandOr")
+        grandEfficiency.setDatasetLabel(dataset)
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
 
-    for trigger in triggerFiltersMet:
+    for trigger in triggersMet:
 
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
 
@@ -85,7 +87,6 @@ for dataset in datasets:
                 efficiency.addTCanvas(canvas)
                 if 'SingleMu' in dataset:
                     efficiency.addLuminosityInInvPb(lumi["SingleMuon_2015D"])
-
                 if useCorrectVariables:
                     if 'PFMHTNoMu' in trigger:
                         efficiency.setMetLegHistName('Eventvariable Plots/MHTNoMuLogX')
@@ -99,6 +100,7 @@ for dataset in datasets:
 
                 efficiency.addChannel("Numerator", numeratorName, dataset, dirs['Brian'] + "2015/triggerEfficiency_allPaths")
                 efficiency.addChannel("Denominator", denominatorName, dataset, dirs['Brian'] + "2015/triggerEfficiency_allPaths")
+                efficiency.setDatasetLabel(dataset)
                 efficiency.plotEfficiency()
                 print "********************************************************************************"
 
@@ -108,7 +110,7 @@ for dataset in datasets:
 
 metAxisTitle = 'PF E_{T}^{miss, no #mu}'
 
-for trigger in triggerFiltersMet:
+for trigger in triggersMet:
 
     if useCorrectVariables:
         if 'PFMHTNoMu' in trigger:
@@ -122,7 +124,10 @@ for trigger in triggerFiltersMet:
 
     legName = 'METLeg' if 'IsoTrk' in trigger else 'METPath'
 
-    compare(trigger, legName, 'SingleMu_2015D', 'WJetsToLNu', metAxisTitle, canvas)
+    compare(trigger, legName, 'SingleMu_2015D', 'WJetsToLNu', metAxisTitle, canvas, lumi["SingleMuon_2015D"], triggerFiltersMet[trigger])
 
-for trigger in triggerFiltersTrack:
-    compare(trigger, 'TrackLeg', 'SingleMu_2015D', 'WJetsToLNu', 'Muon p_{T} [GeV]', canvas)
+for trigger in triggersMetAndIsoTrk:
+    compare(trigger, 'TrackLeg', 'SingleMu_2015D', 'WJetsToLNu', 'Muon p_{T} [GeV]', canvas, lumi["SingleMuon_2015D"], triggerFiltersMet[trigger])
+
+emptyFilters = []
+compare('GrandOr', 'METPath', 'SingleMu_2015D', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2015D"], emptyFilters)
