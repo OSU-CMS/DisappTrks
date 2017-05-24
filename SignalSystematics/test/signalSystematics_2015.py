@@ -205,17 +205,15 @@ if systematic == "TRIGGER" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
-        'metLegWeightData',
-        'metLegWeightMC',
-        'trackLegWeightData',
-        'trackLegWeightMC',
+        'grandOrWeightData',
+        'grandOrWeightMC',
     ]
 
     triggerSystematic = TriggerSystematic (masses, lifetimes)
     triggerSystematic.addExtraSamples (extraSamples)
-    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
-    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
-    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics")
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics_final")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics_final")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/triggerSystematics_final")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
     triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2015.txt")
     triggerSystematic.printSystematic ()

@@ -159,17 +159,15 @@ if systematic == "TRIGGER" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
-        'metLegWeightData',
-        'metLegWeightMC',
-        'trackLegWeightData',
-        'trackLegWeightMC',
+        'grandOrWeightData',
+        'grandOrWeightMC',
     ]
 
     triggerSystematic = TriggerSystematic (masses, lifetimes)
     triggerSystematic.addExtraSamples (extraSamples)
-    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
-    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
-    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_BC")
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
     triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016BC.txt")
     triggerSystematic.printSystematic ()
@@ -183,17 +181,15 @@ if systematic == "TRIGGER" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
-        'metLegWeightData',
-        'metLegWeightMC',
-        'trackLegWeightData',
-        'trackLegWeightMC',
+        'grandOrWeightData',
+        'grandOrWeightMC',
     ]
 
     triggerSystematic = TriggerSystematic (masses, lifetimes)
     triggerSystematic.addExtraSamples (extraSamples)
-    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFGH")
-    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFGH")
-    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016/triggerSystematics_DEFGH")
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_DEFGH")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_DEFGH")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_DEFGH")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
     triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2016DEFGH.txt")
     triggerSystematic.printSystematic ()
