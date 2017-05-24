@@ -13,10 +13,13 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.ISRWeightProducer.weightHist = cms.string('SingleMu_2015D')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_2015D.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
         setThresholdForVeto (process, 2.0)
@@ -35,6 +38,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016BC')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
         setThresholdForVeto (process, 2.0)
@@ -53,6 +59,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
         setThresholdForVeto (process, 2.0)
@@ -67,6 +76,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
         process.TriggerWeightProducer.dataset         =  cms.string  ("")
         process.TriggerWeightProducer.target          =  cms.string  ("")
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
 
     moveVariableProducer (process, "TriggerWeightProducer")
 

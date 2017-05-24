@@ -16,7 +16,7 @@ weights = cms.VPSet (
     ),
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("metLegWeight")
+        inputVariable = cms.string("grandOrWeight")
     ),
 )
 
@@ -68,7 +68,7 @@ weightsFluctuateTrigger = cms.VPSet (
     ),
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("metLegWeight"),
-        fluctuations = cms.vstring("metLegWeightMCUp", "metLegWeightMCDown", "metLegWeightDataUp", "metLegWeightDataDown")
+        inputVariable = cms.string("grandOrWeight"),
+        fluctuations = cms.vstring("grandOrWeightMCUp", "grandOrWeightMCDown", "grandOrWeightDataUp", "grandOrWeightDataDown")
     ),
 )

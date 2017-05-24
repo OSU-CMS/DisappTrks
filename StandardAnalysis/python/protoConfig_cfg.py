@@ -3,6 +3,7 @@ import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 import os
+import copy
 
 data_global_tag = '76X_dataRun2_v15'
 mc_global_tag = '76X_mcRun2_asymptotic_v12'
@@ -121,11 +122,13 @@ from DisappTrks.StandardAnalysis.EventWeights import *
 # N.B.: this is just a producer, so everything is set to True. The application of the SFs is controlled by the weights.
 #       Also, give 76X as defaults in case customize() is not called to change them.
 #       Further a general note: there are indeed "VetoID" scale factors for electrons, but to implement this you need to throw random numbers on these SFs, a la b-tagging SFs...call this a to-do.
+# N.B. 2: These will look for framework object producers, meaning if you don't apply any cuts on say electrons it will throw a product-not-found error for osu::electrons
+#         Meaning, only use these if they make sense to use
 ################################################################################
-ObjectScalingFactorProducer = {
+MuonScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
 
-    'doEleSF'      : cms.bool(True),
+    'doEleSF'      : cms.bool(False),
     'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root'),
     'electronWp'   : cms.string("RecoTightID_76X"), # since we use cutElectronTightID
 
@@ -133,15 +136,21 @@ ObjectScalingFactorProducer = {
     'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root'),
     'muonWp'       : cms.string("TightIDIsoTrig_76X"), # since we use isTightMuonWRTVtx
 
-    'doTrackSF'    : cms.bool(True),
+    'doTrackSF'    : cms.bool(False),
     'trackFile'    : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSF.root'),
 }
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    ObjectScalingFactorProducer['electronWp'] = cms.string("RecoTightID_80X") # since we use cutElectronTightID
-    ObjectScalingFactorProducer['muonWp']     = cms.string("TightIDIso_80X") # since we use isTightMuonWRTVtx
+    MuonScaleFactorProducer['electronWp'] = cms.string("RecoTightID_80X") # since we use cutElectronTightID
+    MuonScaleFactorProducer['muonWp']     = cms.string("TightIDIso_80X") # since we use isTightMuonWRTVtx
 
-scaleFactorProducers = [ObjectScalingFactorProducer]
+ElectronScaleFactorProducer = copy.deepcopy(MuonScaleFactorProducer)
+ElectronScaleFactorProducer['doEleSF'] = cms.bool(True)
+ElectronScaleFactorProducer['doMuSF'] = cms.bool(False)
+
+scaleFactorProducers = []
+scaleFactorProducersWithMuons = [MuonScaleFactorProducer]
+scaleFactorProducersWithElectrons = [ElectronScaleFactorProducer]
 ################################################################################
 
 ################################################################################

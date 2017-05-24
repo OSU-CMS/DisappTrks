@@ -41,8 +41,7 @@ def SetStyle(graph):
 def normCDF(x, par):
     return (0.5 * par[2] * (1.0 + TMath.Erf((x[0] - par[0]) / (math.sqrt(2.0) * par[1]))) + par[3])
 
-
-def compare(trigger, leg, data, mc, axisTitle, canvas):
+def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
     dataFile = TFile.Open("triggerEfficiency_" + data + ".root", "read")
     mcFile = TFile.Open("triggerEfficiency_" + mc + ".root", "read")
 
@@ -78,29 +77,80 @@ def compare(trigger, leg, data, mc, axisTitle, canvas):
     pt_cmsPrelim.AddText("CMS Preliminary")
     pt_cmsPrelim.Draw("same")
 
+    pt_lumi = TPaveText(0.744361, 0.92928, 0.860902, 0.977667, "brNDC")
+    pt_lumi.SetBorderSize(0)
+    pt_lumi.SetFillStyle(0)
+    pt_lumi.SetTextFont(42)
+    pt_lumi.SetTextSize(0.0374065)
+    pt_lumi.AddText("{:.2f}".format(dataLumi / 1000.0) + " fb^{-1}, 13 TeV")
+    pt_lumi.Draw("same")
+
+    pt_leg = TPaveText(0.160401, 0.768657, 0.342105, 0.863184, "brNDC")
+    pt_leg.SetBorderSize(0)
+    pt_leg.SetFillStyle(0)
+    pt_leg.SetTextFont(42)
+    pt_leg.SetTextSize(0.025)
+    pt_leg.SetTextAlign(12)
+    if leg == "METLeg":
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1]
+        pt_leg.AddText(legLabel)
+    if leg == "TrackLeg":
+        pt_leg.AddText(trigger + "*")
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1] + " applied"
+        pt_leg.AddText(legLabel)
+    if leg == "METPath":
+        if trigger == "GrandOr":
+            pt_leg.AddText("OR of Signal Paths")
+        else:
+            if len(trigger) > 25 and len(trigger.split("_")) > 2:
+                firstLine = trigger.split("_")[0] + "_" + trigger.split("_")[1] + "_"
+                pt_leg.AddText(firstLine)
+                secondLine = ""
+                for line in trigger.split("_")[2:-1]:
+                    secondLine += line + "_"
+                secondLine += trigger.split("_")[-1] + "*"
+                pt_leg.AddText(secondLine)
+            else:
+                pt_leg.AddText(trigger + "*")
+    pt_leg.Draw("same")
+
     dataLabel = '2015 data'
-    if '2016' in data:
-        dataLabel = '2016D-H data'
+    if '2016BC' in data:
+        dataLabel = '2016 B+C data'
+    if '2016DEFGH' in data:
+        dataLabel = '2016 D-H data'
 
     legendLabel = trigger
 
-    legend = TLegend(0.6, 0.75, 0.88, 0.88)
+    legend = TLegend(0.65, 0.75, 0.93, 0.88)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
     legend.SetTextFont(42)
     if leg == 'METLeg':
-        legend.AddEntry(NULL, 'MET Leg', '')
+        legend.SetHeader('MET Leg')
     elif leg == 'TrackLeg':
-        legend.AddEntry(NULL, 'Track Leg', '')
+        legend.SetHeader('Track Leg')
     legend.AddEntry(dataEff, dataLabel, 'P')
     legend.AddEntry(mcEff, 'W #rightarrow l#nu MC', 'P')
     legend.Draw("same")
 
-    if not os.path.exists('plots_compare'):
-        os.mkdir('plots_compare')
+    outputDirectory = 'plots_compare'
+    if 'BC' in data:
+        outputDirectory = 'plots_compareBC'
+    if 'DEFGH' in data:
+        outputDirectory = 'plots_compareDEFGH'
 
-    canvas.SaveAs('plots_compare/' + trigger + '_' + leg + '.pdf')
+    if not os.path.exists(outputDirectory):
+        os.mkdir(outputDirectory)
+
+    canvas.SaveAs(outputDirectory + '/' + trigger + '_' + leg + '.pdf')
 
     mcFile.Close()
     dataFile.Close()
@@ -115,12 +165,12 @@ class TriggerEfficiency:
     _canvas = None
     _luminosityInInvFb = float("nan")
     _luminosityLabel = "13 TeV"
-    _plotLabel = float("nan")
     _rebinFactor = 10
     _metLegHistName = "Met Plots/metNoMuLogX"
     _metLegAxisTitle = "PF E_{T}^{miss, no #mu} [GeV]"
     _trackLegHistName = "Eventvariable Plots/leadMuonPt"
     _trackLegAxisTitle =  "Muon p_{T} [GeV]"
+    _datasetLabel = ""
     _isMC = False
 
     def __init__(self, path, metHLTFilters, leg):
@@ -136,13 +186,10 @@ class TriggerEfficiency:
 
     def addLuminosityInInvPb(self, luminosityInInvPb):
         self._luminosityInInvFb = luminosityInInvPb / 1000.0
-        #self._luminosityLabel =
+        self._luminosityLabel = "{:.2f}".format(self._luminosityInInvFb) + " fb^{-1}, 13 TeV"
 
     def addLuminosityLabel(self, luminosityLabel):
         self._luminosityLabel = luminosityLabel
-
-    def addPlotLabel(self, plotLabel):
-        self._plotLabel = plotLabel
 
     def addRebinFactor(self, rebinFactor):
         self._rebinFactor = rebinFactor
@@ -163,6 +210,9 @@ class TriggerEfficiency:
         self._isMC = isMC
         self._trackLegHistName = "Eventvariable Plots/leadTrackPt"
         self._trackLegAxisTitle = "Track p_{T} [GeV]"
+
+    def setDatasetLabel(self, label):
+        self._datasetLabel = label
 
     def addChannel(self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -191,7 +241,7 @@ class TriggerEfficiency:
             pt_lumi.SetFillStyle(0)
             pt_lumi.SetTextFont(42)
             pt_lumi.SetTextSize(0.0374065)
-            pt_lumi.AddText(self._luminosityLabel) #durp
+            pt_lumi.AddText(self._luminosityLabel)
 
             pt_leg = TPaveText(0.160401, 0.768657, 0.342105, 0.863184, "brNDC")
             pt_leg.SetBorderSize(0)
@@ -199,36 +249,27 @@ class TriggerEfficiency:
             pt_leg.SetTextFont(42)
             pt_leg.SetTextSize(0.0349127)
             pt_leg.SetTextAlign(12)
-            if self._leg == "METPath" or self._leg == "TrackLeg":
-                pt_leg.AddText(self._path)
-                #pt_leg.AddText(durp datasetLabel)
-                if self._leg == "TrackLeg":
-                    legLabel = ""
-                    for filt in self._metHLTFilters[:-1]:
-                        legLabel = legLabel + filt + ", "
-                    legLabel = legLabel + self._metHLTFilters[-1] + " applied"
-                    pt_leg.AddText(legLabel)
-            elif self._leg == "METLeg":
+            if self._leg == "METLeg":
                 legLabel = ""
                 for filt in self._metHLTFilters[:-1]:
                     legLabel = legLabel + filt + ", "
                 legLabel = legLabel + self._metHLTFilters[-1]
                 pt_leg.AddText(legLabel)
-                #pt_leg.AddText(durp datasetLabel)
-
-            pt = TPaveText(0.522556, 0.838501, 0.921053, 0.885013, "brNDC")
-            pt.SetBorderSize(0)
-            pt.SetFillStyle(0)
-            pt.SetTextFont(42)
-            pt.SetTextSize(0.0387597)
-            pt.AddText(str (self._plotLabel))
-
-            cmsLabel = TPaveText(0.134085, 0.937984, 0.418546, 0.984496, "brNDC")
-            cmsLabel.SetBorderSize(0)
-            cmsLabel.SetFillStyle(0)
-            cmsLabel.SetTextFont(62)
-            cmsLabel.SetTextSize(0.0387597)
-            cmsLabel.AddText("CMS Preliminary")
+                pt_leg.AddText(self._datasetLabel)
+            if self._leg == "TrackLeg":
+                pt_leg.AddText(self._path + "*")
+                pt_leg.AddText(self._datasetLabel)
+                legLabel = ""
+                for filt in self._metHLTFilters[:-1]:
+                    legLabel = legLabel + filt + ", "
+                legLabel = legLabel + self._metHLTFilters[-1] + " applied"
+                pt_leg.AddText(legLabel)
+            if self._leg == "METPath":
+                if self._path == "GrandOr":
+                    pt_leg.AddText("OR of Signal Paths")
+                else:
+                    pt_leg.AddText(self._path + "*")
+                pt_leg.AddText(self._datasetLabel)
 
             lumiLabel = TPaveText(0.66416, 0.937339, 0.962406, 0.992894, "brNDC")
             lumiLabel.SetBorderSize(0)
