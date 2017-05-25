@@ -18,7 +18,6 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = ''
 config.JobType.allowUndistributedCMSSW = True
 
-config.JobType.numCores = 4
 config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'

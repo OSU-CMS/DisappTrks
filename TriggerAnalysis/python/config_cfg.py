@@ -33,8 +33,8 @@ variableProducers.append('EventTriggerVarProducer')
 # HLT purity measurement channels -- BasicSelection but only with one HLT path
 ################################################################################
 
-# add_channels (process, [basicSelectionOnlyMET75IsoTrk50],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-# add_channels (process, [basicSelectionOnlyMET90IsoTrk50],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels (process, [basicSelectionOnlyMET75IsoTrk50],              histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels (process, [basicSelectionOnlyMET90IsoTrk50],              histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 
 ################################################################################
 
