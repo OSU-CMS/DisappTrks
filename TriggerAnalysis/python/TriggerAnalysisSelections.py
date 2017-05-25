@@ -4,6 +4,7 @@ import re
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.TriggerAnalysis.AllTriggers import *
+from DisappTrks.StandardAnalysis.EventSelections import *
 
 ##########################################################################################################
 # MET leg denominator for all paths
