@@ -30,6 +30,13 @@ variableProducers.append('EventTriggerVarProducer')
 # add_channels (process, TrackLegNumeratorWithTracksNoTrig.values(),     histSetsTrigger, weightsWithMuonSF, scaleFactorProducersWithMuons, collectionMap, variableProducers, False)
 
 ################################################################################
+# HLT purity measurement channels -- BasicSelection but only with one HLT path
+################################################################################
+
+# add_channels (process, [basicSelectionOnlyMET75IsoTrk50],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels (process, [basicSelectionOnlyMET90IsoTrk50],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+
+################################################################################
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive

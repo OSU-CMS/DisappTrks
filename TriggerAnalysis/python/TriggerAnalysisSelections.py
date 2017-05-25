@@ -169,3 +169,15 @@ for trig in TrackLegNumeratorWithTracks:
     TrackLegNumeratorWithTracksAnyHLTMatch[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracksAnyHLTMatch")
     removeCuts(TrackLegNumeratorWithTracksAnyHLTMatch[trig].cuts, [cutLeadMuonMatchHLTTrack])
     addCuts(TrackLegNumeratorWithTracksAnyHLTMatch[trig].cuts, [cutAnyMuonMatchHLTTrack])
+
+##########################################################################################################
+# HLT purity channels for IsoTrk50 paths
+##########################################################################################################
+
+basicSelectionOnlyMET75IsoTrk50 = copy.deepcopy(basicSelection)
+basicSelectionOnlyMET75IsoTrk50.name = cms.string("BasicSelectionOnlyMET75IsoTrk50")
+basicSelectionOnlyMET75IsoTrk50.triggers = cms.vstring("HLT_MET75_IsoTrk50_v")
+
+basicSelectionOnlyMET90IsoTrk50 = copy.deepcopy(basicSelection)
+basicSelectionOnlyMET90IsoTrk50.name = cms.string("BasicSelectionOnlyMET90IsoTrk50")
+basicSelectionOnlyMET90IsoTrk50.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
