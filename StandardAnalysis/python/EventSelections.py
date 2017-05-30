@@ -176,6 +176,17 @@ justAVertex = cms.PSet(
     )
 )
 
+justMET75IsoTrk50 = cms.PSet(
+    name = cms.string("JustMET75IsoTrk50"),
+    triggers = cms.vstring("HLT_MET75_IsoTrk50_v"),
+    cuts = cms.VPSet (),
+)
+justMET90IsoTrk50 = cms.PSet(
+    name = cms.string("JustMET790IsoTrk50"),
+    triggers = cms.vstring("HLT_MET90_IsoTrk50_v"),
+    cuts = cms.VPSet (),
+)
+
 justADisTrk = copy.deepcopy (justAVertex)
 justADisTrk.name = cms.string ("JustADisTrk")
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)

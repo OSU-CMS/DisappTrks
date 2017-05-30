@@ -154,6 +154,19 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   double leadTrackPt = selectedTracks.size() ? selectedTracks.at(0)->pt() : -1.0;
 
   //////////////////////////////////////////////////////////////////////////////
+  // Online MET
+  //////////////////////////////////////////////////////////////////////////////
+
+  pat::TriggerObjectStandAlone hltMet;
+  pat::TriggerObjectStandAlone hltMetClean;
+
+  getHLTObj (allTriggerNames, *triggerObjs, "hltMet", hltMet);
+  getHLTObj (allTriggerNames, *triggerObjs, "hltMetClean", hltMetClean);
+
+  double onlineMet = hltMet.pt();
+  double onlineMetClean = hltMetClean.pt();
+
+  //////////////////////////////////////////////////////////////////////////////
   // Insert event variables
   //////////////////////////////////////////////////////////////////////////////
 
@@ -177,6 +190,9 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
 
   (*eventvariables)["leadMuonPt"] = leadMuonPt;
   (*eventvariables)["leadTrackPt"] = leadTrackPt;
+
+  (*eventvariables)["hltMet"] = onlineMet;
+  (*eventvariables)["hltMetClean"] = onlineMetClean;
 
 }
 

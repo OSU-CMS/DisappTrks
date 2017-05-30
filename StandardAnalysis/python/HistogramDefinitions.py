@@ -1789,6 +1789,18 @@ EventTriggerVarHistograms = cms.PSet(
             inputVariables = cms.vstring("HT"),
         ),
         cms.PSet (
+            name = cms.string("hltMetLogX"),
+            title = cms.string(";hltMet [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("hltMet"),
+        ),
+        cms.PSet (
+            name = cms.string("hltMetCleanLogX"),
+            title = cms.string(";hltMetClean [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("hltMetClean"),
+        ),
+        cms.PSet (
             name = cms.string("MHTLogX"),
             title = cms.string(";HT_{T}^{miss} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
@@ -1853,6 +1865,13 @@ EventTriggerVarVsMetHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(binsLogX),
             binsY = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("met.pt", "eventvariable.MHT"),
+        ),
+        cms.PSet (
+            name = cms.string("hltMetVsMetNoMu"),
+            title = cms.string("hltMet vs MetNoMu;metNoMu [GeV];hltMet [GeV]"),
+            binsX = cms.untracked.vdouble(binsLogX),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("met.noMuPt", "hltMet"),
         ),
     )
 )
