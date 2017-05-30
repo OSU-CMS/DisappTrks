@@ -1871,7 +1871,7 @@ EventTriggerVarVsMetHistograms = cms.PSet(
             title = cms.string("hltMet vs MetNoMu;metNoMu [GeV];hltMet [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             binsY = cms.untracked.vdouble(binsLogX),
-            inputVariables = cms.vstring("met.noMuPt", "hltMet"),
+            inputVariables = cms.vstring("met.noMuPt", "eventvariable.hltMet"),
         ),
     )
 )
