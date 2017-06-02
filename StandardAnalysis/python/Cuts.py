@@ -48,6 +48,11 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
+cutDummyMet = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("noMuPt > -1"),
+    numberRequired = cms.string(">= 1"),
+)
 cutLowMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("pt < 60"),

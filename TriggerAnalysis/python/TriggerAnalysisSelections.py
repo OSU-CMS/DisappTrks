@@ -182,3 +182,11 @@ basicSelectionOnlyMET75IsoTrk50.triggers = cms.vstring("HLT_MET75_IsoTrk50_v")
 basicSelectionOnlyMET90IsoTrk50 = copy.deepcopy(basicSelection)
 basicSelectionOnlyMET90IsoTrk50.name = cms.string("BasicSelectionOnlyMET90IsoTrk50")
 basicSelectionOnlyMET90IsoTrk50.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
+
+isoTrkSelectionOnlyMET75IsoTrk50 = copy.deepcopy(isoTrkSelection)
+isoTrkSelectionOnlyMET75IsoTrk50.name = cms.string("IsoTrkSelectionOnlyMET75IsoTrk50")
+isoTrkSelectionOnlyMET75IsoTrk50.triggers = cms.vstring("HLT_MET75_IsoTrk50_v")
+
+isoTrkSelectionOnlyMET90IsoTrk50 = copy.deepcopy(isoTrkSelection)
+isoTrkSelectionOnlyMET90IsoTrk50.name = cms.string("IsoTrkSelectionOnlyMET90IsoTrk50")
+isoTrkSelectionOnlyMET90IsoTrk50.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
