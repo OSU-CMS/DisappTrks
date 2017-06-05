@@ -36,6 +36,9 @@ variableProducers.append('EventTriggerVarProducer')
 # add_channels (process, [basicSelectionOnlyMET75IsoTrk50],              histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 # add_channels (process, [basicSelectionOnlyMET90IsoTrk50],              histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 
+# add_channels (process, [basicSelectionOnlyMET75IsoTrk50HltMet105],     histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
+# add_channels (process, [basicSelectionOnlyMET90IsoTrk50HltMet105],     histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
+
 ################################################################################
 
 # add_channels (process, [justMET75IsoTrk50],              histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)

@@ -985,6 +985,12 @@ for trig in triggerFiltersMet:
                 alias = cms.string(filt),
             )
 
+cutHltMet105 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("hltMet > 105"),
+    numberRequired = cms.string(">= 1"),
+)
+
 firesGrandOrTrigger = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("passesGrandOrTrigger > 0"),
