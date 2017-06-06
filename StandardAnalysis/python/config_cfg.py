@@ -77,4 +77,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [justAFakeTrkNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
+#  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkJustMET90Trigger],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkJustMainTriggerHltMet105],     histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkJustMET90TriggerHltMet105],    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive

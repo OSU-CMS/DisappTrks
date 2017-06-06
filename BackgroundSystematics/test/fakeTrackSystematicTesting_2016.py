@@ -20,7 +20,8 @@ useJetRequirementForFakes = False
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEFG', 'DEFGH', 'H', '']
+#runPeriods = ['BC', 'DEFGH', '']
+runPeriods = ['']
 
 if background == "FAKE" or background == "ALL":
 
@@ -403,67 +404,108 @@ if background == "FAKE" or background == "ALL":
 
     for runPeriod in runPeriods:
 
-        print "*************************************************************************************"
-        print "evaluating fake track systematic in data with no D0 cut (2016", runPeriod, ")"
-        print "-------------------------------------------------------------------------------------"
+        if True:
+            print "*************************************************************************************"
+            print "evaluating fake track systematic in data with sideband D0 cut (2016", runPeriod, ")"
+            print "-------------------------------------------------------------------------------------"
 
-        fout = TFile.Open ("noD0CutFakeTrackSystematic" + runPeriod + ".root", "recreate")
+            fout = TFile.Open ("sidebandD0CutFakeTrackSystematic" + runPeriod + ".root", "recreate")
 
-        noD0CutFakeTrackSystematic = FakeTrackSystematic ()
-        noD0CutFakeTrackSystematic.addTFile (fout)
-        noD0CutFakeTrackSystematic.addTCanvas (canvas)
-        noD0CutFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        noD0CutFakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",               "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/basicSelection")
-        noD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNoD0CutNHits3", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNoD0CutNHits4", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNoD0CutNHits5", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNoD0CutNHits6", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                      "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
-        noD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNoD0CutNHits4",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNoD0CutNHits5",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-        noD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNoD0CutNHits6",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+            sidebandD0CutFakeTrackSystematic = FakeTrackSystematic ()
+            sidebandD0CutFakeTrackSystematic.addTFile (fout)
+            sidebandD0CutFakeTrackSystematic.addTCanvas (canvas)
+            sidebandD0CutFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",                     "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionSidebandD0CutNHits3", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",       "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionSidebandD0CutNHits4", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionSidebandD0CutNHits5", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionSidebandD0CutNHits6", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+            #sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_nTracksHist")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
+
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3NoD0Cut",  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+            sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+            sidebandD0CutFakeTrackSystematic.addD0TransferFactor ()
+	    sidebandD0CutFakeTrackSystematic.reweightTo ("MET_2016", dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits", "BasicSelection", "Eventvariable Plots/nTracks")
+
+            print "********************************************************************************"
+
+            sidebandD0CutFakeTrackSystematic.printSystematic ()
+
+            print "********************************************************************************"
+
+            fout.Close ()
+
+            print "\n\n"
 
         print "********************************************************************************"
-
-        noD0CutFakeTrackSystematic.printSystematic ()
-
-        print "********************************************************************************"
-
-        fout.Close ()
-
-        print "\n\n"
-
-        print "********************************************************************************"
-        print "evaluating fake track systematic with 1 jet, 16 PV (2016", runPeriod, ")"
+        print "evaluating totally normal fake track systematic (2016", runPeriod, ")"
         print "--------------------------------------------------------------------------------"
 
-        fout = TFile.Open ("fakeTrackSystematicOneJet14to18PV_2016" + runPeriod + ".root", "recreate")
+        fout = TFile.Open ("totallyNormalFakeTrackSystematic_2016" + runPeriod + ".root", "recreate")
 
-        fakeTrackSystematicOneJet14to18PV = FakeTrackSystematic ()
-        fakeTrackSystematicOneJet14to18PV.addTFile (fout)
-        fakeTrackSystematicOneJet14to18PV.addTCanvas (canvas)
-        fakeTrackSystematicOneJet14to18PV.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("Basic",                "BasicSelection",                   "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits3",         "DisTrkSelectionOneJet14to18PVNHits3",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits4",         "DisTrkSelectionOneJet14to18PVNHits4",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits5",         "DisTrkSelectionOneJet14to18PVNHits5",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits6",         "DisTrkSelectionOneJet14to18PVNHits6",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoLL",                "ZtoMuMuOneJet14to18PV",                "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuOneJet14to18PVDisTrkNHits3",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuOneJet14to18PVDisTrkNHits4",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuOneJet14to18PVDisTrkNHits5",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
-        fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuOneJet14to18PVDisTrkNHits6",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+        totallyNormalFakeTrackSystematic = FakeTrackSystematic ()
+        totallyNormalFakeTrackSystematic.addTFile (fout)
+        totallyNormalFakeTrackSystematic.addTCanvas (canvas)
+        totallyNormalFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        totallyNormalFakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",         "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/basicSelection")
+        totallyNormalFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNoD0CutNHits3",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNoD0CutNHits4",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNoD0CutNHits5",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNoD0CutNHits6",  "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
+        totallyNormalFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNoD0CutNHits3",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNoD0CutNHits4",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNoD0CutNHits5",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+        totallyNormalFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNoD0CutNHits6",    "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
 
         print "********************************************************************************"
 
-        fakeTrackSystematicOneJet14to18PV.printSystematic ()
+        totallyNormalFakeTrackSystematic.printSystematic ()
 
         print "********************************************************************************"
 
         fout.Close ()
 
         print "\n\n"
+
+        # Files seem to be missing
+        if False:
+
+            print "********************************************************************************"
+            print "evaluating fake track systematic with 1 jet, 16 PV (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
+
+            fout = TFile.Open ("fakeTrackSystematicOneJet14to18PV_2016" + runPeriod + ".root", "recreate")
+
+            fakeTrackSystematicOneJet14to18PV = FakeTrackSystematic ()
+            fakeTrackSystematicOneJet14to18PV.addTFile (fout)
+            fakeTrackSystematicOneJet14to18PV.addTCanvas (canvas)
+            fakeTrackSystematicOneJet14to18PV.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("Basic",                "BasicSelection",                   "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits3",         "DisTrkSelectionOneJet14to18PVNHits3",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits4",         "DisTrkSelectionOneJet14to18PVNHits4",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits5",         "DisTrkSelectionOneJet14to18PVNHits5",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("DisTrkNHits6",         "DisTrkSelectionOneJet14to18PVNHits6",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final/basicSelectionOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoLL",                "ZtoMuMuOneJet14to18PV",                "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuOneJet14to18PVDisTrkNHits3",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuOneJet14to18PVDisTrkNHits4",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuOneJet14to18PVDisTrkNHits5",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+            fakeTrackSystematicOneJet14to18PV.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuOneJet14to18PVDisTrkNHits6",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final/ZtoMuMuOneJet14to18PV")
+
+            print "********************************************************************************"
+
+            fakeTrackSystematicOneJet14to18PV.printSystematic ()
+
+            print "********************************************************************************"
+
+            fout.Close ()
+
+            print "\n\n"
 
     if useJetRequirementForFakes:
 
@@ -532,3 +574,4 @@ if background == "FAKE" or background == "ALL":
         fout.Close ()
 
         print "\n\n"
+

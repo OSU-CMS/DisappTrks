@@ -37,7 +37,7 @@ for runPeriod in runPeriods:
     fakeTrackBkgdEstimate.addTCanvas (canvas)
     fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
     fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",   "MET_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-    fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionInvertD0Cut",     "MET_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+    fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",     "MET_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
 
     print "********************************************************************************"
 
@@ -48,3 +48,29 @@ for runPeriod in runPeriods:
     fout.Close ()
 
     print "\n\n"
+
+    print "********************************************************************************"
+    print "performing fake track background estimate in ZtoMuMu (2016", runPeriod, ")"
+    print "--------------------------------------------------------------------------------"
+
+    fout = TFile.Open ("zToMuMuEstimate_2016" + runPeriod + ".root", "recreate")
+
+    zToMuMuEstimate = FakeTrackBkgdEstimate ()
+    zToMuMuEstimate.addTFile (fout)
+    zToMuMuEstimate.addTCanvas (canvas)
+    zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
+
+    zToMuMuEstimate.addChannel  ("Basic3hits",	  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",     "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+    zToMuMuEstimate.addPrescaleFactor (3218870.0 / 13452820.0)
+
+    print "********************************************************************************"
+
+    nEstFake.append( zToMuMuEstimate.printNest () )
+
+    print "********************************************************************************"
+
+    fout.Close ()
+
+    print "\n\n"
+

@@ -13,8 +13,8 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-d0CutValue = 0.02 - 0.001
-maxSidebandValue = 0.1 - 0.001
+d0CutValue = 0.02
+maxSidebandValue = 0.1
 
 class FakeTrackBkgdEstimate:
     _fout = None
@@ -39,14 +39,14 @@ class FakeTrackBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, maxSidebandValue)
+        channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, maxSidebandValue - 0.001)
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
     def printTransferFactor (self):
         if hasattr (self, "Basic3hits"):
-            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, d0CutValue)
-            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", d0CutValue, maxSidebandValue)
+            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, d0CutValue - 0.001)
+            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", d0CutValue, maxSidebandValue - 0.001)
 
             if fails > 0.0:
                 transferFactor = passes / fails
@@ -69,8 +69,13 @@ class FakeTrackBkgdEstimate:
             n *= self._prescale
             nError *= self._prescale
 
-            print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
-            return (n, nError)
+            if n > 0.0:
+                print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
+                return (n, nError)
+            else:
+                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))
+                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " - 0 + " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
+                return (n, nUpperLimit)
         else:
             print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
@@ -79,14 +84,9 @@ class FakeTrackBkgdEstimate:
         xi, xiError, xiPass, xiPassError, xiFail, xiFailError = self.printTransferFactor ()
         nCtrl, nCtrlError = self.printNctrl ()
 
-        nEst = 0.0
-        nEstError = 0.0
-
-        if nCtrl == 0.0:
-            nCtrlError = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (nCtrl + 1))
-
         nEst = xi * nCtrl
-        nEstError = nEst * math.hypot (xiError/xi, nCtrl/nCtrlError)
+        nEstError = math.hypot (xiError * nCtrl, nCtrlError * xi)
+
         if nEst > 0.0:
             print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
         else:

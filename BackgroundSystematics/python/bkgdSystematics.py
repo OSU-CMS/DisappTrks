@@ -19,6 +19,17 @@ fiducialMuonSigmaCut = 2.0
 getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
 getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = fiducialElectronSigmaCut, fiducialMuonSigmaCut = fiducialMuonSigmaCut)
 
+d0CutValue = 0.02
+minD0SidebandValue = 0.02
+maxD0SidebandValue = 0.1
+
+def getTotallyNormalYield(sample, condor_dir, channel):
+    hist = "Track-eventvariable Plots/trackd0WRTPVMag"    
+    h = getHist (sample, condor_dir, channel, hist)
+    statError_ = Double(0.0)
+    yield_ = h.IntegralAndError(0, h.FindBin(d0CutValue - 0.001), statError_)
+    return (yield_, statError_)
+
 class FakeTrackSystematic:
     _fout = None
     _canvas = None
@@ -29,6 +40,13 @@ class FakeTrackSystematic:
     _reweightToChannel = None
     _reweightToHist = None
     _plotDiff = False
+
+    _useBasicTransferFactor = False
+    _basicTransferFactor = 1.0
+    _basicTransferFactorError = 0.0
+    _useZtoMuMuTransferFactor = False
+    _zToMuMuTransferFactor = 1.0
+    _zToMuMuTransferFactorError = 0.0
 
     def addTFile (self, fout):
         self._fout = fout
@@ -45,6 +63,8 @@ class FakeTrackSystematic:
             channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
         else:
             channel["yield"], channel["yieldError"] = getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            #channel["yield"], channel["yieldError"] = getTotallyNormalYield(sample, condorDir, name + "Plotter")
+
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
@@ -55,6 +75,49 @@ class FakeTrackSystematic:
         self._reweightToCondorDir = condorDir
         self._reweightToChannel = channelName
         self._reweightToHist = histName
+
+    def addD0TransferFactor (self):
+        if hasattr (self, "DisTrkNHits3NoD0Cut"):
+            basicPass, basicPassError = getHistIntegral (self.DisTrkNHits3NoD0Cut["sample"],
+                                                         self.DisTrkNHits3NoD0Cut["condorDir"],
+                                                         self.DisTrkNHits3NoD0Cut["name"] + "Plotter",
+                                                         "Track-eventvariable Plots/trackd0WRTPVMag",
+                                                         0.0, d0CutValue - 0.001)
+            basicFail, basicFailError = getHistIntegral (self.DisTrkNHits3NoD0Cut["sample"],
+                                                         self.DisTrkNHits3NoD0Cut["condorDir"],
+                                                         self.DisTrkNHits3NoD0Cut["name"] + "Plotter",
+                                                         "Track-eventvariable Plots/trackd0WRTPVMag",
+                                                         minD0SidebandValue, maxD0SidebandValue - 0.001)
+            if basicFail > 0.0:
+                self._useBasicTransferFactor = True
+                self._basicTransferFactor = basicPass / basicFail
+                self._basicTransferFactorError = (basicPass / basicFail) * math.hypot (basicPassError/basicPass, basicFailError/basicFail)
+                print "Basic transfer factor (3 hits) = " + str(self._basicTransferFactor) + " +/- " + str(self._basicTransferFactorError)
+            else:
+                print "Zero sideband D0 events for Basic (3 hits), not using transfer factor!"
+        else:
+            print "DisTrkNHits3NoD0Cut not defined, not using transfer factor!"
+
+        if hasattr (self, "ZtoMuMuDisTrkNHits3NoD0Cut"):
+            zToMuMuPass, zToMuMuPassError = getHistIntegral (self.ZtoMuMuDisTrkNHits3NoD0Cut["sample"],
+                                                             self.ZtoMuMuDisTrkNHits3NoD0Cut["condorDir"],
+                                                             self.ZtoMuMuDisTrkNHits3NoD0Cut["name"] + "Plotter",
+                                                             "Track-eventvariable Plots/trackd0WRTPVMag",
+                                                             0.0, d0CutValue - 0.001)
+            zToMuMuFail, zToMuMuFailError = getHistIntegral (self.ZtoMuMuDisTrkNHits3NoD0Cut["sample"],
+                                                             self.ZtoMuMuDisTrkNHits3NoD0Cut["condorDir"],
+                                                             self.ZtoMuMuDisTrkNHits3NoD0Cut["name"] + "Plotter",
+                                                             "Track-eventvariable Plots/trackd0WRTPVMag",
+                                                             minD0SidebandValue, maxD0SidebandValue - 0.001)
+            if zToMuMuFail > 0.0:
+                self._useZtoMuMuTransferFactor = True
+                self._zToMuMuTransferFactor = zToMuMuPass / zToMuMuFail
+                self._zToMuMuTransferFactorError = (zToMuMuPass / zToMuMuFail) * math.hypot (zToMuMuPassError/zToMuMuPass, zToMuMuFailError/zToMuMuFail)
+                print "ZtoMuMu transfer factor (3 hits) = " + str(self._zToMuMuTransferFactor) + " +/- " + str(self._zToMuMuTransferFactorError)
+            else:
+                print "Zero sideband D0 events for ZtoMuMu (3 hits), not using transfer factor!"
+        else:
+            print "ZtoMuMuDisTrkNHits3NoD0Cut not defined, not using transfer factor!"
 
     def getTruthFakeRate (self, getTruthFakeRate):
         self._getTruthFakeRate = getTruthFakeRate
@@ -78,6 +141,16 @@ class FakeTrackSystematic:
             if self._getTruthFakeRate:
                 (disTrkCorrection, disTrkCorrectionError) = self.getTruthFakeRateCorrection (disTrkNHits)
                 (zToMuMuDisTrkCorrection, zToMuMuDisTrkCorrectionError) = self.getTruthFakeRateCorrection (zToMuMuDisTrkNHits)
+
+            if self._useBasicTransferFactor:
+                disTrkCorrection = disTrkCorrection * self._basicTransferFactor
+                disTrkCorrectionError = math.hypot (disTrkCorrectionError, self._basicTransferFactorError)
+		print "Durp durp -- using", disTrkCorrection, "+/-", disTrkCorrectionError, "for Basic as a transfer factor"
+            if self._useZtoMuMuTransferFactor:
+                zToMuMuDisTrkCorrection = zToMuMuDisTrkCorrection * self._zToMuMuTransferFactor
+                zToMuMuDisTrkCorrectionError = math.hypot (zToMuMuDisTrkCorrectionError, self._zToMuMuTransferFactorError)
+		print "Durp durp -- using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
+
             passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
             passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
 
@@ -86,10 +159,16 @@ class FakeTrackSystematic:
 
             if self._reweightToSample and self._reweightToCondorDir and self._reweightToChannel and self._reweightToHist:
                 print "REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING"
-                fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits, zToMuMuDisTrkNHits, str (nHits))
+		fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits,
+                                                                    zToMuMuDisTrkNHits,
+                                                                    disTrkCorrection,
+                                                                    disTrkCorrectionError,
+                                                                    zToMuMuDisTrkCorrection,
+                                                                    zToMuMuDisTrkCorrectionError,
+                                                                    str (nHits))
 
-            ratio = fakeRate[1] / fakeRate[0]
-            ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0]))
+            ratio = fakeRate[1] / fakeRate[0] if fakeRate[0] > 0.0 else 0.0
+            ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0])) if fakeRate[0] > 0.0 else 0.0
 
             print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
             if self._plotDiff:
@@ -100,7 +179,7 @@ class FakeTrackSystematic:
             print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
-    def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits, outputLabel = ""):
+    def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits, disTrkCorrection, disTrkCorrectionError, zToMuMuDisTrkCorrection, zToMuMuDisTrkCorrectionError, outputLabel = ""):
         if hasattr (self, "Basic") and hasattr (self, "ZtoLL"):
             sample = self.Basic["sample"]
             condorDir = self.Basic["condorDir"]
@@ -168,8 +247,13 @@ class FakeTrackSystematic:
             N = (disTrkPassesHist.GetNbinsX (), zToMuMuDisTrkPassesHist.GetNbinsX ())
             disTrkPassesError = Double (0.0)
             zToMuMuDisTrkPassesError = Double (0.0)
-            fakeRate = (disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError), zToMuMuDisTrkPassesHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkPassesError))
-            fakeRateError = (disTrkPassesError, zToMuMuDisTrkPassesError)
+	    disTrkPasses = disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError)
+            zToMuMuDisTrkPasses = zToMuMuDisTrkPassesHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkPassesError)
+
+            fakeRate = (Double(disTrkCorrection) * disTrkPasses,
+                        zToMuMuDisTrkCorrection * zToMuMuDisTrkPasses)
+            fakeRateError = (fakeRate[0] * math.hypot (disTrkCorrectionError/disTrkCorrection, disTrkPassesError/disTrkPasses),
+                             fakeRate[1] * math.hypot (zToMuMuDisTrkCorrectionError/zToMuMuDisTrkCorrection, zToMuMuDisTrkPassesError/zToMuMuDisTrkPasses))
 
             return (fakeRate, fakeRateError)
         else:
@@ -485,3 +569,4 @@ class LeptonEnergySystematic:
                 print "A TFile and TCanvas must be added. Not making plots..."
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET..."
+

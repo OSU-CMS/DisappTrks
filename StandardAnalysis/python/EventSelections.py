@@ -168,6 +168,18 @@ disTrkJustMainTrigger = copy.deepcopy(disTrkSelection)
 disTrkJustMainTrigger.name = cms.string("DisTrkJustMainTrigger")
 disTrkJustMainTrigger.triggers = triggersMetAndIsoTrk
 
+disTrkJustMET90Trigger = copy.deepcopy(disTrkSelection)
+disTrkJustMET90Trigger.name = cms.string("DisTrkJustMET90Trigger")
+disTrkJustMET90Trigger.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
+
+disTrkJustMainTriggerHltMet105 = copy.deepcopy(disTrkJustMainTrigger)
+disTrkJustMainTriggerHltMet105.name = cms.string("DisTrkJustMainTriggerHltMet105")
+disTrkJustMainTriggerHltMet105.cuts.insert(0, cutHltMet105)
+
+disTrkJustMET90TriggerHltMet105 = copy.deepcopy(disTrkJustMET90Trigger)
+disTrkJustMET90TriggerHltMet105.name = cms.string("DisTrkJustMet90TriggerHltMet105")
+disTrkJustMET90TriggerHltMet105.cuts.insert(0, cutHltMet105)
+
 justAVertex = cms.PSet(
     name = cms.string("JustAVertex"),
     triggers = cms.vstring(),
