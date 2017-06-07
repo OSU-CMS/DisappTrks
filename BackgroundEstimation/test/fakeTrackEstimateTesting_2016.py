@@ -60,9 +60,10 @@ for runPeriod in runPeriods:
     zToMuMuEstimate.addTCanvas (canvas)
     zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
 
-    zToMuMuEstimate.addChannel  ("Basic3hits",	  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",     "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
-    zToMuMuEstimate.addPrescaleFactor (3218870.0 / 13452820.0)
+    zToMuMuEstimate.addChannel  ("Basic3hits",	    "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+    zToMuMuEstimate.addChannel  ("Basic",           "BasicSelection",               "MET_2016"      + runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+    zToMuMuEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                      "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
 
     print "********************************************************************************"
 
@@ -73,4 +74,3 @@ for runPeriod in runPeriods:
     fout.Close ()
 
     print "\n\n"
-

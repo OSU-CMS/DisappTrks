@@ -66,6 +66,14 @@ class FakeTrackBkgdEstimate:
             n = self.DisTrkInvertD0["yield"]
             nError = self.DisTrkInvertD0["yieldError"]
 
+            # For ZtoMuMu control regions, need to normalize to BasicSelection
+            if hasattr (self, "ZtoLL") and hasattr (self, "Basic"):
+                norm = self.Basic["yield"] / self.ZtoLL["yield"]
+                normError = norm * math.hypot (self.Basic["yieldError"] / self.Basic["yield"], self.ZtoLL["yieldError"] / self.ZtoLL["yield"])
+
+                nError = n * norm * math.hypot (nError / n, normError / norm)
+                n = n * norm
+
             n *= self._prescale
             nError *= self._prescale
 
