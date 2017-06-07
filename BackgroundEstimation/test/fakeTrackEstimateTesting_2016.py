@@ -36,8 +36,8 @@ for runPeriod in runPeriods:
     fakeTrackBkgdEstimate.addTFile (fout)
     fakeTrackBkgdEstimate.addTCanvas (canvas)
     fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-    fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",   "MET_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-    fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",     "MET_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+    fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new")
+    fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new")
 
     print "********************************************************************************"
 
@@ -59,9 +59,8 @@ for runPeriod in runPeriods:
     zToMuMuEstimate.addTFile (fout)
     zToMuMuEstimate.addTCanvas (canvas)
     zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
-
-    zToMuMuEstimate.addChannel  ("Basic3hits",	  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",     "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+    zToMuMuEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNHits3",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
     zToMuMuEstimate.addPrescaleFactor (3218870.0 / 13452820.0)
 
     print "********************************************************************************"
