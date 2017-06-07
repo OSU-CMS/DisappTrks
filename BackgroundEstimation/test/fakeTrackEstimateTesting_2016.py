@@ -61,7 +61,8 @@ for runPeriod in runPeriods:
     zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
     zToMuMuEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNHits3",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
     zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-    zToMuMuEstimate.addPrescaleFactor (3218870.0 / 13452820.0)
+    zToMuMuEstimate.addChannel  ("Basic",           "BasicSelection",              "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+    zToMuMuEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                     "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
 
     print "********************************************************************************"
 
@@ -72,4 +73,3 @@ for runPeriod in runPeriods:
     fout.Close ()
 
     print "\n\n"
-
