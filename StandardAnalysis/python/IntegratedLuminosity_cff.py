@@ -222,6 +222,14 @@ lumi["ZeroBias_2016DEF"]                                    =  lumi["ZeroBias_20
 lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEF"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"]
 lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEF"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016D"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016E"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016F"]
 
+lumi["MET_2016BCDEF"]                                         =  lumi["MET_2016BC"]                                         +  lumi["MET_2016DEF"]
+lumi["SingleElectron_2016BCDEF"]                              =  lumi["SingleElectron_2016BC"]                              +  lumi["SingleElectron_2016DEF"]
+lumi["SingleMuon_2016BCDEF"]                                  =  lumi["SingleMuon_2016BC"]                                  +  lumi["SingleMuon_2016DEF"]
+lumi["Tau_2016BCDEF"]                                         =  lumi["Tau_2016BC"]                                         +  lumi["Tau_2016DEF"]
+lumi["ZeroBias_2016BCDEF"]                                    =  lumi["ZeroBias_2016BC"]                                    +  lumi["ZeroBias_2016DEF"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BCDEF"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEF"]
+lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BCDEF"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BC"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEF"]
+
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"]                                         +  lumi["MET_2016H_v3"]
 lumi["SingleElectron_2016H"]                              =  lumi["SingleElectron_2016H_v2"]                              +  lumi["SingleElectron_2016H_v3"]
 lumi["SingleMuon_2016H"]                                  =  lumi["SingleMuon_2016H_v2"]                                  +  lumi["SingleMuon_2016H_v3"]
