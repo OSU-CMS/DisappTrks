@@ -126,7 +126,9 @@ from DisappTrks.StandardAnalysis.EventWeights import *
 #         Meaning, only use these if they make sense to use
 ################################################################################
 from DisappTrks.StandardAnalysis.LeptonScaleFactors import *
-scaleFactorProducers = [LeptonScaleFactorProducer]
+scaleFactorProducers = []
+scaleFactorProducersWithElectrons = [ElectronScaleFactorProducer]
+scaleFactorProducersWithMuons = [MuonScaleFactorProducer]
 ################################################################################
 
 ################################################################################

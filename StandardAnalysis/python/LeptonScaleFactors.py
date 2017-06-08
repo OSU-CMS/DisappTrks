@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 import os
+import copy
 
 # parameters:
 # input file for each lepton type
@@ -28,7 +29,21 @@ import os
 # https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_efficiencies_and_scale
 # https://twiki.cern.ch/twiki/bin/view/CMS/MuonReferenceEffsRun2#Muon_reconstruction_identificati
 
-leptonScaleFactors2015 = cms.VPSet (
+electronScaleFactors2015 = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2015"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2015"),
+        wp = cms.string("Tight"),
+    ),
+)
+
+muonScaleFactors2015 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
@@ -51,20 +66,23 @@ leptonScaleFactors2015 = cms.VPSet (
         additionalSystematic = cms.double(0.005),
 
     ),
+)
+
+electronScaleFactors2016 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
-        version = cms.string("2015"),
+        version = cms.string("2016"),
     ),
     cms.PSet (
         inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
-        version = cms.string("2015"),
+        version = cms.string("2016"),
         wp = cms.string("Tight"),
     ),
 )
 
-leptonScaleFactors2016 = cms.VPSet (
+muonScaleFactors2016 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
@@ -100,26 +118,19 @@ leptonScaleFactors2016 = cms.VPSet (
         eras = cms.vstring("BCDEF", "GH"),
         lumis = cms.vdouble(lumi["SingleMuon_2016BCDEF"], lumi["SingleMuon_2016GH"]),
     ),
-    cms.PSet (
-        inputCollection = cms.string("electrons"),
-        sfType = cms.string("Reco"),
-        version = cms.string("2016"),
-    ),
-    cms.PSet (
-        inputCollection = cms.string("electrons"),
-        sfType = cms.string("ID"),
-        version = cms.string("2016"),
-        wp = cms.string("Tight"),
-    ),
 )
 
-LeptonScaleFactorProducer = {
+ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
     'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
     'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root'),
     #'trackFile'    : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSFs.root'),
-    'scaleFactors' : leptonScaleFactors2015,
+    'scaleFactors' : electronScaleFactors2015,
 }
 
+MuonScaleFactorProducer = copy.deepcopy(ElectronScaleFactorProducer)
+MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2015
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    LeptonScaleFactorProducer['scaleFactors'] = leptonScaleFactors2016
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
