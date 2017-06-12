@@ -21,7 +21,13 @@ then
   exit 1
 fi
 
-find -L $condorDir -type f -regex ".*\/$skimName\/skim_[^/]*\.root$" | xargs edmFileUtil -e | cleanEdmFileEvents.sh > $outputFile 2>&1
-nEvents=`wc -l $outputFile | awk '{print $1}'`
-echo "Event numbers written to \"$outputFile\". Now run:"
-echo "  edmPickEvents.py --maxEventsInteractive $nEvents /DATA/SET/NAME $outputFile"
+nFiles=`find -L $condorDir -type f -regex ".*\/$skimName\/skim_[^/]*\.root$" | wc -l`
+if [ $nFiles -ne 0 ]
+then
+  find -L $condorDir -type f -regex ".*\/$skimName\/skim_[^/]*\.root$" | xargs edmFileUtil -e | cleanEdmFileEvents.sh > $outputFile 2>&1
+  nEvents=`wc -l $outputFile | awk '{print $1}'`
+  echo "Event numbers written to \"$outputFile\". Now run:"
+  echo "  edmPickEvents.py --maxEventsInteractive $nEvents /DATA/SET/NAME $outputFile"
+else
+  echo "No events found in skim!"
+fi
