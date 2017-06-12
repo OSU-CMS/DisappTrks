@@ -7,7 +7,7 @@ from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 import os
 
-gROOT.SetBatch ()
+gROOT.SetBatch () # I am Groot.
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
