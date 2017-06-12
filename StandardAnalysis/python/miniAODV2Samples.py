@@ -9,7 +9,7 @@ dataset_names_data = {
     'MET_2015D'        :  "/MET/bfrancis-Run2015D-16Dec2015-v1-DisappTrks-v1-edd15e172b99b01701e5fcb96c087ae3/USER",
     'Tau_2015D'        :  "/Tau/bfrancis-Run2015D-16Dec2015-v1-DisappTrks-v1-31324d368b6909096a50f8f7683a08fd/USER",
     'SingleMu_2015D'   :  "/SingleMuon/bfrancis-Run2015D-16Dec2015-v1-DisappTrks-v1-053c3c5f5416b49d07ec496becaaba2c/USER",
-    'SingleEle_2015D'  :  "/SingleElectron/bfrancis-Run2015D-16Dec2015-v1-DisappTrks-v1-5aca015fad93aad1ac0d515c9af0ffed/USER",
+    'SingleEle_2015D'  :  "/SingleElectron/bfrancis-Run2015D-16Dec2015-v1-DisappTrks-v2-c395eec18246e9a7c49f0b4e5f932014/USER",
     'DoubleMu_2015D'   :  "/DoubleMuon/Run2015D-16Dec2015-v1/MINIAOD",
 }
 
