@@ -200,19 +200,19 @@ cutDijetDeltaPhiMax = cms.PSet(
 )
 cutLeadingJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
-    cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetLeading) > 0.5"),
+    cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetLeading) ) > 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
 )
 cutSubleadingJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
-    cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetSubleading) > 0.5"),
+    cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetSubleading) ) > 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
 )
 cutJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
-    cutString = cms.string("dPhi (met.noMuPhi, eventvariable.phiJetLeading) > 0.5 && dPhi (met.noMuPhi, eventvariable.phiJetSubleading) > 0.5"),
+    cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetLeading) ) > 0.5 && fabs( dPhi (met.noMuPhi, eventvariable.phiJetSubleading) ) > 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
 )
