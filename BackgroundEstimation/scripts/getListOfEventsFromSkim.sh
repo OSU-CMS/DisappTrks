@@ -21,7 +21,7 @@ then
   exit 1
 fi
 
-find -L $condorDir -type f -regex ".*\/$skimName\/skim_[^/]*\.root$" | xargs edmFileUtil -e | grep "^  " | grep -v "(\(Run\|Lumi\))\|TTree" | awk '{print $1,$2,$3}' | sed "s/ /:/g" | sort -h > $outputFile 2>&1
+find -L $condorDir -type f -regex ".*\/$skimName\/skim_[^/]*\.root$" | xargs edmFileUtil -e | cleanEdmFileEvents.sh > $outputFile 2>&1
 nEvents=`wc -l $outputFile | awk '{print $1}'`
 echo "Event numbers written to \"$outputFile\". Now run:"
 echo "  edmPickEvents.py --maxEventsInteractive $nEvents /DATA/SET/NAME $outputFile"
