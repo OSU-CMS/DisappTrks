@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, glob, re, itertools, subprocess, shutil
+import sys, glob, re, itertools, subprocess, shutil, copy
 
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -22,14 +22,27 @@ for existingFile in existingFiles:
 for year in combinations:
   combinations[year] = sorted (list (set (combinations[year])))
 
+commands = {}
 for year in combinations:
-  for r in range (2, len (combinations[year])):
+  for r in range (2, len (combinations[year]) + 1):
     for combination in itertools.combinations (combinations[year], r):
       joinedCombination = "".join (combination)
       if joinedCombination not in alphabet:
         continue
-      arguments = datasetPrefix + "_" + year + joinedCombination + ".root"
+      outputFile = datasetPrefix + "_" + year + joinedCombination + ".root"
+      arguments = copy.deepcopy (outputFile)
       for i in range (0, r):
         arguments += " " + datasetPrefix + "_" + year + combination[i] + ".root"
-      subprocess.call ("hadd -f " + arguments, shell = True)
+      commands[outputFile] = "hadd -f " + arguments
+
+i = 0
+for outputFile in sorted (commands.keys ()):
+  print "================================================================================"
+  print "Merging combination " + str (i + 1) + "/" + str (len (commands)) + ": \"" + outputFile + "\"..."
+  print "--------------------------------------------------------------------------------"
+  subprocess.call (commands[outputFile], shell = True)
+  i += 1
+  print "================================================================================\n"
+
+for year in combinations:
   shutil.copy (datasetPrefix + "_" + year + "".join (combinations[year]) + ".root", datasetPrefix + "_" + year + ".root")
