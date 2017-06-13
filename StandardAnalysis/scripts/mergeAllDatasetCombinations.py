@@ -33,7 +33,7 @@ for year in combinations:
       arguments = copy.deepcopy (outputFile)
       for i in range (0, r):
         arguments += " " + datasetPrefix + "_" + year + combination[i] + ".root"
-      commands[outputFile] = "hadd -f " + arguments
+      commands[outputFile] = "hadd -f -k " + arguments
 
 i = 0
 for outputFile in sorted (commands.keys ()):
