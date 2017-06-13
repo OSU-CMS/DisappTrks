@@ -2,6 +2,8 @@
 
 import sys, glob, re, itertools, subprocess, shutil
 
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 if len (sys.argv) < 2:
   print "Usage: " + sys.argv[0] + " DATASET_PREFIX"
   sys.exit (1)
@@ -23,7 +25,10 @@ for year in combinations:
 for year in combinations:
   for r in range (2, len (combinations[year])):
     for combination in itertools.combinations (combinations[year], r):
-      arguments = datasetPrefix + "_" + year + "".join (combination) + ".root"
+      joinedCombination = "".join (combination)
+      if joinedCombination not in alphabet:
+        continue
+      arguments = datasetPrefix + "_" + year + joinedCombination + ".root"
       for i in range (0, r):
         arguments += " " + datasetPrefix + "_" + year + combination[i] + ".root"
       subprocess.call ("hadd -f " + arguments, shell = True)
