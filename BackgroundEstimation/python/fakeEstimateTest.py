@@ -92,8 +92,19 @@ class FakeTrackBkgdEstimate:
         xi, xiError, xiPass, xiPassError, xiFail, xiFailError = self.printTransferFactor ()
         nCtrl, nCtrlError = self.printNctrl ()
 
+        N = xiPass
+        alpha = (nCtrl / xiFail)
+        alphaError = math.hypot (nCtrl * xiFailError, nCtrlError * xiFail) / (xiFail * xiFail)
+
         nEst = xi * nCtrl
         nEstError = math.hypot (xiError * nCtrl, nCtrlError * xi)
+
+        print "N: " + str (N)
+        if not (alpha == 0):
+            print "alpha: " + str (alpha) + " +- " + str (alphaError)
+        else:
+            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+        print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if nEst > 0.0:
             print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
