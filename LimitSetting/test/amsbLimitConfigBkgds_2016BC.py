@@ -1,41 +1,40 @@
-#!/usr/bin/env python
-
+#!/usr/bin/env python 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 
 backgrounds = {
     'Fake2016BC' : {
-        'N' : '0',
-        'alpha' : '0.613186900771',
+        'N' : '254',
+        'alpha' : '0.00150705915868',
     },
     'Elec2016BC' : {
-        'N' : '19',
-        'alpha' : '0.0746763147406',
+        'N' : '13',
+        'alpha' : '0.0420600923851',
     },
     'Muon2016BC' : {
-        'N' : '25',
-        'alpha' : '0.049856860573',
+        'N' : '18',
+        'alpha' : '0.0263138553455',
     },
     'Tau2016BC' : {
-        'N' : '8',
-        'alpha' : '0.00789987996823',
+        'N' : '4',
+        'alpha' : '0.00293348863686',
     },
 }
 
 background_systematics = {
     'Fake2016BC_alpha' : { # error on alpha
-        'value' : '1.00084739905',
+        'value' : '1.50058032627',
         'background' : 'Fake2016BC',
     },
     'Elec2016BC_alpha' : { # error on alpha
-        'value' : '1.01637012989',
+        'value' : '1.02396905829',
         'background' : 'Elec2016BC',
     },
     'Muon2016BC_alpha' : { # error on alpha
-        'value' : '1.00684383431',
+        'value' : '1.01049244309',
         'background' : 'Muon2016BC',
     },
     'Tau2016BC_alpha' : { # error on alpha
-        'value' : '1.18721776651',
+        'value' : '1.37860343927',
         'background' : 'Tau2016BC',
     },
 
