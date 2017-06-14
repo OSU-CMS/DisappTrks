@@ -122,45 +122,44 @@ for runPeriod in runPeriods:
 
     if background == "MUON" or background == "LEPTON" or background == "ALL":
 
-        if runPeriod == "D":
-            nEstMuon.append( (0.0, 0.0) )
-        else:
+        print "********************************************************************************"
+        print "performing muon background estimate in search region (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
 
-            print "********************************************************************************"
-            print "performing muon background estimate in search region (2016", runPeriod, ")"
-            print "--------------------------------------------------------------------------------"
+        fout = TFile.Open ("muonBkgdEstimate_2016" + runPeriod + ".root", "recreate")
 
-            fout = TFile.Open ("muonBkgdEstimate_2016" + runPeriod + ".root", "recreate")
+        muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+        muonBkgdEstimate.addTFile (fout)
+        muonBkgdEstimate.addTCanvas (canvas)
+        muonBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleMuon_2016" + runPeriod])
 
-            muonBkgdEstimate = LeptonBkgdEstimate ("muon")
-            muonBkgdEstimate.addTFile (fout)
-            muonBkgdEstimate.addTCanvas (canvas)
-            muonBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleMuon_2016" + runPeriod])
+        # RAW/RECO missing for SingleMuon_2016D passing ZtoMuDisTrk events
+        if "D" in runPeriod or runPeriod == "":
+          muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
 
-            # RAW/RECO missing for SingleMuon_2016D passing ZtoMuDisTrk events
-            if "D" in runPeriod or runPeriod == "":
-              muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
+        # RAW/RECO missing for 10/12 events in D for ZtoMuDisTrk passing events
+        muonTagProbeEffectiveLumi = lumi["SingleMuon_2016" + runPeriod]
+        if "D" in runPeriod or runPeriod == "":
+            muonTagProbeEffectiveLumi -= (10./12.) * lumi["SingleMuon_2016C"]
+        muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / muonTagProbeEffectiveLumi)
 
-            muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-            muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-            muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
-            muonBkgdEstimate.addMetCut (100.0)
-            muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
-            muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/muonBackground")
-            muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
-            #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
-            muonBkgdEstimate.addChannel  ("TrigEffDenom",    "MuonTagPt55",             "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
-            muonBkgdEstimate.addChannel  ("TrigEffNumer",    "MuonTagPt55MetTrig",      "SingleMu_2016"  +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
+        muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
+        muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
+        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_metTrig_new")
 
-            print "********************************************************************************"
+        print "********************************************************************************"
 
-            nEstMuon.append( muonBkgdEstimate.printNest () )
+        nEstMuon.append( muonBkgdEstimate.printNest () )
 
-            print "********************************************************************************"
+        print "********************************************************************************"
 
-            fout.Close ()
+        fout.Close ()
 
-            print "\n\n"
+        print "\n\n"
 
     if background == "TAU" or background == "LEPTON" or background == "ALL":
 
