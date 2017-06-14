@@ -18,7 +18,7 @@ class LeptonBkgdEstimate:
     _flavor = ""
     _fout = None
     _canvas = None
-    _metCut = 0.0
+    _metCut = 100.0
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
