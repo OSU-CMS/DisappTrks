@@ -174,38 +174,30 @@ for runPeriod in runPeriods:
         tauBkgdEstimate.addTCanvas (canvas)
         tauBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod])
 
-        # RAW/RECO missing for SingleMuon_2016D passing ZtoTauToMuDisTrk events
-        if runPeriod == "D":
-            tauBkgdEstimate.addTagProbePassScaleFactor ( 0.0 )
-        elif "D" in runPeriod or runPeriod == "":
-          tauBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
+        # RAW/RECO missing for no ZtoTauToMuDisTrk passing events
 
         # RAW/RECO missing for SingleElectron_2016F passing ZtoTauToEleDisTrk events
-        # Also for the 1/10 events in SingleElectron_2016H-v3 (9/10 in v2 are available but not v3!)
         if runPeriod == "F":
             tauBkgdEstimate.addTagProbePass1ScaleFactor ( 0.0 )
         else:
             tauToEleTagProbeEffectiveLumi = lumi["SingleElectron_2016" + runPeriod]
             if "F" in runPeriod or runPeriod == "":
                 tauToEleTagProbeEffectiveLumi -= lumi["SingleElectron_2016F"]
-            if "H" in runPeriod or runPeriod == "":
-                tauToEleTagProbeEffectiveLumi -= (1./9.) * lumi["SingleElectron_2016H"]
 
             tauBkgdEstimate.addTagProbePass1ScaleFactor ( lumi["SingleElectron_2016" + runPeriod] / tauToEleTagProbeEffectiveLumi )
 
         tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
-        tauBkgdEstimate.addMetCut (100.0)
         tauBkgdEstimate.addRebinFactor (4)
-        tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016"   +  runPeriod,              dirs['Brian']+"2016_final/muonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2016"   +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/muonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/electronBackground")
-        tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"        +  runPeriod,              dirs['Brian']+"2016_final/tauBackground")
-        #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"        +  runPeriod,              dirs['Brian']+"2016_final/tauBackground")
-        tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+        tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2016"          +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+        tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_rereco_2016"   +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+        tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+        tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+        #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_metTrig_new")
+        tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
 
         print "********************************************************************************"
 
