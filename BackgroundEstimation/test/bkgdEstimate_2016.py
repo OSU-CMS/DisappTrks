@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import math
-from DisappTrks.BackgroundEstimation.bkgdEstimate import *
+import math, os, sys
+from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate
+from DisappTrks.BackgroundEstimation.fakeEstimateTest import FakeTrackBkgdEstimate
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
-import os
 
 gROOT.SetBatch () # I am Groot.
 
@@ -41,13 +41,37 @@ for runPeriod in runPeriods:
         fakeTrackBkgdEstimate.addTFile (fout)
         fakeTrackBkgdEstimate.addTCanvas (canvas)
         fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLL",        "ZtoMuMu",         "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
-        fakeTrackBkgdEstimate.addChannel  ("ZtoLLdisTrk",  "ZtoMuMuDisTrk",   "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
-        fakeTrackBkgdEstimate.addChannel  ("Basic",        "BasicSelection",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection")
+        fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
 
         print "********************************************************************************"
 
         nEstFake.append( fakeTrackBkgdEstimate.printNest () )
+
+        print "********************************************************************************"
+
+        fout.Close ()
+
+        print "\n\n"
+
+        print "********************************************************************************"
+        print "performing fake track background estimate in ZtoMuMu (2016", runPeriod, ")"
+        print "--------------------------------------------------------------------------------"
+
+        fout = TFile.Open ("zToMuMuEstimate_2016" + runPeriod + ".root", "recreate")
+
+        zToMuMuEstimate = FakeTrackBkgdEstimate ()
+        zToMuMuEstimate.addTFile (fout)
+        zToMuMuEstimate.addTCanvas (canvas)
+        zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
+        zToMuMuEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNHits3",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        zToMuMuEstimate.addChannel  ("Basic",           "BasicSelection",              "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+        zToMuMuEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                     "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
+
+        print "********************************************************************************"
+
+        zToMuMuEstimate.printNest ()
 
         print "********************************************************************************"
 
