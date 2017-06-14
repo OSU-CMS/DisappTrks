@@ -19,6 +19,7 @@ class LeptonBkgdEstimate:
     _fout = None
     _canvas = None
     _metCut = 100.0
+    _phiCut = 0.5
     _pPassVeto = (float ("nan"), float ("nan"))
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
@@ -48,6 +49,9 @@ class LeptonBkgdEstimate:
 
     def addMetCut (self, metCut):
         self._metCut = metCut
+
+    def addPhiCut (self, phiCut):
+        self._phiCut = phiCut
 
     def useIdMatch (self, match):
         self._useIdMatch = match
@@ -233,10 +237,11 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                met = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
 
                 passesError = Double (0.0)
-                passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
+                passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
 
             eff = passes / total
             effError = math.hypot (total * passesError, totalError * passes) / (total * total)
@@ -251,13 +256,13 @@ class LeptonBkgdEstimate:
             sample = self.TrigEffDenom["sample"] if hasattr (self, "TrigEffDenom") else self.TagPt35["sample"]
             condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
             name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
-            hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
+            hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
             totalHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
             sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
             condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
             name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
-            hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
+            hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
             passesHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
             self.plotTriggerEfficiency (passesHist, totalHist)
@@ -265,7 +270,10 @@ class LeptonBkgdEstimate:
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
             name = self.TagPt35["name"]
-            metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            #metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            metHist2D = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
+            metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
+            metHist = metHist2D.ProjectionX ("metHist")
 
             passesHist.Divide (totalHist)
             metHist.Multiply (passesHist)
@@ -283,10 +291,11 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
                 name = self.TagPt35["name"]
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                met = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
 
                 totalError = Double (0.0)
-                total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
+                total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
 
             eff = passes / total
             effError = math.hypot (total * passesError, totalError * passes) / (total * total)
