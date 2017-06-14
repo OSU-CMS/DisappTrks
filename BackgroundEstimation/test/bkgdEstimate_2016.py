@@ -92,26 +92,23 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addTCanvas (canvas)
         electronBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleElectron_2016" + runPeriod])
 
-        # RAW/RECO missing for 2/9 events in C, 7/15 in E, and 3/6 events in F for ZtoEleDisTrk passing events
+        # RAW/RECO missing for 1/5 events in C, 1/9 in E, and 2/4 events in F for ZtoEleDisTrk passing events
         electronTagProbeEffectiveLumi = lumi["SingleElectron_2016" + runPeriod]
         if "C" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (2./9.) * lumi["SingleElectron_2016C"]
+            electronTagProbeEffectiveLumi -= (1./5.) * lumi["SingleElectron_2016C"]
         if "E" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (7./15.) * lumi["SingleElectron_2016E"]
+            electronTagProbeEffectiveLumi -= (1./9.) * lumi["SingleElectron_2016E"]
         if "F" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (3./6.) * lumi["SingleElectron_2016F"]
+            electronTagProbeEffectiveLumi -= (2./4.) * lumi["SingleElectron_2016F"]
         electronBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleElectron_2016" + runPeriod] / electronTagProbeEffectiveLumi)
 
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2016" + runPeriod)
-        electronBkgdEstimate.addMetCut (100.0)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2016"  +  runPeriod + "_rereco",  dirs['Brian']+"2016_final/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        electronBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",          "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
-        electronBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",   "SingleEle_2016"  +  runPeriod,              dirs['Brian']+"2016_final/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
 
         print "********************************************************************************"
 
