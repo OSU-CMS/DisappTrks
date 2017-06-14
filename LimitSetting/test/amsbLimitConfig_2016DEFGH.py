@@ -42,7 +42,7 @@ lumi = lumi["MET_2016DEFGH"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Andrew"] + '/2016/disappearingTracks_signal_DEFGH_v2/'
+signal_condor_dir = dirs["Andrew"] + '/2016_final_prompt/signalAcceptance_DEFGH_v2/'
 
 signal_suffix = '80X'
 signal_suffix_in_datacard = '80X_DEFGH'
@@ -81,10 +81,8 @@ external_systematic_uncertainties = [
     "metVaryTauEn_2016",
     "metVaryUnclusteredEn_2016",
     "pileup_2016D",
-    "trigger_metLegWeightData_2016DEFG",
-    "trigger_metLegWeightMC_2016DEFG",
-    "trigger_trackLegWeightData_2016DEFG",
-    "trigger_trackLegWeightMC_2016DEFG",
+    "trigger_grandOrWeightData_2016DEFGH",
+    "trigger_grandOrWeightMC_2016DEFGH",
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
