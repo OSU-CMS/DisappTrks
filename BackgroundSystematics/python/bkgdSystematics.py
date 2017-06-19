@@ -24,7 +24,7 @@ minD0SidebandValue = 0.02
 maxD0SidebandValue = 0.1
 
 def getTotallyNormalYield(sample, condor_dir, channel):
-    hist = "Track-eventvariable Plots/trackd0WRTPVMag"    
+    hist = "Track-eventvariable Plots/trackd0WRTPVMag"
     h = getHist (sample, condor_dir, channel, hist)
     statError_ = Double(0.0)
     yield_ = h.IntegralAndError(0, h.FindBin(d0CutValue - 0.001), statError_)
@@ -145,11 +145,11 @@ class FakeTrackSystematic:
             if self._useBasicTransferFactor:
                 disTrkCorrection = disTrkCorrection * self._basicTransferFactor
                 disTrkCorrectionError = math.hypot (disTrkCorrectionError, self._basicTransferFactorError)
-		print "Durp durp -- using", disTrkCorrection, "+/-", disTrkCorrectionError, "for Basic as a transfer factor"
+                print 'Using', disTrkCorrection, '+/-', disTrkCorrectionError, 'for Basic as a transfer factor'
             if self._useZtoMuMuTransferFactor:
                 zToMuMuDisTrkCorrection = zToMuMuDisTrkCorrection * self._zToMuMuTransferFactor
                 zToMuMuDisTrkCorrectionError = math.hypot (zToMuMuDisTrkCorrectionError, self._zToMuMuTransferFactorError)
-		print "Durp durp -- using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
+                print "Using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
 
             passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
             passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
@@ -170,7 +170,10 @@ class FakeTrackSystematic:
             ratio = fakeRate[1] / fakeRate[0] if fakeRate[0] > 0.0 else 0.0
             ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0])) if fakeRate[0] > 0.0 else 0.0
 
-            print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
+            if fakeRateError[0] > 0.0 and fakeRateError[1] > 0.0:
+                print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
+            else:
+                print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: nan" + ", ratio: " + str (ratio) + " +- " + str (ratioError)
             if self._plotDiff:
                 ratio = fakeRate[1] - fakeRate[0]
                 ratioError = math.hypot (fakeRateError[1], fakeRateError[0])
@@ -252,8 +255,12 @@ class FakeTrackSystematic:
 
             fakeRate = (Double(disTrkCorrection) * disTrkPasses,
                         zToMuMuDisTrkCorrection * zToMuMuDisTrkPasses)
-            fakeRateError = (fakeRate[0] * math.hypot (disTrkCorrectionError/disTrkCorrection, disTrkPassesError/disTrkPasses),
-                             fakeRate[1] * math.hypot (zToMuMuDisTrkCorrectionError/zToMuMuDisTrkCorrection, zToMuMuDisTrkPassesError/zToMuMuDisTrkPasses))
+
+            fakeRateError = (0.0, 0.0)
+            if disTrkPasses > 0.0:
+                fakeRateError = (fakeRate[0] * math.hypot (disTrkCorrectionError/disTrkCorrection, disTrkPassesError/disTrkPasses), fakeRateError[1])
+            if zToMuMuDisTrkPasses > 0.0:
+                fakeRateError = (fakeRateError[0], fakeRate[1] * math.hypot (zToMuMuDisTrkCorrectionError/zToMuMuDisTrkCorrection, zToMuMuDisTrkPassesError/zToMuMuDisTrkPasses))
 
             return (fakeRate, fakeRateError)
         else:
@@ -569,4 +576,3 @@ class LeptonEnergySystematic:
                 print "A TFile and TCanvas must be added. Not making plots..."
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET..."
-
