@@ -18,7 +18,7 @@ background = background.upper ()
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEFG', 'DEFGH', 'H', '']
+runPeriods = ['BC', 'DEFGH', '']
 
 if background == "FAKE" or background == "ALL":
 
@@ -34,16 +34,20 @@ if background == "FAKE" or background == "ALL":
         fakeTrackSystematic.addTFile (fout)
         fakeTrackSystematic.addTCanvas (canvas)
         fakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        fakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",         "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/basicSelection")
-        fakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic")
-        fakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic")
-        fakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic")
-        fakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic")
-        fakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
-        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
-        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
-        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
-        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground")
+        fakeTrackSystematic.addChannel  ("Basic",                       "BasicSelection",                      "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits3",                "DisTrkSelectionSidebandD0CutNHits3",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits3NoD0Cut",         "DisTrkSelectionNoD0CutNHits3",        "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits4",                "DisTrkSelectionSidebandD0CutNHits4",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits5",                "DisTrkSelectionSidebandD0CutNHits5",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackSystematic.addChannel  ("DisTrkNHits6",                "DisTrkSelectionSidebandD0CutNHits6",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+        fakeTrackSystematic.addChannel  ("ZtoLL",                       "ZtoMuMu",                             "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",         "ZtoMuMuDisTrkSidebandD0CutNHits3",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3NoD0Cut",  "ZtoMuMuDisTrkNoD0CutNHits3",          "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",         "ZtoMuMuDisTrkSidebandD0CutNHits4",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",         "ZtoMuMuDisTrkSidebandD0CutNHits5",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        fakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",         "ZtoMuMuDisTrkSidebandD0CutNHits6",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        #fakeTrackSystematic.addD0TransferFactor ()
+        fakeTrackSystematic.reweightTo ("MET_2016", dirs['Andrew']+"2016_final_prompt/basicSelection_new", "BasicSelection", "Eventvariable Plots/nTracks")
 
         print "********************************************************************************"
 
@@ -55,31 +59,36 @@ if background == "FAKE" or background == "ALL":
 
         print "\n\n"
 
+        print "*************************************************************************************"
+        print "evaluating fake track systematic in data with sideband D0 cut (2016", runPeriod, ")"
+        print "-------------------------------------------------------------------------------------"
+
+        fout = TFile.Open ("sidebandD0CutFakeTrackSystematic" + runPeriod + ".root", "recreate")
+
+        sidebandD0CutFakeTrackSystematic = FakeTrackSystematic ()
+        sidebandD0CutFakeTrackSystematic.addTFile (fout)
+        sidebandD0CutFakeTrackSystematic.addTCanvas (canvas)
+        sidebandD0CutFakeTrackSystematic.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("Basic",                "BasicSelection",                     "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits3",         "DisTrkSelectionSidebandD0CutNHits3", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",       "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits4",         "DisTrkSelectionSidebandD0CutNHits4", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits5",         "DisTrkSelectionSidebandD0CutNHits5", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("DisTrkNHits6",         "DisTrkSelectionSidebandD0CutNHits6", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
+        #sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_nTracksHist")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
+
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits3NoD0Cut",  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+        sidebandD0CutFakeTrackSystematic.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+        #sidebandD0CutFakeTrackSystematic.addD0TransferFactor ()
+        sidebandD0CutFakeTrackSystematic.reweightTo ("MET_2016", dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits", "BasicSelection", "Eventvariable Plots/nTracks")
+
         print "********************************************************************************"
-        print "evaluating fake track systematic with reweighting (2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
 
-        fout = TFile.Open ("fakeTrackSystematicWithReweighting_2016" + runPeriod + ".root", "recreate")
-
-        fakeTrackSystematicWithReweighting = FakeTrackSystematic ()
-        fakeTrackSystematicWithReweighting.addTFile (fout)
-        fakeTrackSystematicWithReweighting.addTCanvas (canvas)
-        fakeTrackSystematicWithReweighting.addLuminosityLabel (str (round (lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-        fakeTrackSystematicWithReweighting.addChannel  ("Basic",                "BasicSelection",         "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits3",         "DisTrkSelectionNHits3",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits4",         "DisTrkSelectionNHits4",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits5",         "DisTrkSelectionNHits5",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("DisTrkNHits6",         "DisTrkSelectionNHits6",  "MET_2016" + runPeriod,       dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist")
-        fakeTrackSystematicWithReweighting.reweightTo  ("MET_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_hist",  "BasicSelection",  "Eventvariable Plots/nTracks")
-        fakeTrackSystematicWithReweighting.addChannel  ("ZtoLL",                "ZtoMuMu",                "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkNHits3",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkNHits4",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkNHits5",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
-        fakeTrackSystematicWithReweighting.addChannel  ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkNHits6",    "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_hist")
-
-        print "********************************************************************************"
-
-        fakeTrackSystematicWithReweighting.printSystematic ()
+        sidebandD0CutFakeTrackSystematic.printSystematic ()
 
         print "********************************************************************************"
 
@@ -103,10 +112,8 @@ if background == "ELECTRON" or background == "ALL":
         electronEnergySystematic.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronEnergySystematic.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronEnergySystematic.addMetCut (100.0)
-        electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
-        #electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016/electronBackground")
-        electronEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
-        electronEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
+        electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
 
         print "********************************************************************************"
 
@@ -135,10 +142,10 @@ if background == "TAU" or background == "ALL":
         tauEnergySystematic.addPlotLabel ("Tau 2016" + runPeriod)
         tauEnergySystematic.addMetCut (100.0)
         tauEnergySystematic.addRebinFactor (4)
-        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016/tauBackground")
-        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2016H",                     dirs['Andrew']+"2016/tauBackground")
-        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
-        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016H",               dirs['Andrew']+"2016/electronBackground")
+        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_metTrig_new")
+        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
 
         print "********************************************************************************"
 
