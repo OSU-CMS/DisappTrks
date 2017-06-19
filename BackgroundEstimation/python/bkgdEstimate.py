@@ -450,11 +450,10 @@ class LeptonBkgdEstimate:
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
         nEstError = 0.0
-        nEstError  =  math.hypot  (nEstError,  nCtrlError / nCtrl)
-        nEstError  =  math.hypot  (nEstError,  pPassVetoError / pPassVeto)
-        nEstError  =  math.hypot  (nEstError,  pPassMetCutError / pPassMetCut)
-        nEstError  =  math.hypot  (nEstError,  pPassMetTriggersError / pPassMetTriggers)
-        nEstError *= nEst
+        nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
+        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
+        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
+        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
 
         N = alpha = alphaError = float ("nan")
         if not math.isnan (passes) and not math.isnan (passesError) and not math.isnan (total) and not math.isnan (totalError):
@@ -466,9 +465,9 @@ class LeptonBkgdEstimate:
         print "N: " + str (N)
         if not (alpha == 0):
             print "alpha: " + str (alpha) + " +- " + str (alphaError)
+            print "error on alpha: " + str (1.0 + (alphaError / alpha))
         else:
             print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
-        print "error on alpha: " + str (1.0 + (alphaError / alpha))
 
         if not (nEst == 0):
             print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
