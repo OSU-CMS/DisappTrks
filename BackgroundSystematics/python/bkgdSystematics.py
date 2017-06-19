@@ -145,11 +145,11 @@ class FakeTrackSystematic:
             if self._useBasicTransferFactor:
                 disTrkCorrection = disTrkCorrection * self._basicTransferFactor
                 disTrkCorrectionError = math.hypot (disTrkCorrectionError, self._basicTransferFactorError)
-		print "Durp durp -- using", disTrkCorrection, "+/-", disTrkCorrectionError, "for Basic as a transfer factor"
+                print "Durp durp -- using", disTrkCorrection, "+/-", disTrkCorrectionError, "for Basic as a transfer factor"
             if self._useZtoMuMuTransferFactor:
                 zToMuMuDisTrkCorrection = zToMuMuDisTrkCorrection * self._zToMuMuTransferFactor
                 zToMuMuDisTrkCorrectionError = math.hypot (zToMuMuDisTrkCorrectionError, self._zToMuMuTransferFactorError)
-		print "Durp durp -- using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
+                print "Durp durp -- using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
 
             passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
             passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
@@ -159,7 +159,7 @@ class FakeTrackSystematic:
 
             if self._reweightToSample and self._reweightToCondorDir and self._reweightToChannel and self._reweightToHist:
                 print "REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING"
-		fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits,
+                fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits,
                                                                     zToMuMuDisTrkNHits,
                                                                     disTrkCorrection,
                                                                     disTrkCorrectionError,
@@ -247,7 +247,7 @@ class FakeTrackSystematic:
             N = (disTrkPassesHist.GetNbinsX (), zToMuMuDisTrkPassesHist.GetNbinsX ())
             disTrkPassesError = Double (0.0)
             zToMuMuDisTrkPassesError = Double (0.0)
-	    disTrkPasses = disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError)
+            disTrkPasses = disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError)
             zToMuMuDisTrkPasses = zToMuMuDisTrkPassesHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkPassesError)
 
             fakeRate = (Double(disTrkCorrection) * disTrkPasses,
