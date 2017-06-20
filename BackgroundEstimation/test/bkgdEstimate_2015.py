@@ -43,7 +43,7 @@ if background == "FAKE" or background == "ALL":
 
     print "********************************************************************************"
 
-    nEstFake.append( fakeTrackBkgdEstimate.printNest () )
+    fakeTrackBkgdEstimate.printNest ()
 
     print "********************************************************************************"
 
@@ -68,7 +68,7 @@ if background == "FAKE" or background == "ALL":
 
     print "********************************************************************************"
 
-    zToMuMuEstimate.printNest ()
+    nEstFake.append( zToMuMuEstimate.printNest () )
 
     print "********************************************************************************"
 
@@ -191,6 +191,8 @@ if background == "ALL":
     print "Total background (2015):", nTotal, "+/-", nTotalError
     print "********************************************************************************"
     print "\n\n"
+
+    nFakes = nEstFake[0]
 
     x = array ("d"); ex = array ("d")
     electron   =  array  ("d");  muon   =  array  ("d");  tau   =  array  ("d");  fake   =  array  ("d")

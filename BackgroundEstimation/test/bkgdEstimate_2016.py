@@ -20,7 +20,7 @@ background = background.upper ()
 
 # '' will gives you Dataset_2016.root for the whole year
 #runPeriods = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-runPeriods = ['BC', 'DEF', 'GH', 'DEFGH', '']
+runPeriods = ['BC', 'DEFGH', '']
 
 nEstFake = []
 nEstElectron = []
@@ -47,7 +47,7 @@ for runPeriod in runPeriods:
 
         print "********************************************************************************"
 
-        nEstFake.append( fakeTrackBkgdEstimate.printNest () )
+        fakeTrackBkgdEstimate.printNest ()
 
         print "********************************************************************************"
 
@@ -72,7 +72,7 @@ for runPeriod in runPeriods:
 
         print "********************************************************************************"
 
-        zToMuMuEstimate.printNest ()
+        nEstFake.append( zToMuMuEstimate.printNest () )
 
         print "********************************************************************************"
 
@@ -212,25 +212,32 @@ for runPeriod in runPeriods:
 
 # print sums
 if background == "ALL":
+    nLeptons = {}
+    nLeptonsError = {}
+    nTotal = {}
+    nTotalError = {}
+    nFakes = {}
     for iRunPeriod in range(0,len(runPeriods)):
         print "********************************************************************************"
-        nLeptons = nEstElectron[iRunPeriod][0] + nEstMuon[iRunPeriod][0] + nEstTau[iRunPeriod][0]
-        nLeptonsError = math.hypot (math.hypot (nEstElectron[iRunPeriod][1], nEstMuon[iRunPeriod][1]), nEstTau[iRunPeriod][1])
-        nTotal = nLeptons + nEstFake[iRunPeriod][0]
-        nTotalError = math.hypot(nLeptonsError, nEstFake[iRunPeriod][1])
-        print "Total background from leptons (2016", runPeriods[iRunPeriod], "): ", nLeptons, " +/- ", nLeptonsError
+        nLeptons[runPeriods[iRunPeriod]] = nEstElectron[iRunPeriod][0] + nEstMuon[iRunPeriod][0] + nEstTau[iRunPeriod][0]
+        nLeptonsError[runPeriods[iRunPeriod]] = math.hypot (math.hypot (nEstElectron[iRunPeriod][1], nEstMuon[iRunPeriod][1]), nEstTau[iRunPeriod][1])
+        nTotal[runPeriods[iRunPeriod]] = nLeptons[runPeriods[iRunPeriod]] + nEstFake[iRunPeriod][0]
+        nTotalError[runPeriods[iRunPeriod]] = math.hypot(nLeptonsError[runPeriods[iRunPeriod]], nEstFake[iRunPeriod][1])
+        print "Total background from leptons (2016", runPeriods[iRunPeriod], "): ", nLeptons[runPeriods[iRunPeriod]], " +/- ", nLeptonsError[runPeriods[iRunPeriod]]
         print "Total background from fake tracks (2016",runPeriods[iRunPeriod], "): ", nEstFake[iRunPeriod][0], " +/- ", nEstFake[iRunPeriod][1]
         print "********************************************************************************"
-        print "Total background (2016", runPeriods[iRunPeriod], "): ", nTotal, " +/- ", nTotalError
+        print "Total background (2016", runPeriods[iRunPeriod], "): ", nTotal[runPeriods[iRunPeriod]], " +/- ", nTotalError[runPeriods[iRunPeriod]]
         print "********************************************************************************"
         print "\n\n"
+
+        nFakes[runPeriods[iRunPeriod]] = nEstFake[iRunPeriod]
 
     x = array ("d"); ex = array ("d")
     electron   =  array  ("d");  muon   =  array  ("d");  tau   =  array  ("d");  fake   =  array  ("d")
     eElectron  =  array  ("d");  eMuon  =  array  ("d");  eTau  =  array  ("d");  eFake  =  array  ("d")
 
     #runPeriodsToPlot = ["B", "C", "D", "E", "F", "G", "H"]
-    runPeriodsToPlot = ["BC", "DEF", "GH"]
+    runPeriodsToPlot = ["BC", "DEFGH"]
     i = 0.0
 
     for runPeriod in runPeriodsToPlot:
