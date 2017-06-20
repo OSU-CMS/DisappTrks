@@ -66,31 +66,42 @@ class FakeTrackBkgdEstimate:
             n = self.DisTrkInvertD0["yield"]
             nError = self.DisTrkInvertD0["yieldError"]
 
+            pFake = pFakeError = float ("nan")
+
             # For ZtoMuMu control regions, need to normalize to BasicSelection
             if hasattr (self, "ZtoLL") and hasattr (self, "Basic"):
                 norm = self.Basic["yield"] / self.ZtoLL["yield"]
                 normError = norm * math.hypot (self.Basic["yieldError"] / self.Basic["yield"], self.ZtoLL["yieldError"] / self.ZtoLL["yield"])
 
+                pFake = n / self.ZtoLL["yield"]
+                pFakeError = math.hypot (n * self.ZtoLL["yieldError"], nError * self.ZtoLL["yield"]) / (self.ZtoLL["yield"] * self.ZtoLL["yield"])
+
                 nError = n * norm * math.hypot (nError / n, normError / norm)
                 n = n * norm
+            elif hasattr (self, "Basic"):
+                pFake = n / self.Basic["yield"]
+                pFakeError = math.hypot (n * self.Basic["yieldError"], nError * self.Basic["yield"]) / (self.Basic["yield"] * self.Basic["yield"])
 
             n *= self._prescale
             nError *= self._prescale
 
             if n > 0.0:
                 print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
-                return (n, nError)
+                return (n, nError, pFake, pFakeError)
             else:
                 nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))
                 print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " - 0 + " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
-                return (n, nUpperLimit)
+                return (n, nUpperLimit, pFake, pFakeError)
         else:
             print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
-            return (float ("nan"), float ("nan"))
+            return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
     def printNest (self):
         xi, xiError, xiPass, xiPassError, xiFail, xiFailError = self.printTransferFactor ()
-        nCtrl, nCtrlError = self.printNctrl ()
+        nCtrl, nCtrlError, pFake, pFakeError = self.printNctrl ()
+
+        pFake *= xi
+        pFakeError = math.hypot (xi * pFakeError, xiError * pFake)
 
         N = xiPass
         alpha = (nCtrl / xiFail)
@@ -98,6 +109,8 @@ class FakeTrackBkgdEstimate:
 
         nEst = xi * nCtrl
         nEstError = math.hypot (xiError * nCtrl, nCtrlError * xi)
+
+        print "P_fake: " + str (pFake) + " +- " + str (pFakeError)
 
         print "N: " + str (N)
         if not (alpha == 0):
