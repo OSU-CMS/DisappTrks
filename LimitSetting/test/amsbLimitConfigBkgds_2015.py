@@ -5,37 +5,37 @@
 backgrounds = {
     'Fake2015' : {
         'N' : '0',
-        'alpha' : '0.712247674396',
+        'alpha' : '0.14406779661',
     },
     'Elec2015' : {
-        'N' : '5',
-        'alpha' : '0.116004948731',
+        'N' : '2',
+        'alpha' : '0.0820705096373',
     },
     'Muon2015' : {
-        'N' : '1',
-        'alpha' : '0.0584607625367',
+        'N' : '0',
+        'alpha' : '0.0478442018429',
     },
     'Tau2015' : {
         'N' : '3',
-        'alpha' : '0.272032185914',
+        'alpha' : '0.00423196041967',
     },
 }
 
 background_systematics = {
     'Fake2015_alpha' : { # error on alpha
-        'value' : '1.00140266199',
+        'value' : '1.25941878437',
         'background'  : 'Fake2015',
     },
     'Elec2015_alpha' : { # error on alpha
-        'value' : '1.02162895304',
+        'value' : '1.02335227884',
         'background'  : 'Elec2015',
     },
     'Muon2015_alpha' : { # error on alpha
-        'value' : '1.01006789935',
+        'value' : '1.01098379748',
         'background'  : 'Muon2015',
     },
     'Tau2015_alpha' : { # error on alpha
-        'value' : '1.06119675327',
+        'value' : '1.52406965983',
         'background'  : 'Tau2015',
     },
 
@@ -46,11 +46,11 @@ background_systematics = {
         'background'  : 'Fake2015',
     },
     'Elec2015_energy' : { # error on energy assumption
-        'value' : str (1.0 + 10.589318523 / 100.0),
+        'value' : str (1.0 + 10.2310902711 / 100.0),
         'background'  : 'Elec2015',
     },
     'Tau2015_energy' : { # error on energy assumption
-        'value' : str (1.0 + 18.6935586566 / 100.0),
+        'value' : str (1.0 + 20.0749726096 / 100.0),
         'background'  : 'Tau2015',
     },
 }
