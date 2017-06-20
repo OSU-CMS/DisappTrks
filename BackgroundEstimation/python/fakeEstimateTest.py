@@ -76,7 +76,10 @@ class FakeTrackBkgdEstimate:
                 pFake = n / self.ZtoLL["yield"]
                 pFakeError = math.hypot (n * self.ZtoLL["yieldError"], nError * self.ZtoLL["yield"]) / (self.ZtoLL["yield"] * self.ZtoLL["yield"])
 
-                nError = n * norm * math.hypot (nError / n, normError / norm)
+                if n > 0.0:
+                    nError = n * norm * math.hypot (nError / n, normError / norm)
+                else:
+                    nError = 0.0
                 n = n * norm
             elif hasattr (self, "Basic"):
                 pFake = n / self.Basic["yield"]
@@ -103,9 +106,10 @@ class FakeTrackBkgdEstimate:
         pFake *= xi
         pFakeError = math.hypot (xi * pFakeError, xiError * pFake)
 
-        N = xiPass
-        alpha = (nCtrl / xiFail)
-        alphaError = math.hypot (nCtrl * xiFailError, nCtrlError * xiFail) / (xiFail * xiFail)
+        N = nCtrl
+        alpha = (xiPass / xiFail)
+        alphaError = math.hypot (xiFailError * xiPass, xiPassError * xiFail) / (xiFail * xiFail)
+
 
         nEst = xi * nCtrl
         nEstError = math.hypot (xiError * nCtrl, nCtrlError * xi)
@@ -115,9 +119,10 @@ class FakeTrackBkgdEstimate:
         print "N: " + str (N)
         if not (alpha == 0):
             print "alpha: " + str (alpha) + " +- " + str (alphaError)
+            print "error on alpha: " + str (1.0 + (alphaError / alpha))
         else:
             print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
-        print "error on alpha: " + str (1.0 + (alphaError / alpha))
+            print "error on alpha: nan"
 
         if nEst > 0.0:
             print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
