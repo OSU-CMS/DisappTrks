@@ -192,6 +192,9 @@ if background == "ALL":
     print "********************************************************************************"
     print "\n\n"
 
+    nElectrons = nEstElectron[0]
+    nMuons = nEstMuon[0]
+    nTaus = nEstTau[0]
     nFakes = nEstFake[0]
 
     x = array ("d"); ex = array ("d")

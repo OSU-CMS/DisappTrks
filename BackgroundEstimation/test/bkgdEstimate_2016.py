@@ -212,6 +212,9 @@ for runPeriod in runPeriods:
 
 # print sums
 if background == "ALL":
+    nElectrons = {}
+    nMuons = {}
+    nTaus = {}
     nLeptons = {}
     nLeptonsError = {}
     nTotal = {}
@@ -230,6 +233,9 @@ if background == "ALL":
         print "********************************************************************************"
         print "\n\n"
 
+        nElectrons[runPeriods[iRunPeriod]] = nEstElectron[iRunPeriod]
+        nMuons[runPeriods[iRunPeriod]] = nEstMuon[iRunPeriod]
+        nTaus[runPeriods[iRunPeriod]] = nEstTau[iRunPeriod]
         nFakes[runPeriods[iRunPeriod]] = nEstFake[iRunPeriod]
 
     x = array ("d"); ex = array ("d")
