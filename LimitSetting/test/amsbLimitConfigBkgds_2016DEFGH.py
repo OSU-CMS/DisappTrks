@@ -42,15 +42,15 @@ background_systematics = {
 
 
     'Fake2016DEFGH_syst' : { # error on fake track rate assumption
-        'value' : str (1.0 + 25.0 / 100.0), # set to 25% for now
+        'value' : str (1.0 + 8.58441294376118 / 100.0),
         'background' : 'Fake2016DEFGH',
     },
     'Elec2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 12.1390341949 / 100.0),
+        'value' : str (1.0 + 11.7113892531 / 100.0),
         'background' : 'Elec2016DEFGH',
     },
     'Tau2016DEFGH_energy' : { # error on energy assumption
-        'value' : str (1.0 + 16.831056317 / 100.0),
+        'value' : str (1.0 + 16.8609344527 / 100.0),
         'background' : 'Tau2016DEFGH',
     },
 }

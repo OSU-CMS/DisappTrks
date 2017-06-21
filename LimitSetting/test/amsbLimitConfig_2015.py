@@ -54,12 +54,12 @@ signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 #######################
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = True
+run_blind_limits = False
 
 data_dataset = "MET_2015D"
 
 #condor directory in which to find data root file
-data_condor_dir = dirs["Andrew"] + '/2015/disappearingTracks/'
+data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelectionPlotter/Met Plots'
