@@ -18,63 +18,90 @@ if len (sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper ()
 
+runPeriods = ['D']
+
 nEstFake = []
 nEstElectron = []
 nEstMuon = []
 nEstTau = []
 
-runPeriods = ["D"]
+nEstFakeVsNHits = {}
+nEstFakeVsNHitsZtoMuMu = {}
+
+stdout = sys.stdout
+nullout = open ("/dev/null", "w")
 
 if background == "FAKE" or background == "ALL":
 
-    print "********************************************************************************"
-    print "performing fake track background estimate in disappearing track search region (2015)"
-    print "--------------------------------------------------------------------------------"
+    for minHits in range (3, 8):
 
-    fout = TFile.Open ("fakeTrackBkgdEstimate_2015.root", "recreate")
+        if minHits != 7:
+            sys.stdout = nullout
+        else:
+            sys.stdout = stdout
 
-    fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-    fakeTrackBkgdEstimate.addTFile (fout)
-    fakeTrackBkgdEstimate.addTCanvas (canvas)
-    fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2015"])
-    fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
-    fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
-    fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                "MET_2015D",  dirs['Brian']+"2015/basicSelection")
+        print "********************************************************************************"
+        print "performing fake track background estimate in disappearing track search region (2015)"
+        print "--------------------------------------------------------------------------------"
 
-    print "********************************************************************************"
+        fout = TFile.Open ("fakeTrackBkgdEstimate_2015.root", "recreate")
 
-    fakeTrackBkgdEstimate.printNest ()
+        fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+        fakeTrackBkgdEstimate.addTFile (fout)
+        fakeTrackBkgdEstimate.addTCanvas (canvas)
+        fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2015"])
+        fakeTrackBkgdEstimate.addMinHits (minHits)
+        fakeTrackBkgdEstimate.addChannel  ("Basic3hits",            "DisTrkSelectionNoD0CutNHits3",        "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",        "DisTrkSelectionSidebandD0Cut",        "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits3",  "DisTrkSelectionSidebandD0CutNHits3",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits4",  "DisTrkSelectionSidebandD0CutNHits4",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits5",  "DisTrkSelectionSidebandD0CutNHits5",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits6",  "DisTrkSelectionSidebandD0CutNHits6",  "MET_2015D",  dirs['Brian']+"2015/fakeTrackBackground_d0sideband")
+        fakeTrackBkgdEstimate.addChannel  ("Basic",                 "BasicSelection",                      "MET_2015D",  dirs['Brian']+"2015/basicSelection")
 
-    print "********************************************************************************"
+        print "********************************************************************************"
 
-    fout.Close ()
+        nEst = fakeTrackBkgdEstimate.printNest ()
+        nEstFakeVsNHits[minHits] = nEst
 
-    print "\n\n"
+        print "********************************************************************************"
 
-    print "********************************************************************************"
-    print "performing fake track background estimate in ZtoMuMu (2015)"
-    print "--------------------------------------------------------------------------------"
+        fout.Close ()
 
-    fout = TFile.Open ("zToMuMuEstimate_2015.root", "recreate")
+        print "\n\n"
 
-    zToMuMuEstimate = FakeTrackBkgdEstimate ()
-    zToMuMuEstimate.addTFile (fout)
-    zToMuMuEstimate.addTCanvas (canvas)
-    zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2015"])
-    zToMuMuEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNHits3",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_noD0Cut")
-    zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
-    zToMuMuEstimate.addChannel  ("Basic",           "BasicSelection",              "MET_2015D"     ,  dirs['Brian']+"2015/basicSelection")
-    zToMuMuEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                     "SingleMu_2015D",  dirs['Brian']+"2015/zToMuMu")
+        print "********************************************************************************"
+        print "performing fake track background estimate in ZtoMuMu (2015)"
+        print "--------------------------------------------------------------------------------"
 
-    print "********************************************************************************"
+        fout = TFile.Open ("zToMuMuEstimate_2015.root", "recreate")
 
-    nEstFake.append( zToMuMuEstimate.printNest () )
+        zToMuMuEstimate = FakeTrackBkgdEstimate ()
+        zToMuMuEstimate.addTFile (fout)
+        zToMuMuEstimate.addTCanvas (canvas)
+        zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2015"])
+        zToMuMuEstimate.addMinHits (minHits)
+        zToMuMuEstimate.addChannel  ("Basic3hits",            "ZtoMuMuDisTrkNoD0CutNHits3",        "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_noD0Cut")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0",        "ZtoMuMuDisTrkSidebandD0Cut",        "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
+        zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",  "SingleMu_2015D",  dirs['Brian']+"2015/fakeTrackSystematic_d0sideband")
+        zToMuMuEstimate.addChannel  ("Basic",                 "BasicSelection",                    "MET_2015D",       dirs['Brian']+"2015/basicSelection")
+        zToMuMuEstimate.addChannel  ("ZtoLL",                 "ZtoMuMu",                           "SingleMu_2015D",  dirs['Brian']+"2015/zToMuMu")
 
-    print "********************************************************************************"
+        print "********************************************************************************"
 
-    fout.Close ()
+        nEst = zToMuMuEstimate.printNest ()
+        nEstFakeVsNHitsZtoMuMu[minHits] = nEst
+        if minHits == 7:
+            nEstFake.append( nEst )
 
-    print "\n\n"
+        print "********************************************************************************"
+
+        fout.Close ()
+
+        print "\n\n"
 
 if background == "ELECTRON" or background == "ALL":
 

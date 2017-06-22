@@ -27,58 +27,88 @@ nEstElectron = []
 nEstMuon = []
 nEstTau = []
 
+nEstFakeVsNHits = {}
+nEstFakeVsNHitsZtoMuMu = {}
+
+stdout = sys.stdout
+nullout = open ("/dev/null", "w")
+
 for runPeriod in runPeriods:
+
+    nEstFakeVsNHits[runPeriod] = {}
+    nEstFakeVsNHitsZtoMuMu[runPeriod] = {}
 
     if background == "FAKE" or background == "ALL":
 
-        print "********************************************************************************"
-        print "performing fake track background estimate in search region (2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
+        for minHits in range (3, 8):
 
-        fout = TFile.Open ("fakeTrackBkgdEstimate_2016" + runPeriod + ".root", "recreate")
+            if minHits != 7:
+                sys.stdout = nullout
+            else:
+                sys.stdout = stdout
 
-        fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-        fakeTrackBkgdEstimate.addTFile (fout)
-        fakeTrackBkgdEstimate.addTCanvas (canvas)
-        fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
-        fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0CutNHits3",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionSidebandD0Cut",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+            print "********************************************************************************"
+            print "performing fake track background estimate in search region (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
 
-        print "********************************************************************************"
+            fout = TFile.Open ("fakeTrackBkgdEstimate_2016" + runPeriod + ".root", "recreate")
 
-        fakeTrackBkgdEstimate.printNest ()
+            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addTFile (fout)
+            fakeTrackBkgdEstimate.addTCanvas (canvas)
+            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
+            fakeTrackBkgdEstimate.addMinHits (minHits)
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",            "DisTrkSelectionNoD0CutNHits3",        "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",        "DisTrkSelectionSidebandD0Cut",        "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits3",  "DisTrkSelectionSidebandD0CutNHits3",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits4",  "DisTrkSelectionSidebandD0CutNHits4",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits5",  "DisTrkSelectionSidebandD0CutNHits5",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits6",  "DisTrkSelectionSidebandD0CutNHits6",  "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",                 "BasicSelection",                      "MET_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
 
-        print "********************************************************************************"
+            print "********************************************************************************"
 
-        fout.Close ()
+            nEst = fakeTrackBkgdEstimate.printNest ()
+            nEstFakeVsNHits[runPeriod][minHits] = nEst
 
-        print "\n\n"
+            print "********************************************************************************"
 
-        print "********************************************************************************"
-        print "performing fake track background estimate in ZtoMuMu (2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
+            fout.Close ()
 
-        fout = TFile.Open ("zToMuMuEstimate_2016" + runPeriod + ".root", "recreate")
+            print "\n\n"
 
-        zToMuMuEstimate = FakeTrackBkgdEstimate ()
-        zToMuMuEstimate.addTFile (fout)
-        zToMuMuEstimate.addTCanvas (canvas)
-        zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
-        zToMuMuEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNHits3",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        zToMuMuEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkSidebandD0Cut",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        zToMuMuEstimate.addChannel  ("Basic",           "BasicSelection",              "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
-        zToMuMuEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                     "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
+            print "********************************************************************************"
+            print "performing fake track background estimate in ZtoMuMu (2016", runPeriod, ")"
+            print "--------------------------------------------------------------------------------"
 
-        print "********************************************************************************"
+            fout = TFile.Open ("zToMuMuEstimate_2016" + runPeriod + ".root", "recreate")
 
-        nEstFake.append( zToMuMuEstimate.printNest () )
+            zToMuMuEstimate = FakeTrackBkgdEstimate ()
+            zToMuMuEstimate.addTFile (fout)
+            zToMuMuEstimate.addTCanvas (canvas)
+            zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
+            zToMuMuEstimate.addMinHits (minHits)
+            zToMuMuEstimate.addChannel  ("Basic3hits",            "ZtoMuMuDisTrkNoD0CutNHits3",        "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("DisTrkInvertD0",        "ZtoMuMuDisTrkSidebandD0Cut",        "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",  "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel  ("Basic",                 "BasicSelection",                    "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
+            zToMuMuEstimate.addChannel  ("ZtoLL",                 "ZtoMuMu",                           "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
 
-        print "********************************************************************************"
+            print "********************************************************************************"
 
-        fout.Close ()
+            nEst = zToMuMuEstimate.printNest ()
+            nEstFakeVsNHitsZtoMuMu[runPeriod][minHits] = nEst
+            if minHits == 7:
+                nEstFake.append( nEst )
 
-        print "\n\n"
+            print "********************************************************************************"
+
+            fout.Close ()
+
+            print "\n\n"
 
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 
