@@ -21,6 +21,7 @@ class FakeTrackBkgdEstimate:
     _canvas = None
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
+    _minHits = 7
 
     def __init__ (self):
         pass
@@ -36,6 +37,9 @@ class FakeTrackBkgdEstimate:
 
     def addLuminosityInInvPb (self, luminosityInInvPb):
         self._luminosityInInvFb = luminosityInInvPb / 1000.0
+
+    def addMinHits (self, minHits):
+        self._minHits = minHits
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -65,6 +69,18 @@ class FakeTrackBkgdEstimate:
         if hasattr (self, "DisTrkInvertD0"):
             n = self.DisTrkInvertD0["yield"]
             nError = self.DisTrkInvertD0["yieldError"]
+            if self._minHits < 7:
+                n += self.DisTrkInvertD0NHits6["yield"]
+                nError = math.hypot (nError, self.DisTrkInvertD0NHits6["yieldError"])
+            if self._minHits < 6:
+                n += self.DisTrkInvertD0NHits5["yield"]
+                nError = math.hypot (nError, self.DisTrkInvertD0NHits5["yieldError"])
+            if self._minHits < 5:
+                n += self.DisTrkInvertD0NHits4["yield"]
+                nError = math.hypot (nError, self.DisTrkInvertD0NHits4["yieldError"])
+            if self._minHits < 4:
+                n += self.DisTrkInvertD0NHits3["yield"]
+                nError = math.hypot (nError, self.DisTrkInvertD0NHits3["yieldError"])
             if n == 0.0:
                 nError = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))
 
