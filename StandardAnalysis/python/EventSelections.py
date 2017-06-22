@@ -546,55 +546,29 @@ addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 
 disTrkSelectionNHits3 = copy.deepcopy(disTrkSelection)
 disTrkSelectionNHits3.name = cms.string("DisTrkSelectionNHits3")
-cutsToRemove = [
-    cutTrkNValidHits,
-]
-cutsToAdd = [
-    cutTrkNValidHits3,
-]
-removeCuts(disTrkSelectionNHits3.cuts, cutsToRemove)
-addCuts   (disTrkSelectionNHits3.cuts, cutsToAdd)
-
+addSingleCut(disTrkSelectionNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
+removeCuts(disTrkSelectionNHits3.cuts, [cutTrkNValidHits])
 
 ##########################################################################
 
 disTrkSelectionNHits4 = copy.deepcopy(disTrkSelection)
 disTrkSelectionNHits4.name = cms.string("DisTrkSelectionNHits4")
-cutsToRemove = [
-    cutTrkNValidHits,
-]
-cutsToAdd = [
-    cutTrkNValidHits4,
-]
-removeCuts(disTrkSelectionNHits4.cuts, cutsToRemove)
-addCuts   (disTrkSelectionNHits4.cuts, cutsToAdd)
+addSingleCut(disTrkSelectionNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
+removeCuts(disTrkSelectionNHits4.cuts, [cutTrkNValidHits])
 
 ##########################################################################
 
 disTrkSelectionNHits5 = copy.deepcopy(disTrkSelection)
 disTrkSelectionNHits5.name = cms.string("DisTrkSelectionNHits5")
-cutsToRemove = [
-    cutTrkNValidHits,
-]
-cutsToAdd = [
-    cutTrkNValidHits5,
-]
-removeCuts(disTrkSelectionNHits5.cuts, cutsToRemove)
-addCuts   (disTrkSelectionNHits5.cuts, cutsToAdd)
+addSingleCut(disTrkSelectionNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
+removeCuts(disTrkSelectionNHits5.cuts, [cutTrkNValidHits])
 
 ##########################################################################
 
 disTrkSelectionNHits6 = copy.deepcopy(disTrkSelection)
 disTrkSelectionNHits6.name = cms.string("DisTrkSelectionNHits6")
-cutsToRemove = [
-    cutTrkNValidHits,
-]
-cutsToAdd = [
-    cutTrkNValidHits6,
-]
-removeCuts(disTrkSelectionNHits6.cuts, cutsToRemove)
-addCuts   (disTrkSelectionNHits6.cuts, cutsToAdd)
-
+addSingleCut(disTrkSelectionNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
+removeCuts(disTrkSelectionNHits6.cuts, [cutTrkNValidHits])
 
 ##########################################################################
 
@@ -806,6 +780,10 @@ disTrkSelectionSidebandD0CutNHits6 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
 disTrkSelectionSidebandD0CutNHits6.name = cms.string("DisTrkSelectionSidebandD0CutNHits6")
 removeCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits])
 addCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits6])
+
+##########################################################################
+# Selections with lower numbers of hits
+##########################################################################
 
 ##########################################################################
 
