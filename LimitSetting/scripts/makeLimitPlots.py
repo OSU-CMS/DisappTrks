@@ -1412,7 +1412,7 @@ for plot in plotDefinitions:
                     if limit is not -1:
                         th2f['limits'].append(limit)
                     else:
-                        print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " mm"
+                        print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm"
     if plot.has_key('graphs'):
         for graph in plot['graphs']:
             graph['limits'] = []
@@ -1424,7 +1424,7 @@ for plot in plotDefinitions:
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: not plotting lifetime " + str (lifetime) + " mm"
+                        print "WARNING: not plotting lifetime " + str (lifetime) + " cm"
             elif plot['xAxisType'] is 'mass' and 'yAxisType' not in plot:
                 for mass in masses:
                     for lifetime in lifetimes:
@@ -1446,7 +1446,7 @@ for plot in plotDefinitions:
                             if arguments.verbose:
                                 print "Debug:  limit for mass " + str(mass) + ", lifetime = " + str(lifetime) + ", limit['expected'] = " + str(limit['expected']) + ", limit['observed'] = " + str(limit['observed'])
                         else:
-                            print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " mm"
+                            print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm"
     #now that all the limits are in place, draw the plot
     if 'th2fs' in plot:
         for th2fType in (plot['th2fs'])['th2fsToInclude']:
