@@ -118,6 +118,89 @@ ZtoMuDisTrkNoValidHitsCut = copy.deepcopy(ZtoMuDisTrk)
 ZtoMuDisTrkNoValidHitsCut.name = cms.string("ZtoMuDisTrkNoValidHitsCut")
 removeCuts(ZtoMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHits])
 
+################################################################################
+## Channels with reduced numbers of hits
+################################################################################
+MuonTagPt55NHits3 = copy.deepcopy (MuonTagPt55)
+MuonTagPt55NHits3.name = cms.string ("MuonTagPt55NHits3")
+addSingleCut (MuonTagPt55NHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
+removeCuts (MuonTagPt55NHits3.cuts, [cutTrkNValidHits])
+
+MuonTagPt55NHits4 = copy.deepcopy (MuonTagPt55)
+MuonTagPt55NHits4.name = cms.string ("MuonTagPt55NHits4")
+addSingleCut (MuonTagPt55NHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
+removeCuts (MuonTagPt55NHits4.cuts, [cutTrkNValidHits])
+
+MuonTagPt55NHits5 = copy.deepcopy (MuonTagPt55)
+MuonTagPt55NHits5.name = cms.string ("MuonTagPt55NHits5")
+addSingleCut (MuonTagPt55NHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
+removeCuts (MuonTagPt55NHits5.cuts, [cutTrkNValidHits])
+
+MuonTagPt55NHits6 = copy.deepcopy (MuonTagPt55)
+MuonTagPt55NHits6.name = cms.string ("MuonTagPt55NHits6")
+addSingleCut (MuonTagPt55NHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
+removeCuts (MuonTagPt55NHits6.cuts, [cutTrkNValidHits])
+
+MuonTagPt55MetTrigNHits3 = copy.deepcopy (MuonTagPt55MetTrig)
+MuonTagPt55MetTrigNHits3.name = cms.string ("MuonTagPt55MetTrigNHits3")
+addSingleCut (MuonTagPt55MetTrigNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
+removeCuts (MuonTagPt55MetTrigNHits3.cuts, [cutTrkNValidHits])
+
+MuonTagPt55MetTrigNHits4 = copy.deepcopy (MuonTagPt55MetTrig)
+MuonTagPt55MetTrigNHits4.name = cms.string ("MuonTagPt55MetTrigNHits4")
+addSingleCut (MuonTagPt55MetTrigNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
+removeCuts (MuonTagPt55MetTrigNHits4.cuts, [cutTrkNValidHits])
+
+MuonTagPt55MetTrigNHits5 = copy.deepcopy (MuonTagPt55MetTrig)
+MuonTagPt55MetTrigNHits5.name = cms.string ("MuonTagPt55MetTrigNHits5")
+addSingleCut (MuonTagPt55MetTrigNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
+removeCuts (MuonTagPt55MetTrigNHits5.cuts, [cutTrkNValidHits])
+
+MuonTagPt55MetTrigNHits6 = copy.deepcopy (MuonTagPt55MetTrig)
+MuonTagPt55MetTrigNHits6.name = cms.string ("MuonTagPt55MetTrigNHits6")
+addSingleCut (MuonTagPt55MetTrigNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
+removeCuts (MuonTagPt55MetTrigNHits6.cuts, [cutTrkNValidHits])
+
+ZtoMuProbeTrkWithZCutsNHits3 = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithZCutsNHits3.name = cms.string ("ZtoMuProbeTrkWithZCutsNHits3")
+addSingleCut (ZtoMuProbeTrkWithZCutsNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
+removeCuts (ZtoMuProbeTrkWithZCutsNHits3.cuts, [cutTrkNValidHits])
+
+ZtoMuProbeTrkWithZCutsNHits4 = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithZCutsNHits4.name = cms.string ("ZtoMuProbeTrkWithZCutsNHits4")
+addSingleCut (ZtoMuProbeTrkWithZCutsNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
+removeCuts (ZtoMuProbeTrkWithZCutsNHits4.cuts, [cutTrkNValidHits])
+
+ZtoMuProbeTrkWithZCutsNHits5 = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithZCutsNHits5.name = cms.string ("ZtoMuProbeTrkWithZCutsNHits5")
+addSingleCut (ZtoMuProbeTrkWithZCutsNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
+removeCuts (ZtoMuProbeTrkWithZCutsNHits5.cuts, [cutTrkNValidHits])
+
+ZtoMuProbeTrkWithZCutsNHits6 = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithZCutsNHits6.name = cms.string ("ZtoMuProbeTrkWithZCutsNHits6")
+addSingleCut (ZtoMuProbeTrkWithZCutsNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
+removeCuts (ZtoMuProbeTrkWithZCutsNHits6.cuts, [cutTrkNValidHits])
+
+ZtoMuDisTrkNHits3 = copy.deepcopy (ZtoMuDisTrk)
+ZtoMuDisTrkNHits3.name = cms.string ("ZtoMuDisTrkNHits3")
+addSingleCut (ZtoMuDisTrkNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
+removeCuts (ZtoMuDisTrkNHits3.cuts, [cutTrkNValidHits])
+
+ZtoMuDisTrkNHits4 = copy.deepcopy (ZtoMuDisTrk)
+ZtoMuDisTrkNHits4.name = cms.string ("ZtoMuDisTrkNHits4")
+addSingleCut (ZtoMuDisTrkNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
+removeCuts (ZtoMuDisTrkNHits4.cuts, [cutTrkNValidHits])
+
+ZtoMuDisTrkNHits5 = copy.deepcopy (ZtoMuDisTrk)
+ZtoMuDisTrkNHits5.name = cms.string ("ZtoMuDisTrkNHits5")
+addSingleCut (ZtoMuDisTrkNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
+removeCuts (ZtoMuDisTrkNHits5.cuts, [cutTrkNValidHits])
+
+ZtoMuDisTrkNHits6 = copy.deepcopy (ZtoMuDisTrk)
+ZtoMuDisTrkNHits6.name = cms.string ("ZtoMuDisTrkNHits6")
+addSingleCut (ZtoMuDisTrkNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
+removeCuts (ZtoMuDisTrkNHits6.cuts, [cutTrkNValidHits])
+
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
     if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
