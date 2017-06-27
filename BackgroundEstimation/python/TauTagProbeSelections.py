@@ -111,6 +111,14 @@ addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkEcalo, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkJetDeltaPhi, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkTauHadVeto, cutMuTrkOS)
 
+TauTagPt55NoValidHitsCut = copy.deepcopy (TauTagPt55)
+TauTagPt55NoValidHitsCut.name = cms.string ("TauTagPt55NoValidHitsCut")
+removeCuts (TauTagPt55NoValidHitsCut.cuts, [cutTrkNValidHits])
+
+TauTagPt55MetTrigNoValidHitsCut = copy.deepcopy (TauTagPt55MetTrig)
+TauTagPt55MetTrigNoValidHitsCut.name = cms.string ("TauTagPt55MetTrigNoValidHitsCut")
+removeCuts (TauTagPt55MetTrigNoValidHitsCut.cuts, [cutTrkNValidHits])
+
 ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut")
 removeCuts(ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])

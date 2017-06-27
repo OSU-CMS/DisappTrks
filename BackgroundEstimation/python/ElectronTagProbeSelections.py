@@ -108,6 +108,14 @@ addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutEleTrkOS)
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutEleTrkOS)
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkElecVeto, cutEleTrkOS)
 
+ElectronTagPt55NoValidHitsCut = copy.deepcopy (ElectronTagPt55)
+ElectronTagPt55NoValidHitsCut.name = cms.string ("ElectronTagPt55NoValidHitsCut")
+removeCuts (ElectronTagPt55NoValidHitsCut.cuts, [cutTrkNValidHits])
+
+ElectronTagPt55MetTrigNoValidHitsCut = copy.deepcopy (ElectronTagPt55MetTrig)
+ElectronTagPt55MetTrigNoValidHitsCut.name = cms.string ("ElectronTagPt55MetTrigNoValidHitsCut")
+removeCuts (ElectronTagPt55MetTrigNoValidHitsCut.cuts, [cutTrkNValidHits])
+
 ZtoEleProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoEleProbeTrkWithZCutsNoValidHitsCut")
 removeCuts(ZtoEleProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])

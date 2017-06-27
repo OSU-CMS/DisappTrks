@@ -110,6 +110,14 @@ ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkNMissOut, cutMuTrkOS)
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkMuonVeto, cutMuTrkOS)
 
+MuonTagPt55NoValidHitsCut = copy.deepcopy (MuonTagPt55)
+MuonTagPt55NoValidHitsCut.name = cms.string ("MuonTagPt55NoValidHitsCut")
+removeCuts (MuonTagPt55NoValidHitsCut.cuts, [cutTrkNValidHits])
+
+MuonTagPt55MetTrigNoValidHitsCut = copy.deepcopy (MuonTagPt55MetTrig)
+MuonTagPt55MetTrigNoValidHitsCut.name = cms.string ("MuonTagPt55MetTrigNoValidHitsCut")
+removeCuts (MuonTagPt55MetTrigNoValidHitsCut.cuts, [cutTrkNValidHits])
+
 ZtoMuProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoMuProbeTrkWithZCutsNoValidHitsCut")
 removeCuts(ZtoMuProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])

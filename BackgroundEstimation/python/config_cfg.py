@@ -24,40 +24,20 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ElectronTagPt55],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [ElectronTagPt55MetTrig],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
 
-# Testing for fake track systematic investigation
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoValidHitsCut],      histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleDisTrkNoValidHitsCut],                 histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut], histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleDisTrkNoValidHitsCut],            histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-
 # Channels for doing the lepton background estimates with fewer numbers of hits
-#  add_channels  (process,  [ElectronTagPt55NHits3],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ElectronTagPt55MetTrigNHits3],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNHits3],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleDisTrkNHits3],                  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNHits3],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleDisTrkNHits3],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ElectronTagPt55NoValidHitsCut],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ElectronTagPt55MetTrigNoValidHitsCut],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNoValidHitsCut],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [ElectronTagPt55NHits4],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ElectronTagPt55MetTrigNHits4],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNHits4],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleDisTrkNHits4],                  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNHits4],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleDisTrkNHits4],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-
-#  add_channels  (process,  [ElectronTagPt55NHits5],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ElectronTagPt55MetTrigNHits5],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNHits5],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleDisTrkNHits5],                  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNHits5],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleDisTrkNHits5],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-
-#  add_channels  (process,  [ElectronTagPt55NHits6],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ElectronTagPt55MetTrigNHits6],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleProbeTrkWithZCutsNHits6],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoEleDisTrkNHits6],                  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCutsNHits6],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToEleDisTrkNHits6],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNHits3],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNHits4],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNHits5],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoEleDisTrkNHits6],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToEleDisTrkNHits3],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToEleDisTrkNHits4],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToEleDisTrkNHits5],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToEleDisTrkNHits6],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
 
 ################################################################################
 
@@ -153,40 +133,20 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrk1],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 
-# Testing for fake track systematic investigation
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoValidHitsCut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuDisTrkNoValidHitsCut],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuDisTrkNoValidHitsCut],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-
 # Channels for doing the lepton background estimates with fewer numbers of hits
-#  add_channels  (process,  [MuonTagPt55NHits3],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [MuonTagPt55MetTrigNHits3],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNHits3],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuDisTrkNHits3],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNHits3],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuDisTrkNHits3],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [MuonTagPt55NoValidHitsCut],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [MuonTagPt55MetTrigNoValidHitsCut],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNoValidHitsCut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 
-#  add_channels  (process,  [MuonTagPt55NHits4],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [MuonTagPt55MetTrigNHits4],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNHits4],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuDisTrkNHits4],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNHits4],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuDisTrkNHits4],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-
-#  add_channels  (process,  [MuonTagPt55NHits5],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [MuonTagPt55MetTrigNHits5],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNHits5],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuDisTrkNHits5],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNHits5],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuDisTrkNHits5],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-
-#  add_channels  (process,  [MuonTagPt55NHits6],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [MuonTagPt55MetTrigNHits6],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuProbeTrkWithZCutsNHits6],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoMuDisTrkNHits6],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsNHits6],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [ZtoTauToMuDisTrkNHits6],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNHits3],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNHits4],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNHits5],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoMuDisTrkNHits6],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToMuDisTrkNHits3],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToMuDisTrkNHits4],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToMuDisTrkNHits5],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [ZtoTauToMuDisTrkNHits6],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 
 ################################################################################
 
@@ -201,17 +161,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [TauTagPt55MetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
 # Channels for doing the lepton background estimates with fewer numbers of hits
-#  add_channels  (process,  [TauTagPt55NHits3],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [TauTagPt55MetTrigNHits3],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-
-#  add_channels  (process,  [TauTagPt55NHits4],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [TauTagPt55MetTrigNHits4],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-
-#  add_channels  (process,  [TauTagPt55NHits5],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [TauTagPt55MetTrigNHits5],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-
-#  add_channels  (process,  [TauTagPt55NHits6],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [TauTagPt55MetTrigNHits6],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [TauTagPt55NoValidHitsCut],         histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [TauTagPt55MetTrigNoValidHitsCut],  histSetsTau,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
