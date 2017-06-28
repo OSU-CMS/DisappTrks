@@ -66,6 +66,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 #  add_channels  (process,  [justAVertex],         histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justTriggers],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justADisTrk],         histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justADisTrkNHits3],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justADisTrkNHits4],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)

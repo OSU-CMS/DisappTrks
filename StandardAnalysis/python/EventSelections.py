@@ -187,7 +187,13 @@ justAVertex = cms.PSet(
         cutGoodPV,
     )
 )
-
+justTriggers = cms.PSet(
+    name = cms.string("JustTriggers"),
+    triggers = triggersMet,
+    cuts = cms.VPSet (
+        cutDummyMet,
+    ),
+)
 justMET75IsoTrk50 = cms.PSet(
     name = cms.string("JustMET75IsoTrk50"),
     triggers = cms.vstring("HLT_MET75_IsoTrk50_v"),
