@@ -96,9 +96,9 @@ cutsToAdd += [
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
-ZtoMuProbeTrackWithoutD0Cut = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
-ZtoMuProbeTrackWithoutD0Cut.name = cms.string ("ZtoMuProbeTrackWithoutD0Cut")
-removeCuts (ZtoMuProbeTrackWithoutD0Cut.cuts, [cutTrkD0])
+ZtoMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoMuProbeTrkWithoutD0Cut")
+removeCuts (ZtoMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
 
 MuonFiducialCalcBefore = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcBefore.name = cms.string("MuonFiducialCalcBefore")
