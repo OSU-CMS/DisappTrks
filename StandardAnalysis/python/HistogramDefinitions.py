@@ -1964,3 +1964,91 @@ TrackDebugHitPatternHistograms = cms.PSet(
 
     )
 )
+
+MuonIPHistograms = cms.PSet(
+    # To produce these histograms, include in your PSet:
+    # variableProducers.append("PrimaryVtxVarProducer")
+     inputCollection = cms.vstring("muons", "eventvariables"),
+     histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muond0WRTPV"),
+            title = cms.string("Muon d_{0} wrt leading PV;muon d_{0} [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring(muonD0WRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("muond0WRTPV_Zoom"),
+            title = cms.string("Muon d_{0} wrt leading PV;muon d_{0} [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.1, 0.1),
+            inputVariables = cms.vstring(muonD0WRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("muond0WRTPVMag"),
+            title = cms.string("Muon d_{0} wrt leading PV;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(50, 0, 0.5),
+            inputVariables = cms.vstring("fabs ( " + muonD0WRTPV + " )"),
+        ),
+        cms.PSet (
+            name = cms.string("muondzWRTPV"),
+            title = cms.string("Muon d_{z} wrt leading PV;muon d_{z} [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring(muonDZWRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("muondzWRTPV_Zoom"),
+            title = cms.string("Muon d_{z} wrt leading PV;muon d_{z} [cm]"),
+            binsX = cms.untracked.vdouble(100, -2, 2),
+            inputVariables = cms.vstring(muonDZWRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("muondzWRTPVMag"),
+            title = cms.string("Muon d_{z} wrt leading PV;muon |d_{z}| [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("fabs( " + muonDZWRTPV + " )" ),
+        ),
+    )
+)
+
+ElectronIPHistograms = cms.PSet(
+    # To produce these histograms, include in your PSet:
+    # variableProducers.append("PrimaryVtxVarProducer")
+     inputCollection = cms.vstring("electrons", "eventvariables"),
+     histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electrond0WRTPV"),
+            title = cms.string("Electron d_{0} wrt leading PV;electron d_{0} [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.5, 0.5),
+            inputVariables = cms.vstring(electronD0WRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("electrond0WRTPV_Zoom"),
+            title = cms.string("Electron d_{0} wrt leading PV;electron d_{0} [cm]"),
+            binsX = cms.untracked.vdouble(100, -0.1, 0.1),
+            inputVariables = cms.vstring(electronD0WRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("electrond0WRTPVMag"),
+            title = cms.string("Electron d_{0} wrt leading PV;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(50, 0, 0.5),
+            inputVariables = cms.vstring("fabs ( " + electronD0WRTPV + " )"),
+        ),
+        cms.PSet (
+            name = cms.string("electrondzWRTPV"),
+            title = cms.string("Electron d_{z} wrt leading PV;electron d_{z} [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring(electronDZWRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("electrondzWRTPV_Zoom"),
+            title = cms.string("Electron d_{z} wrt leading PV;electron d_{z} [cm]"),
+            binsX = cms.untracked.vdouble(100, -2, 2),
+            inputVariables = cms.vstring(electronDZWRTPV),
+        ),
+        cms.PSet (
+            name = cms.string("electrondzWRTPVMag"),
+            title = cms.string("Electron d_{z} wrt leading PV;electron |d_{z}| [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("fabs( " + electronDZWRTPV + " )" ),
+        ),
+    )
+)

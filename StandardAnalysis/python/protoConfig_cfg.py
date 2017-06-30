@@ -152,6 +152,7 @@ from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.WtoMuNuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
+from DisappTrks.BackgroundEstimation.ZtoEESelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
@@ -159,8 +160,8 @@ from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
 # Set up the collections of histograms
 ################################################################################
+from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
 from DisappTrks.StandardAnalysis.HistogramDefinitions import *
-from OSUT3Analysis.Configuration.histogramDefinitions import *
 
 histSets = cms.VPSet (
     TrackHistograms,
@@ -201,6 +202,7 @@ histSetsElectron.append(TrackElectronHistograms)
 histSetsElectron.append(ElectronMETHistograms)
 histSetsElectron.append(TrackElectronMETHistograms)
 histSetsElectron.append(ElectronEventVariableHistograms)
+histSetsElectron.append(ElectronIPHistograms)
 
 histSetsMuon = copy.deepcopy(histSets)
 histSetsMuon.append(MuonHistograms)
@@ -211,6 +213,7 @@ histSetsMuon.append(TrackMuonHistograms)
 histSetsMuon.append(MuonMETHistograms)
 histSetsMuon.append(TrackMuonMETHistograms)
 histSetsMuon.append(MuonEventVariableHistograms)
+histSetsMuon.append(MuonIPHistograms)
 
 histSetsTau = copy.deepcopy(histSets)
 histSetsTau.append(TauExtraHistograms)
