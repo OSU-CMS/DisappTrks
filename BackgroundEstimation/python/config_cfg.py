@@ -42,6 +42,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoTauToEleDisTrkNHits5],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauToEleDisTrkNHits6],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
 
+# Tag-and-probe channels without d0 cut on probe track
+#  add_channels  (process,  [ZtoEleProbeTrkWithoutD0Cut],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkWithoutD0Cut],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
+
 ################################################################################
 
 ################################################################################
@@ -150,6 +154,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoTauToMuDisTrkNHits4],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauToMuDisTrkNHits5],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoTauToMuDisTrkNHits6],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  True)
+
+# Tag-and-probe channels without d0 cut on probe track
+#  add_channels  (process,  [ZtoMuProbeTrkWithoutD0Cut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoTauToMuProbeTrkWithoutD0Cut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collectionMap,  variableProducers,  False)
 
 ################################################################################
 

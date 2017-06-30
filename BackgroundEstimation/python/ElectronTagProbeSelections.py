@@ -93,6 +93,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ZtoEleProbeTrackWithoutD0Cut = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
+ZtoEleProbeTrackWithoutD0Cut.name = cms.string ("ZtoEleProbeTrackWithoutD0Cut")
+removeCuts (ZtoEleProbeTrackWithoutD0Cut.cuts, [cutTrkD0])
+
 ElectronFiducialCalcBefore = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcBefore.name = cms.string("ElectronFiducialCalcBefore")
 removeCuts(ElectronFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])

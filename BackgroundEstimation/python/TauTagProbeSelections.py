@@ -104,6 +104,10 @@ cutsToAdd += [
 addCuts(ZtoTauToMuProbeTrkWithZCuts.cuts, cutsToAdd)
 removeCuts(ZtoTauToMuProbeTrkWithZCuts.cuts, [cutTrkJetDeltaPhi])
 
+ZtoTauToMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
+ZtoTauToMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToMuProbeTrkWithoutD0Cut")
+removeCuts (ZtoTauToMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
+
 ZtoTauToMuDisTrk = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuDisTrk.name = cms.string("ZtoTauToMuDisTrk")
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkNMissOut, cutMuTrkOS)
@@ -161,6 +165,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, cutsToAdd)
 removeCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, [cutTrkJetDeltaPhi])
+
+ZtoTauToEleProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
+ZtoTauToEleProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToEleProbeTrkWithoutD0Cut")
+removeCuts (ZtoTauToEleProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
 
 ZtoTauToEleDisTrk = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleDisTrk.name = cms.string("ZtoTauToEleDisTrk")
