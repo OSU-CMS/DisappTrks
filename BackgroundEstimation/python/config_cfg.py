@@ -25,7 +25,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ElectronTagPt55MetTrig],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
 
 # Z->ee control region
-#  add_channels  (process,  [ZtoEE],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [ZtoEE],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  True)
 
 # Channels for doing the lepton background estimates with fewer numbers of hits
 #  add_channels  (process,  [ElectronTagPt55NoValidHitsCut],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collectionMap,  variableProducers,  False)
