@@ -730,6 +730,25 @@ cutMuMuInvMassZHi = cms.PSet(
 )
 
 ##################################################
+## electron-electron pairs
+##################################################
+cutEEChargeProduct = cms.PSet(
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("electron.charge * electron.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutEEInvMassZLo = cms.PSet(
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("invMass ( electron , electron ) > " + str(mZPDG - 10)),
+    numberRequired = cms.string(">= 1"),
+)
+cutEEInvMassZHi = cms.PSet(
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("invMass ( electron , electron ) < " + str(mZPDG + 10)),
+    numberRequired = cms.string(">= 1"),
+)
+
+##################################################
 ## muon-track pairs
 ##################################################
 cutMuTrkDeltaR = cms.PSet(
@@ -910,6 +929,28 @@ cutElectronExactlyZero = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string("== 0"),
+)
+
+cutElectronPairPt = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string("== 2"),
+)
+cutElectronPairEta21 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string("== 2"),
+)
+cutElectronPairTightID = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("passesTightID_noIsolation > 0"),
+    numberRequired = cms.string("== 2"),
+)
+cutElectronPairTightPFIso = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cutElectronTightPFIso.cutString,
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("== 2 electrons with tight #rho-corrected rel. iso."),
 )
 
 ##################################################
