@@ -72,11 +72,18 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [justADisTrkNHits4],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justADisTrkNHits5],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justADisTrkNHits6],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+
 #  add_channels  (process,  [justAFakeTrk],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits3],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits4],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAFakeTrkNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+
+#  add_channels  (process,  [justARealTrk],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justARealTrkNHits3],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justARealTrkNHits4],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justARealTrkNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justARealTrkNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)

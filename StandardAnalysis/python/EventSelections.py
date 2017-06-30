@@ -233,7 +233,11 @@ justADisTrkNHits6.name = cms.string ("JustADisTrkNHits6")
 removeCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits6])
 
-justAFakeTrk = copy.deepcopy (justADisTrk)
+justACandTrk = copy.deepcopy (justAVertex)
+justACandTrk.name = cms.string ("JustACandTrk")
+addCuts(justACandTrk.cuts, [cutTrkPt55] + candTrkCuts)
+
+justAFakeTrk = copy.deepcopy (justACandTrk)
 justAFakeTrk.name = cms.string ("JustAFakeTrk")
 addCuts(justAFakeTrk.cuts, [cutTrkMatchFake])
 
@@ -256,6 +260,30 @@ justAFakeTrkNHits6 = copy.deepcopy (justAFakeTrk)
 justAFakeTrkNHits6.name = cms.string ("JustAFakeTrkNHits6")
 removeCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits6])
+
+justARealTrk = copy.deepcopy (justACandTrk)
+justARealTrk.name = cms.string ("JustARealTrk")
+addCuts(justARealTrk.cuts, [cutTrkMatchReal])
+
+justARealTrkNHits3 = copy.deepcopy (justARealTrk)
+justARealTrkNHits3.name = cms.string ("JustARealTrkNHits3")
+removeCuts (justARealTrkNHits3.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNHits3.cuts, [cutTrkNValidHits3])
+
+justARealTrkNHits4 = copy.deepcopy (justARealTrk)
+justARealTrkNHits4.name = cms.string ("JustARealTrkNHits4")
+removeCuts (justARealTrkNHits4.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNHits4.cuts, [cutTrkNValidHits4])
+
+justARealTrkNHits5 = copy.deepcopy (justARealTrk)
+justARealTrkNHits5.name = cms.string ("JustARealTrkNHits5")
+removeCuts (justARealTrkNHits5.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNHits5.cuts, [cutTrkNValidHits5])
+
+justARealTrkNHits6 = copy.deepcopy (justARealTrk)
+justARealTrkNHits6.name = cms.string ("JustARealTrkNHits6")
+removeCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits6])
 
 ##########################################################################
 

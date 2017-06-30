@@ -510,8 +510,14 @@ cutTrkMatchGenTau = cms.PSet(
     cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchReal = cms.PSet(
+    # matched to a charged lepton
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11 || abs (genMatchedParticle.bestMatchPdgId) == 13 || abs (genMatchedParticle.bestMatchPdgId) == 15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchFake = cms.PSet(
-    # not matched to tau, electron, or muon
+    # not matched to any genParticle
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 0"),
     numberRequired = cms.string(">= 1"),
