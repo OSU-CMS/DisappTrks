@@ -3,3 +3,5 @@
 *.pyc
 __init__.py
 */test/*.root
+*/test/condor
+*/test/limits
