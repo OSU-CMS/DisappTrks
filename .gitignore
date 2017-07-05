@@ -1,7 +1,9 @@
-*~
 #*#
 *.pyc
-__init__.py
 */test/*.root
 */test/condor
 */test/limits
+*~
+.*
+__init__.py
+hist.root
