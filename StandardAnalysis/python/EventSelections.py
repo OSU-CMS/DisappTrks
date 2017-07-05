@@ -237,6 +237,10 @@ justACandTrk = copy.deepcopy (justAVertex)
 justACandTrk.name = cms.string ("JustACandTrk")
 addCuts(justACandTrk.cuts, [cutTrkPt55] + candTrkCuts)
 
+justACandTrkNoD0Cut = copy.deepcopy (justACandTrk)
+justACandTrkNoD0Cut.name = cms.string ("JustACandTrkNoD0Cut")
+removeCuts(justACandTrkNoD0Cut.cuts, [cutTrkD0])
+
 justAFakeTrk = copy.deepcopy (justACandTrk)
 justAFakeTrk.name = cms.string ("JustAFakeTrk")
 addCuts(justAFakeTrk.cuts, [cutTrkMatchFake])
@@ -284,6 +288,54 @@ justARealTrkNHits6 = copy.deepcopy (justARealTrk)
 justARealTrkNHits6.name = cms.string ("JustARealTrkNHits6")
 removeCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits])
 addCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits6])
+
+justAFakeTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
+justAFakeTrkNoD0Cut.name = cms.string ("JustAFakeTrkNoD0Cut")
+addCuts(justAFakeTrkNoD0Cut.cuts, [cutTrkMatchFake])
+
+justAFakeTrkNoD0CutNHits3 = copy.deepcopy (justAFakeTrkNoD0Cut)
+justAFakeTrkNoD0CutNHits3.name = cms.string ("JustAFakeTrkNoD0CutNHits3")
+removeCuts (justAFakeTrkNoD0CutNHits3.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNoD0CutNHits3.cuts, [cutTrkNValidHits3])
+
+justAFakeTrkNoD0CutNHits4 = copy.deepcopy (justAFakeTrkNoD0Cut)
+justAFakeTrkNoD0CutNHits4.name = cms.string ("JustAFakeTrkNoD0CutNHits4")
+removeCuts (justAFakeTrkNoD0CutNHits4.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNoD0CutNHits4.cuts, [cutTrkNValidHits4])
+
+justAFakeTrkNoD0CutNHits5 = copy.deepcopy (justAFakeTrkNoD0Cut)
+justAFakeTrkNoD0CutNHits5.name = cms.string ("JustAFakeTrkNoD0CutNHits5")
+removeCuts (justAFakeTrkNoD0CutNHits5.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNoD0CutNHits5.cuts, [cutTrkNValidHits5])
+
+justAFakeTrkNoD0CutNHits6 = copy.deepcopy (justAFakeTrkNoD0Cut)
+justAFakeTrkNoD0CutNHits6.name = cms.string ("JustAFakeTrkNoD0CutNHits6")
+removeCuts (justAFakeTrkNoD0CutNHits6.cuts, [cutTrkNValidHits])
+addCuts (justAFakeTrkNoD0CutNHits6.cuts, [cutTrkNValidHits6])
+
+justARealTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
+justARealTrkNoD0Cut.name = cms.string ("JustARealTrkNoD0Cut")
+addCuts(justARealTrkNoD0Cut.cuts, [cutTrkMatchReal])
+
+justARealTrkNoD0CutNHits3 = copy.deepcopy (justARealTrkNoD0Cut)
+justARealTrkNoD0CutNHits3.name = cms.string ("JustARealTrkNoD0CutNHits3")
+removeCuts (justARealTrkNoD0CutNHits3.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNoD0CutNHits3.cuts, [cutTrkNValidHits3])
+
+justARealTrkNoD0CutNHits4 = copy.deepcopy (justARealTrkNoD0Cut)
+justARealTrkNoD0CutNHits4.name = cms.string ("JustARealTrkNoD0CutNHits4")
+removeCuts (justARealTrkNoD0CutNHits4.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNoD0CutNHits4.cuts, [cutTrkNValidHits4])
+
+justARealTrkNoD0CutNHits5 = copy.deepcopy (justARealTrkNoD0Cut)
+justARealTrkNoD0CutNHits5.name = cms.string ("JustARealTrkNoD0CutNHits5")
+removeCuts (justARealTrkNoD0CutNHits5.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNoD0CutNHits5.cuts, [cutTrkNValidHits5])
+
+justARealTrkNoD0CutNHits6 = copy.deepcopy (justARealTrkNoD0Cut)
+justARealTrkNoD0CutNHits6.name = cms.string ("JustARealTrkNoD0CutNHits6")
+removeCuts (justARealTrkNoD0CutNHits6.cuts, [cutTrkNValidHits])
+addCuts (justARealTrkNoD0CutNHits6.cuts, [cutTrkNValidHits6])
 
 ##########################################################################
 
