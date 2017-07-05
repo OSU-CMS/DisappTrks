@@ -3,6 +3,9 @@
 */test/*.root
 */test/condor
 */test/limits
+*_C.d
+*_C.so
+*_C_ACLiC_dict_rdict.pcm
 *~
 .*
 __init__.py
