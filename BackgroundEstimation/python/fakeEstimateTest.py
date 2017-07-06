@@ -13,15 +13,14 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-d0CutValue = 0.02
-maxSidebandValue = 0.1
-
 class FakeTrackBkgdEstimate:
     _fout = None
     _canvas = None
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
     _minHits = 7
+    _minD0 = 0.02
+    _maxD0 = 0.1
 
     def __init__ (self):
         pass
@@ -41,16 +40,22 @@ class FakeTrackBkgdEstimate:
     def addMinHits (self, minHits):
         self._minHits = minHits
 
+    def addMinD0 (self, minD0):
+        self._minD0 = minD0
+
+    def addMaxD0 (self, maxD0):
+        self._maxD0 = maxD0
+
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, maxSidebandValue - 0.001)
+        channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, self._maxD0 - 0.001)
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
     def printTransferFactor (self):
         if hasattr (self, "Basic3hits"):
-            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, d0CutValue - 0.001)
-            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", d0CutValue, maxSidebandValue - 0.001)
+            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, 0.02 - 0.001)
+            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
 
             if fails > 0.0:
                 transferFactor = passes / fails
@@ -67,20 +72,23 @@ class FakeTrackBkgdEstimate:
 
     def printNctrl (self):
         if hasattr (self, "DisTrkInvertD0"):
-            n = self.DisTrkInvertD0["yield"]
-            nError = self.DisTrkInvertD0["yieldError"]
+            n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
             if self._minHits < 7:
-                n += self.DisTrkInvertD0NHits6["yield"]
-                nError = math.hypot (nError, self.DisTrkInvertD0NHits6["yieldError"])
+                n6, n6Error = getHistIntegral (self.DisTrkInvertD0NHits6["sample"], self.DisTrkInvertD0NHits6["condorDir"], self.DisTrkInvertD0NHits6["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n += n6
+                nError = math.hypot (nError, n6Error)
             if self._minHits < 6:
-                n += self.DisTrkInvertD0NHits5["yield"]
-                nError = math.hypot (nError, self.DisTrkInvertD0NHits5["yieldError"])
+                n5, n5Error = getHistIntegral (self.DisTrkInvertD0NHits5["sample"], self.DisTrkInvertD0NHits5["condorDir"], self.DisTrkInvertD0NHits5["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n += n5
+                nError = math.hypot (nError, n5Error)
             if self._minHits < 5:
-                n += self.DisTrkInvertD0NHits4["yield"]
-                nError = math.hypot (nError, self.DisTrkInvertD0NHits4["yieldError"])
+                n4, n4Error = getHistIntegral (self.DisTrkInvertD0NHits4["sample"], self.DisTrkInvertD0NHits4["condorDir"], self.DisTrkInvertD0NHits4["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n += n4
+                nError = math.hypot (nError, n4Error)
             if self._minHits < 4:
-                n += self.DisTrkInvertD0NHits3["yield"]
-                nError = math.hypot (nError, self.DisTrkInvertD0NHits3["yieldError"])
+                n3, n3Error = getHistIntegral (self.DisTrkInvertD0NHits3["sample"], self.DisTrkInvertD0NHits3["condorDir"], self.DisTrkInvertD0NHits3["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n += n3
+                nError = math.hypot (nError, n3Error)
             if n == 0.0:
                 nError = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))
 
