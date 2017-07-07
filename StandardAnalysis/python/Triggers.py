@@ -56,6 +56,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v",  # yes available in bkgd MC
     )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggersSingleMu = cms.vstring(
+        "HLT_IsoMu27_v",    # wip
+    )
+
 ##########################################################################################################
 # Single Electron triggers
 ##########################################################################################################
