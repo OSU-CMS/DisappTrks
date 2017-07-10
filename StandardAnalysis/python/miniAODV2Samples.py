@@ -114,6 +114,16 @@ dataset_names_sig = {
     'AMSB_chargino_700GeV_100cm_76X'   :  "/AMSB_chargino_M-700_CTau-100_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
     'AMSB_chargino_700GeV_1000cm_76X'  :  "/AMSB_chargino_M-700_CTau-1000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
     'AMSB_chargino_700GeV_10000cm_76X'  :  "/AMSB_chargino_M-700_CTau-10000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+
+    'AMSB_chargino_800GeV_10cm_76X'    :  "/AMSB_chargino_M-800_CTau-10_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_800GeV_100cm_76X'   :  "/AMSB_chargino_M-800_CTau-100_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_800GeV_1000cm_76X'  :  "/AMSB_chargino_M-800_CTau-1000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_800GeV_10000cm_76X'  :  "/AMSB_chargino_M-800_CTau-10000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+
+    'AMSB_chargino_900GeV_10cm_76X'    :  "/AMSB_chargino_M-900_CTau-10_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_100cm_76X'   :  "/AMSB_chargino_M-900_CTau-100_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_1000cm_76X'  :  "/AMSB_chargino_M-900_CTau-1000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_10000cm_76X'  :  "/AMSB_chargino_M-900_CTau-10000_TuneZ2star_13TeV_pythia6/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM",
 }
 
 dataset_names = {}
