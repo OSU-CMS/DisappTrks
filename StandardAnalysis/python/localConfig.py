@@ -70,6 +70,16 @@ datasetsSig = [
     'AMSB_chargino_700GeV_100cm_76X',
     'AMSB_chargino_700GeV_1000cm_76X',
     'AMSB_chargino_700GeV_10000cm_76X',
+
+    'AMSB_chargino_800GeV_10cm_76X',
+    'AMSB_chargino_800GeV_100cm_76X',
+    'AMSB_chargino_800GeV_1000cm_76X',
+    'AMSB_chargino_800GeV_10000cm_76X',
+
+    'AMSB_chargino_900GeV_10cm_76X',
+    'AMSB_chargino_900GeV_100cm_76X',
+    'AMSB_chargino_900GeV_1000cm_76X',
+    'AMSB_chargino_900GeV_10000cm_76X',
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
