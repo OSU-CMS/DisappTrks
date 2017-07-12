@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 
 def customizeKeep (process):
-  outputTypes = ["RAWSIM", "RECOSIM", "AODSIM", "MINIAODSIM"]
+  outputTypes = ["RAWSIM", "PREMIXRAW", "RECOSIM", "AODSIM", "MINIAODSIM"]
   for a in outputTypes:
     b = a + "output"
     if hasattr (process, b):
