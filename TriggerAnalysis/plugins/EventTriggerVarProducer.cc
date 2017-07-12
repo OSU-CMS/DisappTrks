@@ -64,7 +64,11 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   for(auto name : filterNames) filterFires[name] = false;
 
   for(auto triggerObj : *triggerObjs) {
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+    triggerObj.unpackNamesAndLabels(event, *triggerBits);
+#else
     triggerObj.unpackPathNames(allTriggerNames);
+#endif
     for(const auto &thisFilterName : triggerObj.filterLabels()) {
       for(auto name : filterNames) {
         if(name == thisFilterName) {
@@ -111,7 +115,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   bool isMC = event.getByToken(tokenGenParticles_, genParticles);
 
   pat::TriggerObjectStandAlone isoTrk;
-  bool passesHLTTrk50Filter = getHLTObj(allTriggerNames, *triggerObjs, "hltTrk50Filter", isoTrk);
+  bool passesHLTTrk50Filter = getHLTObj(event, *triggerObjs, *triggerBits, "hltTrk50Filter", isoTrk);
 
   bool anyTrackMatchToHLTTrack = false;
   vector<const TYPE(tracks)*> selectedTracks;
@@ -160,8 +164,8 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   pat::TriggerObjectStandAlone hltMet;
   pat::TriggerObjectStandAlone hltMetClean;
 
-  getHLTObj (allTriggerNames, *triggerObjs, "hltMet", hltMet);
-  getHLTObj (allTriggerNames, *triggerObjs, "hltMetClean", hltMetClean);
+  getHLTObj(event, *triggerObjs, *triggerBits, "hltMet", hltMet);
+  getHLTObj(event, *triggerObjs, *triggerBits, "hltMetClean", hltMetClean);
 
   double onlineMet = hltMet.pt();
   double onlineMetClean = hltMetClean.pt();
@@ -194,6 +198,9 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   (*eventvariables)["hltMet"] = onlineMet;
   (*eventvariables)["hltMetClean"] = onlineMetClean;
 
+  selectedTracks.clear();
+  selectedMuons.clear();
+
 }
 
 bool EventTriggerVarProducer::genMatched(const TYPE(tracks) &track,
@@ -224,8 +231,9 @@ bool EventTriggerVarProducer::genMatched(const pat::Muon &muon,
   return false;
 }
 
-bool EventTriggerVarProducer::getHLTObj(const edm::TriggerNames &triggerNames,
+bool EventTriggerVarProducer::getHLTObj(const edm::Event &event,
                                         const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                        const edm::TriggerResults &triggerBits,
                                         const string &collection,
                                         pat::TriggerObjectStandAlone &obj) const {
 
@@ -235,9 +243,14 @@ bool EventTriggerVarProducer::getHLTObj(const edm::TriggerNames &triggerNames,
   double leadingPt = -1.0;
 
   for(auto triggerObj : triggerObjs) {
-    triggerObj.unpackPathNames(triggerNames);
-    if(triggerObj.collection() == (collection + "::HLT")) {
 
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+    triggerObj.unpackNamesAndLabels(event, triggerBits);
+#else
+    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
+#endif
+
+    if(triggerObj.collection() == (collection + "::HLT")) {
       if(triggerObj.pt() > leadingPt) {
         obj = triggerObj;
         leadingPt = obj.pt();
@@ -247,8 +260,9 @@ bool EventTriggerVarProducer::getHLTObj(const edm::TriggerNames &triggerNames,
   }
 
   return (leadingPt > 0.0);
-
 }
+
+
 
 bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,
                                           const reco::Vertex &pv,

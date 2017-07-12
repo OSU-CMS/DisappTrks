@@ -32,7 +32,8 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/00CA136C-B93C-E611-8999-0025905C3E38.root',
+    fileNames = cms.untracked.vstring(
+        '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/00CA136C-B93C-E611-8999-0025905C3E38.root',
         '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/022C5F76-B93C-E611-84E1-0025905C42F2.root',
         '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/0872B1B9-093D-E611-91FB-001E675A6D10.root',
         '/store/mc/RunIISummer15wmLHEGS/MonoHZZ4l_ZpBaryonic_MZp-100_MChi-1_13TeV-madgraph/GEN-SIM/MCRUN2_71_V1-v1/00000/14345472-FE3C-E611-ABA8-FA163E7F9948.root',
@@ -73,7 +74,17 @@ process.PREMIXRAWoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 process.mix.digitizers = cms.PSet(process.theDigitizersMixPreMix)
-process.mixData.input.fileNames = cms.untracked.vstring(['/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/0007596B-4543-E611-B86B-0CC47A4D7662.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/0043B987-2C44-E611-A578-0025905C431A.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/006EA8AD-0143-E611-9A58-0025905A6138.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/007639A2-F142-E611-B2B6-0025905C3DD6.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00A47C69-3643-E611-8C35-0CC47A4D769C.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00BDAF47-2043-E611-9BBE-0CC47A4D75F2.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00C0978A-2943-E611-AF9A-0CC47A4D76CC.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00C81959-5D43-E611-A150-842B2B019EE5.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00EA78D9-5643-E611-965B-0CC47A78A4B8.root', '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00F1DD25-4E43-E611-A345-0025905A612E.root'])
+process.mixData.input.fileNames = cms.untracked.vstring([
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/0007596B-4543-E611-B86B-0CC47A4D7662.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/0043B987-2C44-E611-A578-0025905C431A.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/006EA8AD-0143-E611-9A58-0025905A6138.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/007639A2-F142-E611-B2B6-0025905C3DD6.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00A47C69-3643-E611-8C35-0CC47A4D769C.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00BDAF47-2043-E611-9BBE-0CC47A4D75F2.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00C0978A-2943-E611-AF9A-0CC47A4D76CC.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00C81959-5D43-E611-A150-842B2B019EE5.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00EA78D9-5643-E611-965B-0CC47A78A4B8.root',
+    '/store/mc/RunIISpring15PrePremix/Neutrino_E-10_gun/GEN-SIM-DIGI-RAW/PU2016_80X_mcRun2_asymptotic_v14-v2/00000/00F1DD25-4E43-E611-A345-0025905A612E.root'])
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_v14', '')
 
@@ -115,4 +126,3 @@ from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforFullSim
 process = customizeHLTforFullSim(process)
 
 # End of customisation functions
-

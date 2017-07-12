@@ -14,8 +14,9 @@ public:
   ~EventTriggerVarProducer() {};
 
 private:
-  bool getHLTObj(const edm::TriggerNames &triggerNames,
+  bool getHLTObj(const edm::Event &event,
                  const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                 const edm::TriggerResults &triggerBits,
                  const string &collection,
                  pat::TriggerObjectStandAlone &obj) const;
 

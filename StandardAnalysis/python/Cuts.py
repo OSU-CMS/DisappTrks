@@ -1048,9 +1048,10 @@ firesGrandOrTrigger = cms.PSet(
 
 cutLeadJetCentral = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("fabs(etaJetLeading) <= 2.4"),
+    # -999 means there are no jets, and for trigger efficiencies we want to allow the case where there are zero jets
+    cutString = cms.string("fabs(etaJetLeading) <= 2.4 || etaJetLeading < -998.9"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("Require leading jet to be central")
+    alias = cms.string("Require leading jet to be central (if any jets)")
 )
 
 cutTrkEta25 = cms.PSet( # Cut for trigger efficiency measurement
