@@ -43,6 +43,14 @@ def getExtraSamples (suffix):
         "AMSB_chargino_700GeV_1000cm_" + suffix : [],
         "AMSB_chargino_700GeV_100cm_" + suffix : [],
         "AMSB_chargino_700GeV_10cm_" + suffix : [],
+        "AMSB_chargino_800GeV_10000cm_" + suffix : [],
+        "AMSB_chargino_800GeV_1000cm_" + suffix : [],
+        "AMSB_chargino_800GeV_100cm_" + suffix : [],
+        "AMSB_chargino_800GeV_10cm_" + suffix : [],
+        "AMSB_chargino_900GeV_10000cm_" + suffix : [],
+        "AMSB_chargino_900GeV_1000cm_" + suffix : [],
+        "AMSB_chargino_900GeV_100cm_" + suffix : [],
+        "AMSB_chargino_900GeV_10cm_" + suffix : [],
     }
 
     for sample in extraSamples:

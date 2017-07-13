@@ -103,3 +103,20 @@ weightsFluctuateTrigger = cms.VPSet (
         fluctuations = cms.vstring("grandOrWeightMCUp", "grandOrWeightMCDown", "grandOrWeightDataUp", "grandOrWeightDataDown")
     ),
 )
+
+# weights including pileup weight fluctuations
+weightsFluctuatePileup = cms.VPSet (
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor"),
+        fluctuations = cms.vstring("puScalingFactorUp", "puScalingFactorDown")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("grandOrWeight")
+    ),
+)

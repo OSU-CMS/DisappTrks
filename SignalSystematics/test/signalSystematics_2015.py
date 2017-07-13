@@ -9,7 +9,7 @@ import re
 import sys
 
 dirs = getUser()
-masses = [100, 200, 300, 400, 500, 600, 700]
+masses = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 lifetimes = [10, 100, 1000, 10000]
 suffix = "76X"
 extraSamples = getExtraSamples (suffix)

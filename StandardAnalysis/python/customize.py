@@ -8,6 +8,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     if runPeriod == "2015":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2015")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2015Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2015Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.string('SingleMu_2015D')
@@ -29,6 +31,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     elif runPeriod == "2016BC":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_BC")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2016_BCUp")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2016_BCDown")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.string('SingleMu_2016')
@@ -50,6 +54,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     elif runPeriod == "2016DEFGH":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_DEFGH")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2016_DEFGHUp")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2016_DEFGHDown")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.string('SingleMu_2016')
@@ -71,6 +77,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")
         process.PUScalingFactorProducer.target = cms.string ("")
+        process.PUScalingFactorProducer.targetUp = cms.string ("")
+        process.PUScalingFactorProducer.targetDown = cms.string ("")
 
     if not applyTriggerReweighting:
         process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")

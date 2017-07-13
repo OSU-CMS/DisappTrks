@@ -24,6 +24,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
+# Pileup systematic channels
+#  add_channels  (process,  [disTrkSelection],             histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+
 # MET systematic channels
 #  add_channels  (process,  [disTrkNoMet],             histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkNoMetSmearedJets],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
