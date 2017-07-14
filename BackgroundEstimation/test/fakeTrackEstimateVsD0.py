@@ -31,6 +31,11 @@ for runPeriod in runPeriods:
     g0 = TGraphAsymmErrors (N)
     g1 = TGraphAsymmErrors (N)
 
+    maxFluctuationDown = 0.0
+    maxFluctuationUp = 0.0
+
+    nominal = 0.0
+
     for i in range (0, N):
         minD0 = A + i * D
 
@@ -50,6 +55,12 @@ for runPeriod in runPeriods:
         g0.SetPoint (i, minD0, nEst[0])
         g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst[1], nEst[0]), nEst[1])
 
+        if i > 0:
+          if nEst[0] < nominal:
+            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst[0])
+          else:
+            maxFluctuationUp = max (maxFluctuationUp, nEst[0] - nominal)
+
         zToMuMuEstimate = FakeTrackBkgdEstimate ()
         zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
         zToMuMuEstimate.addMinD0 (minD0)
@@ -67,10 +78,20 @@ for runPeriod in runPeriods:
         g1.SetPoint (i, minD0, nEst[0])
         g1.SetPointError (i, D / 2.0, D / 2.0, min (nEst[1], nEst[0]), nEst[1])
 
+        if i == 0:
+          nominal = nEst[0]
+        else:
+          if nEst[0] < nominal:
+            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst[0])
+          else:
+            maxFluctuationUp = max (maxFluctuationUp, nEst[0] - nominal)
+
+    sys.stdout = stdout
+    print "[2016" + runPeriod + "] systematic uncertainty: - " + str (maxFluctuationDown) + " + " + str (maxFluctuationUp) + " (- " + str ((maxFluctuationDown / nominal) * 100.0) + " + " + str ((maxFluctuationUp / nominal) * 100.0) + ")%"
+    sys.stdout = nullout
+
     fout = TFile ("fakeTrackEstimateVsD0.root", "update")
     fout.cd ()
     g0.Write ("est_BasicSelection_2016" + runPeriod)
     g1.Write ("est_ZtoMuMu_2016" + runPeriod)
     fout.Close ()
-
-
