@@ -39,6 +39,10 @@ for runPeriod in runPeriods:
     for i in range (0, N):
         minD0 = A + i * D
 
+        sys.stdout = stdout
+        print "minimum |d0|: " + str (minD0) + " cm"
+        sys.stdout = nullout
+
         fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
         fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         fakeTrackBkgdEstimate.addMinD0 (minD0)
