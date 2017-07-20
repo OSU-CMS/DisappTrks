@@ -423,6 +423,12 @@ MuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("isLooseMuon"),
+            title = cms.string("is loose muon"),
+            binsX = cms.untracked.vdouble (2, -0.5, 1.5),
+            inputVariables = cms.vstring("isLooseMuon"),
+        ),
+        cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePt"),
             title = cms.string("Muon MetNoMu Minus One;E_{T}^{miss, no #mu} excluding selected muon [GeV]"),
             binsX = metBins,
