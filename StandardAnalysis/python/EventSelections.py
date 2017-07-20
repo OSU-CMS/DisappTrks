@@ -513,6 +513,12 @@ removeCuts(muonCtrlSelection.cuts, cutsToRemove)
 
 ##########################################################################
 
+muonCtrlSelectionWithMatch = copy.deepcopy(muonCtrlSelection)
+muonCtrlSelectionWithMatch.name = cms.string("MuonCtrlSelectionWithMatch")
+addCuts(muonCtrlSelectionWithMatch.cuts, [cutMuTrkMatch])
+
+##########################################################################
+
 hitsSystematicsCtrlSelection = copy.deepcopy(muonCtrlSelection)
 hitsSystematicsCtrlSelection.name = cms.string("HitsSystematicsCtrlSelection")
 cutsToRemove = [

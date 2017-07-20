@@ -762,6 +762,11 @@ cutMuTrkDeltaR = cms.PSet(
     cutString = cms.string("deltaR ( muon , track ) > 0.15"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuTrkMatch = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string("deltaR ( muon , track ) < 0.15"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMuDR0p1 = cms.PSet(
     inputCollection = cms.vstring("tracks", "muons"),
     cutString = cms.string("deltaR (track, muon) < 0.1"),
