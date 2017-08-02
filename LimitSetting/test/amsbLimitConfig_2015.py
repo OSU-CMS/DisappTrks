@@ -30,7 +30,7 @@ integrateHistogramName = "metPt"
 samplesByGravitinoMass = False
 
 #NOTE: These are the chargino masses in GeV
-masses = ['100', '200', '300', '400', '500', '600', '700']
+masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 #chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -47,7 +47,7 @@ signal_condor_dir = dirs["Andrew"] + '/2016_final_prompt/signalAcceptance_2015_v
 signal_suffix = signal_suffix_in_datacard = '76X'
 
 #name of event selection from which to take signal yields
-signal_channel = 'DisTrkSelectionPlotter/Met Plots'
+signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
 
 #######################
 ### Data Parameters ###

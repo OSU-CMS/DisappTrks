@@ -29,6 +29,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
 # MET systematic channels
+#  histSets.append(MetShiftHistograms)
 #  add_channels  (process,  [disTrkNoMet],             histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkNoMetSmearedJets],  histSets,  weights,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 

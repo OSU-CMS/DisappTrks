@@ -30,7 +30,7 @@ integrateHistogramName = "metPt"
 samplesByGravitinoMass = False
 
 #NOTE: These are the chargino masses in GeV
-masses = ['100', '200', '300', '400', '500', '600', '700']
+masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 #chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -48,7 +48,7 @@ signal_suffix = '80X'
 signal_suffix_in_datacard = '80X_DEFGH'
 
 #name of event selection from which to take signal yields
-signal_channel = 'DisTrkSelectionPlotter/Met Plots'
+signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
 
 #######################
 ### Data Parameters ###
@@ -71,16 +71,16 @@ data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 external_systematic_uncertainties = [
     # Use order of AN
-    "isr_2016",
-    "jec_2016",
-    "jer_2016",
-    "metVaryElectronEn_2016",
-    "metVaryJetEn_2016",
-    "metVaryJetRes_2016",
-    "metVaryPhotonEn_2016",
-    "metVaryTauEn_2016",
-    "metVaryUnclusteredEn_2016",
-    "pileup_2016D",
+    "isr_2016DEFGH",
+    "jec_2016DEFGH",
+    "jer_2016DEFGH",
+    "metVaryElectronEn_2016DEFGH",
+    "metVaryJetEn_2016DEFGH",
+    "metVaryJetRes_2016DEFGH",
+    "metVaryPhotonEn_2016DEFGH",
+    "metVaryTauEn_2016DEFGH",
+    "metVaryUnclusteredEn_2016DEFGH",
+    "pileup_2016DEFGH",
     "trigger_grandOrWeightData_2016DEFGH",
     "trigger_grandOrWeightMC_2016DEFGH",
 ]
