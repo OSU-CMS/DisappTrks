@@ -14,6 +14,10 @@ else:
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggersMetAndIsoTrk = cms.vstring(
+        "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
+    )
 
 triggersMetInclusive = cms.vstring(
     "HLT_MET250_v",
