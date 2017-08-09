@@ -74,6 +74,10 @@ process.MessageLogger.categories.append ("disappTrks_TriggerWeightProducer")
 process.MessageLogger.cerr.disappTrks_TriggerWeightProducer = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
+process.MessageLogger.categories.append ("OSUJetProducer")
+process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
+    limit = cms.untracked.int32(0),
+)
 ################################################################################
 
 ################################################################################
