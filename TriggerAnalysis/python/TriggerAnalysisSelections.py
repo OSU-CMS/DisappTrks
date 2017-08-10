@@ -77,7 +77,7 @@ for trig in triggerFiltersTrack:
         triggers = triggersSingleMu,
         cuts = cms.VPSet(
             cutLeadJetCentral,
-            cutMuonPt55,
+            cutMuonPt,
             cutMuonEta21,
             cutMuonTightID,
             cutMuonNMissIn,
