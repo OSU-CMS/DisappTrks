@@ -124,10 +124,10 @@ def writeDatacard(mass,lifetime,observation):
     lifetime = lifetime.replace("0.5", "0p5")
     if samplesByGravitinoMass:
         signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
-	    shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
+	shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     else:
         signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
-	    shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
+	shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = signalYieldAndError['rawYield']
