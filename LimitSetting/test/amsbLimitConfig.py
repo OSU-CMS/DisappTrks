@@ -22,7 +22,7 @@ dirs = getUser ()
 samplesByGravitinoMass = False
 
 #NOTE: These are the chargino masses in GeV
-masses = ['100', '200', '300', '400', '500', '600', '700']
+masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 #chargino tau values in cm
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',

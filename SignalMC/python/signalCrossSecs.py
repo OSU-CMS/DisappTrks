@@ -32,4 +32,12 @@ signal_cross_sections = { # in pb, in terms of chargino mass
     'value' : '0.013949',
     'error' : '1.081502',
     },
+    '800' : {
+    'value' : '0.006970',
+    'error' : '1.088237',
+    },
+    '900' : {
+    'value' : '0.003650',
+    'error' : '1.093744',
+    },
 }

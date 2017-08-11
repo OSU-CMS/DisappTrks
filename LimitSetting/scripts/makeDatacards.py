@@ -124,8 +124,10 @@ def writeDatacard(mass,lifetime,observation):
     lifetime = lifetime.replace("0.5", "0p5")
     if samplesByGravitinoMass:
         signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
+	    shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     else:
         signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
+	    shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
     signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = signalYieldAndError['rawYield']
@@ -169,7 +171,7 @@ def writeDatacard(mass,lifetime,observation):
     datacard.write('\n')
 
     #################
-    bin_row = [ 'bin', ' ', ' ',default_channel_name]
+    bin_row = [ 'bin', ' ', ' ',actual_bin_name]
     observation_row = [ 'observation', ' ', ' ', str(round(observation,0)) ]
     #################
     datacard.write('\n----------------------------------------\n')
@@ -187,8 +189,8 @@ def writeDatacard(mass,lifetime,observation):
     process_index = 0
 
     #add signal yield
-    bin_row_2.append(default_channel_name)
-    process_name_row.append(signal_dataset)
+    bin_row_2.append(actual_bin_name)
+    process_name_row.append(shorter_signal_dataset)
     process_index_row.append(str(process_index))
     process_index = process_index + 1
     rate_row.append(str(round(signal_yield,12)))
@@ -196,7 +198,7 @@ def writeDatacard(mass,lifetime,observation):
 
     #add background yields
     for background in backgrounds:
-        bin_row_2.append(default_channel_name)
+        bin_row_2.append(actual_bin_name)
         process_name_row.append(background)
         process_index_row.append(str(process_index))
         process_index = process_index + 1
@@ -223,9 +225,9 @@ def writeDatacard(mass,lifetime,observation):
         signal_error = signalYieldAndError['error']
         signal_error_string = str(round(signal_error,12))
     if arguments.runGamma:
-        row = ['signal_stat_'+signal_suffix_in_datacard,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
+        row = ['signal_stat_'+actual_bin_name,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
     else:
-        row = ['signal_stat_'+signal_suffix_in_datacard,'lnN','',signal_error_string]
+        row = ['signal_stat','lnN','',signal_error_string]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
@@ -234,7 +236,7 @@ def writeDatacard(mass,lifetime,observation):
     for background in backgrounds:
         row = [background+"_stat",'lnN','','-']
         if arguments.runGamma:
-            row = [background+"_stat",'gmN ' + backgrounds[str(background)]['N'],' ', '-']
+            row = [background+"_"+actual_bin_name+"_stat",'gmN ' + backgrounds[str(background)]['N'],' ', '-']
         for process_name in backgrounds:
             if background is process_name:
 
@@ -392,6 +394,3 @@ if not run_blind_limits:
 for mass in masses:
     for lifetime in lifetimes:
         writeDatacard(mass,lifetime,observation)
-
-
-
