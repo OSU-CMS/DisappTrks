@@ -1415,6 +1415,18 @@ EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("leadingJetPt"),
+            title = cms.string(";leading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            inputVariables = cms.vstring("ptJetLeading"),
+        ),
+        cms.PSet (
+            name = cms.string("subleadingJetPt"),
+            title = cms.string(";subleading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            inputVariables = cms.vstring("ptJetSubleading"),
+        ),
+        cms.PSet (
             name = cms.string("lifetimeWeight"),
             title = cms.string(";lifetime weight"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
@@ -1563,6 +1575,20 @@ EventVariableHistograms = cms.PSet(
 MetEventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("mets", "eventvariables"),
     histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("leadingJetPtVsMetNoMu"),
+            title = cms.string(";E_{T}^{miss, no #mu};leading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            binsY = metBinsSlimmed,
+            inputVariables = cms.vstring("met.noMuPt", "eventvariable.ptJetLeading"),
+        ),
+        cms.PSet (
+            name = cms.string("subleadingJetPtVsMetNoMu"),
+            title = cms.string(";E_{T}^{miss, no #mu};subleading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            binsY = metBinsSlimmed,
+            inputVariables = cms.vstring("met.noMuPt", "eventvariable.ptJetSubleading"),
+        ),
         cms.PSet (
             name = cms.string("deltaPhiMetJetLeading"),
             title = cms.string(";|#Delta#phi(E_{T}^{miss, no #mu},leading jet)|"),

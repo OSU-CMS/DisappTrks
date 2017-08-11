@@ -194,6 +194,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
+  (*eventvariables)["ptJetLeading"]     = ptJetLeading;
+  (*eventvariables)["ptJetSubleading"]  = ptJetSubleading;
   (*eventvariables)["phiJetLeading"]     = phiJetLeading;
   (*eventvariables)["phiJetSubleading"]  = phiJetSubleading;
   (*eventvariables)["deltaPhiMetJetLeading"]     = deltaPhiMetJetLeading;
