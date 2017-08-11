@@ -8,7 +8,7 @@ import os
 ##########################################################################################################
 
 triggerFiltersMet = {
-    # All years
+    # 2015-2016
     'HLT_MET75_IsoTrk50_v'                                  : ['hltMET75'],
     'HLT_MET90_IsoTrk50_v'                                  : ['hltMET90'],
 
@@ -39,9 +39,25 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     triggerFiltersMet['HLT_PFMET120_PFMHT120_IDTight_v'].append('hltMETClean80')
 
 triggerFiltersTrack = {
+    # 2015-2016
     'HLT_MET75_IsoTrk50_v' : ['hltTrk50Filter'],
     'HLT_MET90_IsoTrk50_v' : ['hltTrk50Filter'],
 }
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggerFiltersMet = {
+        # 2017
+        'HLT_MET105_IsoTrk50_v'                                  : ['hltMET105'],
+        'HLT_MET120_IsoTrk50_v'                                  : ['hltMET120'],
+
+        # add inclusive MET triggers...
+    }
+
+    triggerFiltersTrack = {
+        # 2017
+        'HLT_MET105_IsoTrk50_v' : ['hltTrk50Filter'],
+        'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
+    }
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer
 triggerFiltersInclusive = cms.vstring()
