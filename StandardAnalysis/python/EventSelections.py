@@ -18,8 +18,8 @@ NoCuts = cms.PSet(
 ##### Preselection #####
 ##########################################################################
 
-basicSelection = cms.PSet(
-    name = cms.string("BasicSelection"),
+justMetCut = cms.PSet(
+    name = cms.string("JustMetCut"),
     triggers = triggersMet,
     metFilters = metFilters,
     cuts = cms.VPSet (
@@ -28,6 +28,8 @@ basicSelection = cms.PSet(
         cutMet,
     )
 )
+basicSelection = copy.deepcopy (justMetCut)
+basicSelection.name = cms.string ("BasicSelection")
 jetCuts = [
     cutJetPt,
     cutJetEta,
