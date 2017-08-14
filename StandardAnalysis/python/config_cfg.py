@@ -17,13 +17,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionNHits6],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # Channels requiring MET+jet+track
-#  add_channels  (process,  [nonIsoTrkSelection],          histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [isoTrkSelection],             histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [candTrkSelection],            histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [elecCtrlSelection],           histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [muonCtrlSelection],           histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [tauCtrlSelection],            histSets,      weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [muonCtrlSelectionWithMatch],  histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [nonIsoTrkSelection],             histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [isoTrkSelection],                histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [isoTrkSelectionInvertDRJetCut],  histSets,      weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [candTrkSelection],               histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [elecCtrlSelection],              histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [muonCtrlSelection],              histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [tauCtrlSelection],               histSets,      weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [muonCtrlSelectionWithMatch],     histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # Variations of the disappearing tracks search region
 #  add_channels  (process,  [disTrkIdElec],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)

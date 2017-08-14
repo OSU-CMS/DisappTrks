@@ -440,6 +440,11 @@ cutTrkJetDeltaPhi = cms.PSet(
     cutString = cms.string("dRMinJet > 0.5"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkJetDeltaPhiInvert = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("dRMinJet < 0.5"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkEcalo = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
