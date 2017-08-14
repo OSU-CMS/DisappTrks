@@ -11,7 +11,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
-    data_global_tag = '92X_dataRun2_Prompt_v6'
+    data_global_tag = '92X_dataRun2_Prompt_v8'
     mc_global_tag = '92X_upgrade2017_TSG_For90XSamples_V1'
 
 ################################################################################
