@@ -309,6 +309,13 @@ TrackExtraHistograms = cms.PSet(
             binsZ = metBinsSlimmed,
             inputVariables = cms.vstring("maxSigmaForFiducialElectronTrack", "maxSigmaForFiducialMuonTrack", "pt"),
         ),
+        cms.PSet (
+            name = cms.string("trackDRMinJetVsIso"),
+            title = cms.string(";track rel. iso.;min #DeltaR (jet, track)"),
+            binsX = cms.untracked.vdouble(100, 0, 0.3),
+            binsY = cms.untracked.vdouble(100, 0, 2),
+            inputVariables = cms.vstring(" ( trackIsoNoPUDRp3 / pt ) < 0.05", "dRMinJet > 0.5"),
+        ),
     )
 )
 
