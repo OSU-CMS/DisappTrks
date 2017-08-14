@@ -54,6 +54,11 @@ class CandidateTrack : public reco::Track
     void set_rhoPUCorrCalo         (double value) { rhoPUCorrCalo_   = value; }
     void set_rhoPUCorrCentralCalo  (double value) { rhoPUCorrCentralCalo_   = value; }
 
+    void set_trackIsoDRp3 (double value) { trackIsoDRp3_ = value; }
+    void set_trackIsoDRp5 (double value) { trackIsoDRp5_ = value; }
+    void set_trackIsoNoPUDRp3 (double value) { trackIsoNoPUDRp3_ = value; }
+    void set_trackIsoNoPUDRp5 (double value) { trackIsoNoPUDRp5_ = value; }
+
     const double deltaRToClosestElectron () const;
     const double deltaRToClosestVetoElectron () const;
     const double deltaRToClosestLooseElectron () const;
