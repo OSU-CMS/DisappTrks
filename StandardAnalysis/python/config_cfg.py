@@ -17,6 +17,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionNHits6],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # Channels requiring MET+jet+track
+#  add_channels  (process,  [nonIsoTrkSelection],          histSets,      weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [isoTrkSelection],             histSets,      weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [candTrkSelection],            histSets,      weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [elecCtrlSelection],           histSets,      weights,  [],  collectionMap,  variableProducers,  False)
