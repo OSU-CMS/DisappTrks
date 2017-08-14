@@ -41,6 +41,10 @@ jetCuts = [
 ]
 addCuts(basicSelection.cuts, jetCuts)
 
+basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
+basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
+removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
+
 ##########################################################################
 
 metMinimalSkim = cms.PSet(

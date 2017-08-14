@@ -7,13 +7,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [metMinimalSkim],  histSetsMetJet,  weights,  [],  collectionMap,  variableProducers,  True)
 
 # Channels needed for background estimates and systematics
-#  add_channels  (process,  [vertexCutOnly],          histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [metCutOnly],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [basicSelection],         histSets,  weights,  [],  collectionMap,  variableProducers,  True)
-#  add_channels  (process,  [disTrkSelectionNHits3],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNHits4],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [vertexCutOnly],                histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [metCutOnly],                   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [basicSelectionNoAngularCuts],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [basicSelection],               histSets,  weights,  [],  collectionMap,  variableProducers,  True)
+#  add_channels  (process,  [disTrkSelectionNHits3],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits4],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits5],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionNHits6],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # Channels requiring MET+jet+track
 #  add_channels  (process,  [isoTrkSelection],             histSets,      weights,  [],  collectionMap,  variableProducers,  False)
