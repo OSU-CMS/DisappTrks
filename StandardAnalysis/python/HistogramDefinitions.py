@@ -58,6 +58,19 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("trackIsoNoPUDRp3 / pt"),
             ),
         cms.PSet (
+            name = cms.string("trackIsolationWithPU"),
+            title = cms.string("Relative Track Isolation with PU;relative track isolation with PU"),
+            binsX = cms.untracked.vdouble(100, 0, 0.3),
+            inputVariables = cms.vstring("trackIsoDRp3 / pt"),
+            ),
+        cms.PSet (
+            name = cms.string("trackIsolationNoPUVsWithPU"),
+            title = cms.string("Relative Track Isolation;relative track isolation with PU;relative track isolation without PU"),
+            binsX = cms.untracked.vdouble(100, 0, 0.3),
+            binsY = cms.untracked.vdouble(100, 0, 0.3),
+            inputVariables = cms.vstring("trackIsoDRp3 / pt", "trackIsoNoPUDRp3 / pt"),
+            ),
+        cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
