@@ -748,14 +748,14 @@ CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::
 
   for (const auto &t : tracks)
     {
-      if (noPU && track.normalizedChi2 () > 20.0)
+      /*if (noPU && track.normalizedChi2 () > 20.0)
         continue;
       if (noPU && track.hitPattern ().pixelLayersWithMeasurement () < 2)
         continue;
       if (noPU && track.hitPattern ().trackerLayersWithMeasurement () < 5)
         continue;
       if (noPU && fabs (track.d0 () / track.d0Error ()) > 5.0)
-        continue;
+        continue;*/
       if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
         continue;
 
