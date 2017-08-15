@@ -1597,14 +1597,14 @@ MetEventVariableHistograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("leadingJetPtVsMetNoMu"),
-            title = cms.string(";E_{T}^{miss, no #mu};leading jet p_{T} [GeV]"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];leading jet p_{T} [GeV]"),
             binsX = metBinsSlimmed,
             binsY = metBinsSlimmed,
             inputVariables = cms.vstring("met.noMuPt", "eventvariable.ptJetLeading"),
         ),
         cms.PSet (
             name = cms.string("subleadingJetPtVsMetNoMu"),
-            title = cms.string(";E_{T}^{miss, no #mu};subleading jet p_{T} [GeV]"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];subleading jet p_{T} [GeV]"),
             binsX = metBinsSlimmed,
             binsY = metBinsSlimmed,
             inputVariables = cms.vstring("met.noMuPt", "eventvariable.ptJetSubleading"),
