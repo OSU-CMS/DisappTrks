@@ -327,7 +327,7 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string(";track rel. iso.;min #DeltaR (jet, track)"),
             binsX = cms.untracked.vdouble(100, 0, 0.3),
             binsY = cms.untracked.vdouble(100, 0, 2),
-            inputVariables = cms.vstring(" ( trackIsoNoPUDRp3 / pt ) < 0.05", "dRMinJet > 0.5"),
+            inputVariables = cms.vstring("trackIsoNoPUDRp3 / pt", "dRMinJet"),
         ),
     )
 )
