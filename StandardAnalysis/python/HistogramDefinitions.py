@@ -1809,6 +1809,12 @@ EventTriggerVarHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(2**15, 0, 2**15),
             inputVariables = cms.vstring("packedTriggerFiresBit"),
         ),
+        cms.PSet (
+            name = cms.string("numPVReco"),
+            title = cms.string(";Number of Primary Vertices"),
+            binsX = cms.untracked.vdouble(50, 0.0, 50.0),
+            inputVariables = cms.vstring("numPVReco"),
+        ),
     )
 )
 
