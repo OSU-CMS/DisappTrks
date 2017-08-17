@@ -8,7 +8,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # Channels needed for background estimates and systematics
 #  add_channels  (process,  [vertexCutOnly],                histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [metCutOnly],                   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoAngularCuts],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelection],               histSets,  weights,  [],  collectionMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelectionNHits3],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)

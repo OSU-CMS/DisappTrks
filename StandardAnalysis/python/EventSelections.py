@@ -27,10 +27,10 @@ vertexCutOnly = cms.PSet(
         cutGoodPV,
     )
 )
-metCutOnly = copy.deepcopy (vertexCutOnly)
-metCutOnly.name = cms.string ("MetCutOnly")
-addCuts (metCutOnly.cuts, [cutMet])
-basicSelection = copy.deepcopy (metCutOnly)
+metMinimalSkim = copy.deepcopy (vertexCutOnly)
+metMinimalSkim.name = cms.string ("metMinimalSkim")
+addCuts (metMinimalSkim.cuts, [cutMet])
+basicSelection = copy.deepcopy (metMinimalSkim)
 basicSelection.name = cms.string ("BasicSelection")
 jetCuts = [
     cutJetPt,
@@ -44,19 +44,6 @@ addCuts(basicSelection.cuts, jetCuts)
 basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
 removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
-
-##########################################################################
-
-metMinimalSkim = cms.PSet(
-    name = cms.string("metMinimalSkim"),
-    triggers = triggersMet,
-    metFilters = metFilters,
-    cuts = cms.VPSet (
-        cutMetFilters,
-        cutGoodPV,
-        cutMet,
-    )
-)
 
 ##########################################################################
 
