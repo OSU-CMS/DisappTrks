@@ -47,6 +47,7 @@ private:
 
   unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, const vector<PhysicsObject> &, double &, unsigned &, unsigned &) const;
   bool isInJet (const pat::PackedCandidate &, const vector<PhysicsObject> &) const;
+  bool hasChargino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
   bool hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
 
@@ -190,7 +191,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   unsigned nTracksInsideJets = 0, nTracksOutsideJets = 0;
   unsigned nTracks = getNTracks (pfCands, lostTracks, validJets, trackRho, nTracksInsideJets, nTracksOutsideJets);
 
-  bool hasNeutralinoFlag = hasNeutralino (mcParticles);
+  bool hasCharginoFlag = hasChargino (mcParticles), hasNeutralinoFlag = hasNeutralino (mcParticles);
 
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
@@ -214,8 +215,9 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["nTracksOutsideJets"]  = nTracksOutsideJets;
   (*eventvariables)["trackRho"]  = trackRho;
 
-  (*eventvariables)["isCharginoChargino"]  = (mcParticles.isValid () ? !hasNeutralinoFlag : false);
-  (*eventvariables)["isCharginoNeutralino"]  = (mcParticles.isValid () ? hasNeutralinoFlag : false);
+  (*eventvariables)["isCharginoChargino"]  = (hasCharginoFlag ? !hasNeutralinoFlag : false);
+  (*eventvariables)["isCharginoNeutralino"]  = (hasCharginoFlag ? hasNeutralinoFlag : false);
+  (*eventvariables)["numberOfCharginos"]  = (hasCharginoFlag ? (hasNeutralinoFlag ? 1 : 2) : 0);
 
   (*eventvariables)["packedTriggerFiresBit"] = (triggerBits.isValid () ? packTriggerFires(event, triggerBits) : 0);
 
@@ -287,6 +289,26 @@ EventJetVarProducer::isInJet (const pat::PackedCandidate &cand, const vector<Phy
   for (const auto &jet : jets)
     if (deltaR (cand, jet) < 0.4)
       return true;
+  return false;
+}
+
+bool
+EventJetVarProducer::hasChargino (const edm::Handle<vector<pat::PackedGenParticle> > &mcParticles) const
+{
+  if (mcParticles.isValid ())
+    {
+      unsigned i = 0;
+      for (const auto &mcParticle : *mcParticles)
+        {
+          if (abs (mcParticle.pdgId ()) == 1000024)
+            return true;
+          if ((++i) >= 10)
+            break;
+        }
+    }
+  else
+    if (isFirstEvent_)
+      clog << "[EventJetVarProducer] NOT determining generated signal event type..." << endl;
   return false;
 }
 

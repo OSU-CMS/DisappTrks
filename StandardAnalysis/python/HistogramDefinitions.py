@@ -1589,6 +1589,12 @@ EventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(2**15, 0, 2**15),
             inputVariables = cms.vstring("packedTriggerFiresBit"),
         ),
+        cms.PSet (
+            name = cms.string("numberOfCharginos"),
+            title = cms.string(";number of charginos"),
+            binsX = cms.untracked.vdouble(3, -0.5, 2.5),
+            inputVariables = cms.vstring("numberOfCharginos"),
+        ),
     )
 )
 
