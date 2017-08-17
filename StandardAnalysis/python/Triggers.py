@@ -43,6 +43,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
     )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggersMetInclusive = cms.vstring(
+        # fixme
+    )
+
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
 
 ##########################################################################################################
@@ -62,7 +67,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     triggersSingleMu = cms.vstring(
-        "HLT_IsoMu27_v",    # wip
+        "HLT_IsoMu27_v",    # fixme
     )
 
 ##########################################################################################################

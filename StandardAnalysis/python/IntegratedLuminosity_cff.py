@@ -162,6 +162,14 @@ lumi_2016Prompt = {
     },
 }
 
+lumi_2017 = {
+
+    # https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation/2875.html
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-299649_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_IsoMu27_v*"
+    "SingleMuon_2017C" : 5760.123, # 5829.138 without --hltpath
+
+}
+
 # now add 2015 and 2016 into a single lumi dict
 
 lumi_2016 = lumi_2016Prompt if usePrompt2016 else lumi_23Sep2016
@@ -195,6 +203,9 @@ for k in set(lumi_2015rereco.keys()).union(lumi_2016.keys()):
     # If a key exists only in 2016
     else:
         lumi[k] = lumi_2016[k]
+
+# fixme: won't work once tau paths are added to 2017, this will overwrite the entire tau dictionary
+lumi.update(lumi_2017)
 
 # set up some composite aliases for convenience
 
@@ -269,3 +280,5 @@ lumi["Tau_2016"]                                         =  lumi["Tau_2016BC"]  
 lumi["ZeroBias_2016"]                                    =  lumi["ZeroBias_2016BC"]                                    +  lumi["ZeroBias_2016DEFGH"]
 lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"]
 lumi["HLT_ZeroBias_v*"]["ZeroBias_2016"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BC"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEFGH"]
+
+lumi["SingleMuon_2017"] = lumi["SingleMuon_2017C"]

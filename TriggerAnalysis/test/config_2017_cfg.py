@@ -5,5 +5,4 @@ if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     print "Please use a CMSSW_9_2_X release..."
     sys.exit (0)
 
-print "# FIXME: using 2016DEFGH customization"
-process = customize (process, "2016DEFGH", applyPUReweighting = False, applyTriggerReweighting = False, runMETFilters = False)
+process = customize (process, "2017", applyPUReweighting = False, applyTriggerReweighting = False, runMETFilters = False)

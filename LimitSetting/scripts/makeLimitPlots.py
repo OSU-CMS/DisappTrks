@@ -355,6 +355,46 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     graph = TGraph (len(x), x, y)
     return graph
 
+# function to fill 'potholes' in th2f's
+# for empty bins, this sets the bin content to the average of
+# all non-empty adjacenet bins
+def fillPotHolesTH2F(histogram):
+    nBinsX = histogram.GetXaxis().GetNbins()
+    nBinsY = histogram.GetYaxis().GetNbins()
+
+    for ix in range(1, nBinsX+1):
+        for iy in range(1, nBinsY+1):
+            if histogram.GetBinContent(ix, iy) > 0:
+                continue
+
+            n = sum = sumErr = 0
+            nUp = histogram.GetBinContent(ix, iy+1)
+            nDown = histogram.GetBinContent(ix, iy-1)
+            nLeft = histogram.GetBinContent(ix-1, iy)
+            nRight = histogram.GetBinContent(ix+1, iy)
+
+            if nUp > 0 and iy < nBinsY:
+                sum += nUp
+                sumErr = math.hypot(sumErr, histogram.GetBinError(ix, iy+1))
+                n += 1
+            if nDown > 0 and iy > 1:
+                sum += nDown
+                sumErr = math.hypot(sumErr, histogram.GetBinError(ix, iy-1))
+                n += 1
+            if nLeft > 0 and ix > 1:
+                sum += nLeft
+                sumErr = math.hypot(sumErr, histogram.GetBinError(ix-1, iy))
+                n += 1
+            if nRight > 0 and ix < nBinsX:
+                sum += nRight
+                sumErr = math.hypot(sumErr, histogram.GetBinError(ix+1, iy))
+                n += 1
+
+            if n > 0:
+                print "Filling pothole in histogram", histogram.GetName(), "-- bin (", ix, ", ", iy, ")"
+                histogram.SetBinContent(ix, iy, sum / n)
+                histogram.SetBinError(ix, iy, sumErr / n)
+
 def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
     xBin_tmp = []
     yBin_tmp = []
@@ -1041,7 +1081,7 @@ def drawPlot(plot, th2fType=""):
     legend.SetTextFont(42)
     legend.SetTextSize(0.0387597)
 
-#construct tGraph objects for all curves and draw them
+    #construct tGraph objects for all curves and draw them
     tGraphs = []
     tTh2fs = []
     plotDrawn = False
@@ -1055,13 +1095,25 @@ def drawPlot(plot, th2fType=""):
         tTh2fs[-1].GetXaxis().SetTitle(plot['xAxisLabel'])
         tTh2fs[-1].GetYaxis().SetTitle(plot['yAxisLabel'])
         tTh2fs[-1].GetZaxis().SetTitle(plot['zAxisLabel'])
-        tTh2fs[-1].GetXaxis().SetTitleOffset(1.2)
-        tTh2fs[-1].GetYaxis().SetTitleOffset(1.0)
-        tTh2fs[-1].GetZaxis().SetTitleSize(0.05)
-        tTh2fs[-1].GetZaxis().SetLabelSize(0.04)
-        tTh2fs[-1].GetZaxis().SetTitleOffset(0.95)
-        tTh2fs[-1].GetZaxis().SetLabelOffset(0.0001)
+
+        tTh2fs[-1].GetXaxis().SetTitleOffset(1.25)
+        tTh2fs[-1].GetYaxis().SetTitleOffset(1.25)
+        tTh2fs[-1].GetZaxis().SetTitleOffset(1.3)
+
+        tTh2fs[-1].GetXaxis().SetTitleSize(0.04)
+        tTh2fs[-1].GetYaxis().SetTitleSize(0.04)
+        tTh2fs[-1].GetZaxis().SetTitleSize(0.03)
+
+        tTh2fs[-1].GetXaxis().SetLabelOffset(0.005)
+        tTh2fs[-1].GetYaxis().SetLabelOffset(0.005)
+        tTh2fs[-1].GetZaxis().SetLabelOffset(0.005)
+
+        tTh2fs[-1].GetXaxis().SetLabelSize(0.03)
+        tTh2fs[-1].GetYaxis().SetLabelSize(0.04)
+        tTh2fs[-1].GetZaxis().SetLabelSize(0.03)
+
         tTh2fs[-1].GetXaxis().SetNdivisions(509)
+
         if 'xAxisFixMin' in plot and 'xAxisFixMax' in plot:
             tTh2fs[-1].GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
         if 'yAxisFixMin' in plot and 'yAxisFixMax' in plot:
@@ -1070,8 +1122,14 @@ def drawPlot(plot, th2fType=""):
             tTh2fs[-1].SetMinimum(plot['zAxisFixMin'])
         if 'zAxisFixMax' in plot:
             tTh2fs[-1].SetMaximum(plot['zAxisFixMax'])
+        if 'fillPotHoles' in plot:
+            if plot['fillPotHoles']:
+                fillPotHolesTH2F(tTh2fs[-1])
         tTh2fs[-1].SetContour(99)
-        tTh2fs[-1].Draw('colz')
+        if 'extraDrawOptions' in plot:
+            tTh2fs[-1].Draw('colz ' + extraDrawOptions)
+        else:
+            tTh2fs[-1].Draw('colz')
 
 
 
@@ -1312,7 +1370,9 @@ def drawPlot(plot, th2fType=""):
     if convertToMassSplitting:
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(0.15, 0.91, 0.35, 0.98, "CMS Preliminary", "NDC")
+        #LumiLabel = TPaveLabel(0.186717,0.938125,0.383459,0.989375,"CMS Preliminary","NDC")
+        #LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     if not makeColorPlot and not convertToMassSplitting:
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
     LumiLabel.SetTextFont(62)
@@ -1380,11 +1440,15 @@ def drawPlot(plot, th2fType=""):
         stableChiLabel.Draw("same")
 
     canvas.Write()
-    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".pdf")
-    canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+".C")
+
+    outputPlotName = "limits/"+arguments.outputDir+"/"+plot['title']
+    if 'th2fs' in plot:
+        outputPlotName = outputPlotName + "_" + th2fType
+    canvas.SaveAs(outputPlotName+".pdf")
+    canvas.SaveAs(outputPlotName+".C")
     # canvas.SetLogy(0)
     # canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
-    print "Wrote plot to limits/"+arguments.outputDir+"/"+plot['title']+".pdf"
+    print "Wrote plot to " + outputPlotName + ".pdf"
 
 
 

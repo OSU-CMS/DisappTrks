@@ -81,6 +81,14 @@ chargino_chargino_cross_sections = { # in pb, in terms of chargino mass
         'value' : str ( 1.15301 * 1.0e-3 ),
         'error' : str ( 0.135822 * 1.0e-3 ),
     },
+    '800' : {
+    'value' : '0.006970',
+    'error' : '1.088237',
+    },
+    '900' : {
+    'value' : '0.003650',
+    'error' : '1.093744',
+    },
 }
 
 signal_cross_sections = {}
