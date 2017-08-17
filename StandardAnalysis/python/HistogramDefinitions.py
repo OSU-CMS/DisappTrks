@@ -963,42 +963,6 @@ TrackJetHistograms = cms.PSet(
     )
 
 
-DiMuonHistograms = cms.PSet(
-    inputCollection = cms.vstring("muons", "muons"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("diMuonInvMass"),
-            title = cms.string("Di-Muon Invariant Mass; M_{#mu#mu} [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 180),
-            inputVariables = cms.vstring("invMass"),
-            ),
-        cms.PSet (
-            name = cms.string("diMuonChargeProduct"),
-            title = cms.string("Di-muon Charge Product; charge_{#mu}_{1}*charge_{#mu}_{2}"),
-            binsX = cms.untracked.vdouble(3, -1.5, 1.5),
-            inputVariables = cms.vstring("chargeProduct"),
-            ),
-        cms.PSet (
-            name = cms.string("diMuonDeltaEta"),
-            title = cms.string("Di-muon Eta Difference; |#Delta(#eta)|"),
-            binsX = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaEta"),
-            ),
-        cms.PSet (
-            name = cms.string("diMuonDeltaPhi"),
-            title = cms.string("Di-muon Phi Difference; |#Delta(#phi)|"),
-            binsX = cms.untracked.vdouble(1000, 0, 3.14),
-            inputVariables = cms.vstring("deltaPhi"),
-            ),
-        cms.PSet (
-            name = cms.string("diMuonDeltaR"),
-            title = cms.string("Di-muon #DeltaR; #DeltaR"),
-            binsX = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaR"),
-            ),
-        )
-    )
-
 DiMuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
     histograms = cms.VPSet (
@@ -1010,44 +974,6 @@ DiMuonExtraHistograms = cms.PSet(
             ),
         )
     )
-
-DiElectronHistograms = cms.PSet(
-    inputCollection = cms.vstring("electrons", "electrons"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("diElectronInvMass"),
-            title = cms.string("Di-electron Invariant Mass; M_{ee} [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 180),
-            inputVariables = cms.vstring("invMass"),
-            ),
-        cms.PSet (
-            name = cms.string("diElectronChargeProduct"),
-            title = cms.string("Di-electron Charge Product; charge_{e}_{1}*charge_{e}_{2}"),
-            binsX = cms.untracked.vdouble(3, -1.5, 1.5),
-            inputVariables = cms.vstring("chargeProduct"),
-            ),
-        cms.PSet (
-            name = cms.string("diElectronDeltaEta"),
-            title = cms.string("Di-electron Eta Difference; |#Delta(#eta)|"),
-            binsX = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaEta"),
-            ),
-        cms.PSet (
-            name = cms.string("diElectronDeltaPhi"),
-            title = cms.string("Di-electron Phi Difference; |#Delta(#phi)|"),
-            binsX = cms.untracked.vdouble(1000, 0, 3.14),
-            inputVariables = cms.vstring("deltaPhi"),
-            ),
-        cms.PSet (
-            name = cms.string("diElectronDeltaR"),
-            title = cms.string("Di-electron #DeltaR; #DeltaR"),
-            binsX = cms.untracked.vdouble(1000, 0, 10),
-            inputVariables = cms.vstring("deltaR"),
-            ),
-
-        )
-    )
-
 
 JetExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("jets"),
