@@ -160,6 +160,7 @@ variableProducers.append('TriggerWeightProducer')
 # Set up the collections of channels
 ################################################################################
 from DisappTrks.StandardAnalysis.EventSelections import *
+from DisappTrks.MuonBasedAnalysis.EventSelections import *
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 from DisappTrks.BackgroundEstimation.TauTagProbeSelections import *

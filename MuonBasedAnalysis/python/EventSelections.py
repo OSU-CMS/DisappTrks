@@ -2,16 +2,20 @@ import FWCore.ParameterSet.Config as cms
 import copy
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
-from DisappTrks.BackgroundEstimation.EventSelections import *
+from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 
-isoTrkSelection = copy.deepcopy(MuonTagSkim)
-isoTrkSelection.name = cms.string("IsoTrkSelection")
-addCuts(isoTrkSelection.cuts, [cutTrkPt55] + isoTrkCuts)
+class MuonBasedAnalysis:
+    pass
+muonBasedAnalysis = MuonBasedAnalysis ()
 
-candTrkSelection = copy.deepcopy(isoTrkSelection)
-candTrkSelection.name = cms.string("CandTrkSelection")
-addCuts(candTrkSelection.cuts, leptonVetoes)
+muonBasedAnalysis.isoTrkSelection = copy.deepcopy(MuonTagSkim)
+muonBasedAnalysis.isoTrkSelection.name = cms.string("IsoTrkSelection")
+addCuts(muonBasedAnalysis.isoTrkSelection.cuts, [cutTrkPt55] + isoTrkCuts)
 
-disTrkSelection = copy.deepcopy(candTrkSelection)
-disTrkSelection.name = cms.string("DisTrkSelection")
-addCuts(disTrkSelection.cuts, cutsToAdd)
+muonBasedAnalysis.candTrkSelection = copy.deepcopy(muonBasedAnalysis.isoTrkSelection)
+muonBasedAnalysis.candTrkSelection.name = cms.string("CandTrkSelection")
+addCuts(muonBasedAnalysis.candTrkSelection.cuts, leptonVetoes)
+
+muonBasedAnalysis.disTrkSelection = copy.deepcopy(muonBasedAnalysis.candTrkSelection)
+muonBasedAnalysis.disTrkSelection.name = cms.string("DisTrkSelection")
+addCuts(muonBasedAnalysis.disTrkSelection.cuts, cutsToAdd)
