@@ -1,3 +1,4 @@
+<use name="root"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <environment>
   <bin   file="leptonInefficiency.cpp"></bin>
