@@ -118,6 +118,7 @@ class FakeTrackBkgdEstimate:
             n *= self._prescale
 
             print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            print "P_fake^raw: " + str (pFake)
             return (n, pFake)
         else:
             print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
