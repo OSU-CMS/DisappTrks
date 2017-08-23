@@ -18,4 +18,4 @@ addCuts(muonBasedAnalysis.candTrkSelection.cuts, leptonVetoes)
 
 muonBasedAnalysis.disTrkSelection = copy.deepcopy(muonBasedAnalysis.candTrkSelection)
 muonBasedAnalysis.disTrkSelection.name = cms.string("DisTrkSelection")
-addCuts(muonBasedAnalysis.disTrkSelection.cuts, cutsToAdd)
+addCuts(muonBasedAnalysis.disTrkSelection.cuts, disappearingCuts)

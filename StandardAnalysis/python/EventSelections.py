@@ -144,12 +144,12 @@ removeCuts(candTrkLooseTau.cuts, [cutTrkTauHadVeto])
 
 disTrkSelection = copy.deepcopy(candTrkSelection)
 disTrkSelection.name = cms.string("DisTrkSelection")
-cutsToAdd = [
+disappearingCuts = [
     cutTrkEcalo,
     cutTrkNMissOut,
 ]
-addCuts(disTrkSelection.cuts, cutsToAdd)
-disTrkCuts = candTrkCuts + cutsToAdd
+addCuts(disTrkSelection.cuts, disappearingCuts)
+disTrkCuts = candTrkCuts + disappearingCuts
 
 disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
 disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
