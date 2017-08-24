@@ -139,7 +139,7 @@ class FakeTrackBkgdEstimate:
         print "P_fake: " + str (pFake)
         print "N: " + str (N)
         print "alpha: " + str (alpha)
-        print "error on alpha: " + str ((1.0 + (alpha.uncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
+        print "error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
 
         return (nEst.centralValue (), nEst.uncertainty ())
