@@ -6,6 +6,7 @@ import functools
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject
 
+from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
 
 setTDRStyle()
@@ -20,7 +21,7 @@ class LeptonBkgdEstimate:
     _canvas = None
     _metCut = 100.0
     _phiCut = 0.5
-    _pPassVeto = (float ("nan"), float ("nan"))
+    _pPassVeto = float ("nan")
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
     _tagProbePass1ScaleFactor = 1.0
@@ -56,8 +57,8 @@ class LeptonBkgdEstimate:
     def useIdMatch (self, match):
         self._useIdMatch = match
 
-    def addPpassVeto (self, (pPassVeto, pPassVetoError)):
-        self._pPassVeto = (pPassVeto, pPassVetoError)
+    def addPpassVeto (self, pPassVeto):
+        self._pPassVeto = pPassVeto
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
@@ -102,37 +103,38 @@ class LeptonBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir, useIdMatch = False):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        n = None
+        nError = None
         if useIdMatch:
             pdgLo, pdgHi = self.getPdgRange()
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
-            channel["yield"], channel["yieldError"] = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
+            n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
-            channel["yield"], channel["yieldError"] = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+        channel["yield"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+        channel["yield"].isPositive ()
 
-        channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-        channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        channel["total"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+        channel["total"].isPositive ()
+
+        channel["weight"] = (channel["total"].uncertainty () * channel["total"].uncertainty ()) / channel["total"].centralValue ()
+
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        print "yield for " + name + ": " + str (channel["yield"])
 
     def printNctrl (self):
         metMinusOne = self.plotMetForNctrl ()
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
-            nError = self.TagPt35ForNctrl["yieldError"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yieldError"]
             weight = self.TagPt35ForNctrl["weight"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["weight"]
 
             n *= self._prescale
-            nError *= self._prescale
             weight *= self._prescale
 
-            if not (n == 0.0):
-                print "N_ctrl: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
-                return (n, nError, metMinusOne)
-            else:
-                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
-                print "N_ctrl: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " - 0 + " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
-                return (n, nUpperLimit, metMinusOne)
+            print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            return (n, metMinusOne)
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
@@ -205,34 +207,28 @@ class LeptonBkgdEstimate:
             return None
 
     def printPpassVeto (self):
-        if math.isnan (self._pPassVeto[0]) or math.isnan (self._pPassVeto[1]):
+        if not hasattr (self._pPassVeto, "centralValue"):
             if hasattr (self, "TagPt35") and hasattr (self, "CandTrkIdPt35NoMet"):
                 total = self.TagPt35["yield"]
-                totalError = self.TagPt35["yieldError"]
                 passes = self.CandTrkIdPt35NoMet["yield"]
-                passesError = self.CandTrkIdPt35NoMet["yieldError"]
 
                 eff = passes / total
-                effError = math.hypot (total * passesError, totalError * passes) / (total * total)
-                print "P (pass lepton veto) in baseline sample: " + str (eff) + " +- " + str (effError)
-                return (eff, effError)
+                print "P (pass lepton veto) in baseline sample: " + str (eff)
+                return eff
             else:
                 print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
-                return (float ("nan"), float ("nan"))
+                return float ("nan")
         else:
-            print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
-            return (self._pPassVeto[0], self._pPassVeto[1])
+            print "P (pass lepton veto) from user input: " + str (self._pPassVeto)
+            return self._pPassVeto
 
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
             total = self.TagPt35["yield"]
-            totalError = self.TagPt35["yieldError"]
             passes = 0.0
-            passesError = 0.0
 
             if hasattr (self, "TagPt35MetCut"):
                 passes = self.TagPt35MetCut["yield"]
-                passesError = self.TagPt35MetCut["yieldError"]
             else:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
@@ -242,14 +238,15 @@ class LeptonBkgdEstimate:
 
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
+                passes = Measurement (passes, passesError)
+                passes.isPositive ()
 
             eff = passes / total
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
-            print "P (pass met cut): " + str (eff) + " +- " + str (effError)
-            return (eff, effError)
+            print "P (pass met cut): " + str (eff)
+            return eff
         else:
             print "TagPt35 not defined. Not printing P (pass met cut)..."
-            return (float ("nan"), float ("nan"))
+            return float ("nan")
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
@@ -283,10 +280,11 @@ class LeptonBkgdEstimate:
             passesError = Double (0.0)
 
             passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
+            passes = Measurement (passes, passesError)
+            passes.isPositive ()
 
             if hasattr (self, "TagPt35MetCut"):
                 total = self.TagPt35MetCut["yield"]
-                totalError = self.TagPt35MetCut["yieldError"]
             else:
                 sample = self.TagPt35["sample"]
                 condorDir = self.TagPt35["condorDir"]
@@ -296,11 +294,12 @@ class LeptonBkgdEstimate:
 
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
+                total = Measurement (total, totalError)
+                total.isPositive ()
 
             eff = passes / total
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
-            print "P (pass met triggers): " + str (eff) + " +- " + str (effError)
-            return (eff, effError, passesHist)
+            print "P (pass met triggers): " + str (eff)
+            return (eff, passesHist)
         else:
             print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
             return (float ("nan"), float ("nan"))
@@ -351,18 +350,12 @@ class LeptonBkgdEstimate:
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
             n      = self.CandTrkIdPt35["yield"]
-            nError = self.CandTrkIdPt35["yieldError"]
             weight = self.CandTrkIdPt35["weight"]
-            if not (n == 0.0):
-                print "N_back: " + str (n) + " +- " + str (nError) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nError / self._luminosityInInvFb) + " fb)"
-                return (n, nError)
-            else:
-                nUpperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1)) * weight
-                print "N_back: " + str (n) + " - 0.0 + " + str (nUpperLimit) + " (" + str (n / self._luminosityInInvFb) + " +- " + str (nUpperLimit / self._luminosityInInvFb) + " fb)"
-                return (n, nUpperLimit)
+            print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            return n
         else:
             print "CandTrkIdPt35 not defined. Not printing N_back..."
-            return (float ("nan"), float ("nan"))
+            return float ("nan")
 
     def plotMetForNback (self):
         if hasattr (self, "CandTrkIdPt35"):
@@ -438,65 +431,51 @@ class LeptonBkgdEstimate:
                 passes.SetBinError (i, total.GetBinError (i))
 
     def printNest (self):
-        nCtrl,             nCtrlError,             metMinusOne        =  self.printNctrl             ()
-        pPassVeto,         pPassVetoError, passes, passesError, passes1, passes1Error, total, totalError                             =  self.printPpassVetoTagProbe ()
-        pPassMetCut,       pPassMetCutError                           =  self.printPpassMetCut       ()
-        pPassMetTriggers,  pPassMetTriggersError,  triggerEfficiency  =  self.printPpassMetTriggers  ()
+        nCtrl, metMinusOne = self.printNctrl ()
+        pPassVeto, passes, passes1, total = self.printPpassVetoTagProbe ()
+        pPassMetCut = self.printPpassMetCut ()
+        pPassMetTriggers, triggerEfficiency = self.printPpassMetTriggers ()
 
-        if math.isnan (pPassVeto) or math.isnan (pPassVetoError):
-            pPassVeto, pPassVetoError = self.printPpassVeto ()
+        if not hasattr (pPassVeto, "centralValue"):
+            pPassVeto = self.printPpassVeto ()
 
-        self.plotMetForNest (metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency)
+        self.plotMetForNest (metMinusOne, pPassVeto, triggerEfficiency)
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
-        nEstError = 0.0
-        nEstError  =  math.hypot  (nEstError,  nCtrlError  *  pPassVeto       *  pPassMetCut       *  pPassMetTriggers)
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVetoError  *  pPassMetCut       *  pPassMetTriggers)
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCutError  *  pPassMetTriggers)
-        nEstError  =  math.hypot  (nEstError,  nCtrl       *  pPassVeto       *  pPassMetCut       *  pPassMetTriggersError)
 
         N = alpha = alphaError = float ("nan")
-        if not math.isnan (passes) and not math.isnan (passesError) and not math.isnan (total) and not math.isnan (totalError):
+        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
             N = passes + passes1 if hasattr (self, "TagProbePass1") else passes
 
             if hasattr (self, "TagProbePass1"):
                 alpha = (1 / (passes + passes1)) * ((passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor) / (2.0 * total - (passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor))) * nCtrl * pPassMetCut * pPassMetTriggers
-                # the following is copied straight from a calculation done in maxima
-                alphaError = math.sqrt((4*nCtrl**2*pPassMetCut**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2*totalError**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**4)+passesError**2*((self._tagProbePassScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers)/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))-(nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))+(self._tagProbePassScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))**2+passes1Error**2*((self._tagProbePass1ScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers)/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))-(nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes))+(self._tagProbePass1ScaleFactor*nCtrl*pPassMetCut*pPassMetTriggers*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes))/((passes1+passes)*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))**2+(nCtrl**2*pPassMetCut**2*pPassMetTriggersError**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2)+(nCtrl**2*pPassMetCutError**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2)+(nCtrlError**2*pPassMetCut**2*pPassMetTriggers**2*(self._tagProbePass1ScaleFactor*passes1+self._tagProbePassScaleFactor*passes)**2)/((passes1+passes)**2*(2*total-self._tagProbePass1ScaleFactor*passes1-self._tagProbePassScaleFactor*passes)**2))
             else:
                 alpha = (self._tagProbePassScaleFactor / (2.0 * total - N*self._tagProbePassScaleFactor)) * nCtrl * pPassMetCut * pPassMetTriggers
-                alphaError2 = self._tagProbePassScaleFactor / (2.0 * total - N*self._tagProbePassScaleFactor)**2 * (4*totalError**2 + N*self._tagProbePassScaleFactor)
-                alphaError2 += (nCtrlError / nCtrl)**2
-                alphaError2 += (pPassMetCutError / pPassMetCut)**2
-                alphaError2 += (pPassMetTriggersError / pPassMetTriggers)**2
-                alphaError = alpha * math.sqrt(alphaError2)
+
+        alpha.printLongFormat ()
 
         print "N: " + str (N)
+        print "alpha: " + str (alpha)
         if not (alpha == 0):
-            print "alpha: " + str (alpha) + " +- " + str (alphaError)
-            print "error on alpha: " + str (1.0 + (alphaError / alpha))
-        else:
-            print "alpha: " + str (alpha) + " - 0 + " + str (alphaError)
+            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+        print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+        return (nEst.centralValue (), nEst.uncertainty ())
 
-        if not (nEst == 0):
-            print "N_est: " + str (nEst) + " +- " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
-        else:
-            print "N_est: " + str (nEst) + " - 0 + " + str (nEstError) + " (" + str (nEst / self._luminosityInInvFb) + " +- " + str (nEstError / self._luminosityInInvFb) + " fb)"
-        return (nEst, nEstError)
-
-    def plotMetForNest (self, metMinusOne, (pPassVeto, pPassVetoError), (pPassMetCut, pPassMetCutError), triggerEfficiency):
+    def plotMetForNest (self, metMinusOne, pPassVeto, triggerEfficiency):
         if self._fout and self._canvas:
             metMinusOne.Multiply (triggerEfficiency)
             for i in range (0, metMinusOne.GetNbinsX () + 2):
                 content = metMinusOne.GetBinContent (i)
                 error = metMinusOne.GetBinError (i)
+                content = Measurement (content, error)
+                content.isPositive ()
+
                 upperEdge = metMinusOne.GetBinLowEdge (i) + metMinusOne.GetBinWidth (i)
 
-                newContent = content * pPassVeto if self._metCut < upperEdge else 0.0
-                newError = error * pPassVeto if self._metCut < upperEdge else 0.0
+                newContent = content * pPassVeto if self._metCut < upperEdge else Measurement (0.0, 0.0)
 
-                metMinusOne.SetBinContent (i, newContent)
-                metMinusOne.SetBinError (i, newError)
+                metMinusOne.SetBinContent (i, newContent.centralValue ())
+                metMinusOne.SetBinError (i, newContent.maxUncertainty ())
 
             metMinusOne = metMinusOne.Rebin (self._rebinFactor, "metMinusOne")
 
@@ -535,40 +514,29 @@ class LeptonBkgdEstimate:
 
     def printPpassVetoTagProbe (self):
         self.plotPpassVetoPtDependence ()
-        if math.isnan (self._pPassVeto[0]) or math.isnan (self._pPassVeto[1]):
+        if not hasattr (self._pPassVeto, "centralValue"):
             if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
                 total       = self.TagProbe["yield"]
-                totalError  = self.TagProbe["yieldError"]
                 passes      = self.TagProbePass["yield"]
-                passesError = self.TagProbePass["yieldError"] if passes > 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (0.0 + 1)) * self.TagProbePass["weight"]
 
                 passes1 = 0.0
-                passes1Error = 0.0
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     total        += self.TagProbe1["yield"]
-                    totalError    = math.hypot (totalError, self.TagProbe1["yieldError"])
-
                     passes1       = self.TagProbePass1["yield"]
-                    passes1Error  = self.TagProbePass1["yieldError"]
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
-                scaledPassesError = math.hypot (passesError * self._tagProbePassScaleFactor, passes1Error * self._tagProbePass1ScaleFactor)
 
                 eff = scaledPasses / (2.0 * total - scaledPasses)
-                effError = 2.0 * math.hypot (scaledPassesError * total, scaledPasses * totalError) / ((2.0 * total - scaledPasses) * (2.0 * total - scaledPasses))
 
-                if eff > 0.0:
-                    print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " +- " + str (effError)
-                else:
-                    print "P (pass lepton veto) in tag-probe sample: " + str (eff) + " - 0 + " + str (effError)
-                return (eff, effError, passes, passesError, passes1, passes1Error, total, totalError)
+                print "P (pass lepton veto) in tag-probe sample: " + str (eff)
+                return (eff, passes, passes1, total)
             else:
                 print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
-                return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
+                return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
         else:
-            print "P (pass lepton veto) from user input: " + str (self._pPassVeto[0]) + " +- " + str (self._pPassVeto[1])
-            return (self._pPassVeto[0], self._pPassVeto[1], float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
+            print "P (pass lepton veto) from user input: " + str (self._pPassVeto)
+            return (self._pPassVeto, float ("nan"), float ("nan"), float ("nan"))
 
     def plotPpassVetoPtDependence (self):
         if self._fout and self._canvas:
