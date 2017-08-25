@@ -164,51 +164,57 @@ lumi_2016Prompt = {
 
 lumi_2017 = {
 
-    # https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation/2875.html
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-299649_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017C" : 5760.123, # 5829.138 without --hltpath
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_MET105_IsoTrk50_v*"
+    # note: since MET105_IsoTrk50 came online only in run:fill 299368:5962, what should really happen here is
+    #       there will be a period before it with some lumi and then a period with it included
+    "MET_2017C" : 3740.486,
+
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_Ele35_WPTight_Gsf_v*"
+    "SingleElectron_2017C" : 8236.431,
+
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_IsoMu27_v*"
+    "SingleMuon_2017C" : 8236.431,
+
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
+    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
+        "Tau_2017C"     :  3977.334,
+    },
 
 }
 
-# now add 2015 and 2016 into a single lumi dict
-
+# set 2016 to either the rereco or prompt values depending on usePrompt2016
 lumi_2016 = lumi_2016Prompt if usePrompt2016 else lumi_23Sep2016
 
-lumi = {}
+# now create a single lumi dict, starting with 2015
+lumi = lumi_2015rereco
 
-for k in set(lumi_2015rereco.keys()).union(lumi_2016.keys()):
-
-    # If a key exists in both
-    if k in lumi_2015rereco and k in lumi_2016:
-
-        # If both values are dicts themselves, merge them together with key k
-        if isinstance(lumi_2015rereco[k], dict) and isinstance(lumi_2016[k], dict):
-
-            mergedDict = {}
-            mergedDict.update(lumi_2015rereco[k])
-            mergedDict.update(lumi_2016[k])
-
-            lumi[k] = mergedDict
-
-        # If one of the values is not a dict, you can't continue merging it.
-        # Value from second dict (2016) overrides one in first and we move on.
-        # Alternatively, replace this with exception raiser to alert you of value conflicts
-        else:
-            lumi[k] = lumi_2016[k]
-
-    # If a key exists only in 2015
-    elif k in lumi_2015rereco:
-        lumi[k] = lumi_2015rereco[k]
-
-    # If a key exists only in 2016
-    else:
+# add 2016
+for k in lumi_2016.keys():
+    # if not already present, just add this lumi entry
+    if not k in lumi.keys():
         lumi[k] = lumi_2016[k]
+    # if this is already present, we're on a prescaled path (a dict) and need to update rather than add/overwrite
+    if k in lumi.keys() and isinstance(lumi[k], dict) and isinstance(lumi_2016[k], dict):
+        mergedDict = {}
+        mergedDict.update(lumi[k])
+        mergedDict.update(lumi_2016[k])
+        lumi[k] = mergedDict
+    # if neither of those two cases, no idea what you're trying to do so skip it
 
-# fixme: won't work once tau paths are added to 2017, this will overwrite the entire tau dictionary
-lumi.update(lumi_2017)
+# add 2017
+for k in lumi_2017.keys():
+    # if not already present, just add this lumi entry
+    if not k in lumi.keys():
+        lumi[k] = lumi_2017[k]
+    # if this is already present, we're on a prescaled path (a dict) and need to update rather than add/overwrite
+    if k in lumi.keys() and isinstance(lumi[k], dict) and isinstance(lumi_2017[k], dict):
+        mergedDict = {}
+        mergedDict.update(lumi[k])
+        mergedDict.update(lumi_2017[k])
+        lumi[k] = mergedDict
+    # if neither of those two cases, no idea what you're trying to do so skip it
 
 # set up some composite aliases for convenience
-
 lumi["MET_2015"]                                         =  lumi["MET_2015D"]
 lumi["SingleElectron_2015"]                              =  lumi["SingleElectron_2015D"]
 lumi["SingleMuon_2015"]                                  =  lumi["SingleMuon_2015D"]
@@ -217,68 +223,33 @@ lumi["ZeroBias_2015"]                                    =  lumi["ZeroBias_2015D
 lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015D"]
 lumi["HLT_ZeroBias_v*"]["ZeroBias_2015"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2015D"]
 
-lumi["MET_2016BC"]                                         =  lumi["MET_2016B"]                                         +  lumi["MET_2016C"]
-lumi["SingleElectron_2016BC"]                              =  lumi["SingleElectron_2016B"]                              +  lumi["SingleElectron_2016C"]
-lumi["SingleMuon_2016BC"]                                  =  lumi["SingleMuon_2016B"]                                  +  lumi["SingleMuon_2016C"]
-lumi["Tau_2016BC"]                                         =  lumi["Tau_2016B"]                                         +  lumi["Tau_2016C"]
-lumi["ZeroBias_2016BC"]                                    =  lumi["ZeroBias_2016B"]                                    +  lumi["ZeroBias_2016C"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016B"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016C"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BC"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016B"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016C"]
+# 2016
+lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
+lumi["SingleElectron_2016H"]                              =  lumi["SingleElectron_2016H_v2"] + lumi["SingleElectron_2016H_v3"]
+lumi["SingleMuon_2016H"]                                  =  lumi["SingleMuon_2016H_v2"] + lumi["SingleMuon_2016H_v3"]
+lumi["Tau_2016H"]                                         =  lumi["Tau_2016H_v2"] + lumi["Tau_2016H_v3"]
+lumi["ZeroBias_2016H"]                                    =  lumi["ZeroBias_2016H_v2"] + lumi["ZeroBias_2016H_v3"]
+lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v2"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v3"]
+lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v2"] + lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v3"]
 
-lumi["MET_2016DEF"]                                         =  lumi["MET_2016D"]                                         +  lumi["MET_2016E"]                                         +  lumi["MET_2016F"]
-lumi["SingleElectron_2016DEF"]                              =  lumi["SingleElectron_2016D"]                              +  lumi["SingleElectron_2016E"]                              +  lumi["SingleElectron_2016F"]
-lumi["SingleMuon_2016DEF"]                                  =  lumi["SingleMuon_2016D"]                                  +  lumi["SingleMuon_2016E"]                                  +  lumi["SingleMuon_2016F"]
-lumi["Tau_2016DEF"]                                         =  lumi["Tau_2016D"]                                         +  lumi["Tau_2016E"]                                         +  lumi["Tau_2016F"]
-lumi["ZeroBias_2016DEF"]                                    =  lumi["ZeroBias_2016D"]                                    +  lumi["ZeroBias_2016E"]                                    +  lumi["ZeroBias_2016F"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEF"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEF"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016D"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016E"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016F"]
+for period in {'BC', 'DEF', 'BCDEF', 'GH', 'DEFG', 'DEFGH', 'BCDEFGH'}:
 
-lumi["MET_2016BCDEF"]                                         =  lumi["MET_2016BC"]                                         +  lumi["MET_2016DEF"]
-lumi["SingleElectron_2016BCDEF"]                              =  lumi["SingleElectron_2016BC"]                              +  lumi["SingleElectron_2016DEF"]
-lumi["SingleMuon_2016BCDEF"]                                  =  lumi["SingleMuon_2016BC"]                                  +  lumi["SingleMuon_2016DEF"]
-lumi["Tau_2016BCDEF"]                                         =  lumi["Tau_2016BC"]                                         +  lumi["Tau_2016DEF"]
-lumi["ZeroBias_2016BCDEF"]                                    =  lumi["ZeroBias_2016BC"]                                    +  lumi["ZeroBias_2016DEF"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BCDEF"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEF"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BCDEF"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BC"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEF"]
+    for pd in {'MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias'}:
+        key = pd + '_2016' + period if period != 'BCDEFGH' else pd + '_2016'
 
-lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"]                                         +  lumi["MET_2016H_v3"]
-lumi["SingleElectron_2016H"]                              =  lumi["SingleElectron_2016H_v2"]                              +  lumi["SingleElectron_2016H_v3"]
-lumi["SingleMuon_2016H"]                                  =  lumi["SingleMuon_2016H_v2"]                                  +  lumi["SingleMuon_2016H_v3"]
-lumi["Tau_2016H"]                                         =  lumi["Tau_2016H_v2"]                                         +  lumi["Tau_2016H_v3"]
-lumi["ZeroBias_2016H"]                                    =  lumi["ZeroBias_2016H_v2"]                                    +  lumi["ZeroBias_2016H_v3"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v2"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v3"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v2"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v3"]
+        lumi[key] = 0.0
+        for p in period:
+            lumi[key] += lumi[pd + '_2016' + p]
 
-lumi["MET_2016GH"]                                         =  lumi["MET_2016G"]                                         +  lumi["MET_2016H"]
-lumi["SingleElectron_2016GH"]                              =  lumi["SingleElectron_2016G"]                              +  lumi["SingleElectron_2016H"]
-lumi["SingleMuon_2016GH"]                                  =  lumi["SingleMuon_2016G"]                                  +  lumi["SingleMuon_2016H"]
-lumi["Tau_2016GH"]                                         =  lumi["Tau_2016G"]                                         +  lumi["Tau_2016H"]
-lumi["ZeroBias_2016GH"]                                    =  lumi["ZeroBias_2016G"]                                    +  lumi["ZeroBias_2016H"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016GH"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016G"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016GH"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016G"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]
+    suffix = '_2016' + period if period != 'BCDEFGH' else '_2016'
+    lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau' + suffix] = 0.0
+    lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] = 0.0
+    for p in period:
+        lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau' + suffix] += lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau_2016' + p]
+        lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] += lumi["HLT_ZeroBias_v*"]['ZeroBias_2016' + p]
 
-lumi["MET_2016DEFG"]                                         =  lumi["MET_2016D"]                                         +  lumi["MET_2016E"]                                         +  lumi["MET_2016F"]                                         +  lumi["MET_2016G"]
-lumi["SingleElectron_2016DEFG"]                              =  lumi["SingleElectron_2016D"]                              +  lumi["SingleElectron_2016E"]                              +  lumi["SingleElectron_2016F"]                              +  lumi["SingleElectron_2016G"]
-lumi["SingleMuon_2016DEFG"]                                  =  lumi["SingleMuon_2016D"]                                  +  lumi["SingleMuon_2016E"]                                  +  lumi["SingleMuon_2016F"]                                  +  lumi["SingleMuon_2016G"]
-lumi["Tau_2016DEFG"]                                         =  lumi["Tau_2016D"]                                         +  lumi["Tau_2016E"]                                         +  lumi["Tau_2016F"]                                         +  lumi["Tau_2016G"]
-lumi["ZeroBias_2016DEFG"]                                    =  lumi["ZeroBias_2016D"]                                    +  lumi["ZeroBias_2016E"]                                    +  lumi["ZeroBias_2016F"]                                    +  lumi["ZeroBias_2016G"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFG"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016G"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEFG"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016D"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016E"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016F"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016G"]
-
-lumi["MET_2016DEFGH"]                                         =  lumi["MET_2016D"]                                         +  lumi["MET_2016E"]                                         +  lumi["MET_2016F"]                                         +  lumi["MET_2016G"]                                         +  lumi["MET_2016H"]
-lumi["SingleElectron_2016DEFGH"]                              =  lumi["SingleElectron_2016D"]                              +  lumi["SingleElectron_2016E"]                              +  lumi["SingleElectron_2016F"]                              +  lumi["SingleElectron_2016G"]                              +  lumi["SingleElectron_2016H"]
-lumi["SingleMuon_2016DEFGH"]                                  =  lumi["SingleMuon_2016D"]                                  +  lumi["SingleMuon_2016E"]                                  +  lumi["SingleMuon_2016F"]                                  +  lumi["SingleMuon_2016G"]                                  +  lumi["SingleMuon_2016H"]
-lumi["Tau_2016DEFGH"]                                         =  lumi["Tau_2016D"]                                         +  lumi["Tau_2016E"]                                         +  lumi["Tau_2016F"]                                         +  lumi["Tau_2016G"]                                         +  lumi["Tau_2016H"]
-lumi["ZeroBias_2016DEFGH"]                                    =  lumi["ZeroBias_2016D"]                                    +  lumi["ZeroBias_2016E"]                                    +  lumi["ZeroBias_2016F"]                                    +  lumi["ZeroBias_2016G"]                                    +  lumi["ZeroBias_2016H"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016D"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016E"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016F"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016G"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEFGH"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016D"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016E"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016F"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016G"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]
-
-lumi["MET_2016"]                                         =  lumi["MET_2016BC"]                                         +  lumi["MET_2016DEFGH"]
-lumi["SingleElectron_2016"]                              =  lumi["SingleElectron_2016BC"]                              +  lumi["SingleElectron_2016DEFGH"]
-lumi["SingleMuon_2016"]                                  =  lumi["SingleMuon_2016BC"]                                  +  lumi["SingleMuon_2016DEFGH"]
-lumi["Tau_2016"]                                         =  lumi["Tau_2016BC"]                                         +  lumi["Tau_2016DEFGH"]
-lumi["ZeroBias_2016"]                                    =  lumi["ZeroBias_2016BC"]                                    +  lumi["ZeroBias_2016DEFGH"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016BC"]  +  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016DEFGH"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2016"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016BC"]                 +  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016DEFGH"]
-
+# 2017
+lumi["MET_2017"] = lumi["MET_2017C"]
+lumi["SingleElectron_2017"] = lumi["SingleElectron_2017C"]
 lumi["SingleMuon_2017"] = lumi["SingleMuon_2017C"]
+lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017"] = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017C"]

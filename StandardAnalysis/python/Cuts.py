@@ -641,6 +641,9 @@ cutMuonPt = cms.PSet (
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
     cutMuonPt.cutString = cms.string("pt > 26")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    print "# Switching muon pt cut to >29 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    cutMuonPt.cutString = cms.string("pt > 29")
 else:
     print "# Using muon pt cut of >22 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
 
@@ -886,16 +889,19 @@ cutEleTrkMETBalance = cms.PSet(
 ##################################################
 ## electrons
 ##################################################
-cutElectronPt24 = cms.PSet (
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 24"),
-    numberRequired = cms.string(">= 1"),
-)
-cutElectronPt25 = cms.PSet (
+
+cutElectronPt = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1"),
 )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    print "# Switching electron pt cut to >35 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    cutElectronPt.cutString = cms.string("pt > 35")
+else:
+    print "# Using electron pt cut of >25 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+
 cutElectronPt35 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 35"),
@@ -909,6 +915,11 @@ cutElectronPt50 = cms.PSet (
 cutElectronEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronEta24 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
 )
 cutElectronTightID = cms.PSet (

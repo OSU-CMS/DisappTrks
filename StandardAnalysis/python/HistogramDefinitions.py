@@ -1761,10 +1761,24 @@ EventTriggerVarHistograms = cms.PSet(
             inputVariables = cms.vstring("leadMuonPt"),
         ),
         cms.PSet(
+            name = cms.string("leadMuonPtVsNPV"),
+            title = cms.string(";number of primary vertices;muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("numPVReco", "leadMuonPt"),
+        ),
+        cms.PSet(
             name = cms.string("leadTrackPt"),
-            title = cms.string("Track Transverse Momentum; muon p_{T} [GeV]"),
+            title = cms.string("Track Transverse Momentum; track p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("leadTrackPt"),
+        ),
+        cms.PSet(
+            name = cms.string("leadTrackPtVsNPV"),
+            title = cms.string(";number of primary vertices;track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            binsY = cms.untracked.vdouble(binsLogX),
+            inputVariables = cms.vstring("numPVReco", "leadTrackPt"),
         ),
         cms.PSet (
             name = cms.string("HTLogX"),

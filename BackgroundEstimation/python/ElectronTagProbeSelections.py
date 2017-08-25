@@ -14,20 +14,25 @@ ElectronTagSkim = cms.PSet(
 )
 tagElectronCuts = [
     cutMetFilters,
-    cutElectronPt25,
+    cutElectronPt, # pt>25 for 2015-6, >35 for 2017
     cutElectronEta21,
     cutElectronTightID,
     cutElectronTightPFIso,
 ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
+# In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+#    addSingleCut(ElectronTagSkim.cuts, cutElectronEta24, cutElectronEta21)
+#    removeCuts(ElectronTagSkim.cuts, [cutElectronEta21])
+
 ##################################################
 ## Higher pt to be closer to candidate track selection
 ##################################################
 ElectronTagPt35 = copy.deepcopy(ElectronTagSkim)
 ElectronTagPt35.name = cms.string("ElectronTagPt35")
-addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt25)
-removeCuts(ElectronTagPt35.cuts, [cutElectronPt25])
+addSingleCut(ElectronTagPt35.cuts, cutElectronPt35, cutElectronPt)
+removeCuts(ElectronTagPt35.cuts, [cutElectronPt])
 cutsToAdd = [
     cutElectronArbitration,
 ]
