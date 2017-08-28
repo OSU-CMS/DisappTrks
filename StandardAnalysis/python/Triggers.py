@@ -45,7 +45,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     triggersMetInclusive = cms.vstring(
-        # fixme
+        "HLT_PFMET120_PFMHT120_IDTight_v",
+        "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
     )
 
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
@@ -67,7 +68,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     triggersSingleMu = cms.vstring(
-        "HLT_IsoMu27_v",    # fixme
+        "HLT_IsoMu27_v",
     )
 
 ##########################################################################################################
@@ -86,6 +87,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
     )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggersSingleEle = cms.vstring(
+        "HLT_Ele35_WPTight_Gsf_v",
+        "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
+    )
+
 ##########################################################################################################
 # Single Tau triggers
 ##########################################################################################################
@@ -93,6 +100,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 triggersSingleTau = cms.vstring(
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v", # prescaled in data
 )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+    triggersSingleTau = cms.vstring(
+        "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
+    )
 
 triggersZeroBias = cms.vstring(
     "HLT_ZeroBias_v", # very prescaled in data
