@@ -48,17 +48,17 @@ PUDependence::analyze (const edm::Event &event, const edm::EventSetup &setup)
       if (!genMatched (track, *genParticles, 1000024, 3, 0.1))
         continue;
       oneDHists_.at ("nVertices")->Fill (vertices->size ());
-      twoDHists_.at ("caloTot")    ->Fill (vertices->size (), track.caloTotDRp5());
-      twoDHists_.at ("caloTotNoPU")->Fill (vertices->size (), track.caloTotNoPUDRp5());
-      twoDHists_.at ("caloTotNoPUCalo")->Fill (vertices->size (), track.caloTotNoPUDRp5Calo());
-      twoDHists_.at ("caloTotNoPUCentralCalo")->Fill (vertices->size (), track.caloTotNoPUDRp5CentralCalo());
+      twoDHists_.at ("caloTot")    ->Fill (vertices->size (), track.caloNewDRp5());
+      twoDHists_.at ("caloTotNoPU")->Fill (vertices->size (), track.caloNewNoPUDRp5());
+      twoDHists_.at ("caloTotNoPUCalo")->Fill (vertices->size (), track.caloNewNoPUDRp5Calo());
+      twoDHists_.at ("caloTotNoPUCentralCalo")->Fill (vertices->size (), track.caloNewNoPUDRp5CentralCalo());
       twoDHists_.at ("rhoPUCorr")->Fill (vertices->size (), track.rhoPUCorr());
       twoDHists_.at ("rhoPUCorrCalo")->Fill (vertices->size (), track.rhoPUCorrCalo());
       twoDHists_.at ("rhoPUCorrCentralCalo")->Fill (vertices->size (), track.rhoPUCorrCentralCalo());
 
-      if (track.caloTotDRp5 () < 10)
+      if (track.caloNewDRp5 () < 10)
         oneDHists_.at ("passCaloTot")    ->Fill (vertices->size ());
-      if (track.caloTotNoPUDRp5 () < 10)
+      if (track.caloNewNoPUDRp5 () < 10)
         oneDHists_.at ("passCaloTotNoPU")->Fill (vertices->size ());
       if (track.trackIsoDRp5 () < 0.05 * track.pt ())
         oneDHists_.at ("isoTrack")->Fill (vertices->size ());
