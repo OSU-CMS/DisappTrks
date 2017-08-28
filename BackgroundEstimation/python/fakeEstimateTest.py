@@ -105,33 +105,35 @@ class FakeTrackBkgdEstimate:
                 n3.isPositive ()
                 n += n3
 
-            pFake = pFakeError = float ("nan")
+            pFake = float ("nan")
+            norm = 1.0
 
             # For ZtoMuMu control regions, need to normalize to BasicSelection
             if hasattr (self, "ZtoLL") and hasattr (self, "Basic"):
                 norm = self.Basic["yield"] / self.ZtoLL["yield"]
                 pFake = n / self.ZtoLL["yield"]
-                n = n * norm
             elif hasattr (self, "Basic"):
                 pFake = n / self.Basic["yield"]
 
+            nRaw = n
+            n *= norm
             n *= self._prescale
 
             print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             print "P_fake^raw: " + str (pFake)
-            return (n, pFake)
+            return (n, nRaw, norm, pFake)
         else:
             print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
 
     def printNest (self):
         xi, xiPass, xiFail = self.printTransferFactor ()
-        nCtrl, pFake = self.printNctrl ()
+        nCtrl, nRaw, norm, pFake = self.printNctrl ()
 
         pFake *= xi
 
-        N = nCtrl
-        alpha = (xiPass / xiFail)
+        N = nRaw
+        alpha = norm * (xiPass / xiFail)
 
         nEst = xi * nCtrl
 
