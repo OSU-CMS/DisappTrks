@@ -36,7 +36,13 @@ CandidateTrack::CandidateTrack () :
   trackIsoDRp3_             (INVALID_VALUE),
   trackIsoDRp5_             (INVALID_VALUE),
   trackIsoNoPUDRp3_         (INVALID_VALUE),
-  trackIsoNoPUDRp5_         (INVALID_VALUE)
+  trackIsoNoPUDRp5_         (INVALID_VALUE),
+  trackIsoNoFakesDRp3_         (INVALID_VALUE),
+  trackIsoNoFakesDRp5_         (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp3_         (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp5_         (INVALID_VALUE),
+  trackIsoOldNoPUDRp3_         (INVALID_VALUE),
+  trackIsoOldNoPUDRp5_         (INVALID_VALUE)
 {
 }
 
@@ -65,7 +71,13 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   trackIsoDRp3_             (INVALID_VALUE),
   trackIsoDRp5_             (INVALID_VALUE),
   trackIsoNoPUDRp3_         (INVALID_VALUE),
-  trackIsoNoPUDRp5_         (INVALID_VALUE)
+  trackIsoNoPUDRp5_         (INVALID_VALUE),
+  trackIsoNoFakesDRp3_         (INVALID_VALUE),
+  trackIsoNoFakesDRp5_         (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp3_         (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp5_         (INVALID_VALUE),
+  trackIsoOldNoPUDRp3_         (INVALID_VALUE),
+  trackIsoOldNoPUDRp5_         (INVALID_VALUE)
 {
 }
 
@@ -91,10 +103,16 @@ CandidateTrack::CandidateTrack (const reco::Track &track, const vector<reco::Tra
   rhoPUCorr_               (INVALID_VALUE),
   rhoPUCorrCalo_           (INVALID_VALUE),
   rhoPUCorrCentralCalo_    (INVALID_VALUE),
-  trackIsoDRp3_            (getTrackIsolation (track, tracks, false, 0.3)),
-  trackIsoDRp5_            (getTrackIsolation (track, tracks, false, 0.5)),
-  trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, 0.3)),
-  trackIsoNoPUDRp5_        (getTrackIsolation (track, tracks, true, 0.5))
+  trackIsoDRp3_            (getTrackIsolation (track, tracks, false, false, 0.3)),
+  trackIsoDRp5_            (getTrackIsolation (track, tracks, false, false, 0.5)),
+  trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, false, 0.3)),
+  trackIsoNoPUDRp5_        (getTrackIsolation (track, tracks, true, false, 0.5)),
+  trackIsoNoFakesDRp3_        (getTrackIsolation (track, tracks, false, true, 0.3)),
+  trackIsoNoFakesDRp5_        (getTrackIsolation (track, tracks, false, true, 0.5)),
+  trackIsoNoPUNoFakesDRp3_        (getTrackIsolation (track, tracks, true, true, 0.3)),
+  trackIsoNoPUNoFakesDRp5_        (getTrackIsolation (track, tracks, true, true, 0.5)),
+  trackIsoOldNoPUDRp3_        (getOldTrackIsolation (track, tracks, true, 0.3)),
+  trackIsoOldNoPUDRp5_        (getOldTrackIsolation (track, tracks, true, 0.5))
 {
 }
 
@@ -721,20 +739,47 @@ CandidateTrack::trackIsoNoPUDRp5 () const
 }
 
 const double
-CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const double outerDeltaR, const double innerDeltaR) const
+CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const bool noFakes, const double outerDeltaR, const double innerDeltaR) const
 {
   double sumPt = 0.0;
 
   for (const auto &t : tracks)
     {
-      /*if (noPU && track.normalizedChi2 () > 20.0)
+      if (noFakes && t.normalizedChi2 () > 20.0)
+        continue;
+      if (noFakes && t.hitPattern ().pixelLayersWithMeasurement () < 2)
+        continue;
+      if (noFakes && t.hitPattern ().trackerLayersWithMeasurement () < 5)
+        continue;
+      if (noFakes && fabs (t.d0 () / t.d0Error ()) > 5.0)
+        continue;
+
+      if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
+        continue;
+
+      double dR = deltaR (track, t);
+      if (dR < outerDeltaR && dR > innerDeltaR)
+        sumPt += t.pt ();
+    }
+
+  return sumPt;
+}
+
+const double
+CandidateTrack::getOldTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const double outerDeltaR, const double innerDeltaR) const
+{
+  double sumPt = 0.0;
+
+  for (const auto &t : tracks)
+    {
+      if (noPU && track.normalizedChi2 () > 20.0)
         continue;
       if (noPU && track.hitPattern ().pixelLayersWithMeasurement () < 2)
         continue;
       if (noPU && track.hitPattern ().trackerLayersWithMeasurement () < 5)
         continue;
       if (noPU && fabs (track.d0 () / track.d0Error ()) > 5.0)
-        continue;*/
+        continue;
       if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
         continue;
 

@@ -54,6 +54,13 @@ class CandidateTrack : public reco::Track
     void set_trackIsoDRp5 (double value) { trackIsoDRp5_ = value; }
     void set_trackIsoNoPUDRp3 (double value) { trackIsoNoPUDRp3_ = value; }
     void set_trackIsoNoPUDRp5 (double value) { trackIsoNoPUDRp5_ = value; }
+    void set_trackIsoNoFakesDRp3 (double value) { trackIsoNoFakesDRp3_ = value; }
+    void set_trackIsoNoFakesDRp5 (double value) { trackIsoNoFakesDRp5_ = value; }
+    void set_trackIsoNoPUNoFakesDRp3 (double value) { trackIsoNoPUNoFakesDRp3_ = value; }
+    void set_trackIsoNoPUNoFakesDRp5 (double value) { trackIsoNoPUNoFakesDRp5_ = value; }
+
+    void set_trackIsoOldNoPUDRp3 (double value) { trackIsoOldNoPUDRp3_ = value; }
+    void set_trackIsoOldNoPUDRp5 (double value) { trackIsoOldNoPUDRp5_ = value; }
 
     const float deltaRToClosestElectron () const;
     const float deltaRToClosestVetoElectron () const;
@@ -113,6 +120,13 @@ class CandidateTrack : public reco::Track
     const float trackIsoDRp5 () const;
     const float trackIsoNoPUDRp3 () const;
     const float trackIsoNoPUDRp5 () const;
+    const float trackIsoNoFakesDRp3 () const;
+    const float trackIsoNoFakesDRp5 () const;
+    const float trackIsoNoPUNoFakesDRp3 () const;
+    const float trackIsoNoPUNoFakesDRp5 () const;
+
+    const float trackIsoOldNoPUDRp3 () const;
+    const float trackIsoOldNoPUDRp5 () const;
 
     const float energyOfElectron () const;
     const float energyOfMuon () const;
@@ -150,6 +164,13 @@ class CandidateTrack : public reco::Track
     float trackIsoDRp5_;
     float trackIsoNoPUDRp3_;
     float trackIsoNoPUDRp5_;
+    float trackIsoNoFakesDRp3_;
+    float trackIsoNoFakesDRp5_;
+    float trackIsoNoPUNoFakesDRp3_;
+    float trackIsoNoPUNoFakesDRp5_;
+
+    float trackIsoOldNoPUDRp3_;
+    float trackIsoOldNoPUDRp5_;
 
     template<class T> const double getMinDeltaR (const vector<T> &) const;
     const double getMinDeltaRToTauHad (const vector<pat::Tau> &) const;
@@ -160,7 +181,8 @@ class CandidateTrack : public reco::Track
     const double getMinDeltaRToLooseMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToMediumMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToTightMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
-    const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
+    const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
+    const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
     const double caloTotNoPU (double, RhoType = All) const;
 
