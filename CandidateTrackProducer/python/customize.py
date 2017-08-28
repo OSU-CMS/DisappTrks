@@ -7,11 +7,6 @@ disappTrksOutputCommands = cms.untracked.vstring(
     "keep recoPFMETs_pfMet_*_*",
     "keep recoPFMETs_pfMetEI_*_*",
     "keep CandidateTracks_*_*_*",
-    "keep *_reducedEcalRecHitsEE_*_*",
-    "keep *_reducedEcalRecHitsEB_*_*",
-    "keep *_reducedHcalRecHits_*_*",
-    "keep *_dt4DSegments_*_*",
-    "keep *_cscSegments_*_*",
     "keep recoGsfTracks_*_*_*",
     "keep CutResults_*_*_*",
 )
