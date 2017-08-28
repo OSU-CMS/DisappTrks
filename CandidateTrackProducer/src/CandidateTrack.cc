@@ -738,6 +738,42 @@ CandidateTrack::trackIsoNoPUDRp5 () const
   return this->trackIsoNoPUDRp5_;
 }
 
+const float
+CandidateTrack::trackIsoNoFakesDRp3 () const
+{
+  return this->trackIsoNoFakesDRp3_;
+}
+
+const float
+CandidateTrack::trackIsoNoFakesDRp5 () const
+{
+  return this->trackIsoNoFakesDRp5_;
+}
+
+const float
+CandidateTrack::trackIsoNoPUNoFakesDRp3 () const
+{
+  return this->trackIsoNoPUNoFakesDRp3_;
+}
+
+const float
+CandidateTrack::trackIsoNoPUNoFakesDRp5 () const
+{
+  return this->trackIsoNoPUNoFakesDRp5_;
+}
+
+const float
+CandidateTrack::trackIsoOldNoPUDRp3 () const
+{
+  return this->trackIsoOldNoPUDRp3_;
+}
+
+const float
+CandidateTrack::trackIsoOldNoPUDRp5 () const
+{
+  return this->trackIsoOldNoPUDRp5_;
+}
+
 const double
 CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const bool noFakes, const double outerDeltaR, const double innerDeltaR) const
 {
