@@ -69,12 +69,6 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EBRecHitsToken_       =  consumes<EBRecHitCollection>         (EBRecHitsTag_);
   EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);
   HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);
-
-  verbose_ = false;
-  // edm::Service<TFileService> fs;
-
-
-
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -136,7 +130,15 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     candTrack.set_rhoPUCorr(*rhoHandle);
     candTrack.set_rhoPUCorrCalo(*rhoCaloHandle);
     candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle);
-    calculateCaloE(iEvent, iSetup, candTrack, track, EBRecHits, EERecHits, HBHERecHits);
+
+    const CaloEnergy &caloE_0p5 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.5);
+    candTrack.set_caloNewEMDRp5 (caloE_0p5.eEM);
+    candTrack.set_caloNewHadDRp5 (caloE_0p5.eHad);
+
+    const CaloEnergy &caloE_0p3 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.3);
+    candTrack.set_caloNewEMDRp3 (caloE_0p3.eEM);
+    candTrack.set_caloNewHadDRp3 (caloE_0p3.eHad);
+
     candTracks->push_back (candTrack);
   }
 
@@ -146,64 +148,40 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   return true;
 }
 
-
-void
-CandidateTrackProducer::calculateCaloE (edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits)
+const CaloEnergy
+CandidateTrackProducer::calculateCaloE (const CandidateTrack &candTrack, const EBRecHitCollection &EBRecHits, const EERecHitCollection &EERecHits, const HBHERecHitCollection &HBHERecHits, const double dR) const
 {
-
-  double dR = 0.5;
   double eEM = 0;
-  int nhitsInConeEB = 0;
-  int nhitsInConeEE = 0;
-  for (EBRecHitCollection::const_iterator hit=EBRecHits->begin(); hit!=EBRecHits->end(); hit++) {
-    if (insideCone(candTrack, (*hit).detid(), dR)) {
-      eEM += (*hit).energy();
-      nhitsInConeEB++;
-      if (verbose_) cout << "       Added EB rec hit with (eta, phi) = "
-                         << getPosition((*hit).detid()).eta() << ", "
-                         << getPosition((*hit).detid()).phi() << endl;
+  for (const auto &hit : EBRecHits) {
+    if (insideCone(candTrack, hit.detid(), dR)) {
+      eEM += hit.energy();
     }
   }
-  for (EERecHitCollection::const_iterator hit=EERecHits->begin(); hit!=EERecHits->end(); hit++) {
-    if (insideCone(candTrack, (*hit).detid(), dR)) {
-      eEM += (*hit).energy();
-      nhitsInConeEE++;
-      if (verbose_) cout << "       Added EE rec hit with (eta, phi) = "
-                         << getPosition((*hit).detid()).eta() << ", "
-                         << getPosition((*hit).detid()).phi() << endl;
+  for (const auto &hit : EERecHits) {
+    if (insideCone(candTrack, hit.detid(), dR)) {
+      eEM += hit.energy();
     }
   }
-  if (verbose_) cout << "  Ecalo calculation: EcaloECAL = " << eEM
-                     << ", nhitsInConeEB = " << nhitsInConeEB
-                     << ", nhitsInConeEE = " << nhitsInConeEE
-                     << ", nhitsInConeEcal = " << nhitsInConeEB + nhitsInConeEE
-                     << endl;
 
   double eHad = 0;
-  int nhitsInConeHad = 0;
-  for (HBHERecHitCollection::const_iterator hit = HBHERecHits->begin(); hit != HBHERecHits->end(); hit++) {
-    if (insideCone(candTrack, (*hit).detid(), dR)) {
-      eHad += (*hit).energy();
-      nhitsInConeHad++;
-    }
-  }
-  if (verbose_)  cout << "  Calculated EcaloHad = " << eHad
-                      << ", nhitsInConeHad = " << nhitsInConeHad
-                      << endl;
+  for (const auto &hit : HBHERecHits)
+    if (insideCone(candTrack, hit.detid(), dR))
+      eHad += hit.energy();
 
-
+  return {eEM, eHad};
 }
 
 
-bool CandidateTrackProducer::insideCone(CandidateTrack& candTrack, const DetId& id, const double dR) {
-   GlobalPoint idPosition = getPosition(id);
+bool CandidateTrackProducer::insideCone(const CandidateTrack& candTrack, const DetId& id, const double dR) const
+{
+   const GlobalPoint &idPosition = getPosition(id);
    if (idPosition.mag()<0.01) return false;
 
    math::XYZVector idPositionRoot( idPosition.x(), idPosition.y(), idPosition.z() );
    return deltaR(candTrack, idPositionRoot) < dR;
 }
 
-GlobalPoint CandidateTrackProducer::getPosition( const DetId& id)
+const GlobalPoint CandidateTrackProducer::getPosition( const DetId& id) const
 {
    if ( ! caloGeometry_.isValid() ||
         ! caloGeometry_->getSubdetectorGeometry(id) ||

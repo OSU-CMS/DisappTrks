@@ -38,6 +38,12 @@ using namespace std;
 // class declaration
 //
 
+struct CaloEnergy
+{
+  double eEM;
+  double eHad;
+};
+
 class CandidateTrackProducer : public edm::EDFilter {
    public:
       explicit CandidateTrackProducer (const edm::ParameterSet&);
@@ -45,7 +51,7 @@ class CandidateTrackProducer : public edm::EDFilter {
 
    private:
       virtual bool filter (edm::Event&, const edm::EventSetup&) override;
-void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, CandidateTrack& candTrack, const reco::Track& track, edm::Handle<EBRecHitCollection> EBRecHits, edm::Handle<EERecHitCollection> EERecHits, edm::Handle<HBHERecHitCollection> HBHERecHits);
+      const CaloEnergy calculateCaloE (const CandidateTrack &, const EBRecHitCollection &, const EERecHitCollection &, const HBHERecHitCollection &, const double dR = 0.5) const;
 
 
       // ----------member data ---------------------------
@@ -63,7 +69,6 @@ void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, Candidate
       edm::InputTag EERecHitsTag_;
       edm::InputTag HBHERecHitsTag_;
       double candMinPt_;
-      bool verbose_;
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
       edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;
@@ -80,7 +85,6 @@ void calculateCaloE(edm::Event& iEvent, const edm::EventSetup& iSetup, Candidate
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
 
   edm::ESHandle<CaloGeometry> caloGeometry_;
-  bool insideCone(CandidateTrack& candTrack, const DetId& id, const double dR);
-  GlobalPoint getPosition( const DetId& id);
-
+  bool insideCone(const CandidateTrack &, const DetId &, const double) const;
+  const GlobalPoint getPosition( const DetId &) const;
 };
