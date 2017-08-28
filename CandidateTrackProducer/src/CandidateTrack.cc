@@ -265,79 +265,79 @@ CandidateTrack::getMinDeltaRToTightMuon (const vector<pat::Muon> &objects, const
   return minDeltaR;
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfTrackerHits () const
 {
   return this->hitPattern ().trackerLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfPixelHits () const
 {
   return this->hitPattern ().pixelLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfStripHits () const
 {
   return this->hitPattern ().stripLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfPixelBarrelHits () const
 {
   return this->hitPattern ().pixelBarrelLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfPixelEndcapHits () const
 {
   return this->hitPattern ().pixelEndcapLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfStripTIBHits () const
 {
   return this->hitPattern ().stripTIBLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfStripTIDHits () const
 {
   return this->hitPattern ().stripTIDLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfStripTOBHits () const
 {
   return this->hitPattern ().stripTOBLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::numberOfStripTECHits () const
 {
   return this->hitPattern ().stripTECLayersWithMeasurement ();
 }
 
-const int
+const unsigned char
 CandidateTrack::missingInnerHits () const
 {
   return this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS);
 }
 
-const int
+const unsigned char
 CandidateTrack::missingMiddleHits () const
 {
   return this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS);
 }
 
-const int
+const unsigned char
 CandidateTrack::missingOuterHits () const
 {
   return this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS);
 }
 
-const int
+const unsigned char
 CandidateTrack::missingTrackerHits () const
 {
   return (this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -345,7 +345,7 @@ CandidateTrack::missingTrackerHits () const
         + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingPixelHits () const
 {
   return (this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -353,7 +353,7 @@ CandidateTrack::missingPixelHits () const
         + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingStripHits () const
 {
   return (this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -361,7 +361,7 @@ CandidateTrack::missingStripHits () const
         + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingPixelBarrelHits () const
 {
   return (this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -369,7 +369,7 @@ CandidateTrack::missingPixelBarrelHits () const
         + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingPixelEndcapHits () const
 {
   return (this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -377,7 +377,7 @@ CandidateTrack::missingPixelEndcapHits () const
         + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingStripTIBHits () const
 {
   return (this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -385,7 +385,7 @@ CandidateTrack::missingStripTIBHits () const
         + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingStripTIDHits () const
 {
   return (this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -393,7 +393,7 @@ CandidateTrack::missingStripTIDHits () const
         + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingStripTOBHits () const
 {
   return (this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -401,7 +401,7 @@ CandidateTrack::missingStripTOBHits () const
         + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::missingStripTECHits () const
 {
   return (this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS)
@@ -409,7 +409,7 @@ CandidateTrack::missingStripTECHits () const
         + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedTrackerHits () const
 {
   return (this->hitPattern ().trackerLayersWithMeasurement ()
@@ -418,7 +418,7 @@ CandidateTrack::expectedTrackerHits () const
         + this->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedPixelHits () const
 {
   return (this->hitPattern ().pixelLayersWithMeasurement ()
@@ -427,7 +427,7 @@ CandidateTrack::expectedPixelHits () const
         + this->hitPattern ().pixelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedStripHits () const
 {
   return (this->hitPattern ().stripLayersWithMeasurement ()
@@ -436,7 +436,7 @@ CandidateTrack::expectedStripHits () const
         + this->hitPattern ().stripLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedPixelBarrelHits () const
 {
   return (this->hitPattern ().pixelBarrelLayersWithMeasurement ()
@@ -445,7 +445,7 @@ CandidateTrack::expectedPixelBarrelHits () const
         + this->hitPattern ().pixelBarrelLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedPixelEndcapHits () const
 {
   return (this->hitPattern ().pixelEndcapLayersWithMeasurement ()
@@ -454,7 +454,7 @@ CandidateTrack::expectedPixelEndcapHits () const
         + this->hitPattern ().pixelEndcapLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedStripTIBHits () const
 {
   return (this->hitPattern ().stripTIBLayersWithMeasurement ()
@@ -463,7 +463,7 @@ CandidateTrack::expectedStripTIBHits () const
         + this->hitPattern ().stripTIBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedStripTIDHits () const
 {
   return (this->hitPattern ().stripTIDLayersWithMeasurement ()
@@ -472,7 +472,7 @@ CandidateTrack::expectedStripTIDHits () const
         + this->hitPattern ().stripTIDLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedStripTOBHits () const
 {
   return (this->hitPattern ().stripTOBLayersWithMeasurement ()
@@ -481,7 +481,7 @@ CandidateTrack::expectedStripTOBHits () const
         + this->hitPattern ().stripTOBLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const int
+const unsigned char
 CandidateTrack::expectedStripTECHits () const
 {
   return (this->hitPattern ().stripTECLayersWithMeasurement ()
@@ -490,98 +490,80 @@ CandidateTrack::expectedStripTECHits () const
         + this->hitPattern ().stripTECLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
 }
 
-const double
-CandidateTrack::caloEMDRp3 () const
-{
-  return this->caloEMDRp3_;
-}
-
-const double
-CandidateTrack::caloHadDRp3 () const
-{
-  return this->caloHadDRp3_;
-}
-
-const double
-CandidateTrack::caloTotDRp3 () const
-{
-  return this->caloEMDRp3_ + this->caloHadDRp3_;
-}
-
-const double
-CandidateTrack::caloEMDRp5 () const
-{
-  return this->caloEMDRp5_;
-}
-
-const double
-CandidateTrack::caloHadDRp5 () const
-{
-  return this->caloHadDRp5_;
-}
-
-const double
+const float
 CandidateTrack::caloNewEMDRp5 () const
 {
   return this->caloNewEMDRp5_;
 }
 
-const double
+const float
 CandidateTrack::caloNewHadDRp5 () const
 {
   return this->caloNewHadDRp5_;
 }
 
-const double
-CandidateTrack::caloTotDRp5 () const
-{
-  return this->caloEMDRp5_ + this->caloHadDRp5_;
-}
-
-const double
+const float
 CandidateTrack::caloNewDRp5 () const
 {
   return this->caloNewEMDRp5_ + this->caloNewHadDRp5_;
 }
 
-const double
-CandidateTrack::caloTotNoPUDRp3 () const
+const float
+CandidateTrack::caloNewEMDRp3 () const
 {
-  return caloTotNoPU(0.3);
+  return this->caloNewEMDRp3_;
 }
 
-const double
-CandidateTrack::caloTotNoPUDRp4 () const
+const float
+CandidateTrack::caloNewHadDRp3 () const
 {
-  return caloTotNoPU(0.4);
+  return this->caloNewHadDRp3_;
 }
 
-const double
-CandidateTrack::caloTotNoPUDRp5 () const
+const float
+CandidateTrack::caloNewDRp3 () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::All);
+  return this->caloNewEMDRp3_ + this->caloNewHadDRp3_;
 }
 
-const double
-CandidateTrack::caloTotNoPUDRp5Calo () const
+const float
+CandidateTrack::caloNewNoPUDRp5 () const
+{
+  return caloTotNoPU(0.5);
+}
+
+const float
+CandidateTrack::caloNewNoPUDRp5Calo () const
 {
   return caloTotNoPU(0.5, CandidateTrack::Calo);
 }
 
-const double
-CandidateTrack::caloTotNoPUDRp5CentralCalo () const
+const float
+CandidateTrack::caloNewNoPUDRp5CentralCalo () const
 {
   return caloTotNoPU(0.5, CandidateTrack::CentralCalo);
 }
 
-const double
-CandidateTrack::caloNewNoPUDRp5CentralCalo () const
+const float
+CandidateTrack::caloNewNoPUDRp3 () const
 {
-  return caloTotNoPU(0.5, CandidateTrack::CentralCalo, true);
+  return caloTotNoPU(0.3);
+}
+
+const float
+CandidateTrack::caloNewNoPUDRp3Calo () const
+{
+  return caloTotNoPU(0.3, CandidateTrack::Calo);
+}
+
+const float
+CandidateTrack::caloNewNoPUDRp3CentralCalo () const
+{
+  return caloTotNoPU(0.3, CandidateTrack::CentralCalo);
 }
 
 const double
-CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, bool useNewCalc) const
+CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1
   double rho;
@@ -599,19 +581,16 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, bool useNewCalc) const
     throw cms::Exception("FatalError") << "Unkown or not implemented rho type requested, type:" << rhoType;
   }
 
-  double rawCaloTot = caloTotDRp5();
+  double rawCaloTot = caloNewDRp5();
   if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-    rawCaloTot = caloTotDRp3();
+    rawCaloTot = caloNewDRp3();
   }
-  if (useNewCalc) {
-    rawCaloTot = caloNewDRp5();
-  }
-  double caloCorr = rho * TMath::Pi() * pow(dR, 2);  // Define effective area as pi*r^2, where r is radius of DeltaR cone.
-  double caloTotNoPUDRp5 = TMath::Max(0., rawCaloTot - caloCorr);
-  return caloTotNoPUDRp5;
+  double caloCorr = rho * TMath::Pi() * dR * dR;  // Define effective area as pi*r^2, where r is radius of DeltaR cone.
+  double caloTotNoPU = TMath::Max(0., rawCaloTot - caloCorr);
+  return caloTotNoPU;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestElectron_))
@@ -619,7 +598,7 @@ CandidateTrack::deltaRToClosestElectron () const
   return this->deltaRToClosestElectron_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestVetoElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestVetoElectron_))
@@ -627,7 +606,7 @@ CandidateTrack::deltaRToClosestVetoElectron () const
   return this->deltaRToClosestVetoElectron_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestLooseElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestLooseElectron_))
@@ -635,7 +614,7 @@ CandidateTrack::deltaRToClosestLooseElectron () const
   return this->deltaRToClosestLooseElectron_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestMediumElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestMediumElectron_))
@@ -643,7 +622,7 @@ CandidateTrack::deltaRToClosestMediumElectron () const
   return this->deltaRToClosestMediumElectron_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestTightElectron () const
 {
   if (IS_INVALID (this->deltaRToClosestTightElectron_))
@@ -651,7 +630,7 @@ CandidateTrack::deltaRToClosestTightElectron () const
   return this->deltaRToClosestTightElectron_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestMuon_))
@@ -659,7 +638,7 @@ CandidateTrack::deltaRToClosestMuon () const
   return this->deltaRToClosestMuon_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestLooseMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestLooseMuon_))
@@ -667,7 +646,7 @@ CandidateTrack::deltaRToClosestLooseMuon () const
   return this->deltaRToClosestLooseMuon_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestMediumMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestMediumMuon_))
@@ -675,7 +654,7 @@ CandidateTrack::deltaRToClosestMediumMuon () const
   return this->deltaRToClosestMediumMuon_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestTightMuon () const
 {
   if (IS_INVALID (this->deltaRToClosestTightMuon_))
@@ -683,7 +662,7 @@ CandidateTrack::deltaRToClosestTightMuon () const
   return this->deltaRToClosestTightMuon_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestTau () const
 {
   if (IS_INVALID (this->deltaRToClosestTau_))
@@ -691,7 +670,7 @@ CandidateTrack::deltaRToClosestTau () const
   return this->deltaRToClosestTau_;
 }
 
-const double
+const float
 CandidateTrack::deltaRToClosestTauHad () const
 {
   if (IS_INVALID (this->deltaRToClosestTauHad_))
@@ -699,43 +678,43 @@ CandidateTrack::deltaRToClosestTauHad () const
   return this->deltaRToClosestTauHad_;
 }
 
-const double
+const float
 CandidateTrack::rhoPUCorr () const
 {
   return this->rhoPUCorr_;
 }
 
-const double
+const float
 CandidateTrack::rhoPUCorrCalo () const
 {
   return this->rhoPUCorrCalo_;
 }
 
-const double
+const float
 CandidateTrack::rhoPUCorrCentralCalo () const
 {
   return this->rhoPUCorrCentralCalo_;
 }
 
-const double
+const float
 CandidateTrack::trackIsoDRp3 () const
 {
   return this->trackIsoDRp3_;
 }
 
-const double
+const float
 CandidateTrack::trackIsoDRp5 () const
 {
   return this->trackIsoDRp5_;
 }
 
-const double
+const float
 CandidateTrack::trackIsoNoPUDRp3 () const
 {
   return this->trackIsoNoPUDRp3_;
 }
 
-const double
+const float
 CandidateTrack::trackIsoNoPUDRp5 () const
 {
   return this->trackIsoNoPUDRp5_;
@@ -767,31 +746,31 @@ CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::
   return sumPt;
 }
 
-const double
+const float
 CandidateTrack::energyOfElectron () const
 {
   return energyGivenMass (0.000510998928);
 }
 
-const double
+const float
 CandidateTrack::energyOfMuon () const
 {
   return energyGivenMass (0.1056583715);
 }
 
-const double
+const float
 CandidateTrack::energyOfTau () const
 {
   return energyGivenMass (1.77686);
 }
 
-const double
+const float
 CandidateTrack::energyOfPion () const
 {
   return energyGivenMass (0.13957018);
 }
 
-const double
+const float
 CandidateTrack::energyOfProton () const
 {
   return energyGivenMass (0.938272046);

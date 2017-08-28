@@ -13,6 +13,8 @@
 
 #include "DataFormats/VertexReco/interface/Vertex.h"
 
+#define MAX_DR (99.0)
+
 using namespace std;
 
 class CandidateTrack : public reco::Track
@@ -26,30 +28,24 @@ class CandidateTrack : public reco::Track
 
     enum RhoType { All, Calo, CentralCalo };
 
-    const double caloEMDRp3 () const;
-    const double caloHadDRp3 () const;
-    const double caloTotDRp3 () const;
-    const double caloEMDRp5 () const;
-    const double caloHadDRp5 () const;
-    const double caloTotDRp5 () const;
-    const double caloNewEMDRp5 () const;   // New calculation that uses all rec hits in DR<0.5 cone.
-    const double caloNewHadDRp5 () const;  // New calculation that uses all rec hits in DR<0.5 cone.
-    const double caloNewDRp5 () const;     // New calculation that uses all rec hits in DR<0.5 cone.
-    const double caloTotNoPU (double dR = 0.5, RhoType rhoType = All, bool useNewCalc = false) const;
-    const double caloTotNoPUDRp3 () const;
-    const double caloTotNoPUDRp4 () const;
-    const double caloTotNoPUDRp5 () const;
-    const double caloNewNoPUDRp5 () const; // New calculation that uses all rec hits in DR<0.5 cone.
-    const double caloTotNoPUDRp5Calo () const;
-    const double caloTotNoPUDRp5CentralCalo () const;
-    const double caloNewNoPUDRp5CentralCalo () const; // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewEMDRp5 () const;   // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewHadDRp5 () const;  // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewDRp5 () const;     // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewEMDRp3 () const;   // New calculation that uses all rec hits in DR<0.3 cone.
+    const float caloNewHadDRp3 () const;  // New calculation that uses all rec hits in DR<0.3 cone.
+    const float caloNewDRp3 () const;     // New calculation that uses all rec hits in DR<0.3 cone.
 
-    void set_caloEMDRp3 (double value) { caloEMDRp3_  = value; }
-    void set_caloHadDRp3(double value) { caloHadDRp3_ = value; }
-    void set_caloEMDRp5 (double value) { caloEMDRp5_  = value; }
-    void set_caloHadDRp5(double value) { caloHadDRp5_ = value; }
+    const float caloNewNoPUDRp5 () const; // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewNoPUDRp5Calo () const; // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewNoPUDRp5CentralCalo () const; // New calculation that uses all rec hits in DR<0.5 cone.
+    const float caloNewNoPUDRp3 () const; // New calculation that uses all rec hits in DR<0.3 cone.
+    const float caloNewNoPUDRp3Calo () const; // New calculation that uses all rec hits in DR<0.3 cone.
+    const float caloNewNoPUDRp3CentralCalo () const; // New calculation that uses all rec hits in DR<0.3 cone.
+
     void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; }
     void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; }
+    void set_caloNewEMDRp3 (double value) { caloNewEMDRp3_  = value; }
+    void set_caloNewHadDRp3(double value) { caloNewHadDRp3_ = value; }
     void set_rhoPUCorr  (double value) { rhoPUCorr_   = value; }
     void set_rhoPUCorrCalo         (double value) { rhoPUCorrCalo_   = value; }
     void set_rhoPUCorrCentralCalo  (double value) { rhoPUCorrCentralCalo_   = value; }
@@ -59,101 +55,101 @@ class CandidateTrack : public reco::Track
     void set_trackIsoNoPUDRp3 (double value) { trackIsoNoPUDRp3_ = value; }
     void set_trackIsoNoPUDRp5 (double value) { trackIsoNoPUDRp5_ = value; }
 
-    const double deltaRToClosestElectron () const;
-    const double deltaRToClosestVetoElectron () const;
-    const double deltaRToClosestLooseElectron () const;
-    const double deltaRToClosestMediumElectron () const;
-    const double deltaRToClosestTightElectron () const;
-    const double deltaRToClosestMuon () const;
-    const double deltaRToClosestLooseMuon () const;
-    const double deltaRToClosestMediumMuon () const;
-    const double deltaRToClosestTightMuon () const;
-    const double deltaRToClosestTau () const;
-    const double deltaRToClosestTauHad () const;
+    const float deltaRToClosestElectron () const;
+    const float deltaRToClosestVetoElectron () const;
+    const float deltaRToClosestLooseElectron () const;
+    const float deltaRToClosestMediumElectron () const;
+    const float deltaRToClosestTightElectron () const;
+    const float deltaRToClosestMuon () const;
+    const float deltaRToClosestLooseMuon () const;
+    const float deltaRToClosestMediumMuon () const;
+    const float deltaRToClosestTightMuon () const;
+    const float deltaRToClosestTau () const;
+    const float deltaRToClosestTauHad () const;
 
     // number of hits differentiated by location in detector
-    const int numberOfTrackerHits () const;
-    const int numberOfPixelHits () const;
-    const int numberOfStripHits () const;
-    const int numberOfPixelBarrelHits () const;
-    const int numberOfPixelEndcapHits () const;
-    const int numberOfStripTIBHits () const;
-    const int numberOfStripTIDHits () const;
-    const int numberOfStripTOBHits () const;
-    const int numberOfStripTECHits () const;
+    const unsigned char numberOfTrackerHits () const;
+    const unsigned char numberOfPixelHits () const;
+    const unsigned char numberOfStripHits () const;
+    const unsigned char numberOfPixelBarrelHits () const;
+    const unsigned char numberOfPixelEndcapHits () const;
+    const unsigned char numberOfStripTIBHits () const;
+    const unsigned char numberOfStripTIDHits () const;
+    const unsigned char numberOfStripTOBHits () const;
+    const unsigned char numberOfStripTECHits () const;
 
     // missing hits differentiated by location on track
-    const int missingInnerHits () const;
-    const int missingMiddleHits () const;
-    const int missingOuterHits () const;
+    const unsigned char missingInnerHits () const;
+    const unsigned char missingMiddleHits () const;
+    const unsigned char missingOuterHits () const;
 
     // missing hits differentiated by location in detector
-    const int missingTrackerHits () const;
-    const int missingPixelHits () const;
-    const int missingStripHits () const;
-    const int missingPixelBarrelHits () const;
-    const int missingPixelEndcapHits () const;
-    const int missingStripTIBHits () const;
-    const int missingStripTIDHits () const;
-    const int missingStripTOBHits () const;
-    const int missingStripTECHits () const;
+    const unsigned char missingTrackerHits () const;
+    const unsigned char missingPixelHits () const;
+    const unsigned char missingStripHits () const;
+    const unsigned char missingPixelBarrelHits () const;
+    const unsigned char missingPixelEndcapHits () const;
+    const unsigned char missingStripTIBHits () const;
+    const unsigned char missingStripTIDHits () const;
+    const unsigned char missingStripTOBHits () const;
+    const unsigned char missingStripTECHits () const;
 
     // expected hits differentiated by location in detector
-    const int expectedTrackerHits () const;
-    const int expectedPixelHits () const;
-    const int expectedStripHits () const;
-    const int expectedPixelBarrelHits () const;
-    const int expectedPixelEndcapHits () const;
-    const int expectedStripTIBHits () const;
-    const int expectedStripTIDHits () const;
-    const int expectedStripTOBHits () const;
-    const int expectedStripTECHits () const;
+    const unsigned char expectedTrackerHits () const;
+    const unsigned char expectedPixelHits () const;
+    const unsigned char expectedStripHits () const;
+    const unsigned char expectedPixelBarrelHits () const;
+    const unsigned char expectedPixelEndcapHits () const;
+    const unsigned char expectedStripTIBHits () const;
+    const unsigned char expectedStripTIDHits () const;
+    const unsigned char expectedStripTOBHits () const;
+    const unsigned char expectedStripTECHits () const;
 
-    const double rhoPUCorr () const;
-    const double rhoPUCorrCalo () const;
-    const double rhoPUCorrCentralCalo () const;
+    const float rhoPUCorr () const;
+    const float rhoPUCorrCalo () const;
+    const float rhoPUCorrCentralCalo () const;
 
-    const double trackIsoDRp3 () const;
-    const double trackIsoDRp5 () const;
-    const double trackIsoNoPUDRp3 () const;
-    const double trackIsoNoPUDRp5 () const;
+    const float trackIsoDRp3 () const;
+    const float trackIsoDRp5 () const;
+    const float trackIsoNoPUDRp3 () const;
+    const float trackIsoNoPUDRp5 () const;
 
-    const double energyOfElectron () const;
-    const double energyOfMuon () const;
-    const double energyOfTau () const;
-    const double energyOfPion () const;
-    const double energyOfProton () const;
+    const float energyOfElectron () const;
+    const float energyOfMuon () const;
+    const float energyOfTau () const;
+    const float energyOfPion () const;
+    const float energyOfProton () const;
 
   private:
-    double caloEMDRp3_;
-    double caloHadDRp3_;
-    double caloEMDRp5_;
-    double caloHadDRp5_;
-    double caloNewEMDRp5_;   // New calculation that uses all rec hits in DR<0.5 cone.
-    double caloNewHadDRp5_;  // New calculation that uses all rec hits in DR<0.5 cone.
+    float caloEMDRp3_;
+    float caloHadDRp3_;
+    float caloEMDRp5_;
+    float caloHadDRp5_;
+    float caloNewEMDRp5_;   // New calculation that uses all rec hits in DR<0.5 cone.
+    float caloNewHadDRp5_;  // New calculation that uses all rec hits in DR<0.5 cone.
+    float caloNewEMDRp3_;   // New calculation that uses all rec hits in DR<0.3 cone.
+    float caloNewHadDRp3_;  // New calculation that uses all rec hits in DR<0.3 cone.
 
-    double deltaRToClosestElectron_;
-    double deltaRToClosestVetoElectron_;
-    double deltaRToClosestLooseElectron_;
-    double deltaRToClosestMediumElectron_;
-    double deltaRToClosestTightElectron_;
-    double deltaRToClosestMuon_;
-    double deltaRToClosestLooseMuon_;
-    double deltaRToClosestMediumMuon_;
-    double deltaRToClosestTightMuon_;
-    double deltaRToClosestTau_;
-    double deltaRToClosestTauHad_;
+    float deltaRToClosestElectron_;
+    float deltaRToClosestVetoElectron_;
+    float deltaRToClosestLooseElectron_;
+    float deltaRToClosestMediumElectron_;
+    float deltaRToClosestTightElectron_;
+    float deltaRToClosestMuon_;
+    float deltaRToClosestLooseMuon_;
+    float deltaRToClosestMediumMuon_;
+    float deltaRToClosestTightMuon_;
+    float deltaRToClosestTau_;
+    float deltaRToClosestTauHad_;
 
-    double rhoPUCorr_;
-    double rhoPUCorrCalo_;
-    double rhoPUCorrCentralCalo_;
+    float rhoPUCorr_;
+    float rhoPUCorrCalo_;
+    float rhoPUCorrCentralCalo_;
 
-    double trackIsoDRp3_;
-    double trackIsoDRp5_;
-    double trackIsoNoPUDRp3_;
-    double trackIsoNoPUDRp5_;
-
-    static const int MAX_DR = 99;
+    float trackIsoDRp3_;
+    float trackIsoDRp5_;
+    float trackIsoNoPUDRp3_;
+    float trackIsoNoPUDRp5_;
 
     template<class T> const double getMinDeltaR (const vector<T> &) const;
     const double getMinDeltaRToTauHad (const vector<pat::Tau> &) const;
@@ -165,6 +161,8 @@ class CandidateTrack : public reco::Track
     const double getMinDeltaRToMediumMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToTightMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
+
+    const double caloTotNoPU (double, RhoType = All) const;
 
     const double energyGivenMass (const double) const;
 
