@@ -23,21 +23,21 @@ def getAbsoluteSystematicFromRelative (N, sysRelErr, statAbsErr):
   totalAbsErr = upperLimit * (1.0 + (upperLimit - N) * (sysRelErr * sysRelErr) / 2.0)
   return math.sqrt (totalAbsErr * totalAbsErr - statAbsErr * statAbsErr)
 
-nElectrons2015.setSystematic (getAbsoluteSystematicFromRelative  (nElectrons2015.centralValue (),           electronSys["2015"],       nElectrons2015.maxUncertainty ()))
-nElectrons2016["BC"].setSystematic (getAbsoluteSystematicFromRelative  (nElectrons2016["BC"].centralValue (),     electronSys["2016BC"],     nElectrons2016["BC"].maxUncertainty ()))
-nElectrons2016["DEFGH"].setSystematic (getAbsoluteSystematicFromRelative  (nElectrons2016["DEFGH"].centralValue (),  electronSys["2016DEFGH"],  nElectrons2016["DEFGH"].maxUncertainty ()))
+nElectrons2015.setSystematic           (getAbsoluteSystematicFromRelative  (nElectrons2015.centralValue           (),  electronSys["2015"],       nElectrons2015.maxUncertainty           ()))
+nElectrons2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nElectrons2016["BC"].centralValue     (),  electronSys["2016BC"],     nElectrons2016["BC"].maxUncertainty     ()))
+nElectrons2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nElectrons2016["DEFGH"].centralValue  (),  electronSys["2016DEFGH"],  nElectrons2016["DEFGH"].maxUncertainty  ()))
 
 nMuons2015.setSystematic (0.0)
 nMuons2016["BC"].setSystematic (0.0)
 nMuons2016["DEFGH"].setSystematic (0.0)
 
-nTaus2015.setSystematic (getAbsoluteSystematicFromRelative  (nTaus2015.centralValue (),           tauSys["2015"],       nTaus2015.maxUncertainty ()))
-nTaus2016["BC"].setSystematic (getAbsoluteSystematicFromRelative  (nTaus2016["BC"].centralValue (),     tauSys["2016BC"],     nTaus2016["BC"].maxUncertainty ()))
-nTaus2016["DEFGH"].setSystematic (getAbsoluteSystematicFromRelative  (nTaus2016["DEFGH"].centralValue (),  tauSys["2016DEFGH"],  nTaus2016["DEFGH"].maxUncertainty ()))
+nTaus2015.setSystematic           (getAbsoluteSystematicFromRelative  (nTaus2015.centralValue           (),  tauSys["2015"],       nTaus2015.maxUncertainty           ()))
+nTaus2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nTaus2016["BC"].centralValue     (),  tauSys["2016BC"],     nTaus2016["BC"].maxUncertainty     ()))
+nTaus2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nTaus2016["DEFGH"].centralValue  (),  tauSys["2016DEFGH"],  nTaus2016["DEFGH"].maxUncertainty  ()))
 
-nFakes2015.setSystematic (getAbsoluteSystematicFromRelative  (nFakes2015.centralValue (),           fakeSys["2015"],       nFakes2015.maxUncertainty ()))
-nFakes2016["BC"].setSystematic (getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue (),     fakeSys["2016BC"],     nFakes2016["BC"].maxUncertainty ()))
-nFakes2016["DEFGH"].setSystematic (getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue (),  fakeSys["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty ()))
+nFakes2015.setSystematic           (getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysDown["2015"],       nFakes2015.maxUncertainty           ()), getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysUp["2015"],       nFakes2015.maxUncertainty           ()))
+nFakes2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysDown["2016BC"],     nFakes2016["BC"].maxUncertainty     ()), getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysUp["2016BC"],     nFakes2016["BC"].maxUncertainty     ()))
+nFakes2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysDown["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()), getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysUp["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()))
 
 nLeptons2016 = {}
 nLeptons2015 = nElectrons2015 + nMuons2015 + nTaus2015
