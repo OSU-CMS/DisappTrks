@@ -459,7 +459,7 @@ class LeptonBkgdEstimate:
         if not (alpha == 0):
             print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
-        return (nEst.centralValue (), nEst.uncertainty ())
+        return nEst
 
     def plotMetForNest (self, metMinusOne, pPassVeto, triggerEfficiency):
         if self._fout and self._canvas:
