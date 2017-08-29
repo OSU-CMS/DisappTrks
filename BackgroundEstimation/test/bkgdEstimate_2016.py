@@ -246,20 +246,16 @@ if background == "ALL":
     nMuons = {}
     nTaus = {}
     nLeptons = {}
-    nLeptonsError = {}
     nTotal = {}
-    nTotalError = {}
     nFakes = {}
     for iRunPeriod in range(0,len(runPeriods)):
         print "********************************************************************************"
-        nLeptons[runPeriods[iRunPeriod]] = nEstElectron[iRunPeriod][0] + nEstMuon[iRunPeriod][0] + nEstTau[iRunPeriod][0]
-        nLeptonsError[runPeriods[iRunPeriod]] = math.hypot (math.hypot (nEstElectron[iRunPeriod][1], nEstMuon[iRunPeriod][1]), nEstTau[iRunPeriod][1])
-        nTotal[runPeriods[iRunPeriod]] = nLeptons[runPeriods[iRunPeriod]] + nEstFake[iRunPeriod][0]
-        nTotalError[runPeriods[iRunPeriod]] = math.hypot(nLeptonsError[runPeriods[iRunPeriod]], nEstFake[iRunPeriod][1])
-        print "Total background from leptons (2016", runPeriods[iRunPeriod], "): ", nLeptons[runPeriods[iRunPeriod]], " +/- ", nLeptonsError[runPeriods[iRunPeriod]]
-        print "Total background from fake tracks (2016",runPeriods[iRunPeriod], "): ", nEstFake[iRunPeriod][0], " +/- ", nEstFake[iRunPeriod][1]
+        nLeptons[runPeriods[iRunPeriod]] = nEstElectron[iRunPeriod] + nEstMuon[iRunPeriod] + nEstTau[iRunPeriod]
+        nTotal[runPeriods[iRunPeriod]] = nLeptons[runPeriods[iRunPeriod]] + nEstFake[iRunPeriod]
+        print "Total background from leptons (2016", runPeriods[iRunPeriod], "): ", nLeptons[runPeriods[iRunPeriod]]
+        print "Total background from fake tracks (2016",runPeriods[iRunPeriod], "): ", nEstFake[iRunPeriod]
         print "********************************************************************************"
-        print "Total background (2016", runPeriods[iRunPeriod], "): ", nTotal[runPeriods[iRunPeriod]], " +/- ", nTotalError[runPeriods[iRunPeriod]]
+        print "Total background (2016", runPeriods[iRunPeriod], "): ", nTotal[runPeriods[iRunPeriod]]
         print "********************************************************************************"
         print "\n\n"
 
@@ -279,15 +275,15 @@ if background == "ALL":
     for runPeriod in runPeriodsToPlot:
         x.append (i); ex.append (0.0); i += 1.0
 
-        electron.append  (nEstElectron[runPeriods.index  (runPeriod)][0]  /  lumi["MET_2016"  +  runPeriod])
-        muon.append      (nEstMuon[runPeriods.index      (runPeriod)][0]  /  lumi["MET_2016"  +  runPeriod])
-        tau.append       (nEstTau[runPeriods.index       (runPeriod)][0]  /  lumi["MET_2016"  +  runPeriod])
-        fake.append      (nEstFake[runPeriods.index      (runPeriod)][0]  /  lumi["MET_2016"  +  runPeriod])
+        electron.append  ((nEstElectron[runPeriods.index  (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).centralValue ())
+        muon.append      ((nEstMuon[runPeriods.index      (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).centralValue ())
+        tau.append       ((nEstTau[runPeriods.index       (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).centralValue ())
+        fake.append      ((nEstFake[runPeriods.index      (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).centralValue ())
 
-        eElectron.append  (nEstElectron[runPeriods.index  (runPeriod)][1]  /  lumi["MET_2016"  +  runPeriod])
-        eMuon.append      (nEstMuon[runPeriods.index      (runPeriod)][1]  /  lumi["MET_2016"  +  runPeriod])
-        eTau.append       (nEstTau[runPeriods.index       (runPeriod)][1]  /  lumi["MET_2016"  +  runPeriod])
-        eFake.append      (nEstFake[runPeriods.index      (runPeriod)][1]  /  lumi["MET_2016"  +  runPeriod])
+        eElectron.append  ((nEstElectron[runPeriods.index  (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).maxUncertainty ())
+        eMuon.append      ((nEstMuon[runPeriods.index      (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).maxUncertainty ())
+        eTau.append       ((nEstTau[runPeriods.index       (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).maxUncertainty ())
+        eFake.append      ((nEstFake[runPeriods.index      (runPeriod)]  /  lumi["MET_2016"  +  runPeriod]).maxUncertainty ())
 
     gElectron  =  TGraphErrors  (len  (x),  x,  electron,  ex,  eElectron)
     gMuon      =  TGraphErrors  (len  (x),  x,  muon,      ex,  eMuon)

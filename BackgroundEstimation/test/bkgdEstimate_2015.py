@@ -208,14 +208,12 @@ if background == "TAU" or background == "ALL":
 # print sums
 if background == "ALL":
     print "********************************************************************************"
-    nLeptons = nEstElectron[0][0] + nEstMuon[0][0] + nEstTau[0][0]
-    nLeptonsError = math.hypot (math.hypot (nEstElectron[0][1], nEstMuon[0][1]), nEstTau[0][1])
-    nTotal = nLeptons + nEstFake[0][0]
-    nTotalError = math.hypot(nLeptonsError, nEstFake[0][1])
-    print "Total background from leptons (2015):", nLeptons, "+/-", nLeptonsError
-    print "Total background from fake tracks (2015):", nEstFake[0][0], "+/-", nEstFake[0][1]
+    nLeptons = nEstElectron[0] + nEstMuon[0] + nEstTau[0]
+    nTotal = nLeptons + nEstFake[0]
+    print "Total background from leptons (2015):", nLeptons
+    print "Total background from fake tracks (2015):", nEstFake[0]
     print "********************************************************************************"
-    print "Total background (2015):", nTotal, "+/-", nTotalError
+    print "Total background (2015):", nTotal
     print "********************************************************************************"
     print "\n\n"
 
@@ -226,7 +224,7 @@ if background == "ALL":
 
     x = array ("d"); ex = array ("d")
     electron   =  array  ("d");  muon   =  array  ("d");  tau   =  array  ("d");  fake   =  array  ("d")
-    eElectron  =  array  ("d");  eMuon  =  array  ("d");  eTau  =  array  ("d");  eFake  =  array  ("d")
+    eElectron   =  array  ("d");  eMuon   =  array  ("d");  eTau   =  array  ("d");  eFake   =  array  ("d")
 
     runPeriodsToPlot = ["D"]
     i = 0.0
@@ -234,15 +232,15 @@ if background == "ALL":
     for runPeriod in runPeriodsToPlot:
         x.append (i); ex.append (0.0); i += 1.0
 
-        electron.append  (nEstElectron[runPeriods.index  (runPeriod)][0]  /  lumi["MET_2015"  +  runPeriod])
-        muon.append      (nEstMuon[runPeriods.index      (runPeriod)][0]  /  lumi["MET_2015"  +  runPeriod])
-        tau.append       (nEstTau[runPeriods.index       (runPeriod)][0]  /  lumi["MET_2015"  +  runPeriod])
-        fake.append      (nEstFake[runPeriods.index      (runPeriod)][0]  /  lumi["MET_2015"  +  runPeriod])
+        electron.append  ((nEstElectron[runPeriods.index  (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).centralValue ())
+        muon.append      ((nEstMuon[runPeriods.index      (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).centralValue ())
+        tau.append       ((nEstTau[runPeriods.index       (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).centralValue ())
+        fake.append      ((nEstFake[runPeriods.index      (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).centralValue ())
 
-        eElectron.append  (nEstElectron[runPeriods.index  (runPeriod)][1]  /  lumi["MET_2015"  +  runPeriod])
-        eMuon.append      (nEstMuon[runPeriods.index      (runPeriod)][1]  /  lumi["MET_2015"  +  runPeriod])
-        eTau.append       (nEstTau[runPeriods.index       (runPeriod)][1]  /  lumi["MET_2015"  +  runPeriod])
-        eFake.append      (nEstFake[runPeriods.index      (runPeriod)][1]  /  lumi["MET_2015"  +  runPeriod])
+        eElectron.append  ((nEstElectron[runPeriods.index  (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).maxUncertainty ())
+        eMuon.append      ((nEstMuon[runPeriods.index      (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).maxUncertainty ())
+        eTau.append       ((nEstTau[runPeriods.index       (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).maxUncertainty ())
+        eFake.append      ((nEstFake[runPeriods.index      (runPeriod)]  /  lumi["MET_2015"  +  runPeriod]).maxUncertainty ())
 
     gElectron  =  TGraphErrors  (len  (x),  x,  electron,  ex,  eElectron)
     gMuon      =  TGraphErrors  (len  (x),  x,  muon,      ex,  eMuon)
