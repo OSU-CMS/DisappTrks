@@ -35,9 +35,9 @@ nTaus2015.setSystematic           (getAbsoluteSystematicFromRelative  (nTaus2015
 nTaus2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nTaus2016["BC"].centralValue     (),  tauSys["2016BC"],     nTaus2016["BC"].maxUncertainty     ()))
 nTaus2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nTaus2016["DEFGH"].centralValue  (),  tauSys["2016DEFGH"],  nTaus2016["DEFGH"].maxUncertainty  ()))
 
-nFakes2015.setSystematic           (getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysDown["2015"],       nFakes2015.maxUncertainty           ()), getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysUp["2015"],       nFakes2015.maxUncertainty           ()))
-nFakes2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysDown["2016BC"],     nFakes2016["BC"].maxUncertainty     ()), getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysUp["2016BC"],     nFakes2016["BC"].maxUncertainty     ()))
-nFakes2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysDown["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()), getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysUp["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()))
+nFakes2015.setSystematic           (getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysDown["total"]["2015"],       nFakes2015.maxUncertainty           ()), getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysUp["total"]["2015"],       nFakes2015.maxUncertainty           ()))
+nFakes2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysDown["total"]["2016BC"],     nFakes2016["BC"].maxUncertainty     ()), getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysUp["total"]["2016BC"],     nFakes2016["BC"].maxUncertainty     ()))
+nFakes2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysDown["total"]["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()), getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysUp["total"]["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()))
 
 nLeptons2016 = {}
 nLeptons2015 = nElectrons2015 + nMuons2015 + nTaus2015
@@ -57,21 +57,21 @@ totalFake      =  nFakes2015      +  nFakes2016["BC"]      +  nFakes2016["DEFGH"
 totalLepton    =  totalElectron + totalMuon + totalTau
 totalTotal     =  totalLepton + totalFake
 
-print "lepton background 2015:      (" + str (nLeptons2015)
-print "lepton background 2016BC:    (" + str (nLeptons2016["BC"])
-print "lepton background 2016DEFGH: (" + str (nLeptons2016["DEFGH"])
+print "lepton background 2015:      " + str (nLeptons2015)
+print "lepton background 2016BC:    " + str (nLeptons2016["BC"])
+print "lepton background 2016DEFGH: " + str (nLeptons2016["DEFGH"])
 print ""
 
-print "fake background 2015:      (" + str (nFakes2015)
-print "fake background 2016BC:    (" + str (nFakes2016["BC"])
-print "fake background 2016DEFGH: (" + str (nFakes2016["DEFGH"])
+print "fake background 2015:      " + str (nFakes2015)
+print "fake background 2016BC:    " + str (nFakes2016["BC"])
+print "fake background 2016DEFGH: " + str (nFakes2016["DEFGH"])
 print ""
 
-print "total background 2015:      (" + str (nTotal2015)
-print "total background 2016BC:    (" + str (nTotal2016["BC"])
-print "total background 2016DEFGH: (" + str (nTotal2016["DEFGH"])
+print "total background 2015:      " + str (nTotal2015)
+print "total background 2016BC:    " + str (nTotal2016["BC"])
+print "total background 2016DEFGH: " + str (nTotal2016["DEFGH"])
 print ""
 
-print "Total lepton background: (" + str (totalLepton)
-print "Total fake background:   (" + str (totalFake)
-print "Total total:             (" + str (totalTotal)
+print "Total lepton background: " + str (totalLepton)
+print "Total fake background:   " + str (totalFake)
+print "Total total:             " + str (totalTotal)
