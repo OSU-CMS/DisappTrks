@@ -23,13 +23,13 @@ config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased' # for both MC and data
-#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
-config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+#config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1'
 
-#config.Site.storageSite = 'T2_US_Purdue'
-config.Site.storageSite = 'T3_US_FNALLPC'
+config.Site.storageSite = 'T2_US_Purdue'
+#config.Site.storageSite = 'T3_US_FNALLPC'
 
 if __name__ == '__main__':
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     # Run2016B-v2 (v1 exists but is disjoint from the Golden Prompt JSON)
 
-    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016B-PromptReco-v2-DisappTrks-v10'
     config.Data.unitsPerJob = 64 # 2016B has ~64083 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016B-PromptReco-v2'
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     # Run2016C
 
-    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016C-PromptReco-v2-DisappTrks-v10'
     config.Data.unitsPerJob = 22 # 2016C has ~21892 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016C-PromptReco-v2'
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     # Run2016D
 
-    config.Data.outputDatasetTag = 'Run2016D-PromptReco-v2-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016D-PromptReco-v2-DisappTrks-v10'
     config.Data.unitsPerJob = 31 # 2016D has ~31021 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016D-PromptReco-v2'
@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
     # Run2016E
 
-    config.Data.outputDatasetTag = 'Run2016E-PromptReco-v2-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016E-PromptReco-v2-DisappTrks-v10'
     config.Data.unitsPerJob = 28 # 2016E has ~27807 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016E-PromptReco-v2'
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     # Run2016F
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
-    config.Data.outputDatasetTag = 'Run2016F-PromptReco-v1-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016F-PromptReco-v1-DisappTrks-v10'
     config.Data.unitsPerJob = 21 # 2016F has ~21220 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016F-PromptReco-v1'
@@ -202,7 +202,7 @@ if __name__ == '__main__':
     # Run2016G
     # NOTE: this indeed is PromptReco-v1, there is no v2 is DAS for these datasets
 
-    config.Data.outputDatasetTag = 'Run2016G-PromptReco-v1-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016G-PromptReco-v1-DisappTrks-v10'
     config.Data.unitsPerJob = 49 # 2016G has ~49295 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016G-PromptReco-v1'
@@ -227,7 +227,7 @@ if __name__ == '__main__':
 
     # Run2016H-v2 (no lumi sections from the Golden JSON are in PromptReco-v1)
 
-    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v2-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v2-DisappTrks-v10'
     config.Data.unitsPerJob = 61 # 2016H-v2 has ~60515 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016H-PromptReco-v2'
@@ -252,7 +252,7 @@ if __name__ == '__main__':
 
     # Run2016H-v3
 
-    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v3-DisappTrks-v9'
+    config.Data.outputDatasetTag = 'Run2016H-PromptReco-v3-DisappTrks-v10'
     config.Data.unitsPerJob = 1 # 2016H-v3 has ~1373 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2016H-PromptReco-v3'
