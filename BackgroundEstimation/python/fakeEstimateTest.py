@@ -68,7 +68,7 @@ class FakeTrackBkgdEstimate:
 
             if fails > 0.0:
                 transferFactor = passes / fails
-                print "Transfer factor: " + str (transferFactor)
+                print "Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor)
                 return (transferFactor, passes, fails)
             else:
                 print "N(fail d0 cut, 3 hits) = 0, not printing scale factor..."
