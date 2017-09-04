@@ -2,8 +2,8 @@
 
 import os
 import sys
-if os.environ["CMSSW_VERSION"] != "CMSSW_8_0_20":
-    print "Please switch to CMSSW_8_0_20!"
+if os.environ["CMSSW_VERSION"] != "CMSSW_8_0_20" and os.environ["CMSSW_VERSION"] != "CMSSW_8_0_21":
+    print "Please switch to CMSSW_8_0_20 (data) or CMSSW_8_0_21 (MC)!"
     sys.exit (0)
 
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
@@ -26,7 +26,7 @@ config.Data.splitting = 'LumiBased' # for both MC and data
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-DisappTrks-v1'
+config.Data.outputDatasetTag = 'RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1'
 
 #config.Site.storageSite = 'T2_US_Purdue'
 config.Site.storageSite = 'T3_US_FNALLPC'
@@ -59,14 +59,14 @@ if __name__ == '__main__':
 ##########################################################################
     ## Do the MC first
 
-    config.Data.unitsPerJob = 75
-    config.General.requestName = 'candidateTrackProducer_DYToLL'
-    config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
+    config.Data.unitsPerJob = 100 # 719219 lumis
+    config.General.requestName = 'candidateTrackProducer_DYToLL_ext1'
+    config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 75
-    config.General.requestName = 'candidateTrackProducer_WToLNu'
-    config.Data.inputDataset = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16reHLT80-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/AODSIM'
+    config.Data.unitsPerJob = 100 # 609360 lumis
+    config.General.requestName = 'candidateTrackProducer_DYToLL_ext2'
+    config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/AODSIM'
     #forkAndSubmit(config)
 
 ##########################################################################
