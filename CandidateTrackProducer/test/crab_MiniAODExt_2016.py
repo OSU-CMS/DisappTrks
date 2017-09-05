@@ -69,6 +69,16 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/AODSIM'
     #forkAndSubmit(config)
 
+    config.Data.unitsPerJob = 10 # 5209 lumis
+    config.General.requestName = 'candidateTrackProducer_WZ'
+    config.Data.inputDataset = '/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/AODSIM'
+    #forkAndSubmit(config)
+
+    config.Data.unitsPerJob = 10 # 15894 lumis
+    config.General.requestName = 'candidateTrackProducer_WZ_ext1'
+    config.Data.inputDataset = '/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/AODSIM'
+    #forkAndSubmit(config)
+
 ##########################################################################
     ## Now do data
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Final/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt'
