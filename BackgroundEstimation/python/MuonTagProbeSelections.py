@@ -96,6 +96,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ZtoMuProbeTrkBeforeArbitration = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrkBeforeArbitration.name = cms.string ("ZtoMuProbeTrkBeforeArbitration")
+removeCuts (ZtoMuProbeTrkBeforeArbitration.cuts, [cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
+
 ZtoMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoMuProbeTrkWithoutD0Cut")
 removeCuts (ZtoMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])

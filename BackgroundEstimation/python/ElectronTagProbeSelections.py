@@ -98,6 +98,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 
+ZtoEleProbeTrkBeforeArbitration = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
+ZtoEleProbeTrkBeforeArbitration.name = cms.string ("ZtoEleProbeTrkBeforeArbitration")
+removeCuts (ZtoEleProbeTrkBeforeArbitration.cuts, [cutTrkArbitration, cutEleTrkInvMass80To100, cutEleTrkOS])
+
 ZtoEleProbeTrkWithoutD0Cut = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
 ZtoEleProbeTrkWithoutD0Cut.name = cms.string ("ZtoEleProbeTrkWithoutD0Cut")
 removeCuts (ZtoEleProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
