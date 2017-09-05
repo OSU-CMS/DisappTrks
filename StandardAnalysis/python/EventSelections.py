@@ -67,7 +67,26 @@ isoTrkCuts = [
     cutTrkDZ,
     cutTrkJetDeltaPhi,
 ]
-addCuts(isoTrkSelection.cuts, [cutTrkPt55] + isoTrkCuts)
+isoTrkWithPt55Cuts = [
+    cutTrkEta,
+    cutTrkPt55,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkTOBCrack,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkFiducialECAL,
+    cutTrkNValidPixelHits3,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+    cutTrkIso,
+    cutTrkD0,
+    cutTrkDZ,
+    cutTrkJetDeltaPhi,
+]
+addCuts(isoTrkSelection.cuts, isoTrkWithPt55Cuts)
 
 isoTrkSelectionInvertDRJetCut = copy.deepcopy (isoTrkSelection)
 isoTrkSelectionInvertDRJetCut.name = cms.string ("IsoTrkSelectionInvertDRJetCut")
