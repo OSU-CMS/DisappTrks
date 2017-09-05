@@ -198,6 +198,13 @@ disTrkJustMET90TriggerHltMet105 = copy.deepcopy(disTrkJustMET90Trigger)
 disTrkJustMET90TriggerHltMet105.name = cms.string("DisTrkJustMet90TriggerHltMet105")
 disTrkJustMET90TriggerHltMet105.cuts.insert(0, cutHltMet105)
 
+justAChargino = cms.PSet(
+    name = cms.string("JustAChargino"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkMatchChargino,
+    )
+)
 justAVertex = cms.PSet(
     name = cms.string("JustAVertex"),
     triggers = cms.vstring(),
