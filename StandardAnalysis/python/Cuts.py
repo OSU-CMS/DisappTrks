@@ -500,6 +500,11 @@ cutTrkMatchedGen = cms.PSet(
     cutString = cms.string("genMatchedParticle.promptFinalState.isNonnull"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchChargino = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 1000024"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11"),
