@@ -86,12 +86,31 @@ isoTrkWithPt55Cuts = [
     cutTrkDZ,
     cutTrkJetDeltaPhi,
 ]
+isoTrkWithPt55BeforeIsoCuts = [
+    cutTrkEta,
+    cutTrkPt55,
+    cutTrkEcalGapVeto,
+    cutTrkEtaMuonIneff1,
+    cutTrkEtaMuonIneff2,
+    cutTrkTOBCrack,
+    cutTrkFiducialElectron,
+    cutTrkFiducialMuon,
+    cutTrkFiducialECAL,
+    cutTrkNValidPixelHits3,
+    cutTrkNValidHits,
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+]
 addCuts(isoTrkSelection.cuts, isoTrkWithPt55Cuts)
 
 isoTrkSelectionInvertDRJetCut = copy.deepcopy (isoTrkSelection)
 isoTrkSelectionInvertDRJetCut.name = cms.string ("IsoTrkSelectionInvertDRJetCut")
 removeCuts (isoTrkSelectionInvertDRJetCut.cuts, [cutTrkJetDeltaPhi])
 addCuts (isoTrkSelectionInvertDRJetCut.cuts, [cutTrkJetDeltaPhiInvert])
+
+isoTrkSelectionBeforeIsoCut = copy.deepcopy (basicSelection)
+isoTrkSelectionBeforeIsoCut.name = cms.string ("IsoTrkSelectionBeforeIsoCut")
+addCuts (isoTrkSelectionBeforeIsoCut.cuts, isoTrkWithPt55BeforeIsoCuts)
 
 ##########################################################################
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
@@ -202,6 +221,14 @@ justAChargino = cms.PSet(
     name = cms.string("JustAChargino"),
     triggers = cms.vstring(),
     cuts = cms.VPSet (
+        cutTrkMatchChargino,
+    )
+)
+justAHighPtChargino = cms.PSet(
+    name = cms.string("JustAChargino"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt55,
         cutTrkMatchChargino,
     )
 )
