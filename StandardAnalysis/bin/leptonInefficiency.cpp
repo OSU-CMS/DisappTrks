@@ -42,8 +42,8 @@ main ()
 
   TH1D *measured = new TH1D ("measuredInefficiency", ";measured inefficiency", 1000, 0.0, 1.0),
        *measuredPull = new TH1D ("measuredInefficiencyPull", ";pull measured inefficiency", 1000, -100.0, 100.0),
-       *corrected = new TH1D ("correctdInefficiency", ";measured inefficiency with correction", 1000, 0.0, 1.0),
-       *correctedPull = new TH1D ("correctdInefficiencyPull", ";pull of measured inefficiency with correction", 1000, -100.0, 100.0);
+       *corrected = new TH1D ("correctedInefficiency", ";measured inefficiency with correction", 1000, 0.0, 1.0),
+       *correctedPull = new TH1D ("correctedInefficiencyPull", ";pull of measured inefficiency with correction", 1000, -100.0, 100.0);
 
   cout << "running experiments";
   cout.flush ();
