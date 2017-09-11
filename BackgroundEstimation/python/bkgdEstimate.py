@@ -125,7 +125,7 @@ class LeptonBkgdEstimate:
         print "yield for " + name + ": " + str (channel["yield"])
 
     def printNctrl (self):
-        metMinusOne = self.plotMetForNctrl ()
+        self.plotMetForNctrl ()
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
             weight = self.TagPt35ForNctrl["weight"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["weight"]
@@ -145,17 +145,18 @@ class LeptonBkgdEstimate:
                 sample = self.TagPt35ForNctrl["sample"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["sample"]
                 condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
                 name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                #hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
+                #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                hist = "Met-eventvariable Plots/deltaPhiMetJetLeadingVsMetNoMu"
+                met = getHist (sample, condorDir, name + "Plotter", hist)
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
-                hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-
-                met.Rebin (self._rebinFactor)
-                metMinusOneRebin = metMinusOne.Rebin (self._rebinFactor, "metMinusOneRebin")
+                #hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
+                #metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
+                metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
 
                 pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
                 pt.SetBorderSize(0)
@@ -179,32 +180,28 @@ class LeptonBkgdEstimate:
                 lumiLabel.AddText(str (self._luminosityLabel))
 
                 setStyle (met)
-                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]", "Entries / " + str (met.GetBinWidth (1)) + " GeV")
+                setAxisStyle (met, "E_{T}^{miss, no #mu} [GeV]", "|#Delta#Phi(E_{T}^{miss, no #mu}, leading jet)|")
                 self._canvas.cd ()
-                met.Draw ()
+                met.Draw ("colz")
                 pt.Draw ("same")
                 cmsLabel.Draw ("same")
                 lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metForNctrl")
 
-                setStyle (metMinusOneRebin)
-                setAxisStyle (metMinusOneRebin, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOneRebin.GetBinWidth (1)) + " GeV")
+                setStyle (metMinusOne)
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + " [GeV]", "|#Delta#Phi(E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + ", leading jet)|")
                 self._canvas.cd ()
-                metMinusOneRebin.Draw ()
+                metMinusOne.Draw ("colz")
                 pt.Draw ("same")
                 cmsLabel.Draw ("same")
                 lumiLabel.Draw ("same")
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneForNctrl")
-
-                return metMinusOne
             else:
                 print "A TFile and TCanvas must be added. Not making plots..."
-                return None
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET for N_ctrl..."
-            return None
 
     def printPpassVeto (self):
         if not hasattr (self._pPassVeto, "centralValue"):
@@ -411,7 +408,7 @@ class LeptonBkgdEstimate:
                 self._canvas.Write ("metForNback")
 
                 setStyle (metMinusOne)
-                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
+                setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + " [GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
                 self._canvas.cd ()
                 metMinusOne.Draw ()
                 pt.Draw ("same")
@@ -431,15 +428,13 @@ class LeptonBkgdEstimate:
                 passes.SetBinError (i, total.GetBinError (i))
 
     def printNest (self):
-        nCtrl, metMinusOne = self.printNctrl ()
+        nCtrl = self.printNctrl ()
         pPassVeto, passes, passes1, total = self.printPpassVetoTagProbe ()
         pPassMetCut = self.printPpassMetCut ()
         pPassMetTriggers, triggerEfficiency = self.printPpassMetTriggers ()
 
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
-
-        self.plotMetForNest (metMinusOne, pPassVeto, triggerEfficiency)
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
 
@@ -460,57 +455,6 @@ class LeptonBkgdEstimate:
             print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
-
-    def plotMetForNest (self, metMinusOne, pPassVeto, triggerEfficiency):
-        if self._fout and self._canvas:
-            metMinusOne.Multiply (triggerEfficiency)
-            for i in range (0, metMinusOne.GetNbinsX () + 2):
-                content = metMinusOne.GetBinContent (i)
-                error = metMinusOne.GetBinError (i)
-                content = Measurement (content, error)
-                content.isPositive ()
-
-                upperEdge = metMinusOne.GetBinLowEdge (i) + metMinusOne.GetBinWidth (i)
-
-                newContent = content * pPassVeto if self._metCut < upperEdge else Measurement (0.0, 0.0)
-
-                metMinusOne.SetBinContent (i, newContent.centralValue ())
-                metMinusOne.SetBinError (i, newContent.maxUncertainty ())
-
-            metMinusOne = metMinusOne.Rebin (self._rebinFactor, "metMinusOne")
-
-            pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
-            pt.SetBorderSize(0)
-            pt.SetFillStyle(0)
-            pt.SetTextFont(42)
-            pt.SetTextSize(0.0387597)
-            pt.AddText(str (self._plotLabel))
-
-            cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
-            cmsLabel.SetBorderSize(0)
-            cmsLabel.SetFillStyle(0)
-            cmsLabel.SetTextFont(62)
-            cmsLabel.SetTextSize(0.0387597)
-            cmsLabel.AddText("CMS Preliminary")
-
-            lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
-            lumiLabel.SetBorderSize(0)
-            lumiLabel.SetFillStyle(0)
-            lumiLabel.SetTextFont(42)
-            lumiLabel.SetTextSize(0.0387597)
-            lumiLabel.AddText(str (self._luminosityLabel))
-
-            setStyle (metMinusOne)
-            setAxisStyle (metMinusOne, "E_{T}^{miss, no #mu} " + ("excluding selected " + self._flavor if self._flavor != "muon" else "") + "[GeV]", "Entries / " + str (metMinusOne.GetBinWidth (1)) + " GeV")
-            self._canvas.cd ()
-            metMinusOne.Draw ()
-            pt.Draw ("same")
-            cmsLabel.Draw ("same")
-            lumiLabel.Draw ("same")
-            self._fout.cd ()
-            self._canvas.Write ("metMinusOneForNest")
-        else:
-            print "A TFile and TCanvas must be added. Not making plots..."
 
     def printPpassVetoTagProbe (self):
         self.plotPpassVetoPtDependence ()
