@@ -37,9 +37,8 @@ jetCuts = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
-    cutLeadingJetMetPhi,
 ]
-addCuts(basicSelection.cuts, jetCuts)
+addCuts(basicSelection.cuts, jetCuts + [cutLeadingJetMetPhi])
 
 basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
