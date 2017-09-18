@@ -134,10 +134,10 @@ class LeptonBkgdEstimate:
             weight *= self._prescale
 
             print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
-            return (n, metMinusOne)
+            return n
         else:
             print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
-            return (float ("nan"), float ("nan"))
+            return float ("nan")
 
     def plotMetForNctrl (self):
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
