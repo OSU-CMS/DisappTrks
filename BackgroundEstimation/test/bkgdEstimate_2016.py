@@ -138,8 +138,8 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
         electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         print "********************************************************************************"
 
@@ -179,8 +179,8 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
         muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
         muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
-        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
-        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_metTrig_new")
+        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
+        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
 
         print "********************************************************************************"
 
@@ -225,10 +225,10 @@ for runPeriod in runPeriods:
         tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_rereco_2016"   +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
         tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
         tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
-        tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
-        #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_metTrig_new")
-        tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
-        tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
+        tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
+        #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
+        tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         print "********************************************************************************"
 
