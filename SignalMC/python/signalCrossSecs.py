@@ -5,7 +5,8 @@ from OSUT3Analysis.Configuration.Measurement import Measurement
 #values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1wino and
 # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVn2x1wino
 
-chargino_neutralino_cross_sections = { # in pb, in terms of chargino mass
+chargino_neutralino_cross_sections = {
+    # values and errors are in pb; errors are absolute, converted to relative below
     '100' : {
         'value' : str ( 22670.1 * 1.0e-3 ),
         'error' : str ( 973.967 * 1.0e-3 ),
@@ -44,7 +45,8 @@ chargino_neutralino_cross_sections = { # in pb, in terms of chargino mass
     },
 }
 
-chargino_chargino_cross_sections = { # in pb, in terms of chargino mass
+chargino_chargino_cross_sections = {
+    # values and errors are in pb; errors are absolute, converted to relative below
     '100' : {
         'value' : str ( 11611.9 * 1.0e-3 ),
         'error' : str ( 518.613 * 1.0e-3 ),
@@ -81,14 +83,6 @@ chargino_chargino_cross_sections = { # in pb, in terms of chargino mass
         'value' : str ( 1.15301 * 1.0e-3 ),
         'error' : str ( 0.135822 * 1.0e-3 ),
     },
-    '800' : {
-    'value' : '0.006970',
-    'error' : '1.088237',
-    },
-    '900' : {
-    'value' : '0.003650',
-    'error' : '1.093744',
-    },
 }
 
 signal_cross_sections = {}
@@ -102,7 +96,10 @@ for mass in chargino_neutralino_cross_sections:
 
     total = cn + cc
 
+    # convert errors from absolute to relative
+    chargino_neutralino_cross_sections[mass]['error'] = str (1.0 + (cn.uncertainty () / cn.centralValue ()))
+    chargino_chargino_cross_sections[mass]['error'] = str (1.0 + (cc.uncertainty () / cc.centralValue ()))
     signal_cross_sections[mass] = {
         'value' : str (total.centralValue ()),
-        'error' : str (total.uncertainty ()),
+        'error' : str (1.0 + (total.uncertainty () / total.centralValue ())),
     }
