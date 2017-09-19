@@ -123,8 +123,8 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimate.addMetCut (100.0)
     electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
     electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Brian']+"2015/electronBackground")
-    electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
-    electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     print "********************************************************************************"
 
@@ -156,8 +156,8 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimate.addMetCut (100.0)
     muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",         dirs['Brian']+"2015/muonBackground")
     muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D_rereco",  dirs['Brian']+"2015/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",         dirs['Brian']+"2015/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Brian']+"2015/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
+    muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
 
     print "********************************************************************************"
 
@@ -190,10 +190,10 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2015D_rereco",   dirs['Brian']+"2015/muonBackground")
     tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
     tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Brian']+"2015/electronBackground")
-    tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Brian']+"2015/tauBackground")
-    #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Brian']+"2015/tauBackground_metTrig")
-    tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
-    tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
+    tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+    #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+    tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     print "********************************************************************************"
 
