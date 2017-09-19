@@ -17,6 +17,10 @@ for mass in sorted (signal_cross_sections.keys ()):
   cc = Measurement (ccX['value'], ccX['error'])
   total = Measurement (totalX['value'], totalX['error'])
 
+  cn.setUncertainty ((cn.uncertainty () - 1.0) * cn.centralValue ())
+  cc.setUncertainty ((cc.uncertainty () - 1.0) * cc.centralValue ())
+  total.setUncertainty ((total.uncertainty () - 1.0) * total.centralValue ())
+
   #cn *= 1.0e3
   #cc *= 1.0e3
   #total *= 1.0e3
