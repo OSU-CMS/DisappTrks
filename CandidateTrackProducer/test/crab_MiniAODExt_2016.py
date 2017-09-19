@@ -23,13 +23,13 @@ config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased' # for both MC and data
-#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
-config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+#config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1'
 
-#config.Site.storageSite = 'T2_US_Purdue'
-config.Site.storageSite = 'T3_US_FNALLPC'
+config.Site.storageSite = 'T2_US_Purdue'
+#config.Site.storageSite = 'T3_US_FNALLPC'
 
 if __name__ == '__main__':
 
@@ -77,6 +77,11 @@ if __name__ == '__main__':
     config.Data.unitsPerJob = 10 # 15894 lumis
     config.General.requestName = 'candidateTrackProducer_WZ_ext1'
     config.Data.inputDataset = '/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/AODSIM'
+    #forkAndSubmit(config)
+
+    config.Data.unitsPerJob = 10 # 8579 lumis
+    config.General.requestName = 'candidateTrackProducer_WZTo1L3Nu'
+    config.Data.inputDataset = '/WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8/RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/AODSIM'
     #forkAndSubmit(config)
 
 ##########################################################################
