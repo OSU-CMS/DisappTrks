@@ -18,7 +18,8 @@ from ROOT import TMath
 def getAbsoluteSystematicFromRelative (N, sysRelErr, statAbsErr):
   if N > 0.0:
     return N * sysRelErr
-  upperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2.0 * (N + 1.0))
+  #upperLimit = 0.5 * TMath.ChisquareQuantile (0.68, 2.0 * (N + 1.0))
+  upperLimit = N + statAbsErr
   # from http://dx.doi.org/10.1016/0168-9002(92)90794-5
   totalAbsErr = upperLimit * (1.0 + (upperLimit - N) * (sysRelErr * sysRelErr) / 2.0)
   return math.sqrt (totalAbsErr * totalAbsErr - statAbsErr * statAbsErr)
@@ -38,6 +39,22 @@ nTaus2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nTaus2016
 nFakes2015.setSystematic           (getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysDown["total"]["2015"],       nFakes2015.maxUncertainty           ()), getAbsoluteSystematicFromRelative  (nFakes2015.centralValue           (),  fakeSysUp["total"]["2015"],       nFakes2015.maxUncertainty           ()))
 nFakes2016["BC"].setSystematic     (getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysDown["total"]["2016BC"],     nFakes2016["BC"].maxUncertainty     ()), getAbsoluteSystematicFromRelative  (nFakes2016["BC"].centralValue     (),  fakeSysUp["total"]["2016BC"],     nFakes2016["BC"].maxUncertainty     ()))
 nFakes2016["DEFGH"].setSystematic  (getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysDown["total"]["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()), getAbsoluteSystematicFromRelative  (nFakes2016["DEFGH"].centralValue  (),  fakeSysUp["total"]["2016DEFGH"],  nFakes2016["DEFGH"].maxUncertainty  ()))
+
+nElectrons2015.isPositive ()
+nElectrons2016["BC"].isPositive ()
+nElectrons2016["DEFGH"].isPositive ()
+
+nMuons2015.isPositive ()
+nMuons2016["BC"].isPositive ()
+nMuons2016["DEFGH"].isPositive ()
+
+nTaus2015.isPositive ()
+nTaus2016["BC"].isPositive ()
+nTaus2016["DEFGH"].isPositive ()
+
+nFakes2015.isPositive ()
+nFakes2016["BC"].isPositive ()
+nFakes2016["DEFGH"].isPositive ()
 
 nLeptons2016 = {}
 nLeptons2015 = nElectrons2015 + nMuons2015 + nTaus2015
