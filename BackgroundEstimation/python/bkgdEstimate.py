@@ -158,7 +158,7 @@ class LeptonBkgdEstimate:
                 hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
 
-                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+                pt = TPaveText(0.404762,0.137597,0.805764,0.185401,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
@@ -172,7 +172,7 @@ class LeptonBkgdEstimate:
                 cmsLabel.SetTextSize(0.0387597)
                 cmsLabel.AddText("CMS Preliminary")
 
-                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
                 lumiLabel.SetBorderSize(0)
                 lumiLabel.SetFillStyle(0)
                 lumiLabel.SetTextFont(42)
@@ -310,7 +310,7 @@ class LeptonBkgdEstimate:
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
             metGraph.SetEditable (0)
 
-            pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+            pt = TPaveText(0.409774,0.843023,0.809524,0.890827,"brNDC")
             pt.SetBorderSize(0)
             pt.SetFillStyle(0)
             pt.SetTextFont(42)
@@ -324,7 +324,7 @@ class LeptonBkgdEstimate:
             cmsLabel.SetTextSize(0.0387597)
             cmsLabel.AddText("CMS Preliminary")
 
-            lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+            lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
             lumiLabel.SetBorderSize(0)
             lumiLabel.SetFillStyle(0)
             lumiLabel.SetTextFont(42)
@@ -376,7 +376,7 @@ class LeptonBkgdEstimate:
                 met.Rebin (self._rebinFactor)
                 metMinusOne.Rebin (self._rebinFactor)
 
-                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+                pt = TPaveText(0.409774,0.843023,0.809524,0.890827,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
@@ -390,7 +390,7 @@ class LeptonBkgdEstimate:
                 cmsLabel.SetTextSize(0.0387597)
                 cmsLabel.AddText("CMS Preliminary")
 
-                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
                 lumiLabel.SetBorderSize(0)
                 lumiLabel.SetFillStyle(0)
                 lumiLabel.SetTextFont(42)
