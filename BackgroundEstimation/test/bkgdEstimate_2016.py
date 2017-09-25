@@ -240,6 +240,48 @@ for runPeriod in runPeriods:
 
         print "\n\n"
 
+# Redo the calculation of P_veto with the full 2015+2016 datasets so that the
+# track pt dependence of P_veto can be plotted.
+
+sys.stdout = nullout
+
+if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
+    fout = TFile.Open ("electronBkgdEstimate.root", "recreate")
+    electronBkgdEstimate = LeptonBkgdEstimate ("electron")
+    electronBkgdEstimate.addTFile (fout)
+    electronBkgdEstimate.addTCanvas (canvas)
+    electronBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleElectron_2015"] + lumi["SingleElectron_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    electronBkgdEstimate.addChannel  ("TagProbe",      "ZtoEleProbeTrkWithZCuts",  "SingleEle",         dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+    electronBkgdEstimate.addChannel  ("TagProbePass",  "ZtoEleDisTrk",             "SingleEle_rereco",  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+    electronBkgdEstimate.printPpassVetoTagProbe ()
+    fout.Close ()
+
+if background == "MUON" or background == "LEPTON" or background == "ALL":
+    fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
+    muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+    muonBkgdEstimate.addTFile (fout)
+    muonBkgdEstimate.addTCanvas (canvas)
+    muonBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleMuon_2015"] + lumi["SingleMuon_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    muonBkgdEstimate.addChannel  ("TagProbe",      "ZtoMuProbeTrkWithZCuts",  "SingleMu",         dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+    muonBkgdEstimate.addChannel  ("TagProbePass",  "ZtoMuDisTrk",             "SingleMu_rereco",  dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+    muonBkgdEstimate.printPpassVetoTagProbe ()
+    fout.Close ()
+
+if background == "TAU" or background == "LEPTON" or background == "ALL":
+    fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
+    tauBkgdEstimate = LeptonBkgdEstimate ("tau")
+    tauBkgdEstimate.addTFile (fout)
+    tauBkgdEstimate.addTCanvas (canvas)
+    tauBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleMuon_2015"] + lumi["SingleMuon_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+    tauBkgdEstimate.addChannel  ("TagProbe",       "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu",          dirs['Andrew']+"2016_final_prompt/muonBackground_new")
+    tauBkgdEstimate.addChannel  ("TagProbePass",   "ZtoTauToMuDisTrk",              "SingleMu_rereco",   dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+    tauBkgdEstimate.addChannel  ("TagProbe1",      "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle",         dirs['Andrew']+"2016_final_prompt/electronBackground_new")
+    tauBkgdEstimate.addChannel  ("TagProbePass1",  "ZtoTauToEleDisTrk",             "SingleEle_rereco",  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
+    tauBkgdEstimate.printPpassVetoTagProbe ()
+    fout.Close ()
+
+sys.stdout = stdout
+
 # print sums
 if background == "ALL":
     nElectrons = {}
