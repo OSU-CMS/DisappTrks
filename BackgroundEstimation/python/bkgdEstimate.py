@@ -27,7 +27,7 @@ class LeptonBkgdEstimate:
     _tagProbePass1ScaleFactor = 1.0
     _luminosityInInvFb = float ("nan")
     _luminosityLabel = "13 TeV"
-    _plotLabel = float ("nan")
+    _plotLabel = ""
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield
     _fiducialElectronSigmaCut = 2.0
@@ -483,8 +483,90 @@ class LeptonBkgdEstimate:
             return (self._pPassVeto, float ("nan"), float ("nan"), float ("nan"))
 
     def plotPpassVetoPtDependence (self):
-        if self._fout and self._canvas:
-            print "UNDER CONSTRUCTION: plotPpassVetoPtDependence"
+        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
+            if self._fout and self._canvas:
+                sample = self.TagProbe["sample"]
+                condorDir = self.TagProbe["condorDir"]
+                name = self.TagProbe["name"]
+                hist = "Track Plots/trackPt"
+                trackPt = getHist (sample, condorDir, name + "Plotter", hist)
+
+                sample = self.TagProbePass["sample"]
+                condorDir = self.TagProbePass["condorDir"]
+                name = self.TagProbePass["name"]
+                hist = "Track Plots/trackPt"
+                trackPtPass = getHist (sample, condorDir, name + "Plotter", hist)
+
+                if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
+                    sample = self.TagProbe1["sample"]
+                    condorDir = self.TagProbe1["condorDir"]
+                    name = self.TagProbe1["name"]
+                    hist = "Track Plots/trackPt"
+                    trackPt1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    sample = self.TagProbePass1["sample"]
+                    condorDir = self.TagProbePass1["condorDir"]
+                    name = self.TagProbePass1["name"]
+                    hist = "Track Plots/trackPt"
+                    trackPtPass1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    trackPt.Add (trackPt1)
+                    trackPtPass.Add (trackPtPass1)
+
+                pt = TPaveText(0.404762,0.137597,0.805764,0.185401,"brNDC")
+                pt.SetBorderSize(0)
+                pt.SetFillStyle(0)
+                pt.SetTextFont(42)
+                pt.SetTextSize(0.0387597)
+                pt.AddText(str (self._plotLabel))
+
+                cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+                cmsLabel.SetBorderSize(0)
+                cmsLabel.SetFillStyle(0)
+                cmsLabel.SetTextFont(62)
+                cmsLabel.SetTextSize(0.0387597)
+                cmsLabel.AddText("CMS Preliminary")
+
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
+                lumiLabel.SetBorderSize(0)
+                lumiLabel.SetFillStyle(0)
+                lumiLabel.SetTextFont(42)
+                lumiLabel.SetTextSize(0.0387597)
+                lumiLabel.AddText(str (self._luminosityLabel))
+
+                ks = TPaveText(0.421053,0.824289,0.820802,0.872093,"brNDC")
+                ks.SetBorderSize(0)
+                ks.SetFillStyle(0)
+                ks.SetTextFont(42)
+                ks.SetTextSize(0.0387597)
+                ks.AddText("KS test p-value: " + str (round (trackPt.KolmogorovTest (trackPtPass), 3)))
+
+                leg = TLegend (0.413534,0.729328,0.794486,0.815891)
+                leg.SetBorderSize(0)
+                leg.SetFillStyle(0)
+                leg.SetTextFont(42)
+                leg.SetTextSize(0.0387597)
+                leg.AddEntry (trackPt, "before veto", "p")
+                leg.AddEntry (trackPtPass, "after veto", "p")
+
+                setStyle (trackPt, 600)
+                setAxisStyle (trackPt, self._flavor + " probe track p_{T} [GeV]")
+                setStyle (trackPtPass, 632)
+                setAxisStyle (trackPtPass, self._flavor + " probe track p_{T} [GeV]")
+                self._canvas.cd ()
+                trackPt.Draw ("colz")
+                trackPtPass.Draw ("colz same")
+                pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
+                ks.Draw ("same")
+                leg.Draw ("same")
+                self._fout.cd ()
+                self._canvas.Write ("pPassVetoPtDependence")
+            else:
+                print "A TFile and TCanvas must be added. Not making plots..."
+        else:
+            print "Neither TagProbe nor TagProbePass defined. Not plotting P_veto pt dependence..."
 
 class FakeTrackBkgdEstimate:
     _fout = None
