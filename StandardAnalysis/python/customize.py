@@ -120,4 +120,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
 
+    if hasattr (process, "EventJetVarProducer") and not hasattr (process.EventJetVarProducer, "triggerNames"):
+        process.EventJetVarProducer.triggerNames = cms.vstring ()
+
     return process
