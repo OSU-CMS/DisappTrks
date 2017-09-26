@@ -57,6 +57,21 @@ ElectronTagPt35MetCut = copy.deepcopy(ElectronTagPt35)
 ElectronTagPt35MetCut.name = cms.string("ElectronTagPt35MetCut")
 addCuts(ElectronTagPt35MetCut.cuts, [cutElectronMetMinusOne])
 
+ElectronTagPt35NoJetCuts = copy.deepcopy(ElectronTagPt35)
+ElectronTagPt35NoJetCuts.name = cms.string("ElectronTagPt35NoJetCuts")
+cutsToRemove = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
+]
+removeCuts(ElectronTagPt35NoJetCuts.cuts, cutsToRemove)
+
+ElectronTagPt35NoJetCutsMetTrig = copy.deepcopy(ElectronTagPt35NoJetCuts)
+ElectronTagPt35NoJetCutsMetTrig.name = cms.string("ElectronTagPt35NoJetCutsMetTrig")
+ElectronTagPt35NoJetCutsMetTrig.triggers = triggersMet
+
 ##################################################
 ## Channels for real life background estimate. Increase pt threshold to that
 ## used in search region and add missing outer hits cut.
@@ -120,6 +135,10 @@ ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutEleTrkOS)
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkEcalo,    cutEleTrkOS)
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkElecVeto, cutEleTrkOS)
+
+ZtoEleDisTrkNoNMissOutCut = copy.deepcopy(ZtoEleDisTrk)
+ZtoEleDisTrkNoNMissOutCut.name = cms.string("ZtoEleDisTrkNoNMissOutCut")
+removeCuts (ZtoEleDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 ElectronTagPt55NoValidHitsCut = copy.deepcopy (ElectronTagPt55)
 ElectronTagPt55NoValidHitsCut.name = cms.string ("ElectronTagPt55NoValidHitsCut")
