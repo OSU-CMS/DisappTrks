@@ -164,20 +164,29 @@ lumi_2016Prompt = {
 
 lumi_2017 = {
 
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_MET105_IsoTrk50_v*"
+    # filterJSON.py --min x --max y Cert_294927-302654_13TeV_PromptReco_Collisions17_JSON.txt --output Run2017x.json
+    # 2017B: 297031-299329
+    # 2017C: 299368-302029
+    # 2017D: 302031-302663
+    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
+
+    # --hltpath "HLT_MET105_IsoTrk50_v*"
     # note: since MET105_IsoTrk50 came online only in run:fill 299368:5962, what should really happen here is
     #       there will be a period before it with some lumi and then a period with it included
-    "MET_2017C" : 3740.486,
+    "MET_2017B" : 0.0,
+    "MET_2017C" : 9556.386,
+    "MET_2017D" : 3679.642,
 
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_Ele35_WPTight_Gsf_v*"
-    "SingleElectron_2017C" : 8236.431,
+    # --hltpath "HLT_IsoMu27_v*"
+    "SingleMuon_2017B" : 4495.945,
+    "SingleMuon_2017C" : 9556.385,
+    "SingleMuon_2017D" : 3679.643,
 
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017C" : 8236.431,
-
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Cert_294927-300575_13TeV_PromptReco_Collisions17_JSON.txt --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
+    # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017C"     :  3977.334,
+        "Tau_2017B" : 3811.717 ,
+        "Tau_2017C" : 495.724,
+        "Tau_2017D" : 266.845,
     },
 
 }
@@ -249,7 +258,14 @@ for period in {'BC', 'DEF', 'BCDEF', 'GH', 'DEFG', 'DEFGH', 'BCDEFGH'}:
         lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] += lumi["HLT_ZeroBias_v*"]['ZeroBias_2016' + p]
 
 # 2017
-lumi["MET_2017"] = lumi["MET_2017C"]
-lumi["SingleElectron_2017"] = lumi["SingleElectron_2017C"]
-lumi["SingleMuon_2017"] = lumi["SingleMuon_2017C"]
-lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017"] = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017C"]
+for period in {'BCD'}:
+
+    for pd in {'MET', 'SingleMuon'}:
+        key = pd + '_2017' + period if period != 'BCD' else pd + '_2017'
+
+        lumi[key] = 0.0
+        for p in period:
+            lumi[key] += lumi[pd + '_2017' + p]
+
+    suffix = '_2017' + period if period != 'BCD' else '_2017'
+    lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau' + suffix]  = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau_2017' + p]

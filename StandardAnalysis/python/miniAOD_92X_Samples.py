@@ -17,7 +17,9 @@ dataset_names_data = {
     # SingleEle PromptReco
 
     # SingleMu PromptReco
-    'SingleMu_2017C' : ["/SingleMuon/Run2017C-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v2/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v3/MINIAOD"]
+    'SingleMu_2017B' : ["/SingleMuon/Run2017B-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017B-PromptReco-v2/MINIAOD"],
+    'SingleMu_2017C' : ["/SingleMuon/Run2017C-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v2/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v3/MINIAOD"],
+    'SingleMu_2017D' : "/SingleMuon/Run2017D-PromptReco-v1/MINIAOD",
 
     # Tau PromptReco
 

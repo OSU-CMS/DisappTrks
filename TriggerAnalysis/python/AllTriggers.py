@@ -55,8 +55,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
         'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
         'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'], # 2017 also
-        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v '             : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
-        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v '             : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
         'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v'            : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120', 'hltPFMETHFCleaned120'],
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v'    : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120', 'hltPFMETNoMuHFCleaned120'],
         'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],

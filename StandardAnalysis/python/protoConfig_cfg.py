@@ -48,6 +48,9 @@ process.source = cms.Source ("PoolSource",
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
+    process.source.fileNames = cms.untracked.vstring([
+        "/store/data/Run2017C/SingleMuon/MINIAOD/PromptReco-v2/000/299/958/00000/4CF91855-0B76-E711-AE36-02163E01A1BC.root",
+    ])
 
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
