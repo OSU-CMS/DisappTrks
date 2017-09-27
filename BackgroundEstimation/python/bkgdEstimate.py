@@ -21,6 +21,7 @@ class LeptonBkgdEstimate:
     _canvas = None
     _metCut = 100.0
     _phiCut = 0.5
+    _eCaloCut = 10.0
     _pPassVeto = float ("nan")
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
@@ -53,6 +54,9 @@ class LeptonBkgdEstimate:
 
     def addPhiCut (self, phiCut):
         self._phiCut = phiCut
+
+    def addECaloCut (self, eCaloCut):
+        self._eCaloCut = eCaloCut
 
     def useIdMatch (self, match):
         self._useIdMatch = match
@@ -105,6 +109,15 @@ class LeptonBkgdEstimate:
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         n = None
         nError = None
+
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        w = (nError * nError) / n
+        n /= w
+        nError /= w
+        channel["weight"] = w
+        channel["total"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+        channel["total"].isPositive ()
+
         if useIdMatch:
             pdgLo, pdgHi = self.getPdgRange()
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
@@ -112,14 +125,10 @@ class LeptonBkgdEstimate:
             n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
             n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
-        channel["yield"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+        n /= w
+        nError /= w
+        channel["yield"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
         channel["yield"].isPositive ()
-
-        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-        channel["total"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-        channel["total"].isPositive ()
-
-        channel["weight"] = (channel["total"].uncertainty () * channel["total"].uncertainty ()) / channel["total"].centralValue ()
 
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"])
@@ -346,8 +355,20 @@ class LeptonBkgdEstimate:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            n      = self.CandTrkIdPt35["yield"]
-            weight = self.CandTrkIdPt35["weight"]
+            sample = self.CandTrkIdPt35["sample"]
+            condorDir = self.CandTrkIdPt35["condorDir"]
+            name = self.CandTrkIdPt35["name"]
+            hist = "Track Plots/trackCaloTot_RhoCorr"
+            eCalo = getHist (sample, condorDir, name + "Plotter", hist)
+
+            nError = Double (0.0)
+            n = eCalo.IntegralAndError (0, eCalo.FindBin (self._eCaloCut), nError)
+            w = self.CandTrkIdPt35["weight"]
+
+            n /= w
+            nError /= w
+            n = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+
             print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             return n
         else:
