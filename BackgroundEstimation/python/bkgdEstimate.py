@@ -458,6 +458,7 @@ class LeptonBkgdEstimate:
             pPassVeto = self.printPpassVeto ()
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst.isPositive ()
 
         N = alpha = alphaError = float ("nan")
         if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
