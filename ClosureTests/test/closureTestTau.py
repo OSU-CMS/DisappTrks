@@ -1,73 +1,54 @@
 #!/usr/bin/env python
 
-import math
-from DisappTrks.StandardAnalysis.bkgdEstimate import *
+import math, os
+from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate
+from DisappTrks.BackgroundEstimation.fakeEstimateTest import FakeTrackBkgdEstimate
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from ROOT import TCanvas, TFile
-import os
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 
-# https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/706
-pPassVeto = (0.104, 0.013)
+gROOT.SetBatch () # I too am Groot.
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-#print "********************************************************************************"
-#print "performing tau background closure test with WJetsToLNu..."
-#print "--------------------------------------------------------------------------------"
-
-#fout = TFile.Open ("tauBkgdClosureTest_WJetsToLNu.root", "recreate")
-
-#tauBkgdClosureTest_WJetsToLNu = LeptonBkgdEstimate ("tau")
-#tauBkgdClosureTest_WJetsToLNu.addTFile (fout)
-#tauBkgdClosureTest_WJetsToLNu.addTCanvas (canvas)
-#tauBkgdClosureTest_WJetsToLNu.addMetCut (100.0)
-#tauBkgdClosureTest_WJetsToLNu.addChannel  ("TagPt35",             "TauTagPt50",             "WJetsToLNu",     dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_TauTagPt50")
-#tauBkgdClosureTest_WJetsToLNu.addChannel  ("TagPt35MetTrig",      "TauTagPt50MetTrig",      "WJetsToLNu",     dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_TauTagPt50MetTrig")
-#tauBkgdClosureTest_WJetsToLNu.addChannel  ("CandTrkIdPt35",       "CandTrkIdTauPt50",       "WJetsToLNu_HT",  dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_CandTrkIdTauPt50")
-#tauBkgdClosureTest_WJetsToLNu.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdTauPt50NoMet",  "WJetsToLNu",     dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_CandTrkIdTauPt50NoMet")
-#tauBkgdClosureTest_WJetsToLNu.printSingleLeptonTriggerEff ()
-
-#print "********************************************************************************"
-
-#(nEst, nEstError) = tauBkgdClosureTest_WJetsToLNu.printNest ()
-
-#print "--------------------------------------------------------------------------------"
-
-#(nBack, nBackError) = tauBkgdClosureTest_WJetsToLNu.printNback ()
-#print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
-
-#print "********************************************************************************"
-
-#fout.Close ()
-
-#print "\n\n"
-
 print "********************************************************************************"
-print "performing tau background closure test with TTJets..."
+print "performing tau closure test with just DYJetsToLL_50 (2016)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("tauBkgdClosureTest_TTJets.root", "recreate")
+fout = TFile.Open ("tauClosureTest_DYJetsToLL_50.root", "recreate")
 
-tauBkgdClosureTest_TTJets = LeptonBkgdEstimate ("tau")
-tauBkgdClosureTest_TTJets.addTFile (fout)
-tauBkgdClosureTest_TTJets.addTCanvas (canvas)
-tauBkgdClosureTest_TTJets.addMetCut (100.0)
-tauBkgdClosureTest_TTJets.addChannel  ("TagPt35",             "TauTagPt50",             "TTJets",  dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_TauTagPt50")
-tauBkgdClosureTest_TTJets.addChannel  ("TagPt35MetTrig",      "TauTagPt50MetTrig",      "TTJets",  dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_TauTagPt50MetTrig")
-tauBkgdClosureTest_TTJets.addChannel  ("CandTrkIdPt35",       "CandTrkIdTauPt50",       "TTJets",  dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_CandTrkIdTauPt50")
-tauBkgdClosureTest_TTJets.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdTauPt50NoMet",  "TTJets",  dirs['Andrew']+"withFiducialCuts/tauBkgdClosureTest_CandTrkIdTauPt50NoMet")
-tauBkgdClosureTest_TTJets.printSingleLeptonTriggerEff ()
+tauBkgdEstimate_DYJetsToLL_50 = LeptonBkgdEstimate ("tau")
+tauBkgdEstimate_DYJetsToLL_50.addTFile (fout)
+tauBkgdEstimate_DYJetsToLL_50.addTCanvas (canvas)
+tauBkgdEstimate_DYJetsToLL_50.addPrescaleFactor ((lumi["MET_2015"] + lumi["MET_2016"]) / lumi["MET_2016DEFGH"])
+tauBkgdEstimate_DYJetsToLL_50.addLuminosityInInvPb (lumi["MET_2015"] + lumi["MET_2016"])
+tauBkgdEstimate_DYJetsToLL_50.addLuminosityLabel (str (round ((lumi["MET_2015"] + lumi["MET_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+tauBkgdEstimate_DYJetsToLL_50.addMetCut (100.0)
+tauBkgdEstimate_DYJetsToLL_50.addPhiCut (-1.0)
+tauBkgdEstimate_DYJetsToLL_50.addECaloCut (10.0)
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",     "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_muonTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoNMissOutCut",   "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_muonTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",    "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoNMissOutCut",  "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagPt35",         "TauTagPt55NoJetCuts",             "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_tauTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("TagPt35MetTrig",  "TauTagPt55NoJetCutsMetTrig",      "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_tauTagSkim")
+tauBkgdEstimate_DYJetsToLL_50.addChannel  ("CandTrkIdPt35",   "CandTrkIdTauPt55",                "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_metMinimalSkim")
 
 print "********************************************************************************"
 
-(nEst, nEstError) = tauBkgdClosureTest_TTJets.printNest ()
+est = tauBkgdEstimate_DYJetsToLL_50.printNest ()
 
 print "--------------------------------------------------------------------------------"
 
-(nBack, nBackError) = tauBkgdClosureTest_TTJets.printNback ()
-print "|N_est - N_back| = " + str (abs (nEst - nBack) / math.hypot (nEstError, nBackError)) + " sigma"
+obs = tauBkgdEstimate_DYJetsToLL_50.printNback ()
+
+print ""
+
+diff = est - obs
+
+print "N_est - N_obs: " + str (diff.centralValue () / diff.maxUncertainty ()) + " sigma"
 
 print "********************************************************************************"
 
@@ -76,78 +57,41 @@ fout.Close ()
 print "\n\n"
 
 print "********************************************************************************"
-print "performing tau background closure test in candidate track control region"
+print "performing tau closure test with just WZToLNuNuNu (2016)"
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("tauBkgdClosureTest_CandTrk.root", "recreate")
+fout = TFile.Open ("tauClosureTest_WZToLNuNuNu.root", "recreate")
 
-tauBkgdClosureTest_CandTrk = LeptonBkgdEstimate ("tau")
-tauBkgdClosureTest_CandTrk.addTFile (fout)
-tauBkgdClosureTest_CandTrk.addTCanvas (canvas)
-tauBkgdClosureTest_CandTrk.addMetCut (100.0)
-tauBkgdClosureTest_CandTrk.addPpassVeto (pPassVeto)
-tauBkgdClosureTest_CandTrk.addPrescaleFactor (11.559)
-tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35",         "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_CandTrk.addChannel  ("TagPt35MetTrig",  "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_CandTrk.printSingleLeptonTriggerEff ()
-
-print "********************************************************************************"
-
-(nEst, nEstError) = tauBkgdClosureTest_CandTrk.printNest ()
-
-print "********************************************************************************"
-
-fout.Close ()
-
-print "\n\n"
+tauBkgdEstimate_WZToLNuNuNu = LeptonBkgdEstimate ("tau")
+tauBkgdEstimate_WZToLNuNuNu.addTFile (fout)
+tauBkgdEstimate_WZToLNuNuNu.addTCanvas (canvas)
+tauBkgdEstimate_WZToLNuNuNu.addPrescaleFactor ((lumi["MET_2015"] + lumi["MET_2016"]) / lumi["MET_2016DEFGH"])
+tauBkgdEstimate_WZToLNuNuNu.addLuminosityInInvPb (lumi["MET_2015"] + lumi["MET_2016"])
+tauBkgdEstimate_WZToLNuNuNu.addLuminosityLabel (str (round ((lumi["MET_2015"] + lumi["MET_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+tauBkgdEstimate_WZToLNuNuNu.addMetCut (100.0)
+tauBkgdEstimate_WZToLNuNuNu.addPhiCut (-1.0)
+tauBkgdEstimate_WZToLNuNuNu.addECaloCut (10.0)
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",     "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_muonTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrkNoNMissOutCut",   "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_muonTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",    "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrkNoNMissOutCut",  "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagPt35",         "TauTagPt55NoJetCuts",             "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_tauTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("TagPt35MetTrig",  "TauTagPt55NoJetCutsMetTrig",      "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_tauTagSkim")
+tauBkgdEstimate_WZToLNuNuNu.addChannel  ("CandTrkIdPt35",   "CandTrkIdTauPt55",                "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_metMinimalSkim")
 
 print "********************************************************************************"
-print "performing tau background closure test in missing outer hits sideband region"
+
+est = tauBkgdEstimate_WZToLNuNuNu.printNest ()
+
 print "--------------------------------------------------------------------------------"
 
-fout = TFile.Open ("tauBkgdClosureTest_NmissOutSideband.root", "recreate")
+obs = tauBkgdEstimate_WZToLNuNuNu.printNback ()
 
-tauBkgdClosureTest_NmissOutSideband = LeptonBkgdEstimate ("tau")
-tauBkgdClosureTest_NmissOutSideband.addTFile (fout)
-tauBkgdClosureTest_NmissOutSideband.addTCanvas (canvas)
-tauBkgdClosureTest_NmissOutSideband.addMetCut (100.0)
-tauBkgdClosureTest_NmissOutSideband.addPpassVeto (pPassVeto)
-tauBkgdClosureTest_NmissOutSideband.addPrescaleFactor (11.559)
-tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForMissingOuterHitsSideband")
-tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_NmissOutSideband.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_NmissOutSideband.printSingleLeptonTriggerEff ()
+print ""
 
-print "********************************************************************************"
+diff = est - obs
 
-(nEst, nEstError) = tauBkgdClosureTest_NmissOutSideband.printNest ()
-
-print "********************************************************************************"
-
-fout.Close ()
-
-print "\n\n"
-
-print "********************************************************************************"
-print "performing tau background estimate in disappearing track search region"
-print "--------------------------------------------------------------------------------"
-
-fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
-
-tauBkgdClosureTest_DisTrk = LeptonBkgdEstimate ("tau")
-tauBkgdClosureTest_DisTrk.addTFile (fout)
-tauBkgdClosureTest_DisTrk.addTCanvas (canvas)
-tauBkgdClosureTest_DisTrk.addMetCut (100.0)
-tauBkgdClosureTest_DisTrk.addPpassVeto (pPassVeto)
-tauBkgdClosureTest_DisTrk.addPrescaleFactor (11.559)
-tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35ForNctrl",  "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForDisappearingTrackSelection")
-tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35",          "TauTagPt50",         "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_DisTrk.addChannel  ("TagPt35MetTrig",   "TauTagPt50MetTrig",  "Tau_2015D",  dirs['Andrew']+"withFiducialCuts/tauBkgdForCandidateTrackSelection_noJetMETCut")
-tauBkgdClosureTest_DisTrk.printSingleLeptonTriggerEff ()
-
-print "********************************************************************************"
-
-(nEst, nEstError) = tauBkgdClosureTest_DisTrk.printNest ()
+print "N_est - N_obs: " + str (diff.centralValue () / diff.maxUncertainty ()) + " sigma"
 
 print "********************************************************************************"
 

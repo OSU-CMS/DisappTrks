@@ -1,175 +1,94 @@
 #!/usr/bin/env python
 
-from DisappTrks.StandardAnalysis.bkgdEstimate import *
+import math, os
+from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate
+from DisappTrks.BackgroundEstimation.fakeEstimateTest import FakeTrackBkgdEstimate
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from ROOT import TCanvas, TFile, gROOT
-import os
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 
+gROOT.SetBatch () # I too am Groot.
 
 dirs = getUser()
-
-gROOT.SetBatch()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
+print "********************************************************************************"
+print "performing electron closure test with just DYJetsToLL_50 (2016)"
+print "--------------------------------------------------------------------------------"
+
+fout = TFile.Open ("electronClosureTest_DYJetsToLL_50.root", "recreate")
+
+electronBkgdEstimate_DYJetsToLL_50 = LeptonBkgdEstimate ("electron")
+electronBkgdEstimate_DYJetsToLL_50.addTFile (fout)
+electronBkgdEstimate_DYJetsToLL_50.addTCanvas (canvas)
+electronBkgdEstimate_DYJetsToLL_50.addPrescaleFactor ((lumi["MET_2015"] + lumi["MET_2016"]) / lumi["MET_2016DEFGH"])
+electronBkgdEstimate_DYJetsToLL_50.addLuminosityInInvPb (lumi["MET_2015"] + lumi["MET_2016"])
+electronBkgdEstimate_DYJetsToLL_50.addLuminosityLabel (str (round ((lumi["MET_2015"] + lumi["MET_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+electronBkgdEstimate_DYJetsToLL_50.addMetCut (100.0)
+electronBkgdEstimate_DYJetsToLL_50.addPhiCut (-1.0)
+electronBkgdEstimate_DYJetsToLL_50.addECaloCut (10.0)
+electronBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",          "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_DYJetsToLL_50.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoNMissOutCut",        "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_DYJetsToLL_50.addChannel  ("TagPt35",         "ElectronTagPt35NoJetCuts",         "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_DYJetsToLL_50.addChannel  ("TagPt35MetTrig",  "ElectronTagPt35NoJetCutsMetTrig",  "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_DYJetsToLL_50.addChannel  ("CandTrkIdPt35",   "CandTrkIdElecPt35",                "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_metMinimalSkim")
 
 print "********************************************************************************"
-print "performing electron background closure test with sum of TTJets and WJetsToLNu..."
+
+est = electronBkgdEstimate_DYJetsToLL_50.printNest ()
+
 print "--------------------------------------------------------------------------------"
-sample = "bkgd_TT_WJets"
-condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets"
-fout = TFile.Open ("elecBkgdClosureTest_TT_WJets.root", "recreate")
-elecBkgdClosureTest_TT_WJets = LeptonBkgdEstimate ("electron")
-elecBkgdClosureTest_TT_WJets.addTFile (fout)
-elecBkgdClosureTest_TT_WJets.addTCanvas (canvas)
-elecBkgdClosureTest_TT_WJets.addMetCut (100.0)
-elecBkgdClosureTest_TT_WJets.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-elecBkgdClosureTest_TT_WJets.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-elecBkgdClosureTest_TT_WJets.addChannel  ("TagPt35",             "ElectronTagPt35",        sample, dirs['Wells']+'ElectronTagPt35')
-elecBkgdClosureTest_TT_WJets.addChannel  ("TagPt35MetTrig",      "ElectronTagPt35MetTrig", sample, dirs['Wells']+"ElectronTagPt35MetTrig")
-elecBkgdClosureTest_TT_WJets.addChannel  ("CandTrkIdPt35",       "CandTrkIdElecPt35",      sample+"HT", condor_dir)
-elecBkgdClosureTest_TT_WJets.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdElecPt35NoMet", sample, condor_dir)
-elecBkgdClosureTest_TT_WJets.printStdResults()
-fout.Close()
 
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background closure test with TTJets..."
-# print "--------------------------------------------------------------------------------"
-# sample = "TTJets"
-# condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets"
-# fout = TFile.Open ("elecBkgdClosureTest_TTJets.root", "recreate")
-# elecBkgdClosureTest_TTJets = LeptonBkgdEstimate ("electron")
-# elecBkgdClosureTest_TTJets.addTFile (fout)
-# elecBkgdClosureTest_TTJets.addTCanvas (canvas)
-# elecBkgdClosureTest_TTJets.addMetCut (100.0)
-# elecBkgdClosureTest_TTJets.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-# elecBkgdClosureTest_TTJets.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-# elecBkgdClosureTest_TTJets.addChannel  ("TagPt35",             "ElectronTagPt35",        sample, dirs['Wells']+'ElectronTagPt35')
-# elecBkgdClosureTest_TTJets.addChannel  ("TagPt35NoTrig",       "ElectronTagPt35NoTrig",  sample, condor_dir)
-# elecBkgdClosureTest_TTJets.addChannel  ("TagPt35MetTrig",      "ElectronTagPt35MetTrig", sample, dirs['Wells']+"ElectronTagPt35MetTrig")
-# elecBkgdClosureTest_TTJets.addChannel  ("CandTrkIdPt35",       "CandTrkIdElecPt35",      sample, condor_dir)
-# elecBkgdClosureTest_TTJets.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdElecPt35NoMet", sample, condor_dir)
-# elecBkgdClosureTest_TTJets.printStdResults()
-# fout.Close()
+obs = electronBkgdEstimate_DYJetsToLL_50.printNback ()
 
+print ""
 
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background closure test with WJetsToLNu..."
-# print "--------------------------------------------------------------------------------"
-# sample = "WJetsToLNu"
-# condor_dir = dirs['Wells']+"ElecBkgdClosureTestWjets"
-# fout = TFile.Open ("elecBkgdClosureTest_WJetsToLNu.root", "recreate")
-# elecBkgdClosureTest_WLNu = LeptonBkgdEstimate ("electron")
-# elecBkgdClosureTest_WLNu.addTFile (fout)
-# elecBkgdClosureTest_WLNu.addTCanvas (canvas)
-# elecBkgdClosureTest_WLNu.addMetCut (100.0)
-# elecBkgdClosureTest_WLNu.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-# elecBkgdClosureTest_WLNu.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            "DYJetsToLL_50", dirs['Wells']+"electronTagProbe")
-# elecBkgdClosureTest_WLNu.addChannel  ("TagPt35",             "ElectronTagPt35",        sample, dirs['Wells']+'ElectronTagPt35')
-# elecBkgdClosureTest_WLNu.addChannel  ("TagPt35NoTrig",       "ElectronTagPt35NoTrig",  sample, condor_dir)
-# elecBkgdClosureTest_WLNu.addChannel  ("TagPt35MetTrig",      "ElectronTagPt35MetTrig", sample, dirs['Wells']+"ElectronTagPt35MetTrig")
-# elecBkgdClosureTest_WLNu.addChannel  ("CandTrkIdPt35",       "CandTrkIdElecPt35",      sample+"_HT", condor_dir)
-# elecBkgdClosureTest_WLNu.addChannel  ("CandTrkIdPt35NoMet",  "CandTrkIdElecPt35NoMet", sample, condor_dir)
-# elecBkgdClosureTest_WLNu.printStdResults()
-# fout.Close()
+diff = est - obs
 
+print "N_est - N_obs: " + str (diff.centralValue () / diff.maxUncertainty ()) + " sigma"
+
+print "********************************************************************************"
+
+fout.Close ()
 
 print "\n\n"
+
 print "********************************************************************************"
-print "performing electron background estimate for all MC in Disappearing Track sample..."
+print "performing electron closure test with just WZToLNuNuNu (2016)"
 print "--------------------------------------------------------------------------------"
-sample = "allBkgd"
-fout = TFile.Open ("elecBkgdClosureTest_allMC.root", "recreate")
-elecBkgdClosureTest_allMC = LeptonBkgdEstimate ("electron")
-elecBkgdClosureTest_allMC.addTFile (fout)
-elecBkgdClosureTest_allMC.addTCanvas (canvas)
-elecBkgdClosureTest_allMC.addMetCut (100.0)
-elecBkgdClosureTest_allMC.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoEleProbeTrkWithZCuts")
-elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")  # FIXME:  Use directory ElecTagProbeChannels instead (no NMissOut cut), but modify bkgdEstimate.py to integrate missing outer hits distribution.
-elecBkgdClosureTest_allMC.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  # FIXME:  Update with latest version of ElectronTagPt55
-elecBkgdClosureTest_allMC.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  # FIXME:  Update with latest version of ElectronTagPt55MetTrig
-elecBkgdClosureTest_allMC.addChannel  ("CandTrkIdPt35",       "DisTrkIdElec",            sample, dirs['Wells']+"disTrkChannels")
-elecBkgdClosureTest_allMC.printStdResults()
-fout.Close()
 
-print "\n\n"
+fout = TFile.Open ("electronClosureTest_WZToLNuNuNu.root", "recreate")
+
+electronBkgdEstimate_WZToLNuNuNu = LeptonBkgdEstimate ("electron")
+electronBkgdEstimate_WZToLNuNuNu.addTFile (fout)
+electronBkgdEstimate_WZToLNuNuNu.addTCanvas (canvas)
+electronBkgdEstimate_WZToLNuNuNu.addPrescaleFactor ((lumi["MET_2015"] + lumi["MET_2016"]) / lumi["MET_2016DEFGH"])
+electronBkgdEstimate_WZToLNuNuNu.addLuminosityInInvPb (lumi["MET_2015"] + lumi["MET_2016"])
+electronBkgdEstimate_WZToLNuNuNu.addLuminosityLabel (str (round ((lumi["MET_2015"] + lumi["MET_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
+electronBkgdEstimate_WZToLNuNuNu.addMetCut (100.0)
+electronBkgdEstimate_WZToLNuNuNu.addPhiCut (-1.0)
+electronBkgdEstimate_WZToLNuNuNu.addECaloCut (10.0)
+electronBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",          "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_WZToLNuNuNu.addChannel  ("TagProbePass",    "ZtoEleDisTrkNoNMissOutCut",        "DYJetsToLL_50_2016MC",  dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_WZToLNuNuNu.addChannel  ("TagPt35",         "ElectronTagPt35NoJetCuts",         "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_WZToLNuNuNu.addChannel  ("TagPt35MetTrig",  "ElectronTagPt35NoJetCutsMetTrig",  "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_electronTagSkim")
+electronBkgdEstimate_WZToLNuNuNu.addChannel  ("CandTrkIdPt35",   "CandTrkIdElecPt35",                "WZToLNuNuNu_2016MC",    dirs['Andrew']+"2016_final_prompt/closureTest_metMinimalSkim")
+
 print "********************************************************************************"
-print "performing electron background estimate for all MC in Disappearing Track sample (no NMissOut cut)..."
+
+est = electronBkgdEstimate_WZToLNuNuNu.printNest ()
+
 print "--------------------------------------------------------------------------------"
-elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ElecTagProbeChannels")  # No NMissOut cut
-elecBkgdClosureTest_allMC.printStdResults()
 
+obs = electronBkgdEstimate_WZToLNuNuNu.printNback ()
 
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for all MC in Candidate Track sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleCandTrk",  sample, "ElecTagProbeChannels")
-# elecBkgdClosureTest_allMC.addChannel  ("CandTrkIdPt35",       "CandTrkSelection",       sample, dirs['Wells']+"bkgdCtrlChannelsWithFiducial_76X")  # NOT all the tracks in this sample are matched to electrons.
-# elecBkgdClosureTest_allMC.printStdResults()
+print ""
 
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for all MC in Ecalo Sdband sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandEcalo",  sample, dirs['Wells']+"ElecTagProbeChannels")
-# elecBkgdClosureTest_allMC.addChannel  ("CandTrkIdPt35",       "CandTrkEcaloSdband",        sample, dirs['Wells']+"bkgdCtrlChannelsWithFiducial_76X")  # NOT all the tracks in this sample are matched to electrons.
-# elecBkgdClosureTest_allMC.printStdResults()
+diff = est - obs
 
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for all MC in NMissOut Sdband sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_allMC.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandNMissOut", sample, dirs['Wells']+"ElecTagProbeChannels")
-# elecBkgdClosureTest_allMC.addChannel  ("CandTrkIdPt35",       "CandTrkNMissOutSdband",       sample, dirs['Wells']+"bkgdCtrlChannelsWithFiducial_76X")  # All the tracks in this sample are matched to electrons.
-# elecBkgdClosureTest_allMC.printStdResults()
+print "N_est - N_obs: " + str (diff.centralValue () / diff.maxUncertainty ()) + " sigma"
 
-
-
-print "\n\n"
 print "********************************************************************************"
-print "performing electron background estimate for data in Disappearing Track sample..."
-print "--------------------------------------------------------------------------------"
-sample = "SingleEle_2015D"
-fout = TFile.Open ("elecBkgdClosureTest_Data.root", "recreate")
-elecBkgdClosureTest_Data = LeptonBkgdEstimate ("electron")
-elecBkgdClosureTest_Data.addTFile (fout)
-elecBkgdClosureTest_Data.addTCanvas (canvas)
-elecBkgdClosureTest_Data.addMetCut (100.0)
-elecBkgdClosureTest_Data.addChannel  ("TagProbe",            "ZtoEleProbeTrkWithZCuts", sample, dirs['Wells']+"ZtoEleProbeTrkWithZCuts")
-elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ZtoEleDisTrk")   # FIXME:  Use directory ElecTagProbeChannels instead (no NMissOut cut), but modify bkgdEstimate.py to integrate missing outer hits distribution.
-elecBkgdClosureTest_Data.addChannel  ("TagPt35",             "ElectronTagPt50",         sample, dirs['Wells']+'ElecBkgdEstimateWithJetCuts')  # FIXME:  Update with latest version of ElectronTagPt55
-elecBkgdClosureTest_Data.addChannel  ("TagPt35MetTrig",      "ElectronTagPt50MetTrig",  sample, dirs['Wells']+"ElecBkgdEstimateWithJetCuts")  # FIXME:  Update with latest version of ElectronTagPt55MetTrig
-elecBkgdClosureTest_Data.printStdResults()
-fout.Close()
 
-print "\n\n"
-print "********************************************************************************"
-print "performing electron background estimate for data in Disappearing Track sample (no NMissOut cut)..."
-print "--------------------------------------------------------------------------------"
-elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleDisTrk",            sample, dirs['Wells']+"ElecTagProbeChannels")  # No NMissOut cut
-elecBkgdClosureTest_Data.printStdResults()
-
-
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for data in Candidate Track sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrk",  sample, "ElecTagProbeChannels")
-# elecBkgdClosureTest_Data.printStdResults()
-
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for data in Ecalo Sdband sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandEcalo",  sample, dirs['Wells']+"ElecTagProbeChannels")
-# elecBkgdClosureTest_Data.printStdResults()
-
-# print "\n\n"
-# print "********************************************************************************"
-# print "performing electron background estimate for data in NMissOut Sdband sample..."
-# print "--------------------------------------------------------------------------------"
-# elecBkgdClosureTest_Data.addChannel  ("TagProbePass",        "ZtoEleCandTrkSdbandNMissOut", sample, dirs['Wells']+"ElecTagProbeChannels")
-# elecBkgdClosureTest_Data.printStdResults()
+fout.Close ()
