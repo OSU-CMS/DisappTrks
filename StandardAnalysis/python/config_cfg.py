@@ -73,6 +73,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits5],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits6],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
+#  add_channels  (process,  [justAFakeTrkWithNoCuts],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justARealTrkWithNoCuts],   histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [justACharginoWithNoCuts],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+
 #  add_channels  (process,  [justAChargino],        histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAHighPtChargino],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justAVertex],          histSets,  weights,  [],  collectionMap,  variableProducers,  False)

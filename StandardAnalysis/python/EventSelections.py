@@ -267,6 +267,33 @@ justMET90IsoTrk50 = cms.PSet(
         cutDummyMet,
     ),
 )
+justAFakeTrkWithNoCuts = cms.PSet(
+    name = cms.string("JustAFakeTrkWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchFake,
+    ),
+)
+justARealTrkWithNoCuts = cms.PSet(
+    name = cms.string("JustARealTrkWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchReal,
+    ),
+)
+justACharginoWithNoCuts = cms.PSet(
+    name = cms.string("JustACharginoWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchChargino,
+    )
+)
 
 justADisTrk = copy.deepcopy (justAVertex)
 justADisTrk.name = cms.string ("JustADisTrk")
