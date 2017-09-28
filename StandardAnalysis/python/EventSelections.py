@@ -44,6 +44,14 @@ basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
 removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
 
+basicSelectionNoDijetPhiCut = copy.deepcopy (basicSelection)
+basicSelectionNoDijetPhiCut.name = cms.string ("BasicSelectionNoDijetPhiCut")
+removeCuts (basicSelectionNoDijetPhiCut.cuts, [cutDijetDeltaPhiMax])
+
+basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
+basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
+removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+
 ##########################################################################
 
 isoTrkSelection = copy.deepcopy(basicSelection)
