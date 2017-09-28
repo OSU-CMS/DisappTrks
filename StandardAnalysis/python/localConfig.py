@@ -165,7 +165,7 @@ labels["allBkgd"] = "Total bkgd"
 
 # add dataset attributes for 2016BC and 2016DEFGH
 for attribute in list (locals ()):
-    if not isinstance (locals ()[attribute], dict) or attribute == "lumi":
+    if not isinstance (locals ()[attribute], dict) or attribute.startswith ("lumi"):
         continue
     newKeys = {}
     for a in locals ()[attribute]:
@@ -183,7 +183,7 @@ for attribute in list (locals ()):
 
 # add dataset attributes for 2016 MC
 for attribute in list (locals ()):
-    if not isinstance (locals ()[attribute], dict) or attribute == "lumi" or attribute == "dataset_names":
+    if not isinstance (locals ()[attribute], dict) or attribute.startswith ("lumi") or attribute == "dataset_names":
         continue
     newKeys = {}
     for a in locals ()[attribute]:
