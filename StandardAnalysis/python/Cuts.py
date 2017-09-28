@@ -255,6 +255,11 @@ cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkPt20 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkEta = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("fabs ( eta ) < 2.1"),
