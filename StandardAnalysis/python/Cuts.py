@@ -212,13 +212,13 @@ cutLeadingJetMetPhiInvert = cms.PSet(
 )
 cutLeadingJetTauMetMinusOnePhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "taus"),
-    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePt, eventvariable.phiJetLeading) ) > 0.5"),
+    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePhi, eventvariable.phiJetLeading) ) > 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
 )
 cutLeadingJetTauMetMinusOnePhiInvert = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "taus"),
-    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePt, eventvariable.phiJetLeading) ) < 0.5"),
+    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePhi, eventvariable.phiJetLeading) ) < 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) < 0.5"),
 )
