@@ -95,10 +95,8 @@ if background == "ELECTRON" or background == "ALL":
     electronEnergySystematic.addLuminosityLabel (str (round (lumi["SingleElectron_2015D"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronEnergySystematic.addPlotLabel ("SingleElectron 2015D")
     electronEnergySystematic.addMetCut (100.0)
-    electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
-    #electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
-    electronEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
-    electronEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
+    electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     print "********************************************************************************"
 
@@ -125,10 +123,10 @@ if background == "TAU" or background == "ALL":
     tauEnergySystematic.addPlotLabel ("Tau 2015D")
     tauEnergySystematic.addMetCut (100.0)
     tauEnergySystematic.addRebinFactor (4)
-    tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2015D",        dirs['Brian']+"2015/tauBackground")
-    #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2015D",        dirs['Brian']+"2015/tauBackground")
-    tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
-    tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2015D",  dirs['Brian']+"2015/electronBackground")
+    tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+    #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+    tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     print "********************************************************************************"
 

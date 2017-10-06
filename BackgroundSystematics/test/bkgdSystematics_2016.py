@@ -112,8 +112,8 @@ if background == "ELECTRON" or background == "ALL":
         electronEnergySystematic.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronEnergySystematic.addPlotLabel ("SingleElectron 2016" + runPeriod)
         electronEnergySystematic.addMetCut (100.0)
-        electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
-        electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
+        electronEnergySystematic.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        electronEnergySystematic.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         print "********************************************************************************"
 
@@ -142,10 +142,10 @@ if background == "TAU" or background == "ALL":
         tauEnergySystematic.addPlotLabel ("Tau 2016" + runPeriod)
         tauEnergySystematic.addMetCut (100.0)
         tauEnergySystematic.addRebinFactor (4)
-        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",              "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
-        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2016"        +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_metTrig_new")
-        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
-        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_metTrig_new")
+        tauEnergySystematic.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
+        #tauEnergySystematic.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
+        tauEnergySystematic.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        tauEnergySystematic.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         print "********************************************************************************"
 
