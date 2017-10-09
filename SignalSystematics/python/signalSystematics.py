@@ -3,8 +3,9 @@ import os
 import sys
 import math
 import copy
+from array import array
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
@@ -668,9 +669,16 @@ class MissingOuterHitsSystematic:
         mcHits = None
         signalHits = None
         systematic = []
+        masses = map (float, self._masses)
+        lifetimes = map (float, self._lifetimes)
+        massBins = array ("d", masses + [masses[-1] + 100])
+        lifetimeBins = array ("d", lifetimes + [lifetimes[-1] * 10.0])
+        hDown = TH2D ("nMissOutSystematicDown", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
+        hUp = TH2D ("nMissOutSystematicUp", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
+                mc1, mcHits = self.getNMissOutEfficiency ("MC", 1, 12)
                 nominal, signalHits = self.getSignalYield (mass, lifetime, 3, 12)
                 newYieldUp = nominal
                 newYieldDown = nominal
@@ -680,22 +688,14 @@ class MissingOuterHitsSystematic:
                     mc, mcHits = self.getNMissOutEfficiency ("MC", 3 - nMissOut, 12, hits = mcHits)
                     n, signalHits = self.getSignalYield (mass, lifetime, nMissOut, hits = signalHits)
 
-                    if not data:
-                        continue
-
-                    relDiff = abs (1.0 - (mc / data))
-                    newYieldUp += n * relDiff
+                    newYieldUp += n * (data / (1 - mc1))
 
                 for nMissOut in range (3, 12):
                     data, dataHits = self.getNMissOutEfficiency ("Data", nMissOut - 2, 12, hits = dataHits)
                     mc, mcHits = self.getNMissOutEfficiency ("MC", nMissOut - 2, 12, hits = mcHits)
                     n, signalHits = self.getSignalYield (mass, lifetime, nMissOut, hits = signalHits)
 
-                    if data == 0.0:
-                        continue
-
-                    relDiff = abs (1.0 - (mc / data))
-                    newYieldDown -= n * relDiff
+                    newYieldDown -= n * (data / (1 - mc1))
 
                 sysDown = (newYieldDown / nominal) - 1.0
                 sysUp = (newYieldUp / nominal) - 1.0
@@ -705,7 +705,14 @@ class MissingOuterHitsSystematic:
                 sysUp *= 100.0
                 sysDown.printUncertainty (False)
                 sysUp.printUncertainty (False)
+                hDown.Fill (mass, lifetime, abs (sysDown.centralValue () / 100.0))
+                hUp.Fill (mass, lifetime, abs (sysUp.centralValue () / 100.0))
                 print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] nominal yield: " + str (nominal) + ", fluctuated yields: " + str (newYieldDown) + "/" + str (newYieldUp) + ", systematic uncertainty: " + str (sysDown) + "%/" + str (sysUp) + "%"
+        fout = TFile ("nMissOutSystematic.root", "recreate")
+        fout.cd ()
+        hDown.Write ()
+        hUp.Write ()
+        fout.Close ()
 
         if self._fout:
             width = max (len (word) for row in systematic for word in row) + 2
