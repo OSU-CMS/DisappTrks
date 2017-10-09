@@ -9,8 +9,12 @@ import re
 import sys
 
 dirs = getUser()
-masses = [100, 200, 300, 400, 500, 600, 700]
+masses = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 lifetimes = [10, 100, 1000, 10000]
+allTheLifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+                   '20', '30', '40', '50', '60', '70', '80', '90', '100',
+                   '200', '300', '400', '500', '600', '700', '800', '900', '1000',
+                   '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 suffix = "80X"
 extraSamples = getExtraSamples (suffix)
 
@@ -277,22 +281,23 @@ if systematic == "HITS" or systematic == "ALL":
 if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating missing outer hits systematic (2016B & 2016C)"
+    print "evaluating missing outer hits systematic (2016BC)"
     print "--------------------------------------------------------------------------------"
 
-    missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic ()
-    missingOuterHitsSystematic_2016BC.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016BC",  dirs['Andrew']+"2016/hipAndTOBDrop")
-    missingOuterHitsSystematic_2016BC.addChannel  ("MC",    "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_BC_new")
-    missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
-    print "--------------------------------------------------------------------------------"
-    print "before correction to missing outer hits"
-    missingOuterHitsSystematic_2016BC.printSystematic ()
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2016BC.txt", "w")
+
+    missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, allTheLifetimes)
+    missingOuterHitsSystematic_2016BC.addFout (fout)
+    missingOuterHitsSystematic_2016BC.addSignalSuffix ("_80X")
     missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    print "--------------------------------------------------------------------------------"
-    print "after correction to missing outer hits"
+    missingOuterHitsSystematic_2016BC.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016BC",        dirs['Andrew']+"2016/hipAndTOBDrop")
+    missingOuterHitsSystematic_2016BC.addChannel  ("MC",      "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_BC_new")
+    missingOuterHitsSystematic_2016BC.addChannel  ("Signal",  "DisTrkNoNMissOut",   "",                  dirs['Andrew']+"2016_final_prompt/disTrkSelection_noNMissOutCut_BC")
     missingOuterHitsSystematic_2016BC.printSystematic ()
 
     print "********************************************************************************"
+
+    fout.close ()
 
     print "\n\n"
 
@@ -300,18 +305,19 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "evaluating missing outer hits systematic (2016DEFGH)"
     print "--------------------------------------------------------------------------------"
 
-    missingOuterHitsSystematic_2016DEFGH = MissingOuterHitsSystematic ()
-    missingOuterHitsSystematic_2016DEFGH.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2016DEFGH",  dirs['Andrew']+"2016/hipAndTOBDrop")
-    missingOuterHitsSystematic_2016DEFGH.addChannel  ("MC",    "MuonCtrlSelection",  "Background_noQCD",    dirs['Andrew']+"2016/hitsSystematics_DEFGH_new")
-    missingOuterHitsSystematic_2016DEFGH.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
-    print "--------------------------------------------------------------------------------"
-    print "before correction to missing outer hits"
-    missingOuterHitsSystematic_2016DEFGH.printSystematic ()
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2016DEFGH.txt", "w")
+
+    missingOuterHitsSystematic_2016DEFGH = MissingOuterHitsSystematic (masses, allTheLifetimes)
+    missingOuterHitsSystematic_2016DEFGH.addFout (fout)
+    missingOuterHitsSystematic_2016DEFGH.addSignalSuffix ("_80X")
     missingOuterHitsSystematic_2016DEFGH.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    print "--------------------------------------------------------------------------------"
-    print "after correction to missing outer hits"
+    missingOuterHitsSystematic_2016DEFGH.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016DEFGH",     dirs['Andrew']+"2016/hipAndTOBDrop")
+    missingOuterHitsSystematic_2016DEFGH.addChannel  ("MC",      "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_DEFGH")
+    missingOuterHitsSystematic_2016DEFGH.addChannel  ("Signal",  "DisTrkNoNMissOut",   "",                  dirs['Andrew']+"2016_final_prompt/disTrkSelection_noNMissOutCut_DEFGH")
     missingOuterHitsSystematic_2016DEFGH.printSystematic ()
 
     print "********************************************************************************"
+
+    fout.close ()
 
     print "\n\n"
