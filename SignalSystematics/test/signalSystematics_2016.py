@@ -288,7 +288,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, allTheLifetimes)
     missingOuterHitsSystematic_2016BC.addFout (fout)
-    missingOuterHitsSystematic_2016BC.addSignalSuffix ("_80X")
+    missingOuterHitsSystematic_2016BC.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     missingOuterHitsSystematic_2016BC.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016BC",        dirs['Andrew']+"2016/hipAndTOBDrop")
     missingOuterHitsSystematic_2016BC.addChannel  ("MC",      "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_BC_new")
@@ -309,7 +309,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     missingOuterHitsSystematic_2016DEFGH = MissingOuterHitsSystematic (masses, allTheLifetimes)
     missingOuterHitsSystematic_2016DEFGH.addFout (fout)
-    missingOuterHitsSystematic_2016DEFGH.addSignalSuffix ("_80X")
+    missingOuterHitsSystematic_2016DEFGH.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic_2016DEFGH.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     missingOuterHitsSystematic_2016DEFGH.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016DEFGH",     dirs['Andrew']+"2016/hipAndTOBDrop")
     missingOuterHitsSystematic_2016DEFGH.addChannel  ("MC",      "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2016/hitsSystematics_DEFGH")
