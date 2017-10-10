@@ -3,7 +3,7 @@
 import math
 from DisappTrks.SignalSystematics.signalSystematics import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from ROOT import TCanvas, TFile
+from ROOT import TFile
 import os
 import re
 import sys
@@ -11,6 +11,10 @@ import sys
 dirs = getUser()
 masses = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 lifetimes = [10, 100, 1000, 10000]
+allTheLifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+                   '20', '30', '40', '50', '60', '70', '80', '90', '100',
+                   '200', '300', '400', '500', '600', '700', '800', '900', '1000',
+                   '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 suffix = "76X"
 extraSamples = getExtraSamples (suffix)
 
@@ -182,21 +186,24 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "evaluating missing outer hits systematic"
     print "--------------------------------------------------------------------------------"
 
-    missingOuterHitsSystematic = MissingOuterHitsSystematic ()
-    missingOuterHitsSystematic.addChannel  ("Data",  "MuonCtrlSelection",  "MET_2015D",   dirs['Andrew']+"2015/hipAndTOBDrop")
-    missingOuterHitsSystematic.addChannel  ("MC",    "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2015/hipAndTOBDrop")
-    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuter")
-    print "--------------------------------------------------------------------------------"
-    print "before correction to missing outer hits"
-    missingOuterHitsSystematic.printSystematic ()
-    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    print "--------------------------------------------------------------------------------"
-    print "after correction to missing outer hits"
-    missingOuterHitsSystematic.printSystematic ()
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2015.txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematic_2015.root", "recreate")
+
+    missingOuterHitsSystematic_2015 = MissingOuterHitsSystematic (masses, allTheLifetimes)
+    #missingOuterHitsSystematic_2015 = MissingOuterHitsSystematic (masses, lifetimes)
+    missingOuterHitsSystematic_2015.addFout (fout)
+    missingOuterHitsSystematic_2015.addFoutForPlot (foutForPlot)
+    missingOuterHitsSystematic_2015.addSignalSuffix ("_" + suffix)
+    missingOuterHitsSystematic_2015.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    missingOuterHitsSystematic_2015.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2015D",         dirs['Andrew']+"2015/hipAndTOBDrop")
+    missingOuterHitsSystematic_2015.addChannel  ("MC",      "MuonCtrlSelection",  "Background_noQCD",  dirs['Andrew']+"2015/hipAndTOBDrop")
+    missingOuterHitsSystematic_2015.addChannel  ("Signal",  "DisTrkNoNMissOut",   "",                  dirs['Andrew']+"2016_final_prompt/disTrkSelection_noNMissOutCut_2015")
+    missingOuterHitsSystematic_2015.printSystematic ()
 
     print "********************************************************************************"
 
-    print "\n\n"
+    fout.close ()
+    foutForPlot.Close ()
 
 if systematic == "TRIGGER" or systematic == "ALL":
 
