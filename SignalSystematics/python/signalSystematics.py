@@ -595,6 +595,7 @@ class MissingOuterHitsSystematic:
     _lifetimes = None
     _signalSuffix = ""
     _fout = None
+    _foutForPlot = None
 
     def __init__ (self, masses, lifetimes):
         self._masses = masses
@@ -617,6 +618,9 @@ class MissingOuterHitsSystematic:
 
     def addFout (self, fout):
         self._fout = fout
+
+    def addFoutForPlot (self, foutForPlot):
+        self._foutForPlot = foutForPlot
 
     def getNMissOutEfficiency (self, dataOrMC, nLow, nHigh = -1, hits = None):
         if hasattr (self, dataOrMC):
@@ -708,11 +712,12 @@ class MissingOuterHitsSystematic:
                 hDown.Fill (mass, lifetime, abs (sysDown.centralValue () / 100.0))
                 hUp.Fill (mass, lifetime, abs (sysUp.centralValue () / 100.0))
                 print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] nominal yield: " + str (nominal) + ", fluctuated yields: " + str (newYieldDown) + "/" + str (newYieldUp) + ", systematic uncertainty: " + str (sysDown) + "%/" + str (sysUp) + "%"
-        fout = TFile ("nMissOutSystematic.root", "recreate")
-        fout.cd ()
-        hDown.Write ()
-        hUp.Write ()
-        fout.Close ()
+
+        if self._foutForPlot:
+            self._foutForPlot.cd ()
+            hDown.Write ()
+            hUp.Write ()
+            self._foutForPlot.Close ()
 
         if self._fout:
             width = max (len (word) for row in systematic for word in row) + 2
