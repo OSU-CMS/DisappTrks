@@ -3,7 +3,7 @@
 import math
 from DisappTrks.SignalSystematics.signalSystematics import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from ROOT import TCanvas, TFile
+from ROOT import TFile
 import os
 import re
 import sys
@@ -285,9 +285,12 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2016BC.txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematic_2016BC.root", "recreate")
 
     missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, allTheLifetimes)
+    #missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, lifetimes)
     missingOuterHitsSystematic_2016BC.addFout (fout)
+    missingOuterHitsSystematic_2016BC.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic_2016BC.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic_2016BC.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     missingOuterHitsSystematic_2016BC.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016BC",        dirs['Andrew']+"2016/hipAndTOBDrop")
@@ -298,6 +301,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "********************************************************************************"
 
     fout.close ()
+    foutForPlot.Close ()
 
     print "\n\n"
 
@@ -306,9 +310,12 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2016DEFGH.txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematic_2016DEFGH.root", "recreate")
 
     missingOuterHitsSystematic_2016DEFGH = MissingOuterHitsSystematic (masses, allTheLifetimes)
+    #missingOuterHitsSystematic_2016DEFGH = MissingOuterHitsSystematic (masses, lifetimes)
     missingOuterHitsSystematic_2016DEFGH.addFout (fout)
+    missingOuterHitsSystematic_2016DEFGH.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic_2016DEFGH.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic_2016DEFGH.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     missingOuterHitsSystematic_2016DEFGH.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2016DEFGH",     dirs['Andrew']+"2016/hipAndTOBDrop")
@@ -319,5 +326,6 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "********************************************************************************"
 
     fout.close ()
+    foutForPlot.Close ()
 
     print "\n\n"
