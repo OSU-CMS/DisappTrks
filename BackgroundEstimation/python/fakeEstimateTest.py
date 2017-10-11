@@ -133,7 +133,7 @@ class FakeTrackBkgdEstimate:
         pFake *= xi
 
         N = nRaw
-        alpha = norm * (xiPass / xiFail)
+        alpha = norm * self._prescale * (xiPass / xiFail)
 
         nEst = xi * nCtrl
         nEst.isPositive ()
