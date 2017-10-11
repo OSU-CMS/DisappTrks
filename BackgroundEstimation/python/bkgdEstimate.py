@@ -447,7 +447,7 @@ class LeptonBkgdEstimate:
 
     def printNest (self):
         nCtrl = self.printNctrl ()
-        pPassVeto, passes, passes1, total = self.printPpassVetoTagProbe ()
+        pPassVeto, passes, scaleFactor, total = self.printPpassVetoTagProbe ()
         pPassMetCut = self.printPpassMetCut ()
         pPassMetTriggers, triggerEfficiency = self.printPpassMetTriggers ()
 
@@ -459,12 +459,11 @@ class LeptonBkgdEstimate:
 
         N = alpha = alphaError = float ("nan")
         if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            if pPassVeto > 0.0:
-                N = nCtrl / self._prescale
-                alpha = self._prescale * pPassVeto * pPassMetCut * pPassMetTriggers
+            N = passes
+            if self._flavor == "electron" or self._flavor == "muon":
+                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
-                N = passes
-                alpha = (self._tagProbePassScaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
+                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
 
         alpha.printLongFormat ()
 
@@ -489,6 +488,13 @@ class LeptonBkgdEstimate:
                     passes1       = self.TagProbePass1["yield"]
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
+                p = passes
+                sf = Measurement (self._tagProbePassScaleFactor, 0.0)
+                if scaledPasses > 0.0:
+                    p = (scaledPasses * scaledPasses) / (passes * self._tagProbePassScaleFactor * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor * self._tagProbePass1ScaleFactor)
+                    sf = (passes * self._tagProbePassScaleFactor * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor * self._tagProbePass1ScaleFactor) / scaledPasses
+                    p.setUncertainty (math.sqrt (p.centralValue ()))
+                    sf.setUncertainty (0.0)
 
                 if self._flavor == "electron" or self._flavor == "muon":
                     eff = scaledPasses / (2.0 * total - scaledPasses)
@@ -496,7 +502,7 @@ class LeptonBkgdEstimate:
                     eff = scaledPasses / total
 
                 print "P (pass lepton veto) in tag-probe sample: " + str (eff)
-                return (eff, passes, passes1, total)
+                return (eff, p, sf, total)
             else:
                 print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
                 return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
