@@ -8,15 +8,15 @@ backgrounds = {
     },
     'Elec' : {
         'N' : '13',
-        'alpha' : '0.0870270864348',
+        'alpha' : '0.0870255984973',
     },
     'Muon' : {
         'N' : '18',
-        'alpha' : '0.0529112162311',
+        'alpha' : '0.0529107476479',
     },
     'Tau' : {
         'N' : '4',
-        'alpha' : '0.00582997402504',
+        'alpha' : '0.0116590843182',
     },
 }
 
@@ -26,22 +26,22 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha' : { # error on alpha
-        'value' : '1.0168262496',
+        'value' : '1.01682624642',
         'background' : 'Elec',
     },
     'Muon_alpha' : { # error on alpha
-        'value' : '1.00743634832',
+        'value' : '1.00743634686',
         'background' : 'Muon',
     },
     'Tau_alpha' : { # error on alpha
-        'value' : '1.74768153715',
+        'value' : '1.24295611566',
         'background' : 'Tau',
     },
 
 
 
     'Fake_syst' : { # error on fake track rate assumption
-        'value' : str (1.0 + 7.01139237387396 / 100.0),
+        'value' : str (1.0 - 100.0 / 100.0) + "/" + str (1.0 + 108.0 / 100.0),
         'background' : 'Fake',
     },
     'Elec_energy' : { # error on energy assumption
