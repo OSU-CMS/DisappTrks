@@ -660,6 +660,13 @@ cutMCCharginoNeutralino = cms.PSet(
 ## muons
 ##################################################
 
+cutMuonMatchToTrigObj = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("match_HLT_IsoMu20_v || match_HLT_IsoTkMu20_v"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons firing trigger"),
+)
+
 cutMuonPt = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 22"),
@@ -668,9 +675,11 @@ cutMuonPt = cms.PSet (
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v || match_HLT_IsoTkMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     print "# Switching muon pt cut to >29 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v || match_HLT_IsoTkMu27_v")
     cutMuonPt.cutString = cms.string("pt > 29")
 else:
     print "# Using muon pt cut of >22 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
@@ -917,6 +926,13 @@ cutEleTrkMETBalance = cms.PSet(
 ##################################################
 ## electrons
 ##################################################
+
+cutElectronMatchToTrigObj = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("match_HLT_Ele25_eta2p1_WPTight_Gsf_v"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons firing trigger"),
+)
 
 cutElectronPt = cms.PSet (
     inputCollection = cms.vstring("electrons"),
