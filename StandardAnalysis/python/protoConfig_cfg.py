@@ -157,6 +157,11 @@ variableProducers.append('EventJetVarProducer')
 variableProducers.append('PUScalingFactorProducer')
 variableProducers.append('ISRWeightProducer')
 variableProducers.append('TriggerWeightProducer')
+
+electronTPProducer = ["EventElectronTPProducer"]
+muonTPProducer = ["EventMuonTPProducer"]
+tauToElectronTPProducer = ["EventTauToElectronTPProducer"]
+tauToMuonTPProducer = ["EventTauToMuonTPProducer"]
 ################################################################################
 
 ################################################################################
