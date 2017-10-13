@@ -6,8 +6,8 @@ template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg)
 {
-  tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> ("tags"));
-  tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("probes"));
+  tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
+  tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
 }
 
 template<class T, class... Args>
@@ -22,6 +22,9 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
   edm::Handle<vector<osu::Track> > probes;
   event.getByToken (tokenProbes_, probes);
+
+  if (!tags.isValid () || !probes.isValid ())
+    return;
 
   unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0;
   for (const auto &tag : *tags)
@@ -40,6 +43,36 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
 }
 
+template<class T, class... Args> const string
+EventTPProducer<T, Args...>::tagCollectionParameter () const
+{
+  return "";
+}
+
+template<> const string
+EventTPProducer<osu::Electron>::tagCollectionParameter () const
+{
+  return "electrons";
+}
+
+template<> const string
+EventTPProducer<osu::Muon>::tagCollectionParameter () const
+{
+  return "muons";
+}
+
+template<> const string
+EventTPProducer<osu::Electron, osu::Tau>::tagCollectionParameter () const
+{
+  return "electrons";
+}
+
+template<> const string
+EventTPProducer<osu::Muon, osu::Tau>::tagCollectionParameter () const
+{
+  return "muons";
+}
+
 template<class T, class... Args> bool
 EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe) const
 {
@@ -49,8 +82,8 @@ EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe)
 template<> bool
 EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
 {
-  TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
-                 p (probe.energyOfElectron (), probe.px (), probe.py (), probe.pz ());
+  TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
+                 p (probe.px (), probe.py (), probe.pz (), probe.energyOfElectron ());
   double m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
@@ -58,8 +91,8 @@ EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu
 template<> bool
 EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
 {
-  TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
-                 p (probe.energyOfMuon (), probe.px (), probe.py (), probe.pz ());
+  TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
+                 p (probe.px (), probe.py (), probe.pz (), probe.energyOfMuon ());
   double m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
@@ -67,8 +100,8 @@ EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track 
 template<> bool
 EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
 {
-  TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
-                 p (probe.energyOfPion (), probe.px (), probe.py (), probe.pz ());
+  TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
+                 p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
   double m = (t + p).M ();
   return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
 }
@@ -76,8 +109,8 @@ EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag,
 template<> bool
 EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
 {
-  TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
-                 p (probe.energyOfPion (), probe.px (), probe.py (), probe.pz ());
+  TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
+                 p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
   double m = (t + p).M ();
   return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
 }

@@ -25,6 +25,7 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     edm::EDGetTokenT<vector<T> > tokenTags_;
     edm::EDGetTokenT<vector<osu::Track> > tokenProbes_;
 
+    const string tagCollectionParameter () const;
     bool goodInvMass (const T &, const osu::Track &) const;
     bool passesVeto (const osu::Track &) const;
 };
