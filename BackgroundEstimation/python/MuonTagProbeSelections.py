@@ -95,6 +95,7 @@ addCuts(MuonTagPt55MetCut.cuts, [cutMuonMetMinusOne])
 ################################################################################
 ZtoMuProbeTrkWithZCuts = copy.deepcopy(MuonTagSkim)
 ZtoMuProbeTrkWithZCuts.name = cms.string("ZtoMuProbeTrkWithZCuts")
+addSingleCut(ZtoMuProbeTrkWithZCuts.cuts, cutMuonMatchToTrigObj, cutMuonPt)
 cutsToAdd = [
     cutMuonArbitration,
     cutTrkPt30,
@@ -110,6 +111,10 @@ cutsToAdd += [
     cutMuTrkOS,
 ]
 addCuts(ZtoMuProbeTrkWithZCuts.cuts, cutsToAdd)
+
+ZtoMuProbeTrk = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
+ZtoMuProbeTrk.name = cms.string ("ZtoMuProbeTrk")
+removeCuts (ZtoMuProbeTrk.cuts, [cutMuonArbitration, cutMuTrkInvMass10, cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
 
 ZtoMuProbeTrkBeforeArbitration = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkBeforeArbitration.name = cms.string ("ZtoMuProbeTrkBeforeArbitration")

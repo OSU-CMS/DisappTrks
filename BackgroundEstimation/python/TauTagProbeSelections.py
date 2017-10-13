@@ -102,6 +102,7 @@ TauTagPt55NoJetCutsMetTrig.triggers = triggersMet
 
 ZtoTauToMuProbeTrkWithZCuts = copy.deepcopy(MuonTagSkim)
 ZtoTauToMuProbeTrkWithZCuts.name = cms.string("ZtoTauToMuProbeTrkWithZCuts")
+addSingleCut(ZtoTauToMuProbeTrkWithZCuts.cuts, cutMuonMatchToTrigObj, cutMuonPt)
 cutsToAdd = [
     cutMuonLowMT,
     cutMuonArbitration,
@@ -118,6 +119,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoTauToMuProbeTrkWithZCuts.cuts, cutsToAdd)
 removeCuts(ZtoTauToMuProbeTrkWithZCuts.cuts, [cutTrkJetDeltaPhi])
+
+ZtoTauToMuProbeTrk = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
+ZtoTauToMuProbeTrk.name = cms.string ("ZtoTauToMuProbeTrk")
+removeCuts (ZtoTauToMuProbeTrk.cuts, [cutMuonArbitration, cutMuTrkInvMass10, cutTrkArbitration, cutMuTrkInvMass40To75, cutMuTrkOS])
 
 ZtoTauToMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToMuProbeTrkWithoutD0Cut")
@@ -168,6 +173,7 @@ addSingleCut(ZtoTauToMuDisTrkBetterPurity.cuts, cutLowMet, cutMuonArbitration)
 
 ZtoTauToEleProbeTrkWithZCuts = copy.deepcopy(ElectronTagSkim)
 ZtoTauToEleProbeTrkWithZCuts.name = cms.string("ZtoTauToEleProbeTrkWithZCuts")
+addSingleCut(ZtoTauToEleProbeTrkWithZCuts.cuts, cutElectronMatchToTrigObj, cutElectronPt)
 cutsToAdd = [
     cutElectronLowMT,
     cutElectronArbitration,
@@ -184,6 +190,10 @@ cutsToAdd += [
 ]
 addCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, cutsToAdd)
 removeCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, [cutTrkJetDeltaPhi])
+
+ZtoTauToEleProbeTrk = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
+ZtoTauToEleProbeTrk.name = cms.string ("ZtoTauToEleProbeTrk")
+removeCuts (ZtoTauToEleProbeTrk.cuts, [cutElectronArbitration, cutEleTrkInvMass10, cutTrkArbitration, cutEleTrkInvMass40To75, cutEleTrkOS])
 
 ZtoTauToEleProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToEleProbeTrkWithoutD0Cut")

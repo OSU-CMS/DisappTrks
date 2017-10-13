@@ -98,6 +98,7 @@ addCuts(ElectronTagPt55MetCut.cuts, [cutElectronMetMinusOne])
 ################################################################################
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ElectronTagSkim)
 ZtoEleProbeTrkWithZCuts.name = cms.string("ZtoEleProbeTrkWithZCuts")
+addSingleCut(ZtoEleProbeTrkWithZCuts.cuts, cutElectronMatchToTrigObj, cutElectronPt)
 cutsToAdd = [
     cutElectronArbitration,
     cutTrkPt30,
@@ -112,6 +113,10 @@ cutsToAdd += [
     cutEleTrkOS,
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
+
+ZtoEleProbeTrk = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
+ZtoEleProbeTrk.name = cms.string ("ZtoEleProbeTrk")
+removeCuts (ZtoEleProbeTrk.cuts, [cutElectronArbitration, cutEleTrkInvMass10, cutTrkArbitration, cutEleTrkInvMass80To100, cutEleTrkOS])
 
 ZtoEleProbeTrkBeforeArbitration = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
 ZtoEleProbeTrkBeforeArbitration.name = cms.string ("ZtoEleProbeTrkBeforeArbitration")
