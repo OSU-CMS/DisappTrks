@@ -14,7 +14,7 @@
 #include "OSUT3Analysis/Collections/interface/Tau.h"
 #include "OSUT3Analysis/Collections/interface/Track.h"
 
-template<class T> class EventTPProducer : public EventVariableProducer
+template<class T, class... Args> class EventTPProducer : public EventVariableProducer
 {
   public:
     EventTPProducer (const edm::ParameterSet &);
@@ -31,6 +31,7 @@ template<class T> class EventTPProducer : public EventVariableProducer
 
 typedef EventTPProducer<osu::Electron> EventElectronTPProducer;
 typedef EventTPProducer<osu::Muon> EventMuonTPProducer;
-typedef EventTPProducer<osu::Tau> EventTauTPProducer;
+typedef EventTPProducer<osu::Electron, osu::Tau> EventTauToElectronTPProducer;
+typedef EventTPProducer<osu::Muon, osu::Tau> EventTauToMuonTPProducer;
 
 #endif

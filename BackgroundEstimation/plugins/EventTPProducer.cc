@@ -2,20 +2,20 @@
 
 #define M_Z (91.1876)
 
-template<class T>
-EventTPProducer<T>::EventTPProducer (const edm::ParameterSet &cfg) :
+template<class T, class... Args>
+EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg)
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> ("tags"));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("probes"));
 }
 
-template<class T>
-EventTPProducer<T>::~EventTPProducer()
+template<class T, class... Args>
+EventTPProducer<T, Args...>::~EventTPProducer()
 {}
 
-template<class T> void
-EventTPProducer<T>::AddVariables (const edm::Event &event)
+template<class T, class... Args> void
+EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 {
   edm::Handle<vector<T> > tags;
   event.getByToken (tokenTags_, tags);
@@ -40,8 +40,8 @@ EventTPProducer<T>::AddVariables (const edm::Event &event)
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
 }
 
-template<class T> bool
-EventTPProducer<T>::goodInvMass (const T &tag, const osu::Track &probe) const
+template<class T, class... Args> bool
+EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe) const
 {
   return false;
 }
@@ -65,7 +65,7 @@ EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track 
 }
 
 template<> bool
-EventTPProducer<osu::Tau>::goodInvMass (const osu::Tau &tag, const osu::Track &probe) const
+EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
 {
   TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
                  p (probe.energyOfPion (), probe.px (), probe.py (), probe.pz ());
@@ -73,8 +73,17 @@ EventTPProducer<osu::Tau>::goodInvMass (const osu::Tau &tag, const osu::Track &p
   return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
 }
 
-template<class T> bool
-EventTPProducer<T>::passesVeto (const osu::Track &probe) const
+template<> bool
+EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
+{
+  TLorentzVector t (tag.energy (), tag.px (), tag.py (), tag.pz ()),
+                 p (probe.energyOfPion (), probe.px (), probe.py (), probe.pz ());
+  double m = (t + p).M ();
+  return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
+}
+
+template<class T, class... Args> bool
+EventTPProducer<T, Args...>::passesVeto (const osu::Track &probe) const
 {
   return false;
 }
@@ -97,7 +106,17 @@ EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
 }
 
 template<> bool
-EventTPProducer<osu::Tau>::passesVeto (const osu::Track &probe) const
+EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) const
+{
+  bool passes = probe.deltaRToClosestTauHad () > 0.15
+             && probe.dRMinJet () > 0.5
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+  return passes;
+}
+
+template<> bool
+EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
 {
   bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
@@ -109,4 +128,5 @@ EventTPProducer<osu::Tau>::passesVeto (const osu::Track &probe) const
 #include "FWCore/Framework/interface/MakerMacros.h"
 DEFINE_FWK_MODULE(EventElectronTPProducer);
 DEFINE_FWK_MODULE(EventMuonTPProducer);
-DEFINE_FWK_MODULE(EventTauTPProducer);
+DEFINE_FWK_MODULE(EventTauToElectronTPProducer);
+DEFINE_FWK_MODULE(EventTauToMuonTPProducer);
