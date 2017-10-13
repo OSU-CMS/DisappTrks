@@ -116,6 +116,14 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         setMissingHitsCorrection (process, "uncorrected")
 
     moveVariableProducer (process, "TriggerWeightProducer")
+    if hasattr (process, "EventElectronTPProducer"):
+        moveVariableProducer (process, "EventElectronTPProducer", 1)
+    if hasattr (process, "EventMuonTPProducer"):
+        moveVariableProducer (process, "EventMuonTPProducer", 2)
+    if hasattr (process, "EventTauToElectronTPProducer"):
+        moveVariableProducer (process, "EventTauToElectronTPProducer", 3)
+    if hasattr (process, "EventTauToMuonTPProducer"):
+        moveVariableProducer (process, "EventTauToMuonTPProducer", 4)
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
