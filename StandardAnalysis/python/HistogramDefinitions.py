@@ -1373,6 +1373,25 @@ EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("nGoodTPPairs"),
+            title = cms.string(";number of good T&P pairs"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodTPPairs"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPassingVeto"),
+            title = cms.string(";number of probes passing veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesPassingVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPassingVetoVsNGoodTPPairs"),
+            title = cms.string(";number of good T&P pairs;number of probes passing veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            binsY = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodTPPairs", "nProbesPassingVeto"),
+        ),
+        cms.PSet (
             name = cms.string("leadingJetPt"),
             title = cms.string(";leading jet p_{T} [GeV]"),
             binsX = metBinsSlimmed,
