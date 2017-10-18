@@ -21,13 +21,14 @@ class LeptonBkgdEstimate:
     _canvas = None
     _metCut = 100.0
     _phiCut = 0.5
+    _eCaloCut = 10.0
     _pPassVeto = float ("nan")
     _prescale = 1.0
     _tagProbePassScaleFactor = 1.0
     _tagProbePass1ScaleFactor = 1.0
     _luminosityInInvFb = float ("nan")
     _luminosityLabel = "13 TeV"
-    _plotLabel = float ("nan")
+    _plotLabel = ""
     _metMinusOneHist = ""
     _useIdMatch = False  # match the track to get the true bkgd yield
     _fiducialElectronSigmaCut = 2.0
@@ -53,6 +54,9 @@ class LeptonBkgdEstimate:
 
     def addPhiCut (self, phiCut):
         self._phiCut = phiCut
+
+    def addECaloCut (self, eCaloCut):
+        self._eCaloCut = eCaloCut
 
     def useIdMatch (self, match):
         self._useIdMatch = match
@@ -105,6 +109,15 @@ class LeptonBkgdEstimate:
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         n = None
         nError = None
+
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        w = (nError * nError) / n
+        n /= w
+        nError /= w
+        channel["weight"] = w
+        channel["total"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+        channel["total"].isPositive ()
+
         if useIdMatch:
             pdgLo, pdgHi = self.getPdgRange()
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
@@ -112,14 +125,10 @@ class LeptonBkgdEstimate:
             n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
             n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
-        channel["yield"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+        n /= w
+        nError /= w
+        channel["yield"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
         channel["yield"].isPositive ()
-
-        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-        channel["total"] = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-        channel["total"].isPositive ()
-
-        channel["weight"] = (channel["total"].uncertainty () * channel["total"].uncertainty ()) / channel["total"].centralValue ()
 
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"])
@@ -128,10 +137,7 @@ class LeptonBkgdEstimate:
         self.plotMetForNctrl ()
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
-            weight = self.TagPt35ForNctrl["weight"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["weight"]
-
             n *= self._prescale
-            weight *= self._prescale
 
             print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             return n
@@ -158,7 +164,7 @@ class LeptonBkgdEstimate:
                 hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
                 metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
 
-                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+                pt = TPaveText(0.404762,0.137597,0.805764,0.185401,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
@@ -172,7 +178,7 @@ class LeptonBkgdEstimate:
                 cmsLabel.SetTextSize(0.0387597)
                 cmsLabel.AddText("CMS Preliminary")
 
-                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
                 lumiLabel.SetBorderSize(0)
                 lumiLabel.SetFillStyle(0)
                 lumiLabel.SetTextFont(42)
@@ -310,7 +316,7 @@ class LeptonBkgdEstimate:
             metGraph = TGraphAsymmErrors (passesHist, totalHist)
             metGraph.SetEditable (0)
 
-            pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+            pt = TPaveText(0.409774,0.843023,0.809524,0.890827,"brNDC")
             pt.SetBorderSize(0)
             pt.SetFillStyle(0)
             pt.SetTextFont(42)
@@ -324,7 +330,7 @@ class LeptonBkgdEstimate:
             cmsLabel.SetTextSize(0.0387597)
             cmsLabel.AddText("CMS Preliminary")
 
-            lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+            lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
             lumiLabel.SetBorderSize(0)
             lumiLabel.SetFillStyle(0)
             lumiLabel.SetTextFont(42)
@@ -346,8 +352,20 @@ class LeptonBkgdEstimate:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            n      = self.CandTrkIdPt35["yield"]
-            weight = self.CandTrkIdPt35["weight"]
+            sample = self.CandTrkIdPt35["sample"]
+            condorDir = self.CandTrkIdPt35["condorDir"]
+            name = self.CandTrkIdPt35["name"]
+            hist = "Track Plots/trackCaloTot_RhoCorr"
+            eCalo = getHist (sample, condorDir, name + "Plotter", hist)
+
+            nError = Double (0.0)
+            n = eCalo.IntegralAndError (0, eCalo.FindBin (self._eCaloCut), nError)
+            w = self.CandTrkIdPt35["weight"]
+
+            n /= w
+            nError /= w
+            n = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+
             print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             return n
         else:
@@ -376,7 +394,7 @@ class LeptonBkgdEstimate:
                 met.Rebin (self._rebinFactor)
                 metMinusOne.Rebin (self._rebinFactor)
 
-                pt = TPaveText(0.522556,0.838501,0.921053,0.885013,"brNDC")
+                pt = TPaveText(0.409774,0.843023,0.809524,0.890827,"brNDC")
                 pt.SetBorderSize(0)
                 pt.SetFillStyle(0)
                 pt.SetTextFont(42)
@@ -390,7 +408,7 @@ class LeptonBkgdEstimate:
                 cmsLabel.SetTextSize(0.0387597)
                 cmsLabel.AddText("CMS Preliminary")
 
-                lumiLabel = TPaveText(0.66416,0.937339,0.962406,0.992894,"brNDC")
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
                 lumiLabel.SetBorderSize(0)
                 lumiLabel.SetFillStyle(0)
                 lumiLabel.SetTextFont(42)
@@ -437,15 +455,16 @@ class LeptonBkgdEstimate:
             pPassVeto = self.printPpassVeto ()
 
         nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst.isPositive ()
 
         N = alpha = alphaError = float ("nan")
         if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            N = passes + passes1 if hasattr (self, "TagProbePass1") else passes
-
-            if hasattr (self, "TagProbePass1"):
-                alpha = (1 / (passes + passes1)) * ((passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor) / (2.0 * total - (passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor))) * nCtrl * pPassMetCut * pPassMetTriggers
+            if pPassVeto > 0.0:
+                N = nCtrl / self._prescale
+                alpha = self._prescale * pPassVeto * pPassMetCut * pPassMetTriggers
             else:
-                alpha = (self._tagProbePassScaleFactor / (2.0 * total - N*self._tagProbePassScaleFactor)) * nCtrl * pPassMetCut * pPassMetTriggers
+                N = passes
+                alpha = (self._tagProbePassScaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
 
         alpha.printLongFormat ()
 
@@ -457,7 +476,7 @@ class LeptonBkgdEstimate:
         return nEst
 
     def printPpassVetoTagProbe (self):
-        self.plotPpassVetoPtDependence ()
+        self.plotPpassVeto ()
         if not hasattr (self._pPassVeto, "centralValue"):
             if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
                 total       = self.TagProbe["yield"]
@@ -471,7 +490,10 @@ class LeptonBkgdEstimate:
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
 
-                eff = scaledPasses / (2.0 * total - scaledPasses)
+                if self._flavor == "electron" or self._flavor == "muon":
+                    eff = scaledPasses / (2.0 * total - scaledPasses)
+                else:
+                    eff = scaledPasses / total
 
                 print "P (pass lepton veto) in tag-probe sample: " + str (eff)
                 return (eff, passes, passes1, total)
@@ -482,9 +504,141 @@ class LeptonBkgdEstimate:
             print "P (pass lepton veto) from user input: " + str (self._pPassVeto)
             return (self._pPassVeto, float ("nan"), float ("nan"), float ("nan"))
 
-    def plotPpassVetoPtDependence (self):
-        if self._fout and self._canvas:
-            print "UNDER CONSTRUCTION: plotPpassVetoPtDependence"
+    def plotPpassVeto (self):
+        if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
+            if self._fout and self._canvas:
+                hist = "Track Plots/trackPt"
+                sample = self.TagProbe["sample"]
+                condorDir = self.TagProbe["condorDir"]
+                name = self.TagProbe["name"]
+                trackPt = getHist (sample, condorDir, name + "Plotter", hist)
+
+                sample = self.TagProbePass["sample"]
+                condorDir = self.TagProbePass["condorDir"]
+                name = self.TagProbePass["name"]
+                trackPtPass = getHist (sample, condorDir, name + "Plotter", hist)
+
+                if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
+                    hist = "Track Plots/trackPt"
+                    sample = self.TagProbe1["sample"]
+                    condorDir = self.TagProbe1["condorDir"]
+                    name = self.TagProbe1["name"]
+                    trackPt1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    sample = self.TagProbePass1["sample"]
+                    condorDir = self.TagProbePass1["condorDir"]
+                    name = self.TagProbePass1["name"]
+                    trackPtPass1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    trackPt.Add (trackPt1)
+                    trackPtPass.Add (trackPtPass1)
+
+                invMass = None
+                invMassPass = None
+                if self._flavor != "tau":
+                    hist = "Track-" + self._flavor + " Plots/invMassNearZ"
+                    sample = self.TagProbe["sample"]
+                    condorDir = self.TagProbe["condorDir"]
+                    name = self.TagProbe["name"]
+                    invMass = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    sample = self.TagProbePass["sample"]
+                    condorDir = self.TagProbePass["condorDir"]
+                    name = self.TagProbePass["name"]
+                    invMassPass = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
+                        hist = "Track-" + self._flavor + " Plots/invMassNearZ"
+                        sample = self.TagProbe1["sample"]
+                        condorDir = self.TagProbe1["condorDir"]
+                        name = self.TagProbe1["name"]
+                        invMass1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                        sample = self.TagProbePass1["sample"]
+                        condorDir = self.TagProbePass1["condorDir"]
+                        name = self.TagProbePass1["name"]
+                        invMassPass1 = getHist (sample, condorDir, name + "Plotter", hist)
+
+                        invMass.Add (invMass1)
+                        invMassPass.Add (invMassPass1)
+
+                pt = TPaveText(0.404762,0.137597,0.805764,0.185401,"brNDC")
+                pt.SetBorderSize(0)
+                pt.SetFillStyle(0)
+                pt.SetTextFont(42)
+                pt.SetTextSize(0.0387597)
+                pt.AddText(str (self._plotLabel))
+
+                cmsLabel = TPaveText(0.134085,0.937984,0.418546,0.984496,"brNDC")
+                cmsLabel.SetBorderSize(0)
+                cmsLabel.SetFillStyle(0)
+                cmsLabel.SetTextFont(62)
+                cmsLabel.SetTextSize(0.0387597)
+                cmsLabel.AddText("CMS Preliminary")
+
+                lumiLabel = TPaveText(0.575188,0.937339,0.874687,0.992894,"brNDC")
+                lumiLabel.SetBorderSize(0)
+                lumiLabel.SetFillStyle(0)
+                lumiLabel.SetTextFont(42)
+                lumiLabel.SetTextSize(0.0387597)
+                lumiLabel.AddText(str (self._luminosityLabel))
+
+                ksPt = TPaveText(0.421053,0.824289,0.820802,0.872093,"brNDC")
+                ksPt.SetBorderSize(0)
+                ksPt.SetFillStyle(0)
+                ksPt.SetTextFont(42)
+                ksPt.SetTextSize(0.0387597)
+                ksPt.AddText("KS test p-value: " + str (round (trackPt.KolmogorovTest (trackPtPass), 3)))
+
+                leg = TLegend (0.413534,0.729328,0.794486,0.815891)
+                leg.SetBorderSize(0)
+                leg.SetFillStyle(0)
+                leg.SetTextFont(42)
+                leg.SetTextSize(0.0387597)
+                leg.AddEntry (trackPt, "before veto", "p")
+                leg.AddEntry (trackPtPass, "after veto", "p")
+
+                setStyle (trackPt, 600)
+                setAxisStyle (trackPt, self._flavor + " probe track p_{T} [GeV]")
+                setStyle (trackPtPass, 632)
+                setAxisStyle (trackPtPass, self._flavor + " probe track p_{T} [GeV]")
+                self._canvas.cd ()
+                trackPt.Draw ("colz")
+                trackPtPass.Draw ("colz same")
+                pt.Draw ("same")
+                cmsLabel.Draw ("same")
+                lumiLabel.Draw ("same")
+                ksPt.Draw ("same")
+                leg.Draw ("same")
+                self._fout.cd ()
+                self._canvas.Write ("pPassVetoPtDependence")
+
+                if self._flavor != "tau":
+                    ksInvMass = TPaveText(0.421053,0.824289,0.820802,0.872093,"brNDC")
+                    ksInvMass.SetBorderSize(0)
+                    ksInvMass.SetFillStyle(0)
+                    ksInvMass.SetTextFont(42)
+                    ksInvMass.SetTextSize(0.0387597)
+                    ksInvMass.AddText("KS test p-value: " + str (round (invMass.KolmogorovTest (invMassPass), 3)))
+
+                    setStyle (invMass, 600)
+                    setAxisStyle (invMass, "tag-probe invariant mass [GeV]")
+                    setStyle (invMassPass, 632)
+                    setAxisStyle (invMassPass, "tag-probe invariant mass [GeV]")
+                    self._canvas.cd ()
+                    invMass.Draw ("colz")
+                    invMassPass.Draw ("colz same")
+                    pt.Draw ("same")
+                    cmsLabel.Draw ("same")
+                    lumiLabel.Draw ("same")
+                    ksInvMass.Draw ("same")
+                    leg.Draw ("same")
+                    self._fout.cd ()
+                    self._canvas.Write ("pPassVetoInvMassDependence")
+            else:
+                print "A TFile and TCanvas must be added. Not making plots..."
+        else:
+            print "Neither TagProbe nor TagProbePass defined. Not plotting P_veto pt dependence..."
 
 class FakeTrackBkgdEstimate:
     _fout = None

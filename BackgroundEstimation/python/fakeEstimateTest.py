@@ -136,6 +136,7 @@ class FakeTrackBkgdEstimate:
         alpha = norm * (xiPass / xiFail)
 
         nEst = xi * nCtrl
+        nEst.isPositive ()
 
         alpha.printLongFormat ()
         print "P_fake: " + str (pFake)

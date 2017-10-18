@@ -53,6 +53,21 @@ MuonTagPt35MetCut = copy.deepcopy(MuonTagPt35)
 MuonTagPt35MetCut.name = cms.string("MuonTagPt35MetCut")
 addCuts(MuonTagPt35MetCut.cuts, [cutMuonMetMinusOne])
 
+MuonTagPt35NoJetCuts = copy.deepcopy(MuonTagPt35)
+MuonTagPt35NoJetCuts.name = cms.string("MuonTagPt35NoJetCuts")
+cutsToRemove = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
+]
+removeCuts(MuonTagPt35NoJetCuts.cuts, cutsToRemove)
+
+MuonTagPt35NoJetCutsMetTrig = copy.deepcopy(MuonTagPt35NoJetCuts)
+MuonTagPt35NoJetCutsMetTrig.name = cms.string("MuonTagPt35NoJetCutsMetTrig")
+MuonTagPt35NoJetCutsMetTrig.triggers = triggersMet
+
 ##################################################
 ## Channels for real life background estimate. Increase pt threshold to that
 ## used in search region and add missing outer hits cut.
@@ -117,6 +132,10 @@ ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkNMissOut, cutMuTrkOS)
 addSingleCut(ZtoMuDisTrk.cuts, cutTrkMuonVeto, cutMuTrkOS)
+
+ZtoMuDisTrkNoNMissOutCut = copy.deepcopy(ZtoMuDisTrk)
+ZtoMuDisTrkNoNMissOutCut.name = cms.string("ZtoMuDisTrkNoNMissOutCut")
+removeCuts (ZtoMuDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 MuonTagPt55NoValidHitsCut = copy.deepcopy (MuonTagPt55)
 MuonTagPt55NoValidHitsCut.name = cms.string ("MuonTagPt55NoValidHitsCut")

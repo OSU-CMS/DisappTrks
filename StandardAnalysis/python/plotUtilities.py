@@ -23,7 +23,7 @@ def setCanvasStyle(canvas):
     canvas.SetTickx(1)
     canvas.SetTicky(1)
     canvas.SetLeftMargin(0.128141)
-    canvas.SetRightMargin(0.0414573)
+    canvas.SetRightMargin(0.12782)
     canvas.SetBottomMargin(0.0971503)
     canvas.SetTopMargin(0.0712435)
     canvas.SetFrameFillStyle(0)

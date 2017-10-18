@@ -1,4 +1,4 @@
-from DisappTrks.MuonBasedAnalysis.config_cfg import *
+from DisappTrks.ClosureTests.config_cfg import *
 from DisappTrks.StandardAnalysis.customize import *
 
 if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):

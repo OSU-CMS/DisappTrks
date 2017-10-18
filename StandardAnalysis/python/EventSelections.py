@@ -44,6 +44,14 @@ basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
 removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
 
+basicSelectionNoDijetPhiCut = copy.deepcopy (basicSelection)
+basicSelectionNoDijetPhiCut.name = cms.string ("BasicSelectionNoDijetPhiCut")
+removeCuts (basicSelectionNoDijetPhiCut.cuts, [cutDijetDeltaPhiMax])
+
+basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
+basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
+removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+
 ##########################################################################
 
 isoTrkSelection = copy.deepcopy(basicSelection)
@@ -258,6 +266,33 @@ justMET90IsoTrk50 = cms.PSet(
     cuts = cms.VPSet (
         cutDummyMet,
     ),
+)
+justAFakeTrkWithNoCuts = cms.PSet(
+    name = cms.string("JustAFakeTrkWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchFake,
+    ),
+)
+justARealTrkWithNoCuts = cms.PSet(
+    name = cms.string("JustARealTrkWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchReal,
+    ),
+)
+justACharginoWithNoCuts = cms.PSet(
+    name = cms.string("JustACharginoWithNoCuts"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (
+        cutTrkPt20,
+        cutTrkEta,
+        cutTrkMatchChargino,
+    )
 )
 
 justADisTrk = copy.deepcopy (justAVertex)
@@ -476,13 +511,13 @@ removeCuts(candTrkIdMuPt35NoMet.cuts, cutsToRemove)
 ##########################################################################
 
 # Use this selection for the tau background estimate.
-candTrkIdTauPt50 = copy.deepcopy(candTrkSelection)
-candTrkIdTauPt50.name = cms.string("CandTrkIdTauPt50")
+candTrkIdTauPt55 = copy.deepcopy(candTrkSelection)
+candTrkIdTauPt55.name = cms.string("CandTrkIdTauPt55")
 cutsToAdd = [
     cutTrkMatchGenTau,
     ]
-addCuts(candTrkIdTauPt50.cuts, cutsToAdd)
-addSingleCut(candTrkIdTauPt50.cuts, cutTrkPt50, cutTrkPt55)
+addCuts(candTrkIdTauPt55.cuts, cutsToAdd)
+addSingleCut(candTrkIdTauPt55.cuts, cutTrkPt50, cutTrkPt55)
 cutsToRemove = [
     cutTrkPt55,
     # For first iteration, remove all jet cuts.  If closure test works, then add the jet cuts back in.
@@ -492,17 +527,17 @@ cutsToRemove = [
     cutDijetDeltaPhiMax,
     cutLeadingJetMetPhi,
     ]
-removeCuts(candTrkIdTauPt50.cuts, cutsToRemove)
+removeCuts(candTrkIdTauPt55.cuts, cutsToRemove)
 
 
 # Use this selection for the electron background estimate.
-candTrkIdTauPt50NoMet = copy.deepcopy(candTrkIdTauPt50)
-candTrkIdTauPt50NoMet.name = cms.string("CandTrkIdTauPt50NoMet")
-candTrkIdTauPt50NoMet.triggers = cms.vstring()
+candTrkIdTauPt55NoMet = copy.deepcopy(candTrkIdTauPt55)
+candTrkIdTauPt55NoMet.name = cms.string("CandTrkIdTauPt55NoMet")
+candTrkIdTauPt55NoMet.triggers = cms.vstring()
 cutsToRemove = [
     cutMet,
     ]
-removeCuts(candTrkIdTauPt50NoMet.cuts, cutsToRemove)
+removeCuts(candTrkIdTauPt55NoMet.cuts, cutsToRemove)
 
 ##########################################################################
 

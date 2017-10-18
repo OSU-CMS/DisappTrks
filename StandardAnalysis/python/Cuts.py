@@ -204,6 +204,24 @@ cutLeadingJetMetPhi = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
 )
+cutLeadingJetMetPhiInvert = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "mets"),
+    cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetLeading) ) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#phi(E_{T}^{miss},jet) < 0.5"),
+)
+cutLeadingJetTauMetMinusOnePhi = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "taus"),
+    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePhi, eventvariable.phiJetLeading) ) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#phi(E_{T}^{miss},jet) > 0.5"),
+)
+cutLeadingJetTauMetMinusOnePhiInvert = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "taus"),
+    cutString = cms.string("fabs( dPhi (tau.metNoMuMinusOnePhi, eventvariable.phiJetLeading) ) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("#Delta#phi(E_{T}^{miss},jet) < 0.5"),
+)
 cutSubleadingJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
     cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetSubleading) ) > 0.5"),
@@ -253,6 +271,11 @@ cutTrkPt35 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
 cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkPt20 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 20"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkEta = cms.PSet(

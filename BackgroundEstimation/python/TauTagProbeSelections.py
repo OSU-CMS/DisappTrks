@@ -75,6 +75,21 @@ TauTagPt55MetCut = copy.deepcopy(TauTagPt55)
 TauTagPt55MetCut.name = cms.string("TauTagPt55MetCut")
 addCuts(TauTagPt55MetCut.cuts, [cutTauMetMinusOne])
 
+TauTagPt55NoJetCuts = copy.deepcopy(TauTagPt55)
+TauTagPt55NoJetCuts.name = cms.string("TauTagPt55NoJetCuts")
+cutsToRemove = [
+    cutJetPt,
+    cutJetEta,
+    cutJetTightLepVeto,
+    cutDijetDeltaPhiMax,
+    cutLeadingJetMetPhi,
+]
+removeCuts(TauTagPt55NoJetCuts.cuts, cutsToRemove)
+
+TauTagPt55NoJetCutsMetTrig = copy.deepcopy(TauTagPt55NoJetCuts)
+TauTagPt55NoJetCutsMetTrig.name = cms.string("TauTagPt55NoJetCutsMetTrig")
+TauTagPt55NoJetCutsMetTrig.triggers = triggersMet
+
 ################################################################################
 ## Tau tag and probe sample
 ################################################################################
@@ -114,6 +129,10 @@ addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkNMissOut, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkEcalo, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkJetDeltaPhi, cutMuTrkOS)
 addSingleCut(ZtoTauToMuDisTrk.cuts, cutTrkTauHadVeto, cutMuTrkOS)
+
+ZtoTauToMuDisTrkNoNMissOutCut = copy.deepcopy(ZtoTauToMuDisTrk)
+ZtoTauToMuDisTrkNoNMissOutCut.name = cms.string("ZtoTauToMuDisTrkNoNMissOutCut")
+removeCuts (ZtoTauToMuDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 TauTagPt55NoValidHitsCut = copy.deepcopy (TauTagPt55)
 TauTagPt55NoValidHitsCut.name = cms.string ("TauTagPt55NoValidHitsCut")
@@ -176,6 +195,10 @@ addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkNMissOut, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkEcalo, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkJetDeltaPhi, cutEleTrkOS)
 addSingleCut(ZtoTauToEleDisTrk.cuts, cutTrkTauHadVeto, cutEleTrkOS)
+
+ZtoTauToEleDisTrkNoNMissOutCut = copy.deepcopy(ZtoTauToEleDisTrk)
+ZtoTauToEleDisTrkNoNMissOutCut.name = cms.string("ZtoTauToEleDisTrkNoNMissOutCut")
+removeCuts (ZtoTauToEleDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut")

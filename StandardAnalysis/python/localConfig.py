@@ -165,7 +165,7 @@ labels["allBkgd"] = "Total bkgd"
 
 # add dataset attributes for 2016BC and 2016DEFGH
 for attribute in list (locals ()):
-    if not isinstance (locals ()[attribute], dict) or attribute == "lumi":
+    if not isinstance (locals ()[attribute], dict) or attribute.startswith ("lumi"):
         continue
     newKeys = {}
     for a in locals ()[attribute]:
@@ -183,11 +183,11 @@ for attribute in list (locals ()):
 
 # add dataset attributes for 2016 MC
 for attribute in list (locals ()):
-    if not isinstance (locals ()[attribute], dict) or attribute == "lumi" or attribute == "dataset_names":
+    if not isinstance (locals ()[attribute], dict) or attribute.startswith ("lumi") or attribute == "dataset_names":
         continue
     newKeys = {}
     for a in locals ()[attribute]:
-        if re.match (r"DYJetsToLL_50", a) or re.match (r"WZ", a):
+        if re.match (r"DYJetsToLL_50", a) or re.match (r"WZ", a) or re.match (r"WZToLNuNuNu", a):
             b = re.sub (r"(.*)", r"\1_2016MC", a)
             newKeys[b] = copy.deepcopy (locals ()[attribute][a])
             if isinstance (newKeys[b], str) and attribute == "labels":
