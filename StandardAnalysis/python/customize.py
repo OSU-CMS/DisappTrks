@@ -115,15 +115,25 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     if not applyMissingHitsCorrections:
         setMissingHitsCorrection (process, "uncorrected")
 
-    moveVariableProducer (process, "TriggerWeightProducer")
-    if hasattr (process, "EventElectronTPProducer"):
-        moveVariableProducer (process, "EventElectronTPProducer", 1)
-    if hasattr (process, "EventMuonTPProducer"):
-        moveVariableProducer (process, "EventMuonTPProducer", 2)
-    if hasattr (process, "EventTauToElectronTPProducer"):
-        moveVariableProducer (process, "EventTauToElectronTPProducer", 3)
-    if hasattr (process, "EventTauToMuonTPProducer"):
-        moveVariableProducer (process, "EventTauToMuonTPProducer", 4)
+    for channel in getListOfChannels (process):
+        moveVariableProducer (process, "TriggerWeightProducer", channel, 0)
+
+        doFilter = False
+        if channel.endswith ("WithFilter"):
+            doFilter = True
+
+        if hasattr (process, "EventElectronTPProducer"):
+            getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventElectronTPProducer", channel, 1)
+        if hasattr (process, "EventMuonTPProducer"):
+            getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventMuonTPProducer", channel, 2)
+        if hasattr (process, "EventTauToElectronTPProducer"):
+            getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventTauToElectronTPProducer", channel, 3)
+        if hasattr (process, "EventTauToMuonTPProducer"):
+            getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventTauToMuonTPProducer", channel, 4)
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
