@@ -45,11 +45,11 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Trigger efficiency channels
-#  add_channels  (process,  [disTrkSelection],             histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelection],             histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 
 # Number of missing outer hits channel
-#  add_channels  (process,  [disTrkNoNMissOut],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOut],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collectionMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
