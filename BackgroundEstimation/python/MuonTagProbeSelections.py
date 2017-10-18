@@ -116,6 +116,9 @@ ZtoMuProbeTrk = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrk.name = cms.string ("ZtoMuProbeTrk")
 removeCuts (ZtoMuProbeTrk.cuts, [cutMuonArbitration, cutMuTrkInvMass10, cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
 
+ZtoMuProbeTrkWithFilter = copy.deepcopy (ZtoMuProbeTrk)
+ZtoMuProbeTrkWithFilter.name = cms.string ("ZtoMuProbeTrkWithFilter")
+
 ZtoMuProbeTrkBeforeArbitration = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkBeforeArbitration.name = cms.string ("ZtoMuProbeTrkBeforeArbitration")
 removeCuts (ZtoMuProbeTrkBeforeArbitration.cuts, [cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
