@@ -150,12 +150,11 @@ def setFiducialMaps (process, electrons, muons):
                             print "# Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
-def moveVariableProducer (process, producerName, index = 0):
+def moveVariableProducer (process, producerName, channelName, index = 0):
     producer = plotter = None
     producer = plotter = eventvariableProducer = None
     producerLabel = plotterLabel = ""
     plotterPath = None
-    plotterPathLabel = ""
 
     # find the variable producer and Plotter
     for a in dir (process):
@@ -169,15 +168,6 @@ def moveVariableProducer (process, producerName, index = 0):
                 plotterLabel = copy.deepcopy (a)
             if x.type_ () == "EventvariableProducer":
                 eventvariableProducer = copy.deepcopy (x)
-
-    # find the path for the Plotter
-    for a in dir (process):
-        x = getattr (process, a)
-        if type (x) == cms.Path:
-            for b in x.moduleNames ():
-                if b == plotterLabel:
-                    plotterPath = copy.deepcopy (x)
-                    plotterPathLabel = copy.deepcopy (a)
 
     # change the tracks and leptons input tags for the variable producer to
     # that used by the Plotter and create a copy of the variable producer which
@@ -221,9 +211,19 @@ def moveVariableProducer (process, producerName, index = 0):
 
     # insert the copy of the variable producer we created above into the path
     # of the Plotter, right before the Plotter
-    getattr (process, plotterPathLabel).remove (getattr (process, plotterLabel))
-    plotterPath = getattr (process, plotterPathLabel)
+    getattr (process, channelName).remove (getattr (process, plotterLabel))
+    plotterPath = getattr (process, channelName)
     plotterPath += producer
     plotterPath += eventvariableProducer
     plotterPath += plotter
-    setattr (process, plotterPathLabel, plotterPath)
+    setattr (process, channelName, plotterPath)
+
+def getListOfChannels (process):
+    channels = []
+    for path in process.schedule:
+        if hasattr (path, "label"):
+            label = path.label ()
+            if label != "variableProducerPath" and label != "endPath":
+                channels.append (path.label ())
+
+    return channels
