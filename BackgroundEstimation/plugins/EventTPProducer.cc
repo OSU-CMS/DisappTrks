@@ -4,7 +4,8 @@
 
 template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
-  EventVariableProducer(cfg)
+  EventVariableProducer(cfg),
+  doFilter_ (cfg.getParameter<bool> ("doFilter"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
@@ -41,6 +42,9 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
   (*eventvariables)["nGoodTPPairs"] = nGoodTPPairs;
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
+
+  if (doFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
 }
 
 template<class T, class... Args> const string
