@@ -322,32 +322,32 @@ cutTrkNValidPixelBarrelHits3 = cms.PSet(
 )
 cutTrkNValidHits = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits >= 7"),
+    cutString = cms.string("hitPattern_.numberOfValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits3 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 3"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 3"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 4"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHitsLE4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits <= 4"),
+    cutString = cms.string("hitPattern_.numberOfValidHits <= 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits5 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 5"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 5"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits6 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 6"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 6"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNLayers3 = cms.PSet(

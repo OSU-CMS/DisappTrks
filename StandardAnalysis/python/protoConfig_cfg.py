@@ -118,13 +118,15 @@ else:
 ################################################################################
 # Set up the collectionMap
 ################################################################################
-from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 
-collectionMap.tracks = cms.InputTag ('candidateTrackProducer')
-collectionMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
-# Nobody has more respect for consistent input tags than CMS does. Nobody.
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
-    collectionMap.trigobjs = cms.InputTag  ('slimmedPatTrigger')
+    collMap = copy.deepcopy(collectionMapMiniAOD2017)
+else:
+    collMap = copy.deepcopy(collectionMap)
+    collMap.tracks = cms.InputTag ('candidateTrackProducer')
+
+collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
 ################################################################################
 
 ################################################################################
