@@ -50,7 +50,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ## Testing channels
 ################################################################################
 
-<<<<<<< HEAD
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
@@ -113,7 +112,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkJustMET90Trigger],             histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTriggerHltMet105],     histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMET90TriggerHltMet105],    histSets,  weights,  [],  collMap,  variableProducers,  False)
-=======
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
