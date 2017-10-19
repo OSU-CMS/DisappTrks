@@ -1373,6 +1373,12 @@ EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("isrWeight"),
+            title = cms.string(";ISR weight"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("isrWeight"),
+        ),
+        cms.PSet (
             name = cms.string("nGoodTPPairs"),
             title = cms.string(";number of good T&P pairs"),
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
