@@ -8,6 +8,10 @@ import glob
 process = cms.Process ('BkgdMC')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.categories.append ("GenZPtAnalyzer")
+process.MessageLogger.cerr.GenZPtAnalyzer = cms.untracked.PSet(
+    limit = cms.untracked.int32(0),
+)
 process.source = cms.Source ('PoolSource',
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring (
