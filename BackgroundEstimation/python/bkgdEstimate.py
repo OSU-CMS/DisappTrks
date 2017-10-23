@@ -34,6 +34,7 @@ class LeptonBkgdEstimate:
     _fiducialElectronSigmaCut = 2.0
     _fiducialMuonSigmaCut = 2.0
     _rebinFactor = 1
+    _useHistogramsForPpassVeto = True
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -84,6 +85,9 @@ class LeptonBkgdEstimate:
 
     def addRebinFactor (self, rebinFactor):
         self._rebinFactor = rebinFactor
+
+    def addUseHistogramsForPpassVeto (self, useHistogramsForPpassVeto):
+        self._useHistogramsForPpassVeto = useHistogramsForPpassVeto
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -478,8 +482,32 @@ class LeptonBkgdEstimate:
         self.plotPpassVeto ()
         if not hasattr (self._pPassVeto, "centralValue"):
             if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
-                total       = self.TagProbe["yield"]
-                passes      = self.TagProbePass["yield"]
+                total = None
+                passes = None
+                if not self._useHistogramsForPpassVeto:
+                    total       = self.TagProbe["yield"]
+                    passes      = self.TagProbePass["yield"]
+                else:
+                    hist = "Eventvariable Plots/nGoodTPPairs"
+                    sample = self.TagProbe["sample"]
+                    condorDir = self.TagProbe["condorDir"]
+                    name = self.TagProbe["name"]
+                    totalHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    hist = "Eventvariable Plots/nProbesPassingVeto"
+                    sample = self.TagProbePass["sample"]
+                    condorDir = self.TagProbePass["condorDir"]
+                    name = self.TagProbePass["name"]
+                    passesHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    totalError1 = Double (0.0)
+                    passesError1 = Double (0.0)
+                    totalError2 = Double (0.0)
+                    passesError2 = Double (0.0)
+                    total = totalHist.IntegralAndError (2, 2, totalError1) + 2.0 * totalHist.IntegralAndError (3, 3, totalError2)
+                    passes = passesHist.IntegralAndError (2, 2, passesError1) + 2.0 * passesHist.IntegralAndError (3, 3, passesError2)
+                    total = Measurement (total, math.hypot (totalError1, 2.0 * totalError2))
+                    passes = Measurement (passes, math.hypot (passesError1, 2.0 * passesError2))
 
                 passes1 = 0.0
 
@@ -496,7 +524,7 @@ class LeptonBkgdEstimate:
                     p.setUncertainty (math.sqrt (p.centralValue ()))
                     sf.setUncertainty (0.0)
 
-                if self._flavor == "electron" or self._flavor == "muon":
+                if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                     eff = scaledPasses / (2.0 * total - scaledPasses)
                 else:
                     eff = scaledPasses / total
