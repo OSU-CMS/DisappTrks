@@ -12,8 +12,9 @@ EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
 }
 
 template<class T, class... Args>
-EventTPProducer<T, Args...>::~EventTPProducer()
-{}
+EventTPProducer<T, Args...>::~EventTPProducer ()
+{
+}
 
 template<class T, class... Args> void
 EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
