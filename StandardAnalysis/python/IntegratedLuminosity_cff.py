@@ -165,28 +165,40 @@ lumi_2016Prompt = {
 lumi_2017 = {
 
     # filterJSON.py --min x --max y Cert_294927-302654_13TeV_PromptReco_Collisions17_JSON.txt --output Run2017x.json
+    # 2017A: 295982-297004 ; no runs certifed
     # 2017B: 297031-299329
     # 2017C: 299368-302029
-    # 2017D: 302031-302663
+    # 2017D: 302031-302995
+    # 2017E: 303569-304826
+    # 2017F: 305033-305313 ; in progress, no runs certified yet
     # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
 
     # --hltpath "HLT_MET105_IsoTrk50_v*"
-    # note: since MET105_IsoTrk50 came online only in run:fill 299368:5962, what should really happen here is
-    #       there will be a period before it with some lumi and then a period with it included
-    "MET_2017B" : 0.0,
-    "MET_2017C" : 9556.386,
-    "MET_2017D" : 3679.642,
+    # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
+    # see Triggers.py for details
+    "MET_2017B" : 4733.146,
+    "MET_2017C" : 9748.053,
+    "MET_2017D" : 4317.411,
+    "MET_2017E" : 6015.741,
+
+    # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
+    "SingleElectron_2017B" : 4733.146,
+    "SingleElectron_2017C" : 9748.053,
+    "SingleElectron_2017D" : 4317.410,
+    "SingleElectron_2017E" : 6015.741,
 
     # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017B" : 4495.945,
-    "SingleMuon_2017C" : 9556.385,
-    "SingleMuon_2017D" : 3679.643,
+    "SingleMuon_2017B" : 4733.146,
+    "SingleMuon_2017C" : 9748.053,
+    "SingleMuon_2017D" : 4317.410,
+    "SingleMuon_2017E" : 6015.741,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017B" : 3811.717 ,
-        "Tau_2017C" : 495.724,
-        "Tau_2017D" : 266.845,
+        "Tau_2017B" : 4043.585,
+        "Tau_2017C" : 506.046,
+        "Tau_2017D" : 316.548,
+        "Tau_2017E" : 280.856,
     },
 
 }

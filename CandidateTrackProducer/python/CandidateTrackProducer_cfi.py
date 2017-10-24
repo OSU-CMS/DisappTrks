@@ -51,6 +51,9 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
   triggerNames =  cms.vstring (
     # trigger developed for disappearing tracks
     "HLT_MET75_IsoTrk50_v",
+    "HLT_MET90_IsoTrk50_v",
+    "HLT_MET105_IsoTrk50_v", # not in 2017B
+    "HLT_MET120_IsoTrk50_v", # not in 2017 B
 
     # all other MET triggers that remained unprescaled for 2015
     "HLT_MET250_v",
@@ -72,6 +75,22 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
     "HLT_PFMET170_HBHECleaned_v",
     "HLT_PFMET300_v",
     "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+
+    # all other MET triggers that remained unprescaled for 2017
+    
+    'HLT_PFMET120_PFMHT120_IDTight_v',
+    'HLT_PFMET130_PFMHT130_IDTight_v',
+    'HLT_PFMET140_PFMHT140_IDTight_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+    
+    # available starting 2017C
+    'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+    'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+    'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v',
+    'HLT_PFMET250_HBHECleaned_v',
+    'HLT_PFMET300_HBHECleaned_v',
+
   ),
 )
 
@@ -97,6 +116,9 @@ electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
     # all single electron triggers that remained unprescaled for 2016
     "HLT_Ele25_eta2p1_WPTight_Gsf_v",
     "HLT_Ele27_WPTight_Gsf_v",
+
+    # all single electron triggers that are unprescaled in 2017
+    "HLT_Ele35_WPTight_Gsf_v",
   ),
 )
 
@@ -114,6 +136,7 @@ muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
     "HLT_IsoMu20_v",
     "HLT_IsoMu22_v",
     "HLT_IsoMu24_v",
+    "HLT_IsoMu27_v", # 2017
     "HLT_IsoTkMu20_v",
     "HLT_IsoTkMu22_v",
     "HLT_IsoTkMu24_v",
@@ -132,5 +155,6 @@ tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v",
+    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v", # 2017
   ),
 )
