@@ -16,6 +16,8 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
       trigObjThresholds_[filterCategory] = cfg.getParameter<vector<double> > (filterCategory + "Thresholds");
       trigObjJetsForTag_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "JetsForTag");
     }
+  additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
+  additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
 }
 
 template<class T>
@@ -35,7 +37,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
   edm::Handle<vector<T> > tags;
   event.getByToken (tokenTags_, tags);
 
-  const pat::TriggerObjectStandAlone *hltTag = anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, tagCollection (), tagFilter ());
+  const pat::TriggerObjectStandAlone *hltTag = anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, tagCollection (), "");
   map<string, vector<const pat::TriggerObjectStandAlone *> > hltFilterObjects, hltJetsForTag;
   int n = -1;
   for (const auto &filterCategory : filterCategories_)
@@ -56,7 +58,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
           const string &filter = filters.at (i);
           const string &jetForTag = jetsForTag.at (i);
 
-          anatools::getTriggerObjects (event, *triggers, *triggerObjects, collection, filter, objs);
+          anatools::getTriggerObjects (event, *triggers, *triggerObjects, collection, "", objs);
           jets.push_back (anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, jetForTag, ""));
         }
     }
@@ -74,20 +76,27 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
         {
           bool flag;
 
-          const pat::TriggerObjectStandAlone *tag = (jets.at (i) ? jets.at (i) : hltTag);
+          const pat::TriggerObjectStandAlone *tag = (trigObjJetsForTag_.at (filterCategory).at (i) == "" ? hltTag : jets.at (i));
           const pat::TriggerObjectStandAlone *obj = objs.at (i);
-          if (!obj || !tag)
+
+          TVector2 x, y;
+          if (!tag)
+            y.Set (0.0, 0.0);
+          else
+            y.Set (tag->px (), tag->py ());
+          if (!obj && (trigObjCollections_.at (filterCategory).at (i) == "" || trigObjFilters_.at (filterCategory).at (i) == ""))
+            flag = true;
+          else if (!obj)
+            flag = false;
+          else
             {
-              flag = true;
-              continue;
+              const double threshold = thresholds.at (i);
+
+              x.Set (obj->px (), obj->py ());
+              flag = ((x + y).Mod () > threshold);
             }
-          const double threshold = thresholds.at (i);
 
-          TVector2 x (obj->px (), obj->py ()),
-                   y (tag->px (), tag->py ());
-          flag = ((x + y).Mod () > threshold);
-
-          filterDecision[i] = flag;
+          filterDecision.push_back (flag);
         }
     }
 
@@ -97,6 +106,8 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
       bool triggerPasses = true;
       for (const auto &filterCategory : filterCategories_)
         triggerPasses = triggerPasses && filterDecisions.at (filterCategory).at (i);
+      if (additionalCollections_.at (i) != "" && additionalFilters_.at (i) != "")
+        triggerPasses = triggerPasses && anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
       passes = passes || triggerPasses;
     }
 
