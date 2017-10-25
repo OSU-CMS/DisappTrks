@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
+from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 import os
 
 def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = True):
@@ -134,6 +135,16 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
             moveVariableProducer (process, "EventTauToMuonTPProducer", channel, 4)
+
+        if hasattr (process, "EventElectronMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventElectronMETTriggerProducer"))
+            moveVariableProducer (process, "EventElectronMETTriggerProducer", channel, 5)
+        if hasattr (process, "EventMuonMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventMuonMETTriggerProducer"))
+            moveVariableProducer (process, "EventMuonMETTriggerProducer", channel, 6)
+        if hasattr (process, "EventTauMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventTauMETTriggerProducer"))
+            moveVariableProducer (process, "EventTauMETTriggerProducer", channel, 7)
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
