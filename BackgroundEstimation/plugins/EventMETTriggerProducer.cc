@@ -12,7 +12,6 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
   for (const auto &filterCategory : filterCategories_)
     {
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
-      trigObjFilters_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Filters");
       trigObjThresholds_[filterCategory] = cfg.getParameter<vector<double> > (filterCategory + "Thresholds");
       trigObjJetsForTag_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "JetsForTag");
     }
@@ -43,7 +42,6 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
   for (const auto &filterCategory : filterCategories_)
     {
       const vector<string> &collections = trigObjCollections_.at (filterCategory);
-      const vector<string> &filters = trigObjFilters_.at (filterCategory);
       const vector<string> &jetsForTag = trigObjJetsForTag_.at (filterCategory);
 
       if (n < 0)
@@ -55,7 +53,6 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
       for (int i = 0; i < n; i++)
         {
           const string &collection = collections.at (i);
-          const string &filter = filters.at (i);
           const string &jetForTag = jetsForTag.at (i);
 
           anatools::getTriggerObjects (event, *triggers, *triggerObjects, collection, "", objs);
@@ -84,7 +81,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
             y.Set (0.0, 0.0);
           else
             y.Set (tag->px (), tag->py ());
-          if (!obj && (trigObjCollections_.at (filterCategory).at (i) == "" || trigObjFilters_.at (filterCategory).at (i) == ""))
+          if (!obj && trigObjCollections_.at (filterCategory).at (i) == "")
             flag = true;
           else if (!obj)
             flag = false;

@@ -25,7 +25,6 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
 
     vector<string> filterCategories_;
     map<string, vector<string> > trigObjCollections_;
-    map<string, vector<string> > trigObjFilters_;
     map<string, vector<double> > trigObjThresholds_;
     map<string, vector<string> > trigObjJetsForTag_;
 
