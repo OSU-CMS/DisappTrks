@@ -87,11 +87,12 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
             y.Set (tag->px (), tag->py ());
           if (!obj && trigObjCollections_.at (filterCategory).at (i) == "")
             flag = true;
-          else if (!obj)
-            flag = false;
           else
             {
-              x.Set (obj->px (), obj->py ());
+              if (!obj)
+                x.Set (0.0, 0.0);
+              else
+                x.Set (obj->px (), obj->py ());
 
               const double threshold = thresholds.at (i);
               const double modifiedMissingEnergy = getModifiedMissingEnergy (x, y, muonsCountedAsVisible_.at (filterCategory));
