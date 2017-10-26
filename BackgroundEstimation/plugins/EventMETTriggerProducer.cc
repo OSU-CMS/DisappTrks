@@ -37,6 +37,9 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
   edm::Handle<vector<T> > tags;
   event.getByToken (tokenTags_, tags);
 
+  if (!triggers.isValid () || !triggerObjects.isValid () || !tags.isValid ())
+    return;
+
   const pat::TriggerObjectStandAlone *hltTag = anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, tagCollection (), "");
   map<string, vector<const pat::TriggerObjectStandAlone *> > hltFilterObjects, hltJetsForTag;
   int n = -1;
