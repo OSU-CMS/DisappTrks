@@ -14,7 +14,7 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
       trigObjThresholds_[filterCategory] = cfg.getParameter<vector<double> > (filterCategory + "Thresholds");
       trigObjJetsForTag_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "JetsForTag");
-      muonsCountedAsVisible_[filterCategory] = cfg.getParameter<bool> ("muonsCountedAsVisible");
+      muonsCountedAsVisible_[filterCategory] = cfg.getParameter<bool> (filterCategory + "MuonsCountedAsVisible");
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
