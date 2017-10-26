@@ -34,7 +34,7 @@ def customizeForMETTriggerProducer (producer):
 
     producer.mhtCollections  =  cms.vstring  ("",   "",   "hltMht::HLT",                      "hltMht::HLT",                      "",   "",   "hltMht::HLT")
     producer.mhtThresholds   =  cms.vdouble  (0.0,  0.0,  80.0,                               90.0,                               0.0,  0.0,  90.0)
-    producer.mhtJetsForTag   =  cms.vstring  ("",   "",   "hltAK4CaloJetsCorrectedIDPassed",  "hltAK4CaloJetsCorrectedIDPassed",  "",   "",   "hltAK4CaloJetsCorrectedIDPassed")
+    producer.mhtJetsForTag   =  cms.vstring  ("",   "",   "hltAK4CaloJetsCorrectedIDPassed::HLT",  "hltAK4CaloJetsCorrectedIDPassed::HLT",  "",   "",   "hltAK4CaloJetsCorrectedIDPassed::HLT")
     producer.mhtMuonsCountedAsVisible = cms.bool (False)
 
     producer.pfMETCollections  =  cms.vstring  ("",   "",   "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",  "")
@@ -44,7 +44,7 @@ def customizeForMETTriggerProducer (producer):
 
     producer.pfMHTCollections  =  cms.vstring  ("",   "",   "hltPFMHTTightID::HLT",          "hltPFMHTTightID::HLT",          "",   "",   "")
     producer.pfMHTThresholds   =  cms.vdouble  (0.0,  0.0,  100.0,                           120.0,                           0.0,  0.0,  0.0)
-    producer.pfMHTJetsForTag   =  cms.vstring  ("",   "",   "hltAK4PFJetsTightIDCorrected",  "hltAK4PFJetsTightIDCorrected",  "",   "",   "")
+    producer.pfMHTJetsForTag   =  cms.vstring  ("",   "",   "hltAK4PFJetsTightIDCorrected::HLT",  "hltAK4PFJetsTightIDCorrected::HLT",  "",   "",   "")
     producer.pfMHTMuonsCountedAsVisible = cms.bool (True)
 
     producer.pfMETNoMuCollections  =  cms.vstring  ("",   "",   "",   "",   "",   "",   "hltPFMETNoMuProducer::HLT")
@@ -54,7 +54,7 @@ def customizeForMETTriggerProducer (producer):
 
     producer.pfMHTNoMuCollections  =  cms.vstring  ("",   "",   "",   "",   "",   "",   "hltPFMHTNoMuTightID::HLT")
     producer.pfMHTNoMuThresholds   =  cms.vdouble  (0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  120.0)
-    producer.pfMHTNoMuJetsForTag   =  cms.vstring  ("",   "",   "",   "",   "",   "",   "hltAK4PFJetsTightIDCorrected")
+    producer.pfMHTNoMuJetsForTag   =  cms.vstring  ("",   "",   "",   "",   "",   "",   "hltAK4PFJetsTightIDCorrected::HLT")
     producer.pfMHTNoMuMuonsCountedAsVisible = cms.bool (False)
 
     producer.additionalCollections  =  cms.vstring  ("",  "hltTrk50Filter::HLT",  "",  "",  "",  "",  "")
