@@ -27,6 +27,7 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     map<string, vector<string> > trigObjCollections_;
     map<string, vector<double> > trigObjThresholds_;
     map<string, vector<string> > trigObjJetsForTag_;
+    map<string, bool> muonsCountedAsVisible_;
 
     vector<string> additionalCollections_;
     vector<string> additionalFilters_;
@@ -35,6 +36,7 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     const string eventVariableName () const;
     const string tagCollection () const;
     const string tagFilter () const;
+    const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool) const;
 };
 
 typedef EventMETTriggerProducer<osu::Electron> EventElectronMETTriggerProducer;

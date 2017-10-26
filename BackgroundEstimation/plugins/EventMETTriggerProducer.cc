@@ -14,6 +14,7 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
       trigObjThresholds_[filterCategory] = cfg.getParameter<vector<double> > (filterCategory + "Thresholds");
       trigObjJetsForTag_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "JetsForTag");
+      muonsCountedAsVisible_[filterCategory] = cfg.getParameter<bool> ("muonsCountedAsVisible");
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
@@ -87,10 +88,11 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
             flag = false;
           else
             {
-              const double threshold = thresholds.at (i);
-
               x.Set (obj->px (), obj->py ());
-              flag = ((x + y).Mod () > threshold);
+
+              const double threshold = thresholds.at (i);
+              const double modifiedMissingEnergy = getModifiedMissingEnergy (x, y, muonsCountedAsVisible_.at (filterCategory));
+              flag = (modifiedMissingEnergy > threshold);
             }
 
           filterDecision.push_back (flag);
@@ -205,6 +207,20 @@ template<> const string
 EventMETTriggerProducer<osu::Tau>::tagFilter () const
 {
   return "hltPFTau50TrackPt30LooseAbsOrRelIso";
+}
+
+template<class T> const double
+EventMETTriggerProducer<T>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible) const
+{
+  return (x + y).Mod ();
+}
+
+template<> const double
+EventMETTriggerProducer<osu::Muon>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible) const
+{
+  if (muonsCountedAsVisible)
+    return (x + y).Mod ();
+  return x.Mod ();
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
