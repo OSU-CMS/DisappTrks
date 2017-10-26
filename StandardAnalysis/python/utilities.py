@@ -151,7 +151,6 @@ def setFiducialMaps (process, electrons, muons):
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
 def moveVariableProducer (process, producerName, channelName, index = 0):
-    producer = plotter = None
     producer = plotter = eventvariableProducer = None
     producerLabel = plotterLabel = ""
     plotterPath = None
@@ -211,8 +210,9 @@ def moveVariableProducer (process, producerName, channelName, index = 0):
 
     # insert the copy of the variable producer we created above into the path
     # of the Plotter, right before the Plotter
-    getattr (process, channelName).remove (getattr (process, plotterLabel))
+    #process.variableProducerPath.remove (getattr (process, producerLabel))
     plotterPath = getattr (process, channelName)
+    plotterPath.remove (getattr (process, plotterLabel))
     plotterPath += producer
     plotterPath += eventvariableProducer
     plotterPath += plotter
