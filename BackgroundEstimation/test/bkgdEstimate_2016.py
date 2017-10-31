@@ -136,10 +136,14 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2016" + runPeriod)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",          "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",          "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/electronBackground")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",         "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",   "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",   "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/electronBackground")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+
+        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+
+        electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_passesMETTriggers_new")
 
         print "********************************************************************************"
 
@@ -177,10 +181,14 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         muonBkgdEstimate.addPlotLabel ("SingleMuon 2016" + runPeriod)
-        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",       "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",       "SingleMu_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",         "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
-        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
+        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
+        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",  "SingleMu_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
+        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
+
+        #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
+
+        muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_passesMETTriggers_new")
 
         print "********************************************************************************"
 
@@ -227,9 +235,13 @@ for runPeriod in runPeriods:
         tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_new")
         tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_new")
         tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
+
         #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_nCtrl_new")
-        tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
-        tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        #tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+        #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
+
+        tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",                    "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_passesMETTriggers_new")
 
         print "********************************************************************************"
 
