@@ -108,7 +108,7 @@ EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag,
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
   double m = (t + p).M ();
-  return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
+  return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
 template<> bool
@@ -117,7 +117,7 @@ EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const o
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
   double m = (t + p).M ();
-  return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
+  return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
 template<class T, class... Args> bool
