@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import FWCore.ParameterSet.Config as cms
 
 def customizeForMETTriggerProducer (producer):
