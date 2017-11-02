@@ -929,7 +929,7 @@ cutEleTrkMETBalance = cms.PSet(
 
 cutElectronMatchToTrigObj = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("match_HLT_Ele25_eta2p1_WPTight_Gsf_v"),
+    cutString = cms.string("match_HLT_Ele22_eta2p1_WPLoose_Gsf_v"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons firing trigger"),
 )
@@ -940,6 +940,8 @@ cutElectronPt = cms.PSet (
     numberRequired = cms.string(">= 1"),
 )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     print "# Switching electron pt cut to >35 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
     cutElectronPt.cutString = cms.string("pt > 35")
