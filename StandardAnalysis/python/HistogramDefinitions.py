@@ -565,6 +565,13 @@ ElectronEventVariableHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(2, -0.5, 1.5),
             inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectron"),
         ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutElectronVsElectronMetNoMuMinusOneUpPt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("electron.metNoMuMinusOneUpPt", "eventvariable.passesMETTriggersWithoutElectron"),
+        ),
     )
 )
 
@@ -592,6 +599,13 @@ MuonEventVariableHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(2, -0.5, 1.5),
             inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuon"),
         ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutMuonVsMuonMetNoMuMinusOneUpPt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("muon.metNoMuMinusOneUpPt", "eventvariable.passesMETTriggersWithoutMuon"),
+        ),
     )
 )
 
@@ -618,6 +632,13 @@ TauEventVariableHistograms = cms.PSet(
             binsX = metBins,
             binsY = cms.untracked.vdouble(2, -0.5, 1.5),
             inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTau"),
+        ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutTauVsTauMetNoMuMinusOneUpPt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("tau.metNoMuMinusOneUpPt", "eventvariable.passesMETTriggersWithoutTau"),
         ),
     )
 )
