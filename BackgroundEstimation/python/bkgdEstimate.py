@@ -521,16 +521,48 @@ class LeptonBkgdEstimate:
                     passesError1 = Double (0.0)
                     totalError2 = Double (0.0)
                     passesError2 = Double (0.0)
-                    total = totalHist.IntegralAndError (2, 2, totalError1) + 2.0 * totalHist.IntegralAndError (3, 3, totalError2)
-                    passes = passesHist.IntegralAndError (2, 2, passesError1) + 2.0 * passesHist.IntegralAndError (3, 3, passesError2)
+                    if self._flavor != "tau":
+                        total = totalHist.IntegralAndError (2, 2, totalError1) + 2.0 * totalHist.IntegralAndError (3, 3, totalError2)
+                        passes = passesHist.IntegralAndError (2, 2, passesError1) + 2.0 * passesHist.IntegralAndError (3, 3, passesError2)
+                    else:
+                        total = totalHist.IntegralAndError (2, 2, totalError1)
+                        passes = passesHist.IntegralAndError (2, 2, passesError1)
                     total = Measurement (total, math.hypot (totalError1, 2.0 * totalError2))
                     passes = Measurement (passes, math.hypot (passesError1, 2.0 * passesError2))
 
                 passes1 = 0.0
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
-                    total        += self.TagProbe1["yield"]
-                    passes1       = self.TagProbePass1["yield"]
+                    if not self._useHistogramsForPpassVeto:
+                        total        += self.TagProbe1["yield"]
+                        passes1       = self.TagProbePass1["yield"]
+                    else:
+                        hist = "Eventvariable Plots/nGoodTPPairs"
+                        sample = self.TagProbe1["sample"]
+                        condorDir = self.TagProbe1["condorDir"]
+                        name = self.TagProbe1["name"]
+                        totalHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                        hist = "Eventvariable Plots/nProbesPassingVeto"
+                        sample = self.TagProbePass1["sample"]
+                        condorDir = self.TagProbePass1["condorDir"]
+                        name = self.TagProbePass1["name"]
+                        passesHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                        total1 = 0.0
+                        passes1 = 0.0
+                        totalError1 = Double (0.0)
+                        passesError1 = Double (0.0)
+                        totalError2 = Double (0.0)
+                        passesError2 = Double (0.0)
+                        if self._flavor != "tau":
+                            total1 = totalHist.IntegralAndError (2, 2, totalError1) + 2.0 * totalHist.IntegralAndError (3, 3, totalError2)
+                            passes1 = passesHist.IntegralAndError (2, 2, passesError1) + 2.0 * passesHist.IntegralAndError (3, 3, passesError2)
+                        else:
+                            total1 = totalHist.IntegralAndError (2, 2, totalError1)
+                            passes1 = passesHist.IntegralAndError (2, 2, passesError1)
+                        total += Measurement (total1, math.hypot (totalError1, 2.0 * totalError2))
+                        passes1 = Measurement (passes1, math.hypot (passesError1, 2.0 * passesError2))
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
                 p = passes
