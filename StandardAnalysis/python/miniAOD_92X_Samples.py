@@ -26,6 +26,21 @@ dataset_names_data = {
     # ZeroBias PromptReco
 }
 
+# ntuples of 2017C -- currently these are optional,
+# so the usuer needs to exchange dataset_names_data
+# with this if CandidateTracks are to be used
+datasets_names_data_ntuples = {
+    
+    'MET_2017C' : ["/MET/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER", "/MET/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER", "/MET/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER"],
+
+    'SingleEle_2017C' : ["/SingleElectron/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER", "/SingleElectron/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER", "/SingleElectron/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER"],
+
+    'SingleMu_2017C' : ["/SingleMuon/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER", "/SingleMuon/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER", "/SingleMuon/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER"],
+
+    'Tau_2017C' : ["/Tau/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER", "/Tau/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER", "/Tau/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER"],
+
+}
+
 dataset_names_bkgd = {
     ############################################################################
     # MiniAOD not stored on T3.

@@ -36,6 +36,18 @@ TrackDebugEcaloHistograms = cms.PSet(
     )
 )
 
+TrackCandidateTrackHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackIsMatchedToCandidateTrack"),
+            title = cms.string(";has CandidateTrack"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("matchedCandidateTrack.isNonnull"),
+        ),
+    )
+)
+
 TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (

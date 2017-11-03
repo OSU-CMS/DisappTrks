@@ -10,9 +10,9 @@ mc_global_tag = '76X_mcRun2_asymptotic_v12'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
-    data_global_tag = '92X_dataRun2_Prompt_v8'
-    mc_global_tag = '92X_upgrade2017_TSG_For90XSamples_V1'
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+    data_global_tag = '92X_dataRun2_Prompt_v10'
+    mc_global_tag = '92X_upgrade2017_realistic_v7'
 
 ################################################################################
 # Create the skeleton process
@@ -46,10 +46,12 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         "/store/data/Run2017C/SingleMuon/MINIAOD/PromptReco-v2/000/299/958/00000/4CF91855-0B76-E711-AE36-02163E01A1BC.root",
+        # CandidateTrack ntuples below
+        #"root://xrootd.rcac.purdue.edu/store/user/bfrancis/MET/Run2017C-PromptReco-v1-DisappTrks-v1/171026_152519/0000/miniAOD-prod_PAT_95.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',
@@ -120,7 +122,7 @@ else:
 ################################################################################
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
 else:
     collMap = copy.deepcopy(collectionMap)

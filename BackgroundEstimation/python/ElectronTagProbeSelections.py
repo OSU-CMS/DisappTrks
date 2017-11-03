@@ -22,7 +22,7 @@ tagElectronCuts = [
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
 # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
-#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
 #    addSingleCut(ElectronTagSkim.cuts, cutElectronEta24, cutElectronEta21)
 #    removeCuts(ElectronTagSkim.cuts, [cutElectronEta21])
 

@@ -46,7 +46,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     # triggerFiltersTrack unchanged from 2015
 
 # 2017
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
     triggerFiltersMet = {
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
         'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
