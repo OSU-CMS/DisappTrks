@@ -595,6 +595,7 @@ class MissingOuterHitsSystematic:
     _lifetimes = None
     _signalSuffix = ""
     _fout = None
+    _foutForPlot = None
 
     def __init__ (self, masses, lifetimes):
         self._masses = masses
@@ -618,11 +619,15 @@ class MissingOuterHitsSystematic:
     def addFout (self, fout):
         self._fout = fout
 
-    def getNMissOutEfficiency (self, dataOrMC, nLow, nHigh = -1, hits = None):
+    def addFoutForPlot (self, foutForPlot):
+        self._foutForPlot = foutForPlot
+
+    def getNMissOutEfficiency (self, dataOrMC, nLow, nHigh = -1, hits = None, sample = None):
         if hasattr (self, dataOrMC):
             if not hits:
                 channel = getattr (self, dataOrMC)
-                sample = channel["sample"]
+                if dataOrMC != "Signal":
+                    sample = channel["sample"]
                 condorDir = channel["condorDir"]
                 name = channel["name"]
                 hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
@@ -673,46 +678,41 @@ class MissingOuterHitsSystematic:
         lifetimes = map (float, self._lifetimes)
         massBins = array ("d", masses + [masses[-1] + 100])
         lifetimeBins = array ("d", lifetimes + [lifetimes[-1] * 10.0])
-        hDown = TH2D ("nMissOutSystematicDown", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
-        hUp = TH2D ("nMissOutSystematicUp", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
+        h = TH2D ("nMissOutSystematic", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
-                mc1, mcHits = self.getNMissOutEfficiency ("MC", 1, 12)
-                nominal, signalHits = self.getSignalYield (mass, lifetime, 3, 12)
-                newYieldUp = nominal
-                newYieldDown = nominal
+                eTrue3ToInf, signalHits = self.getNMissOutEfficiency ("Signal", 3, 12, hits = None, sample = sample)
+                eTrue2, signalHits = self.getNMissOutEfficiency ("Signal", 2, 2, hits = signalHits, sample = sample)
+                eTrue1, signalHits = self.getNMissOutEfficiency ("Signal", 1, 1, hits = signalHits, sample = sample)
+                eTrue0, signalHits = self.getNMissOutEfficiency ("Signal", 0, 0, hits = signalHits, sample = sample)
 
-                for nMissOut in range (0, 3):
-                    data, dataHits = self.getNMissOutEfficiency ("Data", 3 - nMissOut, 12, hits = dataHits)
-                    mc, mcHits = self.getNMissOutEfficiency ("MC", 3 - nMissOut, 12, hits = mcHits)
-                    n, signalHits = self.getSignalYield (mass, lifetime, nMissOut, hits = signalHits)
+                eMC1ToInf, mcHits = self.getNMissOutEfficiency ("MC", 1, 12, hits = mcHits)
+                eMC2ToInf, mcHits = self.getNMissOutEfficiency ("MC", 2, 12, hits = mcHits)
+                eMC3ToInf, mcHits = self.getNMissOutEfficiency ("MC", 3, 12, hits = mcHits)
 
-                    newYieldUp += n * (data / (1 - mc1))
+                eData1ToInf, dataHits = self.getNMissOutEfficiency ("Data", 1, 12, hits = dataHits)
+                eData2ToInf, dataHits = self.getNMissOutEfficiency ("Data", 2, 12, hits = dataHits)
+                eData3ToInf, dataHits = self.getNMissOutEfficiency ("Data", 3, 12, hits = dataHits)
 
-                for nMissOut in range (3, 12):
-                    data, dataHits = self.getNMissOutEfficiency ("Data", nMissOut - 2, 12, hits = dataHits)
-                    mc, mcHits = self.getNMissOutEfficiency ("MC", nMissOut - 2, 12, hits = mcHits)
-                    n, signalHits = self.getSignalYield (mass, lifetime, nMissOut, hits = signalHits)
+                mcEff = eTrue3ToInf + eTrue2 * eMC1ToInf + eTrue1 * eMC2ToInf + eTrue0 * eMC3ToInf
+                dataEff = eTrue3ToInf + eTrue2 * eData1ToInf + eTrue1 * eData2ToInf + eTrue0 * eData3ToInf
+                #mcEff = eTrue2 * eMC1ToInf + eTrue1 * eMC2ToInf + eTrue0 * eMC3ToInf
+                #dataEff = eTrue2 * eData1ToInf + eTrue1 * eData2ToInf + eTrue0 * eData3ToInf
 
-                    newYieldDown -= n * (data / (1 - mc1))
+                sys = abs (mcEff - dataEff) / mcEff if mcEff > 0.0 else Measurement (0.0, 0.0)
+                systematic.append ([sample, str (max (1.0 - sys.centralValue (), 1.0e-12)), str (max (1.0 + sys.centralValue (), 1.0e-12))])
 
-                sysDown = (newYieldDown / nominal) - 1.0
-                sysUp = (newYieldUp / nominal) - 1.0
-                systematic.append ([sample, str (max (1.0 + sysDown.centralValue (), 1.0e-12)), str (max (1.0 + sysUp.centralValue (), 1.0e-12))])
+                sys *= 100.0
+                sys.printUncertainty (False)
+                sys.printLongFormat (True)
+                h.Fill (mass, lifetime, abs (sys.centralValue () / 100.0))
+                print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%"
 
-                sysDown *= 100.0
-                sysUp *= 100.0
-                sysDown.printUncertainty (False)
-                sysUp.printUncertainty (False)
-                hDown.Fill (mass, lifetime, abs (sysDown.centralValue () / 100.0))
-                hUp.Fill (mass, lifetime, abs (sysUp.centralValue () / 100.0))
-                print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] nominal yield: " + str (nominal) + ", fluctuated yields: " + str (newYieldDown) + "/" + str (newYieldUp) + ", systematic uncertainty: " + str (sysDown) + "%/" + str (sysUp) + "%"
-        fout = TFile ("nMissOutSystematic.root", "recreate")
-        fout.cd ()
-        hDown.Write ()
-        hUp.Write ()
-        fout.Close ()
+        if self._foutForPlot:
+            self._foutForPlot.cd ()
+            h.Write ()
+            self._foutForPlot.Close ()
 
         if self._fout:
             width = max (len (word) for row in systematic for word in row) + 2

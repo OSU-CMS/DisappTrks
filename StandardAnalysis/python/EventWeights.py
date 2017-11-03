@@ -16,6 +16,10 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("grandOrWeight")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("isrWeight")
+    ),
 )
 
 is80X = os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_")

@@ -82,6 +82,7 @@ external_systematic_uncertainties = [
     "metVaryPhotonEn_2016DEFGH",
     "metVaryTauEn_2016DEFGH",
     "metVaryUnclusteredEn_2016DEFGH",
+    "nMissOut_2016DEFGH",
     "pileup_2016DEFGH",
     "trigger_grandOrWeightData_2016DEFGH",
     "trigger_grandOrWeightMC_2016DEFGH",
@@ -94,7 +95,7 @@ signal_systematic_uncertainties = {
         'value' : '1.026',
     },
     'trkReco' :  {
-        'value' : '1.017',
+        'value' : '1.045',
     },
     'Ecalo' : {
         'value' : str (1.0 + 1.01724553994 / 100.0),
@@ -104,8 +105,5 @@ signal_systematic_uncertainties = {
     },
     'Nmissmid' :  {
         'value' : str (1.0 + 1.23438446885 / 100.0),
-    },
-    'NMissOut' : {
-        'value' : str (1.0 + 9.0172855903 / 100.0),
     },
 }

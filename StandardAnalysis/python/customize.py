@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
+from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 import os
 
 def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = True):
@@ -12,7 +13,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.PUScalingFactorProducer.targetDown = cms.string ("data2015Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.string('SingleMu_2015D')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2015D')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
@@ -35,7 +36,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.PUScalingFactorProducer.targetDown = cms.string ("data2016_BCDown")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.string('SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
@@ -58,7 +59,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.PUScalingFactorProducer.targetDown = cms.string ("data2016_DEFGHDown")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.string('SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
@@ -82,7 +83,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.PUScalingFactorProducer.targetDown = cms.string ("data2016_DEFGHDown")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.string('SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
@@ -115,7 +116,35 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
     if not applyMissingHitsCorrections:
         setMissingHitsCorrection (process, "uncorrected")
 
-    moveVariableProducer (process, "TriggerWeightProducer")
+    for channel in getListOfChannels (process):
+        moveVariableProducer (process, "TriggerWeightProducer", channel, 0)
+
+        doFilter = False
+        if channel.endswith ("WithFilter"):
+            doFilter = True
+
+        if hasattr (process, "EventElectronTPProducer"):
+            getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventElectronTPProducer", channel, 1)
+        if hasattr (process, "EventMuonTPProducer"):
+            getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventMuonTPProducer", channel, 2)
+        if hasattr (process, "EventTauToElectronTPProducer"):
+            getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventTauToElectronTPProducer", channel, 3)
+        if hasattr (process, "EventTauToMuonTPProducer"):
+            getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
+            moveVariableProducer (process, "EventTauToMuonTPProducer", channel, 4)
+
+        if hasattr (process, "EventElectronMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventElectronMETTriggerProducer"))
+            moveVariableProducer (process, "EventElectronMETTriggerProducer", channel, 5)
+        if hasattr (process, "EventMuonMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventMuonMETTriggerProducer"))
+            moveVariableProducer (process, "EventMuonMETTriggerProducer", channel, 6)
+        if hasattr (process, "EventTauMETTriggerProducer"):
+            customizeForMETTriggerProducer (getattr (process, "EventTauMETTriggerProducer"))
+            moveVariableProducer (process, "EventTauMETTriggerProducer", channel, 7)
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
