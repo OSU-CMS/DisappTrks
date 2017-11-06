@@ -129,37 +129,66 @@ EventTPProducer<T, Args...>::passesVeto (const osu::Track &probe) const
 template<> bool
 EventTPProducer<osu::Electron>::passesVeto (const osu::Track &probe) const
 {
+#if DATA_FORMAT == MINI_AOD_2017
+  bool passes = probe.deltaRToClosestPFElectron () > 0.15
+             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#else
   bool passes = probe.deltaRToClosestElectron () > 0.15
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#endif
+
   return passes;
 }
 
 template<> bool
 EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
 {
-  bool passes = probe.deltaRToClosestMuon () > 0.15
+#if DATA_FORMAT == MINI_AOD_2017
+  bool passes = probe.deltaRToClosestPFMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#else
+  bool passes = probe.deltaRToClosestMuon () > 0.15
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;          
+#endif
+
   return passes;
 }
 
 template<> bool
 EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) const
 {
+#if DATA_FORMAT == MINI_AOD_2017
+  bool passes = probe.deltaRToClosestPFChHad () > 0.15
+             && probe.dRMinJet () > 0.5
+             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#else
   bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#endif
+
   return passes;
 }
 
 template<> bool
 EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
 {
+#if DATA_FORMAT == MINI_AOD_2017
+  bool passes = probe.deltaRToClosestPFChHad () > 0.15
+             && probe.dRMinJet () > 0.5
+             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#else
   bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#endif
+
   return passes;
 }
 
