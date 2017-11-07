@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: RECO -s RAW2DIGI,L1Reco,RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2016 --scenario pp --conditions 80X_dataRun2_Prompt_v15 --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2016 --filein file:pippo.root -n 100 --python_filename=rereco_23Sep2016_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -113,7 +113,7 @@ process.options.numberOfStreams=cms.untracked.uint32(0)
 # customisation of the process.
 
 # Automatic addition of the customisation function from DisappTrks.BackgroundEstimation.customize
-from DisappTrks.BackgroundEstimation.customize import addMoreCaloTowers,addMoreElectronSeeds 
+from DisappTrks.BackgroundEstimation.customize import addMoreCaloTowers,addMoreElectronSeeds
 
 #call to customisation function addMoreCaloTowers imported from DisappTrks.BackgroundEstimation.customize
 process = addMoreCaloTowers(process)
@@ -122,7 +122,7 @@ process = addMoreCaloTowers(process)
 process = addMoreElectronSeeds(process)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.RecoTLR
-from Configuration.DataProcessing.RecoTLR import customisePostEra_Run2_2016 
+from Configuration.DataProcessing.RecoTLR import customisePostEra_Run2_2016
 
 #call to customisation function customisePostEra_Run2_2016 imported from Configuration.DataProcessing.RecoTLR
 process = customisePostEra_Run2_2016(process)
@@ -138,7 +138,7 @@ process=cleanUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

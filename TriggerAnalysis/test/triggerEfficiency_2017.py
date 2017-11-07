@@ -73,8 +73,8 @@ for dataset in datasets:
     #for trigger in triggersMet:
     for trigger in triggerFiltersMet:
 
-	print 'ayy trigger = ', trigger
-	print 'ayy path = ', path
+        print 'ayy trigger = ', trigger
+        print 'ayy path = ', path
 
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
 

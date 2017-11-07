@@ -5,7 +5,7 @@ config_file = "config_2017_cfg.py"
 intLumi = lumi["SingleMuon_2017"]
 
 datasetsData = [
-	'SingleMu_2017B',
+    'SingleMu_2017B',
     'SingleMu_2017C',
     'SingleMu_2017D',
 ]

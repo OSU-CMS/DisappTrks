@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: DisappTrks/SignalMC/python/charginoParticleGun_cfi.py -s GEN,SIM --conditions auto:mc --mc --datatier GEN-SIM --eventcontent RAWSIM -n 5 --no_exec --fileout charginoPartGun_GEN_SIM.root
 import FWCore.ParameterSet.Config as cms
 
@@ -67,18 +67,18 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')
 
 process.generator = cms.EDProducer("FlatRandomPtGunProducer",
-#				   pythiaPylistVerbosity = cms.untracked.int32(0),
-#				   slhaFile = cms.untracked.string('Configuration/Generator/data/AMSB_chargino_100GeV_Isajet780.slha'),
-				   slhaFile = cms.untracked.string(''),   
-				   particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'),
-				   filterEfficiency = cms.untracked.double(1.0),
-				   pythiaHepMCVerbosity = cms.untracked.bool(False),
-				   processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
-				   useregge = cms.bool(False),
-				   comEnergy = cms.double(8000.0),
-				   maxEventsToPrint = cms.untracked.int32(0),
-				   hscpFlavor = cms.untracked.string('stau'),
-				   massPoint = cms.untracked.int32(150),
+#                                   pythiaPylistVerbosity = cms.untracked.int32(0),
+#                                   slhaFile = cms.untracked.string('Configuration/Generator/data/AMSB_chargino_100GeV_Isajet780.slha'),
+                                   slhaFile = cms.untracked.string(''),
+                                   particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_test.slha'),
+                                   filterEfficiency = cms.untracked.double(1.0),
+                                   pythiaHepMCVerbosity = cms.untracked.bool(False),
+                                   processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
+                                   useregge = cms.bool(False),
+                                   comEnergy = cms.double(8000.0),
+                                   maxEventsToPrint = cms.untracked.int32(0),
+                                   hscpFlavor = cms.untracked.string('stau'),
+                                   massPoint = cms.untracked.int32(150),
     AddAntiParticle = cms.bool(False),
     PGunParameters = cms.PSet(
         MaxEta = cms.double(2.5),
@@ -99,15 +99,15 @@ process.generator = cms.EDProducer("FlatRandomPtGunProducer",
 process.generation_step = cms.Path(process.pgen)
 
 process.genParticlePlusGeant = cms.EDProducer("GenPlusSimParticleProducer",
-					      src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
-					      setStatus = cms.int32(8), # set status = 8 for GEANT GPs
-					      filter = cms.vstring("pt > 0.0"), # just for testing (optional)
-					      genParticles = cms.InputTag("genParticles") # original genParticle list
-					      )
+                                              src = cms.InputTag("g4SimHits"), # use "famosSimHits" for FAMOS
+                                              setStatus = cms.int32(8), # set status = 8 for GEANT GPs
+                                              filter = cms.vstring("pt > 0.0"), # just for testing (optional)
+                                              genParticles = cms.InputTag("genParticles") # original genParticle list
+                                              )
 process.simulation_step = cms.Path(process.psim + process.genParticlePlusGeant)
 process.RAWSIMoutput.outputCommands.extend( [
-		"keep *_genParticlePlusGeant_*_*",
-		] )
+                "keep *_genParticlePlusGeant_*_*",
+                ] )
 
 #process.simulation_step = cms.Path(process.psim)
 
@@ -119,7 +119,7 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.endjob_step,process.RAWSIMoutput_step)
 # filter all path with the production filter sequence
 for path in process.paths:
-	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
+        getattr(process,path)._seq = process.generator * getattr(process,path)._seq
 
 
 from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
@@ -133,13 +133,13 @@ process.MessageLogger = cms.Service("MessageLogger",
                                     ),
                                     debugModules     = cms.untracked.vstring('CustomPhysics'),
                                     critical       = cms.untracked.PSet(
-                                            threshold = cms.untracked.string('ERROR') 
+                                            threshold = cms.untracked.string('ERROR')
                                     ),
                                     detailedInfo   = cms.untracked.PSet(
-                                            threshold  = cms.untracked.string('INFO') 
+                                            threshold  = cms.untracked.string('INFO')
                                     ),
                                     cerr           = cms.untracked.PSet(
-                                            threshold  = cms.untracked.string('WARNING') 
+                                            threshold  = cms.untracked.string('WARNING')
                                     )
 )
 
