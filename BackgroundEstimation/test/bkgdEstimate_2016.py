@@ -168,15 +168,7 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addTCanvas (canvas)
         muonBkgdEstimate.addPrescaleFactor (lumi["MET_2016" + runPeriod] / lumi["SingleMuon_2016" + runPeriod])
 
-        # RAW/RECO missing for SingleMuon_2016D passing ZtoMuDisTrk events
-        if "D" in runPeriod or runPeriod == "":
-          muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / (lumi["SingleMuon_2016" + runPeriod] - lumi["SingleMuon_2016D"]))
-
-        # RAW/RECO missing for 10/12 events in D for ZtoMuDisTrk passing events
-        muonTagProbeEffectiveLumi = lumi["SingleMuon_2016" + runPeriod]
-        if "D" in runPeriod or runPeriod == "":
-            muonTagProbeEffectiveLumi -= (10./12.) * lumi["SingleMuon_2016C"]
-        muonBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleMuon_2016" + runPeriod] / muonTagProbeEffectiveLumi)
+        # RAW/RECO missing for no events in D for ZtoMuDisTrk passing events
 
         muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
@@ -285,7 +277,6 @@ if background == "TAU" or background == "LEPTON" or background == "ALL":
     tauBkgdEstimate.addTFile (fout)
     tauBkgdEstimate.addTCanvas (canvas)
     tauBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleMuon_2015"] + lumi["SingleMuon_2016"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    tauBkgdEstimate.addUseHistogramsForPpassVeto (False)
     tauBkgdEstimate.addChannel  ("TagProbe",       "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu",          dirs['Andrew']+"2016_final_prompt/muonBackground_new")
     tauBkgdEstimate.addChannel  ("TagProbePass",   "ZtoTauToMuDisTrk",              "SingleMu_rereco",   dirs['Andrew']+"2016_final_prompt/tauBackground_new")
     tauBkgdEstimate.addChannel  ("TagProbe1",      "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle",         dirs['Andrew']+"2016_final_prompt/electronBackground_new")
