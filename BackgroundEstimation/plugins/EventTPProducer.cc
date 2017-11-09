@@ -5,7 +5,8 @@
 template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
-  doFilter_ (cfg.getParameter<bool> ("doFilter"))
+  doFilter_ (cfg.getParameter<bool> ("doFilter")),
+  doSSFilter_ (cfg.getParameter<bool> ("doSSFilter"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
@@ -28,24 +29,35 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   if (!tags.isValid () || !probes.isValid ())
     return;
 
-  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0;
+  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0,
+           nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0;
   for (const auto &tag : *tags)
     {
       for (const auto &probe : *probes)
         {
-          bool isGoodTPPair = goodInvMass (tag, probe) && (tag.charge () * probe.charge () < 0.0),
+          bool isGoodInvMass = goodInvMass (tag, probe),
+               isGoodTPPair = isGoodInvMass && (tag.charge () * probe.charge () < 0.0),
+               isGoodSSTPPair = isGoodInvMass && (tag.charge () * probe.charge () > 0.0),
                isProbePassingVeto = passesVeto (probe);
 
           isGoodTPPair && nGoodTPPairs++;
           (isGoodTPPair && isProbePassingVeto) && nProbesPassingVeto++;
+
+          isGoodSSTPPair && nGoodSSTPPairs++;
+          (isGoodSSTPPair && isProbePassingVeto) && nSSProbesPassingVeto++;
         }
     }
 
   (*eventvariables)["nGoodTPPairs"] = nGoodTPPairs;
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
 
+  (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
+  (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
+
   if (doFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
+  if (doSSFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = (nSSProbesPassingVeto > 0);
 }
 
 template<class T, class... Args> const string

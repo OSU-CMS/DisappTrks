@@ -120,20 +120,27 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         moveVariableProducer (process, "TriggerWeightProducer", channel, 0)
 
         doFilter = False
+        doSSFilter = False
         if channel.endswith ("WithFilter"):
             doFilter = True
+        if channel.endswith ("WithSSFilter"):
+            doSSFilter = True
 
         if hasattr (process, "EventElectronTPProducer"):
             getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
             moveVariableProducer (process, "EventElectronTPProducer", channel, 1)
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
             moveVariableProducer (process, "EventMuonTPProducer", channel, 2)
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventTauToElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
             moveVariableProducer (process, "EventTauToElectronTPProducer", channel, 3)
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventTauToMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
             moveVariableProducer (process, "EventTauToMuonTPProducer", channel, 4)
 
         if hasattr (process, "EventElectronMETTriggerProducer"):
