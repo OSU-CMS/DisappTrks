@@ -659,10 +659,24 @@ TrackMuonHistograms = cms.PSet(
             inputVariables = cms.vstring(invMassWithMuon ("muon")),
         ),
         cms.PSet (
+            name = cms.string("chargeProductVsInvMassNearZ"),
+            title = cms.string(";M(#mu,track) [GeV];q_{track} #cdot q_{muon}"),
+            binsX = cms.untracked.vdouble(100, 80.0, 100.0),
+            binsY = cms.untracked.vdouble(3, -1.5, 1.5),
+            inputVariables = cms.vstring(invMassWithMuon ("muon"), "track.charge * muon.charge"),
+        ),
+        cms.PSet (
             name = cms.string("invMassNearZForTaus"),
             title = cms.string(";M(#mu,track) [GeV]"),
             binsX = cms.untracked.vdouble(100, 40.0, 75.0),
             inputVariables = cms.vstring(invMassWithMuon ("muon")),
+        ),
+        cms.PSet (
+            name = cms.string("chargeProductInvMassNearZForTaus"),
+            title = cms.string(";M(#mu,track) [GeV];q_{track} #cdot q_{muon}"),
+            binsX = cms.untracked.vdouble(100, 40.0, 75.0),
+            binsY = cms.untracked.vdouble(3, -1.5, 1.5),
+            inputVariables = cms.vstring(invMassWithMuon ("muon"), "track.charge * muon.charge"),
         ),
         cms.PSet (
             name = cms.string("deltaR"),
