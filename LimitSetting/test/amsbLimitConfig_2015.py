@@ -42,7 +42,7 @@ signalScaleFactor = 1.0
 lumi = lumi["MET_2015"]
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Andrew"] + '/2016_final_prompt/signalAcceptance_2015_v2/'
+signal_condor_dir = dirs["Brian"] + '/2015/signalAcceptance_final/'
 
 signal_suffix = signal_suffix_in_datacard = '76X'
 
