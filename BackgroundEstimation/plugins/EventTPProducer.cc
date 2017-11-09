@@ -31,11 +31,14 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
   unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0,
            nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0;
+  vector<double> masses;
+  vector<int> chargeProducts;
   for (const auto &tag : *tags)
     {
       for (const auto &probe : *probes)
         {
-          bool isGoodInvMass = goodInvMass (tag, probe),
+          double mass = 0.0;
+          bool isGoodInvMass = goodInvMass (tag, probe, mass),
                isGoodTPPair = isGoodInvMass && (tag.charge () * probe.charge () < 0.0),
                isGoodSSTPPair = isGoodInvMass && (tag.charge () * probe.charge () > 0.0),
                isProbePassingVeto = passesVeto (probe);
@@ -45,6 +48,12 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
           isGoodSSTPPair && nGoodSSTPPairs++;
           (isGoodSSTPPair && isProbePassingVeto) && nSSProbesPassingVeto++;
+
+          if (isGoodTPPair || isGoodSSTPPair)
+            {
+              masses.push_back (mass);
+              chargeProducts.push_back (tag.charge () * probe.charge ());
+            }
         }
     }
 
@@ -53,6 +62,16 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
   (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
   (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
+
+  for (unsigned i = 0; i < 10; i++)
+    {
+      stringstream ss;
+
+      ss.str ("");
+      ss << i;
+      (*eventvariables)["tagProbeMass_" + ss.str ()] = (masses.size () > i ? masses.at (i) : INVALID_VALUE);
+      (*eventvariables)["tagProbeChargeProduct_" + ss.str ()] = (chargeProducts.size () > i ? chargeProducts.at (i) : INVALID_VALUE);
+    }
 
   if (doFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
@@ -91,44 +110,44 @@ EventTPProducer<osu::Muon, osu::Tau>::tagCollectionParameter () const
 }
 
 template<class T, class... Args> bool
-EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe) const
+EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe, double &m) const
 {
   return false;
 }
 
 template<> bool
-EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
+EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfElectron ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
 
 template<> bool
-EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
+EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfMuon ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
 
 template<> bool
-EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
+EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
 template<> bool
-EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
+EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
