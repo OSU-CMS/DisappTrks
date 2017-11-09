@@ -847,6 +847,11 @@ cutMuTrkOS = cms.PSet(
     cutString = cms.string("muon.charge * track.charge < 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuTrkSS = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string("muon.charge * track.charge > 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMuTrkDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string("fabs (deltaPhi (muon, track)) > 2.5"),
@@ -910,6 +915,11 @@ cutEleTrkInvMass40To75 = cms.PSet(
 cutEleTrkOS = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string("electron.charge * track.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutEleTrkSS = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string("electron.charge * track.charge > 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutEleTrkDeltaPhi = cms.PSet(
