@@ -481,7 +481,7 @@ class LeptonBkgdEstimate:
         N = alpha = alphaError = float ("nan")
         if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
             N = passes
-            if self._flavor == "electron" or self._flavor == "muon":
+            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
@@ -563,6 +563,20 @@ class LeptonBkgdEstimate:
                             passes1 = passesHist.IntegralAndError (2, 2, passesError1)
                         total += Measurement (total1, math.hypot (totalError1, 2.0 * totalError2))
                         passes1 = Measurement (passes1, math.hypot (passesError1, 2.0 * passesError2))
+
+                background = Measurement (0.0, 0.0)
+                if hasattr (self, "TagProbePassSS"):
+                    hist = "Met Plots/metNoMu"
+                    sample = self.TagProbePassSS["sample"]
+                    condorDir = self.TagProbePassSS["condorDir"]
+                    name = self.TagProbePassSS["name"]
+                    backgroundHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    backgroundError = Double (0.0)
+                    background = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
+                    background = Measurement (background, backgroundError)
+
+                passes -= background
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
                 p = passes
