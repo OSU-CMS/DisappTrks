@@ -176,6 +176,8 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
         muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",  "SingleMu_rereco_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/muonBackground")
         muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
+        if runPeriod == "BC":
+            muonBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilter",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/sameSign/skims/muonBackground")
 
         #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
 
