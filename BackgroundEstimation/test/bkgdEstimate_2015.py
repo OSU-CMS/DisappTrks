@@ -115,17 +115,18 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimate.addTFile (fout)
     electronBkgdEstimate.addTCanvas (canvas)
     electronBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["SingleElectron_2015"])
-    # One event in ../data/zToEleDisTrk_2015_raw.root produces a segfault
-    electronBkgdEstimate.addTagProbePassScaleFactor (9./10.)
     electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2015"])
     electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
     electronBkgdEstimate.addMetCut (100.0)
-    electronBkgdEstimate.addUseHistogramsForPpassVeto (False)
-    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
-    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Brian']+"2015/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",             "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/electronBackground")
     electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
-    electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+
+    #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+
+    electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55",  "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
 
@@ -149,17 +150,18 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimate.addTFile (fout)
     muonBkgdEstimate.addTCanvas (canvas)
     muonBkgdEstimate.addPrescaleFactor (lumi["MET_2015"] / lumi["SingleMuon_2015"])
-    # One event in ../data/zToMuDisTrk_2015_raw.root produces a segfault
-    muonBkgdEstimate.addTagProbePassScaleFactor (5./6.)
     muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2015"])
     muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
     muonBkgdEstimate.addMetCut (100.0)
-    muonBkgdEstimate.addUseHistogramsForPpassVeto (False)
-    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrkWithZCuts",  "SingleMu_2015D",         dirs['Brian']+"2015/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuDisTrk",             "SingleMu_2015D_rereco",  dirs['Brian']+"2015/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",  "SingleMu_2015D",         dirs['Andrew']+"2015/stenson/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",             "SingleMu_rereco_2015D",  dirs['Andrew']+"2015/stenson/muonBackground")
     muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
-    muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
+
+    #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
+
+    muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55",  "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
 
@@ -188,15 +190,18 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimate.addPlotLabel ("Tau 2015D")
     tauBkgdEstimate.addMetCut (100.0)
     tauBkgdEstimate.addRebinFactor (4)
-    tauBkgdEstimate.addUseHistogramsForPpassVeto (False)
-    tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrkWithZCuts",   "SingleMu_2015D",          dirs['Brian']+"2015/muonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuDisTrk",              "SingleMu_2015D_rereco",   dirs['Brian']+"2015/muonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrkWithZCuts",  "SingleEle_2015D",         dirs['Brian']+"2015/electronBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleDisTrk",             "SingleEle_2015D_rereco",  dirs['Brian']+"2015/electronBackground")
+    tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrk",   "SingleMu_2015D",          dirs['Andrew']+"2015/stenson/tauToMuonBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuProbeTrk",              "SingleMu_rereco_2015D",   dirs['Andrew']+"2015/stenson/tauToMuonBackground")
+    tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrk",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/tauToElectronBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleProbeTrk",             "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/tauToElectronBackground")
     tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+
     #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
-    tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
-    tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    #tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+
+    tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",  "Tau_2015D",  dirs['Andrew']+"2015/tauBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
 
