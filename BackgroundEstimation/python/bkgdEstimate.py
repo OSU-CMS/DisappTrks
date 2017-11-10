@@ -14,6 +14,8 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
+up68 = 0.5 * TMath.ChisquareQuantile (0.68, 2)
+
 class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
@@ -123,7 +125,7 @@ class LeptonBkgdEstimate:
         n /= w
         nError /= w
         channel["weight"] = w
-        channel["total"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+        channel["total"] = Measurement (n * w, (nError if n != 0.0 else up68) * w)
         channel["total"].isPositive ()
 
         if useIdMatch:
@@ -135,7 +137,7 @@ class LeptonBkgdEstimate:
             n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
         n /= w
         nError /= w
-        channel["yield"] = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+        channel["yield"] = Measurement (n * w, (nError if n != 0.0 else up68) * w)
         channel["yield"].isPositive ()
 
         setattr (self, role, channel)
@@ -385,7 +387,7 @@ class LeptonBkgdEstimate:
 
             n /= w
             nError /= w
-            n = Measurement (n * w, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))) * w)
+            n = Measurement (n * w, (nError if n != 0.0 else up68) * w)
 
             print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             return n
@@ -528,9 +530,9 @@ class LeptonBkgdEstimate:
                         total = totalHist.IntegralAndError (2, 2, totalError1)
                         passes = passesHist.IntegralAndError (2, 2, passesError1)
                     total = Measurement (total, math.hypot (totalError1, 2.0 * totalError2))
-                    passes = Measurement (passes, math.hypot (passesError1, 2.0 * passesError2))
+                    passes = Measurement (passes, math.hypot (passesError1, 2.0 * passesError2) if passes != 0.0 else up68)
 
-                passes1 = 0.0
+                passes1 = Measurement (0.0, 0.0)
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     if not self._useHistogramsForPpassVeto:
@@ -562,7 +564,7 @@ class LeptonBkgdEstimate:
                             total1 = totalHist.IntegralAndError (2, 2, totalError1)
                             passes1 = passesHist.IntegralAndError (2, 2, passesError1)
                         total += Measurement (total1, math.hypot (totalError1, 2.0 * totalError2))
-                        passes1 = Measurement (passes1, math.hypot (passesError1, 2.0 * passesError2))
+                        passes1 = Measurement (passes1, math.hypot (passesError1, 2.0 * passesError2) if passes1 != 0.0 else up68)
 
                 background = Measurement (0.0, 0.0)
                 if hasattr (self, "TagProbePassSS"):
@@ -577,6 +579,10 @@ class LeptonBkgdEstimate:
                     background = Measurement (background, backgroundError)
 
                 passes -= background
+
+                passes.isPositive ()
+                passes1.isPositive ()
+                total.isPositive ()
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
                 p = passes
