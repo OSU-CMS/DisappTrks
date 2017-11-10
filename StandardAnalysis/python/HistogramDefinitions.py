@@ -2063,6 +2063,18 @@ EventTriggerVarHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(50, 0.0, 50.0),
             inputVariables = cms.vstring("numPVReco"),
         ),
+	cms.PSet (
+            name = cms.string("leadMuonMatchToHLTTrack"),
+            title = cms.string(";Lead muon is matched to hltTrk50Filter object"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("leadMuonMatchToHLTTrack"),
+        ),
+	cms.PSet (
+            name = cms.string("leadTrackMatchToHLTTrack"),
+            title = cms.string(";Lead track is matched to hltTrk50Filter object"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("leadTrackMatchToHLTTrack"),
+        ),
     )
 )
 

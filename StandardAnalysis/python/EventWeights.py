@@ -82,14 +82,11 @@ weightsWithEleMuonSF.append(
     )
 )
 
-# weights including ISR reweighting (only for signal systematic)
-weightsISR = copy.deepcopy(weights)
-weightsISR.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("isrWeight")
-    )
-)
+# weights including ISR scale factor fluctuations
+weightsFluctuateISR = copy.deepcopy(weights)
+for w in weightsFluctuateISR:
+    if w.inputVariable == cms.string("isrWeight"):
+        w.fluctuations = cms.vstring("isrWeightUp", "isrWeightDown")
 
 # weights including trigger scale factor fluctuations
 weightsFluctuateTrigger = cms.VPSet (
