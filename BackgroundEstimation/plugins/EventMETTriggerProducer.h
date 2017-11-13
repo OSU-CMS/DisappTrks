@@ -36,7 +36,7 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     const string eventVariableName () const;
     const string tagCollection () const;
     const string tagFilter () const;
-    const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool) const;
+    const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool, const double = 0.0) const;
 };
 
 typedef EventMETTriggerProducer<osu::Electron> EventElectronMETTriggerProducer;

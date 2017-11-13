@@ -64,10 +64,11 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
         }
     }
 
-  map<string, vector<bool> > filterDecisions;
+  map<string, vector<bool> > filterDecisions, filterDecisionsUp;
   for (const auto &filterCategory : filterCategories_)
     {
       vector<bool> &filterDecision = filterDecisions[filterCategory];
+      vector<bool> &filterDecisionUp = filterDecisionsUp[filterCategory];
 
       const vector<const pat::TriggerObjectStandAlone *> &objs = hltFilterObjects.at (filterCategory);
       const vector<const pat::TriggerObjectStandAlone *> &jets = hltJetsForTag.at (filterCategory);
@@ -75,7 +76,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
 
       for (int i = 0; i < n; i++)
         {
-          bool flag;
+          bool flag, flagUp;
 
           const pat::TriggerObjectStandAlone *tag = (trigObjJetsForTag_.at (filterCategory).at (i) == "" ? hltTag : jets.at (i));
           const pat::TriggerObjectStandAlone *obj = objs.at (i);
@@ -86,7 +87,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
           else
             y.Set (tag->px (), tag->py ());
           if (!obj && trigObjCollections_.at (filterCategory).at (i) == "")
-            flag = true;
+            flag = flagUp = true;
           else
             {
               if (!obj)
@@ -96,25 +97,38 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
 
               const double threshold = thresholds.at (i);
               const double modifiedMissingEnergy = getModifiedMissingEnergy (x, y, muonsCountedAsVisible_.at (filterCategory));
+              const double modifiedMissingEnergyUp = getModifiedMissingEnergy (x, y, muonsCountedAsVisible_.at (filterCategory), 10.0);
               flag = (modifiedMissingEnergy > threshold);
+              flagUp = (modifiedMissingEnergyUp > threshold);
             }
 
           filterDecision.push_back (flag);
+          filterDecisionUp.push_back (flagUp);
         }
     }
 
-  bool passes = false;
+  bool passes = false, passesUp = false;
   for (int i = 0; i < n; i++)
     {
-      bool triggerPasses = true;
+      bool triggerPasses = true, triggerPassesUp = true;
       for (const auto &filterCategory : filterCategories_)
-        triggerPasses = triggerPasses && filterDecisions.at (filterCategory).at (i);
+        {
+          triggerPasses = triggerPasses && filterDecisions.at (filterCategory).at (i);
+          triggerPassesUp = triggerPassesUp && filterDecisionsUp.at (filterCategory).at (i);
+        }
       if (additionalCollections_.at (i) != "" && additionalFilters_.at (i) != "")
-        triggerPasses = triggerPasses && anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
+        {
+          bool additionalFilterFires = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
+          triggerPasses = triggerPasses && additionalFilterFires;
+          triggerPassesUp = triggerPassesUp && additionalFilterFires;
+        }
       passes = passes || triggerPasses;
+      passesUp = passesUp || triggerPassesUp;
     }
 
   (*eventvariables)[eventVariableName ()] = passes;
+  (*eventvariables)[eventVariableName () + "Up"] = passesUp;
+  (*eventvariables)["passesL1ETM"] = anatools::passesL1ETM (event, *triggers, *triggerObjects);
 }
 
 template<class T> const string
@@ -214,16 +228,20 @@ EventMETTriggerProducer<osu::Tau>::tagFilter () const
 }
 
 template<class T> const double
-EventMETTriggerProducer<T>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible) const
+EventMETTriggerProducer<T>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible, const double shift) const
 {
-  return (x + y).Mod ();
+  TVector2 z;
+  z.SetMagPhi (shift, y.Phi ());
+  return (x + y - z).Mod ();
 }
 
 template<> const double
-EventMETTriggerProducer<osu::Muon>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible) const
+EventMETTriggerProducer<osu::Muon>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible, const double shift) const
 {
+  TVector2 z;
+  z.SetMagPhi (shift, y.Phi ());
   if (muonsCountedAsVisible)
-    return (x + y).Mod ();
+    return (x + y - z).Mod ();
   return x.Mod ();
 }
 
