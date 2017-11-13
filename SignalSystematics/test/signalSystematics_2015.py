@@ -127,11 +127,12 @@ if systematic == "ISR" or systematic == "ALL":
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2015.txt", "w")
 
     isrSystematic = YieldSystematic (masses, lifetimes)
+    isrSystematic.setIsWeightFluctuation (True)
     isrSystematic.addFout (fout)
     isrSystematic.addExtraSamples (extraSamples)
-    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_76X")
-    isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"isrSystematic_76X")
-    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"signalCentralValue_76X")
+    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2015/signalISRSystematics_final")
+    isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJetsPlotter_isrWeightUp", suffix, dirs['Brian']+"2015/signalISRSystematics_final")
+    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJetsPlotter_isrWeightDown", suffix, dirs['Brian']+"2015/signalISRSystematics_final")
     isrSystematic.printSystematic ()
 
     print "********************************************************************************"
