@@ -44,6 +44,12 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  [justMET75IsoTrk50],  histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 #  add_channels  (process,  [justMET90IsoTrk50],  histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 
+################################################################################
+# ARC question testing channels
+################################################################################
+
+#  add_channels  (process,  [MuonTagPt55HLTMetFilters],  histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive
