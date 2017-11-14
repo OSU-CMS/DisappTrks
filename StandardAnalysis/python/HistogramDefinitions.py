@@ -1412,6 +1412,12 @@ EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     histograms = cms.VPSet (
         cms.PSet (
+           name = cms.string("l1ETM"),
+           title = cms.string(";L1 ETM [GeV]"),
+           binsX = metBins,
+           inputVariables = cms.vstring("l1ETM"),
+        ),
+        cms.PSet (
             name = cms.string("passesMETTriggersWithoutElectron"),
             title = cms.string(";passes E_{T}^{miss, no #mu} triggers without selected electron"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),
@@ -1779,6 +1785,13 @@ EventVariableHistograms = cms.PSet(
 MetEventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("mets", "eventvariables"),
     histograms = cms.VPSet (
+        cms.PSet (
+           name = cms.string("metNoMuVsL1ETM"),
+           title = cms.string(";L1 ETM [GeV];E_{T}^{miss, no #mu} [GeV]"),
+           binsX = metBins,
+           binsY = metBins,
+           inputVariables = cms.vstring("eventvariable.l1ETM", "met.noMuPt"),
+        ),
         cms.PSet (
             name = cms.string("passesL1ETMVsMetNoMu"),
             title = cms.string(";E_{T}^{miss, no #mu} [GeV];passes L1 ETM seeds"),
