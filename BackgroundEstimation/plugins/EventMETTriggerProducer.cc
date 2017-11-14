@@ -126,9 +126,12 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
       passesUp = passesUp || triggerPassesUp;
     }
 
+  double l1ETM = INVALID_VALUE;
+
   (*eventvariables)[eventVariableName ()] = passes;
   (*eventvariables)[eventVariableName () + "Up"] = passesUp;
-  (*eventvariables)["passesL1ETM"] = anatools::passesL1ETM (event, *triggers, *triggerObjects);
+  (*eventvariables)["passesL1ETM"] = anatools::passesL1ETM (event, *triggers, *triggerObjects, l1ETM);
+  (*eventvariables)["l1ETM"] = l1ETM;
 }
 
 template<class T> const string
