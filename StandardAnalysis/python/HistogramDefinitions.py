@@ -1418,6 +1418,13 @@ EventVariableHistograms = cms.PSet(
            inputVariables = cms.vstring("l1ETM"),
         ),
         cms.PSet (
+           name = cms.string("passesL1ETMVsL1ETM"),
+           title = cms.string(";L1 ETM [GeV];passes L1 ETM seeds"),
+           binsX = metBins,
+           binsY = cms.untracked.vdouble(2, -0.5, 1.5),
+           inputVariables = cms.vstring("l1ETM", "passesL1ETM"),
+        ),
+        cms.PSet (
             name = cms.string("passesMETTriggersWithoutElectron"),
             title = cms.string(";passes E_{T}^{miss, no #mu} triggers without selected electron"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),
