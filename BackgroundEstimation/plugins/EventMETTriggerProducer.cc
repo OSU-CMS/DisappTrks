@@ -137,7 +137,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
   (*eventvariables)[eventVariableName () + "Ternary"] = (!passes && !passesMETAndIsoTrk ? 0 : (!passes && passesMETAndIsoTrk ? 1 : 2));
   (*eventvariables)[eventVariableName () + "TernaryUp"] = (!passesUp && !passesMETAndIsoTrkUp ? 0 : (!passesUp && passesMETAndIsoTrkUp ? 1 : 2));
 
-  for (int i = 0; i < additionalCollections_.size (); i++)
+  for (unsigned i = 0; i < additionalCollections_.size (); i++)
     (*eventvariables)["passes_" + additionalFilters_.at (i)] = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
 
   double l1ETM = INVALID_VALUE;
