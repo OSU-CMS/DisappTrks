@@ -1,6 +1,8 @@
 #ifndef EVENT_TAG_AND_PROBE_PRODUCER
 #define EVENT_TAG_AND_PROBE_PRODUCER
 
+#include <sstream>
+
 #include "TLorentzVector.h"
 
 #include "DataFormats/Math/interface/deltaPhi.h"
@@ -25,9 +27,10 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     edm::EDGetTokenT<vector<T> > tokenTags_;
     edm::EDGetTokenT<vector<osu::Track> > tokenProbes_;
     bool doFilter_;
+    bool doSSFilter_;
 
     const string tagCollectionParameter () const;
-    bool goodInvMass (const T &, const osu::Track &) const;
+    bool goodInvMass (const T &, const osu::Track &, double &) const;
     bool passesVeto (const osu::Track &) const;
 };
 

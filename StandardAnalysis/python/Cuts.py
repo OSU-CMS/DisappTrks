@@ -854,6 +854,11 @@ cutMuTrkOS = cms.PSet(
     cutString = cms.string("muon.charge * track.charge < 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutMuTrkSS = cms.PSet(
+    inputCollection = cms.vstring("muons", "tracks"),
+    cutString = cms.string("muon.charge * track.charge > 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMuTrkDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("muons", "tracks"),
     cutString = cms.string("fabs (deltaPhi (muon, track)) > 2.5"),
@@ -919,6 +924,11 @@ cutEleTrkOS = cms.PSet(
     cutString = cms.string("electron.charge * track.charge < 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutEleTrkSS = cms.PSet(
+    inputCollection = cms.vstring("electrons", "tracks"),
+    cutString = cms.string("electron.charge * track.charge > 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutEleTrkDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
     cutString = cms.string("fabs (deltaPhi (electron, track)) > 2.5"),
@@ -936,7 +946,7 @@ cutEleTrkMETBalance = cms.PSet(
 
 cutElectronMatchToTrigObj = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("match_HLT_Ele25_eta2p1_WPTight_Gsf_v"),
+    cutString = cms.string("match_HLT_Ele22_eta2p1_WPLoose_Gsf_v"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons firing trigger"),
 )
@@ -947,7 +957,10 @@ cutElectronPt = cms.PSet (
     numberRequired = cms.string(">= 1"),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     print "# Electron PT cut: >35 GeV"
     cutElectronPt.cutString = cms.string("pt > 35")
 else:

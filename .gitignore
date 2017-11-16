@@ -10,3 +10,4 @@
 .*
 __init__.py
 hist.root
+crab.log

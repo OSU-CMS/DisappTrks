@@ -5,7 +5,8 @@
 template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
-  doFilter_ (cfg.getParameter<bool> ("doFilter"))
+  doFilter_ (cfg.getParameter<bool> ("doFilter")),
+  doSSFilter_ (cfg.getParameter<bool> ("doSSFilter"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
@@ -28,24 +29,54 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   if (!tags.isValid () || !probes.isValid ())
     return;
 
-  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0;
+  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0,
+           nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0;
+  vector<double> masses;
+  vector<int> chargeProducts;
   for (const auto &tag : *tags)
     {
       for (const auto &probe : *probes)
         {
-          bool isGoodTPPair = goodInvMass (tag, probe) && (tag.charge () * probe.charge () < 0.0),
+          double mass = 0.0;
+          bool isGoodInvMass = goodInvMass (tag, probe, mass),
+               isGoodTPPair = isGoodInvMass && (tag.charge () * probe.charge () < 0.0),
+               isGoodSSTPPair = isGoodInvMass && (tag.charge () * probe.charge () > 0.0),
                isProbePassingVeto = passesVeto (probe);
 
           isGoodTPPair && nGoodTPPairs++;
           (isGoodTPPair && isProbePassingVeto) && nProbesPassingVeto++;
+
+          isGoodSSTPPair && nGoodSSTPPairs++;
+          (isGoodSSTPPair && isProbePassingVeto) && nSSProbesPassingVeto++;
+
+          if (isGoodTPPair || isGoodSSTPPair)
+            {
+              masses.push_back (mass);
+              chargeProducts.push_back (tag.charge () * probe.charge ());
+            }
         }
     }
 
   (*eventvariables)["nGoodTPPairs"] = nGoodTPPairs;
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
 
+  (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
+  (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
+
+  for (unsigned i = 0; i < 10; i++)
+    {
+      stringstream ss;
+
+      ss.str ("");
+      ss << i;
+      (*eventvariables)["tagProbeMass_" + ss.str ()] = (masses.size () > i ? masses.at (i) : INVALID_VALUE);
+      (*eventvariables)["tagProbeChargeProduct_" + ss.str ()] = (chargeProducts.size () > i ? chargeProducts.at (i) : INVALID_VALUE);
+    }
+
   if (doFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
+  if (doSSFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = (nSSProbesPassingVeto > 0);
 }
 
 template<class T, class... Args> const string
@@ -79,45 +110,45 @@ EventTPProducer<osu::Muon, osu::Tau>::tagCollectionParameter () const
 }
 
 template<class T, class... Args> bool
-EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe) const
+EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Track &probe, double &m) const
 {
   return false;
 }
 
 template<> bool
-EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
+EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfElectron ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
 
 template<> bool
-EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
+EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfMuon ());
-  double m = (t + p).M ();
+  m = (t + p).M ();
   return (fabs (m - M_Z) < 10.0);
 }
 
 template<> bool
-EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe) const
+EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
-  double m = (t + p).M ();
-  return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
+  m = (t + p).M ();
+  return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
 template<> bool
-EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe) const
+EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Track &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energyOfPion ());
-  double m = (t + p).M ();
-  return (15.0 < (m - M_Z) && (m - M_Z) < 50.0);
+  m = (t + p).M ();
+  return (15.0 < (M_Z - m) && (M_Z - m) < 50.0);
 }
 
 template<class T, class... Args> bool

@@ -140,6 +140,9 @@ removeCuts (ZtoTauToMuProbeTrk.cuts, [cutMuonArbitration, cutMuTrkInvMass10, cut
 ZtoTauToMuProbeTrkWithFilter = copy.deepcopy (ZtoTauToMuProbeTrk)
 ZtoTauToMuProbeTrkWithFilter.name = cms.string ("ZtoTauToMuProbeTrkWithFilter")
 
+ZtoTauToMuProbeTrkWithSSFilter = copy.deepcopy (ZtoTauToMuProbeTrk)
+ZtoTauToMuProbeTrkWithSSFilter.name = cms.string ("ZtoTauToMuProbeTrkWithSSFilter")
+
 ZtoTauToMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToMuProbeTrkWithoutD0Cut")
 removeCuts (ZtoTauToMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
@@ -209,10 +212,13 @@ removeCuts(ZtoTauToEleProbeTrkWithZCuts.cuts, [cutTrkJetDeltaPhi])
 
 ZtoTauToEleProbeTrk = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrk.name = cms.string ("ZtoTauToEleProbeTrk")
-removeCuts (ZtoTauToEleProbeTrk.cuts, [cutElectronArbitration, cutEleTrkInvMass10, cutTrkArbitration, cutEleTrkInvMass40To75, cutEleTrkOS])
+removeCuts (ZtoTauToEleProbeTrk.cuts, [cutElectronArbitration, cutEleTrkInvMass10, cutTrkArbitration, cutEleTrkInvMass40To75,cutEleTrkOS])
 
 ZtoTauToEleProbeTrkWithFilter = copy.deepcopy (ZtoTauToEleProbeTrk)
 ZtoTauToEleProbeTrkWithFilter.name = cms.string ("ZtoTauToEleProbeTrkWithFilter")
+
+ZtoTauToEleProbeTrkWithSSFilter = copy.deepcopy (ZtoTauToEleProbeTrk)
+ZtoTauToEleProbeTrkWithSSFilter.name = cms.string ("ZtoTauToEleProbeTrkWithSSFilter")
 
 ZtoTauToEleProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToEleProbeTrkWithoutD0Cut")

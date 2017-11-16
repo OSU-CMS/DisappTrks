@@ -134,6 +134,9 @@ removeCuts (ZtoEleProbeTrk.cuts, [cutElectronArbitration, cutEleTrkInvMass10, cu
 ZtoEleProbeTrkWithFilter = copy.deepcopy (ZtoEleProbeTrk)
 ZtoEleProbeTrkWithFilter.name = cms.string ("ZtoEleProbeTrkWithFilter")
 
+ZtoEleProbeTrkWithSSFilter = copy.deepcopy (ZtoEleProbeTrk)
+ZtoEleProbeTrkWithSSFilter.name = cms.string ("ZtoEleProbeTrkWithSSFilter")
+
 ZtoEleProbeTrkBeforeArbitration = copy.deepcopy (ZtoEleProbeTrkWithZCuts)
 ZtoEleProbeTrkBeforeArbitration.name = cms.string ("ZtoEleProbeTrkBeforeArbitration")
 removeCuts (ZtoEleProbeTrkBeforeArbitration.cuts, [cutTrkArbitration, cutEleTrkInvMass80To100, cutEleTrkOS])

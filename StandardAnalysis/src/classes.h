@@ -1,7 +1,7 @@
 #ifndef DisappTrks_StandardAnalysis_classes_h
 #define DisappTrks_StandardAnalysis_classes_h
 #include "DisappTrks/StandardAnalysis/interface/SiGlobalPixelCluster.h"
-#include "DataFormats/Common/interface/RefProd.h" 
+#include "DataFormats/Common/interface/RefProd.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "DataFormats/Common/interface/ContainerMask.h"
 
