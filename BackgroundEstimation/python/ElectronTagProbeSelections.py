@@ -31,7 +31,7 @@ addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 ## in the SingleElectron dataset
 ################################################################################
 
-MinimalEleTrackSelection = copy.deepcopy(EleTagSkim)
+MinimalEleTrackSelection = copy.deepcopy(ElectronTagSkim)
 MinimalEleTrackSelection.name = cms.string("MinimalEleTrackSelection")
 addCuts(MinimalEleTrackSelection.cuts, [cutTrkPt20])
 

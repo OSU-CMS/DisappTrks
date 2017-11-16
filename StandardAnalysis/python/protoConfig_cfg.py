@@ -51,7 +51,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.source.fileNames = cms.untracked.vstring([
         "/store/data/Run2017C/SingleMuon/MINIAOD/PromptReco-v2/000/299/958/00000/4CF91855-0B76-E711-AE36-02163E01A1BC.root",
         # CandidateTrack ntuples below
-        #"root://xrootd.rcac.purdue.edu/store/user/bfrancis/MET/Run2017C-PromptReco-v1-DisappTrks-v1/171026_152519/0000/miniAOD-prod_PAT_95.root",
+        #"root://xrootd.rcac.purdue.edu//store/user/bfrancis/MET/Run2017C-PromptReco-v1-DisappTrks-v1/171026_152519/0000/miniAOD-prod_PAT_95.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',

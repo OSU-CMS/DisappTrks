@@ -286,14 +286,14 @@ for period in {'BC', 'DEF', 'BCDEF', 'GH', 'DEFG', 'DEFGH', 'BCDEFGH'}:
         lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] += lumi["HLT_ZeroBias_v*"]['ZeroBias_2016' + p]
 
 # 2017
-for period in {'BCD'}:
+for period in {'CDEF', 'BCDEF'}:
 
-    for pd in {'MET', 'SingleMuon'}:
-        key = pd + '_2017' + period if period != 'BCD' else pd + '_2017'
+    for pd in {'MET', 'SingleElectron', 'SingleMuon', 'Tau'}:
+        key = pd + '_2017' + period if period != 'BCDEF' else pd + '_2017'
 
         lumi[key] = 0.0
         for p in period:
             lumi[key] += lumi[pd + '_2017' + p]
 
-    suffix = '_2017' + period if period != 'BCD' else '_2017'
+    suffix = '_2017' + period if period != 'BCDEF' else '_2017'
     lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau' + suffix]  = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau_2017' + p]
