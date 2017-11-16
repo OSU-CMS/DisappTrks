@@ -68,8 +68,9 @@ def customizeForMETTriggerProducer (producer):
         producer.pfMHTNoMuThresholds            =  cms.vdouble  (0.0,            0.0,            0.0,                                     0.0,                      0.0,                           0.0,                           0.0,                      0.0,                                     120.0,                                   90.0)
         producer.pfMHTNoMuJetsForTag            =  cms.vstring  ("",             "",             "",                                      "",                       "",                            "",                            "",                       "",                                      "hltAK4PFJetsTightIDCorrected::HLT",     "hltAK4PFJetsTightIDCorrected::HLT")
 
-        producer.additionalCollections  =  cms.vstring  ("",  "hltTrk50Filter::HLT",  "",  "",  "",  "",  "",  "",  "",  "")
-        producer.additionalFilters      =  cms.vstring  ("",  "hltTrk50Filter",       "",  "",  "",  "",  "",  "",  "",  "")
+        producer.additionalCollections  =  cms.vstring  ("hltMet::HLT",     "hltTrk50Filter::HLT")
+        producer.additionalFilters      =  cms.vstring  ("hltMET75",     "hltTrk50Filter")
+        producer.metAndIsoTrk           =  cms.int32 (1)
 
     elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         print "# Using 2016 MET trigger filters in EventMETTriggerProducer_cfi.py..."
@@ -113,8 +114,9 @@ def customizeForMETTriggerProducer (producer):
         producer.pfMHTNoMuThresholds            =  cms.vdouble  (0.0,                 0.0,                 0.0,                                     0.0,                                     0.0,                      0.0,                      120.0)
         producer.pfMHTNoMuJetsForTag            =  cms.vstring  ("",                  "",                  "",                                      "",                                      "",                       "",                       "hltAK4PFJetsTightIDCorrected::HLT")
 
-        producer.additionalCollections  =  cms.vstring  ("",  "hltTrk50Filter::HLT",  "",  "",  "",  "",  "")
-        producer.additionalFilters      =  cms.vstring  ("",  "hltTrk50Filter",       "",  "",  "",  "",  "")
+        producer.additionalCollections  =  cms.vstring  ("hltMet::HLT",     "hltTrk50Filter::HLT")
+        producer.additionalFilters      =  cms.vstring  ("hltMET75",     "hltTrk50Filter")
+        producer.metAndIsoTrk           =  cms.int32 (1)
 
     else:
         print "EventMETTriggerProducer_cfg.py does not know which MET trigger filters to apply!"

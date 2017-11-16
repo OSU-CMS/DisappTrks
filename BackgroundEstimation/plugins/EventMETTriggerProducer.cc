@@ -18,6 +18,7 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
+  metAndIsoTrk_ = cfg.getParameter<int> ("metAndIsoTrk");
 }
 
 template<class T>
@@ -107,7 +108,8 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
         }
     }
 
-  bool passes = false, passesUp = false;
+  bool passes = false, passesUp = false,
+       passesMETAndIsoTrk = false, passesMETAndIsoTrkUp = false;
   for (int i = 0; i < n; i++)
     {
       bool triggerPasses = true, triggerPassesUp = true;
@@ -116,20 +118,29 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
           triggerPasses = triggerPasses && filterDecisions.at (filterCategory).at (i);
           triggerPassesUp = triggerPassesUp && filterDecisionsUp.at (filterCategory).at (i);
         }
-      if (additionalCollections_.at (i) != "" && additionalFilters_.at (i) != "")
+      if (metAndIsoTrk_ != i)
         {
-          bool additionalFilterFires = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
-          triggerPasses = triggerPasses && additionalFilterFires;
-          triggerPassesUp = triggerPassesUp && additionalFilterFires;
+          passes = passes || triggerPasses;
+          passesUp = passesUp || triggerPassesUp;
         }
-      passes = passes || triggerPasses;
-      passesUp = passesUp || triggerPassesUp;
+      else
+        {
+          passesMETAndIsoTrk = passesMETAndIsoTrk || triggerPasses;
+          passesMETAndIsoTrkUp = passesMETAndIsoTrkUp || triggerPassesUp;
+        }
     }
-
-  double l1ETM = INVALID_VALUE;
 
   (*eventvariables)[eventVariableName ()] = passes;
   (*eventvariables)[eventVariableName () + "Up"] = passesUp;
+  (*eventvariables)[metAndIsoTrkEventVariableName ()] = passesMETAndIsoTrk;
+  (*eventvariables)[metAndIsoTrkEventVariableName () + "Up"] = passesMETAndIsoTrkUp;
+  (*eventvariables)[eventVariableName () + "Ternary"] = (!passes && !passesMETAndIsoTrk ? 0 : (!passes && passesMETAndIsoTrk ? 1 : 2));
+  (*eventvariables)[eventVariableName () + "TernaryUp"] = (!passesUp && !passesMETAndIsoTrkUp ? 0 : (!passesUp && passesMETAndIsoTrkUp ? 1 : 2));
+
+  for (int i = 0; i < additionalCollections_.size (); i++)
+    (*eventvariables)["passes_" + additionalFilters_.at (i)] = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
+
+  double l1ETM = INVALID_VALUE;
   (*eventvariables)["passesL1ETM"] = anatools::passesL1ETM (event, *triggers, *triggerObjects, l1ETM);
   (*eventvariables)["l1ETM"] = l1ETM;
 }
@@ -180,6 +191,30 @@ template<> const string
 EventMETTriggerProducer<osu::Tau>::eventVariableName () const
 {
   return "passesMETTriggersWithoutTau";
+}
+
+template<class T> const string
+EventMETTriggerProducer<T>::metAndIsoTrkEventVariableName () const
+{
+  return "";
+}
+
+template<> const string
+EventMETTriggerProducer<osu::Electron>::metAndIsoTrkEventVariableName () const
+{
+  return "passetMETAndIsoTrkWithoutElectron";
+}
+
+template<> const string
+EventMETTriggerProducer<osu::Muon>::metAndIsoTrkEventVariableName () const
+{
+  return "passetMETAndIsoTrkWithoutMuon";
+}
+
+template<> const string
+EventMETTriggerProducer<osu::Tau>::metAndIsoTrkEventVariableName () const
+{
+  return "passetMETAndIsoTrkWithoutTau";
 }
 
 template<class T> const string

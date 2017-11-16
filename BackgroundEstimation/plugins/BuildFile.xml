@@ -3,6 +3,7 @@
 <use  name="FWCore/Framework"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <use  name="OSUT3Analysis/Collections"/>
+<use  name="FWCore/ParameterSet"/>
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
 <library  file="*.cc"  name="DisappTrksBackgroundEstimationPlugins">
   <flags  EDM_PLUGIN="1"/>

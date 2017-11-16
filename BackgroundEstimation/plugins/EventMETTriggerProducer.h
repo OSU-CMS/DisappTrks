@@ -1,7 +1,11 @@
 #ifndef EVENT_MET_TRIGGER_PRODUCER
 #define EVENT_MET_TRIGGER_PRODUCER
 
+#include <vector>
+
 #include "TVector2.h"
+
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "DataFormats/Math/interface/deltaPhi.h"
 #include "DataFormats/Math/interface/deltaR.h"
@@ -31,9 +35,11 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
 
     vector<string> additionalCollections_;
     vector<string> additionalFilters_;
+    int metAndIsoTrk_;
 
     const string tagCollectionParameter () const;
     const string eventVariableName () const;
+    const string metAndIsoTrkEventVariableName () const;
     const string tagCollection () const;
     const string tagFilter () const;
     const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool, const double = 0.0) const;
