@@ -150,7 +150,13 @@ def setFiducialMaps (process, electrons, muons):
                             print "# Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
-def moveVariableProducer (process, producerName, channelName, index = 0):
+moveVariableProducerIndex = -1
+
+def moveVariableProducer (process, producerName, channelName):
+
+    global moveVariableProducerIndex
+    moveVariableProducerIndex = moveVariableProducerIndex + 1
+
     producer = plotter = eventvariableProducer = None
     producerLabel = plotterLabel = ""
     plotterPath = None
@@ -159,14 +165,19 @@ def moveVariableProducer (process, producerName, channelName, index = 0):
     for a in dir (process):
         x = getattr (process, a)
         if hasattr (x, "type_"):
-            if x.type_ () == producerName:
+            if x.type_ () == producerName and 'Copy' not in a:
                 producer = copy.deepcopy (x)
                 producerLabel = copy.deepcopy (a)
-            if x.type_ () == "Plotter":
+            if x.type_ () == "Plotter" and a == channelName+"Plotter":
                 plotter = copy.deepcopy (x)
                 plotterLabel = copy.deepcopy (a)
-            if x.type_ () == "EventvariableProducer":
-                eventvariableProducer = copy.deepcopy (x)
+
+    # find the eventvariable producer associated to the channel
+    # by way of the channels' cms.Path
+    for a in getattr (process, channelName).moduleNames():
+        x = getattr (process, a)
+        if hasattr (x, "type_") and x.type_ () == "EventvariableProducer":
+            eventvariableProducer = copy.deepcopy (x)
 
     # change the tracks and leptons input tags for the variable producer to
     # that used by the Plotter and create a copy of the variable producer which
@@ -176,8 +187,9 @@ def moveVariableProducer (process, producerName, channelName, index = 0):
         producer.collections.electrons = copy.deepcopy (plotter.collections.electrons)
         producer.collections.muons = copy.deepcopy (plotter.collections.muons)
         producer.collections.taus = copy.deepcopy (plotter.collections.taus)
-    setattr (process, producerLabel + "Copy", producer)
-    producer = getattr (process, producerLabel + "Copy")
+    
+    setattr (process, producerLabel + "Copy" + str(moveVariableProducerIndex), producer)
+    producer = getattr (process, producerLabel + "Copy" + str(moveVariableProducerIndex))
 
     # create an EventvariableProducer for the copy of the variable producer we
     # created above with input tags pointing to the products of the copy
@@ -190,8 +202,8 @@ def moveVariableProducer (process, producerName, channelName, index = 0):
                 uservariables[i].setModuleLabel (producerLabel + "Copy")
         setattr (eventvariableProducer.collections, "eventvariables", eventvariables)
         setattr (eventvariableProducer.collections, "uservariables", uservariables)
-    setattr (process, "objectProducerCopy" + str (index), eventvariableProducer)
-    eventvariableProducer = getattr (process, "objectProducerCopy" + str (index))
+    setattr (process, "objectProducerCopy" + str (moveVariableProducerIndex), eventvariableProducer)
+    eventvariableProducer = getattr (process, "objectProducerCopy" + str (moveVariableProducerIndex))
 
     # change the input tags for the Plotter which point to products of the
     # variable producer to those produced by the copy of the variable producer
@@ -201,8 +213,8 @@ def moveVariableProducer (process, producerName, channelName, index = 0):
         uservariables = getattr (plotter.collections, "uservariables")
         for i in range (0, min (len (eventvariables), len (uservariables))):
             if eventvariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
-                eventvariables[i].setModuleLabel ("objectProducerCopy" + str (index))
-                uservariables[i].setModuleLabel ("objectProducerCopy" + str (index))
+                eventvariables[i].setModuleLabel ("objectProducerCopy" + str (moveVariableProducerIndex))
+                uservariables[i].setModuleLabel ("objectProducerCopy" + str (moveVariableProducerIndex))
         setattr (plotter.collections, "eventvariables", eventvariables)
         setattr (plotter.collections, "uservariables", uservariables)
     setattr (process, plotterLabel, plotter)

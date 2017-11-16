@@ -210,3 +210,14 @@ isoTrkSelectionOnlyMET90IsoTrk50HltMet105 = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.name = cms.string("IsoTrkSelectionOnlyMET90IsoTrk50HltMet105")
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.cuts.insert(0, cutHltMet105)
+
+##########################################################################################################
+# ARC question testing channels
+##########################################################################################################
+
+from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
+
+MuonTagPt55HLTMetFilters = copy.deepcopy(MuonTagPt55)
+MuonTagPt55HLTMetFilters.name = cms.string("MuonTagPt55HLTMetFilters")
+for filt in triggerFiltersMet['HLT_MET75_IsoTrk50_v']:
+    addCuts(MuonTagPt55HLTMetFilters.cuts, [firesFilter[filt]])

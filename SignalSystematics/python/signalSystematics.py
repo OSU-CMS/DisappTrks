@@ -91,6 +91,10 @@ class YieldSystematic:
         self._averageSystematic = 0.0
         self._n = 0
 
+        # when "fluctuations" is used in EventWeights.py, there is no CutFlowPlotter
+        # but the "total, totalError" remain the same as the central value channel
+        self._isWeightFluctuation = False
+
     def addChannel (self, role, name, suffix, condorDir):
         channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
         setattr (self, role, channel)
@@ -105,6 +109,9 @@ class YieldSystematic:
     def addExtraSamples (self, extraSamples):
         self._extraSamples = extraSamples
 
+    def setIsWeightFluctuation (self, isFluctuation):
+        self._isWeightFluctuation = isFluctuation
+
     def printSampleSystematic (self, mass, lifetime):
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
@@ -117,15 +124,18 @@ class YieldSystematic:
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.down["suffix"]
             condorDir = self.down["condorDir"]
             name = self.down["name"]
-            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            if not self._isWeightFluctuation:
+                total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            
+            metHist = getHist (sample, condorDir, name + "Plotter" if not self._isWeightFluctuation else name, self._integrateHistogram)
             down = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.up["suffix"]
             condorDir = self.up["condorDir"]
             name = self.up["name"]
-            total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-            metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            if not self._isWeightFluctuation:
+                total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            metHist = getHist (sample, condorDir, name + "Plotter" if not self._isWeightFluctuation else name, self._integrateHistogram)
             up = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
