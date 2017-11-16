@@ -24,6 +24,19 @@ tagTauCuts = [
 ]
 addCuts(TauTagSkim.cuts, tagTauCuts)
 
+################################################################################
+## Testing channels to compare pat::IsolatedTrack to CandidateTrack
+## in the Tau dataset
+################################################################################
+
+MinimalTauTrackSelection = copy.deepcopy(TauTagSkim)
+MinimalTauTrackSelection.name = cms.string("MinimalTauTrackSelection")
+addCuts(MinimalTauTrackSelection.cuts, [cutTrkPt20])
+
+MinimalTauMatchedCandidateTrackSelection = copy.deepcopy(MinimalTauTrackSelection)
+MinimalTauMatchedCandidateTrackSelection.name = cms.string("MinimalTauMatchedCandidateTrackSelection")
+addCuts(MinimalTauMatchedCandidateTrackSelection.cuts, [cutTrkMatchedCandidateTrack])
+
 ##################################################
 ## Cannot go lower than 50 GeV because of trigger
 ##################################################

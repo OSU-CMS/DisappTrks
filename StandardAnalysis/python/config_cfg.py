@@ -179,4 +179,11 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkJustMainTriggerHltMet105],     histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMET90TriggerHltMet105],    histSets,  weights,  [],  collMap,  variableProducers,  False)
 
+################################################################################
+# Testing channels to compare pat::IsolatedTracks to CandidateTracks
+################################################################################
+#  add_channels  (process,  [MinimalMETTrackSelection],                 cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+#  add_channels  (process,  [MinimalMETMatchedCandidateTrackSelection], cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+################################################################################
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive

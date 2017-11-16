@@ -244,4 +244,17 @@ if False:
 #  add_channels  (process,  [zeroBiasJetSelectionDisTrkNHits6],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 ################################################################################
 
+################################################################################
+# Testing channels to compare pat::IsolatedTracks to CandidateTracks
+################################################################################
+#  add_channels  (process,  [MinimalMuonTrackSelection],                 cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+#  add_channels  (process,  [MinimalMuonMatchedCandidateTrackSelection], cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+
+#  add_channels  (process,  [MinimalEleTrackSelection],                  cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+#  add_channels  (process,  [MinimalEleMatchedCandidateTrackSelection],  cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+
+#  add_channels  (process,  [MinimalTauTrackSelection],                  cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+#  add_channels  (process,  [MinimalTauMatchedCandidateTrackSelection],  cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
+################################################################################
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive

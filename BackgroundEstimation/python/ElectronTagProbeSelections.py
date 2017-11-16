@@ -22,9 +22,22 @@ tagElectronCuts = [
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
 # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
-#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 #    addSingleCut(ElectronTagSkim.cuts, cutElectronEta24, cutElectronEta21)
 #    removeCuts(ElectronTagSkim.cuts, [cutElectronEta21])
+
+################################################################################
+## Testing channels to compare pat::IsolatedTrack to CandidateTrack
+## in the SingleElectron dataset
+################################################################################
+
+MinimalEleTrackSelection = copy.deepcopy(EleTagSkim)
+MinimalEleTrackSelection.name = cms.string("MinimalEleTrackSelection")
+addCuts(MinimalEleTrackSelection.cuts, [cutTrkPt20])
+
+MinimalEleMatchedCandidateTrackSelection = copy.deepcopy(MinimalEleTrackSelection)
+MinimalEleMatchedCandidateTrackSelection.name = cms.string("MinimalEleMatchedCandidateTrackSelection")
+addCuts(MinimalEleMatchedCandidateTrackSelection.cuts, [cutTrkMatchedCandidateTrack])
 
 ##################################################
 ## Higher pt to be closer to candidate track selection

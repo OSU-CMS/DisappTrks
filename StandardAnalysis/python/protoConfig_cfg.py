@@ -10,8 +10,8 @@ mc_global_tag = '76X_mcRun2_asymptotic_v12'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
-    data_global_tag = '92X_dataRun2_Prompt_v10'
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    data_global_tag = '92X_dataRun2_Prompt_v11'
     mc_global_tag = '92X_upgrade2017_realistic_v7'
 
 ################################################################################
@@ -46,7 +46,7 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         "/store/data/Run2017C/SingleMuon/MINIAOD/PromptReco-v2/000/299/958/00000/4CF91855-0B76-E711-AE36-02163E01A1BC.root",
@@ -93,16 +93,16 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
-    print "# Using global tag " + data_global_tag + "..."
+    print "# Global tag: " + data_global_tag
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
-    print "# Using global tag " + mc_global_tag + "..."
+    print "# Global tag: " + mc_global_tag
 ################################################################################
 
 process.metFilterPath = cms.Path ()
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Using BadPFMuonFilter and BadChargedCandidateFilter since we are in 80X..."
+    print "# MET filters: using BadPFMuonFilter and BadChargedCandidateFilter"
     process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
     process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
     process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
@@ -115,16 +115,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
     process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
 else:
-    print "# Not using BadPFMuonFilter and BadChargedCandidateFilter since we are in 76X..."
+    print "# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter"
 
 ################################################################################
 # Set up the collectionMap
 ################################################################################
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    print "# Collections: collectionMapMiniAOD2017"
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
 else:
+    print "# Collections: collectionMap with candidateTrackProducer"
     collMap = copy.deepcopy(collectionMap)
     collMap.tracks = cms.InputTag ('candidateTrackProducer')
 
@@ -190,8 +192,13 @@ from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
 # Set up the collections of histograms
 ################################################################################
-from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
-from DisappTrks.StandardAnalysis.HistogramDefinitions import *
+
+# in 2017, when using pat::IsolatedTracks, make some changes to certain variables
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    from DisappTrks.StandardAnalysis.HistogramDefinitions2017 import *
+else:
+    from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
+    from DisappTrks.StandardAnalysis.HistogramDefinitions import *
 
 histSets = cms.VPSet (
     TrackHistograms,
@@ -214,6 +221,8 @@ histSetsDebug = cms.VPSet(
     TrackDebugEcaloHistograms,
     TrackDebugHitPatternHistograms,
 )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    histSetsDebug.remove(TrackDebugEcaloHistograms) # no calo energy methods in pat::IsolatedTracks
 
 histSetsMetJet = cms.VPSet (
     MetHistograms,

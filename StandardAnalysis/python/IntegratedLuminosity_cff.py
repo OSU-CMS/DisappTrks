@@ -170,37 +170,53 @@ lumi_2017 = {
     # 2017C: 299368-302029
     # 2017D: 302031-302995
     # 2017E: 303569-304826
-    # 2017F: 305033-305313 ; in progress, no runs certified yet
+    # 2017F: 305033-306460
     # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
 
-    # --hltpath "HLT_MET105_IsoTrk50_v*"
+    # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
     # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
     # see Triggers.py for details
     "MET_2017B" : 4733.146,
     "MET_2017C" : 9748.053,
     "MET_2017D" : 4317.411,
-    "MET_2017E" : 6015.741,
+    "MET_2017E" : 9386.139,
+    "MET_2017F" : 10320.179,
 
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
     "SingleElectron_2017B" : 4733.146,
     "SingleElectron_2017C" : 9748.053,
     "SingleElectron_2017D" : 4317.410,
-    "SingleElectron_2017E" : 6015.741,
+    "SingleElectron_2017E" : 9386.138,
+    "SingleElectron_2017F" : 10435.008,
 
     # --hltpath "HLT_IsoMu27_v*"
     "SingleMuon_2017B" : 4733.146,
     "SingleMuon_2017C" : 9748.053,
     "SingleMuon_2017D" : 4317.410,
-    "SingleMuon_2017E" : 6015.741,
+    "SingleMuon_2017E" : 9386.138,
+    "SingleMuon_2017F" : 10435.008,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
         "Tau_2017B" : 4043.585,
         "Tau_2017C" : 506.046,
         "Tau_2017D" : 316.548,
-        "Tau_2017E" : 280.856,
+        "Tau_2017E" : 396.575,
+        "Tau_2017F" : 315.44,
     },
 
+}
+
+lumi_2017_ntuples = {
+    # brilcalc on CRAB report JSONs with hltpath
+    "MET_2017C" : 9662.724,
+    "SingleElectron_2017C" : 9608.389,
+    "SingleMuon_2017C" : 9386.518,
+    "Tau_2017C" : 8250.142, # no hltpath (see next entry)
+
+    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
+        "Tau_2017C" : 396.274,
+    },
 }
 
 # set 2016 to either the rereco or prompt values depending on usePrompt2016

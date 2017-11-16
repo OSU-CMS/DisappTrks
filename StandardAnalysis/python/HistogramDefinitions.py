@@ -36,18 +36,6 @@ TrackDebugEcaloHistograms = cms.PSet(
     )
 )
 
-TrackCandidateTrackHistograms = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("trackIsMatchedToCandidateTrack"),
-            title = cms.string(";has CandidateTrack"),
-            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
-            inputVariables = cms.vstring("matchedCandidateTrack.isNonnull"),
-        ),
-    )
-)
-
 TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (
@@ -312,7 +300,7 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string(";track |#eta|;number of valid hits"),
             binsX = cms.untracked.vdouble(8, 0.0, 2.4),
             binsY = cms.untracked.vdouble(100, -0.5, 99.5),
-            inputVariables = cms.vstring("fabs (eta)", "numberOfValidHits"),
+            inputVariables = cms.vstring("fabs (eta)", "hitPattern_.numberOfValidHits"),
         ),
         cms.PSet (
             name = cms.string("trackMaxSigmaForFiducialElectronTrack"),
@@ -1675,14 +1663,14 @@ TrackEventVariableHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("nJetsVsTrackPhi"),
             title = cms.string(";track #phi;number of jets"),
-            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(15, 0.0, 15.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.nJets"),
         ),
         cms.PSet (
             name = cms.string("nTracksVsTrackPhi"),
             title = cms.string(";track #phi;number of tracks"),
-            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.nTracks"),
         ),
@@ -1703,7 +1691,7 @@ TrackEventVariableHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("nTracksInsideJetsVsTrackPhi"),
             title = cms.string(";track #phi;number of tracks"),
-            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.nTracksInsideJets"),
         ),
@@ -1724,7 +1712,7 @@ TrackEventVariableHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("nTracksOutsideJetsVsTrackPhi"),
             title = cms.string(";track #phi;number of tracks"),
-            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(1000, 0.0, 10000.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.nTracksOutsideJets"),
         ),
@@ -1766,7 +1754,7 @@ TrackEventVariableHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackRhoVsTrackPhi"),
             title = cms.string(";track #phi;#rho_{track}"),
-            binsX = cms.untracked.vdouble(1, -3.2, 3.2),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(1000, 0.0, 1000.0),
             inputVariables = cms.vstring("track.phi", "eventvariable.trackRho"),
         ),
@@ -1913,6 +1901,18 @@ EventTriggerVarHistograms = cms.PSet(
             title = cms.string(";Number of Primary Vertices"),
             binsX = cms.untracked.vdouble(50, 0.0, 50.0),
             inputVariables = cms.vstring("numPVReco"),
+        ),
+        cms.PSet (
+            name = cms.string("leadMuonMatchToHLTTrack"),
+            title = cms.string(";Lead muon is matched to hltTrk50Filter object"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("leadMuonMatchToHLTTrack"),
+        ),
+        cms.PSet (
+            name = cms.string("leadTrackMatchToHLTTrack"),
+            title = cms.string(";Lead track is matched to hltTrk50Filter object"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("leadTrackMatchToHLTTrack"),
         ),
     )
 )

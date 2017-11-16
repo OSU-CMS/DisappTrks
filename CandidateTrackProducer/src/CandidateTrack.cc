@@ -1,6 +1,7 @@
 #include "DataFormats/Math/interface/deltaR.h"
-
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+
+#include "OSUT3Analysis/AnaTools/interface/CMSSWVersion.h"
 
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 
@@ -375,7 +376,11 @@ CandidateTrack::passesVetoID (const pat::Electron &electron, const reco::BeamSpo
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.207
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0564
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.472
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)     <=  2
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -387,7 +392,11 @@ CandidateTrack::passesVetoID (const pat::Electron &electron, const reco::BeamSpo
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.174
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.222
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.921
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  3
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  3
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   return false;
@@ -405,7 +414,11 @@ CandidateTrack::passesLooseID (const pat::Electron &electron, const reco::BeamSp
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.102
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0261
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.41
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -417,7 +430,11 @@ CandidateTrack::passesLooseID (const pat::Electron &electron, const reco::BeamSp
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.126
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.118
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.822
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   return false;
@@ -435,7 +452,11 @@ CandidateTrack::passesMediumID (const pat::Electron &electron, const reco::BeamS
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.0174
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0118
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.373
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -447,7 +468,11 @@ CandidateTrack::passesMediumID (const pat::Electron &electron, const reco::BeamS
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.0898
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0739
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.602
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   return false;
@@ -465,7 +490,11 @@ CandidateTrack::passesTightID (const pat::Electron &electron, const reco::BeamSp
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.012
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0111
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.0466
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -477,7 +506,11 @@ CandidateTrack::passesTightID (const pat::Electron &electron, const reco::BeamSp
            && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.00999
            && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0351
            && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.417
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+           && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#else
            && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#endif
            && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   return false;

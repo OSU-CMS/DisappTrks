@@ -50,25 +50,25 @@ class CandidateTrack : public reco::Track
     const float caloNewNoPUDRp3Calo ()        const { return caloTotNoPU(0.3, Calo); };
     const float caloNewNoPUDRp3CentralCalo () const { return caloTotNoPU(0.3, CentralCalo); };
 
-    void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; }
-    void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; }
-    void set_caloNewEMDRp3 (double value) { caloNewEMDRp3_  = value; }
-    void set_caloNewHadDRp3(double value) { caloNewHadDRp3_ = value; }
-    void set_rhoPUCorr  (double value) { rhoPUCorr_   = value; }
-    void set_rhoPUCorrCalo         (double value) { rhoPUCorrCalo_   = value; }
-    void set_rhoPUCorrCentralCalo  (double value) { rhoPUCorrCentralCalo_   = value; }
+    void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; };
+    void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; };
+    void set_caloNewEMDRp3 (double value) { caloNewEMDRp3_  = value; };
+    void set_caloNewHadDRp3(double value) { caloNewHadDRp3_ = value; };
+    void set_rhoPUCorr  (double value) { rhoPUCorr_   = value; };
+    void set_rhoPUCorrCalo         (double value) { rhoPUCorrCalo_   = value; };
+    void set_rhoPUCorrCentralCalo  (double value) { rhoPUCorrCentralCalo_   = value; };
 
-    void set_trackIsoDRp3 (double value) { trackIsoDRp3_ = value; }
-    void set_trackIsoDRp5 (double value) { trackIsoDRp5_ = value; }
-    void set_trackIsoNoPUDRp3 (double value) { trackIsoNoPUDRp3_ = value; }
-    void set_trackIsoNoPUDRp5 (double value) { trackIsoNoPUDRp5_ = value; }
-    void set_trackIsoNoFakesDRp3 (double value) { trackIsoNoFakesDRp3_ = value; }
-    void set_trackIsoNoFakesDRp5 (double value) { trackIsoNoFakesDRp5_ = value; }
-    void set_trackIsoNoPUNoFakesDRp3 (double value) { trackIsoNoPUNoFakesDRp3_ = value; }
-    void set_trackIsoNoPUNoFakesDRp5 (double value) { trackIsoNoPUNoFakesDRp5_ = value; }
+    void set_trackIsoDRp3 (double value) { trackIsoDRp3_ = value; };
+    void set_trackIsoDRp5 (double value) { trackIsoDRp5_ = value; };
+    void set_trackIsoNoPUDRp3 (double value) { trackIsoNoPUDRp3_ = value; };
+    void set_trackIsoNoPUDRp5 (double value) { trackIsoNoPUDRp5_ = value; };
+    void set_trackIsoNoFakesDRp3 (double value) { trackIsoNoFakesDRp3_ = value; };
+    void set_trackIsoNoFakesDRp5 (double value) { trackIsoNoFakesDRp5_ = value; };
+    void set_trackIsoNoPUNoFakesDRp3 (double value) { trackIsoNoPUNoFakesDRp3_ = value; };
+    void set_trackIsoNoPUNoFakesDRp5 (double value) { trackIsoNoPUNoFakesDRp5_ = value; };
 
-    void set_trackIsoOldNoPUDRp3 (double value) { trackIsoOldNoPUDRp3_ = value; }
-    void set_trackIsoOldNoPUDRp5 (double value) { trackIsoOldNoPUDRp5_ = value; }
+    void set_trackIsoOldNoPUDRp3 (double value) { trackIsoOldNoPUDRp3_ = value; };
+    void set_trackIsoOldNoPUDRp5 (double value) { trackIsoOldNoPUDRp5_ = value; };
 
     const float deltaRToClosestElectron ()         const { return (IS_INVALID(deltaRToClosestElectron_))       ? MAX_DR : deltaRToClosestElectron_; };
     const float deltaRToClosestVetoElectron ()     const { return (IS_INVALID(deltaRToClosestVetoElectron_))   ? MAX_DR : deltaRToClosestVetoElectron_; };
@@ -97,6 +97,12 @@ class CandidateTrack : public reco::Track
 
     const float trackIsoOldNoPUDRp3 () const { return this->trackIsoOldNoPUDRp3_; };
     const float trackIsoOldNoPUDRp5 () const { return this->trackIsoOldNoPUDRp5_; };
+
+    // missing hits differentiated by location on track
+    // re-implement these methods from osu::Track to provide a getter function when plotting osu::Track::matchedCandidateTrack()
+    const unsigned char missingInnerHits_ ()  const { return this->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS); };
+    const unsigned char missingMiddleHits_ () const { return this->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS); };
+    const unsigned char missingOuterHits_ ()  const { return this->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS); };
 
   private:
     float caloEMDRp3_;
@@ -147,6 +153,7 @@ class CandidateTrack : public reco::Track
     const double getMinDeltaRToLooseMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToMediumMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToTightMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
+
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 

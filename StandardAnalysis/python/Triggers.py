@@ -3,9 +3,11 @@ import os
 import copy
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Switching to 2016 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Triggers: 2016"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Triggers: 2017"
 else:
-    print "# Using 2015 triggers since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Triggers: 2015"
 
 ##########################################################################################################
 # Main triggers for signal selection
@@ -14,7 +16,7 @@ else:
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )
@@ -43,7 +45,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersMetInclusive = cms.vstring(
         # available throughout 2017
         'HLT_PFMET120_PFMHT120_IDTight_v',
@@ -77,7 +79,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v",  # yes available in bkgd MC
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersSingleMu = cms.vstring(
         "HLT_IsoMu27_v",
     )
@@ -98,7 +100,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersSingleEle = cms.vstring(
         "HLT_Ele35_WPTight_Gsf_v",
         "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
@@ -112,7 +114,7 @@ triggersSingleTau = cms.vstring(
     "HLT_LooseIsoPFTau50_Trk30_eta2p1_v", # prescaled in data
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersSingleTau = cms.vstring(
         "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
     )

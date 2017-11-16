@@ -6,22 +6,37 @@
 
 dataset_names_data = {
 
-    # Remade PromptReco ntuples are commented out for now.
-
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
 
     # MET 2017 PromptReco
+    'MET_2017B' : ["/MET/Run2017B-PromptReco-v1/MINIAOD", "/MET/Run2017B-PromptReco-v2/MINIAOD"],
+    'MET_2017C' : ["/MET/Run2017C-PromptReco-v1/MINIAOD", "/MET/Run2017C-PromptReco-v2/MINIAOD", "/MET/Run2017C-PromptReco-v3/MINIAOD"],
+    'MET_2017D' : "/MET/Run2017D-PromptReco-v1/MINIAOD",
+    'MET_2017E' : "/MET/Run2017E-PromptReco-v1/MINIAOD",
+    'MET_2017F' : "/MET/Run2017F-PromptReco-v1/MINIAOD",
 
     # SingleEle PromptReco
+    'SingleEle_2017B' : ["/SingleElectron/Run2017B-PromptReco-v1/MINIAOD", "/SingleElectron/Run2017B-PromptReco-v2/MINIAOD"],
+    'SingleEle_2017C' : ["/SingleElectron/Run2017C-PromptReco-v1/MINIAOD", "/SingleElectron/Run2017C-PromptReco-v2/MINIAOD", "/SingleElectron/Run2017C-PromptReco-v3/MINIAOD"],
+    'SingleEle_2017D' : "/SingleElectron/Run2017D-PromptReco-v1/MINIAOD",
+    'SingleEle_2017E' : "/SingleElectron/Run2017E-PromptReco-v1/MINIAOD",
+    'SingleEle_2017F' : "/SingleElectron/Run2017F-PromptReco-v1/MINIAOD",
 
     # SingleMu PromptReco
     'SingleMu_2017B' : ["/SingleMuon/Run2017B-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017B-PromptReco-v2/MINIAOD"],
     'SingleMu_2017C' : ["/SingleMuon/Run2017C-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v2/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v3/MINIAOD"],
     'SingleMu_2017D' : "/SingleMuon/Run2017D-PromptReco-v1/MINIAOD",
+    'SingleMu_2017E' : "/SingleMuon/Run2017E-PromptReco-v1/MINIAOD",
+    'SingleMu_2017F' : "/SingleMuon/Run2017F-PromptReco-v1/MINIAOD",
 
     # Tau PromptReco
+    'Tau_2017B' : ["/Tau/Run2017B-PromptReco-v1/MINIAOD", "/Tau/Run2017B-PromptReco-v2/MINIAOD"],
+    'Tau_2017C' : ["/Tau/Run2017C-PromptReco-v1/MINIAOD", "/Tau/Run2017C-PromptReco-v2/MINIAOD", "/Tau/Run2017C-PromptReco-v3/MINIAOD"],
+    'Tau_2017D' : "/Tau/Run2017D-PromptReco-v1/MINIAOD",
+    'Tau_2017E' : "/Tau/Run2017E-PromptReco-v1/MINIAOD",
+    'Tau_2017F' : "/Tau/Run2017F-PromptReco-v1/MINIAOD",
 
     # ZeroBias PromptReco
 }

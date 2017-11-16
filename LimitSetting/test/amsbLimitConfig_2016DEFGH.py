@@ -42,7 +42,7 @@ lumi = lumi["MET_2016DEFGH"]
 signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Andrew"] + '/2016_final_prompt/signalAcceptance_DEFGH_v2/'
+signal_condor_dir = dirs["Brian"] + '/2016_final/signalAcceptance_DEFGH_final/'
 
 signal_suffix = '80X'
 signal_suffix_in_datacard = '80X_DEFGH'

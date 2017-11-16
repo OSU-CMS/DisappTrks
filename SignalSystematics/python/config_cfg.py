@@ -41,8 +41,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsUp,  disTrkSelectionSmearedJetsDown],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # ISR systematic channels
-#  add_channels  (process,  [disTrkSelection],             histSets,  weightsISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelection],             histSets,  weightsISRFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weightsISRFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Trigger efficiency channels
 #  add_channels  (process,  [disTrkSelection],             histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)

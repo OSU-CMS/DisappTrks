@@ -117,7 +117,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         setMissingHitsCorrection (process, "uncorrected")
 
     for channel in getListOfChannels (process):
-        moveVariableProducer (process, "TriggerWeightProducer", channel, 0)
+        moveVariableProducer (process, "TriggerWeightProducer", channel)
 
         doFilter = False
         if channel.endswith ("WithFilter"):
@@ -125,26 +125,26 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
 
         if hasattr (process, "EventElectronTPProducer"):
             getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
-            moveVariableProducer (process, "EventElectronTPProducer", channel, 1)
+            moveVariableProducer (process, "EventElectronTPProducer", channel)
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
-            moveVariableProducer (process, "EventMuonTPProducer", channel, 2)
+            moveVariableProducer (process, "EventMuonTPProducer", channel)
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
-            moveVariableProducer (process, "EventTauToElectronTPProducer", channel, 3)
+            moveVariableProducer (process, "EventTauToElectronTPProducer", channel)
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
-            moveVariableProducer (process, "EventTauToMuonTPProducer", channel, 4)
+            moveVariableProducer (process, "EventTauToMuonTPProducer", channel)
 
         if hasattr (process, "EventElectronMETTriggerProducer"):
             customizeForMETTriggerProducer (getattr (process, "EventElectronMETTriggerProducer"))
-            moveVariableProducer (process, "EventElectronMETTriggerProducer", channel, 5)
+            moveVariableProducer (process, "EventElectronMETTriggerProducer", channel)
         if hasattr (process, "EventMuonMETTriggerProducer"):
             customizeForMETTriggerProducer (getattr (process, "EventMuonMETTriggerProducer"))
-            moveVariableProducer (process, "EventMuonMETTriggerProducer", channel, 6)
+            moveVariableProducer (process, "EventMuonMETTriggerProducer", channel)
         if hasattr (process, "EventTauMETTriggerProducer"):
             customizeForMETTriggerProducer (getattr (process, "EventTauMETTriggerProducer"))
-            moveVariableProducer (process, "EventTauMETTriggerProducer", channel, 7)
+            moveVariableProducer (process, "EventTauMETTriggerProducer", channel)
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)

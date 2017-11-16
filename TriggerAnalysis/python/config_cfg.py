@@ -44,6 +44,22 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  [justMET75IsoTrk50],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justMET90IsoTrk50],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
 
+################################################################################
+# ARC question testing channels
+################################################################################
+
+#  add_channels  (process,  [MuonTagPt55HLTMetFilters],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [MuonTagPt55HLTMetFiltersAndSignalPath],  histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
+
+################################################################################
+# Test channels
+################################################################################
+
+#  add_channels  (process,  [HLTMET105IsoTrk50DenWithMuonsMET275],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [HLTMET120IsoTrk50DenWithMuonsMET275],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [HLTMET105IsoTrk50NumWithMuonsMET275],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [HLTMET120IsoTrk50NumWithMuonsMET275],  histSetsTrigger,  weights,  [],  collMap,  variableProducers,  False)
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive

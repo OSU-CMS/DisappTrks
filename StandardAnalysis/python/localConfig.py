@@ -6,20 +6,32 @@ import os
 import re
 
 from DisappTrks.StandardAnalysis.miniAODV2Samples import *
+
+# Change this to True if you want to use CandidateTracks in ntuples instead of IsolatedTracks in standard MINIAOD
+# This is perhaps a weird place to put this switch, but this is the first DisappTrks module imported in protoConfig
+UseCandidateTracks = False
+
+print "########################################################################"
+print "# Switching the following since the release is " + os.environ["CMSSW_VERSION"] + ":"
+print "#"
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Using datasets from miniAOD_80X_Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Datasets from: miniAOD_80X_Samples"
     from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
-    print "# Using background samples from miniAODV2Samples..."
+    print "# Backgorund samples from: miniAODV2Samples"
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_3_"):
-    print "# Using datasets from miniAOD_92X_Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Datasets from: miniAOD_92X_Samples"
     from DisappTrks.StandardAnalysis.miniAOD_92X_Samples import *
-    print "# Using background samples from miniAODV2Samples..."
+    if UseCandidateTracks:
+        print "#                (using CandidateTracks ntuples from miniAOD_92X_Samples)"
+        dataset_names = datasets_names_data_ntuples
+    print "# Background samples from: miniAODV2Samples (should be updated!)"
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
 else:
-    print "# Using datasets from miniAODV2Samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Datasets and background samples from: miniAODV2Samples"
 
 config_file = "config_cfg.py"
 
@@ -89,11 +101,15 @@ datasetsSig = [
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Switching to 80X signal samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Signal samples: 80X samples"
+    for i in range (0, len (datasetsSig)):
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Signal samples: 80X samples (should be updated!)"
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
 else:
-    print "# Using 76X signal samples since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Signal samples: 76X samples"
 
 datasetsSigShort = copy.deepcopy(datasetsSig)
 

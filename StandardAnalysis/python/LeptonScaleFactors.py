@@ -132,5 +132,12 @@ MuonScaleFactorProducer = copy.deepcopy(ElectronScaleFactorProducer)
 MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2015
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# Lepton SFs: 2016"
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Lepton SFs: 2017 (really 2016, should be updated!)"
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
+else:
+    print "# Lepton SFs: 2015"

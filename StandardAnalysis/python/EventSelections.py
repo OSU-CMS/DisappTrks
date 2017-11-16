@@ -54,6 +54,19 @@ basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
+################################################################################
+## Testing channels to compare pat::IsolatedTrack to CandidateTrack
+## in the MET dataset
+################################################################################
+
+MinimalMETTrackSelection = copy.deepcopy(metMinimalSkim)
+MinimalMETTrackSelection.name = cms.string("MinimalMETTrackSelection")
+addCuts(MinimalMETTrackSelection.cuts, [cutTrkPt20])
+
+MinimalMETMatchedCandidateTrackSelection = copy.deepcopy(MinimalMETTrackSelection)
+MinimalMETMatchedCandidateTrackSelection.name = cms.string("MinimalMETMatchedCandidateTrackSelection")
+addCuts(MinimalMETMatchedCandidateTrackSelection.cuts, [cutTrkMatchedCandidateTrack])
+
 ##########################################################################
 
 isoTrkCuts = [
