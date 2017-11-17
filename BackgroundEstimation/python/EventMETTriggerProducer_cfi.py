@@ -16,6 +16,13 @@ def customizeForMETTriggerProducer (producer):
         "pfMHTNoMu",
     )
 
+    if producer.type_ () == "EventElectronMETTriggerProducer":
+        producer.tagCollection = cms.string ("hltEgammaCandidates::HLT")
+    if producer.type_ () == "EventMuonMETTriggerProducer":
+        producer.tagCollection = cms.string ("hltL3MuonCandidates::HLT")
+    if producer.type_ () == "EventTauMETTriggerProducer":
+        producer.tagCollection = cms.string ("hltSelectedPFTausTrackPt30AbsOrRelIsolation::HLT")
+
     producer.metMuonsCountedAsVisible                 =  cms.bool  (False)
     producer.metCleanMuonsCountedAsVisible            =  cms.bool  (False)
     producer.metCleanBHMuonsCountedAsVisible          =  cms.bool  (False)
