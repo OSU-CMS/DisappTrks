@@ -44,18 +44,16 @@ L1TriggerInfoPrinter::analyze (const edm::Event &iEvent, const edm::EventSetup &
     const DecisionWord dWord = gtRecord->decisionWord();
     ss<<" Size of decision word from readout record: "<<dWord.size()<<endl;
 
-    /*if (dWord.empty()) {
+    if (dWord.empty()) {
       ss<<" No decision word from readout record "<<endl;
-    } else {*/
+    } else {
       for (CItAlgo itAlgo = bitMap.begin(); itAlgo != bitMap.end(); itAlgo++) {
-        ss<<" Testing algorithm \""<<itAlgo->first<<"\""<<endl;
-        if (dWord.empty()) continue;
         bool decision=menu->gtAlgorithmResult(itAlgo->first,dWord);
-        /*if(decision == 1)*/ ss<<" Trigger "<<itAlgo->first<<" "<<decision<<endl;
+        /*if(decision == 1)*/ ss<<" Trigger "<<itAlgo->first<<" "<<(decision ? "PASSES" : "FAILS")<<endl;
       }
 
     }
-  //}
+  }
 
   edm::LogInfo("L1TriggerInfoPrinter")<<ss.str ();
 }
