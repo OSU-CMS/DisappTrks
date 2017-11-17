@@ -8,6 +8,7 @@ EventMETTriggerProducer<T>::EventMETTriggerProducer (const edm::ParameterSet &cf
   tokenTriggerObjects_ = consumes<vector<pat::TriggerObjectStandAlone> > (collections_.getParameter<edm::InputTag> ("trigobjs"));
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
 
+  tagCollection_ = cfg.getParameter<string> ("tagCollection");
   filterCategories_ = cfg.getParameter<vector<string> > ("filterCategories");
   for (const auto &filterCategory : filterCategories_)
     {
@@ -41,7 +42,7 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
   if (!triggers.isValid () || !triggerObjects.isValid () || !tags.isValid ())
     return;
 
-  const pat::TriggerObjectStandAlone *hltTag = anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, tagCollection (), "");
+  const pat::TriggerObjectStandAlone *hltTag = anatools::getMatchedTriggerObject (event, *triggers, tags->at (0), *triggerObjects, tagCollection_, "");
   map<string, vector<const pat::TriggerObjectStandAlone *> > hltFilterObjects, hltJetsForTag;
   int n = -1;
   for (const auto &filterCategory : filterCategories_)
@@ -139,10 +140,6 @@ EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
 
   for (unsigned i = 0; i < additionalCollections_.size (); i++)
     (*eventvariables)["passes_" + additionalFilters_.at (i)] = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
-
-  double l1ETM = INVALID_VALUE;
-  (*eventvariables)["passesL1ETM"] = anatools::passesL1ETM (event, *triggers, *triggerObjects, l1ETM);
-  (*eventvariables)["l1ETM"] = l1ETM;
 }
 
 template<class T> const string
@@ -215,54 +212,6 @@ template<> const string
 EventMETTriggerProducer<osu::Tau>::metAndIsoTrkEventVariableName () const
 {
   return "passetMETAndIsoTrkWithoutTau";
-}
-
-template<class T> const string
-EventMETTriggerProducer<T>::tagCollection () const
-{
-  return "";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Electron>::tagCollection () const
-{
-  return "hltEgammaCandidates::HLT";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Muon>::tagCollection () const
-{
-  return "hltL3MuonCandidates::HLT";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Tau>::tagCollection () const
-{
-  return "hltSelectedPFTausTrackPt30AbsOrRelIsolation::HLT";
-}
-
-template<class T> const string
-EventMETTriggerProducer<T>::tagFilter () const
-{
-  return "";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Electron>::tagFilter () const
-{
-  return "hltEle25erWPTightGsfTrackIsoFilter";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Muon>::tagFilter () const
-{
-  return "hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09";
-}
-
-template<> const string
-EventMETTriggerProducer<osu::Tau>::tagFilter () const
-{
-  return "hltPFTau50TrackPt30LooseAbsOrRelIso";
 }
 
 template<class T> const double

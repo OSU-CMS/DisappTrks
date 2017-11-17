@@ -27,6 +27,7 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     edm::EDGetTokenT<vector<pat::TriggerObjectStandAlone> > tokenTriggerObjects_;
     edm::EDGetTokenT<vector<T> > tokenTags_;
 
+    string tagCollection_;
     vector<string> filterCategories_;
     map<string, vector<string> > trigObjCollections_;
     map<string, vector<double> > trigObjThresholds_;
@@ -41,7 +42,6 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     const string eventVariableName () const;
     const string metAndIsoTrkEventVariableName () const;
     const string tagCollection () const;
-    const string tagFilter () const;
     const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool, const double = 0.0) const;
 };
 
