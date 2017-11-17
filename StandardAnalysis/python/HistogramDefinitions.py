@@ -560,17 +560,19 @@ ElectronEventVariableHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutElectronVsElectronMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron;passes L1 ETM without selected electron"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectronTernary"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectronTernary", "eventvariable.passesL1ETMWithoutElectron"),
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutElectronUpVsElectronMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron;passes L1 ETM without selected electron"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectronTernaryUp"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectronTernaryUp", "eventvariable.passesL1ETMWithoutElectronUp"),
         ),
     )
 )
@@ -594,17 +596,19 @@ MuonEventVariableHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutMuonVsMuonMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon;passes L1 ETM without selected muon"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuonTernary"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuonTernary", "eventvariable.passesL1ETMWithoutMuon"),
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutMuonUpVsMuonMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon;passes L1 ETM without selected muon"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuonTernaryUp"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuonTernaryUp", "eventvariable.passesL1ETMWithoutMuonUp"),
         ),
     )
 )
@@ -628,17 +632,19 @@ TauEventVariableHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutTauVsTauMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau;passes L1 ETM without selected tau"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTauTernary"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTauTernary", "eventvariable.passesL1ETMWithoutTau"),
         ),
         cms.PSet (
             name = cms.string("passesMETTriggersWithoutTauUpVsTauMetNoMuMinusOnePt"),
-            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau;passes L1 ETM without selected tau"),
             binsX = metBins,
             binsY = cms.untracked.vdouble(3, -0.5, 2.5),
-            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTauTernaryUp"),
+            binsZ = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTauTernaryUp", "eventvariable.passesL1ETMWithoutTauUp"),
         ),
     )
 )
