@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import sys, glob, re, itertools, subprocess, shutil, copy
+import sys, glob, re, itertools, subprocess, shutil, copy, os
 
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 if len (sys.argv) < 2:
-  print "Usage: " + sys.argv[0] + " DATASET_PREFIX"
+  print "Usage: " + os.path.basename (sys.argv[0]) + " DATASET_PREFIX"
   sys.exit (1)
 datasetPrefix = sys.argv[1]
 

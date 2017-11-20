@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import sys
-import os
-import re
+import sys, os, re
 from ROOT import TFile,TKey,TIter
 
 ################################################################################
@@ -48,7 +46,7 @@ def fixPtCut (obj):
 ################################################################################
 argc = len (sys.argv)
 if argc < 3:
-  print "Usage: " + sys.argv[0] + " INPUT_FILE OUTPUT_FILE"
+  print "Usage: " + os.path.basename (sys.argv[0]) + " INPUT_FILE OUTPUT_FILE"
   sys.exit (1)
 inputFileName = sys.argv[1]
 outputFileName = sys.argv[2]

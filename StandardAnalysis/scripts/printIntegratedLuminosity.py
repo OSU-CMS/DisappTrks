@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
-import sys
+import sys, os
 
 def printValidKeys ():
     for x in sorted (lumi.keys ()):
@@ -11,7 +11,7 @@ def printValidKeys ():
                 print "    " + y
 
 if len (sys.argv) < 2:
-    print "Usage: " + sys.argv[0] + " KEY SUB_KEY"
+    print "Usage: " + os.path.basename (sys.argv[0]) + " KEY SUB_KEY"
     print ""
     print "Valid values for KEY and SUB_KEY are the following:"
     printValidKeys ()
