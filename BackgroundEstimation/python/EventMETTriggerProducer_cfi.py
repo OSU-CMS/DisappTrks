@@ -18,10 +18,13 @@ def customizeForMETTriggerProducer (producer):
 
     if producer.type_ () == "EventElectronMETTriggerProducer":
         producer.tagCollection = cms.string ("hltEgammaCandidates::HLT")
-    if producer.type_ () == "EventMuonMETTriggerProducer":
+    elif producer.type_ () == "EventMuonMETTriggerProducer":
         producer.tagCollection = cms.string ("hltL3MuonCandidates::HLT")
-    if producer.type_ () == "EventTauMETTriggerProducer":
+    elif producer.type_ () == "EventTauMETTriggerProducer":
         producer.tagCollection = cms.string ("hltSelectedPFTausTrackPt30AbsOrRelIsolation::HLT")
+    else:
+        print "# Unknown producer type! Cannot set collection for tag lepton."
+        exit (1)
 
     producer.metMuonsCountedAsVisible                 =  cms.bool  (False)
     producer.metCleanMuonsCountedAsVisible            =  cms.bool  (False)
