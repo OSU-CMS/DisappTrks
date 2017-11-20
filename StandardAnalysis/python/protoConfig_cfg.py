@@ -163,9 +163,9 @@ muonTPProducer = ["EventMuonTPProducer"]
 tauToElectronTPProducer = ["EventTauToElectronTPProducer"]
 tauToMuonTPProducer = ["EventTauToMuonTPProducer"]
 
-electronMETTriggerProducer = ["EventElectronMETTriggerProducer"]
-muonMETTriggerProducer = ["EventMuonMETTriggerProducer"]
-tauMETTriggerProducer = ["EventTauMETTriggerProducer"]
+electronMETTriggerProducer = ["EventElectronMETTriggerProducer", "EventElectronL1ETMProducer"]
+muonMETTriggerProducer = ["EventMuonMETTriggerProducer", "EventMuonL1ETMProducer"]
+tauMETTriggerProducer = ["EventTauMETTriggerProducer", "EventTauL1ETMProducer"]
 ################################################################################
 
 ################################################################################
