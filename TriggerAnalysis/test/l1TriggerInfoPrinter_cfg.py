@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-import sys
+import sys, os
 
 globalTag = '76X_dataRun2_v15'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
