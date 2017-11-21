@@ -20,7 +20,7 @@ def customizeForL1ETMProducer (producer):
         producer.additionalCollections  =  cms.vstring  ()
         producer.additionalFilters      =  cms.vstring  ()
 
-        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2016BC.txt")
+        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2015.txt")
 
         if producer.type_ () == "EventElectronL1ETMProducer":
             producer.tagCollection = cms.string ("hltL1extraParticles:Isolated:HLT")
@@ -44,7 +44,7 @@ def customizeForL1ETMProducer (producer):
         producer.additionalCollections  =  cms.vstring  ()
         producer.additionalFilters      =  cms.vstring  ()
 
-        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2016DEFGH.txt")
+        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2016.txt")
 
         if producer.type_ () == "EventElectronL1ETMProducer":
             producer.tagCollection = cms.string ("hltCaloStage2Digis:EGamma:HLT")
