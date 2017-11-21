@@ -234,6 +234,8 @@ EventL1ETMProducer<T>::extractL1Prescales (const string &l1Prescales)
 template<class T> double
 EventL1ETMProducer<T>::getL1Prescale (const double etm) const
 {
+  if (etm < l1Prescales_.at (0).threshold ())
+    return 0.0;
   for (unsigned i = 0; i < l1Prescales_.size () - 1; i++)
     {
       int threshold = l1Prescales_.at (i).threshold (),
