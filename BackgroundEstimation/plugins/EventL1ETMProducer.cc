@@ -32,10 +32,6 @@ EventL1ETMProducer<T>::beginRun (const edm::Run &run, const edm::EventSetup &set
   l1Prescales_ = l1PrescalesForAllRuns_.at (run.run ());
   sort (l1Prescales_.begin (), l1Prescales_.end (), [] (const L1Seed &a, const L1Seed &b) -> bool { return (a.threshold () < b.threshold ()); });
 
-  clog << "prescales for run " << run.run () << endl;
-  for (const auto &prescale : l1Prescales_)
-    clog << "  threshold: " << prescale.threshold () << " GeV, prescale: " << prescale.prescale () << endl;
-
 /*  edm::ESHandle<L1GtTriggerMenu> menuRcd;
   setup.get<L1GtTriggerMenuRcd>().get (menuRcd) ;
   const AlgorithmMap &menu = menuRcd->gtAlgorithmMap ();
