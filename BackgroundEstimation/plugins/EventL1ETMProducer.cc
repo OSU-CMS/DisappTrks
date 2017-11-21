@@ -18,7 +18,7 @@ EventL1ETMProducer<T>::EventL1ETMProducer (const edm::ParameterSet &cfg) :
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
 
-  l1Threshold_ = 10000.0;
+  extractL1Prescales (cfg.getParameter<edm::FileInPath> ("l1Prescales").fullPath ());
 }
 
 template<class T>
@@ -29,7 +29,14 @@ EventL1ETMProducer<T>::~EventL1ETMProducer ()
 template<class T> void
 EventL1ETMProducer<T>::beginRun (const edm::Run &run, const edm::EventSetup &setup)
 {
-  edm::ESHandle<L1GtTriggerMenu> menuRcd;
+  l1Prescales_ = l1PrescalesForAllRuns_.at (run.run ());
+  sort (l1Prescales_.begin (), l1Prescales_.end (), [] (const L1Seed &a, const L1Seed &b) -> bool { return (a.threshold () < b.threshold ()); });
+
+  clog << "prescales for run " << run.run () << endl;
+  for (const auto &prescale : l1Prescales_)
+    clog << "  threshold: " << prescale.threshold () << " GeV, prescale: " << prescale.prescale () << endl;
+
+/*  edm::ESHandle<L1GtTriggerMenu> menuRcd;
   setup.get<L1GtTriggerMenuRcd>().get (menuRcd) ;
   const AlgorithmMap &menu = menuRcd->gtAlgorithmMap ();
 
@@ -54,8 +61,7 @@ EventL1ETMProducer<T>::beginRun (const edm::Run &run, const edm::EventSetup &set
         lowestThreshold = algorithmThreshold;
     }
 
-  l1Threshold_ = lowestThreshold;
-  clog << "L1 THRESHOLD: " << l1Threshold_ << " GeV" << endl;
+  l1Threshold_ = lowestThreshold;*/
 }
 
 template<class T> void
@@ -95,17 +101,17 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
         }
     }
 
-  map<string, vector<bool> > filterDecisions, filterDecisionsUp;
+  map<string, vector<double> > filterDecisions, filterDecisionsUp;
   for (const auto &filterCategory : filterCategories_)
     {
-      vector<bool> &filterDecision = filterDecisions[filterCategory];
-      vector<bool> &filterDecisionUp = filterDecisionsUp[filterCategory];
+      vector<double> &filterDecision = filterDecisions[filterCategory];
+      vector<double> &filterDecisionUp = filterDecisionsUp[filterCategory];
 
       const vector<const pat::TriggerObjectStandAlone *> &objs = hltFilterObjects.at (filterCategory);
 
       for (int i = 0; i < n; i++)
         {
-          bool flag, flagUp;
+          double flag, flagUp;
 
           const pat::TriggerObjectStandAlone *tag = hltTag;
           const pat::TriggerObjectStandAlone *obj = objs.at (i);
@@ -116,7 +122,7 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
           else
             y.Set (tag->px (), tag->py ());
           if (!obj && trigObjCollections_.at (filterCategory).at (i) == "")
-            flag = flagUp = true;
+            flag = flagUp = 1;
           else
             {
               if (!obj)
@@ -126,8 +132,9 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
 
               const double modifiedMissingEnergy = getModifiedMissingEnergy (x, y, false);
               const double modifiedMissingEnergyUp = getModifiedMissingEnergy (x, y, false, 10.0);
-              flag = (modifiedMissingEnergy > l1Threshold_);
-              flagUp = (modifiedMissingEnergyUp > l1Threshold_);
+
+              flag = getL1Prescale (modifiedMissingEnergy);
+              flagUp = getL1Prescale (modifiedMissingEnergyUp);
             }
 
           filterDecision.push_back (flag);
@@ -135,22 +142,16 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
         }
     }
 
-  bool passes = false, passesUp = false;
   for (int i = 0; i < n; i++)
     {
-      bool triggerPasses = true, triggerPassesUp = true;
+      stringstream ss ("");
+      ss << i;
       for (const auto &filterCategory : filterCategories_)
         {
-          triggerPasses = triggerPasses && filterDecisions.at (filterCategory).at (i);
-          triggerPassesUp = triggerPassesUp && filterDecisionsUp.at (filterCategory).at (i);
+          (*eventvariables)[filterCategory + "Prescale_" + ss.str ()] = filterDecisions.at (filterCategory).at (i);
+          (*eventvariables)[filterCategory + "PrescaleUp_" + ss.str ()] = filterDecisionsUp.at (filterCategory).at (i);
         }
-      passes = passes || triggerPasses;
-      passesUp = passesUp || triggerPassesUp;
     }
-
-  (*eventvariables)["l1Threshold"] = l1Threshold_;
-  (*eventvariables)[eventVariableName ()] = passes;
-  (*eventvariables)[eventVariableName () + "Up"] = passesUp;
 
   for (unsigned i = 0; i < additionalCollections_.size (); i++)
     (*eventvariables)["passes_" + additionalFilters_.at (i)] = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
@@ -180,30 +181,6 @@ EventL1ETMProducer<osu::Tau>::tagCollectionParameter () const
   return "taus";
 }
 
-template<class T> const string
-EventL1ETMProducer<T>::eventVariableName () const
-{
-  return "";
-}
-
-template<> const string
-EventL1ETMProducer<osu::Electron>::eventVariableName () const
-{
-  return "passesL1ETMWithoutElectron";
-}
-
-template<> const string
-EventL1ETMProducer<osu::Muon>::eventVariableName () const
-{
-  return "passesL1ETMWithoutMuon";
-}
-
-template<> const string
-EventL1ETMProducer<osu::Tau>::eventVariableName () const
-{
-  return "passesL1ETMWithoutTau";
-}
-
 template<class T> const double
 EventL1ETMProducer<T>::getModifiedMissingEnergy (const TVector2 &x, const TVector2 &y, const bool muonsCountedAsVisible, const double shift) const
 {
@@ -220,6 +197,55 @@ EventL1ETMProducer<osu::Muon>::getModifiedMissingEnergy (const TVector2 &x, cons
   if (muonsCountedAsVisible)
     return (x + y - z).Mod ();
   return x.Mod ();
+}
+
+template<class T> void
+EventL1ETMProducer<T>::extractL1Prescales (const string &l1Prescales)
+{
+  l1PrescalesForAllRuns_.clear ();
+  ifstream fin (l1Prescales);
+
+  string line;
+  while (getline (fin, line))
+    {
+      stringstream ssLine (line);
+      string word = "", key = "";
+      int run, threshold;
+      double prescale;
+      while (getline (ssLine, word, ' '))
+        {
+          if (word.length () > 0 && word.back () == ':')
+            {
+              stringstream ssWord (word);
+              getline (ssWord, key, ':');
+            }
+          else
+            {
+              if (key == "run")
+                run = atoi (word.c_str ());
+              if (key == "threshold")
+                threshold = atoi (word.c_str ());
+              if (key == "average_prescale")
+                prescale = atof (word.c_str ());
+            }
+        }
+      if (!l1PrescalesForAllRuns_.count (run))
+        l1PrescalesForAllRuns_[run];
+      l1PrescalesForAllRuns_.at (run).emplace_back (threshold, prescale);
+    }
+}
+
+template<class T> double
+EventL1ETMProducer<T>::getL1Prescale (const double etm) const
+{
+  for (unsigned i = 0; i < l1Prescales_.size () - 1; i++)
+    {
+      int threshold = l1Prescales_.at (i).threshold (),
+          nextThreshold = l1Prescales_.at (i + 1).threshold ();
+      if (etm > threshold && etm < nextThreshold)
+        return l1Prescales_.at (i).prescale ();
+    }
+  return l1Prescales_.back ().prescale ();
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

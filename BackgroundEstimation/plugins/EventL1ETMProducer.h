@@ -2,11 +2,14 @@
 #define EVENT_L1_ETM_PRODUCER
 
 #include <vector>
+#include <sstream>
+#include <fstream>
 
 #include "TVector2.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/Run.h"
 
 #include "CondFormats/L1TObjects/interface/L1GtTriggerMenu.h"
 #include "CondFormats/L1TObjects/interface/L1GtTriggerMask.h"
@@ -20,6 +23,16 @@
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
 #include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
+
+struct L1Seed : pair<int, double>
+{
+  L1Seed (const int &threshold, const double &prescale) :
+    pair<int, double> (threshold, prescale)
+    {
+    }
+  const int threshold () const { return this->first; }
+  const double prescale () const { return this->second; }
+};
 
 template<class T> class EventL1ETMProducer : public EventVariableProducer
 {
@@ -43,11 +56,13 @@ template<class T> class EventL1ETMProducer : public EventVariableProducer
     vector<string> additionalCollections_;
     vector<string> additionalFilters_;
 
-    double l1Threshold_;
+    map<int, vector<L1Seed> > l1PrescalesForAllRuns_;
+    vector<L1Seed> l1Prescales_;
 
     const string tagCollectionParameter () const;
-    const string eventVariableName () const;
     const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool, const double = 0.0) const;
+    void extractL1Prescales (const string &);
+    double getL1Prescale (const double) const;
 };
 
 typedef EventL1ETMProducer<osu::Electron> EventElectronL1ETMProducer;
