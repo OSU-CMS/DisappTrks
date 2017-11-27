@@ -291,35 +291,33 @@ class LeptonBkgdEstimate:
                 passesHist.SetDirectory (0)
                 passesHist.SetName ("passes")
 
-                sample = self.TagPt35MetL1Trig["sample"]
-                condorDir = self.TagPt35MetL1Trig["condorDir"]
-                name = self.TagPt35MetL1Trig["name"]
-                l1TrigEffHist = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt")
+                if hasattr (self, "TagPt35MetL1Trig"):
+                    sample = self.TagPt35MetL1Trig["sample"]
+                    condorDir = self.TagPt35MetL1Trig["condorDir"]
+                    name = self.TagPt35MetL1Trig["name"]
+                    l1TrigEffHist = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt")
 
-                l1TotalHist = l1TrigEffHist.ProjectionX ()
-                l1TotalHist.SetDirectory (0)
-                l1TotalHist.SetName ("l1Total")
-                l1PassesHist = l1TotalHist.Clone ("l1PassesHist")
-                l1PassesHist.SetDirectory (0)
-                l1PassesHist.SetName ("l1PassesHist")
+                    l1TotalHist = l1TrigEffHist.ProjectionX ()
+                    l1TotalHist.SetDirectory (0)
+                    l1TotalHist.SetName ("l1Total")
+                    l1PassesHist = l1TotalHist.Clone ("l1PassesHist")
+                    l1PassesHist.SetDirectory (0)
+                    l1PassesHist.SetName ("l1PassesHist")
 
-                for x in range (1, l1TrigEffHist.GetXaxis ().GetNbins () + 1):
-                    nFail = Measurement (l1TrigEffHist.GetBinContent (x, 1), l1TrigEffHist.GetBinError (x, 1))
-                    nPass = Measurement (0.0, 0.0)
-                    for y in range (2, l1TrigEffHist.GetYaxis ().GetNbins () + 1):
-                        prescale = l1TrigEffHist.GetYaxis ().GetBinLowEdge (y)
-                        n = Measurement (l1TrigEffHist.GetBinContent (x, y), l1TrigEffHist.GetBinError (x, y))
-                        nPass += n
-                        nFail += n * (prescale - 1.0)
-                    nTotal = nFail + nPass
+                    for x in range (1, l1TrigEffHist.GetXaxis ().GetNbins () + 1):
+                        nFail = Measurement (l1TrigEffHist.GetBinContent (x, 1), l1TrigEffHist.GetBinError (x, 1))
+                        nPass = Measurement (0.0, 0.0)
+                        for y in range (2, l1TrigEffHist.GetYaxis ().GetNbins () + 1):
+                            prescale = l1TrigEffHist.GetYaxis ().GetBinLowEdge (y)
+                            n = Measurement (l1TrigEffHist.GetBinContent (x, y), l1TrigEffHist.GetBinError (x, y))
+                            nPass += n
+                            nFail += n * (prescale - 1.0)
+                        nTotal = nFail + nPass
 
-                    l1TotalHist.SetBinContent (x, nTotal.centralValue ())
-                    l1TotalHist.SetBinError (x, nTotal.maxUncertainty ())
-                    l1PassesHist.SetBinContent (x, nPass.centralValue ())
-                    l1PassesHist.SetBinError (x, nPass.maxUncertainty ())
-
-            self.plotTriggerEfficiency (passesHist, totalHist, "HLT")
-            self.plotTriggerEfficiency (l1PassesHist, l1TotalHist, "l1")
+                        l1TotalHist.SetBinContent (x, nTotal.centralValue ())
+                        l1TotalHist.SetBinError (x, nTotal.maxUncertainty ())
+                        l1PassesHist.SetBinContent (x, nPass.centralValue ())
+                        l1PassesHist.SetBinError (x, nPass.maxUncertainty ())
 
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
@@ -329,9 +327,13 @@ class LeptonBkgdEstimate:
             metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
             metHist = metHist2D.ProjectionX ("metHist")
 
-            l1PassesHist.Divide (l1TotalHist)
+            self.plotTriggerEfficiency (passesHist, totalHist, "HLT")
+            if l1PassesHist and l1TotalHist:
+                self.plotTriggerEfficiency (l1PassesHist, l1TotalHist, "L1")
+                passesHist.Multiply (l1PassesHist)
+                totalHist.Multiply (l1TotalHist)
+                self.plotTriggerEfficiency (passesHist, totalHist, "Full")
             passesHist.Divide (totalHist)
-            passesHist.Multiply (l1PassesHist)
             metHist.Multiply (passesHist)
 
             total = 0.0
