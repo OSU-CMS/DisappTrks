@@ -36,11 +36,9 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
 
     vector<string> additionalCollections_;
     vector<string> additionalFilters_;
-    int metAndIsoTrk_;
 
     const string tagCollectionParameter () const;
     const string eventVariableName () const;
-    const string metAndIsoTrkEventVariableName () const;
     const string tagCollection () const;
     const double getModifiedMissingEnergy (const TVector2 &, const TVector2 &, const bool, const double = 0.0) const;
 };
