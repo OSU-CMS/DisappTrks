@@ -39,7 +39,7 @@ def customizeForL1ETMProducer (producer):
         # [HLT_MET200_v*,  HLT_MET75_IsoTrk50_v*,  HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v*,  HLT_PFMET120_PFMHT120_IDTight_v*,  HLT_PFMET170_HBHECleaned_v*,  HLT_PFMET300_v*,  HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v*]
 
         producer.etmCollections                 =  cms.vstring  ("hltCaloStage2Digis:EtSum:HLT")
-        producer.etmFilterPrefixes                 =  cms.vstring  ("hltL1sETM")
+        producer.etmFilterPrefixes                 =  cms.vstring  ("ETM")
 
         producer.additionalCollections  =  cms.vstring  ()
         producer.additionalFilters      =  cms.vstring  ()
