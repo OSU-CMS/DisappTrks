@@ -184,7 +184,9 @@ for runPeriod in runPeriods:
         #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",  "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_nCtrl_new")
 
         muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        muonBkgdEstimate.addRebinFactor (4)
         muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_passesMETTriggers_new")
+        muonBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "MuonTagPt55",    "SingleMu_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/muonBackground_passesMETTriggers_SHINY")
 
         print "********************************************************************************"
 
@@ -224,7 +226,6 @@ for runPeriod in runPeriods:
         tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2016" + runPeriod])
         tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         tauBkgdEstimate.addPlotLabel ("Tau 2016" + runPeriod)
-        tauBkgdEstimate.addRebinFactor (4)
         tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrk",      "SingleMu_2016"          +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/tauToMuonBackground")
         tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuProbeTrk",      "SingleMu_rereco_2016"   +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/tauToMuonBackground")
         tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrk",     "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/stenson/tauToElectronBackground")
@@ -236,7 +237,9 @@ for runPeriod in runPeriods:
         #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        tauBkgdEstimate.addRebinFactor (4)
         tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",              "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_passesMETTriggers_new")
+        tauBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "TauTagPt55",              "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_passesMETTriggers_SHINY")
 
         print "********************************************************************************"
 
