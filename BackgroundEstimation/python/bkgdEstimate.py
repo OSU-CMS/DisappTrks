@@ -260,7 +260,7 @@ class LeptonBkgdEstimate:
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
-            totalHist = passesHist = None
+            totalHist = passesHist = l1TotalHist = l1PassesHist = None
             total = 0.0
             passes = 0.0
             if not self._useHistogramsForPpassMetTriggers:
@@ -286,12 +286,40 @@ class LeptonBkgdEstimate:
                 totalHist.SetDirectory (0)
                 totalHist.SetName ("total")
 
-                trigEffHist.GetYaxis ().SetRangeUser (1.0, 1.0)
+                trigEffHist.GetYaxis ().SetRangeUser (1.0, 2.0)
                 passesHist = trigEffHist.ProjectionX ()
                 passesHist.SetDirectory (0)
                 passesHist.SetName ("passes")
 
-            self.plotTriggerEfficiency (passesHist, totalHist)
+                sample = self.TagPt35MetL1Trig["sample"]
+                condorDir = self.TagPt35MetL1Trig["condorDir"]
+                name = self.TagPt35MetL1Trig["name"]
+                l1TrigEffHist = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt")
+
+                l1TotalHist = l1TrigEffHist.ProjectionX ()
+                l1TotalHist.SetDirectory (0)
+                l1TotalHist.SetName ("l1Total")
+                l1PassesHist = l1TotalHist.Clone ("l1PassesHist")
+                l1PassesHist.SetDirectory (0)
+                l1PassesHist.SetName ("l1PassesHist")
+
+                for x in range (1, l1TrigEffHist.GetXaxis ().GetNbins () + 1):
+                    nFail = Measurement (l1TrigEffHist.GetBinContent (x, 1), l1TrigEffHist.GetBinError (x, 1))
+                    nPass = Measurement (0.0, 0.0)
+                    for y in range (2, l1TrigEffHist.GetYaxis ().GetNbins () + 1):
+                        prescale = l1TrigEffHist.GetYaxis ().GetBinLowEdge (y)
+                        n = Measurement (l1TrigEffHist.GetBinContent (x, y), l1TrigEffHist.GetBinError (x, y))
+                        nPass += n
+                        nFail += n * (prescale - 1.0)
+                    nTotal = nFail + nPass
+
+                    l1TotalHist.SetBinContent (x, nTotal.centralValue ())
+                    l1TotalHist.SetBinError (x, nTotal.maxUncertainty ())
+                    l1PassesHist.SetBinContent (x, nPass.centralValue ())
+                    l1PassesHist.SetBinError (x, nPass.maxUncertainty ())
+
+            self.plotTriggerEfficiency (passesHist, totalHist, "HLT")
+            self.plotTriggerEfficiency (l1PassesHist, l1TotalHist, "l1")
 
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
@@ -301,7 +329,9 @@ class LeptonBkgdEstimate:
             metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
             metHist = metHist2D.ProjectionX ("metHist")
 
+            l1PassesHist.Divide (l1TotalHist)
             passesHist.Divide (totalHist)
+            passesHist.Multiply (l1PassesHist)
             metHist.Multiply (passesHist)
 
             total = 0.0
@@ -330,7 +360,7 @@ class LeptonBkgdEstimate:
             print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
             return (float ("nan"), float ("nan"))
 
-    def plotTriggerEfficiency (self, passesHist, totalHist):
+    def plotTriggerEfficiency (self, passesHist, totalHist, label = ""):
         if self._fout and self._canvas:
             passesHist = passesHist.Rebin (self._rebinFactor, "passesHist")
             totalHist = totalHist.Rebin (self._rebinFactor, "totalHist")
@@ -363,12 +393,12 @@ class LeptonBkgdEstimate:
             setStyle (metGraph)
             self._canvas.cd ()
             metGraph.Draw ("ap")
-            setAxisStyle (metGraph, "E_{T}^{miss, no #mu} [GeV]", "trigger efficiency", (0.0, 500.0), (0.0, 1.4))
+            setAxisStyle (metGraph, "E_{T}^{miss, no #mu} [GeV]", label + " trigger efficiency", (0.0, 500.0), (0.0, 1.4))
             pt.Draw ("same")
             cmsLabel.Draw ("same")
             lumiLabel.Draw ("same")
             self._fout.cd ()
-            self._canvas.Write ("triggerEfficiency")
+            self._canvas.Write ("triggerEfficiency_" + label)
         else:
             print "A TFile and TCanvas must be added. Not making plots..."
 
