@@ -13,7 +13,7 @@ EventL1ETMProducer<T>::EventL1ETMProducer (const edm::ParameterSet &cfg) :
   for (const auto &filterCategory : filterCategories_)
     {
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
-      trigObjFilterPrefixes_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "FilterPrefixes");
+      trigObjFilterSubstrings_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "FilterSubstrings");
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
@@ -81,7 +81,7 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
   for (const auto &filterCategory : filterCategories_)
     {
       const vector<string> &collections = trigObjCollections_.at (filterCategory);
-      const vector<string> &filterPrefixes = trigObjFilterPrefixes_.at (filterCategory);
+      const vector<string> &filterSubstrings = trigObjFilterSubstrings_.at (filterCategory);
 
       if (n < 0)
         n = collections.size ();
@@ -91,9 +91,9 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
       for (int i = 0; i < n; i++)
         {
           const string &collection = collections.at (i);
-          const string &filterPrefix = filterPrefixes.at (i);
+          const string &filterSubstring = filterSubstrings.at (i);
 
-          anatools::getTriggerObjectsByFilterPrefix (event, *triggers, *triggerObjects, collection, filterPrefix, objs);
+          anatools::getTriggerObjectsByFilterSubstring (event, *triggers, *triggerObjects, collection, filterSubstring, objs, "HTT");
         }
     }
 

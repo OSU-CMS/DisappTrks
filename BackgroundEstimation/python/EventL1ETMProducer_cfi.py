@@ -15,7 +15,7 @@ def customizeForL1ETMProducer (producer):
         # [HLT_MET250_v*, HLT_MET75_IsoTrk50_v*, HLT_PFMET120_PFMHT120_IDTight_v*, HLT_PFMET170_HBHECleaned_v*, HLT_PFMET170_JetIdCleaned_v*, HLT_PFMET170_NoiseCleaned_v*, HLT_PFMET170_v*, HLT_PFMET90_PFMHT90_IDTight_v*, HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v*, HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v*]
 
         producer.etmCollections                 =  cms.vstring  ("hltL1extraParticles:MET:HLT")
-        producer.etmFilterPrefixes                 =  cms.vstring  ("")
+        producer.etmFilterSubstrings                 =  cms.vstring  ("")
 
         producer.additionalCollections  =  cms.vstring  ()
         producer.additionalFilters      =  cms.vstring  ()
@@ -39,7 +39,7 @@ def customizeForL1ETMProducer (producer):
         # [HLT_MET200_v*,  HLT_MET75_IsoTrk50_v*,  HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v*,  HLT_PFMET120_PFMHT120_IDTight_v*,  HLT_PFMET170_HBHECleaned_v*,  HLT_PFMET300_v*,  HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v*]
 
         producer.etmCollections                 =  cms.vstring  ("hltCaloStage2Digis:EtSum:HLT")
-        producer.etmFilterPrefixes                 =  cms.vstring  ("ETM")
+        producer.etmFilterSubstrings                 =  cms.vstring  ("ETM")
 
         producer.additionalCollections  =  cms.vstring  ()
         producer.additionalFilters      =  cms.vstring  ()

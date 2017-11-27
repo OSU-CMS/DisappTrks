@@ -51,7 +51,7 @@ template<class T> class EventL1ETMProducer : public EventVariableProducer
     string tagCollection_;
     vector<string> filterCategories_;
     map<string, vector<string> > trigObjCollections_;
-    map<string, vector<string> > trigObjFilterPrefixes_;
+    map<string, vector<string> > trigObjFilterSubstrings_;
 
     vector<string> additionalCollections_;
     vector<string> additionalFilters_;
