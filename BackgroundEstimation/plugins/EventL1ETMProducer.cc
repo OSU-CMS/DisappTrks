@@ -236,14 +236,19 @@ EventL1ETMProducer<T>::getL1Prescale (const double etm) const
 {
   if (etm < l1Prescales_.at (0).threshold ())
     return 0.0;
-  for (unsigned i = 0; i < l1Prescales_.size () - 1; i++)
+  double lowestL1Prescale = -1.0;
+  for (unsigned i = 0; i < l1Prescales_.size (); i++)
     {
-      int threshold = l1Prescales_.at (i).threshold (),
-          nextThreshold = l1Prescales_.at (i + 1).threshold ();
-      if (etm > threshold && etm < nextThreshold)
-        return l1Prescales_.at (i).prescale ();
+      int threshold = l1Prescales_.at (i).threshold ();
+      double prescale = l1Prescales_.at (i).prescale ();
+      if (etm < threshold)
+        break;
+      if (prescale > 0.0 && (lowestL1Prescale < 0.0 || prescale < lowestL1Prescale))
+        lowestL1Prescale = prescale;
     }
-  return l1Prescales_.back ().prescale ();
+  if (lowestL1Prescale < 0.0)
+    lowestL1Prescale = 0.0;
+  return lowestL1Prescale;
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
