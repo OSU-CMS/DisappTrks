@@ -143,7 +143,9 @@ for runPeriod in runPeriods:
         #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+        electronBkgdEstimate.addRebinFactor (4)
         electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_passesMETTriggers_new")
+        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_passesMETTriggers_SHINY")
 
         print "********************************************************************************"
 
