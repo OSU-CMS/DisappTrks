@@ -155,9 +155,10 @@ if background == "MUON" or background == "ALL":
     muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     muonBkgdEstimate.addPlotLabel ("SingleMuon 2015D")
     muonBkgdEstimate.addMetCut (100.0)
-    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",  "SingleMu_2015D",         dirs['Andrew']+"2015/stenson/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",             "SingleMu_rereco_2015D",  dirs['Andrew']+"2015/stenson/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",             "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
+    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",              "SingleMu_2015D",         dirs['Andrew']+"2015/stenson/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",              "SingleMu_rereco_2015D",  dirs['Andrew']+"2015/stenson/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilter",  "SingleMu_2015D",         dirs['Andrew']+"2015/stenson/sameSign/skims/muonBackground")
+    muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",                "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
 
     #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
 
