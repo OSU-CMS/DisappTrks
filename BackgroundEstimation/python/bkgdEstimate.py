@@ -609,8 +609,20 @@ class LeptonBkgdEstimate:
                     backgroundError = Double (0.0)
                     background = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
                     background = Measurement (background, backgroundError)
+                background1 = Measurement (0.0, 0.0)
+                if hasattr (self, "TagProbePassSS1"):
+                    hist = "Met Plots/metNoMu"
+                    sample = self.TagProbePassSS1["sample"]
+                    condorDir = self.TagProbePassSS1["condorDir"]
+                    name = self.TagProbePassSS1["name"]
+                    backgroundHist = getHist (sample, condorDir, name + "Plotter", hist)
+
+                    backgroundError = Double (0.0)
+                    background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
+                    background1 = Measurement (background1, backgroundError)
 
                 passes -= background
+                passes1 -= background1
 
                 passes.isPositive ()
                 passes1.isPositive ()
