@@ -621,8 +621,9 @@ class LeptonBkgdEstimate:
                     background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
                     background1 = Measurement (background1, backgroundError)
 
-                passes -= background
-                passes1 -= background1
+                if (passes - background - background1) > 0.0:
+                    passes -= background
+                    passes1 -= background1
 
                 passes.isPositive ()
                 passes1.isPositive ()
