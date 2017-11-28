@@ -119,9 +119,10 @@ if background == "ELECTRON" or background == "ALL":
     electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     electronBkgdEstimate.addPlotLabel ("SingleElectron 2015D")
     electronBkgdEstimate.addMetCut (100.0)
-    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/electronBackground")
-    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",             "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/electronBackground")
-    electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",          "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
+    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",              "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilter",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/sameSign/skims/electronBackground")
+    electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",             "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
