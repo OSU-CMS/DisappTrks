@@ -231,7 +231,7 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
     double trackWeightDataDown = 1.0;
 
     if (!passesInclusiveMetTriggers (event, *triggers)) {
-      if (tracks->size ()) {
+      if (!tracks->empty ()) {
         const osu::Track &leadTrack = getLeadTrack(*tracks);
 
         FindEfficiency(trackLegNumerator_, leadTrack.pt (), numerator, numeratorUp, numeratorDown);
@@ -349,7 +349,7 @@ TriggerWeightProducer::passesInclusiveMetTriggers (const edm::Event &event, cons
       triggerIndices_.clear ();
       triggerNamesPSetID_ = triggerNames.parameterSetID ();
     }
-  if (!triggerIndices_.size ())
+  if (triggerIndices_.empty ())
     {
       for (unsigned i = 0; i < triggerNames.size (); i++)
         {

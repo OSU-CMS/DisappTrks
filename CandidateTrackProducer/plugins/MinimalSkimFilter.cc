@@ -74,7 +74,7 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 template<MinimalSkim T> bool
 MinimalSkimFilter<T>::passesTrigger (const edm::Event &event, const edm::TriggerResults &triggers) const
 {
-  bool triggerDecision = cutResults_->triggers ().size () ? false : true;
+  bool triggerDecision = cutResults_->triggers ().empty () ? true : false;
   const edm::TriggerNames &triggerNames = event.triggerNames (triggers);
 
   for (unsigned i = 0; i < triggerNames.size (); i++)

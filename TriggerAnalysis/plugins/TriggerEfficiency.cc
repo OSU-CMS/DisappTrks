@@ -235,7 +235,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   //////////////////////////////////////////////////////////////////////////////
   // Require leading jet to be central.
   //////////////////////////////////////////////////////////////////////////////
-  if (jets->size ())
+  if (!jets->empty ())
     {
       // first jet is always leading jet (https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/PhysicsTools/PatAlgos/plugins/PATJetProducer.cc#L406)
       const pat::Jet &leadingJet = jets->at (0);
@@ -263,7 +263,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       selectedTracks.push_back (&track);
     }
   sort (selectedTracks.begin (), selectedTracks.end (), [](const T *a, const T *b) -> bool { return (a->pt () > b->pt ()); });
-  if (selectedTracks.size () && passesMETFilter)
+  if (!selectedTracks.empty () && passesMETFilter)
     fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPtNoTrigger");
   //////////////////////////////////////////////////////////////////////////////
 
@@ -315,7 +315,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       // pass hltMET75
       // pass HLT_IsoMu20_v OR (HLT_MET75_IsoTrk50_v && matchToHLTTrack)
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () &&
+      if (!selectedTracks.empty () &&
           passesMETFilter &&
           (passesMETTriggers ||
             (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
@@ -325,7 +325,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       //////////////////////////////////////////////////////////////////////////////
       // MuMETNoMuonPtL1Seed channel
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () && passesMETFilter && passesL1Seed && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
+      if (!selectedTracks.empty () && passesMETFilter && passesL1Seed && (passesMETTriggers || (passesTrigger (triggerNames, *triggerBits, "HLT_MET75_IsoTrk50_v") && (!matchToHLTTrack_ || deltaR (*selectedTracks.at (0), isoTrk) < 0.1))))
         fillHistograms (*mets, *metNoMu, hltMet, hltMetClean, *selectedTracks.at (0), "MuMETNoMuonPtL1Seed", metTriggerNames_.at (i));
       //////////////////////////////////////////////////////////////////////////////
 
@@ -337,7 +337,7 @@ TriggerEfficiency<T>::filter (edm::Event &event, const edm::EventSetup &setup)
       // has good muon (pt >= 25) && HLT_IsoMu20_v
       // pass (HLT_MET75_IsoTrk50_v && matchToHLTTrack)
       //////////////////////////////////////////////////////////////////////////////
-      if (selectedTracks.size () &&
+      if (!selectedTracks.empty () &&
           passesMETFilter &&
           passesMuSeed &&
           (passesMETTriggers ||

@@ -28,7 +28,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
     return;
   }
 
-  double etaJetLeading = jets->size() ? jets->at(0).eta() : -999.;
+  double etaJetLeading = jets->empty() ? -999. : jets->at(0).eta();
 
   //////////////////////////////////////////////////////////////////////////////
   // Passes individual triggers
@@ -143,10 +143,10 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
        selectedMuons.end(),
        [](const pat::Muon *a, const pat::Muon *b) -> bool { return (a->pt() > b->pt()); });
 
-   bool leadTrackMatchToHLTTrack = (selectedTracks.size() > 0 &&
+   bool leadTrackMatchToHLTTrack = (!selectedTracks.empty() > 0 &&
                                     passesHLTTrk50Filter &&
                                     deltaR(*selectedTracks.at(0), isoTrk) < 0.1);
-   bool leadMuonMatchToHLTTrack  = (selectedMuons.size() > 0 &&
+   bool leadMuonMatchToHLTTrack  = (!selectedMuons.empty() > 0 &&
                                     passesHLTTrk50Filter &&
                                     deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
 
@@ -154,8 +154,8 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   // Lead muon and track pt
   //////////////////////////////////////////////////////////////////////////////
 
-  double leadMuonPt = selectedMuons.size() ? selectedMuons.at(0)->pt() : -1.0;
-  double leadTrackPt = selectedTracks.size() ? selectedTracks.at(0)->pt() : -1.0;
+  double leadMuonPt = selectedMuons.empty() ? -1.0 : selectedMuons.at(0)->pt();
+  double leadTrackPt = selectedTracks.empty() ? -1.0 : selectedTracks.at(0)->pt();
 
   //////////////////////////////////////////////////////////////////////////////
   // Online MET
@@ -270,7 +270,7 @@ bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,
                                           const vector<reco::GenParticle> &genParticles) const {
 
   return (isGoodTrack(track, pv, tracks) &&
-          (genParticles.size() == 0 || genMatched(track, genParticles, 1000024, 3, 0.1)));
+          (genParticles.empty() || genMatched(track, genParticles, 1000024, 3, 0.1)));
 
 }
 

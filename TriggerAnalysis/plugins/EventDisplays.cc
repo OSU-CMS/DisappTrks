@@ -27,7 +27,7 @@ EventDisplays::filter (edm::Event &event, const edm::EventSetup &setup)
   edm::Handle<vector<reco::PFJet> > jets;
   event.getByLabel (jets_, jets);*/
 
-  if (!muons->size ())
+  if (muons->empty ())
     return false;
   return true;
 }
