@@ -127,6 +127,7 @@ if background == "ELECTRON" or background == "ALL":
     #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",   "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    electronBkgdEstimate.addRebinFactor (4)
     electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55",  "SingleEle_2015D",  dirs['Andrew']+"2015/electronBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
@@ -163,6 +164,7 @@ if background == "MUON" or background == "ALL":
     #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",      "SingleMu_2015D",         dirs['Andrew']+"2015/muonBackground_nCtrl_new")
 
     muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    muonBkgdEstimate.addRebinFactor (4)
     muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55",  "SingleMu_2015D",  dirs['Andrew']+"2015/muonBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
@@ -191,18 +193,20 @@ if background == "TAU" or background == "ALL":
     tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
     tauBkgdEstimate.addPlotLabel ("Tau 2015D")
     tauBkgdEstimate.addMetCut (100.0)
-    tauBkgdEstimate.addRebinFactor (4)
-    tauBkgdEstimate.addChannel  ("TagProbe",        "ZtoTauToMuProbeTrk",   "SingleMu_2015D",          dirs['Andrew']+"2015/stenson/tauToMuonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass",    "ZtoTauToMuProbeTrk",              "SingleMu_rereco_2015D",   dirs['Andrew']+"2015/stenson/tauToMuonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbe1",       "ZtoTauToEleProbeTrk",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/tauToElectronBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass1",   "ZtoTauToEleProbeTrk",             "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/tauToElectronBackground")
-    tauBkgdEstimate.addChannel  ("TagPt35",         "TauTagPt55",                    "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
+    tauBkgdEstimate.addChannel  ("TagProbe",         "ZtoTauToMuProbeTrk",               "SingleMu_2015D",          dirs['Andrew']+"2015/stenson/tauToMuonBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass",     "ZtoTauToMuProbeTrk",               "SingleMu_rereco_2015D",   dirs['Andrew']+"2015/stenson/tauToMuonBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter",   "SingleMu_2015D",          dirs['Andrew']+"2015/stenson/sameSign/skims/tauToMuonBackground")
+    tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/tauToElectronBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2015D",  dirs['Andrew']+"2015/stenson/tauToElectronBackground")
+    tauBkgdEstimate.addChannel  ("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter",  "SingleEle_2015D",         dirs['Andrew']+"2015/stenson/sameSign/skims/tauToElectronBackground")
+    tauBkgdEstimate.addChannel  ("TagPt35",          "TauTagPt55",                       "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
 
     #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",             "Tau_2015D",               dirs['Andrew']+"2015/tauBackground_nCtrl_new")
     #tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",               "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
     #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
+    tauBkgdEstimate.addRebinFactor (4)
     tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",  "Tau_2015D",  dirs['Andrew']+"2015/tauBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
