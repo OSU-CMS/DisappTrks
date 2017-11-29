@@ -7,6 +7,7 @@ import functools
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
+from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 from DisappTrks.StandardAnalysis.plotUtilities import *
 
 setTDRStyle()
@@ -304,7 +305,13 @@ class LeptonBkgdEstimate:
                     l1PassesHist.SetDirectory (0)
                     l1PassesHist.SetName ("l1PassesHist")
 
+                    progressIndicator = ProgressIndicator ("calculating L1 trigger efficiency")
+                    progressIndicator.printProgress ()
+
                     for x in range (1, l1TrigEffHist.GetXaxis ().GetNbins () + 1):
+                        progressIndicator.setPercentDone ((x / float (l1TrigEffHist.GetXaxis ().GetNbins ())) * 100.0)
+                        progressIndicator.printProgress ()
+
                         nFail = Measurement (l1TrigEffHist.GetBinContent (x, 1), l1TrigEffHist.GetBinError (x, 1))
                         nPass = Measurement (0.0, 0.0)
                         for y in range (2, l1TrigEffHist.GetYaxis ().GetNbins () + 1):
@@ -318,6 +325,8 @@ class LeptonBkgdEstimate:
                         l1TotalHist.SetBinError (x, nTotal.maxUncertainty ())
                         l1PassesHist.SetBinContent (x, nPass.centralValue ())
                         l1PassesHist.SetBinError (x, nPass.maxUncertainty ())
+
+                    progressIndicator.printProgress (True)
 
             sample = self.TagPt35["sample"]
             condorDir = self.TagPt35["condorDir"]
