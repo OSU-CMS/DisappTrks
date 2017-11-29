@@ -78,11 +78,11 @@ class L1Seed:
     def __le__ (self, other):
         return (self < other or self == other)
 
-    def __gt__ (self, other):
+    def __ge__ (self, other):
         return (not self < other)
 
-    def __ge__ (self, other):
-        return (self > other or self == other)
+    def __gt__ (self, other):
+        return (not self <= other)
 
     def __ne__ (self, other):
         return (not self == other)
