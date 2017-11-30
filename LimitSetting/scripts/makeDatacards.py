@@ -19,6 +19,8 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
+parser.add_option("-s", "--signalSFDir", dest="signalSFDir", default="",
+                  help="signal SF directory")
 parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooStatsCl95", default=False,
                   help="create scripts to run RooStatsCl95")
 parser.add_option("-g", "--gamma", action="store_true", dest="runGamma", default=False,
@@ -133,8 +135,16 @@ def writeDatacard(mass,lifetime,observation):
     signal_yield_raw = signalYieldAndError['rawYield']
     signal_yield_weight = signalYieldAndError['weight']
 
-    signal_yield *= signalScaleFactor
-    signal_yield_weight *= signalScaleFactor
+    target_signal_yield = 10.0 * (lumi / 38420.008)
+    signal_yield_sf = target_signal_yield / signal_yield
+    if arguments.signalSFDir:
+        try:
+            f = open ("limits/"+arguments.signalSFDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
+            signal_yield_sf = float (f.readline ().rstrip ("\n"))
+        except IOError:
+            pass
+    signal_yield *= signal_yield_sf
+    signal_yield_weight *= signal_yield_sf
 
     background_yields = { }
     background_errors = { }
@@ -161,14 +171,21 @@ def writeDatacard(mass,lifetime,observation):
     if samplesByGravitinoMass:
         os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
         datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
+        os.system("rm -f limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
+        signalSF = open("limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
     else:
         os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
         datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w")
+        os.system("rm -f limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
+        signalSF = open("limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w")
 
     datacard.write('imax 1 number of channels\n')
     datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
     datacard.write('kmax * number of nuisance parameters\n')
     datacard.write('\n')
+
+    signalSF.write (str (signal_yield_sf) + "\n")
+    signalSF.close ()
 
     #################
     bin_row = [ 'bin', ' ', ' ',actual_bin_name]

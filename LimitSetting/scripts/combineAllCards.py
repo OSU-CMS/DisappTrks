@@ -2,10 +2,7 @@
 
 # Script to combine run periods into single cards for running limits.
 
-import os
-import sys
-import glob
-import re
+import os, sys, glob, re, subprocess
 from optparse import OptionParser
 
 parser = OptionParser()
@@ -38,7 +35,26 @@ for card in files2015:
     cardAll = card.replace("2015", "all")
 
     print "[" + str (i) + "/" + str (len (files2015)) + "] combining " + re.sub (r".*\/([^/]*)$", r"\1", cardAll) + "..."
-    os.system("combineCards.py Run2015=" + card2015 + " Run2016BC=" + card2016BC + " Run2016DEFGH=" + card2016DEFGH + " > " + cardAll)
+    subprocess.call("combineCards.py Run2015=" + card2015 + " Run2016BC=" + card2016BC + " Run2016DEFGH=" + card2016DEFGH + " > " + cardAll, shell = True)
+
+    try:
+        fin2015 = open (card2015.replace("datacard", "signalSF"))
+        fin2016BC = open (card2016BC.replace("datacard", "signalSF"))
+        fin2016DEFGH = open (card2016DEFGH.replace("datacard", "signalSF"))
+        fout = open (cardAll.replace("datacard", "signalSF"), "w")
+        sf2015 = fin2015.readline ().rstrip ("\n")
+        sf2016BC = fin2016BC.readline ().rstrip ("\n")
+        sf2016DEFGH = fin2016DEFGH.readline ().rstrip ("\n")
+        fin2015.close ()
+        fin2016BC.close ()
+        fin2016DEFGH.close ()
+        if sf2015 != sf2016BC or sf2015 != sf2016DEFGH or sf2016BC != sf2016DEFGH:
+            print "Inconsistent signal scale factors. Quitting."
+            sys.exit (1)
+        fout.write (sf2015 + "\n")
+        fout.close ()
+    except IOError:
+        pass
 
 print "Done."
 print "================================================================================"

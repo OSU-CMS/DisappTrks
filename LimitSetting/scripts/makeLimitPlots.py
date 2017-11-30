@@ -132,6 +132,10 @@ def makeSignalRootFileName(mass,lifetime,directory,limit_type):
     print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
 
+def makeSignalSFFileName(mass,lifetime,directory):
+    signal_name = makeSignalName(mass,lifetime)
+    return "limits/"+directory+"/signalSF_"+signal_name+".txt"
+
 def makeSignalLogFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
@@ -1004,6 +1008,20 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['expected'] *= xSection
         tmp_limit['down1'] *= xSection
         tmp_limit['down2'] *= xSection
+
+        try:
+            f = open (makeSignalSFFileName (mass,lifetime,directory))
+            sf = float (f.readline ().rstrip ("\n"))
+            f.close ()
+
+            tmp_limit['up2'] *= sf
+            tmp_limit['up1'] *= sf
+            tmp_limit['observed'] *= sf
+            tmp_limit['expected'] *= sf
+            tmp_limit['down1'] *= sf
+            tmp_limit['down2'] *= sf
+        except IOError:
+            pass
 
         if arguments.verbose:
             print "Debug:  observed limit in pb = ", tmp_limit['observed'], ", xSection in pb = ", xSection
