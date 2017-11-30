@@ -39,7 +39,6 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
 lumi = lumi["MET_2016DEFGH"]
-signalScaleFactor = 1.0
 
 #condor directory in which to find signal root files
 signal_condor_dir = dirs["Brian"] + '/2016_final/signalAcceptance_DEFGH_final/'
