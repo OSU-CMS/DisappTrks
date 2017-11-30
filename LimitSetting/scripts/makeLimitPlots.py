@@ -1126,11 +1126,13 @@ def drawPlot(plot, th2fType=""):
         tTh2fs[-1].GetYaxis().SetLabelOffset(0.005)
         tTh2fs[-1].GetZaxis().SetLabelOffset(0.005)
 
-        tTh2fs[-1].GetXaxis().SetLabelSize(0.03)
+        tTh2fs[-1].GetXaxis().SetLabelSize(0.04)
         tTh2fs[-1].GetYaxis().SetLabelSize(0.04)
         tTh2fs[-1].GetZaxis().SetLabelSize(0.03)
 
-        tTh2fs[-1].GetXaxis().SetNdivisions(509)
+        tTh2fs[-1].GetXaxis().SetNdivisions(505)
+        tTh2fs[-1].GetYaxis().SetNdivisions(505)
+        tTh2fs[-1].GetZaxis().SetNdivisions(505)
 
         if 'xAxisFixMin' in plot and 'xAxisFixMax' in plot:
             tTh2fs[-1].GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
@@ -1345,6 +1347,9 @@ def drawPlot(plot, th2fType=""):
         tGraphs[0].GetYaxis ().SetTitleOffset (1.25)
         tGraphs[0].GetYaxis ().SetTitleSize (0.04)
 
+        tGraphs[0].GetXaxis ().SetNdivisions (505)
+        tGraphs[0].GetYaxis ().SetNdivisions (505)
+
     for tGraph in tGraphs:
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
@@ -1375,7 +1380,7 @@ def drawPlot(plot, th2fType=""):
     canvas.SetTitle('')
 
     #draw the header label
-    HeaderLabel = TPaveLabel(0.09625,0.938125,0.975,0.989375,HeaderText,"NDC") # from makePlots.py
+    HeaderLabel = TPaveLabel(0.695489,0.939276,0.974937,0.989664,HeaderText,"NDC") # from makePlots.py
 
     HeaderLabel.SetTextAlign(32)
     HeaderLabel.SetTextFont(42)
@@ -1387,15 +1392,17 @@ def drawPlot(plot, th2fType=""):
 
     if convertToMassSplitting:
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        LumiLabel.SetTextSize(0.448718)
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.15, 0.91, 0.35, 0.98, "CMS Preliminary", "NDC")
+        LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS Preliminary", "NDC")
         #LumiLabel = TPaveLabel(0.186717,0.938125,0.383459,0.989375,"CMS Preliminary","NDC")
         #LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        LumiLabel.SetTextSize(0.769225)
     if not makeColorPlot and not convertToMassSplitting:
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        LumiLabel.SetTextSize(0.448718)
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
-    LumiLabel.SetTextSize(0.448718)
     LumiLabel.SetBorderSize(0)
     LumiLabel.SetFillColor(0)
     LumiLabel.SetFillStyle(0)
