@@ -239,7 +239,7 @@ for runPeriod in runPeriods:
         #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",  "SingleEle_2016"         +  runPeriod,  dirs['Andrew']+"2016_final_prompt/electronBackground_nCtrl_new")
 
         tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
-        tauBkgdEstimate.addRebinFactor (4)
+        tauBkgdEstimate.addRebinFactor (8)
         tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",              "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_passesMETTriggers_new")
         tauBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "TauTagPt55",              "Tau_2016"               +  runPeriod,  dirs['Andrew']+"2016_final_prompt/tauBackground_passesMETTriggers_SHINY")
 

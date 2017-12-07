@@ -206,7 +206,7 @@ if background == "TAU" or background == "ALL":
     #tauBkgdEstimate.addChannel  ("TrigEffNumer",    "ElectronTagPt55MetTrig",        "SingleEle_2015D",         dirs['Andrew']+"2015/electronBackground_nCtrl_new")
 
     tauBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
-    tauBkgdEstimate.addRebinFactor (4)
+    tauBkgdEstimate.addRebinFactor (8)
     tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55",  "Tau_2015D",  dirs['Andrew']+"2015/tauBackground_passesMETTriggers_new")
 
     print "********************************************************************************"
