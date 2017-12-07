@@ -62,7 +62,7 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
 
     }
   clog << "found " << selectedTracks.size () << " tracks in " << event.id () << endl;
-  if (selectedTracks.size () < 1)
+  if (selectedTracks.empty ())
     return;
 
   /*unsigned selectedIndex = 0;
