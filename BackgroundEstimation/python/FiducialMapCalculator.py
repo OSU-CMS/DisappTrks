@@ -164,7 +164,7 @@ class FiducialMapCalculator:
         pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
         self._canvas.SaveAs('fiducialMapCalc_afterVeto_' + self.Numerator["sample"] + '.pdf')
 
-        self._canvas.SetLogz(True)
+        self._canvas.SetLogz(False)
         self.Numerator["histogram"].Divide(self.Denominator["histogram"])
         self.Numerator["histogram"].Draw('colz')
 
