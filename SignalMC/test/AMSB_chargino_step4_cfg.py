@@ -7,51 +7,6 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-import OSUT3Analysis.DBTools.osusub_cfg as osusub
-import re
-import os
-
-def addSecondaryFileFromSkim (fileName):
-    parents = []
-    fileName = fileName.rstrip ('\n')
-    fileName = re.sub (r'^file:', r'', fileName)
-    if not os.path.isfile (fileName):
-      return parents
-
-    jobNumber = re.sub (r'.*/[^/]*_([^/_]*)\.root$', r'\1', fileName)
-    parentDir = re.sub (r'(.*)/[^/]*\.root$', r'\1/', fileName)
-    condorErr = open (parentDir + "condor_" + jobNumber + ".err")
-    for line in condorErr:
-        if re.search (r'Successfully opened file', line) and not re.search (r'MinBias', line):
-            p = re.sub (r'.* Successfully opened file (.*)', r'\1', line)
-            p = p.rstrip ('\n')
-            if not p in parents:
-                parents.append (p)
-
-    return sorted (list (set (parents)))
-
-def addSecondaryFile (fileName):
-    parents = []
-    fileName = fileName.rstrip ('\n')
-    skimParents = addSecondaryFileFromSkim (fileName)
-    for p in skimParents:
-      if re.search (r'_step1_', p):
-        parents.append (p)
-      else:
-        parents += addSecondaryFile (p)
-
-    return parents
-
-def addSecondaryFiles (source):
-    parents = []
-    fileNames = source.fileNames
-    if osusub.batchMode:
-        fileNames = osusub.runList
-    for fileName in fileNames:
-        parents += addSecondaryFile (fileName)
-
-    source.secondaryFileNames = cms.untracked.vstring (parents)
-
 process = cms.Process('PAT',eras.Run2_25ns)
 
 # import of standard configurations
@@ -75,7 +30,6 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring('file:EXO-RunIIFall15DR76-02578.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
-addSecondaryFiles (process.source)
 
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)

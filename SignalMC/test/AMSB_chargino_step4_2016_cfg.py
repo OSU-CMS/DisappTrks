@@ -7,28 +7,6 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-import OSUT3Analysis.DBTools.osusub_cfg as osusub
-import re
-import glob
-
-def addSecondaryFile (fileName):
-    parents = []
-    dataset = re.sub (r".*\/(AMSB[^/]*)_step.\/.*", r"\1", fileName)
-    parents += glob.glob ("/store/user/ahart/" + dataset + "/RunIISummer15GS-MCRUN2_71_V1-v1/*/*/*.root")
-
-    return parents
-
-def addSecondaryFiles (source):
-    parents = []
-    fileNames = source.fileNames
-    if osusub.batchMode:
-        fileNames = osusub.runList
-    for fileName in fileNames:
-        parents += addSecondaryFile (fileName)
-        parents = sorted (list (set (parents)))
-
-    source.secondaryFileNames = cms.untracked.vstring (parents)
-
 process = cms.Process('PAT',eras.Run2_2016)
 
 # import of standard configurations
@@ -61,7 +39,6 @@ process.source = cms.Source("PoolSource",
         '/store/mc/RunIISpring16DR80/ZH_HToSSTobbbb_ZToLL_MH-125_MS-40_ctauS-10_TuneCUETP8M1_13TeV-powheg-pythia8/AODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/FE92C0FD-AB6C-E611-A8B7-0025905C53DA.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
-addSecondaryFiles (process.source)
 
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
