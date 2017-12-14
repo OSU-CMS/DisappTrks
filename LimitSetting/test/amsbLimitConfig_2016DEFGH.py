@@ -91,7 +91,7 @@ external_systematic_uncertainties = [
 # For now, use the largest value of the uncertainty range from Run 1
 signal_systematic_uncertainties = {
     'lumi' :  {
-        'value' : '1.026',
+        'value' : '1.025',
     },
     'trkReco' :  {
         'value' : '1.045',
