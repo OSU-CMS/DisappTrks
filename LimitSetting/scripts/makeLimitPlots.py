@@ -43,7 +43,7 @@ else:
 
 
 from DisappTrks.StandardAnalysis.tdrstyle import *
-from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
+from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TMath
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -1029,7 +1029,7 @@ def fetchLimits(mass,lifetime,directories):
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
         if convertCmToNs:
-            speedLightCmPerNs = 29.979  # speed of light in cm / ns
+            speedLightCmPerNs = TMath.C () * 1.0e-7
             tmp_limit['lifetime'] = float(lifetime) / speedLightCmPerNs
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
@@ -1090,9 +1090,9 @@ def drawPlot(plot, th2fType=""):
     else:
         canvas.SetLogy()
     if convertToMassSplitting:
-        legend = TLegend(0.179198,0.406628,0.538847,0.537119)  # determine coordinates empirically
+        legend = TLegend(0.180451,0.352067,0.538847,0.482558)  # determine coordinates empirically
     else:
-        legend = TLegend(0.179198,0.406628,0.538847,0.537119)
+        legend = TLegend(0.180451,0.352067,0.538847,0.482558)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1361,7 +1361,7 @@ def drawPlot(plot, th2fType=""):
             tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
         if not is2D:
         #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
-            tGraph.GetYaxis().SetTitle('#sigma (pp#rightarrow #chi#chi) [pb]')
+            tGraph.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
             if 'yAxis' in plot:
                 tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
             else:
@@ -1408,20 +1408,23 @@ def drawPlot(plot, th2fType=""):
     LumiLabel.SetFillStyle(0)
     LumiLabel.Draw()
 
+    theoryLabels = []
     if 'theoryLabel' in plot:
-        if convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
-        if makeColorPlot:
-            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
-        if not makeColorPlot and not convertToMassSplitting:
-            TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,plot['theoryLabel'],"NDC")
-        TheoryLabel.SetTextAlign(32)
-        TheoryLabel.SetTextFont(42)
-        TheoryLabel.SetTextSize(0.555556)
-        TheoryLabel.SetBorderSize(0)
-        TheoryLabel.SetFillColor(0)
-        TheoryLabel.SetFillStyle(0)
-        TheoryLabel.Draw()
+        for label in plot["theoryLabel"]:
+            if convertToMassSplitting:
+                TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
+            if makeColorPlot:
+                TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
+            if not makeColorPlot and not convertToMassSplitting:
+                TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
+            TheoryLabel.SetTextAlign(32)
+            TheoryLabel.SetTextFont(42)
+            TheoryLabel.SetTextSize(0.555556)
+            TheoryLabel.SetBorderSize(0)
+            TheoryLabel.SetFillColor(0)
+            TheoryLabel.SetFillStyle(0)
+            TheoryLabel.Draw()
+            theoryLabels.append (TheoryLabel)
 
     if 'massLabel' in plot:
         MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
