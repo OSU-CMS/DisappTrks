@@ -10,6 +10,8 @@ from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
+from ROOT import TMath
+
 ##################################
 ### Event Selection Parameters ###
 ##################################
@@ -35,6 +37,9 @@ convertToMassSplitting = False
 outputName = "limit_plot.root"
 yAxisRangeFor1DMassLimits = [0.01, 10000]
 
+speedLightCmPerNs = TMath.C () * 1.0e-7
+convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
+
 # description of all the plots to be made
 plotDefinitions = [
 
@@ -57,7 +62,10 @@ plotDefinitions = [
         'yAxisFixMin' : 0.01,
         'yAxisFixMax' : 1000,  # The last point is 10000cm = 333 ns
 
-        'theoryLabel' : 'tan #beta = 5, #mu > 0',
+        'theoryLabel' : [
+            'tan #beta = 5, #mu > 0',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
 
         'graphs' : [
             {
@@ -77,10 +85,13 @@ plotDefinitions = [
         'xAxisType' : 'mass',
 
         # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10 cm',
 
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 10 cm',
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -109,10 +120,13 @@ plotDefinitions = [
         'xAxisType' : 'mass',
 
         # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 100 cm',
 
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 100 cm',
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -141,10 +155,13 @@ plotDefinitions = [
         'xAxisType' : 'mass',
 
         # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 1000 cm',
 
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 1000 cm',
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm/c (' + str (convertToNs (1000.0)) + ' ns)',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -164,262 +181,6 @@ plotDefinitions = [
         ],
     },
 
-    ###################### CTAU = 2000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_2000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 2000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 2000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 2000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 3000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_3000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 3000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 3000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 3000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 4000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_4000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 4000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 4000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 4000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 5000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_5000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 5000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 5000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 5000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 6000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_6000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 6000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 6000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 6000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 7000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_7000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 7000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 7000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 7000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 8000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_8000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 8000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 8000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 8000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 9000 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_9000cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
-        'yAxisLabel' : 'c#tau = 9000 cm',
-
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 9000 cm',
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 9000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
     ###################### CTAU = 10000 cm
     {
         # this will be the name of the canvas in the output root file
@@ -429,10 +190,13 @@ plotDefinitions = [
         'xAxisType' : 'mass',
 
         # xmin, xmax, label
-        'xAxisLabel' : '  M_{#chi^{#pm}} [GeV]',
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10000 cm',
 
-        'theoryLabel' : '#tau_{#chi^{#pm}} = 10000 cm',
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm/c (' + str (convertToNs (10000.0)) + ' ns)',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
