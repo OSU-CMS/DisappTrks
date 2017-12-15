@@ -51,7 +51,7 @@ plotDefinitions = [
 
      'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
      'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
-     'zAxisLabel' : '95% CL upper limit on cross section [pb]',
+     'zAxisLabel' : '95% CL upper limit on #sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]',
      'zAxisFixMin' : 0.005,
      'zAxisFixMax' : 1000,
 
