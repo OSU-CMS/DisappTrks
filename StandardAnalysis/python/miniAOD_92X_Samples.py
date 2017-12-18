@@ -62,6 +62,21 @@ dataset_names_bkgd = {
     ############################################################################
 }
 
+dataset_names_bkgd = {
+    ############################################################################
+    # MiniAOD not stored on T3.
+    ############################################################################
+    'WJetsToLNu_2017' : "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v1/MINIAODSIM",
+
+    'DYJetsToLL_50_2017' : "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM",
+    #'DYJetsToLL_50_2017' : {"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM", "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v1/MINIAODSIM", "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v2/MINIAODSIM"},
+
+    'WZ_2016MC'             :  "/WZ_TuneCUETP8M1_13TeV-pythia8/ahart-RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1-4c076e3422cd404a3918ea398e169a2c/USER",
+    'WZToLNuNuNu_2016MC'      :  "/WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8/ahart-RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1-4c076e3422cd404a3918ea398e169a2c/USER",
+
+    'TTJets_Debug'  :  "/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ahart-RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-DisappTrks-v1-6f0ba34bbc7f2d7f1e9cafc7dfe6265a/USER",
+}
+
 dataset_names_sig = {
     ############################################################################
     # MiniAOD not stored on T3.
