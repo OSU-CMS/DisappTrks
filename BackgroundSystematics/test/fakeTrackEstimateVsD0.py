@@ -56,14 +56,14 @@ for runPeriod in runPeriods:
 
         nEst = fakeTrackBkgdEstimate.printNest ()
 
-        g0.SetPoint (i, minD0, nEst[0])
-        g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst[1], nEst[0]), nEst[1])
+        g0.SetPoint (i, minD0, nEst.centralValue ())
+        g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst.maxUncertainty (), nEst.centralValue ()), nEst.maxUncertainty ())
 
         if i > 0:
-          if nEst[0] < nominal:
-            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst[0])
+          if nEst.centralValue () < nominal:
+            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst.centralValue ())
           else:
-            maxFluctuationUp = max (maxFluctuationUp, nEst[0] - nominal)
+            maxFluctuationUp = max (maxFluctuationUp, nEst.centralValue () - nominal)
 
         zToMuMuEstimate = FakeTrackBkgdEstimate ()
         zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2016" + runPeriod])
@@ -79,16 +79,16 @@ for runPeriod in runPeriods:
 
         nEst = zToMuMuEstimate.printNest ()
 
-        g1.SetPoint (i, minD0, nEst[0])
-        g1.SetPointError (i, D / 2.0, D / 2.0, min (nEst[1], nEst[0]), nEst[1])
+        g1.SetPoint (i, minD0, nEst.centralValue ())
+        g1.SetPointError (i, D / 2.0, D / 2.0, min (nEst.maxUncertainty (), nEst.centralValue ()), nEst.maxUncertainty ())
 
         if i == 0:
-          nominal = nEst[0]
+          nominal = nEst.centralValue ()
         else:
-          if nEst[0] < nominal:
-            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst[0])
+          if nEst.centralValue () < nominal:
+            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst.centralValue ())
           else:
-            maxFluctuationUp = max (maxFluctuationUp, nEst[0] - nominal)
+            maxFluctuationUp = max (maxFluctuationUp, nEst.centralValue () - nominal)
 
     sys.stdout = stdout
     print "[2016" + runPeriod + "] systematic uncertainty: - " + str (maxFluctuationDown) + " + " + str (maxFluctuationUp) + " (- " + str ((maxFluctuationDown / nominal) * 100.0) + " + " + str ((maxFluctuationUp / nominal) * 100.0) + ")%"
