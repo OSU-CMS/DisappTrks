@@ -11,6 +11,11 @@ CharginoValidator::CharginoValidator (const edm::ParameterSet &cfg) :
   oneDHists_["genPt"] = fs_->make<TH1D> ("genPt", ";generator chargino p_{T} [GeV]", 500, 0.0, 1000.0);
   oneDHists_["genPhi"] = fs_->make<TH1D> ("genPhi", ";generator chargino #phi", 100, -3.2, 3.2);
   oneDHists_["genEta"] = fs_->make<TH1D> ("genEta", ";generator chargino #eta", 100, -5.0, 5.0);
+  oneDHists_["genP"] = fs_->make<TH1D> ("genP", ";generator chargino p [GeV]", 500, 0.0, 1000.0);
+  oneDHists_["genBeta"] = fs_->make<TH1D> ("genBeta", ";generator chargino #beta", 500, 0.0, 1.0);
+  oneDHists_["genGamma"] = fs_->make<TH1D> ("genGamma", ";generator chargino #gamma", 500, 0.0, 100.0);
+  oneDHists_["genBetaGamma"] = fs_->make<TH1D> ("genBetaGamma", ";generator chargino #beta#gamma", 500, 0.0, 100.0);
+  oneDHists_["genBetaGammaM"] = fs_->make<TH1D> ("genBetaGammaM", ";generator chargino #beta#gammam [GeV]", 500, 0.0, 1000.0);
 
   oneDHists_["genDecayLength_10"] = fs_->make<TH1D> ("genDecayLength_10", ";generator chargino decay length [cm]", 1000, 0.0, 10.0);
   oneDHists_["genDecayLength_100"] = fs_->make<TH1D> ("genDecayLength_100", ";generator chargino decay length [cm]", 1000, 0.0, 100.0);
@@ -71,6 +76,11 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
       oneDHists_.at ("genPt")->Fill (genParticle.pt ());
       oneDHists_.at ("genPhi")->Fill (genParticle.phi ());
       oneDHists_.at ("genEta")->Fill (genParticle.eta ());
+      oneDHists_.at ("genP")->Fill (genParticle.p ());
+      oneDHists_.at ("genBeta")->Fill (genParticle.p4 ().Beta ());
+      oneDHists_.at ("genGamma")->Fill (genParticle.p4 ().Gamma ());
+      oneDHists_.at ("genBetaGamma")->Fill (genParticle.p4 ().Beta () * genParticle.p4 ().Gamma ());
+      oneDHists_.at ("genBetaGammaM")->Fill (genParticle.p4 ().Beta () * genParticle.p4 ().Gamma () * genParticle.mass ());
 
       oneDHists_.at ("genDecayLength_10")->Fill ((x - y).Mag ());
       oneDHists_.at ("genDecayLength_100")->Fill ((x - y).Mag ());
