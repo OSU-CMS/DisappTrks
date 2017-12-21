@@ -25,6 +25,8 @@ parser.add_option("-s", "--saveObjects", dest="saveObjects",
                   help="objects to save in output root file")
 parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
                   help="verbose output")
+parser.add_option("-p", "--paperMode", dest="paperMode", action='store_true', default=False,
+                  help="paper mode as EXO-16-044")
 
 (arguments, args) = parser.parse_args()
 
@@ -40,7 +42,6 @@ if arguments.outputDir:
 else:
     print "No output directory specified, shame on you"
     sys.exit(0)
-
 
 from DisappTrks.StandardAnalysis.tdrstyle import *
 from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TMath
@@ -62,8 +63,9 @@ colorSchemes = {
     'brazilian' : {
         'obs' : 1,
         'exp' : 1,
-        'oneSigma' : 78, #410,
-        'twoSigma' : 88, #393,
+
+        'oneSigma' : 417 if arguments.paperMode else 78,
+        'twoSigma' : 800 if arguments.paperMode else 88,
     },
 
     'theory' : {
@@ -1092,7 +1094,10 @@ def drawPlot(plot, th2fType=""):
     if convertToMassSplitting:
         legend = TLegend(0.180451,0.352067,0.538847,0.482558)  # determine coordinates empirically
     else:
-        legend = TLegend(0.180451,0.352067,0.538847,0.482558)
+        if arguments.paperMode:
+            legend = TLegend(0.180451,0.302067,0.508847,0.482558)
+        else:
+            legend = TLegend(0.180451,0.352067,0.538847,0.482558)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1161,15 +1166,20 @@ def drawPlot(plot, th2fType=""):
             else:
                 tGraphs[-1].Draw('A3')
             plotDrawn = True
-            legend.AddEntry(tGraphs[-1], "#pm 1 #sigma: theory", 'F')
+            legend.AddEntry(tGraphs[-1], "#pm1 #sigma: theory", 'F')
             tGraphs.append(getTheoryGraph())
             if plotDrawn:
                 tGraphs[-1].Draw('L')
             else:
                 tGraphs[-1].Draw('AL')
             plotDrawn = True
-            legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
+            if arguments.paperMode:
+                legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
+            else:
+                legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
     if plot.has_key('graphs'):
+        if arguments.paperMode:
+            legend.SetHeader('95% CL upper limits')
         for graph in plot['graphs']:
             colorScheme = 'brazilian'
             if 'colorScheme' in graph:
@@ -1183,7 +1193,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('A3')
                         plotDrawn = True
-                        legendEntry = '#pm 2 #sigma'
+                        if arguments.paperMode:
+                            legendEntry = '#pm2 #sigma_{experiment}'
+                        else:
+                            legendEntry = '#pm2 #sigma'
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1194,7 +1207,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('A3')
                         plotDrawn = True
-                        legendEntry = '#pm 1 #sigma'
+                        if arguments.paperMode:
+                            legendEntry = '#pm1 #sigma_{experiment}'
+                        else:
+                            legendEntry = '#pm1 #sigma'
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1205,7 +1221,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AL')
                         plotDrawn = True
-                        legendEntry = 'exp. limit'
+                        if arguments.paperMode:
+                            legendEntry = 'Median expected'
+                        else:
+                            legendEntry = 'exp. limit'
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1216,7 +1235,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AL')
                         plotDrawn = True
-                        legendEntry = 'obs. limit'
+                        if arguments.paperMode:
+                            legendEntry = 'Observed'
+                        else:
+                            legendEntry = 'obs. limit'
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1235,7 +1257,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AF')
                         plotDrawn = True
-                        legendEntry = 'Expected limit #pm2 #sigma'
+                        if arguments.paperMode:
+                            legendEntry = '#pm2 #sigma_{experiment}'
+                        else:
+                            legendEntry = 'Expected limit #pm2 #sigma'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1248,7 +1273,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AF')
                         plotDrawn = True
-                        legendEntry = 'Expected limit #pm1 #sigma'
+                        if arguments.paperMode:
+                            legendEntry = '#pm1 #sigma_{experiment}'
+                        else:
+                            legendEntry = 'Expected limit #pm1 #sigma'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -1262,7 +1290,10 @@ def drawPlot(plot, th2fType=""):
                         else:
                             tGraphs[-1].Draw('AL')
                         plotDrawn = True
-                        legendEntry = 'Expected limit'
+                        if arguments.paperMode:
+                            legendEntry = 'Median expected'
+                        else:
+                            legendEntry = 'Expected limit'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1279,7 +1310,7 @@ def drawPlot(plot, th2fType=""):
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme))
                     tGraphs[-1].SetLineWidth (lineWidth - 4)
                     tGraphs[-1].Draw('L')
-                    legendEntry = '#pm 2 #sigma_{theory}'
+                    legendEntry = '#pm2 #sigma_{theory}'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1295,7 +1326,7 @@ def drawPlot(plot, th2fType=""):
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme))
                     tGraphs[-1].SetLineWidth (lineWidth - 2)
                     tGraphs[-1].Draw('L')
-                    legendEntry = '#pm 1 #sigma_{theory}'
+                    legendEntry = '#pm1 #sigma_{theory}'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1307,7 +1338,10 @@ def drawPlot(plot, th2fType=""):
                     else:
                         tGraphs[-1].Draw('AL')
                     plotDrawn = True
-                    legendEntry = 'Observed limit'
+                    if arguments.paperMode:
+                        legendEntry = 'Observed'
+                    else:
+                        legendEntry = 'Observed limit'
                     if 'legendEntry' in graph:
                         legendEntry = legendEntry + ": " + graph['legendEntry']
                     legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -1319,7 +1353,10 @@ def drawPlot(plot, th2fType=""):
             else:
                 tGraphs[-1].Draw('AL')
             plotDrawn = True
-            legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
+            if arguments.paperMode:
+                legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
+            else:
+                legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
             if arguments.saveObjects and "theory" in arguments.saveObjects:
                 tGraphs[-1].SetName(plot['title']+"_graph_theory")
                 print "Writing TGraph with name: ", tGraphs[-1].GetName()
@@ -1361,7 +1398,10 @@ def drawPlot(plot, th2fType=""):
             tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
         if not is2D:
         #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
-            tGraph.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
+            if arguments.paperMode:
+                tGraph.GetYaxis().SetTitle('#sigma #bf{#it{#Beta}} A [pb]')
+            else:
+                tGraph.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
             if 'yAxis' in plot:
                 tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
             else:
@@ -1394,12 +1434,18 @@ def drawPlot(plot, th2fType=""):
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
         LumiLabel.SetTextSize(0.448718)
     elif makeColorPlot:
-        LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS Preliminary", "NDC")
-        #LumiLabel = TPaveLabel(0.186717,0.938125,0.383459,0.989375,"CMS Preliminary","NDC")
-        #LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        if arguments.paperMode:
+            LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS", "NDC")
+        else:
+            LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS Preliminary", "NDC")
+            #LumiLabel = TPaveLabel(0.186717,0.938125,0.383459,0.989375,"CMS Preliminary","NDC")
+            #LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
         LumiLabel.SetTextSize(0.769225)
     if not makeColorPlot and not convertToMassSplitting:
-        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
+        if arguments.paperMode and not plot['title'] == 'lifetime_vs_mass':
+            LumiLabel = TPaveLabel(0.186717,0.615285 + 0.15,0.383459,0.71606 + 0.15,"CMS","NDC")
+        else:
+            LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS","NDC")
         LumiLabel.SetTextSize(0.448718)
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
@@ -1416,8 +1462,15 @@ def drawPlot(plot, th2fType=""):
             if makeColorPlot:
                 TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
             if not makeColorPlot and not convertToMassSplitting:
-                TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
-            TheoryLabel.SetTextAlign(32)
+                if arguments.paperMode:
+                    if not plot['title'] == 'lifetime_vs_mass':
+                        TheoryLabel = TPaveLabel(0.5, 0.775 - 0.05*len(theoryLabels), 0.88, 0.85 - 0.05*len(theoryLabels), label, "NDC")
+                    else:
+                        TheoryLabel = TPaveLabel(0.186717, 0.555 - 0.05*len(theoryLabels), 0.383459, 0.63 - 0.05*len(theoryLabels), label, "NDC")
+                    TheoryLabel.SetTextAlign(12)
+                else:
+                    TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
+                    TheoryLabel.SetTextAlign(32)
             TheoryLabel.SetTextFont(42)
             TheoryLabel.SetTextSize(0.555556)
             TheoryLabel.SetBorderSize(0)
