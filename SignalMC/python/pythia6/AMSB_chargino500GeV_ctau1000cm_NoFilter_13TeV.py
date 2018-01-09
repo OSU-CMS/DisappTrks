@@ -28,5 +28,5 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(500),
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSB_chargino_500GeV_ctau1000cm.slha')
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_500GeV_ctau1000cm.slha')
 )

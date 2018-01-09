@@ -158,10 +158,10 @@ Block AE Q=  3.58269727E+03   #
 #                             =================
 #
 #         PDG            Width
-DECAY   1000024     1.97326979e-16 # chargino decay
+DECAY   1000024     %.9g # chargino decay
 #          BR         NDA      ID1       ID2
            1.0        2        1000022   211
-"""
+""" % (1.97326979e-13 / CTAU)
 
 import FWCore.ParameterSet.Config as cms
 
@@ -178,7 +178,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     crossSection = cms.untracked.double(CROSS_SECTION),
     maxEventsToPrint = cms.untracked.int32(0),
     PythiaParameters = cms.PSet(
-                 pythia8CommonSettingsBlock,
+        pythia8CommonSettingsBlock,
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             'SUSY:all = off',
@@ -186,7 +186,6 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
             'SUSY:qqbar2chi+-chi0 = on',
             '1000024:tau0 = %.1f' % CTAU,
             'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
-            'ParticleDecays:mSafety = 0.0',
        ),
         parameterSets = cms.vstring(
             'pythia8CommonSettings',
@@ -199,7 +198,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_AMSBchargino_%sGeV_nodecay.slha' % MCHI)
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_add100MeV/AMSBchargino_%sGeV.slha' % MCHI)
 )
 
 ProductionFilterSequence = cms.Sequence(generator)
