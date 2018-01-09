@@ -1095,14 +1095,17 @@ def drawPlot(plot, th2fType=""):
         legend = TLegend(0.180451,0.352067,0.538847,0.482558)  # determine coordinates empirically
     else:
         if arguments.paperMode:
-            legend = TLegend(0.180451,0.302067,0.508847,0.482558)
+            if not plot['title'] == 'lifetime_vs_mass':
+                legend = TLegend(0.582707,0.579457,0.820802,0.893411)
+            else:
+                legend = TLegend(0.182957,0.335271,0.512531,0.587209)
         else:
             legend = TLegend(0.180451,0.352067,0.538847,0.482558)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
     legend.SetTextFont(42)
-    legend.SetTextSize(0.0387597)
+    legend.SetTextSize(0.0361757)
 
     #construct tGraph objects for all curves and draw them
     tGraphs = []
@@ -1443,9 +1446,9 @@ def drawPlot(plot, th2fType=""):
         LumiLabel.SetTextSize(0.769225)
     if not makeColorPlot and not convertToMassSplitting:
         if arguments.paperMode and not plot['title'] == 'lifetime_vs_mass':
-            LumiLabel = TPaveLabel(0.186717,0.615285 + 0.15,0.383459,0.71606 + 0.15,"CMS","NDC")
+            LumiLabel = TPaveLabel(0.191729,0.815245,0.388471,0.916021,"CMS","NDC")
         else:
-            LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS","NDC")
+            LumiLabel = TPaveLabel(0.18609,0.702842,0.382832,0.803618,"CMS","NDC")
         LumiLabel.SetTextSize(0.448718)
     LumiLabel.SetTextFont(62)
     LumiLabel.SetTextAlign(12)
@@ -1456,7 +1459,8 @@ def drawPlot(plot, th2fType=""):
 
     theoryLabels = []
     if 'theoryLabel' in plot:
-        for label in plot["theoryLabel"]:
+        for i in range (0, len (plot["theoryLabel"])):
+            label = plot['theoryLabel'][i]
             if convertToMassSplitting:
                 TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
             if makeColorPlot:
@@ -1464,15 +1468,23 @@ def drawPlot(plot, th2fType=""):
             if not makeColorPlot and not convertToMassSplitting:
                 if arguments.paperMode:
                     if not plot['title'] == 'lifetime_vs_mass':
-                        TheoryLabel = TPaveLabel(0.5, 0.775 - 0.05*len(theoryLabels), 0.88, 0.85 - 0.05*len(theoryLabels), label, "NDC")
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.168546,0.75969,0.548246,0.833333,label,"NDC")
+                        elif i == 1:
+                            TheoryLabel = TPaveLabel(0.168546,0.693152,0.548246,0.76938,label,"NDC")
+                        else:
+                            TheoryLabel = TPaveLabel(0.168546,0.614987,0.548246,0.689922,label,"NDC")
                     else:
-                        TheoryLabel = TPaveLabel(0.186717, 0.555 - 0.05*len(theoryLabels), 0.383459, 0.63 - 0.05*len(theoryLabels), label, "NDC")
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.18609,0.655039,0.382832,0.729974, label, "NDC")
+                        else:
+                            TheoryLabel = TPaveLabel(0.18609,0.590439,0.382832,0.665375, label, "NDC")
                     TheoryLabel.SetTextAlign(12)
                 else:
                     TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
                     TheoryLabel.SetTextAlign(32)
             TheoryLabel.SetTextFont(42)
-            TheoryLabel.SetTextSize(0.555556)
+            TheoryLabel.SetTextSize(0.517241)
             TheoryLabel.SetBorderSize(0)
             TheoryLabel.SetFillColor(0)
             TheoryLabel.SetFillStyle(0)
