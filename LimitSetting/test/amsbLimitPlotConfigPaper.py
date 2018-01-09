@@ -36,7 +36,7 @@ makeColorPlot = False
 convertToMassSplitting = False
 outputName = "limit_plot.root"
 #yAxisRangeFor1DMassLimits = [0.01, 10000]
-yAxisRangeFor1DMassLimits = [0.001, 500]
+yAxisRangeFor1DMassLimits = [5.0e-3, 2.0e3]
 
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
@@ -90,9 +90,9 @@ plotDefinitions = [
         'yAxisLabel' : 'c#tau = 10 cm',
 
         'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)',
             'tan #beta = 5, #mu > 0',
             "#bf{#it{#Beta}} (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)',
         ],
 
         # optional (scaled automatically if not included)
@@ -126,9 +126,9 @@ plotDefinitions = [
         'yAxisLabel' : 'c#tau = 100 cm',
 
         'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)',
             'tan #beta = 5, #mu > 0',
             "#bf{#it{#Beta}} (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)',
         ],
 
         # optional (scaled automatically if not included)
@@ -162,9 +162,9 @@ plotDefinitions = [
         'yAxisLabel' : 'c#tau = 1000 cm',
 
         'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm/c (' + str (convertToNs (1000.0)) + ' ns)',
             'tan #beta = 5, #mu > 0',
             "#bf{#it{#Beta}} (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm/c (' + str (convertToNs (1000.0)) + ' ns)',
         ],
 
         # optional (scaled automatically if not included)
@@ -198,9 +198,9 @@ plotDefinitions = [
         'yAxisLabel' : 'c#tau = 10000 cm',
 
         'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm/c (' + str (convertToNs (10000.0)) + ' ns)',
             'tan #beta = 5, #mu > 0',
             "#bf{#it{#Beta}} (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm/c (' + str (convertToNs (10000.0)) + ' ns)',
         ],
 
         # optional (scaled automatically if not included)
