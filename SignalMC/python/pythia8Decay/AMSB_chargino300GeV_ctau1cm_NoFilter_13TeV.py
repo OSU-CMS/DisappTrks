@@ -198,7 +198,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_add100MeV/AMSBchargino_%sGeV.slha' % MCHI)
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_add100MeV/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
 )
 
 ProductionFilterSequence = cms.Sequence(generator)
