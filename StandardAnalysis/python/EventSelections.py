@@ -10,9 +10,10 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
     triggers = cms.vstring(),
-    cuts = cms.VPSet (),
+    cuts = cms.VPSet (
         cutDummyMet,
     )
+)
 
 
 ##########################################################################
