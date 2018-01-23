@@ -5,4 +5,4 @@ if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
     print "Please use a CMSSW_9_2_X release..."
     sys.exit (0)
 
-process = customize (process, "2017", applyPUReweighting = False, applyTriggerReweighting = False, applyMissingHitsCorrections = True, runMETFilters = False)
+process = customize (process, "2017", applyPUReweighting = False, applyISRReweighting = False, applyTriggerReweighting = False, applyMissingHitsCorrections = True, runMETFilters = False)

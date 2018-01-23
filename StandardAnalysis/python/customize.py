@@ -5,7 +5,7 @@ from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customiz
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
 
-def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = True):
+def customize (process, runPeriod, applyPUReweighting = True, applyISRReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = True):
 
     if runPeriod == "2015":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
@@ -105,6 +105,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyTriggerReweig
         process.PUScalingFactorProducer.target = cms.string ("")
         process.PUScalingFactorProducer.targetUp = cms.string ("")
         process.PUScalingFactorProducer.targetDown = cms.string ("")
+
+    if not applyISRReweighting:
+        process.ISRWeightProducer.weightFile = cms.string("")
+        process.ISRWeightProducer.weightHist = cms.vstring()
 
     if not applyTriggerReweighting:
         process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
