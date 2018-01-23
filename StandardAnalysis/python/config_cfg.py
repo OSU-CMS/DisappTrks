@@ -35,12 +35,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [muonCtrlSelectionWithMatch],     histSetsMuon,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # Variations of the disappearing tracks search region
-#  add_channels  (process,  [disTrkIdElec],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdMuon],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdTau],       histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdFake],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOut],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoEcalo],     histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdElec],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdMuon],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdTau],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdFake],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOut],         histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoEcalo],            histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOutNoEcalo],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
 #  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collectionMap,  variableProducers,  False)
