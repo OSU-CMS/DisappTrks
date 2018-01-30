@@ -64,6 +64,8 @@ command = ["find", condorDir, "-type", "f", "-regex", ".*\/condor_[^/]*\.err$"]
 stdErrFiles = subprocess.check_output (command).split ()
 for stdErrFile in stdErrFiles:
   isFinished = False
+  cpuTimeAdded = False
+  realTimeAdded = False
   f = open (stdErrFile, "r")
   for line in f:
     if not re.match (r".*CPU time.*", line) and not re.match (r".*real time.*", line):
@@ -72,8 +74,12 @@ for stdErrFile in stdErrFiles:
     timePerEvent = float (re.sub (r".*\(([^ ]*) seconds per event\)$", r"\1", line))
     if re.match (r".*CPU time.*", line):
       cpuTimePerEvent.append (timePerEvent)
+      cpuTimeAdded = True
     if re.match (r".*real time.*", line):
       realTimePerEvent.append (timePerEvent)
+      realTimeAdded = True
+    if cpuTimeAdded and realTimeAdded:
+      break
   f.close ()
 
   if not isFinished:
