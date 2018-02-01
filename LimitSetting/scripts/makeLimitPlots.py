@@ -1182,7 +1182,10 @@ def drawPlot(plot, th2fType=""):
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
     if plot.has_key('graphs'):
         if arguments.paperMode:
-            legend.SetHeader('95% CL upper limits')
+            if not plot['title'] == 'lifetime_vs_mass'
+                legend.SetHeader('95% CL upper limits')
+            else:
+                legend.SetHeader('95% CL limit')
         for graph in plot['graphs']:
             colorScheme = 'brazilian'
             if 'colorScheme' in graph:
@@ -1402,7 +1405,7 @@ def drawPlot(plot, th2fType=""):
         if not is2D:
         #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
             if arguments.paperMode:
-                tGraph.GetYaxis().SetTitle('#sigma #bf{#it{#Beta}} A [pb]')
+                tGraph.GetYaxis().SetTitle('#sigma #bf{#it{#Beta}} [pb]')
             else:
                 tGraph.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
             if 'yAxis' in plot:
