@@ -1679,6 +1679,18 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("propagator0"),
+            title = cms.string(";PDG ID of propagator"),
+            binsX = cms.untracked.vdouble(100, 1000000.0, 1000100.0),
+            inputVariables = cms.vstring("abs (propagator_1000024_0)"),
+        ),
+        cms.PSet (
+            name = cms.string("propagator1"),
+            title = cms.string(";PDG ID of propagator"),
+            binsX = cms.untracked.vdouble(100, 1000000.0, 1000100.0),
+            inputVariables = cms.vstring("abs (propagator_1000024_1)"),
+        ),
+        cms.PSet (
             name = cms.string("ctau0_10cm"),
             title = cms.string(";c#tau [cm]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 10.0),
