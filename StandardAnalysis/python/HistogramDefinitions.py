@@ -1679,6 +1679,18 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("didDecay0"),
+            title = cms.string(";did decay"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("didDecay_1000024_0"),
+        ),
+        cms.PSet (
+            name = cms.string("didDecay1"),
+            title = cms.string(";did decay"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("didDecay_1000024_1"),
+        ),
+        cms.PSet (
             name = cms.string("propagator0"),
             title = cms.string(";PDG ID of propagator"),
             binsX = cms.untracked.vdouble(100, 1000000.0, 1000100.0),
