@@ -26,12 +26,17 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     void AddVariables(const edm::Event &);
     edm::EDGetTokenT<vector<T> > tokenTags_;
     edm::EDGetTokenT<vector<osu::Track> > tokenProbes_;
+    edm::EDGetTokenT<vector<osu::Jet> > tokenJets_;
+    edm::EDGetTokenT<vector<pat::PackedCandidate> > tokenPFCands_;
     bool doFilter_;
     bool doSSFilter_;
 
     const string tagCollectionParameter () const;
     bool goodInvMass (const T &, const osu::Track &, double &) const;
+    bool goodInvMass (const T &, const osu::Jet &, double &) const;
+    bool goodInvMass (const T &, const pat::PackedCandidate &, double &) const;
     bool passesVeto (const osu::Track &) const;
+    template<class T0> const double getTrackIsolation (const T0 &, const vector<T0> &, const double, const double = 1.0e-12) const;
 };
 
 typedef EventTPProducer<osu::Electron> EventElectronTPProducer;
