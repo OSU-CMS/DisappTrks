@@ -1124,7 +1124,7 @@ def drawPlot(plot, th2fType=""):
 
         tTh2fs[-1].GetXaxis().SetTitleOffset(1.25)
         tTh2fs[-1].GetYaxis().SetTitleOffset(1.25)
-        tTh2fs[-1].GetZaxis().SetTitleOffset(1.3)
+        tTh2fs[-1].GetZaxis().SetTitleOffset(1.45)
 
         tTh2fs[-1].GetXaxis().SetTitleSize(0.04)
         tTh2fs[-1].GetYaxis().SetTitleSize(0.04)
@@ -1182,7 +1182,7 @@ def drawPlot(plot, th2fType=""):
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
     if plot.has_key('graphs'):
         if arguments.paperMode:
-            if not plot['title'] == 'lifetime_vs_mass'
+            if not plot['title'] == 'lifetime_vs_mass':
                 legend.SetHeader('95% CL upper limits')
             else:
                 legend.SetHeader('95% CL limit')
