@@ -91,15 +91,17 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
             {
               if (probe.charge () == 0 || abs (probe.pdgId ()) < 100.0)
                 continue;
-              double mass = 0.0;
-              bool isGoodInvMass = goodInvMass (tag, probe, mass);
+              double mass = 0.0,
+                     relIso = getTrackIsolation (probe, *pfCands, 0.3) / probe.pt ();
+              bool isGoodInvMass = goodInvMass (tag, probe, mass),
+                   isGoodRelIso = (relIso < 0.05);
 
-              isGoodInvMass && nGoodTagPFCHPairs++;
+              (isGoodInvMass && isGoodRelIso) && nGoodTagPFCHPairs++;
 
-              if (isGoodInvMass)
+              if (isGoodInvMass && isGoodRelIso)
                 {
                   tagPFCHMasses.push_back (mass);
-                  pfchRelIsos.push_back (getTrackIsolation (probe, *pfCands, 0.3) / probe.pt ());
+                  pfchRelIsos.push_back (relIso);
                 }
             }
         }
