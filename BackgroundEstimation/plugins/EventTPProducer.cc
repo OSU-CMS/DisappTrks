@@ -10,7 +10,7 @@ EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
-  tokenJets_ = consumes<vector<osu::Jet> > (collections_.getParameter<edm::InputTag> ("jets"));
+  tokenJets_ = consumes<vector<pat::Jet> > (collections_.getParameter<edm::InputTag> ("jets"));
   tokenPFCands_ = consumes<vector<pat::PackedCandidate> > (collections_.getParameter<edm::InputTag> ("pfCandidates"));
 }
 
@@ -28,7 +28,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   edm::Handle<vector<osu::Track> > probes;
   event.getByToken (tokenProbes_, probes);
 
-  edm::Handle<vector<osu::Jet> > jets;
+  edm::Handle<vector<pat::Jet> > jets;
   event.getByToken (tokenJets_, jets);
 
   edm::Handle<vector<pat::PackedCandidate> > pfCands;
@@ -210,13 +210,13 @@ EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const o
 }
 
 template<class T, class... Args> bool
-EventTPProducer<T, Args...>::goodInvMass (const T &tag, const osu::Jet &probe, double &m) const
+EventTPProducer<T, Args...>::goodInvMass (const T &tag, const pat::Jet &probe, double &m) const
 {
   return false;
 }
 
 template<> bool
-EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu::Jet &probe, double &m) const
+EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const pat::Jet &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energy ());
@@ -225,7 +225,7 @@ EventTPProducer<osu::Electron>::goodInvMass (const osu::Electron &tag, const osu
 }
 
 template<> bool
-EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Jet &probe, double &m) const
+EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const pat::Jet &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energy ());
@@ -234,7 +234,7 @@ EventTPProducer<osu::Muon>::goodInvMass (const osu::Muon &tag, const osu::Jet &p
 }
 
 template<> bool
-EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const osu::Jet &probe, double &m) const
+EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag, const pat::Jet &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energy ());
@@ -243,7 +243,7 @@ EventTPProducer<osu::Electron, osu::Tau>::goodInvMass (const osu::Electron &tag,
 }
 
 template<> bool
-EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const osu::Jet &probe, double &m) const
+EventTPProducer<osu::Muon, osu::Tau>::goodInvMass (const osu::Muon &tag, const pat::Jet &probe, double &m) const
 {
   TLorentzVector t (tag.px (), tag.py (), tag.pz (), tag.energy ()),
                  p (probe.px (), probe.py (), probe.pz (), probe.energy ());
