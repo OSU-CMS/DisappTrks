@@ -37,6 +37,7 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     bool goodInvMass (const T &, const pat::PackedCandidate &, double &) const;
     bool passesVeto (const osu::Track &) const;
     template<class T0> const double getTrackIsolation (const T0 &, const vector<T0> &, const double, const double = 1.0e-12) const;
+    bool jetMatchedToMuon (const pat::Jet &, const vector<pat::PackedCandidate> &) const;
 };
 
 typedef EventTPProducer<osu::Electron> EventElectronTPProducer;

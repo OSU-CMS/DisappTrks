@@ -71,12 +71,17 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
         {
           for (const auto &probe : *jets)
             {
-              double mass = 0.0;
-              bool isGoodInvMass = goodInvMass (tag, probe, mass);
+              double mass = 0.0,
+                     hadronEnergyFraction = probe.chargedHadronEnergyFraction () + probe.neutralHadronEnergyFraction ();
+              bool isGoodInvMass = goodInvMass (tag, probe, mass),
+                   isGoodHadronEnergyFraction = (hadronEnergyFraction < 0.1),
+                   isTightLepVeto = anatools::jetPassesTightLepVeto (probe),
+                   isFiducial = (fabs (probe.eta ()) < 2.4),
+                   isNotMatchedToMuon = !jetMatchedToMuon (probe, *pfCands);
 
-              isGoodInvMass && nGoodTagJetPairs++;
+              (isGoodInvMass && isGoodHadronEnergyFraction && isTightLepVeto && isFiducial && isNotMatchedToMuon) && nGoodTagJetPairs++;
 
-              if (isGoodInvMass)
+              if (isGoodHadronEnergyFraction && isTightLepVeto && isFiducial && isNotMatchedToMuon)
                 {
                   tagJetMasses.push_back (mass);
                   jetChargedHadronEnergyFractions.push_back (probe.chargedHadronEnergyFraction ());
@@ -98,7 +103,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
               (isGoodInvMass && isGoodRelIso) && nGoodTagPFCHPairs++;
 
-              if (isGoodInvMass && isGoodRelIso)
+              if (isGoodRelIso)
                 {
                   tagPFCHMasses.push_back (mass);
                   pfchRelIsos.push_back (relIso);
@@ -352,6 +357,19 @@ EventTPProducer<T, Args...>::getTrackIsolation (const T0 &track, const vector<T0
     }
 
   return sumPt;
+}
+
+template<class T, class... Args> bool
+EventTPProducer<T, Args...>::jetMatchedToMuon (const pat::Jet &jet, const vector<pat::PackedCandidate> &pfCands) const
+{
+  for (const auto &pfCand : pfCands)
+    {
+      if (abs (pfCand.pdgId ()) != 13)
+        continue;
+      if (deltaR (jet, pfCand) < 0.4)
+        return true;
+    }
+  return false;
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
