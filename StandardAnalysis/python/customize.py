@@ -126,9 +126,12 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
 
         doFilter = False
         doSSFilter = False
+        doJetFilter = False
         if channel.endswith ("WithFilter"):
             doFilter = True
         if channel.endswith ("WithSSFilter"):
+            doSSFilter = True
+        if channel.endswith ("WithJetFilter"):
             doSSFilter = True
 
         if hasattr (process, "EventElectronTPProducer"):
@@ -138,6 +141,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
             getattr (process, "EventMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventMuonTPProducer", channel)
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
