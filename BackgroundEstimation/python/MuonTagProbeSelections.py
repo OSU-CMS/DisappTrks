@@ -116,6 +116,9 @@ ZtoMuDummyTrk = copy.deepcopy(MuonTagSkim)
 ZtoMuDummyTrk.name = cms.string("ZtoMuDummyTrk")
 addCuts(ZtoMuDummyTrk.cuts, [cutTrkDummy])
 
+ZtoMuDummyTrkWithJetFilter = copy.deepcopy(ZtoMuDummyTrk)
+ZtoMuDummyTrkWithJetFilter.name = cms.string("ZtoMuDummyTrkWithJetFilter")
+
 ZtoMuProbeTrk = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrk.name = cms.string ("ZtoMuProbeTrk")
 removeCuts (ZtoMuProbeTrk.cuts, [cutMuonArbitration, cutMuTrkInvMass10, cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
