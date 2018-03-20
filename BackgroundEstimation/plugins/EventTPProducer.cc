@@ -6,7 +6,8 @@ template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
   doFilter_ (cfg.getParameter<bool> ("doFilter")),
-  doSSFilter_ (cfg.getParameter<bool> ("doSSFilter"))
+  doSSFilter_ (cfg.getParameter<bool> ("doSSFilter")),
+  doJetFilter_ (cfg.getParameter<bool> ("doJetFilter"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
@@ -121,6 +122,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   (*eventvariables)["nGoodTagJetPairs"] = nGoodTagJetPairs;
   (*eventvariables)["nGoodTagPFCHPairs"] = nGoodTagPFCHPairs;
 
+  bool tagJetMassNearZ = false;
   for (unsigned i = 0; i < 10; i++)
     {
       stringstream ss;
@@ -134,12 +136,16 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
       (*eventvariables)["jetNeutralHadronEnergyFraction_" + ss.str ()] = (jetNeutralHadronEnergyFractions.size () > i ? jetNeutralHadronEnergyFractions.at (i) : INVALID_VALUE);
       (*eventvariables)["tagPFCHMass_" + ss.str ()] = (tagPFCHMasses.size () > i ? tagPFCHMasses.at (i) : INVALID_VALUE);
       (*eventvariables)["pfchRelIso_" + ss.str ()] = (pfchRelIsos.size () > i ? pfchRelIsos.at (i) : INVALID_VALUE);
+
+      tagJetMassNearZ = (tagJetMassNearZ || (fabs ((*eventvariables)["tagJetMass_" + ss.str ()] - 95.0) < 10.0));
     }
 
   if (doFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
   if (doSSFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nSSProbesPassingVeto > 0);
+  if (doJetFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = tagJetMassNearZ;
 }
 
 template<class T, class... Args> const string

@@ -30,6 +30,7 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     edm::EDGetTokenT<vector<pat::PackedCandidate> > tokenPFCands_;
     bool doFilter_;
     bool doSSFilter_;
+    bool doJetFilter_;
 
     const string tagCollectionParameter () const;
     bool goodInvMass (const T &, const osu::Track &, double &) const;
