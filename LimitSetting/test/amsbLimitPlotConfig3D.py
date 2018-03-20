@@ -52,8 +52,8 @@ plotDefinitions = [
      'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
      'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
      'zAxisLabel' : '95% CL upper limit on #sigma #bf{#it{#Beta}} [pb]',
-     'zAxisFixMin' : 0.005,
-     'zAxisFixMax' : 1000,
+     #'zAxisFixMin' : 0.005,
+     'zAxisFixMax' : 5,
 
      'fillPotHoles' : True,
 
