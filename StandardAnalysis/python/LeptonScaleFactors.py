@@ -109,7 +109,6 @@ muonScaleFactors2016 = cms.VPSet (
         eras = cms.vstring("BCDEF", "GH"),
         lumis = cms.vdouble(lumi["SingleMuon_2016BCDEF"], lumi["SingleMuon_2016GH"]),
         additionalSystematic = cms.double(0.005),
-
     ),
     cms.PSet (
         inputCollection = cms.string("muons"),

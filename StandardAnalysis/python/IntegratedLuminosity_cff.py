@@ -196,6 +196,9 @@ lumi_2017 = {
     "SingleMuon_2017E" : 9386.138,
     "SingleMuon_2017F" : 10435.008,
 
+    "Tau_2017C" : 8250.142, # durp durp durp no hltpath
+    # add more tau stuff here
+
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
         "Tau_2017B" : 4043.585,
