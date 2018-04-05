@@ -109,7 +109,6 @@ muonScaleFactors2016 = cms.VPSet (
         eras = cms.vstring("BCDEF", "GH"),
         lumis = cms.vdouble(lumi["SingleMuon_2016BCDEF"], lumi["SingleMuon_2016GH"]),
         additionalSystematic = cms.double(0.005),
-
     ),
     cms.PSet (
         inputCollection = cms.string("muons"),
@@ -132,5 +131,12 @@ MuonScaleFactorProducer = copy.deepcopy(ElectronScaleFactorProducer)
 MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2015
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# Lepton SFs: 2016"
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Lepton SFs: 2017 (really 2016, should be updated!)"
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
+else:
+    print "# Lepton SFs: 2015"

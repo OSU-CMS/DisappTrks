@@ -58,6 +58,11 @@ cutLowMet = cms.PSet(
     cutString = cms.string("pt < 60"),
     numberRequired = cms.string(">= 1"),
 )
+cutMet275 = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("pt > 275"),
+    numberRequired = cms.string(">= 1"),
+)
 cutMetBadPFMuonFilter = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("badPFMuonFilter"),
@@ -350,32 +355,32 @@ cutTrkNValidPixelBarrelHits3 = cms.PSet(
 )
 cutTrkNValidHits = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits >= 7"),
+    cutString = cms.string("hitPattern_.numberOfValidHits >= 7"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits3 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 3"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 3"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 4"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHitsLE4 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits <= 4"),
+    cutString = cms.string("hitPattern_.numberOfValidHits <= 4"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits5 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 5"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 5"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNValidHits6 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("numberOfValidHits == 6"),
+    cutString = cms.string("hitPattern_.numberOfValidHits == 6"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNLayers3 = cms.PSet(
@@ -679,15 +684,15 @@ cutMuonPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Switching muon pt cut to >26 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Muon PT cut: >26 GeV"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v || match_HLT_IsoTkMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
-    print "# Switching muon pt cut to >29 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Muon PT cut: >29 GeV"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v || match_HLT_IsoTkMu27_v")
     cutMuonPt.cutString = cms.string("pt > 29")
 else:
-    print "# Using muon pt cut of >22 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Muon PT cut: >22 GeV"
 
 cutMuonPt35 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -731,6 +736,8 @@ cutMuonPairPt = cms.PSet (
 # already printed info message above
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    cutMuonPairPt.cutString = cms.string("pt > 29")
 
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -957,11 +964,15 @@ cutElectronPt = cms.PSet (
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
-    print "# Switching electron pt cut to >35 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Electron PT cut: >35 GeV"
     cutElectronPt.cutString = cms.string("pt > 35")
 else:
-    print "# Using electron pt cut of >25 GeV since we are in " + os.environ["CMSSW_VERSION"] + "..."
+    print "# Electron PT cut: >25 GeV"
+
+# this should be the final printout for what we're switching based on CMSSW_VERSION
+print "########################################################################"
 
 cutElectronPt35 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
@@ -1187,4 +1198,14 @@ cutAnyMuonMatchHLTTrack = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("anyMuonMatchToHLTTrack > 0"),
     numberRequired = cms.string(">= 1"),
+)
+
+#######################################################
+## testing CandidateTrack versus pat::IsolatedTrack
+#######################################################
+
+cutTrkMatchedCandidateTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+        cutString = cms.string("dRToMatchedCandidateTrack < 0.15"),
+        numberRequired = cms.string(">= 1"),
 )

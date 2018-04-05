@@ -39,7 +39,9 @@ def SetStyle(graph):
     graph.GetYaxis().SetRangeUser(ylo, yhi)
 
 def normCDF(x, par):
-    return (0.5 * par[2] * (1.0 + TMath.Erf((x[0] - par[0]) / (math.sqrt(2.0) * par[1]))) + par[3])
+    mu = par[0]
+    sigma = par[1]
+    return 0.5 * (1.0 + TMath.Erf((x[0] - mu) / (math.sqrt(2.0) * sigma)))
 
 def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
     dataFile = TFile.Open("triggerEfficiency_" + data + ".root", "read")
@@ -222,6 +224,28 @@ class TriggerEfficiency:
             channel["hist"] = getHist(sample, condorDir, name + "Plotter", self._trackLegHistName)
         setattr(self, role, channel)
 
+    def PlotFit(self, efficiencyGraph):
+        fitFunc = TF1("fitFunc0", normCDF, xlo, xhi, 2)
+        fitFunc.SetParName(0, "#mu")
+        fitFunc.SetParameter(0, 100.0)
+        fitFunc.SetParLimits(0, xlo, xhi)
+        fitFunc.SetParName(1, "#sigma")
+        fitFunc.SetParameter(1, 25.0)
+        fitFunc.SetParLimits(1, 0.01, xhi - xlo)
+
+        efficiencyGraph.Fit(fitFunc, "emr0")
+
+        fitText = TPaveText(0.159148,0.689055,0.342105,0.774876,"brNDC")
+        fitText.SetBorderSize(0)
+        fitText.SetFillStyle(0)
+        fitText.SetTextFont(42)
+        fitText.SetTextSize(0.0349127)
+        fitText.SetTextAlign(12)
+        fitText.AddText("#mu: ({0:.3f} #pm {1:.2f}) GeV".format(fitFunc.GetParameter(0), fitFunc.GetParError(0)))
+        fitText.AddText("#sigma: ({0:.3f} #pm {1:.2f}) GeV".format(fitFunc.GetParameter(1), fitFunc.GetParError(1)))
+
+        return (fitFunc, fitText)
+
     def plotEfficiency(self, doFit = False):
         if hasattr(self, "Denominator") and hasattr(self, "Numerator"):
             if self._rebinFactor != 1:
@@ -301,10 +325,10 @@ class TriggerEfficiency:
             pt_leg.Draw("same")
             oneLine.Draw("same")
 
-            fitFunc = TF1("fitFunc0", normCDF, 1.0e1, 1.0e3, 4)
-
             if doFit:
-                fitFunc = self.PlotFit()
+                (fitFunc, fitText) = self.PlotFit(efficiencyGraph)
+                fitFunc.Draw("same")
+                fitText.Draw("same")
 
             if not os.path.exists('plots_' + self.Denominator["sample"]):
                 os.mkdir('plots_' + self.Denominator["sample"])

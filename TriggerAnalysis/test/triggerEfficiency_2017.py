@@ -73,9 +73,6 @@ for dataset in datasets:
     #for trigger in triggersMet:
     for trigger in triggerFiltersMet:
 
-        print 'ayy trigger = ', trigger
-        print 'ayy path = ', path
-
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
 
         if path == trigger or path == "all" or (path == "main" and "IsoTrk50" in trigger):
@@ -99,7 +96,7 @@ for dataset in datasets:
                 efficiency.addTFile(fout)
                 efficiency.addTCanvas(canvas)
                 if "2017" in dataset:
-                    grandEfficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
+                    efficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
                 if useCorrectVariables:
                     if 'PFMHTNoMu' in trigger:
                         efficiency.setMetLegHistName('Eventvariable Plots/MHTNoMuLogX')

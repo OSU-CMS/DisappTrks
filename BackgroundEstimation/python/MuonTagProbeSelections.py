@@ -22,6 +22,19 @@ tagMuonCuts = [
 ]
 addCuts(MuonTagSkim.cuts, tagMuonCuts)
 
+################################################################################
+## Testing channels to compare pat::IsolatedTrack to CandidateTrack
+## in the SingleMuon dataset
+################################################################################
+
+MinimalMuonTrackSelection = copy.deepcopy(MuonTagSkim)
+MinimalMuonTrackSelection.name = cms.string("MinimalMuonTrackSelection")
+addCuts(MinimalMuonTrackSelection.cuts, [cutTrkPt20])
+
+MinimalMuonMatchedCandidateTrackSelection = copy.deepcopy(MinimalMuonTrackSelection)
+MinimalMuonMatchedCandidateTrackSelection.name = cms.string("MinimalMuonMatchedCandidateTrackSelection")
+addCuts(MinimalMuonMatchedCandidateTrackSelection.cuts, [cutTrkMatchedCandidateTrack])
+
 ##################################################
 ## Higher pt to be closer to candidate track selection
 ##################################################

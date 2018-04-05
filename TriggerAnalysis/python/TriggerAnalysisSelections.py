@@ -94,6 +94,24 @@ for trig in triggerFiltersTrack:
     TrackLegNumeratorWithMuons[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithMuons")
     addCuts(TrackLegNumeratorWithMuons[trig].cuts, [cutLeadMuonMatchHLTTrack, firesTrigger[trig]])
 
+# Track legs in data with a MET cut above the turn-on
+
+HLTMET105IsoTrk50DenWithMuonsMET275 = copy.deepcopy(TrackLegDenominatorWithMuons['HLT_MET105_IsoTrk50_v'])
+HLTMET105IsoTrk50DenWithMuonsMET275.name = cms.string("HLTMET105IsoTrk50DenWithMuonsMET275")
+addCuts(HLTMET105IsoTrk50DenWithMuonsMET275.cuts, [cutMet275])
+
+HLTMET120IsoTrk50DenWithMuonsMET275 = copy.deepcopy(TrackLegDenominatorWithMuons['HLT_MET120_IsoTrk50_v'])
+HLTMET120IsoTrk50DenWithMuonsMET275.name = cms.string("HLTMET120IsoTrk50DenWithMuonsMET275")
+addCuts(HLTMET120IsoTrk50DenWithMuonsMET275.cuts, [cutMet275])
+
+HLTMET105IsoTrk50NumWithMuonsMET275 = copy.deepcopy(TrackLegNumeratorWithMuons['HLT_MET105_IsoTrk50_v'])
+HLTMET105IsoTrk50NumWithMuonsMET275.name = cms.string("HLTMET105IsoTrk50NumWithMuonsMET275")
+addCuts(HLTMET105IsoTrk50NumWithMuonsMET275.cuts, [cutMet275])
+
+HLTMET120IsoTrk50NumWithMuonsMET275 = copy.deepcopy(TrackLegNumeratorWithMuons['HLT_MET120_IsoTrk50_v'])
+HLTMET120IsoTrk50NumWithMuonsMET275.name = cms.string("HLTMET120IsoTrk50NumWithMuonsMET275")
+addCuts(HLTMET120IsoTrk50NumWithMuonsMET275.cuts, [cutMet275])
+
 ##########################################################################################################
 # Track leg with tracks (MC)
 ##########################################################################################################
@@ -219,5 +237,9 @@ from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *
 
 MuonTagPt55HLTMetFilters = copy.deepcopy(MuonTagPt55)
 MuonTagPt55HLTMetFilters.name = cms.string("MuonTagPt55HLTMetFilters")
-for filt in triggerFiltersMet['HLT_MET75_IsoTrk50_v']:
+for filt in triggerFiltersMet['HLT_MET105_IsoTrk50_v']:
     addCuts(MuonTagPt55HLTMetFilters.cuts, [firesFilter[filt]])
+
+MuonTagPt55HLTMetFiltersAndSignalPath = copy.deepcopy(MuonTagPt55HLTMetFilters)
+MuonTagPt55HLTMetFiltersAndSignalPath.name = cms.string("MuonTagPt55HLTMetFiltersAndSignalPath")
+addCuts(MuonTagPt55HLTMetFiltersAndSignalPath.cuts, [firesTrigger['HLT_MET105_IsoTrk50_v']])

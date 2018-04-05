@@ -6,30 +6,75 @@
 
 dataset_names_data = {
 
-    # Remade PromptReco ntuples are commented out for now.
-
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
 
     # MET 2017 PromptReco
+    'MET_2017B' : ["/MET/Run2017B-PromptReco-v1/MINIAOD", "/MET/Run2017B-PromptReco-v2/MINIAOD"],
+    'MET_2017C' : ["/MET/Run2017C-PromptReco-v1/MINIAOD", "/MET/Run2017C-PromptReco-v2/MINIAOD", "/MET/Run2017C-PromptReco-v3/MINIAOD"],
+    'MET_2017D' : "/MET/Run2017D-PromptReco-v1/MINIAOD",
+    'MET_2017E' : "/MET/Run2017E-PromptReco-v1/MINIAOD",
+    'MET_2017F' : "/MET/Run2017F-PromptReco-v1/MINIAOD",
 
     # SingleEle PromptReco
+    'SingleEle_2017B' : ["/SingleElectron/Run2017B-PromptReco-v1/MINIAOD", "/SingleElectron/Run2017B-PromptReco-v2/MINIAOD"],
+    'SingleEle_2017C' : ["/SingleElectron/Run2017C-PromptReco-v1/MINIAOD", "/SingleElectron/Run2017C-PromptReco-v2/MINIAOD", "/SingleElectron/Run2017C-PromptReco-v3/MINIAOD"],
+    'SingleEle_2017D' : "/SingleElectron/Run2017D-PromptReco-v1/MINIAOD",
+    'SingleEle_2017E' : "/SingleElectron/Run2017E-PromptReco-v1/MINIAOD",
+    'SingleEle_2017F' : "/SingleElectron/Run2017F-PromptReco-v1/MINIAOD",
 
     # SingleMu PromptReco
     'SingleMu_2017B' : ["/SingleMuon/Run2017B-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017B-PromptReco-v2/MINIAOD"],
     'SingleMu_2017C' : ["/SingleMuon/Run2017C-PromptReco-v1/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v2/MINIAOD", "/SingleMuon/Run2017C-PromptReco-v3/MINIAOD"],
     'SingleMu_2017D' : "/SingleMuon/Run2017D-PromptReco-v1/MINIAOD",
+    'SingleMu_2017E' : "/SingleMuon/Run2017E-PromptReco-v1/MINIAOD",
+    'SingleMu_2017F' : "/SingleMuon/Run2017F-PromptReco-v1/MINIAOD",
 
     # Tau PromptReco
+    'Tau_2017B' : ["/Tau/Run2017B-PromptReco-v1/MINIAOD", "/Tau/Run2017B-PromptReco-v2/MINIAOD"],
+    'Tau_2017C' : ["/Tau/Run2017C-PromptReco-v1/MINIAOD", "/Tau/Run2017C-PromptReco-v2/MINIAOD", "/Tau/Run2017C-PromptReco-v3/MINIAOD"],
+    'Tau_2017D' : "/Tau/Run2017D-PromptReco-v1/MINIAOD",
+    'Tau_2017E' : "/Tau/Run2017E-PromptReco-v1/MINIAOD",
+    'Tau_2017F' : "/Tau/Run2017F-PromptReco-v1/MINIAOD",
 
     # ZeroBias PromptReco
+}
+
+# ntuples of 2017C -- currently these are optional,
+# so the usuer needs to exchange dataset_names_data
+# with this if CandidateTracks are to be used
+datasets_names_data_ntuples = {
+    
+    'MET_2017C' : ["/MET/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER", "/MET/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER", "/MET/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-22a0670d7fe97c6e01bf4e8339ab9566/USER"],
+
+    'SingleEle_2017C' : ["/SingleElectron/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER", "/SingleElectron/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER", "/SingleElectron/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-cfc215649d70368428bc7a3d641280a7/USER"],
+
+    'SingleMu_2017C' : ["/SingleMuon/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER", "/SingleMuon/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER", "/SingleMuon/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-f03047f866f83fdce5d5f13e4fbf8606/USER"],
+
+    'Tau_2017C' : ["/Tau/bfrancis-Run2017C-PromptReco-v1-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER", "/Tau/bfrancis-Run2017C-PromptReco-v2-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER", "/Tau/bfrancis-Run2017C-PromptReco-v3-DisappTrks-v1-a30e1733f02bb89cdbef4204fa1a7612/USER"],
+
 }
 
 dataset_names_bkgd = {
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
+}
+
+dataset_names_bkgd = {
+    ############################################################################
+    # MiniAOD not stored on T3.
+    ############################################################################
+    'WJetsToLNu_2017' : "/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v1/MINIAODSIM",
+
+    'DYJetsToLL_50_2017' : "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM",
+    #'DYJetsToLL_50_2017' : {"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM", "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v1/MINIAODSIM", "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v2/MINIAODSIM"},
+
+    'WZ_2016MC'             :  "/WZ_TuneCUETP8M1_13TeV-pythia8/ahart-RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1-4c076e3422cd404a3918ea398e169a2c/USER",
+    'WZToLNuNuNu_2016MC'      :  "/WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8/ahart-RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1-4c076e3422cd404a3918ea398e169a2c/USER",
+
+    'TTJets_Debug'  :  "/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ahart-RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-DisappTrks-v1-6f0ba34bbc7f2d7f1e9cafc7dfe6265a/USER",
 }
 
 dataset_names_sig = {

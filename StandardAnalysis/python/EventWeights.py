@@ -22,20 +22,41 @@ weights = cms.VPSet (
     ),
 )
 
-is80X = os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_")
+electronRecoPayload = "electronReco2015"
+electronIDPayload = "electronID2015Tight"
+muonTriggerPayload = "muonTrigger2015IsoMu20_OR_IsoTkMu20"
+muonIDPayload = "muonID2015Tight"
+muonIsoPayload = "muonIso2015Tight"
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# EventWeights applied: 2016"
+    electronRecoPayload = "electronReco2016"
+    electronIDPayload = "electronID2016Tight"
+    muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
+    muonIDPayload = "muonID2016Tight"
+    muonIsoPayload = "muonIso2016Tight"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# EventWeights applied: 2017 (really 2016, should be updated!)"
+    electronRecoPayload = "electronReco2016"
+    electronIDPayload = "electronID2016Tight"
+    muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
+    muonIDPayload = "muonID2016Tight"
+    muonIsoPayload = "muonIso2016Tight"
+else:
+    print "# EventWeights applied: 2015"
 
 # weights including electron scale factors (only for selections requiring electrons)
 weightsWithEleSF = copy.deepcopy(weights)
 weightsWithEleSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronReco2015") if not is80X else cms.string("electronReco2016")
+        inputVariable = cms.string(electronRecoPayload)
     )
 )
 weightsWithEleSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronID2015Tight") if not is80X else cms.string("electronID2016Tight")
+        inputVariable = cms.string(electronIDPayload)
     )
 )
 
@@ -44,22 +65,22 @@ weightsWithMuonSF = copy.deepcopy(weights)
 weightsWithMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonTrigger2015IsoMu20_OR_IsoTkMu20") if not is80X else cms.string("muonTrigger2016IsoMu24_OR_IsoTkMu24")
+        inputVariable = cms.string(muonTriggerPayload)
     )
 )
 weightsWithMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonID2015Tight") if not is80X else cms.string("muonID2016Tight")
+        inputVariable = cms.string(muonIDPayload)
     )
 )
 weightsWithMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonIso2015Tight") if not is80X else cms.string("muonIso2016Tight")
+        inputVariable = cms.string(muonIsoPayload)
     )
 )
-if is80X:
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     weightsWithMuonSF.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
@@ -72,13 +93,13 @@ weightsWithEleMuonSF = copy.deepcopy(weightsWithMuonSF)
 weightsWithEleMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronReco2015") if not is80X else cms.string("electronReco2016")
+        inputVariable = cms.string(electronRecoPayload)
     )
 )
 weightsWithEleMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronID2015Tight") if not is80X else cms.string("electronID2016Tight")
+        inputVariable = cms.string(electronIDPayload)
     )
 )
 

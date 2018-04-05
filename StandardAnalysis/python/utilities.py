@@ -110,10 +110,12 @@ def setMissingHitsCorrection (process, correction):
         if not hasattr (x, "type_"):
             continue
         if x.type_ () == "OSUTrackProducer":
-            print "# Setting missing hits corrections for \"" + correction + "\"..."
+            print "# Missing hits corrections (" + a + "): " + correction
             for y in MissingHitsCorrections[correction]:
                 setattr (x, y, MissingHitsCorrections[correction][y])
                 print "#   " + y + ": " + str (getattr (x, y).value ())
+    # this is the last customization that prints info, so now print a big line to clean things up
+    print "########################################################################"
 
 def setThresholdForVeto (process, threshold):
     fiducialMaps = ["electrons", "muons"]

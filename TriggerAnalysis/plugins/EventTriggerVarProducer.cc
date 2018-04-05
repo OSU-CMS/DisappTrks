@@ -277,19 +277,30 @@ bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,
 bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,
                                           const reco::Vertex &pv,
                                           const vector<TYPE(tracks)> &tracks) const {
-  if(fabs(track.eta()) < 2.5 &&
-     track.normalizedChi2() < 10.0 &&
-     fabs(track.dxy(pv.position())) < 0.2 &&
-     fabs(track.dz(pv.position())) < 0.5 &&
-     track.hitPattern().numberOfValidPixelHits() >= 1 &&
-     track.hitPattern().trackerLayersWithMeasurement() >= 6 &&
-     track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) == 0 &&
-     track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
-     track.trackIsoNoPUDRp3() / track.pt() < 0.01) {
-       return true;
-     }
 
-     return false;
+#if DATA_FORMAT == MINI_AOD_2017
+  bool result = (fabs(track.eta()) < 2.5 &&
+                 track.isHighPurityTrack() && // bfrancis: is this what we want to do? replaces normalizedChi2 < 10.0
+                 fabs(track.dxy()) < 0.2 &&
+                 fabs(track.dz()) < 0.5 &&
+                 track.hitPattern().numberOfValidPixelHits() >= 1 &&
+                 track.hitPattern().trackerLayersWithMeasurement() >= 6 &&
+                 track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) == 0 &&
+                 track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
+                 track.pfIsolationDR03().chargedHadronIso() / track.pt() < 0.01); // replaces trackIsoNoPUDRp3/pt
+#else
+  bool result = (fabs(track.eta()) < 2.5 &&
+                 track.normalizedChi2() < 10.0 &&
+                 fabs(track.dxy(pv.position())) < 0.2 &&
+                 fabs(track.dz(pv.position())) < 0.5 &&
+                 track.hitPattern().numberOfValidPixelHits() >= 1 &&
+                 track.hitPattern().trackerLayersWithMeasurement() >= 6 &&
+                 track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) == 0 &&
+                 track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
+                 track.trackIsoNoPUDRp3() / track.pt() < 0.01);
+#endif
+
+  return result;
 }
 
 bool EventTriggerVarProducer::isGoodMuon(const pat::Muon &muon,

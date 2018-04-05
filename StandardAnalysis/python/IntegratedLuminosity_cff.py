@@ -165,30 +165,61 @@ lumi_2016Prompt = {
 lumi_2017 = {
 
     # filterJSON.py --min x --max y Cert_294927-302654_13TeV_PromptReco_Collisions17_JSON.txt --output Run2017x.json
+    # 2017A: 295982-297004 ; no runs certifed
     # 2017B: 297031-299329
     # 2017C: 299368-302029
-    # 2017D: 302031-302663
+    # 2017D: 302031-302995
+    # 2017E: 303569-304826
+    # 2017F: 305033-306460
     # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
 
-    # --hltpath "HLT_MET105_IsoTrk50_v*"
-    # note: since MET105_IsoTrk50 came online only in run:fill 299368:5962, what should really happen here is
-    #       there will be a period before it with some lumi and then a period with it included
-    "MET_2017B" : 0.0,
-    "MET_2017C" : 9556.386,
-    "MET_2017D" : 3679.642,
+    # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
+    # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
+    # see Triggers.py for details
+    "MET_2017B" : 4733.146,
+    "MET_2017C" : 9748.053,
+    "MET_2017D" : 4317.411,
+    "MET_2017E" : 9386.139,
+    "MET_2017F" : 10320.179,
+
+    # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
+    "SingleElectron_2017B" : 4733.146,
+    "SingleElectron_2017C" : 9748.053,
+    "SingleElectron_2017D" : 4317.410,
+    "SingleElectron_2017E" : 9386.138,
+    "SingleElectron_2017F" : 10435.008,
 
     # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017B" : 4495.945,
-    "SingleMuon_2017C" : 9556.385,
-    "SingleMuon_2017D" : 3679.643,
+    "SingleMuon_2017B" : 4733.146,
+    "SingleMuon_2017C" : 9748.053,
+    "SingleMuon_2017D" : 4317.410,
+    "SingleMuon_2017E" : 9386.138,
+    "SingleMuon_2017F" : 10435.008,
+
+    "Tau_2017C" : 8250.142, # durp durp durp no hltpath
+    # add more tau stuff here
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017B" : 3811.717 ,
-        "Tau_2017C" : 495.724,
-        "Tau_2017D" : 266.845,
+        "Tau_2017B" : 4043.585,
+        "Tau_2017C" : 506.046,
+        "Tau_2017D" : 316.548,
+        "Tau_2017E" : 396.575,
+        "Tau_2017F" : 315.44,
     },
 
+}
+
+lumi_2017_ntuples = {
+    # brilcalc on CRAB report JSONs with hltpath
+    "MET_2017C" : 9662.724,
+    "SingleElectron_2017C" : 9608.389,
+    "SingleMuon_2017C" : 9386.518,
+    "Tau_2017C" : 8250.142, # no hltpath (see next entry)
+
+    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
+        "Tau_2017C" : 396.274,
+    },
 }
 
 # set 2016 to either the rereco or prompt values depending on usePrompt2016
@@ -258,14 +289,14 @@ for period in {'BC', 'DEF', 'BCDEF', 'GH', 'DEFG', 'DEFGH', 'BCDEFGH'}:
         lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] += lumi["HLT_ZeroBias_v*"]['ZeroBias_2016' + p]
 
 # 2017
-for period in {'BCD'}:
+for period in {'CDEF', 'BCDEF'}:
 
-    for pd in {'MET', 'SingleMuon'}:
-        key = pd + '_2017' + period if period != 'BCD' else pd + '_2017'
+    for pd in {'MET', 'SingleElectron', 'SingleMuon', 'Tau'}:
+        key = pd + '_2017' + period if period != 'BCDEF' else pd + '_2017'
 
         lumi[key] = 0.0
         for p in period:
             lumi[key] += lumi[pd + '_2017' + p]
 
-    suffix = '_2017' + period if period != 'BCD' else '_2017'
+    suffix = '_2017' + period if period != 'BCDEF' else '_2017'
     lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau' + suffix]  = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau_2017' + p]

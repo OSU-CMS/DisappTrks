@@ -7,14 +7,24 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 ##########################################################################
 ##### Testing #####
 ##########################################################################
+
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
     triggers = cms.vstring(),
+<<<<<<< HEAD
     cuts = cms.VPSet (
         cutDummyMet,
     )
 )
 
+||||||| merged common ancestors
+    cuts = cms.VPSet (),
+    )
+
+=======
+    cuts = cms.VPSet (),
+)
+>>>>>>> Run2017
 
 ##########################################################################
 ##### Preselection #####
@@ -29,9 +39,11 @@ vertexCutOnly = cms.PSet(
         cutGoodPV,
     )
 )
+
 metMinimalSkim = copy.deepcopy (vertexCutOnly)
 metMinimalSkim.name = cms.string ("metMinimalSkim")
 addCuts (metMinimalSkim.cuts, [cutMet])
+
 basicSelection = copy.deepcopy (metMinimalSkim)
 basicSelection.name = cms.string ("BasicSelection")
 jetCuts = [
@@ -54,10 +66,21 @@ basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
+################################################################################
+## Testing channels to compare pat::IsolatedTrack to CandidateTrack
+## in the MET dataset
+################################################################################
+
+MinimalMETTrackSelection = copy.deepcopy(metMinimalSkim)
+MinimalMETTrackSelection.name = cms.string("MinimalMETTrackSelection")
+addCuts(MinimalMETTrackSelection.cuts, [cutTrkPt20])
+
+MinimalMETMatchedCandidateTrackSelection = copy.deepcopy(MinimalMETTrackSelection)
+MinimalMETMatchedCandidateTrackSelection.name = cms.string("MinimalMETMatchedCandidateTrackSelection")
+addCuts(MinimalMETMatchedCandidateTrackSelection.cuts, [cutTrkMatchedCandidateTrack])
+
 ##########################################################################
 
-isoTrkSelection = copy.deepcopy(basicSelection)
-isoTrkSelection.name = cms.string("IsoTrkSelection")
 isoTrkCuts = [
     cutTrkEta,
     cutTrkEcalGapVeto,
@@ -76,40 +99,15 @@ isoTrkCuts = [
     cutTrkDZ,
     cutTrkJetDeltaPhi,
 ]
-isoTrkWithPt55Cuts = [
-    cutTrkEta,
-    cutTrkPt55,
-    cutTrkEcalGapVeto,
-    cutTrkEtaMuonIneff1,
-    cutTrkEtaMuonIneff2,
-    cutTrkTOBCrack,
-    cutTrkFiducialElectron,
-    cutTrkFiducialMuon,
-    cutTrkFiducialECAL,
-    cutTrkNValidPixelHits3,
-    cutTrkNValidHits,
-    cutTrkNMissIn,
-    cutTrkNMissMid,
-    cutTrkIso,
-    cutTrkD0,
-    cutTrkDZ,
-    cutTrkJetDeltaPhi,
-]
-isoTrkWithPt55BeforeIsoCuts = [
-    cutTrkEta,
-    cutTrkPt55,
-    cutTrkEcalGapVeto,
-    cutTrkEtaMuonIneff1,
-    cutTrkEtaMuonIneff2,
-    cutTrkTOBCrack,
-    cutTrkFiducialElectron,
-    cutTrkFiducialMuon,
-    cutTrkFiducialECAL,
-    cutTrkNValidPixelHits3,
-    cutTrkNValidHits,
-    cutTrkNMissIn,
-    cutTrkNMissMid,
-]
+
+isoTrkWithPt55Cuts = copy.deepcopy(isoTrkCuts)
+addSingleCut(isoTrkWithPt55Cuts, cutTrkPt55, cutTrkEta)
+
+isoTrkWithPt55BeforeIsoCuts = copy.deepcopy(isoTrkWithPt55Cuts)
+removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkIso, cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
+
+isoTrkSelection = copy.deepcopy(basicSelection)
+isoTrkSelection.name = cms.string("IsoTrkSelection")
 addCuts(isoTrkSelection.cuts, isoTrkWithPt55Cuts)
 
 isoTrkSelectionInvertDRJetCut = copy.deepcopy (isoTrkSelection)
@@ -122,6 +120,7 @@ isoTrkSelectionBeforeIsoCut.name = cms.string ("IsoTrkSelectionBeforeIsoCut")
 addCuts (isoTrkSelectionBeforeIsoCut.cuts, isoTrkWithPt55BeforeIsoCuts)
 
 ##########################################################################
+
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
 isoTrkLoosePt.name = copy.deepcopy("IsoTrkLoosePt")
 addSingleCut(isoTrkLoosePt.cuts,  cutTrkPt35, cutTrkPt55)

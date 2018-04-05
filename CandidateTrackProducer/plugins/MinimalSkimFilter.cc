@@ -1,5 +1,7 @@
 #include "TVector2.h"
 
+#include "OSUT3Analysis/AnaTools/interface/CMSSWVersion.h"
+
 #include "DisappTrks/CandidateTrackProducer/plugins/MinimalSkimFilter.h"
 
 template<MinimalSkim T>
@@ -105,7 +107,11 @@ MinimalSkimFilter<T>::passesTightID_noIsolation_2015 (const pat::Electron &elect
              && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.012
              && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0111
              && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.0466
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)     <=  2
+#else
              && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
              && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -117,7 +123,11 @@ MinimalSkimFilter<T>::passesTightID_noIsolation_2015 (const pat::Electron &elect
              && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.00999
              && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0351
              && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.417
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)     <=  1
+#else
              && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#endif
              && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
 
@@ -138,7 +148,11 @@ MinimalSkimFilter<T>::passesTightID_noIsolation_2016 (const pat::Electron &elect
              && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
              && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.05
              && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.10
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#else
              && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#endif
              && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
   else if (fabs (electron.superCluster ()->eta ()) < 2.5)
@@ -150,7 +164,11 @@ MinimalSkimFilter<T>::passesTightID_noIsolation_2016 (const pat::Electron &elect
              && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
              && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.10
              && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.20
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#else
              && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#endif
              && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
     }
 
