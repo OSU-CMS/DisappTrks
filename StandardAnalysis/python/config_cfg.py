@@ -35,29 +35,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [muonCtrlSelectionWithMatch],     histSetsMuon,  weights,  [],  collMap,  variableProducers,  False)
 
 # Variations of the disappearing tracks search region
-<<<<<<< HEAD
-#  add_channels  (process,  [disTrkIdElec],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdMuon],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdTau],              histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdFake],             histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOut],         histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoEcalo],            histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOutNoEcalo],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-||||||| merged common ancestors
-#  add_channels  (process,  [disTrkIdElec],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdMuon],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdTau],       histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdFake],      histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOut],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoEcalo],     histSets,  weights,  [],  collectionMap,  variableProducers,  False)
-=======
-#  add_channels  (process,  [disTrkIdElec],      histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdMuon],      histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdTau],       histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkIdFake],      histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoEcalo],     histSets,  weights,  [],  collMap,  variableProducers,  False)
->>>>>>> Run2017
+#  add_channels  (process,  [disTrkIdElec],             histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdMuon],             histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdTau],              histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkIdFake],             histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOut],         histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoEcalo],            histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOutNoEcalo],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
 #  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)

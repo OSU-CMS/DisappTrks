@@ -11,20 +11,11 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 NoCuts = cms.PSet(
     name = cms.string("NoCuts"),
     triggers = cms.vstring(),
-<<<<<<< HEAD
-    cuts = cms.VPSet (
+    cuts = cms.VPSet(
         cutDummyMet,
     )
 )
 
-||||||| merged common ancestors
-    cuts = cms.VPSet (),
-    )
-
-=======
-    cuts = cms.VPSet (),
-)
->>>>>>> Run2017
 
 ##########################################################################
 ##### Preselection #####
