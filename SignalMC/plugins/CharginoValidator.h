@@ -37,6 +37,8 @@ class CharginoValidator : public edm::EDAnalyzer {
       edm::InputTag genParticles_;
       edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
 
+      bool cutPythia8Flag_;
+
       edm::Service<TFileService> fs_;
       map<string, TH1D *> oneDHists_;
       map<string, TH2D *> twoDHists_;

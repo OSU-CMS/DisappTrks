@@ -1,8 +1,9 @@
 #include "DisappTrks/SignalMC/plugins/CharginoValidator.h"
 
 CharginoValidator::CharginoValidator (const edm::ParameterSet &cfg) :
-  tracks_ (cfg.getParameter<edm::InputTag> ("tracks")),
-  genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles"))
+  tracks_         (cfg.getParameter<edm::InputTag> ("tracks")),
+  genParticles_   (cfg.getParameter<edm::InputTag> ("genParticles")),
+  cutPythia8Flag_ (cfg.getUntrackedParameter<bool>("cutPythia8Flag", false))
 {
   TH1::SetDefaultSumw2();
   oneDHists_["nCharginos"] = fs_->make<TH1D> ("nCharginos", ";number of charginos", 5, -0.5, 4.5);
@@ -62,6 +63,8 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
       if (abs (genParticle.pdgId ()) != 1000024)
         continue;
       if (genParticle.numberOfDaughters () == 1)
+        continue;
+      if (cutPythia8Flag_ && !genParticle.fromHardProcessBeforeFSR ())
         continue;
 
       nCharginos++;
