@@ -9,7 +9,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'AMSB_chargino_step2_2017_cfg.py'
+config.JobType.psetName = 'step2/AMSB_chargino_step2_2017_cfg.py'
 config.JobType.numCores = 4
 
 config.Data.inputDataset = ''
@@ -19,7 +19,7 @@ config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3_step2'
+config.Data.outputDatasetTag = 'RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1_step2'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
