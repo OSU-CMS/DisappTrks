@@ -41,7 +41,7 @@ class CharginoValidator : public edm::EDAnalyzer {
       map<string, TH1D *> oneDHists_;
       map<string, TH2D *> twoDHists_;
 
-      void getEndVertex (const reco::GenParticle &, TVector3 &) const;
+      bool getEndVertex (const reco::GenParticle &, TVector3 &) const;
       const reco::Track * getMatchedTrack (const reco::GenParticle &, const edm::Handle<vector<reco::Track> > &) const;
 };
 
