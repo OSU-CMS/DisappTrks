@@ -16,9 +16,9 @@ config.Data.splitting = 'EventBased'
 config.Data.unitsPerJob = 100
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
-config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall17DRPremix-94X_mc2017_realistic_v10'
+config.Data.outputDatasetTag = 'RunIIFall17DRPremix-94X_mc2017_realistic_v10-v3'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
@@ -51,3 +51,14 @@ if __name__ == '__main__':
     config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino700GeV_ctau100cm_step1.py'
     config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8'
     #forkAndSubmit(config)
+
+    config.General.requestName = 'AMSB_chargino300GeV_ctau100cm_step1'
+    config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino300GeV_ctau100cm_step1.py'
+    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8'
+    #forkAndSubmit(config)
+
+    config.General.requestName = 'AMSB_chargino700GeV_ctau1000cm_step1'
+    config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino700GeV_ctau1000cm_step1.py'
+    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8'
+    #forkAndSubmit(config)
+    
