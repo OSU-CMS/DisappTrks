@@ -1,9 +1,8 @@
 #include "DisappTrks/SignalMC/plugins/CharginoValidator.h"
 
 CharginoValidator::CharginoValidator (const edm::ParameterSet &cfg) :
-  tracks_         (cfg.getParameter<edm::InputTag> ("tracks")),
-  genParticles_   (cfg.getParameter<edm::InputTag> ("genParticles")),
-  cutPythia8Flag_ (cfg.getUntrackedParameter<bool>("cutPythia8Flag", false))
+  tracks_ (cfg.getParameter<edm::InputTag> ("tracks")),
+  genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles"))
 {
   TH1::SetDefaultSumw2();
   oneDHists_["nCharginos"] = fs_->make<TH1D> ("nCharginos", ";number of charginos", 5, -0.5, 4.5);
@@ -62,17 +61,20 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
     {
       if (abs (genParticle.pdgId ()) != 1000024)
         continue;
-      if (genParticle.numberOfDaughters () == 1)
+      if (genParticle.numberOfDaughters () < 2)
         continue;
-      if (cutPythia8Flag_ && !genParticle.fromHardProcessBeforeFSR ())
-        continue;
-
-      nCharginos++;
 
       TVector3 x (genParticle.vx (), genParticle.vy (), genParticle.vz ()),
                y (0.0, 0.0, 0.0);
+
+      // Failing to get the end vertex means no neutralino was found in the
+      // list of daughters. The chargino may have emitted a photon or it may
+      // have failed to decay at all.
+      if (!getEndVertex (genParticle, y))
+        continue;
       double boost = 1.0 / (genParticle.p4 ().Beta (), genParticle.p4 ().Gamma ());
-      getEndVertex (genParticle, y);
+
+      nCharginos++;
 
       oneDHists_.at ("genCharge")->Fill (genParticle.charge ());
       oneDHists_.at ("genMass")->Fill (genParticle.mass ());
@@ -125,20 +127,18 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
     clog << "[" << event.id () << "] No charginos found!" << endl;
 }
 
-void
+bool
 CharginoValidator::getEndVertex (const reco::GenParticle &genParticle, TVector3 &y) const
 {
-  if (!genParticle.numberOfDaughters ())
-    y.SetXYZ (99999.0, 99999.0, 99999.0);
-  else
-    for (const auto &daughter : genParticle)
-      {
-        if (abs (daughter.pdgId ()) != 1000022)
-          continue;
+  for (const auto &daughter : genParticle)
+    {
+      if (abs (daughter.pdgId ()) != 1000022)
+        continue;
 
-        y.SetXYZ (daughter.vx (), daughter.vy (), daughter.vz ());
-        break;
-      }
+      y.SetXYZ (daughter.vx (), daughter.vy (), daughter.vz ());
+      return true;
+    }
+  return false;
 }
 
 const reco::Track *
