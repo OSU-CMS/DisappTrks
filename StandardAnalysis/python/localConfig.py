@@ -5,8 +5,6 @@ import copy
 import os
 import re
 
-from DisappTrks.StandardAnalysis.miniAODV2Samples import *
-
 # Change this to True if you want to use CandidateTracks in ntuples instead of IsolatedTracks in standard MINIAOD
 # This is perhaps a weird place to put this switch, but this is the first DisappTrks module imported in protoConfig
 UseCandidateTracks = False
@@ -22,16 +20,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Datasets from: miniAOD_92X_Samples"
-    from DisappTrks.StandardAnalysis.miniAOD_92X_Samples import *
+    print "# Datasets from: miniAOD_94X_Samples"
+    from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
     if UseCandidateTracks:
-        print "#                (using CandidateTracks ntuples from miniAOD_92X_Samples)"
+        print "#                (using CandidateTrack ntuples from miniAOD_94X_Samples)"
         dataset_names = datasets_names_data_ntuples
+        dataset_names_sig = dataset_names_sig_ntuples
     print "# Background samples from: miniAODV2Samples (should be updated!)"
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
 else:
     print "# Datasets and background samples from: miniAODV2Samples"
+    from DisappTrks.StandardAnalysis.miniAODV2Samples import *
 
 config_file = "config_cfg.py"
 

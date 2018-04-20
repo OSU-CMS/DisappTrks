@@ -1,8 +1,10 @@
 #include "DisappTrks/SignalMC/plugins/CharginoValidator.h"
 
 CharginoValidator::CharginoValidator (const edm::ParameterSet &cfg) :
-  tracks_ (cfg.getParameter<edm::InputTag> ("tracks")),
-  genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles"))
+  tracks_         (cfg.getParameter<edm::InputTag> ("tracks")),
+  genParticles_   (cfg.getParameter<edm::InputTag> ("genParticles")),
+  pileupInfo_     (cfg.getParameter<edm::InputTag> ("pileupInfo")),
+  cutPythia8Flag_ (cfg.getUntrackedParameter<bool>("cutPythia8Flag", false))
 {
   TH1::SetDefaultSumw2();
   oneDHists_["nCharginos"] = fs_->make<TH1D> ("nCharginos", ";number of charginos", 5, -0.5, 4.5);
@@ -40,8 +42,19 @@ CharginoValidator::CharginoValidator (const edm::ParameterSet &cfg) :
   oneDHists_["numberOfMissingMiddleHits"] = fs_->make<TH1D> ("numberOfMissingMiddleHits", ";track number of missing middle hits", 20, -0.5, 19.5);
   oneDHists_["numberOfMissingOuterHits"] = fs_->make<TH1D> ("numberOfMissingOuterHits", ";track number of missing outer hits", 20, -0.5, 19.5);
 
-  tracksToken_ = consumes<vector<reco::Track> > (tracks_);
-  genParticlesToken_ = consumes<vector<reco::GenParticle> > (genParticles_);
+  twoDHists_["matchedTrackVsPU"] = fs_->make<TH2D> ("matchedTrackVsPU", ";trueNumInteractions;matched track found", 100, 0, 100, 2, -0.5, 1.5);
+  twoDHists_["chargeVsPU"] = fs_->make<TH2D> ("chargeVsPU", ";trueNumInteractions;track charge", 100, 0, 100, 3, -1.5, 1.5);
+  twoDHists_["ptVsPU"] = fs_->make<TH2D> ("ptVsPU", ";trueNumInteractions;track p_{T} [GeV]", 100, 0, 100, 500, 0.0, 1000.0);
+  twoDHists_["etaVsPU"] = fs_->make<TH2D> ("etaVsPU", ";trueNumInteractions;track #eta", 100, 0, 100, 100, -5.0, 5.0);
+
+  twoDHists_["numberOfValidHits"] = fs_->make<TH2D> ("numberOfValidHitsVsPU", ";trueNumInteractions;track number of valid hits", 100, 0, 100, 100, -0.5, 99.5);
+  twoDHists_["numberOfMissingInnerHits"] = fs_->make<TH2D> ("numberOfMissingInnerHitsVsPU", ";trueNumInteractions;track number of missing inner hits", 100, 0, 100, 20, -0.5, 19.5);
+  twoDHists_["numberOfMissingMiddleHits"] = fs_->make<TH2D> ("numberOfMissingMiddleHitsVsPU", ";trueNumInteractions;track number of missing middle hits", 100, 0, 100, 20, -0.5, 19.5);
+  twoDHists_["numberOfMissingOuterHits"] = fs_->make<TH2D> ("numberOfMissingOuterHitsVsPU", ";trueNumInteractions;track number of missing outer hits", 100, 0, 100, 20, -0.5, 19.5);
+
+  tracksToken_       = consumes<vector<reco::Track> >          (tracks_);
+  genParticlesToken_ = consumes<vector<reco::GenParticle> >    (genParticles_);
+  pileupInfoToken_   = consumes<edm::View<PileupSummaryInfo> > (pileupInfo_);
 }
 
 CharginoValidator::~CharginoValidator ()
@@ -53,28 +66,29 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
 {
   edm::Handle<vector<reco::Track> > tracks;
   event.getByToken (tracksToken_, tracks);
+
   edm::Handle<vector<reco::GenParticle> > genParticles;
   event.getByToken (genParticlesToken_, genParticles);
+
+  edm::Handle<edm::View<PileupSummaryInfo> > pileupInfos;
+  event.getByToken (pileupInfoToken_, pileupInfos);
 
   unsigned nCharginos = 0;
   for (const auto &genParticle : *genParticles)
     {
       if (abs (genParticle.pdgId ()) != 1000024)
         continue;
-      if (genParticle.numberOfDaughters () < 2)
+      if (genParticle.numberOfDaughters () == 1)
         continue;
+      if (cutPythia8Flag_ && !genParticle.fromHardProcessBeforeFSR ())
+        continue;
+
+      nCharginos++;
 
       TVector3 x (genParticle.vx (), genParticle.vy (), genParticle.vz ()),
                y (0.0, 0.0, 0.0);
-
-      // Failing to get the end vertex means no neutralino was found in the
-      // list of daughters. The chargino may have emitted a photon or it may
-      // have failed to decay at all.
-      if (!getEndVertex (genParticle, y))
-        continue;
       double boost = 1.0 / (genParticle.p4 ().Beta (), genParticle.p4 ().Gamma ());
-
-      nCharginos++;
+      getEndVertex (genParticle, y);
 
       oneDHists_.at ("genCharge")->Fill (genParticle.charge ());
       oneDHists_.at ("genMass")->Fill (genParticle.mass ());
@@ -104,6 +118,13 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
           oneDHists_.at ("matchedTrack")->Fill (-1.0);
           continue;
         }
+
+      edm::View<PileupSummaryInfo>::const_iterator iterPU;
+      double truePV = -1;
+      for(edm::View<PileupSummaryInfo>::const_iterator iterPU = pileupInfos->begin(); iterPU != pileupInfos->end(); iterPU++) {
+        if(iterPU->getBunchCrossing() == 0) truePV = iterPU->getTrueNumInteractions();
+      }
+
       const reco::Track *track = getMatchedTrack (genParticle, tracks);
 
       if (track)
@@ -118,27 +139,42 @@ CharginoValidator::analyze (const edm::Event &event, const edm::EventSetup &setu
           oneDHists_.at ("numberOfMissingInnerHits")->Fill (track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS));
           oneDHists_.at ("numberOfMissingMiddleHits")->Fill (track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS));
           oneDHists_.at ("numberOfMissingOuterHits")->Fill (track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
+
+          twoDHists_.at ("matchedTrackVsPU")->Fill (truePV, 1.0);
+
+          twoDHists_["chargeVsPU"]->Fill (truePV, track->charge ());
+          twoDHists_["ptVsPU"]->Fill (truePV, track->pt ());
+          twoDHists_["etaVsPU"]->Fill (truePV, track->eta ());
+
+          twoDHists_["numberOfValidHits"]->Fill (truePV, track->numberOfValidHits ());
+          twoDHists_["numberOfMissingInnerHits"]->Fill (truePV, track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_INNER_HITS));
+          twoDHists_["numberOfMissingMiddleHits"]->Fill (truePV, track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::TRACK_HITS));
+          twoDHists_["numberOfMissingOuterHits"]->Fill (truePV, track->hitPattern ().trackerLayersWithoutMeasurement (reco::HitPattern::MISSING_OUTER_HITS));
         }
-      else
+      else {
         oneDHists_.at ("matchedTrack")->Fill (0.0);
+        twoDHists_.at ("matchedTrackVsPU")->Fill (truePV, 0.0);
+      }
     }
   oneDHists_.at ("nCharginos")->Fill (nCharginos);
   if (!nCharginos)
     clog << "[" << event.id () << "] No charginos found!" << endl;
 }
 
-bool
+void
 CharginoValidator::getEndVertex (const reco::GenParticle &genParticle, TVector3 &y) const
 {
-  for (const auto &daughter : genParticle)
-    {
-      if (abs (daughter.pdgId ()) != 1000022)
-        continue;
+  if (!genParticle.numberOfDaughters ())
+    y.SetXYZ (99999.0, 99999.0, 99999.0);
+  else
+    for (const auto &daughter : genParticle)
+      {
+        if (abs (daughter.pdgId ()) != 1000022)
+          continue;
 
-      y.SetXYZ (daughter.vx (), daughter.vy (), daughter.vz ());
-      return true;
-    }
-  return false;
+        y.SetXYZ (daughter.vx (), daughter.vy (), daughter.vz ());
+        break;
+      }
 }
 
 const reco::Track *

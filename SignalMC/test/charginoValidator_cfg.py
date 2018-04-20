@@ -33,7 +33,10 @@ process.TFileService = cms.Service ('TFileService',
 
 process.charginoValidator = cms.EDAnalyzer ("CharginoValidator",
     tracks = cms.InputTag ("generalTracks", ""),
-    genParticles = cms.InputTag ("genParticlePlusGeant", ""),
+    #genParticles = cms.InputTag ("genParticlePlusGeant", ""),
+    genParticles = cms.InputTag ("genParticles", ""),
+    pileupInfo = cms.InputTag ("addPileupInfo"),
+    cutPythia8Flag = cms.untracked.bool (True), # genParticle.fromHardProcessBeforeFSR()
 )
 
 process.myPath = cms.Path (process.charginoValidator)

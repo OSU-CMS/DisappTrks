@@ -171,41 +171,49 @@ lumi_2017 = {
     # 2017D: 302031-302995
     # 2017E: 303569-304826
     # 2017F: 305033-306460
-    # brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
+    # old way: brilcalc lumi -b "STABLE BEAMS" -u /pb -i Run2017x.json --hltpath xyz
+    # new way:
+    #          (https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis)
+    #          (https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM)
+    # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json -u /pb -i Run2017x.json --hltpath xyz
 
     # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
     # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
     # see Triggers.py for details
-    "MET_2017B" : 4733.146,
-    "MET_2017C" : 9748.053,
-    "MET_2017D" : 4317.411,
-    "MET_2017E" : 9386.139,
-    "MET_2017F" : 10320.179,
+    "MET_2017B" : 4767.316,
+    "MET_2017C" : 9581.209,
+    "MET_2017D" : 4223.683,
+    "MET_2017E" : 9261.456,
+    "MET_2017F" : 12599.032,
 
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
-    "SingleElectron_2017B" : 4733.146,
-    "SingleElectron_2017C" : 9748.053,
-    "SingleElectron_2017D" : 4317.410,
-    "SingleElectron_2017E" : 9386.138,
-    "SingleElectron_2017F" : 10435.008,
+    "SingleElectron_2017B" : 4767.316,
+    "SingleElectron_2017C" : 9581.209,
+    "SingleElectron_2017D" : 4223.683,
+    "SingleElectron_2017E" : 9261.457,
+    "SingleElectron_2017F" : 13462.405,
 
     # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017B" : 4733.146,
-    "SingleMuon_2017C" : 9748.053,
-    "SingleMuon_2017D" : 4317.410,
-    "SingleMuon_2017E" : 9386.138,
-    "SingleMuon_2017F" : 10435.008,
+    "SingleMuon_2017B" : 4767.316,
+    "SingleMuon_2017C" : 9581.209,
+    "SingleMuon_2017D" : 4223.683,
+    "SingleMuon_2017E" : 9261.457,
+    "SingleMuon_2017F" : 13462.405,
 
-    "Tau_2017C" : 8250.142, # durp durp durp no hltpath
-    # add more tau stuff here
+    # no hltpath
+    "Tau_2017B" : 4767.321,
+    "Tau_2017C" : 9582.727,
+    "Tau_2017D" : 4223.683,
+    "Tau_2017E" : 9261.457,
+    "Tau_2017F" : 13462.676,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017B" : 4043.585,
-        "Tau_2017C" : 506.046,
-        "Tau_2017D" : 316.548,
-        "Tau_2017E" : 396.575,
-        "Tau_2017F" : 315.44,
+        "Tau_2017B" : 4071.273,
+        "Tau_2017C" : 496.381,
+        "Tau_2017D" : 310.075,
+        "Tau_2017E" : 389.383,
+        "Tau_2017F" : 463.252,
     },
 
 }
