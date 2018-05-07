@@ -8,12 +8,15 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TVector3.h"
+#include "TLorentzVector.h"
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/Math/interface/deltaR.h"
+#include "DataFormats/METReco/interface/GenMET.h"
+#include "DataFormats/METReco/interface/GenMETCollection.h"
 
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -36,10 +39,12 @@ class CharginoValidator : public edm::EDAnalyzer {
       edm::InputTag tracks_;
       edm::InputTag genParticles_;
       edm::InputTag pileupInfo_;
+      edm::InputTag genMets_;
 
       edm::EDGetTokenT<vector<reco::Track> > tracksToken_;
       edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
       edm::EDGetTokenT<edm::View<PileupSummaryInfo> > pileupInfoToken_;
+      edm::EDGetTokenT<reco::GenMETCollection> genMetsToken_;
 
       bool cutPythia8Flag_;
 

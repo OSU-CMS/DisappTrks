@@ -1,7 +1,7 @@
 COM_ENERGY = 13000.
 CROSS_SECTION = 1.0
 MCHI = 700  # GeV
-CTAU = 100000  # mm
+CTAU = 1000  # mm
 SLHA_TABLE="""
 #  ISAJET SUSY parameters in SUSY Les Houches Accord 2 format
 #  Created by ISALHA 2.0 Last revision: C. Balazs 21 Apr 2009
@@ -47,7 +47,7 @@ Block MASS   # Scalar and gaugino mass spectrum
    1000021     4.74673096E+03   #  glss
    1000022     6.99874146E+02   #  z1ss
    1000023     2.26904956E+03   #  z2ss
-   1000024     7.00147607E+02   #  w1ss
+   1000024     7.00047607E+02   #  w1ss
    1000025    -3.87153369E+03   #  z3ss
    1000035     3.87282349E+03   #  z4ss
    1000037     3.87772314E+03   #  w2ss
@@ -150,57 +150,44 @@ Block AE Q=  3.58269727E+03   #
   1  1     2.57661255E+03   # A_e
   2  2     2.57661255E+03   # A_mu
   3  3     2.57661255E+03   # A_tau
-#
-#
-#
-#                             =================
-#                             |The decay table|
-#                             =================
-#
-#         PDG            Width
-DECAY   1000024     %.9g # chargino decay
-#
-#
-""" % (1.97326979e-13 / CTAU)
+"""
 
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 
-
 generator = cms.EDFilter("Pythia8GeneratorFilter",
-    pythiaPylistVerbosity = cms.untracked.int32(0),
-    filterEfficiency = cms.untracked.double(-1),
-    pythiaHepMCVerbosity = cms.untracked.bool(False),
-    SLHATableForPythia8 = cms.string('%s' % SLHA_TABLE),
-    comEnergy = cms.double(COM_ENERGY),
-    crossSection = cms.untracked.double(CROSS_SECTION),
-    maxEventsToPrint = cms.untracked.int32(0),
-    PythiaParameters = cms.PSet(
-        pythia8CommonSettingsBlock,
-        pythia8CP5SettingsBlock,
-        processParameters = cms.vstring(
-            'SUSY:all = off',
-            'SUSY:qqbar2chi+chi- = on',
-            'SUSY:qqbar2chi+-chi0 = on',
-            '1000024:isResonance = false',
-            '1000024:oneChannel = 1 1.0 100 1000022 211',
-            '1000024:tau0 = %.1f' % CTAU,
-            'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
-       ),
-        parameterSets = cms.vstring(
-            'pythia8CommonSettings',
-            'pythia8CP5Settings',
-            'processParameters')
-    ),
-    # The following parameters are required by Exotica_HSCP_SIM_cfi:
-    slhaFile = cms.untracked.string(''),   # value not used
-    processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
-    useregge = cms.bool(False),
-    hscpFlavor = cms.untracked.string('stau'),
-    massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
+  pythiaPylistVerbosity = cms.untracked.int32(0),
+  filterEfficiency = cms.untracked.double(-1),
+  pythiaHepMCVerbosity = cms.untracked.bool(False),
+  SLHATableForPythia8 = cms.string('%s' % SLHA_TABLE),
+  comEnergy = cms.double(COM_ENERGY),
+  crossSection = cms.untracked.double(CROSS_SECTION),
+  maxEventsToPrint = cms.untracked.int32(0),
+  PythiaParameters = cms.PSet(
+      pythia8CommonSettingsBlock,
+      pythia8CP5SettingsBlock,
+      processParameters = cms.vstring(
+        'SUSY:all = off',
+        'SUSY:qqbar2chi+chi- = on',
+        'SUSY:qqbar2chi+-chi0 = on',
+        '1000024:mayDecay = false',
+        '-1000024:mayDecay = false',
+      ),
+      parameterSets = cms.vstring(
+        'pythia8CommonSettings',
+        'pythia8CP5Settings',
+        'processParameters',
+      )
+  ),
+  # The following parameters are required by Exotica_HSCP_SIM_cfi:
+  slhaFile = cms.untracked.string(''),   # value not used
+  processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
+  useregge = cms.bool(False),
+  hscpFlavor = cms.untracked.string('stau'),
+  massPoint = cms.untracked.int32(MCHI),  # value not used
+  particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
 )
 
 ProductionFilterSequence = cms.Sequence(generator)

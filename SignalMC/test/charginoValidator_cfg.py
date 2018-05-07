@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-import glob, sys
+import glob, sys, os
 
 dirName = sys.argv[2]
 fileName = sys.argv[3]
@@ -20,7 +20,7 @@ process.maxEvents = cms.untracked.PSet (
 )
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        map (lambda a : "file:" + a, glob.glob (dirName + "/*.root"))
+        map (lambda a : "file:" + a, [f for f in glob.glob (dirName + "/*.root") if os.path.getsize(f) != 0])
     ),
 )
 process.TFileService = cms.Service ('TFileService',
@@ -36,6 +36,7 @@ process.charginoValidator = cms.EDAnalyzer ("CharginoValidator",
     #genParticles = cms.InputTag ("genParticlePlusGeant", ""),
     genParticles = cms.InputTag ("genParticles", ""),
     pileupInfo = cms.InputTag ("addPileupInfo"),
+    genMets = cms.InputTag ("genMetTrue"),
     cutPythia8Flag = cms.untracked.bool (True), # genParticle.fromHardProcessBeforeFSR()
 )
 

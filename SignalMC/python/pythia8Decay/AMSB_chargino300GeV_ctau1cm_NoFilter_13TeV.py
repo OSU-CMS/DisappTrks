@@ -47,7 +47,7 @@ Block MASS   # Scalar and gaugino mass spectrum
    1000021     2.18962207E+03   #  glss
    1000022     2.99864838E+02   #  z1ss
    1000023     9.52063293E+02   #  z2ss
-   1000024     3.00137323E+02   #  w1ss !!! IMPORTANT NOTE: 100 MeV has been added to this to get past ResonanceDecays::MSAFETY = 100 MeV
+   1000024     3.00137323E+02   #  w1ss
    1000025    -1.74983081E+03   #  z3ss
    1000035     1.75280737E+03   #  z4ss
    1000037     1.75418726E+03   #  w2ss
@@ -159,14 +159,14 @@ Block AE Q=  1.85234131E+03   #
 #
 #         PDG            Width
 DECAY   1000024     %.9g # chargino decay
-#          BR         NDA      ID1       ID2
-           1.0        2        1000022   211
+#
+#
 """ % (1.97326979e-13 / CTAU)
 
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
-from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import *
+from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 
 
 generator = cms.EDFilter("Pythia8GeneratorFilter",
@@ -179,17 +179,19 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     maxEventsToPrint = cms.untracked.int32(0),
     PythiaParameters = cms.PSet(
         pythia8CommonSettingsBlock,
-        pythia8CUEP8M1SettingsBlock,
+        pythia8CP5SettingsBlock,
         processParameters = cms.vstring(
             'SUSY:all = off',
             'SUSY:qqbar2chi+chi- = on',
             'SUSY:qqbar2chi+-chi0 = on',
+            '1000024:isResonance = false',
+            '1000024:oneChannel = 1 1.0 100 1000022 211',
             '1000024:tau0 = %.1f' % CTAU,
             'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
        ),
         parameterSets = cms.vstring(
             'pythia8CommonSettings',
-            'pythia8CUEP8M1Settings',
+            'pythia8CP5Settings',
             'processParameters')
     ),
     # The following parameters are required by Exotica_HSCP_SIM_cfi:
@@ -198,7 +200,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_add100MeV/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
 )
 
 ProductionFilterSequence = cms.Sequence(generator)
