@@ -105,9 +105,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Signal samples: 80X samples (should be updated!)"
+    print "# Signal samples: 94X samples"
     for i in range (0, len (datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
 else:
     print "# Signal samples: 76X samples"
 
