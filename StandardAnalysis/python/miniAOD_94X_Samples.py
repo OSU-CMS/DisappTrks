@@ -77,18 +77,24 @@ dataset_names_sig = {
     ############################################################################
     # MiniAOD not stored on T3.
     ############################################################################
-    'AMSB_chargino_300GeV_100cm_94X'   : "/AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
+    #'AMSB_chargino_300GeV_100cm_94X'   : "/AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
 
-    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
-    'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
+    #'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
+    #'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1/MINIAODSIM",
+
+    # ~50k events as per the central production request
+    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
 }
 
 # CandidateTracks ntuple version
 dataset_names_sig_ntuples = {
-    'AMSB_chargino_300GeV_100cm_94X'   : "/AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
+    #'AMSB_chargino_300GeV_100cm_94X'   : "/AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
 
-    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
-    'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
+    #'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
+    #'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3p1-candTracks/MINIAODSIM",
+
+    # ~50k events as per the central production request
+    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
 }
 
 dataset_names = {}
