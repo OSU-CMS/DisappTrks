@@ -17,3 +17,13 @@ if osusub.batchMode and types[osusub.datasetLabel] == "data":
   metFilters.append (
     "Flag_eeBadScFilter",
   )
+
+# In 2018 miniAOD, BadPFMuon and BadChargedCandidate are available already
+# Also a new 'bad calibration' filter is added/suggested
+# https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Moriond_2018
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+	metFilters.append(
+		"Flag_BadPFMuonFilter",
+		"Flag_BadChargedCandidateFilter",
+		"Flag_ecalBadCalibFilter",
+	)
