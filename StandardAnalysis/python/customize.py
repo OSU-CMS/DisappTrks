@@ -79,9 +79,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
     # fixme
     elif runPeriod == "2017":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2016_DEFGH")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2016_DEFGHUp")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2016_DEFGHDown")
+        process.PUScalingFactorProducer.target = cms.string ("data2017")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2017Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')

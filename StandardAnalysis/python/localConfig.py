@@ -9,6 +9,10 @@ import re
 # This is perhaps a weird place to put this switch, but this is the first DisappTrks module imported in protoConfig
 UseCandidateTracks = False
 
+# Change this to True if you want to use prunedGenParticlePlusGeant for hardInteractionMcparticles 
+# instead of prunedGenParticles
+UseGeantDecays = False
+
 print "########################################################################"
 print "# Switching the following since the release is " + os.environ["CMSSW_VERSION"] + ":"
 print "#"
@@ -21,14 +25,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     dataset_names.update (dataset_names_bkgd)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Datasets from: miniAOD_94X_Samples"
+    print "# Background samples from: miniAOD_94X_Samples (should be updated with MiniAODv2!)"
     from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
     if UseCandidateTracks:
-        print "#                (using CandidateTrack ntuples from miniAOD_94X_Samples)"
-        dataset_names = datasets_names_data_ntuples
-        dataset_names_sig = dataset_names_sig_ntuples
-    print "# Background samples from: miniAODV2Samples (should be updated!)"
-    from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
-    dataset_names.update (dataset_names_bkgd)
+        print "#                (using CandidateTrack ntuples from miniAOD_94X_Samples in data)"
+        dataset_names.update(datasets_names_data_ntuples)
+        dataset_names.update(dataset_names_sig_ntuples)
 else:
     print "# Datasets and background samples from: miniAODV2Samples"
     from DisappTrks.StandardAnalysis.miniAODV2Samples import *
@@ -152,6 +154,22 @@ composite_dataset_definitions["VV"] = [
     'WG',
     'ZG',
 ]
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    composite_dataset_definitions['ZJetsToNuNu'] = [
+        'ZJetsToNuNu_HT100to200',
+        'ZJetsToNuNu_HT200to400',
+        'ZJetsToNuNu_HT400to600',
+        'ZJetsToNuNu_HT600to800',
+        'ZJetsToNuNu_HT800to1200',
+        'ZJetsToNuNu_HT1200to2500',
+        'ZJetsToNuNu_HT2500toInf',
+    ]
+    composite_dataset_definitions['TTJets'] = [
+        'TTJets_2L2Nu',
+        'TTJets_SemiLeptonic',
+        'TTJets_Hadronic',
+    ]
 
 types["WW"] = "bgMC"
 types["WZ"] = "bgMC"

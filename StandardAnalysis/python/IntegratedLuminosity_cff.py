@@ -164,7 +164,7 @@ lumi_2016Prompt = {
 
 lumi_2017 = {
 
-    # filterJSON.py --min x --max y Cert_294927-302654_13TeV_PromptReco_Collisions17_JSON.txt --output Run2017x.json
+    # filterJSON.py --min x --max y Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt --output Run2017x.json
     # 2017A: 295982-297004 ; no runs certifed
     # 2017B: 297031-299329
     # 2017C: 299368-302029
@@ -176,44 +176,45 @@ lumi_2017 = {
     #          (https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis)
     #          (https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM)
     # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json -u /pb -i Run2017x.json --hltpath xyz
+    # below done with brilws version 3.3.0, pip version 9.0.1
 
     # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
     # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
     # see Triggers.py for details
-    "MET_2017B" : 4767.316,
-    "MET_2017C" : 9581.209,
-    "MET_2017D" : 4223.683,
-    "MET_2017E" : 9261.456,
-    "MET_2017F" : 12599.032,
+    "MET_2017B" : 4793.983,
+    "MET_2017C" : 9631.329,
+    "MET_2017D" : 4247.817,
+    "MET_2017E" : 9314.621,
+    "MET_2017F" : 12671.279,
 
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
-    "SingleElectron_2017B" : 4767.316,
-    "SingleElectron_2017C" : 9581.209,
-    "SingleElectron_2017D" : 4223.683,
-    "SingleElectron_2017E" : 9261.457,
-    "SingleElectron_2017F" : 13462.405,
+    "SingleElectron_2017B" : 4793.983,
+    "SingleElectron_2017C" : 9631.329,
+    "SingleElectron_2017D" : 4247.817,
+    "SingleElectron_2017E" : 9314.621,
+    "SingleElectron_2017F" : 13539.633,
 
     # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2017B" : 4767.316,
-    "SingleMuon_2017C" : 9581.209,
-    "SingleMuon_2017D" : 4223.683,
-    "SingleMuon_2017E" : 9261.457,
-    "SingleMuon_2017F" : 13462.405,
+    "SingleMuon_2017B" : 4793.983,
+    "SingleMuon_2017C" : 9631.329,
+    "SingleMuon_2017D" : 4247.817,
+    "SingleMuon_2017E" : 9314.621,
+    "SingleMuon_2017F" : 13539.633,
 
     # no hltpath
-    "Tau_2017B" : 4767.321,
-    "Tau_2017C" : 9582.727,
-    "Tau_2017D" : 4223.683,
-    "Tau_2017E" : 9261.457,
-    "Tau_2017F" : 13462.676,
+    "Tau_2017B" : 4793.988,
+    "Tau_2017C" : 9632.855,
+    "Tau_2017D" : 4247.817,
+    "Tau_2017E" : 9314.621,
+    "Tau_2017F" : 13539.905,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017B" : 4071.273,
-        "Tau_2017C" : 496.381,
-        "Tau_2017D" : 310.075,
-        "Tau_2017E" : 389.383,
-        "Tau_2017F" : 463.252,
+        "Tau_2017B" : 4094.153,
+        "Tau_2017C" : 498.846,
+        "Tau_2017D" : 311.847,
+        "Tau_2017E" : 391.614,
+        "Tau_2017F" : 465.888,
     },
 
 }

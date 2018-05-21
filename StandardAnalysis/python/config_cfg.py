@@ -3,7 +3,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # Dummy channels
 ################################################################################
-#  add_channels  (process,  [NoCuts],  histSets,  weights,  [],  collectionMap,  variableProducers,  False)
+#  add_channels  (process,  [NoCuts],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 ################################################################################
 
 ################################################################################
