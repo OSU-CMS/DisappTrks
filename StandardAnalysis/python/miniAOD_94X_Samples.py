@@ -4,34 +4,40 @@
 #########  LIST OF MINIAOD 2017 94X DATASETS  ##############################################################
 ############################################################################################################
 
+# N.B.: while we should use the most recent datasets, 31Mar2018 seems to have poor availability. 
+#       Once it's been transferred to some T2s we should change this and re-run.
+
+#rerecoName = "31Mar2018-v1"
+rerecoName = "17Nov2017-v1"
+
 dataset_names_data = {
     # MET 2017 PromptReco
-    'MET_2017B' : "/MET/Run2017B-31Mar2018-v1/MINIAOD",
-    'MET_2017C' : "/MET/Run2017C-31Mar2018-v1/MINIAOD",
-    'MET_2017D' : "/MET/Run2017D-31Mar2018-v1/MINIAOD",
-    'MET_2017E' : "/MET/Run2017E-31Mar2018-v1/MINIAOD",
-    'MET_2017F' : "/MET/Run2017F-31Mar2018-v1/MINIAOD",
+    'MET_2017B' : "/MET/Run2017B-" + rerecoName + "/MINIAOD",
+    'MET_2017C' : "/MET/Run2017C-" + rerecoName + "/MINIAOD",
+    'MET_2017D' : "/MET/Run2017D-" + rerecoName + "/MINIAOD",
+    'MET_2017E' : "/MET/Run2017E-" + rerecoName + "/MINIAOD",
+    'MET_2017F' : "/MET/Run2017F-" + rerecoName + "/MINIAOD",
 
     # SingleEle PromptReco
-    'SingleEle_2017B' : "/SingleElectron/Run2017B-31Mar2018-v1/MINIAOD",
-    'SingleEle_2017C' : "/SingleElectron/Run2017C-31Mar2018-v1/MINIAOD",
-    'SingleEle_2017D' : "/SingleElectron/Run2017D-31Mar2018-v1/MINIAOD",
-    'SingleEle_2017E' : "/SingleElectron/Run2017E-31Mar2018-v1/MINIAOD",
-    'SingleEle_2017F' : "/SingleElectron/Run2017F-31Mar2018-v1/MINIAOD",
+    'SingleEle_2017B' : "/SingleElectron/Run2017B-" + rerecoName + "/MINIAOD",
+    'SingleEle_2017C' : "/SingleElectron/Run2017C-" + rerecoName + "/MINIAOD",
+    'SingleEle_2017D' : "/SingleElectron/Run2017D-" + rerecoName + "/MINIAOD",
+    'SingleEle_2017E' : "/SingleElectron/Run2017E-" + rerecoName + "/MINIAOD",
+    'SingleEle_2017F' : "/SingleElectron/Run2017F-" + rerecoName + "/MINIAOD",
 
     # SingleMu PromptReco
-    'SingleMu_2017B' : "/SingleMuon/Run2017B-31Mar2018-v1/MINIAOD",
-    'SingleMu_2017C' : "/SingleMuon/Run2017C-31Mar2018-v1/MINIAOD",
-    'SingleMu_2017D' : "/SingleMuon/Run2017D-31Mar2018-v1/MINIAOD",
-    'SingleMu_2017E' : "/SingleMuon/Run2017E-31Mar2018-v1/MINIAOD",
-    'SingleMu_2017F' : "/SingleMuon/Run2017F-31Mar2018-v1/MINIAOD",
+    'SingleMu_2017B' : "/SingleMuon/Run2017B-" + rerecoName + "/MINIAOD",
+    'SingleMu_2017C' : "/SingleMuon/Run2017C-" + rerecoName + "/MINIAOD",
+    'SingleMu_2017D' : "/SingleMuon/Run2017D-" + rerecoName + "/MINIAOD",
+    'SingleMu_2017E' : "/SingleMuon/Run2017E-" + rerecoName + "/MINIAOD",
+    'SingleMu_2017F' : "/SingleMuon/Run2017F-" + rerecoName + "/MINIAOD",
 
     # Tau PromptReco
-    'Tau_2017B' : "/Tau/Run2017B-31Mar2018-v1/MINIAOD",
-    'Tau_2017C' : "/Tau/Run2017C-31Mar2018-v1/MINIAOD",
-    'Tau_2017D' : "/Tau/Run2017D-31Mar2018-v1/MINIAOD",
-    'Tau_2017E' : "/Tau/Run2017E-31Mar2018-v1/MINIAOD",
-    'Tau_2017F' : "/Tau/Run2017F-31Mar2018-v1/MINIAOD",
+    'Tau_2017B' : "/Tau/Run2017B-" + rerecoName + "/MINIAOD",
+    'Tau_2017C' : "/Tau/Run2017C-" + rerecoName + "/MINIAOD",
+    'Tau_2017D' : "/Tau/Run2017D-" + rerecoName + "/MINIAOD",
+    'Tau_2017E' : "/Tau/Run2017E-" + rerecoName + "/MINIAOD",
+    'Tau_2017F' : "/Tau/Run2017F-" + rerecoName + "/MINIAOD",
 
     # ZeroBias PromptReco
 }
