@@ -60,4 +60,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 ################################################################################
 
+################################################################################
+# MET channels for Checking 2017 Luminosity
+################################################################################
+
+#add_channels (process, [metTrigAllYes, metTrigAllYesNoDisabledB, metTrigAllMaybes, metTrigAllMaybesNoDisabledB, metTrigAllJustMet105IsoTrk50], histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive

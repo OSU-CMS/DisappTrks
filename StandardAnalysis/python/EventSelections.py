@@ -960,6 +960,29 @@ addCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits6])
 ##########################################################################
 
 ##########################################################################
+# Testing MET Triggers foor Luminosity
+##########################################################################
+
+
+metTrigAllYes = copy.deepcopy(NoCuts)
+metTrigAllYes.triggers = triggersMetAllYes
+
+metTrigAllYesNoDisabledB = copy.deepcopy(NoCuts)
+metTrigAllYesNoDisabledB.triggers = triggersMetAllYesNoDisabledB
+
+metTrigAllMaybes = copy.deepcopy(NoCuts)
+metTrigAllMaybes.triggers = triggersMetAllMaybes
+
+metTrigAllMaybesNoDisabledB = copy.deepcopy(NoCuts)
+metTrigAllMaybesNoDisabledB.triggers = triggersMetAllMaybesNoDisabledB
+
+metTrigAllJustMet105IsoTrk50 = copy.deepcopy(NoCuts)
+metTrigAllJustMet105IsoTrk50.triggers = triggersMetJustMet105IsoTrk50
+
+
+
+
+##########################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

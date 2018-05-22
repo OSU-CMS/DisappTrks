@@ -62,6 +62,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'HLT_PFMET300_HBHECleaned_v',
     )
 
+
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
 
 ##########################################################################################################
@@ -121,4 +122,46 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
 triggersZeroBias = cms.vstring(
     "HLT_ZeroBias_v", # very prescaled in data
+)
+
+##########################################################################################################
+# Single Tau triggers
+##########################################################################################################
+
+triggersMetAllYes = cms.vstring(
+    'HLT_MET105_IsoTrk50_v',
+    'HLT_MET120_IsoTrk50_v',
+    'HLT_PFMET140_PFMHT140_IDTight_v',
+    'HLT_PFMET200_HBHE_BeamHaloCleaned_v',
+    'HLT_PFMET250_HBHECleaned_v',
+    'HLT_PFMET300_HBHECleaned_v',
+    'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+    'HLT_PFMETTypeOne140_PFMHT140_IDTight_v',
+    'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v',
+)
+
+triggersMetAllYesNoDisabledB = cms.vstring(
+    'HLT_PFMET140_PFMHT140_IDTight_v',
+    'HLT_PFMETTypeOne140_PFMHT140_IDTight_v',
+)
+
+triggersMetAllMaybes = cms.vstring(
+    'HLT_PFMET120_PFMHT120_IDTight_v',
+    'HLT_PFMET130_PFMHT130_IDTight_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+    'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+    'HLT_PFMETTypeOne120_PFMHT120_IDTight_v',
+    'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
+)
+
+triggersMetAllMaybesNoDisabledB = cms.vstring(
+    'HLT_PFMET120_PFMHT120_IDTight_v',
+    'HLT_PFMET130_PFMHT130_IDTight_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+    'HLT_PFMETTypeOne120_PFMHT120_IDTight_v',
+    'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
+)
+
+triggersMetJustMet105IsoTrk50 = cms.vstring(
+    'HLT_MET105_IsoTrk50_v',
 )
