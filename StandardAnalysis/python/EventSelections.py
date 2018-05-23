@@ -965,19 +965,24 @@ addCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits6])
 
 
 metTrigAllYes = copy.deepcopy(NoCuts)
+metTrigAllYes.name = cms.string("metTrigAllYes")
 metTrigAllYes.triggers = triggersMetAllYes
 
 metTrigAllYesNoDisabledB = copy.deepcopy(NoCuts)
+metTrigAllYesNoDisabledB.name = cms.string("metTrigAllYesNoDisabledB")
 metTrigAllYesNoDisabledB.triggers = triggersMetAllYesNoDisabledB
 
 metTrigAllMaybes = copy.deepcopy(NoCuts)
+metTrigAllMaybes.name = cms.string("metTrigAllMaybes")
 metTrigAllMaybes.triggers = triggersMetAllMaybes
 
 metTrigAllMaybesNoDisabledB = copy.deepcopy(NoCuts)
+metTrigAllMaybesNoDisabledB.name = cms.string("metTrigAllMaybesNoDisabledB")
 metTrigAllMaybesNoDisabledB.triggers = triggersMetAllMaybesNoDisabledB
 
-metTrigAllJustMet105IsoTrk50 = copy.deepcopy(NoCuts)
-metTrigAllJustMet105IsoTrk50.triggers = triggersMetJustMet105IsoTrk50
+metTrigJustMet105IsoTrk50 = copy.deepcopy(NoCuts)
+metTrigJustMet105IsoTrk50.name = cms.string("metTrigJustMet105IsoTrk50")
+metTrigJustMet105IsoTrk50.triggers = triggersMetJustMet105IsoTrk50
 
 
 

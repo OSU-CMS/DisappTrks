@@ -13,7 +13,6 @@ datasetsData = [
 ]
 
 datasets = datasetsBkgd + datasetsData + datasetsSig
-#datasets = ['ASMB_chargino_700GeV_100cm_94X']
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")

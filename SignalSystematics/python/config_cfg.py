@@ -64,6 +64,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # MET channels for Checking 2017 Luminosity
 ################################################################################
 
-#add_channels (process, [metTrigAllYes, metTrigAllYesNoDisabledB, metTrigAllMaybes, metTrigAllMaybesNoDisabledB, metTrigAllJustMet105IsoTrk50], histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#add_channels (process, [metTrigAllYes, metTrigAllYesNoDisabledB, metTrigAllMaybes, metTrigAllMaybesNoDisabledB, metTrigJustMet105IsoTrk50], histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
