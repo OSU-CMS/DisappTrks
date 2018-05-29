@@ -980,12 +980,25 @@ metTrigAllMaybesNoDisabledB = copy.deepcopy(NoCuts)
 metTrigAllMaybesNoDisabledB.name = cms.string("metTrigAllMaybesNoDisabledB")
 metTrigAllMaybesNoDisabledB.triggers = triggersMetAllMaybesNoDisabledB
 
-metTrigJustMet105IsoTrk50 = copy.deepcopy(NoCuts)
-metTrigJustMet105IsoTrk50.name = cms.string("metTrigJustMet105IsoTrk50")
-metTrigJustMet105IsoTrk50.triggers = triggersMetJustMet105IsoTrk50
+metTrigJustMain = copy.deepcopy(NoCuts)
+metTrigJustMain.name = cms.string("metTrigJustMain")
+metTrigJustMain.triggers = triggersMetJustMain
 
+metTrigOnlyPerfectNoMain2017 = copy.deepcopy(NoCuts)
+metTrigOnlyPerfectNoMain2017.name = cms.string("metTrigOnlyPerfectNoMain2017")
+metTrigOnlyPerfectNoMain2017.triggers = triggersMetOnlyPerfectNoMain2017
 
+metTrigOnlyPerfectAndMain2017 = copy.deepcopy(NoCuts)
+metTrigOnlyPerfectAndMain2017.name = cms.string("metTrigOnlyPerfectAndMain2017")
+metTrigOnlyPerfectAndMain2017.triggers = triggersMetOnlyPerfectAndMain2017
 
+metTrigAllUnprescaled2017 = copy.deepcopy(NoCuts)
+metTrigAllUnprescaled2017.name = cms.string("metTrigAllUnprescaled2017")
+metTrigAllUnprescaled2017.triggers = triggersMetAllUnprescaled2017
+
+metTrigAllowDisabledHighPU2017 = copy.deepcopy(NoCuts)
+metTrigAllowDisabledHighPU2017.name = cms.string("metTrigAllowDisabledHighPU2017")
+metTrigAllowDisabledHighPU2017.triggers = triggersMetAllowDisabledHighPU2017
 
 ##########################################################################
 

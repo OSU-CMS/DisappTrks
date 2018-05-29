@@ -68,6 +68,14 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v'    : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120', 'hltPFMETNoMuHFCleaned120'],
         'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
         'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
+
+        'HLT_PFMET200_HBHE_BeamHaloCleaned_v'                  : [],
+        'HLT_PFMETTypeOne120_PFMHT120_IDTight_v'               : [],
+        'HLT_PFMETTypeOne130_PFMHT130_IDTight_v'               : [],
+        'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [],
+        'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
+
+
     }
 
     triggerFiltersTrack = {
