@@ -1004,67 +1004,6 @@ metTrigAllGoodInB = copy.deepcopy(NoCuts)
 metTrigAllGoodInB.name = cms.string("metTrigAllGoodInB")
 metTrigAllGoodInB.triggers = triggersMetAllGoodInB
 
-##########################################################################
-#2017 Trig Efficiency Tests
-##########################################################################
-
-metTrigTemp = copy.deepcopy(disTrkSelection)
-metTrigTemp.name = cms.string("metTrigTemp")
-metTrigTemp.triggers = cms.vstring()
-removeCuts (metTrigTemp.cuts, [cutMet])
-
-metTrig01 = copy.deepcopy(metTrigTemp)
-metTrig01.name = cms.string("metTrig01")
-metTrig01.triggers = cms.vstring('HLT_MET105_IsoTrk50_v')
-
-metTrig02 = copy.deepcopy(metTrig01)
-metTrig02.name = cms.string("metTrig02")
-metTrig02.triggers.append('HLT_PFMET140_PFMHT140_IDTight_v')
-
-metTrig03 = copy.deepcopy(metTrig02)
-metTrig03.name = cms.string("metTrig03")
-metTrig03.triggers.append('HLT_PFMET250_HBHECleaned_v')
-
-metTrig04 = copy.deepcopy(metTrig03)
-metTrig04.name = cms.string("metTrig04")
-metTrig04.triggers.append('HLT_PFMET300_HBHECleaned_v')
-
-metTrig05 = copy.deepcopy(metTrig04)
-metTrig05.name = cms.string("metTrig05")
-metTrig05.triggers.append('HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v')
-
-metTrig06 = copy.deepcopy(metTrig05)
-metTrig06.name = cms.string("metTrig06")
-metTrig06.triggers.append('HLT_PFMETTypeOne140_PFMHT140_IDTight_v')
-
-metTrig07 = copy.deepcopy(metTrig06)
-metTrig07.name = cms.string("metTrig07")
-metTrig07.triggers.append('HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v')
-
-metTrig08 = copy.deepcopy(metTrig07)
-metTrig08.name = cms.string("metTrig08")
-metTrig08.triggers.append('HLT_PFMET120_PFMHT120_IDTight_v')
-
-metTrig09 = copy.deepcopy(metTrig08)
-metTrig09.name = cms.string("metTrig09")
-metTrig09.triggers.append('HLT_PFMET130_PFMHT130_IDTight_v')
-
-metTrig10 = copy.deepcopy(metTrig09)
-metTrig10.name = cms.string("metTrig10")
-metTrig10.triggers.append('HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v')
-
-metTrig11 = copy.deepcopy(metTrig10)
-metTrig11.name = cms.string("metTrig11")
-metTrig11.triggers.append('HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v')
-
-metTrig12 = copy.deepcopy(metTrig11)
-metTrig12.name = cms.string("metTrig12")
-metTrig12.triggers.append('HLT_PFMETTypeOne120_PFMHT120_IDTight_v')
-
-metTrig13 = copy.deepcopy(metTrig12)
-metTrig13.name = cms.string("metTrig13")
-metTrig13.triggers.append('HLT_PFMETTypeOne130_PFMHT130_IDTight_v')
-
 #####################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
