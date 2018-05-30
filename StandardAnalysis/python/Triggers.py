@@ -132,7 +132,6 @@ triggersMetAllYes = cms.vstring(
     'HLT_MET105_IsoTrk50_v',
     #'HLT_MET120_IsoTrk50_v',
     'HLT_PFMET140_PFMHT140_IDTight_v',
-    'HLT_PFMET200_HBHE_BeamHaloCleaned_v',
     'HLT_PFMET250_HBHECleaned_v',
     'HLT_PFMET300_HBHECleaned_v',
     'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
@@ -180,7 +179,6 @@ triggersMetOnlyPerfectAndMain2017 = cms.vstring(
 triggersMetAllUnprescaled2017 = cms.vstring(
     'HLT_MET105_IsoTrk50_v',
     'HLT_PFMET140_PFMHT140_IDTight_v',
-    'HLT_PFMET200_HBHE_BeamHaloCleaned_v',
     'HLT_PFMET250_HBHECleaned_v',
     'HLT_PFMET300_HBHECleaned_v',
     'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
@@ -191,7 +189,6 @@ triggersMetAllUnprescaled2017 = cms.vstring(
 triggersMetAllowDisabledHighPU2017 = cms.vstring(
     'HLT_MET105_IsoTrk50_v',
     'HLT_PFMET140_PFMHT140_IDTight_v',
-    'HLT_PFMET200_HBHE_BeamHaloCleaned_v',
     'HLT_PFMET250_HBHECleaned_v',
     'HLT_PFMET300_HBHECleaned_v',
     'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
@@ -204,3 +201,19 @@ triggersMetAllowDisabledHighPU2017 = cms.vstring(
     'HLT_PFMETTypeOne120_PFMHT120_IDTight_v',
     'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
 )
+
+triggersMetAllGoodInB = cms.vstring(
+    'HLT_PFMET140_PFMHT140_IDTight_v',
+    'HLT_PFMETTypeOne140_PFMHT140_IDTight_v',
+    'HLT_PFMET120_PFMHT120_IDTight_v',
+    'HLT_PFMET130_PFMHT130_IDTight_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+    'HLT_PFMETTypeOne120_PFMHT120_IDTight_v',
+    'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
+)
+
+
+
+
+
+

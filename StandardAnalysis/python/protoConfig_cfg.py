@@ -269,4 +269,9 @@ histSetsTrigger = cms.VPSet(
     EventTriggerVarVsMetHistograms,
 )
 
+histSetsStandardAndTrigger = copy.deepcopy(histSets)
+histSetsStandardAndTrigger.append(MetTriggerHistograms)
+histSetsStandardAndTrigger.append(EventTriggerVarHistograms)
+histSetsStandardAndTrigger.append(EventTriggerVarVsMetHistograms)
+
 ################################################################################
