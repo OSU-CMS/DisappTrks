@@ -413,6 +413,11 @@ cutTrkNMissMid = cms.PSet(
     cutString = cms.string("hitDrop_missingMiddleHits == 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMissMidNoDrop = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("missingMiddleHits == 0"),
+    numberRequired = cms.string(">= 1"),
+) 
 cutTrkIso = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
@@ -501,6 +506,11 @@ cutTrkNMissOut2 = cms.PSet(
 cutTrkNMissOut = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 3"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkNMissOutNoDrop = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("bestTrackMissingOuterHits >= 3"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkNMissOut4 = cms.PSet(

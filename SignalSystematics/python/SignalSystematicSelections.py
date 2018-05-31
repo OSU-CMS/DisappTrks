@@ -99,9 +99,11 @@ removeCuts(disTrkNoMetSmearedJets.cuts, [cutMet])
 #metTrigTemp.triggers = cms.vstring()
 #removeCuts (metTrigTemp.cuts, [cutMet])
 
-metTrig01 = copy.deepcopy(disTrkNoMetSmearedJets)
+metTrig01 = copy.deepcopy(disTrkNoMet)
 metTrig01.name = cms.string("metTrig01")
 metTrig01.triggers = cms.vstring('HLT_MET105_IsoTrk50_v')
+removeCuts(metTrig01.cuts, [cutTrkNMissOut,cutTrkNMissMid])
+addCuts(metTrig01.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
 
 metTrig02 = copy.deepcopy(metTrig01)
 metTrig02.name = cms.string("metTrig02")

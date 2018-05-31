@@ -130,6 +130,9 @@ else:
     collMap = copy.deepcopy(collectionMap)
     collMap.tracks = cms.InputTag ('candidateTrackProducer')
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    collMap.trigobjs = cms.InputTag  ('slimmedPatTrigger')
+
 if UseGeantDecays:
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
 else:
