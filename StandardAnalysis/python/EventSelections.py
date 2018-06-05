@@ -1000,7 +1000,11 @@ metTrigAllowDisabledHighPU2017 = copy.deepcopy(NoCuts)
 metTrigAllowDisabledHighPU2017.name = cms.string("metTrigAllowDisabledHighPU2017")
 metTrigAllowDisabledHighPU2017.triggers = triggersMetAllowDisabledHighPU2017
 
-##########################################################################
+metTrigAllGoodInB = copy.deepcopy(NoCuts)
+metTrigAllGoodInB.name = cms.string("metTrigAllGoodInB")
+metTrigAllGoodInB.triggers = triggersMetAllGoodInB
+
+#####################################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
