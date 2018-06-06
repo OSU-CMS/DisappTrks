@@ -56,7 +56,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggerFiltersMet = {
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
-        #'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
+        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
 
         'HLT_PFMET120_PFMHT120_IDTight_v'                      : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
         #'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
