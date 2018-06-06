@@ -99,6 +99,15 @@ removeCuts(disTrkNoMetSmearedJets.cuts, [cutMet])
 #metTrigTemp.triggers = cms.vstring()
 #removeCuts (metTrigTemp.cuts, [cutMet])
 
+metTrigNoTriggers = copy.deepcopy(disTrkNoMet)
+metTrigNoTriggers.name = cms.string("metTrigNoTriggers")
+metTrigNoTriggers.triggers = cms.vstring()
+
+metTrigNoTriggersNoRandom = copy.deepcopy(metTrigNoTriggers)
+metTrigNoTriggersNoRandom.name = cms.string("metTrigNoTriggersNoRandom")
+removeCuts(metTrigNoTriggersNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
+addCuts(metTrigNoTriggersNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
+
 metTrig01 = copy.deepcopy(disTrkNoMet)
 metTrig01.name = cms.string("metTrig01")
 metTrig01.triggers = cms.vstring('HLT_MET105_IsoTrk50_v')
