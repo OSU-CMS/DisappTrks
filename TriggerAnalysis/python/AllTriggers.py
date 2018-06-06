@@ -56,24 +56,24 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggerFiltersMet = {
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
-        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
+        #'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
 
         'HLT_PFMET120_PFMHT120_IDTight_v'                      : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
-        'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
-        'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
-        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'], # 2017 also
-        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
-        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
-        'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v'            : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120', 'hltPFMETHFCleaned120'],
-        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v'    : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120', 'hltPFMETNoMuHFCleaned120'],
-        'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
-        'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
+        #'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
+        #'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
+        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'], # 2017 also
+        #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
+        #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
+        #'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v'            : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120', 'hltPFMETHFCleaned120'],
+        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v'    : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120', 'hltPFMETNoMuHFCleaned120'],
+        #'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
+        #'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
 
-        'HLT_PFMET200_HBHE_BeamHaloCleaned_v'                  : [],
-        'HLT_PFMETTypeOne120_PFMHT120_IDTight_v'               : [],
-        'HLT_PFMETTypeOne130_PFMHT130_IDTight_v'               : [],
-        'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [],
-        'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
+        #'HLT_PFMET200_HBHE_BeamHaloCleaned_v'                  : [],
+        #'HLT_PFMETTypeOne120_PFMHT120_IDTight_v'               : [],
+        #'HLT_PFMETTypeOne130_PFMHT130_IDTight_v'               : [],
+        #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [],
+        #'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
 
 
     }

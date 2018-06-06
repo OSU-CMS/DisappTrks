@@ -49,17 +49,17 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersMetInclusive = cms.vstring(
         # available throughout 2017
         'HLT_PFMET120_PFMHT120_IDTight_v',
-        'HLT_PFMET130_PFMHT130_IDTight_v',
-        'HLT_PFMET140_PFMHT140_IDTight_v',
-        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+        #'HLT_PFMET130_PFMHT130_IDTight_v',
+        #'HLT_PFMET140_PFMHT140_IDTight_v',
+        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
         
         # available starting 2017C
-        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
-        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
-        'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v',
-        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v',
-        'HLT_PFMET250_HBHECleaned_v',
-        'HLT_PFMET300_HBHECleaned_v',
+        #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+        #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        #'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v',
+        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v',
+        #'HLT_PFMET250_HBHECleaned_v',
+        #'HLT_PFMET300_HBHECleaned_v',
     )
 
 
