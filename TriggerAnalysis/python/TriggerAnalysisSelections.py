@@ -45,7 +45,7 @@ GrandOrDenominator = cms.PSet(
 
 METLegDenominatorTrk = cms.PSet(
     name = cms.string("METLegDenominatorTrk"),
-    triggers = cms.VPSet(),
+    triggers = cms.vstring(),
     cuts = cms.VPSet(
         cutLeadJetCentral,
         cutTrkEta25,
@@ -62,7 +62,7 @@ METLegDenominatorTrk = cms.PSet(
 
 GrandOrDenominatorTrk = cms.PSet(
     name = cms.string("GrandOrDenominatorTrk"),
-    triggers = cms.VPSet(),
+    triggers = cms.vstring(),
     cuts = cms.VPSet(
         cutLeadJetCentral,
         cutTrkEta25,
@@ -183,7 +183,7 @@ TrackLegDenominatorWithTracks = {}
 for trig in triggerFiltersTrack:
     TrackLegDenominatorWithTracks[trig] = cms.PSet(
         name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracks"),
-        triggers = cms.VPSet(),
+        triggers = cms.vstring(),
         cuts = cms.VPSet(
             cutLeadJetCentral,
             cutTrkEta25,
