@@ -42,9 +42,16 @@ def getUser():
         dirs['Andrew'] = "hartCondor/"
         dirs['Brian']  = ""
         dirs['Wells']  = "wellsCondor/"
+        dirs['Zach']   = "pollockCondor/"
         user = "bfrancis"
+    elif "zpollock" in cwd:
+        dirs['Andrew'] = "hartCondor/"
+        dirs['Brian']  = "francisCondor/"
+        dirs['Wells']  = "wellsCondor/"
+        dirs['Zach']   = ""
+        user = "zpollock"
     else:
-        print "Error:  could not identify user as brancis, hart, or wulsin."
+        print "Error:  could not identify user as bfrancis, hart, wulsin, or zpollock."
         os.exit(0)
     return dirs
 
