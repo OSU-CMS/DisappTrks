@@ -15,6 +15,9 @@ variableProducers.append('EventTriggerVarProducer')
 # The Grand Or
 #  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [GrandORNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# The Grand Or Using Tracks
+#  add_channels  (process,  [GrandOrDenominatorTrk],  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [GrandORNumeratorTrk],    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Testing: require a match of any muon to the HLT track rather than just the lead muon
 #  add_channels  (process,  TrackLegNumeratorWithMuonsAnyHLTMatch.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
@@ -24,10 +27,10 @@ variableProducers.append('EventTriggerVarProducer')
 ################################################################################
 
 # HLT_MET75_IsoTrk50 channels
-#  add_channels  (process,  [METLegDenominator],                           histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  METLegNumerator.values(),                      histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  TrackLegDenominatorWithTracksNoTrig.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  TrackLegNumeratorWithTracksNoTrig.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [METLegDenominatorTrk],                  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  METLegNumeratorTrk.values(),             histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegDenominatorWithTracks.values(),  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegNumeratorWithTracks.values(),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 ################################################################################
 # HLT purity measurement channels -- BasicSelection but only with one HLT path

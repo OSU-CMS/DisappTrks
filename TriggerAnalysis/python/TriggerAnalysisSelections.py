@@ -40,6 +40,45 @@ GrandOrDenominator = cms.PSet(
 )
 
 ##########################################################################################################
+# MET leg denominator for all paths using Tracks (instead of muons)
+##########################################################################################################
+
+METLegDenominatorTrk = cms.PSet(
+    name = cms.string("METLegDenominatorTrk"),
+    triggers = cms.VPSet(),
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
+        cutTrkEta25,
+        cutTrkNormalizedChi2,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNValidPixelHits,
+        cutTrkNLayersWMeasurement,
+        cutTrkNMissIn,
+        cutTrkNMissMid,
+        cutTrkIsoTight,
+    )
+)
+
+GrandOrDenominatorTrk = cms.PSet(
+    name = cms.string("GrandOrDenominatorTrk"),
+    triggers = cms.VPSet(),
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
+        cutTrkEta25,
+        cutTrkNormalizedChi2,
+        cutTrkD0,
+        cutTrkDZ,
+        cutTrkNValidPixelHits,
+        cutTrkNLayersWMeasurement,
+        cutTrkNMissIn,
+        cutTrkNMissMid,
+        cutTrkIsoTight,
+    )
+)
+
+
+##########################################################################################################
 # Numerator for the Grand Or of all signal HLT paths
 ##########################################################################################################
 
@@ -48,6 +87,12 @@ GrandOrDenominator = cms.PSet(
 GrandORNumerator = copy.deepcopy(GrandOrDenominator)
 GrandORNumerator.name = cms.string("GrandOrNumerator")
 addCuts(GrandORNumerator.cuts, [firesGrandOrTrigger])
+
+# Now for the Track version of GrandORNumerator
+GrandORNumeratorTrk = copy.deepcopy(GrandOrDenominatorTrk)
+GrandORNumeratorTrk.name = cms.string("GrandOrNumeratorTrk")
+addCuts(GrandORNumeratorTrk.cuts, [firesGrandOrTrigger])
+
 
 ##########################################################################################################
 # MET leg numerators
@@ -65,6 +110,23 @@ for trig in triggerFiltersMet:
     else:
         for filt in triggerFiltersMet[trig]:
             addCuts(METLegNumerator[trig].cuts, [firesFilter[filt]])
+
+# Track version of METLegNumerator
+METLegNumeratorTrk = {}
+for trig in triggerFiltersMet:
+    METLegNumeratorTrk[trig] = copy.deepcopy(METLegDenominatorTrk)
+    METLegNumeratorTrk[trig].name = cms.string(re.sub(r"_", "", trig) + "METLegNumeratorTrk")
+
+    # if not IsoTrk50, just use the whole path
+    if not trig in triggerFiltersTrack:
+        addCuts(METLegNumeratorTrk[trig].cuts, [firesTrigger[trig]])
+    # otherwise add all the filters for MET before IsoTrk50
+    else:
+        for filt in triggerFiltersMet[trig]:
+            addCuts(METLegNumeratorTrk[trig].cuts, [firesFilter[filt]])
+
+
+
 
 ##########################################################################################################
 # Track leg with muons (data)
@@ -121,7 +183,7 @@ TrackLegDenominatorWithTracks = {}
 for trig in triggerFiltersTrack:
     TrackLegDenominatorWithTracks[trig] = cms.PSet(
         name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorWithTracks"),
-        triggers = triggersSingleMu,
+        triggers = cms.VPSet(),
         cuts = cms.VPSet(
             cutLeadJetCentral,
             cutTrkEta25,
