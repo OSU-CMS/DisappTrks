@@ -55,7 +55,7 @@ METLegDenominatorTrk = cms.PSet(
         cutTrkNValidPixelHits,
         cutTrkNLayersWMeasurement,
         cutTrkNMissIn,
-        cutTrkNMissMid,
+        cutTrkNMissMidNoDrop,
         cutTrkIsoTight,
     )
 )
@@ -72,7 +72,7 @@ GrandOrDenominatorTrk = cms.PSet(
         cutTrkNValidPixelHits,
         cutTrkNLayersWMeasurement,
         cutTrkNMissIn,
-        cutTrkNMissMid,
+        cutTrkNMissMidNoDrop,
         cutTrkIsoTight,
     )
 )
@@ -193,7 +193,7 @@ for trig in triggerFiltersTrack:
             cutTrkNValidPixelHits,
             cutTrkNLayersWMeasurement,
             cutTrkNMissIn,
-            cutTrkNMissMid,
+            cutTrkNMissMidNoDrop,
             cutTrkIsoTight,
         )
     )
