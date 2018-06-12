@@ -49,7 +49,7 @@ cutMet = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    cutMet    cutMuonPt.cutString = cms.string("noMuPt > 120")
+    cutMet.cutString = cms.string("noMuPt > 120")
     print "# MetNoMu > 120e GeV"
 
 cutDummyMet = cms.PSet(
