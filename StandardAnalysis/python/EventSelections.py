@@ -1017,7 +1017,7 @@ metTrigAllGoodInB.triggers = triggersMetAllGoodInB
 # Removes the random drops for testing purposes
 ##########################################################################
 
-disTrkNoRandom = copy.deepcopy(disTrkNoMet)
+disTrkNoRandom = copy.deepcopy(disTrkSelection)
 disTrkNoRandom.name = cms.string("disTrkNoRandom")
 removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
 addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
