@@ -258,6 +258,20 @@ cutJetTightLepVeto = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    cutJetTightLepVeto.cutString = cms.string("\
+    ((\
+    neutralHadronEnergyFraction<0.99 && \
+    neutralEmEnergyFraction<0.99 && \
+    (chargedMultiplicity + neutralMultiplicity)>1 && \
+    muonEnergyFraction<0.8) && \
+    ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
+    abs(eta)>2.4) && \
+    abs(eta)<=2.7) \
+    || (neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2 && abs(eta)<=3.0 && abs(eta)>2.7) \
+    || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
+    print '# Using 2017 recs for Jet TightLepVeto'
+
 
 ##################################################
 ## tracks
