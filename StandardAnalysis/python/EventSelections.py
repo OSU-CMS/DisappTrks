@@ -97,6 +97,9 @@ addSingleCut(isoTrkWithPt55Cuts, cutTrkPt55, cutTrkEta)
 isoTrkWithPt55BeforeIsoCuts = copy.deepcopy(isoTrkWithPt55Cuts)
 removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkIso, cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
 
+isoTrkWithPt55BeforeValidPixelHitCuts = copy.deepcopy(isoTrkWithPt55BeforeIsoCuts)
+removeCuts(isoTrkWithPt55BeforeValidPixelHitCuts, [cutTrkNValidPixelHits3, cutTrkNValidHits, cutTrkNMissIn, cutTrkNMissMid])
+
 isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
 addCuts(isoTrkSelection.cuts, isoTrkWithPt55Cuts)
@@ -109,6 +112,10 @@ addCuts (isoTrkSelectionInvertDRJetCut.cuts, [cutTrkJetDeltaPhiInvert])
 isoTrkSelectionBeforeIsoCut = copy.deepcopy (basicSelection)
 isoTrkSelectionBeforeIsoCut.name = cms.string ("IsoTrkSelectionBeforeIsoCut")
 addCuts (isoTrkSelectionBeforeIsoCut.cuts, isoTrkWithPt55BeforeIsoCuts)
+
+isoTrkSelectionBeforeValidPixelHits = copy.deepcopy(basicSelection)
+isoTrkSelectionBeforeValidPixelHits.name = cms.string ("isoTrkSelectionBeforeValidPixelHits")
+addCuts (isoTrkSelectionBeforeValidPixelHits.cuts, isoTrkWithPt55BeforeValidPixelHitCuts)
 
 ##########################################################################
 
@@ -1003,6 +1010,20 @@ metTrigAllowDisabledHighPU2017.triggers = triggersMetAllowDisabledHighPU2017
 metTrigAllGoodInB = copy.deepcopy(NoCuts)
 metTrigAllGoodInB.name = cms.string("metTrigAllGoodInB")
 metTrigAllGoodInB.triggers = triggersMetAllGoodInB
+
+
+
+##########################################################################
+# Removes the random drops for testing purposes
+##########################################################################
+
+disTrkNoRandom = copy.deepcopy(disTrkNoMet)
+disTrkNoRandom.name = cms.string("disTrkNoRandom")
+removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
+addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
+
+
+
 
 #####################################################################
 
