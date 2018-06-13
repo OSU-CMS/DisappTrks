@@ -329,6 +329,13 @@ TrackExtraHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(100, 0, 2),
             inputVariables = cms.vstring("trackIsoNoPUDRp3 / pt", "dRMinJet"),
         ),
+        cms.PSet (
+            name = cms.string("trackNumberOfValidHitsVsNumberOfValidPixelHits"),
+            title = cms.string("Valid Hits vs Valid Pixel Hits;track number of valid pixel hits;track number of valid hits"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsY = cms.untracked.vdouble(30, 0, 30),
+            inputVariables = cms.vstring("hitPattern_.numberOfValidPixelHits", "hitPattern_.numberOfValidHits"),
+        ),
     )
 )
 
