@@ -303,6 +303,13 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("fabs (eta)", "hitPattern_.numberOfValidHits"),
         ),
         cms.PSet (
+            name = cms.string("trackNumberOfValidPixelHitsVsEta"),
+            title = cms.string(";track |#eta|;number of valid pixel hits"),
+            binsX = cms.untracked.vdouble(8, 0.0, 2.4),
+            binsY = cms.untracked.vdouble(100, -0.5, 99.5),
+            inputVariables = cms.vstring("fabs (eta)", "hitPattern_.numberOfValidPixelHits"),
+        ),
+        cms.PSet (
             name = cms.string("trackMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track"),
             binsX = cms.untracked.vdouble(51, 0.0, 5.1),
