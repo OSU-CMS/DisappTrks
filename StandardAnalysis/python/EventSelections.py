@@ -1022,6 +1022,30 @@ disTrkNoRandom.name = cms.string("disTrkNoRandom")
 removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
 addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
 
+##########################################################################
+# Test the Number of Valid Pixel Hits vs Number of Valid Hits
+# Named: Number of Valid Pixel Hits, Number of Valid Hits
+##########################################################################
+
+validHitSelection37 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection37.name = cms.string("validHitSelection37")
+addCuts(validHitSelection37.cuts, [cutTrkNValidPixelHits3,cutTrkNValidHits])
+
+validHitSelection44 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection44.name = cms.string("validHitSelection44")
+addCuts(validHitSelection44.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits4More])
+
+validHitSelection45 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection45.name = cms.string("validHitSelection45")
+addCuts(validHitSelection45.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits5More])
+
+validHitSelection46 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection46.name = cms.string("validHitSelection46")
+addCuts(validHitSelection46.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits6More])
+
+validHitSelection47 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection47.name = cms.string("validHitSelection47")
+addCuts(validHitSelection47.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits])
 
 
 
