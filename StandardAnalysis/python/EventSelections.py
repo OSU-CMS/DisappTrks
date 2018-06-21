@@ -1051,6 +1051,9 @@ validHitSelection6 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
 validHitSelection6.name = cms.string("validHitSelection6")
 addCuts(validHitSelection6.cuts, [cutTrkNValidPixelHits6])
 
+validHitSelection9 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection9.name = cms.string("validHitSelection9")
+addCuts(validHitSelection9.cuts, [cutTrkNValidPixelHits9])
 
 
 #####################################################################

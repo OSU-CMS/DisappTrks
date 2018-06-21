@@ -371,6 +371,11 @@ cutTrkNValidPixelHits6 = cms.PSet(
     cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 6"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNValidPixelHits9 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 9"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNValidPixelEndcapHits2 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitPattern_.numberOfValidPixelBarrelHits == 2"),
