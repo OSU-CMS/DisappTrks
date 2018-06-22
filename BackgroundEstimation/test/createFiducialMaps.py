@@ -13,35 +13,38 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
 
 # Will use Dataset_runPeriod.root
-runPeriods = ['2015D', '2016']
+runPeriods = ['2017']
 
 for runPeriod in runPeriods:
 
-    condorDirectory = dirs['Brian']+"2015/" if '2015' in runPeriod else dirs['Brian']+"2016_final/"
+    #condorDirectory = dirs['Brian']+"2015/" if '2015' in runPeriod else dirs['Brian']+"2016_final/"
+    condorDirectory = dirs['Brian']+"2017/"
 
-    print "********************************************************************************"
-    print "Calculating electron fiducial map in search region", runPeriod
-    print "--------------------------------------------------------------------------------"
-
-    fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
-
-    electronMap = FiducialMapCalculator()
-    electronMap.addTFile(fout)
-    electronMap.addTCanvas(canvas)
-    electronMap.addLuminosityInInvPb(lumi["SingleElectron_" + runPeriod])
-    electronMap.addChannel("Denominator", "ElectronFiducialCalcBefore", "SingleEle_" + runPeriod, condorDirectory + "eleHotSpots")
-    electronMap.addChannel("Numerator",   "ElectronFiducialCalcAfter",  "SingleEle_" + runPeriod, condorDirectory + "eleHotSpots")
-    electronMap.CalculateFiducialMap()
-    electronMap.MakePlots()
-
-    print "********************************************************************************"
-    print "Compared to the existing map:"
-    print "********************************************************************************"
-    electronMap.CompareFiducialMap()
-    print "********************************************************************************"
-    print "\n\n"
-
-    fout.Close()
+#commenting out electron stuff, only the muon tag skim has been produced
+#
+#    print "********************************************************************************"
+#    print "Calculating electron fiducial map in search region", runPeriod
+#    print "--------------------------------------------------------------------------------"
+#
+#    fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
+#
+#    electronMap = FiducialMapCalculator()
+#    electronMap.addTFile(fout)
+#   electronMap.addTCanvas(canvas)
+#   electronMap.addLuminosityInInvPb(lumi["SingleElectron_" + runPeriod])
+#   electronMap.addChannel("Denominator", "ElectronFiducialCalcBefore", "SingleEle_" + runPeriod, condorDirectory + "eleHotSpots")
+#   electronMap.addChannel("Numerator",   "ElectronFiducialCalcAfter",  "SingleEle_" + runPeriod, condorDirectory + "eleHotSpots")
+#   electronMap.CalculateFiducialMap()
+#   electronMap.MakePlots()
+#
+#   print "********************************************************************************"
+#   print "Compared to the existing map:"
+#   print "********************************************************************************"
+#   electronMap.CompareFiducialMap()
+#   print "********************************************************************************"
+#   print "\n\n"
+#
+#   fout.Close()
 
     print "********************************************************************************"
     print "Calculating muon fiducial map in search region", runPeriod
