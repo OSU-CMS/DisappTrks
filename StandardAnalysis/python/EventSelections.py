@@ -117,6 +117,11 @@ isoTrkSelectionBeforeValidPixelHits = copy.deepcopy(basicSelection)
 isoTrkSelectionBeforeValidPixelHits.name = cms.string ("isoTrkSelectionBeforeValidPixelHits")
 addCuts (isoTrkSelectionBeforeValidPixelHits.cuts, isoTrkWithPt55BeforeValidPixelHitCuts)
 
+isoTrkSelectionBeforeValidPixelHitsMatching = copy.deepcopy(basicSelection)
+isoTrkSelectionBeforeValidPixelHitsMatching.name = cms.string ("isoTrkSelectionBeforeValidPixelHitsMatching")
+addCuts (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, isoTrkWithPt55BeforeValidPixelHitCuts)
+addSingleCut (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, cutTrkMatchChargino, cutTrkFiducialECAL)
+
 ##########################################################################
 
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
@@ -1027,23 +1032,23 @@ addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
 # Named: Number of Valid Pixel Hits, Number of Valid Hits
 ##########################################################################
 
-validHitSelection37 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection37 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
 validHitSelection37.name = cms.string("validHitSelection37")
 addCuts(validHitSelection37.cuts, [cutTrkNValidPixelHits3,cutTrkNValidHits])
 
-validHitSelection44 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection44 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
 validHitSelection44.name = cms.string("validHitSelection44")
 addCuts(validHitSelection44.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits4More])
 
-validHitSelection45 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection45 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
 validHitSelection45.name = cms.string("validHitSelection45")
 addCuts(validHitSelection45.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits5More])
 
-validHitSelection46 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection46 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
 validHitSelection46.name = cms.string("validHitSelection46")
 addCuts(validHitSelection46.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits6More])
 
-validHitSelection47 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
+validHitSelection47 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
 validHitSelection47.name = cms.string("validHitSelection47")
 addCuts(validHitSelection47.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits])
 
