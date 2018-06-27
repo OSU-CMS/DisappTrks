@@ -274,3 +274,16 @@ for selection in list (locals ()):
     locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
     locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
     removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+
+# For evaluating the Isolated Track Cut (cutTrkIso) for variables available in IsolatedTrack object
+
+MuonFiducialCalcCutsBeforeIsoTrk = copy.deepcopy(MuonTagSkim)
+MuonFiducialCalcCutsBeforeIsoTrk.name = cms.string("MuonFiducialCalcCutsBeforeIsoTrk")
+addSingleCut(MuonFiducialCalcCutsBeforeIsoTrk.cuts, cutMuonMatchToTrigObj, cutMuonPt)
+cutsToAdd = [
+    cutMuonArbitration,
+    cutTrkPt30,
+]
+cutsToAdd += isoTrkCuts
+removeCuts(cutsToAdd, [cutTrkJetDeltaPhi, cutTrkDZ, cutTrkD0, cutTrkIso])
+addCuts(MuonFiducialCalcCutsBeforeIsoTrk.cuts, cutsToAdd)
