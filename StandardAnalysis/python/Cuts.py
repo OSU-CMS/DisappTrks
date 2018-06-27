@@ -752,7 +752,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     cutMuonPt.cutString = cms.string("pt > 26")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Muon PT cut: >29 GeV"
-    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v || match_HLT_IsoTkMu27_v")
+    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v") 
     cutMuonPt.cutString = cms.string("pt > 29")
 else:
     print "# Muon PT cut: >22 GeV"
