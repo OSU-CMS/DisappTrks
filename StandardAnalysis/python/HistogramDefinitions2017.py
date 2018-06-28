@@ -248,7 +248,14 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             name = cms.string("isoTrackDRMinJet"),
             title = cms.string(";IsolatedTrack dRMinJet [GeV];"),
             binsX = cms.untracked.vdouble(100, 0, 5),
-            inputVariables = cms.vstring("dRMinJet")
+            inputVariables = cms.vstring("dRMinJet")           
+        ),
+        cms.PSet (
+            name = cms.string("candTrackDeltaRToClosestElectronVsIsoTrackDeltaRToClosestPFElectron"),
+            title = cms.string(";#DeltaR_{min}(track, PF muon);#DeltaR_{min}(track, PF charged hadron)"),
+            binsX = cms.untracked.vdouble(100, 0, 0.001),
+            binsY = cms.untracked.vdouble(100, 0, 0.001),
+            inputVariables = cms.vstring("deltaRToClosestPFelectron", "matcheCandidateTrack.deltaRToClosestElectron"),
         ),
     )
 )
