@@ -255,7 +255,7 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             title = cms.string(";#DeltaR_{min}(track, PF muon);#DeltaR_{min}(track, PF charged hadron)"),
             binsX = cms.untracked.vdouble(100, 0, 0.001),
             binsY = cms.untracked.vdouble(100, 0, 0.001),
-            inputVariables = cms.vstring("deltaRToClosestPFelectron", "matcheCandidateTrack.deltaRToClosestElectron"),
+            inputVariables = cms.vstring("deltaRToClosestPFelectron", "matchedCandidateTrack.deltaRToClosestElectron"),
         ),
     )
 )
