@@ -5,6 +5,7 @@ from DisappTrks.StandardAnalysis.Triggers import *
 from DisappTrks.StandardAnalysis.METFilters import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.cutUtilities import *
+from DisappTrks.StandardAnalysis.protoConfig_cfg import UseCandidateTracks
 import os
 
 ##############################
@@ -476,6 +477,8 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
