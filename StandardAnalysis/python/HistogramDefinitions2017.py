@@ -212,22 +212,22 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFChHadIso"),
             title = cms.string(";Isolated Track chargedHadronIso / pt;CandidateTrack trackIso / pt"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
             inputVariables = cms.vstring("pfIsolationDR03_.chargedHadronIso / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
         ),
         cms.PSet (
             name = cms.string("candTrackIsoNoPUDRp3VsIsoPFpuChHadIso"),
             title = cms.string(";Isolated Track puChargedHadronIso;CandidateTrack trackIso"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(200, 0, 100),
+            binsY = cms.untracked.vdouble(200, 0, 100),
             inputVariables = cms.vstring("pfIsolationDR03_.puChargedHadronIso", "matchedCandidateTrack.trackIsoNoPUDRp3")
         ),
         cms.PSet (
             name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFpuChHadIso"),
             title = cms.string(";Isolated Track puChargedHadronIso / pt;CandidateTrack trackIso / pt"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
             inputVariables = cms.vstring("pfIsolationDR03_.puChargedHadronIso / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
         ),
         cms.PSet (
@@ -240,8 +240,8 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFSumChHadIso"),
             title = cms.string(";Isolated Track (chargedHadronIso + puChargedHadronIso) / pt;CandidateTrack trackIso / pt"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
             inputVariables = cms.vstring("(pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
         ),
         cms.PSet (
