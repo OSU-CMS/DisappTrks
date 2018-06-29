@@ -33,7 +33,7 @@ class CandidateTrack : public reco::Track
     ~CandidateTrack ();
 
     enum RhoType { All, Calo, CentralCalo };
-    enum CaloType { Sum, EM, Had })
+    enum CaloType { Sum, EM, Had };
 
     // New calculation that uses all rec hits in DR<0.5 cone.
     const float caloNewEMDRp5 ()  const { return this->caloNewEMDRp5_; };
@@ -51,8 +51,8 @@ class CandidateTrack : public reco::Track
     const float caloNewNoPUDRp3Calo ()        const { return caloTotNoPU(0.3, Calo); };
     const float caloNewNoPUDRp3CentralCalo () const { return caloTotNoPU(0.3, CentralCalo); };
 
-    const float caloNewNoPUDRp5CentralCaloJustEm () const { return caloTotNoPU(0.5, CentralCalo, EM) };
-    const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(0.5, CentralCalo, Had) };
+    const float caloNewNoPUDRp5CentralCaloJustEm () const { return caloTotNoPU(0.5, CentralCalo, EM); };
+    const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(0.5, CentralCalo, Had); };
 
     void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; };
     void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; };
