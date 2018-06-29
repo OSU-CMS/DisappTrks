@@ -284,7 +284,7 @@ CandidateTrack::getMinDeltaRToTightMuon (const vector<pat::Muon> &objects, const
 }
 
 const double
-CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
+CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1
   double rho;
@@ -301,11 +301,23 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType) const
   default:
     throw cms::Exception("FatalError") << "Unkown or not implemented rho type requested, type:" << rhoType;
   }
-
-  double rawCaloTot = caloNewDRp5();
-  if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-    rawCaloTot = caloNewDRp3();
+  
+  double rawCaloTot = 0.0;
+  switch (caloType) {
+  case Sum:
+    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
+      rawCaloTot = caloNewDRp3();
+    } else rawCaloTot = caloNewDRp5();
+  case EM:
+    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
+      rawCaloTot = caloNewEMDRp3();
+    } else rawCaloTot = caloNewEMDRp5();
+  case Had:
+    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
+      rawCaloTot = caloNewHadDRp3();
+    } else rawCaloTot = caloNewHadDRp5();  
   }
+  
   double caloCorr = rho * TMath::Pi() * dR * dR;  // Define effective area as pi*r^2, where r is radius of DeltaR cone.
   double caloTotNoPU = TMath::Max(0., rawCaloTot - caloCorr);
   return caloTotNoPU;

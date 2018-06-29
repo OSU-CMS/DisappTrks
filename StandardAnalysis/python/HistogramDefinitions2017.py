@@ -181,27 +181,46 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("missingInnerHits", "matchedCandidateTrack.missingInnerHits_")
         ),
+        #####################################################
+        # Candidate Track vs Isolated Track Calo Histograms
+        #####################################################
+        #cand calo em VS iso calo em
+        #cms.PSet (
+        #    name = cms.string("candCaloNewNoPUDRp5CentralCaloVsIsoMatchedCaloJetEmEnergy"),
+        #    title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
+        #    binsX = cms.untracked.vdouble(100, 0, 20),
+        #    binsY = cms.untracked.vdouble(100, 0, 20),
+        #    inputVariables = cms.vstring("matchedCaloJetEmEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
+        #),
+        #cand calo sum VS iso calo em
         cms.PSet (
             name = cms.string("candCaloNewNoPUDRp5CentralCaloVsIsoMatchedCaloJetEmEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            binsY = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("matchedCaloJetEmEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
         ),
+        #cand calo sum VS iso calo had
         cms.PSet (
             name = cms.string("candCaloNewNoPUDRp5CentralCaloVsIsoMatchedCaloJetHadEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetHadEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            binsY = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("matchedCaloJetHadEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
         ),
+        #cand calo sum CS iso calo sum
         cms.PSet (
             name = cms.string("candCaloNewNoPUDRp5CentralCaloVsIsoMatchedCaloJetEmPlusHadEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            binsY = cms.untracked.vdouble(100, 0, 100),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            binsY = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
         ),
+
+
+
+
+
         cms.PSet (
             name = cms.string("candTrackIsoNoPUDRp3VsIsoPFChHadIso"),
             title = cms.string(";Isolated Track chargedHadronIso;CandidateTrack trackIso"),
@@ -243,6 +262,41 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(200, 0, 20),
             binsY = cms.untracked.vdouble(200, 0, 20),
             inputVariables = cms.vstring("(pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
+        ),
+        cms.PSet (
+            name = cms.string("candTrackIsoNoPUDRp3VsIsoPFNeutChHadIso"),
+            title = cms.string(";Isolated Track neutralHadronIso;CandidateTrack trackIso"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            binsY = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfIsolationDR03_.neutralHadronIso", "matchedCandidateTrack.trackIsoNoPUDRp3")
+        ),
+        cms.PSet (
+            name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFNeutChHadIso"),
+            title = cms.string(";Isolated Track (neutralHadronIso) / pt;CandidateTrack trackIso / pt"),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
+            inputVariables = cms.vstring("(pfIsolationDR03_.neutralHadronIso) / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
+        ),
+        cms.PSet (
+            name = cms.string("candTrackIsoNoPUDRp3VsIsoPFPhotonIso"),
+            title = cms.string(";Isolated Track photonIso;CandidateTrack trackIso"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            binsY = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfIsolationDR03_.photonIso", "matchedCandidateTrack.trackIsoNoPUDRp3")
+        ),
+        cms.PSet (
+            name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFPhotonIso"),
+            title = cms.string(";Isolated Track (photonIso) / pt;CandidateTrack trackIso / pt"),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
+            inputVariables = cms.vstring("(pfIsolationDR03_.photonIso) / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
+        ),
+        cms.PSet (
+            name = cms.string("candTrackRelIsoNoPUDRp3VsIsoRelPFTTotalIso"),
+            title = cms.string(";Isolated Track (chargedHadronIso + puChargedHadronIso + neutralHadronIso + photonIso ) / pt;CandidateTrack trackIso / pt"),
+            binsX = cms.untracked.vdouble(200, 0, 20),
+            binsY = cms.untracked.vdouble(200, 0, 20),
+            inputVariables = cms.vstring("(pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso + pfIsolationDR03_.neutralHadronIso + pfIsolationDR03_.photonIso) / pt", "matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt")
         ),
         cms.PSet (
             name = cms.string("isoTrackDRMinJet"),

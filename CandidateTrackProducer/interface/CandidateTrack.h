@@ -33,6 +33,7 @@ class CandidateTrack : public reco::Track
     ~CandidateTrack ();
 
     enum RhoType { All, Calo, CentralCalo };
+    enum CaloType { Sum, EM, Had })
 
     // New calculation that uses all rec hits in DR<0.5 cone.
     const float caloNewEMDRp5 ()  const { return this->caloNewEMDRp5_; };
@@ -49,6 +50,9 @@ class CandidateTrack : public reco::Track
     const float caloNewNoPUDRp3 ()            const { return caloTotNoPU(0.3); };
     const float caloNewNoPUDRp3Calo ()        const { return caloTotNoPU(0.3, Calo); };
     const float caloNewNoPUDRp3CentralCalo () const { return caloTotNoPU(0.3, CentralCalo); };
+
+    const float caloNewNoPUDRp5CentralCaloJustEm () const { return caloTotNoPU(0.5, CentralCalo, EM) };
+    const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(0.5, CentralCalo, Had) };
 
     void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; };
     void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; };
@@ -157,7 +161,7 @@ class CandidateTrack : public reco::Track
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
-    const double caloTotNoPU (double, RhoType = All) const;
+    const double caloTotNoPU (double, RhoType = All, CaloType = Sum) const;
 
     bool passesVetoID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
     bool passesLooseID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
