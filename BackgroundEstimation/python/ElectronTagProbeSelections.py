@@ -19,12 +19,14 @@ tagElectronCuts = [
     cutElectronTightID,
     cutElectronTightPFIso,
 ]
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    tagElectronCuts = [
+        cutMetFilters,
+        cutElectronPt,
+        cutElectronEta21, # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
+        cutElectronVIDTightID, # ID + iso
+    ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
-
-# In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
-#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-#    addSingleCut(ElectronTagSkim.cuts, cutElectronEta24, cutElectronEta21)
-#    removeCuts(ElectronTagSkim.cuts, [cutElectronEta21])
 
 ################################################################################
 ## Testing channels to compare pat::IsolatedTrack to CandidateTrack

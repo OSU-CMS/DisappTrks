@@ -1035,11 +1035,12 @@ cutElectronPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# Electron PT cut: >25 GeV"
     cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_2_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Electron PT cut: >35 GeV"
     cutElectronPt.cutString = cms.string("pt > 35")
+    cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele35_WPTight_Gsf_v")
 else:
     print "# Electron PT cut: >25 GeV"
 
@@ -1078,6 +1079,12 @@ cutElectronTightPFIso = cms.PSet (
                          || ((fabs (superCluster.eta) >  1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0759))"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons with tight #rho-corrected rel. iso."),
+)
+cutElectronVIDTightID = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("passesVID_tightID"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with passesVID_tightID (ID + iso)"),
 )
 cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),
