@@ -53,6 +53,8 @@ class CandidateTrack : public reco::Track
 
     const float caloNewNoPUDRp5CentralCaloJustEm () const { return caloTotNoPU(0.5, CentralCalo, EM); };
     const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(0.5, CentralCalo, Had); };
+    const float caloNewNoPUDRp3CentralCaloJustEm () const { return caloTotNoPU(0.3, CentralCalo, EM); };
+    const float caloNewNoPUDRp3CentralCaloJustHad () const { return caloTotNoPU(0.3, CentralCalo, Had); };
 
     void set_caloNewEMDRp5 (double value) { caloNewEMDRp5_  = value; };
     void set_caloNewHadDRp5(double value) { caloNewHadDRp5_ = value; };
