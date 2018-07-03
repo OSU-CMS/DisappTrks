@@ -219,11 +219,48 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
         #cand calo sum VS iso calo sum
         cms.PSet (
             name = cms.string("candCaloNewNoPUDRp5CentralCaloVsIsoMatchedCaloJetEmPlusHadEnergy"),
-            title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
+            title = cms.string(";IsolatedTrack matchedCaloJetEmPlusHadEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 4),
             binsY = cms.untracked.vdouble(100, 0, 4),
             inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
-        ),    
+        ),
+        #single variable calo plots
+        cms.PSet (
+            name = cms.string("candCaloNewNoPUDRp5CentralCalo"),
+            title = cms.string(";CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
+        ),
+        cms.PSet (
+            name = cms.string("candCaloNewNoPUDRp5CentralCaloJustEm"),
+            title = cms.string(";CandidateTrack caloNewNoPUDRp5CentralCaloJustEm [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCandidateTrack.caloNewNoPUDRp5CentralCaloJustEm")
+        ),
+        cms.PSet (
+            name = cms.string("candCaloNewNoPUDRp5CentralCaloJustHad"),
+            title = cms.string(";CandidateTrack caloNewNoPUDRp5CentralCaloJustHad [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCandidateTrack.caloNewNoPUDRp5CentralCaloJustHad")
+        ),
+        cms.PSet (
+            name = cms.string("IsoMatchedCaloJetEmPlusHadEnergy"),
+            title = cms.string(";IsolatedTrack matchedCaloJetEmPlusHadEnergy [GeV]")
+            binsY = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy")
+        ),
+        cms.PSet (
+            name = cms.string("IsoMatchedCaloJetEmEnergy"),
+            title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV]")
+            binsY = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy")
+        ),
+        cms.PSet (
+            name = cms.string("IsoMatchedCaloJetHadEnergy"),
+            title = cms.string(";IsolatedTrack matchedCaloJetHadEnergy [GeV]")
+            binsY = cms.untracked.vdouble(100, 0, 4),
+            inputVariables = cms.vstring("matchedCaloJetHadEnergy")
+        ),
 
         #######################################################
         # Candidate Track Calo vs Isolated Track PF isolation
