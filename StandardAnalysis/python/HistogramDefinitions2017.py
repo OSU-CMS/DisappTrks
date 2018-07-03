@@ -190,7 +190,7 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV];CandidateTrack caloNewNoPUDRp5CentralCaloJustEM [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 20),
             binsY = cms.untracked.vdouble(100, 0, 20),
-            inputVariables = cms.vstring("matchedCaloJetEmEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCaloJustEM")
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy", "matchedCandidateTrack.caloNewNoPUDRp5CentralCaloJustEm")
         ),
         #cand calo sum VS iso calo em
         cms.PSet (
@@ -267,7 +267,7 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             title = cms.string(";IsolatedTrack photonIso + neutralHadronIso [GeV];CandidateTrack caloNewNoPUDRp5CentralCalo [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 20),
             binsY = cms.untracked.vdouble(100, 0, 20),
-            inputVariables = cms.vstring("pfIsolationDR03_.photonIso + pfIsolationDR03_.neutraHadronIso", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
+            inputVariables = cms.vstring("pfIsolationDR03_.photonIso + pfIsolationDR03_.neutralHadronIso", "matchedCandidateTrack.caloNewNoPUDRp5CentralCalo")
         ),
         
         #cone size of 0.3
@@ -310,7 +310,7 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
             title = cms.string(";IsolatedTrack photonIso + neutralHadronIso [GeV];CandidateTrack caloNewNoPUDRp3CentralCalo [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 20),
             binsY = cms.untracked.vdouble(100, 0, 20),
-            inputVariables = cms.vstring("pfIsolationDR03_.photonIso + pfIsolationDR03_.neutraHadronIso", "matchedCandidateTrack.caloNewNoPUDRp3CentralCalo")
+            inputVariables = cms.vstring("pfIsolationDR03_.photonIso + pfIsolationDR03_.neutralHadronIso", "matchedCandidateTrack.caloNewNoPUDRp3CentralCalo")
         ),
 
         #####################################################
