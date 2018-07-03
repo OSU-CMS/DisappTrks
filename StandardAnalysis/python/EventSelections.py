@@ -122,6 +122,10 @@ isoTrkSelectionBeforeValidPixelHitsMatching.name = cms.string ("isoTrkSelectionB
 addCuts (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, isoTrkWithPt55BeforeValidPixelHitCuts)
 addSingleCut (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, cutTrkMatchChargino, cutTrkFiducialECAL)
 
+isoTrkSelectionBeforeD0DZ = copy.deepcopy(isoTrkSelectionBeforeIsoCut)
+isoTrkSelectionBeforeD0DZ.name = cms.string("isoTrkSelectionBeforeD0DZ")
+addCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutTrkIso])
+
 ##########################################################################
 
 isoTrkLoosePt = copy.deepcopy(isoTrkSelection)
