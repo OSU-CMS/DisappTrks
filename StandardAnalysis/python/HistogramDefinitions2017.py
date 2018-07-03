@@ -246,19 +246,19 @@ IsolatedTrackCandidateTrackHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("IsoMatchedCaloJetEmPlusHadEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetEmPlusHadEnergy [GeV]"),
-            binsY = cms.untracked.vdouble(100, 0, 4),
+            binsX = cms.untracked.vdouble(100, 0, 4),
             inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy")
         ),
         cms.PSet (
             name = cms.string("IsoMatchedCaloJetEmEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetEmEnergy [GeV]"),
-            binsY = cms.untracked.vdouble(100, 0, 4),
+            binsX = cms.untracked.vdouble(100, 0, 4),
             inputVariables = cms.vstring("matchedCaloJetEmEnergy")
         ),
         cms.PSet (
             name = cms.string("IsoMatchedCaloJetHadEnergy"),
             title = cms.string(";IsolatedTrack matchedCaloJetHadEnergy [GeV]"),
-            binsY = cms.untracked.vdouble(100, 0, 4),
+            binsX = cms.untracked.vdouble(100, 0, 4),
             inputVariables = cms.vstring("matchedCaloJetHadEnergy")
         ),
 
