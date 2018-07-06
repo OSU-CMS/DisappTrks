@@ -610,6 +610,11 @@ cutTrkMatchChargino = cms.PSet(
     cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 1000024"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkMatchCharginoByMother = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("abs (genMatchedParticle.bestMatch.motherRef.pdgId) == 1000024 && abs (genMatchedParticle.bestMatchPdgId) == 1000022"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11"),
@@ -1152,6 +1157,11 @@ cutTauTightID = cms.PSet (
 cutTauTightPFIso = cms.PSet (
     inputCollection = cms.vstring("taus"),
     cutString = cms.string("passesTightCombinedIsolation"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTauTightMVAIso = cms.PSet (
+    inputCollection = cms.vstring("taus"),
+    cutString = cms.string("passesTightMVAIsolation"),
     numberRequired = cms.string(">= 1"),
 )
 cutTauArbitration = cms.PSet(

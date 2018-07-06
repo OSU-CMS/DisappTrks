@@ -20,8 +20,11 @@ tagTauCuts = [
     cutTauPt50,
     cutTauEta21,
     cutTauTightID,
-    cutTauTightPFIso,
 ]
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    tagTauCuts.append(cutTauTightMVAIso)
+else:
+    tagTauCuts.append(cutTauTightID)
 addCuts(TauTagSkim.cuts, tagTauCuts)
 
 ################################################################################
