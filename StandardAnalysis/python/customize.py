@@ -132,11 +132,12 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         if channel.endswith ("WithSSFilter"):
             doSSFilter = True
         if channel.endswith ("WithJetFilter"):
-            doSSFilter = True
+            doJetFilter = True
 
         if hasattr (process, "EventElectronTPProducer"):
             getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
             getattr (process, "EventElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventElectronTPProducer", channel)
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
@@ -146,10 +147,12 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
             getattr (process, "EventTauToElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventTauToElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventTauToElectronTPProducer", channel)
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
             getattr (process, "EventTauToMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventTauToMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventTauToMuonTPProducer", channel)
 
         if hasattr (process, "EventElectronMETTriggerProducer"):
