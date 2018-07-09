@@ -664,6 +664,18 @@ cutTrkArbitration = cms.PSet(
     arbitration = cms.string("random"),
     alias = cms.string("pick random track"),
 )
+cutTrkLargeIsoDiffPos = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt)-(matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt) > 2"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("large difference in Isolation, candidateTrack << isolatedtrack"),
+)
+cutTrkLargeIsoDiffNeg = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt)-(matchedCandidateTrack.trackIsoNoPUDRp3 / matchedCandidateTrack.pt) < 2"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("large difference in Isolation, candidateTrack >> isolatedtrack"),
+)
 cutTrkD0 = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackD0WRTPV + " ) < 0.02"),

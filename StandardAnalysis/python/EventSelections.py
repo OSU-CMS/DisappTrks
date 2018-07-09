@@ -124,7 +124,16 @@ addSingleCut (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, cutTrkMatchCharg
 
 isoTrkSelectionBeforeD0DZ = copy.deepcopy(isoTrkSelectionBeforeIsoCut)
 isoTrkSelectionBeforeD0DZ.name = cms.string("isoTrkSelectionBeforeD0DZ")
+removeCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutJetPt])
 addCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutTrkIso])
+
+isoTrkSelectionBeforeIsoCutLargeIsoDiffPos = (isoTrkSelectionBeforeIsoCut)
+isoTrkSelectionBeforeIsoCutLargeIsoDiffPos.name = cms.string("isoTrkSelectionBeforeIsoCutLargeIsoDiffPos")
+addCuts (isoTrkSelectionBeforeIsoCutLargeIsoDiffPos.cuts, [cutTrkLargeIsoDiffPos])
+
+isoTrkSelectionBeforeIsoCutLargeIsoDiffNeg = (isoTrkSelectionBeforeIsoCut)
+isoTrkSelectionBeforeIsoCutLargeIsoDiffNeg.name = cms.string("isoTrkSelectionBeforeIsoCutLargeIsoDiffNeg")
+addCuts (isoTrkSelectionBeforeIsoCutLargeIsoDiffNeg.cuts, [cutTrkLargeIsoDiffNeg])
 
 ##########################################################################
 
