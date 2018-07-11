@@ -327,9 +327,27 @@ const double
 CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const bool noFakes, const double outerDeltaR, const double innerDeltaR) const
 {
   double sumPt = 0.0;
+  
+  bool print = false;
+  if (noPU && !noFakes && outerDeltaR==0.3) print=true;
+  if (print) cout << endl << "==============================" << endl << "Head Track :: pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl << "---------------------------" << endl;
+  if (print) cout << "Tracks inside cone:" << endl;
 
   for (const auto &t : tracks)
     {
+      double dR0 = deltaR (track, t);
+      if (print && dR0 < outerDeltaR && dR > innerDeltaR){
+        cout << "\tTrack w/ pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << ", dr=" << dr0 << endl;
+        cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
+        cout << "\t----Passed OUR isolation calc: " << (track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) << endl;
+        if (track.dz(t.vertex()) < .1) {
+          cout << "In PF iso calc (if IDed as ChHad), placed in ChHad" << endl;
+        } else {
+          cout << "In PF iso calc (if IDed as ChHad), placed in PU" << endl;
+        }
+      }
+
+
       if (noFakes && t.normalizedChi2 () > 20.0)
         continue;
       if (noFakes && t.hitPattern ().pixelLayersWithMeasurement () < 2)
@@ -346,6 +364,7 @@ CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::
       if (dR < outerDeltaR && dR > innerDeltaR)
         sumPt += t.pt ();
     }
+    if (print) cout << endl;
 
   return sumPt;
 }
