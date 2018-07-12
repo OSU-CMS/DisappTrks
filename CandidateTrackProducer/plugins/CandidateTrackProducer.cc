@@ -52,7 +52,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EBRecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EBRecHits")),
   EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt")),
+  PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates"))
 {
   produces<vector<CandidateTrack> > ();
 
@@ -69,6 +70,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EBRecHitsToken_       =  consumes<EBRecHitCollection>         (EBRecHitsTag_);
   EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);
   HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);
+  PackedCandidateCollectionToken_ = consumes<pat::PackedCandidateCollection> (PackedCandidateCollectionTag_);
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -121,12 +123,17 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken(HBHERecHitsToken_, HBHERecHits);
   if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";
 
+  edm::Handle<pat::PackedCandidateCollection> PackedCandidates;
+  iEvent.getByToken(PackedCandidateCollectionToken_, PackedCandidates);
+  if (!PackedCandidates.isValid()) throw cms::Exception("FatalError") << "Unable to find PackedCandidateCollection in the event!\n";
+
+
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
     if (track.pt () < candMinPt_)
       continue;
 
-    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions);
+    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions, *PackedCandidates);
     candTrack.set_rhoPUCorr(*rhoHandle);
     candTrack.set_rhoPUCorrCalo(*rhoCaloHandle);
     candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle);

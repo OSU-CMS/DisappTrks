@@ -19,6 +19,7 @@ candidateTrackProducer = cms.EDFilter ("CandidateTrackProducer",
   EERecHits          =  cms.InputTag  ("reducedEcalRecHitsEE"),
   HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"),
   candMinPt          =  cms.double(10),
+  packedPFCandidates =  cms.InputTag  ("packedPFCandidates",            "")
 )
 
 class Collections:
