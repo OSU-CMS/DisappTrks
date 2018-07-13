@@ -529,11 +529,6 @@ cutTrkTauHadVetoInv = cms.PSet(
     cutString = cms.string("deltaRToClosestTauHad < 0.15"),
     numberRequired = cms.string(">= 1"),
 )
-#temporary, until these variables are added for the IsolatedTrack via OSUTrack
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    cutTrkElecVeto.cutString = cms.string("deltaRToClosestPFElectron > 0.15")
-    cutTrkMuonVeto.cutString = cms.string("deltaRToClosestPFMuon > 0.15")
-    cutTrkTauHadVeto.cutString = cms.string("deltaRToClosestPFChHad > 0.15")
 
 cutTrkJetDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("tracks"),
