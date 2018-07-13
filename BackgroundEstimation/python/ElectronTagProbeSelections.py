@@ -24,7 +24,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         cutMetFilters,
         cutElectronPt,
         cutElectronEta21, # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
-        cutElectronVIDTightID, # ID + iso
+        cutElectronVIDTightID, # ID + iso (no vertexing -- added below)
+        cutElectronD02017,
+        cutElectronDZ2017,
     ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 

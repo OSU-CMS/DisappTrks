@@ -1103,6 +1103,20 @@ cutElectronVIDTightID = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons with passesVID_tightID (ID + iso)"),
 )
+cutElectronD02017 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("((fabs (superCluster.eta) <= 1.479) && (fabs (" + electronD0WRTPV + ") < 0.05)) \
+                         || ((fabs (superCluster.eta) >  1.479) && (fabs (" + electronD0WRTPV + ") < 0.10))"),
+    numberRequired = cm.string(">= 1"),
+    alias = cms.string(">= 1 electrons with |d0| < 0.05, 0.10 (EB, EE)"),
+)
+cutElectronDZ2017 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("((fabs (superCluster.eta) <= 1.479) && (fabs (" + electronDZWRTPV + ") < 0.10)) \
+                         || ((fabs (superCluster.eta) >  1.479) && (fabs (" + electronDZWRTPV + ") < 0.20))"),
+    numberRequired = cm.string(">= 1"),
+    alias = cms.string(">= 1 electrons with |dz| < 0.10, 0.20 (EB, EE)"),
+)
 cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),
