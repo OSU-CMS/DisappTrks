@@ -106,7 +106,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
   rhoPUCorrCentralCalo_          (INVALID_VALUE),
   trackIsoDRp3_                  (getTrackIsolation (track, tracks, false, false, 0.3)),
   trackIsoDRp5_                  (getTrackIsolation (track, tracks, false, false, 0.5)),
-  trackIsoNoPUDRp3_              (getTrackIsolationExtraInfo (track, tracks, true, false, 0.3, PackedCandidates)),
+  trackIsoNoPUDRp3_              (getTrackIsolationExtraInfo (track, tracks, true, false, 0.3, 1.0e-12, PackedCandidates)),
   trackIsoNoPUDRp5_              (getTrackIsolation (track, tracks, true, false, 0.5)),
   trackIsoNoFakesDRp3_           (getTrackIsolation (track, tracks, false, true, 0.3)),
   trackIsoNoFakesDRp5_           (getTrackIsolation (track, tracks, false, true, 0.5)),
@@ -334,8 +334,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
   if (print) cout << endl << "==============================" << endl << "CandidateTrack Head Track :: pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl << "---------------------------" << endl;
   if (print) cout << "Tracks inside cone:" << endl;
 
-  for (const auto &t : tracks)
-    {
+  for (const auto &t : tracks) {
       double dR0 = deltaR (track, t);
       if (print && dR0 < outerDeltaR && dR0 > innerDeltaR){
         cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
@@ -364,30 +363,32 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       double dR = deltaR (track, t);
       if (dR < outerDeltaR && dR > innerDeltaR)
         sumPt += t.pt ();
-    }
-    if (print) cout << "Total CandidateTrack Isolation: " << sumPt << endl << "-----------------------------" <<  endl;
+  }
+  if (print) cout << "Total CandidateTrack Isolation: " << sumPt << endl << "-----------------------------" <<  endl;
     
-    if (print){
-      float sumPFPt = 0.0;
-      //just print out the primary track for which we are getting the isolation
-      for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
-        float dR2 = deltaR (track.p4(), pf_it0->p4());
-        if (dR2 < 0.00000001) {
-          cout << "IsolatedTrack Head Track :: pt=" << pf_it0->pt() << ", eta=" << pf_it0->eta() << ", phi=" << pf_it0->phi() << endl << "---------------------------" << endl;
-          cout << "Tracks inside cone:" << endl;
-          break;
-        }
-      } 
-      for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
-        float dZ = fabs(pf_it->dz());
-        //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
-        float dR1 = deltaR(track.p4(), pf_it->p4());
-        float pt = pf_it->p4().pt();
-        if (dR1 > 0.00000001 && dR1 < 0.3) {
-          cout << "\tTrack w/ pt=" << pf_it->pt() << ", eta=" << pf_it->eta() << ", phi=" << pf_it->phi() << ", dR=" << dR0  << endl;
-          cout << "\t-- dz=" << dZ << endl;
-          cout << "\t----Would have passed OUR isolation calc: " << !(track.dz (pf_it.vertex ()) > 3.0 * hypot (track.dzError (), pf_it.dzError ())) << endl;
-          int id = std::abs(pf_it->pdgId());
+  if (print){
+    float sumPFPt = 0.0;
+    //just print out the primary track for which we are getting the isolation
+    //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
+    for (auto &candidate0 : pc) {
+      float dR2 = deltaR (track.pt(), candidate0->p4());
+      if (dR2 < 0.00000001) {
+        cout << "IsolatedTrack Head Track :: pt=" << candidate0->pt() << ", eta=" << candidate0->eta() << ", phi=" << candidate0->phi() << endl << "---------------------------" << endl;
+        cout << "Tracks inside cone:" << endl;
+        break;
+      }
+    } 
+    //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
+    for (auto &candidate : pc) {
+      float dZ = fabs(candidate->dz());
+      //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
+      float dR1 = deltaR(track.p4(), candidate->p4());
+      float pt = candidate->p4().pt();
+      if (dR1 > 0.00000001 && dR1 < 0.3) {
+        cout << "\tTrack w/ pt=" << candidate->pt() << ", eta=" << candidate->eta() << ", phi=" << candidate->phi() << ", dR=" << dR0  << endl;
+        cout << "\t-- dz=" << dZ << endl;
+        cout << "\t----Would have passed OUR isolation calc: " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
+          int id = std::abs(candidate->pdgId());
           if (id==211){
             if (dZ < 0.1) {
               cout << "\t----In PF isolation in ChHad" << endl;
@@ -396,9 +397,9 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
               cout << "\t----In PF isolation in puChHad" << endl;
               sumPFPt += pt;
             }
-          } else if (id=130) cout << "\t----In PF isolation  in NuHad" << endl;
+          } else if (id==130) cout << "\t----In PF isolation  in NuHad" << endl;
           else if (id==22) cout << "\t----In PF isolation in Photon" << endl;
-          else cout << "\t----NOT COUNTED IN PF ISOLATION (no matching ID)" << endl;
+          else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
         }
       }
       cout << << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
