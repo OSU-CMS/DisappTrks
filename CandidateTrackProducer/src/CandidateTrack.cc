@@ -387,24 +387,26 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       if (dR1 > 0.00000001 && dR1 < 0.3) {
         cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
         cout << "\t-- dz=" << dZ << endl;
-        cout << "\t----Would have passed OUR isolation calc: " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
-          int id = std::abs(candidate.pdgId());
-          if (id==211){
-            if (dZ < 0.1) {
-              cout << "\t----In PF isolation in ChHad" << endl;
-              sumPFPt += pt;
-            } else {
-              cout << "\t----In PF isolation in puChHad" << endl;
-              sumPFPt += pt;
-            }
-          } else if (id==130) cout << "\t----In PF isolation  in NuHad" << endl;
-          else if (id==22) cout << "\t----In PF isolation in Photon" << endl;
-          else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
-        }
+        if (candidate.hasTrackDetails()){
+          cout << "\t----Would have passed OUR isolation calc (dz<3sig): " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
+        } else cout << "\t----dzError not available, OUR isolation calc = ??" << endl;
+        int id = std::abs(candidate.pdgId());
+        if (id==211){
+          if (dZ < 0.1) {
+            cout << "\t----In PF isolation in ChHad" << endl;
+            sumPFPt += pt;
+          } else {
+            cout << "\t----In PF isolation in puChHad" << endl;
+            sumPFPt += pt;
+          }
+        } else if (id==130) cout << "\t----In PF isolation  in NuHad" << endl;
+        else if (id==22) cout << "\t----In PF isolation in Photon" << endl;
+        else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
       }
-      cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
-      cout << "==============================" << endl;
     }
+     cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
+    cout << "==============================" << endl;
+  }
 
 
   return sumPt;
