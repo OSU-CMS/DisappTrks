@@ -371,9 +371,9 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
     //just print out the primary track for which we are getting the isolation
     //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
     for (auto &candidate0 : pc) {
-      float dR2 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
-      if (dR2 < 0.00000001) {
-        cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << endl << "---------------------------" << endl;
+      float dR0 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
+      if (dR0 < 0.00000001) {
+        cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << ", dR=" << dR0 << endl << "---------------------------" << endl;
         cout << "Tracks inside cone:" << endl;
         break;
       }
@@ -385,7 +385,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
       float pt = candidate.p4().pt();
       if (dR1 > 0.00000001 && dR1 < 0.3) {
-        cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR0  << endl;
+        cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
         cout << "\t-- dz=" << dZ << endl;
         cout << "\t----Would have passed OUR isolation calc: " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
           int id = std::abs(candidate.pdgId());
