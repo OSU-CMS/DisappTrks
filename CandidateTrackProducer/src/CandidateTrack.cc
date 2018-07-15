@@ -371,24 +371,24 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
     //just print out the primary track for which we are getting the isolation
     //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
     for (auto &candidate0 : pc) {
-      float dR2 = deltaR (track.pt(), candidate0->p4());
+      float dR2 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
       if (dR2 < 0.00000001) {
-        cout << "IsolatedTrack Head Track :: pt=" << candidate0->pt() << ", eta=" << candidate0->eta() << ", phi=" << candidate0->phi() << endl << "---------------------------" << endl;
+        cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << endl << "---------------------------" << endl;
         cout << "Tracks inside cone:" << endl;
         break;
       }
     } 
     //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
     for (auto &candidate : pc) {
-      float dZ = fabs(candidate->dz());
+      float dZ = fabs(candidate.dz());
       //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
-      float dR1 = deltaR(track.p4(), candidate->p4());
-      float pt = candidate->p4().pt();
+      float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
+      float pt = candidate.p4().pt();
       if (dR1 > 0.00000001 && dR1 < 0.3) {
-        cout << "\tTrack w/ pt=" << candidate->pt() << ", eta=" << candidate->eta() << ", phi=" << candidate->phi() << ", dR=" << dR0  << endl;
+        cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR0  << endl;
         cout << "\t-- dz=" << dZ << endl;
         cout << "\t----Would have passed OUR isolation calc: " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
-          int id = std::abs(candidate->pdgId());
+          int id = std::abs(candidate.pdgId());
           if (id==211){
             if (dZ < 0.1) {
               cout << "\t----In PF isolation in ChHad" << endl;
@@ -402,7 +402,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
           else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
         }
       }
-      cout << << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
+      cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
       cout << "==============================" << endl;
     }
 
