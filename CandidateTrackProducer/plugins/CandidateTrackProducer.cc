@@ -34,7 +34,7 @@
 
 
 using namespace std;
-
+   
 //
 // constructors and destructor
 //
@@ -52,8 +52,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EBRecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EBRecHits")),
   EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt")),
-  PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates"))
+  PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
 
