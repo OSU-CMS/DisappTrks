@@ -342,7 +342,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         bool matchedAndIncluded = false;
         for (auto &candidateMatch : pc) {
           double dRMatch = deltaR (t.eta(), t.phi(), candidateMatch.eta(), candidateMatch.phi());
-          if (dRMatch < 0.00000001){
+          if (dRMatch < 0.0001){
             int id = std::abs(candidateMatch.pdgId());
             bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
@@ -392,7 +392,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
     //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
     for (auto &candidate0 : pc) {
       float dR0 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
-      if (dR0 < 0.00000001) {
+      if (dR0 < 0.0001) {
         cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << ", dR=" << dR0 << endl << "---------------------------" << endl;
         cout << "Tracks inside cone:" << endl;
         break;
@@ -406,16 +406,16 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
       float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
       float pt = candidate.p4().pt();
       //if (pt > 1.0) printPT = true;
-      if (dR1 > 0.00000001 && dR1 < 0.3) {
+      if (dR1 > 0.0001 && dR1 < 0.3) {
         bool matchedAndIncluded = false;
-        for (const auto &t : tracks) {
-          double dRMatch = deltaR (t.eta(), t.phi(), candidate.eta(), candidate.phi());
-          if (dRMatch < 0.00000001){
-            int id = std::abs(candidate.pdgId());
-            bool matchIDIncluded = false;
+        for (const auto &t2 : tracks) {
+          double dRMatch = deltaR (t2.eta(), t2.phi(), candidate.eta(), candidate.phi());
+          if (dRMatch < 0.0001){
+            //int id = std::abs(candidate.pdgId());
+            //bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
-            if (id == 211) matchIDIncluded = true;
-            if (!(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) && (matchIDIncluded)) {
+            //if (id == 211) matchIDIncluded = true;
+            if (!(track.dz (t2.vertex ()) > 3.0 * hypot (track.dzError (), t2.dzError ()))) {
                 matchedAndIncluded = true;
                 break;
             }
@@ -437,7 +437,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             if (!matchedAndIncluded) cout << "\t----In PF isolation in puChHad" << endl;
             sumPFPt += pt;
           }
-          cout << "\t------but not in OUR isolation" << endl;
+          if (!matchedAndIncluded) cout << "\t------but not in OUR isolation" << endl;
         } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
         else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
         else {
@@ -505,7 +505,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
     //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
     for (auto &candidate0 : pc) {
       float dR0 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
-      if (dR0 < 0.00000001) {
+      if (dR0 < 0.0001) {
         cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << ", dR=" << dR0 << endl << "---------------------------" << endl;
         cout << "Tracks inside cone:" << endl;
         break;
@@ -517,7 +517,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
       float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
       float pt = candidate.p4().pt();
-      if (dR1 > 0.00000001 && dR1 < 0.3) {
+      if (dR1 > 0.0001 && dR1 < 0.3) {
         cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
         cout << "\t-- dz=" << dZ << endl;
         if (candidate.hasTrackDetails()){
