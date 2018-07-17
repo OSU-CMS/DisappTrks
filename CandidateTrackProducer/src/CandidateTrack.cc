@@ -422,7 +422,6 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         }
         if (matchedAndIncluded || !printPT) break;
         int id = std::abs(candidate.pdgId());
-        bool dummy = true;
         if (id != 130 && id !=22) {
           cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
           cout << "\t-- dz=" << dZ << endl;
@@ -439,8 +438,8 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             sumPFPt += pt;
           }
           cout << "\t------but not in OUR isolation" << endl;
-        } else if (id==130) {dummy = true;}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
-        else if (id==22) {dummy = true;}//cout << "\t----In PF isolation in Photon (not included)" << endl;
+        } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
+        else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
         else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
       }
     }
