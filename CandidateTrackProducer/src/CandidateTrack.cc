@@ -353,17 +353,18 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             }
           }
         }
-        if (matchedAndIncluded) break;
-        cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
-        cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
-        bool passedOURisolation = !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()));
-        cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
-        if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
+        if (!matchedAndIncluded) {
+          cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
+          cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
+          bool passedOURisolation = !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()));
+          cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
+          if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
    //     if (track.dz(t.vertex()) < .1) {
    //       cout << "\t----In PF iso calc (if IDed as ChHad), placed in ChHad" << endl;
    //     } else {
    //       cout << "\t----In PF iso calc (if IDed as ChHad), placed in PU" << endl;
    //     }
+        }
       }
 
 
@@ -420,27 +421,28 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             }
           }
         }
-        if (matchedAndIncluded) break;
         int id = std::abs(candidate.pdgId());
         if (id != 130 && id !=22) {
-          cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
-          cout << "\t-- dz=" << dZ << endl;
+          if (!matchedAndIncluded) cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
+          if (!matchedAndIncluded) cout << "\t-- dz=" << dZ << endl;
         }
         //if (candidate.hasTrackDetails()){
         //  cout << "\t----Would have passed OUR isolation calc (dz<3sig): " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
         //} else cout << "\t----dzError not available, OUR isolation calc = ??" << endl;
         if (id==211){
           if (dZ < 0.1) {
-            cout << "\t----In PF isolation in ChHad" << endl;
+            if (!matchedAndIncluded) cout << "\t----In PF isolation in ChHad" << endl;
             sumPFPt += pt;
           } else {
-            cout << "\t----In PF isolation in puChHad" << endl;
+            if (!matchedAndIncluded) cout << "\t----In PF isolation in puChHad" << endl;
             sumPFPt += pt;
           }
           cout << "\t------but not in OUR isolation" << endl;
         } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
         else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
-        else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
+        else {
+          if (!matchedAndIncluded) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
+        }
       }
     }
     if (print) cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
