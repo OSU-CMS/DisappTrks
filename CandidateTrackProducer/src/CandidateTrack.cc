@@ -336,8 +336,8 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
 
   for (const auto &t : tracks) {
       double dR0 = deltaR (track, t);
-      bool printPT0 = false;
-      if (t.pt() > 1.0) printPT0 = true;
+      //bool printPT0 = false;
+      //if (t.pt() > 1.0) printPT0 = true;
       if (print && dR0 < outerDeltaR && dR0 > innerDeltaR){
         bool matchedAndIncluded = false;
         for (auto &candidateMatch : pc) {
@@ -353,7 +353,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             }
           }
         }
-        if (matchedAndIncluded || !printPT0) break;
+        if (matchedAndIncluded) break;
         cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
         cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
         bool passedOURisolation = !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()));
@@ -397,14 +397,14 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         break;
       }
     } 
-    bool printPT = false;
+    //bool printPT = false;
     //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
     for (auto &candidate : pc) {
       float dZ = fabs(candidate.dz());
       //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
       float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
       float pt = candidate.p4().pt();
-      if (pt > 1.0) printPT = true;
+      //if (pt > 1.0) printPT = true;
       if (dR1 > 0.00000001 && dR1 < 0.3) {
         bool matchedAndIncluded = false;
         for (const auto &t : tracks) {
@@ -420,7 +420,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             }
           }
         }
-        if (matchedAndIncluded || !printPT) break;
+        if (matchedAndIncluded) break;
         int id = std::abs(candidate.pdgId());
         if (id != 130 && id !=22) {
           cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
