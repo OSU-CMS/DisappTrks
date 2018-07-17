@@ -106,7 +106,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
   rhoPUCorrCentralCalo_          (INVALID_VALUE),
   trackIsoDRp3_                  (getTrackIsolation (track, tracks, false, false, 0.3)),
   trackIsoDRp5_                  (getTrackIsolation (track, tracks, false, false, 0.5)),
-  trackIsoNoPUDRp3_              (getTrackIsolationExtraInfo (track, tracks, true, false, 0.3, 1.0e-12, PackedCandidates)),
+  trackIsoNoPUDRp3_              (getTrackIsolationExtraInfoNoDoubles (track, tracks, true, false, 0.3, 1.0e-12, PackedCandidates)),
   trackIsoNoPUDRp5_              (getTrackIsolation (track, tracks, true, false, 0.5)),
   trackIsoNoFakesDRp3_           (getTrackIsolation (track, tracks, false, true, 0.3)),
   trackIsoNoFakesDRp5_           (getTrackIsolation (track, tracks, false, true, 0.5)),
@@ -323,6 +323,131 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) cons
   double caloTotNoPU = TMath::Max(0., rawCaloTot - caloCorr);
   return caloTotNoPU;
 }
+
+const double
+CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const bool noFakes, const double outerDeltaR, const double innerDeltaR, const pat::PackedCandidateCollection &pc) const
+{
+  double sumPt = 0.0;
+  
+  bool print = false;
+  if (noPU && !noFakes && outerDeltaR==0.3) print=true;
+  if (print) cout << endl << "==============================" << endl << "CandidateTrack Head Track :: pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl << "---------------------------" << endl;
+  if (print) cout << "Tracks inside cone:" << endl;
+
+  for (const auto &t : tracks) {
+      double dR0 = deltaR (track, t);
+      if (print && dR0 < outerDeltaR && dR0 > innerDeltaR){
+        bool matchedAndIncluded = false;
+        for (auto &candidateMatch : pc) {
+          double dRMatch = deltaR (t.eta(), t.phi(), candidateMatch.eta(), candidateMatch.phi());
+          if (dRMatch < 0.00000001){
+            int id = std::abs(candidateMatch.pdgId());
+            bool matchIDIncluded = false;
+            //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
+            if (id == 211) matchIDIncluded = true;
+            if (!(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) && (matchIDIncluded)) {
+                matchedAndIncluded = true;
+                break;
+            }
+          }
+        }
+        if (matchedAndIncluded) break;
+        cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
+        cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
+        bool passedOURisolation = !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()));
+        cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
+        if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
+   //     if (track.dz(t.vertex()) < .1) {
+   //       cout << "\t----In PF iso calc (if IDed as ChHad), placed in ChHad" << endl;
+   //     } else {
+   //       cout << "\t----In PF iso calc (if IDed as ChHad), placed in PU" << endl;
+   //     }
+      }
+
+
+      if (noFakes && t.normalizedChi2 () > 20.0)
+        continue;
+      if (noFakes && t.hitPattern ().pixelLayersWithMeasurement () < 2)
+        continue;
+      if (noFakes && t.hitPattern ().trackerLayersWithMeasurement () < 5)
+        continue;
+      if (noFakes && fabs (t.d0 () / t.d0Error ()) > 5.0)
+        continue;
+
+      if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
+        continue;
+
+      double dR = deltaR (track, t);
+      if (dR < outerDeltaR && dR > innerDeltaR)
+        sumPt += t.pt ();
+  }
+  if (print) cout << "Total CandidateTrack Isolation: " << sumPt << endl << "-----------------------------" <<  endl;
+    
+  if (print){
+    float sumPFPt = 0.0;
+    //just print out the primary track for which we are getting the isolation
+    //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
+    for (auto &candidate0 : pc) {
+      float dR0 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
+      if (dR0 < 0.00000001) {
+        cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << ", dR=" << dR0 << endl << "---------------------------" << endl;
+        cout << "Tracks inside cone:" << endl;
+        break;
+      }
+    } 
+    //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
+    for (auto &candidate : pc) {
+      float dZ = fabs(candidate.dz());
+      //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
+      float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
+      float pt = candidate.p4().pt();
+      if (dR1 > 0.00000001 && dR1 < 0.3) {
+        bool matchedAndIncluded = false;
+        for (const auto &t : tracks) {
+          double dRMatch = deltaR (t.eta(), t.phi(), candidate.eta(), candidate.phi());
+          if (dRMatch < 0.00000001){
+            int id = std::abs(candidate.pdgId());
+            bool matchIDIncluded = false;
+            //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
+            if (id == 211) matchIDIncluded = true;
+            if (!(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) && (matchIDIncluded)) {
+                matchedAndIncluded = true;
+                break;
+            }
+          }
+        }
+        if (matchedAndIncluded) break;
+        cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
+        cout << "\t-- dz=" << dZ << endl;
+        //if (candidate.hasTrackDetails()){
+        //  cout << "\t----Would have passed OUR isolation calc (dz<3sig): " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
+        //} else cout << "\t----dzError not available, OUR isolation calc = ??" << endl;
+        int id = std::abs(candidate.pdgId());
+        if (id==211){
+          if (dZ < 0.1) {
+            cout << "\t----In PF isolation in ChHad" << endl;
+            sumPFPt += pt;
+          } else {
+            cout << "\t----In PF isolation in puChHad" << endl;
+            sumPFPt += pt;
+          }
+          cout << "\t------but not in OUR isolation" << endl;
+        } else if (id==130) cout << "\t----In PF isolation  in NuHad (not included)" << endl;
+        else if (id==22) cout << "\t----In PF isolation in Photon (not included)" << endl;
+        else cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
+      }
+    }
+     cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
+    cout << "==============================" << endl;
+  }
+
+
+  return sumPt;
+}
+
+  
+
+
 
 const double
 CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vector<reco::Track> &tracks, const bool noPU, const bool noFakes, const double outerDeltaR, const double innerDeltaR, const pat::PackedCandidateCollection &pc) const
