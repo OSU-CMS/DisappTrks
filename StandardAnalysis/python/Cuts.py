@@ -719,6 +719,18 @@ cutTrkMatchMC = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    cutTrkD0.inputCollection = cms.vstring("tracks")
+    cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
+
+    cutTrkSidebandD0.inputCollection = cms.vstring("tracks")
+    cutTrkSidebandD0.cutString = cms.string("fabs (dxy) >= 0.02 && fabs (dxy) < 0.1")
+
+    cutTrkInvertD0.inputCollection = cms.vstring("tracks")
+    cutTrkInvertD0.cutString = cms.string("fabs (dxy) >= 0.02")
+
+    cutTrkDZ.inputCollection = cms.vstring("tracks")
+    cutTrkDZ.cutString = cms.string("fabs (dz) < 0.5")
 
 ##################################################
 ## mcparticles

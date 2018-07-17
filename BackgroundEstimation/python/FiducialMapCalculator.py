@@ -199,6 +199,8 @@ class FiducialMapCalculator:
         self.Numerator["histogram"].Draw('colz')
 
         if 'SingleEle' in self.Numerator["sample"]:
+            if '2017' in self.Numerator["sample"]:
+                self.Numerator["histogram"].GetZaxis().SetRangeUser(0, 7)
             self.Numerator["histogram"].GetZaxis().SetRangeUser(0, 12)
         elif 'SingleMu' in self.Numerator["sample"]:
             self.Numerator["histogram"].GetZaxis().SetRangeUser(0, 23)
@@ -224,6 +226,12 @@ class FiducialMapCalculator:
             if 'SingleEle' in self.Numerator["sample"]:
                 existingMapName += 'electronFiducialMap_2016ReReco_data.root'
             elif 'SingleMu' in self.Numerator["sample"]:
+                existingMapName += 'muonFiducialMap_2016ReReco_data.root'
+        elif '2017' in self.Numerator["sample"]:
+            if 'SingleEle' in self.Numerator["sample"]:
+                existingMapName += 'electronFiducialMap_2017_data.root'
+            elif 'SingleMu' in self.Numerator["sample"]:
+                print 'FIX ME: comparing to 2016 map instead of existing 2017 map'
                 existingMapName += 'muonFiducialMap_2016ReReco_data.root'
         existingMapFile = TFile(existingMapName, 'read')
         existingMapDenominator = existingMapFile.Get('beforeVeto')
