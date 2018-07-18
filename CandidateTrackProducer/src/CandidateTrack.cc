@@ -388,16 +388,19 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
     
   if (print){
     float sumPFPt = 0.0;
+    bool found = false;
     //just print out the primary track for which we are getting the isolation
     //for(pat::PackedCandidateCollection::const_iterator pf_it0 = pc->begin(); pf_it0 != pc->end(); pf_it0++){
     for (auto &candidate0 : pc) {
       float dR0 = deltaR (track.eta(), track.phi(), candidate0.eta(), candidate0.phi());
       if (dR0 < 0.0001) {
         cout << "IsolatedTrack Head Track :: pt=" << candidate0.pt() << ", eta=" << candidate0.eta() << ", phi=" << candidate0.phi() << ", dR=" << dR0 << endl << "---------------------------" << endl;
-        cout << "Tracks inside cone:" << endl;
+        cout << "PF Candidates inside cone:" << endl;
+        found = true;
         break;
       }
     } 
+    if (!found) cout << "IsolatedTrack Head Track match to candidate/general head track not found::" << endl << "---------------------------" << endl;
     //bool printPT = false;
     //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
     for (auto &candidate : pc) {
@@ -423,7 +426,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         }
         int id = std::abs(candidate.pdgId());
         if (id != 130 && id !=22) {
-          if (!matchedAndIncluded) cout << "\tTrack w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
+          if (!matchedAndIncluded) cout << "\tpf candidate w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
           if (!matchedAndIncluded) cout << "\t-- dz=" << dZ << endl;
         }
         //if (candidate.hasTrackDetails()){
