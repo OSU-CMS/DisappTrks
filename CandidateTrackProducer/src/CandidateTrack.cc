@@ -448,13 +448,13 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         //} else cout << "\t----dzError not available, OUR isolation calc = ??" << endl;
         if (id==211){
           if (dZ < 0.1) {
-            if (!matchedAndIncluded && matched) cout << "\t----In PF isolation in ChHad" << endl;
+            if (!matchedAndIncluded) cout << "\t----In PF isolation in ChHad" << endl;
             sumPFPt += pt;
           } else {
-            if (!matchedAndIncluded && matched) cout << "\t----In PF isolation in puChHad" << endl;
+            if (!matchedAndIncluded) cout << "\t----In PF isolation in puChHad" << endl;
             sumPFPt += pt;
           }
-          if (!matchedAndIncluded && matched) cout << "\t------but not in OUR isolation" << endl;
+          if (!matchedAndIncluded && matched) cout << "\t------matched, but OUR isolation said NO" << endl;
         } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
         else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
         else {
