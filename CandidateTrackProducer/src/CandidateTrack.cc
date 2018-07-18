@@ -441,6 +441,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         if (id != 130 && id !=22) {
           if (!matchedAndIncluded) cout << "\tpf candidate w/ pt=" << candidate.pt() << ", eta=" << candidate.eta() << ", phi=" << candidate.phi() << ", dR=" << dR1 << endl;
           if (!matchedAndIncluded) cout << "\t-- dz=" << dZ << endl;
+          if (!matchedAndIncluded && !matched) cout << "\t---NO matching generalTrack found" << endl;
         }
         //if (candidate.hasTrackDetails()){
         //  cout << "\t----Would have passed OUR isolation calc (dz<3sig): " << !(track.dz (candidate.vertex ()) > 3.0 * hypot (track.dzError (), candidate.dzError ())) << endl;
@@ -459,7 +460,6 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         else {
           if (!matchedAndIncluded && matched) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
         }
-        if (!matched) cout << "\t---NO matching generalTrack found" << endl;
       }
     }
     if (print) cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
