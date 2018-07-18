@@ -340,9 +340,11 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
       //if (t.pt() > 1.0) printPT0 = true;
       if (print && dR0 < outerDeltaR && dR0 > innerDeltaR){
         bool matchedAndIncluded = false;
+        bool matched0 = false;
         for (auto &candidateMatch : pc) {
           double dRMatch = deltaR (t.eta(), t.phi(), candidateMatch.eta(), candidateMatch.phi());
           if (dRMatch < 0.0001){
+            bool matched0 = true;
             int id = std::abs(candidateMatch.pdgId());
             bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
@@ -357,8 +359,17 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
           cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
           cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
           bool passedOURisolation = !(fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ()));
-          cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
-          if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
+          if (passedOURisolation){
+            cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl << "\t------but not included in pfIsolation" << endl;
+          } else {
+            if (matched0) {
+              cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl << "\t------but found a match in pfIsolation" << endl;
+            } else {
+              cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl << "\t------and found NO match in pfIsolation" << endl;
+            }
+          }
+          //cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
+          //if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
    //     if (track.dz(t.vertex()) < .1) {
    //       cout << "\t----In PF iso calc (if IDed as ChHad), placed in ChHad" << endl;
    //     } else {
@@ -411,9 +422,11 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
       //if (pt > 1.0) printPT = true;
       if (dR1 > 0.0001 && dR1 < 0.3) {
         bool matchedAndIncluded = false;
+        bool matched = false;
         for (const auto &t2 : tracks) {
           double dRMatch = deltaR (t2.eta(), t2.phi(), candidate.eta(), candidate.phi());
           if (dRMatch < 0.0001){
+            bool matched = true;
             //int id = std::abs(candidate.pdgId());
             //bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
@@ -434,18 +447,19 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         //} else cout << "\t----dzError not available, OUR isolation calc = ??" << endl;
         if (id==211){
           if (dZ < 0.1) {
-            if (!matchedAndIncluded) cout << "\t----In PF isolation in ChHad" << endl;
+            if (!matchedAndIncluded && matched) cout << "\t----In PF isolation in ChHad" << endl;
             sumPFPt += pt;
           } else {
-            if (!matchedAndIncluded) cout << "\t----In PF isolation in puChHad" << endl;
+            if (!matchedAndIncluded && matched) cout << "\t----In PF isolation in puChHad" << endl;
             sumPFPt += pt;
           }
-          if (!matchedAndIncluded) cout << "\t------but not in OUR isolation" << endl;
+          if (!matchedAndIncluded && matched) cout << "\t------but not in OUR isolation" << endl;
         } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
         else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
         else {
-          if (!matchedAndIncluded) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
+          if (!matchedAndIncluded && matched) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
         }
+        if (!matched) cout << "\t---NO matching generalTrack found" << endl;
       }
     }
     if (print) cout << "Total IsolatedTrack PFIsolation (ChHad + puChHad): " << sumPFPt << endl;
