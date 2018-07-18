@@ -347,7 +347,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
             if (id == 211) matchIDIncluded = true;
-            if (!(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) && (matchIDIncluded)) {
+            if (!(fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ())) && (matchIDIncluded)) {
                 matchedAndIncluded = true;
                 break;
             }
@@ -356,7 +356,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         if (!matchedAndIncluded) {
           cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
           cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
-          bool passedOURisolation = !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()));
+          bool passedOURisolation = !(fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ()));
           cout << "\t----Passed OUR isolation calc: " << passedOURisolation << endl;
           if (passedOURisolation) cout << "\t------but not in pfIsolation" << endl;
    //     if (track.dz(t.vertex()) < .1) {
@@ -377,7 +377,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
       if (noFakes && fabs (t.d0 () / t.d0Error ()) > 5.0)
         continue;
 
-      if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
+      if (noPU && fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ()))
         continue;
 
       double dR = deltaR (track, t);
@@ -415,7 +415,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
             //bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
             //if (id == 211) matchIDIncluded = true;
-            if (!(track.dz (t2.vertex ()) > 3.0 * hypot (track.dzError (), t2.dzError ()))) {
+            if (!(fabs(track.dz (t2.vertex ())) > 3.0 * hypot (track.dzError (), t2.dzError ()))) {
                 matchedAndIncluded = true;
                 break;
             }
@@ -472,7 +472,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       if (print && dR0 < outerDeltaR && dR0 > innerDeltaR){
         cout << "\tTrack w/ pt=" << t.pt() << ", eta=" << t.eta() << ", phi=" << t.phi() << ", dR=" << dR0 << endl;
         cout << "\t-- dz=" << track.dz (t.vertex()) << ", 3sigZ=" << 3.0 * hypot (track.dzError (), t.dzError ()) << endl;
-        cout << "\t----Passed OUR isolation calc: " << !(track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ())) << endl;
+        cout << "\t----Passed OUR isolation calc: " << !(fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ())) << endl;
         if (track.dz(t.vertex()) < .1) {
           cout << "\t----In PF iso calc (if IDed as ChHad), placed in ChHad" << endl;
         } else {
@@ -490,7 +490,7 @@ CandidateTrack::getTrackIsolationExtraInfo (const reco::Track &track, const vect
       if (noFakes && fabs (t.d0 () / t.d0Error ()) > 5.0)
         continue;
 
-      if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
+      if (noPU && fabs(track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ()))
         continue;
 
       double dR = deltaR (track, t);
