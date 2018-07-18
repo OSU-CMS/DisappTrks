@@ -344,7 +344,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         for (auto &candidateMatch : pc) {
           double dRMatch = deltaR (t.eta(), t.phi(), candidateMatch.eta(), candidateMatch.phi());
           if (dRMatch < 0.0001){
-            bool matched0 = true;
+            matched0 = true;
             int id = std::abs(candidateMatch.pdgId());
             bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
@@ -426,7 +426,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         for (const auto &t2 : tracks) {
           double dRMatch = deltaR (t2.eta(), t2.phi(), candidate.eta(), candidate.phi());
           if (dRMatch < 0.0001){
-            bool matched = true;
+            matched = true;
             //int id = std::abs(candidate.pdgId());
             //bool matchIDIncluded = false;
             //if (id == 211 || id == 130 || id == 22) matchIDIncluded = true;
