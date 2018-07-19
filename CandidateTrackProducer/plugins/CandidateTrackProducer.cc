@@ -53,9 +53,9 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
   PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
-  LostTracksCollectionTag_      (iConfig.getParameter<edm::InputTag> ("lostTracks")),
-  IsolatedTracksTag_            (iConfig.getParameter<edm::InputTag> ("lostTracks")), //?????????
-  
+  LostTracksCollectionTag_      (iConfig.getParameter<edm::InputTag> ("lostTracksCollection")),
+  IsolatedTracksTag_            (iConfig.getParameter<edm::InputTag> ("isolatedTracksCollection")),
+
   candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
@@ -138,7 +138,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
   edm::Handle<vector<pat::IsolatedTrack> > IsolatedTracks;
   iEvent.getByToken (IsolatedTracksToken_, IsolatedTracks );
-  if (!IsolatedTacks.isValid()) throw cms::Exception("FatalError") << "Unable to find IsolatedTracks in the event!\n";
+  if (!IsolatedTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find IsolatedTracks in the event!\n";
 
 
 
@@ -147,7 +147,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     if (track.pt () < candMinPt_)
       continue;
 
-    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions, *PackedCandidates);
+    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions, *PackedCandidates, *LostTracks, *IsolatedTracks);
     candTrack.set_rhoPUCorr(*rhoHandle);
     candTrack.set_rhoPUCorrCalo(*rhoCaloHandle);
     candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle);
