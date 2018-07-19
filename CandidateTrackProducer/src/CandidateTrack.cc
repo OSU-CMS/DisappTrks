@@ -86,7 +86,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
                                 const edm::Handle<vector<reco::Conversion> > &conversions,
                                 const pat::PackedCandidateCollection &PackedCandidates,
                                 const pat::PackedCandidateCollection &LostTracks,
-                                const vector<pat::IsolatedTracks> &IsolatedTracks) :
+                                const vector<pat::IsolatedTrack> &IsolatedTracks) :
   reco::Track (track),
   caloEMDRp3_                    (INVALID_VALUE),
   caloHadDRp3_                   (INVALID_VALUE),
