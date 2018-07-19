@@ -13,6 +13,8 @@
 
 #include "DataFormats/VertexReco/interface/Vertex.h"
 
+#include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
+
 // FIXME:  Once OSUT3Analysis works with ROOT6, i.e., releases > CMSSW_7_4_5_ROOT5,
 // then uncomment the following line:
 // #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
