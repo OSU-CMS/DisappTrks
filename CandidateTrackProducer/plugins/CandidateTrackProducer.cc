@@ -53,6 +53,9 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
   PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
+  LostTracksCollectionTag_      (iConfig.getParameter<edm::InputTag> ("lostTracks")),
+  IsolatedTracksTag_            (iConfig.getParameter<edm::InputTag> ("lostTracks")), //?????????
+  
   candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
@@ -71,6 +74,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);
   HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);
   PackedCandidateCollectionToken_ = consumes<pat::PackedCandidateCollection> (PackedCandidateCollectionTag_);
+  LostTracksCollectionToken_      = consumes<pat::PackedCandidateCollection> (LostTracksCollectionTag_);
+  IsolatedTracksToken_            = consumes<vector<pat::IsolatedTrack>> (IsolatedTracksTag_);
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -126,6 +131,15 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<pat::PackedCandidateCollection> PackedCandidates;
   iEvent.getByToken(PackedCandidateCollectionToken_, PackedCandidates);
   if (!PackedCandidates.isValid()) throw cms::Exception("FatalError") << "Unable to find PackedCandidateCollection in the event!\n";
+
+  edm::Handle<pat::PackedCandidateCollection> LostTracks;
+  iEvent.getByToken(LostTracksCollectionToken_, LostTracks);
+  if (!lostTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find LostTracks in the event!\n";
+
+  edm::Handle<vector<pat::IsolatedTrack> > IsolatedTracks;
+  iEvent.getByToken (IsolatedTracksToken_, IsolatedTracks );
+  if (!IsolatedTacks.isValid()) throw cms::Exception("FatalError") << "Unable to find IsolatedTracks in the event!\n";
+
 
 
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());

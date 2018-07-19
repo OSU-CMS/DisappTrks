@@ -69,6 +69,9 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::InputTag EERecHitsTag_;
       edm::InputTag HBHERecHitsTag_;
       edm::InputTag PackedCandidateCollectionTag_;
+      edm::InputTag LostTracksCollectionTag_;
+      edm::InputTag IsolatedTracksTag_;
+
       double candMinPt_;
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
@@ -85,6 +88,9 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
       edm::EDGetTokenT<pat::PackedCandidateCollection> PackedCandidateCollectionToken_;
+      edm::EDGetTokenT<pat::PackedCandidateCollection> LostTracksCollectionToken_;
+      edm::EDGetTokenT<vector<pat::IsolatedTrack> >    IsolatedTracksToken_;
+
 
   edm::ESHandle<CaloGeometry> caloGeometry_;
   bool insideCone(const CandidateTrack &, const DetId &, const double) const;

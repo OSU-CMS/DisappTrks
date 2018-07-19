@@ -35,7 +35,8 @@ CandidateTrack::CandidateTrack () :
   trackIsoNoPUNoFakesDRp3_       (INVALID_VALUE),
   trackIsoNoPUNoFakesDRp5_       (INVALID_VALUE),
   trackIsoOldNoPUDRp3_           (INVALID_VALUE),
-  trackIsoOldNoPUDRp5_           (INVALID_VALUE)
+  trackIsoOldNoPUDRp5_           (INVALID_VALUE),
+  matchedAnything_               (INVALID_VALUE)
 {
 }
 
@@ -70,7 +71,8 @@ CandidateTrack::CandidateTrack (const reco::Track &track) :
   trackIsoNoPUNoFakesDRp3_       (INVALID_VALUE),
   trackIsoNoPUNoFakesDRp5_       (INVALID_VALUE),
   trackIsoOldNoPUDRp3_           (INVALID_VALUE),
-  trackIsoOldNoPUDRp5_           (INVALID_VALUE)
+  trackIsoOldNoPUDRp5_           (INVALID_VALUE),
+  matchedAnything_               (INVALID_VALUE)
 {
 }
 
@@ -82,7 +84,9 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
                                 const reco::BeamSpot &beamspot, 
                                 const vector<reco::Vertex> &vertices, 
                                 const edm::Handle<vector<reco::Conversion> > &conversions,
-                                const pat::PackedCandidateCollection &PackedCandidates) :
+                                const pat::PackedCandidateCollection &PackedCandidates,
+                                const pat::PackedCandidateCollection &LostTracks,
+                                const vector<pat::IsolatedTracks> &IsolatedTracks) :
   reco::Track (track),
   caloEMDRp3_                    (INVALID_VALUE),
   caloHadDRp3_                   (INVALID_VALUE),
@@ -106,19 +110,30 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
   rhoPUCorrCentralCalo_          (INVALID_VALUE),
   trackIsoDRp3_                  (getTrackIsolation (track, tracks, false, false, 0.3)),
   trackIsoDRp5_                  (getTrackIsolation (track, tracks, false, false, 0.5)),
-  trackIsoNoPUDRp3_              (getTrackIsolationExtraInfoNoDoubles (track, tracks, true, false, 0.3, 1.0e-12, PackedCandidates)),
+  //trackIsoNoPUDRp3_              (getTrackIsolationExtraInfoNoDoubles (track, tracks, true, false, 0.3, 1.0e-12, PackedCandidates)),
+  trackIsoNoPUDRp3_              (getTrackIsolation (track, tracks, true, false, 0.3)),
   trackIsoNoPUDRp5_              (getTrackIsolation (track, tracks, true, false, 0.5)),
   trackIsoNoFakesDRp3_           (getTrackIsolation (track, tracks, false, true, 0.3)),
   trackIsoNoFakesDRp5_           (getTrackIsolation (track, tracks, false, true, 0.5)),
   trackIsoNoPUNoFakesDRp3_       (getTrackIsolation (track, tracks, true, true, 0.3)),
   trackIsoNoPUNoFakesDRp5_       (getTrackIsolation (track, tracks, true, true, 0.5)),
   trackIsoOldNoPUDRp3_           (getOldTrackIsolation (track, tracks, true, 0.3)),
-  trackIsoOldNoPUDRp5_           (getOldTrackIsolation (track, tracks, true, 0.5))
+  trackIsoOldNoPUDRp5_           (getOldTrackIsolation (track, tracks, true, 0.5)),
+  matchedAnything_               (findAnyMatchAndPrint (track, tracks, PackedCandidates, LostTracks, IsolatedTracks))
 {
 }
 
 CandidateTrack::~CandidateTrack ()
 {
+}
+
+const bool
+CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<reco::Track> &tracks, const pat::PackedCandidateCollection &pc, const pat::PackedCandidateCollection &lt, const vector<pat::IsolatedTrack> &it, const double outerDeltaR, const double innerDeltaR) const
+{
+  cout << "Inside my findAnyMatchAndPrint function" << endl;
+
+
+
 }
 
 template<class T> const double
@@ -412,14 +427,10 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
       }
     } 
     if (!found) cout << "IsolatedTrack Head Track match to candidate/general head track not found::" << endl << "---------------------------" << endl;
-    //bool printPT = false;
-    //for(pat::PackedCandidateCollection::const_iterator pf_it = pc->begin(); pf_it != pc->end(); pf_it++){
     for (auto &candidate : pc) {
       float dZ = fabs(candidate.dz());
-      //double dR1 = deltaR(pf_main->p4(), pf_it->p4())
       float dR1 = deltaR(track.eta(), track.phi(), candidate.eta(), candidate.phi());
       float pt = candidate.p4().pt();
-      //if (pt > 1.0) printPT = true;
       if (dR1 > 0.0001 && dR1 < 0.3) {
         bool matchedAndIncluded = false;
         bool matched = false;
@@ -458,7 +469,7 @@ CandidateTrack::getTrackIsolationExtraInfoNoDoubles (const reco::Track &track, c
         } else if (id==130) {}//cout << "\t----In PF isolation  in NuHad (not included)" << endl;
         else if (id==22) {}//cout << "\t----In PF isolation in Photon (not included)" << endl;
         else {
-          if (!matchedAndIncluded && matched) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
+          if (!matchedAndIncluded) cout << "\t----NOT COUNTED IN PF ISOLATION (ID=" << id << ")" << endl;
         }
       }
     }
