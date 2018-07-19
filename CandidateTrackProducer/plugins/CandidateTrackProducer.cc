@@ -134,7 +134,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
   edm::Handle<pat::PackedCandidateCollection> LostTracks;
   iEvent.getByToken(LostTracksCollectionToken_, LostTracks);
-  if (!lostTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find LostTracks in the event!\n";
+  if (!LostTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find LostTracks in the event!\n";
 
   edm::Handle<vector<pat::IsolatedTrack> > IsolatedTracks;
   iEvent.getByToken (IsolatedTracksToken_, IsolatedTracks );

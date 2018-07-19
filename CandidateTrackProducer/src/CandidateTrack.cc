@@ -131,9 +131,7 @@ const bool
 CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<reco::Track> &tracks, const pat::PackedCandidateCollection &pc, const pat::PackedCandidateCollection &lt, const vector<pat::IsolatedTrack> &it, const double outerDeltaR, const double innerDeltaR) const
 {
   cout << "Inside my findAnyMatchAndPrint function" << endl;
-
-
-
+  return true;
 }
 
 template<class T> const double
