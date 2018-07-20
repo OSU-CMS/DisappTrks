@@ -90,6 +90,10 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::EDGetTokenT<pat::PackedCandidateCollection> PackedCandidateCollectionToken_;
       edm::EDGetTokenT<pat::PackedCandidateCollection> LostTracksCollectionToken_;
       edm::EDGetTokenT<vector<pat::IsolatedTrack> >    IsolatedTracksToken_;
+      edm::EDGetTokenT<edm::Association<pat::PackedCandidateCollection> > gt2pc_;
+      edm::EDGetTokenT<edm::Association<pat::PackedCandidateCollection> > gt2lt_;
+      edm::EDGetTokenT<edm::Association<reco::PFCandidateCollection> >    pc2pf_;
+      edm::EDGetTokenT<reco::TrackCollection>       gt_;
 
 
   edm::ESHandle<CaloGeometry> caloGeometry_;

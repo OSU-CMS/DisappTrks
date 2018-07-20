@@ -76,6 +76,10 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   PackedCandidateCollectionToken_ = consumes<pat::PackedCandidateCollection> (PackedCandidateCollectionTag_);
   LostTracksCollectionToken_      = consumes<pat::PackedCandidateCollection> (LostTracksCollectionTag_);
   IsolatedTracksToken_            = consumes<vector<pat::IsolatedTrack>> (IsolatedTracksTag_);
+  gt2pc_(consumes<edm::Association<pat::PackedCandidateCollection> >(iConfig.getParameter<edm::InputTag>("packedPFCandidates"))),
+  gt2lt_(consumes<edm::Association<pat::PackedCandidateCollection> >(iConfig.getParameter<edm::InputTag>("lostTracksCollection"))),
+  gt_(consumes<reco::TrackCollection>(iConfig.getParameter<edm::InputTag>("generalTracks"))),
+
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -140,6 +144,18 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken (IsolatedTracksToken_, IsolatedTracks );
   if (!IsolatedTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find IsolatedTracks in the event!\n";
 
+  // generalTracks collection
+  edm::Handle<reco::TrackCollection> gt_h;
+  iEvent.getByToken( gt_, gt_h );
+  //const reco::TrackCollection *generalTracks = gt_h.product();
+
+  // generalTracks-->packedPFCandidate association
+  edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2pc;
+  iEvent.getByToken(gt2pc_, gt2pc);
+
+  // generalTracks-->lostTracks association
+  edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2lt;
+  iEvent.getByToken(gt2lt_, gt2lt);
 
 
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
@@ -147,7 +163,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     if (track.pt () < candMinPt_)
       continue;
 
-    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions, *PackedCandidates, *LostTracks, *IsolatedTracks);
+    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions, *PackedCandidates, *LostTracks, *IsolatedTracks, *gt_h, *gt2pc, *gt2lt);
     candTrack.set_rhoPUCorr(*rhoHandle);
     candTrack.set_rhoPUCorrCalo(*rhoCaloHandle);
     candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle);

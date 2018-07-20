@@ -31,7 +31,9 @@ class CandidateTrack : public reco::Track
   public:
     CandidateTrack ();
     CandidateTrack (const reco::Track &);
-    CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &, const reco::BeamSpot &, const vector<reco::Vertex> &, const edm::Handle<vector<reco::Conversion> > &, const pat::PackedCandidateCollection &, const pat::PackedCandidateCollection &, const vector<pat::IsolatedTrack> &);
+    CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &, const reco::BeamSpot &, const vector<reco::Vertex> &, const edm::Handle<vector<reco::Conversion> > &,
+                    const reco::TrackCollection &, const edm::Association<pat::PackedCandidateCollection> &, const edm::Association<pat::PackedCandidateCollection> &,
+                    const pat::PackedCandidateCollection &, const pat::PackedCandidateCollection &, const vector<pat::IsolatedTrack> &, );
     ~CandidateTrack ();
 
     enum RhoType { All, Calo, CentralCalo };
@@ -164,7 +166,10 @@ class CandidateTrack : public reco::Track
     const double getMinDeltaRToMediumMuon (const vector<pat::Muon> &) const;
     const double getMinDeltaRToTightMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
 
-    const bool   findAnyMatchAndPrint (const reco::Track &track, const vector<reco::Track> &tracks, const pat::PackedCandidateCollection &, const pat::PackedCandidateCollection &, const vector<pat::IsolatedTrack> &, const double = 0.3, const double = 1.0e-12) const;
+    const bool   findAnyMatchAndPrint (const reco::Track &, const vector<reco::Track> &, const pat::PackedCandidateCollection &, const pat::PackedCandidateCollection &, const vector<pat::IsolatedTrack> &,
+                                       const reco::TrackCollection &, const edm::Association<pat::PackedCandidateCollection> &, const edm::Association<pat::PackedCandidateCollection> &,
+                                       const double = 0.3, const double = 1.0e-12) const;
+
     const double getTrackIsolationExtraInfoNoDoubles( const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double , const double, const pat::PackedCandidateCollection &) const;
     const double getTrackIsolationExtraInfo( const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double , const double, const pat::PackedCandidateCollection &) const;
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;

@@ -119,7 +119,7 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
   trackIsoNoPUNoFakesDRp5_       (getTrackIsolation (track, tracks, true, true, 0.5)),
   trackIsoOldNoPUDRp3_           (getOldTrackIsolation (track, tracks, true, 0.3)),
   trackIsoOldNoPUDRp5_           (getOldTrackIsolation (track, tracks, true, 0.5)),
-  matchedAnything_               (findAnyMatchAndPrint (track, tracks, PackedCandidates, LostTracks, IsolatedTracks))
+  matchedAnything_               (findAnyMatchAndPrint (track, tracks, PackedCandidates, LostTracks, IsolatedTracks, gt_h, gt2pc, gt2lt))
 {
 }
 
@@ -128,9 +128,34 @@ CandidateTrack::~CandidateTrack ()
 }
 
 const bool
-CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<reco::Track> &tracks, const pat::PackedCandidateCollection &pc, const pat::PackedCandidateCollection &lt, const vector<pat::IsolatedTrack> &it, const double outerDeltaR, const double innerDeltaR) const
+CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<reco::Track> &tracks,
+                                      const pat::PackedCandidateCollection &pc, const pat::PackedCandidateCollection &lt, const vector<pat::IsolatedTrack> &it, 
+                                      const reco::TrackCollection &gt_h, const edm::Association<pat::PackedCandidateCollection> &gt2pc, const edm::Association<pat::PackedCandidateCollection> &gt2lt,
+                                      const double outerDeltaR, const double innerDeltaR) const
 {
   cout << "Inside my findAnyMatchAndPrint function" << endl;
+
+  bool matched = false;
+  reco::TrackCollection *generalTracks = gt_h.product();
+  //for (unsigned int igt=0; igt<tracks.size())
+  for(unsigned int igt=0; igt<generalTracks->size(); igt++){
+    const reco::Track &gentk = (*gt_h)[igt];
+    reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
+    pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
+    pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
+    const pat::PackedCandidate & pfCand = *(pcref.get());
+    const pat::PackedCandidate & lostTrack = *(ltref.get());
+
+    bool isInPackedCands = (pcref.isNonnull() && pcref.id()==pc_h.id() && pfCand.charge()!=0);
+    bool isInLostTracks  = (ltref.isNonnull() && ltref.id()==lt_h.id());
+    bool isNotPFnorLostTracks = !isInPackedCands && !isInPackedCands;
+
+    if (isNotPFnorLostTracks) cout << "PROBLEM: FOUND A GeneralTrack WITHOUT A pfCandidate OR A lostTrack (pt=" << gentk.pt() << ")" << endl;
+
+
+  }
+
+
   return true;
 }
 
