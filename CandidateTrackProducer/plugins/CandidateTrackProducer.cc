@@ -160,17 +160,6 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2lt;
   iEvent.getByToken(gt2lt_, gt2lt);
 
-  for(unsigned int igt=0; igt<generalTracks->size(); igt++){
-    //cout << "Equivalently printing for every track from within CTProducer" << endl;
-    /*const reco::Track &gentk = (*gt_h)[igt];
-    reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
-    pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
-    pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
-    const pat::PackedCandidate & pfCand = *(pcref.get());
-    const pat::PackedCandidate & lostTrack = *(ltref.get());
-    */
-  }
-
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
     if (track.pt () < candMinPt_)
@@ -190,10 +179,25 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     candTrack.set_caloNewHadDRp3 (caloE_0p3.eHad);
 
     candTracks->push_back (candTrack);
-  }
+    cout << "Equivalently printing for every CANDtrack from within CTProducer";
+    for(unsigned int igt=0; igt<generalTracks->size(); igt++){
+      cout << ".";
+      /*
+      const reco::Track &gentk = (*gt_h)[igt];
+      reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
+      pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
+      pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
+      const pat::PackedCandidate & pfCand = *(pcref.get());
+      const pat::PackedCandidate & lostTrack = *(ltref.get());
 
-  for (const auto &zTrack : candTracks){
-    cout << "Equivalently printing for every CANDtrack from within CTProducer" << endl;
+      bool isInPackedCands = (pcref.isNonnull() && pcref.id()==pc_h.id() && pfCand.charge()!=0);
+      bool isInLostTracks  = (ltref.isNonnull() && ltref.id()==lt_h.id());
+      bool isNotPFnorLostTracks = !isInPackedCands && !isInPackedCands;
+
+      if (isNotPFnorLostTracks) cout << "PROBLEM: FOUND A GeneralTrack WITHOUT A pfCandidate OR A lostTrack (pt=" << gentk.pt() << ")" << endl;
+      */
+    }
+    cout << endl;
 
   }
 
