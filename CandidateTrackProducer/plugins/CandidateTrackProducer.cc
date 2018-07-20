@@ -55,7 +55,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   PackedCandidateCollectionTag_ (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
   LostTracksCollectionTag_      (iConfig.getParameter<edm::InputTag> ("lostTracksCollection")),
   IsolatedTracksTag_            (iConfig.getParameter<edm::InputTag> ("isolatedTracksCollection")),
-  generalTracksTag_             (iConfig.getParameter<edm::InputTag> ("generalTracks")),
+  generalTracksTag_             (iConfig.getParameter<edm::InputTag> ("tracks")),
   gt2pcTag_                     (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
   gt2ltTag_                     (iConfig.getParameter<edm::InputTag> ("lostTracksCollection")),
 
@@ -79,9 +79,9 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   PackedCandidateCollectionToken_ = consumes<pat::PackedCandidateCollection> (PackedCandidateCollectionTag_);
   LostTracksCollectionToken_      = consumes<pat::PackedCandidateCollection> (LostTracksCollectionTag_);
   IsolatedTracksToken_            = consumes<vector<pat::IsolatedTrack>> (IsolatedTracksTag_);
-  generalTracksToken_             = consumes<reco::TrackCollection>(iConfig.getParameter<edm::InputTag>("generalTracks"));
-  gt2pc_                          = consumes<edm::Association<pat::PackedCandidateCollection> >(iConfig.getParameter<edm::InputTag>("packedPFCandidates"));
-  gt2lt_                          = consumes<edm::Association<pat::PackedCandidateCollection> >(iConfig.getParameter<edm::InputTag>("lostTracksCollection"));
+  generalTracksToken_             = consumes<reco::TrackCollection> (generalTracksTag_);
+  gt2pc_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2pcTag_);
+  gt2lt_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2ltTag_);
 
 }
 
@@ -150,7 +150,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   // generalTracks collection
   edm::Handle<reco::TrackCollection> gt_h;
   iEvent.getByToken( generalTracksToken_, gt_h );
-  //const reco::TrackCollection *generalTracks = gt_h.product();
+  const reco::TrackCollection *generalTracks = gt_h.product();
 
   // generalTracks-->packedPFCandidate association
   edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2pc;
@@ -160,6 +160,16 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2lt;
   iEvent.getByToken(gt2lt_, gt2lt);
 
+  for(unsigned int igt=0; igt<generalTracks->size(); igt++){
+    cout << "Equivalently printing for every track from within CTProducer" << endl;
+    /*const reco::Track &gentk = (*gt_h)[igt];
+    reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
+    pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
+    pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
+    const pat::PackedCandidate & pfCand = *(pcref.get());
+    const pat::PackedCandidate & lostTrack = *(ltref.get());
+    */
+  }
 
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
