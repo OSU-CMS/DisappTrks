@@ -86,7 +86,10 @@ CandidateTrack::CandidateTrack (const reco::Track &track,
                                 const edm::Handle<vector<reco::Conversion> > &conversions,
                                 const pat::PackedCandidateCollection &PackedCandidates,
                                 const pat::PackedCandidateCollection &LostTracks,
-                                const vector<pat::IsolatedTrack> &IsolatedTracks) :
+                                const vector<pat::IsolatedTrack> &IsolatedTracks,
+                                const reco::TrackCollection &gt_h,
+                                const edm::Association<pat::PackedCandidateCollection> &gt2pc,
+                                const edm::Association<pat::PackedCandidateCollection> &gt2lt) :
   reco::Track (track),
   caloEMDRp3_                    (INVALID_VALUE),
   caloHadDRp3_                   (INVALID_VALUE),
@@ -136,10 +139,10 @@ CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<rec
   cout << "Inside my findAnyMatchAndPrint function" << endl;
 
   bool matched = false;
-  reco::TrackCollection *generalTracks = gt_h->product();
+  /*reco::TrackCollection *generalTracks = gt_h->product();
   //for (unsigned int igt=0; igt<tracks.size())
   for(unsigned int igt=0; igt<generalTracks->size(); igt++){
-    const reco::Track &gentk = (gt_h)[igt];
+    const reco::Track &gentk = (*gt_h)[igt];
     reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
     pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
     pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
@@ -154,9 +157,9 @@ CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<rec
 
 
   }
+  */
 
-
-  return true;
+  return matched;
 }
 
 template<class T> const double

@@ -32,8 +32,8 @@ class CandidateTrack : public reco::Track
     CandidateTrack ();
     CandidateTrack (const reco::Track &);
     CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &, const reco::BeamSpot &, const vector<reco::Vertex> &, const edm::Handle<vector<reco::Conversion> > &,
-                    const reco::TrackCollection &, const edm::Association<pat::PackedCandidateCollection> &, const edm::Association<pat::PackedCandidateCollection> &,
-                    const pat::PackedCandidateCollection &, const pat::PackedCandidateCollection &, const vector<pat::IsolatedTrack> &);
+                    const reco::TrackCollection &, const edm::Association<pat::PackedCandidateCollection> &, const edm::Association<pat::PackedCandidateCollection> &, const vector<pat::IsolatedTrack> &,
+                    const edm::Association<pat::PackedCandidateCollection> &, const edm::Association<pat::PackedCandidateCollection> &);
     ~CandidateTrack ();
 
     enum RhoType { All, Calo, CentralCalo };
