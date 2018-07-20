@@ -136,10 +136,10 @@ CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<rec
   cout << "Inside my findAnyMatchAndPrint function" << endl;
 
   bool matched = false;
-  reco::TrackCollection *generalTracks = gt_h.product();
+  reco::TrackCollection *generalTracks = gt_h->product();
   //for (unsigned int igt=0; igt<tracks.size())
   for(unsigned int igt=0; igt<generalTracks->size(); igt++){
-    const reco::Track &gentk = (*gt_h)[igt];
+    const reco::Track &gentk = (gt_h)[igt];
     reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
     pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
     pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
