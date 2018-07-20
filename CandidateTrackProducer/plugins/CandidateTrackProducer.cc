@@ -161,7 +161,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken(gt2lt_, gt2lt);
 
   for(unsigned int igt=0; igt<generalTracks->size(); igt++){
-    cout << "Equivalently printing for every track from within CTProducer" << endl;
+    //cout << "Equivalently printing for every track from within CTProducer" << endl;
     /*const reco::Track &gentk = (*gt_h)[igt];
     reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
     pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
@@ -190,6 +190,11 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     candTrack.set_caloNewHadDRp3 (caloE_0p3.eHad);
 
     candTracks->push_back (candTrack);
+  }
+
+  for (const auto &zTrack : candTracks){
+    cout << "Equivalently printing for every CANDtrack from within CTProducer" << endl;
+
   }
 
   // save the vector
