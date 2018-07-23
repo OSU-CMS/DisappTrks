@@ -19,5 +19,9 @@ namespace {
     vector<CutResults>                 cutResults1;
     edm::Wrapper<CutResults>           cutResults2;
     edm::Wrapper<vector<CutResults> >  cutResults3;
+
+    edm::Association<std::vector<pat::IsolatedTrack> > 		association0;
+    edm::Wrapper<edm::Association<std::vector<pat::IsolatedTrack> > > association1;
+
   };
 }

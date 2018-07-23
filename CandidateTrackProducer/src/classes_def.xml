@@ -13,4 +13,7 @@
   <class name="std::vector<CutResults>"/>
   <class name="edm::Wrapper<CutResults>"/>
   <class name="edm::Wrapper<std::vector<CutResults> >"/>
+
+  <class name="edm::Association<std::vector<pat::IsolatedTrack> >"/>
+  <class name="edm::Wrapper<edm::Association<std::vector<pat::IsolatedTrack> > >"/>
 </lcgdict>
