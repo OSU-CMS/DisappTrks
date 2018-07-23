@@ -160,6 +160,10 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<edm::Association<pat::PackedCandidateCollection> > gt2lt;
   iEvent.getByToken(gt2lt_, gt2lt);
 
+  // generalTracks-->isolatedTracks association
+  edm::Handle<edm::Association<vector<pat::IsolatedTrack> > >    gt2it;
+  iEvent.getByToken(gt2it_, gt2it);
+
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   for (const auto &track : *tracks) {
     if (track.pt () < candMinPt_)
@@ -180,23 +184,40 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
     candTracks->push_back (candTrack);
     cout << "Equivalently printing for every CANDtrack from within CTProducer";
+    cout << "----" << generalTracks->size() << " tracks in this event" << endl;
+    int counterPFcand  = 0;
+    int counterLostTrk = 0;
+    int counterIsoTrk  = 0;
+    int counterProblem = 0;
+
     for(unsigned int igt=0; igt<generalTracks->size(); igt++){
-      cout << ".";
-      /*
+      //cout << ".";
+
       const reco::Track &gentk = (*gt_h)[igt];
       reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
-      pat::PackedCandidateRef pcref = (*gt2pc)[tkref];
-      pat::PackedCandidateRef ltref = (*gt2lt)[tkref];
-      const pat::PackedCandidate & pfCand = *(pcref.get());
-      const pat::PackedCandidate & lostTrack = *(ltref.get());
+      pat::PackedCandidateRef pcref              = (*gt2pc)[tkref];
+      pat::PackedCandidateRef ltref              = (*gt2lt)[tkref];
+      edm::Ref<vector<pat::IsolatedTrack>> itref = (*gt2it)[tkref];
+      const pat::PackedCandidate & pfCand        = *(pcref.get());
+      const pat::PackedCandidate & lostTrack     = *(ltref.get());
+      const pat::IsolatedTrack   & isoTrack      = *(itref.get());
 
-      bool isInPackedCands = (pcref.isNonnull() && pcref.id()==pc_h.id() && pfCand.charge()!=0);
-      bool isInLostTracks  = (ltref.isNonnull() && ltref.id()==lt_h.id());
-      bool isNotPFnorLostTracks = !isInPackedCands && !isInPackedCands;
+      bool isInPackedCands    = (pcref.isNonnull() && pcref.id()==PackedCandidates.id() && pfCand.charge()!=0);
+      bool isInLostTracks     = (ltref.isNonnull() && ltref.id()==LostTracks.id());
+      bool isInIsolatedTracks = (itref.isNonnull() && itref.id()==IsolatedTracks.id());
 
-      if (isNotPFnorLostTracks) cout << "PROBLEM: FOUND A GeneralTrack WITHOUT A pfCandidate OR A lostTrack (pt=" << gentk.pt() << ")" << endl;
-      */
+      bool isNotPFnorLostTracks = !isInPackedCands && !isInLostTracks;
+
+      if (isNotPFnorLostTracks && isInIsolatedTracks) cout << "found a generalTrack without a pfCandidate OR a lostTrack (pt=" << gentk.pt() << "), pfcandref=" << pcref << endl;
+      if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
+
+      //counters
+      if (isInPackedCands)         counterPFcand++;
+      else if (isInLostTracks)     counterLostTrk++;
+      else if (isInIsolatedTracks) counterIsoTrk++;
+      else                         counterProblem++;
     }
+    cout << "PFCands:" << counterPFcand << "\tLostTrks:" << counterLostTrk << "\tIsolatedTrks:" << counterIsoTrk << "\tProblems:" << counterProblem << endl;
     cout << endl;
 
   }
