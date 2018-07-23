@@ -17,13 +17,13 @@ runPeriods = ['2017']
 
 for runPeriod in runPeriods:
 
-    condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
-    if '2016' in runPeriod:
-        condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
-    if '2017' in runPeriod:
-        condorDirectory = dirs['Brian'] + "2017/eleHotSpots_newVtxing"
-
     if True:
+
+        condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
+        if '2016' in runPeriod:
+            condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
+        if '2017' in runPeriod:
+            condorDirectory = dirs['Brian'] + "2017/eleHotSpots_newVtxing"
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -51,6 +51,12 @@ for runPeriod in runPeriods:
 
     if True:
 
+        condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
+        if '2016' in runPeriod:
+            condorDirectory = dirs['Brian'] + "2016_final/muonHotSpots"
+        if '2017' in runPeriod:
+            condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
+
         print "********************************************************************************"
         print "Calculating muon fiducial map in search region", runPeriod
         print "--------------------------------------------------------------------------------"
@@ -61,8 +67,8 @@ for runPeriod in runPeriods:
         muonMap.addTFile(fout)
         muonMap.addTCanvas(canvas)
         muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
-        muonMap.addChannel("Denominator", "MuonFiducialCalcBefore", "SingleMu_" + runPeriod, condorDirectory + "muonHotSpots")
-        muonMap.addChannel("Numerator",   "MuonFiducialCalcAfter",  "SingleMu_" + runPeriod, condorDirectory + "muonHotSpots")
+        muonMap.addChannel("Denominator", "MuonFiducialCalcBefore", "SingleMu_" + runPeriod, condorDirectory)
+        muonMap.addChannel("Numerator",   "MuonFiducialCalcAfter",  "SingleMu_" + runPeriod, condorDirectory)
         muonMap.CalculateFiducialMap()
         muonMap.MakePlots()
     
