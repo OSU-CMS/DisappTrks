@@ -141,7 +141,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'SingleTop_tW',
         'SingleTop_tbarW',
     ]
-    composite_dataset_definitions['TTJetsComposite']:
+    composite_dataset_definitions['TTJetsComposite'] = [
         'TTJets_2L2Nu',
         'TTJets_SemiLeptonic',
         'TTJets_Hadronic',
