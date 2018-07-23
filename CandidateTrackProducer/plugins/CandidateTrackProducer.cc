@@ -58,6 +58,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   generalTracksTag_             (iConfig.getParameter<edm::InputTag> ("tracks")),
   gt2pcTag_                     (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
   gt2ltTag_                     (iConfig.getParameter<edm::InputTag> ("lostTracksCollection")),
+  gt2itTag_                     (iConfig.getParameter<edm::InputTag> ("isolatedTracksCollection")),
 
   candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
@@ -82,6 +83,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   generalTracksToken_             = consumes<reco::TrackCollection> (generalTracksTag_);
   gt2pc_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2pcTag_);
   gt2lt_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2ltTag_);
+  gt2it_                          = consumes<edm::Association<vector<pat::IsolatedTrack> > >    (gt2itTag_);
 
 }
 
