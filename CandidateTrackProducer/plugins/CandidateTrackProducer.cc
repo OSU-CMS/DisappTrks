@@ -222,7 +222,8 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
       bool isNotPFnorLostTracks = !isInPackedCands && !isInLostTracks;
 
       if (isNotPFnorLostTracks) { //match to isolatedTracks using dR
-        for (const auto & ITit : IsolatedTracks){
+        for (unsigned int iit=0; iit<IsolatedTracksVector->size(); iit++){
+          pat::IsolatedTrack &ITit = (*IsolatedTracks)[iit];
           double dR2 = deltaR (track.eta(), track.phi(), ITit.eta(), ITit.phi());
           if (dR2 < 0.0001) {
             cout << "matching IsolatedTrack found! (pt=" << ITit.pt() << ", genTrack pt=" << gentk.pt() << ")" << endl;
