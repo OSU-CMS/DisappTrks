@@ -149,6 +149,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<vector<pat::IsolatedTrack> > IsolatedTracks;
   iEvent.getByToken (IsolatedTracksToken_, IsolatedTracks );
   if (!IsolatedTracks.isValid()) throw cms::Exception("FatalError") << "Unable to find IsolatedTracks in the event!\n";
+  const vector<pat::IsolatedTrack> *IsolatedTracksVector = IsolatedTracks.product();
 
   // generalTracks collection
   edm::Handle<reco::TrackCollection> gt_h;
@@ -210,10 +211,10 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
       reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
       pat::PackedCandidateRef pcref              = (*gt2pc)[tkref];
       pat::PackedCandidateRef ltref              = (*gt2lt)[tkref];
-      edm::Ref<vector<pat::IsolatedTrack>> itref = (*gt2it)[tkref];
+      //edm::Ref<vector<pat::IsolatedTrack>> itref = (*gt2it)[tkref];
       const pat::PackedCandidate & pfCand        = *(pcref.get());
       const pat::PackedCandidate & lostTrack     = *(ltref.get());
-      const pat::IsolatedTrack   & isoTrack      = *(itref.get());
+      //const pat::IsolatedTrack   & isoTrack      = *(itref.get());
 
       bool isInPackedCands    = (pcref.isNonnull() && pcref.id()==PackedCandidates.id() && pfCand.charge()!=0);
       bool isInLostTracks     = (ltref.isNonnull() && ltref.id()==LostTracks.id());
