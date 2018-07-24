@@ -3,8 +3,8 @@
 import os
 import sys
 
-if os.environ["CMSSW_VERSION"] != "CMSSW_9_3_3":
-    print "Please switch to CMSSW_9_3_3!"
+if os.environ["CMSSW_VERSION"] != "CMSSW_9_4_8":
+    print "Please switch to CMSSW_9_4_8!"
     sys.exit (0)
 
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
@@ -24,13 +24,13 @@ config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased' # for both MC and data
-config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
-#config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISummer16DR80Premix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-DisappTrks-v1'
 
-config.Site.storageSite = 'T2_US_Purdue'
-#config.Site.storageSite = 'T3_US_FNALLPC'
+#config.Site.storageSite = 'T2_US_Purdue'
+config.Site.storageSite = 'T3_US_FNALLPC'
 
 if __name__ == '__main__':
 
@@ -58,79 +58,29 @@ if __name__ == '__main__':
     #############################################################################################
 
     ## data
-    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/PromptReco/Cert_294927-304507_13TeV_PromptReco_Collisions17_JSON.txt'
+    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt'
 
     # Run2017C-v1
 
-    config.Data.outputDatasetTag = 'Run2017C-PromptReco-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017C-17Nov2017-v1-DisappTrks-v1'
     config.Data.unitsPerJob = 53 # 2017C has ~53k lumis
 
-    config.General.requestName = 'candidateTrackProducer_MET_2017C-PromptReco-v1'
-    config.Data.inputDataset = '/MET/Run2017C-PromptReco-v1/AOD'
+    config.General.requestName = 'candidateTrackProducer_MET_2017C-17Nov2017-v1'
+    config.Data.inputDataset = '/MET/Run2017C-17Nov2017-v1/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_METSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_Tau_2017C-PromptReco-v1'
-    config.Data.inputDataset = '/Tau/Run2017C-PromptReco-v1/AOD'
+    config.General.requestName = 'candidateTrackProducer_Tau_2017C-17Nov2017-v1'
+    config.Data.inputDataset = '/Tau/Run2017C-17Nov2017-v1/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_TauSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2017C-PromptReco-v1'
-    config.Data.inputDataset = '/SingleMuon/Run2017C-PromptReco-v1/AOD'
+    config.General.requestName = 'candidateTrackProducer_SingleMuon_2017C-17Nov2017-v1'
+    config.Data.inputDataset = '/SingleMuon/Run2017C-17Nov2017-v1/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_MuonSkim_cfg.py'
     #forkAndSubmit(config)
 
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2017C-PromptReco-v1'
-    config.Data.inputDataset = '/SingleElectron/Run2017C-PromptReco-v1/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    # Run2017C-v2
-
-    config.Data.outputDatasetTag = 'Run2017C-PromptReco-v2-DisappTrks-v1'
-    config.Data.unitsPerJob = 53 # 2017C has ~53k lumis
-
-    config.General.requestName = 'candidateTrackProducer_MET_2017C-PromptReco-v2'
-    config.Data.inputDataset = '/MET/Run2017C-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_METSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_Tau_2017C-PromptReco-v2'
-    config.Data.inputDataset = '/Tau/Run2017C-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_TauSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2017C-PromptReco-v2'
-    config.Data.inputDataset = '/SingleMuon/Run2017C-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_MuonSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2017C-PromptReco-v2'
-    config.Data.inputDataset = '/SingleElectron/Run2017C-PromptReco-v2/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_ElectronSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    # Run2017C-v3
-
-    config.Data.outputDatasetTag = 'Run2017C-PromptReco-v3-DisappTrks-v1'
-    config.Data.unitsPerJob = 53 # 2017C has ~53k lumis
-
-    config.General.requestName = 'candidateTrackProducer_MET_2017C-PromptReco-v3'
-    config.Data.inputDataset = '/MET/Run2017C-PromptReco-v3/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_METSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_Tau_2017C-PromptReco-v3'
-    config.Data.inputDataset = '/Tau/Run2017C-PromptReco-v3/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_TauSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_SingleMuon_2017C-PromptReco-v3'
-    config.Data.inputDataset = '/SingleMuon/Run2017C-PromptReco-v3/AOD'
-    config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_MuonSkim_cfg.py'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'candidateTrackProducer_SingleElectron_2017C-PromptReco-v3'
-    config.Data.inputDataset = '/SingleElectron/Run2017C-PromptReco-v3/AOD'
+    config.General.requestName = 'candidateTrackProducer_SingleElectron_2017C-17Nov2017-v1'
+    config.Data.inputDataset = '/SingleElectron/Run2017C-17Nov2017-v1/AOD'
     config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_Data2017_ElectronSkim_cfg.py'
     #forkAndSubmit(config)
