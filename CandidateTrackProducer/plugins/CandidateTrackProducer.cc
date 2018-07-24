@@ -58,7 +58,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   generalTracksTag_             (iConfig.getParameter<edm::InputTag> ("tracks")),
   gt2pcTag_                     (iConfig.getParameter<edm::InputTag> ("packedPFCandidates")),
   gt2ltTag_                     (iConfig.getParameter<edm::InputTag> ("lostTracksCollection")),
-  //gt2itTag_                     (iConfig.getParameter<edm::InputTag> ("isolatedTracksCollection")),
+  gt2itTag_                     (iConfig.getParameter<edm::InputTag> ("isolatedTracksCollection")),
 
   candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
@@ -83,7 +83,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   generalTracksToken_             = consumes<reco::TrackCollection> (generalTracksTag_);
   gt2pc_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2pcTag_);
   gt2lt_                          = consumes<edm::Association<pat::PackedCandidateCollection> > (gt2ltTag_);
-  //gt2it_                          = consumes<edm::Association<vector<pat::IsolatedTrack> > >    (gt2itTag_);
+  gt2it_                          = consumes<edm::Association<vector<pat::IsolatedTrack> > >    (gt2itTag_);
 
 }
 
@@ -163,8 +163,8 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken(gt2lt_, gt2lt);
 
   // generalTracks-->isolatedTracks association
-  //edm::Handle<edm::Association<vector<pat::IsolatedTrack> > >    gt2it;
-  //iEvent.getByToken(gt2it_, gt2it);
+  edm::Handle<edm::Association<vector<pat::IsolatedTrack> > >    gt2it;
+  iEvent.getByToken(gt2it_, gt2it);
 
 
 
@@ -188,9 +188,11 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
     candTracks->push_back (candTrack);
     if (track.pt() > 55) {
-    cout << "Equivalently printing for every CANDtrack from within CTProducer";
+    //cout << "Equivalently printing for every CANDtrack from within CTProducer";
+    cout << "\tCandidate w/ pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl;
     cout << "----" << generalTracks->size() << " tracks in this event" << endl;
     
+
     int counterPFcand  = 0;
     int counterLostTrk = 0;
     int counterIsoTrk  = 0;
@@ -207,18 +209,18 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
       reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
       pat::PackedCandidateRef pcref              = (*gt2pc)[tkref];
       pat::PackedCandidateRef ltref              = (*gt2lt)[tkref];
-      //edm::Ref<vector<pat::IsolatedTrack>> itref = (*gt2it)[tkref];
+      edm::Ref<vector<pat::IsolatedTrack>> itref = (*gt2it)[tkref];
       const pat::PackedCandidate & pfCand        = *(pcref.get());
       const pat::PackedCandidate & lostTrack     = *(ltref.get());
-      //const pat::IsolatedTrack   & isoTrack      = *(itref.get());
+      const pat::IsolatedTrack   & isoTrack      = *(itref.get());
 
       bool isInPackedCands    = (pcref.isNonnull() && pcref.id()==PackedCandidates.id() && pfCand.charge()!=0);
       bool isInLostTracks     = (ltref.isNonnull() && ltref.id()==LostTracks.id());
-      bool isInIsolatedTracks = !(gentk.pt() < 5);//(itref.isNonnull() && itref.id()==IsolatedTracks.id());
+      bool isInIsolatedTracks = (itref.isNonnull() && itref.id()==IsolatedTracks.id()); //!(gentk.pt() < 5);
       bool isNotPFnorLostTracks = !isInPackedCands && !isInLostTracks;
 
       //if (isNotPFnorLostTracks && isInIsolatedTracks) cout << "found a generalTrack without a pfCandidate OR a lostTrack (pt=" << gentk.pt() << ")" << endl;
-      //if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
+      if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
 
       //counters
       if (isInPackedCands)         counterPFcand++;
@@ -228,9 +230,9 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
  
       double dR0 = deltaR (track, gentk);  //for tracks in the cone
       if(dR0 < 0.3 && dR0 > 0.00001){ //kick out tracks that are very close (don't match self)
-        if (isInPackedCands) isolationPF += track.pt();
-        if (isInPackedCands || isInLostTracks) isolationPFLost += track.pt();
-        if (isInPackedCands || isInLostTracks || isInIsolatedTracks) isolationPFLostIso += track.pt();
+        if (isInPackedCands) isolationPF += gentk.pt();
+        if (isInPackedCands || isInLostTracks) isolationPFLost += gentk.pt();
+        if (isInPackedCands || isInLostTracks || isInIsolatedTracks) isolationPFLostIso += gentk.pt();
         isolationAllGen += track.pt();
       }
 
