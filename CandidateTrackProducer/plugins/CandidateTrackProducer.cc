@@ -31,6 +31,7 @@
 #include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
 
 
 using namespace std;
@@ -216,11 +217,21 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
       bool isInPackedCands    = (pcref.isNonnull() && pcref.id()==PackedCandidates.id() && pfCand.charge()!=0);
       bool isInLostTracks     = (ltref.isNonnull() && ltref.id()==LostTracks.id());
-      bool isInIsolatedTracks = (itref.isNonnull() && itref.id()==IsolatedTracks.id()); //!(gentk.pt() < 5);
+      bool isInIsolatedTracks = false;//!(gentk.pt() < 5); //if it's less than 5 it for sure is not an isolatedTrack
       bool isNotPFnorLostTracks = !isInPackedCands && !isInLostTracks;
 
+      if (isNotPFnorLostTracks) { //match to isolatedTracks using dR
+        for (const auto & ITit : IsolatedTracks){
+          double dR2 = deltaR (track.eta(), track.phi(), ITit.eta(), ITit.phi());
+          if (dR2 < 0.0001) {
+            cout << "matching IsolatedTrack found! (pt=" << ITit.pt() << ", genTrack pt=" << gentk.pt() << ")" << endl;
+            isInIsolatedTracks = true;
+          }
+        }
+      }
+
       //if (isNotPFnorLostTracks && isInIsolatedTracks) cout << "found a generalTrack without a pfCandidate OR a lostTrack (pt=" << gentk.pt() << ")" << endl;
-      if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
+      //if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
 
       //counters
       if (isInPackedCands)         counterPFcand++;

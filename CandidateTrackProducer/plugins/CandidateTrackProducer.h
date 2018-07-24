@@ -31,6 +31,7 @@
 
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
+#include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
 
 using namespace std;
 
