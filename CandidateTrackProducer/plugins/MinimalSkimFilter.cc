@@ -19,7 +19,12 @@ MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
   cutResults_ (new CutResults ())
 {
   initializeCutResults ();
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+  produces<CutResults, edm::Transition::EndRun> ();
+#else
   produces<CutResults, edm::InRun> ();
+#endif
 
   triggersToken_ = consumes<edm::TriggerResults> (triggers_);
   beamspotToken_ = consumes<reco::BeamSpot> (beamspot_);
