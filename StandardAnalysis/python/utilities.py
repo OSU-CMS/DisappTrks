@@ -244,7 +244,7 @@ def getListOfChannels (process):
     for path in process.schedule:
         if hasattr (path, "label"):
             label = path.label ()
-            if label != "variableProducerPath" and label != "endPath" and label != "egmGsfElectronIDSequence_step":
+            if label != "variableProducerPath" and label != "endPath" and label != "egmGsfElectronIDSequence_step" and label != "egmGsfElectronIDSequenceOriginalElectrons_step":
                 channels.append (path.label ())
 
     return channels

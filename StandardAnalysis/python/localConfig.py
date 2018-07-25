@@ -48,8 +48,12 @@ datasetsBkgd = [
     'ZJetsToNuNu',
     'VV',
     'SingleTop',
-    'TTJets',
 ]
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    datasetsBkgd.append('TTJetsComposite')
+else:
+    datasetsBkgd.append('TTJets')
+
 datasetsBkgdForMET = copy.deepcopy(datasetsBkgd)
 
 datasetsBkgd.append ('WJetsToLNu')
@@ -129,33 +133,39 @@ addLifetimeReweighting (datasetsSig)
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 
-composite_dataset_definitions['SingleTop'] = [
-    'SingleTop_s_channel',
-    'SingleTop_t_channel',
-    'SingleTop_tW',
-    'SingleTop_tbarW',
-]
-
-composite_dataset_definitions["WW"] = [
-    'WWToLNuQQ',
-    'WWToLNuLNu',
-]
-
-composite_dataset_definitions["VG"] = [
-    'WG',
-    'ZG',
-]
-
-composite_dataset_definitions["VV"] = [
-    'WWToLNuQQ',
-    'WWToLNuLNu',
-    'WZ',
-    'ZZ',
-    'WG',
-    'ZG',
-]
-
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    composite_dataset_definitions['SingleTop'] = [
+        'SingleTop_s_channel',
+        'SingleTop_t_channel_top',
+        'SingleTop_t_channel_antitop',
+        'SingleTop_tW',
+        'SingleTop_tbarW',
+    ]
+    composite_dataset_definitions['TTJetsComposite'] = [
+        'TTJets_2L2Nu',
+        'TTJets_SemiLeptonic',
+        'TTJets_Hadronic',
+    ]
+    # no 5-10, 10-15 samples in 94X
+    composite_dataset_definitions['QCD'] = [
+        #'QCD_5to10',
+        #'QCD_10to15',
+        'QCD_15to30',
+        'QCD_30to50',
+        'QCD_50to80',
+        'QCD_80to120',
+        'QCD_120to170',
+        'QCD_170to300',
+        'QCD_300to470',
+        'QCD_470to600',
+        'QCD_600to800',
+        'QCD_800to1000',
+        'QCD_1000to1400',
+        'QCD_1400to1800',
+        'QCD_1800to2400',
+        'QCD_2400to3200',
+        'QCD_3200toInf',
+    ]
     composite_dataset_definitions['ZJetsToNuNu'] = [
         'ZJetsToNuNu_HT100to200',
         'ZJetsToNuNu_HT200to400',
@@ -165,11 +175,57 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'ZJetsToNuNu_HT1200to2500',
         'ZJetsToNuNu_HT2500toInf',
     ]
-    composite_dataset_definitions['TTJets'] = [
-        'TTJets_2L2Nu',
-        'TTJets_SemiLeptonic',
-        'TTJets_Hadronic',
+    composite_dataset_definitions["VV"] = [
+        'WWToLNuQQ',
+        'WWToLNuLNu',
+        'WZ',
+        'ZZ',
+        'WG',
+        #'ZG',
     ]
+    composite_dataset_definitions["VG"] = [
+        'WG',
+        #'ZG',
+    ]
+    composite_dataset_definitions['WJetsToLNu_HT'] = [
+        'WJetsToLNu_HT100to200',
+        'WJetsToLNu_HT200to400',
+        'WJetsToLNu_HT400to600',
+        'WJetsToLNu_HT600to800',
+        'WJetsToLNu_HT800to1200',
+        'WJetsToLNu_HT1200to2500',
+        'WJetsToLNu_HT2500toInf',
+    ]
+else:
+    composite_dataset_definitions['SingleTop'] = [
+        'SingleTop_s_channel',
+        'SingleTop_t_channel',
+        'SingleTop_tW',
+        'SingleTop_tbarW',
+    ]
+    composite_dataset_definitions["VV"] = [
+        'WWToLNuQQ',
+        'WWToLNuLNu',
+        'WZ',
+        'ZZ',
+        'WG',
+        'ZG',
+    ]
+    composite_dataset_definitions["VG"] = [
+        'WG',
+        'ZG',
+    ]
+    composite_dataset_definitions['WJetsToLNu_HT'] = [
+        'WJetsToLNu_HT100to200',
+        'WJetsToLNu_HT200to400',
+        'WJetsToLNu_HT400to600',
+        'WJetsToLNu_HT600toInf',
+    ]
+
+composite_dataset_definitions["WW"] = [
+    'WWToLNuQQ',
+    'WWToLNuLNu',
+]
 
 types["WW"] = "bgMC"
 types["WZ"] = "bgMC"

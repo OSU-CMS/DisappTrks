@@ -633,7 +633,7 @@ CandidateTrack::getTrackIsolation (const reco::Track &track, const vector<reco::
       if (noFakes && fabs (t.d0 () / t.d0Error ()) > 5.0)
         continue;
 
-      if (noPU && track.dz (t.vertex ()) > 3.0 * hypot (track.dzError (), t.dzError ()))
+      if (noPU && fabs( track.dz (t.vertex ())) > 3.0 * hypot (track.dzError (), t.dzError ()))
         continue;
 
       double dR = deltaR (track, t);
