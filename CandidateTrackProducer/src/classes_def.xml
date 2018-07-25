@@ -16,4 +16,5 @@
 
   <class name="edm::Association<std::vector<pat::IsolatedTrack> >"/>
   <class name="edm::Wrapper<edm::Association<std::vector<pat::IsolatedTrack> > >"/>
+  <class name="edm::RefProd<std::vector<pat::IsolatedTrack> >"/>
 </lcgdict>

@@ -136,11 +136,11 @@ CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<rec
                                       const reco::TrackCollection &gt_h, const edm::Association<pat::PackedCandidateCollection> &gt2pc, const edm::Association<pat::PackedCandidateCollection> &gt2lt,
                                       const double outerDeltaR, const double innerDeltaR) const
 {
-  cout << "Inside my findAnyMatchAndPrint function" << endl;
+  //cout << "Inside my findAnyMatchAndPrint function" << endl;
 
-  bool matched = false;
-  /*reco::TrackCollection *generalTracks = gt_h->product();
-  //for (unsigned int igt=0; igt<tracks.size())
+  //bool matched = false;
+  /*reco::TrackCollection *generalTracks = gt_h.product();
+  
   for(unsigned int igt=0; igt<generalTracks->size(); igt++){
     const reco::Track &gentk = (*gt_h)[igt];
     reco::TrackRef tkref = reco::TrackRef(gt_h, igt);
@@ -154,12 +154,12 @@ CandidateTrack::findAnyMatchAndPrint (const reco::Track &track, const vector<rec
     bool isNotPFnorLostTracks = !isInPackedCands && !isInPackedCands;
 
     if (isNotPFnorLostTracks) cout << "PROBLEM: FOUND A GeneralTrack WITHOUT A pfCandidate OR A lostTrack (pt=" << gentk.pt() << ")" << endl;
-
+    
 
   }
   */
 
-  return matched;
+  return false;
 }
 
 template<class T> const double

@@ -191,8 +191,8 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     candTracks->push_back (candTrack);
     if (track.pt() > 55) {
     //cout << "Equivalently printing for every CANDtrack from within CTProducer";
-    cout << "\tCandidate w/ pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl;
-    cout << "----" << generalTracks->size() << " tracks in this event" << endl;
+    //cout << "\tCandidate w/ pt=" << track.pt() << ", eta=" << track.eta() << ", phi=" << track.phi() << endl;
+    //cout << "----" << generalTracks->size() << " tracks in this event" << endl;
     
 
     int counterPFcand  = 0;
@@ -203,7 +203,8 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     double isolationPFLost        = 0.0;
     double isolationPFLostIso     = 0.0;
     double isolationAllGen        = 0.0;
-
+   
+    //bool printed = false;
     for(unsigned int igt=0; igt<generalTracks->size(); igt++){
       //cout << ".";
 
@@ -222,40 +223,53 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
       bool isNotPFnorLostTracks = !isInPackedCands && !isInLostTracks;
 
       if (isNotPFnorLostTracks) { //match to isolatedTracks using dR
-        for (unsigned int iit=0; iit<IsolatedTracksVector->size(); iit++){
-          pat::IsolatedTrack &ITit = (*IsolatedTracks)[iit];
-          double dR2 = deltaR (track.eta(), track.phi(), ITit.eta(), ITit.phi());
+        int numIsoTrks = 0;//cout << "attempting to match " << IsolatedTracksVector->size() << endl;
+	for (unsigned int iit=0; iit<IsolatedTracksVector->size(); iit++){
+          const pat::IsolatedTrack &ITit = (*IsolatedTracks)[iit];
+          numIsoTrks++;
+	  double dR2 = deltaR (gentk.eta(), gentk.phi(), ITit.eta(), ITit.phi());
           if (dR2 < 0.0001) {
             cout << "matching IsolatedTrack found! (pt=" << ITit.pt() << ", genTrack pt=" << gentk.pt() << ")" << endl;
             isInIsolatedTracks = true;
           }
         }
+	//if (!printed) cout << "attempted to match to " << numIsoTrks << endl;
+	//printed = true;
       }
 
       //if (isNotPFnorLostTracks && isInIsolatedTracks) cout << "found a generalTrack without a pfCandidate OR a lostTrack (pt=" << gentk.pt() << ")" << endl;
       //if (isNotPFnorLostTracks && !isInIsolatedTracks) cout << "PROBLEM: (pt=" << gentk.pt() << ") not in pfCand or lostTracks or isolatedTracks" << endl;
 
       //counters
-      if (isInPackedCands)         counterPFcand++;
-      else if (isInLostTracks)     counterLostTrk++;
-      else if (isInIsolatedTracks) counterIsoTrk++;
-      else                         counterProblem++;
+      //if (isInPackedCands)         counterPFcand++;
+      //else if (isInLostTracks)     counterLostTrk++;
+      //else if (isInIsolatedTracks) counterIsoTrk++;
+      //else                         counterProblem++;
  
       double dR0 = deltaR (track, gentk);  //for tracks in the cone
       if(dR0 < 0.3 && dR0 > 0.00001){ //kick out tracks that are very close (don't match self)
+     
+        //counters
+        if (isInPackedCands)         counterPFcand++;
+        else if (isInLostTracks)     counterLostTrk++;
+        else if (isInIsolatedTracks) counterIsoTrk++;
+        else			     counterProblem++;  
+
         if (isInPackedCands) isolationPF += gentk.pt();
         if (isInPackedCands || isInLostTracks) isolationPFLost += gentk.pt();
         if (isInPackedCands || isInLostTracks || isInIsolatedTracks) isolationPFLostIso += gentk.pt();
-        isolationAllGen += track.pt();
+        isolationAllGen += gentk.pt();
       }
 
     }
-    cout << "PFCands:" << counterPFcand << "\tLostTrks:" << counterLostTrk << "\tIsolatedTrks:" << counterIsoTrk << "\tProblems:" << counterProblem << endl;
-    cout << "Isolation using PFCands=" << isolationPF << endl;
-    cout << "Isolation using PF+Lost=" << isolationPFLost << endl;
-    cout << "Isolation using PF+Lost+Iso=" << isolationPFLostIso << endl;
-    cout << "Isolation using All GenTracks" << isolationAllGen << endl;
-    cout << endl;
+    //cout << "PFCands:" << counterPFcand << "\tLostTrks:" << counterLostTrk << "\tIsolatedTrks:" << counterIsoTrk << "\tProblems:" << counterProblem << endl;
+    //cout << "Isolation using PFCands     =" << isolationPF << endl;
+    //cout << "Isolation using PF+Lost     =" << isolationPFLost << endl;
+    //cout << "Isolation using PF+Lost+Iso =" << isolationPFLostIso << endl;
+    //cout << "Isolation using AllGenTracks=" << isolationAllGen << endl;
+    double addedByGenTrk = isolationAllGen - isolationPFLostIso;
+    if (addedByGenTrk > 0.01) cout << "Isolation added by GeneralTracks = " << addedByGenTrk << endl;
+    //cout << endl;
     }
   }
 
