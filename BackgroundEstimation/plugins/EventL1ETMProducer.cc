@@ -14,6 +14,7 @@ EventL1ETMProducer<T>::EventL1ETMProducer (const edm::ParameterSet &cfg) :
     {
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
       trigObjFilterSubstrings_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "FilterSubstrings");
+      trigObjFilterSubstringsToReject_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "filterSubstringsToReject");
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");
@@ -82,6 +83,7 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
     {
       const vector<string> &collections = trigObjCollections_.at (filterCategory);
       const vector<string> &filterSubstrings = trigObjFilterSubstrings_.at (filterCategory);
+      const vector<string> &filterSubstringsToReject = trigObjFilterSubstringsToReject_.at (filterCategory);
 
       if (n < 0)
         n = collections.size ();
@@ -93,7 +95,7 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event)
           const string &collection = collections.at (i);
           const string &filterSubstring = filterSubstrings.at (i);
 
-          anatools::getTriggerObjectsByFilterSubstring (event, *triggers, *triggerObjects, collection, filterSubstring, objs, "HTT");
+          anatools::getTriggerObjectsByFilterSubstring (event, *triggers, *triggerObjects, collection, filterSubstring, objs, filterSubstringsToReject);
         }
     }
 
