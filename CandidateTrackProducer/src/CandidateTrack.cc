@@ -308,14 +308,17 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) cons
     if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
       rawCaloTot = caloNewDRp3();
     } else rawCaloTot = caloNewDRp5();
+    break;
   case EM:
     if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
       rawCaloTot = caloNewEMDRp3();
     } else rawCaloTot = caloNewEMDRp5();
+    break;
   case Had:
     if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
       rawCaloTot = caloNewHadDRp3();
-    } else rawCaloTot = caloNewHadDRp5();  
+    } else rawCaloTot = caloNewHadDRp5();
+    break; 
   }
   
   double caloCorr = rho * TMath::Pi() * dR * dR;  // Define effective area as pi*r^2, where r is radius of DeltaR cone.
