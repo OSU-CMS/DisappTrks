@@ -154,6 +154,10 @@ MuonFiducialCalcBefore = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcBefore.name = cms.string("MuonFiducialCalcBefore")
 removeCuts(MuonFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
+MuonFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(MuonFiducialCalcBefore)
+MuonFiducialCalcBeforeInvestigate2017Ineff.name = cms.string("MuonFiducialCalcBeforeInvestigate2017Ineff")
+addCuts(MuonFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017Ineff])
+
 MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
 addCuts(MuonFiducialCalcAfter.cuts, [cutTrkLooseMuonVeto])

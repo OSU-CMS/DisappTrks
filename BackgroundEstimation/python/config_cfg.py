@@ -39,7 +39,6 @@ if False:
 #  add_channels  (process,  [ElectronFiducialCalcAfter],   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 
 # Tag-and-probe channels for electron background estimate
-# Tag-and-probe channels for electron background estimate
 #  add_channels  (process,  [ZtoEleProbeTrk],                   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer,  False)
 #  add_channels  (process,  [ZtoEleProbeTrkWithFilter],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer,  True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithSSFilter],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer,  True)
@@ -92,6 +91,9 @@ if False:
 # Tag-and-probe channels without d0 cut on probe track
 #  add_channels  (process,  [ZtoEleProbeTrkWithoutD0Cut],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoTauToEleProbeTrkWithoutD0Cut],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
+
+# TESTING: investigate region of probe track inefficiency in ElectronFiducialCalcAfter eta-phi region
+#  add_channels  (process, [ElectronFiducialCalcBeforeInvestigate2017Ineff], histSetsElectron, histSetsElectron, scaleFactorProducersWithElectrons, collMap, variableProducers, False)
 
 ################################################################################
 
@@ -230,6 +232,9 @@ if False:
 # Tag-and-probe channels without d0 cut on probe track
 #  add_channels  (process,  [ZtoMuProbeTrkWithoutD0Cut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoTauToMuProbeTrkWithoutD0Cut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+
+# TESTING: investigate region of probe track inefficiency in MuonFiducialCalcBefore eta-phi region
+#  add_channels  (process, [MuonFiducialCalcBeforeInvestigate2017Ineff], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers, False)
 
 ################################################################################
 
