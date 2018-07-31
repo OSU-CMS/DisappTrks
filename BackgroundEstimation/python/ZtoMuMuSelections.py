@@ -383,6 +383,35 @@ ZtoMuMuDisTrkSidebandD0CutNHits6.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNH
 addSingleCut(ZtoMuMuDisTrkSidebandD0CutNHits6.cuts, cutTrkSidebandD0, cutTrkD0)
 removeCuts(ZtoMuMuDisTrkSidebandD0CutNHits6.cuts, [cutTrkD0])
 
+#####################################################################
+# ZtMuMu Background Estimates w/o Isolation Cut or Calo Energy Cut
+#####################################################################
+
+ZtoMuMuCandTrkNoIso = copy.deepcopy(ZtoMuMuCandTrk)
+ZtoMuMuCandTrkNoIso.name = cms.string("ZtoMuMuCandTrkNoIso")
+removeCuts(ZtoMuMuCandTrkNoIso.cuts, [cutTrkIso])
+
+ZtoMuMuDisTrkNoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrk)
+ZtoMuMuDisTrkNoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNoIsoNoCalo")
+removeCuts(ZtoMuMuDisTrkNoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+
+ZtoMuMuDisTrkNHits3NoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrkNHits3)
+ZtoMuMuDisTrkNHits3NoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNHits3NoIsoNoCalo")
+removeCuts(ZtoMuMuDisTrkNHits3NoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+
+ZtoMuMuDisTrkNHits4NoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrkNHits4)
+ZtoMuMuDisTrkNHits4NoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNHits4NoIsoNoCalo")
+removeCuts(ZtoMuMuDisTrkNHits4NoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+
+ZtoMuMuDisTrkNHits5NoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrkNHits5)
+ZtoMuMuDisTrkNHits5NoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNHits5NoIsoNoCalo")
+removeCuts(ZtoMuMuDisTrkNHits5NoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+
+ZtoMuMuDisTrkNHits6NoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrkNHits6)
+ZtoMuMuDisTrkNHits6NoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNHits6NoIsoNoCalo")
+removeCuts(ZtoMuMuDisTrkNHits6NoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+
+
 ##################################################
 
 # create copies of all above selections with the fiducial electron/muon cuts removed

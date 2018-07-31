@@ -479,6 +479,7 @@ cutTrkIso = cms.PSet(
 )
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
     cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
+    
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
