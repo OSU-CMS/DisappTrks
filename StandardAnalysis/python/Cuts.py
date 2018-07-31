@@ -327,6 +327,11 @@ cutTrkEtaMuonIneff2 = cms.PSet(        # TRACK ETA:  MUON INEFFICIENCY REGION 2
     cutString = cms.string("fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkInvestigate2017Ineff = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("eta > 0.35 && eta < 1.42 && phi > 2.8"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkTOBCrack = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("!inTOBCrack"),
