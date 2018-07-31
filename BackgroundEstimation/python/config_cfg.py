@@ -163,6 +163,18 @@ if False:
     add_channels  (process,  [ZtoMuMuDisTrkInvertD0CutNHits5], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
     add_channels  (process,  [ZtoMuMuDisTrkInvertD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
+# TESTING: Z->mumu channels for fake track background estimate with no Iso cut nor ECal cut
+if False:
+    add_channels  (process,  [ZtoMuMuCandTrkNoIso],                       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+    add_channels  (process,  [ZtoMuMuDisTrkNoIsoNoCalo],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  True)
+if False:
+    add_channels  (process,  [ZtoMuMuDisTrkNHits3NoIsoNoCalo],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+    add_channels  (process,  [ZtoMuMuDisTrkNHits4NoIsoNoCalo],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+if False:
+    add_channels  (process,  [ZtoMuMuDisTrkNHits5NoIsoNoCalo],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+    add_channels  (process,  [ZtoMuMuDisTrkNHits6NoIsoNoCalo],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+
+
 # TESTING: Z->mumu+jet channels for fake track background estimate
 #  add_channels  (process,  [ZtoMuMuJet],              histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  True)
 #  add_channels  (process,  [ZtoMuMuDisTrkJet],        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
