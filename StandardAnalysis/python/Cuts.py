@@ -529,11 +529,6 @@ cutTrkTauHadVetoInv = cms.PSet(
     cutString = cms.string("deltaRToClosestTauHad < 0.15"),
     numberRequired = cms.string(">= 1"),
 )
-#temporary, until these variables are added for the IsolatedTrack via OSUTrack
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    cutTrkElecVeto.cutString = cms.string("deltaRToClosestPFElectron > 0.15")
-    cutTrkMuonVeto.cutString = cms.string("deltaRToClosestPFMuon > 0.15")
-    cutTrkTauHadVeto.cutString = cms.string("deltaRToClosestPFChHad > 0.15")
 
 cutTrkJetDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("tracks"),
@@ -724,6 +719,18 @@ cutTrkMatchMC = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+    cutTrkD0.inputCollection = cms.vstring("tracks")
+    cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
+
+    cutTrkSidebandD0.inputCollection = cms.vstring("tracks")
+    cutTrkSidebandD0.cutString = cms.string("fabs (dxy) >= 0.02 && fabs (dxy) < 0.1")
+
+    cutTrkInvertD0.inputCollection = cms.vstring("tracks")
+    cutTrkInvertD0.cutString = cms.string("fabs (dxy) >= 0.02")
+
+    cutTrkDZ.inputCollection = cms.vstring("tracks")
+    cutTrkDZ.cutString = cms.string("fabs (dz) < 0.5")
 
 ##################################################
 ## mcparticles
@@ -1102,6 +1109,20 @@ cutElectronVIDTightID = cms.PSet (
     cutString = cms.string("passesVID_tightID"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons with passesVID_tightID (ID + iso)"),
+)
+cutElectronD02017 = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("((fabs (electron.superCluster.eta) <= 1.479) && (fabs (" + electronD0WRTPV + ") < 0.05)) \
+                         || ((fabs (electron.superCluster.eta) >  1.479) && (fabs (" + electronD0WRTPV + ") < 0.10))"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with |d0| < 0.05, 0.10 (EB, EE)"),
+)
+cutElectronDZ2017 = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("((fabs (electron.superCluster.eta) <= 1.479) && (fabs (" + electronDZWRTPV + ") < 0.10)) \
+                         || ((fabs (electron.superCluster.eta) >  1.479) && (fabs (" + electronDZWRTPV + ") < 0.20))"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with |dz| < 0.10, 0.20 (EB, EE)"),
 )
 cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),

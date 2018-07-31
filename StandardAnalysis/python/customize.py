@@ -95,7 +95,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
         setThresholdForVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")

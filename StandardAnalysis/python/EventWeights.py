@@ -36,23 +36,23 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     muonIDPayload = "muonID2016Tight"
     muonIsoPayload = "muonIso2016Tight"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# EventWeights applied: 2017 (really 2016, should be updated!)"
-    electronRecoPayload = "electronReco2016"
-    electronIDPayload = "electronID2016Tight"
-    muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
-    muonIDPayload = "muonID2016Tight"
-    muonIsoPayload = "muonIso2016Tight"
+    print "# EventWeights applied: 2017"
+    electronIDPayload = "electronID2017Tight"
+    muonTriggerPayload = "muonTrigger2017IsoMu27"
+    muonIDPayload = "muonID2017Tight"
+    muonIsoPayload = "muonIso2017TightTightID"
 else:
     print "# EventWeights applied: 2015"
 
 # weights including electron scale factors (only for selections requiring electrons)
 weightsWithEleSF = copy.deepcopy(weights)
-weightsWithEleSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronRecoPayload)
+if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    weightsWithEleSF.append(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronRecoPayload)
+        )
     )
-)
 weightsWithEleSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
@@ -90,12 +90,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 # weights including both electron and muon scale factors (only for selections requiring both electrons and muons)
 weightsWithEleMuonSF = copy.deepcopy(weightsWithMuonSF)
-weightsWithEleMuonSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronRecoPayload)
+if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    weightsWithEleMuonSF.append(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronRecoPayload)
+        )
     )
-)
 weightsWithEleMuonSF.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),

@@ -22,6 +22,7 @@ namespace {
 
     edm::Association<std::vector<pat::IsolatedTrack> > 		association0;
     edm::Wrapper<edm::Association<std::vector<pat::IsolatedTrack> > > association1;
+    edm::RefProd<std::vector<pat::IsolatedTrack> > association2;
 
   };
 }
