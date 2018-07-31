@@ -126,6 +126,38 @@ def customizeForMETTriggerProducer (producer):
         producer.additionalCollections  =  cms.vstring  ("",  "hltTrk50Filter::HLT",  "",  "",  "",  "",  "")
         producer.additionalFilters      =  cms.vstring  ("",  "hltTrk50Filter",       "",  "",  "",  "",  "")
 
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        print "# Using 2017 MET trigger filters in EventMETTriggerProducer_cfi.py..."
+
+        # The items in each vector correspond to the following triggers, in this order:
+        # [HLT_PFMET120_PFMHT120_IDTight_v*, HLT_MET105_IsoTrk50_v*]
+
+        # ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
+        # ['hltMET105', 'hltMETClean65']
+
+        producer.metCollections          = cms.vstring("hltMet::HLT",                          "hltMet::HLT")
+        producer.metThresholds           = cms.vdouble(90.0,                                   105.0)
+        producer.metJetsForTag           = cms.vstring("",                                     "")
+
+        producer.metCleanCollections     = cms.vstring("hltMetClean::HLT",                     "hltMetClean::HLT")
+        producer.metThresholds           = cms.vdouble(80.0,                                   65.0)
+        producer.metCleanJetsForTag      = cms.vstring("",                                     "")
+
+        producer.mhtCollections          = cms.vstring("hltMht::HLT",                          "")
+        producer.mhtThresholds           = cms.vdouble(90.0,                                   0.0)
+        producer.mhtJetsForTag           = cms.vstring("hltAK4CaloJetsCorrectedIDPassed::HLT", "")
+
+        producer.pfMHTTightIDCollections = cms.vstring("hltPFMHTTightID::HLT",                 "")
+        producer.pfMHTTightIDThresholds  = cms.vstring(120.0,                                  0.0)
+        producer.pfMHTTightIDJetsForTag  = cms.vstring("hltAK4PFJetsTightIDCorrected::HLT",    "")
+
+        producer.pfMETCollections        = cms.vstring("hltPFMETProducer::HLT",                "")
+        producer.pfMETThresholds         = cms.vstring(120.0,                                  0.0)
+        producer.pfMETJetsForTag         = cms.vstring("",                                     "")
+
+        producer.additionalCollections   = cms.vstring("",                                     "hltTrk50Filter::HLT")
+        producer.additionalFilters       = cms.vstring("",                                     "hltTrk50Filter")
+
     else:
         print "EventMETTriggerProducer_cfg.py does not know which MET trigger filters to apply!"
         exit (1)
