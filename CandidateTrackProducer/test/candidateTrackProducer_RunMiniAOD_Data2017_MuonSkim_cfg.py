@@ -1,13 +1,13 @@
 # Auto generated configuration file
-# using:
-# Revision: 1.19
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
-# with command line options: miniAOD-prod -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2017 --scenario pp --conditions 92X_dataRun2_Prompt_v9 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=recoskim_Run2017.py --no_exec
+# using: 
+# Revision: 1.19 
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# with command line options: REMINIAOD -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2017,run2_miniAOD_94XFall17 --scenario pp --conditions 94X_dataRun2_ReReco_EOY17_v6 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=reminiaod_Run2017.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process('PAT',eras.Run2_2017)
+process = cms.Process('PAT',eras.Run2_2017,eras.run2_miniAOD_94XFall17)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -37,7 +37,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('miniAOD-prod nevts:100'),
+    annotation = cms.untracked.string('REMINIAOD nevts:100'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -52,54 +52,54 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     dropMetaData = cms.untracked.string('ALL'),
-    eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
+    eventAutoFlushCompressedSize = cms.untracked.int32(-900),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('miniAOD-prod_PAT.root'),
+    fileName = cms.untracked.string('REMINIAOD_PAT.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
     overrideBranchesSplitLevel = cms.untracked.VPSet(cms.untracked.PSet(
         branch = cms.untracked.string('patPackedCandidates_packedPFCandidates__*'),
         splitLevel = cms.untracked.int32(99)
-    ),
+    ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('recoGenParticles_prunedGenParticles__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('patTriggerObjectStandAlones_slimmedPatTrigger__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('patPackedGenParticles_packedGenParticles__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('patJets_slimmedJets__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('recoVertexs_offlineSlimmedPrimaryVertices__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('recoCaloClusters_reducedEgamma_reducedESClusters_*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedEBRecHits_*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedEERecHits_*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('recoGenJets_slimmedGenJets__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('patJets_slimmedJetsPuppi__*'),
             splitLevel = cms.untracked.int32(99)
-        ),
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedESRecHits_*'),
             splitLevel = cms.untracked.int32(99)
@@ -139,6 +139,7 @@ process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer
 process.Flag_BadChargedCandidateSummer16Filter = cms.Path(process.BadChargedCandidateSummer16Filter)
 process.Flag_hcalLaserEventFilter = cms.Path(process.hcalLaserEventFilter)
 process.Flag_BadPFMuonFilter = cms.Path(process.BadPFMuonFilter)
+process.Flag_ecalBadCalibFilter = cms.Path(process.ecalBadCalibFilter)
 process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseFilter)
 process.Flag_trkPOG_toomanystripclus53X = cms.Path(~process.toomanystripclus53X)
 process.Flag_EcalDeadCellBoundaryEnergyFilter = cms.Path(process.EcalDeadCellBoundaryEnergyFilter)
@@ -151,7 +152,7 @@ process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODoutput_step = cms.EndPath(process.MINIAODoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_BadChargedCandidateFilter,process.Flag_BadPFMuonFilter,process.Flag_BadChargedCandidateSummer16Filter,process.Flag_BadPFMuonSummer16Filter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.endjob_step,process.MINIAODoutput_step)
+process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_ecalBadCalibFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_BadChargedCandidateFilter,process.Flag_BadPFMuonFilter,process.Flag_BadChargedCandidateSummer16Filter,process.Flag_BadPFMuonSummer16Filter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.endjob_step,process.MINIAODoutput_step)
 process.schedule.associate(process.patTask)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
@@ -167,7 +168,7 @@ process=convertToUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)

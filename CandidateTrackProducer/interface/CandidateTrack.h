@@ -1,16 +1,7 @@
 #ifndef CANDIDATETRACK_H
 #define CANDIDATETRACK_H
 
-#include "DataFormats/BeamSpot/interface/BeamSpot.h"
-
-#include "DataFormats/EgammaCandidates/interface/Conversion.h"
-
-#include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/PatCandidates/interface/Muon.h"
-#include "DataFormats/PatCandidates/interface/Tau.h"
-
 #include "DataFormats/TrackReco/interface/Track.h"
-
 #include "DataFormats/VertexReco/interface/Vertex.h"
 
 // FIXME:  Once OSUT3Analysis works with ROOT6, i.e., releases > CMSSW_7_4_5_ROOT5,
@@ -20,8 +11,6 @@
 #define INVALID_VALUE (numeric_limits<int>::min ())
 #define IS_INVALID(x) (x <= INVALID_VALUE + 1)
 
-#define MAX_DR (99.0)
-
 using namespace std;
 
 class CandidateTrack : public reco::Track
@@ -29,7 +18,7 @@ class CandidateTrack : public reco::Track
   public:
     CandidateTrack ();
     CandidateTrack (const reco::Track &);
-    CandidateTrack (const reco::Track &, const vector<reco::Track> &, const vector<pat::Electron> &, const vector<pat::Muon> &, const vector<pat::Tau> &, const reco::BeamSpot &, const vector<reco::Vertex> &, const edm::Handle<vector<reco::Conversion> > &);
+    CandidateTrack (const reco::Track &, const vector<reco::Track> &);
     ~CandidateTrack ();
 
     enum RhoType { All, Calo, CentralCalo };
@@ -76,18 +65,6 @@ class CandidateTrack : public reco::Track
     void set_trackIsoOldNoPUDRp3 (double value) { trackIsoOldNoPUDRp3_ = value; };
     void set_trackIsoOldNoPUDRp5 (double value) { trackIsoOldNoPUDRp5_ = value; };
 
-    const float deltaRToClosestElectron ()         const { return (IS_INVALID(deltaRToClosestElectron_))       ? MAX_DR : deltaRToClosestElectron_; };
-    const float deltaRToClosestVetoElectron ()     const { return (IS_INVALID(deltaRToClosestVetoElectron_))   ? MAX_DR : deltaRToClosestVetoElectron_; };
-    const float deltaRToClosestLooseElectron ()    const { return (IS_INVALID(deltaRToClosestLooseElectron_))  ? MAX_DR : deltaRToClosestLooseElectron_; };
-    const float deltaRToClosestMediumElectron ()   const { return (IS_INVALID(deltaRToClosestMediumElectron_)) ? MAX_DR : deltaRToClosestMediumElectron_; };
-    const float deltaRToClosestTightElectron ()    const { return (IS_INVALID(deltaRToClosestTightElectron_))  ? MAX_DR : deltaRToClosestTightElectron_; };
-    const float deltaRToClosestMuon ()             const { return (IS_INVALID(deltaRToClosestMuon_))           ? MAX_DR : deltaRToClosestMuon_; };
-    const float deltaRToClosestLooseMuon ()        const { return (IS_INVALID(deltaRToClosestLooseMuon_))      ? MAX_DR : deltaRToClosestLooseMuon_; };
-    const float deltaRToClosestMediumMuon ()       const { return (IS_INVALID(deltaRToClosestMediumMuon_))     ? MAX_DR : deltaRToClosestMediumMuon_; };
-    const float deltaRToClosestTightMuon ()        const { return (IS_INVALID(deltaRToClosestTightMuon_))      ? MAX_DR : deltaRToClosestTightMuon_; };
-    const float deltaRToClosestTau ()              const { return (IS_INVALID(deltaRToClosestTau_))            ? MAX_DR : deltaRToClosestTau_; };
-    const float deltaRToClosestTauHad ()           const { return (IS_INVALID(deltaRToClosestTauHad_))         ? MAX_DR : deltaRToClosestTauHad_; };
-
     const float rhoPUCorr ()            const { return this->rhoPUCorr_; };
     const float rhoPUCorrCalo ()        const { return this->rhoPUCorrCalo_; };
     const float rhoPUCorrCentralCalo () const { return this->rhoPUCorrCentralCalo_; };
@@ -122,18 +99,6 @@ class CandidateTrack : public reco::Track
     float caloNewEMDRp3_;
     float caloNewHadDRp3_;
 
-    float deltaRToClosestElectron_;
-    float deltaRToClosestVetoElectron_;
-    float deltaRToClosestLooseElectron_;
-    float deltaRToClosestMediumElectron_;
-    float deltaRToClosestTightElectron_;
-    float deltaRToClosestMuon_;
-    float deltaRToClosestLooseMuon_;
-    float deltaRToClosestMediumMuon_;
-    float deltaRToClosestTightMuon_;
-    float deltaRToClosestTau_;
-    float deltaRToClosestTauHad_;
-
     float rhoPUCorr_;
     float rhoPUCorrCalo_;
     float rhoPUCorrCentralCalo_;
@@ -150,25 +115,10 @@ class CandidateTrack : public reco::Track
     float trackIsoOldNoPUDRp3_;
     float trackIsoOldNoPUDRp5_;
 
-    template<class T> const double getMinDeltaR (const vector<T> &) const;
-    const double getMinDeltaRToTauHad (const vector<pat::Tau> &) const;
-    const double getMinDeltaRToVetoElectron (const vector<pat::Electron> &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    const double getMinDeltaRToLooseElectron (const vector<pat::Electron> &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    const double getMinDeltaRToMediumElectron (const vector<pat::Electron> &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    const double getMinDeltaRToTightElectron (const vector<pat::Electron> &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    const double getMinDeltaRToLooseMuon (const vector<pat::Muon> &) const;
-    const double getMinDeltaRToMediumMuon (const vector<pat::Muon> &) const;
-    const double getMinDeltaRToTightMuon (const vector<pat::Muon> &, const reco::Vertex &) const;
-
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
     const double caloTotNoPU (double, RhoType = All, CaloType = Sum) const;
-
-    bool passesVetoID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    bool passesLooseID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    bool passesMediumID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
-    bool passesTightID (const pat::Electron &, const reco::BeamSpot &, const reco::Vertex &, const edm::Handle<vector<reco::Conversion> > &) const;
 };
 
 

@@ -40,12 +40,6 @@ using namespace std;
 //
 CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig) :
   tracksTag_    (iConfig.getParameter<edm::InputTag> ("tracks")),
-  electronsTag_ (iConfig.getParameter<edm::InputTag> ("electrons")),
-  muonsTag_     (iConfig.getParameter<edm::InputTag> ("muons")),
-  tausTag_      (iConfig.getParameter<edm::InputTag> ("taus")),
-  beamspotTag_      (iConfig.getParameter<edm::InputTag> ("beamspot")),
-  verticesTag_      (iConfig.getParameter<edm::InputTag> ("vertices")),
-  conversionsTag_   (iConfig.getParameter<edm::InputTag> ("conversions")),
   rhoTag_           (iConfig.getParameter<edm::InputTag> ("rhoTag")),
   rhoCaloTag_       (iConfig.getParameter<edm::InputTag> ("rhoCaloTag")),
   rhoCentralCaloTag_(iConfig.getParameter<edm::InputTag> ("rhoCentralCaloTag")),
@@ -57,12 +51,6 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   produces<vector<CandidateTrack> > ();
 
   tracksToken_          =  consumes<vector<reco::Track> >       (tracksTag_);
-  electronsToken_       =  consumes<vector<pat::Electron> >     (electronsTag_);
-  muonsToken_           =  consumes<vector<pat::Muon> >         (muonsTag_);
-  tausToken_            =  consumes<vector<pat::Tau> >          (tausTag_);
-  beamspotToken_        =  consumes<reco::BeamSpot>             (beamspotTag_);
-  verticesToken_        =  consumes<vector<reco::Vertex> >      (verticesTag_);
-  conversionsToken_     =  consumes<vector<reco::Conversion> >  (conversionsTag_);
   rhoToken_             =  consumes<double>                     (rhoTag_);
   rhoCaloToken_         =  consumes<double>                     (rhoCaloTag_);
   rhoCentralCaloToken_  =  consumes<double>                     (rhoCentralCaloTag_);
@@ -85,18 +73,6 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 {
   edm::Handle<vector<reco::Track> > tracks;
   iEvent.getByToken (tracksToken_, tracks );
-  edm::Handle<vector<pat::Electron> > electrons;
-  iEvent.getByToken (electronsToken_, electrons );
-  edm::Handle<vector<pat::Muon> > muons;
-  iEvent.getByToken (muonsToken_, muons );
-  edm::Handle<vector<pat::Tau> > taus;
-  iEvent.getByToken (tausToken_, taus );
-  edm::Handle<reco::BeamSpot> beamspot;
-  iEvent.getByToken (beamspotToken_, beamspot );
-  edm::Handle<vector<reco::Vertex> > vertices;
-  iEvent.getByToken (verticesToken_, vertices );
-  edm::Handle<vector<reco::Conversion> > conversions;
-  iEvent.getByToken (conversionsToken_, conversions );
   edm::Handle<double> rhoHandle;
   iEvent.getByToken (rhoToken_, rhoHandle );
   edm::Handle<double> rhoCaloHandle;
@@ -126,7 +102,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     if (track.pt () < candMinPt_)
       continue;
 
-    CandidateTrack candTrack(track, *tracks, *electrons, *muons, *taus, *beamspot, *vertices, conversions);
+    CandidateTrack candTrack(track, *tracks);
     candTrack.set_rhoPUCorr(*rhoHandle);
     candTrack.set_rhoPUCorrCalo(*rhoCaloHandle);
     candTrack.set_rhoPUCorrCentralCalo(*rhoCentralCaloHandle);
@@ -191,7 +167,6 @@ const GlobalPoint CandidateTrackProducer::getPosition( const DetId& id) const
    }
    return caloGeometry_->getSubdetectorGeometry(id)->getGeometry(id)->getPosition();
 }
-
 
 //define this as a plug-in
 DEFINE_FWK_MODULE (CandidateTrackProducer);
