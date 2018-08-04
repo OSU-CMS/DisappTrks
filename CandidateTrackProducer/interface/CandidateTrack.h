@@ -53,56 +53,56 @@ class CandidateTrack : public reco::Track
     //////////////////////////////////////
 
     // New calculation that uses all rec hits in dR < 0.5 cone.
-    const float caloNewNoPUDRp5 ()                   const { return caloTotNoPU(0.5, All, Sum); };
-    const float caloNewNoPUDRp5JustEm ()             const { return caloTotNoPU(0.5, All, EM); };
-    const float caloNewNoPUDRp5JustHad ()            const { return caloTotNoPU(0.5, All, Had); };
+    const float caloNewNoPUDRp5 ()                   const { return caloTotNoPU(5, All, Sum); };
+    const float caloNewNoPUDRp5JustEm ()             const { return caloTotNoPU(5, All, EM); };
+    const float caloNewNoPUDRp5JustHad ()            const { return caloTotNoPU(5, All, Had); };
     
-    const float caloNewNoPUDRp5Calo ()               const { return caloTotNoPU(0.5, Calo, Sum); };
-    const float caloNewNoPUDRp5CaloJustEm ()         const { return caloTotNoPU(0.5, Calo, EM); };
-    const float caloNewNoPUDRp5CaloJustHad ()        const { return caloTotNoPU(0.5, Calo, Had); };
+    const float caloNewNoPUDRp5Calo ()               const { return caloTotNoPU(5, Calo, Sum); };
+    const float caloNewNoPUDRp5CaloJustEm ()         const { return caloTotNoPU(5, Calo, EM); };
+    const float caloNewNoPUDRp5CaloJustHad ()        const { return caloTotNoPU(5, Calo, Had); };
 
-    const float caloNewNoPUDRp5CentralCalo ()        const { return caloTotNoPU(0.5, CentralCalo, Sum); };
-    const float caloNewNoPUDRp5CentralCaloJustEm ()  const { return caloTotNoPU(0.5, CentralCalo, EM); };
-    const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(0.5, CentralCalo, Had); };
+    const float caloNewNoPUDRp5CentralCalo ()        const { return caloTotNoPU(5, CentralCalo, Sum); };
+    const float caloNewNoPUDRp5CentralCaloJustEm ()  const { return caloTotNoPU(5, CentralCalo, EM); };
+    const float caloNewNoPUDRp5CentralCaloJustHad () const { return caloTotNoPU(5, CentralCalo, Had); };
 
     // dR < 0.3
-    const float caloNewNoPUDRp3 ()                   const { return caloTotNoPU(0.3, All, Sum); };
-    const float caloNewNoPUDRp3JustEm ()             const { return caloTotNoPU(0.3, All, EM); };
-    const float caloNewNoPUDRp3JustHad ()            const { return caloTotNoPU(0.3, All, Had); };
+    const float caloNewNoPUDRp3 ()                   const { return caloTotNoPU(3, All, Sum); };
+    const float caloNewNoPUDRp3JustEm ()             const { return caloTotNoPU(3, All, EM); };
+    const float caloNewNoPUDRp3JustHad ()            const { return caloTotNoPU(3, All, Had); };
     
-    const float caloNewNoPUDRp3Calo ()               const { return caloTotNoPU(0.3, Calo, Sum); };
-    const float caloNewNoPUDRp3CaloJustEm ()         const { return caloTotNoPU(0.3, Calo, EM); };
-    const float caloNewNoPUDRp3CaloJustHad ()        const { return caloTotNoPU(0.3, Calo, Had); };
+    const float caloNewNoPUDRp3Calo ()               const { return caloTotNoPU(3, Calo, Sum); };
+    const float caloNewNoPUDRp3CaloJustEm ()         const { return caloTotNoPU(3, Calo, EM); };
+    const float caloNewNoPUDRp3CaloJustHad ()        const { return caloTotNoPU(3, Calo, Had); };
 
-    const float caloNewNoPUDRp3CentralCalo ()        const { return caloTotNoPU(0.3, CentralCalo, Sum); };
-    const float caloNewNoPUDRp3CentralCaloJustEm ()  const { return caloTotNoPU(0.3, CentralCalo, EM); };
-    const float caloNewNoPUDRp3CentralCaloJustHad () const { return caloTotNoPU(0.3, CentralCalo, Had); };
+    const float caloNewNoPUDRp3CentralCalo ()        const { return caloTotNoPU(3, CentralCalo, Sum); };
+    const float caloNewNoPUDRp3CentralCaloJustEm ()  const { return caloTotNoPU(3, CentralCalo, EM); };
+    const float caloNewNoPUDRp3CentralCaloJustHad () const { return caloTotNoPU(3, CentralCalo, Had); };
 
     // dR < 0.2
-    const float caloNewNoPUDRp2 ()                   const { return caloTotNoPU(0.2, All, Sum); };
-    const float caloNewNoPUDRp2JustEm ()             const { return caloTotNoPU(0.2, All, EM); };
-    const float caloNewNoPUDRp2JustHad ()            const { return caloTotNoPU(0.2, All, Had); };
+    const float caloNewNoPUDRp2 ()                   const { return caloTotNoPU(2, All, Sum); };
+    const float caloNewNoPUDRp2JustEm ()             const { return caloTotNoPU(2, All, EM); };
+    const float caloNewNoPUDRp2JustHad ()            const { return caloTotNoPU(2, All, Had); };
     
-    const float caloNewNoPUDRp2Calo ()               const { return caloTotNoPU(0.2, Calo, Sum); };
-    const float caloNewNoPUDRp2CaloJustEm ()         const { return caloTotNoPU(0.2, Calo, EM); };
-    const float caloNewNoPUDRp2CaloJustHad ()        const { return caloTotNoPU(0.2, Calo, Had); };
+    const float caloNewNoPUDRp2Calo ()               const { return caloTotNoPU(2, Calo, Sum); };
+    const float caloNewNoPUDRp2CaloJustEm ()         const { return caloTotNoPU(2, Calo, EM); };
+    const float caloNewNoPUDRp2CaloJustHad ()        const { return caloTotNoPU(2, Calo, Had); };
 
-    const float caloNewNoPUDRp2CentralCalo ()        const { return caloTotNoPU(0.2, CentralCalo, Sum); };
-    const float caloNewNoPUDRp2CentralCaloJustEm ()  const { return caloTotNoPU(0.2, CentralCalo, EM); };
-    const float caloNewNoPUDRp2CentralCaloJustHad () const { return caloTotNoPU(0.2, CentralCalo, Had); };
+    const float caloNewNoPUDRp2CentralCalo ()        const { return caloTotNoPU(2, CentralCalo, Sum); };
+    const float caloNewNoPUDRp2CentralCaloJustEm ()  const { return caloTotNoPU(2, CentralCalo, EM); };
+    const float caloNewNoPUDRp2CentralCaloJustHad () const { return caloTotNoPU(2, CentralCalo, Had); };
 
     // dR < 0.1
-    const float caloNewNoPUDRp1 ()                   const { return caloTotNoPU(0.1, All, Sum); };
-    const float caloNewNoPUDRp1JustEm ()             const { return caloTotNoPU(0.1, All, EM); };
-    const float caloNewNoPUDRp1JustHad ()            const { return caloTotNoPU(0.1, All, Had); };
+    const float caloNewNoPUDRp1 ()                   const { return caloTotNoPU(1, All, Sum); };
+    const float caloNewNoPUDRp1JustEm ()             const { return caloTotNoPU(1, All, EM); };
+    const float caloNewNoPUDRp1JustHad ()            const { return caloTotNoPU(1, All, Had); };
     
-    const float caloNewNoPUDRp1Calo ()               const { return caloTotNoPU(0.1, Calo, Sum); };
-    const float caloNewNoPUDRp1CaloJustEm ()         const { return caloTotNoPU(0.1, Calo, EM); };
-    const float caloNewNoPUDRp1CaloJustHad ()        const { return caloTotNoPU(0.1, Calo, Had); };
+    const float caloNewNoPUDRp1Calo ()               const { return caloTotNoPU(1, Calo, Sum); };
+    const float caloNewNoPUDRp1CaloJustEm ()         const { return caloTotNoPU(1, Calo, EM); };
+    const float caloNewNoPUDRp1CaloJustHad ()        const { return caloTotNoPU(1, Calo, Had); };
 
-    const float caloNewNoPUDRp1CentralCalo ()        const { return caloTotNoPU(0.1, CentralCalo, Sum); };
-    const float caloNewNoPUDRp1CentralCaloJustEm ()  const { return caloTotNoPU(0.1, CentralCalo, EM); };
-    const float caloNewNoPUDRp1CentralCaloJustHad () const { return caloTotNoPU(0.1, CentralCalo, Had); };
+    const float caloNewNoPUDRp1CentralCalo ()        const { return caloTotNoPU(1, CentralCalo, Sum); };
+    const float caloNewNoPUDRp1CentralCaloJustEm ()  const { return caloTotNoPU(1, CentralCalo, EM); };
+    const float caloNewNoPUDRp1CentralCaloJustHad () const { return caloTotNoPU(1, CentralCalo, Had); };
 
     //////////////////////////////////////
     // Set calo energies
@@ -246,7 +246,7 @@ class CandidateTrack : public reco::Track
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
-    const double caloTotNoPU (double, RhoType = All, CaloType = Sum) const;
+    const double caloTotNoPU (int, RhoType = All, CaloType = Sum) const;
 };
 
 
