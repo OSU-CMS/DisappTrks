@@ -20,6 +20,7 @@ config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC2017_cfg.py'  # F
 config.JobType.allowUndistributedCMSSW = True
 
 config.JobType.numCores = 4
+config.JobType.maxMemoryMB = 2500
 config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'
@@ -27,7 +28,7 @@ config.Data.splitting = 'LumiBased' # for both MC and data
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 #config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v1'
+config.Data.outputDatasetTag = 'RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2'
 
 config.Site.storageSite = 'T2_US_Purdue'
 #config.Site.storageSite = 'T3_US_FNALLPC'
@@ -64,7 +65,7 @@ if __name__ == '__main__':
 
     # Run2017B-v1
 
-    config.Data.outputDatasetTag = 'Run2017B-31Mar2018-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017B-31Mar2018-v1-DisappTrks-v2'
     config.Data.unitsPerJob = 27 # 26559 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017B-31Mar2018-v1'
@@ -89,7 +90,7 @@ if __name__ == '__main__':
 
     # Run2017C-v1
 
-    config.Data.outputDatasetTag = 'Run2017C-31Mar2018-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017C-31Mar2018-v1-DisappTrks-v2'
     config.Data.unitsPerJob = 58 # 57761 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017C-31Mar2018-v1'
@@ -114,7 +115,7 @@ if __name__ == '__main__':
 
     # Run2017D-v1
 
-    config.Data.outputDatasetTag = 'Run2017D-31Mar2018-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017D-31Mar2018-v1-DisappTrks-v2'
     config.Data.unitsPerJob = 29 # 28337 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017D-31Mar2018-v1'
@@ -139,7 +140,7 @@ if __name__ == '__main__':
 
     # Run2017E-v1
 
-    config.Data.outputDatasetTag = 'Run2017E-31Mar2018-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017E-31Mar2018-v1-DisappTrks-v2'
     config.Data.unitsPerJob = 46 # 45460 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017E-31Mar2018-v1'
@@ -164,7 +165,7 @@ if __name__ == '__main__':
 
     # Run2017F-v1
 
-    config.Data.outputDatasetTag = 'Run2017F-31Mar2018-v1-DisappTrks-v1'
+    config.Data.outputDatasetTag = 'Run2017F-31Mar2018-v1-DisappTrks-v2'
     config.Data.unitsPerJob = 62 # 61275 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017F-31Mar2018-v1'

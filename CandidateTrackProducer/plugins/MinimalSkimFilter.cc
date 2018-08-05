@@ -86,7 +86,8 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
                          vertices->at (0), 
                          met->at (0), 
                          *pfCandidates,
-                         *electrons, 
+                         *electrons,
+                         *eleVIDTightIdMap,
                          *muons, 
                          *taus, 
                          *rho);
@@ -126,6 +127,7 @@ MinimalSkimFilter<T>::filterDecision (const edm::Event &event,
                                       const pat::MET &met,
                                       const vector<pat::PackedCandidate> &pfCandidates, 
                                       const edm::View<pat::Electron> &electrons,
+                                      const edm::ValueMap<bool> &eleVIDs,
                                       const vector<pat::Muon> &muons, 
                                       const vector<pat::Tau> &taus, 
                                       const double rho) const
@@ -150,6 +152,7 @@ MinimalSkimFilter<MET>::filterDecision (const edm::Event &event,
                                         const pat::MET &met,
                                         const vector<pat::PackedCandidate> &pfCandidates, 
                                         const edm::View<pat::Electron> &electrons,
+                                        const edm::ValueMap<bool> &eleVIDs,
                                         const vector<pat::Muon> &muons, 
                                         const vector<pat::Tau> &taus, 
                                         const double rho) const
@@ -160,7 +163,7 @@ MinimalSkimFilter<MET>::filterDecision (const edm::Event &event,
   if((decision = decision && flag))           cutResults_->at(1).cumulativePassCount++;
 
   TVector2 metNoMu(met.px (), met.py ());
-  for (const auto &pfCandidate : *pfCandidates) {
+  for (const auto &pfCandidate : pfCandidates) {
     if (abs (pfCandidate.pdgId ()) != 13) continue;
     TVector2 muon (pfCandidate.px (), pfCandidate.py ());
     metNoMu += muon;
@@ -192,6 +195,7 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
                                              const pat::MET &met,
                                              const vector<pat::PackedCandidate> &pfCandidates,
                                              const edm::View<pat::Electron> &electrons,
+                                             const edm::ValueMap<bool> &eleVIDs,
                                              const vector<pat::Muon> &muons, 
                                              const vector<pat::Tau> &taus, 
                                              const double rho) const
@@ -227,14 +231,10 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
 
   // tight ID + iso (by VID)
   n = 0;
-  unsigned iEle = 0;
-  if(eleVIDTightIdMap.isValid()) {
-    for const auto &electron : electrons) {
-      iEle++;
-      if((*eleVIDTightIdMap)[electrons.refAt(iEle)]) {
-        n++;
-        break;
-      }
+  for(unsigned int iEle = 0; iEle < electrons.size(); iEle++) {
+    if(eleVIDs[electrons.refAt(iEle)]) {
+      n++;
+      break;
     }
   }
   if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
@@ -292,7 +292,8 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
                                          const reco::Vertex &vertex, 
                                          const pat::MET &met,
                                          const vector<pat::PackedCandidate> &pfCandidates, 
-                                         const edm::View<pat::Electron> &electrons, 
+                                         const edm::View<pat::Electron> &electrons,
+                                         const edm::ValueMap<bool> &eleVIDs, 
                                          const vector<pat::Muon> &muons, 
                                          const vector<pat::Tau> &taus, 
                                          const double rho) const
@@ -369,7 +370,8 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
                                         const reco::Vertex &vertex, 
                                         const pat::MET &met,
                                         const vector<pat::PackedCandidate> &pfCandidates, 
-                                        const edm::View<pat::Electron> &electrons, 
+                                        const edm::View<pat::Electron> &electrons,
+                                        const edm::ValueMap<bool> &eleVIDs, 
                                         const vector<pat::Muon> &muons, 
                                         const vector<pat::Tau> &taus, 
                                         const double rho) const

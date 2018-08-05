@@ -37,7 +37,8 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
                            const reco::Vertex &, 
                            const pat::MET &,
                            const vector<pat::PackedCandidate> &, 
-                           const edm::View<pat::Electron> &, 
+                           const edm::View<pat::Electron> &,
+                           const edm::ValueMap<bool> &,
                            const vector<pat::Muon> &, 
                            const vector<pat::Tau> &, 
                            const double) const;
@@ -58,7 +59,7 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       edm::EDGetTokenT<reco::BeamSpot>             beamspotToken_;
       edm::EDGetTokenT<vector<reco::Vertex> >      verticesToken_;
       edm::EDGetTokenT<vector<pat::MET> >          metToken_;
-      edm::EDGetTokenT<vector<pat::PackedCandidates> > pfCandidatesToken_;
+      edm::EDGetTokenT<vector<pat::PackedCandidate> > pfCandidatesToken_;
       edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;
       edm::EDGetTokenT<edm::ValueMap<bool> >       eleVIDTightIdMapToken_;
       edm::EDGetTokenT<vector<pat::Muon> >         muonsToken_;

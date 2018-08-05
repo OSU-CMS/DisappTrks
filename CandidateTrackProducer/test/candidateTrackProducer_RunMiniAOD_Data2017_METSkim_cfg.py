@@ -116,7 +116,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_ReReco_EOY17_v6',
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.metSkimFilter*process.candidateTrackProducer)
-from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands, customizeMINIAODElectronVID
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
 process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
 
@@ -172,9 +172,6 @@ from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllDat
 
 #call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllData(process)
-
-# produce electron VIDs
-process = customizeMINIAODElectronVID(process)
 
 # End of customisation functions
 
