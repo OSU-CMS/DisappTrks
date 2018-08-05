@@ -30,7 +30,7 @@ MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
   verticesToken_ = consumes<vector<reco::Vertex> > (vertices_);
   metToken_ = consumes<vector<pat::MET> > (met_);
   pfCandidatesToken_ = consumes<vector<pat::PackedCandidate> > (pfCandidates_);
-  electronsToken_ = consumes<vector<pat::Electron> > (electrons_);
+  electronsToken_ = consumes<edm::View<pat::Electron> > (electrons_);
   eleVIDTightIdMapToken_ = consumes<edm::ValueMap<bool> > (eleVIDTightIdMap_);
   muonsToken_ = consumes<vector<pat::Muon> > (muons_);
   tausToken_ = consumes<vector<pat::Tau> > (taus_);

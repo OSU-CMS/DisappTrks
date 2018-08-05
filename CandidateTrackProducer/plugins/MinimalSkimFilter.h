@@ -60,7 +60,7 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       edm::EDGetTokenT<vector<reco::Vertex> >      verticesToken_;
       edm::EDGetTokenT<vector<pat::MET> >          metToken_;
       edm::EDGetTokenT<vector<pat::PackedCandidate> > pfCandidatesToken_;
-      edm::EDGetTokenT<vector<pat::Electron> >     electronsToken_;
+      edm::EDGetTokenT<edm::View<pat::Electron> >  electronsToken_;
       edm::EDGetTokenT<edm::ValueMap<bool> >       eleVIDTightIdMapToken_;
       edm::EDGetTokenT<vector<pat::Muon> >         muonsToken_;
       edm::EDGetTokenT<vector<pat::Tau> >          tausToken_;
