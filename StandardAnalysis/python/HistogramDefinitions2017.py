@@ -101,6 +101,146 @@ for histo in ExtraDeltaRToClosestLeptonHistograms:
     TrackExtraHistograms.histograms.append(histo)
 
 ################################################################################
+# Histograms for CandidateTracks for PFisolation sums
+################################################################################
+
+CandiadteTrackPFIsolationSums = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("pfIsolationDR03ChHad"),
+            title = cms.string("pfIsolationDR03ChHad;pfIsolationDR03,ChargedHad"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfChHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PUChHad"),
+            title = cms.string("pfIsolationDR03PUChHad;pfIsolationDR03,PileupChargedHad"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUChHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03NeuHad"),
+            title = cms.string("pfIsolationDR03NeuHad;pfIsolationDR03,NeutralHad"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfNeutralHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfPUIsolationDR03NeuHad"),
+            title = cms.string("pfPUIsolationDR03NeuHad;pfIsolationDR03,PileupNeutralHad"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUNeutralHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03Photon"),
+            title = cms.string("pfIsolationDR03Photon;pfIsolationDR03,Photon"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPhotonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PUPhoton"),
+            title = cms.string("pfIsolationDR03PUPhoton;pfIsolationDR03,PUPhoton"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUPhotonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03Electron"),
+            title = cms.string("pfIsolationDR03Electron;pfIsolationDR03,Electron"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfElectronIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PUElectron"),
+            title = cms.string("pfIsolationDR03PUElectron;pfIsolationDR03,PUElectron"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUElectronIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03Muon"),
+            title = cms.string("pfIsolationDR03Muon;pfIsolationDR03,Muon"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfMuonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PUMuon"),
+            title = cms.string("pfIsolationDR03PUMuon;pfIsolationDR03,PUMuon"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUMuonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03HF"),
+            title = cms.string("pfIsolationDR03HF;pfIsolationDR03,HF"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfHFIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PUHF"),
+            title = cms.string("pfIsolationDR03PUHF;pfIsolationDR03,PUHF"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPUHFIsoDR03"),
+        ), 
+        cms.PSet (
+            name = cms.string("pfIsolationDR03LostTrack"),
+            title = cms.string("pfIsolationDR03LostTrack;pfIsolationDR03,LostTrack"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfLostTrackIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PULostTrack"),
+            title = cms.string("pfIsolationDR03PULostTrack;pfIsolationDR03,PULostTrack"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPULostTrackIsoDR03"),
+        ),
+        # Sums of particle type + PU
+        cms.PSet (
+            name = cms.string("pfIsolationDR03ChHadAndPU"),
+            title = cms.string("pfIsolationDR03ChHadAndPU;pfIsolationDR03,ChargedHad&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfChHadIsoDR03 + pfPUChHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03NeuHadAndPU"),
+            title = cms.string("pfIsolationDR03NeuHadAndPU;pfIsolationDR03,NeutralHad&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfNeutralHadIsoDR03 + pfPUNeutralHadIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03PhotonAndPU"),
+            title = cms.string("pfIsolationDR03PhotonAndPU;pfIsolationDR03,Photon&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfPhotonIsoDR03 + pfPUPhotonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03ElectronAndPU"),
+            title = cms.string("pfIsolationDR03ElectronAndPU;pfIsolationDR03,Electron&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfElectronIsoDR03 + pfPUElectronIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03MuonAndPU"),
+            title = cms.string("pfIsolationDR03MuonAndPU;pfIsolationDR03,Muon&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfMuonIsoDR03 + pfPUMuonIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03HFAndPU"),
+            title = cms.string("pfIsolationDR03HFAndPU;pfIsolationDR03,HF&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfHFIsoDR03 + pfPUHFIsoDR03"),
+        ),
+        cms.PSet (
+            name = cms.string("pfIsolationDR03LostTrackAndPU"),
+            title = cms.string("pfIsolationDR03LostTrackAndPU;pfIsolationDR03,LostTrack&PU"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("pfLostTrackIsoDR03 + pfPULostTrackIsoDR03"),
+        ),
+    ),
+)
+for histo in CandiadteTrackPFIsolationSums:
+    TrackExtraHistograms.histograms.append(histo)
+
+
+################################################################################
 # New histograms comparing pat::IsolatedTrack to dR-matched CandidateTrack
 ################################################################################
 
