@@ -23,8 +23,8 @@ collections = Collections ()
 
 collections.MiniAOD = cms.PSet (
   beamspots        = cms.InputTag ("offlineBeamSpot",                ""),
+  conversions      = cms.InputTag ("reducedEgamma",                  "reducedConversions",  ""),
   electrons        = cms.InputTag ("slimmedElectrons",               ""),
-  eleVIDTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
   mets             = cms.InputTag ("slimmedMETs",                    ""),
   pfCandidates     = cms.InputTag ("packedPFCandidates",             ""),
   muons            = cms.InputTag ("slimmedMuons",                   ""),
@@ -34,11 +34,6 @@ collections.MiniAOD = cms.PSet (
   vertices         = cms.InputTag ("offlineSlimmedPrimaryVertices",  ""),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
-  collections.MiniAOD.eleVIDTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
-  collections.MiniAOD.eleVIDTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-tight")
-
 metSkimFilter = cms.EDFilter ("METSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
   beamspot     =  collections.MiniAOD.beamspots,
@@ -47,7 +42,7 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
   pfCandidates =  collections.MiniAOD.pfCandidates,
   muons        =  collections.MiniAOD.muons,
   electrons    =  collections.MiniAOD.electrons,
-  eleVIDTightIdMap = collections.MiniAOD.eleVIDTightIdMap,
+  conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
@@ -106,7 +101,7 @@ electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
   pfCandidates =  collections.MiniAOD.pfCandidates,
   muons        =  collections.MiniAOD.muons,
   electrons    =  collections.MiniAOD.electrons,
-  eleVIDTightIdMap = collections.MiniAOD.eleVIDTightIdMap,
+  conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
@@ -137,7 +132,7 @@ muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
   pfCandidates =  collections.MiniAOD.pfCandidates,
   muons        =  collections.MiniAOD.muons,
   electrons    =  collections.MiniAOD.electrons,
-  eleVIDTightIdMap = collections.MiniAOD.eleVIDTightIdMap,
+  conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (
@@ -163,7 +158,7 @@ tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   pfCandidates =  collections.MiniAOD.pfCandidates,
   muons        =  collections.MiniAOD.muons,
   electrons    =  collections.MiniAOD.electrons,
-  eleVIDTightIdMap = collections.MiniAOD.eleVIDTightIdMap,
+  conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
   triggerNames =  cms.vstring (

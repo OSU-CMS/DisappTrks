@@ -7,11 +7,12 @@
 template<MinimalSkim T>
 MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
   triggers_ (iConfig.getParameter<edm::InputTag> ("triggers")),
+  beamspot_ (iConfig.getParameter<edm::InputTag> ("beamspot")),
   vertices_ (iConfig.getParameter<edm::InputTag> ("vertices")),
   met_ (iConfig.getParameter<edm::InputTag> ("met")),
   pfCandidates_ (iConfig.getParameter<edm::InputTag> ("pfCandidates")),
   electrons_ (iConfig.getParameter<edm::InputTag> ("electrons")),
-  eleVIDTightIdMap_ (iConfig.getParameter<edm::InputTag> ("eleVIDTightIdMap")),
+  conversions_ (iConfig.getParameter<edm::InputTag> ("conversions")),
   muons_ (iConfig.getParameter<edm::InputTag> ("muons")),
   taus_ (iConfig.getParameter<edm::InputTag> ("taus")),
   rho_ (iConfig.getParameter<edm::InputTag> ("rho")),
@@ -27,11 +28,12 @@ MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
 #endif
 
   triggersToken_ = consumes<edm::TriggerResults> (triggers_);
+  beamspotToken_ = consumes<reco::BeamSpot> (beamspot_);
   verticesToken_ = consumes<vector<reco::Vertex> > (vertices_);
   metToken_ = consumes<vector<pat::MET> > (met_);
   pfCandidatesToken_ = consumes<vector<pat::PackedCandidate> > (pfCandidates_);
-  electronsToken_ = consumes<edm::View<pat::Electron> > (electrons_);
-  eleVIDTightIdMapToken_ = consumes<edm::ValueMap<bool> > (eleVIDTightIdMap_);
+  electronsToken_ = consumes<vector<pat::Electron> > (electrons_);
+  conversionsToken_ = consumes<vector<reco::Conversion> > (conversions_);
   muonsToken_ = consumes<vector<pat::Muon> > (muons_);
   tausToken_ = consumes<vector<pat::Tau> > (taus_);
   rhoToken_ = consumes<double> (rho_);
@@ -56,6 +58,9 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   edm::Handle<edm::TriggerResults> triggers;
   event.getByToken (triggersToken_, triggers);
 
+  edm::Handle<reco::BeamSpot> beamspot;
+  event.getByToken (beamspotToken_, beamspot);
+
   edm::Handle<vector<reco::Vertex> > vertices;
   event.getByToken (verticesToken_, vertices);
 
@@ -64,10 +69,10 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   edm::Handle<vector<pat::PackedCandidate> > pfCandidates;
   event.getByToken (pfCandidatesToken_, pfCandidates);
 
-  edm::Handle<edm::View<pat::Electron> > electrons;
+  edm::Handle<vector<pat::Electron> > electrons;
   event.getByToken (electronsToken_, electrons);
-  edm::Handle<edm::ValueMap<bool> > eleVIDTightIdMap;
-  event.getByToken(eleVIDTightIdMapToken_, eleVIDTightIdMap);
+  edm::Handle<vector<reco::Conversion> > conversions;
+  event.getByToken (conversionsToken_, conversions);
 
   edm::Handle<vector<pat::Muon> > muons;
   event.getByToken (muonsToken_, muons);
@@ -81,15 +86,16 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
   cutResults_->at (0).cumulativePassCount++;
   cutResults_->at (0).accumulativePassCount++;
 
-  return filterDecision (event, 
-                         *triggers, 
-                         vertices->at (0), 
-                         met->at (0), 
+  return filterDecision (event,
+                         *triggers,
+                         *beamspot,
+                         vertices->at (0),
+                         met->at (0),
                          *pfCandidates,
                          *electrons,
-                         *eleVIDTightIdMap,
-                         *muons, 
-                         *taus, 
+                         conversions,
+                         *muons,
+                         *taus,
                          *rho);
 }
 
@@ -113,6 +119,188 @@ MinimalSkimFilter<T>::passesTrigger (const edm::Event &event, const edm::Trigger
   return triggerDecision;
 }
 
+template<MinimalSkim T> bool
+MinimalSkimFilter<T>::passesTightID_noIsolation_2015 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions) const
+{
+  bool passes = false;
+
+  if (fabs (electron.superCluster ()->eta ()) <= 1.479)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                              <   0.0101
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx ())                                              <   0.00926
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                              <   0.0336
+             && electron.hadronicOverEm ()                                                                     <   0.0597
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.012
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0111
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.0466
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)     <=  2
+#else
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  2
+#endif
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+  else if (fabs (electron.superCluster ()->eta ()) < 2.5)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                              <   0.0279
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx ())                                              <   0.00724
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                              <   0.0918
+             && electron.hadronicOverEm ()                                                                     <   0.0615
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())  <   0.00999
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                          <   0.0351
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                           <   0.417
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)     <=  1
+#else
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)        <=  1
+#endif
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+
+  return passes;
+}
+
+template<MinimalSkim T> bool
+MinimalSkimFilter<T>::passesTightID_noIsolation_2016 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions) const
+{
+  bool passes = false;
+
+  if (fabs (electron.superCluster ()->eta ()) <= 1.479)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                                                                 <   0.00998
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx () - electron.superCluster ()->eta () + electron.superCluster ()->seed ()->eta ())  <   0.00308
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                                                                 <   0.0816
+             && electron.hadronicOverEm ()                                                                                                        <   0.0414
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.05
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.10
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#else
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#endif
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+  else if (fabs (electron.superCluster ()->eta ()) < 2.5)
+    {
+      passes = (electron.full5x5_sigmaIetaIeta ()                                                                                                 <   0.0292
+             && fabs (electron.deltaEtaSuperClusterTrackAtVtx () - electron.superCluster ()->eta () + electron.superCluster ()->seed ()->eta ())  <   0.00605
+             && fabs (electron.deltaPhiSuperClusterTrackAtVtx ())                                                                                 <   0.0394
+             && electron.hadronicOverEm ()                                                                                                        <   0.0641
+             && fabs (1.0 / electron.ecalEnergy () - electron.eSuperClusterOverP () / electron.ecalEnergy ())                                     <   0.0129
+             && fabs (electron.gsfTrack ()->dxy (vertex.position ()))                                                                             <   0.10
+             && fabs (electron.gsfTrack ()->dz (vertex.position ()))                                                                              <   0.20
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+             && electron.gsfTrack ()->hitPattern ().numberOfAllHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#else
+             && electron.gsfTrack ()->hitPattern ().numberOfHits (reco::HitPattern::MISSING_INNER_HITS)                                           <=  1
+#endif
+             && !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position ()));
+    }
+
+  return passes;
+}
+
+template<MinimalSkim T> bool
+MinimalSkimFilter<T>::passesTightID_noIsolation_2017 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions, const double rho) const
+{
+  bool passes = false;
+
+  if(fabs(electron.superCluster()->eta()) <= 1.479) {
+    passes = (electron.full5x5_sigmaIetaIeta()                                                                                          <  0.0104  &&
+              fabs(electron.deltaEtaSuperClusterTrackAtVtx() - electron.superCluster()->eta() + electron.superCluster()->seed()->eta()) <  0.00353 &&
+              fabs(electron.deltaPhiSuperClusterTrackAtVtx())                                                                           <  0.0499  &&
+              electron.hadronicOverEm() < (0.026 + 1.12/electron.superCluster()->energy() + 0.0368*rho/electron.superCluster()->energy())         &&
+              fabs(1.0/electron.ecalEnergy() - electron.eSuperClusterOverP()/electron.ecalEnergy())                                     <  0.0278  &&
+              fabs(electron.gsfTrack()->dxy(vertex.position()))                                                                         <  0.05    &&
+              fabs(electron.gsfTrack()->dz(vertex.position()))                                                                          <  0.10    &&
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+              electron.gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS)                                   <= 1       &&
+#else
+              electron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)                                      <= 1       &&
+#endif
+              !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position()));
+  }
+  else if(fabs(electron.superCluster()->eta()) < 2.5) {
+    passes = (electron.full5x5_sigmaIetaIeta()                                                                                          <  0.0305  &&
+              fabs(electron.deltaEtaSuperClusterTrackAtVtx() - electron.superCluster()->eta() + electron.superCluster()->seed()->eta()) <  0.00567 &&
+              fabs(electron.deltaPhiSuperClusterTrackAtVtx())                                                                           <  0.0165  &&
+              electron.hadronicOverEm() < (0.026 + 0.5/electron.superCluster()->energy() + 0.201*rho/electron.superCluster()->energy())      &&
+              fabs(1.0/electron.ecalEnergy() - electron.eSuperClusterOverP()/electron.ecalEnergy())                                     <  0.0158  &&
+              fabs(electron.gsfTrack()->dxy(vertex.position()))                                                                         <  0.10    &&
+              fabs(electron.gsfTrack()->dz(vertex.position()))                                                                          <  0.20    &&
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+              electron.gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS)                                   <= 1       &&
+#else
+              electron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)                                      <= 1       &&
+#endif
+              !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position()));
+  }
+
+  return passes;
+}
+
+template<MinimalSkim T> double
+MinimalSkimFilter<T>::effectiveArea_2015 (const pat::Electron &electron) const
+{
+  if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
+    return 0.1752;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.0000 && fabs (electron.superCluster ()->eta ()) < 1.4790)
+    return 0.1862;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.4790 && fabs (electron.superCluster ()->eta ()) < 2.0000)
+    return 0.1411;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.0000 && fabs (electron.superCluster ()->eta ()) < 2.2000)
+    return 0.1534;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.2000 && fabs (electron.superCluster ()->eta ()) < 2.3000)
+    return 0.1903;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.3000 && fabs (electron.superCluster ()->eta ()) < 2.4000)
+    return 0.2243;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
+    return 0.2687;
+  return 0.0;
+}
+
+template<MinimalSkim T> double
+MinimalSkimFilter<T>::effectiveArea_2016 (const pat::Electron &electron) const
+{
+  if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
+    return 0.1703;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.0000 && fabs (electron.superCluster ()->eta ()) < 1.4790)
+    return 0.1715;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.4790 && fabs (electron.superCluster ()->eta ()) < 2.0000)
+    return 0.1213;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.0000 && fabs (electron.superCluster ()->eta ()) < 2.2000)
+    return 0.1230;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.2000 && fabs (electron.superCluster ()->eta ()) < 2.3000)
+    return 0.1635;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.3000 && fabs (electron.superCluster ()->eta ()) < 2.4000)
+    return 0.1937;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
+    return 0.2393;
+  return 0.0;
+}
+
+template<MinimalSkim T> double
+MinimalSkimFilter<T>::effectiveArea_2017 (const pat::Electron &electron) const
+{
+
+  if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
+    return 0.1566;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.0000 && fabs (electron.superCluster ()->eta ()) < 1.4790)
+    return 0.1626;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.4790 && fabs (electron.superCluster ()->eta ()) < 2.0000)
+    return 0.1073;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.0000 && fabs (electron.superCluster ()->eta ()) < 2.2000)
+    return 0.0854;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.2000 && fabs (electron.superCluster ()->eta ()) < 2.3000)
+    return 0.1051;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.3000 && fabs (electron.superCluster ()->eta ()) < 2.4000)
+    return 0.1204;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
+    return 0.1524;
+  return 0.0;
+}
+
 template<MinimalSkim T> void
 MinimalSkimFilter<T>::initializeCutResults ()
 {
@@ -121,15 +309,16 @@ MinimalSkimFilter<T>::initializeCutResults ()
 }
 
 template<MinimalSkim T> bool
-MinimalSkimFilter<T>::filterDecision (const edm::Event &event, 
-                                      const edm::TriggerResults &triggers, 
-                                      const reco::Vertex &vertex, 
+MinimalSkimFilter<T>::filterDecision (const edm::Event &event,
+                                      const edm::TriggerResults &triggers,
+                                      const reco::BeamSpot &beamspot,
+                                      const reco::Vertex &vertex,
                                       const pat::MET &met,
-                                      const vector<pat::PackedCandidate> &pfCandidates, 
-                                      const edm::View<pat::Electron> &electrons,
-                                      const edm::ValueMap<bool> &eleVIDs,
-                                      const vector<pat::Muon> &muons, 
-                                      const vector<pat::Tau> &taus, 
+                                      const vector<pat::PackedCandidate> &pfCandidates,
+                                      const vector<pat::Electron> &electrons,
+                                      const edm::Handle<vector<reco::Conversion> > &conversions,
+                                      const vector<pat::Muon> &muons,
+                                      const vector<pat::Tau> &taus,
                                       const double rho) const
 {
   return true;
@@ -146,15 +335,16 @@ MinimalSkimFilter<MET>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<MET>::filterDecision (const edm::Event &event, 
-                                        const edm::TriggerResults &triggers, 
-                                        const reco::Vertex &vertex, 
+MinimalSkimFilter<MET>::filterDecision (const edm::Event &event,
+                                        const edm::TriggerResults &triggers,
+                                        const reco::BeamSpot &beamspot,
+                                        const reco::Vertex &vertex,
                                         const pat::MET &met,
-                                        const vector<pat::PackedCandidate> &pfCandidates, 
-                                        const edm::View<pat::Electron> &electrons,
-                                        const edm::ValueMap<bool> &eleVIDs,
-                                        const vector<pat::Muon> &muons, 
-                                        const vector<pat::Tau> &taus, 
+                                        const vector<pat::PackedCandidate> &pfCandidates,
+                                        const vector<pat::Electron> &electrons,
+                                        const edm::Handle<vector<reco::Conversion> > &conversions,
+                                        const vector<pat::Muon> &muons,
+                                        const vector<pat::Tau> &taus,
                                         const double rho) const
 {
   bool decision = true, flag;
@@ -182,22 +372,22 @@ MinimalSkimFilter<ELECTRON>::initializeCutResults ()
   cutResults_->push_back (string ("trigger"));
   cutResults_->push_back (string (">= 1 electron with pt > 25"));
   cutResults_->push_back (string (">= 1 electron with |eta| < 2.1"));
-  cutResults_->push_back (string (">= 1 electron passing tight ID + iso (by VID)"));
-  cutResults_->push_back (string (">= 1 electron passing |d0| < 0.05, 0.10 (EE, EB)"));
-  cutResults_->push_back (string (">= 1 electron passing |dz| < 0.10, 0.417 (EE, EB)"));
+  cutResults_->push_back (string (">= 1 electron passing tight ID"));
+  cutResults_->push_back (string (">= 1 electron passing tight isolation"));
   cutResults_->addTriggers (triggerNames_);
 }
 
 template<> bool
-MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event, 
-                                             const edm::TriggerResults &triggers, 
-                                             const reco::Vertex &vertex, 
+MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
+                                             const edm::TriggerResults &triggers,
+                                             const reco::BeamSpot &beamspot,
+                                             const reco::Vertex &vertex,
                                              const pat::MET &met,
                                              const vector<pat::PackedCandidate> &pfCandidates,
-                                             const edm::View<pat::Electron> &electrons,
-                                             const edm::ValueMap<bool> &eleVIDs,
-                                             const vector<pat::Muon> &muons, 
-                                             const vector<pat::Tau> &taus, 
+                                             const vector<pat::Electron> &electrons,
+                                             const edm::Handle<vector<reco::Conversion> > &conversions,
+                                             const vector<pat::Muon> &muons,
+                                             const vector<pat::Tau> &taus,
                                              const double rho) const
 {
   bool decision = true, flag;
@@ -229,10 +419,12 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
   if((flag = (n > 0)))              cutResults_->at(3).accumulativePassCount++;
   if((decision = decision && flag)) cutResults_->at(3).cumulativePassCount++;
 
-  // tight ID + iso (by VID)
+  // tight ID
   n = 0;
-  for(unsigned int iEle = 0; iEle < electrons.size(); iEle++) {
-    if(eleVIDs[electrons.refAt(iEle)]) {
+  for(const auto &electron : electrons) {
+    if(passesTightID_noIsolation_2015(electron, beamspot, vertex, conversions) ||
+       passesTightID_noIsolation_2016(electron, beamspot, vertex, conversions) ||
+       passesTightID_noIsolation_2017(electron, beamspot, vertex, conversions, rho)) {
       n++;
       break;
     }
@@ -240,35 +432,25 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
   if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
   if((decision = decision && flag)) cutResults_->at(4).cumulativePassCount++;
 
-  // |d0| < 0.10
-  // 2015: 0.0111 (EE), 0.0351 (EB)
-  // 2016/7: 0.05 (EE), 0.10 (EB)
+  // tight isolation
   n = 0;
   for(const auto &electron : electrons) {
-    double eleD0 = fabs(electron.gsfTrack()->dxy(vertex.position()));
-    if((fabs(electron.superCluster()->eta()) <= 1.479 && eleD0 < 0.05) ||
-       (fabs(electron.superCluster()->eta()) >  1.479 && eleD0 < 0.10)) {
-      n++;
-      break;
-    }
-  }
-  if((flag = (n > 0)))              cutResults_->at(5).accumulativePassCount++;
-  if((decision = decision && flag)) cutResults_->at(5).cumulativePassCount++;
+    bool passes_2015 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2015(electron))) / electron.pt()) < 0.0591)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2015(electron))) / electron.pt()) < 0.0759));
 
-  // |dz| < 0.417
-  // 2015: 0.0466 (EE), 0.417 (EB)
-  // 2016/7: 0.10 (EE), 0.20 (EB)
-  n = 0;
-  for(const auto &electron : electrons) {
-    double eleDZ = fabs(electron.gsfTrack()->dz(vertex.position()));
-    if((fabs(electron.superCluster()->eta()) <= 1.479 && eleDZ < 0.10) ||
-       (fabs(electron.superCluster()->eta()) >  1.479 && eleDZ < 0.417)) {
+    bool passes_2016 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2016(electron))) / electron.pt()) < 0.0588)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2016(electron))) / electron.pt()) < 0.0571));
+
+    bool passes_2017 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2017(electron))) / electron.pt()) < 0.0361)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2017(electron))) / electron.pt()) < 0.094));
+
+    if(passes_2015 || passes_2016 || passes_2017) {
       n++;
       break;
     }
   }
-  if((flag = (n > 0)))              cutResults_->at(6).accumulativePassCount++;
-  if((decision = decision && flag)) cutResults_->at(6).cumulativePassCount++;
+  if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
+  if((decision = decision && flag)) cutResults_->at(4).cumulativePassCount++;
 
   return decision;
 }
@@ -287,15 +469,16 @@ MinimalSkimFilter<MUON>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event, 
-                                         const edm::TriggerResults &triggers, 
-                                         const reco::Vertex &vertex, 
+MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
+                                         const edm::TriggerResults &triggers,
+                                         const reco::BeamSpot &beamspot,
+                                         const reco::Vertex &vertex,
                                          const pat::MET &met,
-                                         const vector<pat::PackedCandidate> &pfCandidates, 
-                                         const edm::View<pat::Electron> &electrons,
-                                         const edm::ValueMap<bool> &eleVIDs, 
-                                         const vector<pat::Muon> &muons, 
-                                         const vector<pat::Tau> &taus, 
+                                         const vector<pat::PackedCandidate> &pfCandidates,
+                                         const vector<pat::Electron> &electrons,
+                                         const edm::Handle<vector<reco::Conversion> > &conversions,
+                                         const vector<pat::Muon> &muons,
+                                         const vector<pat::Tau> &taus,
                                          const double rho) const
 {
   bool decision = true, flag;
@@ -365,15 +548,16 @@ MinimalSkimFilter<TAU>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event, 
-                                        const edm::TriggerResults &triggers, 
-                                        const reco::Vertex &vertex, 
+MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
+                                        const edm::TriggerResults &triggers,
+                                        const reco::BeamSpot &beamspot,
+                                        const reco::Vertex &vertex,
                                         const pat::MET &met,
-                                        const vector<pat::PackedCandidate> &pfCandidates, 
-                                        const edm::View<pat::Electron> &electrons,
-                                        const edm::ValueMap<bool> &eleVIDs, 
-                                        const vector<pat::Muon> &muons, 
-                                        const vector<pat::Tau> &taus, 
+                                        const vector<pat::PackedCandidate> &pfCandidates,
+                                        const vector<pat::Electron> &electrons,
+                                        const edm::Handle<vector<reco::Conversion> > &conversions,
+                                        const vector<pat::Muon> &muons,
+                                        const vector<pat::Tau> &taus,
                                         const double rho) const
 {
   bool decision = true, flag;
