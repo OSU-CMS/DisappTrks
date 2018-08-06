@@ -90,9 +90,11 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<EBRecHitCollection> EBRecHits;
   iEvent.getByToken(EBRecHitsToken_, EBRecHits);
   if (!EBRecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EBRecHitCollection in the event!\n";
+  
   edm::Handle<EERecHitCollection> EERecHits;
   iEvent.getByToken(EERecHitsToken_, EERecHits);
   if (!EERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find EERecHitCollection in the event!\n";
+  
   edm::Handle<HBHERecHitCollection> HBHERecHits;
   iEvent.getByToken(HBHERecHitsToken_, HBHERecHits);
   if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";
@@ -114,6 +116,14 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     const CaloEnergy &caloE_0p3 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.3);
     candTrack.set_caloNewEMDRp3 (caloE_0p3.eEM);
     candTrack.set_caloNewHadDRp3 (caloE_0p3.eHad);
+
+    const CaloEnergy &caloE_0p2 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.2);
+    candTrack.set_caloNewEMDRp2 (caloE_0p2.eEM);
+    candTrack.set_caloNewHadDRp2 (caloE_0p2.eHad);
+
+    const CaloEnergy &caloE_0p1 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.1);
+    candTrack.set_caloNewEMDRp1 (caloE_0p1.eEM);
+    candTrack.set_caloNewHadDRp1 (caloE_0p1.eHad);
 
     candTracks->push_back (candTrack);
   }

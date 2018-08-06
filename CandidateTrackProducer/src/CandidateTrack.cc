@@ -5,74 +5,110 @@
 #include "TMath.h"
 
 CandidateTrack::CandidateTrack () :
-  caloEMDRp3_                    (INVALID_VALUE),
-  caloHadDRp3_                   (INVALID_VALUE),
-  caloEMDRp5_                    (INVALID_VALUE),
-  caloHadDRp5_                   (INVALID_VALUE),
-  caloNewEMDRp5_                 (INVALID_VALUE),
-  caloNewHadDRp5_                (INVALID_VALUE),
-  rhoPUCorr_                     (INVALID_VALUE),
-  rhoPUCorrCalo_                 (INVALID_VALUE),
-  rhoPUCorrCentralCalo_          (INVALID_VALUE),
-  trackIsoDRp3_                  (INVALID_VALUE),
-  trackIsoDRp5_                  (INVALID_VALUE),
-  trackIsoNoPUDRp3_              (INVALID_VALUE),
-  trackIsoNoPUDRp5_              (INVALID_VALUE),
-  trackIsoNoFakesDRp3_           (INVALID_VALUE),
-  trackIsoNoFakesDRp5_           (INVALID_VALUE),
-  trackIsoNoPUNoFakesDRp3_       (INVALID_VALUE),
-  trackIsoNoPUNoFakesDRp5_       (INVALID_VALUE),
-  trackIsoOldNoPUDRp3_           (INVALID_VALUE),
-  trackIsoOldNoPUDRp5_           (INVALID_VALUE)
+  caloNewEMDRp5_           (INVALID_VALUE),
+  caloNewHadDRp5_          (INVALID_VALUE),
+  caloNewEMDRp3_           (INVALID_VALUE),
+  caloNewHadDRp3_          (INVALID_VALUE),
+  caloNewEMDRp2_           (INVALID_VALUE),
+  caloNewHadDRp2_          (INVALID_VALUE),
+  caloNewEMDRp1_           (INVALID_VALUE),
+  caloNewHadDRp1_          (INVALID_VALUE),
+  rhoPUCorr_               (INVALID_VALUE),
+  rhoPUCorrCalo_           (INVALID_VALUE),
+  rhoPUCorrCentralCalo_    (INVALID_VALUE),
+  trackIsoDRp5_            (INVALID_VALUE),
+  trackIsoDRp3_            (INVALID_VALUE),
+  trackIsoDRp2_            (INVALID_VALUE),
+  trackIsoDRp1_            (INVALID_VALUE),
+  trackIsoNoPUDRp5_        (INVALID_VALUE),
+  trackIsoNoPUDRp3_        (INVALID_VALUE),
+  trackIsoNoPUDRp2_        (INVALID_VALUE),
+  trackIsoNoPUDRp1_        (INVALID_VALUE),
+  trackIsoNoFakesDRp5_     (INVALID_VALUE),
+  trackIsoNoFakesDRp3_     (INVALID_VALUE),
+  trackIsoNoFakesDRp2_     (INVALID_VALUE),
+  trackIsoNoFakesDRp1_     (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp5_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp3_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp2_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp1_ (INVALID_VALUE),
+  trackIsoOldNoPUDRp5_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp3_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp2_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp1_     (INVALID_VALUE)
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track) :
   reco::Track (track),
-  caloEMDRp3_                    (INVALID_VALUE),
-  caloHadDRp3_                   (INVALID_VALUE),
-  caloEMDRp5_                    (INVALID_VALUE),
-  caloHadDRp5_                   (INVALID_VALUE),
-  caloNewEMDRp5_                 (INVALID_VALUE),
-  caloNewHadDRp5_                (INVALID_VALUE),
-  rhoPUCorr_                     (INVALID_VALUE),
-  rhoPUCorrCalo_                 (INVALID_VALUE),
-  rhoPUCorrCentralCalo_          (INVALID_VALUE),
-  trackIsoDRp3_                  (INVALID_VALUE),
-  trackIsoDRp5_                  (INVALID_VALUE),
-  trackIsoNoPUDRp3_              (INVALID_VALUE),
-  trackIsoNoPUDRp5_              (INVALID_VALUE),
-  trackIsoNoFakesDRp3_           (INVALID_VALUE),
-  trackIsoNoFakesDRp5_           (INVALID_VALUE),
-  trackIsoNoPUNoFakesDRp3_       (INVALID_VALUE),
-  trackIsoNoPUNoFakesDRp5_       (INVALID_VALUE),
-  trackIsoOldNoPUDRp3_           (INVALID_VALUE),
-  trackIsoOldNoPUDRp5_           (INVALID_VALUE)
+  caloNewEMDRp5_           (INVALID_VALUE),
+  caloNewHadDRp5_          (INVALID_VALUE),
+  caloNewEMDRp3_           (INVALID_VALUE),
+  caloNewHadDRp3_          (INVALID_VALUE),
+  caloNewEMDRp2_           (INVALID_VALUE),
+  caloNewHadDRp2_          (INVALID_VALUE),
+  caloNewEMDRp1_           (INVALID_VALUE),
+  caloNewHadDRp1_          (INVALID_VALUE),
+  rhoPUCorr_               (INVALID_VALUE),
+  rhoPUCorrCalo_           (INVALID_VALUE),
+  rhoPUCorrCentralCalo_    (INVALID_VALUE),
+  trackIsoDRp5_            (INVALID_VALUE),
+  trackIsoDRp3_            (INVALID_VALUE),
+  trackIsoDRp2_            (INVALID_VALUE),
+  trackIsoDRp1_            (INVALID_VALUE),
+  trackIsoNoPUDRp5_        (INVALID_VALUE),
+  trackIsoNoPUDRp3_        (INVALID_VALUE),
+  trackIsoNoPUDRp2_        (INVALID_VALUE),
+  trackIsoNoPUDRp1_        (INVALID_VALUE),
+  trackIsoNoFakesDRp5_     (INVALID_VALUE),
+  trackIsoNoFakesDRp3_     (INVALID_VALUE),
+  trackIsoNoFakesDRp2_     (INVALID_VALUE),
+  trackIsoNoFakesDRp1_     (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp5_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp3_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp2_ (INVALID_VALUE),
+  trackIsoNoPUNoFakesDRp1_ (INVALID_VALUE),
+  trackIsoOldNoPUDRp5_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp3_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp2_     (INVALID_VALUE),
+  trackIsoOldNoPUDRp1_     (INVALID_VALUE)
 {
 }
 
 CandidateTrack::CandidateTrack (const reco::Track &track, 
                                 const vector<reco::Track> &tracks) :
   reco::Track (track),
-  caloEMDRp3_                    (INVALID_VALUE),
-  caloHadDRp3_                   (INVALID_VALUE),
-  caloEMDRp5_                    (INVALID_VALUE),
-  caloHadDRp5_                   (INVALID_VALUE),
-  caloNewEMDRp5_                 (INVALID_VALUE),
-  caloNewHadDRp5_                (INVALID_VALUE),
-  rhoPUCorr_                     (INVALID_VALUE),
-  rhoPUCorrCalo_                 (INVALID_VALUE),
-  rhoPUCorrCentralCalo_          (INVALID_VALUE),
-  trackIsoDRp3_                  (getTrackIsolation (track, tracks, false, false, 0.3)),
-  trackIsoDRp5_                  (getTrackIsolation (track, tracks, false, false, 0.5)),
-  trackIsoNoPUDRp3_              (getTrackIsolation (track, tracks, true, false, 0.3)),
-  trackIsoNoPUDRp5_              (getTrackIsolation (track, tracks, true, false, 0.5)),
-  trackIsoNoFakesDRp3_           (getTrackIsolation (track, tracks, false, true, 0.3)),
-  trackIsoNoFakesDRp5_           (getTrackIsolation (track, tracks, false, true, 0.5)),
-  trackIsoNoPUNoFakesDRp3_       (getTrackIsolation (track, tracks, true, true, 0.3)),
-  trackIsoNoPUNoFakesDRp5_       (getTrackIsolation (track, tracks, true, true, 0.5)),
-  trackIsoOldNoPUDRp3_           (getOldTrackIsolation (track, tracks, true, 0.3)),
-  trackIsoOldNoPUDRp5_           (getOldTrackIsolation (track, tracks, true, 0.5))
+  caloNewEMDRp5_           (INVALID_VALUE),
+  caloNewHadDRp5_          (INVALID_VALUE),
+  caloNewEMDRp3_           (INVALID_VALUE),
+  caloNewHadDRp3_          (INVALID_VALUE),
+  caloNewEMDRp2_           (INVALID_VALUE),
+  caloNewHadDRp2_          (INVALID_VALUE),
+  caloNewEMDRp1_           (INVALID_VALUE),
+  caloNewHadDRp1_          (INVALID_VALUE),
+  rhoPUCorr_               (INVALID_VALUE),
+  rhoPUCorrCalo_           (INVALID_VALUE),
+  rhoPUCorrCentralCalo_    (INVALID_VALUE),
+  trackIsoDRp5_            (getTrackIsolation (track, tracks, false, false, 0.5)),
+  trackIsoDRp3_            (getTrackIsolation (track, tracks, false, false, 0.3)),
+  trackIsoDRp2_            (getTrackIsolation (track, tracks, false, false, 0.2)),
+  trackIsoDRp1_            (getTrackIsolation (track, tracks, false, false, 0.1)),
+  trackIsoNoPUDRp5_        (getTrackIsolation (track, tracks, true, false, 0.5)),
+  trackIsoNoPUDRp3_        (getTrackIsolation (track, tracks, true, false, 0.3)),
+  trackIsoNoPUDRp2_        (getTrackIsolation (track, tracks, true, false, 0.2)),
+  trackIsoNoPUDRp1_        (getTrackIsolation (track, tracks, true, false, 0.1)),
+  trackIsoNoFakesDRp5_     (getTrackIsolation (track, tracks, false, true, 0.5)),
+  trackIsoNoFakesDRp3_     (getTrackIsolation (track, tracks, false, true, 0.3)),
+  trackIsoNoFakesDRp2_     (getTrackIsolation (track, tracks, false, true, 0.2)),
+  trackIsoNoFakesDRp1_     (getTrackIsolation (track, tracks, false, true, 0.1)),
+  trackIsoNoPUNoFakesDRp5_ (getTrackIsolation (track, tracks, true,  true, 0.5)),
+  trackIsoNoPUNoFakesDRp3_ (getTrackIsolation (track, tracks, true,  true, 0.3)),
+  trackIsoNoPUNoFakesDRp2_ (getTrackIsolation (track, tracks, true,  true, 0.2)),
+  trackIsoNoPUNoFakesDRp1_ (getTrackIsolation (track, tracks, true,  true, 0.1)),
+  trackIsoOldNoPUDRp5_     (getOldTrackIsolation (track, tracks, true, 0.5)),
+  trackIsoOldNoPUDRp3_     (getOldTrackIsolation (track, tracks, true, 0.3)),
+  trackIsoOldNoPUDRp2_     (getOldTrackIsolation (track, tracks, true, 0.2)),
+  trackIsoOldNoPUDRp1_     (getOldTrackIsolation (track, tracks, true, 0.1))
 {
 }
 
@@ -81,7 +117,7 @@ CandidateTrack::~CandidateTrack ()
 }
 
 const double
-CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) const
+CandidateTrack::caloTotNoPU (int dR, RhoType rhoType, CaloType caloType) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1
   double rho;
@@ -102,19 +138,22 @@ CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) cons
   double rawCaloTot = 0.0;
   switch (caloType) {
   case Sum:
-    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-      rawCaloTot = caloNewDRp3();
-    } else rawCaloTot = caloNewDRp5();
+    if(dR == 5) rawCaloTot = caloNewDRp5();
+    else if(dR == 3) rawCaloTot = caloNewDRp3();
+    else if(dR == 2) rawCaloTot = caloNewDRp2();
+    else if(dR == 1) rawCaloTot = caloNewDRp1();
     break;
   case EM:
-    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-      rawCaloTot = caloNewEMDRp3();
-    } else rawCaloTot = caloNewEMDRp5();
+    if(dR == 5) rawCaloTot = caloNewEMDRp5();
+    else if(dR == 3) rawCaloTot = caloNewEMDRp3();
+    else if(dR == 2) rawCaloTot = caloNewEMDRp2();
+    else if(dR == 1) rawCaloTot = caloNewEMDRp1();
     break;
   case Had:
-    if (dR < 0.4) {  // Only treat two cases:  0.5 and 0.3.
-      rawCaloTot = caloNewHadDRp3();
-    } else rawCaloTot = caloNewHadDRp5();
+    if(dR == 5) rawCaloTot = caloNewHadDRp5();
+    else if(dR == 3) rawCaloTot = caloNewHadDRp3();
+    else if(dR == 2) rawCaloTot = caloNewHadDRp2();
+    else if(dR == 1) rawCaloTot = caloNewHadDRp1();
     break; 
   }
   

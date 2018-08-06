@@ -1,3 +1,5 @@
+import os
+
 import FWCore.ParameterSet.Config as cms
 
 disappTrksOutputCommands = cms.untracked.vstring(
@@ -30,4 +32,3 @@ def customizeMiniAODSIMOutput(process):
         overrideInputFileSplitLevels = cms.untracked.bool(True)
     )
     process.MINIAODSIMoutput.outputCommands.extend (disappTrksOutputCommands)
-

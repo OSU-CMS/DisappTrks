@@ -10,6 +10,7 @@ MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
   beamspot_ (iConfig.getParameter<edm::InputTag> ("beamspot")),
   vertices_ (iConfig.getParameter<edm::InputTag> ("vertices")),
   met_ (iConfig.getParameter<edm::InputTag> ("met")),
+  pfCandidates_ (iConfig.getParameter<edm::InputTag> ("pfCandidates")),
   electrons_ (iConfig.getParameter<edm::InputTag> ("electrons")),
   conversions_ (iConfig.getParameter<edm::InputTag> ("conversions")),
   muons_ (iConfig.getParameter<edm::InputTag> ("muons")),
@@ -30,6 +31,7 @@ MinimalSkimFilter<T>::MinimalSkimFilter (const edm::ParameterSet& iConfig) :
   beamspotToken_ = consumes<reco::BeamSpot> (beamspot_);
   verticesToken_ = consumes<vector<reco::Vertex> > (vertices_);
   metToken_ = consumes<vector<pat::MET> > (met_);
+  pfCandidatesToken_ = consumes<vector<pat::PackedCandidate> > (pfCandidates_);
   electronsToken_ = consumes<vector<pat::Electron> > (electrons_);
   conversionsToken_ = consumes<vector<reco::Conversion> > (conversions_);
   muonsToken_ = consumes<vector<pat::Muon> > (muons_);
@@ -55,27 +57,46 @@ MinimalSkimFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<edm::TriggerResults> triggers;
   event.getByToken (triggersToken_, triggers);
+
   edm::Handle<reco::BeamSpot> beamspot;
   event.getByToken (beamspotToken_, beamspot);
+
   edm::Handle<vector<reco::Vertex> > vertices;
   event.getByToken (verticesToken_, vertices);
+
   edm::Handle<vector<pat::MET> > met;
   event.getByToken (metToken_, met);
+  edm::Handle<vector<pat::PackedCandidate> > pfCandidates;
+  event.getByToken (pfCandidatesToken_, pfCandidates);
+
   edm::Handle<vector<pat::Electron> > electrons;
   event.getByToken (electronsToken_, electrons);
   edm::Handle<vector<reco::Conversion> > conversions;
   event.getByToken (conversionsToken_, conversions);
+
   edm::Handle<vector<pat::Muon> > muons;
   event.getByToken (muonsToken_, muons);
+
   edm::Handle<vector<pat::Tau> > taus;
   event.getByToken (tausToken_, taus);
+
   edm::Handle<double> rho;
   event.getByToken (rhoToken_, rho);
 
   cutResults_->at (0).cumulativePassCount++;
   cutResults_->at (0).accumulativePassCount++;
 
-  return filterDecision (event, *triggers, *beamspot, vertices->at (0), met->at (0), *electrons, conversions, *muons, *taus, *rho);
+  return filterDecision (event,
+                         *triggers,
+                         *beamspot,
+                         vertices->at (0),
+                         met->at (0),
+                         *pfCandidates,
+                         *electrons,
+                         conversions,
+                         *muons,
+                         *taus,
+                         *rho);
 }
 
 template<MinimalSkim T> bool
@@ -180,6 +201,45 @@ MinimalSkimFilter<T>::passesTightID_noIsolation_2016 (const pat::Electron &elect
   return passes;
 }
 
+template<MinimalSkim T> bool
+MinimalSkimFilter<T>::passesTightID_noIsolation_2017 (const pat::Electron &electron, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const edm::Handle<vector<reco::Conversion> > &conversions, const double rho) const
+{
+  bool passes = false;
+
+  if(fabs(electron.superCluster()->eta()) <= 1.479) {
+    passes = (electron.full5x5_sigmaIetaIeta()                                                                                          <  0.0104  &&
+              fabs(electron.deltaEtaSuperClusterTrackAtVtx() - electron.superCluster()->eta() + electron.superCluster()->seed()->eta()) <  0.00353 &&
+              fabs(electron.deltaPhiSuperClusterTrackAtVtx())                                                                           <  0.0499  &&
+              electron.hadronicOverEm() < (0.026 + 1.12/electron.superCluster()->energy() + 0.0368*rho/electron.superCluster()->energy())         &&
+              fabs(1.0/electron.ecalEnergy() - electron.eSuperClusterOverP()/electron.ecalEnergy())                                     <  0.0278  &&
+              fabs(electron.gsfTrack()->dxy(vertex.position()))                                                                         <  0.05    &&
+              fabs(electron.gsfTrack()->dz(vertex.position()))                                                                          <  0.10    &&
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+              electron.gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS)                                   <= 1       &&
+#else
+              electron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)                                      <= 1       &&
+#endif
+              !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position()));
+  }
+  else if(fabs(electron.superCluster()->eta()) < 2.5) {
+    passes = (electron.full5x5_sigmaIetaIeta()                                                                                          <  0.0305  &&
+              fabs(electron.deltaEtaSuperClusterTrackAtVtx() - electron.superCluster()->eta() + electron.superCluster()->seed()->eta()) <  0.00567 &&
+              fabs(electron.deltaPhiSuperClusterTrackAtVtx())                                                                           <  0.0165  &&
+              electron.hadronicOverEm() < (0.026 + 0.5/electron.superCluster()->energy() + 0.201*rho/electron.superCluster()->energy())      &&
+              fabs(1.0/electron.ecalEnergy() - electron.eSuperClusterOverP()/electron.ecalEnergy())                                     <  0.0158  &&
+              fabs(electron.gsfTrack()->dxy(vertex.position()))                                                                         <  0.10    &&
+              fabs(electron.gsfTrack()->dz(vertex.position()))                                                                          <  0.20    &&
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+              electron.gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS)                                   <= 1       &&
+#else
+              electron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS)                                      <= 1       &&
+#endif
+              !ConversionTools::hasMatchedConversion (electron, conversions, beamspot.position()));
+  }
+
+  return passes;
+}
+
 template<MinimalSkim T> double
 MinimalSkimFilter<T>::effectiveArea_2015 (const pat::Electron &electron) const
 {
@@ -220,6 +280,27 @@ MinimalSkimFilter<T>::effectiveArea_2016 (const pat::Electron &electron) const
   return 0.0;
 }
 
+template<MinimalSkim T> double
+MinimalSkimFilter<T>::effectiveArea_2017 (const pat::Electron &electron) const
+{
+
+  if (fabs (electron.superCluster ()->eta ()) >= 0.0000 && fabs (electron.superCluster ()->eta ()) < 1.0000)
+    return 0.1566;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.0000 && fabs (electron.superCluster ()->eta ()) < 1.4790)
+    return 0.1626;
+  if (fabs (electron.superCluster ()->eta ()) >= 1.4790 && fabs (electron.superCluster ()->eta ()) < 2.0000)
+    return 0.1073;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.0000 && fabs (electron.superCluster ()->eta ()) < 2.2000)
+    return 0.0854;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.2000 && fabs (electron.superCluster ()->eta ()) < 2.3000)
+    return 0.1051;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.3000 && fabs (electron.superCluster ()->eta ()) < 2.4000)
+    return 0.1204;
+  if (fabs (electron.superCluster ()->eta ()) >= 2.4000 && fabs (electron.superCluster ()->eta ()) < 5.0000)
+    return 0.1524;
+  return 0.0;
+}
+
 template<MinimalSkim T> void
 MinimalSkimFilter<T>::initializeCutResults ()
 {
@@ -228,7 +309,17 @@ MinimalSkimFilter<T>::initializeCutResults ()
 }
 
 template<MinimalSkim T> bool
-MinimalSkimFilter<T>::filterDecision (const edm::Event &event, const edm::TriggerResults &triggers, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const pat::MET &met, const vector<pat::Electron> &electrons, const edm::Handle<vector<reco::Conversion> > &conversions, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus, const double rho) const
+MinimalSkimFilter<T>::filterDecision (const edm::Event &event,
+                                      const edm::TriggerResults &triggers,
+                                      const reco::BeamSpot &beamspot,
+                                      const reco::Vertex &vertex,
+                                      const pat::MET &met,
+                                      const vector<pat::PackedCandidate> &pfCandidates,
+                                      const vector<pat::Electron> &electrons,
+                                      const edm::Handle<vector<reco::Conversion> > &conversions,
+                                      const vector<pat::Muon> &muons,
+                                      const vector<pat::Tau> &taus,
+                                      const double rho) const
 {
   return true;
 }
@@ -244,25 +335,31 @@ MinimalSkimFilter<MET>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<MET>::filterDecision (const edm::Event &event, const edm::TriggerResults &triggers, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const pat::MET &met, const vector<pat::Electron> &electrons, const edm::Handle<vector<reco::Conversion> > &conversions, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus, const double rho) const
+MinimalSkimFilter<MET>::filterDecision (const edm::Event &event,
+                                        const edm::TriggerResults &triggers,
+                                        const reco::BeamSpot &beamspot,
+                                        const reco::Vertex &vertex,
+                                        const pat::MET &met,
+                                        const vector<pat::PackedCandidate> &pfCandidates,
+                                        const vector<pat::Electron> &electrons,
+                                        const edm::Handle<vector<reco::Conversion> > &conversions,
+                                        const vector<pat::Muon> &muons,
+                                        const vector<pat::Tau> &taus,
+                                        const double rho) const
 {
   bool decision = true, flag;
 
-  if ((flag = passesTrigger (event, triggers)))
-    cutResults_->at (1).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (1).cumulativePassCount++;
+  if((flag = passesTrigger(event, triggers))) cutResults_->at(1).accumulativePassCount++;
+  if((decision = decision && flag))           cutResults_->at(1).cumulativePassCount++;
 
-  TVector2 metNoMu (met.px (), met.py ());
-  for (const auto &muon : muons)
-    {
-      TVector2 muonPt (muon.px (), muon.py ());
-      metNoMu += muonPt;
-    }
-  if ((flag = (metNoMu.Mod () > 100.0)))
-    cutResults_->at (2).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (2).cumulativePassCount++;
+  TVector2 metNoMu(met.px (), met.py ());
+  for (const auto &pfCandidate : pfCandidates) {
+    if (abs (pfCandidate.pdgId ()) != 13) continue;
+    TVector2 muon (pfCandidate.px (), pfCandidate.py ());
+    metNoMu += muon;
+  }
+  if((flag = (metNoMu.Mod () > 100.0))) cutResults_->at(2).accumulativePassCount++;
+  if((decision = decision && flag))     cutResults_->at(2).cumulativePassCount++;
 
   return decision;
 }
@@ -281,76 +378,79 @@ MinimalSkimFilter<ELECTRON>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event, const edm::TriggerResults &triggers, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const pat::MET &met, const vector<pat::Electron> &electrons, const edm::Handle<vector<reco::Conversion> > &conversions, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus, const double rho) const
+MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
+                                             const edm::TriggerResults &triggers,
+                                             const reco::BeamSpot &beamspot,
+                                             const reco::Vertex &vertex,
+                                             const pat::MET &met,
+                                             const vector<pat::PackedCandidate> &pfCandidates,
+                                             const vector<pat::Electron> &electrons,
+                                             const edm::Handle<vector<reco::Conversion> > &conversions,
+                                             const vector<pat::Muon> &muons,
+                                             const vector<pat::Tau> &taus,
+                                             const double rho) const
 {
   bool decision = true, flag;
   unsigned n;
 
-  if ((flag = passesTrigger (event, triggers)))
-    cutResults_->at (1).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (1).cumulativePassCount++;
+  // trigger
+  if((flag = passesTrigger (event, triggers))) cutResults_->at(1).accumulativePassCount++;
+  if((decision = decision && flag))            cutResults_->at(1).cumulativePassCount++;
 
+  // pt > 25
   n = 0;
-  for (const auto &electron : electrons)
-    {
-      if (electron.pt () > 25.0)
-        {
-          n++;
-          break;
-        }
+  for(const auto &electron : electrons) {
+    if(electron.pt () > 25.0) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (2).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (2).cumulativePassCount++;
+  }
+  if((flag = (n > 0)))               cutResults_->at(2).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at(2).cumulativePassCount++;
 
+  // |eta| < 2.1
   n = 0;
-  for (const auto &electron : electrons)
-    {
-      if (fabs (electron.eta ()) < 2.1)
-        {
-          n++;
-          break;
-        }
+  for(const auto &electron : electrons) {
+    if(fabs (electron.eta()) < 2.1) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (3).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (3).cumulativePassCount++;
+  }
+  if((flag = (n > 0)))              cutResults_->at(3).accumulativePassCount++;
+  if((decision = decision && flag)) cutResults_->at(3).cumulativePassCount++;
 
+  // tight ID
   n = 0;
-  for (const auto &electron : electrons)
-    {
-      if (passesTightID_noIsolation_2015 (electron, beamspot, vertex, conversions) || passesTightID_noIsolation_2016 (electron, beamspot, vertex, conversions))
-        {
-          n++;
-          break;
-        }
+  for(const auto &electron : electrons) {
+    if(passesTightID_noIsolation_2015(electron, beamspot, vertex, conversions) ||
+       passesTightID_noIsolation_2016(electron, beamspot, vertex, conversions) ||
+       passesTightID_noIsolation_2017(electron, beamspot, vertex, conversions, rho)) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (4).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (4).cumulativePassCount++;
+  }
+  if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
+  if((decision = decision && flag)) cutResults_->at(4).cumulativePassCount++;
 
+  // tight isolation
   n = 0;
-  for (const auto &electron : electrons)
-    {
-      bool passesTightIso_2015 = ((fabs (electron.superCluster ()->eta ()) <= 1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2015 (electron))) / electron.pt ()) < 0.0591)) \
-                              || ((fabs (electron.superCluster ()->eta ()) >  1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2015 (electron))) / electron.pt ()) < 0.0759)),
-           passesTightIso_2016 = ((fabs (electron.superCluster ()->eta ()) <= 1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2016 (electron))) / electron.pt ()) < 0.0588)) \
-                              || ((fabs (electron.superCluster ()->eta ()) >  1.479) && (((electron.pfIsolationVariables ().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables ().sumNeutralHadronEt + electron.pfIsolationVariables ().sumPhotonEt - rho * effectiveArea_2016 (electron))) / electron.pt ()) < 0.0571));
+  for(const auto &electron : electrons) {
+    bool passes_2015 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2015(electron))) / electron.pt()) < 0.0591)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2015(electron))) / electron.pt()) < 0.0759));
 
-      if (passesTightIso_2015 || passesTightIso_2016)
-        {
-          n++;
-          break;
-        }
+    bool passes_2016 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2016(electron))) / electron.pt()) < 0.0588)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2016(electron))) / electron.pt()) < 0.0571));
+
+    bool passes_2017 = ((fabs(electron.superCluster()->eta()) <= 1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2017(electron))) / electron.pt()) < 0.0361)) ||
+                       ((fabs(electron.superCluster()->eta()) >  1.479) && (((electron.pfIsolationVariables().sumChargedHadronPt + max (0.0, electron.pfIsolationVariables().sumNeutralHadronEt + electron.pfIsolationVariables().sumPhotonEt - rho * effectiveArea_2017(electron))) / electron.pt()) < 0.094));
+
+    if(passes_2015 || passes_2016 || passes_2017) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (5).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (5).cumulativePassCount++;
+  }
+  if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
+  if((decision = decision && flag)) cutResults_->at(4).cumulativePassCount++;
 
   return decision;
 }
@@ -369,71 +469,67 @@ MinimalSkimFilter<MUON>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event, const edm::TriggerResults &triggers, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const pat::MET &met, const vector<pat::Electron> &electrons, const edm::Handle<vector<reco::Conversion> > &conversions, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus, const double rho) const
+MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
+                                         const edm::TriggerResults &triggers,
+                                         const reco::BeamSpot &beamspot,
+                                         const reco::Vertex &vertex,
+                                         const pat::MET &met,
+                                         const vector<pat::PackedCandidate> &pfCandidates,
+                                         const vector<pat::Electron> &electrons,
+                                         const edm::Handle<vector<reco::Conversion> > &conversions,
+                                         const vector<pat::Muon> &muons,
+                                         const vector<pat::Tau> &taus,
+                                         const double rho) const
 {
   bool decision = true, flag;
   unsigned n;
 
-  if ((flag = passesTrigger (event, triggers)))
-    cutResults_->at (1).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (1).cumulativePassCount++;
+  if ((flag = passesTrigger (event, triggers))) cutResults_->at (1).accumulativePassCount++;
+  if ((decision = decision && flag))            cutResults_->at (1).cumulativePassCount++;
 
   n = 0;
-  for (const auto &muon : muons)
-    {
-      if (muon.pt () > 26.0)
-        {
-          n++;
-          break;
-        }
+  for (const auto &muon : muons) {
+    if (muon.pt () > 26.0) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (2).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (2).cumulativePassCount++;
+  }
+  if ((flag = (n > 0)))              cutResults_->at (2).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (2).cumulativePassCount++;
 
   n = 0;
-  for (const auto &muon : muons)
-    {
-      if (fabs (muon.eta ()) < 2.1)
-        {
-          n++;
-          break;
-        }
+  for (const auto &muon : muons) {
+    if (fabs (muon.eta ()) < 2.1) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (3).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (3).cumulativePassCount++;
+  }
+  if ((flag = (n > 0)))              cutResults_->at (3).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (3).cumulativePassCount++;
 
   n = 0;
-  for (const auto &muon : muons)
-    {
-      if (muon.isTightMuon (vertex))
-        {
-          n++;
-          break;
-        }
+  for (const auto &muon : muons) {
+    if (muon.isTightMuon (vertex)) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (4).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (4).cumulativePassCount++;
+  }
+  if ((flag = (n > 0)))              cutResults_->at (4).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (4).cumulativePassCount++;
 
   n = 0;
-  for (const auto &muon : muons)
-    {
-      if ((muon.pfIsolationR04 ().sumChargedHadronPt + max (0.0, muon.pfIsolationR04 ().sumNeutralHadronEt + muon.pfIsolationR04 ().sumPhotonEt - 0.5 * muon.pfIsolationR04 ().sumPUPt)) / muon.pt () < 0.15)
-        {
-          n++;
-          break;
-        }
+  for (const auto &muon : muons) {
+    if ((muon.pfIsolationR04 ().sumChargedHadronPt + 
+         max (0.0, 
+              muon.pfIsolationR04 ().sumNeutralHadronEt + 
+              muon.pfIsolationR04 ().sumPhotonEt - 
+              0.5 * muon.pfIsolationR04 ().sumPUPt)) / muon.pt () < 0.15) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (5).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (5).cumulativePassCount++;
+  }
+  if ((flag = (n > 0))) cutResults_->at (5).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (5).cumulativePassCount++;
 
   return decision;
 }
@@ -452,82 +548,83 @@ MinimalSkimFilter<TAU>::initializeCutResults ()
 }
 
 template<> bool
-MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event, const edm::TriggerResults &triggers, const reco::BeamSpot &beamspot, const reco::Vertex &vertex, const pat::MET &met, const vector<pat::Electron> &electrons, const edm::Handle<vector<reco::Conversion> > &conversions, const vector<pat::Muon> &muons, const vector<pat::Tau> &taus, const double rho) const
+MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
+                                        const edm::TriggerResults &triggers,
+                                        const reco::BeamSpot &beamspot,
+                                        const reco::Vertex &vertex,
+                                        const pat::MET &met,
+                                        const vector<pat::PackedCandidate> &pfCandidates,
+                                        const vector<pat::Electron> &electrons,
+                                        const edm::Handle<vector<reco::Conversion> > &conversions,
+                                        const vector<pat::Muon> &muons,
+                                        const vector<pat::Tau> &taus,
+                                        const double rho) const
 {
   bool decision = true, flag;
   unsigned n;
 
-  if ((flag = passesTrigger (event, triggers)))
-    cutResults_->at (1).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (1).cumulativePassCount++;
+  if ((flag = passesTrigger (event, triggers))) cutResults_->at (1).accumulativePassCount++;
+  if ((decision = decision && flag))            cutResults_->at (1).cumulativePassCount++;
 
   n = 0;
-  for (const auto &tau : taus)
-    {
-      if (tau.pt () > 25.0)
-        {
-          n++;
-          break;
-        }
+  for (const auto &tau : taus) {
+    if (tau.pt () > 25.0) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (2).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (2).cumulativePassCount++;
+  }
+  if ((flag = (n > 0)))              cutResults_->at (2).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (2).cumulativePassCount++;
 
   n = 0;
-  for (const auto &tau : taus)
-    {
-      if (fabs (tau.eta ()) < 2.1)
-        {
-          n++;
-          break;
-        }
+  for (const auto &tau : taus) {
+    if (fabs (tau.eta ()) < 2.1) {
+      n++;
+      break;
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (3).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (3).cumulativePassCount++;
+  }
+  if ((flag = (n > 0)))              cutResults_->at (3).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (3).cumulativePassCount++;
 
   n = 0;
-  for (const auto &tau : taus)
-    {
-      if (tau.isTauIDAvailable ("againstElectronLooseMVA5"))
-        {
-          if (tau.tauID ("decayModeFinding") > 0.5 && tau.tauID ("againstElectronLooseMVA5") > 0.5 && tau.tauID ("againstMuonLoose3") > 0.5)
-            {
-              n++;
-              break;
-            }
-        }
-      else if (tau.isTauIDAvailable ("againstElectronLooseMVA6"))
-        {
-          if (tau.tauID ("decayModeFinding") > 0.5 && tau.tauID ("againstElectronLooseMVA6") > 0.5 && tau.tauID ("againstMuonLoose3") > 0.5)
-            {
-              n++;
-              break;
-            }
-        }
+  for (const auto &tau : taus) {
+    if (tau.isTauIDAvailable ("againstElectronLooseMVA5")) {
+      if (tau.tauID ("decayModeFinding") > 0.5 && 
+          tau.tauID ("againstElectronLooseMVA5") > 0.5 && 
+          tau.tauID ("againstMuonLoose3") > 0.5) {
+        n++;
+        break;
+      }
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (4).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (4).cumulativePassCount++;
+    else if (tau.isTauIDAvailable ("againstElectronLooseMVA6")) {
+      if (tau.tauID ("decayModeFinding") > 0.5 && 
+          tau.tauID ("againstElectronLooseMVA6") > 0.5 && 
+          tau.tauID ("againstMuonLoose3") > 0.5) {
+        n++;
+        break;
+      }
+    }
+  }
+  if ((flag = (n > 0)))              cutResults_->at (4).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (4).cumulativePassCount++;
 
   n = 0;
-  for (const auto &tau : taus)
-    {
-      if (tau.tauID ("byTightCombinedIsolationDeltaBetaCorr3Hits") > 0.5)
-        {
-          n++;
-          break;
-        }
+  for (const auto &tau : taus) {
+    if (tau.isTauIDAvailable ("byTightCombinedIsolationDeltaBetaCorr3Hits")) {
+      if (tau.tauID ("byTightCombinedIsolationDeltaBetaCorr3Hits") > 0.5) {
+        n++;
+        break;
+      }
     }
-  if ((flag = (n > 0)))
-    cutResults_->at (5).accumulativePassCount++;
-  if ((decision = decision && flag))
-    cutResults_->at (5).cumulativePassCount++;
+    else if (tau.isTauIDAvailable ("byTightIsolationMVArun2v1DBoldDMwLT")) {
+      if (tau.tauID ("byTightIsolationMVArun2v1DBoldDMwLT") > 0.5) {
+        n++;
+        break;
+      }
+    }
+  }
+  if ((flag = (n > 0)))              cutResults_->at (5).accumulativePassCount++;
+  if ((decision = decision && flag)) cutResults_->at (5).cumulativePassCount++;
 
   return decision;
 }
