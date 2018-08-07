@@ -42,13 +42,18 @@ dataset_names_data = {
     # ZeroBias PromptReco
 }
 
-# ntuples of 2017C -- currently these are optional,
-# so the usuer needs to exchange dataset_names_data
-# with this if CandidateTracks are to be used
-# only PromptReco available currently
+# These are used in place of dataset_names_data above in the case
+# where UseCandidateTracks = True in localConfig.py
 datasets_names_data_ntuples = {
     'MET_2017C'      : ["/MET/bfrancis-Run2017C-17Nov2017-v1-DisappTrks-v1-5bcaf916f2a251b623257767f83b9072/USER"],
     'SingleMu_2017C' : ["/SingleMuon/bfrancis-Run2017C-17Nov2017-v1-DisappTrks-v1-747fc2e3a4bedc234aef5ee32e0de348/USER"],
+
+    # Tau
+    'Tau_2017B' : "/Tau/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
+    'Tau_2017C' : "/Tau/bfrancis-Run2017C-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
+    'Tau_2017D' : "/Tau/bfrancis-Run2017D-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
+    'Tau_2017E' : "/Tau/bfrancis-Run2017E-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
+    'Tau_2017F' : "/Tau/bfrancis-Run2017F-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
 }
 
 dataset_names_bkgd = {
