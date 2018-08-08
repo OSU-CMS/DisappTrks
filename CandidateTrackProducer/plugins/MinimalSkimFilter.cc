@@ -449,8 +449,8 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
       break;
     }
   }
-  if((flag = (n > 0)))              cutResults_->at(4).accumulativePassCount++;
-  if((decision = decision && flag)) cutResults_->at(4).cumulativePassCount++;
+  if((flag = (n > 0)))              cutResults_->at(5).accumulativePassCount++;
+  if((decision = decision && flag)) cutResults_->at(5).cumulativePassCount++;
 
   return decision;
 }
@@ -528,7 +528,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
       break;
     }
   }
-  if ((flag = (n > 0))) cutResults_->at (5).accumulativePassCount++;
+  if ((flag = (n > 0)))              cutResults_->at (5).accumulativePassCount++;
   if ((decision = decision && flag)) cutResults_->at (5).cumulativePassCount++;
 
   return decision;
