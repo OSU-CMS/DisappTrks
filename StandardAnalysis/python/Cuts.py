@@ -1311,12 +1311,12 @@ cutAnyTrkMatchHLTTrack = cms.PSet(
 
 cutMuonNMissIn = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("missingInnerHits == 0"),
+    cutString = cms.string("missingInnerHitsFromTrackerLayersWithoutMeasurements == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutMuonNMissMid = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("missingMiddleHits == 0"),
+    cutString = cms.string("missingMiddleHitsFromTrackerLayersWithoutMeasurements == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutLeadMuonMatchHLTTrack = cms.PSet(

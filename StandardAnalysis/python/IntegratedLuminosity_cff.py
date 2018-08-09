@@ -23,7 +23,7 @@ def CreateCompositeLumis(allLumis, year, allPeriods):
         periods.append(allPeriods)
     else:
         # create all unique combinations of 2 or more periods
-        for i in range(len(allPeriods)):
+        for i in range(len(allPeriods) + 1):
             if i < 2:
                 continue
             for c in itertools.combinations(allPeriods, i):
