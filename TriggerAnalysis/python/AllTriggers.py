@@ -11,6 +11,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Trigger filters: 2016"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Trigger filters: 2017"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+    print "# Trigger filters: 2018"
 else:
     print "# Trigger filters: 2015"
     
@@ -58,7 +60,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
         'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
 
-        'HLT_PFMET120_PFMHT120_IDTight_v'                      : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
+        'HLT_PFMET120_PFMHT120_IDTight_v'                       : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
         #'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
         #'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
         #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'], # 2017 also
@@ -74,14 +76,25 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'HLT_PFMETTypeOne130_PFMHT130_IDTight_v'               : [],
         #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [],
         #'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
-
-
     }
 
     triggerFiltersTrack = {
         'HLT_MET105_IsoTrk50_v' : ['hltTrk50Filter'],
         'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
     }
+
+# 2018
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+    triggerFiltersMet = {
+        'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
+        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
+    }
+
+    triggerFiltersTrack = {
+        'HLT_MET105_IsoTrk50_v' : ['hltTrk50Filter'],
+        'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
+    }
+
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer
 triggerFiltersInclusive = cms.vstring()

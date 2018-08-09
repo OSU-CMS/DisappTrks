@@ -1,4 +1,72 @@
+import itertools
+
 # all luminosities should be in inverse picobarns
+
+def InsertYear(lumisThisYear, allLumis):
+    for k in lumisThisYear.keys():
+        # if not already present in allLumis, just add this entry
+        if not k in allLumis.keys():
+            allLumis[k] = lumisThisYear[k]
+        # if this is already present in allLumis, we're on a prescaled path (a dict) and need to update rather than add/overwrite
+        if k in allLumis.keys() and isinstance(allLumis[k], dict) and isinstance(lumisThisYear[k], dict):
+            mergedDict = {}
+            mergedDict.update(allLumis[k])
+            mergedDict.update(lumisThisYear[k])
+            allLumis[k] = mergedDict
+        # if neither of these two cases, no idea what you're trying to do so we skip it
+    return allLumis
+
+def CreateCompositeLumis(allLumis, year, allPeriods):
+    periods = []
+    # in the case of 2015D there are no combinations
+    if len(allPeriods) == 1:
+        periods.append(allPeriods)
+    else:
+        # create all unique combinations of 2 or more periods
+        for i in range(len(allPeriods)):
+            if i < 2:
+                continue
+            for c in itertools.combinations(allPeriods, i):
+                periods.append(''.join(c))
+
+    for pd in ['MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias']:
+        for period in periods:
+            # define suffix like '_2016'
+            suffix = '_' + year
+            # if it's not the whole year (ie BC) call it _2016BC, otherwise keep 2016 BCDEFGH as just '_2016'
+            if period != allPeriods:
+                suffix += period
+
+            # define a value for e.g. 'pd_2016BC' and then add 'pd_2016B' and 'pd_2016C' to it
+            allLumis[pd + suffix] = 0.0
+            for p in period:
+                if not pd + '_' + year + p in allLumis:
+                    continue
+                allLumis[pd + suffix] += allLumis[pd + '_' + year + p]
+
+    # do the same for specific triggers, e.g. ['HLT_xyz']['Tau_2016BC']
+    for period in periods:
+        # define suffix like '_2016'
+            suffix = '_' + year
+            # if it's not the whole year (ie BC) call it _2016BC, otherwise beep 2016 BCDEFGH as just '_2016'
+            if period != allPeriods:
+                suffix += period
+
+            for tauTrigger in ['HLT_LooseIsoPFTau50_Trk30_eta2p1_v*', 'HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*']:
+                # define a value for e.g. 'Tau_2016BC' and then add 'Tau_2016B' and 'Tau_2016C' to it
+                allLumis[tauTrigger]['Tau' + suffix] = 0.0
+                for p in period:
+                    if not 'Tau_' + year + p in allLumis[tauTrigger]:
+                        continue
+                    allLumis[tauTrigger]['Tau' + suffix] += allLumis[tauTrigger]['Tau_' + year + p]
+    
+            if 'HLT_ZeroBias_v*' in allLumis:
+                allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] = 0.0
+                for p in period:
+                    if not 'ZeroBias_' + year + p in allLumis['HLT_ZeroBias_v*']:
+                        continue
+                    allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] += allLumis['HLT_ZeroBias_v*']['ZeroBias_' + year + p]
+    return allLumis
 
 # Use PromptReco for 2016 or, if False, use 23Sep2016
 usePrompt2016 = True
@@ -162,6 +230,9 @@ lumi_2016Prompt = {
     },
 }
 
+# set 2016 to either the rereco or prompt values depending on usePrompt2016
+lumi_2016 = lumi_2016Prompt if usePrompt2016 else lumi_23Sep2016
+
 lumi_2017 = {
 
     # filterJSON.py --min x --max y Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt --output Run2017x.json
@@ -231,48 +302,35 @@ lumi_2017_ntuples = {
     },
 }
 
-# set 2016 to either the rereco or prompt values depending on usePrompt2016
-lumi_2016 = lumi_2016Prompt if usePrompt2016 else lumi_23Sep2016
+lumi_2018 = {
+    # filterJSON.py --min x --max y  Cert_314472-319851_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
+    # 2018A: 315252-316995
+    # 2018B: 316998-319312
+    # 2018C: 319313-320393
+    # 2018D: 320394- (no runs certified yet)
+    #
+    # Preliminary normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM
+    # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /pb -i Run2018x.json --hltpath "xyz"
+
+    # --hltpath "HLT_IsoMu27_v*"
+    "SingleMuon_2018A" : 13967.030,
+    "SingleMuon_2018B" : 7051.900,
+    "SingleMuon_2018C" : 4230.898,
+
+    # no hltpath
+    "Tau_2018A" : 13967.030,
+    "Tau_2018B" : 7051.900,
+    "Tau_2018C" : 4234.621,
+}
 
 # now create a single lumi dict, starting with 2015
 lumi = lumi_2015rereco
 
-# add 2016
-for k in lumi_2016.keys():
-    # if not already present, just add this lumi entry
-    if not k in lumi.keys():
-        lumi[k] = lumi_2016[k]
-    # if this is already present, we're on a prescaled path (a dict) and need to update rather than add/overwrite
-    if k in lumi.keys() and isinstance(lumi[k], dict) and isinstance(lumi_2016[k], dict):
-        mergedDict = {}
-        mergedDict.update(lumi[k])
-        mergedDict.update(lumi_2016[k])
-        lumi[k] = mergedDict
-    # if neither of those two cases, no idea what you're trying to do so skip it
-
-# add 2017
-for k in lumi_2017.keys():
-    # if not already present, just add this lumi entry
-    if not k in lumi.keys():
-        lumi[k] = lumi_2017[k]
-    # if this is already present, we're on a prescaled path (a dict) and need to update rather than add/overwrite
-    if k in lumi.keys() and isinstance(lumi[k], dict) and isinstance(lumi_2017[k], dict):
-        mergedDict = {}
-        mergedDict.update(lumi[k])
-        mergedDict.update(lumi_2017[k])
-        lumi[k] = mergedDict
-    # if neither of those two cases, no idea what you're trying to do so skip it
+lumi = InsertYear(lumi_2016, lumi)
+lumi = InsertYear(lumi_2017, lumi)
+lumi = InsertYear(lumi_2018, lumi)
 
 # set up some composite aliases for convenience
-lumi["MET_2015"]                                         =  lumi["MET_2015D"]
-lumi["SingleElectron_2015"]                              =  lumi["SingleElectron_2015D"]
-lumi["SingleMuon_2015"]                                  =  lumi["SingleMuon_2015D"]
-lumi["Tau_2015"]                                         =  lumi["Tau_2015D"]
-lumi["ZeroBias_2015"]                                    =  lumi["ZeroBias_2015D"]
-lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2015D"]
-lumi["HLT_ZeroBias_v*"]["ZeroBias_2015"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2015D"]
-
-# 2016
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
 lumi["SingleElectron_2016H"]                              =  lumi["SingleElectron_2016H_v2"] + lumi["SingleElectron_2016H_v3"]
 lumi["SingleMuon_2016H"]                                  =  lumi["SingleMuon_2016H_v2"] + lumi["SingleMuon_2016H_v3"]
@@ -281,31 +339,8 @@ lumi["ZeroBias_2016H"]                                    =  lumi["ZeroBias_2016
 lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H"]  =  lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v2"] + lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]["Tau_2016H_v3"]
 lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]                 =  lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v2"] + lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H_v3"]
 
-for period in {'BC', 'DEF', 'BCDEF', 'GH', 'DEFG', 'DEFGH', 'BCDEFGH'}:
-
-    for pd in {'MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias'}:
-        key = pd + '_2016' + period if period != 'BCDEFGH' else pd + '_2016'
-
-        lumi[key] = 0.0
-        for p in period:
-            lumi[key] += lumi[pd + '_2016' + p]
-
-    suffix = '_2016' + period if period != 'BCDEFGH' else '_2016'
-    lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau' + suffix] = 0.0
-    lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] = 0.0
-    for p in period:
-        lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau' + suffix] += lumi["HLT_LooseIsoPFTau50_Trk30_eta2p1_v*"]['Tau_2016' + p]
-        lumi["HLT_ZeroBias_v*"]['ZeroBias' + suffix] += lumi["HLT_ZeroBias_v*"]['ZeroBias_2016' + p]
-
-# 2017
-for period in {'CDEF', 'BCDEF'}:
-
-    for pd in {'MET', 'SingleElectron', 'SingleMuon', 'Tau'}:
-        key = pd + '_2017' + period if period != 'BCDEF' else pd + '_2017'
-
-        lumi[key] = 0.0
-        for p in period:
-            lumi[key] += lumi[pd + '_2017' + p]
-
-    suffix = '_2017' + period if period != 'BCDEF' else '_2017'
-    lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau' + suffix]  = lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]['Tau_2017' + p]
+# Create all combinations including the years' totals
+lumi = CreateCompositeLumis(lumi, '2015', 'D')
+lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
+lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
+lumi = CreateCompositeLumis(lumi, '2018', 'ABC')

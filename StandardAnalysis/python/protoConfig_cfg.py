@@ -13,6 +13,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
     mc_global_tag = '94X_mc2017_realistic_v15'
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+    data_global_tag = '101X_dataRun2_Prompt_v11'
+    mc_global_tag = '94X_mc2017_realistic_v15' # to be updated
 
 ################################################################################
 # Create the skeleton process
@@ -46,7 +49,7 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         "root://cms-xrd-global.cern.ch//store/data/Run2017F/SingleMuon/MINIAOD/17Nov2017-v1/50000/120E79E6-24E0-E711-98D7-0CC47AD98C8C.root",
@@ -121,21 +124,29 @@ else:
 # Set up the collectionMap
 ################################################################################
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
+collMap = copy.deepcopy(collectionMap)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    print "# Collections: collectionMapMiniAOD2017"
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
+    if not UseCandidateTracks:
+        print "# Collections: collectionMapMiniAOD2017"
+    else:
+        print "# Collections: collectionMapMiniAOD2017 with candidateTrackProducer"
+        collMap.tracks = cms.InputTag ('candidateTrackProducer')
+        collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
 else:
-    print "# Collections: collectionMap with candidateTrackProducer"
-    collMap = copy.deepcopy(collectionMap)
-    collMap.tracks = cms.InputTag ('candidateTrackProducer')
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    collMap.trigobjs = cms.InputTag  ('slimmedPatTrigger')
+    if not UseCandidateTracks:
+        print "# Collections: collectionMap"
+    else:
+        print "# Collections: collectionMap with candidateTrackProducer"
+        collMap.tracks = cms.InputTag ('candidateTrackProducer')
+        collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
 
 if UseGeantDecays:
+    print "# hardInteractionMcparticles: prunedGenParticlePlusGeant"
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
 else:
+    print "# hardInteractionMcparticles: prunedGenParticles"
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticles')
 
 ################################################################################
