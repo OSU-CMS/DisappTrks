@@ -236,7 +236,7 @@ CandiadteTrackPFIsolationSums = cms.PSet(
         ),
     ),
 )
-for histo in CandiadteTrackPFIsolationSums:
+for histo in CandiadteTrackPFIsolationSums.histograms:
     TrackExtraHistograms.histograms.append(histo)
 
 

@@ -49,7 +49,7 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     cutMet.cutString = cms.string("noMuPt > 120")
     print "# MetNoMu > 120e GeV"
 
@@ -259,7 +259,7 @@ cutJetTightLepVeto = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     cutJetTightLepVeto.cutString = cms.string("\
     ((\
     neutralHadronEnergyFraction<0.99 && \
@@ -482,8 +482,9 @@ cutTrkIso = cms.PSet(
     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
     numberRequired = cms.string(">= 1"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
+if not UseCandidateTracks:
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+        cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
     
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
@@ -725,18 +726,19 @@ cutTrkMatchMC = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    cutTrkD0.inputCollection = cms.vstring("tracks")
-    cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
+if not UseCandidateTracks:
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+        cutTrkD0.inputCollection = cms.vstring("tracks")
+        cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
 
-    cutTrkSidebandD0.inputCollection = cms.vstring("tracks")
-    cutTrkSidebandD0.cutString = cms.string("fabs (dxy) >= 0.02 && fabs (dxy) < 0.1")
+        cutTrkSidebandD0.inputCollection = cms.vstring("tracks")
+        cutTrkSidebandD0.cutString = cms.string("fabs (dxy) >= 0.02 && fabs (dxy) < 0.1")
 
-    cutTrkInvertD0.inputCollection = cms.vstring("tracks")
-    cutTrkInvertD0.cutString = cms.string("fabs (dxy) >= 0.02")
+        cutTrkInvertD0.inputCollection = cms.vstring("tracks")
+        cutTrkInvertD0.cutString = cms.string("fabs (dxy) >= 0.02")
 
-    cutTrkDZ.inputCollection = cms.vstring("tracks")
-    cutTrkDZ.cutString = cms.string("fabs (dz) < 0.5")
+        cutTrkDZ.inputCollection = cms.vstring("tracks")
+        cutTrkDZ.cutString = cms.string("fabs (dz) < 0.5")
 
 ##################################################
 ## mcparticles
@@ -789,7 +791,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Muon PT cut: >26 GeV"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v || match_HLT_IsoTkMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     print "# Muon PT cut: >29 GeV"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v") 
     cutMuonPt.cutString = cms.string("pt > 29")
@@ -838,7 +840,7 @@ cutMuonPairPt = cms.PSet (
 # already printed info message above
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     cutMuonPairPt.cutString = cms.string("pt > 29")
 
 cutMuonPairEta21 = cms.PSet (
@@ -1067,7 +1069,7 @@ cutElectronPt = cms.PSet (
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Electron PT cut: >25 GeV"
     cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
     print "# Electron PT cut: >35 GeV"
     cutElectronPt.cutString = cms.string("pt > 35")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele35_WPTight_Gsf_v")
@@ -1309,12 +1311,12 @@ cutAnyTrkMatchHLTTrack = cms.PSet(
 
 cutMuonNMissIn = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("missingInnerHits == 0"),
+    cutString = cms.string("missingInnerHitsFromTrackerLayersWithoutMeasurements == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutMuonNMissMid = cms.PSet (
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("missingMiddleHits == 0"),
+    cutString = cms.string("missingMiddleHitsFromTrackerLayersWithoutMeasurements == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutLeadMuonMatchHLTTrack = cms.PSet(
