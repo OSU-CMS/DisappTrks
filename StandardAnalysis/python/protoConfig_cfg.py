@@ -161,7 +161,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     if osusub.batchMode and (osusub.datasetLabel in types):
         isData_ = (types[osusub.datasetLabel] == "data")
     elif len(process.source.fileNames) > 0:
-        fileDataType_ = subprocess.call('edmIsRealData.py ' + process.source.fileNames[0], shell = True)
+        FNULL = open(os.devnull, 'w')
+        fileDataType_ = subprocess.call('edmIsRealData.py ' + process.source.fileNames[0], shell = True, stdout=FNULL, stderr=subprocess.STDOUT)
+        FNULL.close()
         if not fileDataType_ == 0 and not fileDataType_ == 1:
             print "ERROR: Can not determine if " + process.source.fileNames[0] + " is data or MC. Does this file exist?"
             sys.exit()

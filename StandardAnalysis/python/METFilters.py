@@ -22,9 +22,8 @@ if osusub.batchMode and types[osusub.datasetLabel] == "data":
 # Also a new 'bad calibration' filter is added/suggested
 # https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Moriond_2018
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
-	metFilters.append("Flag_BadPFMuonFilter")
-	metFilters.append("Flag_BadChargedCandidateFilter")
-	metFilters.append("Flag_ecalBadCalibFilter")
-  
+  metFilters.append("Flag_BadPFMuonFilter")
+  metFilters.append("Flag_BadChargedCandidateFilter")
+  metFilters.append("Flag_ecalBadCalibFilter")
   metFilters.remove("Flag_globalTightHalo2016Filter")
   metFilters.append("Flag_globalSuperTightHalo2016Filter")
