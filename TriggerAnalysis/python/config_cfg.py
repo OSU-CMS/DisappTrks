@@ -73,3 +73,8 @@ process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive
 process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive
 process.EventTriggerVarProducer.signalTriggerNames = triggersMet
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
+    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
+    

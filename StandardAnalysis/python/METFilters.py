@@ -25,3 +25,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 	metFilters.append("Flag_BadPFMuonFilter")
 	metFilters.append("Flag_BadChargedCandidateFilter")
 	metFilters.append("Flag_ecalBadCalibFilter")
+  
+  metFilters.remove("Flag_globalTightHalo2016Filter")
+  metFilters.append("Flag_globalSuperTightHalo2016Filter")

@@ -45,8 +45,10 @@ dataset_names_data = {
 # These are used in place of dataset_names_data above in the case
 # where UseCandidateTracks = True in localConfig.py
 datasets_names_data_ntuples = {
-    'MET_2017C'      : ["/MET/bfrancis-Run2017C-17Nov2017-v1-DisappTrks-v1-5bcaf916f2a251b623257767f83b9072/USER"],
-    'SingleMu_2017C' : ["/SingleMuon/bfrancis-Run2017C-17Nov2017-v1-DisappTrks-v1-747fc2e3a4bedc234aef5ee32e0de348/USER"],
+
+    # SingleEle
+    'SingleEle_2017B' : "/SingleElectron/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
+    'SingleEle_2017D' : "/SingleElectron/bfrancis-Run2017D-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
 
     # Tau
     'Tau_2017B' : "/Tau/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",

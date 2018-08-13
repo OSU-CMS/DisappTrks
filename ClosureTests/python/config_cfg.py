@@ -39,3 +39,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 #  add_channels  (process,  [TauTagPt55NoJetCuts],         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [TauTagPt55NoJetCutsMetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+
+process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
+    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
+    

@@ -4,6 +4,7 @@ from DisappTrks.StandardAnalysis.localConfig import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 import os
 import copy
+import subprocess
 
 data_global_tag = '76X_dataRun2_v15'
 mc_global_tag = '76X_mcRun2_asymptotic_v12'
@@ -148,6 +149,34 @@ if UseGeantDecays:
 else:
     print "# hardInteractionMcparticles: prunedGenParticles"
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticles')
+
+################################################################################
+# Temporary solution for high eta EE noise in PF MET measurements for 2017 data
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETUncertaintyPrescription#Instructions_for_9_4_X_X_9_for_2
+################################################################################
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+    isData_ = False
+    if osusub.batchMode and (osusub.datasetLabel in types):
+        isData_ = (types[osusub.datasetLabel] == "data")
+    elif len(process.source.fileNames) > 0:
+        fileDataType_ = subprocess.call('edmIsRealData.py ' + process.source.fileNames[0], shell = True)
+        if not fileDataType_ == 0 and not fileDataType_ == 1:
+            print "ERROR: Can not determine if " + process.source.fileNames[0] + " is data or MC. Does this file exist?"
+            sys.exit()
+        isData_ = (fileDataType_ == 1)
+    else:
+        print "ERROR: There are no input files provided in process.source.fileNames."
+        sys.exit()
+    print "# Applying fixEE2017 = True method for 2017 " + "data" if isData_ else "MC"
+    runMetCorAndUncFromMiniAOD(
+        process,
+        isData = isData_,
+        fixEE2017 = True,
+        postfix = "ModifiedMET"
+    )
+    collMap.mets = cms.InputTag ('slimmedMETsModifiedMET', '')
 
 ################################################################################
 

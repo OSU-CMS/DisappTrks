@@ -283,3 +283,8 @@ if False:
 ################################################################################
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
+    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
+    
