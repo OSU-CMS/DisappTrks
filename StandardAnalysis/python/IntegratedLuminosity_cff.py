@@ -292,14 +292,28 @@ lumi_2017 = {
 
 lumi_2017_ntuples = {
     # brilcalc on CRAB report JSONs with hltpath
-    "MET_2017C" : 9662.724,
-    "SingleElectron_2017C" : 9608.389,
-    "SingleMuon_2017C" : 9386.518,
-    "Tau_2017C" : 8250.142, # no hltpath (see next entry)
 
+    # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
+    "SingleElectron_2017B" : 4710.308,
+    "SingleElectron_2017C" : 9631.009,
+    "SingleElectron_2017D" : 4247.706,
+    
+    # no hltpath
+    "Tau_2017B" : 4793.980,
+    "Tau_2017C" : 9632.850,
+    "Tau_2017D" : 4247.707,
+    "Tau_2017E" : 9313.990,
+    "Tau_2017F" : 13534.185,
+
+    # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2017C" : 396.274,
+        "Tau_2017B" : 4094.150,
+        "Tau_2017C" : 498.846,
+        "Tau_2017D" : 311.834,
+        "Tau_2017E" : 391.608,
+        "Tau_2017F" : 465.854,
     },
+
 }
 
 lumi_2018 = {

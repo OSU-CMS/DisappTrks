@@ -48,6 +48,7 @@ datasets_names_data_ntuples = {
 
     # SingleEle
     'SingleEle_2017B' : "/SingleElectron/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
+    'SingleEle_2017C' : "/SingleElectron/bfrancis-Run2017C-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
     'SingleEle_2017D' : "/SingleElectron/bfrancis-Run2017D-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
 
     # SingleMu
