@@ -14,7 +14,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
     mc_global_tag = '94X_mc2017_realistic_v15'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     data_global_tag = '101X_dataRun2_Prompt_v11'
     mc_global_tag = '94X_mc2017_realistic_v15' # to be updated
 
@@ -50,10 +50,10 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://cms-xrd-global.cern.ch//store/data/Run2017F/SingleMuon/MINIAOD/17Nov2017-v1/50000/120E79E6-24E0-E711-98D7-0CC47AD98C8C.root",
+        "root://cmsxrootd-site.fnal.gov//store/data/Run2017F/SingleMuon/MINIAOD/17Nov2017-v1/50000/120E79E6-24E0-E711-98D7-0CC47AD98C8C.root",
         # CandidateTrack ntuples below
         #"root://xrootd.rcac.purdue.edu//store/user/bfrancis/MET/Run2017C-PromptReco-v1-DisappTrks-v1/171026_152519/0000/miniAOD-prod_PAT_95.root",
     ])
@@ -127,7 +127,7 @@ else:
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 collMap = copy.deepcopy(collectionMap)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
     if not UseCandidateTracks:
         print "# Collections: collectionMapMiniAOD2017"
@@ -172,12 +172,19 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         print "ERROR: There are no input files provided in process.source.fileNames."
         sys.exit()
     print "# Applying fixEE2017 = True method for 2017 " + "data" if isData_ else "MC"
-    runMetCorAndUncFromMiniAOD(
-        process,
-        isData = isData_,
-        fixEE2017 = True,
-        postfix = "ModifiedMET"
-    )
+    try:
+        runMetCorAndUncFromMiniAOD(
+            process,
+            isData = isData_,
+            fixEE2017 = True,
+            postfix = "ModifiedMET"
+        )
+    except TypeError:
+        print "ERROR: the \'fixEE2017\' method must be applied for 94X 2017 data, however you have not"
+        print "       set up your environment to do so. Please run:"
+        print "       git cms-merge-topic cms-met:METFixEE2017_949"
+        print "       and rebuild."
+        sys.exit()
     collMap.mets = cms.InputTag ('slimmedMETsModifiedMET', '')
 
 ################################################################################

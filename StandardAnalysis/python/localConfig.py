@@ -31,7 +31,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         print "#                (using CandidateTrack ntuples from miniAOD_94X_Samples in data)"
         dataset_names.update(datasets_names_data_ntuples)
         dataset_names.update(dataset_names_sig_ntuples)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Datasets from: miniAOD_101X_Samples"
     print "# Background samples from: miniAOD_101X_Samples (empty!)"
     from DisappTrks.StandardAnalysis.miniAOD_101X_Samples import *

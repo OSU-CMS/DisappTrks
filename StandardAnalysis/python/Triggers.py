@@ -6,7 +6,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Triggers: 2016"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Triggers: 2017"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Triggers: 2018"
 else:
     print "# Triggers: 2015"
@@ -18,7 +18,7 @@ else:
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )
@@ -64,7 +64,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'HLT_PFMET300_HBHECleaned_v',
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersMetInclusive = cms.vstring(
     )
 
@@ -85,7 +85,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v",  # yes available in bkgd MC
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_1_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersSingleMu = cms.vstring(
         "HLT_IsoMu27_v",
     )
