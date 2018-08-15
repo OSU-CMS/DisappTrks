@@ -50,6 +50,7 @@ datasets_names_data_ntuples = {
     'SingleEle_2017B' : "/SingleElectron/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
     'SingleEle_2017C' : "/SingleElectron/bfrancis-Run2017C-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
     'SingleEle_2017D' : "/SingleElectron/bfrancis-Run2017D-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
+    'SingleEle_2017E' : "/SingleElectron/bfrancis-Run2017E-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
 
     # SingleMu
     'SingleMu_2017B' : "/SingleMuon/zpollock-Run2017B-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
