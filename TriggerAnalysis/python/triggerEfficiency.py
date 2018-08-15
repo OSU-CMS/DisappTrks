@@ -159,6 +159,124 @@ def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
 
     return
 
+def compareTriggers(triggerA, triggerB, leg, dataset, axisTitle, canvas, dataLumi, metHLTFilters):
+    inputFile = TFile.Open("triggerEfficiency_" + dataset + ".root", "read")
+
+    effA = inputFile.Get(triggerA + "_" + leg)
+    effB = inputFile.Get(triggerB + "_" + leg)
+
+    SetStyle(effA)
+    SetStyle(effB)
+    effB.SetLineColor(600)
+    effB.SetMarkerColor(600)
+
+    oneLine = TLine(xlo, 1.0, xhi, 1.0)
+    oneLine.SetLineWidth(3)
+    oneLine.SetLineStyle(2)
+
+    backgroundHist = TH1D("backgroundHist", "backgroundHist", 1, xlo, xhi)
+    backgroundHist.GetYaxis().SetTitle("Trigger Efficiency")
+    backgroundHist.GetYaxis().SetRangeUser(ylo, yhi)
+    backgroundHist.GetXaxis().SetTitle(axisTitle)
+    SetStyle(backgroundHist)
+
+    canvas.cd()
+    backgroundHist.Draw()
+    effA.Draw("CP same")
+    effB.Draw("CP same")
+    #oneLine.Draw("same")
+
+    pt_cmsPrelim = TPaveText(0.132832, 0.859453, 0.486216, 0.906716, "brNDC")
+    pt_cmsPrelim.SetBorderSize(0)
+    pt_cmsPrelim.SetFillStyle(0)
+    pt_cmsPrelim.SetTextFont(62)
+    pt_cmsPrelim.SetTextSize(0.0374065)
+    pt_cmsPrelim.AddText("CMS Preliminary")
+    pt_cmsPrelim.Draw("same")
+
+    pt_lumi = TPaveText(0.744361, 0.92928, 0.860902, 0.977667, "brNDC")
+    pt_lumi.SetBorderSize(0)
+    pt_lumi.SetFillStyle(0)
+    pt_lumi.SetTextFont(42)
+    pt_lumi.SetTextSize(0.0374065)
+    pt_lumi.AddText("{:.2f}".format(dataLumi / 1000.0) + " fb^{-1}, 13 TeV")
+    pt_lumi.Draw("same")
+
+    pt_leg = TPaveText(0.160401, 0.768657, 0.342105, 0.863184, "brNDC")
+    pt_leg.SetBorderSize(0)
+    pt_leg.SetFillStyle(0)
+    pt_leg.SetTextFont(42)
+    pt_leg.SetTextSize(0.025)
+    pt_leg.SetTextAlign(12)
+    if leg == "METLeg":
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1]
+        pt_leg.AddText(legLabel)
+    if leg == "TrackLeg":
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1] + " applied"
+        pt_leg.AddText(legLabel)
+    if leg == "METPath":
+        if trigger == "GrandOr":
+            pt_leg.AddText("OR of Signal Paths")
+        else:
+            if len(trigger) > 25 and len(trigger.split("_")) > 2:
+                firstLine = triggerA.split("_")[0] + "_" + triggerA.split("_")[1] + "_"
+                pt_leg.AddText(firstLine)
+                secondLine = ""
+                for line in triggerA.split("_")[2:-1]:
+                    secondLine += line + "_"
+                secondLine += triggerA.split("_")[-1] + "*"
+                pt_leg.AddText(secondLine)
+            else:
+                pt_leg.AddText(triggerA + "* vs")
+                pt_leg.AddText(triggerB + "*")
+    pt_leg.Draw("same")
+
+    dataLabel = '2015 data'
+    if '2016BC' in dataset:
+        dataLabel = '2016 B+C data'
+    if '2016DEFGH' in dataset:
+        dataLabel = '2016 D-H data'
+    if '2017' in dataset:
+        dataLabel = '2017 data'
+    if '2018' in dataset:
+        dataLabel = '2018 data'
+
+    legendLabel = ""
+
+    legend = TLegend(0.65, 0.75, 0.93, 0.88)
+    legend.SetBorderSize(0)
+    legend.SetFillColor(0)
+    legend.SetFillStyle(0)
+    legend.SetTextFont(42)
+    if leg == 'METLeg':
+        legend.SetHeader('MET Leg')
+    elif leg == 'TrackLeg':
+        legend.SetHeader('Track Leg')
+    legend.AddEntry(effA, triggerA, 'P')
+    legend.AddEntry(effB, triggerB, 'P')
+    legend.Draw("same")
+
+    outputDirectory = 'plots_compare'
+    if 'BC' in dataset:
+        outputDirectory = 'plots_compareBC'
+    if 'DEFGH' in dataset:
+        outputDirectory = 'plots_compareDEFGH'
+
+    if not os.path.exists(outputDirectory):
+        os.mkdir(outputDirectory)
+
+    canvas.SaveAs(outputDirectory + '/' + triggerA + '_vs_' + triggerB + '_' + leg + '.pdf')
+
+    inputFile.Close()
+
+    return
+
 class TriggerEfficiency:
     _path = ""
     _metHLTFilters = []
