@@ -298,6 +298,7 @@ lumi_2017_ntuples = {
     "SingleElectron_2017C" : 9631.009,
     "SingleElectron_2017D" : 4247.706,
     "SingleElectron_2017E" : 9313.682,
+    "SingleElectron_2017F" : 13538.950,
    
     # --hltpath "HLT_IsoMu27_v*"
     "SingleMuon_2017B" : 4793.980,
