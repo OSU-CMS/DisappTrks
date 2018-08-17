@@ -87,8 +87,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
     # available starting 2017C
     'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
     'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
-    'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v',
-    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v',
+    'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v', # not available in MC
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v', # not available in MC
     'HLT_PFMET250_HBHECleaned_v',
     'HLT_PFMET300_HBHECleaned_v',
   )
