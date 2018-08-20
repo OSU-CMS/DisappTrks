@@ -302,6 +302,7 @@ lumi_2017_ntuples = {
    
     # --hltpath "HLT_IsoMu27_v*"
     "SingleMuon_2017B" : 4793.980,
+    "SingleMuon_2017C" : 9563.500,
     "SingleMuon_2017D" : 4247.706,
  
     # no hltpath
