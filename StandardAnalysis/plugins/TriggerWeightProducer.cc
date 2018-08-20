@@ -9,7 +9,7 @@
 #include "FWCore/Common/interface/TriggerNames.h"
 
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
-#include "OSUT3Analysis/Collections/interface/Track.h"
+#include "OSUT3Analysis/Collections/interface/DisappearingTrack.h"
 
 #include "TFile.h"
 #include "TGraphAsymmErrors.h"

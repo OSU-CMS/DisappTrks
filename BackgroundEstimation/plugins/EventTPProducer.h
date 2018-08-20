@@ -14,7 +14,7 @@
 #include "OSUT3Analysis/Collections/interface/Electron.h"
 #include "OSUT3Analysis/Collections/interface/Muon.h"
 #include "OSUT3Analysis/Collections/interface/Tau.h"
-#include "OSUT3Analysis/Collections/interface/Track.h"
+#include "OSUT3Analysis/Collections/interface/DisappearingTrack.h"
 
 template<class T, class... Args> class EventTPProducer : public EventVariableProducer
 {

@@ -55,7 +55,7 @@ datasets_names_data_ntuples = {
 
     # SingleMu
     'SingleMu_2017B' : "/SingleMuon/zpollock-Run2017B-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
-    'SingleMu_2017C' : "/SingleMuon/zpollock-Run2017C-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
+    'SingleMu_2017C' : "/SingleMuon/zpollock-Run2017C-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER", #only 99.6% of jobs
     'SingleMu_2017D' : "/SingleMuon/zpollock-Run2017D-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
 
     # Tau
