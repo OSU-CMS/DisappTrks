@@ -239,6 +239,17 @@ def moveVariableProducer (process, producerName, channelName):
     plotterPath += plotter
     setattr (process, channelName, plotterPath)
 
+# Arbitration cuts (i.e. pick a random one amongst however many objects are left) have to be done at the end
+# of the selection, otherwise you might be throwing out a possible passing object if there are any more cuts
+# on that collection. 
+def moveArbitrationToEnd (process, channelName):
+    if hasattr (process, channelName + "CutCalculator"):
+        x = getattr (process, channelName + "CutCalculator")
+        cuts = x.cuts.cuts
+        for cut in cuts:
+            if hasattr (cut, "arbitration"):
+                cuts.append(cuts.pop(cuts.index(cut)))
+
 def getListOfChannels (process):
     channels = []
     for path in process.schedule:

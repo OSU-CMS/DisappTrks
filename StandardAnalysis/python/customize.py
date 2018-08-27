@@ -199,6 +199,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
             customizeForL1ETMProducer (getattr (process, "EventTauL1ETMProducer"))
             moveVariableProducer (process, "EventTauL1ETMProducer", channel)
 
+        moveArbitrationToEnd (process, channel)
+
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
 
