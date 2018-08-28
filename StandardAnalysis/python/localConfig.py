@@ -5,13 +5,13 @@ import copy
 import os
 import re
 
-# Change this to True if you want to use CandidateTracks in ntuples instead of IsolatedTracks in standard MINIAOD
+# Change this to False if you want to use IsolatedTracks instead of CandidateTracks in ntuples
 # This is perhaps a weird place to put this switch, but this is the first DisappTrks module imported in protoConfig
-UseCandidateTracks = False
+UseCandidateTracks = True
 
-# Change this to True if you want to use prunedGenParticlePlusGeant for hardInteractionMcparticles 
+# If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = False
+UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_'))
 
 print "########################################################################"
 print "# Switching the following since the release is " + os.environ["CMSSW_VERSION"] + ":"
@@ -24,13 +24,14 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Datasets from: miniAOD_94X_Samples"
-    print "# Background samples from: miniAOD_94X_Samples (should be updated with MiniAODv2!)"
-    from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
     if UseCandidateTracks:
-        print "#                (using CandidateTrack ntuples from miniAOD_94X_Samples in data)"
-        dataset_names.update(datasets_names_data_ntuples)
-        dataset_names.update(dataset_names_sig_ntuples)
+        print "# Datasets from: miniAOD_94X_Ntuples"
+        print "# Background samples from: miniAOD_94X_Ntuples (check for updates with MiniAODv2!)"
+        from DisappTrks.StandardAnalysis.miniAOD_94X_Ntuples import *
+    else:
+        print "# Datasets from: miniAOD_94X_Samples"
+        print "# Background samples from: miniAOD_94X_Samples (check for updated with MiniAODv2!)"
+        from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Datasets from: miniAOD_101X_Samples"
     print "# Background samples from: miniAOD_101X_Samples (empty!)"
