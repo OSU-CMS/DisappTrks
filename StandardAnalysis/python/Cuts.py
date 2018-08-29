@@ -859,6 +859,16 @@ cutMuonPairTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki
     numberRequired = cms.string("== 2"),
     alias = cms.string("== 2 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
+cutMuonPairNMissIn = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("missingInnerHitsFromTrackerLayersWithoutMeasurements == 0"),
+    numberRequired = cms.string(">= 2"),
+)
+cutMuonPairNMissMid = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("missingMiddleHitsFromTrackerLayersWithoutMeasurements == 0"),
+    numberRequired = cms.string(">= 2"),
+)
 cutMuonArbitration = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > -1"),

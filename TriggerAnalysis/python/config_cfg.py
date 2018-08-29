@@ -22,6 +22,12 @@ variableProducers.append('EventTriggerVarProducer')
 # Testing: require a match of any muon to the HLT track rather than just the lead muon
 #  add_channels  (process,  TrackLegNumeratorWithMuonsAnyHLTMatch.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
+# Testing: ZtoMuMu selection
+#  add_channels  (process,  [METLegDenominatorZtoMuMu],           histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  METLegNumeratorZtoMuMu.values(),      histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegDenominatorZtoMuMu.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegNumeratorZtoMuMu.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+
 ################################################################################
 # Signal MC channels
 ################################################################################
