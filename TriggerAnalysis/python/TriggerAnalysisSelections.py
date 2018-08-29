@@ -48,7 +48,6 @@ METLegDenominatorZtoMuMu = cms.PSet(
     triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
-        cutMetFilters,
         cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
         cutMuonPairEta21,
         cutMuonPairTightID,
@@ -250,7 +249,6 @@ for trig in triggerFiltersTrack:
         triggers = triggersSingleMu,
         cuts = cms.VPSet(
             cutLeadJetCentral,
-            cutMetFilters,
             cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
             cutMuonPairEta21,
             cutMuonPairTightID,
