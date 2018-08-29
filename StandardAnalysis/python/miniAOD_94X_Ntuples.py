@@ -4,7 +4,7 @@
 #########  LIST OF MINIAOD 2017 94X DATASETS  ##############################################################
 ############################################################################################################
 
-datasets_names_data = {
+dataset_names_data = {
 
     # SingleEle
     'SingleEle_2017B' : "/SingleElectron/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
