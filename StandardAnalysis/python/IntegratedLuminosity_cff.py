@@ -349,13 +349,7 @@ lumi_2018 = {
 lumi = lumi_2015rereco
 
 lumi = InsertYear(lumi_2016, lumi)
-
-from DisappTrks.StandardAnalysis.localConfig import UseCandidateTracks
-if UseCandidateTracks:
-    lumi = InsertYear(lumi_2017_ntuples, lumi)
-else:
-    lumi = InsertYear(lumi_2017, lumi)
-
+lumi = InsertYear(lumi_2017, lumi)
 lumi = InsertYear(lumi_2018, lumi)
 
 # set up some composite aliases for convenience
