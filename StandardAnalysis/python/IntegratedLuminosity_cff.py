@@ -304,6 +304,7 @@ lumi_2017_ntuples = {
     "SingleMuon_2017B" : 4793.980,
     "SingleMuon_2017C" : 9563.500,
     "SingleMuon_2017D" : 4247.706,
+    "SingleMuon_2017E" : 9313.682,
  
     # no hltpath
     "Tau_2017B" : 4793.980,
@@ -348,7 +349,13 @@ lumi_2018 = {
 lumi = lumi_2015rereco
 
 lumi = InsertYear(lumi_2016, lumi)
-lumi = InsertYear(lumi_2017, lumi)
+
+from DisappTrks.StandardAnalysis.localConfig import UseCandidateTracks
+if UseCandidateTracks:
+    lumi = InsertYear(lumi_2017_ntuples, lumi)
+else:
+    lumi = InsertYear(lumi_2017, lumi)
+
 lumi = InsertYear(lumi_2018, lumi)
 
 # set up some composite aliases for convenience

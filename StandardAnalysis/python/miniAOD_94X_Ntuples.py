@@ -17,6 +17,7 @@ dataset_names_data = {
     'SingleMu_2017B' : "/SingleMuon/zpollock-Run2017B-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
     'SingleMu_2017C' : "/SingleMuon/zpollock-Run2017C-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER", #only 99.6% of jobs
     'SingleMu_2017D' : "/SingleMuon/zpollock-Run2017D-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
+    'SingleMu_2017E' : "/SingleMuon/kwei-Run2017E-31Mar2018-v1-DisappTrks-v2-ebcd108112d2d6fbb0554e6a6a3b8e45/USER",
 
     # Tau
     'Tau_2017B' : "/Tau/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-d1b12f551b2a33d683277c01457a2688/USER",
