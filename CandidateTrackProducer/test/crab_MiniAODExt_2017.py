@@ -27,11 +27,14 @@ config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased' # for both MC and data
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 #config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+#config.Data.outLFNDirBase = '/store/group/phys_exotica/disappearingTracks/'
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2'
 
 config.Site.storageSite = 'T2_US_Purdue'
 #config.Site.storageSite = 'T3_US_FNALLPC'
+#config.Site.storageSite = 'T3_US_Rutgers'
+#config.Site.storageSite = 'T2_CH_CERN'
 
 if __name__ == '__main__':
 
@@ -64,9 +67,9 @@ if __name__ == '__main__':
     # This parameter may need to be modified to avoid the 10K jobs limit.
 
     # DY
-    config.Data.unitsPerJob = 54 # 53217 lumis
-    config.General.requestName = 'candidateTrackProducer_DYToLL_M-10to50'
-    config.Data.inputDataset = '/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v2/AODSIM'
+    config.Data.unitsPerJob = 10 # 9871 lumis
+    config.General.requestName = 'candidateTrackProducer_DYToLL_M-5to50'
+    config.Data.inputDataset = '/DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v2/AODSIM'
     #forkAndSubmit(config)
 
     config.Data.unitsPerJob = 54 # 53321 lumis
@@ -74,18 +77,18 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-RECOSIMstep_94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 50 # 49095 lumis
+    config.Data.unitsPerJob = 50 # 49283 lumis
     config.General.requestName = 'candidateTrackProducer_DYToLL_M-50_ext1'
     config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-RECOSIMstep_94X_mc2017_realistic_v10_ext1-v1/AODSIM'
     #forkAndSubmit(config)
 
     # ZJetsToNuNu
-    config.Data.unitsPerJob = 27 # 26061 lumis
+    config.Data.unitsPerJob = 27 # 26223 lumis
     config.General.requestName = 'candidateTrackProducer_ZJetsToNuNu_HT-100To200'
     config.Data.inputDataset = '/ZJetsToNuNu_HT-100To200_13TeV-madgraph/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 26 # 25230 lumis
+    config.Data.unitsPerJob = 26 # 25284 lumis
     config.General.requestName = 'candidateTrackProducer_ZJetsToNuNu_HT-200To400'
     config.Data.inputDataset = '/ZJetsToNuNu_HT-200To400_13TeV-madgraph/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
@@ -100,12 +103,12 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/ZJetsToNuNu_HT-600To800_13TeV-madgraph/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 2772 lumis
+    config.Data.unitsPerJob = 3 # 2772 lumis
     config.General.requestName = 'candidateTrackProducer_ZJetsToNuNu_HT-800To1200'
     config.Data.inputDataset = '/ZJetsToNuNu_HT-800To1200_13TeV-madgraph/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 5 # 571 lumis
+    config.Data.unitsPerJob = 1 # 613 lumis
     config.General.requestName = 'candidateTrackProducer_ZJetsToNuNu_HT-1200To2500'
     config.Data.inputDataset = '/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
@@ -116,115 +119,100 @@ if __name__ == '__main__':
     #forkAndSubmit(config)
 
     # WJets
-    # This sample isn't quite right with "2J", should use HT binned samples
-    config.Data.unitsPerJob = 127 # 127065 lumis
-    config.General.requestName = 'candidateTrackProducer_WJetsToLNu_2J'
-    config.Data.inputDataset = '/WJetsToLNu_2J_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
+    config.Data.unitsPerJob = 29 # 28284 lumis
+    config.General.requestName = 'candidateTrackProducer_WJetsToLNu'
+    config.Data.inputDataset = '/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v2/AODSIM'
+    #forkAndSubmit(config)
+
+    config.Data.unitsPerJob = 48 # 47711 lumis
+    config.General.requestName = 'candidateTrackProducer_WJetsToLNu_ext1'
+    config.Data.inputDataset = '/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11_ext1-v2/AODSIM'
     #forkAndSubmit(config)
 
     # WJets_HT
-    config.Data.unitsPerJob = 100 # 356324 lumis
+    config.Data.unitsPerJob = 364 # 363157 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-100To200'
     config.Data.inputDataset = '/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v2/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 17 # 16484 lumis
+    config.Data.unitsPerJob = 17 # 16504 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-200To400'
     config.Data.inputDataset = '/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 100 # 189116 lumis
+    config.Data.unitsPerJob = 190 # 189374 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-400To600'
     config.Data.inputDataset = '/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 100 # 191636 lumis
+    config.Data.unitsPerJob = 193 # 192463 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-600To800'
     config.Data.inputDataset = '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 100 # 190220 lumis
+    config.Data.unitsPerJob = 192 # 191075 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-800To1200'
     config.Data.inputDataset = '/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 100 # 193055 lumis
+    config.Data.unitsPerJob = 195 # 194344 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-1200To2500'
     config.Data.inputDataset = '/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 100 # 155676 lumis
+    config.Data.unitsPerJob = 157 # 156763 lumis
     config.General.requestName = 'candidateTrackProducer_WJetsToLNu_HT-2500ToInf'
     config.Data.inputDataset = '/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v3/AODSIM'
     #forkAndSubmit(config)
 
     # WW
-    config.Data.unitsPerJob = 10 # 8940 lumis
-    config.General.requestName = 'candidateTrackProducer_WWToLNuQQ'
-    config.Data.inputDataset = '/WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
-    #forkAndSubmit(config)
-
-    config.Data.unitsPerJob = 10 # 10392 lumis
-    config.General.requestName = 'candidateTrackProducer_WWToLNuQQ_ext1'
-    config.Data.inputDataset = '/WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10_ext1-v1/AODSIM'
-    #forkAndSubmit(config)
-
-    config.Data.unitsPerJob = 10 # 2106 lumis
-    config.General.requestName = 'candidateTrackProducer_WWTo2L2Nu'
-    config.Data.inputDataset = '/WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM'
+    config.Data.unitsPerJob = 8 # 7923 lumis
+    config.General.requestName = 'candidateTrackProducer_WW'
+    config.Data.inputDataset = '/WW_TuneCP5_13TeV-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
     # WZ
-    config.Data.unitsPerJob = 10 # 4294 lumis
+    config.Data.unitsPerJob = 5 # 4294 lumis
     config.General.requestName = 'candidateTrackProducer_WZ'
     config.Data.inputDataset = '/WZ_TuneCP5_13TeV-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    # 'WZToLLLNu' : doesn't exist! never used this anyway...
-
     # ZZ
-    config.Data.unitsPerJob = 10 # 2174 lumis
+    config.Data.unitsPerJob = 3 # 2174 lumis
     config.General.requestName = 'candidateTrackProducer_ZZ'
     config.Data.inputDataset = '/ZZ_TuneCP5_13TeV-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
     # VG
-    # MonoPhoton_PtG-40to130 isn't desireable but "WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8" is only just requested
-    config.Data.unitsPerJob = 5 # 4866 lumis
-    config.General.requestName = 'candidateTrackProducer_WGJets_MonoPhoton_PtG-40to130'
-    config.Data.inputDataset = '/WGJets_MonoPhoton_PtG-40to130_TuneCP5_13TeV-madgraph/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v2/AODSIM'
-    #forkAndSubmit(config)
-
-    # ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8 still in progress
-    # 'ZG' : doesn't exist yet!
+    # No acceptable WG or ZG samples exist yet... Please check later.
 
     # Single Top
-    config.Data.unitsPerJob = 12 # 11617 lumis
+    config.Data.unitsPerJob = 12 # 11646 lumis
     config.General.requestName = 'candidateTrackProducer_ST_s-channel'
     config.Data.inputDataset = '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 10461 lumis
+    config.Data.unitsPerJob = 11 # 10461 lumis
     config.General.requestName = 'candidateTrackProducer_ST_t-channel_top'
     config.Data.inputDataset = '/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 6733 lumis
+    config.Data.unitsPerJob = 7 # 6733 lumis
     config.General.requestName = 'candidateTrackProducer_ST_t-channel_antitop'
     config.Data.inputDataset = '/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 5541 lumis
+    config.Data.unitsPerJob = 6 # 5541 lumis
     config.General.requestName = 'candidateTrackProducer_ST_tW_top'
     config.Data.inputDataset = '/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 5710 lumis
+    config.Data.unitsPerJob = 6 # 5710 lumis
     config.General.requestName = 'candidateTrackProducer_ST_tW_antitop'
     config.Data.inputDataset = '/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v1/AODSIM'
     #forkAndSubmit(config)
 
-    config.Data.unitsPerJob = 10 # 6017 lumis
+    config.Data.unitsPerJob = 7 # 6017 lumis
     config.General.requestName = 'candidateTrackProducer_ST_tW_antitop_ext1'
     config.Data.inputDataset = '/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10_ext1-v1/AODSIM'
     #forkAndSubmit(config)
@@ -435,7 +423,7 @@ if __name__ == '__main__':
     # Run2017F-v1
 
     config.Data.outputDatasetTag = 'Run2017F-31Mar2018-v1-DisappTrks-v2'
-    config.Data.unitsPerJob = 62 # 61275 lumis
+    config.Data.unitsPerJob = 31 # 61275 lumis
 
     config.General.requestName = 'candidateTrackProducer_MET_2017F-31Mar2018-v1'
     config.Data.inputDataset   = '/MET/Run2017F-17Nov2017-v1/AOD'
