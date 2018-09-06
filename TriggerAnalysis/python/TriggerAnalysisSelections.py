@@ -40,6 +40,27 @@ GrandOrDenominator = cms.PSet(
 )
 
 ##########################################################################################################
+# MET leg denominator for all paths using ZtoMuMu selection
+##########################################################################################################
+
+METLegDenominatorZtoMuMu = cms.PSet(
+    name = cms.string("METLegDenominatorZtoMuMu"),
+    triggers = triggersSingleMu,
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
+        cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
+        cutMuonPairEta21,
+        cutMuonPairTightID,
+        cutMuonPairNMissIn,
+        cutMuonPairNMissMid,
+        cutMuonPairTightPFIso,
+        cutMuMuChargeProduct,
+        cutMuMuInvMassZLo,
+        cutMuMuInvMassZHi,
+    )
+)
+
+##########################################################################################################
 # MET leg denominator for all paths using Tracks (instead of muons)
 ##########################################################################################################
 
@@ -125,8 +146,19 @@ for trig in triggerFiltersMet:
         for filt in triggerFiltersMet[trig]:
             addCuts(METLegNumeratorTrk[trig].cuts, [firesFilter[filt]])
 
+# ZtoMuMu version
+METLegNumeratorZtoMuMu = {}
+for trig in triggerFiltersMet:
+    METLegNumeratorZtoMuMu[trig] = copy.deepcopy(METLegDenominatorZtoMuMu)
+    METLegNumeratorZtoMuMu[trig].name = cms.string(re.sub(r"_", "", trig) + "METLegNumeratorZtoMuMu")
 
-
+    # if not IsoTrk50, just use the whole path
+    if not trig in triggerFiltersTrack:
+        addCuts(METLegNumeratorZtoMuMu[trig].cuts, [firesTrigger[trig]])
+    # otherwise add all the filters for MET before IsoTrk50
+    else:
+        for filt in triggerFiltersMet[trig]:
+            addCuts(METLegNumeratorZtoMuMu[trig].cuts, [firesFilter[filt]])
 
 ##########################################################################################################
 # Track leg with muons (data)
@@ -205,6 +237,37 @@ for trig in triggerFiltersTrack:
     TrackLegNumeratorWithTracks[trig] = copy.deepcopy(TrackLegDenominatorWithTracks[trig])
     TrackLegNumeratorWithTracks[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithTracks")
     addCuts(TrackLegNumeratorWithTracks[trig].cuts, [cutLeadTrkMatchHLTTrack, firesTrigger[trig]])
+
+##########################################################################################################
+# Track leg with ZtoMuMu selection
+##########################################################################################################
+
+TrackLegDenominatorZtoMuMu = {}
+for trig in triggerFiltersTrack:
+    TrackLegDenominatorZtoMuMu[trig] = cms.PSet(
+        name = cms.string(re.sub(r"_", "", trig) + "TrackLegDenominatorZtoMuMu"),
+        triggers = triggersSingleMu,
+        cuts = cms.VPSet(
+            cutLeadJetCentral,
+            cutMuonPairPt, # this will be >22 for 76X and >26 for 80X
+            cutMuonPairEta21,
+            cutMuonPairTightID,
+            cutMuonPairNMissIn,
+            cutMuonPairNMissMid,
+            cutMuonPairTightPFIso,
+            cutMuMuChargeProduct,
+            cutMuMuInvMassZLo,
+            cutMuMuInvMassZHi,
+        )
+    )
+    for filt in triggerFiltersMet[trig]:
+        addCuts(TrackLegDenominatorZtoMuMu[trig].cuts, [firesFilter[filt]])
+
+TrackLegNumeratorZtoMuMu = {}
+for trig in triggerFiltersTrack:
+    TrackLegNumeratorZtoMuMu[trig] = copy.deepcopy(TrackLegDenominatorZtoMuMu[trig])
+    TrackLegNumeratorZtoMuMu[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorZtoMuMu")
+    addCuts(TrackLegNumeratorZtoMuMu[trig].cuts, [cutAnyMuonMatchHLTTrack, firesTrigger[trig]])
 
 ##########################################################################################################
 # Track leg with no SingleMu triggers (MC)

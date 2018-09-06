@@ -53,9 +53,7 @@ process.source = cms.Source ("PoolSource",
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://cmsxrootd-site.fnal.gov//store/data/Run2017F/SingleMuon/MINIAOD/17Nov2017-v1/50000/120E79E6-24E0-E711-98D7-0CC47AD98C8C.root",
-        # CandidateTrack ntuples below
-        #"root://xrootd.rcac.purdue.edu//store/user/bfrancis/MET/Run2017C-PromptReco-v1-DisappTrks-v1/171026_152519/0000/miniAOD-prod_PAT_95.root",
+        "root://xrootd.rcac.purdue.edu//store/user/bfrancis/SingleElectron/Run2017B-31Mar2018-v1-DisappTrks-v2/180806_191508/0000/REMINIAOD_PAT_1.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',
@@ -249,9 +247,9 @@ from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 # Set up the collections of histograms
 ################################################################################
 
-# in 2017, when using pat::IsolatedTracks, make some changes to certain variables
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
-    from DisappTrks.StandardAnalysis.HistogramDefinitions2017 import *
+# When using pat::IsolatedTracks, make some changes to certain variables
+if not UseCandidateTracks:
+    from DisappTrks.StandardAnalysis.HistogramDefinitionsIsolatedTracks import *
 else:
     from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
     from DisappTrks.StandardAnalysis.HistogramDefinitions import *
@@ -277,7 +275,7 @@ histSetsDebug = cms.VPSet(
     TrackDebugEcaloHistograms,
     TrackDebugHitPatternHistograms,
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") and not UseCandidateTracks:
+if  not UseCandidateTracks:
     histSetsDebug.remove(TrackDebugEcaloHistograms) # no calo energy methods in pat::IsolatedTracks
 
 histSetsMetJet = cms.VPSet (

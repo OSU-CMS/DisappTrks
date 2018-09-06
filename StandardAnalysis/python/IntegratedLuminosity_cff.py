@@ -304,6 +304,7 @@ lumi_2017_ntuples = {
     "SingleMuon_2017B" : 4793.980,
     "SingleMuon_2017C" : 9563.500,
     "SingleMuon_2017D" : 4247.706,
+    "SingleMuon_2017E" : 9313.682,
  
     # no hltpath
     "Tau_2017B" : 4793.980,
