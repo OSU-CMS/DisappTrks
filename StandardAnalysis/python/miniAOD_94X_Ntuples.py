@@ -6,6 +6,13 @@
 
 dataset_names_data = {
 
+    # MET
+    'MET_2017B' : "/MET/ahart-Run2017B-31Mar2018-v1-DisappTrks-v2-afd6bacb5bc8e2ef45f0b08cd350328e/USER",
+    'MET_2017C' : "/MET/ahart-Run2017C-31Mar2018-v1-DisappTrks-v2-afd6bacb5bc8e2ef45f0b08cd350328e/USER",
+    'MET_2017D' : "/MET/ahart-Run2017D-31Mar2018-v1-DisappTrks-v2-afd6bacb5bc8e2ef45f0b08cd350328e/USER",
+    'MET_2017E' : "/MET/ahart-Run2017E-31Mar2018-v1-DisappTrks-v2-afd6bacb5bc8e2ef45f0b08cd350328e/USER",
+    'MET_2017F' : "/MET/ahart-Run2017F-31Mar2018-v1-DisappTrks-v3-afd6bacb5bc8e2ef45f0b08cd350328e/USER",
+
     # SingleEle
     'SingleEle_2017B' : "/SingleElectron/bfrancis-Run2017B-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
     'SingleEle_2017C' : "/SingleElectron/bfrancis-Run2017C-31Mar2018-v1-DisappTrks-v2-277c0e41a920dae7141f6c4d24521354/USER",
@@ -54,7 +61,28 @@ dataset_names_bkgd = {
     #'QCD_2400to3200'  :
     'QCD_3200toInf'   : "/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
 
-
+    'DYJetsToLL_50'                :  "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'DYJetsToLL_5to50'             :  "/DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'SingleTop_t_channel_antitop'  :  "/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'SingleTop_t_channel_top'      :  "/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'SingleTop_tbarW'              :  "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT100to200'        :  "/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT200to400'        :  "/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT200to400'        :  "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT200to400'        :  "/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT600to800'        :  "/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu_HT800to1200'       :  "/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WJetsToLNu'                   :  "/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WW'                           :  "/WW_TuneCP5_13TeV-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'WZ'                           :  "/WZ_TuneCP5_13TeV-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT100to200'       :  "/ZJetsToNuNu_HT-100To200_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT1200to2500'     :  "/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT200to400'       :  "/ZJetsToNuNu_HT-200To400_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT2500toInf'      :  "/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT400to600'       :  "/ZJetsToNuNu_HT-400To600_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT600to800'       :  "/ZJetsToNuNu_HT-600To800_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZJetsToNuNu_HT800to1200'      :  "/ZJetsToNuNu_HT-800To1200_13TeV-madgraph/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'ZZ'                           :  "/ZZ_TuneCP5_13TeV-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
 }
 
 dataset_names_sig = {
