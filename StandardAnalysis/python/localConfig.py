@@ -228,11 +228,6 @@ else:
         'WJetsToLNu_HT600toInf',
     ]
 
-composite_dataset_definitions["WW"] = [
-    'WWToLNuQQ',
-    'WWToLNuLNu',
-]
-
 types["WW"] = "bgMC"
 types["WZ"] = "bgMC"
 types["ZZ"] = "bgMC"
