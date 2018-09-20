@@ -140,6 +140,10 @@ addLifetimeReweighting (datasetsSig)
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    composite_dataset_definitions['DYJetsToLL'] = [
+        'DYJetsToLL_50',
+        'DYJetsToLL_5to50',
+    ],
     composite_dataset_definitions['SingleTop'] = [
         'SingleTop_s_channel',
         'SingleTop_t_channel_top',
