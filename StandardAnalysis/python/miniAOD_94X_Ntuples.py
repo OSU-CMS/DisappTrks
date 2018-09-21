@@ -63,8 +63,10 @@ dataset_names_bkgd = {
 
     'DYJetsToLL_50'                :  "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'DYJetsToLL_5to50'             :  "/DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'SingleTop_s_channel'          :  "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'SingleTop_t_channel_antitop'  :  "/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'SingleTop_t_channel_top'      :  "/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'SingleTop_tW'                 :  "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'SingleTop_tbarW'              :  "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'WJetsToLNu_HT100to200'        :  "/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'WJetsToLNu_HT200to400'        :  "/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
