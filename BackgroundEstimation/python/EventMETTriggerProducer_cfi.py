@@ -148,11 +148,11 @@ def customizeForMETTriggerProducer (producer):
         producer.mhtJetsForTag           = cms.vstring("hltAK4CaloJetsCorrectedIDPassed::HLT", "")
 
         producer.pfMHTTightIDCollections = cms.vstring("hltPFMHTTightID::HLT",                 "")
-        producer.pfMHTTightIDThresholds  = cms.vstring(120.0,                                  0.0)
+        producer.pfMHTTightIDThresholds  = cms.vdouble(120.0,                                  0.0)
         producer.pfMHTTightIDJetsForTag  = cms.vstring("hltAK4PFJetsTightIDCorrected::HLT",    "")
 
         producer.pfMETCollections        = cms.vstring("hltPFMETProducer::HLT",                "")
-        producer.pfMETThresholds         = cms.vstring(120.0,                                  0.0)
+        producer.pfMETThresholds         = cms.vdouble(120.0,                                  0.0)
         producer.pfMETJetsForTag         = cms.vstring("",                                     "")
 
         producer.additionalCollections   = cms.vstring("",                                     "hltTrk50Filter::HLT")
