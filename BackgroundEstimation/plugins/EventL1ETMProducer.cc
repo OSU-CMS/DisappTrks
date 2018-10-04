@@ -14,7 +14,7 @@ EventL1ETMProducer<T>::EventL1ETMProducer (const edm::ParameterSet &cfg) :
     {
       trigObjCollections_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "Collections");
       trigObjFilterSubstrings_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "FilterSubstrings");
-      trigObjFilterSubstringsToReject_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "filterSubstringsToReject");
+      trigObjFilterSubstringsToReject_[filterCategory] = cfg.getParameter<vector<string> > (filterCategory + "FilterSubstringsToReject");
     }
   additionalCollections_ = cfg.getParameter<vector<string> > ("additionalCollections");
   additionalFilters_ = cfg.getParameter<vector<string> > ("additionalFilters");

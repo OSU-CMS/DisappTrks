@@ -10,6 +10,7 @@ def customizeForMETTriggerProducer (producer):
         "metCleanBH",
         "metCleanUsingJetID",
         "mht",
+        "pfMHTTightID",
         "pfMET",
         "pfMHT",
         "pfMETNoMu",
@@ -31,6 +32,7 @@ def customizeForMETTriggerProducer (producer):
     producer.metCleanBHMuonsCountedAsVisible          =  cms.bool  (False)
     producer.metCleanUsingJetIDMuonsCountedAsVisible  =  cms.bool  (False)
     producer.mhtMuonsCountedAsVisible                 =  cms.bool  (False)
+    producer.pfMHTTightIDMuonsCountedAsVisible        =  cms.bool  (True)
     producer.pfMETMuonsCountedAsVisible               =  cms.bool  (True)
     producer.pfMHTMuonsCountedAsVisible               =  cms.bool  (True)
     producer.pfMETNoMuMuonsCountedAsVisible           =  cms.bool  (False)
@@ -61,6 +63,10 @@ def customizeForMETTriggerProducer (producer):
         producer.mhtCollections                 =  cms.vstring  ("",             "",             "hltMht::HLT",                           "",                       "",                            "",                            "",                       "hltMht::HLT",                           "hltMht::HLT",                           "hltMht::HLT")
         producer.mhtThresholds                  =  cms.vdouble  (0.0,            0.0,            90.0,                                    0.0,                      0.0,                           0.0,                           0.0,                      70.0,                                    80.0,                                    80.0)
         producer.mhtJetsForTag                  =  cms.vstring  ("",             "",             "hltAK4CaloJetsCorrectedIDPassed::HLT",  "",                       "",                            "",                            "",                       "hltAK4CaloJetsCorrectedIDPassed::HLT",  "hltAK4CaloJetsCorrectedIDPassed::HLT",  "hltAK4CaloJetsCorrectedIDPassed::HLT")
+
+        producer.pfMHTTightIDCollections        =  cms.vstring  ("",             "",             "",                                      "",                       "",                            "",                            "",                       "",                                      "",                                      "")
+        producer.pfMHTTightIDThresholds         =  cms.vdouble  (0.0,            0.0,            0.0,                                     0.0,                      0.0,                           0.0,                           0.0,                      0.0,                                     0.0,                                     0.0)
+        producer.pfMHTTightIDJetsForTag         =  cms.vstring  ("",             "",             "",                                      "",                       "",                            "",                            "",                       "",                                      "",                                      "")
 
         producer.pfMETCollections               =  cms.vstring  ("",             "",             "hltPFMETProducer::HLT",                 "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",       "hltPFMETProducer::HLT",       "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",                 "",                                      "")
         producer.pfMETThresholds                =  cms.vdouble  (0.0,            0.0,            120.0,                                   170.0,                    170.0,                         170.0,                         170.0,                    90.0,                                    0.0,                                     0.0)
@@ -107,6 +113,10 @@ def customizeForMETTriggerProducer (producer):
         producer.mhtThresholds                  =  cms.vdouble  (0.0,                 0.0,                 80.0,                                    90.0,                                    0.0,                      0.0,                      90.0)
         producer.mhtJetsForTag                  =  cms.vstring  ("",                  "",                  "hltAK4CaloJetsCorrectedIDPassed::HLT",  "hltAK4CaloJetsCorrectedIDPassed::HLT",  "",                       "",                       "hltAK4CaloJetsCorrectedIDPassed::HLT")
 
+        producer.pfMHTTightIDCollections        =  cms.vstring  ("",                  "",                  "",                                      "",                                      "",                       "",                       "")
+        producer.pfMHTTightIDThresholds         =  cms.vdouble  (0.0,                 0.0,                 0.0,                                     0.0,                                     0.0,                      0.0,                      0.0)
+        producer.pfMHTTightIDJetsForTag         =  cms.vstring  ("",                  "",                  "",                                      "",                                      "",                       "",                       "")
+
         producer.pfMETCollections               =  cms.vstring  ("",                  "",                  "hltPFMETProducer::HLT",                 "hltPFMETProducer::HLT",                 "hltPFMETProducer::HLT",  "hltPFMETProducer::HLT",  "")
         producer.pfMETThresholds                =  cms.vdouble  (0.0,                 0.0,                 100.0,                                   120.0,                                   170.0,                    300.0,                    0.0)
         producer.pfMETJetsForTag                =  cms.vstring  ("",                  "",                  "",                                      "",                                      "",                       "",                       "")
@@ -135,32 +145,51 @@ def customizeForMETTriggerProducer (producer):
         # ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
         # ['hltMET105', 'hltMETClean65']
 
-        producer.metCollections          = cms.vstring("hltMet::HLT",                          "hltMet::HLT")
-        producer.metThresholds           = cms.vdouble(90.0,                                   105.0)
-        producer.metJetsForTag           = cms.vstring("",                                     "")
+        producer.metCollections                  = cms.vstring("hltMet::HLT",                          "hltMet::HLT")
+        producer.metThresholds                   = cms.vdouble(90.0,                                   105.0)
+        producer.metJetsForTag                   = cms.vstring("",                                     "")
 
-        producer.metCleanCollections     = cms.vstring("hltMetClean::HLT",                     "hltMetClean::HLT")
-        producer.metThresholds           = cms.vdouble(80.0,                                   65.0)
-        producer.metCleanJetsForTag      = cms.vstring("",                                     "")
+        producer.metCleanCollections             = cms.vstring("hltMetClean::HLT",                     "hltMetClean::HLT")
+        producer.metCleanThresholds              = cms.vdouble(80.0,                                   65.0)
+        producer.metCleanJetsForTag              = cms.vstring("",                                     "")
 
-        producer.mhtCollections          = cms.vstring("hltMht::HLT",                          "")
-        producer.mhtThresholds           = cms.vdouble(90.0,                                   0.0)
-        producer.mhtJetsForTag           = cms.vstring("hltAK4CaloJetsCorrectedIDPassed::HLT", "")
+        producer.metCleanBHCollections           = cms.vstring("",                                     "")
+        producer.metCleanBHThresholds            = cms.vdouble(0.0,                                    0.0)
+        producer.metCleanBHJetsForTag            = cms.vstring("",                                     "")
 
-        producer.pfMHTTightIDCollections = cms.vstring("hltPFMHTTightID::HLT",                 "")
-        producer.pfMHTTightIDThresholds  = cms.vstring(120.0,                                  0.0)
-        producer.pfMHTTightIDJetsForTag  = cms.vstring("hltAK4PFJetsTightIDCorrected::HLT",    "")
+        producer.metCleanUsingJetIDCollections   = cms.vstring("",                                     "")
+        producer.metCleanUsingJetIDThresholds    = cms.vdouble(0.0,                                    0.0)
+        producer.metCleanUsingJetIDJetsForTag    = cms.vstring("",                                     "")
 
-        producer.pfMETCollections        = cms.vstring("hltPFMETProducer::HLT",                "")
-        producer.pfMETThresholds         = cms.vstring(120.0,                                  0.0)
-        producer.pfMETJetsForTag         = cms.vstring("",                                     "")
+        producer.mhtCollections                  = cms.vstring("hltMht::HLT",                          "")
+        producer.mhtThresholds                   = cms.vdouble(90.0,                                   0.0)
+        producer.mhtJetsForTag                   = cms.vstring("hltAK4CaloJetsCorrectedIDPassed::HLT", "")
 
-        producer.additionalCollections   = cms.vstring("",                                     "hltTrk50Filter::HLT")
-        producer.additionalFilters       = cms.vstring("",                                     "hltTrk50Filter")
+        producer.pfMHTTightIDCollections         = cms.vstring("hltPFMHTTightID::HLT",                 "")
+        producer.pfMHTTightIDThresholds          = cms.vdouble(120.0,                                  0.0)
+        producer.pfMHTTightIDJetsForTag          = cms.vstring("hltAK4PFJetsTightIDCorrected::HLT",    "")
+
+        producer.pfMETCollections                = cms.vstring("hltPFMETProducer::HLT",                "")
+        producer.pfMETThresholds                 = cms.vdouble(120.0,                                  0.0)
+        producer.pfMETJetsForTag                 = cms.vstring("",                                     "")
+
+        producer.pfMHTCollections                = cms.vstring("",                                     "")
+        producer.pfMHTThresholds                 = cms.vdouble(0.0,                                    0.0)
+        producer.pfMHTJetsForTag                 = cms.vstring("",                                     "")
+
+        producer.pfMETNoMuCollections            = cms.vstring("",                                     "")
+        producer.pfMETNoMuThresholds             = cms.vdouble(0.0,                                    0.0)
+        producer.pfMETNoMuJetsForTag             = cms.vstring("",                                     "")
+
+        producer.pfMHTNoMuCollections            = cms.vstring("",                                     "")
+        producer.pfMHTNoMuThresholds             = cms.vdouble(0.0,                                    0.0)
+        producer.pfMHTNoMuJetsForTag             = cms.vstring("",                                     "")
+
+        producer.additionalCollections           = cms.vstring("",                                     "hltTrk50Filter::HLT")
+        producer.additionalFilters               = cms.vstring("",                                     "hltTrk50Filter")
 
     else:
         print "EventMETTriggerProducer_cfg.py does not know which MET trigger filters to apply!"
         exit (1)
-
 
     return producer
