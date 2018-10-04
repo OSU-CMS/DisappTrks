@@ -246,7 +246,7 @@ class CandidateTrack : public reco::Track
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;
 
-    const double caloTotNoPU (int, RhoType = All, CaloType = Sum) const;
+    const double caloTotNoPU (double, RhoType = All, CaloType = Sum) const;
 };
 
 
