@@ -117,7 +117,7 @@ CandidateTrack::~CandidateTrack ()
 }
 
 const double
-CandidateTrack::caloTotNoPU (int dR, RhoType rhoType, CaloType caloType) const
+CandidateTrack::caloTotNoPU (double dR, RhoType rhoType, CaloType caloType) const
 {
   // For reference, see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_AN1
   double rho;
@@ -136,24 +136,25 @@ CandidateTrack::caloTotNoPU (int dR, RhoType rhoType, CaloType caloType) const
   }
   
   double rawCaloTot = 0.0;
+  int intDR = dR * 10.0;
   switch (caloType) {
   case Sum:
-    if(dR == 5) rawCaloTot = caloNewDRp5();
-    else if(dR == 3) rawCaloTot = caloNewDRp3();
-    else if(dR == 2) rawCaloTot = caloNewDRp2();
-    else if(dR == 1) rawCaloTot = caloNewDRp1();
+    if(intDR == 5) rawCaloTot = caloNewDRp5();
+    else if(intDR == 3) rawCaloTot = caloNewDRp3();
+    else if(intDR == 2) rawCaloTot = caloNewDRp2();
+    else if(intDR == 1) rawCaloTot = caloNewDRp1();
     break;
   case EM:
-    if(dR == 5) rawCaloTot = caloNewEMDRp5();
-    else if(dR == 3) rawCaloTot = caloNewEMDRp3();
-    else if(dR == 2) rawCaloTot = caloNewEMDRp2();
-    else if(dR == 1) rawCaloTot = caloNewEMDRp1();
+    if(intDR == 5) rawCaloTot = caloNewEMDRp5();
+    else if(intDR == 3) rawCaloTot = caloNewEMDRp3();
+    else if(intDR == 2) rawCaloTot = caloNewEMDRp2();
+    else if(intDR == 1) rawCaloTot = caloNewEMDRp1();
     break;
   case Had:
-    if(dR == 5) rawCaloTot = caloNewHadDRp5();
-    else if(dR == 3) rawCaloTot = caloNewHadDRp3();
-    else if(dR == 2) rawCaloTot = caloNewHadDRp2();
-    else if(dR == 1) rawCaloTot = caloNewHadDRp1();
+    if(intDR == 5) rawCaloTot = caloNewHadDRp5();
+    else if(intDR == 3) rawCaloTot = caloNewHadDRp3();
+    else if(intDR == 2) rawCaloTot = caloNewHadDRp2();
+    else if(intDR == 1) rawCaloTot = caloNewHadDRp1();
     break; 
   }
   
