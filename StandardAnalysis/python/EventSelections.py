@@ -1083,3 +1083,26 @@ for selection in list (locals ()):
     locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
     locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
     removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+
+# create copies of all above selections with the pixels/validHits changed from 3/7 to 4/4
+for selection in list (locals()):
+    if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
+        continue
+    hasPixelCut = False
+    for icut in locals ()[selection].cuts:
+        if icut.cutString == cms.string("hitPattern_.numberOfValidPixelHits >= 3"):
+            hasPixelCut = True
+            break
+    if not hasPixelCut:
+        continue
+    hasValidHitsCut = False
+    for icut in locals ()[selection].cuts:
+        if icut.cutString == cms.string("hitPattern_.numberOfValidHits >= 7"):
+            hasValidHitsCut = True
+            break
+    if not hasValidHitsCut:
+        continue
+    locals ()[selection + "Phase1Pixels"] = copy.deepcopy (locals ()[selection])
+    locals ()[selection + "Phase1Pixels"].name = cms.string (locals ()[selection].name.value () + "Phase1Pixels")
+    addSingleCut (locals ()[selection + "Phase1Pixels"].cuts, cutTrkNValidPixelHits4, cutTrkNValidPixelHits3)
+    removeCuts (locals ()[selection + "Phase1Pixels"].cuts, [cutTrkNValidPixelHits3, cutTrkNValidHits])

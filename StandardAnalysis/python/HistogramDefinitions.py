@@ -33,6 +33,56 @@ TrackDebugEcaloHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloTotNoPUDRp5CentralCalo", "caloNewNoPUDRp5CentralCalo"),
             ),
+        cms.PSet (
+            name = cms.string("trackCaloEM"),
+            title = cms.string("Relative EM isolation energy;E_{EM calo}^{#DeltaR<0.5}"),
+            binsX = cms.untracked.vdouble(1000, 0, 50),
+            inputVariables = cms.vstring("caloNewEMDRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloHad"),
+            title = cms.string("Relative Hadronic isolation energy;E_{Had. calo}^{#DeltaR<0.5}"),
+            binsX = cms.untracked.vdouble(1000, 0, 50),
+            inputVariables = cms.vstring("caloNewHadDRp5"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloNew_RhoCorr_fine"),
+            title = cms.string("Isolation energy (new calculation, PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0, 50),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackRhoPUCorr"),
+            title = cms.string("Track rho correction;Rho (all PF candidates) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0, 500),
+            inputVariables = cms.vstring("rhoPUCorr"),
+            ),
+        cms.PSet (
+            name = cms.string("trackRhoPUCorrCalo"),
+            title = cms.string("Track rho correction;Rho (all calo towers) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0, 500),
+            inputVariables = cms.vstring("rhoPUCorrCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackRhoPUCorrCentralCalo"),
+            title = cms.string("Track rho correction;Rho (all calo towers |#eta| < 2.5) [GeV]"),
+            binsX = cms.untracked.vdouble(1000, 0, 500),
+            inputVariables = cms.vstring("rhoPUCorrCentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloTotVsRhoPUCorrCentralCalo"),
+            title = cms.string("Isolation energy (new calculation) vs rhoPUCorrCentralCalo;Rho (all calo towers |#eta| < 2.5) [GeV];E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            binsY = cms.untracked.vdouble(100, 0, 100),            
+            inputVariables = cms.vstring("rhoPUCorrCentralCalo", "caloNewNoPUDRp5CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloTotVsEta"),
+            title = cms.string("Isolation energy (new calculation) vs #eta;Rho (all calo towers |#eta| < 2.5) [GeV];track #eta"),
+            binsX = cms.untracked.vdouble(100, -5, 5),
+            binsY = cms.untracked.vdouble(100, 0, 100),            
+            inputVariables = cms.vstring("eta", "caloNewNoPUDRp5CentralCalo"),
+            ),
     )
 )
 
