@@ -1090,14 +1090,14 @@ for selection in list (locals()):
         continue
     hasPixelCut = False
     for icut in locals ()[selection].cuts:
-        if icut.cutString == cms.string("hitPattern_.numberOfValidPixelHits >= 3"):
+        if cutsAreEqual(icut, cutTrkNValidPixelHits3):
             hasPixelCut = True
             break
     if not hasPixelCut:
         continue
     hasValidHitsCut = False
     for icut in locals ()[selection].cuts:
-        if icut.cutString == cms.string("hitPattern_.numberOfValidHits >= 7"):
+        if cutsAreEqual(icut, cutTrkNValidHits):
             hasValidHitsCut = True
             break
     if not hasValidHitsCut:
