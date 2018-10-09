@@ -148,15 +148,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
     for channel in getListOfChannels (process):
         moveVariableProducer (process, "TriggerWeightProducer", channel)
 
-        doFilter = False
-        doSSFilter = False
-        doJetFilter = False
-        if channel.endswith ("WithFilter"):
-            doFilter = True
-        if channel.endswith ("WithSSFilter"):
-            doSSFilter = True
-        if channel.endswith ("WithJetFilter"):
-            doJetFilter = True
+        doFilter    = ("WithFilter" in channel)
+        doSSFilter  = ("WithSSFilter" in channel)
+        doJetFilter = ("WithJetFilter" in channel)
 
         if hasattr (process, "EventElectronTPProducer"):
             getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
