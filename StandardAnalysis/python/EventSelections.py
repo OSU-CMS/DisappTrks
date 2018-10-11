@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import copy
+import os
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
@@ -90,6 +91,9 @@ isoTrkCuts = [
     cutTrkDZ,
     cutTrkJetDeltaPhi,
 ]
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    isoTrkCuts.insert(5, cutTrk2017LowEfficiencyRegion)
 
 isoTrkWithPt55Cuts = copy.deepcopy(isoTrkCuts)
 addSingleCut(isoTrkWithPt55Cuts, cutTrkPt55, cutTrkEta)

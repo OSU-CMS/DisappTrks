@@ -152,6 +152,8 @@ removeCuts (ZtoEleProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
 ElectronFiducialCalcBefore = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcBefore.name = cms.string("ElectronFiducialCalcBefore")
 removeCuts(ElectronFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    removeCuts(ElectronFiducialCalcBefore.cuts, [cutTrk2017LowEfficiencyRegion])
 
 ElectronFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(ElectronFiducialCalcBefore)
 ElectronFiducialCalcBeforeInvestigate2017Ineff.name = cms.string("ElectronFiducialCalcBeforeInvestigate2017Ineff")
@@ -161,6 +163,8 @@ ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
 addSingleCut(ElectronFiducialCalcAfter.cuts, cutTrkVetoElecVeto, cutEleTrkOS)
 removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")

@@ -337,6 +337,12 @@ cutTrkTOBCrack = cms.PSet(
     cutString = cms.string("!inTOBCrack"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrk2017LowEfficiencyRegion = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("phi < 2.7 || eta < 0 || eta > 1.42"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Veto low efficiency 2017 eta-phi region"),
+)
 cutTrkFiducialElectron = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("isFiducialElectronTrack"),

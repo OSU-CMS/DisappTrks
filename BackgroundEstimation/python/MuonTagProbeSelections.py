@@ -153,6 +153,8 @@ removeCuts (ZtoMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
 MuonFiducialCalcBefore = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcBefore.name = cms.string("MuonFiducialCalcBefore")
 removeCuts(MuonFiducialCalcBefore.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    removeCuts(MuonFiducialCalcBefore.cuts, [cutTrk2017LowEfficiencyRegion])
 
 MuonFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(MuonFiducialCalcBefore)
 MuonFiducialCalcBeforeInvestigate2017Ineff.name = cms.string("MuonFiducialCalcBeforeInvestigate2017Ineff")
@@ -162,6 +164,8 @@ MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
 addCuts(MuonFiducialCalcAfter.cuts, [cutTrkLooseMuonVeto])
 removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
 
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
