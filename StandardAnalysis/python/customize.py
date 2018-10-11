@@ -26,7 +26,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
-        setThresholdForVeto (process, 2.0)
+        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2015")
 
@@ -49,7 +49,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForVeto (process, 2.0)
+        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016BC")
 
@@ -72,7 +72,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForVeto (process, 2.0)
+        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
@@ -96,7 +96,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
-        setThresholdForVeto (process, 2.0)
+        setThresholdForFiducialMapVeto (process, 2.0)
+        setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
@@ -120,7 +121,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
-        setThresholdForVeto (process, 2.0)
+        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
