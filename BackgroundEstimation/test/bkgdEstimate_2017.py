@@ -123,35 +123,25 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addTCanvas (canvas)
         electronBkgdEstimate.addPrescaleFactor (lumi["MET_2017" + runPeriod] / lumi["SingleElectron_2017" + runPeriod])
 
-        # fixme
-        # RAW/RECO missing for 1/5 events in C, 1/9 in E, and 2/4 events in F for ZtoEleDisTrk passing events
-        electronTagProbeEffectiveLumi = lumi["SingleElectron_2017" + runPeriod]
-        if "C" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (1./5.) * lumi["SingleElectron_2017C"]
-        if "E" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (1./9.) * lumi["SingleElectron_2017E"]
-        if "F" in runPeriod or runPeriod == "":
-            electronTagProbeEffectiveLumi -= (2./4.) * lumi["SingleElectron_2017F"]
-        electronBkgdEstimate.addTagProbePassScaleFactor (lumi["SingleElectron_2017" + runPeriod] / electronTagProbeEffectiveLumi)
-
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2017" + runPeriod)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts")
-        electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",             "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrkWithFilter",    "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2") # fixme rereco
+        electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",             "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
 
         #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",  "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion")
 
         electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
         electronBkgdEstimate.addRebinFactor (4)
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion")
-        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55MetTrig",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55",         "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
 
         print "********************************************************************************"
 
         nEstElectron.append( electronBkgdEstimate.printNest () )
+        electronBkgdEstimate.printPpassVetoTagProbe ()
 
         print "********************************************************************************"
 
@@ -178,21 +168,22 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         muonBkgdEstimate.addPlotLabel ("SingleMuon 2017" + runPeriod)
-        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",              "SingleMu_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",              "SingleMu_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilter",  "SingleMu_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/sameSign/skims/muonBackground")
-        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",                "SingleMu_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/muonBackground_nCtrl_new")
+        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",              "SingleMu_2017"         +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP")
+        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrkWithFilter",    "SingleMu_2017"         +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP") # fixme rereco
+        muonBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilter",  "SingleMu_2017"         +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP")
+        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",                "SingleMu_2017"         +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
 
         #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",  "SingleMu_2017"         +  runPeriod,  dirs['Andrew']+"2017_final_prompt/muonBackground_nCtrl_new")
 
         muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (True)
         muonBkgdEstimate.addRebinFactor (4)
-        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",    "MuonTagPt55",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/muonBackground_passesMETTriggers_new")
-        muonBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "MuonTagPt55",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/muonBackground_passesMETTriggers_SHINY")
+        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",    "MuonTagPt55MetTrig",  "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
+        muonBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "MuonTagPt55",         "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
 
         print "********************************************************************************"
 
         nEstMuon.append( muonBkgdEstimate.printNest () )
+        muonBkgdEstimate.printPpassVetoTagProbe ()
 
         print "********************************************************************************"
 
@@ -229,13 +220,13 @@ for runPeriod in runPeriods:
         tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         tauBkgdEstimate.addPlotLabel ("Tau 2017" + runPeriod)
-        tauBkgdEstimate.addChannel  ("TagProbe",         "ZtoTauToMuProbeTrk",               "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToMuonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass",     "ZtoTauToMuProbeTrk",               "SingleMu_rereco_2017"   +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToMuonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter",   "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/sameSign/skims/tauToMuonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/sameSign/skims/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagPt35",          "TauTagPt55",                       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017_final_prompt/tauBackground_nCtrl_new")
+        tauBkgdEstimate.addChannel  ("TagProbe",         "ZtoTauToMuProbeTrk",               "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToMuonBackground")
+        tauBkgdEstimate.addChannel  ("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter",     "SingleMu_rereco_2017"   +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToMuonBackground")
+        tauBkgdEstimate.addChannel  ("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter",   "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017/fromLPC/sameSign/skims/tauToMuonBackground")
+        tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToElectronBackground")
+        tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToElectronBackground")
+        tauBkgdEstimate.addChannel  ("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017/fromLPC/sameSign/skims/tauToElectronBackground")
+        tauBkgdEstimate.addChannel  ("TagPt35",          "TauTagPt55",                       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017/tauBackground_nCtrl_new")
 
         #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017_final_prompt/tauBackground_nCtrl_new")
         #tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/electronBackground_nCtrl_new")
@@ -249,53 +240,13 @@ for runPeriod in runPeriods:
         print "********************************************************************************"
 
         nEstTau.append ( tauBkgdEstimate.printNest () )
+        tauBkgdEstimate.printPpassVetoTagProbe ()
 
         print "********************************************************************************"
 
         fout.Close ()
 
         print "\n\n"
-
-# fixme
-# Redo the calculation of P_veto with the full 2015+2016 datasets so that the
-# track pt dependence of P_veto can be plotted.
-
-sys.stdout = nullout
-
-if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
-    fout = TFile.Open ("electronBkgdEstimate.root", "recreate")
-    electronBkgdEstimate = LeptonBkgdEstimate ("electron")
-    electronBkgdEstimate.addTFile (fout)
-    electronBkgdEstimate.addTCanvas (canvas)
-    electronBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleElectron_2015"] + lumi["SingleElectron_2017"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts")
-    electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts")
-    electronBkgdEstimate.printPpassVetoTagProbe ()
-    fout.Close ()
-
-if background == "MUON" or background == "LEPTON" or background == "ALL":
-    fout = TFile.Open ("muonBkgdEstimate.root", "recreate")
-    muonBkgdEstimate = LeptonBkgdEstimate ("muon")
-    muonBkgdEstimate.addTFile (fout)
-    muonBkgdEstimate.addTCanvas (canvas)
-    muonBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleMuon_2015"] + lumi["SingleMuon_2017"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",              "SingleMu_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/muonBackground")
-    muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrk",              "SingleMu_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/muonBackground")
-    muonBkgdEstimate.printPpassVetoTagProbe ()
-    fout.Close ()
-
-if background == "TAU" or background == "LEPTON" or background == "ALL":
-    fout = TFile.Open ("tauBkgdEstimate.root", "recreate")
-    tauBkgdEstimate = LeptonBkgdEstimate ("tau")
-    tauBkgdEstimate.addTFile (fout)
-    tauBkgdEstimate.addTCanvas (canvas)
-    tauBkgdEstimate.addLuminosityLabel (str (round ((lumi["SingleMuon_2015"] + lumi["SingleMuon_2017"]) / 1000.0, 2)) + " fb^{-1} (13 TeV)")
-    tauBkgdEstimate.addChannel  ("TagProbe",         "ZtoTauToMuProbeTrk",               "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToMuonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass",     "ZtoTauToMuProbeTrk",               "SingleMu_rereco_2017"   +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToMuonBackground")
-    tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToElectronBackground")
-    tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/stenson/tauToElectronBackground")
-    tauBkgdEstimate.printPpassVetoTagProbe ()
-    fout.Close ()
 
 sys.stdout = stdout
 
