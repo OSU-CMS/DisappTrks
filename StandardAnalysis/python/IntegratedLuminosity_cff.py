@@ -47,25 +47,26 @@ def CreateCompositeLumis(allLumis, year, allPeriods):
     # do the same for specific triggers, e.g. ['HLT_xyz']['Tau_2016BC']
     for period in periods:
         # define suffix like '_2016'
-            suffix = '_' + year
-            # if it's not the whole year (ie BC) call it _2016BC, otherwise beep 2016 BCDEFGH as just '_2016'
-            if period != allPeriods:
-                suffix += period
+        suffix = '_' + year
+        # if it's not the whole year (ie BC) call it _2016BC, otherwise beep 2016 BCDEFGH as just '_2016'
+        if period != allPeriods:
+            suffix += period
+        for tauTrigger in ['HLT_LooseIsoPFTau50_Trk30_eta2p1_v*', 'HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*']:
+            if not tauTrigger in allLumis:
+                continue
+            # define a value for e.g. 'Tau_2016BC' and then add 'Tau_2016B' and 'Tau_2016C' to it
+            allLumis[tauTrigger]['Tau' + suffix] = 0.0
+            for p in period:
+                if not 'Tau_' + year + p in allLumis[tauTrigger]:
+                    continue
+                allLumis[tauTrigger]['Tau' + suffix] += allLumis[tauTrigger]['Tau_' + year + p]
 
-            for tauTrigger in ['HLT_LooseIsoPFTau50_Trk30_eta2p1_v*', 'HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*']:
-                # define a value for e.g. 'Tau_2016BC' and then add 'Tau_2016B' and 'Tau_2016C' to it
-                allLumis[tauTrigger]['Tau' + suffix] = 0.0
-                for p in period:
-                    if not 'Tau_' + year + p in allLumis[tauTrigger]:
-                        continue
-                    allLumis[tauTrigger]['Tau' + suffix] += allLumis[tauTrigger]['Tau_' + year + p]
-    
-            if 'HLT_ZeroBias_v*' in allLumis:
-                allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] = 0.0
-                for p in period:
-                    if not 'ZeroBias_' + year + p in allLumis['HLT_ZeroBias_v*']:
-                        continue
-                    allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] += allLumis['HLT_ZeroBias_v*']['ZeroBias_' + year + p]
+        if 'HLT_ZeroBias_v*' in allLumis:
+            allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] = 0.0
+            for p in period:
+                if not 'ZeroBias_' + year + p in allLumis['HLT_ZeroBias_v*']:
+                    continue
+                allLumis['HLT_ZeroBias_v*']['ZeroBias' + suffix] += allLumis['HLT_ZeroBias_v*']['ZeroBias_' + year + p]
     return allLumis
 
 # Use PromptReco for 2016 or, if False, use 23Sep2016

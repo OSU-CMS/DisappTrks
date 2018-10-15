@@ -28,7 +28,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         print "# Datasets from: miniAOD_94X_Ntuples"
         print "# Background samples from: miniAOD_94X_Ntuples (check for updates with MiniAODv2!)"
         from DisappTrks.StandardAnalysis.miniAOD_94X_Ntuples import *
-        lumi.update (lumi_2017_ntuples)
+        lumi.update (CreateCompositeLumis (lumi_2017_ntuples, '2017', 'BCDEF'))
     else:
         print "# Datasets from: miniAOD_94X_Samples"
         print "# Background samples from: miniAOD_94X_Samples (check for updated with MiniAODv2!)"
