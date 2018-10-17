@@ -126,17 +126,17 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2017" + runPeriod)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrkWithFilter",    "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2") # fixme rereco
-        electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilter",  "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",             "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrkPhase1Pixels",              "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrkWithFilterPhase1Pixels",    "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2") # fixme rereco
+        electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilterPhase1Pixels",  "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55Phase1Pixels",             "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",      "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigPhase1Pixels",      "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
         electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (False) # temporary measure
         electronBkgdEstimate.addRebinFactor (4)
-        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
-        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55Phase1Pixels",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55Phase1Pixels",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
         print "********************************************************************************"
 
