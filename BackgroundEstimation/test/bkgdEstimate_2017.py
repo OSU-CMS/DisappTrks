@@ -119,6 +119,7 @@ for runPeriod in runPeriods:
         fout = TFile.Open ("electronBkgdEstimate_2017" + runPeriod + ".root", "recreate")
 
         electronBkgdEstimate = LeptonBkgdEstimate ("electron")
+        electronBkgdEstimate.addMetCut (120.0)
         electronBkgdEstimate.addTFile (fout)
         electronBkgdEstimate.addTCanvas (canvas)
         electronBkgdEstimate.addPrescaleFactor (lumi["MET_2017" + runPeriod] / lumi["SingleElectron_2017" + runPeriod])
@@ -158,6 +159,7 @@ for runPeriod in runPeriods:
         fout = TFile.Open ("muonBkgdEstimate_2017" + runPeriod + ".root", "recreate")
 
         muonBkgdEstimate = LeptonBkgdEstimate ("muon")
+        muonBkgdEstimate.addMetCut (120.0)
         muonBkgdEstimate.addTFile (fout)
         muonBkgdEstimate.addTCanvas (canvas)
         muonBkgdEstimate.addPrescaleFactor (lumi["MET_2017" + runPeriod] / lumi["SingleMuon_2017" + runPeriod])
@@ -200,6 +202,7 @@ for runPeriod in runPeriods:
         fout = TFile.Open ("tauBkgdEstimate_2017" + runPeriod + ".root", "recreate")
 
         tauBkgdEstimate = LeptonBkgdEstimate ("tau")
+        tauBkgdEstimate.addMetCut (120.0)
         tauBkgdEstimate.addTFile (fout)
         tauBkgdEstimate.addTCanvas (canvas)
         tauBkgdEstimate.addPrescaleFactor (lumi["MET_2017" + runPeriod] / lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod])
