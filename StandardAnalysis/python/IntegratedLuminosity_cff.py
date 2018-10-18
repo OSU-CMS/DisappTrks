@@ -294,6 +294,13 @@ lumi_2017 = {
 lumi_2017_ntuples = {
     # brilcalc on CRAB report JSONs with hltpath
 
+    # FIX ME -- holdovers from lumi_2017 above, need to use the ntuple crab reports
+    "MET_2017B" : 4793.983,
+    "MET_2017C" : 9631.329,
+    "MET_2017D" : 4247.817,
+    "MET_2017E" : 9314.621,
+    "MET_2017F" : 12671.279,
+
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
     "SingleElectron_2017B" : 4710.308,
     "SingleElectron_2017C" : 9631.009,
@@ -306,6 +313,8 @@ lumi_2017_ntuples = {
     "SingleMuon_2017C" : 9563.500,
     "SingleMuon_2017D" : 4247.706,
     "SingleMuon_2017E" : 9313.682,
+    # FIX ME -- holdover from lumi_2017 above, need to use the ntuple crab reports
+    "SingleMuon_2017F" : 13539.633,
  
     # no hltpath
     "Tau_2017B" : 4793.980,
