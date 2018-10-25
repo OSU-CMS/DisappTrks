@@ -11,7 +11,7 @@ UseCandidateTracks = True
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_'))
+UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_3_'))
 
 print "########################################################################"
 print "# Switching the following since the release is " + os.environ["CMSSW_VERSION"] + ":"
@@ -33,7 +33,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         print "# Background samples from: miniAOD_94X_Samples (check for updated with MiniAODv2!)"
         from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
         lumi.update (CreateCompositeLumis (lumi_2017, '2017', 'BCDEF'))
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     print "# Datasets from: miniAOD_101X_Samples"
     print "# Background samples from: miniAOD_101X_Samples (empty!)"
     from DisappTrks.StandardAnalysis.miniAOD_101X_Samples import *

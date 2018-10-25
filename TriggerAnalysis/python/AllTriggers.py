@@ -11,7 +11,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Trigger filters: 2016"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Trigger filters: 2017"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     print "# Trigger filters: 2018"
 else:
     print "# Trigger filters: 2015"
@@ -84,7 +84,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     }
 
 # 2018
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     triggerFiltersMet = {
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
         'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
