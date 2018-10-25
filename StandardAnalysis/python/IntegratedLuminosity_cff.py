@@ -335,19 +335,20 @@ lumi_2017_ntuples = {
 }
 
 lumi_2018 = {
-    # filterJSON.py --min x --max y  Cert_314472-319851_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
+    # filterJSON.py --min x --max y  Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
     # 2018A: 315252-316995
     # 2018B: 316998-319312
     # 2018C: 319313-320393
-    # 2018D: 320394- (no runs certified yet)
+    # 2018D: 320394-
     #
     # Preliminary normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM
     # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /pb -i Run2018x.json --hltpath "xyz"
 
     # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2018A" : 13967.030,
-    "SingleMuon_2018B" : 7051.900,
-    "SingleMuon_2018C" : 4230.898,
+    "SingleMuon_2018A" : 14002.950,
+    "SingleMuon_2018B" : 7097.399,
+    "SingleMuon_2018C" : 6937.091,
+    "SingleMuon_2018D" : 25868.201,
 
     # no hltpath
     "Tau_2018A" : 13967.030,
