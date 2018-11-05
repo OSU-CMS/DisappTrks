@@ -32,24 +32,35 @@ def getUser():
         dirs['Andrew'] = "hartCondor/"
         dirs['Brian']  = "francisCondor/"
         dirs['Wells']  = ""
+        dirs['Kai']    = "weiCondor/"
         user = "wulsin"
     elif "hart" in cwd:
         dirs['Andrew'] = ""
         dirs['Brian']  = "francisCondor/"
         dirs['Wells']  = "wellsCondor/"
+        dirs['Kai']    = "weiCondor/"
         user = "hart"
     elif "bfrancis" in cwd:
         dirs['Andrew'] = "hartCondor/"
         dirs['Brian']  = ""
         dirs['Wells']  = "wellsCondor/"
         dirs['Zach']   = "pollockCondor/"
+        dirs['Kai']    = "weiCondor/"
         user = "bfrancis"
     elif "zpollock" in cwd:
         dirs['Andrew'] = "hartCondor/"
         dirs['Brian']  = "francisCondor/"
         dirs['Wells']  = "wellsCondor/"
         dirs['Zach']   = ""
+        dirs['Kai']    = "weiCondor/"
         user = "zpollock"
+    elif "kwei" in cwd:
+        dirs['Andrew'] = "hartCondor/"
+        dirs['Brian']  = "francisCondor/"
+        dirs['Wells']  = "wellsCondor/"
+        dirs['Zach']   = "pollockCondor/"
+        dirs['Kai']    = ""
+        users = "kwei"
     else:
         print "Error:  could not identify user as bfrancis, hart, wulsin, or zpollock."
         os.exit(0)
