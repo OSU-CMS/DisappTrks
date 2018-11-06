@@ -289,5 +289,5 @@ def createChannelVariations (channel, channelName, cutToReplace, replacements):
     for suffix in replacements:
         newChannels[channelName + suffix] = copy.deepcopy (channel)
         newChannels[channelName + suffix].name = cms.string (channel.name.value () + suffix)
-        replaceSingleCut (globals ()[channelName + suffix].cuts, replacements[suffix], cutToReplace)
+        replaceSingleCut (newChannels[channelName + suffix].cuts, replacements[suffix], cutToReplace)
     return newChannels
