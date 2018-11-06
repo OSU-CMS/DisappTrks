@@ -36,7 +36,7 @@ ZtoMuMuDisTrk = copy.deepcopy(ZtoMuMu)
 ZtoMuMuDisTrk.name = cms.string("ZtoMuMuDisTrk")
 addCuts(ZtoMuMuDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
-createNHitsVariations = lambda a, b : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (ZtoMuMuDisTrk, "ZtoMuMuDisTrk")
 
 ##################################################

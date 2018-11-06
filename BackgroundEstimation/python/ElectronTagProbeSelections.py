@@ -195,7 +195,7 @@ removeCuts(ZtoEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations = lambda a, b : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (ElectronTagPt55,         "ElectronTagPt55")
 createNHitsVariations (ElectronTagPt55MetTrig,  "ElectronTagPt55MetTrig")
 createNHitsVariations (ZtoEleProbeTrkWithZCuts, "ZtoEleProbeTrkWithZCuts")

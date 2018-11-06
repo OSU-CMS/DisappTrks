@@ -32,7 +32,7 @@ addCuts(ZtoEEDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 ##################################################
 ## Fake track control sample:  Z->e e + disappearing track with 3 hits
 ##################################################
-createNHitsVariations = lambda a, b : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (ZtoEEDisTrk, "ZtoEEDisTrk")
 
 ##################################################
