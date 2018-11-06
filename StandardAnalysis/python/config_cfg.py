@@ -74,12 +74,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 
-#  add_channels  (process,  [basicSelectionOneJet14to18PV],         histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits3],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits4],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits5],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits6],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [justAChargino],        histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justAHighPtChargino],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justAVertex],          histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -135,12 +129,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False)
-
-#  add_channels  (process,  [basicSelectionOneJet14to18PV],         histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits3],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits4],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits5],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionOneJet14to18PVNHits6],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 #  add_channels  (process,  [justAFakeTrkWithNoCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justARealTrkWithNoCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)

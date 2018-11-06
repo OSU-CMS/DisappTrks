@@ -363,31 +363,54 @@ cutTrkFiducialECAL = cms.PSet(
 #     cutString = cms.string("fabs ( eta ) "),
 #     numberRequired = cms.string(">= 1"),
 # )
-cutTrkNValidPixelHits = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 1"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidPixelHits3 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 3"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidPixelHits4 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 4"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidPixelHits6 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 6"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidPixelHits9 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidPixelHits >= 9"),
-    numberRequired = cms.string(">= 1"),
-)
+
+cutTrkNValidPixelHits = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.numberOfValidPixelHits >= " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        ) 
+    for x in range(1, 10)
+}
+
+cutTrkNValidHits = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.numberOfValidHits >= " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(1, 10)
+}
+
+cutTrkNValidHitsExclusive = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.numberOfValidHits == " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(1, 10)
+}
+
+cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
+cutTrkNValidHitsSignal = cutTrkNValidHits[7]
+cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+    cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
+    cutTrkNValidHitsSignal = cutTrkNValidHits[4]
+    cutTrkNValidHitsVariations.update({"7plus" : cutTrkNValidHits[7]})
+    print "# Hits requirement: 4/4"
+else:
+    print "# Hits requirement: 3/7"
+
+cutTrkNValidHitsLE = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.numberOfValidHits <= " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(2, 10)
+}
+
 cutTrkNValidPixelEndcapHits2 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitPattern_.numberOfValidPixelBarrelHits == 2"),
@@ -398,56 +421,7 @@ cutTrkNValidPixelBarrelHits3 = cms.PSet(
     cutString = cms.string("hitPattern_.numberOfValidPixelBarrelHits == 3"),
     numberRequired = cms.string(">= 1"),
 )
-cutTrkNValidHits = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits >= 7"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits6More = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits >= 6"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits5More = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits >= 5"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits4More = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits >= 4"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits >= 7"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits3 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits == 3"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits4 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits == 4"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHitsLE4 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits <= 4"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits5 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits == 5"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNValidHits6 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.numberOfValidHits == 6"),
-    numberRequired = cms.string(">= 1"),
-)
+
 cutTrkNLayers3 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 3"),

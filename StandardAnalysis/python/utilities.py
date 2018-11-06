@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from DisappTrks.StandardAnalysis.MissingHitsCorrections_cff import *
+from OSUT3Analysis.Configuration.cutUtilities import replaceSingleCut
 import re
 import os
 import copy
@@ -279,3 +280,14 @@ def getListOfChannels (process):
                 channels.append (path.label ())
 
     return channels
+
+# Create copies of a channel but replacing one cut with a range of replacements
+# i.e. Cut --> [CutV1, CutV2, CutV3]...
+# In the calling module, you will need to use globals().update() on the resulting dict
+def createChannelVariations (channel, channelName, cutToReplace, replacements):
+    newChannels = {}
+    for suffix in replacements:
+        newChannels[channelName + suffix] = copy.deepcopy (channel)
+        newChannels[channelName + suffix].name = cms.string (channel.name.value () + suffix)
+        replaceSingleCut (globals ()[channelName + suffix].cuts, replacements[suffix], cutToReplace)
+    return newChannels
