@@ -4,6 +4,10 @@ import os
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ##########################################################################
 ##### Testing #####
@@ -323,7 +327,6 @@ justADisTrk = copy.deepcopy (justAVertex)
 justADisTrk.name = cms.string ("JustADisTrk")
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
-createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (justADisTrk, "justADisTrk")
 
 justACandTrk = copy.deepcopy (justAVertex)

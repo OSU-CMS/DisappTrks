@@ -3,6 +3,11 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ##################################################
 ## Fake track control sample:  start with Z->e e events
 ##################################################
@@ -32,7 +37,6 @@ addCuts(ZtoEEDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 ##################################################
 ## Fake track control sample:  Z->e e + disappearing track with 3 hits
 ##################################################
-createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (ZtoEEDisTrk, "ZtoEEDisTrk")
 
 ##################################################

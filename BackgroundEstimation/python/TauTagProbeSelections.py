@@ -5,6 +5,11 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *  # Get the composite cut definitions
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *  # Get the composite cut definitions
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ################################################################################
 ## Tau tag skim
 ################################################################################
@@ -263,7 +268,6 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (TauTagPt55,                   "TauTagPt55")
 createNHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
 createNHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")

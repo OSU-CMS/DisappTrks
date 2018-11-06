@@ -3,6 +3,11 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ################################################################################
 ## Muon tag skim
 ################################################################################
@@ -195,7 +200,6 @@ removeCuts(ZtoMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations = lambda ch, chName : globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 createNHitsVariations (MuonTagPt55,            "MuonTagPt55")
 createNHitsVariations (MuonTagPt55MetTrig,     "MuonTagPt55MetTrig")
 createNHitsVariations (ZtoMuProbeTrkWithZCuts, "ZtoMuProbeTrkWithZCuts")
