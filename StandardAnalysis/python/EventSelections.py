@@ -4,6 +4,10 @@ import os
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ##########################################################################
 ##### Testing #####
@@ -16,7 +20,6 @@ NoCuts = cms.PSet(
         cutDummyMet,
     )
 )
-
 
 ##########################################################################
 ##### Preselection #####
@@ -82,8 +85,8 @@ isoTrkCuts = [
     cutTrkFiducialElectron,
     cutTrkFiducialMuon,
     cutTrkFiducialECAL,
-    cutTrkNValidPixelHits3,
-    cutTrkNValidHits,
+    cutTrkNValidPixelHitsSignal,
+    cutTrkNValidHitsSignal,
     cutTrkNMissIn,
     cutTrkNMissMid,
     cutTrkIso,
@@ -102,7 +105,7 @@ isoTrkWithPt55BeforeIsoCuts = copy.deepcopy(isoTrkWithPt55Cuts)
 removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkIso, cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
 
 isoTrkWithPt55BeforeValidPixelHitCuts = copy.deepcopy(isoTrkWithPt55BeforeIsoCuts)
-removeCuts(isoTrkWithPt55BeforeValidPixelHitCuts, [cutTrkNValidPixelHits3, cutTrkNValidHits, cutTrkNMissIn, cutTrkNMissMid])
+removeCuts(isoTrkWithPt55BeforeValidPixelHitCuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal, cutTrkNMissIn, cutTrkNMissMid])
 
 isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
@@ -324,25 +327,7 @@ justADisTrk = copy.deepcopy (justAVertex)
 justADisTrk.name = cms.string ("JustADisTrk")
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
-justADisTrkNHits3 = copy.deepcopy (justADisTrk)
-justADisTrkNHits3.name = cms.string ("JustADisTrkNHits3")
-removeCuts (justADisTrkNHits3.cuts, [cutTrkNValidHits])
-addCuts (justADisTrkNHits3.cuts, [cutTrkNValidHits3])
-
-justADisTrkNHits4 = copy.deepcopy (justADisTrk)
-justADisTrkNHits4.name = cms.string ("JustADisTrkNHits4")
-removeCuts (justADisTrkNHits4.cuts, [cutTrkNValidHits])
-addCuts (justADisTrkNHits4.cuts, [cutTrkNValidHits4])
-
-justADisTrkNHits5 = copy.deepcopy (justADisTrk)
-justADisTrkNHits5.name = cms.string ("JustADisTrkNHits5")
-removeCuts (justADisTrkNHits5.cuts, [cutTrkNValidHits])
-addCuts (justADisTrkNHits5.cuts, [cutTrkNValidHits5])
-
-justADisTrkNHits6 = copy.deepcopy (justADisTrk)
-justADisTrkNHits6.name = cms.string ("JustADisTrkNHits6")
-removeCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits])
-addCuts (justADisTrkNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (justADisTrk, "justADisTrk")
 
 justACandTrk = copy.deepcopy (justAVertex)
 justACandTrk.name = cms.string ("JustACandTrk")
@@ -356,97 +341,25 @@ justAFakeTrk = copy.deepcopy (justACandTrk)
 justAFakeTrk.name = cms.string ("JustAFakeTrk")
 addCuts(justAFakeTrk.cuts, [cutTrkMatchFake])
 
-justAFakeTrkNHits3 = copy.deepcopy (justAFakeTrk)
-justAFakeTrkNHits3.name = cms.string ("JustAFakeTrkNHits3")
-removeCuts (justAFakeTrkNHits3.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNHits3.cuts, [cutTrkNValidHits3])
-
-justAFakeTrkNHits4 = copy.deepcopy (justAFakeTrk)
-justAFakeTrkNHits4.name = cms.string ("JustAFakeTrkNHits4")
-removeCuts (justAFakeTrkNHits4.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNHits4.cuts, [cutTrkNValidHits4])
-
-justAFakeTrkNHits5 = copy.deepcopy (justAFakeTrk)
-justAFakeTrkNHits5.name = cms.string ("JustAFakeTrkNHits5")
-removeCuts (justAFakeTrkNHits5.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNHits5.cuts, [cutTrkNValidHits5])
-
-justAFakeTrkNHits6 = copy.deepcopy (justAFakeTrk)
-justAFakeTrkNHits6.name = cms.string ("JustAFakeTrkNHits6")
-removeCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (justAFakeTrk, "justAFakeTrk")
 
 justARealTrk = copy.deepcopy (justACandTrk)
 justARealTrk.name = cms.string ("JustARealTrk")
 addCuts(justARealTrk.cuts, [cutTrkMatchReal])
 
-justARealTrkNHits3 = copy.deepcopy (justARealTrk)
-justARealTrkNHits3.name = cms.string ("JustARealTrkNHits3")
-removeCuts (justARealTrkNHits3.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNHits3.cuts, [cutTrkNValidHits3])
-
-justARealTrkNHits4 = copy.deepcopy (justARealTrk)
-justARealTrkNHits4.name = cms.string ("JustARealTrkNHits4")
-removeCuts (justARealTrkNHits4.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNHits4.cuts, [cutTrkNValidHits4])
-
-justARealTrkNHits5 = copy.deepcopy (justARealTrk)
-justARealTrkNHits5.name = cms.string ("JustARealTrkNHits5")
-removeCuts (justARealTrkNHits5.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNHits5.cuts, [cutTrkNValidHits5])
-
-justARealTrkNHits6 = copy.deepcopy (justARealTrk)
-justARealTrkNHits6.name = cms.string ("JustARealTrkNHits6")
-removeCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (justARealTrk, "justARealTrk")
 
 justAFakeTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
 justAFakeTrkNoD0Cut.name = cms.string ("JustAFakeTrkNoD0Cut")
 addCuts(justAFakeTrkNoD0Cut.cuts, [cutTrkMatchFake])
 
-justAFakeTrkNoD0CutNHits3 = copy.deepcopy (justAFakeTrkNoD0Cut)
-justAFakeTrkNoD0CutNHits3.name = cms.string ("JustAFakeTrkNoD0CutNHits3")
-removeCuts (justAFakeTrkNoD0CutNHits3.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNoD0CutNHits3.cuts, [cutTrkNValidHits3])
-
-justAFakeTrkNoD0CutNHits4 = copy.deepcopy (justAFakeTrkNoD0Cut)
-justAFakeTrkNoD0CutNHits4.name = cms.string ("JustAFakeTrkNoD0CutNHits4")
-removeCuts (justAFakeTrkNoD0CutNHits4.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNoD0CutNHits4.cuts, [cutTrkNValidHits4])
-
-justAFakeTrkNoD0CutNHits5 = copy.deepcopy (justAFakeTrkNoD0Cut)
-justAFakeTrkNoD0CutNHits5.name = cms.string ("JustAFakeTrkNoD0CutNHits5")
-removeCuts (justAFakeTrkNoD0CutNHits5.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNoD0CutNHits5.cuts, [cutTrkNValidHits5])
-
-justAFakeTrkNoD0CutNHits6 = copy.deepcopy (justAFakeTrkNoD0Cut)
-justAFakeTrkNoD0CutNHits6.name = cms.string ("JustAFakeTrkNoD0CutNHits6")
-removeCuts (justAFakeTrkNoD0CutNHits6.cuts, [cutTrkNValidHits])
-addCuts (justAFakeTrkNoD0CutNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (justAFakeTrkNoD0Cut, "justAFakeTrkNoD0Cut")
 
 justARealTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
 justARealTrkNoD0Cut.name = cms.string ("JustARealTrkNoD0Cut")
 addCuts(justARealTrkNoD0Cut.cuts, [cutTrkMatchReal])
 
-justARealTrkNoD0CutNHits3 = copy.deepcopy (justARealTrkNoD0Cut)
-justARealTrkNoD0CutNHits3.name = cms.string ("JustARealTrkNoD0CutNHits3")
-removeCuts (justARealTrkNoD0CutNHits3.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNoD0CutNHits3.cuts, [cutTrkNValidHits3])
-
-justARealTrkNoD0CutNHits4 = copy.deepcopy (justARealTrkNoD0Cut)
-justARealTrkNoD0CutNHits4.name = cms.string ("JustARealTrkNoD0CutNHits4")
-removeCuts (justARealTrkNoD0CutNHits4.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNoD0CutNHits4.cuts, [cutTrkNValidHits4])
-
-justARealTrkNoD0CutNHits5 = copy.deepcopy (justARealTrkNoD0Cut)
-justARealTrkNoD0CutNHits5.name = cms.string ("JustARealTrkNoD0CutNHits5")
-removeCuts (justARealTrkNoD0CutNHits5.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNoD0CutNHits5.cuts, [cutTrkNValidHits5])
-
-justARealTrkNoD0CutNHits6 = copy.deepcopy (justARealTrkNoD0Cut)
-justARealTrkNoD0CutNHits6.name = cms.string ("JustARealTrkNoD0CutNHits6")
-removeCuts (justARealTrkNoD0CutNHits6.cuts, [cutTrkNValidHits])
-addCuts (justARealTrkNoD0CutNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (justARealTrkNoD0Cut, "justARealTrkNoD0Cut")
 
 ##########################################################################
 
@@ -747,64 +660,7 @@ addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
-disTrkSelectionNHits3 = copy.deepcopy(disTrkSelection)
-disTrkSelectionNHits3.name = cms.string("DisTrkSelectionNHits3")
-addSingleCut(disTrkSelectionNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts(disTrkSelectionNHits3.cuts, [cutTrkNValidHits])
-
-##########################################################################
-
-disTrkSelectionNHits4 = copy.deepcopy(disTrkSelection)
-disTrkSelectionNHits4.name = cms.string("DisTrkSelectionNHits4")
-addSingleCut(disTrkSelectionNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts(disTrkSelectionNHits4.cuts, [cutTrkNValidHits])
-
-##########################################################################
-
-disTrkSelectionNHits5 = copy.deepcopy(disTrkSelection)
-disTrkSelectionNHits5.name = cms.string("DisTrkSelectionNHits5")
-addSingleCut(disTrkSelectionNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts(disTrkSelectionNHits5.cuts, [cutTrkNValidHits])
-
-##########################################################################
-
-disTrkSelectionNHits6 = copy.deepcopy(disTrkSelection)
-disTrkSelectionNHits6.name = cms.string("DisTrkSelectionNHits6")
-addSingleCut(disTrkSelectionNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts(disTrkSelectionNHits6.cuts, [cutTrkNValidHits])
-
-##########################################################################
-
-oneJet14to18PVCuts = [
-    cutJetPt,
-    cutJetEta,
-    cutJetTightLepVeto,
-    cutDijetDeltaPhiMax,
-    cutLeadingJetMetPhi,
-    cutNJetsEQ1,
-    cutNumPV14to18
-]
-
-basicSelectionOneJet14to18PV = copy.deepcopy(basicSelection)
-basicSelectionOneJet14to18PV.name = cms.string("BasicSelectionOneJet14to18PV")
-addCuts(basicSelectionOneJet14to18PV.cuts, [cutNJetsEQ1, cutNumPV14to18])
-
-disTrkSelectionOneJet14to18PVNHits3 = copy.deepcopy(disTrkSelectionNHits3)
-disTrkSelectionOneJet14to18PVNHits3.name = cms.string("DisTrkSelectionOneJet14to18PVNHits3")
-addCuts(disTrkSelectionOneJet14to18PVNHits3.cuts, oneJet14to18PVCuts)
-
-disTrkSelectionOneJet14to18PVNHits4 = copy.deepcopy(disTrkSelectionNHits4)
-disTrkSelectionOneJet14to18PVNHits4.name = cms.string("DisTrkSelectionOneJet14to18PVNHits4")
-addCuts(disTrkSelectionOneJet14to18PVNHits4.cuts, oneJet14to18PVCuts)
-
-disTrkSelectionOneJet14to18PVNHits5 = copy.deepcopy(disTrkSelectionNHits5)
-disTrkSelectionOneJet14to18PVNHits5.name = cms.string("DisTrkSelectionOneJet14to18PVNHits5")
-addCuts(disTrkSelectionOneJet14to18PVNHits5.cuts, oneJet14to18PVCuts)
-
-disTrkSelectionOneJet14to18PVNHits6 = copy.deepcopy(disTrkSelectionNHits6)
-disTrkSelectionOneJet14to18PVNHits6.name = cms.string("DisTrkSelectionOneJet14to18PVNHits6")
-addCuts(disTrkSelectionOneJet14to18PVNHits6.cuts, oneJet14to18PVCuts)
-
+createNHitsVariations (disTrkSelection, "disTrkSelection")
 
 ##########################################################################
 
@@ -823,25 +679,7 @@ zeroBiasSelectionDisTrk = copy.deepcopy (zeroBiasSelection)
 zeroBiasSelectionDisTrk.name = cms.string ("ZeroBiasSelectionDisTrk")
 addCuts (zeroBiasSelectionDisTrk.cuts, disTrkCuts)
 
-zeroBiasSelectionDisTrkNHits3 = copy.deepcopy (zeroBiasSelectionDisTrk)
-zeroBiasSelectionDisTrkNHits3.name = cms.string ("ZeroBiasSelectionNHits3")
-removeCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionDisTrkNHits3.cuts, [cutTrkNValidHits3])
-
-zeroBiasSelectionDisTrkNHits4 = copy.deepcopy (zeroBiasSelectionDisTrk)
-zeroBiasSelectionDisTrkNHits4.name = cms.string ("ZeroBiasSelectionNHits4")
-removeCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionDisTrkNHits4.cuts, [cutTrkNValidHits4])
-
-zeroBiasSelectionDisTrkNHits5 = copy.deepcopy (zeroBiasSelectionDisTrk)
-zeroBiasSelectionDisTrkNHits5.name = cms.string ("ZeroBiasSelectionNHits5")
-removeCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionDisTrkNHits5.cuts, [cutTrkNValidHits5])
-
-zeroBiasSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasSelectionDisTrk)
-zeroBiasSelectionDisTrkNHits6.name = cms.string ("ZeroBiasSelectionNHits6")
-removeCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (zeroBiasSelectionDisTrk, "zeroBiasSelectionDisTrk")
 
 zeroBiasJetSelection = cms.PSet(
     name = cms.string("ZeroBiasJetSelection"),
@@ -858,25 +696,8 @@ zeroBiasJetSelectionDisTrk = copy.deepcopy (zeroBiasJetSelection)
 zeroBiasJetSelectionDisTrk.name = cms.string ("ZeroBiasJetSelectionDisTrk")
 addCuts (zeroBiasJetSelectionDisTrk.cuts, disTrkCuts)
 
-zeroBiasJetSelectionDisTrkNHits3 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
-zeroBiasJetSelectionDisTrkNHits3.name = cms.string ("ZeroBiasJetSelectionNHits3")
-removeCuts (zeroBiasJetSelectionDisTrkNHits3.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasJetSelectionDisTrkNHits3.cuts, [cutTrkNValidHits3])
+createNHitsVariations (zeroBiasJetSelectionDisTrk, "zeroBiasJetSelectionDisTrk")
 
-zeroBiasJetSelectionDisTrkNHits4 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
-zeroBiasJetSelectionDisTrkNHits4.name = cms.string ("ZeroBiasJetSelectionNHits4")
-removeCuts (zeroBiasJetSelectionDisTrkNHits4.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasJetSelectionDisTrkNHits4.cuts, [cutTrkNValidHits4])
-
-zeroBiasJetSelectionDisTrkNHits5 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
-zeroBiasJetSelectionDisTrkNHits5.name = cms.string ("ZeroBiasJetSelectionNHits5")
-removeCuts (zeroBiasJetSelectionDisTrkNHits5.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasJetSelectionDisTrkNHits5.cuts, [cutTrkNValidHits5])
-
-zeroBiasJetSelectionDisTrkNHits6 = copy.deepcopy (zeroBiasJetSelectionDisTrk)
-zeroBiasJetSelectionDisTrkNHits6.name = cms.string ("ZeroBiasJetSelectionNHits6")
-removeCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits])
-addCuts (zeroBiasJetSelectionDisTrkNHits6.cuts, [cutTrkNValidHits6])
 ##########################################################################
 
 ##########################################################################
@@ -924,74 +745,13 @@ disTrkSelectionSidebandD0Cut.name = cms.string("DisTrkSelectionSidebandD0Cut")
 addSingleCut(disTrkSelectionSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
 removeCuts(disTrkSelectionSidebandD0Cut.cuts, [cutTrkD0])
 
-disTrkSelectionNoD0CutNHits3 = copy.deepcopy(disTrkSelectionNoD0Cut)
-disTrkSelectionNoD0CutNHits3.name = cms.string("DisTrkSelectionNoD0CutNHits3")
-removeCuts(disTrkSelectionNoD0CutNHits3.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionNoD0CutNHits3.cuts, [cutTrkNValidHits3])
-
-disTrkSelectionInvertD0CutNHits3 = copy.deepcopy(disTrkSelectionInvertD0Cut)
-disTrkSelectionInvertD0CutNHits3.name = cms.string("DisTrkSelectionInvertD0CutNHits3")
-removeCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionInvertD0CutNHits3.cuts, [cutTrkNValidHits3])
-
-disTrkSelectionSidebandD0CutNHits3 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
-disTrkSelectionSidebandD0CutNHits3.name = cms.string("DisTrkSelectionSidebandD0CutNHits3")
-removeCuts(disTrkSelectionSidebandD0CutNHits3.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionSidebandD0CutNHits3.cuts, [cutTrkNValidHits3])
-
-disTrkSelectionNoD0CutNHits4 = copy.deepcopy(disTrkSelectionNoD0Cut)
-disTrkSelectionNoD0CutNHits4.name = cms.string("DisTrkSelectionNoD0CutNHits4")
-removeCuts(disTrkSelectionNoD0CutNHits4.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionNoD0CutNHits4.cuts, [cutTrkNValidHits4])
-
-disTrkSelectionInvertD0CutNHits4 = copy.deepcopy(disTrkSelectionInvertD0Cut)
-disTrkSelectionInvertD0CutNHits4.name = cms.string("DisTrkSelectionInvertD0CutNHits4")
-removeCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionInvertD0CutNHits4.cuts, [cutTrkNValidHits4])
-
-disTrkSelectionSidebandD0CutNHits4 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
-disTrkSelectionSidebandD0CutNHits4.name = cms.string("DisTrkSelectionSidebandD0CutNHits4")
-removeCuts(disTrkSelectionSidebandD0CutNHits4.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionSidebandD0CutNHits4.cuts, [cutTrkNValidHits4])
-
-disTrkSelectionNoD0CutNHits5 = copy.deepcopy(disTrkSelectionNoD0Cut)
-disTrkSelectionNoD0CutNHits5.name = cms.string("DisTrkSelectionNoD0CutNHits5")
-removeCuts(disTrkSelectionNoD0CutNHits5.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionNoD0CutNHits5.cuts, [cutTrkNValidHits5])
-
-disTrkSelectionInvertD0CutNHits5 = copy.deepcopy(disTrkSelectionInvertD0Cut)
-disTrkSelectionInvertD0CutNHits5.name = cms.string("DisTrkSelectionInvertD0CutNHits5")
-removeCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionInvertD0CutNHits5.cuts, [cutTrkNValidHits5])
-
-disTrkSelectionSidebandD0CutNHits5 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
-disTrkSelectionSidebandD0CutNHits5.name = cms.string("DisTrkSelectionSidebandD0CutNHits5")
-removeCuts(disTrkSelectionSidebandD0CutNHits5.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionSidebandD0CutNHits5.cuts, [cutTrkNValidHits5])
-
-disTrkSelectionNoD0CutNHits6 = copy.deepcopy(disTrkSelectionNoD0Cut)
-disTrkSelectionNoD0CutNHits6.name = cms.string("DisTrkSelectionNoD0CutNHits6")
-removeCuts(disTrkSelectionNoD0CutNHits6.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionNoD0CutNHits6.cuts, [cutTrkNValidHits6])
-
-disTrkSelectionInvertD0CutNHits6 = copy.deepcopy(disTrkSelectionInvertD0Cut)
-disTrkSelectionInvertD0CutNHits6.name = cms.string("DisTrkSelectionInvertD0CutNHits6")
-removeCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionInvertD0CutNHits6.cuts, [cutTrkNValidHits6])
-
-disTrkSelectionSidebandD0CutNHits6 = copy.deepcopy(disTrkSelectionSidebandD0Cut)
-disTrkSelectionSidebandD0CutNHits6.name = cms.string("DisTrkSelectionSidebandD0CutNHits6")
-removeCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits])
-addCuts(disTrkSelectionSidebandD0CutNHits6.cuts, [cutTrkNValidHits6])
+createNHitsVariations (disTrkSelectionNoD0Cut,       "disTrkSelectionNoD0Cut")
+createNHitsVariations (disTrkSelectionInvertD0Cut,   "disTrkSelectionInvertD0Cut")
+createNHitsVariations (disTrkSelectionSidebandD0Cut, "disTrkSelectionSidebandD0Cut")
 
 ##########################################################################
-# Selections with lower numbers of hits
+# Testing MET Triggers for Luminosity
 ##########################################################################
-
-##########################################################################
-# Testing MET Triggers foor Luminosity
-##########################################################################
-
 
 metTrigAllYes = copy.deepcopy(NoCuts)
 metTrigAllYes.name = cms.string("metTrigAllYes")
@@ -1033,8 +793,6 @@ metTrigAllGoodInB = copy.deepcopy(NoCuts)
 metTrigAllGoodInB.name = cms.string("metTrigAllGoodInB")
 metTrigAllGoodInB.triggers = triggersMetAllGoodInB
 
-
-
 ##########################################################################
 # Removes the random drops for testing purposes
 ##########################################################################
@@ -1043,40 +801,6 @@ disTrkNoRandom = copy.deepcopy(disTrkSelection)
 disTrkNoRandom.name = cms.string("disTrkNoRandom")
 removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
 addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
-
-##########################################################################
-# Test the Number of Valid Pixel Hits vs Number of Valid Hits
-# Named: Number of Valid Pixel Hits, Number of Valid Hits
-##########################################################################
-
-validHitSelection37 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
-validHitSelection37.name = cms.string("validHitSelection37")
-addCuts(validHitSelection37.cuts, [cutTrkNValidPixelHits3,cutTrkNValidHits])
-
-validHitSelection44 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
-validHitSelection44.name = cms.string("validHitSelection44")
-addCuts(validHitSelection44.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits4More])
-
-validHitSelection45 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
-validHitSelection45.name = cms.string("validHitSelection45")
-addCuts(validHitSelection45.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits5More])
-
-validHitSelection46 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
-validHitSelection46.name = cms.string("validHitSelection46")
-addCuts(validHitSelection46.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits6More])
-
-validHitSelection47 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHitsMatching)
-validHitSelection47.name = cms.string("validHitSelection47")
-addCuts(validHitSelection47.cuts, [cutTrkNValidPixelHits4,cutTrkNValidHits])
-
-validHitSelection6 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
-validHitSelection6.name = cms.string("validHitSelection6")
-addCuts(validHitSelection6.cuts, [cutTrkNValidPixelHits6])
-
-validHitSelection9 = copy.deepcopy(isoTrkSelectionBeforeValidPixelHits)
-validHitSelection9.name = cms.string("validHitSelection9")
-addCuts(validHitSelection9.cuts, [cutTrkNValidPixelHits9])
-
 
 #####################################################################
 
@@ -1087,26 +811,3 @@ for selection in list (locals ()):
     locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
     locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
     removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
-
-# create copies of all above selections with the pixels/validHits changed from 3/7 to 4/4
-for selection in list (locals()):
-    if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
-        continue
-    hasPixelCut = False
-    for icut in locals ()[selection].cuts:
-        if cutsAreEqual(icut, cutTrkNValidPixelHits3):
-            hasPixelCut = True
-            break
-    if not hasPixelCut:
-        continue
-    hasValidHitsCut = False
-    for icut in locals ()[selection].cuts:
-        if cutsAreEqual(icut, cutTrkNValidHits):
-            hasValidHitsCut = True
-            break
-    if not hasValidHitsCut:
-        continue
-    locals ()[selection + "Phase1Pixels"] = copy.deepcopy (locals ()[selection])
-    locals ()[selection + "Phase1Pixels"].name = cms.string (locals ()[selection].name.value () + "Phase1Pixels")
-    addSingleCut (locals ()[selection + "Phase1Pixels"].cuts, cutTrkNValidPixelHits4, cutTrkNValidPixelHits3)
-    removeCuts (locals ()[selection + "Phase1Pixels"].cuts, [cutTrkNValidPixelHits3, cutTrkNValidHits])

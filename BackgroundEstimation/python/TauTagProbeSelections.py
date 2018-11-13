@@ -5,6 +5,11 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *  # Get the composite cut definitions
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *  # Get the composite cut definitions
 
+def createNHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ################################################################################
 ## Tau tag skim
 ################################################################################
@@ -163,19 +168,19 @@ removeCuts (ZtoTauToMuDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 TauTagPt55NoValidHitsCut = copy.deepcopy (TauTagPt55)
 TauTagPt55NoValidHitsCut.name = cms.string ("TauTagPt55NoValidHitsCut")
-removeCuts (TauTagPt55NoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts (TauTagPt55NoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 TauTagPt55MetTrigNoValidHitsCut = copy.deepcopy (TauTagPt55MetTrig)
 TauTagPt55MetTrigNoValidHitsCut.name = cms.string ("TauTagPt55MetTrigNoValidHitsCut")
-removeCuts (TauTagPt55MetTrigNoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts (TauTagPt55MetTrigNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut")
-removeCuts(ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts(ZtoTauToMuProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 ZtoTauToMuDisTrkNoValidHitsCut = copy.deepcopy(ZtoTauToMuDisTrk)
 ZtoTauToMuDisTrkNoValidHitsCut.name = cms.string("ZtoTauToMuDisTrkNoValidHitsCut")
-removeCuts(ZtoTauToMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts(ZtoTauToMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 ZtoTauToMuProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToMuProbeTrkWithZCutsBetterPurity")
@@ -240,11 +245,11 @@ removeCuts (ZtoTauToEleDisTrkNoNMissOutCut.cuts, [cutTrkNMissOut])
 
 ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.name = cms.string("ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut")
-removeCuts(ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts(ZtoTauToEleProbeTrkWithZCutsNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 ZtoTauToEleDisTrkNoValidHitsCut = copy.deepcopy(ZtoTauToEleDisTrk)
 ZtoTauToEleDisTrkNoValidHitsCut.name = cms.string("ZtoTauToEleDisTrkNoValidHitsCut")
-removeCuts(ZtoTauToEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHits])
+removeCuts(ZtoTauToEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 
 ZtoTauToEleProbeTrkWithZCutsBetterPurity = copy.deepcopy(ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithZCutsBetterPurity.name = cms.string("ZtoTauToEleProbeTrkWithZCutsBetterPurity")
@@ -263,125 +268,12 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-TauTagPt55NHits3 = copy.deepcopy (TauTagPt55)
-TauTagPt55NHits3.name = cms.string ("TauTagPt55NHits3")
-addSingleCut (TauTagPt55NHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (TauTagPt55NHits3.cuts, [cutTrkNValidHits])
-
-TauTagPt55NHits4 = copy.deepcopy (TauTagPt55)
-TauTagPt55NHits4.name = cms.string ("TauTagPt55NHits4")
-addSingleCut (TauTagPt55NHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (TauTagPt55NHits4.cuts, [cutTrkNValidHits])
-
-TauTagPt55NHits5 = copy.deepcopy (TauTagPt55)
-TauTagPt55NHits5.name = cms.string ("TauTagPt55NHits5")
-addSingleCut (TauTagPt55NHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (TauTagPt55NHits5.cuts, [cutTrkNValidHits])
-
-TauTagPt55NHits6 = copy.deepcopy (TauTagPt55)
-TauTagPt55NHits6.name = cms.string ("TauTagPt55NHits6")
-addSingleCut (TauTagPt55NHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (TauTagPt55NHits6.cuts, [cutTrkNValidHits])
-
-TauTagPt55MetTrigNHits3 = copy.deepcopy (TauTagPt55MetTrig)
-TauTagPt55MetTrigNHits3.name = cms.string ("TauTagPt55MetTrigNHits3")
-addSingleCut (TauTagPt55MetTrigNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (TauTagPt55MetTrigNHits3.cuts, [cutTrkNValidHits])
-
-TauTagPt55MetTrigNHits4 = copy.deepcopy (TauTagPt55MetTrig)
-TauTagPt55MetTrigNHits4.name = cms.string ("TauTagPt55MetTrigNHits4")
-addSingleCut (TauTagPt55MetTrigNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (TauTagPt55MetTrigNHits4.cuts, [cutTrkNValidHits])
-
-TauTagPt55MetTrigNHits5 = copy.deepcopy (TauTagPt55MetTrig)
-TauTagPt55MetTrigNHits5.name = cms.string ("TauTagPt55MetTrigNHits5")
-addSingleCut (TauTagPt55MetTrigNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (TauTagPt55MetTrigNHits5.cuts, [cutTrkNValidHits])
-
-TauTagPt55MetTrigNHits6 = copy.deepcopy (TauTagPt55MetTrig)
-TauTagPt55MetTrigNHits6.name = cms.string ("TauTagPt55MetTrigNHits6")
-addSingleCut (TauTagPt55MetTrigNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (TauTagPt55MetTrigNHits6.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuProbeTrkWithZCutsNHits3 = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
-ZtoTauToMuProbeTrkWithZCutsNHits3.name = cms.string ("ZtoTauToMuProbeTrkWithZCutsNHits3")
-addSingleCut (ZtoTauToMuProbeTrkWithZCutsNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (ZtoTauToMuProbeTrkWithZCutsNHits3.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuProbeTrkWithZCutsNHits4 = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
-ZtoTauToMuProbeTrkWithZCutsNHits4.name = cms.string ("ZtoTauToMuProbeTrkWithZCutsNHits4")
-addSingleCut (ZtoTauToMuProbeTrkWithZCutsNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (ZtoTauToMuProbeTrkWithZCutsNHits4.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuProbeTrkWithZCutsNHits5 = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
-ZtoTauToMuProbeTrkWithZCutsNHits5.name = cms.string ("ZtoTauToMuProbeTrkWithZCutsNHits5")
-addSingleCut (ZtoTauToMuProbeTrkWithZCutsNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (ZtoTauToMuProbeTrkWithZCutsNHits5.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuProbeTrkWithZCutsNHits6 = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
-ZtoTauToMuProbeTrkWithZCutsNHits6.name = cms.string ("ZtoTauToMuProbeTrkWithZCutsNHits6")
-addSingleCut (ZtoTauToMuProbeTrkWithZCutsNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (ZtoTauToMuProbeTrkWithZCutsNHits6.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleProbeTrkWithZCutsNHits3 = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
-ZtoTauToEleProbeTrkWithZCutsNHits3.name = cms.string ("ZtoTauToEleProbeTrkWithZCutsNHits3")
-addSingleCut (ZtoTauToEleProbeTrkWithZCutsNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (ZtoTauToEleProbeTrkWithZCutsNHits3.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleProbeTrkWithZCutsNHits4 = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
-ZtoTauToEleProbeTrkWithZCutsNHits4.name = cms.string ("ZtoTauToEleProbeTrkWithZCutsNHits4")
-addSingleCut (ZtoTauToEleProbeTrkWithZCutsNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (ZtoTauToEleProbeTrkWithZCutsNHits4.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleProbeTrkWithZCutsNHits5 = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
-ZtoTauToEleProbeTrkWithZCutsNHits5.name = cms.string ("ZtoTauToEleProbeTrkWithZCutsNHits5")
-addSingleCut (ZtoTauToEleProbeTrkWithZCutsNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (ZtoTauToEleProbeTrkWithZCutsNHits5.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleProbeTrkWithZCutsNHits6 = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
-ZtoTauToEleProbeTrkWithZCutsNHits6.name = cms.string ("ZtoTauToEleProbeTrkWithZCutsNHits6")
-addSingleCut (ZtoTauToEleProbeTrkWithZCutsNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (ZtoTauToEleProbeTrkWithZCutsNHits6.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuDisTrkNHits3 = copy.deepcopy (ZtoTauToMuDisTrk)
-ZtoTauToMuDisTrkNHits3.name = cms.string ("ZtoTauToMuDisTrkNHits3")
-addSingleCut (ZtoTauToMuDisTrkNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (ZtoTauToMuDisTrkNHits3.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuDisTrkNHits4 = copy.deepcopy (ZtoTauToMuDisTrk)
-ZtoTauToMuDisTrkNHits4.name = cms.string ("ZtoTauToMuDisTrkNHits4")
-addSingleCut (ZtoTauToMuDisTrkNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (ZtoTauToMuDisTrkNHits4.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuDisTrkNHits5 = copy.deepcopy (ZtoTauToMuDisTrk)
-ZtoTauToMuDisTrkNHits5.name = cms.string ("ZtoTauToMuDisTrkNHits5")
-addSingleCut (ZtoTauToMuDisTrkNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (ZtoTauToMuDisTrkNHits5.cuts, [cutTrkNValidHits])
-
-ZtoTauToMuDisTrkNHits6 = copy.deepcopy (ZtoTauToMuDisTrk)
-ZtoTauToMuDisTrkNHits6.name = cms.string ("ZtoTauToMuDisTrkNHits6")
-addSingleCut (ZtoTauToMuDisTrkNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (ZtoTauToMuDisTrkNHits6.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleDisTrkNHits3 = copy.deepcopy (ZtoTauToEleDisTrk)
-ZtoTauToEleDisTrkNHits3.name = cms.string ("ZtoTauToEleDisTrkNHits3")
-addSingleCut (ZtoTauToEleDisTrkNHits3.cuts, cutTrkNValidHits3, cutTrkNValidHits)
-removeCuts (ZtoTauToEleDisTrkNHits3.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleDisTrkNHits4 = copy.deepcopy (ZtoTauToEleDisTrk)
-ZtoTauToEleDisTrkNHits4.name = cms.string ("ZtoTauToEleDisTrkNHits4")
-addSingleCut (ZtoTauToEleDisTrkNHits4.cuts, cutTrkNValidHits4, cutTrkNValidHits)
-removeCuts (ZtoTauToEleDisTrkNHits4.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleDisTrkNHits5 = copy.deepcopy (ZtoTauToEleDisTrk)
-ZtoTauToEleDisTrkNHits5.name = cms.string ("ZtoTauToEleDisTrkNHits5")
-addSingleCut (ZtoTauToEleDisTrkNHits5.cuts, cutTrkNValidHits5, cutTrkNValidHits)
-removeCuts (ZtoTauToEleDisTrkNHits5.cuts, [cutTrkNValidHits])
-
-ZtoTauToEleDisTrkNHits6 = copy.deepcopy (ZtoTauToEleDisTrk)
-ZtoTauToEleDisTrkNHits6.name = cms.string ("ZtoTauToEleDisTrkNHits6")
-addSingleCut (ZtoTauToEleDisTrkNHits6.cuts, cutTrkNValidHits6, cutTrkNValidHits)
-removeCuts (ZtoTauToEleDisTrkNHits6.cuts, [cutTrkNValidHits])
+createNHitsVariations (TauTagPt55,                   "TauTagPt55")
+createNHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
+createNHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")
+createNHitsVariations (ZtoTauToEleProbeTrkWithZCuts, "ZtoTauToEleProbeTrkWithZCuts")
+createNHitsVariations (ZtoTauToMuDisTrk,             "ZtoTauToMuDisTrk")
+createNHitsVariations (ZtoTauToEleDisTrk,            "ZtoTauToEleDisTrk")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
@@ -390,26 +282,3 @@ for selection in list (locals ()):
     locals ()[selection + "NoElectronMuonFiducialCuts"] = copy.deepcopy (locals ()[selection])
     locals ()[selection + "NoElectronMuonFiducialCuts"].name = cms.string (locals ()[selection].name.value () + "NoElectronMuonFiducialCuts")
     removeCuts (locals ()[selection + "NoElectronMuonFiducialCuts"].cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
-
-# create copies of all above selections with the pixels/validHits changed from 3/7 to 4/4
-for selection in list (locals()):
-    if not hasattr (locals ()[selection], "name") or not hasattr (locals ()[selection], "triggers") or not hasattr (locals ()[selection], "cuts"):
-        continue
-    hasPixelCut = False
-    for icut in locals ()[selection].cuts:
-        if cutsAreEqual(icut, cutTrkNValidPixelHits3):
-            hasPixelCut = True
-            break
-    if not hasPixelCut:
-        continue
-    hasValidHitsCut = False
-    for icut in locals ()[selection].cuts:
-        if cutsAreEqual(icut, cutTrkNValidHits):
-            hasValidHitsCut = True
-            break
-    if not hasValidHitsCut:
-        continue
-    locals ()[selection + "Phase1Pixels"] = copy.deepcopy (locals ()[selection])
-    locals ()[selection + "Phase1Pixels"].name = cms.string (locals ()[selection].name.value () + "Phase1Pixels")
-    addSingleCut (locals ()[selection + "Phase1Pixels"].cuts, cutTrkNValidPixelHits4, cutTrkNValidPixelHits3)
-    removeCuts (locals ()[selection + "Phase1Pixels"].cuts, [cutTrkNValidPixelHits3, cutTrkNValidHits])
