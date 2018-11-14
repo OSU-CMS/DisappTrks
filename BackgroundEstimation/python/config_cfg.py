@@ -126,10 +126,38 @@ if False:
     add_channels  (process,  [ZtoMuProbeTrkWithFilter],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithSSFilter],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
 
+# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWithFilter above
+if False:
+    add_channels (process, [ZtoMuProbeTrkWithFilterNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithFilterNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithFilterNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithFilterNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+
+# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWithSSFilter above
+if False:
+    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+
 # Single muon control regions for muon background estimate
 if False:
     add_channels  (process,  [MuonTagPt55],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonMETTriggerProducer)
     add_channels  (process,  [MuonTagPt55MetTrig],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+
+# Single muon control regions in specific nValidHits bins; run out of MuonTagPt55
+if False:
+    add_channels (process, [MuonTagPt55NHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55NHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55NHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55NHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+
+# Single muon control regions in specific nValidHits bins; run out of MuonTagPt55MetTrig
+if False:
+    add_channels (process, [MuonTagPt55MetTrigNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55MetTrigNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55MetTrigNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+    add_channels (process, [MuonTagPt55MetTrigNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
 
 # Tag-and-probe channels for tau background estimate
 if False:

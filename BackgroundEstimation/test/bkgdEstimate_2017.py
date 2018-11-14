@@ -57,13 +57,13 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.addTCanvas (canvas)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinHits (minHits)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",            "DisTrkSelectionNoD0CutNHits3",        "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",        "DisTrkSelectionSidebandD0Cut",        "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits3",  "DisTrkSelectionSidebandD0CutNHits3",  "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits4",  "DisTrkSelectionSidebandD0CutNHits4",  "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits5",  "DisTrkSelectionSidebandD0CutNHits5",  "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0NHits6",  "DisTrkSelectionSidebandD0CutNHits6",  "MET_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",                 "BasicSelection",                      "MET_2017"  +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection")
+            fakeTrackBkgdEstimate.addChannel ("Basic3hits",           "DisTrkSelectionNoD0CutNHits3",       "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0",       "DisTrkSelectionSidebandD0Cut",       "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0NHits3", "DisTrkSelectionSidebandD0CutNHits3", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0NHits4", "DisTrkSelectionSidebandD0CutNHits4", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0NHits5", "DisTrkSelectionSidebandD0CutNHits5", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0NHits6", "DisTrkSelectionSidebandD0CutNHits6", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
+            fakeTrackBkgdEstimate.addChannel ("Basic",                "BasicSelection",                     "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/basicSelection")
 
             print "********************************************************************************"
 
@@ -87,14 +87,14 @@ for runPeriod in runPeriods:
             zToMuMuEstimate.addTCanvas (canvas)
             zToMuMuEstimate.addLuminosityInInvPb (lumi["SingleMuon_2017" + runPeriod])
             zToMuMuEstimate.addMinHits (minHits)
-            zToMuMuEstimate.addChannel  ("Basic3hits",            "ZtoMuMuDisTrkNoD0CutNHits3",        "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("DisTrkInvertD0",        "ZtoMuMuDisTrkSidebandD0Cut",        "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("DisTrkInvertD0NHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",  "SingleMu_2017"  +  runPeriod,  dirs['fixme']+"2017_final_prompt/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel  ("Basic",                 "BasicSelection",                    "MET_2017"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection")
-            zToMuMuEstimate.addChannel  ("ZtoLL",                 "ZtoMuMu",                           "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/zToMuMu")
+            zToMuMuEstimate.addChannel ("Basic3hits",           "ZtoMuMuDisTrkNoD0CutNHits3",       "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("DisTrkInvertD0",       "ZtoMuMuDisTrkSidebandD0Cut",       "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("DisTrkInvertD0NHits3", "ZtoMuMuDisTrkSidebandD0CutNHits3", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("DisTrkInvertD0NHits4", "ZtoMuMuDisTrkSidebandD0CutNHits4", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("DisTrkInvertD0NHits5", "ZtoMuMuDisTrkSidebandD0CutNHits5", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("DisTrkInvertD0NHits6", "ZtoMuMuDisTrkSidebandD0CutNHits6", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
+            zToMuMuEstimate.addChannel ("Basic",                "BasicSelection",                   "MET_2017"      + runPeriod, dirs['Brian']+"2017/fromRutgers/basicSelection")
+            zToMuMuEstimate.addChannel ("ZtoLL",                "ZtoMuMu",                          "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/zToMuMu")
 
             print "********************************************************************************"
 
@@ -126,17 +126,17 @@ for runPeriod in runPeriods:
         electronBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         electronBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         electronBkgdEstimate.addPlotLabel ("SingleElectron 2017" + runPeriod)
-        electronBkgdEstimate.addChannel  ("TagProbe",        "ZtoEleProbeTrk",              "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
-        electronBkgdEstimate.addChannel  ("TagProbePass",    "ZtoEleProbeTrkWithFilter",    "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2") # fixme rereco
-        electronBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoEleProbeTrkWithSSFilter",  "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCuts_v2")
-        electronBkgdEstimate.addChannel  ("TagPt35",         "ElectronTagPt55",             "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        electronBkgdEstimate.addChannel   ("TagProbe",       "ZtoEleProbeTrkPhase1Pixels",             "SingleEle_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel   ("TagProbePass",   "ZtoEleProbeTrkWithFilterPhase1Pixels",   "SingleEle_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2") # fixme rereco
+        electronBkgdEstimate.addChannel   ("TagProbePassSS", "ZtoEleProbeTrkWithSSFilterPhase1Pixels", "SingleEle_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/electronBackgroundNoZCutsPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel   ("TagPt35",        "ElectronTagPt55Phase1Pixels",            "SingleEle_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
-        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrig",      "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35MetTrig",  "ElectronTagPt55MetTrigPhase1Pixels",      "SingleEle_2017" +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
         electronBkgdEstimate.addUseHistogramsForPpassMetTriggers (False) # temporary measure
         electronBkgdEstimate.addRebinFactor (4)
-        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
-        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegion_v2")
+        #electronBkgdEstimate.addChannel  ("TagPt35MetTrig",    "ElectronTagPt55Phase1Pixels",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
+        electronBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "ElectronTagPt55Phase1Pixels",  "SingleEle_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/electronControlRegionPhase1Pixels_v2")
 
         print "********************************************************************************"
 
@@ -169,17 +169,17 @@ for runPeriod in runPeriods:
         muonBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         muonBkgdEstimate.addLuminosityLabel (str (round (lumi["SingleMuon_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         muonBkgdEstimate.addPlotLabel ("SingleMuon 2017" + runPeriod)
-        muonBkgdEstimate.addChannel  ("TagProbe",        "ZtoMuProbeTrk",              "SingleMu_2017" +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP")
-        muonBkgdEstimate.addChannel  ("TagProbePass",    "ZtoMuProbeTrkWithFilter",    "SingleMu_2017" +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP") # fixme rereco
-        muonBkgdEstimate.addChannel  ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilter",  "SingleMu_2017" +  runPeriod,  dirs['Brian']+"2017/muonBackgroundZTnP")
-        muonBkgdEstimate.addChannel  ("TagPt35",         "MuonTagPt55",                "SingleMu_2017" +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
+        muonBkgdEstimate.addChannel   ("TagProbe",        "ZtoMuProbeTrkPhase1Pixels",             "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/muonBackgroundZTnPPhase1Pixels")
+        muonBkgdEstimate.addChannel   ("TagProbePass",    "ZtoMuProbeTrkWithFilterPhase1Pixels",   "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/muonBackgroundZTnPPhase1Pixels") # fixme rereco
+        muonBkgdEstimate.addChannel   ("TagProbePassSS",  "ZtoMuProbeTrkWithSSFilterPhase1Pixels", "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/muonBackgroundZTnPPhase1Pixels")
+        muonBkgdEstimate.addChannel   ("TagPt35",         "MuonTagPt55Phase1Pixels",               "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/muonControlRegionPhase1Pixels_v2")
 
-        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",  "MuonTagPt55MetTrig",         "SingleMu_2017" +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
+        muonBkgdEstimate.addChannel  ("TagPt35MetTrig",   "MuonTagPt55MetTrigPhase1Pixels",        "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/muonControlRegionPhase1Pixels_v2")
 
         muonBkgdEstimate.addUseHistogramsForPpassMetTriggers (False) # temporary measure
         muonBkgdEstimate.addRebinFactor (4)
-        #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",    "MuonTagPt55",              "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
-        muonBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "MuonTagPt55",              "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegion_v2")
+        #muonBkgdEstimate.addChannel  ("TagPt35MetTrig",    "MuonTagPt55Phase1Pixels",              "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegionPhase1Pixels_v2")
+        muonBkgdEstimate.addChannel  ("TagPt35MetL1Trig",  "MuonTagPt55Phase1Pixels",              "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/muonControlRegionPhase1Pixels_v2")
 
         print "********************************************************************************"
 
@@ -208,27 +208,16 @@ for runPeriod in runPeriods:
 
         # RAW/RECO missing for no ZtoTauToMuDisTrk passing events
 
-        # fixme
-        # RAW/RECO missing for SingleElectron_2017F passing ZtoTauToEleDisTrk events
-        if runPeriod == "F":
-            tauBkgdEstimate.addTagProbePass1ScaleFactor ( 0.0 )
-        else:
-            tauToEleTagProbeEffectiveLumi = lumi["SingleElectron_2017" + runPeriod]
-            if "F" in runPeriod or runPeriod == "":
-                tauToEleTagProbeEffectiveLumi -= lumi["SingleElectron_2017F"]
-
-            tauBkgdEstimate.addTagProbePass1ScaleFactor ( lumi["SingleElectron_2017" + runPeriod] / tauToEleTagProbeEffectiveLumi )
-
         tauBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
         tauBkgdEstimate.addLuminosityLabel (str (round (lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1} (13 TeV)")
         tauBkgdEstimate.addPlotLabel ("Tau 2017" + runPeriod)
         tauBkgdEstimate.addChannel  ("TagProbe",         "ZtoTauToMuProbeTrk",               "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToMuonBackground")
         tauBkgdEstimate.addChannel  ("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter",     "SingleMu_rereco_2017"   +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToMuonBackground")
         tauBkgdEstimate.addChannel  ("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter",   "SingleMu_2017"          +  runPeriod,  dirs['fixme']+"2017/fromLPC/sameSign/skims/tauToMuonBackground")
-        tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017/fromLPC/sameSign/skims/tauToElectronBackground")
-        tauBkgdEstimate.addChannel  ("TagPt35",          "TauTagPt55",                       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017/tauBackground_nCtrl_new")
+        tauBkgdEstimate.addChannel  ("TagProbe1",        "ZtoTauToEleProbeTrk",              "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/TauToElecBkg_Phase1Pixels")
+        tauBkgdEstimate.addChannel  ("TagProbePass1",    "ZtoTauToEleProbeTrk",              "SingleEle_rereco_2017"  +  runPeriod,  dirs['Brian']+"2017/fromLPC/TauToElecBkg_Phase1Pixels")
+        tauBkgdEstimate.addChannel  ("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter",  "SingleEle_2017"         +  runPeriod,  dirs['Brian']+"2017/fromLPC/TauToElecBkg_Phase1Pixels")
+        tauBkgdEstimate.addChannel  ("TagPt35",          "TauTagPt55",                       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017/fromLPC/tauBackground_nCtrl_new")
 
         #tauBkgdEstimate.addChannel  ("TagPt35MetTrig",  "TauTagPt55MetTrig",       "Tau_2017"               +  runPeriod,  dirs['fixme']+"2017_final_prompt/tauBackground_nCtrl_new")
         #tauBkgdEstimate.addChannel  ("TrigEffDenom",    "ElectronTagPt55",         "SingleEle_2017"         +  runPeriod,  dirs['fixme']+"2017_final_prompt/electronBackground_nCtrl_new")

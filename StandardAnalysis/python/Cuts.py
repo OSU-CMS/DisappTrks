@@ -397,7 +397,7 @@ cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] fo
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
-    cutTrkNValidHitsVariations.update({"7plus" : cutTrkNValidHits[7]})
+    cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
     print "# Hits requirement: 4/4"
 else:
     print "# Hits requirement: 3/7"

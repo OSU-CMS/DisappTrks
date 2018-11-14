@@ -200,10 +200,12 @@ removeCuts(ZtoMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations (MuonTagPt55,            "MuonTagPt55")
-createNHitsVariations (MuonTagPt55MetTrig,     "MuonTagPt55MetTrig")
-createNHitsVariations (ZtoMuProbeTrkWithZCuts, "ZtoMuProbeTrkWithZCuts")
-createNHitsVariations (ZtoMuDisTrk,            "ZtoMuDisTrk")
+createNHitsVariations (MuonTagPt55,               "MuonTagPt55")
+createNHitsVariations (MuonTagPt55MetTrig,        "MuonTagPt55MetTrig")
+createNHitsVariations (ZtoMuProbeTrkWithZCuts,    "ZtoMuProbeTrkWithZCuts")
+createNHitsVariations (ZtoMuDisTrk,               "ZtoMuDisTrk")
+createNHitsVariations (ZtoMuProbeTrkWithFilter,   "ZtoMuProbeTrkWithFilter")
+createNHitsVariations (ZtoMuProbeTrkWithSSFilter, "ZtoMuProbeTrkWithSSFilter")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

@@ -231,8 +231,7 @@ class FiducialMapCalculator:
             if 'SingleEle' in self.Numerator["sample"]:
                 existingMapName += 'electronFiducialMap_2017_data.root'
             elif 'SingleMu' in self.Numerator["sample"]:
-                print 'FIX ME: comparing to 2016 map instead of existing 2017 map'
-                existingMapName += 'muonFiducialMap_2016ReReco_data.root'
+                existingMapName += 'muonFiducialMap_2017_data.root'
         existingMapFile = TFile(existingMapName, 'read')
         existingMapDenominator = existingMapFile.Get('beforeVeto')
         existingMapNumerator = existingMapFile.Get('afterVeto')
