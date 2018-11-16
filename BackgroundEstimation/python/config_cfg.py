@@ -2,10 +2,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
     if checkBlinding:
-        signalRequirement = 4 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_") else 7
-        for x in hitRange:
-            if x >= signalRequirement:
-                hitRange.remove(x)
+        signalRequirement = 4 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_")) else 7
+        hitRange = [x for x in hitRange if x < signalRequirement]
     names = {x : int(x[5]) for x in cutTrkNValidHitsVariations if int(x[5]) in hitRange} # "NHits5"[5] = 5
     return [globals ()[chName + x] for x in names]
 
