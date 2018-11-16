@@ -1,47 +1,40 @@
 from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
+def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
+    if checkBlinding:
+        signalRequirement = 4 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_") else 7
+        for x in hitRange:
+            if x >= signalRequirement:
+                hitRange.remove(x)
+    names = {x : int(x[5]) for x in cutTrkNValidHitsVariations if int(x[5]) in hitRange} # "NHits5"[5] = 5
+    return [globals ()[chName + x] for x in names]
+
 ################################################################################
 # MET channels
 ################################################################################
 
 # Descendents of BasicSelection
 
-# Fake track background: BasicNhits (N = 3 for transfer factor)
-if False:
-    add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionNoD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionNoD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionNoD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers)
+# Fake track background: no d0 cut (NHits3-7); BasicNhits channel is NHits3
+# add_channels(process, getNHitsVariations("disTrkSelectionNoD0Cut", checkBlinding = True), histSets, weights, [], collMap, variableProducers)
 
-# Fake track background: DisTrkInvertD0(Nhits3-6)
-if False:
-    add_channels  (process,  [disTrkSelectionSidebandD0Cut],        histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionSidebandD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionSidebandD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers)
+# Fake track background: invert d0 cut
+# add_channels  (process, [disTrkSelectionSidebandD0Cut],                     histSets, weights, [], collMap, variableProducers)
+# add_channels  (process, getNHitsVariations("disTrkSelectionSidebandD0Cut"), histSets, weights, [], collMap, variableProducers)
 
 # Testing: similar to sideband above, but without upper D0 cut
-# fakeTrackBackground_invertD0Cut
-if False:
-    add_channels  (process,  [disTrkSelectionInvertD0Cut],        histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionInvertD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionInvertD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionInvertD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers)
-    add_channels  (process,  [disTrkSelectionInvertD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers)
+# add_channels (process, [disTrkSelectionInvertD0Cut],                     histSets, weights, [], collMap, variableProducers)
+# add_channels (process, getNHitsVariations("disTrkSelectionInvertD0Cut"), histSets, weights, [], collMap, variableProducers)
 
 ################################################################################
 # SingleElectron channels
 ################################################################################
 
 # Base skim
-if False:
-    add_channels  (process,  [ElectronTagSkim],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+# add_channels  (process,  [ElectronTagSkim],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for fiducial map
-if False:
-    add_channels  (process,  [ElectronFiducialCalcBefore],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
-    add_channels  (process,  [ElectronFiducialCalcAfter],   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+# add_channels  (process,  [ElectronFiducialCalcBefore, ElectronFiducialCalcAfter],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for electron background estimate
 if False:
@@ -49,16 +42,24 @@ if False:
     add_channels  (process,  [ZtoEleProbeTrkWithFilter],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
     add_channels  (process,  [ZtoEleProbeTrkWithSSFilter],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
 
+# T&P channels in specific nValidHits bins; run out of ZtoEleProbeTrkWith(SS)Filter above
+# add_channels (process, getNHitsVariations("ZtoEleProbeTrkWithFilter"), histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNHitsVariations("ZtoEleProbeTrkWithSSFilter"),     histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
+
 # Single electron control regions for background estimate
 if False:
     add_channels  (process,  [ElectronTagPt55],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
     add_channels  (process,  [ElectronTagPt55MetTrig],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
+# Single electron control regions in specific nValidHits bins; run out of ElectronTagPt55
+# add_channels (process, getNHitsVariations("ElectronTagPt55"),        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNHitsVariations("ElectronTagPt55MetTrig"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+
 # Tag-and-probe channels for tau background estimate
 if False:
-    add_channels  (process,  [ZtoTauToEleProbeTrk],                       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
-    add_channels  (process,  [ZtoTauToEleProbeTrkWithFilter],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
-    add_channels  (process,  [ZtoTauToEleProbeTrkWithSSFilter],           histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  [ZtoTauToEleProbeTrk],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  [ZtoTauToEleProbeTrkWithFilter],   histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  [ZtoTauToEleProbeTrkWithSSFilter], histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for older background estimate; 
 #  add_channels  (process,  [ZtoEleProbeTrkBeforeArbitration],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
@@ -126,38 +127,18 @@ if False:
     add_channels  (process,  [ZtoMuProbeTrkWithFilter],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithSSFilter],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
 
-# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWithFilter above
-if False:
-    add_channels (process, [ZtoMuProbeTrkWithFilterNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithFilterNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithFilterNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithFilterNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-
-# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWithSSFilter above
-if False:
-    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
-    add_channels (process, [ZtoMuProbeTrkWithSSFilterNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWith(SS)Filter above
+# add_channels (process, getNHitsVariations("ZtoMuProbeTrkWithFilter"),   histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
+# add_channels (process, getNHitsVariations("ZtoMuProbeTrkWithSSFilter"), histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
 
 # Single muon control regions for muon background estimate
 if False:
     add_channels  (process,  [MuonTagPt55],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonMETTriggerProducer)
     add_channels  (process,  [MuonTagPt55MetTrig],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
-# Single muon control regions in specific nValidHits bins; run out of MuonTagPt55
-if False:
-    add_channels (process, [MuonTagPt55NHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55NHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55NHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55NHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-
-# Single muon control regions in specific nValidHits bins; run out of MuonTagPt55MetTrig
-if False:
-    add_channels (process, [MuonTagPt55MetTrigNHits4],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55MetTrigNHits5],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55MetTrigNHits6],     histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
-    add_channels (process, [MuonTagPt55MetTrigNHits7plus], histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+# Single muon control regions in specific nValidHits bins
+# add_channels (process, getNHitsVariations("MuonTagPt55"),        histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
+# add_channels (process, getNHitsVariations("MuonTagPt55MetTrig"), histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
 
 # Tag-and-probe channels for tau background estimate
 if False:
@@ -177,7 +158,6 @@ if False:
 #  add_channels  (process,  [ZtoTauToMuDisTrk],                         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoTauToMuProbeTrkWithZCutsBetterPurity],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoTauToMuDisTrkBetterPurity],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-
 
 # Z->mumu channels for fake track background estimate
 if False:
