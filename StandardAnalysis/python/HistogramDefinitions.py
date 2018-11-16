@@ -771,6 +771,12 @@ TrackMuonHistograms = cms.PSet(
             inputVariables = cms.vstring(invMassWithMuon ("muon")),
         ),
         cms.PSet (
+            name = cms.string("sumPt"),
+            title = cms.string(";p_{T} (#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 500.0),
+            inputVariables = cms.vstring( "pT (track, muon)"),
+        ),
+        cms.PSet (
             name = cms.string("deltaR"),
             title = cms.string(";#DeltaR(#mu,track) [GeV]"),
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
@@ -930,6 +936,12 @@ TrackElectronHistograms = cms.PSet(
             title = cms.string(";M(e,track) [GeV]"),
             binsX = cms.untracked.vdouble(100, 40.0, 75.0),
             inputVariables = cms.vstring(invMassWithElectron ("electron")),
+        ),
+        cms.PSet (
+            name = cms.string("sumPt"),
+            title = cms.string(";p_{T} (e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0.0, 500.0),
+            inputVariables = cms.vstring( "pT (track, electron)"),
         ),
         cms.PSet (
             name = cms.string("deltaR"),
