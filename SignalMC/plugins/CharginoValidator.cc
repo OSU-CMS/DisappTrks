@@ -94,7 +94,7 @@ CharginoValidator::analyze(const edm::Event &event, const edm::EventSetup &setup
 
       TVector3 x(genParticle.vx(), genParticle.vy(), genParticle.vz()),
                y(0.0, 0.0, 0.0);
-      double boost = 1.0 /(genParticle.p4().Beta(), genParticle.p4().Gamma());
+      double boost = 1.0 /(genParticle.p4().Beta() * genParticle.p4().Gamma());
       getEndVertex(genParticle, y);
 
       oneDHists_.at("genCharge")->Fill(genParticle.charge());
