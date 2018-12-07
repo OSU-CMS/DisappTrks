@@ -806,7 +806,7 @@ class FakeTrackBkgdEstimate:
     _canvas = None
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
-    _minHits = 7
+    _nHits = 7
     _minD0 = 0.02
     _maxD0 = 0.1
 
@@ -825,8 +825,8 @@ class FakeTrackBkgdEstimate:
     def addLuminosityInInvPb (self, luminosityInInvPb):
         self._luminosityInInvFb = luminosityInInvPb / 1000.0
 
-    def addMinHits (self, minHits):
-        self._minHits = minHits
+    def addNHits (self, nHits):
+        self._nHits = nHits
 
     def addMinD0 (self, minD0):
         self._minD0 = minD0
@@ -867,30 +867,23 @@ class FakeTrackBkgdEstimate:
 
     def printNctrl (self):
         if hasattr (self, "DisTrkInvertD0"):
-            n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-            n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-            n.isPositive ()
-
-            if self._minHits < 7:
-                n6, n6Error = getHistIntegral (self.DisTrkInvertD0NHits6["sample"], self.DisTrkInvertD0NHits6["condorDir"], self.DisTrkInvertD0NHits6["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-                n6 = Measurement (n6, (n6Error if n6 != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n6 + 1))))
-                n6.isPositive ()
-                n += n6
-            if self._minHits < 6:
-                n5, n5Error = getHistIntegral (self.DisTrkInvertD0NHits5["sample"], self.DisTrkInvertD0NHits5["condorDir"], self.DisTrkInvertD0NHits5["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-                n5 = Measurement (n5, (n5Error if n5 != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n5 + 1))))
-                n5.isPositive ()
-                n += n5
-            if self._minHits < 5:
-                n4, n4Error = getHistIntegral (self.DisTrkInvertD0NHits4["sample"], self.DisTrkInvertD0NHits4["condorDir"], self.DisTrkInvertD0NHits4["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-                n4 = Measurement (n4, (n4Error if n4 != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n4 + 1))))
-                n4.isPositive ()
-                n += n4
-            if self._minHits < 4:
-                n3, n3Error = getHistIntegral (self.DisTrkInvertD0NHits3["sample"], self.DisTrkInvertD0NHits3["condorDir"], self.DisTrkInvertD0NHits3["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-                n3 = Measurement (n3, (n3Error if n3 != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n3 + 1))))
-                n3.isPositive ()
-                n += n3
+            if self._nHits >= 7:
+                #n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track Plots/trackNumValidHits", 7, 99)
+                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                n.isPositive ()
+            if self._nHits == 6:
+                n, nError = getHistIntegral (self.DisTrkInvertD0NHits6["sample"], self.DisTrkInvertD0NHits6["condorDir"], self.DisTrkInvertD0NHits6["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                n.isPositive ()
+            if self._nHits == 5:
+                n, nError = getHistIntegral (self.DisTrkInvertD0NHits5["sample"], self.DisTrkInvertD0NHits5["condorDir"], self.DisTrkInvertD0NHits5["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                n.isPositive ()
+            if self._nHits == 4:
+                n, nError = getHistIntegral (self.DisTrkInvertD0NHits4["sample"], self.DisTrkInvertD0NHits4["condorDir"], self.DisTrkInvertD0NHits4["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                n.isPositive ()
 
             pFake = float ("nan")
             norm = 1.0
