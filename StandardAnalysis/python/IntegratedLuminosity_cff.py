@@ -253,11 +253,11 @@ lumi_2017 = {
     # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
     # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
     # see Triggers.py for details
-    "MET_2017B" : 4793.983,
-    "MET_2017C" : 9631.329,
-    "MET_2017D" : 4247.817,
-    "MET_2017E" : 9314.621,
-    "MET_2017F" : 12671.279,
+    "MET_2017B" : 4793.367,
+    "MET_2017C" : 9631.324,
+    "MET_2017D" : 4247.707,
+    "MET_2017E" : 9313.990,
+    "MET_2017F" : 13498.143,
 
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
     "SingleElectron_2017B" : 4793.983,
@@ -295,11 +295,11 @@ lumi_2017_ntuples = {
     # brilcalc on CRAB report JSONs with hltpath
 
     # FIX ME -- holdovers from lumi_2017 above, need to use the ntuple crab reports
-    "MET_2017B" : 4793.983,
-    "MET_2017C" : 9631.329,
-    "MET_2017D" : 4247.817,
-    "MET_2017E" : 9314.621,
-    "MET_2017F" : 12671.279,
+    "MET_2017B" : 4793.367,
+    "MET_2017C" : 9631.324,
+    "MET_2017D" : 4247.707,
+    "MET_2017E" : 9313.990,
+    "MET_2017F" : 13498.143,
 
     # --hltpath "HLT_Ele35_WPTight_Gsf_v*"
     "SingleElectron_2017B" : 4710.308,
