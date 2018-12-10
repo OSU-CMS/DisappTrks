@@ -121,6 +121,13 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("trackIsoDRp3 / pt", "trackIsoNoPUDRp3 / pt"),
             ),
         cms.PSet (
+            name = cms.string("trackLayersWithMeasurementVsPixelHits"),
+            title = cms.string(";number of pixel hits;number of tracker layers with measurement"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            binsY = cms.untracked.vdouble(20, -0.5, 19.5),
+            inputVariables = cms.vstring("hitPattern_.numberOfValidPixelHits", "hitPattern_.trackerLayersWithMeasurement"),
+            ),
+        cms.PSet (
             name = cms.string("trackFitPlane"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};E_{calo}^{#DeltaR<0.5} [GeV]"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
