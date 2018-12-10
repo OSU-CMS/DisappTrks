@@ -735,6 +735,10 @@ disTrkSelectionNoD0Cut = copy.deepcopy(disTrkSelection)
 disTrkSelectionNoD0Cut.name = cms.string("DisTrkSelectionNoD0Cut")
 removeCuts(disTrkSelectionNoD0Cut.cuts, [cutTrkD0])
 
+disTrkSelectionNoD0CutNoHitsCut = copy.deepcopy(disTrkSelectionNoD0Cut)
+disTrkSelectionNoD0CutNoHitsCut.name = cms.string("DisTrkSelectionNoD0CutNoHitsCut")
+removeCuts(disTrkSelectionNoD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
+
 disTrkSelectionInvertD0Cut = copy.deepcopy(disTrkSelection)
 disTrkSelectionInvertD0Cut.name = cms.string("DisTrkSelectionInvertD0Cut")
 addSingleCut(disTrkSelectionInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
@@ -744,6 +748,10 @@ disTrkSelectionSidebandD0Cut = copy.deepcopy(disTrkSelection)
 disTrkSelectionSidebandD0Cut.name = cms.string("DisTrkSelectionSidebandD0Cut")
 addSingleCut(disTrkSelectionSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
 removeCuts(disTrkSelectionSidebandD0Cut.cuts, [cutTrkD0])
+
+disTrkSelectionSidebandD0CutNoHitsCut = copy.deepcopy(disTrkSelectionSidebandD0Cut)
+disTrkSelectionSidebandD0CutNoHitsCut.name = cms.string("DisTrkSelectionSidebandD0CutNoHitsCut")
+removeCuts(disTrkSelectionSidebandD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
 createNHitsVariations (disTrkSelectionNoD0Cut,       "disTrkSelectionNoD0Cut")
 createNHitsVariations (disTrkSelectionInvertD0Cut,   "disTrkSelectionInvertD0Cut")
