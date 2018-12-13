@@ -391,6 +391,24 @@ cutTrkNValidHitsExclusive = {
     for x in range(1, 10)
 }
 
+cutTrkNLayers = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.trackerLayersWithMeasurement >= " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(1, 10)
+}
+
+cutTrkNLayersExclusive = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(1, 10)
+}
+
 cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
 cutTrkNValidHitsSignal = cutTrkNValidHits[7]
 cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
