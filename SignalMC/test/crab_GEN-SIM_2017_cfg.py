@@ -18,7 +18,7 @@ NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable 
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall17DRPremix-94X_mc2017_realistic_v10-v3'
+config.Data.outputDatasetTag = 'RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
@@ -42,23 +42,21 @@ if __name__ == '__main__':
         p.start()
         p.join()
 
-
     #############################################################################################
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    config.General.requestName = 'AMSB_chargino700GeV_ctau100cm_step1'
-    config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino700GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-100_TuneCUEP8M1_13TeV_pythia8'
-    #forkAndSubmit(config)
+    reallySubmitMass = { x : False for x in range(100, 1000, 100)}
+    reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
+    numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
 
-    config.General.requestName = 'AMSB_chargino300GeV_ctau100cm_step1'
-    config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino300GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-100_TuneCUEP8M1_13TeV_pythia8'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino700GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino700GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-1000_TuneCUEP8M1_13TeV_pythia8'
-    #forkAndSubmit(config)
-    
+    for mass in range(100, 1000, 100):
+        for ctau in [1, 10, 100, 1000, 10000]:
+            config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
+            config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
+            config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
+            config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
+            if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                forkAndSubmit(config)
+            else:
+                print 'Skipping submission of request:', config.General.requestName
