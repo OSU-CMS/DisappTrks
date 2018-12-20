@@ -58,7 +58,7 @@ if __name__ == '__main__':
         (100, 1000)  : '/AMSB_chargino_M-100_CTau-1000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-e1d6ba56cf85041ba62142bc939d1bd3/USER',
         (100, 100)   : '/AMSB_chargino_M-100_CTau-100_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-cf8c30f4b2428110b4761729d3263260/USER',
         (100, 10)    : '/AMSB_chargino_M-100_CTau-10_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-e5b2f34dae25faba8e4e28bb411dc9e5/USER',
-        #(100, 1)     : didn't submit right?,
+        (100, 1)     : '/AMSB_chargino_M-100_CTau-1_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-eb31ee302755b27df62e11e274dc3008/USER',
         (300, 10000) : '/AMSB_chargino_M-300_CTau-10000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-f5807fd0e196055641b7ddc6ceace6ca/USER',
         (300, 1000)  : '/AMSB_chargino_M-300_CTau-1000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-b250cec959e00399c40030d54e2425cf/USER',
         (300, 100)   : '/AMSB_chargino_M-300_CTau-100_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-7500d92349ee3da0a2ff20a9d55b5357/USER',
