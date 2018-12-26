@@ -5,7 +5,8 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import *  # Get the composite cut definitions
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import *  # Get the composite cut definitions
 
-def createNHitsVariations (ch, chName):
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
@@ -268,12 +269,12 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations (TauTagPt55,                   "TauTagPt55")
-createNHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
-createNHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")
-createNHitsVariations (ZtoTauToEleProbeTrkWithZCuts, "ZtoTauToEleProbeTrkWithZCuts")
-createNHitsVariations (ZtoTauToMuDisTrk,             "ZtoTauToMuDisTrk")
-createNHitsVariations (ZtoTauToEleDisTrk,            "ZtoTauToEleDisTrk")
+createHitsVariations (TauTagPt55,                   "TauTagPt55")
+createHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
+createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")
+createHitsVariations (ZtoTauToEleProbeTrkWithZCuts, "ZtoTauToEleProbeTrkWithZCuts")
+createHitsVariations (ZtoTauToMuDisTrk,             "ZtoTauToMuDisTrk")
+createHitsVariations (ZtoTauToEleDisTrk,            "ZtoTauToEleDisTrk")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

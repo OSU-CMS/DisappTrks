@@ -4,7 +4,8 @@ import os
 
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 
-def createNHitsVariations (ch, chName):
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
@@ -327,7 +328,7 @@ justADisTrk = copy.deepcopy (justAVertex)
 justADisTrk.name = cms.string ("JustADisTrk")
 addCuts(justADisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
-createNHitsVariations (justADisTrk, "justADisTrk")
+createHitsVariations (justADisTrk, "justADisTrk")
 
 justACandTrk = copy.deepcopy (justAVertex)
 justACandTrk.name = cms.string ("JustACandTrk")
@@ -341,25 +342,25 @@ justAFakeTrk = copy.deepcopy (justACandTrk)
 justAFakeTrk.name = cms.string ("JustAFakeTrk")
 addCuts(justAFakeTrk.cuts, [cutTrkMatchFake])
 
-createNHitsVariations (justAFakeTrk, "justAFakeTrk")
+createHitsVariations (justAFakeTrk, "justAFakeTrk")
 
 justARealTrk = copy.deepcopy (justACandTrk)
 justARealTrk.name = cms.string ("JustARealTrk")
 addCuts(justARealTrk.cuts, [cutTrkMatchReal])
 
-createNHitsVariations (justARealTrk, "justARealTrk")
+createHitsVariations (justARealTrk, "justARealTrk")
 
 justAFakeTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
 justAFakeTrkNoD0Cut.name = cms.string ("JustAFakeTrkNoD0Cut")
 addCuts(justAFakeTrkNoD0Cut.cuts, [cutTrkMatchFake])
 
-createNHitsVariations (justAFakeTrkNoD0Cut, "justAFakeTrkNoD0Cut")
+createHitsVariations (justAFakeTrkNoD0Cut, "justAFakeTrkNoD0Cut")
 
 justARealTrkNoD0Cut = copy.deepcopy (justACandTrkNoD0Cut)
 justARealTrkNoD0Cut.name = cms.string ("JustARealTrkNoD0Cut")
 addCuts(justARealTrkNoD0Cut.cuts, [cutTrkMatchReal])
 
-createNHitsVariations (justARealTrkNoD0Cut, "justARealTrkNoD0Cut")
+createHitsVariations (justARealTrkNoD0Cut, "justARealTrkNoD0Cut")
 
 ##########################################################################
 
@@ -660,7 +661,7 @@ addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 
 ##########################################################################
 
-createNHitsVariations (disTrkSelection, "disTrkSelection")
+createHitsVariations (disTrkSelection, "disTrkSelection")
 
 ##########################################################################
 
@@ -679,7 +680,7 @@ zeroBiasSelectionDisTrk = copy.deepcopy (zeroBiasSelection)
 zeroBiasSelectionDisTrk.name = cms.string ("ZeroBiasSelectionDisTrk")
 addCuts (zeroBiasSelectionDisTrk.cuts, disTrkCuts)
 
-createNHitsVariations (zeroBiasSelectionDisTrk, "zeroBiasSelectionDisTrk")
+createHitsVariations (zeroBiasSelectionDisTrk, "zeroBiasSelectionDisTrk")
 
 zeroBiasJetSelection = cms.PSet(
     name = cms.string("ZeroBiasJetSelection"),
@@ -696,7 +697,7 @@ zeroBiasJetSelectionDisTrk = copy.deepcopy (zeroBiasJetSelection)
 zeroBiasJetSelectionDisTrk.name = cms.string ("ZeroBiasJetSelectionDisTrk")
 addCuts (zeroBiasJetSelectionDisTrk.cuts, disTrkCuts)
 
-createNHitsVariations (zeroBiasJetSelectionDisTrk, "zeroBiasJetSelectionDisTrk")
+createHitsVariations (zeroBiasJetSelectionDisTrk, "zeroBiasJetSelectionDisTrk")
 
 ##########################################################################
 
@@ -753,9 +754,9 @@ disTrkSelectionSidebandD0CutNoHitsCut = copy.deepcopy(disTrkSelectionSidebandD0C
 disTrkSelectionSidebandD0CutNoHitsCut.name = cms.string("DisTrkSelectionSidebandD0CutNoHitsCut")
 removeCuts(disTrkSelectionSidebandD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
-createNHitsVariations (disTrkSelectionNoD0Cut,       "disTrkSelectionNoD0Cut")
-createNHitsVariations (disTrkSelectionInvertD0Cut,   "disTrkSelectionInvertD0Cut")
-createNHitsVariations (disTrkSelectionSidebandD0Cut, "disTrkSelectionSidebandD0Cut")
+createHitsVariations (disTrkSelectionNoD0Cut,       "disTrkSelectionNoD0Cut")
+createHitsVariations (disTrkSelectionInvertD0Cut,   "disTrkSelectionInvertD0Cut")
+createHitsVariations (disTrkSelectionSidebandD0Cut, "disTrkSelectionSidebandD0Cut")
 
 ##########################################################################
 # Testing MET Triggers for Luminosity

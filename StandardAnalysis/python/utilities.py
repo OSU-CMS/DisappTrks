@@ -283,11 +283,15 @@ def getListOfChannels (process):
 
 # Create copies of a channel but replacing one cut with a range of replacements
 # i.e. Cut --> [CutV1, CutV2, CutV3]...
+# if Cut is None, just add CutV[n]
 # In the calling module, you will need to use globals().update() on the resulting dict
 def createChannelVariations (channel, channelName, cutToReplace, replacements):
     newChannels = {}
     for suffix in replacements:
         newChannels[channelName + suffix] = copy.deepcopy (channel)
         newChannels[channelName + suffix].name = cms.string (channel.name.value () + suffix)
-        replaceSingleCut (newChannels[channelName + suffix].cuts, replacements[suffix], cutToReplace)
+        if cutToReplace is None:
+            newChannels[channelName + suffix].cuts.append(replacements[suffix])
+        else:
+            replaceSingleCut (newChannels[channelName + suffix].cuts, replacements[suffix], cutToReplace)
     return newChannels

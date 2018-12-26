@@ -3,7 +3,8 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
-def createNHitsVariations (ch, chName):
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
@@ -41,7 +42,7 @@ ZtoMuMuDisTrk = copy.deepcopy(ZtoMuMu)
 ZtoMuMuDisTrk.name = cms.string("ZtoMuMuDisTrk")
 addCuts(ZtoMuMuDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 
-createNHitsVariations (ZtoMuMuDisTrk, "ZtoMuMuDisTrk")
+createHitsVariations (ZtoMuMuDisTrk, "ZtoMuMuDisTrk")
 
 ##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in Ecalo sideband
@@ -71,7 +72,7 @@ ZtoMuMuDisTrkJet = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkJet.name = cms.string("ZtoMuMuDisTrkJet")
 addCuts   (ZtoMuMuDisTrkJet.cuts, [cutNJetsGE1])
 
-createNHitsVariations (ZtoMuMuDisTrkJet, "ZtoMuMuDisTrkJet")
+createHitsVariations (ZtoMuMuDisTrkJet, "ZtoMuMuDisTrkJet")
 
 ##################################################
 ## ECalo control sample:  Z->mu mu + disappearing track with <= 4 hits
@@ -132,9 +133,9 @@ ZtoMuMuDisTrkSidebandD0CutNoHitsCut = copy.deepcopy(ZtoMuMuDisTrkSidebandD0Cut)
 ZtoMuMuDisTrkSidebandD0CutNoHitsCut.name = cms.string("ZtoMuMuDisTrkSidebandD0CutNoHitsCut")
 removeCuts(ZtoMuMuDisTrkSidebandD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
-createNHitsVariations (ZtoMuMuDisTrkNoD0Cut,       "ZtoMuMuDisTrkNoD0Cut")
-createNHitsVariations (ZtoMuMuDisTrkInvertD0Cut,   "ZtoMuMuDisTrkInvertD0Cut")
-createNHitsVariations (ZtoMuMuDisTrkSidebandD0Cut, "ZtoMuMuDisTrkSidebandD0Cut")
+createHitsVariations (ZtoMuMuDisTrkNoD0Cut,       "ZtoMuMuDisTrkNoD0Cut")
+createHitsVariations (ZtoMuMuDisTrkInvertD0Cut,   "ZtoMuMuDisTrkInvertD0Cut")
+createHitsVariations (ZtoMuMuDisTrkSidebandD0Cut, "ZtoMuMuDisTrkSidebandD0Cut")
 
 #####################################################################
 # ZtMuMu Background Estimates w/o Isolation Cut or Calo Energy Cut
@@ -148,7 +149,7 @@ ZtoMuMuDisTrkNoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNoIsoNoCalo")
 removeCuts(ZtoMuMuDisTrkNoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
 
-createNHitsVariations (ZtoMuMuDisTrkNoIsoNoCalo, "ZtoMuMuDisTrkNoIsoNoCalo")
+createHitsVariations (ZtoMuMuDisTrkNoIsoNoCalo, "ZtoMuMuDisTrkNoIsoNoCalo")
 
 ##################################################
 

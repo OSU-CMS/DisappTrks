@@ -364,6 +364,10 @@ cutTrkFiducialECAL = cms.PSet(
 #     numberRequired = cms.string(">= 1"),
 # )
 
+########################################
+##### track number of valid hits   #####
+########################################
+
 cutTrkNValidPixelHits = {
     x : cms.PSet (
             inputCollection = cms.vstring("tracks"),
@@ -422,26 +426,37 @@ cutTrkNValidPixelBarrelHits3 = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
-cutTrkNLayers3 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 3"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNLayers4 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 4"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNLayers5 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 5"),
-    numberRequired = cms.string(">= 1"),
-)
-cutTrkNLayers6 = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == 6"),
-    numberRequired = cms.string(">= 1"),
-)
+#####################################################
+##### track number of layers with measurement   #####
+#####################################################
+
+cutTrkNLayersExclusive = {
+    x : cms.PSet (
+            inputCollection = cms.vstring("tracks"),
+            cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == " + str(x)),
+            numberRequired = cms.string(">= 1"),
+        )
+    for x in range(3, 7)
+}
+
+cutTrkNLayers = {
+    x : cms.PSet (
+        inputCollection = cms.vstring("tracks"),
+        cutString = cms.string("hitPattern_.trackerLayersWithMeasurement >= " + str(x)),
+        numberRequired = cms.string(">= 1"),
+    )
+    for x in range(3, 7)
+}
+
+cutTrkNLayersVariations = {
+    "NLayers3"     : cutTrkNLayersExclusive[3],
+    "NLayers4"     : cutTrkNLayersExclusive[4],
+    "NLayers5"     : cutTrkNLayersExclusive[5],
+    "NLayers6plus" : cutTrkNLayers[6],
+}
+
+#####################################################
+
 cutTrkNMissIn = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("missingInnerHits == 0"),
