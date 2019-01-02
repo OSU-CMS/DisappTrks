@@ -10,6 +10,7 @@ def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ################################################################################
 ## Tau tag skim
@@ -271,6 +272,8 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 createHitsVariations (TauTagPt55,                   "TauTagPt55")
 createHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
+createHitsVariations (ZtoTauToMuProbeTrk,           "ZtoTauToMuProbeTrk")
+createHitsVariations (ZtoTauToEleProbeTrk,          "ZtoTauToEleProbeTrk")
 createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToEleProbeTrkWithZCuts, "ZtoTauToEleProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToMuDisTrk,             "ZtoTauToMuDisTrk")
