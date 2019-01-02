@@ -270,14 +270,18 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createHitsVariations (TauTagPt55,                   "TauTagPt55")
-createHitsVariations (TauTagPt55MetTrig,            "TauTagPt55MetTrig")
-createHitsVariations (ZtoTauToMuProbeTrk,           "ZtoTauToMuProbeTrk")
-createHitsVariations (ZtoTauToEleProbeTrk,          "ZtoTauToEleProbeTrk")
-createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,  "ZtoTauToMuProbeTrkWithZCuts")
-createHitsVariations (ZtoTauToEleProbeTrkWithZCuts, "ZtoTauToEleProbeTrkWithZCuts")
-createHitsVariations (ZtoTauToMuDisTrk,             "ZtoTauToMuDisTrk")
-createHitsVariations (ZtoTauToEleDisTrk,            "ZtoTauToEleDisTrk")
+createHitsVariations (TauTagPt55,                      "TauTagPt55")
+createHitsVariations (TauTagPt55MetTrig,               "TauTagPt55MetTrig")
+createHitsVariations (ZtoTauToMuProbeTrk,              "ZtoTauToMuProbeTrk")
+createHitsVariations (ZtoTauToMuProbeTrkWithFilter,    "ZtoTauToMuProbeTrkWithFilter")
+createHitsVariations (ZtoTauToMuProbeTrkWithSSFilter,  "ZtoTauToMuProbeTrkWithSSFilter")
+createHitsVariations (ZtoTauToEleProbeTrk,             "ZtoTauToEleProbeTrk")
+createHitsVariations (ZtoTauToEleProbeTrkWithFilter,   "ZtoTauToEleProbeTrkWithFilter")
+createHitsVariations (ZtoTauToEleProbeTrkWithSSFilter, "ZtoTauToEleProbeTrkWithSSFilter")
+createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,     "ZtoTauToMuProbeTrkWithZCuts")
+createHitsVariations (ZtoTauToEleProbeTrkWithZCuts,    "ZtoTauToEleProbeTrkWithZCuts")
+createHitsVariations (ZtoTauToMuDisTrk,                "ZtoTauToMuDisTrk")
+createHitsVariations (ZtoTauToEleDisTrk,               "ZtoTauToEleDisTrk")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
