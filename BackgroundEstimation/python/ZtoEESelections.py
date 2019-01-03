@@ -3,10 +3,12 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
-def createNHitsVariations (ch, chName):
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ##################################################
 ## Fake track control sample:  start with Z->e e events
@@ -37,7 +39,7 @@ addCuts(ZtoEEDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 ##################################################
 ## Fake track control sample:  Z->e e + disappearing track with 3 hits
 ##################################################
-createNHitsVariations (ZtoEEDisTrk, "ZtoEEDisTrk")
+createHitsVariations (ZtoEEDisTrk, "ZtoEEDisTrk")
 
 ##################################################
 ## Fake track control samples:  Z->e e + disappearing track
@@ -58,9 +60,9 @@ ZtoEEDisTrkSidebandD0Cut.name = cms.string("ZtoEEDisTrkSidebandD0Cut")
 addSingleCut(ZtoEEDisTrkSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
 removeCuts(ZtoEEDisTrkSidebandD0Cut.cuts, [cutTrkD0])
 
-createNHitsVariations (ZtoEEDisTrkNoD0Cut,       "ZtoEEDisTrkNoD0Cut")
-createNHitsVariations (ZtoEEDisTrkInvertD0Cut,   "ZtoEEDisTrkInvertD0Cut")
-createNHitsVariations (ZtoEEDisTrkSidebandD0Cut, "ZtoEEDisTrkSidebandD0Cut")
+createHitsVariations (ZtoEEDisTrkNoD0Cut,       "ZtoEEDisTrkNoD0Cut")
+createHitsVariations (ZtoEEDisTrkInvertD0Cut,   "ZtoEEDisTrkInvertD0Cut")
+createHitsVariations (ZtoEEDisTrkSidebandD0Cut, "ZtoEEDisTrkSidebandD0Cut")
 
 ##################################################
 

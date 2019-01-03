@@ -3,10 +3,12 @@ import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite cut definitions
 
-def createNHitsVariations (ch, chName):
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
-        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts,   cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ##################################################
 ## Electron tag skim
@@ -200,12 +202,13 @@ removeCuts(ZtoEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 ## Channels with reduced numbers of hits
 ################################################################################
-createNHitsVariations (ElectronTagPt55,            "ElectronTagPt55")
-createNHitsVariations (ElectronTagPt55MetTrig,     "ElectronTagPt55MetTrig")
-createNHitsVariations (ZtoEleProbeTrkWithZCuts,    "ZtoEleProbeTrkWithZCuts")
-createNHitsVariations (ZtoEleDisTrk,               "ZtoEleDisTrk")
-createNHitsVariations (ZtoEleProbeTrkWithFilter,   "ZtoEleProbeTrkWithFilter")
-createNHitsVariations (ZtoEleProbeTrkWithSSFilter, "ZtoEleProbeTrkWithSSFilter")
+createHitsVariations (ElectronTagPt55,            "ElectronTagPt55")
+createHitsVariations (ElectronTagPt55MetTrig,     "ElectronTagPt55MetTrig")
+createHitsVariations (ZtoEleProbeTrkWithZCuts,    "ZtoEleProbeTrkWithZCuts")
+createHitsVariations (ZtoEleDisTrk,               "ZtoEleDisTrk")
+createHitsVariations (ZtoEleProbeTrk,             "ZtoEleProbeTrk")
+createHitsVariations (ZtoEleProbeTrkWithFilter,   "ZtoEleProbeTrkWithFilter")
+createHitsVariations (ZtoEleProbeTrkWithSSFilter, "ZtoEleProbeTrkWithSSFilter")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
