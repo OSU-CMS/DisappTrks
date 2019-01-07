@@ -114,9 +114,13 @@ for mass in masses:
         datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-#        combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
-#        combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
-        combine_expected_options = combine_observed_options = " -H Significance "  # default random number seed = 123456
+
+        if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0":
+          combine_expected_options = combine_observed_options = " -H Significance "  # default random number seed = 123456
+        else:
+          combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
+          combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
+ 
         if arguments.method == "HybridNew":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "

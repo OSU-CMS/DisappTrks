@@ -38,15 +38,15 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-lumi = lumi["MET_2015"]
+lumi = lumi["MET_2017"]
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Brian"] + '/2015/signalAcceptance_final/'
+signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance/'
 
-signal_suffix = signal_suffix_in_datacard = '76X'
+signal_suffix = signal_suffix_in_datacard = '94X'
 
 #name of event selection from which to take signal yields
-signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
+signal_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 #######################
 ### Data Parameters ###
@@ -55,7 +55,7 @@ signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
 #this just sets the observed number of events equal to the total background expectation
 run_blind_limits = False
 
-data_dataset = "MET_2015D"
+data_dataset = "MET_2017"
 
 #condor directory in which to find data root file
 data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
@@ -64,9 +64,9 @@ data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0":
-  actual_bin_name = 'Bin2015'
+  actual_bin_name = 'Bin2017L4'
 else:
-  actual_bin_name = '2015'
+  actual_bin_name = '2017L4'
 
 #############################
 ### Systematic Uncertainties ###
@@ -74,19 +74,19 @@ else:
 
 external_systematic_uncertainties = [
     # Use order of AN
-    "isr_2015",
-    "jec_2015",
-    "jer_2015",
-    "metVaryElectronEn_2015",
-    "metVaryJetEn_2015",
-    "metVaryJetRes_2015",
-    "metVaryPhotonEn_2015",
-    "metVaryTauEn_2015",
-    "metVaryUnclusteredEn_2015",
-    "nMissOut_2015",
-    "pileup_2015",
-    "trigger_grandOrWeightData_2015",
-    "trigger_grandOrWeightMC_2015",
+    "isr_2017L4",
+    "jec_2017L4",
+    "jer_2017L4",
+    "metVaryElectronEn_2017L4",
+    "metVaryJetEn_2017L4",
+    "metVaryJetRes_2017L4",
+    "metVaryPhotonEn_2017L4",
+    "metVaryTauEn_2017L4",
+    "metVaryUnclusteredEn_2017L4",
+    "nMissOut_2017L4",
+    "pileup_2017L4",
+    "trigger_grandOrWeightData_2017L4",
+    "trigger_grandOrWeightMC_2017L4",
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
