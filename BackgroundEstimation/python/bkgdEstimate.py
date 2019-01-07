@@ -836,7 +836,7 @@ class FakeTrackBkgdEstimate:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, self._maxD0 - 0.001)
+        n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
@@ -867,21 +867,20 @@ class FakeTrackBkgdEstimate:
 
     def printNctrl (self):
         if hasattr (self, "DisTrkInvertD0"):
-            if self._nHits >= 7:
-                #n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
-                n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track Plots/trackNumValidHits", 7, 99)
-                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-                n.isPositive ()
-            if self._nHits == 6:
-                n, nError = getHistIntegral (self.DisTrkInvertD0NHits6["sample"], self.DisTrkInvertD0NHits6["condorDir"], self.DisTrkInvertD0NHits6["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+            hits = getHist (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track Plots/trackLayersWithMeasurementVsPixelHits")
+            if self._nHits >= 6:
+                nError = Double (0.0)
+                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()
             if self._nHits == 5:
-                n, nError = getHistIntegral (self.DisTrkInvertD0NHits5["sample"], self.DisTrkInvertD0NHits5["condorDir"], self.DisTrkInvertD0NHits5["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                nError = Double (0.0)
+                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()
             if self._nHits == 4:
-                n, nError = getHistIntegral (self.DisTrkInvertD0NHits4["sample"], self.DisTrkInvertD0NHits4["condorDir"], self.DisTrkInvertD0NHits4["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                nError = Double (0.0)
+                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()
 
