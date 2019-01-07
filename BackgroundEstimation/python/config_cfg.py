@@ -21,11 +21,11 @@ def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
 # add_channels  (process, getNHitsVariations("disTrkSelectionSidebandD0Cut"), histSets, weights, [], collMap, variableProducers)
 
 # Fake track background in basic selection control region
-#  add_channels  (process,  [disTrkSelectionNoD0CutNoHitsCut],        histSets,  weights,  [],  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionNoD0Cut3Layers],          histSets,  weights,  [],  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNoHitsCut],  histSets,  weights,  [],  collMap,  variableProducers)
 
 # Fake track background in Z->mumu control region
-#  add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNoHitsCut],        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNoD0Cut3Layers],          histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNoHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Testing: similar to sideband above, but without upper D0 cut
