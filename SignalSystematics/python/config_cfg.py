@@ -21,7 +21,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # AMSB signal channels (to get systematic fluctuations)
 ################################################################################
 # Central value channels
-add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Pileup systematic channels
