@@ -89,25 +89,25 @@ dataset_names_bkgd = {
 }
 
 dataset_names_sig = {
-    'AMSB_chargino_200GeV_10000cm_94X' : "/AMSB_chargino_M-200_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_200GeV_1000cm_94X'  : "/AMSB_chargino_M-200_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_200GeV_100cm_94X'   : "/AMSB_chargino_M-200_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_200GeV_10cm_94X'    : "/AMSB_chargino_M-200_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_200GeV_1cm_94X'     : "/AMSB_chargino_M-200_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
+    'AMSB_chargino_200GeV_10000cm_94X' : "/AMSB_chargino_M-200_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_1000cm_94X'  : "/AMSB_chargino_M-200_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_100cm_94X'   : "/AMSB_chargino_M-200_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_10cm_94X'    : "/AMSB_chargino_M-200_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_1cm_94X'     : "/AMSB_chargino_M-200_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
 
-    'AMSB_chargino_400GeV_10000cm_94X' : "/AMSB_chargino_M-400_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_400GeV_1000cm_94X'  : "/AMSB_chargino_M-400_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_400GeV_100cm_94X'   : "/AMSB_chargino_M-400_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_400GeV_10cm_94X'    : "/AMSB_chargino_M-400_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_400GeV_1cm_94X'     : "/AMSB_chargino_M-400_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
+    'AMSB_chargino_400GeV_10000cm_94X' : "/AMSB_chargino_M-400_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_1000cm_94X'  : "/AMSB_chargino_M-400_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_100cm_94X'   : "/AMSB_chargino_M-400_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_10cm_94X'    : "/AMSB_chargino_M-400_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_1cm_94X'     : "/AMSB_chargino_M-400_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
 
     'AMSB_chargino_500GeV_1000cm_94X'  : "/AMSB_chargino_M-500_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
 
-    'AMSB_chargino_600GeV_10000cm_94X' : "/AMSB_chargino_M-600_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_600GeV_1000cm_94X'  : "/AMSB_chargino_M-600_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_600GeV_100cm_94X'   : "/AMSB_chargino_M-600_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_600GeV_10cm_94X'    : "/AMSB_chargino_M-600_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_600GeV_1cm_94X'     : "/AMSB_chargino_M-600_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
+    'AMSB_chargino_600GeV_10000cm_94X' : "/AMSB_chargino_M-600_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_1000cm_94X'  : "/AMSB_chargino_M-600_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_100cm_94X'   : "/AMSB_chargino_M-600_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_10cm_94X'    : "/AMSB_chargino_M-600_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_1cm_94X'     : "/AMSB_chargino_M-600_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
 
     'AMSB_chargino_700GeV_10000cm_94X' : "/AMSB_chargino_M-700_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
     'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
@@ -115,11 +115,11 @@ dataset_names_sig = {
     'AMSB_chargino_700GeV_10cm_94X'    : "/AMSB_chargino_M-700_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
     'AMSB_chargino_700GeV_1cm_94X'     : "/AMSB_chargino_M-700_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
 
-    'AMSB_chargino_800GeV_10000cm_94X' : "/AMSB_chargino_M-800_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_800GeV_1000cm_94X'  : "/AMSB_chargino_M-800_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_800GeV_100cm_94X'   : "/AMSB_chargino_M-800_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_800GeV_10cm_94X'    : "/AMSB_chargino_M-800_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
-    'AMSB_chargino_800GeV_1cm_94X'     : "/AMSB_chargino_M-800_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step3-03e52fcf90ac03c0e0d2278157727e12/USER",
+    'AMSB_chargino_800GeV_10000cm_94X' : "/AMSB_chargino_M-800_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_1000cm_94X'  : "/AMSB_chargino_M-800_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_100cm_94X'   : "/AMSB_chargino_M-800_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_10cm_94X'    : "/AMSB_chargino_M-800_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_1cm_94X'     : "/AMSB_chargino_M-800_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
 }
 
 dataset_names = {}
