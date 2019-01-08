@@ -142,4 +142,9 @@ weightsFluctuatePileup = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("grandOrWeight")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("isrWeight")
+    ),
+
 )
