@@ -52,6 +52,10 @@ disTrkSelectionJECDown.name = cms.string("disTrkSelectionJECDown")
 removeCuts(disTrkSelectionJECDown.cuts, [cutJetPt])
 addCuts(disTrkSelectionJECDown.cuts, [cutJetPtJECDown])
 
+createHitsVariations(disTrkSelection,         "disTrkSelection")
+createHitsVariations(disTrkSelectionJECUp,    "disTrkSelectionJECUp")
+createHitsVariations(disTrkSelectionJECDown,  "disTrkSelectionJECDown")
+
 ################################################################################
 ## JER signal systematic
 ################################################################################
@@ -103,6 +107,9 @@ removeCuts(disTrkNoMet.cuts, [cutMet])
 disTrkNoMetSmearedJets = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkNoMetSmearedJets.name = cms.string("DisTrkNoMetSmearedJets")
 removeCuts(disTrkNoMetSmearedJets.cuts, [cutMet])
+
+createHitsVariations(disTrkNoMet,             "disTrkNoMet")
+createHitsVariations(disTrkNoMetSmearedJets,  "disTrkNoMetSmearedJets")
 
 ##########################################################################
 #2017 Trig Efficiency Tests
@@ -175,3 +182,12 @@ metTrig12.triggers.append('HLT_PFMETTypeOne120_PFMHT120_IDTight_v')
 metTrig13 = copy.deepcopy(metTrig12)
 metTrig13.name = cms.string("metTrig13")
 metTrig13.triggers.append('HLT_PFMETTypeOne130_PFMHT130_IDTight_v')
+
+
+#######################################################################
+# Number of missing outer hits channels
+#######################################################################
+
+createHitsVariations(disTrkNoNMissOut,        "disTrkNoNMissOut")
+
+
