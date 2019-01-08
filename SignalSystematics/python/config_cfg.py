@@ -21,7 +21,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # AMSB signal channels (to get systematic fluctuations)
 ################################################################################
 # Central value channels
-#  add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Pileup systematic channels
@@ -67,3 +67,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #add_channels (process, [metTrigJustMain, metTrigOnlyPerfectNoMain2017, metTrigOnlyPerfectAndMain2017, metTrigAllUnprescaled2017, metTrigAllowDisabledHighPU2017], [histSets,histSetsTrigger],  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
+    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
