@@ -23,6 +23,9 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # Central value channels
 #  add_channels  (process,  [disTrkSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJets],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Pileup systematic channels
 #  add_channels  (process,  [disTrkSelection],             histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)

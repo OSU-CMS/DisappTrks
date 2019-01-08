@@ -4,6 +4,13 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ################################################################################
 ## ISR signal systematic
 ################################################################################
@@ -49,6 +56,7 @@ addCuts(disTrkSelectionJECDown.cuts, [cutJetPtJECDown])
 ## JER signal systematic
 ################################################################################
 
+# N.B. this is actaully the central value selection for MC since you should smear the jets
 disTrkSelectionSmearedJets = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
 removeCuts(disTrkSelectionSmearedJets.cuts, [cutJetPt])
@@ -77,6 +85,12 @@ disTrkSelectionSmearedJetsJECDown = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJECDown")
 removeCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetPt])
 addCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetJERSmearedPtJECDown])
+
+createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJets")
+createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")
+createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJetsDown")
+createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")
+createHitsVariations(disTrkSelectionSmearedJetsJECDown, "disTrkSelectionSmearedJetsJECDown")
 
 ################################################################################
 ## MET signal systematic
