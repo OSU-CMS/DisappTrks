@@ -20,11 +20,6 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
             'WeakSingleBoson:ffbar2gmZ = on', # turn on Z production
             'ParticleDecays:limitTau0 = on',
             'ParticleDecays:tau0Max = 10.',
-
-            'PartonLevel:MI = on',
-            'SecondHard:generate = off',
-            'SecondHard:TwoJets = off',
-            'PhaseSpace:sameForSecond = off', 
        
             'PhaseSpace:mHatMin = 20',
             '23:onMode = off',  #turn off all Z decays
