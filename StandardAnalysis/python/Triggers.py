@@ -49,19 +49,27 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersMetInclusive = cms.vstring(
-        # available throughout 2017
+
+        # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/180522_173113/lumis_for_MET_triggers_2017_sorted.pdf
+
+        # this one path adds the most signal acceptance of all single paths
         'HLT_PFMET120_PFMHT120_IDTight_v',
+
+        # additional paths allowed in the MET ntuples skim, 
+        # and acceptable in terms of not being disabled/prescaled
         #'HLT_PFMET130_PFMHT130_IDTight_v',
-        #'HLT_PFMET140_PFMHT140_IDTight_v',
+        #'HLT_PFMET140_PFMHT140_IDTight_v', # perfect trigger B-F!
         #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
-        
-        # available starting 2017C
         #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
         #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
-        #'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v',
-        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v',
         #'HLT_PFMET250_HBHECleaned_v',
         #'HLT_PFMET300_HBHECleaned_v',
+
+        # not allowed in the MET ntuples skim, but could possibly be considered
+        #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v', # perfect trigger B-F!
+        #'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v',
+        #'HLT_PFMETTypeOne120_PFMHT120_IDTight_v',
+        #'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
     )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
