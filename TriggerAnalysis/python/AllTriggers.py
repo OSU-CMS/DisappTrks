@@ -67,13 +67,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
         # additional paths allowed in the MET ntuples skim, 
         # and acceptable in terms of not being disabled/prescaled
-        #'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
-        #'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'], # perfect trigger B-F!
-        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'],
-        #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
-        #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
-        #'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
-        #'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
+        'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
+        'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'], # perfect trigger B-F!
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'],
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
+        'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
+        'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
 
         # not allowed in the MET ntuples skim, but could possibly be considered
         # fixme: what are the filters for these?

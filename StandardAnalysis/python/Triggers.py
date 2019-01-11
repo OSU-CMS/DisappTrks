@@ -57,13 +57,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
         # additional paths allowed in the MET ntuples skim, 
         # and acceptable in terms of not being disabled/prescaled
-        #'HLT_PFMET130_PFMHT130_IDTight_v',
-        #'HLT_PFMET140_PFMHT140_IDTight_v', # perfect trigger B-F!
-        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
-        #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
-        #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
-        #'HLT_PFMET250_HBHECleaned_v',
-        #'HLT_PFMET300_HBHECleaned_v',
+        'HLT_PFMET130_PFMHT130_IDTight_v',
+        'HLT_PFMET140_PFMHT140_IDTight_v', # perfect trigger B-F!
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        'HLT_PFMET250_HBHECleaned_v',
+        'HLT_PFMET300_HBHECleaned_v',
 
         # not allowed in the MET ntuples skim, but could possibly be considered
         #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v', # perfect trigger B-F!
