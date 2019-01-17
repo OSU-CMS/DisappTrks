@@ -22,34 +22,34 @@ backgrounds = {
 }
 
 background_systematics = {
-    'Fake_alpha' : { # error on alpha
+    'Fake_alpha_NLayers5' : { # error on alpha
         'value' : '1.01698139546',
         'background' : 'Fake',
     },
-    'Elec_alpha' : { # error on alpha
+    'Elec_alpha_NLayers5' : { # error on alpha
         'value' : '1.0899618452700002',
         'background' : 'Elec',
     },
-    'Muon_alpha' : { # error on alpha
+    'Muon_alpha_NLayers5' : { # error on alpha
         'value' : '3.23692454446',
         'background' : 'Muon',
     },
-    'Tau_alpha' : { # error on alpha
+    'Tau_alpha_NLayers5' : { # error on alpha
         'value' : '2.90277053642', # fixme
         'background' : 'Tau',
     },
 
 
 
-    'Fake_syst' : { # error on fake track rate assumption
+    'Fake_syst_NLayers5' : { # error on fake track rate assumption
         'value' : str (max (1.0 - 100.0 / 100.0, 1.0e-3)) + "/" + str (1.0 + 99.3 / 100.0),
         'background' : 'Fake',
     },
-    'Elec_energy' : { # error on energy assumption
+    'Elec_energy_NLayers5' : { # error on energy assumption
         'value' : str (1.0 + 11.7113892531 / 100.0),
         'background' : 'Elec',
     },
-    'Tau_energy' : { # error on energy assumption
+    'Tau_energy_NLayers5' : { # error on energy assumption
         'value' : str (1.0 + 16.8609344527 / 100.0),
         'background' : 'Tau',
     },

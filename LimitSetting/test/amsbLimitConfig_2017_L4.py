@@ -58,7 +58,7 @@ signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots
 #this just sets the observed number of events equal to the total background expectation
 run_blind_limits = False
 
-data_dataset = "MET_2017"
+data_dataset = "MET_2016"
 
 #condor directory in which to find data root file
 data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
@@ -74,19 +74,6 @@ actual_bin_name = 'Bin2017' + nLayersWord
 
 external_systematic_uncertainties = [
     # Use order of AN
-    "isr_Bin2017" + nLayersWord,
-    "jec_Bin2017" + nLayersWord,
-    "jer_Bin2017" + nLayersWord,
-    "metVaryElectronEn_Bin2017" + nLayersWord,
-    "metVaryJetEn_Bin2017" + nLayersWord,
-    "metVaryJetRes_Bin2017" + nLayersWord,
-    "metVaryPhotonEn_Bin2017" + nLayersWord,
-    "metVaryTauEn_Bin2017" + nLayersWord,
-    "metVaryUnclusteredEn_Bin2017" + nLayersWord,
-    "nMissOut_Bin2017" + nLayersWord,
-    "pileup_Bin2017" + nLayersWord,
-    "trigger_grandOrWeightData_Bin2017" + nLayersWord,
-    "trigger_grandOrWeightMC_Bin2017" + nLayersWord,
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
