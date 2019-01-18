@@ -1234,6 +1234,10 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        if arguments.saveObjects and "exp" in arguments.saveObjects:
+                            tGraphs[-1].SetName(plot['title']+"_graph_expected")
+                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                            tGraphs[-1].Write()
                     if graphName is 'obs':
                         tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
