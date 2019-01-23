@@ -34,7 +34,7 @@ path = "all"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2017C']
+datasets = ['2017BCDE']
 
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
@@ -43,7 +43,9 @@ for dataset in datasets:
 
     inputFile = "SingleMu_" + dataset
     inputFolder = "2017/weeklyTSG/Aug21"
-    grandORInputFolder = "2016_final/triggerEfficiency_grandOr"
+    grandORInputFolderDeno = "2017/triggerEfficiencyGrandOr_SingleMu_Deno"
+    grandORInputFolderNum = "2017/triggerEfficiencyGrandOr_SingleMu"
+
 
     fout = TFile.Open("triggerEfficiency_" + inputFile + ".root", "recreate")
 
@@ -61,11 +63,11 @@ for dataset in datasets:
         grandEfficiency.addChannel("Numerator",
                                    "GrandOrNumerator",
                                    inputFile,
-                                   dirs['Brian'] + grandORInputFolder)
+                                   dirs['Kai'] + grandORInputFolderNum)
         grandEfficiency.addChannel("Denominator",
-                                   "METLegDenominator",
+                                   "GrandOrDenominator",
                                    inputFile,
-                                   dirs['Brian'] + grandORInputFolder)
+                                   dirs['Kai'] + grandORInputFolderDeno)
         grandEfficiency.setDatasetLabel(inputFile)
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
