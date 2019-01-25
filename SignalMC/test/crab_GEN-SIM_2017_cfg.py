@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
@@ -16,11 +17,19 @@ config.Data.splitting = 'EventBased'
 config.Data.unitsPerJob = 100
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
-config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1'
 
-config.Site.storageSite = 'T3_US_FNALLPC'
+# Uncomment one of the following pairs
+
+#config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+#config.Site.storageSite = 'T3_US_FNALLPC'
+
+#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+#config.Site.storageSite = 'T2_US_Purdue'
+
+#config.Data.outLFNDirBase = '/store/group/phys_exotica/disappearingTracks/'
+#config.Site.storageSite = 'T2_CH_CERN'
 
 if __name__ == '__main__':
 
@@ -46,17 +55,41 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
+    reallySubmitEWK = False
+    reallySubmitStrong = False
+
     reallySubmitMass = { x : False for x in range(100, 1000, 100)}
+    reallySubmitGluinoMass = { x : False for x in range(700, 2300, 100)}
     reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
     numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
+    numJobsPerLifetimeForStrong = {
+        10    : 800,
+        100   : 50,
+        1000  : 200,
+        10000 : 2000
+    }
 
-    for mass in range(100, 1000, 100):
-        for ctau in [1, 10, 100, 1000, 10000]:
-            config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
-            config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
-            config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
-            config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
-            if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
-                forkAndSubmit(config)
-            else:
-                print 'Skipping submission of request:', config.General.requestName
+    if reallySubmitEWK:
+      for mass in range(100, 1000, 100):
+          for ctau in [1, 10, 100, 1000, 10000]:
+              config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
+              config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
+              config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
+              config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
+              if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                  forkAndSubmit(config)
+              else:
+                  print 'Skipping submission of request:', config.General.requestName
+    elif reallySubmitStrong:
+      for mass in range(100, 1000, 100):
+          for gluinoMass in range(700, 2300, 100):
+              for ctau in [10, 100, 1000, 10000]:
+                  config.General.requestName = 'AMSB_gluino%dGeVToChargino%dGeV_ctau%dcm_step1' % (gluinoMass, mass, ctau)
+                  config.JobType.psetName = 'step1/pythia8Decay/AMSB_gluinoToChargino_M-%dGeV_M-%dGeV_CTau-%dcm_step1.py' % (gluinoMass, mass, ctau)
+                  config.Data.outputPrimaryDataset = 'AMSB_gluinoToChargino_M-%d_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (gluinoMass, mass, ctau)
+                  config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetimeForStrong[ctau]
+                  if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                      if os.path.isfile(config.JobType.psetName):
+                          forkAndSubmit(config)
+                  else:
+                      print 'Skipping submission of request:', config.General.requestName
