@@ -88,7 +88,7 @@ if __name__ == '__main__':
                   config.JobType.psetName = 'step1/pythia8Decay/AMSB_gluinoToChargino_M-%dGeV_M-%dGeV_CTau-%dcm_step1.py' % (gluinoMass, mass, ctau)
                   config.Data.outputPrimaryDataset = 'AMSB_gluinoToChargino_M-%d_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (gluinoMass, mass, ctau)
                   config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetimeForStrong[ctau]
-                  if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                  if reallySubmitMass[mass] and reallySubmitGluinoMass[gluinoMass] and reallySubmitLifetime[ctau]:
                       if os.path.isfile(config.JobType.psetName):
                           forkAndSubmit(config)
                   else:
