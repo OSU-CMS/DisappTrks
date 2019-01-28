@@ -44,7 +44,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_energy_NLayers4' : { # error on energy assumption
-        'value' : str (1.0 + 11.7113892531 / 100.0),
+        'value' : str (1.0 + 13.8466686504 / 100.0),
         'background' : 'Elec',
     },
     'Tau_energy_NLayers4' : { # error on energy assumption
