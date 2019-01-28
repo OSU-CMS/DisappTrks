@@ -8,8 +8,8 @@ backgrounds = {
         'alpha' : '0.423370525738',
     },
     'Elec' : {
-        'N' : '35',
-        'alpha' : '0.140750315425',
+        'N' : '33',
+        'alpha' : '0.142867612755',
     },
     'Muon' : {
         'N' : '12', # 8 (BCDE) * 1.4823110077656325 fixme
@@ -27,7 +27,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.01054364421',
+        'value' : '1.01047519123',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
