@@ -35,7 +35,7 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers5' : { # error on alpha
-        'value' : '2.89768028819',
+        'value' : '2.89768028819', # two-sided? alpha: 0.0142843468156 - 0.0267462803562 + 0.0271071233817
         'background' : 'Tau',
     },
 
