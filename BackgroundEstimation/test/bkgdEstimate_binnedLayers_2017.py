@@ -199,10 +199,10 @@ for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
 
             print "********************************************************************************"
-            print "performing tau background estimate in search region(2017", runPeriod, ")"
+            print "performing tau background estimate in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
-            fout = TFile.Open("tauBkgdEstimate_2017" + runPeriod + ".root", "recreate")
+            fout = TFile.Open("tauBkgdEstimate_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             tauBkgdEstimate = LeptonBkgdEstimate("tau")
             tauBkgdEstimate.addMetCut(120.0)
