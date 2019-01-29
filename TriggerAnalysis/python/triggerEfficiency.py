@@ -127,6 +127,10 @@ def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
         dataLabel = '2016 B+C data'
     if '2016DEFGH' in data:
         dataLabel = '2016 D-H data'
+    if '2017' in dataset:
+        dataLabel = '2017 data'
+    if '2018' in dataset:
+        dataLabel = '2018 data'
 
     legendLabel = trigger
 
@@ -369,6 +373,12 @@ class TriggerEfficiency:
             if self._rebinFactor != 1:
                 self.Denominator["hist"].Rebin(self._rebinFactor)
                 self.Numerator["hist"].Rebin(self._rebinFactor)
+            for ibin in range(0,self.Numerator["hist"].GetNbinsX()+1):
+                demo_bin = self.Denominator["hist"].GetBinContent(ibin+1)
+                num_bin = self.Numerator["hist"].GetBinContent(ibin+1)
+                if ( num_bin > demo_bin ):
+                    self.Denominator["hist"].SetBinContent(ibin+1,num_bin)
+		
             efficiencyGraph = TGraphAsymmErrors(self.Numerator["hist"], self.Denominator["hist"], "cp")
 
             pt_cmsPrelim = TPaveText(0.132832, 0.859453, 0.486216, 0.906716, "brNDC")
