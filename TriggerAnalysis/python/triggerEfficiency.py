@@ -127,9 +127,9 @@ def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
         dataLabel = '2016 B+C data'
     if '2016DEFGH' in data:
         dataLabel = '2016 D-H data'
-    if '2017' in dataset:
+    if '2017' in data:
         dataLabel = '2017 data'
-    if '2018' in dataset:
+    if '2018' in data:
         dataLabel = '2018 data'
 
     legendLabel = trigger
