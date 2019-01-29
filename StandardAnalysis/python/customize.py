@@ -88,8 +88,8 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
