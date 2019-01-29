@@ -373,11 +373,6 @@ class TriggerEfficiency:
             if self._rebinFactor != 1:
                 self.Denominator["hist"].Rebin(self._rebinFactor)
                 self.Numerator["hist"].Rebin(self._rebinFactor)
-            for ibin in range(0,self.Numerator["hist"].GetNbinsX()+1):
-                demo_bin = self.Denominator["hist"].GetBinContent(ibin+1)
-                num_bin = self.Numerator["hist"].GetBinContent(ibin+1)
-                if ( num_bin > demo_bin ):
-                    self.Denominator["hist"].SetBinContent(ibin+1,num_bin)
 		
             efficiencyGraph = TGraphAsymmErrors(self.Numerator["hist"], self.Denominator["hist"], "cp")
 
