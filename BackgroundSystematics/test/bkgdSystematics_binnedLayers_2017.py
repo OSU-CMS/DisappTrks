@@ -136,7 +136,7 @@ if background == "TAU" or background == "ALL":
         for nLayersWord in nLayersWords:
 
             print "********************************************************************************"
-            print "evaluating tau energy systematic(2017", runPeriod, ")"
+            print "evaluating tau energy systematic(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
             fout = TFile.Open("tauEnergySystematic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")

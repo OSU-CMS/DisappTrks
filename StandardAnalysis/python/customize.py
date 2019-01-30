@@ -76,7 +76,6 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
-    # fixme
     elif runPeriod == "2017":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2017")
@@ -84,7 +83,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2016') # fixme update data
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
@@ -99,9 +98,9 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
-        setMissingHitsCorrection (process, "2016DEFGH")
+        setMissingHitsCorrection (process, "2016DEFGH") # fixme update to 2017
 
-    # fixme
+    # fixme, all set to 2017 values
     elif runPeriod == "2018":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2017")
@@ -109,12 +108,12 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
