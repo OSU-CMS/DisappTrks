@@ -8,8 +8,8 @@ backgrounds = {
         'alpha' : '0.423370525738',
     },
     'Elec' : {
-        'N' : '12',
-        'alpha' : '0.06791666666666667',
+        'N' : '11',
+        'alpha' : '0.0682509529662',
     },
     'Muon' : {
         'N' : '7', # 5 (BCDE) * 1.4823110077656325 fixme
@@ -17,7 +17,7 @@ backgrounds = {
     },
     'Tau' : {
         'N' : '9',
-        'alpha' : '0.0160698901676',
+        'alpha' : '0.0142843468156',
     },
 }
 
@@ -27,7 +27,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers5' : { # error on alpha
-        'value' : '1.0899618452700002',
+        'value' : '1.06823259842',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers5' : { # error on alpha
@@ -35,7 +35,7 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers5' : { # error on alpha
-        'value' : '2.90277053642', # fixme
+        'value' : '2.89768028819', # two-sided? alpha: 0.0142843468156 - 0.0267462803562 + 0.0271071233817
         'background' : 'Tau',
     },
 
@@ -46,7 +46,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_energy_NLayers5' : { # error on energy assumption
-        'value' : str (1.0 + 11.7113892531 / 100.0),
+        'value' : str (1.0 + 13.6631899742 / 100.0),
         'background' : 'Elec',
     },
     'Tau_energy_NLayers5' : { # error on energy assumption

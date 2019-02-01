@@ -456,8 +456,8 @@ class LeptonEnergySystematic:
                 totalError = Double (0.0)
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
 
-            eff = passes / total
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
+            eff = passes / total if total > 0.0 else 0.0
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
             print "P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
@@ -483,8 +483,8 @@ class LeptonEnergySystematic:
                 passesError = Double (0.0)
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
 
-            eff = passes / total
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total)
+            eff = passes / total if total > 0.0 else 0.0
+            effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
             print "P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
             return (eff, effError)
         else:
@@ -499,13 +499,14 @@ class LeptonEnergySystematic:
         pPassMetTriggers0  =  self.printPpassMetTriggers  ("MetNoMuMinusOnePt")
         pPassMetTriggers1  =  self.printPpassMetTriggers  ("MetNoMuMinusOneUpPt")
 
-        ratio = (pPassMetCut1[0] * pPassMetTriggers1[0]) / (pPassMetCut0[0] * pPassMetTriggers0[0])
+        ratio = (pPassMetCut1[0] * pPassMetTriggers1[0]) / (pPassMetCut0[0] * pPassMetTriggers0[0]) if (pPassMetCut0[0] * pPassMetTriggers0[0] > 0.0) else 0.0
         ratioError = 0.0
         ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[1])
         ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[1] * pPassMetTriggers1[0])
         ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[1] * pPassMetCut1[0] * pPassMetTriggers1[0])
         ratioError = math.hypot (ratioError, pPassMetCut0[1] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[0])
-        ratioError /= ((pPassMetCut0[0] * pPassMetTriggers0[0]) * (pPassMetCut0[0] * pPassMetTriggers0[0]))
+        if (pPassMetCut0[0] * pPassMetTriggers0[0] > 0.0):
+            ratioError /= ((pPassMetCut0[0] * pPassMetTriggers0[0]) * (pPassMetCut0[0] * pPassMetTriggers0[0]))
 
         print "ratio: " + str (ratio) + " +- " + str (ratioError)
 

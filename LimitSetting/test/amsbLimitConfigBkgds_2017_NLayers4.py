@@ -8,8 +8,8 @@ backgrounds = {
         'alpha' : '0.423370525738',
     },
     'Elec' : {
-        'N' : '27',
-        'alpha' : '0.075832766708',
+        'N' : '15',
+        'alpha' : '0.0756021250521',
     },
     'Muon' : {
         'N' : '99', # 67 (BCDE) * 1.4823110077656325 fixme
@@ -27,7 +27,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
-        'value' : '1.10441866478',
+        'value' : '1.10006941274',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
@@ -44,7 +44,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_energy_NLayers4' : { # error on energy assumption
-        'value' : str (1.0 + 11.7113892531 / 100.0),
+        'value' : str (1.0 + 13.8466686504 / 100.0),
         'background' : 'Elec',
     },
     'Tau_energy_NLayers4' : { # error on energy assumption

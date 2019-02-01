@@ -36,6 +36,8 @@ class GenZPtAnalyzer : public edm::EDAnalyzer
   edm::InputTag genParticles_;
   edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticlesToken_;
 
+  const bool is94X_;
+
   std::map<std::string, TH1D *> oneDHists_;
   edm::Service<TFileService> fs_;
 

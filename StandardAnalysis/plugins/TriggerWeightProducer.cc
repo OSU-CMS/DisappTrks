@@ -153,21 +153,38 @@ void TriggerWeightProducer::AddVariables(const edm::Event &event) {
       exit(1);
     }
 
-    metLegNumerator_     = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
-    metLegDenominator_   = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
-    trackLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
-    trackLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
-    grandOrNumerator_    = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/grandOr");
-    grandOrDenominator_  = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/grandOr");
-
-    if(!metLegNumerator_   || !metLegDenominator_ ||
-       !trackLegNumerator_ || !trackLegDenominator_ ||
-       !grandOrNumerator_  || !grandOrDenominator_) {
-      clog << "ERROR [TriggerWeightProducer]: Could not find all efficiency graphs: " << endl
-           << "\t" << dataset_ << "/metLeg (/trackLeg), " << endl
-           << "\t" << target_ << "/metLeg (/trackLeg)" << endl
+    if(produceMetLeg_) {
+      metLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/metLeg");
+      metLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/metLeg");
+      if(!metLegNumerator_   || !metLegDenominator_) {
+        clog << "ERROR [TriggerWeightProducer]: Could not find requested MetLeg efficiency graphs: " << endl
+           << "\t" << dataset_ << "/metLeg," << endl
+           << "\t" << target_ << "/metLeg" << endl
            << "Would cause a seg fault." << endl;
-      exit(1);
+        exit(1);
+      }
+    }
+    if(produceTrackLeg_) {
+      trackLegNumerator_   = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/trackLeg");
+      trackLegDenominator_ = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/trackLeg");
+      if(!trackLegNumerator_   || !trackLegDenominator_) {
+        clog << "ERROR [TriggerWeightProducer]: Could not find requested TrackLeg efficiency graphs: " << endl
+           << "\t" << dataset_ << "/trackLeg," << endl
+           << "\t" << target_ << "/trackLeg" << endl
+           << "Would cause a seg fault." << endl;
+        exit(1);
+      }
+    }
+    if(produceGrandOr_) {
+      grandOrNumerator_    = (TGraphAsymmErrors*)fin->Get((TString)dataset_ + "/grandOr");
+      grandOrDenominator_  = (TGraphAsymmErrors*)fin->Get((TString)target_ + "/grandOr");
+      if(!grandOrNumerator_   || !grandOrDenominator_) {
+        clog << "ERROR [TriggerWeightProducer]: Could not find requested GrandOr efficiency graphs: " << endl
+           << "\t" << dataset_ << "/grandOr," << endl
+           << "\t" << target_ << "/grandOr" << endl
+           << "Would cause a seg fault." << endl;
+        exit(1);
+      }
     }
 
     fin->Close ();
