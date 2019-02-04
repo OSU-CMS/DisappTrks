@@ -42,10 +42,10 @@ dataset_names_bkgd = {
     # TTJets
     # 'TTJets' : a proper "/TT_TuneCP..." doesn't exist!
     'TTJets_SemiLeptonic' : "/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'TTJets_2L2Nu'        : "/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER", # ???
+    'TTJets_Hadronic'     : "/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER", # ???
 
     # QCD
-    #'QCD_5to10'       :  doesn't exist!
-    #'QCD_10to15'      :  doesn't exist!
     'QCD_15to30'      : "/QCD_Pt_15to30_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_30to50'      : "/QCD_Pt_30to50_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_50to80'      : "/QCD_Pt_50to80_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
@@ -56,10 +56,10 @@ dataset_names_bkgd = {
     'QCD_470to600'    : "/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_600to800'    : "/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_800to1000'   : "/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
-    #'QCD_1000to1400'  :
+    'QCD_1000to1400'  : "/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # 97.8%% @ OSU
     'QCD_1400to1800'  : "/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_1800to2400'  : "/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
-    #'QCD_2400to3200'  :
+    'QCD_2400to3200'  : "/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # 66.3% @ OSU
     'QCD_3200toInf'   : "/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
 
     'DYJetsToLL_50'                :  "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/ahart-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
@@ -89,15 +89,59 @@ dataset_names_bkgd = {
 }
 
 dataset_names_sig = {
-    'AMSB_chargino_400GeV_10cm_94X'    : "/AMSB_chargino_M-400_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
+    'AMSB_chargino_100GeV_1cm_94X'     : "/AMSB_chargino_M-100_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_100GeV_10cm_94X'    : "/AMSB_chargino_M-100_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_100GeV_100cm_94X'   : "/AMSB_chargino_M-100_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_100GeV_1000cm_94X'  : "/AMSB_chargino_M-100_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_100GeV_10000cm_94X' : "/AMSB_chargino_M-100_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
 
-    'AMSB_chargino_500GeV_1000cm_94X'  : "/AMSB_chargino_M-500_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
+    'AMSB_chargino_200GeV_10000cm_94X' : "/AMSB_chargino_M-200_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_1000cm_94X'  : "/AMSB_chargino_M-200_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_100cm_94X'   : "/AMSB_chargino_M-200_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_10cm_94X'    : "/AMSB_chargino_M-200_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_200GeV_1cm_94X'     : "/AMSB_chargino_M-200_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
 
-    'AMSB_chargino_700GeV_10000cm_94X' : "/AMSB_chargino_M-700_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
-    'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
-    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
-    'AMSB_chargino_700GeV_10cm_94X'    : "/AMSB_chargino_M-700_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
-    'AMSB_chargino_700GeV_1cm_94X'     : "/AMSB_chargino_M-700_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v10-v4/MINIAODSIM",
+    'AMSB_chargino_300GeV_1cm_94X'     : "/AMSB_chargino_M-300_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_300GeV_10cm_94X'    : "/AMSB_chargino_M-300_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_300GeV_100cm_94X'   : "/AMSB_chargino_M-300_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_300GeV_1000cm_94X'  : "/AMSB_chargino_M-300_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_300GeV_10000cm_94X' : "/AMSB_chargino_M-300_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+
+    'AMSB_chargino_400GeV_10000cm_94X' : "/AMSB_chargino_M-400_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_1000cm_94X'  : "/AMSB_chargino_M-400_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_100cm_94X'   : "/AMSB_chargino_M-400_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_10cm_94X'    : "/AMSB_chargino_M-400_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_400GeV_1cm_94X'     : "/AMSB_chargino_M-400_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+
+    'AMSB_chargino_500GeV_1cm_94X'     : "/AMSB_chargino_M-500_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_500GeV_10cm_94X'    : "/AMSB_chargino_M-500_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_500GeV_100cm_94X'   : "/AMSB_chargino_M-500_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_500GeV_1000cm_94X'  : "/AMSB_chargino_M-500_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_500GeV_10000cm_94X' : "/AMSB_chargino_M-500_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+
+    'AMSB_chargino_600GeV_10000cm_94X' : "/AMSB_chargino_M-600_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_1000cm_94X'  : "/AMSB_chargino_M-600_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_100cm_94X'   : "/AMSB_chargino_M-600_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_10cm_94X'    : "/AMSB_chargino_M-600_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_600GeV_1cm_94X'     : "/AMSB_chargino_M-600_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+
+    'AMSB_chargino_700GeV_1cm_94X'     : "/AMSB_chargino_M-700_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_700GeV_10cm_94X'    : "/AMSB_chargino_M-700_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_700GeV_100cm_94X'   : "/AMSB_chargino_M-700_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_700GeV_1000cm_94X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_700GeV_10000cm_94X' : "/AMSB_chargino_M-700_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+
+    'AMSB_chargino_800GeV_10000cm_94X' : "/AMSB_chargino_M-800_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_1000cm_94X'  : "/AMSB_chargino_M-800_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_100cm_94X'   : "/AMSB_chargino_M-800_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_10cm_94X'    : "/AMSB_chargino_M-800_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+    'AMSB_chargino_800GeV_1cm_94X'     : "/AMSB_chargino_M-800_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-0a25f51d323b7ece21362186c9e91a1a/USER",
+
+    'AMSB_chargino_900GeV_1cm_94X'     : "/AMSB_chargino_M-900_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_10cm_94X'    : "/AMSB_chargino_M-900_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_100cm_94X'   : "/AMSB_chargino_M-900_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_1000cm_94X'  : "/AMSB_chargino_M-900_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_900GeV_10000cm_94X' : "/AMSB_chargino_M-900_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
 }
 
 dataset_names = {}

@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import glob
+import os
 
 ###########################################################
 ##### Setup process #####
@@ -33,6 +34,7 @@ process.maxEvents = cms.untracked.PSet (
 process.GenZPtAnalyzer = cms.EDAnalyzer ('GenZPtAnalyzer',
     genParticles = cms.InputTag ("genParticles", ""),
     #genParticles = cms.InputTag ("prunedGenParticles", ""),
+    is94X = cms.bool (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_")),
 )
 
 ###########################################################

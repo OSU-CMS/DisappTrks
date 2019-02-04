@@ -114,8 +114,14 @@ for mass in masses:
         datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-#        combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
-        combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
+
+        if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0":
+          # ProfileLikelihood method seems to have been removed, so for the time being we won't use a hint with -H...
+          combine_expected_options = combine_observed_options = " "  # default random number seed = 123456
+        else:
+          combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
+          combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
+ 
         if arguments.method == "HybridNew":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
@@ -137,8 +143,10 @@ for mass in masses:
             combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
             combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
         else:
-            combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-            combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+#            combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+#            combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+            combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+            combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
         if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
             if float(lifetime) > 9 and float(lifetime) < 300:   # Use a smaller maximum for lifetimes with a larger signal yield
                 combine_expected_options += " --rMin 0.00000001 --rMax 0.1 "

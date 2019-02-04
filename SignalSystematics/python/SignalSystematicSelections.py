@@ -4,6 +4,13 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ################################################################################
 ## ISR signal systematic
 ################################################################################
@@ -45,10 +52,15 @@ disTrkSelectionJECDown.name = cms.string("disTrkSelectionJECDown")
 removeCuts(disTrkSelectionJECDown.cuts, [cutJetPt])
 addCuts(disTrkSelectionJECDown.cuts, [cutJetPtJECDown])
 
+createHitsVariations(disTrkSelection,         "disTrkSelection")
+createHitsVariations(disTrkSelectionJECUp,    "disTrkSelectionJECUp")
+createHitsVariations(disTrkSelectionJECDown,  "disTrkSelectionJECDown")
+
 ################################################################################
 ## JER signal systematic
 ################################################################################
 
+# N.B. this is actaully the central value selection for MC since you should smear the jets
 disTrkSelectionSmearedJets = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
 removeCuts(disTrkSelectionSmearedJets.cuts, [cutJetPt])
@@ -78,6 +90,12 @@ disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJ
 removeCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetPt])
 addCuts(disTrkSelectionSmearedJetsJECDown.cuts, [cutJetJERSmearedPtJECDown])
 
+createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJets")
+createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")
+createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJetsDown")
+createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")
+createHitsVariations(disTrkSelectionSmearedJetsJECDown, "disTrkSelectionSmearedJetsJECDown")
+
 ################################################################################
 ## MET signal systematic
 ################################################################################
@@ -89,6 +107,9 @@ removeCuts(disTrkNoMet.cuts, [cutMet])
 disTrkNoMetSmearedJets = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkNoMetSmearedJets.name = cms.string("DisTrkNoMetSmearedJets")
 removeCuts(disTrkNoMetSmearedJets.cuts, [cutMet])
+
+createHitsVariations(disTrkNoMet,             "disTrkNoMet")
+createHitsVariations(disTrkNoMetSmearedJets,  "disTrkNoMetSmearedJets")
 
 ##########################################################################
 #2017 Trig Efficiency Tests
@@ -161,3 +182,12 @@ metTrig12.triggers.append('HLT_PFMETTypeOne120_PFMHT120_IDTight_v')
 metTrig13 = copy.deepcopy(metTrig12)
 metTrig13.name = cms.string("metTrig13")
 metTrig13.triggers.append('HLT_PFMETTypeOne130_PFMHT130_IDTight_v')
+
+
+#######################################################################
+# Number of missing outer hits channels
+#######################################################################
+
+createHitsVariations(disTrkNoNMissOut,        "disTrkNoNMissOut")
+
+

@@ -64,7 +64,10 @@ data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 #name of event selection from which to take observed events
 data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
-actual_bin_name = '2016BC'
+if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0":
+  actual_bin_name = 'Bin2016BC'
+else:
+  actual_bin_name = '2016BC'
 
 #############################
 ### Systematic Uncertainties ###

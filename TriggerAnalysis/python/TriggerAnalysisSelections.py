@@ -26,7 +26,7 @@ METLegDenominator = cms.PSet(
 
 # Muon pt > 55 for the grand combination of triggers
 GrandOrDenominator = cms.PSet(
-    name = cms.string("METLegDenominator"),
+    name = cms.string("GrandOrDenominator"),
     triggers = triggersSingleMu,
     cuts = cms.VPSet(
         cutLeadJetCentral,
@@ -86,6 +86,7 @@ GrandOrDenominatorTrk = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(
         cutLeadJetCentral,
+	cutTrkPt55,
         cutTrkEta25,
         cutTrkNormalizedChi2,
         cutTrkD0,
