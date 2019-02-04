@@ -34,7 +34,7 @@ path = "all"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2017BCDE']
+datasets = ['2017']
 
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
@@ -131,6 +131,28 @@ for dataset in datasets:
 # Compare MC to data
 
 metAxisTitle = 'PF E_{T}^{miss, no #mu}'
+
+for trigger in triggersMet:
+
+    if useCorrectVariables:
+        if 'PFMHTNoMu' in trigger:
+            metAxisTitle = 'H_{T}^{miss, no #mu} [GeV]'
+        elif 'PFMHT' in trigger:
+            metAxisTitle = 'H_{T}^{miss} [GeV]'
+        elif 'PFMET' in trigger:
+            metAxisTitle = 'PF E_{T}^{miss}'
+        else:
+            metAxisTitle = 'PF E_{T}^{miss, no #mu}'
+
+    legName = 'METLeg' if 'IsoTrk' in trigger else 'METPath'
+
+    compare(trigger, legName, 'SingleMu_2017', 'WJetsToLNu', metAxisTitle, canvas, lumi["SingleMuon_2017"], triggerFiltersMet[trigger])
+
+for trigger in triggersMetAndIsoTrk:
+    compare(trigger, 'TrackLeg', 'SingleMu_2017', 'WJetsToLNu', 'Muon p_{T} [GeV]', canvas, lumi["SingleMuon_2017"], triggerFiltersMet[trigger])
+
+emptyFilters = []
+compare('GrandOr', 'METPath', 'SingleMu_2017', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2017"], emptyFilters)
 
 #for trigger in triggersMetAndIsoTrk:
 #    compare(trigger, 'TrackLeg', 'npv0to12', 'npv30', 'Muon p_{T} [GeV]', canvas, 8236.431, triggerFiltersMet[trigger])
