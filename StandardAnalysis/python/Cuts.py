@@ -259,7 +259,7 @@ cutJetTightLepVeto = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
-# this is wrong... https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
+# https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     cutJetTightLepVeto.cutString = cms.string("\
     ((\
@@ -273,7 +273,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     || (neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2 && abs(eta)<=3.0 && abs(eta)>2.7) \
     || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
     print '# Using 2017 recs for Jet TightLepVeto'
-
 
 ##################################################
 ## tracks
