@@ -259,11 +259,12 @@ cutJetTightLepVeto = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
+# this is wrong... https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     cutJetTightLepVeto.cutString = cms.string("\
     ((\
-    neutralHadronEnergyFraction<0.99 && \
-    neutralEmEnergyFraction<0.99 && \
+    neutralHadronEnergyFraction<0.90 && \
+    neutralEmEnergyFraction<0.90 && \
     (chargedMultiplicity + neutralMultiplicity)>1 && \
     muonEnergyFraction<0.8) && \
     ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \

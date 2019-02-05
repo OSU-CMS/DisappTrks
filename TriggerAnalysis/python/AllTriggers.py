@@ -60,22 +60,27 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
         'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
 
-        'HLT_PFMET120_PFMHT120_IDTight_v'                       : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
-        #'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
-        #'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
-        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'], # 2017 also
-        #'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
-        #'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
-        #'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v'            : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120', 'hltPFMETHFCleaned120'],
-        #'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v'    : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120', 'hltPFMETNoMuHFCleaned120'],
-        #'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
-        #'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
+        # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/180522_173113/lumis_for_MET_triggers_2017_sorted.pdf
 
-        #'HLT_PFMET200_HBHE_BeamHaloCleaned_v'                  : [],
+        # this one path adds the most signal acceptance of all single paths
+        'HLT_PFMET120_PFMHT120_IDTight_v'                       : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'], # 2016-2017 also
+
+        # additional paths allowed in the MET ntuples skim, 
+        # and acceptable in terms of not being disabled/prescaled
+        'HLT_PFMET130_PFMHT130_IDTight_v'                      : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
+        'HLT_PFMET140_PFMHT140_IDTight_v'                      : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'], # perfect trigger B-F!
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'              : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'],
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'              : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'              : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
+        'HLT_PFMET250_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET250'],
+        'HLT_PFMET300_HBHECleaned_v'                           : ['hltMET90', 'hltMETClean80', 'hltPFMET300'],
+
+        # not allowed in the MET ntuples skim, but could possibly be considered
+        # fixme: what are the filters for these?
+        #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [], # perfect trigger B-F!
+        #'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
         #'HLT_PFMETTypeOne120_PFMHT120_IDTight_v'               : [],
         #'HLT_PFMETTypeOne130_PFMHT130_IDTight_v'               : [],
-        #'HLT_PFMETTypeOne140_PFMHT140_IDTight_v'               : [],
-        #'HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v'           : [],
     }
 
     triggerFiltersTrack = {

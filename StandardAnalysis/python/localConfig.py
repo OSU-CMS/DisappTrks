@@ -159,8 +159,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     ]
     # no 5-10, 10-15 samples in 94X
     composite_dataset_definitions['QCD'] = [
-        #'QCD_5to10',
-        #'QCD_10to15',
         'QCD_15to30',
         'QCD_30to50',
         'QCD_50to80',
@@ -187,8 +185,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'ZJetsToNuNu_HT2500toInf',
     ]
     composite_dataset_definitions["VV"] = [
-        'WWToLNuQQ',
-        'WWToLNuLNu',
+        #'WWToLNuQQ',
+        #'WWToLNuLNu',
+        'WW',
         'WZ',
         'ZZ',
         'WG',
