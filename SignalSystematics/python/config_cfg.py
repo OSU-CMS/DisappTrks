@@ -7,6 +7,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ZtoMuMu],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  True)
 
 # Channels for zToMuMu for isr weights calculation
+# remember to change the process customization in config_<era>_cfg.py to remove other weights in MC when you're calculating a new weight!
 #  add_channels  (process,  [ZtoMuMuISRStudy],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoMuMuISRStudyJet30],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 ################################################################################
@@ -104,6 +105,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 # MET channels for missing inner/middle/outer hits systematics
 ################################################################################
+# remember to change the process customization in config_<era>_cfg.py to remove other weights in MC when you're calculating a new weight!
+
 # Channels used for the missing inner/middle/outer hits systematics
 #  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
