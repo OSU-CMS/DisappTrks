@@ -4,8 +4,8 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '123',
-        'alpha' : '0.423370525738',
+        'N' : '68',
+        'alpha' : '2.42318228127',
     },
     'Elec' : {
         'N' : '15',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers4' : { # error on alpha
-        'value' : '1.01698139546',
+        'value' : '1.03337643621',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
