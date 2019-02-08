@@ -12,12 +12,12 @@ backgrounds = {
         'alpha' : '0.0682509529662',
     },
     'Muon' : {
-        'N' : '7', # 5 (BCDE) * 1.4823110077656325 fixme
-        'alpha' : '0.00384068366346',
+        'N' : '14',
+        'alpha' : '0.00212289996843',
     },
     'Tau' : {
-        'N' : '9',
-        'alpha' : '0.0142843468156',
+        'N' : '29',
+        'alpha' : '0.016979672619',
     },
 }
 
@@ -31,14 +31,13 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers5' : { # error on alpha
-        'value' : '3.23692454446',
+        'value' : '1.70866307346',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers5' : { # error on alpha
-        'value' : '2.89768028819', # two-sided? alpha: 0.0142843468156 - 0.0267462803562 + 0.0271071233817
+        'value' : '1.51717569732',
         'background' : 'Tau',
     },
-
 
 
     'Fake_syst_NLayers5' : { # error on fake track rate assumption
@@ -53,4 +52,22 @@ background_systematics = {
         'value' : str (1.0 + 16.8609344527 / 100.0),
         'background' : 'Tau',
     },
+
+    'Muon_lowStatPoffline_NLayers5' : {
+        'value' : str(1.0593),
+        'background' : 'Muon',
+    }
+    'Tau_lowStatPoffline_NLayers5' : {
+        'value' : str(1.0593),
+        'background' : 'Tau',
+    }
+
+    'Muon_lowStatPtrigger_NLayers5' : {
+        'value' : str(1.0097),
+        'background' : 'Muon',
+    }
+    'Tau_lowStatPtrigger_NLayers5' : {
+        'value' : str(1.0097),
+        'background' : 'Tau',
+    }
 }

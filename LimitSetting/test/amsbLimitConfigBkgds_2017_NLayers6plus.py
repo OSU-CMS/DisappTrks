@@ -12,8 +12,8 @@ backgrounds = {
         'alpha' : '0.142867612755',
     },
     'Muon' : {
-        'N' : '12', # 8 (BCDE) * 1.4823110077656325 fixme
-        'alpha' : '0.0353387365143',
+        'N' : '10',
+        'alpha' : '0.0479208828347',
     },
     'Tau' : {
         'N' : '7',
@@ -31,7 +31,7 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.00452879753',
+        'value' : '1.0034194308',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
