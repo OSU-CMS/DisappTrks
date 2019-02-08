@@ -27,7 +27,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     if UseCandidateTracks:
         print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_94X_Ntuples" + A_RESET
-        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Ntuples" + A_RESET + " (" + A_BRIGHT_YELLOW + "check for updates with MiniAODv2!" + A_RESET + ")"
+        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Ntuples" + A_RESET
         from DisappTrks.StandardAnalysis.miniAOD_94X_Ntuples import *
     else:
         print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET

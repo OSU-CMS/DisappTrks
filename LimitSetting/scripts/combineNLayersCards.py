@@ -3,14 +3,26 @@
 # Script to combine run periods into single cards for running limits.
 
 import os, sys, glob, re, subprocess
+from optparse import OptionParser
 
-os.mkdir('limits/limits_2017_all')
+parser = OptionParser()
+parser.add_option("-d", "--date", dest="inputDate",
+                  help="Input date. Will expect cards in limits/limits_2015_date/ etc")
 
-if not os.path.exists("limits/limits_2017_NLayers4") or not os.path.exists("limits/limits_2017_NLayers5") or not os.path.exists("limits/limits_2017_NLayers6plus"):
-    print "Expected cards to exist in limits/limits_2017_NLayers<X> for X = 4, 5, and 6plus. Quitting."
+(arguments, args) = parser.parse_args()
+
+if arguments.inputDate:
+    if not os.path.exists("limits/limits_2017_all_" + arguments.inputDate):
+        os.mkdir("limits/limits_2017_all_" + arguments.inputDate)
+else:
+    print "No input date suffix given. Quitting."
     sys.exit(1)
 
-filesNLayers4 = glob.glob('limits/limits_2017_NLayers4/datacard_AMSB_*.txt')
+if not os.path.exists("limits/limits_2017_NLayers4_" + arguments.inputDate) or not os.path.exists("limits/limits_2017_NLayers5_" + arguments.inputDate) or not os.path.exists("limits/limits_2017_NLayers6plus_" + arguments.inputDate):
+    print "Expected cards to exist in limits/limits_2017_NLayers<X>" + arguments.inputDate + " for X = 4, 5, and 6plus. Quitting."
+    sys.exit(1)
+
+filesNLayers4 = glob.glob('limits/limits_2017_NLayers4_' + arguments.inputDate + '/datacard_AMSB_*.txt')
 print "================================================================================"
 print "Will combine " + str (len (filesNLayers4)) + " datacards."
 print "--------------------------------------------------------------------------------"

@@ -53,10 +53,10 @@ dataset_names_bkgd = {
     'QCD_120to170'    : "/QCD_Pt_120to170_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_170to300'    : "/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_300to470'    : "/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
-    'QCD_470to600'    : "/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
+    'QCD_470to600'    : "/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # @ 35.1% @ OSU
     'QCD_600to800'    : "/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_800to1000'   : "/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
-    'QCD_1000to1400'  : "/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # 97.8%% @ OSU
+    'QCD_1000to1400'  : "/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # 97.8% @ OSU
     'QCD_1400to1800'  : "/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_1800to2400'  : "/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-de5f02ec0d0d96345889b201db21b7db/USER",
     'QCD_2400to3200'  : "/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-DisappTrks-v2-try3-de5f02ec0d0d96345889b201db21b7db/USER", # 66.3% @ OSU

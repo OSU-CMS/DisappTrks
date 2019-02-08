@@ -86,7 +86,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2016') # fixme update data
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
 
@@ -112,7 +112,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2016')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
 
