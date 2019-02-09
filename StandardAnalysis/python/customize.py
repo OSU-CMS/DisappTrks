@@ -107,7 +107,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
-        setMissingHitsCorrection (process, "2016DEFGH") # fixme update to 2017
+        setMissingHitsCorrection (process, "2017") 
 
     # fixme, all set to 2017 values
     elif runPeriod == "2018":
