@@ -29,8 +29,8 @@ MissingHitsCorrections["2016DEFGH"] = {
 }
 
 MissingHitsCorrections["2017"] = {
-    "dropTOBProbability"          :  0.009352,
-    "preTOBDropHitInefficiency"   :  0.022461,
-    "postTOBDropHitInefficiency"  :  0.479651,
-    "hitInefficiency"             :  0.001821,
+    "dropTOBProbability"          :  0.0018311531143531258,
+    "preTOBDropHitInefficiency"   :  0.13139210967641268,
+    "postTOBDropHitInefficiency"  :  0.04362932643888136,
+    "hitInefficiency"             :  0.0037512650853075286,
 }
