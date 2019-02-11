@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
@@ -106,7 +107,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
-        setMissingHitsCorrection (process, "2016DEFGH") # fixme update to 2017
+        setMissingHitsCorrection (process, "2017") 
 
     # fixme, all set to 2017 values
     elif runPeriod == "2018":
