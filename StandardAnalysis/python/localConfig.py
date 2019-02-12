@@ -189,7 +189,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'WW',
         'WZ',
         'ZZ',
-        'WG',
+        #'WG',
         #'ZG',
     ]
     composite_dataset_definitions["VG"] = [
@@ -202,7 +202,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'WJetsToLNu_HT400to600',
         'WJetsToLNu_HT600to800',
         'WJetsToLNu_HT800to1200',
-        'WJetsToLNu_HT1200to2500',
+        #'WJetsToLNu_HT1200to2500',
         'WJetsToLNu_HT2500toInf',
     ]
 else:
