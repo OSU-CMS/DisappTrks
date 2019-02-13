@@ -22,6 +22,9 @@ def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
 
 # Fake track background in basic selection control region
 #  add_channels  (process,  [disTrkSelectionNoD0Cut3Layers],          histSets,  weights,  [],  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNLayers4],          histSets,  weights,  [],  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNLayers5],          histSets,  weights,  [],  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionNoD0CutNLayers6plus],          histSets,  weights,  [],  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSidebandD0CutNoHitsCut],  histSets,  weights,  [],  collMap,  variableProducers)
 
 # Fake track background in Z->mumu control region
@@ -187,12 +190,11 @@ if False:
     add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # TESTING: Z->mumu channels for fake track background estimate with loosened D0 requirement on the isoTrk
-if False:
-    add_channels  (process,  [ZtoMuMuDisTrkSidebandD0Cut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-    add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits3], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-    add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits4], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-    add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits5], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-    add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#if False:
+    #add_channels  (process,  [ZtoMuMuDisTrkSidebandD0Cut],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+    #add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers4], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+    #add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers5], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+    #add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers6plus], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # TESTING: Z->mumu channels for fake track background estimate with inverted D0 requirement on the isoTrk
 if False:
