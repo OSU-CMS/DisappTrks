@@ -65,15 +65,16 @@ for runPeriod in runPeriods:
             print "\n\n"
 
             print "********************************************************************************"
-            print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
+            print "performing fake track background estimate with Z->ee selection in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3Layers",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_transferFactor")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3Layers",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_transferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
 
             print "********************************************************************************"
 
@@ -84,16 +85,15 @@ for runPeriod in runPeriods:
             print "\n\n"
 
             print "********************************************************************************"
-            print "performing fake track background estimate with Z->ee selection in search region(2017", runPeriod, "--", nLayersWord, ")"
+            print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3Layers",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_zToEE_transferFactor")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
-            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3Layers",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_transferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
 
             print "********************************************************************************"
 
