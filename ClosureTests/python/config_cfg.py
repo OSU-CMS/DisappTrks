@@ -23,9 +23,9 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [ElectronTagPt35NoJetCuts],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [ElectronTagPt35NoJetCutsMetTrig],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 
-#add_channels  (process,  [ZtoTauToEleProbeTrkNLayers4],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
-#add_channels  (process,  [ZtoTauToEleProbeTrkNLayers5],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
-#add_channels  (process,  [ZtoTauToEleProbeTrkNLayers6plus],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkNLayers4],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkNLayers5],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+#  add_channels  (process,  [ZtoTauToEleProbeTrkNLayers6plus],             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoTauToEleProbeTrkWithZCuts],    histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [ZtoTauToEleDisTrkNoNMissOutCut],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
 

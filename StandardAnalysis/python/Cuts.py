@@ -259,11 +259,12 @@ cutJetTightLepVeto = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
+# https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
     cutJetTightLepVeto.cutString = cms.string("\
     ((\
-    neutralHadronEnergyFraction<0.99 && \
-    neutralEmEnergyFraction<0.99 && \
+    neutralHadronEnergyFraction<0.90 && \
+    neutralEmEnergyFraction<0.90 && \
     (chargedMultiplicity + neutralMultiplicity)>1 && \
     muonEnergyFraction<0.8) && \
     ((abs(eta)<=2.4 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
@@ -272,7 +273,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     || (neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2 && abs(eta)<=3.0 && abs(eta)>2.7) \
     || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
     print '# Using 2017 recs for Jet TightLepVeto'
-
 
 ##################################################
 ## tracks
@@ -454,6 +454,15 @@ cutTrkNLayersExclusive = {
             cutString = cms.string("hitPattern_.trackerLayersWithMeasurement == " + str(x)),
             numberRequired = cms.string(">= 1"),
         )
+    for x in range(3, 7)
+}
+
+cutTrkAtMostNLayers = {
+    x : cms.PSet (
+        inputCollection = cms.vstring("tracks"),
+        cutString = cms.string("hitPattern_.trackerLayersWithMeasurement <= " + str(x)),
+        numberRequired = cms.string(">= 1"),
+    )
     for x in range(3, 7)
 }
 

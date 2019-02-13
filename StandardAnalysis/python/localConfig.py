@@ -1,4 +1,5 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.Color import *
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 import copy
@@ -14,31 +15,31 @@ UseCandidateTracks = True
 UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_3_'))
 
 print "########################################################################"
-print "# Switching the following since the release is " + os.environ["CMSSW_VERSION"] + ":"
+print "# Switching the following since the release is " + A_BRIGHT_BLUE + os.environ["CMSSW_VERSION"] + A_RESET + ":"
 print "#"
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Datasets from: miniAOD_80X_Samples"
+    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_80X_Samples" + A_RESET
     from DisappTrks.StandardAnalysis.miniAOD_80X_Samples import *
-    print "# Backgorund samples from: miniAODV2Samples"
+    print "# Backgorund samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET
     from DisappTrks.StandardAnalysis.miniAODV2Samples import dataset_names_bkgd
     dataset_names.update (dataset_names_bkgd)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     if UseCandidateTracks:
-        print "# Datasets from: miniAOD_94X_Ntuples"
-        print "# Background samples from: miniAOD_94X_Ntuples (check for updates with MiniAODv2!)"
+        print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_94X_Ntuples" + A_RESET
+        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Ntuples" + A_RESET
         from DisappTrks.StandardAnalysis.miniAOD_94X_Ntuples import *
     else:
-        print "# Datasets from: miniAOD_94X_Samples"
-        print "# Background samples from: miniAOD_94X_Samples (check for updated with MiniAODv2!)"
+        print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET
+        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "check for updated with MiniAODv2!" + A_RESET + ")"
         from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
         lumi.update (CreateCompositeLumis (lumi_2017, '2017', 'BCDEF'))
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
-    print "# Datasets from: miniAOD_101X_Samples"
-    print "# Background samples from: miniAOD_101X_Samples (empty!)"
+    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_101X_Samples" + A_RESET
+    print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_101X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")"
     from DisappTrks.StandardAnalysis.miniAOD_101X_Samples import *
 else:
-    print "# Datasets and background samples from: miniAODV2Samples"
+    print "# Datasets and background samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET
     from DisappTrks.StandardAnalysis.miniAODV2Samples import *
 
 config_file = "config_cfg.py"
@@ -113,15 +114,15 @@ datasetsSig = [
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Signal samples: 80X samples"
+    print "# Signal samples: " + A_BRIGHT_CYAN + "80X samples" + A_RESET
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Signal samples: 94X samples"
+    print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
 else:
-    print "# Signal samples: 76X samples"
+    print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
 datasetsSigShort = copy.deepcopy(datasetsSig)
 
@@ -158,8 +159,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     ]
     # no 5-10, 10-15 samples in 94X
     composite_dataset_definitions['QCD'] = [
-        #'QCD_5to10',
-        #'QCD_10to15',
         'QCD_15to30',
         'QCD_30to50',
         'QCD_50to80',
@@ -186,11 +185,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'ZJetsToNuNu_HT2500toInf',
     ]
     composite_dataset_definitions["VV"] = [
-        'WWToLNuQQ',
-        'WWToLNuLNu',
+        #'WWToLNuQQ',
+        #'WWToLNuLNu',
+        'WW',
         'WZ',
         'ZZ',
-        'WG',
+        #'WG',
         #'ZG',
     ]
     composite_dataset_definitions["VG"] = [
@@ -203,7 +203,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'WJetsToLNu_HT400to600',
         'WJetsToLNu_HT600to800',
         'WJetsToLNu_HT800to1200',
-        'WJetsToLNu_HT1200to2500',
+        #'WJetsToLNu_HT1200to2500',
         'WJetsToLNu_HT2500toInf',
     ]
 else:

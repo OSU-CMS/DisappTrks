@@ -144,6 +144,59 @@ class LeptonBkgdEstimate:
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"])
 
+    def appendChannel (self, role, name, sample, condorDir, useIdMatch = False):
+        if not hasattr (self, role):
+            print "Cannot append to role", role, "before it has been defined!"
+            return
+
+        channel = getattr (self, role)
+
+        if "weight" not in channel or "total" not in channel or "yield" not in channel:
+            print "Role", role, "is missing weight/total/yield and is improperly defined!"
+            return
+
+        n = None
+        nError = None
+
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        w = (nError * nError) / n
+        n /= w
+        nError /= w
+        thisTotal = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisTotal.isPositive ()
+
+        # calculate effective weight:
+        # if total(a) = Ta*wa, want X such that total(a+b) = (Ta + Tb) * X = Ta*wa + Tb*wb
+        # X = (Ta*wa + Tb*wb) / (Ta + Tb)
+        effectiveWeight = (channel["total"].centralValue() + thisTotal.centralValue()) / (channel["total"].centralValue()/channel["weight"] + thisTotal.centralValue()/w)
+
+        channel["weight"] = effectiveWeight
+        channel["total"] += thisTotal
+        channel["total"].isPositive ()
+
+        if useIdMatch:
+            pdgLo, pdgHi = self.getPdgRange()
+            # NOTE: below is wrong since the fiducial map cuts haven't been applied.
+            #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
+            n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
+        else:
+            n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+        n /= w
+        nError /= w
+        thisYield = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisYield.isPositive ()
+
+        channel["yield"] += thisYield
+        channel["yield"].isPositive ()
+
+        channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        if "extensions" in channel:
+            channel["extensions"].append(channelExtension)
+        else:
+            channel["extensions"] = [channelExtension]
+
+        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
+
     def printNctrl (self):
         self.plotMetForNctrl ()
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
@@ -159,21 +212,23 @@ class LeptonBkgdEstimate:
     def plotMetForNctrl (self):
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
             if self._fout and self._canvas:
-                sample = self.TagPt35ForNctrl["sample"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["sample"]
-                condorDir = self.TagPt35ForNctrl["condorDir"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["condorDir"]
-                name = self.TagPt35ForNctrl["name"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["name"]
+                channel = self.TagPt35ForNctrl if hasattr (self, "TagPt35ForNctrl") else self.TagPt35
+
                 #hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                #met = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+
                 hist = "Met-eventvariable Plots/deltaPhiMetJetLeadingVsMetNoMu"
-                met = getHist (sample, condorDir, name + "Plotter", hist)
+                met = getHistFromChannelDict(channel, hist)
+                addChannelExtensions(met, channel, hist)
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 #hist = "Track-" + self._flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                #metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                #metMinusOne = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
                 hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
-                metMinusOne = getHist (sample, condorDir, name + "Plotter", hist)
+                metMinusOne = getHistFromChannelDict (channel, hist)
+                addChannelExtensions(metMinusOne, channel, hist)
 
                 pt = TPaveText(0.404762,0.137597,0.805764,0.185401,"brNDC")
                 pt.SetBorderSize(0)
@@ -241,18 +296,18 @@ class LeptonBkgdEstimate:
             total = self.TagPt35["yield"]
             passes = 0.0
 
-            sample = self.TagPt35["sample"]
-            condorDir = self.TagPt35["condorDir"]
-            name = self.TagPt35["name"]
-            #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-            met = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
+            #met = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            
+            hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
+            met = getHistFromChannelDict (self.TagPt35, hist)
+            addChannelExtensions(met, self.TagPt35, hist)
 
             passesError = Double (0.0)
             passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
             passes = Measurement (passes, passesError)
             passes.isPositive ()
 
-            eff = passes / total
+            eff = passes / total if total > 0.0 else 0.0
             print "P (pass met cut): " + str (eff)
             return eff
         else:
@@ -264,24 +319,26 @@ class LeptonBkgdEstimate:
             totalHist = passesHist = l1TotalHist = l1PassesHist = None
             total = 0.0
             passes = 0.0
-            if not self._useHistogramsForPpassMetTriggers:
-                sample = self.TrigEffDenom["sample"] if hasattr (self, "TrigEffDenom") else self.TagPt35["sample"]
-                condorDir = self.TrigEffDenom["condorDir"] if hasattr (self, "TrigEffDenom") else self.TagPt35["condorDir"]
-                name = self.TrigEffDenom["name"] if hasattr (self, "TrigEffDenom") else self.TagPt35["name"]
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                totalHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
 
-                sample = self.TrigEffNumer["sample"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["sample"]
-                condorDir = self.TrigEffNumer["condorDir"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["condorDir"]
-                name = self.TrigEffNumer["name"] if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig["name"]
+            if not self._useHistogramsForPpassMetTriggers:
+                channel = self.TrigEffDenom if hasattr (self, "TrigEffDenom") else self.TagPt35
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                passesHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                totalHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                if "extensions" in channel:
+                    for x in channel["extensions"]:
+                        totalHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
+
+                channel = self.TrigEffNumer if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig
+                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
+                passesHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                if "extensions" in channel:
+                    for x in channel["extensions"]:
+                        passesHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
 
             else:
-                sample = self.TagPt35MetTrig["sample"]
-                condorDir = self.TagPt35MetTrig["condorDir"]
-                name = self.TagPt35MetTrig["name"]
-                trigEffHist = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "passesMETTriggersWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt")
+                hist = self._Flavor + "-eventvariable Plots/passesMETTriggersWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
+                trigEffHist = getHistFromChannelDict (self.TagPt35MetTrig, hist)
+                addChannelExtensions(trigEffHist, self.TagPt35MetTrig, hist)
 
                 totalHist = trigEffHist.ProjectionX ()
                 totalHist.SetDirectory (0)
@@ -293,10 +350,9 @@ class LeptonBkgdEstimate:
                 passesHist.SetName ("passes")
 
                 if hasattr (self, "TagPt35MetL1Trig"):
-                    sample = self.TagPt35MetL1Trig["sample"]
-                    condorDir = self.TagPt35MetL1Trig["condorDir"]
-                    name = self.TagPt35MetL1Trig["name"]
-                    l1TrigEffHist = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt")
+                    hist = self._Flavor + "-eventvariable Plots/passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
+                    l1TrigEffHist = getHistFromChannelDict (self.TagPt35MetL1Trig, hist)
+                    addChannelExtensions(l1TrigEffHist, self.TagPt35MetL1Trig, hist)
 
                     l1TotalHist = l1TrigEffHist.ProjectionX ()
                     l1TotalHist.SetDirectory (0)
@@ -328,11 +384,11 @@ class LeptonBkgdEstimate:
 
                     progressIndicator.printProgress (True)
 
-            sample = self.TagPt35["sample"]
-            condorDir = self.TagPt35["condorDir"]
-            name = self.TagPt35["name"]
-            #metHist = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-            metHist2D = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
+            #metHist = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
+            metHist2D = getHistFromChannelDict (self.TagPt35, hist)
+            addChannelExtensions(metHist2D, self.TagPt35, hist)
+
             metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
             metHist = metHist2D.ProjectionX ("metHist")
 
@@ -353,18 +409,17 @@ class LeptonBkgdEstimate:
             passes = Measurement (passes, passesError)
             passes.isPositive ()
 
-            sample = self.TagPt35["sample"]
-            condorDir = self.TagPt35["condorDir"]
-            name = self.TagPt35["name"]
-            #met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-            met = getHist (sample, condorDir, name + "Plotter" + "/" + self._Flavor + "-eventvariable Plots", "deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt")
+            #met = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
+            met = getHistFromChannelDict (self.TagPt35, hist)
+            addChannelExtensions(met, self.TagPt35, hist)
 
             totalError = Double (0.0)
             total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
             total = Measurement (total, totalError)
             total.isPositive ()
 
-            eff = passes / total
+            eff = passes / total if total > 0.0 else 0.0
             print "P (pass met triggers): " + str (eff)
             return (eff, passesHist)
         else:
@@ -416,11 +471,9 @@ class LeptonBkgdEstimate:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            sample = self.CandTrkIdPt35["sample"]
-            condorDir = self.CandTrkIdPt35["condorDir"]
-            name = self.CandTrkIdPt35["name"]
             hist = "Track Plots/trackCaloTot_RhoCorr"
-            eCalo = getHist (sample, condorDir, name + "Plotter", hist)
+            eCalo = getHistFromChannelDict (self.CandTrkIdPt35, hist)
+            addChannelExtensions(eCalo, self.CandTrkIdPt35, hist)
 
             nError = Double (0.0)
             n = eCalo.IntegralAndError (0, eCalo.FindBin (self._eCaloCut), nError)
@@ -439,21 +492,27 @@ class LeptonBkgdEstimate:
     def plotMetForNback (self):
         if hasattr (self, "CandTrkIdPt35"):
             if self._fout and self._canvas:
-                sample = self.CandTrkIdPt35["sample"]
-                condorDir = self.CandTrkIdPt35["condorDir"]
-                name = self.CandTrkIdPt35["name"]
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                met = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                met = self.getHistFromProjectionZ (self.CandTrkIdPt35["sample"], self.CandTrkIdPt35["condorDir"], self.CandTrkIdPt35["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                if not isinstance(met, TObject):
+                    print "Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"]
+                    return
+                if "extensions" in self.CandTrkIdPt35:
+                    for x in self.CandTrkIdPt35["extensions"]:
+                        met.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
 
                 # explicitly get metNoMuMinusOne instead of using
                 # _metMinusOneHist since we plot both metNoMu and
                 # metNoMuMinusOne here
                 hist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "NoMuMinusOnePtVsMaxSigmaForFiducialTracks"
-                metMinusOne = self.getHistFromProjectionZ (sample, condorDir, name + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-                if not isinstance(met, TObject) or not isinstance(metMinusOne, TObject):
-                    print "Warning [plotMetForNback]: Could not get required hists from sample=", sample, "condorDir=", condorDir, "name=", name
+                metMinusOne = self.getHistFromProjectionZ (self.CandTrkIdPt35["sample"], self.CandTrkIdPt35["condorDir"], self.CandTrkIdPt35["name"] + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+                if not isinstance(metMinusOne, TObject):
+                    print "Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"]
                     return
+                if "extensions" in self.CandTrkIdPt35:
+                    for x in self.CandTrkIdPt35["extensions"]:
+                        metMinusOne.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt"))
 
                 met.Rebin (self._rebinFactor)
                 metMinusOne.Rebin (self._rebinFactor)
@@ -538,6 +597,39 @@ class LeptonBkgdEstimate:
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
+    def getPpassMetCut (self):
+        return self.printPpassMetCut ()
+
+    def getPpassMetTriggers (self):
+        return self.printPpassMetTriggers ()
+
+    def printNestCombinedMet (self, pPassMetCut, pPassMetTriggers):
+        nCtrl = self.printNctrl ()
+        pPassVeto, passes, scaleFactor, total = self.printPpassVetoTagProbe ()
+
+        if not hasattr (pPassVeto, "centralValue"):
+            pPassVeto = self.printPpassVeto ()
+
+        nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst.isPositive ()
+
+        N = alpha = alphaError = float ("nan")
+        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
+            N = passes
+            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
+                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
+            else:
+                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
+
+        alpha.printLongFormat ()
+
+        print "N: " + str (N)
+        print "alpha: " + str (alpha)
+        if not (alpha == 0):
+            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+        print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+        return nEst
+
     def printPpassVetoTagProbe (self):
         self.plotPpassVeto ()
         if not hasattr (self._pPassVeto, "centralValue"):
@@ -549,16 +641,12 @@ class LeptonBkgdEstimate:
                     passes      = self.TagProbePass["yield"]
                 else:
                     hist = "Eventvariable Plots/nGoodTPPairs"
-                    sample = self.TagProbe["sample"]
-                    condorDir = self.TagProbe["condorDir"]
-                    name = self.TagProbe["name"]
-                    totalHist = getHist (sample, condorDir, name + "Plotter", hist)
+                    totalHist = getHistFromChannelDict (self.TagProbe, hist)
+                    addChannelExtensions(totalHist, self.TagProbe, hist)
 
                     hist = "Eventvariable Plots/nProbesPassingVeto"
-                    sample = self.TagProbePass["sample"]
-                    condorDir = self.TagProbePass["condorDir"]
-                    name = self.TagProbePass["name"]
-                    passesHist = getHist (sample, condorDir, name + "Plotter", hist)
+                    passesHist = getHistFromChannelDict (self.TagProbePass, hist)
+                    addChannelExtensions(passesHist, self.TagProbePass, hist)
 
                     total = 0.0
                     passes = 0.0
@@ -581,19 +669,21 @@ class LeptonBkgdEstimate:
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     if not self._useHistogramsForPpassVeto:
                         total        += self.TagProbe1["yield"]
+                        if "extensions" in self.TagProbe1:
+                            for x in self.TagProbe1["extensions"]:
+                                total += x["yield"]
                         passes1       = self.TagProbePass1["yield"]
+                        if "extensions" in self.TagProbePass1:
+                            for x in self.TagProbePass1["extensions"]:
+                                passes1 += x["yield"]
                     else:
                         hist = "Eventvariable Plots/nGoodTPPairs"
-                        sample = self.TagProbe1["sample"]
-                        condorDir = self.TagProbe1["condorDir"]
-                        name = self.TagProbe1["name"]
-                        totalHist = getHist (sample, condorDir, name + "Plotter", hist)
+                        totalHist = getHistFromChannelDict (self.TagProbe1, hist)
+                        addChannelExtensions(totalHist, self.TagProbe1, hist)
 
                         hist = "Eventvariable Plots/nProbesPassingVeto"
-                        sample = self.TagProbePass1["sample"]
-                        condorDir = self.TagProbePass1["condorDir"]
-                        name = self.TagProbePass1["name"]
-                        passesHist = getHist (sample, condorDir, name + "Plotter", hist)
+                        passesHist = getHistFromChannelDict (self.TagProbePass1, hist)
+                        addChannelExtensions(passesHist, self.TagProbePass1, hist)
 
                         total1 = 0.0
                         passes1 = 0.0
@@ -614,10 +704,8 @@ class LeptonBkgdEstimate:
                 background = Measurement (0.0, 0.0)
                 if hasattr (self, "TagProbePassSS"):
                     hist = "Met Plots/metNoMu"
-                    sample = self.TagProbePassSS["sample"]
-                    condorDir = self.TagProbePassSS["condorDir"]
-                    name = self.TagProbePassSS["name"]
-                    backgroundHist = getHist (sample, condorDir, name + "Plotter", hist)
+                    backgroundHist = getHistFromChannelDict (self.TagProbePassSS, hist)
+                    addChannelExtensions(backgroundHist, self.TagProbePassSS, hist)
 
                     backgroundError = Double (0.0)
                     background = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
@@ -625,10 +713,8 @@ class LeptonBkgdEstimate:
                 background1 = Measurement (0.0, 0.0)
                 if hasattr (self, "TagProbePassSS1"):
                     hist = "Met Plots/metNoMu"
-                    sample = self.TagProbePassSS1["sample"]
-                    condorDir = self.TagProbePassSS1["condorDir"]
-                    name = self.TagProbePassSS1["name"]
-                    backgroundHist = getHist (sample, condorDir, name + "Plotter", hist)
+                    backgroundHist = getHistFromChannelDict (self.TagProbePassSS1, hist)
+                    addChannelExtensions(backgroundHist, self.TagProbePassSS1, hist)
 
                     backgroundError = Double (0.0)
                     background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
@@ -669,27 +755,19 @@ class LeptonBkgdEstimate:
         if hasattr (self, "TagProbe") and hasattr (self, "TagProbePass"):
             if self._fout and self._canvas:
                 hist = "Track Plots/trackPt"
-                sample = self.TagProbe["sample"]
-                condorDir = self.TagProbe["condorDir"]
-                name = self.TagProbe["name"]
-                trackPt = getHist (sample, condorDir, name + "Plotter", hist)
+                trackPt = getHistFromChannelDict (self.TagProbe, hist)
+                addChannelExtensions(trackPt, self.TagProbe, hist)
 
-                sample = self.TagProbePass["sample"]
-                condorDir = self.TagProbePass["condorDir"]
-                name = self.TagProbePass["name"]
-                trackPtPass = getHist (sample, condorDir, name + "Plotter", hist)
+                trackPtPass = getHistFromChannelDict (self.TagProbePass, hist)
+                addChannelExtensions(trackPtPass, self.TagProbePass, hist)
 
                 if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                     hist = "Track Plots/trackPt"
-                    sample = self.TagProbe1["sample"]
-                    condorDir = self.TagProbe1["condorDir"]
-                    name = self.TagProbe1["name"]
-                    trackPt1 = getHist (sample, condorDir, name + "Plotter", hist)
+                    trackPt1 = getHistFromChannelDict (self.TagProbe1, hist)
+                    addChannelExtensions(trackPt1, self.TagProbe1, hist)
 
-                    sample = self.TagProbePass1["sample"]
-                    condorDir = self.TagProbePass1["condorDir"]
-                    name = self.TagProbePass1["name"]
-                    trackPtPass1 = getHist (sample, condorDir, name + "Plotter", hist)
+                    trackPtPass1 = getHistFromChannelDict (self.TagProbePass1, hist)
+                    addChannelExtensions(trackPtPass1, self.TagProbePass1, hist)
 
                     trackPt.Add (trackPt1)
                     trackPtPass.Add (trackPtPass1)
@@ -698,27 +776,19 @@ class LeptonBkgdEstimate:
                 invMassPass = None
                 if self._flavor != "tau":
                     hist = "Track-" + self._flavor + " Plots/invMassNearZ"
-                    sample = self.TagProbe["sample"]
-                    condorDir = self.TagProbe["condorDir"]
-                    name = self.TagProbe["name"]
-                    invMass = getHist (sample, condorDir, name + "Plotter", hist)
+                    invMass = getHistFromChannelDict (self.TagProbe, hist)
+                    addChannelExtensions(invMass, self.TagProbe, hist)
 
-                    sample = self.TagProbePass["sample"]
-                    condorDir = self.TagProbePass["condorDir"]
-                    name = self.TagProbePass["name"]
-                    invMassPass = getHist (sample, condorDir, name + "Plotter", hist)
+                    invMassPass = getHistFromChannelDict (self.TagProbePass, hist)
+                    addChannelExtensions(invMassPass, self.TagProbePass, hist)
 
                     if hasattr (self, "TagProbe1") and hasattr (self, "TagProbePass1"):
                         hist = "Track-" + self._flavor + " Plots/invMassNearZ"
-                        sample = self.TagProbe1["sample"]
-                        condorDir = self.TagProbe1["condorDir"]
-                        name = self.TagProbe1["name"]
-                        invMass1 = getHist (sample, condorDir, name + "Plotter", hist)
+                        invMass1 = getHistFromChannelDict (self.TagProbe1, hist)
+                        addChannelExtensions(invMass1, self.TagProbe1, hist)
 
-                        sample = self.TagProbePass1["sample"]
-                        condorDir = self.TagProbePass1["condorDir"]
-                        name = self.TagProbePass1["name"]
-                        invMassPass1 = getHist (sample, condorDir, name + "Plotter", hist)
+                        invMassPass1 = getHistFromChannelDict (self.TagProbePass1, hist)
+                        addChannelExtensions(invMassPass1, self.TagProbePass1, hist)
 
                         invMass.Add (invMass1)
                         invMassPass.Add (invMassPass1)
@@ -806,7 +876,7 @@ class FakeTrackBkgdEstimate:
     _canvas = None
     _prescale = 1.0
     _luminosityInInvFb = float ("nan")
-    _nHits = 7
+    _nHits = None
     _minD0 = 0.02
     _maxD0 = 0.1
 
@@ -867,20 +937,25 @@ class FakeTrackBkgdEstimate:
 
     def printNctrl (self):
         if hasattr (self, "DisTrkInvertD0"):
-            hits = getHist (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track Plots/trackLayersWithMeasurementVsPixelHits")
-            if self._nHits >= 6:
-                nError = Double (0.0)
-                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
-                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-                n.isPositive ()
-            if self._nHits == 5:
-                nError = Double (0.0)
-                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
-                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-                n.isPositive ()
-            if self._nHits == 4:
-                nError = Double (0.0)
-                n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
+            hits = getHistFromChannelDict (self.DisTrkInvertD0, "Track Plots/trackLayersWithMeasurementVsPixelHits")
+            if self._nHits is not None:
+                if self._nHits >= 6:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+                if self._nHits == 5:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+                if self._nHits == 4:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+            else:
+                n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()
 

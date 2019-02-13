@@ -78,10 +78,10 @@ createHitsVariations (ZtoMuMuDisTrkJet, "ZtoMuMuDisTrkJet")
 ##################################################
 ## ECalo control sample:  Z->mu mu + disappearing track with <= 4 hits
 ##################################################
-ZtoMuMuDisTrkNHits4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNHits4)
-ZtoMuMuDisTrkNHits4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNHits4NoECaloCut")
-removeCuts(ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsExclusive[4], cutTrkEcalo])
-addCuts (ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsLE[4]])
+ZtoMuMuDisTrkNLayers4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNLayers3)
+ZtoMuMuDisTrkNLayers4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNLayers4NoECaloCut")
+removeCuts(ZtoMuMuDisTrkNLayers4NoECaloCut.cuts, [cutTrkNValidHitsSignal, cutTrkNLayersExclusive[3], cutTrkEcalo])
+addCuts(ZtoMuMuDisTrkNLayers4NoECaloCut.cuts, [cutTrkAtMostNLayers[4]])
 
 ##################################################
 ## Fake track control sample: Z->mu mu + disappearing track with >=2 missing outer htis

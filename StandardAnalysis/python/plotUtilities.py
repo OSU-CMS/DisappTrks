@@ -51,13 +51,25 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
-def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = ""):
+def getHist(sample, condor_dir, channel, hist, quietFailure = False):
+    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    inputFile = TFile(dataset_file)
+    h0 = inputFile.Get(channel + "/" + hist)
+    if not h0:
+        if not quietFailure: print "ERROR [getHist]: didn't find histogram ", channel+str("/")+hist, "in file", dataset_file
+        return 0
+    h = h0.Clone()
+    h.SetDirectory(0)
+    inputFile.Close()
+    return h
+
+def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = "", verbose = False):
     countProjections = 0 if not hasattr (getHistFromProjectionZ, "countProjections") else getattr (getHistFromProjectionZ, "countProjections")
-    h3d = getHist (sample, condor_dir, channel, hist)
+    h3d = getHist (sample, condor_dir, channel, hist, quietFailure = True)
     if not h3d:
         h = None
         if alternate1DHist:
-            print "WARNING: not applying fiducial cuts via projections."
+            if verbose: print "WARNING: not applying fiducial cuts via projections."
             h = getHist (sample, condor_dir, channel, alternate1DHist)
         return h
 
@@ -88,3 +100,24 @@ def getYield(sample,condor_dir,channel):
 
     inputFile.Close()
     return (yield_, statError_)
+
+def getHistFromChannelDict(channel, hist, quietFailure = False):
+    if "sample" not in channel or "condorDir" not in channel or "name" not in channel:
+        print "Bad channel given to getHistFromChannelDict: " + str(channel)
+        return
+    dataset_file = "condor/%s/%s.root" % (channel["condorDir"], channel["sample"])
+    inputFile = TFile(dataset_file)
+    h0 = inputFile.Get(channel["name"] + "Plotter/" + hist)
+    if not h0:
+        if not quietFailure: print "ERROR [quietFailure]: didn't find histogram ", channel["name"] + str("Plotter/") + hist, "in file", dataset_file
+        return 0
+    h = h0.Clone()
+    h.SetDirectory(0)
+    inputFile.Close()
+    return h
+
+def addChannelExtensions(histogram, channel, histName):
+    if "extensions" in channel:
+        for x in channel["extensions"]:
+            histogram.Add (getHistFromChannelDict (x, histName))
+            

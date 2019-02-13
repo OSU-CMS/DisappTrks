@@ -136,7 +136,7 @@ def writeDatacard(mass,lifetime,observation):
     signal_yield_weight = signalYieldAndError['weight']
 
     target_signal_yield = 10.0 * (lumi / 38420.008)
-    signal_yield_sf = target_signal_yield / signal_yield
+    signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
     if arguments.signalSFDir:
         try:
             f = open ("limits/"+arguments.signalSFDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
@@ -336,7 +336,7 @@ def writeDatacard(mass,lifetime,observation):
 
 
     signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])
-    signalEff = signal_yield / signalOrigYield
+    signalEff = signal_yield / signalOrigYield if signalOrigYield > 0.0 else 1.0
     signalEffErr = signalEff * (float(signal_cross_sections[mass]['error']) - 1.0)
 
     datacard.write('# lumi = ' + str(lumi) + '\n')
