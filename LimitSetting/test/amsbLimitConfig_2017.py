@@ -5,7 +5,7 @@
 # > makeDatacards.py -l amsbLimitConfig.py -c test
 #
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
-
+import sys
 from DisappTrks.SignalMC.signalCrossSecs import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
@@ -13,6 +13,8 @@ from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 dirs = getUser ()
 
 nLayersWord = 'NLayers4'
+if len (sys.argv) > 1:
+    nLayersWord = sys.argv[1]
 
 exec('from amsbLimitConfigBkgds_2017_' + nLayersWord + ' import *')
 
@@ -82,15 +84,15 @@ signal_systematic_uncertainties = {
         'value' : '1.023',
     },
     'trkReco_Bin2017' + nLayersWord :  {
-        'value' : '1.015',
+        'value' : '1.045', # use value from 2016
     },
     'Ecalo_Bin2017' + nLayersWord : {
-        'value' : str (1.0 + 0.626555065492 / 100.0),
+        'value' : str (1.0 + 0.956275783525 / 100.0),
     },
     'Nmissin_Bin2017' + nLayersWord :  {
-        'value' : str (1.0 + 1.16347975146 / 100.0),
+        'value' : str (1.0 + 0.0227345880789 / 100.0),
     },
     'Nmissmid_Bin2017' + nLayersWord :  {
-        'value' : str (1.0 + 0.26902546109 / 100.0),
+        'value' : str (1.0 + 5.1633269796 / 100.0),
     },
 }
