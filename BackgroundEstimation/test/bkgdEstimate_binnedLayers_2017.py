@@ -35,86 +35,32 @@ nEstTau = {}
 nLeptons = {}
 nTotal = {}
 
-nEstFakeVsNHits = {}
-nEstFakeVsNHitsZtoMuMu = {}
-
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
 
 for runPeriod in runPeriods:
 
-    nEstFakeVsNHits[runPeriod] = {}
-    nEstFakeVsNHitsZtoMuMu[runPeriod] = {}
-
     if background == "FAKE" or background == "ALL":
 
-        for minHits in range(3, 8):
-
-            if minHits != 7:
-                sys.stdout = nullout
-            else:
-                sys.stdout = stdout
+        for nLayersWord in nLayersWords:
 
             print "********************************************************************************"
-            print "performing fake track background estimate in search region(2017", runPeriod, ")"
+            print "performing fake track background estimate in 4-layers search region (2017", runPeriod, ")"
             print "--------------------------------------------------------------------------------"
 
-            fout = TFile.Open("fakeTrackBkgdEstimate_2017" + runPeriod + ".root", "recreate")
-
-            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate()
-            fakeTrackBkgdEstimate.addTFile(fout)
-            fakeTrackBkgdEstimate.addTCanvas(canvas)
-            fakeTrackBkgdEstimate.addLuminosityInInvPb(lumi["MET_2017" + runPeriod])
-            fakeTrackBkgdEstimate.addMinHits(minHits)
-            fakeTrackBkgdEstimate.addChannel("Basic3hits",           "DisTrkSelectionNoD0CutNHits3",       "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0",       "DisTrkSelectionSidebandD0Cut",       "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0NHits3", "DisTrkSelectionSidebandD0CutNHits3", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0NHits4", "DisTrkSelectionSidebandD0CutNHits4", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0NHits5", "DisTrkSelectionSidebandD0CutNHits5", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0NHits6", "DisTrkSelectionSidebandD0CutNHits6", "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/fakeTrackSystematic_tmp")
-            fakeTrackBkgdEstimate.addChannel("Basic",                "BasicSelection",                     "MET_2017" + runPeriod, dirs['Brian']+"2017/fromRutgers/basicSelection")
+            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
+            fakeTrackBkgdEstimate.addMinD0 (0.05)
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3Layers",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayersWord,  "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
 
             print "********************************************************************************"
 
-            nEst = fakeTrackBkgdEstimate.printNest()
-            nEstFakeVsNHits[runPeriod][minHits] = nEst
+            nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()
 
             print "********************************************************************************"
-
-            fout.Close()
-
-            print "\n\n"
-
-            print "********************************************************************************"
-            print "performing fake track background estimate in ZtoMuMu(2017", runPeriod, ")"
-            print "--------------------------------------------------------------------------------"
-
-            fout = TFile.Open("zToMuMuEstimate_2017" + runPeriod + ".root", "recreate")
-
-            zToMuMuEstimate = FakeTrackBkgdEstimate()
-            zToMuMuEstimate.addTFile(fout)
-            zToMuMuEstimate.addTCanvas(canvas)
-            zToMuMuEstimate.addLuminosityInInvPb(lumi["SingleMuon_2017" + runPeriod])
-            zToMuMuEstimate.addMinHits(minHits)
-            zToMuMuEstimate.addChannel("Basic3hits",           "ZtoMuMuDisTrkNoD0CutNHits3",       "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("DisTrkInvertD0",       "ZtoMuMuDisTrkSidebandD0Cut",       "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("DisTrkInvertD0NHits3", "ZtoMuMuDisTrkSidebandD0CutNHits3", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("DisTrkInvertD0NHits4", "ZtoMuMuDisTrkSidebandD0CutNHits4", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("DisTrkInvertD0NHits5", "ZtoMuMuDisTrkSidebandD0CutNHits5", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("DisTrkInvertD0NHits6", "ZtoMuMuDisTrkSidebandD0CutNHits6", "SingleMu_2017" + runPeriod, dirs['fixme']+"2017/fakeTrackBackground_d0Sideband_new")
-            zToMuMuEstimate.addChannel("Basic",                "BasicSelection",                   "MET_2017"      + runPeriod, dirs['Brian']+"2017/fromRutgers/basicSelection")
-            zToMuMuEstimate.addChannel("ZtoLL",                "ZtoMuMu",                          "SingleMu_2017" + runPeriod, dirs['Brian']+"2017/zToMuMu")
-
-            print "********************************************************************************"
-
-            nEst = zToMuMuEstimate.printNest()
-            nEstFakeVsNHitsZtoMuMu[runPeriod][minHits] = nEst
-            if minHits == 7:
-                nEstFake[runPeriod] = nEst
-
-            print "********************************************************************************"
-
-            fout.Close()
 
             print "\n\n"
 
