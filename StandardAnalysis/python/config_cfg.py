@@ -39,9 +39,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkIdMuon],             histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkIdTau],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkIdFake],             histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOut],         histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoEcalo],            histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkNoNMissOutNoEcalo],  histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOutNLayers4],         histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOutNLayers5],         histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoNMissOutNLayers6plus],         histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoEcaloNLayers4],            histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoEcaloNLayers5],            histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkNoEcaloNLayers6plus],            histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
 #  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
