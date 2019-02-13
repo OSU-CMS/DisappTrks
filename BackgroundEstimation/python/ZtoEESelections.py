@@ -50,6 +50,16 @@ ZtoEEDisTrkNoD0Cut = copy.deepcopy(ZtoEEDisTrk)
 ZtoEEDisTrkNoD0Cut.name = cms.string("ZtoEEDisTrkNoD0Cut")
 removeCuts(ZtoEEDisTrkNoD0Cut.cuts, [cutTrkD0])
 
+ZtoEEDisTrkNoD0CutNoHitsCut = copy.deepcopy(ZtoEEDisTrkNoD0Cut)
+ZtoEEDisTrkNoD0CutNoHitsCut.name = cms.string("ZtoEEDisTrkNoD0CutNoHitsCut")
+removeCuts(ZtoEEDisTrkNoD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
+
+ZtoEEDisTrkNoD0Cut3Layers = copy.deepcopy(ZtoEEDisTrkNoD0Cut)
+ZtoEEDisTrkNoD0Cut3Layers.name = cms.string("ZtoEEDisTrkNoD0Cut3Layers")
+addSingleCut(ZtoEEDisTrkNoD0Cut3Layers.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+addSingleCut(ZtoEEDisTrkNoD0Cut3Layers.cuts, cutTrkNLayersExclusive[3], cutTrkNValidHitsSignal)
+removeCuts(ZtoEEDisTrkNoD0Cut3Layers.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
+
 ZtoEEDisTrkInvertD0Cut = copy.deepcopy(ZtoEEDisTrk)
 ZtoEEDisTrkInvertD0Cut.name = cms.string("ZtoEEDisTrkInvertD0Cut")
 addSingleCut(ZtoEEDisTrkInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
@@ -59,6 +69,10 @@ ZtoEEDisTrkSidebandD0Cut = copy.deepcopy(ZtoEEDisTrk)
 ZtoEEDisTrkSidebandD0Cut.name = cms.string("ZtoEEDisTrkSidebandD0Cut")
 addSingleCut(ZtoEEDisTrkSidebandD0Cut.cuts, cutTrkSidebandD0, cutTrkD0)
 removeCuts(ZtoEEDisTrkSidebandD0Cut.cuts, [cutTrkD0])
+
+ZtoEEDisTrkSidebandD0CutNoHitsCut = copy.deepcopy(ZtoEEDisTrkSidebandD0Cut)
+ZtoEEDisTrkSidebandD0CutNoHitsCut.name = cms.string("ZtoEEDisTrkSidebandD0CutNoHitsCut")
+removeCuts(ZtoEEDisTrkSidebandD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
 createHitsVariations (ZtoEEDisTrkNoD0Cut,       "ZtoEEDisTrkNoD0Cut")
 createHitsVariations (ZtoEEDisTrkInvertD0Cut,   "ZtoEEDisTrkInvertD0Cut")
