@@ -83,6 +83,26 @@ for runPeriod in runPeriods:
 
             print "\n\n"
 
+            print "********************************************************************************"
+            print "performing fake track background estimate with Z->ee selection in search region(2017", runPeriod, "--", nLayersWord, ")"
+            print "--------------------------------------------------------------------------------"
+
+            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
+            fakeTrackBkgdEstimate.addMinD0 (0.05)
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3Layers",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_zToEE_transferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
+
+            print "********************************************************************************"
+
+            fakeTrackBkgdEstimate.printNest ()
+
+            print "********************************************************************************"
+
+            print "\n\n"
+
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 
         if combineLayers:
