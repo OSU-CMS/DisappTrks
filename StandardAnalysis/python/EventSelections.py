@@ -663,6 +663,8 @@ addCuts(nMissOutSdbandSelection.cuts, cutsToAdd)
 ##########################################################################
 
 createHitsVariations (disTrkSelection, "disTrkSelection")
+createHitsVariations (disTrkNoNMissOut, "disTrkNoNMissOut")
+createHitsVariations (disTrkNoEcalo, "disTrkNoEcalo")
 
 ##########################################################################
 
