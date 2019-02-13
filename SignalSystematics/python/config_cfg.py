@@ -22,22 +22,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # AMSB signal channels (to get systematic fluctuations)
 ################################################################################
 # Central value channels
-#  add_channels  (process,  [disTrkSelection],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Pileup systematic channels
-#  add_channels  (process,  [disTrkSelection],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers4],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers6plus],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers,  False)
@@ -56,11 +46,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers6plus],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # JEC systematic channels
-#  add_channels  (process,  [disTrkSelectionJECUp,                disTrkSelectionJECDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionJECUpNLayers4,        disTrkSelectionJECDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionJECUpNLayers5,        disTrkSelectionJECDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionJECUpNLayers6plus,    disTrkSelectionJECDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [disTrkSelectionSmearedJetsJECUp,              disTrkSelectionSmearedJetsJECDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers4,      disTrkSelectionSmearedJetsJECDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers5,      disTrkSelectionSmearedJetsJECDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
@@ -73,22 +58,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers6plus,    disTrkSelectionSmearedJetsDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # ISR systematic channels
-#  add_channels  (process,  [disTrkSelection],                         histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers4],                 histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers5],                 histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers6plus],             histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # Trigger efficiency channels
-#  add_channels  (process,  [disTrkSelection],                         histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers4],                 histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers5],                 histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionNLayers6plus],             histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
-
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers,  False)

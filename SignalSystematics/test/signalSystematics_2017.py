@@ -227,32 +227,16 @@ if systematic == "TRIGGER" or systematic == "ALL":
 if systematic == "ECALO" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating ECalo systematic (2016B & 2016C)"
+    print "evaluating ECalo systematic"
     print "--------------------------------------------------------------------------------"
 
-    ecaloSystematic_2016BC = ECaloSystematic ()
-    ecaloSystematic_2016BC.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016BC",  dirs['Andrew']+"2016/ecaloSystematic")
-    ecaloSystematic_2016BC.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",       dirs['Andrew']+"2016/ecaloSystematic_BC")
+    ecaloSystematic = ECaloSystematic ()
+    ecaloSystematic.addChannel  ("Data",  "ZtoMuMuDisTrkNLayers4NoECaloCut",  "SingleMu_2017",  dirs['Andrew']+"2017/ecaloSystematic_atMost4Layers")
+    ecaloSystematic.addChannel  ("MC",    "ZtoMuMuDisTrkNLayers4NoECaloCut",  "DYJetsToLL_50",       dirs['Andrew']+"2017/ecaloSystematic_atMost4Layers")
 
     print "********************************************************************************"
 
-    ecaloSystematic_2016BC.printSystematic ()
-
-    print "********************************************************************************"
-
-    print "\n\n"
-
-    print "********************************************************************************"
-    print "evaluating ECalo systematic (2016DEFGH)"
-    print "--------------------------------------------------------------------------------"
-
-    ecaloSystematic_2016DEFGH = ECaloSystematic ()
-    ecaloSystematic_2016DEFGH.addChannel  ("Data",  "ZtoMuMuDisTrkNHits4NoECaloCut",  "SingleMu_2016DEFGH",  dirs['Andrew']+"2016/ecaloSystematic")
-    ecaloSystematic_2016DEFGH.addChannel  ("MC",    "ZtoMuMuDisTrkNHits4NoECaloCut",  "Background",         dirs['Andrew']+"2016/ecaloSystematic_DEFGH")
-
-    print "********************************************************************************"
-
-    ecaloSystematic_2016DEFGH.printSystematic ()
+    ecaloSystematic.printSystematic ()
 
     print "********************************************************************************"
 

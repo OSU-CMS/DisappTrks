@@ -499,7 +499,7 @@ class ECaloSystematic:
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "CutFlowPlotter")
+        channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
