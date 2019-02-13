@@ -457,6 +457,15 @@ cutTrkNLayersExclusive = {
     for x in range(3, 7)
 }
 
+cutTrkAtMostNLayers = {
+    x : cms.PSet (
+        inputCollection = cms.vstring("tracks"),
+        cutString = cms.string("hitPattern_.trackerLayersWithMeasurement <= " + str(x)),
+        numberRequired = cms.string(">= 1"),
+    )
+    for x in range(3, 7)
+}
+
 cutTrkNLayers = {
     x : cms.PSet (
         inputCollection = cms.vstring("tracks"),
