@@ -27,6 +27,13 @@ def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
 # Fake track background in Z->mumu control region
 #  add_channels  (process,  [ZtoMuMuDisTrkNoD0Cut3Layers],          histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNoHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers4],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers5],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNLayers6plus],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNoHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNLayers4],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNLayers5],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNoD0CutNLayers6plus],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Testing: similar to sideband above, but without upper D0 cut
 # add_channels (process, [disTrkSelectionInvertD0Cut],                     histSets, weights, [], collMap, variableProducers)
@@ -176,7 +183,7 @@ if False:
     add_channels  (process,  [ZtoMuMuDisTrkNHits4],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrkNHits5],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrkNHits6],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
-#  add_channels  (process,  [ZtoMuMuDisTrkNHits4NoECaloCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  add_channels  (process,  [ZtoMuMuDisTrkNLayers4NoECaloCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # TESTING: Z->mumu channels for fake track background estimate with no D0 requirement on the isoTrk
 if False:

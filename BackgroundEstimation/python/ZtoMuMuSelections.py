@@ -78,10 +78,10 @@ createHitsVariations (ZtoMuMuDisTrkJet, "ZtoMuMuDisTrkJet")
 ##################################################
 ## ECalo control sample:  Z->mu mu + disappearing track with <= 4 hits
 ##################################################
-ZtoMuMuDisTrkNHits4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNHits4)
-ZtoMuMuDisTrkNHits4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNHits4NoECaloCut")
-removeCuts(ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsExclusive[4], cutTrkEcalo])
-addCuts (ZtoMuMuDisTrkNHits4NoECaloCut.cuts, [cutTrkNValidHitsLE[4]])
+ZtoMuMuDisTrkNLayers4NoECaloCut = copy.deepcopy(ZtoMuMuDisTrkNLayers3)
+ZtoMuMuDisTrkNLayers4NoECaloCut.name = cms.string("ZtoMuMuDisTrkNLayers4NoECaloCut")
+removeCuts(ZtoMuMuDisTrkNLayers4NoECaloCut.cuts, [cutTrkNValidHitsSignal, cutTrkNLayersExclusive[3], cutTrkEcalo])
+addCuts(ZtoMuMuDisTrkNLayers4NoECaloCut.cuts, [cutTrkAtMostNLayers[4]])
 
 ##################################################
 ## Fake track control sample: Z->mu mu + disappearing track with >=2 missing outer htis
@@ -115,6 +115,10 @@ addCuts (ZtoMuMuDisTrkNMissOut0.cuts, [cutTrkNMissOut0])
 ZtoMuMuDisTrkNoD0Cut = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNoD0Cut.name = cms.string("ZtoMuMuDisTrkNoD0Cut")
 removeCuts(ZtoMuMuDisTrkNoD0Cut.cuts, [cutTrkD0])
+
+ZtoMuMuDisTrkNoD0CutNoHitsCut = copy.deepcopy(ZtoMuMuDisTrkNoD0Cut)
+ZtoMuMuDisTrkNoD0CutNoHitsCut.name = cms.string("ZtoMuMuDisTrkNoD0CutNoHitsCut")
+removeCuts(ZtoMuMuDisTrkNoD0CutNoHitsCut.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
 ZtoMuMuDisTrkNoD0Cut3Layers = copy.deepcopy(ZtoMuMuDisTrkNoD0Cut)
 ZtoMuMuDisTrkNoD0Cut3Layers.name = cms.string("ZtoMuMuDisTrkNoD0Cut3Layers")
