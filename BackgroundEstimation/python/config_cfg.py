@@ -28,6 +28,12 @@ def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
 #  add_channels  (process,  [ZtoMuMuDisTrkNoD0Cut3Layers],          histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoMuMuDisTrkSidebandD0CutNoHitsCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
+#  add_channels  (process,  [ZtoEEDisTrkNoD0CutNLayers4],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  ignoreSkimmedCollections  =  True)
+#  add_channels  (process,  [ZtoEEDisTrkNoD0CutNLayers5],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  ignoreSkimmedCollections  =  True)
+#  add_channels  (process,  [ZtoEEDisTrkNoD0CutNLayers6plus],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  ignoreSkimmedCollections  =  True)
+#  add_channels  (process,  [ZtoEEDisTrkNoD0Cut3Layers],          histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  ignoreSkimmedCollections  =  True)
+#  add_channels  (process,  [ZtoEEDisTrkSidebandD0CutNoHitsCut],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  ignoreSkimmedCollections  =  True)
+
 # Testing: similar to sideband above, but without upper D0 cut
 # add_channels (process, [disTrkSelectionInvertD0Cut],                     histSets, weights, [], collMap, variableProducers)
 # add_channels (process, getNHitsVariations("disTrkSelectionInvertD0Cut"), histSets, weights, [], collMap, variableProducers)
