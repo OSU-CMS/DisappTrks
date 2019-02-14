@@ -4,8 +4,8 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '68',
-        'alpha' : '2.42318228127',
+        'N' : '131',
+        'alpha' : '1.419847328244275',
     },
     'Elec' : {
         'N' : '15',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers4' : { # error on alpha
-        'value' : '1.03337643621',
+        'value' : '1.06051341565732',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
@@ -40,7 +40,7 @@ background_systematics = {
     },
 
     'Fake_syst_NLayers4' : { # error on fake track rate assumption
-        'value' : str (max (1.0 - 100.0 / 100.0, 1.0e-3)) + "/" + str (1.0 + 99.3 / 100.0),
+        'value' : str (max (1.0 - 32.5 / 100.0, 1.0e-3)) + "/" + str (1.0 + 42.2 / 100.0),
         'background' : 'Fake',
     },
     'Elec_energy_NLayers4' : { # error on energy assumption
