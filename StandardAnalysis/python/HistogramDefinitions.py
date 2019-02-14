@@ -1556,6 +1556,12 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("isrWeight"),
         ),
         cms.PSet (
+            name = cms.string("isrPt"),
+            title = cms.string(";ISR pT"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 1000.0),
+            inputVariables = cms.vstring("isrPt"),
+        ),
+        cms.PSet (
             name = cms.string("nGoodTPPairs"),
             title = cms.string(";number of good T&P pairs"),
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
@@ -1631,6 +1637,13 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";trigger weight for track leg"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("trackLegWeight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("grandOrTriggerWeight"),
+            title = cms.string(";trigger weight for grand OR"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("grandOrWeight"),
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
