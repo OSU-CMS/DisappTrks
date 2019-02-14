@@ -44,7 +44,7 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
 lumi = lumi["MET_2017"]
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full/'
+signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v3/'
 
 signal_suffix = signal_suffix_in_datacard = '94X'
 
