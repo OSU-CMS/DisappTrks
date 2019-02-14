@@ -13,8 +13,6 @@ from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 dirs = getUser ()
 
 nLayersWord = 'NLayers4'
-if len (sys.argv) > 1:
-    nLayersWord = sys.argv[1]
 
 exec('from amsbLimitConfigBkgds_2017_' + nLayersWord + ' import *')
 
