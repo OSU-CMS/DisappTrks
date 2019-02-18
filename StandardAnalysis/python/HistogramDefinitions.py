@@ -1550,12 +1550,6 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("passes_hltMET75", "passes_hltTrk50Filter"),
         ),
         cms.PSet (
-            name = cms.string("isrWeight"),
-            title = cms.string(";ISR weight"),
-            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
-            inputVariables = cms.vstring("isrWeight"),
-        ),
-        cms.PSet (
             name = cms.string("isrPt"),
             title = cms.string(";ISR pT"),
             binsX = cms.untracked.vdouble(1000, 0.0, 1000.0),
@@ -1612,10 +1606,45 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("isrWeight"),
+            title = cms.string(";ISR weight"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("isrWeight"),
+            weight = cms.untracked.bool(False)
+        ),
+        cms.PSet (
+            name = cms.string("isrWeightUp"),
+            title = cms.string(";ISR weight +1#sigma"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("isrWeightUp"),
+            weight = cms.untracked.bool(False)
+        ),
+        cms.PSet (
+            name = cms.string("isrWeightDown"),
+            title = cms.string(";ISR weight -1#sigma"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("isrWeightDown"),
+            weight = cms.untracked.bool(False)
+        ),
+        cms.PSet (
             name = cms.string("puWeight"),
             title = cms.string(";pileup weight"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("puScalingFactor"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("puWeightUp"),
+            title = cms.string(";pileup weight +1#sigma"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("puScalingFactorUp"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("puWeightDown"),
+            title = cms.string(";pileup weight -1#sigma"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("puScalingFactorDown"),
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
@@ -1644,6 +1673,34 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";trigger weight for grand OR"),
             binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("grandOrWeight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("grandOrTriggerWeightMCUp"),
+            title = cms.string(";trigger weight for grand OR +1#sigma (MC)"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("grandOrWeightMCUp"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("grandOrTriggerWeightMCDown"),
+            title = cms.string(";trigger weight for grand OR -1#sigma (MC)"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("grandOrWeightMCDown"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("grandOrTriggerWeightDataUp"),
+            title = cms.string(";trigger weight for grand OR +1#sigma (data)"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("grandOrWeightDataUp"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("grandOrTriggerWeightDataDown"),
+            title = cms.string(";trigger weight for grand OR -1#sigma (data)"),
+            binsX = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("grandOrWeightDataDown"),
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
