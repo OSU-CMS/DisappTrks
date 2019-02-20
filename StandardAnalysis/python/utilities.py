@@ -90,6 +90,15 @@ def invMassWithPion (obj):
 def invMassWithProton (obj):
     return invMassGivenEnergy (obj, "energyOfProton")
 
+def invMassWithMassless (obj):
+    energySquared = "(" + obj + ".energy + sqrt(track.px*track.px + track.py*track.py + track.pz*track.pz))"
+    energySquared = energySquared + " * " + energySquared
+    px = "(" + obj + ".px + track.px)"
+    py = "(" + obj + ".py + track.py)"
+    pz = "(" + obj + ".pz + track.pz)"
+    momentumSquared = px + " * " + px + " + " + py + " * " + py + " + " + pz + " * " + pz
+    return energySquared + " - (" + momentumSquared + ")"
+
 def threeBodyInvMassWithMassless (obj1, obj2):
     energySquared = "(" + obj1 + ".energy + " + obj2 + ".energy + sqrt(track.px*track.px + track.py*track.py + track.pz*track.pz))"
     energySquared = energySquared + " * " + energySquared
