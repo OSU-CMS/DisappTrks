@@ -90,6 +90,15 @@ def invMassWithPion (obj):
 def invMassWithProton (obj):
     return invMassGivenEnergy (obj, "energyOfProton")
 
+def threeBodyInvMassWithMassless (obj1, obj2):
+    energySquared = "(" + obj1 + ".energy + " + obj2 + ".energy + sqrt(track.px*track.px + track.py*track.py + track.pz*track.pz))"
+    energySquared = energySquared + " * " + energySquared
+    px = "(" + obj1 + ".px + " + obj2 + ".px + track.px)"
+    py = "(" + obj1 + ".py + " + obj2 + ".px + track.py)"
+    pz = "(" + obj1 + ".pz + " + obj2 + ".px + track.pz)"
+    momentumSquared = px + " * " + px + " + " + py + " * " + py + " + " + pz + " * " + pz
+    return energySquared + " - (" + momentumSquared + ")"
+
 ################################################################################
 
 def switchToBestTrack (channel, histogramSets):
