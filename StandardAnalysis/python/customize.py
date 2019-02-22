@@ -21,7 +21,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2015D')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
@@ -45,7 +48,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016BC')
@@ -69,7 +75,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
@@ -93,7 +102,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
@@ -119,7 +131,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        process.ISRWeightProducer.motherIdsToReject = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
@@ -132,7 +147,7 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
 
-        setMissingHitsCorrection (process, "2016DEFGH")
+        setMissingHitsCorrection (process, "2017")
 
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")

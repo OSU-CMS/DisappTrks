@@ -23,7 +23,7 @@ for runPeriod in runPeriods:
         if '2016' in runPeriod:
             condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
         if '2017' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2017/eleHotSpots_newVtxing"
+            condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -32,6 +32,7 @@ for runPeriod in runPeriods:
         fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
     
         electronMap = FiducialMapCalculator()
+        #electronMap.setVerboseComparison(True)
         electronMap.addTFile(fout)
         electronMap.addTCanvas(canvas)
         electronMap.addLuminosityInInvPb(lumi["SingleElectron_" + runPeriod])
@@ -64,6 +65,7 @@ for runPeriod in runPeriods:
         fout = TFile.Open("newMuonFiducialMap_" + runPeriod + ".root", "recreate")
     
         muonMap = FiducialMapCalculator()
+        #muonMap.setVerboseComparison(True)
         muonMap.addTFile(fout)
         muonMap.addTCanvas(canvas)
         muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])

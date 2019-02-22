@@ -126,6 +126,10 @@ addSingleCut(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, cutTrkNValidPixelHits[3], cutTrkN
 addSingleCut(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, cutTrkNLayersExclusive[3], cutTrkNValidHitsSignal)
 removeCuts(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
+ZtoMuMuDisTrkNoD0Cut3LayersVeryClean = copy.deepcopy(ZtoMuMuDisTrkNoD0Cut3Layers)
+ZtoMuMuDisTrkNoD0Cut3LayersVeryClean.name = cms.string("ZtoMuMuDisTrkNoD0Cut3LayersVeryClean")
+addCuts(ZtoMuMuDisTrkNoD0Cut3LayersVeryClean.cuts, veryClean3LayersCuts)
+
 ZtoMuMuDisTrkInvertD0Cut = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkInvertD0Cut.name = cms.string("ZtoMuMuDisTrkInvertD0Cut")
 addSingleCut(ZtoMuMuDisTrkInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)
