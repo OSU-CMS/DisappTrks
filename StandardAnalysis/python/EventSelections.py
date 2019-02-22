@@ -519,6 +519,8 @@ cutsToAdd = [
 ]
 addCuts(disTrkIdFake.cuts, cutsToAdd)
 
+createHitsVariations (disTrkIdFake, "disTrkIdFake")
+
 ##########################################################################
 
 elecCtrlSelection = copy.deepcopy(candTrkSelection)
