@@ -312,6 +312,11 @@ cutTrkEta = cms.PSet(
     cutString = cms.string("fabs ( eta ) < 2.1"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkEta15 = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("fabs ( eta ) < 1.5"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkEcalGapVeto = cms.PSet(  # BARREL-ENDCAP GAP VETO
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65"),
@@ -489,6 +494,11 @@ cutTrkNMissIn = cms.PSet(
     cutString = cms.string("missingInnerHits == 0"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkNoInvalidInnerHits = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfTotallyOffOrBadInnerHits == 0"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkNMissMid = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitDrop_missingMiddleHits == 0"),
@@ -499,6 +509,21 @@ cutTrkNMissMidNoDrop = cms.PSet(
     cutString = cms.string("missingMiddleHits == 0"),
     numberRequired = cms.string(">= 1"),
 ) 
+cutTrkNoInvalidMiddleHits = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("numberOfTotallyOffOrBadMiddleHits == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkAllowedThreeLayerHitPattern = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("isAllowedThreeLayerHitPattern"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkFourLayersAnyHitQuality = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("expectedIncludeInactivePixelHits == 4"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkIso = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),

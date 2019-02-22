@@ -325,3 +325,14 @@ histSetsStandardAndTrigger.append(EventTriggerVarHistograms)
 histSetsStandardAndTrigger.append(EventTriggerVarVsMetHistograms)
 
 ################################################################################
+# Set up the collections of tree branches
+################################################################################
+
+from DisappTrks.StandardAnalysis.TreeBranchDefinitions import *
+
+branchSets = cms.VPSet (
+    EventVariableBranches,
+    MetShiftBranches,
+)
+
+################################################################################
