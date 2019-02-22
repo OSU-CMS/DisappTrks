@@ -333,6 +333,8 @@ from DisappTrks.StandardAnalysis.TreeBranchDefinitions import *
 branchSets = cms.VPSet (
     EventVariableBranches,
     MetShiftBranches,
+    TrackDebugBranches,
+    TrackEventvariablesDebugBranches,
 )
 
 ################################################################################
