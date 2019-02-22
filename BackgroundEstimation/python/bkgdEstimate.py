@@ -1000,3 +1000,13 @@ class FakeTrackBkgdEstimate:
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
 
         return nEst
+
+    def printNback (self):
+        if hasattr (self, "DisTrkIdFake"):
+            n = self.DisTrkIdFake["yield"]
+
+            print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            return n
+        else:
+            print "DisTrkIdFake not defined. Not printing N_back..."
+            return float ("nan")
