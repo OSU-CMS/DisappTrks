@@ -126,6 +126,26 @@ addSingleCut(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, cutTrkNValidPixelHits[3], cutTrkN
 addSingleCut(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, cutTrkNLayersExclusive[3], cutTrkNValidHitsSignal)
 removeCuts(ZtoMuMuDisTrkNoD0Cut3Layers.cuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal])
 
+ZtoMuMuDisTrkNoD0Cut3LayersVeryClean = copy.deepcopy(ZtoMuMuDisTrkNoD0Cut3Layers)
+ZtoMuMuDisTrkNoD0Cut3LayersVeryClean.name = cms.string("ZtoMuMuDisTrkNoD0Cut3LayersVeryClean")
+veryClean3LayersCuts = [
+    # 1) reject tracks with any inactive hits in MISSING_INNER_HITS
+    cutTrkNoInvalidInnerHits,
+    # 2) reject tracks with any inactive hits in TRACK_HITS
+    cutTrkNoInvalidMiddleHits,
+    # 3) require the HitPattern to be in a limited set of 4 combinations
+    #    a) pxb 1, pxb 2, pxb 3 (missing pxb 4)
+    #    b) pxb 1, pxb 2, pxf 1 (missing pxf 2)
+    #    c) pxb 1, pxf 1, pxf 2 (missing pxf 3)
+    #    d) pxf 1, pxf 2, pxf 3 (there is no pxf 4, but rule #4 and probably #5 below rejects this too)
+    cutTrkAllowedThreeLayerHitPattern,
+    # 4) require ==4 pixel layers hit with any quality (not null), and the outer-most must be MISSING
+    cutTrkFourLayersAnyHitQuality,
+    # 5) veto areas of the pixel where it's possible to get > 4 pixel layers (|eta| 1.5-2.3)
+    cutTrkEta15,
+]
+addCuts(ZtoMuMuDisTrkNoD0Cut3LayersVeryClean.cuts, veryClean3LayersCuts)
+
 ZtoMuMuDisTrkInvertD0Cut = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkInvertD0Cut.name = cms.string("ZtoMuMuDisTrkInvertD0Cut")
 addSingleCut(ZtoMuMuDisTrkInvertD0Cut.cuts, cutTrkInvertD0, cutTrkD0)

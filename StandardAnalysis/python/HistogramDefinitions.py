@@ -378,14 +378,14 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(51, 0.0, 5.1),
             inputVariables = cms.vstring("maxSigmaForFiducialMuonTrack"),
         ),
-#        cms.PSet (
-#            name = cms.string("trackPtVsMaxSigmaForFiducialTracks"),
-#            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;track p_{T} [GeV]"),
-#            binsX = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsY = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsZ = metBinsSlimmed,
-#            inputVariables = cms.vstring("maxSigmaForFiducialElectronTrack", "maxSigmaForFiducialMuonTrack", "pt"),
-#        ),
+        #cms.PSet (
+        #    name = cms.string("trackPtVsMaxSigmaForFiducialTracks"),
+        #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;track p_{T} [GeV]"),
+        #    binsX = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsY = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsZ = metBinsSlimmed,
+        #    inputVariables = cms.vstring("maxSigmaForFiducialElectronTrack", "maxSigmaForFiducialMuonTrack", "pt"),
+        #),
         cms.PSet (
             name = cms.string("trackDRMinJetVsIso"),
             title = cms.string(";track rel. iso.;min #DeltaR (jet, track)"),
@@ -485,14 +485,14 @@ TauExtraHistograms = cms.PSet(
 TrackTauHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "taus"),
     histograms = cms.VPSet (
-#        cms.PSet (
-#            name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
-#            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected tau [GeV]"),
-#            binsX = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsY = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsZ = metBinsSlimmed,
-#            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "tau.metNoMuMinusOnePt"),
-#        ),
+    #cms.PSet (
+    #    name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+    #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected tau [GeV]"),
+    #    binsX = cms.untracked.vdouble(51, 0.0, 5.1),
+    #    binsY = cms.untracked.vdouble(51, 0.0, 5.1),
+    #    binsZ = metBinsSlimmed,
+    #    inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "tau.metNoMuMinusOnePt"),
+    #),
         cms.PSet (
             name = cms.string("tauMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss, no #mu} excluding selected tau [GeV]"),
@@ -814,14 +814,14 @@ TrackMuonHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(16, -0.5, 15.5),
             inputVariables = cms.vstring("muon.bestTrackMissingOuterHits", "track.matchedGsfTrack.bestTrackMissingOuterHits"),
         ),
-#        cms.PSet (
-#            name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
-#            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected muon [GeV]"),
-#            binsX = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsY = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsZ = metBinsSlimmed,
-#            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "muon.metNoMuMinusOnePt"),
-#        ),
+        #cms.PSet (
+        #    name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+        #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected muon [GeV]"),
+        #    binsX = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsY = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsZ = metBinsSlimmed,
+        #    inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "muon.metNoMuMinusOnePt"),
+        #),
         cms.PSet (
             name = cms.string("muonMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss, no #mu} excluding selected muon [GeV]"),
@@ -866,14 +866,14 @@ TrackMETHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(1000, 0.0, 3.2),
             inputVariables = cms.vstring("fabs (deltaPhi (track, met))"),
         ),
-#        cms.PSet (
-#            name = cms.string("metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"), ## MinusOne is a typo but for the moment let's not change it... OK
-#            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} [GeV]"),
-#            binsX = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsY = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsZ = metBinsSlimmed,
-#            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "met.noMuPt"),
-#        ),
+        #cms.PSet (
+        #    name = cms.string("metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"), ## MinusOne is a typo but for the moment let's not change it... OK
+        #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} [GeV]"),
+        #    binsX = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsY = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsZ = metBinsSlimmed,
+        #    inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "met.noMuPt"),
+        #),
         cms.PSet (
             name = cms.string("metNoMuVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss, no #mu} [GeV]"),
@@ -995,14 +995,14 @@ TrackElectronHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(100, 0.0, 1.01),
             inputVariables = cms.vstring("electron.bestTrackMissingOuterHits", "electron.fbrem"),
         ),
-#        cms.PSet (
-#            name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
-#            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected electron [GeV]"),
-#            binsX = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsY = cms.untracked.vdouble(51, 0.0, 5.1),
-#            binsZ = metBinsSlimmed,
-#            inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "electron.metNoMuMinusOnePt"),
-#        ),
+        #cms.PSet (
+        #    name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialTracks"),
+        #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;E_{T}^{miss, no #mu} excluding selected electron [GeV]"),
+        #    binsX = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsY = cms.untracked.vdouble(51, 0.0, 5.1),
+        #    binsZ = metBinsSlimmed,
+        #    inputVariables = cms.vstring("track.maxSigmaForFiducialElectronTrack", "track.maxSigmaForFiducialMuonTrack", "electron.metNoMuMinusOnePt"),
+        #),
         cms.PSet (
             name = cms.string("electronMetNoMuMinusOnePtVsMaxSigmaForFiducialElectronTrack"),
             title = cms.string(";max #sigma for fiducial electron track;E_{T}^{miss, no #mu} excluding selected electron [GeV]"),
@@ -1088,9 +1088,6 @@ histograms = cms.PSet(  # for testing
     )
 )
 
-
-
-
 TriggerObjectHistograms = cms.PSet(
     inputCollection = cms.vstring("trigobjs"),
     histograms = cms.VPSet (
@@ -1120,10 +1117,9 @@ TriggerObjectHistograms = cms.PSet(
             title = cms.string("trigObjPt; p_{T}"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("pt"),
-            ),
-        )
+        ),
     )
-
+)
 
 
 TrackJetHistograms = cms.PSet(
@@ -1134,9 +1130,9 @@ TrackJetHistograms = cms.PSet(
             title = cms.string("Track-Jet #DeltaR; #DeltaR(trk-jet)"),
             binsX = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("deltaR ( track , jet ) "),
-            ),
-        )
+        ),
     )
+)
 
 
 DiMuonExtraHistograms = cms.PSet(
@@ -1147,9 +1143,9 @@ DiMuonExtraHistograms = cms.PSet(
             title = cms.string("Di-muon pT;p_{T} (#mu#mu)"),
             binsX = cms.untracked.vdouble(1000, 0, 1000),
             inputVariables = cms.vstring("pT (muon, muon)")
-            ),
-        )
+        ),
     )
+)
 
 JetExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("jets"),
@@ -1313,7 +1309,6 @@ JetExtraHistograms = cms.PSet(
         ),
     )
 )
-
 
 MCParticleExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("mcparticles"),
@@ -2726,95 +2721,6 @@ EventTriggerVarVsMetHistograms = cms.PSet(
     )
 )
 
-TrackDebugHitPatternHistograms = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("firstLayerWithValidHit"),
-            title = cms.string("First layer with VALID hit (pattern)"),
-            binsX = cms.untracked.vdouble(200, 0, 200),
-            inputVariables = cms.vstring("firstLayerWithValidHit"),
-        ),
-        cms.PSet (
-            name = cms.string("lastLayerWithValidHit"),
-            title = cms.string("Last layer with VALID hit (pattern)"),
-            binsX = cms.untracked.vdouble(200, 0, 200),
-            inputVariables = cms.vstring("lastLayerWithValidHit"),
-        ),
-        cms.PSet (
-            name = cms.string("packedPixelBarrelHitPattern"),
-            title = cms.string("Packed pixel barrel hit pattern"),
-            binsX = cms.untracked.vdouble(512, 0, 512),
-            inputVariables = cms.vstring("packedPixelBarrelHitPattern"),
-        ),
-        cms.PSet (
-            name = cms.string("packedPixelEndcapHitPattern"),
-            title = cms.string("Packed pixel endcap hit pattern"),
-            binsX = cms.untracked.vdouble(64, 0, 64),
-            inputVariables = cms.vstring("packedPixelEndcapHitPattern"),
-        ),
-        cms.PSet (
-            name = cms.string("hasValidHitInPixelBarrelLayer1"),
-            title = cms.string("hasValidHitInPixelBarrelLayer1"),
-            binsX = cms.untracked.vdouble(2, 0, 2),
-            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer1"),
-        ),
-        cms.PSet (
-            name = cms.string("hasValidHitInPixelBarrelLayer2"),
-            title = cms.string("hasValidHitInPixelBarrelLayer2"),
-            binsX = cms.untracked.vdouble(2, 0, 2),
-            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer2"),
-        ),
-        cms.PSet (
-            name = cms.string("hasValidHitInPixelBarrelLayer3"),
-            title = cms.string("hasValidHitInPixelBarrelLayer3"),
-            binsX = cms.untracked.vdouble(2, 0, 2),
-            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer3"),
-        ),
-        cms.PSet (
-            name = cms.string("hasValidHitInPixelEndcapLayer1"),
-            title = cms.string("hasValidHitInPixelEndcapLayer1"),
-            binsX = cms.untracked.vdouble(2, 0, 2),
-            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer1"),
-        ),
-        cms.PSet (
-            name = cms.string("hasValidHitInPixelEndcapLayer2"),
-            title = cms.string("hasValidHitInPixelEndcapLayer2"),
-            binsX = cms.untracked.vdouble(2, 0, 2),
-            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer2"),
-        ),
-        cms.PSet (
-            name = cms.string("bestTrackMissingInnerHitsVspackedPixelBarrelHitPattern"),
-            title = cms.string("bestTrackMissingInnerHits vs packedPixelBarrelHitPattern"),
-            binsX = cms.untracked.vdouble(512, 0, 512),
-            binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "missingInnerHits"),
-        ),
-        cms.PSet (
-            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelBarrelHitPattern"),
-            title = cms.string("bestTrackMissingMiddleHits vs packedPixelBarrelHitPattern"),
-            binsX = cms.untracked.vdouble(512, 0, 512),
-            binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "hitDrop_missingMiddleHits"),
-        ),
-        cms.PSet (
-            name = cms.string("bestTrackMissingInnerHitsVspackedPixelEndcapHitPattern"),
-            title = cms.string("bestTrackMissingInnerHits vs packedPixelEndcapHitPattern"),
-            binsX = cms.untracked.vdouble(64, 0, 64),
-            binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "missingInnerHits"),
-        ),
-        cms.PSet (
-            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelEndcapHitPattern"),
-            title = cms.string("bestTrackMissingMiddleHits vs packedPixelEndcapHitPattern"),
-            binsX = cms.untracked.vdouble(64, 0, 64),
-            binsY = cms.untracked.vdouble(50, 0, 50),
-            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "hitDrop_missingMiddleHits"),
-        ),
-
-    )
-)
-
 MuonIPHistograms = cms.PSet(
     # To produce these histograms, include in your PSet:
     # variableProducers.append("PrimaryVtxVarProducer")
@@ -3036,4 +2942,85 @@ CandiadteTrackPFIsolationSums = cms.VPSet(
             binsX = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("pfLostTrackIsoDR03 + pfPULostTrackIsoDR03"),
         ),
+)
+
+################################################################################
+# HitPattern investigation
+################################################################################
+
+TrackDebugHitPatternHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("firstLayerWithValidHit"),
+            title = cms.string("First layer with VALID hit (pattern)"),
+            binsX = cms.untracked.vdouble(200, 0, 200),
+            inputVariables = cms.vstring("firstLayerWithValidHit"),
+        ),
+        cms.PSet (
+            name = cms.string("lastLayerWithValidHit"),
+            title = cms.string("Last layer with VALID hit (pattern)"),
+            binsX = cms.untracked.vdouble(200, 0, 200),
+            inputVariables = cms.vstring("lastLayerWithValidHit"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer1"),
+            title = cms.string("hasValidHitInPixelBarrelLayer1"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer1"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer2"),
+            title = cms.string("hasValidHitInPixelBarrelLayer2"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer2"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelBarrelLayer3"),
+            title = cms.string("hasValidHitInPixelBarrelLayer3"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelBarrelLayer3"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelEndcapLayer1"),
+            title = cms.string("hasValidHitInPixelEndcapLayer1"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer1"),
+        ),
+        cms.PSet (
+            name = cms.string("hasValidHitInPixelEndcapLayer2"),
+            title = cms.string("hasValidHitInPixelEndcapLayer2"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("hasValidHitInPixelEndcapLayer2"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingInnerHitsVspackedPixelBarrelHitPattern"),
+            title = cms.string("bestTrackMissingInnerHits vs packedPixelBarrelHitPattern"),
+            binsX = cms.untracked.vdouble(512, 0, 512),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "missingInnerHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelBarrelHitPattern"),
+            title = cms.string("bestTrackMissingMiddleHits vs packedPixelBarrelHitPattern"),
+            binsX = cms.untracked.vdouble(512, 0, 512),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelBarrelHitPattern", "hitDrop_missingMiddleHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingInnerHitsVspackedPixelEndcapHitPattern"),
+            title = cms.string("bestTrackMissingInnerHits vs packedPixelEndcapHitPattern"),
+            binsX = cms.untracked.vdouble(64, 0, 64),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "missingInnerHits"),
+        ),
+        cms.PSet (
+            name = cms.string("bestTrackMissingMiddleHitsVspackedPixelEndcapHitPattern"),
+            title = cms.string("bestTrackMissingMiddleHits vs packedPixelEndcapHitPattern"),
+            binsX = cms.untracked.vdouble(64, 0, 64),
+            binsY = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("packedPixelEndcapHitPattern", "hitDrop_missingMiddleHits"),
+        ),
+
+    )
 )
