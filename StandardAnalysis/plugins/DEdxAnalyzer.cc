@@ -7,8 +7,10 @@ DEdxAnalyzer::DEdxAnalyzer (const edm::ParameterSet &cfg) :
   tracks_ (cfg.getParameter<edm::InputTag> ("tracks")),
   electrons_ (cfg.getParameter<edm::InputTag> ("electrons")),
   muons_ (cfg.getParameter<edm::InputTag> ("muons")),
-  dEdx_ (cfg.getParameter<edm::InputTag> ("dEdx")),
+  dEdxPixel_ (cfg.getParameter<edm::InputTag> ("dEdxPixel")),
+  dEdxStrip_ (cfg.getParameter<edm::InputTag> ("dEdxStrip")),
   minPt_ (cfg.getParameter<double> ("minPt")),
+  requiredNumLayers_ (cfg.getParameter<int> ("requiredNumLayers")),
   vetoElectronsOrMuons_ (cfg.getParameter<string> ("vetoElectronsOrMuons"))
 {
   vector<double> pLogBins, dEdxLogBins;
@@ -16,15 +18,26 @@ DEdxAnalyzer::DEdxAnalyzer (const edm::ParameterSet &cfg) :
   logSpace (200, -1.0, 1.0, dEdxLogBins);
 
   TH1::SetDefaultSumw2();
-  twoDHists_["dedxVsP"] = fs_->make<TH2D> ("dedxVsP", ";p [GeV];#LTdE/dx#GT [MeV/cm]", 200, 0.0, 200.0, 200, 0.0, 10.0);
-  twoDHists_["dedxVsPLog"] = fs_->make<TH2D> ("dedxVsPLog", ";p [GeV];#LTdE/dx#GT [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), 200, 0.0, 10.0);
-  twoDHists_["dedxLogVsP"] = fs_->make<TH2D> ("dedxLogVsP", ";p [GeV];#LTdE/dx#GT [MeV/cm]", 200, 0.0, 200.0, dEdxLogBins.size () - 1, dEdxLogBins.data ());
-  twoDHists_["dedxLogVsPLog"] = fs_->make<TH2D> ("dedxLogVsPLog", ";p [GeV];#LTdE/dx#GT [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), dEdxLogBins.size () - 1, dEdxLogBins.data ());
+  twoDHists_["dedxPixelVsP"]       = fs_->make<TH2D> ("dedxPixelVsP", ";p [GeV];#LTdE/dx#GT (pixels) [MeV/cm]", 200, 0.0, 200.0, 200, 0.0, 10.0);
+  twoDHists_["dedxPixelVsPLog"]    = fs_->make<TH2D> ("dedxPixelVsPLog", ";p [GeV];#LTdE/dx#GT (pixels) [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), 200, 0.0, 10.0);
+  twoDHists_["dedxPixelLogVsP"]    = fs_->make<TH2D> ("dedxPixelLogVsP", ";p [GeV];#LTdE/dx#GT (pixels) [MeV/cm]", 200, 0.0, 200.0, dEdxLogBins.size () - 1, dEdxLogBins.data ());
+  twoDHists_["dedxPixelLogVsPLog"] = fs_->make<TH2D> ("dedxPixelLogVsPLog", ";p [GeV];#LTdE/dx (pixels)#GT [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), dEdxLogBins.size () - 1, dEdxLogBins.data ());
+
+  twoDHists_["dedxStripVsP"]       = fs_->make<TH2D> ("dedxStripVsP", ";p [GeV];#LTdE/dx#GT (strips) [MeV/cm]", 200, 0.0, 200.0, 200, 0.0, 10.0);
+  twoDHists_["dedxStripVsPLog"]    = fs_->make<TH2D> ("dedxStripVsPLog", ";p [GeV];#LTdE/dx#GT (strips) [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), 200, 0.0, 10.0);
+  twoDHists_["dedxStripLogVsP"]    = fs_->make<TH2D> ("dedxStripLogVsP", ";p [GeV];#LTdE/dx#GT (strips) [MeV/cm]", 200, 0.0, 200.0, dEdxLogBins.size () - 1, dEdxLogBins.data ());
+  twoDHists_["dedxStripLogVsPLog"] = fs_->make<TH2D> ("dedxStripLogVsPLog", ";p [GeV];#LTdE/dx (strips#GT [MeV/cm]", pLogBins.size () - 1, pLogBins.data (), dEdxLogBins.size () - 1, dEdxLogBins.data ());
+
+  twoDHists_["dedxStripVsPixel"] = fs_->make<TH2D> ("dedxStripVsPixel", ";#LTdE/dx#GT (pixels) [MeV/cm];#LTdE/dx#GT (strip) [MeV/cm]", 200, 0, 10, 200, 0, 10);
+
+  oneDHists_["massEstimatePixel"] = fs_->make<TH1D> ("massEstimatePixel", ";Mass [GeV];Tracks", 500, 0.0, 2000.0);
+  oneDHists_["massEstimateStrip"] = fs_->make<TH1D> ("massEstimateStrip", ";Mass [GeV];Tracks", 500, 0.0, 2000.0);
 
   tracksToken_ = consumes<vector<reco::Track> > (tracks_);
   electronsToken_ = consumes<vector<reco::GsfElectron> > (electrons_);
   muonsToken_ = consumes<vector<reco::Muon> > (muons_);
-  dEdxToken_ = consumes<edm::ValueMap<reco::DeDxData> > (dEdx_);
+  dEdxPixelToken_ = consumes<edm::ValueMap<reco::DeDxData> > (dEdxPixel_);
+  dEdxStripToken_ = consumes<edm::ValueMap<reco::DeDxData> > (dEdxStrip_);
 }
 
 DEdxAnalyzer::~DEdxAnalyzer ()
@@ -36,61 +49,53 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<reco::Track> > tracks;
   event.getByToken (tracksToken_, tracks);
+
   edm::Handle<vector<reco::GsfElectron> > electrons;
   event.getByToken (electronsToken_, electrons);
+  
   edm::Handle<vector<reco::Muon> > muons;
   event.getByToken (muonsToken_, muons);
-  edm::Handle<edm::ValueMap<reco::DeDxData> > dEdx;
-  event.getByToken (dEdxToken_, dEdx);
+  
+  edm::Handle<edm::ValueMap<reco::DeDxData> > dEdxPixel;
+  event.getByToken (dEdxPixelToken_, dEdxPixel);
+
+  edm::Handle<edm::ValueMap<reco::DeDxData> > dEdxStrip;
+  event.getByToken (dEdxStripToken_, dEdxStrip);
 
   vector<SlimTrack> selectedTracks;
-  for (unsigned i = 0; i < tracks->size (); i++)
-    {
-      const edm::Ref<vector<reco::Track> > trackRef (tracks, i);
-      const reco::DeDxData &dEdxData = (*dEdx)[trackRef];
+  for (unsigned i = 0; i < tracks->size (); i++) {
+    const edm::Ref<vector<reco::Track> > trackRef (tracks, i);
+    const reco::DeDxData &dEdxDataPixel = (*dEdxPixel)[trackRef];
+    const reco::DeDxData &dEdxDataStrip = (*dEdxStrip)[trackRef];
 
-      if (trackRef->pt () < minPt_)
-        continue;
-      if (vetoElectronsOrMuons_ == "electrons" && isNearElectron (*trackRef, *electrons))
-        continue;
-      if (vetoElectronsOrMuons_ == "muons" && isNearMuon (*trackRef, *muons))
-        continue;
-      if (vetoElectronsOrMuons_ == "both" && (isNearElectron (*trackRef, *electrons) || isNearMuon (*trackRef, *muons)))
-        continue;
+    if (trackRef->pt () < minPt_) continue;
+    if (requiredNumLayers_ > 0 && trackRef->hitPattern().trackerLayersWithMeasurement() != requiredNumLayers_) continue;
+    if (vetoElectronsOrMuons_ == "electrons" && isNearElectron (*trackRef, *electrons)) continue;
+    if (vetoElectronsOrMuons_ == "muons" && isNearMuon (*trackRef, *muons)) continue;
+    if (vetoElectronsOrMuons_ == "both" && 
+        (isNearElectron (*trackRef, *electrons) || isNearMuon (*trackRef, *muons))) continue;
 
-      selectedTracks.push_back (SlimTrack (*trackRef, dEdxData.dEdx ()));
-
-    }
+    selectedTracks.push_back (SlimTrack (*trackRef, dEdxDataPixel.dEdx(), dEdxDataStrip.dEdx()));
+  }
   clog << "found " << selectedTracks.size () << " tracks in " << event.id () << endl;
-  if (selectedTracks.empty ())
-    return;
+  if (selectedTracks.empty ()) return;
 
-  /*unsigned selectedIndex = 0;
-  if (selectedTracks.size () > 1)
-    {
-      do
-        {
-          if (selectedIndex > selectedTracks.size () - 1)
-            clog << endl << "try again..." << endl;
-          for (unsigned i = 0; i < selectedTracks.size (); i++)
-            {
-              const SlimTrack &track = selectedTracks.at (i);
-              clog << "  (" << setw (2) << i << ") pt: " << track.pt << " GeV, eta: " << track.eta << ", phi: " << track.phi << endl;
-            }
-          clog << "which track would you like to plot?: ";
-          cin >> selectedIndex;
-        }
-      while (selectedIndex > selectedTracks.size () - 1);
-    }
-  const SlimTrack &selectedTrack = selectedTracks.at (selectedIndex);*/
+  for (const auto &selectedTrack : selectedTracks) {
+    twoDHists_.at ("dedxPixelVsP")->Fill       (selectedTrack.p, selectedTrack.dEdxPixel);
+    twoDHists_.at ("dedxPixelVsPLog")->Fill    (selectedTrack.p, selectedTrack.dEdxPixel);
+    twoDHists_.at ("dedxPixelLogVsP")->Fill    (selectedTrack.p, selectedTrack.dEdxPixel);
+    twoDHists_.at ("dedxPixelLogVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdxPixel);
 
-  for (const auto &selectedTrack : selectedTracks)
-    {
-      twoDHists_.at ("dedxVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
-      twoDHists_.at ("dedxVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
-      twoDHists_.at ("dedxLogVsP")->Fill (selectedTrack.p, selectedTrack.dEdx);
-      twoDHists_.at ("dedxLogVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdx);
-    }
+    twoDHists_.at ("dedxStripVsP")->Fill       (selectedTrack.p, selectedTrack.dEdxStrip);
+    twoDHists_.at ("dedxStripVsPLog")->Fill    (selectedTrack.p, selectedTrack.dEdxStrip);
+    twoDHists_.at ("dedxStripLogVsP")->Fill    (selectedTrack.p, selectedTrack.dEdxStrip);
+    twoDHists_.at ("dedxStripLogVsPLog")->Fill (selectedTrack.p, selectedTrack.dEdxStrip);
+
+    twoDHists_.at ("dedxStripVsPixel")->Fill (selectedTrack.dEdxPixel, selectedTrack.dEdxStrip);
+
+    oneDHists_.at ("massEstimatePixel")->Fill  (sqrt((selectedTrack.dEdxPixel - 3.375) / 2.684 * selectedTrack.p * selectedTrack.p));
+    oneDHists_.at ("massEstimateStrip")->Fill  (sqrt((selectedTrack.dEdxStrip - 3.375) / 2.684 * selectedTrack.p * selectedTrack.p));
+  }
 }
 
 void
