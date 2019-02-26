@@ -28,8 +28,10 @@ process.dEdxAnalyzer = cms.EDAnalyzer ("DEdxAnalyzer",
     tracks = cms.InputTag ("generalTracks", ""),
     electrons = cms.InputTag ("gedGsfElectrons", ""),
     muons = cms.InputTag ("muons", ""),
-    dEdx = cms.InputTag ("dedxHarmonic2", ""),
-    minPt = cms.double (50.0),
+    dEdxPixel = cms.InputTag ("dedxPixelHarmonic2", ""),
+    dEdxStrip = cms.InputTag ("dedxHarmonic2", ""),
+    minPt = cms.double (55.0),
+    requiredNumLayers = cms.int32 (-1),
     vetoElectronsOrMuons = cms.string ("both")
 )
 

@@ -31,16 +31,17 @@ struct SlimTrack {
   double phi;
 
   double p;
-  double dEdx;
+  double dEdxPixel;
+  double dEdxStrip;
 
-  SlimTrack (const reco::Track &track, const double meanDEdx) :
+  SlimTrack (const reco::Track &track, const double meanDEdxPixel, const double meanDEdxStrip) :
     pt (track.pt ()),
     eta (track.eta ()),
     phi (track.phi ()),
     p (track.p ()),
-    dEdx (meanDEdx)
-  {
-  }
+    dEdxPixel (meanDEdxPixel),
+    dEdxStrip (meanDEdxStrip)
+  {}
 };
 
 class DEdxAnalyzer : public edm::EDAnalyzer {
@@ -53,13 +54,21 @@ class DEdxAnalyzer : public edm::EDAnalyzer {
 
       edm::InputTag tracks_;
       edm::EDGetTokenT<vector<reco::Track> > tracksToken_;
+
       edm::InputTag electrons_;
       edm::EDGetTokenT<vector<reco::GsfElectron> > electronsToken_;
+      
       edm::InputTag muons_;
       edm::EDGetTokenT<vector<reco::Muon> > muonsToken_;
-      edm::InputTag dEdx_;
-      edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > dEdxToken_;
+      
+      edm::InputTag dEdxPixel_;
+      edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > dEdxPixelToken_;
+
+      edm::InputTag dEdxStrip_;
+      edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > dEdxStripToken_;
+
       double minPt_;
+      int requiredNumLayers_;
       string vetoElectronsOrMuons_;
 
       edm::Service<TFileService> fs_;
@@ -69,6 +78,7 @@ class DEdxAnalyzer : public edm::EDAnalyzer {
       void logSpace (const unsigned, const double, const double, vector<double> &) const;
       bool isNearElectron (const reco::Track &, const vector<reco::GsfElectron> &) const;
       bool isNearMuon (const reco::Track &, const vector<reco::Muon> &) const;
+
 };
 
 #endif
