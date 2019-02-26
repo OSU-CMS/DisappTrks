@@ -79,7 +79,7 @@ replaceSingleCut (disTrkSelectionSmearedJetsDown.cuts, cutJetJERSmearedPtDown, c
 
 disTrkSelectionSmearedJetsJECUp = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsJECUp.name = cms.string("disTrkSelectionSmearedJetsJECUp")
-replaceSingleCut (disTrkSelectionSmearedJetsJECUp.cuts, disTrkSelectionSmearedJetsJECUp, cutJetPt)
+replaceSingleCut (disTrkSelectionSmearedJetsJECUp.cuts, cutJetJERSmearedPtJECUp, cutJetPt)
 
 disTrkSelectionSmearedJetsJECDown = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJECDown")
