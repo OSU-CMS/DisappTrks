@@ -71,7 +71,7 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3Layers",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_transferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
             fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
@@ -91,7 +91,7 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3Layers",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_transferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3LayersVeryClean",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_superCleanTransferFactor")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
             fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
 
