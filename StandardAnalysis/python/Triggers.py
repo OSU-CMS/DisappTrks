@@ -6,7 +6,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Triggers: 2016"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Triggers: 2017"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Triggers: 2018"
 else:
     print "# Triggers: 2015"
@@ -18,7 +18,7 @@ else:
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )
@@ -72,8 +72,23 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersMetInclusive = cms.vstring(
+        "HLT_PFMET120_PFMHT120_IDTight_v",
+        "HLT_PFMET130_PFMHT130_IDTight_v",
+        "HLT_PFMET140_PFMHT140_IDTight_v",
+
+        "HLT_PFMETTypeOne140_PFMHT140_IDTight_v",
+
+        "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+        "HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v",
+        "HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v",
+
+        "HLT_PFMET250_HBHECleaned_v",
+        "HLT_PFMET300_HBHECleaned_v",
+        "HLT_PFMET200_HBHE_BeamHaloCleaned_v",
+
+        "HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v",
     )
 
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
@@ -93,9 +108,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v",  # yes available in bkgd MC
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersSingleMu = cms.vstring(
-        "HLT_IsoMu27_v",
+        "HLT_IsoMu24_v",
+        "HLT_IsoMu24_v",
     )
 
 ##########################################################################################################

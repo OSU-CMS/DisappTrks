@@ -46,24 +46,6 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
                            const vector<pat::Tau> &, 
                            const double) const;
 
-      bool passesTightID_noIsolation_2015 (const pat::Electron &, 
-                                           const reco::BeamSpot &, 
-                                           const reco::Vertex &, 
-                                           const edm::Handle<vector<reco::Conversion> > &) const;
-      bool passesTightID_noIsolation_2016 (const pat::Electron &, 
-                                           const reco::BeamSpot &, 
-                                           const reco::Vertex &, 
-                                           const edm::Handle<vector<reco::Conversion> > &) const;
-      bool passesTightID_noIsolation_2017 (const pat::Electron &, 
-                                           const reco::BeamSpot &, 
-                                           const reco::Vertex &, 
-                                           const edm::Handle<vector<reco::Conversion> > &,
-                                           const double) const;
-
-      double effectiveArea_2015 (const pat::Electron &) const;
-      double effectiveArea_2016 (const pat::Electron &) const;
-      double effectiveArea_2017 (const pat::Electron &) const;
-
       edm::InputTag triggers_;
       edm::InputTag beamspot_;
       edm::InputTag vertices_;
@@ -74,6 +56,12 @@ class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
       edm::InputTag muons_;
       edm::InputTag taus_;
       edm::InputTag rho_;
+
+      const double etaCut_;
+      const double ptCut_;
+      const string eleVIDid_;
+      vector<double> d0Cuts_;
+      vector<double> dZCuts_;
       vector<string> triggerNames_;
 
       edm::EDGetTokenT<edm::TriggerResults>           triggersToken_;

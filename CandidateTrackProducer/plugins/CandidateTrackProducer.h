@@ -62,6 +62,8 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::InputTag EBRecHitsTag_;
       edm::InputTag EERecHitsTag_;
       edm::InputTag HBHERecHitsTag_;
+      edm::InputTag gt2dedxPixelTag_;
+      edm::InputTag gt2dedxStripTag_;
       double candMinPt_;
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
@@ -71,8 +73,10 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::EDGetTokenT<EBRecHitCollection>         EBRecHitsToken_;
       edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
+      edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > gt2dedxStripToken_;
+      edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > gt2dedxPixelToken_;
 
-  edm::ESHandle<CaloGeometry> caloGeometry_;
-  bool insideCone(const CandidateTrack &, const DetId &, const double) const;
-  const GlobalPoint getPosition( const DetId &) const;
+      edm::ESHandle<CaloGeometry> caloGeometry_;
+      bool insideCone(const CandidateTrack &, const DetId &, const double) const;
+      const GlobalPoint getPosition( const DetId &) const;
 };

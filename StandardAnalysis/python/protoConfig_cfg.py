@@ -14,9 +14,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
     mc_global_tag = '94X_mc2017_realistic_v15'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
-    data_global_tag = '101X_dataRun2_Prompt_v11'
-    mc_global_tag = '94X_mc2017_realistic_v15' # to be updated
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    data_global_tag = '102X_dataRun2_Sep2018Rereco_v1'
+    mc_global_tag = '102X_upgrade2018_realistic_v12'
 
 ################################################################################
 # Create the skeleton process
@@ -50,7 +50,7 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         "root://xrootd.rcac.purdue.edu//store/user/bfrancis/SingleElectron/Run2017B-31Mar2018-v1-DisappTrks-v2/180806_191508/0000/REMINIAOD_PAT_1.root",
@@ -95,6 +95,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    
+    # durp
+
     print "# Global tag: " + data_global_tag
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
@@ -125,7 +128,7 @@ else:
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 collMap = copy.deepcopy(collectionMap)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_3_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
     if not UseCandidateTracks:
         print "# Collections: collectionMapMiniAOD2017"

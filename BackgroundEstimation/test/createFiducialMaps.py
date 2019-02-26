@@ -13,7 +13,13 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
 
 # Will use Dataset_runPeriod.root
-runPeriods = ['2017']
+runPeriods = ['2015']
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    runPeriods = ['2016']
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    runPeriods = ['2017']
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    runPeriods = ['2018']
 
 for runPeriod in runPeriods:
 

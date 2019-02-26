@@ -34,7 +34,7 @@ process.maxEvents = cms.untracked.PSet (
 process.GenZPtAnalyzer = cms.EDAnalyzer ('GenZPtAnalyzer',
     genParticles = cms.InputTag ("genParticles", ""),
     #genParticles = cms.InputTag ("prunedGenParticles", ""),
-    is94X = cms.bool (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_")),
+    is94X = cms.bool (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")),
 )
 
 ###########################################################

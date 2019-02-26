@@ -294,7 +294,9 @@ lumi_2017 = {
 lumi_2017_ntuples = {
     # brilcalc on CRAB report JSONs with hltpath
 
-    # FIX ME -- holdovers from lumi_2017 above, need to use the ntuple crab reports
+    # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
+    # note 2017B: several triggers hadn't been added yet, particularly HLT_MET105(120)_IsoTrk50, so B should be considered separately
+    # see Triggers.py for details
     "MET_2017B" : 4793.367,
     "MET_2017C" : 9631.324,
     "MET_2017D" : 4247.707,
@@ -335,25 +337,50 @@ lumi_2017_ntuples = {
 }
 
 lumi_2018 = {
-    # filterJSON.py --min x --max y  Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
+    # replace values with crab jsons when ntuples are done
+
+    # filterJSON.py --min x --max y  Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
     # 2018A: 315252-316995
     # 2018B: 316998-319312
     # 2018C: 319313-320393
-    # 2018D: 320394-
+    # 2018D: 320394-325273
+    # 2018E: No standard collision runs
     #
-    # Preliminary normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM
+    # Normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM, https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis
     # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /pb -i Run2018x.json --hltpath "xyz"
 
-    # --hltpath "HLT_IsoMu27_v*"
-    "SingleMuon_2018A" : 14002.950,
-    "SingleMuon_2018B" : 7097.399,
-    "SingleMuon_2018C" : 6937.091,
-    "SingleMuon_2018D" : 25868.201,
+    # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
+    "MET_2018A" : 14002.865,
+    "MET_2018B" : 7097.149,
+    "MET_2018C" : 6937.082,
+    "MET_2018D" : 31929.065,
+
+    # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
+    "EGamma_2018A" : 14002.865,
+    "EGamma_2018B" : 7097.149,
+    "EGamma_2018C" : 6937.082,
+    "EGamma_2018D" : 31929.065,
+
+    # --hltpath "HLT_IsoMu24_v*"
+    "SingleMuon_2018A" : 13994.713,
+    "SingleMuon_2018B" : 7097.149,
+    "SingleMuon_2018C" : 6937.082,
+    "SingleMuon_2018D" : 31929.065,
 
     # no hltpath
-    "Tau_2018A" : 13967.030,
-    "Tau_2018B" : 7051.900,
-    "Tau_2018C" : 4234.621,
+    "Tau_2018A" : 14002.865,
+    "Tau_2018B" : 7097.149
+    "Tau_2018C" : 6940.791,
+    "Tau_2018D" : 31929.971,
+
+    # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
+    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
+        "Tau_2018A" : 73.699,
+        "Tau_2018B" : 37.353,
+        "Tau_2018C" : 36.511,
+        "Tau_2018D" : 168.048,
+    }
+
 }
 
 # now create a single lumi dict, starting with 2015
@@ -376,4 +403,4 @@ lumi["HLT_ZeroBias_v*"]["ZeroBias_2016H"]                 =  lumi["HLT_ZeroBias_
 lumi = CreateCompositeLumis(lumi, '2015', 'D')
 lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
-lumi = CreateCompositeLumis(lumi, '2018', 'ABC')
+lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')

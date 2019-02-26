@@ -157,6 +157,25 @@ class CandidateTrack : public reco::Track
     void set_trackIsoOldNoPUDRp2 (double value) { trackIsoOldNoPUDRp2_ = value; };
     void set_trackIsoOldNoPUDRp1 (double value) { trackIsoOldNoPUDRp1_ = value; };
 
+    void set_dEdx_pixel (double value, 
+                         double error, 
+                         int nSaturatedMeasurements, 
+                         unsigned int nMeasurements) { 
+        dEdx_pixel_ = value; 
+        dEdxError_pixel_ = error;
+        dEdx_numberOfSaturatedMeasurements_pixel_ = nSaturatedMeasurements;
+        dEdx_numberOfMeasurements_pixel_ = nMeasurements;
+    };
+    void set_dEdx_strip (double value, 
+                        double error, 
+                        int nSaturatedMeasurements, 
+                        unsigned int nMeasurements) { 
+        dEdx_strip_ = value; 
+        dEdxError_strip_ = error;
+        dEdx_numberOfSaturatedMeasurements_strip_ = nSaturatedMeasurements;
+        dEdx_numberOfMeasurements_strip_ = nMeasurements;
+    };
+
     //////////////////////////////////////
     // Get rhos
     //////////////////////////////////////
@@ -193,6 +212,16 @@ class CandidateTrack : public reco::Track
     const float trackIsoOldNoPUDRp3 () const { return this->trackIsoOldNoPUDRp3_; };
     const float trackIsoOldNoPUDRp2 () const { return this->trackIsoOldNoPUDRp2_; };
     const float trackIsoOldNoPUDRp1 () const { return this->trackIsoOldNoPUDRp1_; };
+
+    const float dEdx_pixel                      () const { return this->dEdx_pixel_; };
+    const float dEdxError_pixel                 () const { return this->dEdxError_pixel_; };
+    const int dEdx_nSaturatedMeasurements_pixel () const { return this->dEdx_numberOfSaturatedMeasurements_pixel_; };
+    const unsigned int dEdx_nMeasurements_pixel () const { return this->dEdx_numberOfMeasurements_pixel_; };
+
+    const float dEdx_strip                      () const { return this->dEdx_strip_; };
+    const float dEdxError_strip                 () const { return this->dEdxError_strip_; };
+    const int dEdx_nSaturatedMeasurements_strip () const { return this->dEdx_numberOfSaturatedMeasurements_strip_; };
+    const unsigned int dEdx_nMeasurements_strip () const { return this->dEdx_numberOfMeasurements_strip_; };
 
     // missing hits differentiated by location on track
     // re-implement these methods from osu::Track to provide a getter function when plotting osu::Track::matchedCandidateTrack()
@@ -242,6 +271,16 @@ class CandidateTrack : public reco::Track
     float trackIsoOldNoPUDRp3_;
     float trackIsoOldNoPUDRp2_;
     float trackIsoOldNoPUDRp1_;
+
+    float dEdx_pixel_;
+    float dEdxError_pixel_;
+    int dEdx_numberOfSaturatedMeasurements_pixel_;
+    unsigned int dEdx_numberOfMeasurements_pixel_;
+
+    float dEdx_strip_;
+    float dEdxError_strip_;
+    int dEdx_numberOfSaturatedMeasurements_strip_;
+    unsigned int dEdx_numberOfMeasurements_strip_;
 
     const double getTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const bool, const double, const double = 1.0e-12) const;
     const double getOldTrackIsolation (const reco::Track &, const vector<reco::Track> &, const bool, const double, const double = 1.0e-12) const;

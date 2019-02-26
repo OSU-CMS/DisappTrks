@@ -13,6 +13,8 @@ candidateTrackProducer = cms.EDFilter ("CandidateTrackProducer",
   EBRecHits          =  cms.InputTag  ("reducedEcalRecHitsEB"),
   EERecHits          =  cms.InputTag  ("reducedEcalRecHitsEE"),
   HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"),
+  dEdxDataPixel      =  cms.InputTag  ("dedxPixelHarmonic2"),
+  dEdxDataStrip      =  cms.InputTag  ("dedxHarmonic2"),
   candMinPt          =  cms.double(10),
 )
 
@@ -34,6 +36,12 @@ collections.MiniAOD = cms.PSet (
   vertices         = cms.InputTag ("offlineSlimmedPrimaryVertices",  ""),
 )
 
+electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
+  electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+  electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-tight"
+
 metSkimFilter = cms.EDFilter ("METSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
   beamspot     =  collections.MiniAOD.beamspots,
@@ -45,6 +53,11 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
   conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
+  ptCut        =  cms.double (100),
+  etaCut       =  cms.double (-1),
+  eleVIDid     =  cms.string (electronIdName),
+  d0Cuts       = cms.vdouble (-1, -1),
+  dZCuts       = cms.vdouble (-1, -1),
   triggerNames =  cms.vstring (
     # trigger developed for disappearing tracks
     "HLT_MET75_IsoTrk50_v",
@@ -73,26 +86,6 @@ metSkimFilter = cms.EDFilter ("METSkimFilter",
   ),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
-  metSkimFilter.triggerNames = cms.vstring (
-    "HLT_MET105_IsoTrk50_v", # not in 2017B
-    "HLT_MET120_IsoTrk50_v", # not in 2017 B
-
-    # all other MET triggers that remained unprescaled for 2017
-    'HLT_PFMET120_PFMHT120_IDTight_v',
-    'HLT_PFMET130_PFMHT130_IDTight_v',
-    'HLT_PFMET140_PFMHT140_IDTight_v',
-    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
-    
-    # available starting 2017C
-    'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
-    'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
-    'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v', # not available in MC
-    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v', # not available in MC
-    'HLT_PFMET250_HBHECleaned_v',
-    'HLT_PFMET300_HBHECleaned_v',
-  )
-
 electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
   beamspot     =  collections.MiniAOD.beamspots,
@@ -104,6 +97,11 @@ electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
   conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
+  etaCut       =  cms.double(2.1),
+  ptCut        =  cms.double (25),
+  eleVIDid     =  cms.string (electronIdName),
+  d0Cuts       = cms.vdouble (0.0111, 0.0351),
+  dZCuts       = cms.vdouble (0.0466, 0.417),
   triggerNames =  cms.vstring (
     # all single electron triggers that remained unprescaled for 2015
     "HLT_Ele32_eta2p1_WPTight_Gsf_v",
@@ -119,11 +117,6 @@ electronSkimFilter = cms.EDFilter ("ElectronSkimFilter",
   ),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
-  electronSkimFilter.triggerNames = cms.vstring (
-    "HLT_Ele35_WPTight_Gsf_v",
-  )
-
 muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
   beamspot     =  collections.MiniAOD.beamspots,
@@ -135,20 +128,13 @@ muonSkimFilter = cms.EDFilter ("MuonSkimFilter",
   conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
-  triggerNames =  cms.vstring (
-    "HLT_IsoMu20_v",
-    "HLT_IsoMu22_v",
-    "HLT_IsoMu24_v",
-    "HLT_IsoTkMu20_v",
-    "HLT_IsoTkMu22_v",
-    "HLT_IsoTkMu24_v",
-  ),
+  etaCut       =  cms.double(2.1),
+  ptCut        =  cms.double (22),
+  eleVIDid     =  cms.string (electronIdName),
+  d0Cuts       = cms.vdouble (-1, -1),
+  dZCuts       = cms.vdouble (-1, -1),
+  triggerNames =  cms.vstring ("HLT_IsoMu20_v", "HLT_IsoTkMu20_v"),
 )
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
-  muonSkimFilter.triggerNames = cms.vstring (
-    "HLT_IsoMu27_v", # 2017
-  )
 
 tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
@@ -161,12 +147,46 @@ tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   conversions  =  collections.MiniAOD.conversions,
   taus         =  collections.MiniAOD.taus,
   rho          =  collections.MiniAOD.rho,
-  triggerNames =  cms.vstring (
-    "HLT_LooseIsoPFTau50_Trk30_eta2p1_v",
-  ),
+  etaCut       =  cms.double(2.1),
+  ptCut        =  cms.double (50),
+  eleVIDid     =  cms.string (electronIdName),
+  d0Cuts       = cms.vdouble (0.0111, 0.0351),
+  dZCuts       = cms.vdouble (-1, -1),
+  triggerNames =  cms.vstring ("HLT_LooseIsoPFTau50_Trk30_eta2p1_v"),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
-  tauSkimFilter.triggerNames = cms.vstring (
-    "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v", # 2017
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
+  muonSkimFilter.ptCut = cms.double(26)
+  muonSkimFilter.triggerNames =  cms.vstring ("HLT_IsoMu24_v", "HLT_IsoTkMu24_v")
+  electronSkimFilter.d0Cuts = cms.vdouble(0.05, 0.10)
+  electronSkimFilter.dZCuts = cms.vdouble(0.10, 0.20)
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+  metSkimFilter.ptCut = cms.double(120)
+  electronSkimFilter.ptCut = cms.double(35)
+  muonSkimFilter.ptCut = cms.double(29)
+
+  electronSkimFilter.d0Cuts = cms.vdouble(0.05, 0.10)
+  electronSkimFilter.dZCuts = cms.vdouble(0.10, 0.20)
+
+  metSkimFilter.triggerNames = cms.vstring (
+    "HLT_MET105_IsoTrk50_v",
+    "HLT_MET120_IsoTrk50_v",
+
+    # all other MET triggers that remained unprescaled for 2017
+    'HLT_PFMET120_PFMHT120_IDTight_v',
+    'HLT_PFMET130_PFMHT130_IDTight_v',
+    'HLT_PFMET140_PFMHT140_IDTight_v',
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+    
+    # available starting 2017C
+    'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+    'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+    'HLT_PFMET120_PFMHT120_IDTight_HFCleaned_v', # not available in MC
+    'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HFCleaned_v', # not available in MC
+    'HLT_PFMET250_HBHECleaned_v',
+    'HLT_PFMET300_HBHECleaned_v',
   )
+  electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
+  muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
+  tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")

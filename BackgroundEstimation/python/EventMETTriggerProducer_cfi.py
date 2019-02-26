@@ -136,8 +136,8 @@ def customizeForMETTriggerProducer (producer):
         producer.additionalCollections  =  cms.vstring  ("",  "hltTrk50Filter::HLT",  "",  "",  "",  "",  "")
         producer.additionalFilters      =  cms.vstring  ("",  "hltTrk50Filter",       "",  "",  "",  "",  "")
 
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-        print "# Using 2017 MET trigger filters in EventMETTriggerProducer_cfi.py..."
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        print "# Using 2017-8 MET trigger filters in EventMETTriggerProducer_cfi.py..."
 
         # Copied from AllTriggers.py, all triggers in the Grand Or selection
         # The following vectors are each aligned to these triggers, in this order, and describes the contents of their filters:

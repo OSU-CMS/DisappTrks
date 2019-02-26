@@ -46,17 +46,21 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   EBRecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EBRecHits")),
   EERecHitsTag_     (iConfig.getParameter<edm::InputTag> ("EERecHits")),
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
+  gt2dedxPixelTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataPixel")),
+  gt2dedxStripTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataStrip")),
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt")),
 {
   produces<vector<CandidateTrack> > ();
 
-  tracksToken_          =  consumes<vector<reco::Track> >       (tracksTag_);
-  rhoToken_             =  consumes<double>                     (rhoTag_);
-  rhoCaloToken_         =  consumes<double>                     (rhoCaloTag_);
-  rhoCentralCaloToken_  =  consumes<double>                     (rhoCentralCaloTag_);
-  EBRecHitsToken_       =  consumes<EBRecHitCollection>         (EBRecHitsTag_);
-  EERecHitsToken_       =  consumes<EERecHitCollection>         (EERecHitsTag_);
-  HBHERecHitsToken_     =  consumes<HBHERecHitCollection>       (HBHERecHitsTag_);
+  tracksToken_          = consumes<vector<reco::Track> >          (tracksTag_);
+  rhoToken_             = consumes<double>                        (rhoTag_);
+  rhoCaloToken_         = consumes<double>                        (rhoCaloTag_);
+  rhoCentralCaloToken_  = consumes<double>                        (rhoCentralCaloTag_);
+  EBRecHitsToken_       = consumes<EBRecHitCollection>            (EBRecHitsTag_);
+  EERecHitsToken_       = consumes<EERecHitCollection>            (EERecHitsTag_);
+  HBHERecHitsToken_     = consumes<HBHERecHitCollection>          (HBHERecHitsTag_);
+  gt2dedxPixelToken_    = consumes<edm::ValueMap<reco::DeDxData> > (gt2dedxPixelTag_);
+  gt2dedxStripToken_    = consumes<edm::ValueMap<reco::DeDxData> > (gt2dedxStripTag_);
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -99,10 +103,22 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   iEvent.getByToken(HBHERecHitsToken_, HBHERecHits);
   if (!HBHERecHits.isValid()) throw cms::Exception("FatalError") << "Unable to find HBHERecHitCollection in the event!\n";
 
+  // associate generalTracks with their DeDx data (estimator for pixel dE/dx)
+  edm::Handle<edm::ValueMap<reco::DeDxData> > gt2dedxPixel;
+  iEvent.getByToken(gt2dedxPixelToken_, gt2dedxPixel);
+  if (!gt2dedxPixel.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for pixels in the event!\n";
+
+  // associate generalTracks with their DeDx data (estimator for strip dE/dx)
+  edm::Handle<edm::ValueMap<reco::DeDxData> > gt2dedxStrip;
+  iEvent.getByToken(gt2dedxStripToken_, gt2dedxStrip);
+  if (!gt2dedxStrip.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for strips in the event!\n";
+  
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
+  unsigned int iTrack = -1;
   for (const auto &track : *tracks) {
-    if (track.pt () < candMinPt_)
-      continue;
+    iTrack++;
+
+    if (track.pt () < candMinPt_) continue;
 
     CandidateTrack candTrack(track, *tracks);
     candTrack.set_rhoPUCorr(*rhoHandle);
@@ -124,6 +140,28 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     const CaloEnergy &caloE_0p1 = calculateCaloE(candTrack, *EBRecHits, *EERecHits, *HBHERecHits, 0.1);
     candTrack.set_caloNewEMDRp1 (caloE_0p1.eEM);
     candTrack.set_caloNewHadDRp1 (caloE_0p1.eHad);
+
+    reco::TrackRef tkref = reco::TrackRef(tracks, iTrack);
+
+    if(gt2dedxPixel->contains(tkref.id())) {
+      set_dEdx_pixel((*gt2dedxPixel)[tkref].dEdx(), 
+                     (*gt2dedxPixel)[tkref].dEdxError(),
+                     (*gt2dedxPixel)[tkref].numberOfSaturatedMeasurements(),
+                     (*gt2dedxPixel)[tkref].numberOfMeasurements());
+    }
+    else {
+      set_dEdxPixel(-1, -1, 0, 0);
+    }
+
+    if(gt2dedxStrip->contains(tkref.id())) {
+      set_dEdx_strip((*gt2dedxStrip)[tkref].dEdx(), 
+                     (*gt2dedxStrip)[tkref].dEdxError(),
+                     (*gt2dedxStrip)[tkref].numberOfSaturatedMeasurements(),
+                     (*gt2dedxStrip)[tkref].numberOfMeasurements());
+    }
+    else {
+      set_dEdxStrip(-1, -1, 0, 0);
+    }
 
     candTracks->push_back (candTrack);
   }
