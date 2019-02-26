@@ -4,8 +4,8 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '10',
-        'alpha' : '1.40666666666667',
+        'N' : '32',
+        'alpha' : '0.0652335906261',
     },
     'Elec' : {
         'N' : '11',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers5' : { # error on alpha
-        'value' : '1.19694780251988',
+        'value' : '1.03440874366',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers5' : { # error on alpha
@@ -40,8 +40,8 @@ background_systematics = {
     },
 
 
-    'Fake_syst_NLayers5' : { # error on fake track rate assumption
-        'value' : str (max (1.0 - 14.0 / 100.0, 1.0e-3)) + "/" + str (1.0 + 28.0 / 100.0),
+    'Fake_syst_sampleDiff_NLayers5' : { # difference between ZtoMuMu and (ZtoEE, BasicSelection) methods
+        'value' : str(1.49760766),
         'background' : 'Fake',
     },
     'Elec_energy_NLayers5' : { # error on energy assumption
