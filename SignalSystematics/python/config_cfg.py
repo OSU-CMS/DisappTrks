@@ -27,7 +27,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
 
-# Pileup systematic channels
+# Pileup systematic channels -- can use TreeMaker to avoid running these
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
@@ -35,11 +35,6 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # MET systematic channels
 #  histSets.append(MetShiftHistograms)
-#  add_channels  (process,  [disTrkNoMet],                  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoMetNLayers4],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoMetNLayers5],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoMetNLayers6plus],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-
 #  add_channels  (process,  [disTrkNoMetSmearedJets],                  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers4],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers5],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
@@ -57,13 +52,13 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers5,        disTrkSelectionSmearedJetsDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers6plus,    disTrkSelectionSmearedJetsDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
-# ISR systematic channels
+# ISR systematic channels -- can use TreeMaker to avoid running these
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
 
-# Trigger efficiency channels
+# Trigger efficiency channels -- can use TreeMaker to avoid running these
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
