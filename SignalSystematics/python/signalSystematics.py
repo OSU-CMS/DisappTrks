@@ -21,38 +21,47 @@ def getExtraSamples (suffix):
         "AMSB_chargino_100GeV_1000cm_" + suffix : [],
         "AMSB_chargino_100GeV_100cm_" + suffix : [],
         "AMSB_chargino_100GeV_10cm_" + suffix : [],
+        "AMSB_chargino_100GeV_1cm_" + suffix : [],
         "AMSB_chargino_200GeV_10000cm_" + suffix : [],
         "AMSB_chargino_200GeV_1000cm_" + suffix : [],
         "AMSB_chargino_200GeV_100cm_" + suffix : [],
         "AMSB_chargino_200GeV_10cm_" + suffix : [],
+        "AMSB_chargino_200GeV_1cm_" + suffix : [],
         "AMSB_chargino_300GeV_10000cm_" + suffix : [],
         "AMSB_chargino_300GeV_1000cm_" + suffix : [],
         "AMSB_chargino_300GeV_100cm_" + suffix : [],
         "AMSB_chargino_300GeV_10cm_" + suffix : [],
+        "AMSB_chargino_300GeV_1cm_" + suffix : [],
         "AMSB_chargino_400GeV_10000cm_" + suffix : [],
         "AMSB_chargino_400GeV_1000cm_" + suffix : [],
         "AMSB_chargino_400GeV_100cm_" + suffix : [],
         "AMSB_chargino_400GeV_10cm_" + suffix : [],
+        "AMSB_chargino_400GeV_1cm_" + suffix : [],
         "AMSB_chargino_500GeV_10000cm_" + suffix : [],
         "AMSB_chargino_500GeV_1000cm_" + suffix : [],
         "AMSB_chargino_500GeV_100cm_" + suffix : [],
         "AMSB_chargino_500GeV_10cm_" + suffix : [],
+        "AMSB_chargino_500GeV_1cm_" + suffix : [],
         "AMSB_chargino_600GeV_10000cm_" + suffix : [],
         "AMSB_chargino_600GeV_1000cm_" + suffix : [],
         "AMSB_chargino_600GeV_100cm_" + suffix : [],
         "AMSB_chargino_600GeV_10cm_" + suffix : [],
+        "AMSB_chargino_600GeV_1cm_" + suffix : [],
         "AMSB_chargino_700GeV_10000cm_" + suffix : [],
         "AMSB_chargino_700GeV_1000cm_" + suffix : [],
         "AMSB_chargino_700GeV_100cm_" + suffix : [],
         "AMSB_chargino_700GeV_10cm_" + suffix : [],
+        "AMSB_chargino_700GeV_1cm_" + suffix : [],
         "AMSB_chargino_800GeV_10000cm_" + suffix : [],
         "AMSB_chargino_800GeV_1000cm_" + suffix : [],
         "AMSB_chargino_800GeV_100cm_" + suffix : [],
         "AMSB_chargino_800GeV_10cm_" + suffix : [],
+        "AMSB_chargino_800GeV_1cm_" + suffix : [],
         "AMSB_chargino_900GeV_10000cm_" + suffix : [],
         "AMSB_chargino_900GeV_1000cm_" + suffix : [],
         "AMSB_chargino_900GeV_100cm_" + suffix : [],
         "AMSB_chargino_900GeV_10cm_" + suffix : [],
+        "AMSB_chargino_900GeV_1cm_" + suffix : [],
     }
 
     for sample in extraSamples:
@@ -113,11 +122,11 @@ class YieldSystematic:
         self._isWeightFluctuation = isFluctuation
 
     def checkLifetimeReweight (self, condorDir, sample, mass, lifetime):
-
+        lifetimeFloat = float(lifetime.replace('p', '.'))
         lifetime_reweight_flag = False
         if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
-            if lifetime not in [10,100,1000,10000]:
-                ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
+            if lifetime not in [1, 10, 100, 1000, 10000]:
+                ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
                 sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
                 if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                     sample = sample_origin
@@ -282,27 +291,7 @@ class TriggerSystematic(YieldSystematic):
         self._foutSuffix = suffix
         self._doFout = True
 
-    def checkLifetimeReweight (self, condorDir, sample, mass, lifetime):
-
-        lifetime_reweight_flag = False
-        if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
-            if lifetime not in [10,100,1000,10000]:
-                ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
-                sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
-                if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
-                    sample = sample_origin
-                    lifetime_reweight_flag = True
-                else:
-                    raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_test))
-            else:
-                raise Exception('Sample {} can not be found'.format(sample))
-        else:
-            ceil_lifetime = lifetime
-            sample_origin = sample
-        return sample, ceil_lifetime, lifetime_reweight_flag
-
     def GetValue (self, sample, condorDir, name, ceil_lifetime, lifetime, lifetime_reweight_flag, fluctuation):
-
         total = 0
         chain = TChain( name + "TreeMaker/Tree")
         chain.Add("condor/"+condorDir + "/" + sample + "/*.root")
@@ -310,15 +299,15 @@ class TriggerSystematic(YieldSystematic):
 
         for i_event in range(chain.GetEntries()):
             chain.GetEntry(i_event)
-            jec = getattr(chain, "met_noMuPt")
             lifetimeWeight       = chain.eventvariable_lifetimeWeight
             isrWeight            = chain.eventvariable_isrWeight
             grandOrTriggerWeight = chain.eventvariable_grandOrWeight
+            puWeight             = chain.eventvariable_puScalingFactor
+
             if (fluctuation):
                 grandOrTriggerWeight_fluc = setattr(chain,"eventvariable_" + fluctuation)
             else:
                 grandOrTriggerWeight_fluc = grandOrTriggerWeight
-            puWeight             = chain.eventvariable_puScalingFactor
             if lifetime_reweight_flag == True:
                 lifetimeReweight  = getattr(chain, 'eventvariable_lifetimeWeight_1000024_'+ str(ceil_lifetime) +'cmTo'+str(lifetime)+'cm')
                 total            +=  lifetimeReweight
@@ -479,9 +468,10 @@ class MetSystematic(YieldSystematic):
             input_sample = sample
             lifetime_reweight_flag = False
             condorDir = self.central["condorDir"]
+            lifetimeFloat = float(lifetime.replace('p', '.'))
             if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
-                if lifetime not in [10,100,1000,10000]:
-                    ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
+                if lifetime not in [1, 10, 100, 1000, 10000]:
+                    ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
                     sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
                     if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                         sample = sample_origin
@@ -673,9 +663,10 @@ class PileupSystematic:
             input_sample = sample
             lifetime_reweight_flag = False
             condorDir = self.PileupCentral["condorDir"]
+            lifetimeFloat = float(lifetime.replace('p', '.'))
             if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
-                if lifetime not in [10,100,1000,10000]:
-                    ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
+                if lifetime not in [1, 10, 100, 1000, 10000]:
+                    ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
                     sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.PileupCentral["suffix"]
                     if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                         sample = sample_origin

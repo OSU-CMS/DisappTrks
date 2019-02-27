@@ -36,7 +36,8 @@ samplesByGravitinoMass = False
 masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 #chargino tau values in cm
-lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1',
+             '2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
@@ -44,12 +45,13 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
 lumi = lumi["MET_2017"]
 
 #condor directory in which to find signal root files
-signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v4/'
+signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v7/'
 
 signal_suffix = signal_suffix_in_datacard = '94X'
 
 #name of event selection from which to take signal yields
 signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
+signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
 
 #######################
 ### Data Parameters ###

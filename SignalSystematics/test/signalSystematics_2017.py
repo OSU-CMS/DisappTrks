@@ -11,7 +11,8 @@ import sys
 dirs = getUser()
 masses = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 lifetimes = [10, 100, 1000, 10000]
-allTheLifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
+allTheLifetimes = ['0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1',
+                   '2', '3', '4', '5', '6', '7', '8', '9', '10',
                    '20', '30', '40', '50', '60', '70', '80', '90', '100',
                    '200', '300', '400', '500', '600', '700', '800', '900', '1000',
                    '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
@@ -22,7 +23,10 @@ systematic = "all"
 if len (sys.argv) > 1:
     systematic = sys.argv[1]
 systematic = systematic.upper ()
-nlayers = "NLayers5"
+
+nlayers = "NLayers4"
+if len(sys.argv) > 2:
+    nlayers = sys.argv[2]
 
 if systematic == "PILEUP" or systematic == "ALL":
 
@@ -32,12 +36,12 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2017_" + nlayers + ".txt", "w")
 
-    pileupSystematic_v3 = PileupSystematic (masses, allTheLifetimes)
-    pileupSystematic_v3.addFout (fout)
-    pileupSystematic_v3.addExtraSamples (extraSamples)
-    pileupSystematic_v3.addChannel  ("PileupCentral",  "disTrkSelectionSmearedJets" + nlayers,  suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
+    pileupSystematic = PileupSystematic (masses, allTheLifetimes)
+    pileupSystematic.addFout (fout)
+    #pileupSystematic.addExtraSamples (extraSamples)
+    pileupSystematic.addChannel  ("PileupCentral",  "disTrkSelectionSmearedJets" + nlayers,  suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
 
-    pileupSystematic_v3.printSystematic ()
+    pileupSystematic.printSystematic ()
 
     print "********************************************************************************"
 
@@ -59,11 +63,11 @@ if systematic == "MET" or systematic == "ALL":
         'PhotonEn',
     ]
 
-    metSystematic = MetSystematic (masses, lifetimes)
-    metSystematic.addExtraSamples (extraSamples)
+    metSystematic = MetSystematic (masses, allTheLifetimes)
+    #metSystematic.addExtraSamples (extraSamples)
     metSystematic.addChannel ("central", "DisTrkNoMetSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7_metSyst")
     metSystematic.addMetTypes (metVaryTypes)
-    metSystematic.setMetCut (100.0)
+    metSystematic.setMetCut (120.0)
     metSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__metVary", "2017_" + nlayers + ".txt")
     metSystematic.printSystematic ()
 
@@ -79,12 +83,12 @@ if systematic == "JEC" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jec_2017_" + nlayers + ".txt", "w")
 
-    jecSystematic = YieldSystematic (masses, lifetimes)
+    jecSystematic = YieldSystematic (masses, allTheLifetimes)
     jecSystematic.addFout (fout)
-    jecSystematic.addExtraSamples (extraSamples)
-    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets" + nlayers ,                suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
-    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp" + nlayers,            suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jecSyst")
-    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDownNLayers4" + nlayers,  suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jecSyst")
+    #jecSystematic.addExtraSamples (extraSamples)
+    jecSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets" + nlayers ,       suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
+    jecSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp" + nlayers,   suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jecSyst")
+    jecSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDown" + nlayers, suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jecSyst")
     jecSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -101,12 +105,12 @@ if systematic == "JER" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jer_2017_" + nlayers + ".txt", "w")
 
-    jerSystematic = YieldSystematic (masses, lifetimes)
+    jerSystematic = YieldSystematic (masses, allTheLifetimes)
     jerSystematic.addFout (fout)
-    jerSystematic.addExtraSamples (extraSamples)
-    jerSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets" + nlayers ,                suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
-    jerSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJECUp" + nlayers,            suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
-    jerSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJECDownNLayers4" + nlayers,  suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
+    #jerSystematic.addExtraSamples (extraSamples)
+    jerSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets" + nlayers ,       suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
+    jerSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJERUp" + nlayers,   suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
+    jerSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJERDown" + nlayers, suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
     jerSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -123,13 +127,11 @@ if systematic == "ISR" or systematic == "ALL":
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2017_" + nlayers + ".txt", "w")
 
-    isrSystematic = YieldSystematic (masses, lifetimes)
+    isrSystematic = YieldSystematic (masses, allTheLifetimes)
     isrSystematic.setIsWeightFluctuation (True)
     isrSystematic.addFout (fout)
-    isrSystematic.addExtraSamples (extraSamples)
-    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/signalISRSystematics_BC_final")
-    isrSystematic.addChannel ("up",      "disTrkSelectionSmearedJetsPlotter_isrWeightUp", suffix, dirs['Brian']+"2016_final/signalISRSystematics_BC_final")
-    isrSystematic.addChannel ("down",    "disTrkSelectionSmearedJetsPlotter_isrWeightDown", suffix, dirs['Brian']+"2016_final/signalISRSystematics_BC_final")
+    #isrSystematic.addExtraSamples (extraSamples)
+    isrSystematic.addChannel ("central", "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017l/signalAcceptance_full_v7")
     isrSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -142,7 +144,7 @@ if systematic == "ISR" or systematic == "ALL":
 if systematic == "TRIGGER" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating trigger efficiency systematics (2016BC)"
+    print "evaluating trigger efficiency systematics (2017)"
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
@@ -150,11 +152,11 @@ if systematic == "TRIGGER" or systematic == "ALL":
         'grandOrWeightMC',
     ]
 
-    triggerSystematic = TriggerSystematic (masses, lifetimes)
-    triggerSystematic.addExtraSamples (extraSamples)
-    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
-    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
-    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets", suffix, dirs['Brian']+"2016_final/triggerSystematics_BC")
+    triggerSystematic = YieldSystematic (masses, allTheLifetimes)
+    #triggerSystematic.addExtraSamples (extraSamples)
+    triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7")
+    triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7")
+    triggerSystematic.addChannel ("up",      "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7")
     triggerSystematic.addTriggerFluctuations (triggerFluctuations)
     triggerSystematic.setFoutNames (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_", "2017_" + nlayers + ".txt")
     triggerSystematic.printSystematic ()
@@ -214,7 +216,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     foutForPlot = TFile.Open ("nMissOutSystematic_2016BC.root", "recreate")
 
     missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, allTheLifetimes)
-    #missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, lifetimes)
+    #missingOuterHitsSystematic_2016BC = MissingOuterHitsSystematic (masses, allTheLifetimes)
     missingOuterHitsSystematic_2016BC.addFout (fout)
     missingOuterHitsSystematic_2016BC.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic_2016BC.addSignalSuffix ("_" + suffix)
