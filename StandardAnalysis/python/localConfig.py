@@ -67,7 +67,6 @@ datasetsBkgd.append ('WJetsToLNu')
 datasetsBkgdForMET.append ('WJetsToLNu_HT')
 
 datasetsSig = [
-    'AMSB_chargino_100GeV_10cm_76X',
     'AMSB_chargino_100GeV_100cm_76X',
     'AMSB_chargino_100GeV_1000cm_76X',
     'AMSB_chargino_100GeV_10000cm_76X',
@@ -121,6 +120,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
