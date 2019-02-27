@@ -875,6 +875,32 @@ class LeptonBkgdEstimate:
 def gaussian (x, par):
     return TMath.Gaus (x[0], 0.0, par[0]) * par[1] + par[2]
 
+def getIntegralError (f, a, b):
+    integralError = Double (0.0)
+    nominal = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
+
+    par0 = f.GetParameter (0)
+    par1 = f.GetParameter (1)
+    par2 = f.GetParameter (2)
+
+    # Increasing each of the parameters should increase the integral
+    f.SetParameter (0, par0 + f.GetParError (0))
+    f.SetParameter (1, par1 + f.GetParError (1))
+    f.SetParameter (2, par2 + f.GetParError (2))
+    up = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
+
+    # Decreasing each of the parameters should increase the integral
+    f.SetParameter (0, par0 - f.GetParError (0))
+    f.SetParameter (1, par1 - f.GetParError (1))
+    f.SetParameter (2, par2 - f.GetParError (2))
+    down = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
+
+    f.SetParameter (0, par0)
+    f.SetParameter (1, par1)
+    f.SetParameter (2, par2)
+
+    return max (abs (up - nominal), abs (down - nominal))
+
 class FakeTrackBkgdEstimate:
     _fout = None
     _canvas = None
@@ -942,11 +968,13 @@ class FakeTrackBkgdEstimate:
 
             passesError = Double (0.0)
             passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
+            passesError = getIntegralError (f, 0.0, 0.02)
             failsError = Double (0.0)
             fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
+            failsError = getIntegralError (f, self._minD0, self._maxD0)
 
-            passes = Measurement (passes, passesError)
-            fails = Measurement (fails, failsError)
+            passes = Measurement (passes, 0.0)
+            fails = Measurement (fails, 0.0)
 
             passes.isPositive ()
             fails.isPositive ()
@@ -954,14 +982,14 @@ class FakeTrackBkgdEstimate:
             if fails > 0.0:
                 transferFactor = passes / fails
                 print "Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor)
-                return (transferFactor, passes, fails)
+                return (transferFactor, passes, fails, passesError, failsError)
             else:
                 print "N(fail d0 cut, 3 hits) = 0, not printing scale factor..."
-                return (float ("nan"), float ("nan"), float ("nan"))
+                return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
         else:
             print "Basic3hits is not defined. Not printing transfer factor..."
-            return (float ("nan"), float ("nan"), float ("nan"))
+            return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
     def printNctrl (self):
         if hasattr (self, "DisTrkInvertD0"):
@@ -1009,7 +1037,7 @@ class FakeTrackBkgdEstimate:
             return (float ("nan"), float ("nan"))
 
     def printNest (self):
-        xi, xiPass, xiFail = self.printTransferFactor ()
+        xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor ()
         nCtrl, nRaw, norm, pFake = self.printNctrl ()
 
         pFake *= xi
@@ -1020,12 +1048,15 @@ class FakeTrackBkgdEstimate:
         nEst = xi * nCtrl
         nEst.isPositive ()
 
+        errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
+
         alpha.printLongFormat ()
         print "P_fake: " + str (pFake)
         print "N: " + str (N)
         print "alpha: " + str (alpha)
         print "error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+        print "error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan"))
 
         return nEst
 
