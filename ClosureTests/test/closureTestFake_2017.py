@@ -19,24 +19,26 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-fout = TFile.Open ("muonClosureTest_TTJets_SemiLeptonic.root", "recreate")
-
 print "********************************************************************************"
 print "performing fake track background closure test("+nLayers+")"
 print "--------------------------------------------------------------------------------"
 
+fout = TFile.Open("fakeClosureTest_" + nLayers + ".root", "recreate")
+
 fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+fakeTrackBkgdEstimate.addTFile (fout)
 fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017"])
 fakeTrackBkgdEstimate.addMinD0 (0.05)
-fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3Layers",          "DYJetsToLL_50",  dirs['Andrew']+"2017/fakeTrackClosureTest")
-fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayers,  "DYJetsToLL_50",  dirs['Andrew']+"2017/fakeTrackClosureTest")
-fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "TTJets_SemiLeptonic",  dirs['Andrew']+"2017/basicSelection")
-fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "DYJetsToLL_50",  dirs['Andrew']+"2017/zToMuMu")
-fakeTrackBkgdEstimate.addChannel  ("DisTrkIdFake",           "DisTrkIdFake"+nLayers,                              "TTJets_SemiLeptonic",  dirs['Andrew']+"2017/disTrkFake")
+fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",  "Background",  dirs['Andrew']+"2017/fakeTrackClosureTest_superClean")
+fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayers,          "Background",  dirs['Andrew']+"2017/fakeTrackClosureTest")
+fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                        "Background",  dirs['Andrew']+"2017/basicSelection")
+fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                               "Background",  dirs['Andrew']+"2017/zToMuMu")
+fakeTrackBkgdEstimate.addChannel  ("DisTrkIdFake",    "DisTrkIdFake"+nLayers,                  "Background",  dirs['Andrew']+"2017/disTrkFake")
 
 print "********************************************************************************"
 
 est = fakeTrackBkgdEstimate.printNest ()
+fout.Close ()
 
 print "********************************************************************************"
 
@@ -53,5 +55,3 @@ diff = est - obs
 print "N_est - N_obs: " + str (diff.centralValue () / diff.maxUncertainty ()) + " sigma"
 
 print "********************************************************************************"
-
-fout.Close ()
