@@ -132,7 +132,7 @@ class YieldSystematic:
                     sample = sample_origin
                     lifetime_reweight_flag = True
                 else:
-                    raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_test))
+                    raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_origin))
             else:
                 raise Exception('Sample {} can not be found'.format(sample))
         else:
@@ -149,7 +149,6 @@ class YieldSystematic:
 
         for i_event in range(chain.GetEntries()):
             chain.GetEntry(i_event)
-            jec = getattr(chain, "met_noMuPt")
             lifetimeWeight       = chain.eventvariable_lifetimeWeight
             isrWeight            = chain.eventvariable_isrWeight
             grandOrTriggerWeight = chain.eventvariable_grandOrWeight
@@ -291,7 +290,7 @@ class TriggerSystematic(YieldSystematic):
         self._foutSuffix = suffix
         self._doFout = True
 
-    def GetValue (self, sample, condorDir, name, ceil_lifetime, lifetime, lifetime_reweight_flag, fluctuation):
+    def GetValue (self, sample, condorDir, name, ceil_lifetime, lifetime, lifetime_reweight_flag, fluctuation = None):
         total = 0
         chain = TChain( name + "TreeMaker/Tree")
         chain.Add("condor/"+condorDir + "/" + sample + "/*.root")
@@ -304,8 +303,8 @@ class TriggerSystematic(YieldSystematic):
             grandOrTriggerWeight = chain.eventvariable_grandOrWeight
             puWeight             = chain.eventvariable_puScalingFactor
 
-            if (fluctuation):
-                grandOrTriggerWeight_fluc = setattr(chain,"eventvariable_" + fluctuation)
+            if not fluctuation is None:
+                grandOrTriggerWeight_fluc = getattr(chain,"eventvariable_" + fluctuation)
             else:
                 grandOrTriggerWeight_fluc = grandOrTriggerWeight
             if lifetime_reweight_flag == True:
@@ -477,7 +476,7 @@ class MetSystematic(YieldSystematic):
                         sample = sample_origin
                         lifetime_reweight_flag = True
                     else:
-                        raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_test))
+                        raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_origin))
                 else:
                     raise Exception('Sample {} can not be found'.format(sample))
             
@@ -523,7 +522,7 @@ class MetSystematic(YieldSystematic):
 
             print central , up , down , total 
 
-            if (lifetime_reweight_flag == False) and  abs( (central-central_ref)/central ) > 0.001:
+            if (lifetime_reweight_flag == False) and  abs( (central-central_ref) ) > 0.001:
                 print "Something might go wrong with central value"
                 print "central = ", central
                 print "central from histogram = ", central_ref
@@ -672,7 +671,7 @@ class PileupSystematic:
                         sample = sample_origin
                         lifetime_reweight_flag = True
                     else:
-                        raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_test))
+                        raise Exception('Sample\n{0}\n{1}\ncan not be found'.format(sample,sample_origin))
                 else:
                     raise Exception('Sample {} can not be found'.format(sample))
             

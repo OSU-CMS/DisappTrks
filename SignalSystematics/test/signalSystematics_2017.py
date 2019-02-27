@@ -31,7 +31,7 @@ if len(sys.argv) > 2:
 if systematic == "PILEUP" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating pileup systematic (2017) NLayers4"
+    print "evaluating pileup systematic (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2017_" + nlayers + ".txt", "w")
@@ -51,7 +51,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 if systematic == "MET" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating met systematics"
+    print "evaluating met systematics (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     metVaryTypes = [
@@ -78,7 +78,7 @@ if systematic == "MET" or systematic == "ALL":
 if systematic == "JEC" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating JEC systematic"
+    print "evaluating JEC systematic (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jec_2017_" + nlayers + ".txt", "w")
@@ -100,7 +100,7 @@ if systematic == "JEC" or systematic == "ALL":
 if systematic == "JER" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating JER systematic"
+    print "evaluating JER systematic (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__jer_2017_" + nlayers + ".txt", "w")
@@ -109,8 +109,8 @@ if systematic == "JER" or systematic == "ALL":
     jerSystematic.addFout (fout)
     #jerSystematic.addExtraSamples (extraSamples)
     jerSystematic.addChannel  ("central",  "disTrkSelectionSmearedJets" + nlayers ,       suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7")
-    jerSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsJERUp" + nlayers,   suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
-    jerSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsJERDown" + nlayers, suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
+    jerSystematic.addChannel  ("down",     "disTrkSelectionSmearedJetsUp" + nlayers,   suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
+    jerSystematic.addChannel  ("up",       "disTrkSelectionSmearedJetsDown" + nlayers, suffix,  dirs['Brian']+"2017/signalAcceptance_full_v7_jerSyst")
     jerSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -122,7 +122,7 @@ if systematic == "JER" or systematic == "ALL":
 if systematic == "ISR" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating ISR systematic (2017)"
+    print "evaluating ISR systematic (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2017_" + nlayers + ".txt", "w")
@@ -144,7 +144,7 @@ if systematic == "ISR" or systematic == "ALL":
 if systematic == "TRIGGER" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating trigger efficiency systematics (2017)"
+    print "evaluating trigger efficiency systematics (2017) " + nlayers
     print "--------------------------------------------------------------------------------"
 
     triggerFluctuations = [
@@ -152,7 +152,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
         'grandOrWeightMC',
     ]
 
-    triggerSystematic = YieldSystematic (masses, allTheLifetimes)
+    triggerSystematic = TriggerSystematic (masses, allTheLifetimes)
     #triggerSystematic.addExtraSamples (extraSamples)
     triggerSystematic.addChannel ("central", "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7")
     triggerSystematic.addChannel ("down",    "disTrkSelectionSmearedJets" + nlayers, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7")
@@ -169,7 +169,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
 if systematic == "ECALO" or systematic == "ALL":
 
     print "********************************************************************************"
-    print "evaluating ECalo systematic"
+    print "evaluating ECalo systematic (2017)"
     print "--------------------------------------------------------------------------------"
 
     ecaloSystematic = ECaloSystematic ()
