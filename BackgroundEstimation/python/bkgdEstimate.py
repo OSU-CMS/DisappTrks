@@ -4,7 +4,7 @@ import sys
 import math
 import functools
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
@@ -871,6 +871,10 @@ class LeptonBkgdEstimate:
         else:
             print "Neither TagProbe nor TagProbePass defined. Not plotting P_veto pt dependence..."
 
+# Gaussian function for fitting d0 distribution
+def gaussian (x, par):
+    return TMath.Gaus (x[0], 0.0, par[0]) * par[1] + par[2]
+
 class FakeTrackBkgdEstimate:
     _fout = None
     _canvas = None
@@ -914,8 +918,32 @@ class FakeTrackBkgdEstimate:
 
     def printTransferFactor (self):
         if hasattr (self, "Basic3hits"):
-            passes, passesError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, 0.02 - 0.001)
-            fails, failsError = getHistIntegral (self.Basic3hits["sample"], self.Basic3hits["condorDir"], self.Basic3hits["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+            d0 = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPV")
+            d0Mag = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPVMag")
+            d0Mag.Scale (0.5)
+
+            f = TF1 ("gaussian", gaussian, -1.0, 1.0, 3)
+            f.SetParameter (0, 0.2)
+            f.SetParLimits (0, 1.0e-3, 1.0e3)
+            f.SetParameter (1, 40.0)
+            f.SetParLimits (1, 1.0e-3, 1.0e3)
+            f.SetParameter (2, 20.0)
+            f.SetParLimits (2, -1.0e3, 1.0e3)
+            for i in range (0, 10):
+              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+
+            self._fout.cd ()
+            d0.Write ("d0")
+            f.Write ("d0_fit")
+
+            d0Mag.Scale (2.0)
+            for i in range (0, 10):
+              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+
+            passesError = Double (0.0)
+            passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
+            failsError = Double (0.0)
+            fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
 
             passes = Measurement (passes, passesError)
             fails = Measurement (fails, failsError)

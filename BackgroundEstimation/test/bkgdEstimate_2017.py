@@ -48,7 +48,10 @@ for runPeriod in runPeriods:
             print "performing fake track background estimate in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
+            fout = TFile.Open("fakeTrackBkgdEstimate_zToMuMu_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
             fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/fakeTrackBackgroundVeryClean_v2")
@@ -59,6 +62,7 @@ for runPeriod in runPeriods:
             print "********************************************************************************"
 
             nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()
+            fout.Close ()
 
             print "********************************************************************************"
 
@@ -68,7 +72,10 @@ for runPeriod in runPeriods:
             print "performing fake track background estimate with Z->ee selection in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
+            fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
             fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
@@ -79,6 +86,7 @@ for runPeriod in runPeriods:
             print "********************************************************************************"
 
             fakeTrackBkgdEstimate.printNest ()
+            fout.Close ()
 
             print "********************************************************************************"
 
@@ -88,7 +96,10 @@ for runPeriod in runPeriods:
             print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
+            fout = TFile.Open("fakeTrackBkgdEstimate_basic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
             fakeTrackBkgdEstimate.addMinD0 (0.05)
             fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3LayersVeryClean",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_superCleanTransferFactor")
@@ -98,6 +109,7 @@ for runPeriod in runPeriods:
             print "********************************************************************************"
 
             fakeTrackBkgdEstimate.printNest ()
+            fout.Close ()
 
             print "********************************************************************************"
 
