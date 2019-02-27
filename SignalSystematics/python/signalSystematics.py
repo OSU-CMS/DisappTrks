@@ -118,7 +118,7 @@ class YieldSystematic:
         if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
             if lifetime not in [10,100,1000,10000]:
                 ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
-                sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.PileupCentral["suffix"]
+                sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
                 if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                     sample = sample_origin
                     lifetime_reweight_flag = True
@@ -221,8 +221,8 @@ class YieldSystematic:
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
             print "input dataset:", input_sample
-            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
-            return (sample, relDiffDown, relDiffUp)
+            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (input_sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            return (input_sample, relDiffDown, relDiffUp)
 
         else:
             print "central, down, and up not all defined. Not printing systematic..."
@@ -288,7 +288,7 @@ class TriggerSystematic(YieldSystematic):
         if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
             if lifetime not in [10,100,1000,10000]:
                 ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
-                sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.PileupCentral["suffix"]
+                sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
                 if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                     sample = sample_origin
                     lifetime_reweight_flag = True
@@ -332,6 +332,7 @@ class TriggerSystematic(YieldSystematic):
     def printSampleSystematic (self, mass, lifetime, fluctuation):
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            input_sample = sample
             condorDir = self.central["condorDir"]
             name = self.central["name"]
 
@@ -359,8 +360,8 @@ class TriggerSystematic(YieldSystematic):
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
-            return (sample, relDiffDown, relDiffUp)
+            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (input_sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            return (input_sample, relDiffDown, relDiffUp)
 
         else:
             print "central, down, and up not all defined. Not printing systematic..."
@@ -481,7 +482,7 @@ class MetSystematic(YieldSystematic):
             if not os.path.isfile( "condor/%s/%s.root" % (condorDir,sample) ):
                 if lifetime not in [10,100,1000,10000]:
                     ceil_lifetime = int(math.pow(10 , math.ceil((math.log10( float(lifetime) )))))
-                    sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.PileupCentral["suffix"]
+                    sample_origin = "AMSB_chargino_" + str (mass) + "GeV_" + str (ceil_lifetime) + "cm_" + self.central["suffix"]
                     if os.path.isfile( "condor/%s/%s.root" % (condorDir,sample_origin) ):
                         sample = sample_origin
                         lifetime_reweight_flag = True
@@ -543,7 +544,7 @@ class MetSystematic(YieldSystematic):
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
             print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (input_sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
-            return (sample, relDiffDown, relDiffUp)
+            return (input_sample, relDiffDown, relDiffUp)
 
         else:
             print "central, down, and up not all defined. Not printing systematic..."
@@ -711,7 +712,6 @@ class PileupSystematic:
                 if lifetime_reweight_flag == True:
                     exec(lifetimeReweight_cmd)
                     totalWeight      += lifetimeWeight * isrWeight * grandOrTriggerWeight * puWeight * lifetimeReweight
-                    print "lifetimeReweight:" , lifetimeReweight
                     totalWeightUp    += lifetimeWeight * isrWeight * grandOrTriggerWeight * puWeightUp * lifetimeReweight
                     totalWeightDown  += lifetimeWeight * isrWeight * grandOrTriggerWeight * puWeightDown * lifetimeReweight
                 else:
@@ -737,7 +737,7 @@ class PileupSystematic:
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
             print "(" + input_sample + ") down: " + str (down) + ", central: " + str (central) + ", up: " + str (up) + ", systematic uncertainty: " + str (relDiffDown * 100.0) + "%/" + str (relDiffUp * 100.0) + "%"
-            return (sample, relDiffDown, relDiffUp)
+            return (input_sample, relDiffDown, relDiffUp)
         else:
             print "PileupCentral, PileupDown, and PileupUp not all defined. Not printing pileup systematic..."
             return (float ("nan"), float ("nan"), float ("nan"))
