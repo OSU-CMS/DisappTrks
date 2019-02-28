@@ -123,7 +123,7 @@ HeaderText = LumiText + " (13 TeV)"
 
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
-    lifetime = str(lifetime).replace("0.5", "0p5")
+    lifetime = str(lifetime).replace("0.", "0p")
 #    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
     return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
 
@@ -1159,8 +1159,6 @@ def drawPlot(plot, th2fType=""):
         else:
             tTh2fs[-1].Draw('colz')
 
-
-
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' in plot and plot['showTheoryError']):
         if plot['xAxisType'] is 'mass':
             tGraphs.append(getTheoryOneSigmaGraph())
@@ -1192,6 +1190,7 @@ def drawPlot(plot, th2fType=""):
                 colorScheme = graph['colorScheme']
             if not is2D:
                 for graphName in graph['graphsToInclude']:
+
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
@@ -1206,6 +1205,7 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
@@ -1220,6 +1220,7 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+
                     if graphName is 'exp':
                         tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
@@ -1238,6 +1239,7 @@ def drawPlot(plot, th2fType=""):
                             tGraphs[-1].SetName(plot['title']+"_graph_expected")
                             print "Writing TGraph with name: ", tGraphs[-1].GetName()
                             tGraphs[-1].Write()
+
                     if graphName is 'obs':
                         tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         if plotDrawn:
@@ -1256,8 +1258,10 @@ def drawPlot(plot, th2fType=""):
                             tGraphs[-1].SetName(plot['title']+"_graph_observed")
                             print "Writing TGraph with name: ", tGraphs[-1].GetName()
                             tGraphs[-1].Write()
+
             else:  # is2D == True
                 for graphName in graph['graphsToInclude']:
+
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                         if plotDrawn:
@@ -1274,6 +1278,7 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                         if plotDrawn:
@@ -1290,9 +1295,10 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+
                     if graphName is 'exp':
                         tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
-                #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
+                        #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
                         makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory')
 
                         if plotDrawn:
@@ -1307,6 +1313,12 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+
+                        if arguments.saveObjects and "exp" in arguments.saveObjects:
+                            tGraphs[-1].SetName(plot['title']+"_graph_expected")
+                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                            tGraphs[-1].Write()
+
                 if graphName is 'twoSigmaTheory':
                     isMakeTable = True
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
@@ -1583,7 +1595,7 @@ for plot in plotDefinitions:
             if plot['xAxisType'] is 'lifetime' and 'yAxisType' not in plot:
                 for lifetime in lifetimes:
                     lifetime = lifetime.replace(".0", "")
-                    lifetime = lifetime.replace("0.5", "0p5")
+                    lifetime = lifetime.replace("0.", "0p")
                     limit = fetchLimits(graph['mass'],lifetime,[arguments.outputDir])
                     if limit is not -1:
                         graph['limits'].append(limit)
@@ -1593,7 +1605,7 @@ for plot in plotDefinitions:
                 for mass in masses:
                     for lifetime in lifetimes:
                         lifetime = lifetime.replace(".0", "")
-                        lifetime = lifetime.replace("0.5", "0p5")
+                        lifetime = lifetime.replace("0.", "0p")
                         limit = fetchLimits(mass,graph['lifetime'],[arguments.outputDir])
                     if arguments.verbose:
                         print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + str(limit['expected'])

@@ -103,7 +103,7 @@ methodFile.close()
 for mass in masses:
     for lifetime in lifetimes:
         lifetime = lifetime.replace(".0", "")
-        lifetime = lifetime.replace("0.5", "0p5")
+        lifetime = lifetime.replace("0.", "0p")
         if samplesByGravitinoMass:
             signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns"
         else:
@@ -148,7 +148,8 @@ for mass in masses:
             combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
             combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
         if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
-            if float(lifetime) > 9 and float(lifetime) < 300:   # Use a smaller maximum for lifetimes with a larger signal yield
+            lifetimeFloat = float(lifetime.replace('0p', '0.'))
+            if lifetimeFloat > 9 and lifetimeFloat < 300:   # Use a smaller maximum for lifetimes with a larger signal yield
                 combine_expected_options += " --rMin 0.00000001 --rMax 0.1 "
                 combine_observed_options += " --rMin 0.00000001 --rMax 0.1 "
             else:

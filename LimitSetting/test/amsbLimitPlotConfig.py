@@ -31,6 +31,9 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
+# 2017 stuff
+#lifetimes.extend(['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
+
 convertCmToNs = True
 makeColorPlot = False
 convertToMassSplitting = False
@@ -58,9 +61,9 @@ plotDefinitions = [
         'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
 
         'xAxisFixMin' : 100,
-        'xAxisFixMax' : 1000,
-        'yAxisFixMin' : 0.01,
-        'yAxisFixMax' : 1000,  # The last point is 10000cm = 333 ns
+        'xAxisFixMax' : 900,
+        'yAxisFixMin' : 0.067,
+        'yAxisFixMax' : 333,  # The last point is 10000cm = 333 ns
 
         'theoryLabel' : [
             'tan #beta = 5, #mu > 0',
@@ -75,6 +78,40 @@ plotDefinitions = [
         ],
     },
 
+    ###################### CTAU = 1 cm
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'limits_vs_1cm',
+
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+
+        # xmin, xmax, label
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+        'yAxisLabel' : 'c#tau = 1 cm',
+
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm/c (' + str (convertToNs (1.0)) + ' ns)',
+            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+        ],
+
+        # optional (scaled automatically if not included)
+        'yAxis' : yAxisRangeFor1DMassLimits,
+
+        # optional (False if not included)
+        # currently only works if the x-axis is mass
+        'showTheory' : True,
+
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'lifetime' : 1.0,
+                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'colorScheme' : 'brazilian',
+                'legendEntry' : '',
+            },
+        ],
+    },
 
     ###################### CTAU = 10 cm
     {
