@@ -76,6 +76,7 @@ actual_bin_name = 'Bin2017' + nLayersWord
 
 external_systematic_uncertainties = [
     # Use order of AN
+    "isr_2017_" + nLayersWord,
     "jec_2017_" + nLayersWord,
     "jer_2017_" + nLayersWord,
     "metVaryElectronEn_2017_" + nLayersWord,
@@ -84,7 +85,10 @@ external_systematic_uncertainties = [
     "metVaryPhotonEn_2017_" + nLayersWord,
     "metVaryTauEn_2017_" + nLayersWord,
     "metVaryUnclusteredEn_2017_" + nLayersWord,
+    #"nMissOut_2017_" + nLayersWord,
     "pileup_2017_" + nLayersWord,
+    "trigger_grandOrWeightData_2017_" + nLayersWord,
+    "trigger_grandOrWeightMC_2017_" + nLayersWord,
 ]
 
 #uncertainties on signal only (we can alter this if we need to)
