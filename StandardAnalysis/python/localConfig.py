@@ -127,15 +127,15 @@ else:
 
 datasetsSigShort = copy.deepcopy(datasetsSig)
 
-datasetsSigShort100 = datasetsSig[0:4]
-datasetsSigShort200 = datasetsSig[4:8]
-datasetsSigShort300 = datasetsSig[8:12]
-datasetsSigShort400 = datasetsSig[12:16]
-datasetsSigShort500 = datasetsSig[16:20]
-datasetsSigShort600 = datasetsSig[20:24]
-datasetsSigShort700 = datasetsSig[24:28]
-datasetsSigShort800 = datasetsSig[28:32]
-datasetsSigShort900 = datasetsSig[32:36]
+datasetsSigShort100 = datasetsSig[0:3]
+datasetsSigShort200 = datasetsSig[3:7]
+datasetsSigShort300 = datasetsSig[7:11]
+datasetsSigShort400 = datasetsSig[11:15]
+datasetsSigShort500 = datasetsSig[15:19]
+datasetsSigShort600 = datasetsSig[19:23]
+datasetsSigShort700 = datasetsSig[23:27]
+datasetsSigShort800 = datasetsSig[27:31]
+datasetsSigShort900 = datasetsSig[31:35]
 
 addLifetimeReweighting (datasetsSig)
 
