@@ -44,10 +44,7 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-
-
-
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain
 
 def fancyTable(arrays):
 
@@ -70,7 +67,42 @@ def fancyTable(arrays):
 
     return '\n'.join(spacedLines)
 
+def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
+    if os.path.isfile('condor/' + condor_dir + '/' + process + '.root'):
+        return GetYieldAndError(condor_dir, process, channel)
 
+    realProcessName = process.replace(dstCTau, srcCTau)
+
+    print 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...'
+
+    chain = TChain(signal_channel_tree)
+    chain.Add('condor/' + condor_dir + '/' + realProcessName + '/hist_*.root')
+
+    lifetimeWeightName = 'eventvariable_lifetimeWeight_1000024_' + srcCTau + 'To' + dstCTau
+
+    realInputFile = TFile('condor/' + condor_dir + '/' + realProcessName + '.root')
+    nGenerated = realInputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
+    crossSectionWeight = lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
+
+    totalWeight = 0.0
+    totalWeight2 = 0.0
+
+    for iEvent in range(chain.GetEntries()):
+        chain.GetEntry(iEvent)
+        lifetimeWeight = getattr(chain, lifetimeWeightName)
+        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
+        totalWeight += thisWeight
+        totalWeight2 += thisWeight * thisWeight
+
+    yieldAndError = {
+        'yield' : totalWeight,
+        'rawYield' : chain.GetEntries(),
+        'error' : 1.0 + (math.sqrt(totalWeight2) / totalWeight) if totalWeight > 0.0 else 1.0,
+        'absError' : math.sqrt(totalWeight2),
+        'weight' : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
+    }
+
+    return yieldAndError
 
 def GetYieldAndError(condor_dir, process, channel):
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
@@ -120,17 +152,22 @@ def ReadYieldAndError(condor_dir, process):
 
 
 
-def writeDatacard(mass,lifetime,observation):
+def writeDatacard(mass, lifetime, observation):
+
+    lifetimeFloat = float(lifetime)
 
     lifetime = lifetime.replace(".0", "")
-    lifetime = lifetime.replace("0.5", "0p5")
+    lifetime = lifetime.replace("0.", "0p")
     if samplesByGravitinoMass:
         signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
         shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
     else:
         signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
         shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
-    signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel)
+
+    srcCTau = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
+    signalYieldAndError = GetReweightedYieldAndError(signal_condor_dir, signal_dataset, signal_channel, str(srcCTau) + 'cm', lifetime + 'cm')
+
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = signalYieldAndError['rawYield']
     signal_yield_weight = signalYieldAndError['weight']

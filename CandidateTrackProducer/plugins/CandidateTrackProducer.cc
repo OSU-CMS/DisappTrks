@@ -48,7 +48,7 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
   gt2dedxPixelTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataPixel")),
   gt2dedxStripTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataStrip")),
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt")),
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
 {
   produces<vector<CandidateTrack> > ();
 
@@ -144,23 +144,23 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
     reco::TrackRef tkref = reco::TrackRef(tracks, iTrack);
 
     if(gt2dedxPixel->contains(tkref.id())) {
-      set_dEdx_pixel((*gt2dedxPixel)[tkref].dEdx(), 
-                     (*gt2dedxPixel)[tkref].dEdxError(),
-                     (*gt2dedxPixel)[tkref].numberOfSaturatedMeasurements(),
-                     (*gt2dedxPixel)[tkref].numberOfMeasurements());
+      candTrack.set_dEdx_pixel((*gt2dedxPixel)[tkref].dEdx(), 
+                               (*gt2dedxPixel)[tkref].dEdxError(),
+                               (*gt2dedxPixel)[tkref].numberOfSaturatedMeasurements(),
+                               (*gt2dedxPixel)[tkref].numberOfMeasurements());
     }
     else {
-      set_dEdxPixel(-1, -1, 0, 0);
+      candTrack.set_dEdx_pixel(-1, -1, 0, 0);
     }
 
     if(gt2dedxStrip->contains(tkref.id())) {
-      set_dEdx_strip((*gt2dedxStrip)[tkref].dEdx(), 
-                     (*gt2dedxStrip)[tkref].dEdxError(),
-                     (*gt2dedxStrip)[tkref].numberOfSaturatedMeasurements(),
-                     (*gt2dedxStrip)[tkref].numberOfMeasurements());
+      candTrack.set_dEdx_strip((*gt2dedxStrip)[tkref].dEdx(), 
+                               (*gt2dedxStrip)[tkref].dEdxError(),
+                               (*gt2dedxStrip)[tkref].numberOfSaturatedMeasurements(),
+                               (*gt2dedxStrip)[tkref].numberOfMeasurements());
     }
     else {
-      set_dEdxStrip(-1, -1, 0, 0);
+      candTrack.set_dEdx_strip(-1, -1, 0, 0);
     }
 
     candTracks->push_back (candTrack);
