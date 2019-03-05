@@ -104,9 +104,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v",  # yes available in bkgd MC
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersSingleMu = cms.vstring(
-        "HLT_IsoMu24_v",
+        "HLT_IsoMu27_v",
+    )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    triggersSingleMu = cms.vstring(
         "HLT_IsoMu24_v",
     )
 
@@ -130,6 +134,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersSingleEle = cms.vstring(
         "HLT_Ele35_WPTight_Gsf_v",
         "HLT_Ele22_eta2p1_WP75_Gsf_v", # available in the 76X bkgd MC
+    )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    triggersSingleEle = cms.vstring(
+        "HLT_Ele32_WPTight_Gsf_v",
     )
 
 ##########################################################################################################
