@@ -200,8 +200,8 @@ MinimalSkimFilter<ELECTRON>::initializeCutResults ()
   cutResults_->push_back (">= 1 electron with pt > " + to_string(ptCut_));
   cutResults_->push_back (">= 1 electron with |eta| < " + to_string(etaCut_));
   cutResults_->push_back (string (">= 1 electron passing tight ID + Iso (VID)"));
-  cutResults_->push_back (">= 1 electron passing d0 < " + to_string(d0Cuts_[0]) " EB (" + to_string(d0Cuts_[1]) + " EE) wrt PV");
-  cutResults_->push_back (">= 1 electron passing dZ < " + to_string(dZCuts_[0]) " EB (" + to_string(dZCuts_[1]) + " EE) wrt PV");
+  cutResults_->push_back (">= 1 electron passing d0 < " + to_string(d0Cuts_[0]) + " EB (" + to_string(d0Cuts_[1]) + " EE) wrt PV");
+  cutResults_->push_back (">= 1 electron passing dZ < " + to_string(dZCuts_[0]) + " EB (" + to_string(dZCuts_[1]) + " EE) wrt PV");
   cutResults_->addTriggers (triggerNames_);
 }
 
@@ -242,7 +242,7 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
   for(const auto &electron : electrons) {
     if(fabs (electron.eta()) < etaCut_) n++;
     else elePasses[i] = false;
-    i++
+    i++;
   }
   if(n > 0) cutResults_->at(3).accumulativePassCount++;
   if((decision = decision && count(elePasses.begin(), elePasses.end(), true) > 0)) cutResults_->at(3).cumulativePassCount++;
@@ -250,7 +250,7 @@ MinimalSkimFilter<ELECTRON>::filterDecision (const edm::Event &event,
   // tight ID + Iso (VID)
   n = i = 0;
   for(const auto &electron : electrons) {
-    if(electronID(eleVIDid_)) n++;
+    if(electron.electronID(eleVIDid_)) n++;
     else elePasses[i] = false;
     i++;
   }
@@ -329,7 +329,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (2).accumulativePassCount++;
-  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0) cutResults_->at (2).cumulativePassCount++;
+  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0)) cutResults_->at (2).cumulativePassCount++;
 
   // eta < cut
   n = i = 0;
@@ -339,7 +339,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (3).accumulativePassCount++;
-  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0) cutResults_->at (3).cumulativePassCount++;
+  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0)) cutResults_->at (3).cumulativePassCount++;
 
   // tight ID
   n = i = 0;
@@ -349,7 +349,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (4).accumulativePassCount++;
-  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0) cutResults_->at (4).cumulativePassCount++;
+  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0)) cutResults_->at (4).cumulativePassCount++;
 
   // tight PF iso
   n = i = 0;
@@ -365,7 +365,7 @@ MinimalSkimFilter<MUON>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (5).accumulativePassCount++;
-  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0) cutResults_->at (5).cumulativePassCount++;
+  if((decision = decision && count(muPasses.begin(), muPasses.end(), true) > 0)) cutResults_->at (5).cumulativePassCount++;
 
   return decision;
 }
@@ -397,7 +397,7 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
                                         const double rho) const
 {
   bool decision = true;
-  unsigned n;
+  unsigned n, i;
 
   // trigger
   if(passesTrigger (event, triggers)) cutResults_->at(1).accumulativePassCount++;
@@ -413,7 +413,7 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (2).accumulativePassCount++;
-  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0) cutResults_->at (2).cumulativePassCount++;
+  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0)) cutResults_->at (2).cumulativePassCount++;
 
   // eta < cut
   n = i = 0;
@@ -423,7 +423,7 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
     i++;
   }
   if(n > 0) cutResults_->at (3).accumulativePassCount++;
-  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0) cutResults_->at (3).cumulativePassCount++;
+  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0)) cutResults_->at (3).cumulativePassCount++;
 
   // tight ID
   n = i = 0;
@@ -448,7 +448,7 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
     }
   }
   if(n > 0) cutResults_->at (4).accumulativePassCount++;
-  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0) cutResults_->at (4).cumulativePassCount++;
+  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0)) cutResults_->at (4).cumulativePassCount++;
 
   // tight iso
   n = i = 0;
@@ -469,7 +469,7 @@ MinimalSkimFilter<TAU>::filterDecision (const edm::Event &event,
     }
   }
   if(n > 0) cutResults_->at (5).accumulativePassCount++;
-  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0) cutResults_->at (5).cumulativePassCount++;
+  if((decision = decision && count(tauPasses.begin(), tauPasses.end(), true) > 0)) cutResults_->at (5).cumulativePassCount++;
 
   return decision;
 }
