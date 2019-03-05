@@ -337,4 +337,12 @@ branchSets = cms.VPSet (
     TrackEventvariablesDebugBranches,
 )
 
+branchSetsIsolatedTracks = cms.VPSet (
+    EventVariableBranches,
+    MetShiftBranches,
+    TrackDebugBranches,
+    TrackEventvariablesDebugBranches,
+    IsolatedTrackDebugBranches,
+)
+
 ################################################################################

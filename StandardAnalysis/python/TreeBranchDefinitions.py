@@ -165,11 +165,86 @@ TrackDebugBranches_names = [
     "charge",
     "caloNewDRp5",
     "dRMinJet",
+
+    "deltaRToClosestElectron",
+    "deltaRToClosestVetoElectron",
+    "deltaRToClosestLooseElectron",
+    "deltaRToClosestMediumElectron",
+    "deltaRToClosestTightElectron",
+    "deltaRToClosestMuon",
+    "deltaRToClosestLooseMuon",
+    "deltaRToClosestMediumMuon",
+    "deltaRToClosestTightMuon",
+    "deltaRToClosestTau",
+    "deltaRToClosestTauHad",
+
+    "deltaRToClosestPFElectron",
+    "deltaRToClosestPFMuon",
+    "deltaRToClosestPFChHad",
+
+    "pfElectronIsoDR03",
+    "pfPUElectronIsoDR03",
+    "pfMuonIsoDR03",
+    "pfPUMuonIsoDR03",
+    "pfHFIsoDR03",
+    "pfPUHFIsoDR03",
+    "pfLostTrackIsoDR03",
+    "pfPULostTrackIsoDR03",
+    "isoTrackIsoDR03",
+    "pfChHadIsoDR03",
+    "pfPUChHadIsoDR03",
+    "pfNeutralHadIsoDR03",
+    "pfPUNeutralHadIsoDR03",
+    "pfPhotonIsoDR03",
+    "pfPUPhotonIsoDR03",
+
+    "caloNewNoPUDRp5",
+    "caloNewNoPUDRp5Calo",
+    "caloNewNoPUDRp5CentralCalo",
+    "caloNewNoPUDRp3",
+    "caloNewNoPUDRp3Calo",
+    "caloNewNoPUDRp3CentralCalo",
+    "caloNewNoPUDRp2",
+    "caloNewNoPUDRp2Calo",
+    "caloNewNoPUDRp2CentralCalo",
+    "caloNewNoPUDRp1",
+    "caloNewNoPUDRp1Calo",
+    "caloNewNoPUDRp1CentralCalo",
+
+    "trackIsoNoPUDRp5",
+    "trackIsoNoPUDRp3",
+    "trackIsoNoPUDRp2",
+    "trackIsoNoPUDRp1",
 ]
+
+from DisappTrks.StandardAnalysis.protoConfig_cfg import UseCandidateTracks
+if not UseCandidateTracks:
+    TrackDebugBranches_names.extend([
+        "matchedCaloJetEmEnergy",
+        "matchedCaloJetHadEnergy",
+        "pfLepOverlap",
+        "pfNeutralSum",
+        "dz",
+        "dxy",
+        "dzError",
+        "dxyError",
+        "fromPV",
+        "isHighPurityTrack",
+        "isTightTrack",
+        "isLooseTrack",
+        "dEdxStrip",
+        "dEdxPixel",
+    ])
+
 
 TrackDebugBranches = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in TrackDebugBranches_names]),
+)
+
+IsolatedTrackDebugBranches = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    branches = cms.VPSet ([cms.PSet(name = cms.string("matchedCandidateTrack_" + x), inputVariables = cms.vstring("matchedCandidateTrack." + x)) for x in TrackDebugBranches_names]),
 )
 
 TrackEventvariablesDebugBranches = cms.PSet(
@@ -189,3 +264,4 @@ TrackEventvariablesDebugBranches = cms.PSet(
         ),
     )   
 )
+
