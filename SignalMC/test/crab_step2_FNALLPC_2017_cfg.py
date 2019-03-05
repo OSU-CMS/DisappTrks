@@ -79,9 +79,19 @@ if __name__ == '__main__':
         (900, 100)   : '/AMSB_chargino_M-900_CTau-100_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-17bd959458bf0d14310d8019ecee8fe9/USER',
         (900, 10)    : '/AMSB_chargino_M-900_CTau-10_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-c35d7d3bd4588b6e8ea988ca69280e24/USER',
         (900, 1)     : '/AMSB_chargino_M-900_CTau-1_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-49a412556abb89fc7f5ed91849940397/USER',
+        (1000, 10000): '/AMSB_chargino_M-1000_CTau-10000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-afec53a3f60a40f78d0da7ec56780075/USER',
+        (1000, 1000) : '/AMSB_chargino_M-1000_CTau-1000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-b06d7b090876be221c6ec2e3d02c2e38/USER',
+        (1000, 100)  : '/AMSB_chargino_M-1000_CTau-100_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-9e634ecfee9926e0e6d1d25bf0c79b2a/USER',
+        (1000, 10)   : '/AMSB_chargino_M-1000_CTau-10_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-05363df24a1ae49ec61c8114f642d1ef/USER',
+        (1000, 1)    : '/AMSB_chargino_M-1000_CTau-1_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-5ac1b9ea78c792d1d09583a28a0a511c/USER',
+        (1100, 10000): '/AMSB_chargino_M-1100_CTau-10000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-dcf138a33bb2f64973758fda0cce82e1/USER',
+        (1100, 1000) : '/AMSB_chargino_M-1100_CTau-1000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-8d48e22b97b49dd4c2e89020f0dd3465/USER',
+        (1100, 100)  : '/AMSB_chargino_M-1100_CTau-100_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-dfcf3596e186e8fc030e8c726258b3c6/USER',
+        (1100, 10)   : '/AMSB_chargino_M-1100_CTau-10_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-a3c684656432f6ff2fb765404b0e4510/USER',
+        (1100, 1)    : '/AMSB_chargino_M-1100_CTau-1_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-aa9a6833cd67adc214279fc63d70a353/USER',
     }
 
-    for mass in range(100, 1000, 100):
+    for mass in range(1000, 1200, 100):
         for ctau in [1, 10, 100, 1000, 10000]:
             if not (mass, ctau) in step1s:
                 print 'Skipping (%d GeV, %d cm)' % (mass, ctau)
