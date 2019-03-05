@@ -951,12 +951,16 @@ class FakeTrackBkgdEstimate:
             f = TF1 ("gaussian", gaussian, -1.0, 1.0, 3)
             f.SetParameter (0, 0.2)
             f.SetParLimits (0, 1.0e-3, 1.0e3)
+            f.SetParName (0, "Gaussian sigma")
             f.SetParameter (1, 40.0)
             f.SetParLimits (1, 1.0e-3, 1.0e3)
+            f.SetParName (1, "Gaussian norm")
             f.SetParameter (2, 20.0)
             f.SetParLimits (2, -1.0e3, 1.0e3)
+            f.SetParName (2, "constant")
             for i in range (0, 10):
               d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+            d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
 
             self._fout.cd ()
             d0.Write ("d0")
