@@ -117,7 +117,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '102X_dataRun2_Prompt_v11', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
-process.candidateTracks = cms.Path(process.candidateTrackProducer)
+process.candidateTracks = cms.Path(process.electronSkimFilter*process.candidateTrackProducer)
 from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
 process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
