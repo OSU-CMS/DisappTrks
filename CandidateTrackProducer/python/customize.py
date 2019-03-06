@@ -3,14 +3,9 @@ import os
 import FWCore.ParameterSet.Config as cms
 
 disappTrksOutputCommands = cms.untracked.vstring(
-    "keep recoCaloMETs_*_*_*",
-    "keep recoMETs_*_*_*",
-    "keep recoPFMETs_pfChMet_*_*",
-    "keep recoPFMETs_pfMet_*_*",
-    "keep recoPFMETs_pfMetEI_*_*",
+    "drop *",
     "keep CandidateTracks_*_*_*",
     "keep recoGsfTracks_*_*_*",
-    "keep CutResults_*_*_*",
 )
 
 def customizeMiniAODSIMOutput(process):
