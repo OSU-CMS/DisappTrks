@@ -584,6 +584,16 @@ cutTrkTauHadVetoInv = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+# This may or may not be the appropriate thing to do. CandidateTracks calculate the lepton dR's at nTuplization time so as not to risk re-calculating on a slimmed
+# framework collection. One could be more careful and make duplicate collections...or do this instead where pfParticles aren't ever slimmed. Also this kind of
+# mis-names the tau veto.
+if not UseCandidateTracks:
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        # fabs since if there are no such PF candidates at all, these are INVALID_VALUE
+        cutTrkElecVeto.cutString = cms.string("fabs(deltaRToClosestPFElectron) > 0.15")
+        cutTrkMuonVeto.cutString = cms.string("fabs(deltaRToClosestPFMuon) > 0.15")
+        cutTrkTauHadVeto.cutString = cms.string("fabs(deltaRToClosestPFChHad) > 0.15")
+
 cutTrkJetDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRMinJet > 0.5"),
@@ -835,15 +845,19 @@ cutMuonPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Muon PT cut: >26 GeV"
+    print "# Muon PT cut: >26 GeV (2016)"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v || match_HLT_IsoTkMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Muon PT cut: >29 GeV"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Muon PT cut: >29 GeV (2017)"
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v") 
     cutMuonPt.cutString = cms.string("pt > 29")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# Muon PT cut: >26 GeV (2018)"
+    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
+    cutMuonPt.cutString = cms.string("pt > 26")
 else:
-    print "# Muon PT cut: >22 GeV"
+    print "# Muon PT cut: >22 GeV (2015)"
 
 cutMuonPt35 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -887,8 +901,10 @@ cutMuonPairPt = cms.PSet (
 # already printed info message above
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutMuonPairPt.cutString = cms.string("pt > 29")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    cutMuonPairPt.cutString = cms.string("pt > 26")
 
 cutMuonPairEta21 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -1124,14 +1140,18 @@ cutElectronPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Electron PT cut: >25 GeV"
+    print "# Electron PT cut: >25 GeV (2016)"
     cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Electron PT cut: >35 GeV"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    print "# Electron PT cut: >35 GeV (2017)"
     cutElectronPt.cutString = cms.string("pt > 35")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele35_WPTight_Gsf_v")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# Electron PT cut: >32 GeV (2018)"
+    cutElectronPt.cutString = cms.string("pt > 32")
+    cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
 else:
-    print "# Electron PT cut: >25 GeV"
+    print "# Electron PT cut: >25 GeV (2015)"
 
 # this should be the final printout for what we're switching based on CMSSW_VERSION
 print "########################################################################"
@@ -1158,9 +1178,9 @@ cutElectronEta24 = cms.PSet (
 )
 cutElectronTightID = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesTightID_noIsolation > 0"),
+    cutString = cms.string("passesTightID_noIsolation_LegacySpring15 > 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 electrons with isTightElectronWRTVtx > 0"),
+    alias = cms.string(">= 1 electrons with isTightElectronWRTVtx (Legacy Spring15) > 0"),
 )
 cutElectronTightPFIso = cms.PSet (
     inputCollection = cms.vstring("electrons"),
@@ -1391,8 +1411,9 @@ cutAnyMuonMatchHLTTrack = cms.PSet(
 ## testing CandidateTrack versus pat::IsolatedTrack
 #######################################################
 
+# fabs because if there is no matched candidate track, this will be INVALID_VALUE
 cutTrkMatchedCandidateTrack = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-        cutString = cms.string("dRToMatchedCandidateTrack < 0.15"),
+        cutString = cms.string("fabs(dRToMatchedCandidateTrack) < 0.15"),
         numberRequired = cms.string(">= 1"),
 )

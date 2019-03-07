@@ -2,6 +2,8 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import os
 
+from DisappTrks.StandardAnalysis.LeptonScaleFactors import *
+
 # default event weights (for selections without electrons/muons required)
 weights = cms.VPSet (
     cms.PSet (
@@ -22,87 +24,31 @@ weights = cms.VPSet (
     ),
 )
 
-electronRecoPayload = "electronReco2015"
-electronIDPayload = "electronID2015Tight"
-muonTriggerPayload = "muonTrigger2015IsoMu20_OR_IsoTkMu20"
-muonIDPayload = "muonID2015Tight"
-muonIsoPayload = "muonIso2015Tight"
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# EventWeights applied: 2016"
-    electronRecoPayload = "electronReco2016"
-    electronIDPayload = "electronID2016Tight"
-    muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
-    muonIDPayload = "muonID2016Tight"
-    muonIsoPayload = "muonIso2016Tight"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# EventWeights applied: 2017"
-    electronIDPayload = "electronID2017Tight"
-    muonTriggerPayload = "muonTrigger2017IsoMu27"
-    muonIDPayload = "muonID2017Tight"
-    muonIsoPayload = "muonIso2017TightTightID"
-else:
-    print "# EventWeights applied: 2015"
-
-# weights including electron scale factors (only for selections requiring electrons)
+# weights with lepton SFs when using lepton selections
 weightsWithEleSF = copy.deepcopy(weights)
-if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    weightsWithEleSF.append(
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(electronRecoPayload)
-        )
-    )
-weightsWithEleSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronIDPayload)
-    )
-)
-
-# weights including muon scale factors (only for selections requiring muons)
 weightsWithMuonSF = copy.deepcopy(weights)
-weightsWithMuonSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonTriggerPayload)
-    )
-)
-weightsWithMuonSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonIDPayload)
-    )
-)
-weightsWithMuonSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonIsoPayload)
-    )
-)
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    weightsWithMuonSF.append(
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string("muonTracking2016")
-        )
-    )
+weightsWithEleMuonSF = copy.deepcopy(weights)
 
-# weights including both electron and muon scale factors (only for selections requiring both electrons and muons)
-weightsWithEleMuonSF = copy.deepcopy(weightsWithMuonSF)
-if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    weightsWithEleMuonSF.append(
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(electronRecoPayload)
-        )
-    )
-weightsWithEleMuonSF.append(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronIDPayload)
-    )
-)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_"):
+    weightsWithEleSF.extend(electronScaleFactors2015)
+    weightsWithMuonSF.extend(muonScaleFactors2015)
+    weightsWithEleMuonSF.extend(electronScaleFactors2015)
+    weightsWithEleMuonSF.extend(muonScaleFactors2015)
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    weightsWithEleSF.extend(electronScaleFactors2016)
+    weightsWithMuonSF.extend(muonScaleFactors2016)
+    weightsWithEleMuonSF.extend(electronScaleFactors2016)
+    weightsWithEleMuonSF.extend(muonScaleFactors2016)
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    weightsWithEleSF.extend(electronScaleFactors2017)
+    weightsWithMuonSF.extend(muonScaleFactors2017)
+    weightsWithEleMuonSF.extend(electronScaleFactors2017)
+    weightsWithEleMuonSF.extend(muonScaleFactors2017)
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    weightsWithEleSF.extend(electronScaleFactors2018)
+    weightsWithMuonSF.extend(muonScaleFactors2018)
+    weightsWithEleMuonSF.extend(electronScaleFactors2018)
+    weightsWithEleMuonSF.extend(muonScaleFactors2018)
 
 # weights including ISR scale factor fluctuations
 weightsFluctuateISR = copy.deepcopy(weights)
@@ -111,40 +57,13 @@ for w in weightsFluctuateISR:
         w.fluctuations = cms.vstring("isrWeightUp", "isrWeightDown")
 
 # weights including trigger scale factor fluctuations
-weightsFluctuateTrigger = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("grandOrWeight"),
-        fluctuations = cms.vstring("grandOrWeightMCUp", "grandOrWeightMCDown", "grandOrWeightDataUp", "grandOrWeightDataDown")
-    ),
-)
+weightsFluctuateTrigger = copy.deepcopy(weights)
+for w in weightsFluctuateTrigger:
+    if w.inputVariable == cms.string("grandOrWeight"):
+        w.fluctuations = cms.vstring("grandOrWeightMCUp", "grandOrWeightMCDown", "grandOrWeightDataUp", "grandOrWeightDataDown")
 
 # weights including pileup weight fluctuations
-weightsFluctuatePileup = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor"),
-        fluctuations = cms.vstring("puScalingFactorUp", "puScalingFactorDown")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("grandOrWeight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("isrWeight")
-    ),
-
-)
+weightsFluctuatePileup = copy.deepcopy(weights)
+for w in weightsFluctuatePileup:
+    if w.inputVariable == cms.string("puScalingFactor"):
+        w.fluctuations = cms.vstring("puScalingFactorUp", "puScalingFactorDown")
