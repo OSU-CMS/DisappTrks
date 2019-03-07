@@ -2,8 +2,6 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import os
 
-from DisappTrks.StandardAnalysis.LeptonScaleFactors import *
-
 # default event weights (for selections without electrons/muons required)
 weights = cms.VPSet (
     cms.PSet (
@@ -24,31 +22,110 @@ weights = cms.VPSet (
     ),
 )
 
-# weights with lepton SFs when using lepton selections
-weightsWithEleSF = copy.deepcopy(weights)
-weightsWithMuonSF = copy.deepcopy(weights)
-weightsWithEleMuonSF = copy.deepcopy(weights)
+#####################################################################
+# Lepton scale factors. N.B. these are weights you're applying,
+# LeptonScaleFactors.py control which eventvariables are produced.
+#####################################################################
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_"):
-    weightsWithEleSF.extend(electronScaleFactors2015)
-    weightsWithMuonSF.extend(muonScaleFactors2015)
-    weightsWithEleMuonSF.extend(electronScaleFactors2015)
-    weightsWithEleMuonSF.extend(muonScaleFactors2015)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    weightsWithEleSF.extend(electronScaleFactors2016)
-    weightsWithMuonSF.extend(muonScaleFactors2016)
-    weightsWithEleMuonSF.extend(electronScaleFactors2016)
-    weightsWithEleMuonSF.extend(muonScaleFactors2016)
+electronRecoPayload = ""
+electronIDPayload = ""
+muonTriggerPayload = ""
+muonIDPayload = ""
+muonIsoPayload = ""
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    print "# EventWeights applied: 2016"
+    electronRecoPayload = "electronReco2016"
+    electronIDPayload = "electronID2016Tight"
+    muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
+    muonIDPayload = "muonID2016Tight"
+    muonIsoPayload = "muonIso2016Tight"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    weightsWithEleSF.extend(electronScaleFactors2017)
-    weightsWithMuonSF.extend(muonScaleFactors2017)
-    weightsWithEleMuonSF.extend(electronScaleFactors2017)
-    weightsWithEleMuonSF.extend(muonScaleFactors2017)
+    print "# EventWeights applied: 2017"
+    # no reco payload for 2017 V1
+    electronIDPayload = "electronID2017Tight"
+    muonTriggerPayload = "muonTrigger2017IsoMu27"
+    muonIDPayload = "muonID2017Tight"
+    muonIsoPayload = "muonIso2017TightTightID"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    weightsWithEleSF.extend(electronScaleFactors2018)
-    weightsWithMuonSF.extend(muonScaleFactors2018)
-    weightsWithEleMuonSF.extend(electronScaleFactors2018)
-    weightsWithEleMuonSF.extend(muonScaleFactors2018)
+    print "# EventWeights applied: 2018"
+    electronRecoPayload = "electronReco2018"
+    electronIDPayload = "electronID2018Tight"
+    # the average of "before HLT update" to "after", weighted by the lumi before/after the change
+    muonTriggerPayload = "muonTrigger2018IsoMu24LumiWeightedAveABCD"
+    muonIDPayload = "muonID2018Tight"
+    muonIsoPayload = "muonIso2018TightTightID"
+else:
+    print "# EventWeights applied: 2015"
+    electronRecoPayload = "electronReco2015"
+    electronIDPayload = "electronID2015Tight"
+    muonTriggerPayload = "muonTrigger2015IsoMu20_OR_IsoTkMu20"
+    muonIDPayload = "muonID2015Tight"
+    muonIsoPayload = "muonIso2015Tight"
+
+# weights including electron scale factors (only for selections requiring electrons)
+weightsWithEleSF = copy.deepcopy(weights)
+if electronRecoPayload != "":
+    weightsWithEleSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronRecoPayload)
+        )
+    )
+if electronIDPayload != "":
+    weightsWithEleSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronIDPayload)
+        )
+    )
+
+# weights including muon scale factors (only for selections requiring muons)
+weightsWithMuonSF = copy.deepcopy(weights)
+if muonTriggerPayload != "":
+    weightsWithMuonSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonTriggerPayload)
+        )
+    )
+if muonIDPayload != "":
+    weightsWithMuonSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIDPayload)
+        )
+    )
+if muonIsoPayload != "":
+    weightsWithMuonSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIsoPayload)
+        )
+    )
+
+# weights including both electron and muon scale factors (only for selections requiring both electrons and muons)
+weightsWithEleMuonSF = copy.deepcopy(weightsWithMuonSF)
+if electronRecoPayload != "":
+    weightsWithEleMuonSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronRecoPayload)
+        )
+    )
+if electronIDPayload != "":
+    weightsWithEleMuonSF.append(
+        cms.PSet(
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronIDPayload)
+        )
+    )
+
+#####################################################################
+# Systematic fluctuations of the standard weights.
+# We don't use lepton selections in the systematics, 
+# so these aren't made
+#####################################################################
 
 # weights including ISR scale factor fluctuations
 weightsFluctuateISR = copy.deepcopy(weights)
