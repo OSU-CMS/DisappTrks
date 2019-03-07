@@ -34,12 +34,12 @@ import copy
 
 electronScaleFactors2015 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
         version = cms.string("2015"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2015"),
         wp = cms.string("Tight"),
@@ -48,21 +48,21 @@ electronScaleFactors2015 = cms.VPSet (
 
 muonScaleFactors2015 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
         version = cms.string("2015"),
         wp = cms.string("IsoMu20_OR_IsoTkMu20"),
         additionalSystematic = cms.double(0.005),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("ID"),
         version = cms.string("2015"),
         wp = cms.string("Tight"),
         additionalSystematic = cms.double(0.01),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2015"),
         wp = cms.string("Tight"),
@@ -73,12 +73,12 @@ muonScaleFactors2015 = cms.VPSet (
 
 electronScaleFactors2016 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
         version = cms.string("2016"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2016"),
         wp = cms.string("Tight"),
@@ -87,7 +87,7 @@ electronScaleFactors2016 = cms.VPSet (
 
 muonScaleFactors2016 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
         version = cms.string("2016"),
         wp = cms.string("IsoMu24_OR_IsoTkMu24"),
@@ -96,7 +96,7 @@ muonScaleFactors2016 = cms.VPSet (
         additionalSystematic = cms.double(0.005),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("ID"),
         version = cms.string("2016"),
         wp = cms.string("Tight"),
@@ -105,7 +105,7 @@ muonScaleFactors2016 = cms.VPSet (
         additionalSystematic = cms.double(0.01),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2016"),
         wp = cms.string("Tight"),
@@ -114,7 +114,7 @@ muonScaleFactors2016 = cms.VPSet (
         additionalSystematic = cms.double(0.005),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Tracking"),
         version = cms.string("2016"),
         eras = cms.vstring("BCDEF", "GH"),
@@ -124,12 +124,12 @@ muonScaleFactors2016 = cms.VPSet (
 
 electronScaleFactors2017 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
         version = cms.string("2017"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2017"),
         wp = cms.string("Tight"),
@@ -138,19 +138,19 @@ electronScaleFactors2017 = cms.VPSet (
 
 muonScaleFactors2017 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
         version = cms.string("2017"),
         wp = cms.string("IsoMu27"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("ID"),
         version = cms.string("2017"),
         wp = cms.string("Tight"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2017"),
         wp = cms.string("TightTightID"),
@@ -159,12 +159,12 @@ muonScaleFactors2017 = cms.VPSet (
 
 electronScaleFactors2018 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
         version = cms.string("2018"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("electrons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2018"),
         wp = cms.string("Tight"),
@@ -173,19 +173,19 @@ electronScaleFactors2018 = cms.VPSet (
 
 muonScaleFactors2018 = cms.VPSet (
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
         version = cms.string("2018"),
         wp = cms.string("IsoMu24"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("ID"),
         version = cms.string("2018"),
         wp = cms.string("Tight"),
     ),
     cms.PSet (
-        inputCollections = cms.vstring("muons"),
+        inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2018"),
         wp = cms.string("TightTightID"),
