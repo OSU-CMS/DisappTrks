@@ -39,8 +39,10 @@ collections.MiniAOD = cms.PSet (
 electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
   electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
   electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-tight"
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+  electronIdName = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-tight"
 
 metSkimFilter = cms.EDFilter ("METSkimFilter",
   triggers     =  collections.MiniAOD.triggers,

@@ -17,7 +17,7 @@ runPeriods = ['2015']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     runPeriods = ['2016']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    runPeriods = ['2017']
+    runPeriods = ['2017B', '2017C', '2017D', '2017E', '2017F']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     runPeriods = ['2018']
 

@@ -7,7 +7,7 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process('PAT',eras.Run2_2018)
+process = cms.Process('PAT',eras.Run2_2018,eras.run2_miniAOD_devel)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -37,7 +37,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('RECO nevts:100'),
+    annotation = cms.untracked.string('REMINIAOD nevts:100'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -54,7 +54,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(-900),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('RECO_PAT.root'),
+    fileName = cms.untracked.string('REMINIAOD_PAT.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
     overrideBranchesSplitLevel = cms.untracked.VPSet(
         cms.untracked.PSet(
@@ -114,12 +114,13 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '102X_dataRun2_Sep2018Rereco_v1', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '102X_dataRun2_Prompt_v11', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
-process.candidateTracks = cms.Path(process.candidateTrackProducer)
+process.candidateTracks = cms.Path(process.metSkimFilter*process.candidateTrackProducer)
 from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
+process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
 
 # Path and EndPath definitions
 process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
@@ -159,7 +160,7 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(8)
+process.options.numberOfThreads=cms.untracked.uint32(4)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 
 #do not add changes to your config after this point (unless you know what you are doing)

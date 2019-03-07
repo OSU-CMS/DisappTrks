@@ -122,6 +122,11 @@ muonScaleFactors2016 = cms.VPSet (
 electronScaleFactors2017 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2017"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2017"),
         wp = cms.string("Tight"),
@@ -149,6 +154,41 @@ muonScaleFactors2017 = cms.VPSet (
     ),
 )
 
+electronScaleFactors2018 = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2018"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2018"),
+        wp = cms.string("Tight"),
+    ),
+)
+
+muonScaleFactors2018 = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2018"),
+        wp = cms.string("IsoMu24"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2018"),
+        wp = cms.string("Tight"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2018"),
+        wp = cms.string("TightTightID"),
+    ),
+)
+
 ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
     'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
@@ -168,5 +208,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Lepton SFs: 2017"
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2017
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2017
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# Lepton SFs: 2018"
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2018
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2018
 else:
     print "# Lepton SFs: 2015"
