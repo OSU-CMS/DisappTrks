@@ -58,7 +58,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://eoscms.cern.ch//store/data/Run2018C/MET/MINIAOD/17Sep2018-v1/60000/FE0D5A7D-A28F-2548-915A-E2EA38BB823B.root",
+        "root://xrootd.rcac.purdue.edu//store/user/ahart/EGamma/Run2018C-17Sep2018/190306_204331/0000/RECO_PAT_99.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',
@@ -66,7 +66,7 @@ process.TFileService = cms.Service ('TFileService',
 )
 
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10)
+    input = cms.untracked.int32 (-1)
 )
 ################################################################################
 
