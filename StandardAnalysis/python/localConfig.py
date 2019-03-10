@@ -35,9 +35,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
         lumi.update (CreateCompositeLumis (lumi_2017, '2017', 'BCDEF'))
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_101X_Samples" + A_RESET
-    print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_101X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")"
-    from DisappTrks.StandardAnalysis.miniAOD_101X_Samples import *
+    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_NTuples" + A_RESET
+    print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_NTuples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")"
+    from DisappTrks.StandardAnalysis.miniAOD_102X_NTuples import *
 else:
     print "# Datasets and background samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET
     from DisappTrks.StandardAnalysis.miniAODV2Samples import *
@@ -122,6 +122,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET
+    for i in range (0, len (datasetsSig)):
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
