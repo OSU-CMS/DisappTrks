@@ -21,22 +21,22 @@ dataset_names_data = {
     "Tau_2018B" : "/Tau/ahart-Run2018B-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
 }
 
-#sibling_datasets = {
-#    "MET_2018A" : "/MET/Run2018A-17Sep2018-v1/MINIAOD",
-#    "MET_2018B" : "/MET/Run2018B-17Sep2018-v1/MINIAOD",
-#    "MET_2018C" : "/MET/Run2018C-17Sep2018-v1/MINIAOD",
-#
-#    "EGamma_2018A" : "/EGamma/Run2018A-17Sep2018-v2/MINIAOD",
-#    "EGamma_2018B" : "/EGamma/Run2018B-17Sep2018-v1/MINIAOD",
-#    "EGamma_2018C" : "/EGamma/Run2018C-17Sep2018-v1/MINIAOD",
-#
-#    "SingleMuon_2018A" : "/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD",
-#    "SingleMuon_2018B" : "/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD",
-#    "SingleMuon_2018C" : "/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD",
-#
-#    "Tau_2018A" : "/Tau/Run2018A-17Sep2018-v1/MINIAOD",
-#    "Tau_2018B" : "/Tau/Run2018B-17Sep2018-v1/MINIAOD",
-#}
+sibling_datasets = {
+    "MET_2018A" : "/MET/Run2018A-17Sep2018-v1/MINIAOD",
+    "MET_2018B" : "/MET/Run2018B-17Sep2018-v1/MINIAOD",
+    "MET_2018C" : "/MET/Run2018C-17Sep2018-v1/MINIAOD",
+
+    "EGamma_2018A" : "/EGamma/Run2018A-17Sep2018-v2/MINIAOD",
+    "EGamma_2018B" : "/EGamma/Run2018B-17Sep2018-v1/MINIAOD",
+    "EGamma_2018C" : "/EGamma/Run2018C-17Sep2018-v1/MINIAOD",
+
+    "SingleMuon_2018A" : "/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD",
+    "SingleMuon_2018B" : "/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD",
+    "SingleMuon_2018C" : "/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD",
+
+    "Tau_2018A" : "/Tau/Run2018A-17Sep2018-v1/MINIAOD",
+    "Tau_2018B" : "/Tau/Run2018B-17Sep2018-v1/MINIAOD",
+}
 
 dataset_names_bkgd = {
 }
