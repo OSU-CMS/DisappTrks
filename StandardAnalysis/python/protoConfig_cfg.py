@@ -50,10 +50,15 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         "root://xrootd.rcac.purdue.edu//store/user/bfrancis/SingleElectron/Run2017B-31Mar2018-v1-DisappTrks-v2/180806_191508/0000/REMINIAOD_PAT_1.root",
+    ])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    process.source.inputCommands = cms.untracked.vstring(["keep *"])
+    process.source.fileNames = cms.untracked.vstring([
+        "root://xrootd.rcac.purdue.edu//store/user/ahart/EGamma/Run2018C-17Sep2018/190306_204331/0000/RECO_PAT_99.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',

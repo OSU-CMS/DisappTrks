@@ -3,6 +3,9 @@ from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 import os
 import copy
 
+# N.B. these configure the producer. In EventWeights.py, you are configuring which eventvariable strings to use as event weights,
+# which are the result of these.
+
 # parameters:
 # input file for each lepton type
 # for each SF:

@@ -123,11 +123,11 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET
+    print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "FIXME: using old signal" + A_RESET + ")"
     for i in range (0, len (datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
-        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
@@ -146,8 +146,74 @@ datasetsSigShort900 = datasetsSig[31:35]
 addLifetimeReweighting (datasetsSig)
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    composite_dataset_definitions['DYJetsToLL'] = [
+        'DYJetsToLL_50',
+        'DYJetsToLL_10to50',
+    ]
+    composite_dataset_definitions['SingleTop'] = [
+        'SingleTop_s_channel',
+        'SingleTop_t_channel_top',
+        'SingleTop_t_channel_antitop',
+        'SingleTop_tW',
+        'SingleTop_tbarW',
+    ]
+    composite_dataset_definitions['TTJetsComposite'] = [
+        'TTJets_inclusive',
+  #      'TTJets_SingleLeptFromT',
+  #      'TTJets_DiLept',
+        'TTJets_SingleLeptFromTbar',
+    ]
+    # no 5-10, 10-15 samples in 94X
+    composite_dataset_definitions['QCD'] = [
+        'QCD_15to30',
+        'QCD_30to50',
+        'QCD_50to80',
+        'QCD_80to120',
+        'QCD_120to170',
+        'QCD_170to300',
+        'QCD_300to470',
+        'QCD_470to600',
+        'QCD_600to800',
+        'QCD_800to1000',
+        'QCD_1000to1400',
+        'QCD_1400to1800',
+        'QCD_1800to2400',
+        'QCD_2400to3200',
+        'QCD_3200toInf',
+    ]
+    composite_dataset_definitions['ZJetsToNuNu'] = [
+        'ZJetsToNuNu_HT100to200',
+        'ZJetsToNuNu_HT200to400',
+        'ZJetsToNuNu_HT400to600',
+        'ZJetsToNuNu_HT600to800',
+        'ZJetsToNuNu_HT800to1200',
+        'ZJetsToNuNu_HT1200to2500',
+        'ZJetsToNuNu_HT2500toInf',
+    ]
+    composite_dataset_definitions["VV"] = [
+        'WWToLNuQQ',
+        'WWToLNuLNu',
+        'WZToLNu2QorQQ2L',
+        'WZToLNuNuNu',
+        'WZToLLLNu',
+        'WG',
+        'ZG',
+    ]
+    composite_dataset_definitions["VG"] = [
+        'WG',
+        'ZG',
+    ]
+    composite_dataset_definitions['WJetsToLNu_HT'] = [
+        'WJetsToLNu_HT100to200',
+        'WJetsToLNu_HT200to400',
+        'WJetsToLNu_HT400to600',
+        'WJetsToLNu_HT600to800',
+        'WJetsToLNu_HT800to1200',
+        'WJetsToLNu_HT1200to2500',
+        'WJetsToLNu_HT2500toInf',
+    ]
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     composite_dataset_definitions['DYJetsToLL'] = [
         'DYJetsToLL_50',
         'DYJetsToLL_5to50',
