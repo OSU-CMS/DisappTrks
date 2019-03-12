@@ -3,12 +3,15 @@ import os
 import sys
 import math
 import functools
+import glob
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1, gDirectory, TH2D, TChain
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 from DisappTrks.StandardAnalysis.plotUtilities import *
+
+from array import *
 
 setTDRStyle()
 
@@ -22,7 +25,7 @@ class LeptonBkgdEstimate:
     _flavor = ""
     _fout = None
     _canvas = None
-    _metCut = 100.0
+    _metCut = 120.0 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")) else 100.0
     _phiCut = 0.5
     _eCaloCut = 10.0
     _pPassVeto = float ("nan")
@@ -934,15 +937,15 @@ class FakeTrackBkgdEstimate:
     def addMaxD0 (self, maxD0):
         self._maxD0 = maxD0
 
-    def addChannel (self, role, name, sample, condorDir):
+    def addChannel (self, role, name, sample, condorDir, verbose = True):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"])
+        if verbose: print "yield for " + name + ": " + str (channel["yield"])
 
-    def printTransferFactor (self):
+    def printTransferFactor (self, verbose = True):
         if hasattr (self, "Basic3hits"):
             d0 = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPV")
             d0Mag = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPVMag")
@@ -985,17 +988,17 @@ class FakeTrackBkgdEstimate:
 
             if fails > 0.0:
                 transferFactor = passes / fails
-                print "Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor)
+                if verbose: print "Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor)
                 return (transferFactor, passes, fails, passesError, failsError)
             else:
-                print "N(fail d0 cut, 3 hits) = 0, not printing scale factor..."
+                if verbose: print "N(fail d0 cut, 3 hits) = 0, not printing scale factor..."
                 return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
         else:
-            print "Basic3hits is not defined. Not printing transfer factor..."
+            if verbose: print "Basic3hits is not defined. Not printing transfer factor..."
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
-    def printNctrl (self):
+    def printNctrl (self, verbose = True):
         if hasattr (self, "DisTrkInvertD0"):
             hits = getHistFromChannelDict (self.DisTrkInvertD0, "Track Plots/trackLayersWithMeasurementVsPixelHits")
             if self._nHits is not None:
@@ -1033,14 +1036,15 @@ class FakeTrackBkgdEstimate:
             n *= norm
             n *= self._prescale
 
-            print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
-            print "P_fake^raw: " + str (pFake)
+            if verbose:
+                print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+                print "P_fake^raw: " + str (pFake)
             return (n, nRaw, norm, pFake)
         else:
-            print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
+            if verbose: print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
             return (float ("nan"), float ("nan"))
 
-    def printNest (self):
+    def printNest (self, verbose = True):
         xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor ()
         nCtrl, nRaw, norm, pFake = self.printNctrl ()
 
@@ -1054,22 +1058,224 @@ class FakeTrackBkgdEstimate:
 
         errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
 
-        alpha.printLongFormat ()
-        print "P_fake: " + str (pFake)
-        print "N: " + str (N)
-        print "alpha: " + str (alpha)
-        print "error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
-        print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
-        print "error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan"))
+        if verbose:
+            alpha.printLongFormat ()
+            print "P_fake: " + str (pFake)
+            print "N: " + str (N)
+            print "alpha: " + str (alpha)
+            print "error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
+            print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+            print "error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan"))
 
         return nEst
 
-    def printNback (self):
+    def printNback (self, verbose = True):
         if hasattr (self, "DisTrkIdFake"):
             n = self.DisTrkIdFake["yield"]
 
-            print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            if verbose: print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
             return n
         else:
-            print "DisTrkIdFake not defined. Not printing N_back..."
+            if verbose: print "DisTrkIdFake not defined. Not printing N_back..."
             return float ("nan")
+
+class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
+    def __init__ (self):
+        FakeTrackBkgdEstimate.__init__(self)
+
+    def addChannel (self, role, name, sample, condorDir, verbose = True):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
+        channel["yield"] = Measurement (n, nError)
+        channel["yield"].isPositive ()
+        setattr (self, role, channel)
+        if verbose: print "yield for " + name + ": " + str (channel["yield"])
+
+    def addTrees(self, role, treeName, filePaths):
+        _chain = TChain(treeName)
+        for x in glob.glob(filePaths + '/*/hist_*.root'):
+            _chain.Add(x)
+        print 'Added ' + str(_chain.GetEntries()) + ' events for role ' + role
+        setattr(self, role + 'Chain', _chain)
+
+    def getTransferFactor (self, cutString):
+        if hasattr (self, "Basic3hitsChain"):
+            self.Basic3hitsChain.Draw('track_dxy >> h(100, -0.5, 0.5)', cutString, 'goff')
+            self.Basic3hitsChain.Draw('abs(track_dxy) >> hMag(50, 0.0, 0.5)', cutString, 'goff')
+            d0 = gDirectory.Get('h')
+            d0Mag = gDirectory.Get('hMag')
+            d0Mag.Scale(0.5)
+
+            f = TF1 ("gaussian", gaussian, -1.0, 1.0, 3)
+            f.SetParameter (0, 0.2)
+            f.SetParLimits (0, 1.0e-3, 1.0e3)
+            f.SetParName (0, "Gaussian sigma")
+            f.SetParameter (1, 40.0)
+            f.SetParLimits (1, 1.0e-3, 1.0e3)
+            f.SetParName (1, "Gaussian norm")
+            f.SetParameter (2, 20.0)
+            f.SetParLimits (2, -1.0e3, 1.0e3)
+            f.SetParName (2, "constant")
+            for i in range (0, 10):
+              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+            d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
+
+            d0Mag.Scale (2.0)
+            for i in range (0, 10):
+              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+
+            passesError = Double (0.0)
+            passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
+            passesError = getIntegralError (f, 0.0, 0.02)
+            failsError = Double (0.0)
+            fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
+            failsError = getIntegralError (f, self._minD0, self._maxD0)
+
+            passes = Measurement (passes, 0.0)
+            fails = Measurement (fails, 0.0)
+
+            passes.isPositive ()
+            fails.isPositive ()
+
+            if fails > 0.0:
+                transferFactor = passes / fails
+                return (transferFactor, passes, fails, passesError, failsError)
+            else:
+                return (Measurement(-1, -1),) * 3 + (float("nan"),) * 2 
+
+        else:
+            print "Basic3hits is not defined. Not printing transfer factor..."
+            return (Measurement(-1, -1),) * 3 + (float("nan"),) * 2 
+
+    def printNctrl (self, cutString):
+        if hasattr (self, "DisTrkInvertD0Chain"):
+            if self._nHits is not None:
+                self.DisTrkInvertD0Chain.Draw('track_hitPattern_.trackerLayersWithMeasurement:track_hitPattern_.numberOfValidPixelHits >> h2d(10, -0.5, 9.5, 20, -0.5, 19.5)', cutString, 'goff')
+                hits = gDirectory.Get('h2d')
+                if self._nHits >= 6:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+                if self._nHits == 5:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+                if self._nHits == 4:
+                    nError = Double (0.0)
+                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
+                    n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                    n.isPositive ()
+            else:
+                self.DisTrkInvertD0Chain.Draw('abs(track_dxy) >> hMag(50, 0.0, 0.5)', cutString, 'goff')
+                d0Mag = gDirectory.Get('hMag')
+                nError = Double (0.0)
+                n = d0Mag.IntegralAndError(d0Mag.GetXaxis().FindBin(self._minD0), d0Mag.GetXaxis().FindBin(self.maxD0 - 0.001), nError)
+                n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                n.isPositive ()
+
+            pFake = float ("nan")
+            norm = 1.0
+
+            # For ZtoMuMu control regions, need to normalize to BasicSelection
+            if hasattr (self, "ZtoLL") and hasattr (self, "Basic"):
+                norm = self.Basic["yield"] / self.ZtoLL["yield"]
+                pFake = n / self.ZtoLL["yield"]
+            elif hasattr (self, "Basic"):
+                pFake = n / self.Basic["yield"]
+
+            nRaw = n
+            n *= norm
+            n *= self._prescale
+
+            return (n, nRaw, norm, pFake)
+        else:
+            return (Measurement(-1, -1),) + (float("nan"),) * 3
+
+    def printNest (self, cutString):
+        xi, xiPass, xiFail, xiPassError, xiFailError = self.getTransferFactor (cutString)
+        nCtrl, nRaw, norm, pFake = self.printNctrl (cutString)
+
+        pFake *= xi
+
+        N = nRaw
+        alpha = norm * self._prescale * (xiPass / xiFail)
+
+        nEst = xi * nCtrl
+        nEst.isPositive ()
+
+        errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
+
+        errorOnAlphaRel = 1.0 + (alpha.maxUncertainty() / alpha.centralValue()) if alpha != 0.0 else float ("nan")
+        errorFromFitRel = 1.0 + (errorFromFit / nEst.centralValue()) if nEst.centralValue () > 0.0 else float ("nan")
+
+        if True:
+            alpha.printLongFormat ()
+            print "P_fake: " + str (pFake)
+            print "N: " + str (N)
+            print "alpha: " + str (alpha)
+            print "error on alpha: " + str(errorOnAlphaRel)
+            print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+            print "error from fit: " + str(errorFromFitRel)
+
+        return (nEst, pFake, N, alpha, errorOnAlphaRel, errorFromFitRel)
+
+    def getNest(self, cuts):
+        varX = '(track_pfElectronIsoDR03 + track_pfMuonIsoDR03 + track_pfHFIsoDR03 + track_pfLostTrackIsoDR03 + track_isoTrackIsoDR03 + track_pfChHadIsoDR03 + track_pfNeutralHadIsoDR03 + track_pfPhotonIsoDR03) / track_pt'
+        varY  = 'track_matchedCaloJetEmEnergy + track_matchedCaloJetEmEnergy'
+        cutString = varX + ' < ' + str(cuts[0]) + ' && ' + varY + ' < ' + str(cuts[1])
+        return cuts + self.printNest(cutString)
+
+    def optimize (self):
+        varX = '(track_pfElectronIsoDR03 + track_pfMuonIsoDR03 + track_pfHFIsoDR03 + track_pfLostTrackIsoDR03 + track_isoTrackIsoDR03 + track_pfChHadIsoDR03 + track_pfNeutralHadIsoDR03 + track_pfPhotonIsoDR03) / track_pt'
+        varY  = 'track_matchedCaloJetEmEnergy + track_matchedCaloJetEmEnergy'
+
+        cutsX = [x * 0.05 for x in range(1, 10)]
+        cutsY = [x * 1.0  for x in range(1, 10)]
+
+        cutStrings = [(cutX, cutY) for cutX in cutsX for cutY in cutsY]
+
+        arrX = array('d', cutsX)
+        arrY = array('d', cutsY)
+
+        h_nEst         = TH2D('nEst',         'nEst;superIso/pt;caloJetEnergy [GeV]',         len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+        h_pFake        = TH2D('pFake',        'pFake;superIso/pt;caloJetEnergy [GeV]',        len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+        h_N            = TH2D('N',            'N;superIso/pt;caloJetEnergy [GeV]',            len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+        h_alpha        = TH2D('alpha',        'alpha;superIso/pt;caloJetEnergy [GeV]',        len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+        h_errorOnAlpha = TH2D('errorOnAlpha', 'errorOnAlpha;superIso/pt;caloJetEnergy [GeV]', len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+        h_errorFromFit = TH2D('errorFromFit', 'errorFromFit;superIso/pt;caloJetEnergy [GeV]', len(cutsX) - 1, arrX, len(cutsY) - 1, arrY)
+
+        from multiprocessing.dummy import Pool as ThreadPool
+        pool = ThreadPool(1)
+        cutResults = pool.map(self.getNest, cutStrings)
+
+        for r in cutResults:
+            (cutX, cutY, nEst, pFake, N, alpha, errorOnAlphaRel, errorFromFitRel) = r
+            binNum = h_nEst.FindBin(cutX, cutY)
+                
+            h_nEst.Fill(cutX, cutY, nEst.centralValue())
+            h_nEst.SetBinError(binNum, nEst.maxUncertainty())
+                
+            h_pFake.Fill(cutX, cutY, pFake.centralValue())
+            h_pFake.SetBinError(binNum, pFake.maxUncertainty())
+
+            h_N.Fill(cutX, cutY, N.centralValue())
+            h_N.SetBinError(binNum, N.maxUncertainty())
+                
+            h_alpha.Fill(cutX, cutY, alpha.centralValue())
+            h_alpha.SetBinError(binNum, alpha.maxUncertainty())
+                
+            h_errorOnAlpha.Fill(cutX, cutY, errorOnAlphaRel)
+                
+            h_errorFromFit.Fill(cutX, cutY, errorFromFitRel)
+
+        self._fout.cd()
+        h_nEst.Write()
+        h_pFake.Write()
+        h_N.Write()
+        h_alpha.Write()
+        h_errorOnAlpha.Write()
+        h_errorFromFit.Write()
+        self._fout.Close()
+

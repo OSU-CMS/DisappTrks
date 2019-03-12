@@ -217,9 +217,9 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",  "MET_2017",     dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
-    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",  "AllMC_scaled", dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
-    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut",   "",             dirs['Brian'] + "2017/signalAcceptance_full_v7_noNMissOutCut")
+    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2017",     dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
+    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "AllMC_scaled", dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
+    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Brian'] + "2017/signalAcceptance_full_v7_noNMissOutCut")
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"

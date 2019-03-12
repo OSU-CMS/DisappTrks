@@ -44,7 +44,7 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain, TH2D
 
 def fancyTable(arrays):
 
@@ -58,9 +58,9 @@ def fancyTable(arrays):
 
     spacedLines = []
 
-    for array in arrays:
+    for a in arrays:
         spacedLine = ''
-        for i, field in enumerate(array):
+        for i, field in enumerate(a):
             diff = verticalMaxLengths[i] - len(field)
             spacedLine += field + ' ' * diff + '\t'
         spacedLines.append(spacedLine)
@@ -82,7 +82,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
 
     realInputFile = TFile('condor/' + condor_dir + '/' + realProcessName + '.root')
     nGenerated = realInputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
-    crossSectionWeight = lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
+    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
 
     totalWeight = 0.0
     totalWeight2 = 0.0
@@ -95,11 +95,12 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
         totalWeight2 += thisWeight * thisWeight
 
     yieldAndError = {
-        'yield' : totalWeight,
-        'rawYield' : chain.GetEntries(),
-        'error' : 1.0 + (math.sqrt(totalWeight2) / totalWeight) if totalWeight > 0.0 else 1.0,
-        'absError' : math.sqrt(totalWeight2),
-        'weight' : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
+        'yield'      : totalWeight,
+        'rawYield'   : chain.GetEntries(),
+        'error'      : 1.0 + (math.sqrt(totalWeight2) / totalWeight) if totalWeight > 0.0 else 1.0,
+        'absError'   : math.sqrt(totalWeight2),
+        'weight'     : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
+        'acceptance' : totalWeight / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -110,8 +111,9 @@ def GetYieldAndError(condor_dir, process, channel):
     if not hist:
         print "Could not find hist "+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
+    nGenerated = inputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
+    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
     inputFile.Close()
-    yieldAndErrorList = {}
     nBinsX = hist.GetNbinsX()
 
     intError = Double (0.0)
@@ -120,12 +122,18 @@ def GetYieldAndError(condor_dir, process, channel):
 
     raw_integral = hist.GetEntries ()
 
-    yieldAndErrorList['yield'] = integral
-    yieldAndErrorList['rawYield'] = raw_integral
-    yieldAndErrorList['error'] = fracError
-    yieldAndErrorList['absError'] = intError
-    yieldAndErrorList['weight'] = integral / raw_integral if raw_integral > 0.0 else 0.0
-    return yieldAndErrorList
+
+
+    yieldAndError = {
+        'yield'      : integral,
+        'rawYield'   : raw_integral,
+        'error'      : fracError,
+        'absError'   : intError,
+        'weight'     : integral / raw_integral if raw_integral > 0.0 else 0.0,
+        'acceptance' : integral / nGenerated / crossSectionWeight,
+    }
+
+    return yieldAndError
 
 
 def ReadYieldAndError(condor_dir, process):
@@ -166,6 +174,9 @@ def writeDatacard(mass, lifetime, observation):
         shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
 
     srcCTau = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
+    # acceptance is too low for 1cm, so here just reweight from 10cm...
+    if lifetime.startswith('0p'):
+        srcCTau = 10
     signalYieldAndError = GetReweightedYieldAndError(signal_condor_dir, signal_dataset, signal_channel, str(srcCTau) + 'cm', lifetime + 'cm')
 
     signal_yield = signalYieldAndError['yield']
@@ -409,7 +420,7 @@ def writeDatacard(mass, lifetime, observation):
         print command
         datacard95.write(command)
 
-    return totalBkgd
+    return signalYieldAndError
 
 
 ########################################################################################
@@ -442,9 +453,40 @@ if not run_blind_limits:
     observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 
-
+allYieldsAndErrors = {}
 
 ###looping over signal models and writing a datacard for each
 for mass in masses:
     for lifetime in lifetimes:
-        writeDatacard(mass,lifetime,observation)
+        allYieldsAndErrors[(mass, lifetime)] = writeDatacard(mass,lifetime,observation)
+
+acceptanceOutput = TFile('limits/' + arguments.outputDir + '/acceptancePlots.root', 'recreate')
+
+xBin = [float(a) for a in masses]
+yBin = [float(a) for a in lifetimes]
+xBin.sort()
+yBin.sort()
+xBin.append(xBin[-1] + (xBin[-1] - xBin[-2]))  # Add an additional bin boundary, so that the last bin has equal witdth to the second to last bin
+yBin.append(yBin[-1] + (yBin[-1] - yBin[-2]))  # Add an additional bin boundary, so that the last bin has equal witdth to the second to last bin
+# Offset the xaxis bins so that mass values are in center of each bin
+xBinHalfWidth = (xBin[1] - xBin[0]) / 2
+for i in range(0, len(xBin)):
+    xBin[i] -= xBinHalfWidth
+xBinArray = array('d', xBin)
+yBinArray = array('d', yBin)
+
+hYields =      TH2D('yields',      'yields',      len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
+hAcceptances = TH2D('acceptances', 'acceptances', len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
+
+for yld in allYieldsAndErrors:
+    mass = float(yld[0])
+    lifetime = float(yld[1])
+    ibinX = hYields.GetXaxis().FindBin(mass)
+    ibinY = hYields.GetYaxis().FindBin(lifetime)
+    hYields.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['yield'])
+    hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['absError'])
+    hAcceptances.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['acceptance'])
+
+hYields.Write('yields')
+hAcceptances.Write('acceptances')
+acceptanceOutput.Close()

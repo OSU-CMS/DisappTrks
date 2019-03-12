@@ -89,6 +89,9 @@ TrackDebugBranches_names = [
     "hitPattern_.pixelBarrelLayersNull",
     "hitPattern_.pixelEndcapLayersNull",
 
+    "hitPattern_.numberOfValidPixelHits", 
+    "hitPattern_.trackerLayersWithMeasurement",
+
     "bestTrackNumberOfValidHits",
     "bestTrackNumberOfValidPixelHits",
     "bestTrackNumberOfValidPixelBarrelHits",
