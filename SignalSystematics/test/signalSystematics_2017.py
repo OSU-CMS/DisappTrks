@@ -209,8 +209,8 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print "evaluating missing outer hits systematic (2017)"
     print "--------------------------------------------------------------------------------"
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2017.txt", "w")
-    foutForPlot = TFile.Open ("nMissOutSystematic_2017.root", "recreate")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2017_" + nLayersWord + ".txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematic_2017_" + nLayersWord + ".root", "recreate")
 
     missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, lifetimes)
     missingOuterHitsSystematic.addFout (fout)

@@ -31,6 +31,15 @@ EventVariableBranches_names = [
     "nTracksInsideJets",
     "nTracksOutsideJets",
     "trackRho",
+
+    "nGoodTPPairs",
+    "nProbesPassingVeto",
+
+    "nGoodSSTPPairs",
+    "nSSProbesPassingVeto",
+
+    "nGoodTagJetPairs",
+    "nGoodTagPFCHPairs",
 ]
 
 EventVariableBranches = cms.PSet(

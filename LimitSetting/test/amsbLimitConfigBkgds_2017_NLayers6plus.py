@@ -48,6 +48,10 @@ background_systematics = {
         'value' : '1.75',
         'background' : 'Fake',
     },
+    'Fake_syst_d0Diff_NLayers6plus' : { # largest difference between ZtoMuMu nominal and changing d0 sideband
+        'value' : '2.0',
+        'background' : 'Fake',
+    },
     'Elec_energy_NLayers6plus' : { # error on energy assumption
         'value' : str (1.0 + 12.4474529027 / 100.0),
         'background' : 'Elec',

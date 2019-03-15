@@ -85,7 +85,7 @@ external_systematic_uncertainties = [
     "metVaryPhotonEn_2017_" + nLayersWord,
     "metVaryTauEn_2017_" + nLayersWord,
     "metVaryUnclusteredEn_2017_" + nLayersWord,
-    #"nMissOut_2017_" + nLayersWord,
+    "nMissOut_2017_" + nLayersWord,
     "pileup_2017_" + nLayersWord,
     "trigger_grandOrWeightData_2017_" + nLayersWord,
     "trigger_grandOrWeightMC_2017_" + nLayersWord,
@@ -93,19 +93,19 @@ external_systematic_uncertainties = [
 
 #uncertainties on signal only (we can alter this if we need to)
 signal_systematic_uncertainties = {
-    'lumi_Bin2017' + nLayersWord :  {
+    'lumi_Bin2017' :  {
         'value' : '1.023',
     },
-    'trkReco_Bin2017' + nLayersWord :  {
-        'value' : '1.045', # use value from 2016
+    'trkReco_Bin2017' :  {
+        'value' : '1.021',
     },
-    'Ecalo_Bin2017' + nLayersWord : {
+    'Ecalo_Bin2017' : {
         'value' : str (1.0 + 0.956275783525 / 100.0),
     },
-    'Nmissin_Bin2017' + nLayersWord :  {
+    'Nmissin_Bin2017' :  {
         'value' : str (1.0 + 0.0227345880789 / 100.0),
     },
-    'Nmissmid_Bin2017' + nLayersWord :  {
+    'Nmissmid_Bin2017' :  {
         'value' : str (1.0 + 5.1633269796 / 100.0),
     },
 }
