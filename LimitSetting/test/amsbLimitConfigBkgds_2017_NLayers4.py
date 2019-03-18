@@ -5,7 +5,7 @@
 backgrounds = {
     'Fake' : {
         'N' : '68',
-        'alpha' : '0.1210229627',
+        'alpha' : '0.135815631144',
     },
     'Elec' : {
         'N' : '15',
@@ -40,15 +40,15 @@ background_systematics = {
     },
 
     'Fake_syst_fit_NLayers4' : { # error from fit
-        'value' : '1.11074507269',
+        'value' : '1.38923987949',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers4' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : '1.12515188335358',
+        'value' : '1.17391',
         'background' : 'Fake',
     },
     'Fake_syst_d0Diff_NLayers4' : { # largest difference between ZtoMuMu nominal and changing d0 sideband
-        'value' : '1.4654',
+        'value' : '1.075',
         'background' : 'Fake',
     },
     'Elec_energy_NLayers4' : { # error on energy assumption
