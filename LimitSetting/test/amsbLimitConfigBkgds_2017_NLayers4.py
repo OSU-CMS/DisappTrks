@@ -4,8 +4,8 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '68',
-        'alpha' : '0.135815631144',
+        'yield' : '10.84',
+        'error' : str (1.0 + 0.79/10.84),
     },
     'Elec' : {
         'N' : '15',
@@ -44,13 +44,15 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers4' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : '1.17391',
+        'value' : str (1.0 + (10.84 - 10.44) / 10.84),
         'background' : 'Fake',
     },
-    'Fake_syst_d0Diff_NLayers4' : { # largest difference between ZtoMuMu nominal and changing d0 sideband
-        'value' : '1.075',
+    'Fake_syst_d0Extrapolation' : { # difference between (transfer factor) * (baseline sideband) and observed tracks |d0|<0.02cm
+        # correlated! between nlayers since it's the same value
+        'value' : str (1.0 + (32.6 - 32.0) / 32.0),
         'background' : 'Fake',
     },
+
     'Elec_energy_NLayers4' : { # error on energy assumption
         'value' : str (1.0 + 13.8466686504 / 100.0),
         'background' : 'Elec',

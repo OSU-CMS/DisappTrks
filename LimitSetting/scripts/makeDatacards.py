@@ -23,8 +23,8 @@ parser.add_option("-s", "--signalSFDir", dest="signalSFDir", default="",
                   help="signal SF directory")
 parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooStatsCl95", default=False,
                   help="create scripts to run RooStatsCl95")
-parser.add_option("-g", "--gamma", action="store_true", dest="runGamma", default=False,
-                  help="run with gamma function instead of log normal")
+parser.add_option("-g", "--gamma", action="store_true", dest="runSignalAsGamma", default=False,
+                  help="treat signal with gamma function instead of log normal")
 parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
                   help="verbose output")
 
@@ -135,31 +135,6 @@ def GetYieldAndError(condor_dir, process, channel):
 
     return yieldAndError
 
-
-def ReadYieldAndError(condor_dir, process):
-    inputTxtFile = open("condor/"+condor_dir+"/yields.txt", "r")
-    if not inputTxtFile:
-        print "Could not find yields.txt in condor/"+condor_dir
-
-    yieldAndErrorList = {}
-    bkgdError = Double (0.0)
-    bkgdYield = Double (0.0)
-
-
-    for line in inputTxtFile:
-        if process + "Bkgd Yield" in line:
-            bkgdYield =  line.split(" ")[5]
-            bkgdError = line.split(" ")[7]
-    fracError = 0.0
-
-    if bkgdYield > 0.0:
-        fracError = str(1.0 + (Double(bkgdError) / Double(bkgdYield)))
-    yieldAndErrorList['yield'] = bkgdYield
-    yieldAndErrorList['error'] = fracError
-    return yieldAndErrorList
-
-
-
 def writeDatacard(mass, lifetime, observation):
 
     lifetimeFloat = float(lifetime)
@@ -198,18 +173,16 @@ def writeDatacard(mass, lifetime, observation):
     background_errors = { }
     totalBkgd = 0
     for background in backgrounds :
-        yieldAndError = {}
-        if not arguments.runGamma:
-            yieldAndError = ReadYieldAndError(background_sources[background]['condor_dir'], background)
-            background_yields[background] = yieldAndError['yield']
-            background_errors[background] = yieldAndError['error']
+        if 'alpha' in backgrounds[str(background)]:
+            background_yields[background] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))
+            background_errors[background] = str(backgrounds[str(background)]['alpha'])
         else:
-            yieldAndError['yield'] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))
-            yieldAndError['error'] = str(backgrounds[str(background)]['alpha'])
-            background_yields[background] = yieldAndError['yield']
-            if arguments.verbose:
-                print "Debug:  for bkgd: " + str(background) + ", yield = " + str(yieldAndError['yield']) + ", error = " + str(yieldAndError['error'])
-            background_errors[background] = backgrounds[str(background)]['alpha']
+            background_yields[background] = str(float(backgrounds[str(background)]['yield']))
+            background_errors[background] = str(backgrounds[str(background)]['error'])
+
+        if arguments.verbose:
+            print "Debug:  for bkgd: " + str(background) + ", yield = " + str(background_yields[background]) + ", error = " + str(background_errors[background])
+
         totalBkgd += float(background_yields[background])
 
     if run_blind_limits:
@@ -267,14 +240,14 @@ def writeDatacard(mass, lifetime, observation):
         process_name_row.append(background)
         process_index_row.append(str(process_index))
         process_index = process_index + 1
-        if not arguments.runGamma:
-            rate_row.append(background_yields[background])
-        if arguments.runGamma:
+        if 'alpha' in backgrounds[str(background)]:
             rate_row.append(str(background_yields[background]))
             if arguments.verbose:
                 print "Debug: for background " + str(background)
                 print "Debug: for background " + str(background) + ": " + str(background_yields[background])
                 print "Debug: for background " + str(background) + ": " + str(background_yields[background])
+        else:
+            rate_row.append(background_yields[background])
         empty_row.append('')
 
     datacard_data.append(empty_row)
@@ -284,12 +257,12 @@ def writeDatacard(mass, lifetime, observation):
     datacard_data.append(empty_row)
 
     #add a row for the statistical error of the signal
-    if arguments.runGamma:
+    if arguments.runSignalAsGamma:
         signal_error_string = str(round(signal_yield_weight,12))
     else:
         signal_error = signalYieldAndError['error']
         signal_error_string = str(round(signal_error,12))
-    if arguments.runGamma:
+    if arguments.runSignalAsGamma:
         row = ['signal_stat_'+actual_bin_name,'gmN ' + str(int(round(signal_yield_raw,0))),' ',signal_error_string]
     else:
         row = ['signal_stat','lnN','',signal_error_string]
@@ -299,30 +272,21 @@ def writeDatacard(mass, lifetime, observation):
 
      #add a row for the statistical error of each background
     for background in backgrounds:
-        row = [background+"_stat",'lnN','','-']
-        if arguments.runGamma:
-            row = [background+"_"+actual_bin_name+"_stat",'gmN ' + backgrounds[str(background)]['N'],' ', '-']
+        row = [background + '_stat', 'lnN', '', '-']
+        if 'alpha' in backgrounds[str(background)]:
+            row = [background + '_' + actual_bin_name + '_stat', 'gmN ' + backgrounds[str(background)]['N'], '', '-']
         for process_name in backgrounds:
             if background is process_name:
-
-                if arguments.runGamma:
-                    row.append(background_errors[process_name])
-                else:
-                    row.append(background_errors[process_name])
-                    #row.append(str(round(background_errors[process_name],2)))
+                row.append(background_errors[process_name])
             else:
                 row.append('-')
         datacard_data.append(row)
-
-
-
 
     datacard_data.append(empty_row)
     comment_row = empty_row
     comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
-
 
     datacard_data.append(empty_row)
     comment_row = empty_row

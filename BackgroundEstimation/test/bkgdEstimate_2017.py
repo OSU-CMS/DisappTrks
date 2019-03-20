@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import math, os, sys
+from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
@@ -35,6 +36,8 @@ nEstTau = {}
 nLeptons = {}
 nTotal = {}
 
+fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
+
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
 
@@ -53,20 +56,35 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-            fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/fakeTrackBackgroundVeryClean_v2")
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
+            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/fakeTrackBackgroundVeryClean_v2")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayersWord,  "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
             fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
             fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
 
             print "********************************************************************************"
-
-            nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()
+            print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
+            fakeTrackBkgdEstimate.addMinD0 (fakeSidebands[0][0])
+            fakeTrackBkgdEstimate.addMaxD0 (fakeSidebands[0][1])
+            nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()[0]
             fout.Close ()
 
             print "********************************************************************************"
-
+            print "Mean result over sidebands: "
+            nEstAllSidebands = Measurement(0, 0)
+            pFakeAllSidebands = Measurement(0, 0)
+            for sb in fakeSidebands:
+                fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                nEstAllSidebands += sbResults[0]
+                pFakeAllSidebands += sbResults[1]
+                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+            nEstAllSidebands /= len(fakeSidebands)
+            pFakeAllSidebands /= len(fakeSidebands)
+            print "N_est (mean): ", nEstAllSidebands
+            print "P_fake (mean): ", pFakeAllSidebands
+            print "********************************************************************************"
             print "\n\n"
 
             print "********************************************************************************"
@@ -78,44 +96,58 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-            fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
+            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
             fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
 
             print "********************************************************************************"
-
+            print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
+            fakeTrackBkgdEstimate.addMinD0 (fakeSidebands[0][0])
+            fakeTrackBkgdEstimate.addMaxD0 (fakeSidebands[0][1])
             fakeTrackBkgdEstimate.printNest ()
             fout.Close ()
 
             print "********************************************************************************"
-
+            print "Mean result over sidebands: "
+            nEstAllSidebands = Measurement(0, 0)
+            pFakeAllSidebands = Measurement(0, 0)
+            for sb in fakeSidebands:
+                fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                nEstAllSidebands += sbResults[0]
+                pFakeAllSidebands += sbResults[1]
+                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+            nEstAllSidebands /= len(fakeSidebands)
+            pFakeAllSidebands /= len(fakeSidebands)
+            print "N_est: ", nEstAllSidebands
+            print "P_fake: ", pFakeAllSidebands
+            print "********************************************************************************"
             print "\n\n"
 
-            print "********************************************************************************"
-            print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
-            print "--------------------------------------------------------------------------------"
+            if False:
 
-            fout = TFile.Open("fakeTrackBkgdEstimate_basic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+                print "********************************************************************************"
+                print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
+                print "--------------------------------------------------------------------------------"
 
-            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-            fakeTrackBkgdEstimate.addTFile (fout)
-            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-            fakeTrackBkgdEstimate.addMinD0 (0.05)
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3LayersVeryClean",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_superCleanTransferFactor")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+                fout = TFile.Open("fakeTrackBkgdEstimate_basic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
-            print "********************************************************************************"
+                fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+                fakeTrackBkgdEstimate.addTFile (fout)
+                fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
+                fakeTrackBkgdEstimate.addMinD0 (0.05)
+                fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3LayersVeryClean",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_superCleanTransferFactor")
+                fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
+                fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
 
-            fakeTrackBkgdEstimate.printNest ()
-            fout.Close ()
-
-            print "********************************************************************************"
-
-            print "\n\n"
+                print "********************************************************************************"
+                fakeTrackBkgdEstimate.printNest ()
+                fout.Close ()
+                print "********************************************************************************"
+                print "\n\n"
 
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 

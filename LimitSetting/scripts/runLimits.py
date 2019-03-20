@@ -31,6 +31,8 @@ parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", de
                   help="run on the condor queue")
 parser.add_option("-q", "--quick", action="store_true", dest="quick", default=False,
                   help="run only a single sample, for testing")
+parser.add_option("-n", "--noPicky", action="store_true", dest="noPicky", default=False,
+                  help="do not use --picky in combine options")
 
 (arguments, args) = parser.parse_args()
 
@@ -145,8 +147,12 @@ for mass in masses:
         else:
 #            combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
 #            combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-            combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
-            combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+            if not arguments.noPicky:
+                combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+            else:
+                combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
+                combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
         if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
             lifetimeFloat = float(lifetime.replace('0p', '0.'))
             if lifetimeFloat > 9 and lifetimeFloat < 300:   # Use a smaller maximum for lifetimes with a larger signal yield

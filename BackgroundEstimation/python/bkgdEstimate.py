@@ -965,9 +965,10 @@ class FakeTrackBkgdEstimate:
               d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
             d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
 
-            self._fout.cd ()
-            d0.Write ("d0")
-            f.Write ("d0_fit")
+            if self._fout.IsOpen():
+                self._fout.cd ()
+                d0.Write ("d0")
+                f.Write ("d0_fit")
 
             d0Mag.Scale (2.0)
             for i in range (0, 10):
@@ -1045,8 +1046,8 @@ class FakeTrackBkgdEstimate:
             return (float ("nan"), float ("nan"))
 
     def printNest (self, verbose = True):
-        xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor ()
-        nCtrl, nRaw, norm, pFake = self.printNctrl ()
+        xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor (verbose)
+        nCtrl, nRaw, norm, pFake = self.printNctrl (verbose)
 
         pFake *= xi
 
@@ -1067,7 +1068,7 @@ class FakeTrackBkgdEstimate:
             print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
             print "error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan"))
 
-        return nEst
+        return nEst, pFake
 
     def printNback (self, verbose = True):
         if hasattr (self, "DisTrkIdFake"):
