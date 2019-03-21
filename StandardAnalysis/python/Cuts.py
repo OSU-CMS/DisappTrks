@@ -584,16 +584,6 @@ cutTrkTauHadVetoInv = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
-# This may or may not be the appropriate thing to do. CandidateTracks calculate the lepton dR's at nTuplization time so as not to risk re-calculating on a slimmed
-# framework collection. One could be more careful and make duplicate collections...or do this instead where pfParticles aren't ever slimmed. Also this kind of
-# mis-names the tau veto.
-if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-        # fabs since if there are no such PF candidates at all, these are INVALID_VALUE
-        cutTrkElecVeto.cutString = cms.string("fabs(deltaRToClosestPFElectron) > 0.15")
-        cutTrkMuonVeto.cutString = cms.string("fabs(deltaRToClosestPFMuon) > 0.15")
-        cutTrkTauHadVeto.cutString = cms.string("fabs(deltaRToClosestPFChHad) > 0.15")
-
 cutTrkJetDeltaPhi = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRMinJet > 0.5"),
