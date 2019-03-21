@@ -15,8 +15,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
     mc_global_tag = '94X_mc2017_realistic_v15'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    data_global_tag = '102X_dataRun2_Sep2018Rereco_v1'
-    mc_global_tag = '102X_upgrade2018_realistic_v12'
+    data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
+    mc_global_tag = '102X_upgrade2018_realistic_v18'
 
 ################################################################################
 # Create the skeleton process
@@ -60,6 +60,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://xrootd.rcac.purdue.edu//store/user/ahart/EGamma/Run2018C-17Sep2018/190306_204331/0000/RECO_PAT_99.root",
     ])
+    process.source.secondaryFileNames = cms.untracked.vstring([
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/99607477-E37B-464B-898D-1A4E6E867624.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/B9EE50F5-395C-084F-B6B6-5F9841A7F482.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/0D9010EE-5562-424F-845B-FD97A5D295B6.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/4E7ED33B-B15D-0F42-9E2C-D91309F70F5E.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/732F3C57-A88B-FB47-89E4-61FB63BAB11D.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/ED3F8A61-0239-724A-9357-53AF6FF6C6AE.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/34A6BD02-DA84-D548-A285-456E8D6C92E6.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/A4931F7B-3607-6843-8809-0777D92CF8FC.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/E15C36AE-6B98-5A4B-86B0-E3BE5B7569A9.root",
+        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/5262F963-ABA3-8540-AFDB-3D77BBEB268E.root",
+    ])
 
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
@@ -100,6 +112,8 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    if datasetLabel.endswith('2018D'):
+        data_global_tag = '102X_dataRun2_Prompt_v13'
     print "# Global tag: " + data_global_tag
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
