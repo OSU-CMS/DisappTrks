@@ -117,8 +117,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '94X_mc2017_realistic_v11', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
-from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
-process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommandsSignalMC
+process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommandsSignalMC)
 
 # Path and EndPath definitions
 process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
