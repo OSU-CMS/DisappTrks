@@ -85,11 +85,16 @@ disTrkSelectionSmearedJetsJECDown = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJECDown")
 replaceSingleCut (disTrkSelectionSmearedJetsJECDown.cuts, cutJetJERSmearedPtJECDown, cutJetPt)
 
+disTrkSelectionSmearedJetsL1PrefiringTest = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkSelectionSmearedJetsL1PrefiringTest.name = cms.string("disTrkSelectionSmearedJetsL1PrefiringTest")
+addSingleCut(disTrkSelectionSmearedJetsL1PrefiringTest.cuts, cutVetoL1PrefiringJets, cutMet)
+
 createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJets")
 createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")
 createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJetsDown")
 createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")
 createHitsVariations(disTrkSelectionSmearedJetsJECDown, "disTrkSelectionSmearedJetsJECDown")
+createHitsVariations(disTrkSelectionSmearedJetsL1PrefiringTest, "disTrkSelectionSmearedJetsL1PrefiringTest")
 
 ################################################################################
 ## MET signal systematic

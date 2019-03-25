@@ -157,6 +157,11 @@ cutJetJERSmearedPtDown = cms.PSet(
     cutString = cms.string("smearedPtDown > 110"),
     numberRequired = cms.string(">= 1"),
 )
+cutVetoL1PrefiringJets = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("smearedPt > 100 && fabs(eta) > 2.25 && fabs(eta) < 3.0"),
+    numberRequired = cms.string("== 0"),
+)
 cutJetPt30 = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > 30"),
