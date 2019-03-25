@@ -43,6 +43,14 @@ chargino_neutralino_cross_sections = {
         'value' : str ( 2.49667 * 1.0e-3 ),
         'error' : str ( 0.314019 * 1.0e-3 ),
     },
+    '1000' : {
+        'value' : str ( 1.34352 * 1.0e-3 ),
+        'error' : str ( 0.175604 * 1.0e-3 ),
+    },
+    '1100' : {
+        'value' : str ( 0.740372 * 1.0e-3 ),
+        'error' : str ( 0.107178 * 1.0e-3 ),
+    },
 }
 
 chargino_chargino_cross_sections = {
@@ -82,6 +90,14 @@ chargino_chargino_cross_sections = {
     '900' : {
         'value' : str ( 1.15301 * 1.0e-3 ),
         'error' : str ( 0.135822 * 1.0e-3 ),
+    },
+    '1000' : {
+        'value' : str ( 0.621866 * 1.0e-3 ),
+        'error' : str ( 0.0771005 * 1.0e-3 ),
+    },
+    '1100' : {
+        'value' : str ( 0.342626 * 1.0e-3 ),
+        'error' : str ( 0.0427672 * 1.0e-3 ),
     },
 }
 
