@@ -80,6 +80,10 @@ process.TFileService = cms.Service ('TFileService',
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (-1)
 )
+
+process.options = cms.untracked.PSet (
+    SkipEvent = cms.untracked.vstring ("ProductNotFound")
+)
 ################################################################################
 
 ################################################################################
