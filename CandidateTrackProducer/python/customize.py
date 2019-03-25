@@ -8,6 +8,17 @@ disappTrksOutputCommands = cms.untracked.vstring(
     "keep recoGsfTracks_*_*_*",
 )
 
+disappTrksOutputCommandsSignalMC = cms.untracked.vstring(
+    "keep recoCaloMETs_*_*_*",
+    "keep recoMETs_*_*_*",
+    "keep recoPFMETs_pfChMet_*_*",
+    "keep recoPFMETs_pfMet_*_*",
+    "keep recoPFMETs_pfMetEI_*_*",
+    "keep CandidateTracks_*_*_*",
+    "keep recoGsfTracks_*_*_*",
+    "keep CutResults_*_*_*",
+)
+
 def customizeMiniAODSIMOutput(process):
 
     process.load('Configuration.EventContent.EventContent_cff')

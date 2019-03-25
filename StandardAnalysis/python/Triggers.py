@@ -50,7 +50,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggersMetInclusive = cms.vstring(
 
-        # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/180522_173113/lumis_for_MET_triggers_2017_sorted.pdf
+        # https://milliqanelog.asc.ohio-state.edu:8080/DisappearingTracks/935
 
         # this one path adds the most signal acceptance of all single paths
         'HLT_PFMET120_PFMHT120_IDTight_v',
