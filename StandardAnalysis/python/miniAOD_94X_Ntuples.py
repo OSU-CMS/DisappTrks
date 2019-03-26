@@ -237,6 +237,18 @@ dataset_names_sig = {
     'AMSB_chargino_900GeV_100cm_94X'   : "/AMSB_chargino_M-900_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
     'AMSB_chargino_900GeV_1000cm_94X'  : "/AMSB_chargino_M-900_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
     'AMSB_chargino_900GeV_10000cm_94X' : "/AMSB_chargino_M-900_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+
+    'AMSB_chargino_1000GeV_1cm_94X'     : "/AMSB_chargino_M-1000_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1000GeV_10cm_94X'    : "/AMSB_chargino_M-1000_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1000GeV_100cm_94X'   : "/AMSB_chargino_M-1000_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1000GeV_1000cm_94X'  : "/AMSB_chargino_M-1000_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1000GeV_10000cm_94X' : "/AMSB_chargino_M-1000_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+
+    'AMSB_chargino_1100GeV_1cm_94X'     : "/AMSB_chargino_M-1100_CTau-1_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1100GeV_10cm_94X'    : "/AMSB_chargino_M-1100_CTau-10_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1100GeV_100cm_94X'   : "/AMSB_chargino_M-1100_CTau-100_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1100GeV_1000cm_94X'  : "/AMSB_chargino_M-1100_CTau-1000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
+    'AMSB_chargino_1100GeV_10000cm_94X' : "/AMSB_chargino_M-1100_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
 }
 
 dataset_names = {}
