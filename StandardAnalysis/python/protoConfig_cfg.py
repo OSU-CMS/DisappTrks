@@ -241,6 +241,10 @@ variableProducers.append('PUScalingFactorProducer')
 variableProducers.append('ISRWeightProducer')
 variableProducers.append('TriggerWeightProducer')
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] != "data"):
+        variableProducers.extend(l1PrefiringWeightVariableProducers)
+
 electronTPProducer = ["EventElectronTPProducer"]
 muonTPProducer = ["EventMuonTPProducer"]
 tauToElectronTPProducer = ["EventTauToElectronTPProducer"]

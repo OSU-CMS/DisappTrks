@@ -1,4 +1,5 @@
 import FWCore.ParameterSet.Config as cms
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
 import copy
 import os
 
@@ -21,6 +22,15 @@ weights = cms.VPSet (
         inputVariable = cms.string("isrWeight")
     ),
 )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] != "data"):
+        weights.append (
+            cms.PSet (
+                inputCollections = cms.vstring("eventvariables"),
+                inputVariable = cms.string("L1ECALPrefiringWeight")
+            )
+        )
 
 #####################################################################
 # Lepton scale factors. N.B. these are weights you're applying,
@@ -144,3 +154,9 @@ weightsFluctuatePileup = copy.deepcopy(weights)
 for w in weightsFluctuatePileup:
     if w.inputVariable == cms.string("puScalingFactor"):
         w.fluctuations = cms.vstring("puScalingFactorUp", "puScalingFactorDown")
+
+# weights including L1ECALPrefiring weight fluctuations
+weightsFluctuateL1ECALPrefiring = copy.deepcopy(weights)
+for w in weightsFluctuateL1ECALPrefiring:
+    if w.inputVariable == cms.string("L1ECALPrefiringWeight"):
+        w.fluctuations = cms.vstring("L1ECALPrefiringWeightUp", "L1ECALPrefiringWeightDown")

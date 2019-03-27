@@ -10,9 +10,9 @@ import re
 import sys
 
 dirs = getUser()
-masses = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+masses = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
 lifetimes = ['1', '10', '100', '1000', '10000']
-allLiftimes = ['0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1',
+allLifetimes = ['0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1',
                '2', '3', '4', '5', '6', '7', '8', '9', '10',
                '20', '30', '40', '50', '60', '70', '80', '90', '100',
                '200', '300', '400', '500', '600', '700', '800', '900', '1000',
@@ -40,7 +40,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2017_" + nLayersWord + ".txt", "w")
 
-    pileupSystematic = WeightSystematicFromTrees(masses, allLiftimes, lumi)
+    pileupSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
     pileupSystematic.addFout(fout)
     pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
     pileupSystematic.defineWeightToFluctuate('eventvariable_puScalingFactor')
@@ -131,7 +131,7 @@ if systematic == "ISR" or systematic == "ALL":
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2017_" + nLayersWord + ".txt", "w")
 
-    isrSystematic = WeightSystematicFromTrees(masses, allLiftimes, lumi)
+    isrSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
     isrSystematic.addFout(fout)
     isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
@@ -152,7 +152,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
     for flux in ['Data', 'MC']:
         fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_grandOrWeight" + flux + '_2017_' + nLayersWord + ".txt", "w")
 
-        triggerSystematic = WeightSystematicFromTrees(masses, allLiftimes, lumi)
+        triggerSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
         triggerSystematic.addFout(fout)
         triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
         triggerSystematic.defineFluctuationUp  ('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Up')
@@ -212,7 +212,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2017_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("nMissOutSystematic_2017_" + nLayersWord + ".root", "recreate")
 
-    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, lifetimes)
+    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes)
     missingOuterHitsSystematic.addFout (fout)
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)

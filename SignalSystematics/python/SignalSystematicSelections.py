@@ -87,7 +87,7 @@ replaceSingleCut (disTrkSelectionSmearedJetsJECDown.cuts, cutJetJERSmearedPtJECD
 
 disTrkSelectionSmearedJetsL1PrefiringTest = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkSelectionSmearedJetsL1PrefiringTest.name = cms.string("disTrkSelectionSmearedJetsL1PrefiringTest")
-addSingleCut(disTrkSelectionSmearedJetsL1PrefiringTest.cuts, cutVetoL1PrefiringJets, cutMet)
+addSingleCut(disTrkSelectionSmearedJetsL1PrefiringTest.cuts, cutVetoL1PrefiringJets, cutLeadingJetMetPhi)
 
 createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJets")
 createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")

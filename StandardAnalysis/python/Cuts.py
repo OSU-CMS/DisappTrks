@@ -51,7 +51,9 @@ cutMet = cms.PSet(
 )
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     cutMet.cutString = cms.string("noMuPt > 120")
-    print "# MetNoMu > 120e GeV"
+    print "# MetNoMu > 120 GeV"
+else:
+    print "# MetNoMu > 100 GeV"
 
 cutDummyMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
@@ -158,9 +160,9 @@ cutJetJERSmearedPtDown = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 cutVetoL1PrefiringJets = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("smearedPt > 100 && fabs(eta) > 2.25 && fabs(eta) < 3.0"),
-    numberRequired = cms.string("== 0"),
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("!hasPrefiredJets"),
+    numberRequired = cms.string(">= 1"),
 )
 cutJetPt30 = cms.PSet(
     inputCollection = cms.vstring("jets"),
@@ -1232,6 +1234,8 @@ cutElectronPairPt = cms.PSet (
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string("== 2"),
 )
+# Reminder -- this could (and probably should?) change to 35/25 in 2017 and 32/25 in 2018. But possibly 25/25 is fine with trigger issues...not terribly important?
+
 cutElectronPairEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),

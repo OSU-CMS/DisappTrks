@@ -25,6 +25,10 @@ EventVariableBranches_names = [
     "grandOrWeightMCDown",
     "grandOrWeightDataUp",
     "grandOrWeightDataDown",
+    "L1ECALPrefiringWeight",
+    "L1ECALPrefiringWeightUp",
+    "L1ECALPrefiringWeightDown",
+    "hasPrefiredJets",
     "numPVReco",
     "nJets",
     "nTracks",
@@ -108,6 +112,8 @@ TrackDebugBranches_names = [
     "bestTrackMissingInnerHits",
     "bestTrackMissingMiddleHits",
     "bestTrackMissingOuterHits",
+
+    "hitAndTOBDrop_bestTrackMissingOuterHits",
 
     "numberOfTrackerHits",
     "numberOfPixelHits",

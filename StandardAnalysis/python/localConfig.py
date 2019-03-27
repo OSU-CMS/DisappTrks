@@ -67,6 +67,7 @@ datasetsBkgd.append ('WJetsToLNu')
 datasetsBkgdForMET.append ('WJetsToLNu_HT')
 
 datasetsSig = [
+    'AMSB_chargino_100GeV_10cm_76X',
     'AMSB_chargino_100GeV_100cm_76X',
     'AMSB_chargino_100GeV_1000cm_76X',
     'AMSB_chargino_100GeV_10000cm_76X',
@@ -110,6 +111,16 @@ datasetsSig = [
     'AMSB_chargino_900GeV_100cm_76X',
     'AMSB_chargino_900GeV_1000cm_76X',
     'AMSB_chargino_900GeV_10000cm_76X',
+
+    'AMSB_chargino_1000GeV_10cm_76X',
+    'AMSB_chargino_1000GeV_100cm_76X',
+    'AMSB_chargino_1000GeV_1000cm_76X',
+    'AMSB_chargino_1000GeV_10000cm_76X',
+
+    'AMSB_chargino_1100GeV_10cm_76X',
+    'AMSB_chargino_1100GeV_100cm_76X',
+    'AMSB_chargino_1100GeV_1000cm_76X',
+    'AMSB_chargino_1100GeV_10000cm_76X',
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -120,13 +131,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "FIXME: using old signal" + A_RESET + ")"
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
@@ -144,6 +155,12 @@ datasetsSigShort800 = datasetsSig[27:31]
 datasetsSigShort900 = datasetsSig[31:35]
 
 addLifetimeReweighting (datasetsSig)
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    datasetsSigOSU         = copy.deepcopy([x for x in datasetsSig      if x.split('_')[2][:-3] in ['100', '300', '500', '700', '900', '1000', '1100']])
+    datasetsSigShortOSU    = copy.deepcopy([x for x in datasetsSigShort if x.split('_')[2][:-3] in ['100', '300', '500', '700', '900', '1000', '1100']])
+    datasetsSigPurdue      = copy.deepcopy([x for x in datasetsSig      if x.split('_')[2][:-3] in ['200', '400', '600', '800']])
+    datasetsSigShortPurdue = copy.deepcopy([x for x in datasetsSigShort if x.split('_')[2][:-3] in ['200', '400', '600', '800']])
 
 composite_dataset_definitions["allBkgd"] = datasetsBkgd
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):

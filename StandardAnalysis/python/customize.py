@@ -7,7 +7,15 @@ from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customiz
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
 
-def customize (process, runPeriod, applyPUReweighting = True, applyISRReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = True):
+def customize (process,
+               runPeriod,
+               applyPUReweighting = True,
+               applyISRReweighting = True,
+               applyTriggerReweighting = True,
+               applyMissingHitsCorrections = True,
+               runMETFilters = True):
+
+    
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
@@ -66,6 +74,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
 
         setMissingHitsCorrection (process, "2016BC")
 
+        if hasattr (process, "prefiringweight"):
+            process.prefiringweight.DataEra = cms.string("2016BtoH")
+            process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
+
     elif runPeriod == "2016DEFGH":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_DEFGH")
@@ -93,6 +105,10 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
+        if hasattr (process, "prefiringweight"):
+            process.prefiringweight.DataEra = cms.string("2016BtoH")
+            process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
+
     elif runPeriod == "2017":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2017")
@@ -119,7 +135,11 @@ def customize (process, runPeriod, applyPUReweighting = True, applyISRReweightin
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
-        setMissingHitsCorrection (process, "2017") 
+        setMissingHitsCorrection (process, "2017")
+
+        if hasattr (process, "prefiringweight"):
+            process.prefiringweight.DataEra = cms.string("2017BtoF")
+            process.L1PrefiringWeightProducer.DataEra = cms.string("2017BtoF")
 
     # fixme, all set to 2017 values
     elif runPeriod == "2018":

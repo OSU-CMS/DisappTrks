@@ -71,6 +71,11 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkNoNMissOutNLayers6plus],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 
 ################################################################################
+# Test for L1 prefiring issue in 2017 MC
+#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTest],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
 ################################################################################
 # MET channels for missing inner/middle/outer hits systematics
