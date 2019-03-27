@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
+from OSUT3Analysis.Configuration.configurationOptions import *
 import copy
 import os
 
