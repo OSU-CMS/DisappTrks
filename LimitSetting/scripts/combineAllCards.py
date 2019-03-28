@@ -4,6 +4,8 @@
 
 import os, sys, glob, re, subprocess
 from optparse import OptionParser
+from threading import Thread, Semaphore, Lock
+from multiprocessing import cpu_count
 
 parser = OptionParser()
 parser.add_option("-d", "--date", dest="inputDate",
@@ -22,26 +24,21 @@ if not os.path.exists("limits/limits_2015_" + arguments.inputDate) or not os.pat
     print "Expected cards to exist in limits/limits_<era>_" + arguments.inputDate + " for eras 2015, 2016BC, and 2016DEFGH. Quitting."
     sys.exit(1)
 
-files2015 = glob.glob('limits/limits_2015_' + arguments.inputDate + "/datacard_AMSB_*.txt")
-print "================================================================================"
-print "Will combine " + str (len (files2015)) + " datacards."
-print "--------------------------------------------------------------------------------"
-i = 0
-for card in files2015:
-    i += 1
-    card2015 = card
-    card2016BC = card.replace("2015", "2016BC")
-    card2016DEFGH = card.replace("2015", "2016DEFGH")
-    cardAll = card.replace("2015", "all")
+def combineCards (i, N, card2015, card2016BC, card2016DEFGH, cardAll):
+    global semaphore
+    global printLock
 
-    print "[" + str (i) + "/" + str (len (files2015)) + "] combining " + re.sub (r".*\/([^/]*)$", r"\1", cardAll) + "..."
+    semaphore.acquire ()
+
+    printLock.acquire ()
+    print "[" + str (i) + "/" + str (N) + "] combining " + re.sub (r".*\/([^/]*)$", r"\1", cardAll) + "..."
+    printLock.release ()
     subprocess.call("combineCards.py Run2015=" + card2015 + " Run2016BC=" + card2016BC + " Run2016DEFGH=" + card2016DEFGH + " > " + cardAll, shell = True)
 
     try:
         fin2015 = open (card2015.replace("datacard", "signalSF"))
         fin2016BC = open (card2016BC.replace("datacard", "signalSF"))
         fin2016DEFGH = open (card2016DEFGH.replace("datacard", "signalSF"))
-        fout = open (cardAll.replace("datacard", "signalSF"), "w")
         sf2015 = fin2015.readline ().rstrip ("\n")
         sf2016BC = fin2016BC.readline ().rstrip ("\n")
         sf2016DEFGH = fin2016DEFGH.readline ().rstrip ("\n")
@@ -51,10 +48,35 @@ for card in files2015:
         if sf2015 != sf2016BC or sf2015 != sf2016DEFGH or sf2016BC != sf2016DEFGH:
             print "Inconsistent signal scale factors. Quitting."
             sys.exit (1)
+        fout = open (cardAll.replace("datacard", "signalSF"), "w")
         fout.write (sf2015 + "\n")
         fout.close ()
     except IOError:
         pass
+
+    semaphore.release ()
+
+
+files2015 = glob.glob('limits/limits_2015_' + arguments.inputDate + "/datacard_AMSB_*.txt")
+print "================================================================================"
+print "Will combine " + str (len (files2015)) + " datacards."
+print "--------------------------------------------------------------------------------"
+semaphore = Semaphore (cpu_count () + 1)
+printLock = Lock ()
+threads = []
+i = 0
+for card in files2015:
+    i += 1
+    card2015 = card
+    card2016BC = card.replace("2015", "2016BC")
+    card2016DEFGH = card.replace("2015", "2016DEFGH")
+    cardAll = card.replace("2015", "all")
+
+    threads.append (Thread (target = combineCards, args = (i, len (files2015), card2015, card2016BC, card2016DEFGH, cardAll)))
+    threads[-1].start ()
+
+for thread in threads:
+  thread.join ()
 
 print "Done."
 print "================================================================================"

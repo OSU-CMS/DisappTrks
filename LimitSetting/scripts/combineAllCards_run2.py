@@ -4,6 +4,8 @@
 
 import os, sys, glob, re, subprocess
 from optparse import OptionParser
+from threading import Thread, Semaphore, Lock
+from multiprocessing import cpu_count
 
 parser = OptionParser()
 parser.add_option('-d', '--date', dest='inputDate',
@@ -26,25 +28,15 @@ if not os.path.exists('limits/limits_2017_NLayers4_' + arguments.inputDate) or n
     print 'Expected 2017 cards in limits/limits_2017_<nLayersWord>_' + arguments.inputDate + ' for nLayersWords NLayers4, NLayers5, and NLayers6plus. Quitting.'
     sys.exit(1)
 
-files20156 = glob.glob('limits/limits_2015_2016_save/datacard_AMSB_*.txt')
-nFiles = str(len(files20156))
+def combineCards (i, N, card20156, card2017NLayers4, card2017NLayers5, card2017NLayers6plus, cardAll):
+    global semaphore
+    global printLock
 
-print '================================================================================'
-print 'Will combine ' + nFiles + ' datacards.'
-print '--------------------------------------------------------------------------------'
+    semaphore.acquire ()
 
-i = 0
-for card in files20156:
-    i += 1
-    card20156 = card
-
-    card2017NLayers4     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers4_'     + arguments.inputDate)
-    card2017NLayers5     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers5_'     + arguments.inputDate)
-    card2017NLayers6plus = card.replace('limits_2015_2016_save', 'limits_2017_NLayers6plus_' + arguments.inputDate)
-    
-    cardAll = card.replace('limits_2015_2016_save', 'limits_all_' + arguments.inputDate)
-
-    print '[' + str(i) + '/' + nFiles + '] combining ' + re.sub(r'.*\/([^/]*)$', r'\1', cardAll) + '...'
+    printLock.acquire ()
+    print '[' + str(i) + '/' + N + '] combining ' + re.sub(r'.*\/([^/]*)$', r'\1', cardAll) + '...'
+    printLock.release ()
     
     subprocess.call('combineCards.py Legacy=' + card20156 + ' Run2017NLayers4=' + card2017NLayers4 + ' Run2017NLayers5=' + card2017NLayers5 + ' Run2017NLayers6plus=' + card2017NLayers6plus + ' > ' + cardAll, shell = True)
 
@@ -73,6 +65,36 @@ for card in files20156:
         fout.close ()
     except IOError:
         pass
+
+    semaphore.release ()
+
+
+files20156 = glob.glob('limits/limits_2015_2016_save/datacard_AMSB_*.txt')
+nFiles = str(len(files20156))
+
+print '================================================================================'
+print 'Will combine ' + nFiles + ' datacards.'
+print '--------------------------------------------------------------------------------'
+
+semaphore = Semaphore (cpu_count () + 1)
+printLock = Lock ()
+threads = []
+i = 0
+for card in files20156:
+    i += 1
+    card20156 = card
+
+    card2017NLayers4     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers4_'     + arguments.inputDate)
+    card2017NLayers5     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers5_'     + arguments.inputDate)
+    card2017NLayers6plus = card.replace('limits_2015_2016_save', 'limits_2017_NLayers6plus_' + arguments.inputDate)
+    
+    cardAll = card.replace('limits_2015_2016_save', 'limits_all_' + arguments.inputDate)
+
+    threads.append (Thread (target = combineCards, args = (i, nFiles, card20156, card2017NLayers4, card2017NLayers5, card2017NLayers6plus, cardAll)))
+    threads[-1].start ()
+
+for thread in threads:
+    thread.join ()
 
 print 'Done.'
 print '================================================================================'
