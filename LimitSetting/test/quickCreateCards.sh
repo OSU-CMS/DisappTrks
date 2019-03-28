@@ -27,7 +27,10 @@ combineAllCards_run2.py -d ${SUFFIX} # make 2015-7
 #limits_all20156_2019Mar15
 #limits_run2_2019Mar15
 
-echo runLimits.py -b -l amsbLimitConfig.py -M Asymptotic -c limits_2017_all_${SUFFIX} 
-echo runLimits.py -b -l amsbLimitConfig.py -M Asymptotic -c limits_run2_${SUFFIX} 
+echo Examples of running...
+echo runLimits.py --noPicky -b -l amsbLimitConfig.py -M Asymptotic -c limits_2017_all_${SUFFIX} 
+echo runLimits.py --noPicky -b -l amsbLimitConfig.py -M Asymptotic -c limits_run2_${SUFFIX} 
+echo
 
+echo Examples of plotting (remember to set the lumi right!)...
 echo makeLimitPlots.py -l amsbLimitPlotConfig.py -c limits_2017_all_${SUFFIX} -s exp
