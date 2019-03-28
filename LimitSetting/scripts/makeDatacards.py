@@ -90,7 +90,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
     for iEvent in range(chain.GetEntries()):
         chain.GetEntry(iEvent)
         lifetimeWeight = getattr(chain, lifetimeWeightName)
-        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
+        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor * chain.eventvariable_L1ECALPrefiringWeight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 
