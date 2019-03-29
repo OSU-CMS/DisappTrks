@@ -39,7 +39,8 @@ background_systematics = {
         'background' : 'Tau',
     },
 
-    'Fake_syst_fit_NLayers4' : { # error from fit
+    'Fake_syst_fit' : { # error from fit
+        # correlated! between nlayers since it's the same value
         'value' : '1.38923987949',
         'background' : 'Fake',
     },
