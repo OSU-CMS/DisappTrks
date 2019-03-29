@@ -1,3 +1,8 @@
+COM_ENERGY = 13000.
+CROSS_SECTION = 1.0
+MCHI = 1100  # GeV
+CTAU = 10  # mm
+SLHA_TABLE="""
 #  ISAJET SUSY parameters in SUSY Les Houches Accord 2 format
 #  Created by ISALHA 2.0 Last revision: C. Balazs 21 Apr 2009
 Block SPINFO   # Program information
@@ -40,9 +45,9 @@ Block MASS   # Scalar and gaugino mass spectrum
    1000015     4.59390961E+02   #  tau1
    1000016     7.43124634E+02   #  nutl
    1000021     6.02264111E+03   #  glss
-   1000022     9.99857849E+02   #  z1ss
+   1000022     1.09985785E+03   #  z1ss
    1000023     2.96498828E+03   #  z2ss
-   1000024     1.00003229E+03   #  w1ss
+   1000024     1.10013229E+03   #  w1ss
    1000025    -4.94443994E+03   #  z3ss
    1000035     4.94548633E+03   #  z4ss
    1000037     4.95200684E+03   #  w2ss
@@ -145,3 +150,57 @@ Block AE Q=  4.47923682E+03   #
   1  1     3.34377515E+03   # A_e
   2  2     3.34377515E+03   # A_mu
   3  3     3.34377515E+03   # A_tau
+#
+#
+#
+#                             =================
+#                             |The decay table|
+#                             =================
+#
+#         PDG            Width
+DECAY   1000024     %.9g # chargino decay
+#
+#
+""" % (1.97326979e-13 / CTAU)
+
+import FWCore.ParameterSet.Config as cms
+
+from Configuration.Generator.Pythia8CommonSettings_cfi import *
+from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
+
+
+generator = cms.EDFilter("Pythia8GeneratorFilter",
+    pythiaPylistVerbosity = cms.untracked.int32(0),
+    filterEfficiency = cms.untracked.double(-1),
+    pythiaHepMCVerbosity = cms.untracked.bool(False),
+    SLHATableForPythia8 = cms.string('%s' % SLHA_TABLE),
+    comEnergy = cms.double(COM_ENERGY),
+    crossSection = cms.untracked.double(CROSS_SECTION),
+    maxEventsToPrint = cms.untracked.int32(0),
+    PythiaParameters = cms.PSet(
+        pythia8CommonSettingsBlock,
+        pythia8CP5SettingsBlock,
+        processParameters = cms.vstring(
+            'SUSY:all = off',
+            'SUSY:qqbar2chi+chi- = on',
+            'SUSY:qqbar2chi+-chi0 = on',
+            '1000024:isResonance = false',
+            '1000024:oneChannel = 1 1.0 100 1000022 211',
+            '1000024:tau0 = %.1f' % CTAU,
+            'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
+       ),
+        parameterSets = cms.vstring(
+            'pythia8CommonSettings',
+            'pythia8CP5Settings',
+            'processParameters')
+    ),
+    # The following parameters are required by Exotica_HSCP_SIM_cfi:
+    slhaFile = cms.untracked.string(''),   # value not used
+    processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/RhadronProcessList.txt'),
+    useregge = cms.bool(False),
+    hscpFlavor = cms.untracked.string('stau'),
+    massPoint = cms.untracked.int32(MCHI),  # value not used
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
+)
+
+ProductionFilterSequence = cms.Sequence(generator)

@@ -7,9 +7,9 @@
 # ../data/AMSB_chargino_600GeV_Isajet780.slha
 BLOCK MASS
 #  PDG code   mass   particle
-   1000022   1.09857849E+03   # ~neutralino(1)
-   1000024   1.10032288E+03   # ~chargino(1)+
-  -1000024   1.10032288E+03   # ~chargino(1)-
+   1000022   1.09985785E+03   # ~neutralino(1)
+   1000024   1.10003229E+03   # ~chargino(1)+
+  -1000024   1.10003229E+03   # ~chargino(1)-
 Block
 
 
