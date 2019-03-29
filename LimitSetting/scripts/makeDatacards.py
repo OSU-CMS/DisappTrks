@@ -12,7 +12,8 @@ import copy
 import re
 from array import *
 from optparse import OptionParser
-
+from threading import Thread, Lock, Semaphore
+from multiprocessing import cpu_count
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -68,12 +69,16 @@ def fancyTable(arrays):
     return '\n'.join(spacedLines)
 
 def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
+    global printLock
+
     if os.path.isfile('condor/' + condor_dir + '/' + process + '.root'):
         return GetYieldAndError(condor_dir, process, channel)
 
     realProcessName = process.replace(dstCTau, srcCTau)
 
+    printLock.acquire ()
     print 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...'
+    printLock.release ()
 
     chain = TChain(signal_channel_tree)
     chain.Add('condor/' + condor_dir + '/' + realProcessName + '/hist_*.root')
@@ -90,7 +95,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
     for iEvent in range(chain.GetEntries()):
         chain.GetEntry(iEvent)
         lifetimeWeight = getattr(chain, lifetimeWeightName)
-        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
+        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor * chain.eventvariable_L1ECALPrefiringWeight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 
@@ -135,7 +140,11 @@ def GetYieldAndError(condor_dir, process, channel):
 
     return yieldAndError
 
-def writeDatacard(mass, lifetime, observation):
+def writeDatacard(mass, lifetime, observation, dictionary):
+    global semaphore
+    global printLock
+
+    semaphore.acquire ()
 
     lifetimeFloat = float(lifetime)
 
@@ -164,6 +173,7 @@ def writeDatacard(mass, lifetime, observation):
         try:
             f = open ("limits/"+arguments.signalSFDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
             signal_yield_sf = float (f.readline ().rstrip ("\n"))
+            f.close ()
         except IOError:
             pass
     signal_yield *= signal_yield_sf
@@ -181,7 +191,9 @@ def writeDatacard(mass, lifetime, observation):
             background_errors[background] = str(backgrounds[str(background)]['error'])
 
         if arguments.verbose:
+            printLock.acquire ()
             print "Debug:  for bkgd: " + str(background) + ", yield = " + str(background_yields[background]) + ", error = " + str(background_errors[background])
+            printLock.release ()
 
         totalBkgd += float(background_yields[background])
 
@@ -358,6 +370,8 @@ def writeDatacard(mass, lifetime, observation):
     datacard.write('# signalEff = ' + str(signalEff) + '\n')
     datacard.write('# signalEffErr = ' + str(signalEffErr) + '\n')
 
+    datacard.close ()
+
     useBatch = True
 
     if arguments.runRooStatsCl95:
@@ -383,8 +397,11 @@ def writeDatacard(mass, lifetime, observation):
             command = command + ' | tee ' + logfile
         print command
         datacard95.write(command)
+        datacard95.close(command)
 
-    return signalYieldAndError
+    dictionary[(mass, lifetime)] = signalYieldAndError
+
+    semaphore.release ()
 
 
 ########################################################################################
@@ -409,6 +426,8 @@ for systematic in external_systematic_uncertainties:
             or systematics_dictionary[systematic][dataset] == '0.0' or systematics_dictionary[systematic][dataset] == '0.0/0.0':
                 systematics_dictionary[systematic][dataset] = '-'
 
+    input_file.close ()
+
 
 
 ###setting up observed number of events
@@ -420,9 +439,15 @@ if not run_blind_limits:
 allYieldsAndErrors = {}
 
 ###looping over signal models and writing a datacard for each
+threads = []
+printLock = Lock ()
+semaphore = Semaphore (cpu_count () + 1)
 for mass in masses:
     for lifetime in lifetimes:
-        allYieldsAndErrors[(mass, lifetime)] = writeDatacard(mass,lifetime,observation)
+        threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors)))
+        threads[-1].start ()
+for thread in threads:
+    thread.join ()
 
 acceptanceOutput = TFile('limits/' + arguments.outputDir + '/acceptancePlots.root', 'recreate')
 

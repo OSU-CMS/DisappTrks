@@ -32,5 +32,5 @@ echo runLimits.py --noPicky -b -l amsbLimitConfig.py -M Asymptotic -c limits_201
 echo runLimits.py --noPicky -b -l amsbLimitConfig.py -M Asymptotic -c limits_run2_${SUFFIX} 
 echo
 
-echo Examples of plotting (remember to set the lumi right!)...
+echo "Examples of plotting (remember to set the lumi right!)..."
 echo makeLimitPlots.py -l amsbLimitPlotConfig.py -c limits_2017_all_${SUFFIX} -s exp
