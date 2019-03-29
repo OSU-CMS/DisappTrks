@@ -1,12 +1,11 @@
 ##########The script used to generate cff cards for EWK chargino step1 production
-#! /usr/bin/python
 import sys
 import os
 
-masses = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+masses = [1000, 1100]
 lifetimes = [10, 100, 1000, 10000, 100000]
 
-PATH_OUT = os.environ.get('CMSSW_BASE') + '/src/DisappTrks/SignalMC/python/pythia8GeantDecay/'
+PATH_OUT = os.environ.get('CMSSW_BASE') + '/src/DisappTrks/SignalMC/python/pythia8Decay/'
 PATH_SLHA = os.environ.get('CMSSW_BASE') + '/src/DisappTrks/SignalMC/data/SLHA/'
 
 for mass in masses:
@@ -28,7 +27,18 @@ CTAU = %s  # mm
     slhalines = fin.readlines()
     for lines in slhalines:
       fout.write(lines)
-    fout.write('"""')
+    fout.write('''
+#
+#
+#
+#                             =================
+#                             |The decay table|
+#                             =================
+#
+#         PDG            Width
+DECAY   1000024     %.9g # chargino decay
+""" % (1.97326979e-13 / CTAU)
+''')
 
     fout.write('''
 import FWCore.ParameterSet.Config as cms
@@ -51,8 +61,10 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
         'SUSY:all = off',
         'SUSY:qqbar2chi+chi- = on',
         'SUSY:qqbar2chi+-chi0 = on',
-        '1000024:mayDecay = false',
-        '-1000024:mayDecay = false',
+        '1000024:isResonance = false',
+        '1000024:oneChannel = 1 1.0 100 1000022 211',
+        '1000024:tau0 = %.1f' % CTAU,
+        'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
       ),
       parameterSets = cms.vstring(
         'pythia8CommonSettings',
@@ -74,8 +86,3 @@ ProductionFilterSequence = cms.Sequence(generator)
 ''')
     fout.close()
     print FILE_out + " has been generated\n"
-
-   
-
-    
-
