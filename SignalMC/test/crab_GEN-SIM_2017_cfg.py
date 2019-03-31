@@ -58,7 +58,7 @@ if __name__ == '__main__':
     reallySubmitEWK = False
     reallySubmitStrong = False
 
-    reallySubmitMass = { x : False for x in range(100, 1000, 100)}
+    reallySubmitMass = { x : False for x in range(100, 1200, 100)}
     reallySubmitGluinoMass = { x : False for x in range(700, 2300, 100)}
     reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
     numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     }
 
     if reallySubmitEWK:
-      for mass in range(100, 1000, 100):
+      for mass in range(100, 1200, 100):
           for ctau in [1, 10, 100, 1000, 10000]:
               config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
               config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
