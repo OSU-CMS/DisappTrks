@@ -57,6 +57,7 @@ if __name__ == '__main__':
 
     reallySubmitEWK = False
     reallySubmitStrong = False
+    reallySubmitHiggsinoEWK = False
 
     reallySubmitMass = { x : False for x in range(100, 1200, 100)}
     reallySubmitGluinoMass = { x : False for x in range(700, 2300, 100)}
@@ -93,3 +94,14 @@ if __name__ == '__main__':
                           forkAndSubmit(config)
                   else:
                       print 'Skipping submission of request:', config.General.requestName
+    elif reallySubmitHiggsinoEWK:
+      for mass in range(100, 1000, 100):
+          for ctau in [1, 10, 100, 1000, 10000]:
+              config.General.requestName = 'Higgsino%dGeV_ctau%dcm_step1' % (mass, ctau)
+              config.JobType.psetName = 'step1/higgsino/Higgsino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
+              config.Data.outputPrimaryDataset = 'Higgsino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
+              config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
+              if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                  forkAndSubmit(config)
+              else:
+                  print 'Skipping submission of request:', config.General.requestName
