@@ -112,14 +112,16 @@ def GetYieldAndError(condor_dir, process, channel):
     crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
     # don't need cross section uncertainties, since that is its own nuisance parameter
 
-    pwd = os.getcwd()
-    os.chdir("condor/" + condor_dir + "/" + process + "/")
-    exec("from datasetInfo_" + process + " import crossSection as xsec")
-    if xsec < 0:
-        integral *= crossSectionWeight
-        raw_integral *= crossSectionWeight
-        intError *= crossSectionWeight
-    os.chdir(pwd)
+    if process != data_dataset:
+        datasetInfo = open("condor/" + condor_dir + "/" + process + "/datasetInfo_" + process + "_cfg.py")
+        xsec = [x for x in list(datasetInfo) if x.startswith('crossSection = ')]
+        datasetInfo.close()
+        if len(xsec) > 0:
+            xsec = float(xsec[-1].split('=')[-1])
+        if xsec < 0:
+            integral *= crossSectionWeight
+            raw_integral *= crossSectionWeight
+            intError *= crossSectionWeight
 
     acceptance = integral / nGenerated / crossSectionWeight
 
