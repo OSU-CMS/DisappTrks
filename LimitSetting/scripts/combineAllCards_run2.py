@@ -14,14 +14,14 @@ parser.add_option('-d', '--date', dest='inputDate',
 (arguments, args) = parser.parse_args()
 
 if arguments.inputDate:
-    if not os.path.exists('limits/limits_all_' + arguments.inputDate):
-        os.mkdir('limits/limits_all_' + arguments.inputDate)
+    if not os.path.exists('limits/limits_run2_' + arguments.inputDate):
+        os.mkdir('limits/limits_run2_' + arguments.inputDate)
 else:
     print 'No input date suffix given. Quitting.'
     sys.exit(1)
 
-if not os.path.exists('limits/limits_2015_2016_save'):
-    print 'Expected 2015-6 cards in limits/limits_2015_2016_save. Quitting.'
+if not os.path.exists('limits/limits_all20156_' + arguments.inputDate):
+    print 'Expected 2015-6 cards in limits/limits_all20156_' + arguments.inputDate + '. Have you run combineAllCards.py yet? Quitting.'
     sys.exit(1)
 
 if not os.path.exists('limits/limits_2017_NLayers4_' + arguments.inputDate) or not os.path.exists('limits/limits_2017_NLayers5_' + arguments.inputDate) or not os.path.exists('limits/limits_2017_NLayers6plus_' + arguments.inputDate):
@@ -69,7 +69,7 @@ def combineCards (i, N, card20156, card2017NLayers4, card2017NLayers5, card2017N
     semaphore.release ()
 
 
-files20156 = glob.glob('limits/limits_2015_2016_save/datacard_AMSB_*.txt')
+files20156 = glob.glob('limits/limits_all20156_' + arguments.inputDate + '/datacard_AMSB_*.txt')
 nFiles = str(len(files20156))
 
 print '================================================================================'
@@ -84,11 +84,11 @@ for card in files20156:
     i += 1
     card20156 = card
 
-    card2017NLayers4     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers4_'     + arguments.inputDate)
-    card2017NLayers5     = card.replace('limits_2015_2016_save', 'limits_2017_NLayers5_'     + arguments.inputDate)
-    card2017NLayers6plus = card.replace('limits_2015_2016_save', 'limits_2017_NLayers6plus_' + arguments.inputDate)
+    card2017NLayers4     = card.replace('limits_all20156_' + arguments.inputDate, 'limits_2017_NLayers4_'     + arguments.inputDate)
+    card2017NLayers5     = card.replace('limits_all20156_' + arguments.inputDate, 'limits_2017_NLayers5_'     + arguments.inputDate)
+    card2017NLayers6plus = card.replace('limits_all20156_' + arguments.inputDate, 'limits_2017_NLayers6plus_' + arguments.inputDate)
     
-    cardAll = card.replace('limits_2015_2016_save', 'limits_all_' + arguments.inputDate)
+    cardAll = card.replace('limits_all20156_' + arguments.inputDate, 'limits_run2_' + arguments.inputDate)
 
     threads.append (Thread (target = combineCards, args = (i, nFiles, card20156, card2017NLayers4, card2017NLayers5, card2017NLayers6plus, cardAll)))
     threads[-1].start ()

@@ -14,31 +14,30 @@ from array import *
 from decimal import *
 from fractions import *
 from operator import itemgetter
-from optparse import OptionParser
 
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                  help="output directory")
-parser.add_option("-s", "--saveObjects", dest="saveObjects",
-                  help="objects to save in output root file")
-parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
-                  help="verbose output")
-parser.add_option("-p", "--paperMode", dest="paperMode", action='store_true', default=False,
-                  help="paper mode as EXO-16-044")
+from DisappTrks.LimitSetting.limitOptions import *
 
-(arguments, args) = parser.parse_args()
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
-if arguments.localConfig:
-    sys.path.append(os.getcwd())
-    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
-else:
-    print "No local config specified, shame on you"
+if arguments.limitType not in validLimitTypes:
+    print
+    print "Invalid or empty limit type to plot (-l). Allowed types:"
+    print str(validLimitTypes)
+    print
     sys.exit(0)
+
+if arguments.limitType == "wino":
+    from DisappTrks.LimitSetting.winoElectroweakLimits import *
+    from DisappTrks.LimitSetting.winoElectroweakPlots import *
+
 if arguments.outputDir:
-    if not os.path.exists("limits/"+arguments.outputDir):
-        os.system("mkdir limits/"+arguments.outputDir)
+    if not os.path.exists("limits/" + arguments.outputDir):
+        os.system("mkdir limits/" + arguments.outputDir)
 else:
     print "No output directory specified, shame on you"
     sys.exit(0)
@@ -109,22 +108,22 @@ colorSchemes = {
 #set the text for the luminosity label
 if(intLumi < 1000.):
     LumiInPb = intLumi
-##     LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
-##     LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
-#    LumiText = str(intLumi) + " pb^{-1}"
+    #LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
+    #LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+    #LumiText = str(intLumi) + " pb^{-1}"
     LumiText = str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
 else:
     LumiInFb = intLumi/1000.
-#    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+    #LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
     LumiText = str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
 
-#set the text for the fancy heading
+# set the text for the fancy heading
 HeaderText = LumiText + " (13 TeV)"
 
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.", "0p")
-#    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
+    #return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
     return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
 
 def makeSignalRootFileName(mass,lifetime,directory,limit_type):
@@ -142,7 +141,7 @@ def makeSignalLogFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
-    # print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
+    #print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
@@ -341,7 +340,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 print "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ","
         if x_key is 'lifetime' and y_key is 'mass':
             x[-1], y[-1] = y[-1], x[-1]
-    if convertToMassSplitting:
+    if plot['convertToMassSplitting']:
         if "observed" is experiment_key:
             print "Debug:  about to print all the values that go into TGraph for experiment_key = ", experiment_key, ":"
             for i in range(len(x)):
@@ -1080,7 +1079,7 @@ def drawPlot(plot, th2fType=""):
         elif plot['yAxisType'] is 'lifetime':
             yAxisMin = float(lifetimes[0])
             yAxisMax = 2 * float(lifetimes[-1])
-            if not convertToMassSplitting:
+            if not plot['convertToMassSplitting']:
                 canvas.SetLogy()
             xAxisBins.extend ([float (mass) for mass in masses])
             xAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
@@ -1091,7 +1090,7 @@ def drawPlot(plot, th2fType=""):
         nBinsY = len (yAxisBins) - 1
     else:
         canvas.SetLogy()
-    if convertToMassSplitting:
+    if plot['convertToMassSplitting']:
         legend = TLegend(0.180451,0.352067,0.538847,0.482558)  # determine coordinates empirically
     else:
         if arguments.paperMode:
@@ -1452,10 +1451,10 @@ def drawPlot(plot, th2fType=""):
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
 
-    if convertToMassSplitting:
+    if plot['convertToMassSplitting']:
         LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
         LumiLabel.SetTextSize(0.448718)
-    elif makeColorPlot:
+    elif plot['makeColorPlot']:
         if arguments.paperMode:
             LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS", "NDC")
         else:
@@ -1463,7 +1462,7 @@ def drawPlot(plot, th2fType=""):
             #LumiLabel = TPaveLabel(0.186717,0.938125,0.383459,0.989375,"CMS Preliminary","NDC")
             #LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
         LumiLabel.SetTextSize(0.769225)
-    if not makeColorPlot and not convertToMassSplitting:
+    if not plot['makeColorPlot'] and not plot['convertToMassSplitting']:
         if arguments.paperMode and not plot['title'] == 'lifetime_vs_mass':
             LumiLabel = TPaveLabel(0.191729,0.815245,0.388471,0.916021,"CMS","NDC")
         else:
@@ -1480,11 +1479,11 @@ def drawPlot(plot, th2fType=""):
     if 'theoryLabel' in plot:
         for i in range (0, len (plot["theoryLabel"])):
             label = plot['theoryLabel'][i]
-            if convertToMassSplitting:
+            if plot['convertToMassSplitting']:
                 TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
-            if makeColorPlot:
+            if plot['makeColorPlot']:
                 TheoryLabel = TPaveLabel(0.0200501,0.541641,0.433584,0.611409,label,"NDC")
-            if not makeColorPlot and not convertToMassSplitting:
+            if not plot['makeColorPlot'] and not plot['convertToMassSplitting']:
                 if arguments.paperMode:
                     if not plot['title'] == 'lifetime_vs_mass':
                         if i == 0:
@@ -1528,7 +1527,7 @@ def drawPlot(plot, th2fType=""):
         BRLabel.SetFillStyle(0)
         BRLabel.Draw()
 
-    if makeColorPlot:
+    if plot['makeColorPlot']:
         canvas.SetLeftMargin(0.15)
         canvas.SetRightMargin(0.15)
     canvas.Update()

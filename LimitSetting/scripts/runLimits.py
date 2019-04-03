@@ -11,48 +11,33 @@ import re
 import subprocess
 import shutil
 from array import *
-from optparse import OptionParser
 
+from DisappTrks.LimitSetting.limitOptions import *
 
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                                    help="output directory")
-parser.add_option("-M", "--method", dest="method", default="Asymptotic",
-                                    help="which method of combine to use: currently supported options are Asymptotic (default), MarkovChainMC and HybridNew")
-parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
-                  help="how many points are proposed to fill a single Markov chain, default = 10k")
-parser.add_option("-r", "--tries", dest="Ntries", default="10",
-                  help="how many times the algorithm will run for observed limits, default = 10")
-parser.add_option("-t", "--toys", dest="Ntoys", default="1",
-                  help="how many toy MC to throw for expected limits, default = 1")
-parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
-                  help="run on the condor queue")
-parser.add_option("-q", "--quick", action="store_true", dest="quick", default=False,
-                  help="run only a single sample, for testing")
-parser.add_option("-n", "--noPicky", action="store_true", dest="noPicky", default=False,
-                  help="do not use --picky in combine options")
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
-(arguments, args) = parser.parse_args()
-
-if arguments.localConfig:
-    sys.path.append(os.getcwd())
-    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
-else:
-    print "No local config specified, shame on you"
+if arguments.limitType not in validLimitTypes:
+    print
+    print "Invalid or empty limit type to run (-l). Allowed types:"
+    print str(validLimitTypes)
+    print
     sys.exit(0)
+
+if arguments.limitType == "wino":
+    from DisappTrks.LimitSetting.winoElectroweakLimits import *
+
 if not arguments.outputDir:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-
 if arguments.outputDir:
     if not os.path.exists ("limits/"+arguments.outputDir):
         os.system("mkdir limits/%s" % (arguments.outputDir))
-#   os.mkdir("limits/"+arguments.outputDir)
-
-
 
 def output_condor(combine_command, datacard, options):
     script = "#!/usr/bin/env bash\n\n"
@@ -221,5 +206,4 @@ for mass in masses:
 
         if arguments.quick:
             sys.exit("Finished running one point.")
-
 

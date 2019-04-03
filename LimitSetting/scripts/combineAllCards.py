@@ -14,8 +14,8 @@ parser.add_option("-d", "--date", dest="inputDate",
 (arguments, args) = parser.parse_args()
 
 if arguments.inputDate:
-    if not os.path.exists("limits/limits_all_" + arguments.inputDate):
-        os.mkdir("limits/limits_all_" + arguments.inputDate)
+    if not os.path.exists("limits/limits_all20156_" + arguments.inputDate):
+        os.mkdir("limits/limits_all20156_" + arguments.inputDate)
 else:
     print "No input date suffix given. Quitting."
     sys.exit(1)
@@ -70,7 +70,7 @@ for card in files2015:
     card2015 = card
     card2016BC = card.replace("2015", "2016BC")
     card2016DEFGH = card.replace("2015", "2016DEFGH")
-    cardAll = card.replace("2015", "all")
+    cardAll = card.replace("2015", "all20156")
 
     threads.append (Thread (target = combineCards, args = (i, len (files2015), card2015, card2016BC, card2016DEFGH, cardAll)))
     threads[-1].start ()

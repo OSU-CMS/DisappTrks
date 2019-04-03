@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 # Script to extract signal efficiencies and set up the necessary cards for running limits.
-#
-# Copied from https://github.com/DisplacedSUSY/DisplacedSUSY/blob/master/Configuration/scripts/makeDatacards.py
 
 import time
 import os
@@ -11,41 +9,27 @@ import math
 import copy
 import re
 from array import *
-from optparse import OptionParser
 from threading import Thread, Lock, Semaphore
 from multiprocessing import cpu_count
 
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                  help="output directory")
-parser.add_option("-s", "--signalSFDir", dest="signalSFDir", default="",
-                  help="signal SF directory")
-parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooStatsCl95", default=False,
-                  help="create scripts to run RooStatsCl95")
-parser.add_option("-g", "--gamma", action="store_true", dest="runSignalAsGamma", default=False,
-                  help="treat signal with gamma function instead of log normal")
-parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False,
-                  help="verbose output")
+from DisappTrks.LimitSetting.limitOptions import *
+from DisappTrks.LimitSetting.winoElectroweakLimits import *
 
-(arguments, args) = parser.parse_args()
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain, TH2D
 
-if arguments.localConfig:
-    sys.path.append(os.getcwd())
-    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
-else:
-    print "No local config specified, shame on you"
-    sys.exit(0)
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
 if arguments.outputDir:
-    if not os.path.exists("limits/"+arguments.outputDir):
-        os.system("mkdir limits/"+arguments.outputDir)
+    if not os.path.exists("limits/" + arguments.outputDir):
+        os.system("mkdir limits/" + arguments.outputDir)
 else:
     print "No output directory specified, shame on you"
     sys.exit(0)
-
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain, TH2D
 
 def fancyTable(arrays):
 
@@ -111,23 +95,33 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
     return yieldAndError
 
 def GetYieldAndError(condor_dir, process, channel):
-    inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
-    hist = inputFile.Get(channel+"/"+integrateHistogramName)
+    inputFile = TFile("condor/" + condor_dir + "/" + process + ".root")
+    hist = inputFile.Get(channel + "/" + integrateHistogramName)
     if not hist:
-        print "Could not find hist "+channel+"/"+integrateHistogramName + " in " + inputFile.GetName()
+        print "Could not find hist " + channel + "/" + integrateHistogramName + " in " + inputFile.GetName()
     hist.SetDirectory(0)
     nGenerated = inputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
-    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
     inputFile.Close()
-    nBinsX = hist.GetNbinsX()
 
     intError = Double (0.0)
-    integral = hist.IntegralAndError(0,nBinsX+1,intError)
+    integral = hist.IntegralAndError(0, hist.GetNbinsX() + 1, intError)
     fracError = 1.0 + (intError / integral) if integral > 0.0 else 1.0
 
     raw_integral = hist.GetEntries ()
 
+    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
+    # don't need cross section uncertainties, since that is its own nuisance parameter
 
+    pwd = os.getcwd()
+    os.chdir("condor/" + condor_dir + "/" + process + "/")
+    exec("from datasetInfo_" + process + " import crossSection as xsec")
+    if xsec < 0:
+        integral *= crossSectionWeight
+        raw_integral *= crossSectionWeight
+        intError *= crossSectionWeight
+    os.chdir(pwd)
+
+    acceptance = integral / nGenerated / crossSectionWeight
 
     yieldAndError = {
         'yield'      : integral,
@@ -159,7 +153,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
 
     srcCTau = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
     # acceptance is too low for 1cm, so here just reweight from 10cm...
-    if lifetime.startswith('0p'):
+    if lifetime.startswith('0p') or lifetime == '1':
         srcCTau = 10
     signalYieldAndError = GetReweightedYieldAndError(signal_condor_dir, signal_dataset, signal_channel, str(srcCTau) + 'cm', lifetime + 'cm')
 
@@ -167,6 +161,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     signal_yield_raw = signalYieldAndError['rawYield']
     signal_yield_weight = signalYieldAndError['weight']
 
+    # durp why is this low for this shit
     target_signal_yield = 10.0 * (lumi / 38420.008)
     signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
     if arguments.signalSFDir:
@@ -323,21 +318,15 @@ def writeDatacard(mass, lifetime, observation, dictionary):
         row.append('-')
     datacard_data.append(row)
 
- #add a new row for each uncertainty specified in configuration file
+    #add a new row for each uncertainty specified in configuration file
     for uncertainty in signal_systematic_uncertainties:
         row = [uncertainty,'lnN','']
-##          if 'signal' in global_systematic_uncertainties[uncertainty]['applyList']:
         row.append(signal_systematic_uncertainties[uncertainty]['value'])
-##          else:
-##              row.append('-')
         for background in backgrounds:
-##              if background in global_systematic_uncertainties[uncertainty]['applyList']:
-##                  row.append(global_systematic_uncertainties[uncertainty]['value'])
-##              else:
             row.append('-')
         datacard_data.append(row)
 
-# add a new row for each uncertainty defined in external text files
+    # add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
         if signal_dataset in systematics_dictionary[uncertainty]:
@@ -355,9 +344,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
 
-######
-#####
-
+    #################
 
     signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])
     signalEff = signal_yield / signalOrigYield if signalOrigYield > 0.0 else 1.0
@@ -380,19 +367,19 @@ def writeDatacard(mass, lifetime, observation, dictionary):
         logfile = 'limitResults/tau' + lifetime + '/mGrav' + mass + 'K/limitExpDisTrk.log'
         if useBatch:
             command = 'bsub -q 8nm -oo '
-#            command += '%50s ' % logfile
+            #command += '%50s ' % logfile
             command += '{0: <50}'.format(logfile)
         else:
             command = ''
         command += 'limitScanDisTrk.sh '
-##         command += '%18s ' % str(signalEff)
-##         command += '%18s ' % str(signalEffErr)
+        #command += '%18s ' % str(signalEff)
+        #command += '%18s ' % str(signalEffErr)
         command += '{0: <18}'.format(str(signalEff))
         command += '{0: <18}'.format(str(signalEffErr))
         command += '{0: <18}'.format(str(backgroundEst))
         command += '{0: <18}'.format(str(backgroundEstErr))
-##         command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
-##         command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
+        #command = command + 'root -l -b -q \'limitScanDisTrk.C+(\"limitResults/tau' + lifetime + '/mGrav' + mass + 'K/\",'
+        #command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
         if not useBatch:
             command = command + ' | tee ' + logfile
         print command
@@ -406,7 +393,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
 
 ########################################################################################
 ########################################################################################
-###getting all the systematic errors and putting them in a dictionary
+### getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
     input_file = open(os.environ['CMSSW_BASE']+"/src/DisappTrks/SignalSystematics/data/systematic_values__" + systematic + ".txt")
@@ -427,8 +414,6 @@ for systematic in external_systematic_uncertainties:
                 systematics_dictionary[systematic][dataset] = '-'
 
     input_file.close ()
-
-
 
 ###setting up observed number of events
 observation = 0

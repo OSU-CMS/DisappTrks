@@ -1,47 +1,18 @@
 #!/usr/bin/env python
 
-# Local options file to be used with makeLimitPlots.py
-# Usage:
-# > makeLimitPlots.py -l amsbLimitPlotConfigNew.py -c limitDir
-#
-# Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/LimitsCalculation/test/sampleLimitConfig.py
-
-from DisappTrks.SignalMC.signalCrossSecs import *
-from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.LimitSetting.limitOptions import *
+from DisappTrks.LimitSetting.winoElectroweakLimits import *
 
 from ROOT import TMath
 
-##################################
-### Event Selection Parameters ###
-##################################
-
-intLumi = lumi["MET_2015"] + lumi["MET_2016"]
-
-#########################
-### Signal Parameters ###
-#########################
-
-#NOTE: These are the chargino masses in GeV
-masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
-
-#chargino tau values in cm
-lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
-             '20', '30', '40', '50', '60', '70', '80', '90', '100',
-             '200', '300', '400', '500', '600', '700', '800', '900', '1000',
-             '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
-
-# 2017 stuff
-#lifetimes.extend(['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
-
 convertCmToNs = True
-makeColorPlot = False
-convertToMassSplitting = False
-outputName = "limit_plot.root"
-yAxisRangeFor1DMassLimits = [0.01, 10000]
+outputName = "limit_plots.root"
+yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
+
+showObserved = (not arguments.era.startswith("2017") and arguments.era != "run2")
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -52,6 +23,9 @@ plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
         'title' : 'lifetime_vs_mass',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -72,43 +46,8 @@ plotDefinitions = [
 
         'graphs' : [
             {
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
-            },
-        ],
-    },
-
-    ###################### CTAU = 1 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_1cm',
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
-        'yAxisLabel' : 'c#tau = 1 cm',
-
-        'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm/c (' + str (convertToNs (1.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
-        ],
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 1.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
             },
         ],
     },
@@ -117,6 +56,9 @@ plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
         'title' : 'limits_vs_10cm',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -141,7 +83,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 10.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -152,6 +94,9 @@ plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
         'title' : 'limits_vs_100cm',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -176,7 +121,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 100.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -187,6 +132,9 @@ plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
         'title' : 'limits_vs_1000cm',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -211,7 +159,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 1000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
@@ -222,6 +170,9 @@ plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
         'title' : 'limits_vs_10000cm',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -246,10 +197,41 @@ plotDefinitions = [
         'graphs' : [
             {
                 'lifetime' : 10000.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
                 'legendEntry' : '',
             },
         ],
     },
+
+    ######################LIFETIME (ns) VS MASS
+    # "3D" plot
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'lifetimeNs_vs_mass_color',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : True,
+
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        'yAxisType' : 'lifetime',
+
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+        'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
+        'zAxisLabel' : '95% CL upper limit on #sigma #bf{#it{#Beta}} [pb]',
+        #'zAxisFixMin' : 0.005,
+        'zAxisFixMax' : 5,
+
+        'fillPotHoles' : True,
+
+        #'extraDrawOptions' : "text",
+
+         #'theoryLabel' : 'tan#beta = 5, #mu > 0',
+
+        'th2fs' : {
+            'th2fsToInclude' : ['exp'] + (['obs'] if showObserved else []),
+        },
+    },
+
 ]
