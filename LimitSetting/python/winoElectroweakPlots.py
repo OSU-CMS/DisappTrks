@@ -35,7 +35,7 @@ plotDefinitions = [
         'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
 
         'xAxisFixMin' : 100,
-        'xAxisFixMax' : 900,
+        'xAxisFixMax' : 1100,
         'yAxisFixMin' : 0.067,
         'yAxisFixMax' : 333,  # The last point is 10000cm = 333 ns
 

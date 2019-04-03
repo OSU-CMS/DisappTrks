@@ -120,7 +120,6 @@ def GetYieldAndError(condor_dir, process, channel):
             xsec = float(xsec[-1].split('=')[-1])
         if xsec < 0:
             integral *= crossSectionWeight
-            raw_integral *= crossSectionWeight
             intError *= crossSectionWeight
 
     acceptance = integral / nGenerated / crossSectionWeight
