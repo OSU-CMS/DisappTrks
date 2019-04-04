@@ -19,13 +19,57 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ################################################################################
 
 ################################################################################
-# AMSB signal channels (to get systematic fluctuations)
+# MET channels for missing inner/middle/outer hits systematics
 ################################################################################
+# remember to change the process customization in config_<era>_cfg.py to remove other weights in MC when you're calculating a new weight!
+
+# Channels used for the missing inner/middle/outer hits systematics
+#  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+#  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+################################################################################
+
+################################################################################
+# AMSB signal channels (to get systematic fluctuations)
+#
+# With branchSets given, many of the below channels are unnecessary as all the needed weight fluctuations are included as branches
+#
+# For a specific channel, branchSets is necessary if it depends on chargino lifetime and you aren't submitting all the reweighted
+# lifetimes. Things like JEC/JER shouldn't, but the signal acceptance and missing outer hits systematic do for example.
+################################################################################
+
 # Central value channels
-#  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+if False:
+	histSets.append(MetShiftHistograms)
+	#add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+
+# Number of missing outer hits channel
+if False:
+	#add_channels  (process,  [disTrkNoNMissOut],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkNoNMissOutNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkNoNMissOutNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkNoNMissOutNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+
+# JEC systematic channels
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJetsJECUp,              disTrkSelectionSmearedJetsJECDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers4,      disTrkSelectionSmearedJetsJECDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers5,      disTrkSelectionSmearedJetsJECDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers6plus,  disTrkSelectionSmearedJetsJECDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+
+# JER systematic channels
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJetsUp,                disTrkSelectionSmearedJetsDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers4,        disTrkSelectionSmearedJetsDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers5,        disTrkSelectionSmearedJetsDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers6plus,    disTrkSelectionSmearedJetsDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+
+################################################################################
+# AMSB signal channels
+# These aren't needed as long as you use branchSets in the central value above
+################################################################################
 
 # Pileup systematic channels -- can use TreeMaker to avoid running these
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
@@ -33,24 +77,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
 
-# MET systematic channels
+# MET systematic channels -- can use TreeMaker to avoid running these
 #  histSets.append(MetShiftHistograms)
 #  add_channels  (process,  [disTrkNoMetSmearedJets],                  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers4],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers5],          histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkNoMetSmearedJetsNLayers6plus],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-
-# JEC systematic channels
-#  add_channels  (process,  [disTrkSelectionSmearedJetsJECUp,              disTrkSelectionSmearedJetsJECDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers4,      disTrkSelectionSmearedJetsJECDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers5,      disTrkSelectionSmearedJetsJECDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers6plus,  disTrkSelectionSmearedJetsJECDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-
-# JER systematic channels
-#  add_channels  (process,  [disTrkSelectionSmearedJetsUp,                disTrkSelectionSmearedJetsDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers4,        disTrkSelectionSmearedJetsDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers5,        disTrkSelectionSmearedJetsDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsUpNLayers6plus,    disTrkSelectionSmearedJetsDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
 # ISR systematic channels -- can use TreeMaker to avoid running these
 #  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
@@ -64,28 +96,12 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 
-# Number of missing outer hits channel
-#  add_channels  (process,  [disTrkNoNMissOut],              histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoNMissOutNLayers4],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoNMissOutNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkNoNMissOutNLayers6plus],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-
 ################################################################################
 # Test for L1 prefiring issue in 2017 MC
 #  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTest],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 #  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-
-################################################################################
-# MET channels for missing inner/middle/outer hits systematics
-################################################################################
-# remember to change the process customization in config_<era>_cfg.py to remove other weights in MC when you're calculating a new weight!
-
-# Channels used for the missing inner/middle/outer hits systematics
-#  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-################################################################################
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 
