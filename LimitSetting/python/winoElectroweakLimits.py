@@ -128,9 +128,8 @@ external_systematic_uncertainties = [
 if not arguments.era in ["20156", "2017_all", "run2"]:
 	for i in range(len(external_systematic_uncertainties)):
 		external_systematic_uncertainties[i] += "_" + arguments.era
-if False: # not ready yet
-	if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-		external_systematic_uncertainties.append("l1ECALPrefiring_" + arguments.era)
+if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
+	external_systematic_uncertainties.append("L1ECALPrefiringWeight_" + arguments.era)
 
 if arguments.era == "2015":
 	signal_systematic_uncertainties = {

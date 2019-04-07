@@ -42,13 +42,15 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     pileupSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
     pileupSystematic.addFout(fout)
-    pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
+    pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
     pileupSystematic.defineWeightToFluctuate('eventvariable_puScalingFactor')
     pileupSystematic.printSystematic ()
 
     print "********************************************************************************"
 
     fout.close ()
+
+    print "\n\n"
 
 if systematic == "MET" or systematic == "ALL":
 
@@ -67,9 +69,9 @@ if systematic == "MET" or systematic == "ALL":
 
     metSystematic = MetSystematic(masses, lifetimes)
     metSystematic.addExtraSamples(extraSamples)
-    metSystematic.addChannel("central", "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7_metSyst")
-    metSystematic.addChannel("up",      "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7_metSyst")
-    metSystematic.addChannel("down",    "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v7_metSyst")
+    metSystematic.addChannel("central", "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v8_metSyst")
+    metSystematic.addChannel("up",      "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v8_metSyst")
+    metSystematic.addChannel("down",    "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_full_v8_metSyst")
     metSystematic.addMetTypes(metVaryTypes)
     metSystematic.setMetCut(120.0)
     metSystematic.setFoutNames(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__metVary", "2017_" + nLayersWord + ".txt")
@@ -90,9 +92,9 @@ if systematic == "JEC" or systematic == "ALL":
     jecSystematic = SystematicCalculator(masses, lifetimes)
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
-    jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7")
-    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7_jecSyst")
-    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7_jecSyst")
+    jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v8")
+    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_full_v2_jecSyst")
+    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_full_v2_jecSyst")
     jecSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -112,9 +114,9 @@ if systematic == "JER" or systematic == "ALL":
     jerSystematic = SystematicCalculator(masses, lifetimes)
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
-    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7")
-    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7_jerSyst")
-    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v7_jerSyst")
+    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_full_v8")
+    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_full_v2_jerSyst")
+    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_full_v2_jerSyst")
     jerSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -133,7 +135,7 @@ if systematic == "ISR" or systematic == "ALL":
 
     isrSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
     isrSystematic.addFout(fout)
-    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
+    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
     isrSystematic.printSystematic ()
 
@@ -154,12 +156,14 @@ if systematic == "TRIGGER" or systematic == "ALL":
 
         triggerSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
         triggerSystematic.addFout(fout)
-        triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v7")
+        triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
         triggerSystematic.defineFluctuationUp  ('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Up')
         triggerSystematic.defineFluctuationDown('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Down')
         triggerSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
+
+    fout.close ()
 
     print "\n\n"
 
@@ -212,19 +216,41 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOut_2017_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("nMissOutSystematic_2017_" + nLayersWord + ".root", "recreate")
 
-    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes)
+    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi)
     missingOuterHitsSystematic.addFout (fout)
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
     missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2017",     dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
     missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "AllMC_scaled", dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
-    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Brian'] + "2017/signalAcceptance_full_v7_noNMissOutCut")
+    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"
 
     fout.close ()
     foutForPlot.Close ()
+
+    print "\n\n"
+
+if systematic == "L1_ECAL_PREFIRING_WEIGHT" or systematic == "ALL":
+
+
+    print "********************************************************************************"
+    print "evaluating L1 ECAL prefiring weight systematic (2017) " + nLayersWord
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__L1ECALPrefiringWeight_2017_" + nLayersWord + ".txt", "w")
+
+    l1ECALPrefiringWeightSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    l1ECALPrefiringWeightSystematic.addFout(fout)
+    l1ECALPrefiringWeightSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
+    l1ECALPrefiringWeightSystematic.defineFluctuationUp  ('eventvariable_L1ECALPrefiringWeight', 'eventvariable_L1ECALPrefiringWeightUp')
+    l1ECALPrefiringWeightSystematic.defineFluctuationDown('eventvariable_L1ECALPrefiringWeight', 'eventvariable_L1ECALPrefiringWeightDown')
+    l1ECALPrefiringWeightSystematic.printSystematic()
+
+    print "********************************************************************************\n\n"
+
+    fout.close ()
 
     print "\n\n"

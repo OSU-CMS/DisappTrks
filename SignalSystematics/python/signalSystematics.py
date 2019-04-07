@@ -5,7 +5,7 @@ import math
 import copy
 from array import array
 
-from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain
+from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain, gDirectory
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
@@ -84,26 +84,48 @@ def getExtraSamples (suffix):
 
     return extraSamples
 
+# 10cmTo1cm not available...
+def GetMissingLifetimeWeight(chain):
+        w = 0
+        # how is this possible otherwise? one event in /data/users/kwei/2017/signalAcceptance_full_v2/AMSB_chargino_100GeV_10cm_94X/
+        if chain.eventvariable_cTau_1000024_0 > 0:
+            srcPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_0 / 10.0) / 10.0
+            dstPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_0 / 1.0) / 1.0
+            w = dstPDF / srcPDF
+        if chain.eventvariable_cTau_1000024_1 > 0:
+            srcPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_1 / 10.0) / 10.0
+            dstPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_1 / 1.0) / 1.0
+            w *= dstPDF / srcPDF
+        return w
+
+def MergedWithBadCrossSection(sample, condorDir):
+    datasetInfo = open("condor/" + condorDir + "/" + sample + "/datasetInfo_" + sample + "_cfg.py")
+    xsec = [x for x in list(datasetInfo) if x.startswith('crossSection = ')]
+    datasetInfo.close()
+    if len(xsec) > 0:
+        xsec = float(xsec[-1].split('=')[-1])
+    return (xsec < 0)
+
 # defines a base class simply comparing the yields between central and up/down channels
 class SystematicCalculator:
+
+    _integrateHistogram = "Met Plots/metNoMu"
+    _fout = ""
+    _doFout = False
+    _extraSamples = {}
+
+    _systematic = []
+    _maxSystematic = 0.0
+    _averageSystematic = 0.0
+    _n = 0
+
+    # when "fluctuations" is used in EventWeights.py, there is no CutFlowPlotter
+    # but the "total, totalError" remain the same as the central value channel
+    _isWeightFluctuation = False
 
     def __init__ (self, masses, lifetimes):
         self._masses = masses
         self._lifetimes = lifetimes
-
-        self._integrateHistogram = "Met Plots/metNoMu"
-        self._fout = ""
-        self._doFout = False
-        self._extraSamples = {}
-
-        self._systematic = []
-        self._maxSystematic = 0.0
-        self._averageSystematic = 0.0
-        self._n = 0
-
-        # when "fluctuations" is used in EventWeights.py, there is no CutFlowPlotter
-        # but the "total, totalError" remain the same as the central value channel
-        self._isWeightFluctuation = False
 
     def addChannel (self, role, name, suffix, condorDir):
         channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
@@ -123,15 +145,15 @@ class SystematicCalculator:
         self._isWeightFluctuation = isFluctuation
 
     def printSampleSystematic (self, mass, lifetime):
+        realLifetime = lifetime if lifetime != '1' else '10'
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
             total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
             central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.down["suffix"]
             condorDir = self.down["condorDir"]
             name = self.down["name"]
             if not self._isWeightFluctuation:
@@ -140,7 +162,6 @@ class SystematicCalculator:
             metHist = getHist (sample, condorDir, name + "Plotter" if not self._isWeightFluctuation else name, self._integrateHistogram)
             down = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.up["suffix"]
             condorDir = self.up["condorDir"]
             name = self.up["name"]
             if not self._isWeightFluctuation:
@@ -150,6 +171,8 @@ class SystematicCalculator:
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
+
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
             print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
             return (sample, relDiffDown, relDiffUp)
@@ -199,6 +222,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
+            'eventvariable_L1ECALPrefiringWeight',
         ]
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
@@ -228,7 +252,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
 
     def getOriginalSample(self, condorDir, sample, mass, lifetime):
         lifetimeFloat = float(lifetime.replace('p', '.'))
-        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root'):
+        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
             for i in range(len(self._weightsCentral)):
                 if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
                     self._weightsCentral[i] = 'eventvariable_lifetimeWeight'
@@ -238,10 +262,12 @@ class WeightSystematicFromTrees(SystematicCalculator):
                     self._weightsDown[i] = 'eventvariable_lifetimeWeight'
             return sample
 
-        if lifetime in [1, 10, 100, 1000, 10000]:
+        if lifetime in [10, 100, 1000, 10000]:
             raise Exception('Original sample condor/' + condorDir + '/' + sample + '.root does not exist!')
 
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
+        if originalLifetime == 1:
+            originalLifetime = 10
         originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
@@ -271,20 +297,28 @@ class WeightSystematicFromTrees(SystematicCalculator):
         for iEvent in range(chain.GetEntries()):
             chain.GetEntry(iEvent)
 
+            if lifetime == '1':
+                missingWeight = GetMissingLifetimeWeight(chain)
+
             thisWeightCentral = crossSectionWeight
             thisWeightUp = crossSectionWeight
             thisWeightDown = crossSectionWeight
 
             for iWeight in range(len(self._weightsCentral)):
-                thisWeightCentral *= getattr(chain, self._weightsCentral[iWeight])
-                if not math.isnan(getattr(chain, self._weightsUp[iWeight])):
-                    thisWeightUp *= getattr(chain, self._weightsUp[iWeight])
+                if self._weightsCentral[iWeight] == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                    thisWeightCentral *= missingWeight
+                    thisWeightUp      *= missingWeight
+                    thisWeightDown    *= missingWeight
                 else:
-                    thisWeightUp *= getattr(chain, self._weightsCentral[iWeight])
-                if not math.isnan(getattr(chain, self._weightsDown[iWeight])):
-                    thisWeightDown *= getattr(chain, self._weightsDown[iWeight])
-                else:
-                    thisWeightDown *= getattr(chain, self._weightsCentral[iWeight])
+                    thisWeightCentral *= getattr(chain, self._weightsCentral[iWeight])
+                    if not math.isnan(getattr(chain, self._weightsUp[iWeight])):
+                        thisWeightUp *= getattr(chain, self._weightsUp[iWeight])
+                    else:
+                        thisWeightUp *= getattr(chain, self._weightsCentral[iWeight])
+                    if not math.isnan(getattr(chain, self._weightsDown[iWeight])):
+                        thisWeightDown *= getattr(chain, self._weightsDown[iWeight])
+                    else:
+                        thisWeightDown *= getattr(chain, self._weightsCentral[iWeight])
 
             total     += thisWeightCentral
             totalUp   += thisWeightUp
@@ -523,8 +557,9 @@ class MetSystematic(SystematicCalculator):
         self._doFout = True
 
     def printSampleSystematic (self, mass, lifetime, metType):
+        realLifetime = lifetime if lifetime != '1' else '10'
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
 
@@ -542,6 +577,8 @@ class MetSystematic(SystematicCalculator):
 
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
+
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
             print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
             return (sample, relDiffDown, relDiffUp)
@@ -821,9 +858,19 @@ class MissingOuterHitsSystematic:
     _fout = None
     _foutForPlot = None
 
-    def __init__ (self, masses, lifetimes):
+    def __init__ (self, masses, lifetimes, intLumi = None):
         self._masses = masses
         self._lifetimes = lifetimes
+        self._weightsCentral = [
+            'eventvariable_lifetimeWeight',
+            'eventvariable_isrWeight',
+            'eventvariable_grandOrWeight',
+            'eventvariable_puScalingFactor',
+            'eventvariable_L1ECALPrefiringWeight',
+        ]
+        self._weightsUp = copy.deepcopy(self._weightsCentral)
+        self._weightsDown = copy.deepcopy(self._weightsCentral)
+        self._intLumi = intLumi
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -846,7 +893,7 @@ class MissingOuterHitsSystematic:
     def addFoutForPlot (self, foutForPlot):
         self._foutForPlot = foutForPlot
 
-    def getNMissOutEfficiency (self, dataOrMC, nLow, nHigh = -1, hits = None, sample = None):
+    def getNMissOutEfficiency (self, dataOrMC, nLow, nHigh = -1, hits = None, sample = None, mass = None, lifetime = None):
         if hasattr (self, dataOrMC):
             if not hits:
                 channel = getattr (self, dataOrMC)
@@ -854,7 +901,10 @@ class MissingOuterHitsSystematic:
                     sample = channel["sample"]
                 condorDir = channel["condorDir"]
                 name = channel["name"]
-                hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+                if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+                    hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+                else:
+                    hits = self.GetHitsFromTree(sample, condorDir, name, mass, lifetime)
 
             if nHigh < 0:
                 nHigh = nLow
@@ -872,6 +922,76 @@ class MissingOuterHitsSystematic:
             print dataOrMC + " not defined. Not printing missing outer hits systematic..."
             return (float ("nan"), float ("nan"))
 
+    def getOriginalSample(self, condorDir, sample, mass, lifetime):
+        lifetimeFloat = float(lifetime.replace('p', '.'))
+        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+            for i in range(len(self._weightsCentral)):
+                if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsCentral[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsUp[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsDown[i] = 'eventvariable_lifetimeWeight'
+            return sample
+
+        if lifetime in [10, 100, 1000, 10000]:
+            raise Exception('Original sample condor/' + condorDir + '/' + sample + '.root does not exist!')
+
+        originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
+        if originalLifetime == 1:
+            originalLifetime = 10
+        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
+            raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
+
+        for i in range(len(self._weightsCentral)):
+            if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsCentral[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsUp[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsDown[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+
+        return originalSample
+
+    def GetHitsFromTree(self, sample, condorDir, name, mass, lifetime):
+        realSample = self.getOriginalSample(condorDir, sample, mass, lifetime)
+
+        chain = TChain(name + 'TreeMaker/Tree')
+        chain.Add('condor/' + condorDir + '/' + realSample + '/hist_*.root')
+
+        if chain.GetEntries() == 0:
+            hHits = TH1D('trackNHitsMissingOuterCorrected', 'trackNHitsMissingOuterCorrected', 16, -0.5, 15.5)
+            hHits.SetDirectory(0)
+            return hHits
+
+        realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
+        nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
+        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+
+        if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
+            hHits = TH1D('trackNHitsMissingOuterCorrected', 'trackNHitsMissingOuterCorrected', 16, -0.5, 15.5)
+            for iEvent in range(chain.GetEntries()):
+                chain.GetEntry(iEvent)
+                w = crossSectionWeight
+                for wgt in self._weightsCentral:
+                    if wgt == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                        w *= GetMissingLifetimeWeight(chain)
+                    else:
+                        w *= getattr(chain, wgt)
+                hHits.Fill(chain.track_hitAndTOBDrop_bestTrackMissingOuterHits, w)
+            hHits.SetDirectory(0)
+            return hHits
+
+        weightString = str(crossSectionWeight)
+        for w in self._weightsCentral:
+            weightString = weightString + ' * ' + w
+
+        chain.Draw('track_hitAndTOBDrop_bestTrackMissingOuterHits >> hHits(16, -0.5, 15.5)', weightString, 'goff')
+        hHits = gDirectory.Get('hHits') 
+        hHits.SetDirectory(0)
+        return hHits
+
     def getSignalYield (self, mass, lifetime, nLow, nHigh = -1, hits = None):
         if hasattr (self, "Signal"):
             if not hits:
@@ -879,7 +999,11 @@ class MissingOuterHitsSystematic:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
                 condorDir = channel["condorDir"]
                 name = channel["name"]
-                hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+
+                if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+                    hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+                else:
+                    hits = self.GetHitsFromTree(sample, condorDir, name, mass, lifetime)
 
             if nHigh < 0:
                 nHigh = nLow
@@ -899,17 +1023,17 @@ class MissingOuterHitsSystematic:
         signalHits = None
         systematic = []
         masses = map (float, self._masses)
-        lifetimes = map (float, self._lifetimes)
+        lifetimes = [float(x.replace('0p', '0.')) for x in self._lifetimes]
         massBins = array ("d", masses + [masses[-1] + 100])
         lifetimeBins = array ("d", lifetimes + [lifetimes[-1] * 10.0])
         h = TH2D ("nMissOutSystematic", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
-                eTrue3ToInf, signalHits = self.getNMissOutEfficiency ("Signal", 3, 12, hits = None, sample = sample)
-                eTrue2, signalHits = self.getNMissOutEfficiency ("Signal", 2, 2, hits = signalHits, sample = sample)
-                eTrue1, signalHits = self.getNMissOutEfficiency ("Signal", 1, 1, hits = signalHits, sample = sample)
-                eTrue0, signalHits = self.getNMissOutEfficiency ("Signal", 0, 0, hits = signalHits, sample = sample)
+                eTrue3ToInf, signalHits = self.getNMissOutEfficiency ("Signal", 3, 12, hits = None, sample = sample, mass = mass, lifetime = lifetime)
+                eTrue2, signalHits = self.getNMissOutEfficiency      ("Signal", 2, 2,  hits = signalHits, sample = sample, mass = mass, lifetime = lifetime)
+                eTrue1, signalHits = self.getNMissOutEfficiency      ("Signal", 1, 1,  hits = signalHits, sample = sample, mass = mass, lifetime = lifetime)
+                eTrue0, signalHits = self.getNMissOutEfficiency      ("Signal", 0, 0,  hits = signalHits, sample = sample, mass = mass, lifetime = lifetime)
 
                 eMC1ToInf, mcHits = self.getNMissOutEfficiency ("MC", 1, 12, hits = mcHits)
                 eMC2ToInf, mcHits = self.getNMissOutEfficiency ("MC", 2, 12, hits = mcHits)
@@ -921,8 +1045,6 @@ class MissingOuterHitsSystematic:
 
                 mcEff = eTrue3ToInf + eTrue2 * eMC1ToInf + eTrue1 * eMC2ToInf + eTrue0 * eMC3ToInf
                 dataEff = eTrue3ToInf + eTrue2 * eData1ToInf + eTrue1 * eData2ToInf + eTrue0 * eData3ToInf
-                #mcEff = eTrue2 * eMC1ToInf + eTrue1 * eMC2ToInf + eTrue0 * eMC3ToInf
-                #dataEff = eTrue2 * eData1ToInf + eTrue1 * eData2ToInf + eTrue0 * eData3ToInf
 
                 sys = abs (mcEff - dataEff) / mcEff if mcEff > 0.0 else Measurement (0.0, 0.0)
                 systematic.append ([sample, str (max (1.0 - sys.centralValue (), 1.0e-12)), str (max (1.0 + sys.centralValue (), 1.0e-12))])

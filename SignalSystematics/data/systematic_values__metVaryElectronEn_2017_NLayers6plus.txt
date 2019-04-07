@@ -410,6 +410,6 @@ AMSB_chargino_1000GeV_1000cm_94X   1.0                                1.0
 AMSB_chargino_1000GeV_10000cm_94X  1.0                                1.0                                
 AMSB_chargino_1100GeV_1cm_94X      1.0                                1.0                                
 AMSB_chargino_1100GeV_10cm_94X     1.0                                1.0                                
-AMSB_chargino_1100GeV_100cm_94X    1.0                                1.0                                
+AMSB_chargino_1100GeV_100cm_94X    0.999545435826                     1.0                                
 AMSB_chargino_1100GeV_1000cm_94X   1.0                                1.0                                
 AMSB_chargino_1100GeV_10000cm_94X  1.0                                1.0                                
