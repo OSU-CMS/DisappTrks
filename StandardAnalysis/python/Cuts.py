@@ -298,6 +298,7 @@ cutJetPairEta = cms.PSet(
 )
 cutJetPairTightLepVeto = copy.deepcopy(cutJetTightLepVeto)
 cutJetPairTightLepVeto.numberRequired = cms.string(">= 2")
+cutJetPairTightLepVeto.alias = cms.string(">= 2 jets passing TightLepVeto ID"),
 
 cutHT250 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),

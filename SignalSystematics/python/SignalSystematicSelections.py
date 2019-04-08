@@ -196,10 +196,10 @@ metTrig13.triggers.append('HLT_PFMETTypeOne130_PFMHT130_IDTight_v')
 #######################################################################
 disTrkSelectionSmearedJetsCompareMT2 = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkSelectionSmearedJetsCompareMT2.name = cms.string("disTrkSelectionSmearedJetsCompareMT2")
-addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairPt30, cutJetPt)
+addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairPt30, cutJetJERSmearedPt)
 addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairEta, cutJetEta)
 addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairTightLepVeto, cutJetTightLepVeto)
-addCuts(disTrkSelectionSmearedJetsCompareMT2.cuts, cutHT250)
+addCuts(disTrkSelectionSmearedJetsCompareMT2.cuts, [cutHT250])
 
 createHitsVariations(disTrkSelectionSmearedJetsCompareMT2, "disTrkSelectionSmearedJetsCompareMT2")
 
