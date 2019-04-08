@@ -15,8 +15,6 @@ def customize (process,
                applyMissingHitsCorrections = True,
                runMETFilters = True):
 
-    
-
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
 

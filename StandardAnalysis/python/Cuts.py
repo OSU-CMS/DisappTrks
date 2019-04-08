@@ -281,6 +281,30 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
     print '# Using 2017 recs for Jet TightLepVeto'
 
+#############
+# pair of jets pt > 30
+# HT > 250 GeV
+#############
+
+cutJetPairPt30 = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 2"),
+)
+cutJetPairEta = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("fabs ( eta ) < 2.4"),
+    numberRequired = cms.string(">= 2"),
+)
+cutJetPairTightLepVeto = copy.deepcopy(cutJetTightLepVeto)
+cutJetPairTightLepVeto.numberRequired = cms.string(">= 2")
+
+cutHT250 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("HT > 250"),
+    numberRequired = cms.string(">= 1"),
+)
+
 ##################################################
 ## tracks
 ##################################################

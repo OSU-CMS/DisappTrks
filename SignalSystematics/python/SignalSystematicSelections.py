@@ -12,6 +12,18 @@ def createHitsVariations (ch, chName):
         replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ################################################################################
+################################################################################
+# IMPORTANT!
+# This is actaully the central value selection for MC since you need to smear the jets
+################################################################################
+################################################################################
+disTrkSelectionSmearedJets = copy.deepcopy(disTrkSelection)
+disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
+replaceSingleCut (disTrkSelectionSmearedJets.cuts, cutJetJERSmearedPt, cutJetPt)
+################################################################################
+################################################################################
+
+################################################################################
 ## ISR signal systematic
 ################################################################################
 
@@ -59,11 +71,6 @@ createHitsVariations(disTrkSelectionJECDown,  "disTrkSelectionJECDown")
 ################################################################################
 ## JER signal systematic
 ################################################################################
-
-# N.B. this is actaully the central value selection for MC since you should smear the jets
-disTrkSelectionSmearedJets = copy.deepcopy(disTrkSelection)
-disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
-replaceSingleCut (disTrkSelectionSmearedJets.cuts, cutJetJERSmearedPt, cutJetPt)
 
 disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts.name = cms.string("disTrkSelectionSmearedJetsNoElectronMuonFiducialCuts")
@@ -183,6 +190,18 @@ metTrig13 = copy.deepcopy(metTrig12)
 metTrig13.name = cms.string("metTrig13")
 metTrig13.triggers.append('HLT_PFMETTypeOne130_PFMHT130_IDTight_v')
 
+#######################################################################
+# Test channel comparing to MT2 analysis cuts. 
+# Requested by Yuri 4-08-19
+#######################################################################
+disTrkSelectionSmearedJetsCompareMT2 = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkSelectionSmearedJetsCompareMT2.name = cms.string("disTrkSelectionSmearedJetsCompareMT2")
+addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairPt30, cutJetPt)
+addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairEta, cutJetEta)
+addSingleCut(disTrkSelectionSmearedJetsCompareMT2.cuts, cutJetPairTightLepVeto, cutJetTightLepVeto)
+addCuts(disTrkSelectionSmearedJetsCompareMT2.cuts, cutHT250)
+
+createHitsVariations(disTrkSelectionSmearedJetsCompareMT2, "disTrkSelectionSmearedJetsCompareMT2")
 
 #######################################################################
 # Number of missing outer hits channels

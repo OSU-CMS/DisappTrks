@@ -80,29 +80,42 @@ if False:
 ################################################################################
 
 # Pileup systematic channels -- can use TreeMaker to avoid running these
-#  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuatePileup,  scaleFactorProducers,  collMap,  variableProducers)
 
 # ISR systematic channels -- can use TreeMaker to avoid running these
-#  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateISR,  scaleFactorProducers,  collMap,  variableProducers)
 
 # Trigger efficiency channels -- can use TreeMaker to avoid running these
-#  add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJets],              histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weightsFluctuateTrigger,  scaleFactorProducers,  collMap,  variableProducers)
 
 ################################################################################
 # Test for L1 prefiring issue in 2017 MC
-#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTest],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTest],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsL1PrefiringTestNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+
+################################################################################
+# Test compare MT2 selection (2 jets pt>30 and HT>250)
+# Question from Yuri 4-8-19
+if False:
+	#add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2NLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2NLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2NLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
 process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 
