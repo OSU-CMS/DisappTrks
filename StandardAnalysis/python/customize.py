@@ -13,7 +13,8 @@ def customize (process,
                applyISRReweighting = True,
                applyTriggerReweighting = True,
                applyMissingHitsCorrections = True,
-               runMETFilters = True):
+               runMETFilters = True,
+               runEcalBadCalibFilters = True):
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
@@ -240,6 +241,9 @@ def customize (process,
 
     if runMETFilters:
         process.schedule.insert (0, process.metFilterPath)
+
+    if runEcalBadCalibFilters:
+        process.schedule.insert (0, process.passecalBadCalibFilterUpdatePath)
 
     if hasattr (process, "EventJetVarProducer") and not hasattr (process.EventJetVarProducer, "triggerNames"):
         process.EventJetVarProducer.triggerNames = cms.vstring ()

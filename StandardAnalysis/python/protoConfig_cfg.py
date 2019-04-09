@@ -141,6 +141,34 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
 else:
     print "# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter"
+################################################################################
+# Recommanded by: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#2018_data
+
+process.passecalBadCalibFilterUpdatePath = cms.Path()
+
+baddetEcallist = cms.vuint32(
+    [872439604,872422825,872420274,872423218,
+     872423215,872416066,872435036,872439336,
+     872420273,872436907,872420147,872439731,
+     872436657,872420397,872439732,872439339,
+     872439603,872422436,872439861,872437051,
+     872437052,872420649,872422436,872421950,
+     872437185,872422564,872421566,872421695,
+     872421955,872421567,872437184,872421951,
+     872421694,872437056,872437057,872437313])
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# MET filters: using passecalBadCalibFilterUpdate"
+    process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
+    process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+      "EcalBadCalibFilter",
+      EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+      ecalMinEt        = cms.double(50.),
+      baddetEcal    = baddetEcallist,
+      taggingMode = cms.bool(True),
+      debug = cms.bool(False)
+    )
+    process.passecalBadCalibFilterUpdatePath = cms.Path (process.ecalBadCalibReducedMINIAODFilter)
 
 ################################################################################
 # Set up the collectionMap
