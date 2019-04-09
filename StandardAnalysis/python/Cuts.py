@@ -286,9 +286,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 # HT > 250 GeV
 #############
 
-cutJetPairPt30 = cms.PSet(
+cutJetPairSmearedPt30 = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pt > 30"),
+    cutString = cms.string("smearedPt > 30"),
     numberRequired = cms.string(">= 2"),
 )
 cutJetPairEta = cms.PSet(
@@ -300,9 +300,9 @@ cutJetPairTightLepVeto = copy.deepcopy(cutJetTightLepVeto)
 cutJetPairTightLepVeto.numberRequired = cms.string(">= 2")
 cutJetPairTightLepVeto.alias = cms.string(">= 2 jets passing TightLepVeto ID")
 
-cutHT250 = cms.PSet(
+cutHTJets250 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("HT > 250"),
+    cutString = cms.string("HTJets > 250"),
     numberRequired = cms.string(">= 1"),
 )
 

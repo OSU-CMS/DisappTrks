@@ -169,6 +169,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     mht_y -= jet.py();
   }
 
+  double htJets = ht, mhtJets_x = mht_x, mhtJets_y = mht_y;
+
   for (const auto &pfCand : *pfCands) {
     if(abs(pfCand.pdgId()) == 11) {
       ht += pfCand.pt();
@@ -207,6 +209,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   (*eventvariables)["HT"] = ht;
   (*eventvariables)["MHT"] = hypot(mht_x, mht_y);
+  (*eventvariables)["HTJets"] = htJets;
+  (*eventvariables)["MHTJets"] = hypot(mhtJets_x, mhtJets_y);
   (*eventvariables)["HTNoMu"] = htNoMu;
   (*eventvariables)["MHTNoMu"] = hypot(mhtNoMu_x, mhtNoMu_y);
 

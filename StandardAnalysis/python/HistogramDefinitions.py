@@ -1826,6 +1826,18 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("MHT"),
         ),
         cms.PSet (
+            name = cms.string("HTJets"),
+            title = cms.string(";HT^{jets} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("HTJets"),
+        ),
+        cms.PSet (
+            name = cms.string("MHTJets"),
+            title = cms.string(";HT_{T}^{miss, jets} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("MHTJets"),
+        ),
+        cms.PSet (
             name = cms.string("HTNoMu"),
             title = cms.string(";HT^{no #mu} [GeV]"),
             binsX = metBins,
