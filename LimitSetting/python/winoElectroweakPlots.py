@@ -36,8 +36,8 @@ plotDefinitions = [
 
         'xAxisFixMin' : 100,
         'xAxisFixMax' : 1100,
-        'yAxisFixMin' : 0.067,
-        'yAxisFixMax' : 333,  # The last point is 10000cm = 333 ns
+        'yAxisFixMin' : convertToNs(0.1),
+        'yAxisFixMax' : convertToNs(10000),
 
         'theoryLabel' : [
             'tan #beta = 5, #mu > 0',

@@ -52,17 +52,32 @@ def fancyTable(arrays):
 
     return '\n'.join(spacedLines)
 
+# 10cmTo1cm not available...
+def GetMissingLifetimeWeight(chain):
+        w = 0
+        # how is this possible otherwise? one event in /data/users/kwei/2017/signalAcceptance_full_v2/AMSB_chargino_100GeV_10cm_94X/
+        if chain.eventvariable_cTau_1000024_0 > 0:
+            srcPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_0 / 10.0) / 10.0
+            dstPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_0 / 1.0) / 1.0
+            w = dstPDF / srcPDF
+        if chain.eventvariable_cTau_1000024_1 > 0:
+            srcPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_1 / 10.0) / 10.0
+            dstPDF = math.exp(-1.0 * chain.eventvariable_cTau_1000024_1 / 1.0) / 1.0
+            w *= dstPDF / srcPDF
+        return w
+
 def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
     global printLock
 
-    if os.path.isfile('condor/' + condor_dir + '/' + process + '.root'):
+    if os.path.isfile('condor/' + condor_dir + '/' + process + '.root') and not '_1cm_' in process:
         return GetYieldAndError(condor_dir, process, channel)
 
     realProcessName = process.replace(dstCTau, srcCTau)
 
-    printLock.acquire ()
-    print 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...'
-    printLock.release ()
+    if arguments.verbose:
+        printLock.acquire ()
+        print 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...'
+        printLock.release ()
 
     chain = TChain(signal_channel_tree)
     chain.Add('condor/' + condor_dir + '/' + realProcessName + '/hist_*.root')
@@ -78,7 +93,15 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
 
     for iEvent in range(chain.GetEntries()):
         chain.GetEntry(iEvent)
-        lifetimeWeight = getattr(chain, lifetimeWeightName)
+        if lifetimeWeightName == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+            lifetimeWeight = GetMissingLifetimeWeight(chain)
+        else:
+            lifetimeWeight = getattr(chain, lifetimeWeightName)
+        if chain.eventvariable_cTau_1000024_0 < 0:
+            printLock.acquire()
+            print 'WARNING: somehow event number ' + str(iEvent) + ' in sample ' + process + ' has no charginos at all! Ignoring this event...'
+            printLock.release()
+            continue # or lifetimeWeight = 0 really
         thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor * chain.eventvariable_L1ECALPrefiringWeight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
@@ -162,16 +185,9 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     signal_yield_raw = signalYieldAndError['rawYield']
     signal_yield_weight = signalYieldAndError['weight']
 
-    # durp why is this low for this shit
-    target_signal_yield = 10.0 * (lumi / 38420.008)
+    target_signal_yield = 10.0
     signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
-    if arguments.signalSFDir:
-        try:
-            f = open ("limits/"+arguments.signalSFDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
-            signal_yield_sf = float (f.readline ().rstrip ("\n"))
-            f.close ()
-        except IOError:
-            pass
+    signal_yield_without_sf = signal_yield
     signal_yield *= signal_yield_sf
     signal_yield_weight *= signal_yield_sf
 
@@ -329,7 +345,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
 
     # add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
-        row = [uncertainty,'lnN','']
+        row = [uncertainty, 'lnN', '']
         if signal_dataset in systematics_dictionary[uncertainty]:
             row.append(systematics_dictionary[uncertainty][signal_dataset])
         else:
@@ -339,6 +355,9 @@ def writeDatacard(mass, lifetime, observation, dictionary):
                 row.append(systematics_dictionary[uncertainty][background])
             else:
                 row.append('-')
+        # if there are no values for this uncertainty (ie all 0% or the yield is 0%), skip this
+        if row.count('-') == len(backgrounds)+1:
+            continue
         datacard_data.append(row)
 
     #write all rows to the datacard
@@ -357,6 +376,7 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     datacard.write('# signalYield = '     + str(signal_yield) + '\n')
     datacard.write('# signalEff = ' + str(signalEff) + '\n')
     datacard.write('# signalEffErr = ' + str(signalEffErr) + '\n')
+    datacard.write('# signalYieldWithoutSF = ' + str(signal_yield_without_sf) + '\n')
 
     datacard.close ()
 
@@ -383,11 +403,12 @@ def writeDatacard(mass, lifetime, observation, dictionary):
         #command = command + str(signalEff) + ',' + str(signalEffErr) + ',' + str(backgroundEst) + ',' + str(backgroundEstErr) + ')\''
         if not useBatch:
             command = command + ' | tee ' + logfile
-        print command
+        if arguments.verbose:
+            print command
         datacard95.write(command)
         datacard95.close(command)
 
-    dictionary[(mass, lifetime)] = signalYieldAndError
+    dictionary[(float(mass), float(lifetime.replace('0p', '0.')))] = signalYieldAndError
 
     semaphore.release ()
 
@@ -407,11 +428,15 @@ for systematic in external_systematic_uncertainties:
         if len(newLine) is 2:
             systematics_dictionary[systematic][dataset] = newLine[1]
         elif len(newLine) is 3:
-            systematics_dictionary[systematic][dataset]= newLine[1]+"/"+newLine[2]
+            systematics_dictionary[systematic][dataset]= newLine[1] + "/" + newLine[2]
 
             # turn off systematic when the central yield is zero
             if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0' \
             or systematics_dictionary[systematic][dataset] == '0.0' or systematics_dictionary[systematic][dataset] == '0.0/0.0':
+                systematics_dictionary[systematic][dataset] = '-'
+
+            # turn off systematic when its fluctuations are exactly zero
+            if systematics_dictionary[systematic][dataset] == '1.0' or systematics_dictionary[systematic][dataset] == '1.0/1.0':
                 systematics_dictionary[systematic][dataset] = '-'
 
     input_file.close ()
@@ -428,6 +453,11 @@ allYieldsAndErrors = {}
 threads = []
 printLock = Lock ()
 semaphore = Semaphore (cpu_count () + 1)
+
+print
+print 'Writing cards for era', arguments.era, '...'
+print
+
 for mass in masses:
     for lifetime in lifetimes:
         threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors)))
@@ -454,8 +484,8 @@ hYields =      TH2D('yields',      'yields',      len(xBin) - 1, xBinArray, len(
 hAcceptances = TH2D('acceptances', 'acceptances', len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
 
 for yld in allYieldsAndErrors:
-    mass = float(yld[0])
-    lifetime = float(yld[1])
+    mass = yld[0]
+    lifetime = yld[1]
     ibinX = hYields.GetXaxis().FindBin(mass)
     ibinY = hYields.GetYaxis().FindBin(lifetime)
     hYields.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['yield'])

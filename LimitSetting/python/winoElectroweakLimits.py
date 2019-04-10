@@ -18,6 +18,16 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
+# define maximal set of masses/lifetimes for datacard combinations
+allMasses = masses + ['1000', '1100']
+allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
+datacardCombinations = {
+	'all20156' : ['2015', '2016BC', '2016DEFGH'],
+	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+	'run2'     : ['2015', '2016BC', '2016DEFGH', 
+				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+}
+
 # name of histogram to integrate to get yields
 integrateHistogramName = "metPt"
 
@@ -33,8 +43,7 @@ if "MET_" + arguments.era in lumi:
 elif arguments.era.startswith("2017"):
 	intLumi = lumi["MET_2017"]
 	masses.extend(['1000', '1100'])
-	if False: # not ready yet
-		lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
+	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
 elif arguments.era == "run2":
@@ -62,7 +71,7 @@ elif arguments.era == "2016DEFGH":
 	actual_bin_name = 'Bin2016DEFGH'
 	intLumi = lumi["MET_2016DEFGH"]
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	signal_condor_dir = dirs["Andrew"] + '/2017/signalAcceptance/'
+	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v8/'
 	signal_suffix = signal_suffix_in_datacard = '94X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'

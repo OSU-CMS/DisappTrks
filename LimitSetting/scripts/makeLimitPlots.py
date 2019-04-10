@@ -130,7 +130,7 @@ def makeSignalRootFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
-    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
+    #print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
 
 def makeSignalSFFileName(mass,lifetime,directory):
@@ -1094,7 +1094,7 @@ def drawPlot(plot, th2fType=""):
         legend = TLegend(0.180451, 0.352067, 0.538847, 0.482558)  # determine coordinates empirically
     else:
         if plot['title'] == 'lifetime_vs_mass':
-            legend = TLegend(0.180451, 0.352067, 0.538847, 0.482558)
+            legend = TLegend(0.180451, 0.392067, 0.538847, 0.522558)
         else:
             legend = TLegend(0.5877193, 0.7422481, 0.9461153, 0.872739)
     legend.SetBorderSize(0)

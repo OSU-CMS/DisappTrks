@@ -10,8 +10,8 @@ dirs = getUser ()
 parser = OptionParser()
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
-parser.add_option("-s", "--signalSFDir", dest="signalSFDir", default="",
-                  help="signal SF directory")
+parser.add_option("-s", "--suffix", dest="suffix", default="",
+                  help="directory suffix, typically the date e.g. 2019Apr10")
 parser.add_option("-R", "--runRooStatsCl95", action="store_true", dest="runRooStatsCl95", default=False,
                   help="create scripts to run RooStatsCl95")
 parser.add_option("-g", "--gamma", action="store_true", dest="runSignalAsGamma", default=False,

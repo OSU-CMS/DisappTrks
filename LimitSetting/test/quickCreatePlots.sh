@@ -2,7 +2,7 @@
 
 SUFFIX=`date +%Y%b%d`
 
-echo Creating 2015/6/7 plots with suffix ${SUFFIX}...
+echo "Creating 2015/6/7 plots with suffix ${SUFFIX}..."
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 eval `scramv1 runtime -sh`
@@ -27,4 +27,4 @@ mkdir plots_${SUFFIX}/run2
 cp limits/limits_run2_${SUFFIX}/*.pdf plots_${SUFFIX}/run2
 cp limits/limits_run2_${SUFFIX}/*.root plots_${SUFFIX}/run2
 
-echo Copied plots into plots_${SUFFIX}/
+echo "Copied plots into plots_${SUFFIX}/"
