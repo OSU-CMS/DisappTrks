@@ -24,8 +24,7 @@ allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + l
 datacardCombinations = {
 	'all20156' : ['2015', '2016BC', '2016DEFGH'],
 	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
-	'run2'     : ['2015', '2016BC', '2016DEFGH', 
-				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+	'run2'     : ['2015', '2016BC', '2016DEFGH', '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -48,6 +47,8 @@ elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
 elif arguments.era == "run2":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"]
+	masses.extend(['1000', '1100'])
+	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 
 # condor directory in which to find signal root files
 if arguments.era == "2015":

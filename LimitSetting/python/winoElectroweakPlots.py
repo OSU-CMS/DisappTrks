@@ -35,9 +35,10 @@ plotDefinitions = [
         'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
 
         'xAxisFixMin' : 100,
-        'xAxisFixMax' : 1100,
-        'yAxisFixMin' : convertToNs(0.1),
-        'yAxisFixMax' : convertToNs(10000),
+        'xAxisFixMax' : 1150,
+        #'yAxisFixMin' : 0.1 / TMath.C() / 1e-7,
+        'yAxisFixMin' : 2e-2,
+        'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,
 
         'theoryLabel' : [
             'tan #beta = 5, #mu > 0',

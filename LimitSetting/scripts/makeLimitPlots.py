@@ -268,8 +268,6 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
             prevDeltaMGuess = tmp
             return calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess)
 
-
-
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
@@ -309,7 +307,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 break
             first_allowed_mass = mass
         mass_limit = 0.0
-        if previous_mass == first_allowed_mass:
+        if previous_mass == first_allowed_mass and len(ordered_masses) > 1:
             first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
@@ -507,7 +505,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                 break
             first_allowed_mass = mass
         mass_limit = 0.0
-        if previous_mass == first_allowed_mass:
+        if previous_mass == first_allowed_mass and len(ordered_masses) > 1:
             first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
@@ -596,7 +594,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
                 break
             first_allowed_mass = mass
         mass_limit = 0.0
-        if previous_mass == first_allowed_mass:
+        if previous_mass == first_allowed_mass and len(ordered_masses) > 1:
             first_allowed_mass = ordered_masses[1]
         if previous_mass != first_allowed_mass:
             # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
@@ -1106,7 +1104,44 @@ def drawPlot(plot, th2fType=""):
     #construct tGraph objects for all curves and draw them
     tGraphs = []
     tTh2fs = []
-    plotDrawn = False
+
+    # build a dummy background histogram to better control axis ranges
+    hBackground = TH1F('hBackground', 'hBackground', 1, xAxisMin, xAxisMax)
+    hBackground.GetXaxis().SetTitle(plot['xAxisLabel'])
+    hBackground.GetXaxis().SetLabelOffset (0.005)
+    hBackground.GetXaxis().SetLabelSize (0.04)
+    hBackground.GetXaxis().SetTitleOffset (1.25)
+    hBackground.GetXaxis().SetTitleSize (0.04)
+    hBackground.GetYaxis().SetLabelOffset (0.005)
+    hBackground.GetYaxis().SetLabelSize (0.04)
+    hBackground.GetYaxis().SetTitleOffset (1.25)
+    hBackground.GetYaxis().SetTitleSize (0.04)
+    hBackground.GetXaxis().SetNdivisions (505)
+    hBackground.GetYaxis().SetNdivisions (505)
+    if 'xAxisFixMin' in plot:
+        hBackground.GetXaxis().SetLimits   (plot['xAxisFixMin'], plot['xAxisFixMax'])
+        hBackground.GetXaxis().SetRangeUser(plot['xAxisFixMin'], plot['xAxisFixMax'])
+    else:
+        hBackground.GetXaxis().SetLimits(0.9 * xAxisMin, 1.1 * xAxisMax)
+        hBackground.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
+    if not is2D:
+        if arguments.paperMode:
+            hBackground.GetYaxis().SetTitle('#sigma #bf{#it{#Beta}} [pb]')
+        else:
+            hBackground.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
+        if 'yAxis' in plot:
+            hBackground.GetYaxis().SetRangeUser(plot['yAxis'][0], plot['yAxis'][1])
+        else:
+            hBackground.GetYaxis().SetRangeUser(0.9 * absMin, 1.1 * absMax)
+    else:
+        hBackground.GetYaxis().SetTitle(plot['yAxisLabel'])
+        if 'yAxisFixMin' in plot:
+            hBackground.GetYaxis().SetLimits   (plot['yAxisFixMin'], plot['yAxisFixMax'])
+            hBackground.GetYaxis().SetRangeUser(plot['yAxisFixMin'], plot['yAxisFixMax'])
+        else:
+            hBackground.GetYaxis().SetLimits(0.9 * yAxisMin, 1.1 * yAxisMax)
+            hBackground.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
+
     if hasTH2F:
         th2f = plot['th2fs']
         if th2fType is 'exp':
@@ -1154,22 +1189,16 @@ def drawPlot(plot, th2fType=""):
             tTh2fs[-1].Draw('colz ' + extraDrawOptions)
         else:
             tTh2fs[-1].Draw('colz')
+    else:
+        hBackground.Draw('axis')
 
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' in plot and plot['showTheoryError']):
         if plot['xAxisType'] is 'mass':
             tGraphs.append(getTheoryOneSigmaGraph())
-            if plotDrawn:
-                tGraphs[-1].Draw('3')
-            else:
-                tGraphs[-1].Draw('A3')
-            plotDrawn = True
+            tGraphs[-1].Draw('3')
             legend.AddEntry(tGraphs[-1], "#pm1 #sigma: theory", 'F')
             tGraphs.append(getTheoryGraph())
-            if plotDrawn:
-                tGraphs[-1].Draw('L')
-            else:
-                tGraphs[-1].Draw('AL')
-            plotDrawn = True
+            tGraphs[-1].Draw('L')
             if arguments.paperMode:
                 legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
             else:
@@ -1189,11 +1218,7 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                        if plotDrawn:
-                            tGraphs[-1].Draw('3')
-                        else:
-                            tGraphs[-1].Draw('A3')
-                        plotDrawn = True
+                        tGraphs[-1].Draw('3')
                         if arguments.paperMode:
                             legendEntry = '#pm2 #sigma_{experiment}'
                         else:
@@ -1204,11 +1229,7 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                        if plotDrawn:
-                            tGraphs[-1].Draw('3')
-                        else:
-                            tGraphs[-1].Draw('A3')
-                        plotDrawn = True
+                        tGraphs[-1].Draw('3')
                         if arguments.paperMode:
                             legendEntry = '#pm1 #sigma_{experiment}'
                         else:
@@ -1219,11 +1240,7 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'exp':
                         tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                        if plotDrawn:
-                            tGraphs[-1].Draw('L')
-                        else:
-                            tGraphs[-1].Draw('AL')
-                        plotDrawn = True
+                        tGraphs[-1].Draw('L')
                         if arguments.paperMode:
                             legendEntry = 'Median expected'
                         else:
@@ -1238,11 +1255,7 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'obs':
                         tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                        if plotDrawn:
-                            tGraphs[-1].Draw('L')
-                        else:
-                            tGraphs[-1].Draw('AL')
-                        plotDrawn = True
+                        tGraphs[-1].Draw('L')
                         if arguments.paperMode:
                             legendEntry = 'Observed'
                         else:
@@ -1260,13 +1273,9 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'twoSigma':
                         tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                        if plotDrawn:
-                            if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
-                                tGraphs[-1].SetFillStyle(3001)
-                            tGraphs[-1].Draw('F')
-                        else:
-                            tGraphs[-1].Draw('AF')
-                        plotDrawn = True
+                        if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
+                            tGraphs[-1].SetFillStyle(3001)
+                        tGraphs[-1].Draw('F')
                         if arguments.paperMode:
                             legendEntry = '#pm2 #sigma_{experiment}'
                         else:
@@ -1277,13 +1286,9 @@ def drawPlot(plot, th2fType=""):
 
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                        if plotDrawn:
-                            if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
-                                tGraphs[-1].SetFillStyle(3001)
-                            tGraphs[-1].Draw('F')
-                        else:
-                            tGraphs[-1].Draw('AF')
-                        plotDrawn = True
+                        if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
+                            tGraphs[-1].SetFillStyle(3001)
+                        tGraphs[-1].Draw('F')
                         if arguments.paperMode:
                             legendEntry = '#pm1 #sigma_{experiment}'
                         else:
@@ -1297,11 +1302,7 @@ def drawPlot(plot, th2fType=""):
                         #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
                         makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory')
 
-                        if plotDrawn:
-                            tGraphs[-1].Draw('L')
-                        else:
-                            tGraphs[-1].Draw('AL')
-                        plotDrawn = True
+                        tGraphs[-1].Draw('L')
                         if arguments.paperMode:
                             legendEntry = 'Median expected'
                         else:
@@ -1320,11 +1321,7 @@ def drawPlot(plot, th2fType=""):
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
                     lineWidth = tGraphs[-1].GetLineWidth ()
                     tGraphs[-1].SetLineWidth (lineWidth - 4)
-                    if plotDrawn:
-                        tGraphs[-1].Draw('L')
-                    else:
-                        tGraphs[-1].Draw('AL')
-                    plotDrawn = True
+                    tGraphs[-1].Draw('L')
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme))
                     tGraphs[-1].SetLineWidth (lineWidth - 4)
                     tGraphs[-1].Draw('L')
@@ -1336,11 +1333,7 @@ def drawPlot(plot, th2fType=""):
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
                     lineWidth = tGraphs[-1].GetLineWidth ()
                     tGraphs[-1].SetLineWidth (lineWidth - 2)
-                    if plotDrawn:
-                        tGraphs[-1].Draw('L')
-                    else:
-                        tGraphs[-1].Draw('AL')
-                    plotDrawn = True
+                    tGraphs[-1].Draw('L')
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme))
                     tGraphs[-1].SetLineWidth (lineWidth - 2)
                     tGraphs[-1].Draw('L')
@@ -1351,11 +1344,7 @@ def drawPlot(plot, th2fType=""):
                 if graphName is 'obs':
                     tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
                     makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
-                    if plotDrawn:
-                        tGraphs[-1].Draw('L')
-                    else:
-                        tGraphs[-1].Draw('AL')
-                    plotDrawn = True
+                    tGraphs[-1].Draw('L')
                     if arguments.paperMode:
                         legendEntry = 'Observed'
                     else:
@@ -1366,11 +1355,7 @@ def drawPlot(plot, th2fType=""):
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' not in plot or not plot['showTheoryError']):
         if plot['xAxisType'] is 'mass':
             tGraphs.append(getTheoryGraph())
-            if plotDrawn:
-                tGraphs[-1].Draw('L')
-            else:
-                tGraphs[-1].Draw('AL')
-            plotDrawn = True
+            tGraphs[-1].Draw('L')
             if arguments.paperMode:
                 legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
             else:
@@ -1392,46 +1377,6 @@ def drawPlot(plot, th2fType=""):
             if plotMax > absMax:
                 absMax = plotMax
 
-    if len (tGraphs):
-        tGraphs[0].GetXaxis ().SetLabelOffset (0.005)
-        tGraphs[0].GetXaxis ().SetLabelSize (0.04)
-        tGraphs[0].GetXaxis ().SetTitleOffset (1.25)
-        tGraphs[0].GetXaxis ().SetTitleSize (0.04)
-        tGraphs[0].GetYaxis ().SetLabelOffset (0.005)
-        tGraphs[0].GetYaxis ().SetLabelSize (0.04)
-        tGraphs[0].GetYaxis ().SetTitleOffset (1.25)
-        tGraphs[0].GetYaxis ().SetTitleSize (0.04)
-
-        tGraphs[0].GetXaxis ().SetNdivisions (505)
-        tGraphs[0].GetYaxis ().SetNdivisions (505)
-
-    for tGraph in tGraphs:
-        tGraph.SetTitle("")
-        tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
-        if 'xAxisFixMin' in plot:
-            tGraph.GetXaxis().SetLimits   (plot['xAxisFixMin'],plot['xAxisFixMax'])
-            tGraph.GetXaxis().SetRangeUser(plot['xAxisFixMin'],plot['xAxisFixMax'])
-        else:
-            tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
-            tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
-        if not is2D:
-        #tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
-            if arguments.paperMode:
-                tGraph.GetYaxis().SetTitle('#sigma #bf{#it{#Beta}} [pb]')
-            else:
-                tGraph.GetYaxis().SetTitle('#sigma (pp #rightarrow #tilde{#chi}#tilde{#chi}) [pb]')
-            if 'yAxis' in plot:
-                tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
-            else:
-                tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
-        else:
-            tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
-            if 'yAxisFixMin' in plot:
-                tGraph.GetYaxis().SetLimits   (plot['yAxisFixMin'],plot['yAxisFixMax'])
-                tGraph.GetYaxis().SetRangeUser(plot['yAxisFixMin'],plot['yAxisFixMax'])
-            else:
-                tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
-                tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
     if not 'drawTheoryCurve' in plot or not plot['drawTheoryCurve']:
         legend.Draw()
     legend.Draw()
