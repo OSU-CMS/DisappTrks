@@ -142,7 +142,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 else:
     print "# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter"
 ################################################################################
-# Recommanded by: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#2018_data
+# Recommended by: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#2018_data
 
 process.passecalBadCalibFilterUpdatePath = cms.Path()
 
