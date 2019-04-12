@@ -37,7 +37,7 @@ plotDefinitions = [
         'xAxisFixMin' : 100,
         'xAxisFixMax' : 1150,
         #'yAxisFixMin' : 0.1 / TMath.C() / 1e-7,
-        'yAxisFixMin' : 2e-2,
+        'yAxisFixMin' : 2e-2, # lowest that looks good
         'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,
 
         'theoryLabel' : [
@@ -236,3 +236,44 @@ plotDefinitions = [
     },
 
 ]
+
+if arguments.era.startswith('2017') or arguments.era == 'run2':
+    plotDefinitions.append(
+        ###################### CTAU = 1 cm
+        {
+            # this will be the name of the canvas in the output root file
+            'title' : 'limits_vs_1cm',
+
+            'convertToMassSplitting' : False,
+            'makeColorPlot' : False,
+
+            # current options are 'mass' and 'lifetime'
+            'xAxisType' : 'mass',
+
+            # xmin, xmax, label
+            'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+            'yAxisLabel' : 'c#tau = 1 cm',
+
+            'theoryLabel' : [
+                '#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm/c (' + str (convertToNs (1.0)) + ' ns)',
+                "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            ],
+
+            # optional (scaled automatically if not included)
+            'yAxis' : yAxisRangeFor1DMassLimits,
+
+            # optional (False if not included)
+            # currently only works if the x-axis is mass
+            'showTheory' : True,
+
+            #define all the curves to include on this canvas
+            'graphs' : [
+                {
+                    'lifetime' : 1.0,
+                    'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
+                    'colorScheme' : 'brazilian',
+                    'legendEntry' : '',
+                },
+            ],
+        }
+    )

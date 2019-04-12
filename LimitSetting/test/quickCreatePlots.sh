@@ -18,8 +18,8 @@ makeLimitPlots.py -e run2 -l wino -c limits_run2_${SUFFIX} -o exp
 python makeComparisonPlots.py ${SUFFIX}
 
 mkdir plots_${SUFFIX}
-mv limitsLifetimeVsMassCompareNLayers.pdf plots_${SUFFIX}
-mv limitsLifetimeVsMassCombinedRun2CompareYears.pdf plots_${SUFFIX}
+mv limitsLifetimeVsMassCompareNLayers.* plots_${SUFFIX}
+mv limitsLifetimeVsMassCombinedRun2CompareYears.* plots_${SUFFIX}
 mkdir plots_${SUFFIX}/2017
 cp limits/limits_2017_all_${SUFFIX}/*.pdf plots_${SUFFIX}/2017
 cp limits/limits_2017_all_${SUFFIX}/*.root plots_${SUFFIX}/2017

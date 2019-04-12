@@ -40,7 +40,7 @@ gr_NLayers6plus.Draw('same L')
 
 # 0.180451,0.352067,0.538847,0.482558
 
-leg = TLegend(0.18, 0.32, 0.55, 0.5, '', 'brNDC')
+leg = TLegend(0.582707, 0.151515, 0.934837, 0.297258, '', 'brNDC')
 leg.AddEntry(gr_combined, 'Combined categories', 'L')
 leg.AddEntry(gr_NLayers4, 'n_{layers} = 4', 'L')
 leg.AddEntry(gr_NLayers5, 'n_{layers} = 5', 'L')
@@ -49,6 +49,7 @@ leg.AddEntry(gr_NLayers6plus, 'n_{layers} #geq 6', 'L')
 leg.Draw('same')
 
 can.SaveAs('limitsLifetimeVsMassCompareNLayers.pdf')
+can.SaveAs('limitsLifetimeVsMassCompareNLayers.C')
 print 'Created limitsLifetimeVsMassCompareNLayers.pdf'
 
 fNLayers4.Close()
@@ -77,7 +78,6 @@ leg.Clear()
 leg.AddEntry(gr_run2, '2015 + 2016 + 2017', 'L')
 leg.AddEntry(gr_20156, '2015 + 2016', 'L')
 leg.AddEntry(gr_combined, '2017', 'L')
-leg.SetX2NDC(0.5)
 
 can.Draw()
 gr_20156.Draw('L same')
@@ -85,5 +85,6 @@ gr_combined.Draw('L same')
 leg.Draw('same')
 
 can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.pdf')
+can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.C')
 print 'Created limitsLifetimeVsMassCombinedRun2CompareYears.pdf'
 

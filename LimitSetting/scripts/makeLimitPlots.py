@@ -1036,7 +1036,7 @@ def fetchLimits(mass,lifetime,directories):
 
 
 def drawPlot(plot, th2fType=""):
-    gStyle.SetPalette(1)
+    gStyle.SetPalette(62) # kColorPrintableOnGrey
     is2D = 'yAxisType' in plot
     isMakeTable = False
     hasTH2F = False
@@ -1106,7 +1106,7 @@ def drawPlot(plot, th2fType=""):
     tTh2fs = []
 
     # build a dummy background histogram to better control axis ranges
-    hBackground = TH1F('hBackground', 'hBackground', 1, xAxisMin, xAxisMax)
+    hBackground = TH1F('hBackground', 'hBackground', int(xAxisMax - xAxisMin), xAxisMin, xAxisMax)
     hBackground.GetXaxis().SetTitle(plot['xAxisLabel'])
     hBackground.GetXaxis().SetLabelOffset (0.005)
     hBackground.GetXaxis().SetLabelSize (0.04)
