@@ -67,8 +67,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_v12', ''
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
-from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommandsSignalMC
-process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommandsSignalMC)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
+process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
 
 # Path and EndPath definitions
 process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
