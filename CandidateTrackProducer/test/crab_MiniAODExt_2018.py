@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     # Run2018A
 
-    config.Data.outputDatasetTag = 'Run2018A-17Sep2018'
+    config.Data.outputDatasetTag = 'Run2018A-17Sep2018-v2'
     config.Data.unitsPerJob = 62 # 61133 lumis
 
     config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
     # Run2018B
 
-    config.Data.outputDatasetTag = 'Run2018B-17Sep2018'
+    config.Data.outputDatasetTag = 'Run2018B-17Sep2018-v2'
     config.Data.unitsPerJob = 30 # 29913 lumis
 
     config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     # Run2018C
 
-    config.Data.outputDatasetTag = 'Run2018C-17Sep2018'
+    config.Data.outputDatasetTag = 'Run2018C-17Sep2018-v2'
     config.Data.unitsPerJob = 28 # 27721 lumis
 
     config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     # Run2018D
 
-    config.Data.outputDatasetTag = 'Run2018D-17Sep2018'
+    config.Data.outputDatasetTag = 'Run2018D-17Sep2018-v2'
     config.Data.unitsPerJob = 71 # 140735 lumis
 
     config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'

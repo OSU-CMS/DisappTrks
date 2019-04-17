@@ -1,0 +1,12 @@
+cmsrel CMSSW_10_2_11_patch1
+cd CMSSW_10_2_11_patch1/src
+cmsenv
+git clone https://github.com/OSU-CMS/OSUT3Analysis.git
+git clone https://github.com/OSU-CMS/DisappTrks.git
+OSUT3Analysis/AnaTools/scripts/setupFramework.py -f MINI_AOD_2017 -c DisappTrks/StandardAnalysis/interface/CustomDataFormat.h
+scramv1 b -j 4
+cmsenv
+cd DisappTrks/CandidateTrackProducer/test
+voms-proxy-init -voms cms -hours 120
+# edit crab_MiniAODExt_2018.py as necessary
+./crab_MiniAODExt_2018.py
