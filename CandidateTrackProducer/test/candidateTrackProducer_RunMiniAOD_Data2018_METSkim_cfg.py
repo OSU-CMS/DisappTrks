@@ -120,6 +120,7 @@ process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.metSkimFilter*process.candidateTrackProducer)
 from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
+process.MINIAODoutput.SelectEvents = cms.untracked.PSet (SelectEvents = cms.vstring ("candidateTracks"))
 
 # Path and EndPath definitions
 process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
