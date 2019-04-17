@@ -154,7 +154,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2__"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersSingleTau = cms.vstring(
         "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
     )

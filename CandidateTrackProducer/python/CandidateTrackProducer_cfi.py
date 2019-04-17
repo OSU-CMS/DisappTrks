@@ -152,7 +152,7 @@ tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   etaCut       =  cms.double(2.1),
   ptCut        =  cms.double (50),
   eleVIDid     =  cms.string (electronIdName),
-  d0Cuts       = cms.vdouble (0.0111, 0.0351),
+  d0Cuts       = cms.vdouble (-1, -1),
   dZCuts       = cms.vdouble (-1, -1),
   triggerNames =  cms.vstring ("HLT_LooseIsoPFTau50_Trk30_eta2p1_v"),
 )
@@ -163,7 +163,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
   electronSkimFilter.d0Cuts = cms.vdouble(0.05, 0.10)
   electronSkimFilter.dZCuts = cms.vdouble(0.10, 0.20)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
   metSkimFilter.ptCut = cms.double(120)
   electronSkimFilter.ptCut = cms.double(35)
   muonSkimFilter.ptCut = cms.double(29)
@@ -191,4 +191,32 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4") or os.environ["CMSSW_VER
   )
   electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
   muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
+  tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+  metSkimFilter.ptCut = cms.double(120)
+  electronSkimFilter.ptCut = cms.double(32)
+  muonSkimFilter.ptCut = cms.double(26)
+
+  electronSkimFilter.d0Cuts = cms.vdouble(0.05, 0.10)
+  electronSkimFilter.dZCuts = cms.vdouble(0.10, 0.20)
+
+  metSkimFilter.triggerNames = cms.vstring (
+    "HLT_MET105_IsoTrk50_v",
+    "HLT_MET120_IsoTrk50_v",
+
+    "HLT_PFMET120_PFMHT120_IDTight_v",
+    "HLT_PFMET130_PFMHT130_IDTight_v",
+    "HLT_PFMET140_PFMHT140_IDTight_v",
+    "HLT_PFMETTypeOne140_PFMHT140_IDTight_v",
+    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+    "HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v",
+    "HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v",
+    "HLT_PFMET250_HBHECleaned_v",
+    "HLT_PFMET300_HBHECleaned_v",
+    "HLT_PFMET200_HBHE_BeamHaloCleaned_v",
+    "HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v",
+  )
+  electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
   tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
