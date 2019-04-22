@@ -166,12 +166,24 @@ ElectronFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(ElectronFiducialC
 ElectronFiducialCalcBeforeInvestigate2017Ineff.name = cms.string("ElectronFiducialCalcBeforeInvestigate2017Ineff")
 addCuts(ElectronFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017Ineff])
 
+ElectronFiducialCalcBeforeOldCuts = copy.deepcopy(ElectronFiducialCalcBefore)
+ElectronFiducialCalcBeforeOldCuts.name = cms.string("ElectronFiducialCalcBeforeOldCuts")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    replaceSingleCut(ElectronFiducialCalcBeforeOldCuts.cuts, cutTrkNValidPixelHitsSignal, cutTrkNValidPixelHits[3])
+    replaceSingleCut(ElectronFiducialCalcBeforeOldCuts.cuts, cutTrkNValidHitsSignal, cutTrkNValidHits[7])
+
 ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
 addSingleCut(ElectronFiducialCalcAfter.cuts, cutTrkVetoElecVeto, cutEleTrkOS)
 removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(ElectronFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
+
+ElectronFiducialCalcAfterOldCuts = copy.deepcopy(ElectronFiducialCalcAfter)
+ElectronFiducialCalcAfterOldCuts.name = cms.string("ElectronFiducialCalcAfterOldCuts")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHitsSignal, cutTrkNValidPixelHits[3])
+    replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidHitsSignal, cutTrkNValidHits[7])
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")

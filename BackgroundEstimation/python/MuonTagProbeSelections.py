@@ -167,12 +167,24 @@ MuonFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(MuonFiducialCalcBefor
 MuonFiducialCalcBeforeInvestigate2017Ineff.name = cms.string("MuonFiducialCalcBeforeInvestigate2017Ineff")
 addCuts(MuonFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017Ineff])
 
+MuonFiducialCalcBeforeOldCuts = copy.deepcopy(MuonFiducialCalcBefore)
+MuonFiducialCalcBeforeOldCuts.name = cms.string("MuonFiducialCalcBeforeOldCuts")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidPixelHitsSignal, cutTrkNValidPixelHits[3])
+    replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidHitsSignal, cutTrkNValidHits[7])
+
 MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
 addCuts(MuonFiducialCalcAfter.cuts, [cutTrkLooseMuonVeto])
 removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
+
+MuonFiducialCalcAfterOldCuts = copy.deepcopy(MuonFiducialCalcAfter)
+MuonFiducialCalcAfterOldCuts.name = cms.string("MuonFiducialCalcAfterOldCuts")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHitsSignal, cutTrkNValidPixelHits[3])
+    replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidHitsSignal, cutTrkNValidHits[7])
 
 ZtoMuDisTrk = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 ZtoMuDisTrk.name = cms.string("ZtoMuDisTrk")
