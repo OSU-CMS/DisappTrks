@@ -19,17 +19,23 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     runPeriods = ['2017B', '2017C', '2017D', '2017E', '2017F']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    runPeriods = ['2018']
+    runPeriods = ['2018A', '2018B', '2018C', '2018D']
 
 for runPeriod in runPeriods:
 
     if True:
 
         condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
+        datasetName = "SingleEle"
         if '2016' in runPeriod:
             condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
         if '2017' in runPeriod:
             condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
+        if '2018' in runPeriod:
+            condorDirectory = dirs['Kai'] + "2018/elecHotSpots"
+            datasetName = "EGamma"
+            if runPeriod != '2018B':
+                continue
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -41,9 +47,9 @@ for runPeriod in runPeriods:
         #electronMap.setVerboseComparison(True)
         electronMap.addTFile(fout)
         electronMap.addTCanvas(canvas)
-        electronMap.addLuminosityInInvPb(lumi["SingleElectron_" + runPeriod])
-        electronMap.addChannel("Denominator", "ElectronFiducialCalcBefore", "SingleEle_" + runPeriod, condorDirectory)
-        electronMap.addChannel("Numerator",   "ElectronFiducialCalcAfter",  "SingleEle_" + runPeriod, condorDirectory)
+        electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+        electronMap.addChannel("Denominator", "ElectronFiducialCalcBefore", datasetName + "_" + runPeriod, condorDirectory)
+        electronMap.addChannel("Numerator",   "ElectronFiducialCalcAfter",  datasetName + "_" + runPeriod, condorDirectory)
         electronMap.CalculateFiducialMap()
         electronMap.MakePlots()
 
@@ -56,13 +62,18 @@ for runPeriod in runPeriods:
         
         fout.Close()
 
-    if True:
+    # 2018 not done running yet...
+    if False:
 
         condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
         if '2016' in runPeriod:
             condorDirectory = dirs['Brian'] + "2016_final/muonHotSpots"
         if '2017' in runPeriod:
             condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
+        if '2018' in runPeriod:
+            condorDirectory = dirs['Brian'] + "2018/muonHotSpots"
+            if runPeriod == '2018A' or runPeriod == '2018D':
+                continue
 
         print "********************************************************************************"
         print "Calculating muon fiducial map in search region", runPeriod

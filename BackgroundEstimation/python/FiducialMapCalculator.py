@@ -217,21 +217,15 @@ class FiducialMapCalculator:
         # first get the list of existing hot spots from the fiducial map
         existingHotSpots = []
         existingMapName = os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/'
+        existingMapName += 'electronFiducialMap_' if ('SingleEle' in self.Numerator["sample"] or 'EGamma' in self.Numerator["sample"]) else 'muonFiducialMap_'
         if '2015' in self.Numerator["sample"]:
-            if 'SingleEle' in self.Numerator["sample"]:
-                existingMapName += 'electronFiducialMap_2015_data.root'
-            elif 'SingleMu' in self.Numerator["sample"]:
-                existingMapName += 'muonFiducialMap_2015_data.root'
+            existingMapName += '2015_data.root'
         elif '2016' in self.Numerator["sample"]:
-            if 'SingleEle' in self.Numerator["sample"]:
-                existingMapName += 'electronFiducialMap_2016ReReco_data.root'
-            elif 'SingleMu' in self.Numerator["sample"]:
-                existingMapName += 'muonFiducialMap_2016ReReco_data.root'
+            existingMapName += '2016ReReco_data.root'
         elif '2017' in self.Numerator["sample"]:
-            if 'SingleEle' in self.Numerator["sample"]:
-                existingMapName += 'electronFiducialMap_2017_data.root'
-            elif 'SingleMu' in self.Numerator["sample"]:
-                existingMapName += 'muonFiducialMap_2017_data.root'
+            existingMapName += '2017_data.root'
+        elif '2018' in self.Numerator["sample"]:
+            existingMapName += '2017_data.root' # doesn't exist yet, compare to 2017
         existingMapFile = TFile(existingMapName, 'read')
         existingMapDenominator = existingMapFile.Get('beforeVeto')
         existingMapNumerator = existingMapFile.Get('afterVeto')
