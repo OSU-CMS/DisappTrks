@@ -23,19 +23,17 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 for runPeriod in runPeriods:
 
-    if True:
-
-        condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
-        datasetName = "SingleEle"
-        if '2016' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
-        if '2017' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
-        if '2018' in runPeriod:
-            condorDirectory = dirs['Kai'] + "2018/elecHotSpots"
-            datasetName = "EGamma"
-            if runPeriod != '2018B':
-                continue
+    condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
+    datasetName = "SingleEle"
+    if '2016' in runPeriod:
+        condorDirectory = dirs['Brian'] + "2016_final/eleHotSpots"
+    if '2017' in runPeriod:
+        condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
+    if '2018' in runPeriod:
+        condorDirectory = dirs['Kai'] + "2018/elecHotSpots"
+        datasetName = "EGamma"
+        
+    if not '2018' in runPeriod or runPeriod == '2018B':
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -62,18 +60,15 @@ for runPeriod in runPeriods:
         
         fout.Close()
 
-    # 2018 not done running yet...
-    if False:
+    condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
+    if '2016' in runPeriod:
+        condorDirectory = dirs['Brian'] + "2016_final/muonHotSpots"
+    if '2017' in runPeriod:
+        condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
+    if '2018' in runPeriod:
+        condorDirectory = dirs['Brian'] + "2018/muonHotSpots"
 
-        condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
-        if '2016' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2016_final/muonHotSpots"
-        if '2017' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
-        if '2018' in runPeriod:
-            condorDirectory = dirs['Brian'] + "2018/muonHotSpots"
-            if runPeriod == '2018A' or runPeriod == '2018D':
-                continue
+    if not '2018' in runPeriod or runPeriod == '2018B' or runPeriod == '2018C':       
 
         print "********************************************************************************"
         print "Calculating muon fiducial map in search region", runPeriod
