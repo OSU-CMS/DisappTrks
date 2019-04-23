@@ -2667,7 +2667,7 @@ EventTriggerVarHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("numPVReco"),
             title = cms.string(";Number of Primary Vertices"),
-            binsX = cms.untracked.vdouble(50, 0.0, 50.0),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
             inputVariables = cms.vstring("numPVReco"),
         ),
         cms.PSet (
