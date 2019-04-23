@@ -245,7 +245,5 @@ ParticleGunVarProducer<T, Args...>::jetMatchedToMuon (const pat::Jet &jet, const
   return false;
 }
 
-
-
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(EventMuonPGunProducer);
+DEFINE_FWK_MODULE(ParticleGunMuonVarProducer);

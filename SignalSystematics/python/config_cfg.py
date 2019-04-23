@@ -117,8 +117,14 @@ if False:
 	add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2NLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 	add_channels  (process,  [disTrkSelectionSmearedJetsCompareMT2NLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
-process.EventJetVarProducer.triggerNames = triggerNamesInclusive
-
+if hasattr(process, 'EventJetVarProducer'):
+	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+else:
+    print
+    print 'You haven\'t added any channels. There\'s nothing to do!'
+    print
+    sys.exit(0)
+    
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
     process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)

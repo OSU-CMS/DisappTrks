@@ -75,10 +75,18 @@ variableProducers.append('EventTriggerVarProducer')
 
 #  add_channels  (process,  [MuonTagPt55HLTMetFilters],  histSetsTrigger,  weights,  [],  collectionMap,  variableProducers,  False)
 
-process.EventJetVarProducer.triggerNames = triggerNamesInclusive
-process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive
-process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive
-process.EventTriggerVarProducer.signalTriggerNames = triggersMet
+if hasattr(process, 'EventJetVarProducer'):
+	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+else:
+    print
+    print 'You haven\'t added any channels. There\'s nothing to do!'
+    print
+    sys.exit(0)
+
+if hasattr(process, 'EventTriggerVarProducer'):
+	process.EventTriggerVarProducer.triggerNames = triggerNamesInclusive
+	process.EventTriggerVarProducer.filterNames = triggerFiltersInclusive
+	process.EventTriggerVarProducer.signalTriggerNames = triggersMet
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)

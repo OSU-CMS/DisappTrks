@@ -1,4 +1,4 @@
-from DisappTrks.SignalSystematics.config_cfg import *
+from DisappTrks.ToyModels.config_cfg import *
 from DisappTrks.StandardAnalysis.customize import *
 
 if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -13,7 +13,7 @@ process = customize (process,
 					 applyMissingHitsCorrections = False, 
 					 runMETFilters = False)
 
-moveVariableProducer(process,"EventMuonPGunProducer","MuonGunSkim")
+moveVariableProducer(process, "ParticleGunMuonVarProducer", "MuonGunSkim")
 
 # When using these channels for calculating a new weight in MC, use the following customization instead:
 # ZtoMuMuISRStudy, ZtoMuMuISRStudyJet30

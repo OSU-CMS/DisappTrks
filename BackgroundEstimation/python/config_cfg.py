@@ -335,7 +335,13 @@ if False:
 #  add_channels  (process,  [MinimalTauMatchedCandidateTrackSelection],  cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers)
 ################################################################################
 
-process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+if hasattr(process, 'EventJetVarProducer'):
+    process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+else:
+    print
+    print 'You haven\'t added any channels. There\'s nothing to do!'
+    print
+    sys.exit(0)
 
 # modified MET for 2017 fix
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):

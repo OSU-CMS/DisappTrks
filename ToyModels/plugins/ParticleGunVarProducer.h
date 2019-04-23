@@ -1,5 +1,5 @@
-#ifndef EVENT_GUN_PRODUCER
-#define EVENT_GUN_PRODUCER
+#ifndef PARTICLE_GUN_VAR_PRODUCER
+#define PARTICLE_GUN_VAR_PRODUCER
 
 #include <sstream>
 #include "TLorentzVector.h"
@@ -39,5 +39,5 @@ template<class T, class... Args> class ParticleGunVarProducer : public EventVari
     bool jetMatchedToMuon (const pat::Jet &, const vector<pat::PackedCandidate> &) const;
 };
 
-typedef ParticleGunVarProducer<osu::Track,TYPE(muons) > EventMuonPGunProducer;
+typedef ParticleGunVarProducer<osu::Track, TYPE(muons)> ParticleGunMuonVarProducer;
 #endif

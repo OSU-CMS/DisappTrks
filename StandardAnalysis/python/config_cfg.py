@@ -186,8 +186,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [MinimalMETMatchedCandidateTrackSelection], cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
 ################################################################################
 
-process.EventJetVarProducer.triggerNames = triggerNamesInclusive
-
+if hasattr(process, 'EventJetVarProducer'):
+	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+else:
+    print
+    print 'You haven\'t added any channels. There\'s nothing to do!'
+    print
+    sys.exit(0)
+    
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
     process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
