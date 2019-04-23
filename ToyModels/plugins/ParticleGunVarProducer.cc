@@ -1,9 +1,9 @@
-#include "DisappTrks/BackgroundEstimation/plugins/EventGunProducer.h"
+#include "DisappTrks/ToyModels/plugins/ParticleGunVarProducer.h"
 
 #define M_Z (91.1876)
 
 template<class T, class... Args>
-EventGunProducer<T, Args...>::EventGunProducer (const edm::ParameterSet &cfg) :
+ParticleGunVarProducer<T, Args...>::ParticleGunVarProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg)
 {
   tokenProbes_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
@@ -12,12 +12,12 @@ EventGunProducer<T, Args...>::EventGunProducer (const edm::ParameterSet &cfg) :
 }
 
 template<class T, class... Args>
-EventGunProducer<T, Args...>::~EventGunProducer ()
+ParticleGunVarProducer<T, Args...>::~ParticleGunVarProducer ()
 {
 }
 
 template<class T, class... Args> void
-EventGunProducer<T, Args...>::AddVariables (const edm::Event &event)
+ParticleGunVarProducer<T, Args...>::AddVariables (const edm::Event &event)
 {
   edm::Handle<vector<T> > probes;
   event.getByToken (tokenProbes_, probes);
@@ -158,20 +158,20 @@ EventGunProducer<T, Args...>::AddVariables (const edm::Event &event)
 
 
 template<> const string
-EventGunProducer<osu::Track,TYPE(muons)>::tagCollectionParameter () const
+ParticleGunVarProducer<osu::Track,TYPE(muons)>::tagCollectionParameter () const
 {
   return "tracks";
 }
 
 
 template<class T, class... Args> bool
-EventGunProducer<T, Args...>::passesVeto (const osu::Track &probe) const
+ParticleGunVarProducer<T, Args...>::passesVeto (const osu::Track &probe) const
 {
   return false;
 }
 
 /*template<> bool
-EventGunProducer<osu::Track, osu::Electron>::passesVeto (const osu::Track &probe) const
+ParticleGunVarProducer<osu::Track, osu::Electron>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFElectron () > 0.15
@@ -187,7 +187,7 @@ EventGunProducer<osu::Track, osu::Electron>::passesVeto (const osu::Track &probe
 }
 */
 template<> bool
-EventGunProducer<osu::Track,TYPE(muons)>::passesVeto (const osu::Track &probe) const
+ParticleGunVarProducer<osu::Track,TYPE(muons)>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFMuon () > 0.15
@@ -202,7 +202,7 @@ EventGunProducer<osu::Track,TYPE(muons)>::passesVeto (const osu::Track &probe) c
 }
 
 template<> bool
-EventGunProducer<osu::Track,TYPE(muons)>::passesOuterHits (const osu::Track &probe) const
+ParticleGunVarProducer<osu::Track,TYPE(muons)>::passesOuterHits (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
@@ -215,7 +215,7 @@ EventGunProducer<osu::Track,TYPE(muons)>::passesOuterHits (const osu::Track &pro
 }
 
 template<class T, class... Args> template<class T0> const double
-EventGunProducer<T, Args...>::getTrackIsolation (const T0 &track, const vector<T0> &tracks, const double outerDeltaR, const double innerDeltaR) const
+ParticleGunVarProducer<T, Args...>::getTrackIsolation (const T0 &track, const vector<T0> &tracks, const double outerDeltaR, const double innerDeltaR) const
 {
   double sumPt = 0.0;
 
@@ -233,7 +233,7 @@ EventGunProducer<T, Args...>::getTrackIsolation (const T0 &track, const vector<T
 }
 
 template<class T, class... Args> bool
-EventGunProducer<T, Args...>::jetMatchedToMuon (const pat::Jet &jet, const vector<pat::PackedCandidate> &pfCands) const
+ParticleGunVarProducer<T, Args...>::jetMatchedToMuon (const pat::Jet &jet, const vector<pat::PackedCandidate> &pfCands) const
 {
   for (const auto &pfCand : pfCands)
     {

@@ -1,5 +1,5 @@
-#ifndef EVENT_TAG_AND_PROBE_PRODUCER
-#define EVENT_TAG_AND_PROBE_PRODUCER
+#ifndef EVENT_GUN_PRODUCER
+#define EVENT_GUN_PRODUCER
 
 #include <sstream>
 #include "TLorentzVector.h"
@@ -17,11 +17,11 @@
 #include "OSUT3Analysis/Collections/interface/DisappearingTrack.h"
 #include "OSUT3Analysis/Collections/interface/GenMatchable.h"
 
-template<class T, class... Args> class EventGunProducer : public EventVariableProducer
+template<class T, class... Args> class ParticleGunVarProducer : public EventVariableProducer
 {
   public:
-    EventGunProducer (const edm::ParameterSet &);
-    ~EventGunProducer ();
+    ParticleGunVarProducer (const edm::ParameterSet &);
+    ~ParticleGunVarProducer ();
 
   private:
     void AddVariables(const edm::Event &);
@@ -39,5 +39,5 @@ template<class T, class... Args> class EventGunProducer : public EventVariablePr
     bool jetMatchedToMuon (const pat::Jet &, const vector<pat::PackedCandidate> &) const;
 };
 
-typedef EventGunProducer<osu::Track,TYPE(muons) > EventMuonPGunProducer;
+typedef ParticleGunVarProducer<osu::Track,TYPE(muons) > EventMuonPGunProducer;
 #endif

@@ -161,3 +161,14 @@ weightsFluctuateL1ECALPrefiring = copy.deepcopy(weights)
 for w in weightsFluctuateL1ECALPrefiring:
     if w.inputVariable == cms.string("L1ECALPrefiringWeight"):
         w.fluctuations = cms.vstring("L1ECALPrefiringWeightUp", "L1ECALPrefiringWeightDown")
+
+#####################################################################
+# Simple set of weights for ToyModels
+#####################################################################
+
+weightsPileupOnly = cms.VPSet (
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+)

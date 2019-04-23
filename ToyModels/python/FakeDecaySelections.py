@@ -6,12 +6,14 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 ###########################################################
 ###   Cuts for FakeDecay selection
 ###########################################################
+
 cutTrkDZLoose = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackDZWRTPV + " ) < 5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with |dz| < 10"),
 )
+
 cutTrkD0Loose = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
     cutString = cms.string("fabs ( " + trackD0WRTPV + " ) < 2"),
@@ -23,7 +25,7 @@ cutTrkD0Loose = cms.PSet(
 
 cutGenTrkPt45to55 = cms.PSet(
     inputCollection = cms.vstring("genParticlePlusGeant"),
-    cutString = cms.string(" 45 < pt && pt < 55 " ),
+    cutString = cms.string("pt > 45 && pt < 55"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with 45 GeV < p_{T} < 55 GeV"),
 )

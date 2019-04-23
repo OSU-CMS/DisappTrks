@@ -295,6 +295,8 @@ from DisappTrks.BackgroundEstimation.WtoMuNuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoEESelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
+from DisappTrks.ToyModels.FakeDecaySelections import *
+from DisappTrks.ToyModels.MuonGunSelections import *
 from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
 
@@ -379,6 +381,11 @@ histSetsStandardAndTrigger.append(MetTriggerHistograms)
 histSetsStandardAndTrigger.append(EventTriggerVarHistograms)
 histSetsStandardAndTrigger.append(EventTriggerVarVsMetHistograms)
 
+histSetsParticleGun = cms.VPSet (
+    TrackHistograms,
+    FakeDecayHistograms,
+)
+
 ################################################################################
 # Set up the collections of tree branches
 ################################################################################
@@ -398,6 +405,10 @@ branchSetsIsolatedTracks = cms.VPSet (
     TrackDebugBranches,
     TrackEventvariablesDebugBranches,
     IsolatedTrackDebugBranches,
+)
+
+branchSetsParticleGun = cms.VPSet (
+    FakeDecayBranches,
 )
 
 ################################################################################
