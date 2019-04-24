@@ -298,7 +298,6 @@ from DisappTrks.BackgroundEstimation.WtoMuNuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import *
 from DisappTrks.BackgroundEstimation.ZtoEESelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
-from DisappTrks.ToyModels.FakeDecaySelections import *
 from DisappTrks.ToyModels.MuonGunSelections import *
 from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 ################################################################################
