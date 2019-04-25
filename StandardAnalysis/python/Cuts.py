@@ -1273,7 +1273,7 @@ cutElectronPairEta21 = cms.PSet (
 )
 cutElectronPairTightID = cms.PSet (
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesTightID_noIsolation > 0"),
+    cutString = cms.string("passesTightID_noIsolation_LegacySpring15 > 0"),
     numberRequired = cms.string("== 2"),
 )
 cutElectronPairTightPFIso = cms.PSet (
@@ -1281,6 +1281,26 @@ cutElectronPairTightPFIso = cms.PSet (
     cutString = cutElectronTightPFIso.cutString,
     numberRequired = cms.string("== 2"),
     alias = cms.string("== 2 electrons with tight #rho-corrected rel. iso."),
+)
+cutElectronPairVIDTightID = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("passesVID_tightID"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string(">= 2 electrons with passesVID_tightID (ID + iso)"),
+)
+cutElectronPairD02017 = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("((fabs (electron.superCluster.eta) <= 1.479) && (fabs (" + electronD0WRTPV + ") < 0.05)) \
+                         || ((fabs (electron.superCluster.eta) >  1.479) && (fabs (" + electronD0WRTPV + ") < 0.10))"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string(">= 2 electrons with |d0| < 0.05, 0.10 (EB, EE)"),
+)
+cutElectronPairDZ2017 = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("((fabs (electron.superCluster.eta) <= 1.479) && (fabs (" + electronDZWRTPV + ") < 0.10)) \
+                         || ((fabs (electron.superCluster.eta) >  1.479) && (fabs (" + electronDZWRTPV + ") < 0.20))"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string(">= 2 electrons with |dz| < 0.10, 0.20 (EB, EE)"),
 )
 
 ##################################################

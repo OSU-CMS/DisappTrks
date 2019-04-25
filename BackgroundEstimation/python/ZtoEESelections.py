@@ -17,17 +17,32 @@ ZtoEE = cms.PSet(
     name = cms.string("ZtoEE"),
     triggers = triggersSingleEle,
     metFilters = metFilters,
-    cuts = cms.VPSet (
+    cuts = cms.VPSet (),
+)
+
+zToEEElectronCuts = [
+    cutMetFilters,
+    cutElectronPairPt,
+    cutElectronPairEta21,
+    cutElectronPairTightID,
+    cutElectronPairTightPFIso,
+    cutEEChargeProduct,
+    cutEEInvMassZLo,
+    cutEEInvMassZHi,
+]
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    zToEEElectronCuts = [
         cutMetFilters,
         cutElectronPairPt,
         cutElectronPairEta21,
-        cutElectronPairTightID,
-        cutElectronPairTightPFIso,
+        cutElectronPairVIDTightID, # ID + iso (no vertexing -- added below)
+        cutElectronPairD02017,
+        cutElectronPairDZ2017,
         cutEEChargeProduct,
         cutEEInvMassZLo,
         cutEEInvMassZHi,
-    )
-)
+    ]
+addCuts(ZtoEE.cuts, zToEEElectronCuts)
 
 ##################################################
 ## Fake track control sample:  Z->e e + disappearing track

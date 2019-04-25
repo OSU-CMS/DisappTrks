@@ -105,7 +105,10 @@ if False:
 #  add_channels  (process,  [ZtoTauToEleDisTrkBetterPurity],             histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
 # Z->ee control region
-#  add_channels  (process,  [ZtoEE],                           histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+if False:
+    # Important! The electron pt cuts are higher in ElectronTagSkim than for ZtoEE. 
+    # You must run the ZtoEE skim over the full nTuples, *not* the ElectronTagSkim, to get the right events
+    add_channels  (process,  [ZtoEE],                           histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEEDisTrkNoD0Cut],              histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEEDisTrkNoD0CutNHits3],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEEDisTrkNoD0CutNHits4],        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
@@ -198,6 +201,8 @@ if False:
 
 # Z->mumu channels for fake track background estimate
 if False:
+    # Important! The muon pt cuts are higher in MuonTagSkim than for ZtoMuMu. 
+    # You must run the ZtoMuMu skim over the full nTuples, *not* the MuonTagSkim, to get the right events
     add_channels  (process,  [ZtoMuMu],                        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 if False:
