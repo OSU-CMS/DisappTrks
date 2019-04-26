@@ -76,22 +76,22 @@ if __name__ == '__main__':
     config.Data.outputDatasetTag = 'Run2018A-17Sep2018-v2'
     config.Data.unitsPerJob = 62 # 61133 lumis
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_METSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_MET_Run2018A-17Sep2018'
     config.Data.inputDataset   = '/MET/Run2018A-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_TauSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_TauSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_Tau_Run2018A-17Sep2018'
     config.Data.inputDataset   = '/Tau/Run2018A-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_MuonSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_MuonSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_SingleMuon_Run2018A-17Sep2018'
     config.Data.inputDataset   = '/SingleMuon/Run2018A-17Sep2018-v2/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_ElectronSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_ElectronSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_EGamma_Run2018A-17Sep2018'
     config.Data.inputDataset   = '/EGamma/Run2018A-17Sep2018-v2/AOD'
     #forkAndSubmit(config)
@@ -101,22 +101,22 @@ if __name__ == '__main__':
     config.Data.outputDatasetTag = 'Run2018B-17Sep2018-v2'
     config.Data.unitsPerJob = 30 # 29913 lumis
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_METSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_MET_Run2018B-17Sep2018'
     config.Data.inputDataset   = '/MET/Run2018B-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_TauSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_TauSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_Tau_Run2018B-17Sep2018'
     config.Data.inputDataset   = '/Tau/Run2018B-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_MuonSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_MuonSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_SingleMuon_Run2018B-17Sep2018'
     config.Data.inputDataset   = '/SingleMuon/Run2018B-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_ElectronSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_ElectronSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_EGamma_Run2018B-17Sep2018'
     config.Data.inputDataset   = '/EGamma/Run2018B-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
@@ -126,22 +126,22 @@ if __name__ == '__main__':
     config.Data.outputDatasetTag = 'Run2018C-17Sep2018-v2'
     config.Data.unitsPerJob = 28 # 27721 lumis
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_METSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_MET_Run2018C-17Sep2018'
     config.Data.inputDataset   = '/MET/Run2018C-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_TauSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_TauSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_Tau_Run2018C-17Sep2018'
     config.Data.inputDataset   = '/Tau/Run2018C-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_MuonSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_MuonSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_SingleMuon_Run2018C-17Sep2018'
     config.Data.inputDataset   = '/SingleMuon/Run2018C-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_ElectronSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018ABC_ElectronSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_EGamma_Run2018C-17Sep2018'
     config.Data.inputDataset   = '/EGamma/Run2018C-17Sep2018-v1/AOD'
     #forkAndSubmit(config)
@@ -151,22 +151,22 @@ if __name__ == '__main__':
     config.Data.outputDatasetTag = 'Run2018D-17Sep2018-v2'
     config.Data.unitsPerJob = 71 # 140735 lumis
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_METSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018D_METSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_MET_Run2018D-17Sep2018'
     config.Data.inputDataset   = '/MET/Run2018D-PromptReco-v2/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_TauSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018D_TauSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_Tau_Run2018D-17Sep2018'
     config.Data.inputDataset   = '/Tau/Run2018D-PromptReco-v2/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_MuonSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018D_MuonSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_SingleMuon_Run2018D-17Sep2018'
     config.Data.inputDataset   = '/SingleMuon/Run2018D-PromptReco-v2/AOD'
     #forkAndSubmit(config)
 
-    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018_ElectronSkim_cfg.py'
+    config.JobType.psetName    = 'candidateTrackProducer_RunMiniAOD_Data2018D_ElectronSkim_cfg.py'
     config.General.requestName = 'candidateTrackProducer_EGamma_Run2018D-17Sep2018'
     config.Data.inputDataset   = '/EGamma/Run2018D-PromptReco-v2/AOD'
     #forkAndSubmit(config)

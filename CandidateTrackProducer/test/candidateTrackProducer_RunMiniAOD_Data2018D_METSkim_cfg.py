@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: REMINIAOD -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2018,run2_miniAOD_devel --scenario pp --conditions 102X_dataRun2_Prompt_v11 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=reminiaod_Run2018.py --no_exec
+# with command line options: REMINIAOD -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2018,run2_miniAOD_devel --scenario pp --conditions 102X_dataRun2_Prompt_v13 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=reminiaod_Run2018.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
