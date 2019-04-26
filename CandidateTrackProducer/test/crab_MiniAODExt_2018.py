@@ -3,8 +3,8 @@
 import os
 import sys
 
-if os.environ["CMSSW_VERSION"] != "CMSSW_10_2_11_patch1":
-    print "Please switch to CMSSW_10_2_11_patch1!"
+if os.environ["CMSSW_VERSION"] != "CMSSW_10_2_14":
+    print "Please switch to CMSSW_10_2_14!"
     sys.exit (0)
 
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
