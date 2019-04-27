@@ -20,7 +20,7 @@ config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC2018_cfg.py'  # F
 config.JobType.allowUndistributedCMSSW = True
 
 config.JobType.numCores = 8
-config.JobType.maxMemoryMB = 2500
+config.JobType.maxMemoryMB = 4000
 config.Data.inputDataset = ''
 config.Data.useParent = False
 config.Data.inputDBS = 'global'
