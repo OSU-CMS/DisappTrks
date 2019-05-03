@@ -55,14 +55,11 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    reallySubmitEWK = True
+    reallySubmitEWK = False
 
     reallySubmitMass = { x : False for x in range(100, 1200, 100)}
-    reallySubmitLifetime = { x : True for x in [1, 10, 100, 1000, 10000]}
+    reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
     numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
-
-    reallySubmitMass[1000] = True
-    reallySubmitMass[1100] = True
 
     if reallySubmitEWK:
       for mass in range(100, 1200, 100):
