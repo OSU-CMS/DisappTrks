@@ -14,13 +14,21 @@ config.JobType.psetName = ''
 config.Data.outputPrimaryDataset = ''
 config.Data.splitting = 'EventBased'
 config.Data.unitsPerJob = 100
-NJOBS = 500  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
+NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
-config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIISummer15GS-MCRUN2_71_V1-v1'
 
-config.Site.storageSite = 'T3_US_OSU'
+# Uncomment one of the following pairs
+
+#config.Data.outLFNDirBase = '/store/group/lpclonglived/DisappTrks/'
+#config.Site.storageSite = 'T3_US_FNALLPC'
+
+#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
+#config.Site.storageSite = 'T2_US_Purdue'
+
+#config.Data.outLFNDirBase = '/store/group/phys_exotica/disappearingTracks/'
+#config.Site.storageSite = 'T2_CH_CERN'
 
 if __name__ == '__main__':
 
@@ -47,182 +55,20 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    config.General.requestName = 'AMSB_chargino900GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino900GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-900_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
+    reallySubmitEWK = False
 
-    config.General.requestName = 'AMSB_chargino900GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino900GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-900_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
+    reallySubmitMass = { x : False for x in range(100, 1200, 100)}
+    reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
+    numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
 
-    config.General.requestName = 'AMSB_chargino900GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino900GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-900_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino900GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino900GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-900_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino800GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino800GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-800_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino800GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino800GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-800_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino800GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino800GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-800_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino800GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino800GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-800_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino700GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino700GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino700GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino700GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino700GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino700GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino700GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino700GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-700_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino600GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino600GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-600_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino600GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino600GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-600_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino600GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino600GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-600_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino600GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino600GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-600_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino500GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino500GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-500_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino500GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino500GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-500_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino500GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino500GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-500_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino500GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino500GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-500_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino400GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino400GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-400_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino400GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino400GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-400_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino400GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino400GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-400_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino400GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino400GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-400_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino300GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino300GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino300GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino300GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino300GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino300GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino300GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino300GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-300_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino200GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino200GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-200_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino200GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino200GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-200_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino200GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino200GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-200_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino200GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino200GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-200_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino100GeV_ctau10000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino100GeV_ctau10000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-100_CTau-10000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino100GeV_ctau1000cm_step1'
-    config.JobType.psetName = 'AMSB_chargino100GeV_ctau1000cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-100_CTau-1000_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino100GeV_ctau100cm_step1'
-    config.JobType.psetName = 'AMSB_chargino100GeV_ctau100cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-100_CTau-100_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
-
-    config.General.requestName = 'AMSB_chargino100GeV_ctau10cm_step1'
-    config.JobType.psetName = 'AMSB_chargino100GeV_ctau10cm_step1.py'
-    config.Data.outputPrimaryDataset = 'AMSB_chargino_M-100_CTau-10_TuneZ2star_13TeV_pythia6'
-    #forkAndSubmit(config)
+    if reallySubmitEWK:
+      for mass in range(100, 1200, 100):
+          for ctau in [1, 10, 100, 1000, 10000]:
+              config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
+              config.JobType.psetName = 'step1/pythia6/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
+              config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%d_CTau-%d_TuneZ2star_13TeV_pythia6' % (mass, ctau)
+              config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
+              if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
+                  forkAndSubmit(config)
+              else:
+                  print 'Skipping submission of request:', config.General.requestName
