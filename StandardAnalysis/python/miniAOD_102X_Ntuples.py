@@ -5,37 +5,25 @@
 ############################################################################################################
 
 dataset_names_data = {
-    "MET_2018A" : "/MET/ahart-Run2018A-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "MET_2018B" : "/MET/ahart-Run2018B-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "MET_2018C" : "/MET/ahart-Run2018C-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
+    #"MET_2018A" :
+    #"MET_2018B" :
+    #"MET_2018C" :
+    #"MET_2018D" :
 
-    "EGamma_2018A" : "/EGamma/ahart-Run2018A-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "EGamma_2018B" : "/EGamma/ahart-Run2018B-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "EGamma_2018C" : "/EGamma/ahart-Run2018C-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
+    #"EGamma_2018A"
+    #"EGamma_2018B"
+    #"EGamma_2018C"
+    #"EGamma_2018D"
 
-    "SingleMuon_2018A" : "/SingleMuon/ahart-Run2018A-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "SingleMuon_2018B" : "/SingleMuon/ahart-Run2018B-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "SingleMuon_2018C" : "/SingleMuon/ahart-Run2018C-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
+    #"SingleMuon_2018A"
+    #"SingleMuon_2018B"
+    "SingleMuon_2018C" : "/SingleMuon/bfrancis-Run2018C-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
+    #"SingleMuon_2018D"
 
-    "Tau_2018A" : "/Tau/ahart-Run2018A-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-    "Tau_2018B" : "/Tau/ahart-Run2018B-17Sep2018-e1ce198dd6f8c89a1f35f11f9d9665d4/USER",
-}
-
-sibling_datasets = {
-    "MET_2018A" : "/MET/Run2018A-17Sep2018-v1/MINIAOD",
-    "MET_2018B" : "/MET/Run2018B-17Sep2018-v1/MINIAOD",
-    "MET_2018C" : "/MET/Run2018C-17Sep2018-v1/MINIAOD",
-
-    "EGamma_2018A" : "/EGamma/Run2018A-17Sep2018-v2/MINIAOD",
-    "EGamma_2018B" : "/EGamma/Run2018B-17Sep2018-v1/MINIAOD",
-    "EGamma_2018C" : "/EGamma/Run2018C-17Sep2018-v1/MINIAOD",
-
-    "SingleMuon_2018A" : "/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD",
-    "SingleMuon_2018B" : "/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD",
-    "SingleMuon_2018C" : "/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD",
-
-    "Tau_2018A" : "/Tau/Run2018A-17Sep2018-v1/MINIAOD",
-    "Tau_2018B" : "/Tau/Run2018B-17Sep2018-v1/MINIAOD",
+    #"Tau_2018A"
+    #"Tau_2018B"
+    #"Tau_2018C"
+    #"Tau_2018D"
 }
 
 dataset_names_bkgd = {

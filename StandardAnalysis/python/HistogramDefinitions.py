@@ -1557,6 +1557,12 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("nGoodTPPairs"),
         ),
         cms.PSet (
+            name = cms.string("nGoodSSTPPairs"),
+            title = cms.string(";number of good same-sign T&P pairs"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodSSTPPairs"),
+        ),
+        cms.PSet (
             name = cms.string("nGoodTagJetPairs"),
             title = cms.string(";number of good tag-jet pairs"),
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
@@ -1573,6 +1579,12 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";number of probes passing veto"),
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
             inputVariables = cms.vstring("nProbesPassingVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesPassingVeto"),
+            title = cms.string(";number of same-sign probes passing veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesPassingVeto"),
         ),
         cms.PSet (
             name = cms.string("nProbesPassingVetoVsNGoodTPPairs"),
@@ -2669,6 +2681,12 @@ EventTriggerVarHistograms = cms.PSet(
             title = cms.string(";Number of Primary Vertices"),
             binsX = cms.untracked.vdouble(100, 0.0, 100.0),
             inputVariables = cms.vstring("numPVReco"),
+        ),
+        cms.PSet (
+            name = cms.string("numTrueInteractions"),
+            title = cms.string(";True Number of Interactions"),
+            binsX = cms.untracked.vdouble(100, 0.0, 100.0),
+            inputVariables = cms.vstring("numTrueInteractions"),
         ),
         cms.PSet (
             name = cms.string("leadMuonMatchToHLTTrack"),

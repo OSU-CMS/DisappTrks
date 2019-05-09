@@ -336,49 +336,43 @@ lumi_2017_ntuples = {
 
 }
 
-lumi_2018 = {
-    # replace values with crab jsons when ntuples are done
+lumi_2018_ntuples = {
+    # brilcalc on CRAB report JSONs with hltpath
+    # anything commented below is OLD, using the preliminary normtag on an older golden JSON
 
-    # filterJSON.py --min x --max y  Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt --output Run2018x.json
-    # 2018A: 315252-316995
-    # 2018B: 316998-319312
-    # 2018C: 319313-320393
-    # 2018D: 320394-325273
-    # 2018E: No standard collision runs
-    #
     # Normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM, https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis
-    # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /pb -i Run2018x.json --hltpath "xyz"
+    # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json -u /pb -i [your json] --hltpath "xyz"
 
     # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
-    "MET_2018A" : 14002.865,
-    "MET_2018B" : 7097.149,
-    "MET_2018C" : 6937.082,
-    "MET_2018D" : 31929.065,
+    #"MET_2018A" : 14002.865,
+    #"MET_2018B" : 7097.149,
+    #"MET_2018C" : 6937.082,
+    #"MET_2018D" : 31929.065,
 
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
-    "EGamma_2018A" : 14002.865,
-    "EGamma_2018B" : 7097.149,
-    "EGamma_2018C" : 6937.082,
-    "EGamma_2018D" : 31929.065,
+    #"EGamma_2018A" : 14002.865,
+    #"EGamma_2018B" : 7097.149,
+    #"EGamma_2018C" : 6937.082,
+    #"EGamma_2018D" : 31929.065,
 
     # --hltpath "HLT_IsoMu24_v*"
-    "SingleMuon_2018A" : 13994.713,
-    "SingleMuon_2018B" : 7097.149,
-    "SingleMuon_2018C" : 6937.082,
-    "SingleMuon_2018D" : 31929.065,
+    #"SingleMuon_2018A" : 13994.713,
+    #"SingleMuon_2018B" : 7097.149,
+    "SingleMuon_2018C" : 6497.137212626,
+    #"SingleMuon_2018D" : 31929.065,
 
     # no hltpath
-    "Tau_2018A" : 14002.865,
-    "Tau_2018B" : 7097.149,
-    "Tau_2018C" : 6940.791,
-    "Tau_2018D" : 31929.971,
+    #"Tau_2018A" : 14002.865,
+    #"Tau_2018B" : 7097.149,
+    #"Tau_2018C" : 6940.791,
+    #"Tau_2018D" : 31929.971,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        "Tau_2018A" : 73.699,
-        "Tau_2018B" : 37.353,
-        "Tau_2018C" : 36.511,
-        "Tau_2018D" : 168.048,
+        #"Tau_2018A" : 73.699,
+        #"Tau_2018B" : 37.353,
+        #"Tau_2018C" : 36.511,
+        #"Tau_2018D" : 168.048,
     }
 
 }
@@ -388,7 +382,7 @@ lumi = lumi_2015rereco
 
 lumi = InsertYear(lumi_2016, lumi)
 lumi = InsertYear(lumi_2017_ntuples, lumi)
-lumi = InsertYear(lumi_2018, lumi)
+lumi = InsertYear(lumi_2018_ntuples, lumi)
 
 # set up some composite aliases for convenience
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]

@@ -4,6 +4,46 @@ from OSUT3Analysis.Configuration.cutUtilities import replaceSingleCut
 import re
 import os
 import copy
+import sys
+
+class AnalysisEra:
+    is2015 = False
+    is2016 = False
+    is2017 = False
+    is2017 = False
+    release = ''
+    eraName = ''
+
+    def __init__(self):
+        self.release = os.environ["CMSSW_VERSION"]
+        if self.release.startswith('CMSSW_7_6_'):
+            self.is2015 = True
+            self.eraName = '2015'
+            self.availableSubEras = ['D']
+        elif self.release.startswith('CMSSW_8_0_'):
+            self.is2016 = True
+            self.eraName = '2016BC' # BC by default
+            self.
+        elif self.release.startswith('CMSSW_9_4_'):
+            self.is2017 = True
+            self.eraName = '2017'
+        elif self.release.startswith('CMSSW_10_2_'):
+            self.is2018 = True
+            self.eraName = '2018'
+        else:
+            print self.release + ' is not a valid release. Quitting.'
+            sys.exit(0)
+            
+    def availableSubEras(self):
+        if self.is2015:
+            return ['D']
+        if self.is2016:
+            return [x for x in self.eraName[4:]]
+        if self.is2017:
+            return ['B', 'C', 'D', 'E', 'F']
+        if self.is2018:
+            return ['A', 'B', 'C', 'D']
+        return []
 
 def addLifetimeReweighting (datasets):
     new_datasets = []
