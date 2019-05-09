@@ -6,6 +6,7 @@ import os
 import copy
 import sys
 
+# this is not yet used anywhere; eraName would need to be switched from 2016BC to 2016DEFGH somewhere
 class AnalysisEra:
     is2015 = False
     is2016 = False
@@ -23,7 +24,6 @@ class AnalysisEra:
         elif self.release.startswith('CMSSW_8_0_'):
             self.is2016 = True
             self.eraName = '2016BC' # BC by default
-            self.
         elif self.release.startswith('CMSSW_9_4_'):
             self.is2017 = True
             self.eraName = '2017'
