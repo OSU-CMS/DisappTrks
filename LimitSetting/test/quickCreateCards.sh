@@ -29,7 +29,7 @@ makeDatacards.py -g -e 2015 -c limits_2015_${SUFFIX}
 
 echo
 
-combineCards.py -l wino -s ${SUFFIX}
+combineDatacards.py -l wino -s ${SUFFIX}
 
 echo
 

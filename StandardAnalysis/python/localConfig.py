@@ -35,8 +35,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
         lumi.update (CreateCompositeLumis (lumi_2017, '2017', 'BCDEF'))
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET
-    print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")"
+    print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Ntuples" + A_RESET
+    print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Ntuples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")"
     from DisappTrks.StandardAnalysis.miniAOD_102X_Ntuples import *
 else:
     print "# Datasets and background samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET

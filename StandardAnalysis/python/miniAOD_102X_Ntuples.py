@@ -15,10 +15,10 @@ dataset_names_data = {
     #"EGamma_2018C"
     #"EGamma_2018D"
 
-    #"SingleMuon_2018A"
-    #"SingleMuon_2018B"
-    "SingleMuon_2018C" : "/SingleMuon/bfrancis-Run2018C-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
-    #"SingleMuon_2018D"
+    #"SingleMu_2018A"
+    "SingleMu_2018B" : "/SingleMuon/bfrancis-Run2018B-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
+    "SingleMu_2018C" : "/SingleMuon/bfrancis-Run2018C-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
+    #"SingleMu_2018D"
 
     #"Tau_2018A"
     #"Tau_2018B"
