@@ -362,14 +362,14 @@ lumi_2018_ntuples = {
     #"SingleMuon_2018D" : 31929.065,
 
     # no hltpath
-    #"Tau_2018A" : 14002.865,
+    "Tau_2018A" : 14022.518202245,
     #"Tau_2018B" : 7097.149,
     #"Tau_2018C" : 6940.791,
     #"Tau_2018D" : 31929.971,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
-        #"Tau_2018A" : 73.699,
+        "Tau_2018A" : 73.802727380,
         #"Tau_2018B" : 37.353,
         #"Tau_2018C" : 36.511,
         #"Tau_2018D" : 168.048,

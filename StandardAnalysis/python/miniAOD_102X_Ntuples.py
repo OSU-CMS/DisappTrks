@@ -20,7 +20,7 @@ dataset_names_data = {
     "SingleMu_2018C" : "/SingleMuon/bfrancis-Run2018C-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
     #"SingleMu_2018D"
 
-    #"Tau_2018A"
+    "Tau_2018A"  : "/Tau/kwei-Run2018A-17Sep2018-v2-134ed1c8518933d56bc124df945e0135/USER",
     #"Tau_2018B"
     #"Tau_2018C"
     #"Tau_2018D"
