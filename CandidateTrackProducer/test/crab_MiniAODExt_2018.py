@@ -19,7 +19,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'candidateTrackProducer_RunMiniAOD_MC2018_cfg.py'  # For MC only
 config.JobType.allowUndistributedCMSSW = True
 
-config.JobType.numCores = 8
+config.JobType.numCores = 4
 config.JobType.maxMemoryMB = 3000
 config.Data.inputDataset = ''
 config.Data.useParent = False
@@ -350,6 +350,7 @@ if __name__ == '__main__':
     #############################################################################################
 
     config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/ReReco/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt'
+    config.JobType.numCores = 8
 
     # Run2018A
 
