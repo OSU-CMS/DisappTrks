@@ -143,9 +143,9 @@ def customize (process,
     # fixme, all set to 2017 values
     elif runPeriod == "2018":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2017")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2017Up")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
+        process.PUScalingFactorProducer.target = cms.string ("data2018")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')

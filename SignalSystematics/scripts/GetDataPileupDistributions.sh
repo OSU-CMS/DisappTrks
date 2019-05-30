@@ -7,7 +7,7 @@
 ########################################################
 
 json15=Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt
-minBias15=69000
+minBias15=69000 # this should be 69200, but we used 69000 in EXO-16-044
 minBiasUncertainty15=0.046
 
 json16=Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
@@ -17,6 +17,10 @@ minBiasUncertainty16=0.046
 json17=Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt
 minBias17=69200
 minBiasUncertainty17=0.046
+
+json18=Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt
+minBias18=69200
+minBiasUncertainty18=0.046
 
 nBinsX=100
 
@@ -33,16 +37,21 @@ minBias16Down=`echo "print $minBias16 * (1 - $minBiasUncertainty16)" | python`
 minBias17Up=`echo "print $minBias17 * (1 + $minBiasUncertainty17)" | python`
 minBias17Down=`echo "print $minBias17 * (1 - $minBiasUncertainty17)" | python`
 
+minBias18Up=`echo "print $minBias18 * (1 + $minBiasUncertainty18)" | python`
+minBias18Down=`echo "print $minBias18 * (1 - $minBiasUncertainty18)" | python`
+
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 eval `scram runtime -sh`
 
 curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/PileUp/pileup_latest.txt > pileup_2015.txt
 curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/PileUp/pileup_latest.txt > pileup_2016.txt
 curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/PileUp/pileup_latest.txt > pileup_2017.txt
+curl https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PileUp/pileup_latest.txt > pileup_2018.txt
 
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Reprocessing/$json15
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/$json16
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/$json17
+wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/ReReco/$json18
 
 ########################################################
 # Split up 2016 into BC and DEFGH
@@ -78,6 +87,10 @@ pileupCalc.py -i $json17 --inputLumiJSON pileup_2017.txt --calcMode true --minBi
 pileupCalc.py -i $json17 --inputLumiJSON pileup_2017.txt --calcMode true --minBiasXsec $minBias17Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2017_up.root
 pileupCalc.py -i $json17 --inputLumiJSON pileup_2017.txt --calcMode true --minBiasXsec $minBias17Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2017_down.root
 
+pileupCalc.py -i $json18 --inputLumiJSON pileup_2018.txt --calcMode true --minBiasXsec $minBias18 --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2018_central.root
+pileupCalc.py -i $json18 --inputLumiJSON pileup_2018.txt --calcMode true --minBiasXsec $minBias18Up --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2018_up.root
+pileupCalc.py -i $json18 --inputLumiJSON pileup_2018.txt --calcMode true --minBiasXsec $minBias18Down --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_2018_down.root
+
 ########################################################
 # Combine ROOT files and clean up
 ########################################################
@@ -88,5 +101,6 @@ rm *.txt
 rm puData_2015_*.root
 rm puData_2016_*.root
 rm puData_2017_*.root
+rm puData_2018_*.root
 
 echo "Created combined file puData.root"
