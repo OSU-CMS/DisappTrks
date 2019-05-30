@@ -12,7 +12,7 @@ dataset_names_data = {
 
     #"EGamma_2018A"
     #"EGamma_2018B"
-    #"EGamma_2018C"
+    "EGamma_2018C"  : "/EGamma/kwei-Run2018C-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER"
     #"EGamma_2018D"
 
     #"SingleMu_2018A"
