@@ -12,14 +12,18 @@ gROOT.SetBatch ()
 dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
 
+selectionNames = ['FiducialCalcBefore', 'FiducialCalcAfter']
+
 # Will use Dataset_runPeriod.root
 runPeriods = ['2015']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     runPeriods = ['2016']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    runPeriods = ['2017B', '2017C', '2017D', '2017E', '2017F']
+    runPeriods = ['2017B', '2017C', '2017D', '2017E', '2017F', '2017']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    runPeriods = ['2018A', '2018B', '2018C', '2018D']
+    runPeriods = ['2018A', '2018B', '2018C', '2018D', '2018']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 
 for runPeriod in runPeriods:
 
@@ -33,7 +37,7 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Kai'] + "2018/elecHotSpots"
         datasetName = "EGamma"
         
-    if not '2018' in runPeriod or runPeriod == '2018B':
+    if not '2018' in runPeriod:
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -46,14 +50,10 @@ for runPeriod in runPeriods:
         electronMap.addTFile(fout)
         electronMap.addTCanvas(canvas)
         electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
-        electronMap.addChannel("Denominator", "ElectronFiducialCalcBefore", datasetName + "_" + runPeriod, condorDirectory)
-        electronMap.addChannel("Numerator",   "ElectronFiducialCalcAfter",  datasetName + "_" + runPeriod, condorDirectory)
+        electronMap.addChannel("Denominator", "Electron" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
+        electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
         electronMap.CalculateFiducialMap()
         electronMap.MakePlots()
-
-        print "********************************************************************************"
-        print "Compared to the existing map:"
-        print "********************************************************************************"
         electronMap.CompareFiducialMap()
         print "********************************************************************************"
         print "\n\n"
@@ -81,14 +81,10 @@ for runPeriod in runPeriods:
         muonMap.addTFile(fout)
         muonMap.addTCanvas(canvas)
         muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
-        muonMap.addChannel("Denominator", "MuonFiducialCalcBefore", "SingleMu_" + runPeriod, condorDirectory)
-        muonMap.addChannel("Numerator",   "MuonFiducialCalcAfter",  "SingleMu_" + runPeriod, condorDirectory)
+        muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "SingleMu_" + runPeriod, condorDirectory)
+        muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "SingleMu_" + runPeriod, condorDirectory)
         muonMap.CalculateFiducialMap()
         muonMap.MakePlots()
-    
-        print "********************************************************************************"
-        print "Compared to the existing map:"
-        print "********************************************************************************"
         muonMap.CompareFiducialMap()
         print "********************************************************************************"
         print "\n\n"

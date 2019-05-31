@@ -27,12 +27,51 @@ dataset_names_data = {
 }
 
 dataset_names_bkgd = {
+
+    # TTJets
+
+    # QCD
+    'QCD_15to30'      : "",
+    'QCD_30to50'      : "",
+    'QCD_50to80'      : "",
+    'QCD_80to120'     : "",
+    'QCD_120to170'    : "",
+    'QCD_170to300'    : "/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'QCD_300to470'    : "",
+    'QCD_470to600'    : "",
+    'QCD_600to800'    : "",
+    'QCD_800to1000'   : "",
+    'QCD_1000to1400'  : "",
+    'QCD_1400to1800'  : "/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER", # includes ext1
+    'QCD_1800to2400'  : "",
+    'QCD_2400to3200'  : "/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER", # includes ext1
+    'QCD_3200toInf'   : "/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER", # includes ext1
+
+    'DYJetsToLL_50'    : "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'DYJetsToLL_5to50' : "",
+
 }
 
 bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSkimCutFlow.py, use -j 1 for one job per file
+
+    # QCD
+    'QCD_170to300'   : 29740000.0,
+    'QCD_1400to1800' : 6944000.0,
+    'QCD_2400to3200' : 2394000.0,
+    'QCD_3200toInf'  : 925000.0,
+
 }
 
 bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo files
+
+    # QCD
+    'QCD_170to300'   : 31143.0,
+    'QCD_1400to1800' : 1348627.0,
+    'QCD_2400to3200' : 812733.0,
+    'QCD_3200toInf'  : 399922.0,
+
+    #'DYJetsToLL_50' : 27213432.0,
+    
 }
 
 optional_dict_ntupleEff = { x : bkgd_crabSkimmed[x] / bkgd_crabSeen[x] for x in bkgd_crabSeen }

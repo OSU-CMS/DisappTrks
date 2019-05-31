@@ -126,7 +126,7 @@ class FiducialMapCalculator:
         circles = []
         for spots in self._hotSpotsList:
             circle = TEllipse(float(spots[0]), float(spots[1]), 0.06)
-            circle.SetLineColor(2)
+            circle.SetLineColor(820) # kSpring
             circle.SetLineWidth(1)
             circle.SetFillStyle(0)
             circles.append(circle)
@@ -231,6 +231,10 @@ class FiducialMapCalculator:
         existingMapNumerator = existingMapFile.Get('afterVeto')
         oldHotSpots = self.FindHotSpots(existingMapDenominator, existingMapNumerator)
         existingMapFile.Close()
+
+        print "********************************************************************************"
+        print "Compared to the existing map (" + existingMapName + "):"
+        print "********************************************************************************"
 
         if self._verboseComparison:
             print '\n\nHot spots that went away with new data:'
