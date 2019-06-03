@@ -23,6 +23,11 @@ replaceSingleCut (disTrkSelectionSmearedJets.cuts, cutJetJERSmearedPt, cutJetPt)
 ################################################################################
 ################################################################################
 
+disTrkSelectionSmearedJetsLooseVetoes = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkSelectionSmearedJetsLooseVetoes.name = cms.string("disTrkSelectionSmearedJetsLooseVetoes")
+replaceSingleCut(disTrkSelectionSmearedJetsLooseVetoes.cuts, cutTrkVetoElecVeto, cutTrkElecVeto)
+replaceSingleCut(disTrkSelectionSmearedJetsLooseVetoes.cuts, cutTrkLooseMuonVeto, cutTrkMuonVeto)
+
 ################################################################################
 ## ISR signal systematic
 ################################################################################
@@ -102,6 +107,8 @@ createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJ
 createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")
 createHitsVariations(disTrkSelectionSmearedJetsJECDown, "disTrkSelectionSmearedJetsJECDown")
 createHitsVariations(disTrkSelectionSmearedJetsL1PrefiringTest, "disTrkSelectionSmearedJetsL1PrefiringTest")
+
+createHitsVariations(disTrkSelectionSmearedJetsLooseVetoes, "disTrkSelectionSmearedJetsLooseVetoes")
 
 ################################################################################
 ## MET signal systematic
