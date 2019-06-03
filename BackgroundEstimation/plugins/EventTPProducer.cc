@@ -6,7 +6,9 @@ template<class T, class... Args>
 EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
   doFilter_ (cfg.getParameter<bool> ("doFilter")),
+  doLooseFilter_ (cfg.getParameter<bool> ("doLooseFilter")),
   doSSFilter_ (cfg.getParameter<bool> ("doSSFilter")),
+  doLooseSSFilter_ (cfg.getParameter<bool> ("doLooseSSFilter")),
   doJetFilter_ (cfg.getParameter<bool> ("doJetFilter"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
@@ -38,9 +40,9 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   if (!tags.isValid () || !probes.isValid ())
     return;
 
-  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0,
+  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0, nProbesPassingLooseVeto = 0,
            nGoodTagJetPairs = 0, nGoodTagPFCHPairs = 0,
-           nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0;
+           nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0, nSSProbesPassingLooseVeto = 0;
   vector<double> masses,
                  tagJetMasses, jetChargedHadronEnergyFractions, jetNeutralHadronEnergyFractions,
                  tagPFCHMasses, pfchRelIsos;
@@ -53,13 +55,16 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
           bool isGoodInvMass = goodInvMass (tag, probe, mass),
                isGoodTPPair = isGoodInvMass && (tag.charge () * probe.charge () < 0.0),
                isGoodSSTPPair = isGoodInvMass && (tag.charge () * probe.charge () > 0.0),
-               isProbePassingVeto = passesVeto (probe);
+               isProbePassingVeto = passesVeto (probe),
+               isProbePassingLooseVeto = passesLooseVeto (probe);
 
           isGoodTPPair && nGoodTPPairs++;
           (isGoodTPPair && isProbePassingVeto) && nProbesPassingVeto++;
+          (isGoodTPPair && isProbePassingLooseVeto) && nProbesPassingLooseVeto++;
 
           isGoodSSTPPair && nGoodSSTPPairs++;
           (isGoodSSTPPair && isProbePassingVeto) && nSSProbesPassingVeto++;
+          (isGoodSSTPPair && isProbePassingLooseVeto) && nSSProbesPassingLooseVeto++;
 
           if (isGoodTPPair || isGoodSSTPPair)
             {
@@ -115,9 +120,11 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
 
   (*eventvariables)["nGoodTPPairs"] = nGoodTPPairs;
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
+  (*eventvariables)["nProbesPassingLooseVeto"] = nProbesPassingLooseVeto;
 
   (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
   (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
+  (*eventvariables)["nSSProbesPassingLooseVeto"] = nSSProbesPassingLooseVeto;
 
   (*eventvariables)["nGoodTagJetPairs"] = nGoodTagJetPairs;
   (*eventvariables)["nGoodTagPFCHPairs"] = nGoodTagPFCHPairs;
@@ -144,6 +151,10 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingVeto > 0);
   if (doSSFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = (nSSProbesPassingVeto > 0);
+  if (doLooseFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = (nProbesPassingLooseVeto > 0);
+  if (doLooseSSFilter_)
+    (*eventvariables)["EventVariableProducerFilterDecision"] = (nSSProbesPassingLooseVeto > 0);
   if (doJetFilter_)
     (*eventvariables)["EventVariableProducerFilterDecision"] = tagJetMassNearZ;
 }
@@ -327,6 +338,15 @@ EventTPProducer<osu::Electron>::passesVeto (const osu::Track &probe) const
 }
 
 template<> bool
+EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
+{
+  bool passes = probe.deltaRToClosestVetoElectron () > 0.15
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+  return passes;
+}
+
+template<> bool
 EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
@@ -337,6 +357,14 @@ EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;          
 #endif
 
+  return passes;
+}
+
+template<> bool
+EventTPProducer<osu::Muon>::passesLooseVeto (const osu::Track &probe) const
+{
+  bool passes = probe.deltaRToClosestLooseMuon () > 0.15
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;          
   return passes;
 }
 
@@ -359,6 +387,15 @@ EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) c
 }
 
 template<> bool
+EventTPProducer<osu::Electron, osu::Tau>::passesLooseVeto (const osu::Track &probe) const
+{
+  bool passes = probe.deltaRToClosestVetoElectron () > 0.15
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+  return passes;
+}
+
+template<> bool
 EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
@@ -373,6 +410,14 @@ EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #endif
 
+  return passes;
+}
+
+template<> bool
+EventTPProducer<osu::Muon, osu::Tau>::passesLooseVeto (const osu::Track &probe) const
+{
+  bool passes = probe.deltaRToClosestLooseMuon () > 0.15
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;          
   return passes;
 }
 

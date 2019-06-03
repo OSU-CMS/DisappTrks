@@ -193,27 +193,37 @@ def customize (process,
         moveVariableProducer (process, "TriggerWeightProducer", channel)
 
         doFilter    = ("WithFilter" in channel)
+        doLooseFilter    = ("WithLooseFilter" in channel)
         doSSFilter  = ("WithSSFilter" in channel)
+        doLooseSSFilter  = ("WithLooseSSFilter" in channel)
         doJetFilter = ("WithJetFilter" in channel)
 
         if hasattr (process, "EventElectronTPProducer"):
             getattr (process, "EventElectronTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventElectronTPProducer").doLooseFilter = cms.bool (doLooseFilter)
             getattr (process, "EventElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventElectronTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventElectronTPProducer", channel)
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventMuonTPProducer").doLooseFilter = cms.bool (doLooseFilter)
             getattr (process, "EventMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventMuonTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventMuonTPProducer", channel)
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventTauToElectronTPProducer").doLooseFilter = cms.bool (doLooseFilter)
             getattr (process, "EventTauToElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventTauToElectronTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventTauToElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventTauToElectronTPProducer", channel)
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
+            getattr (process, "EventTauToMuonTPProducer").doLooseFilter = cms.bool (doLooseFilter)
             getattr (process, "EventTauToMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
+            getattr (process, "EventTauToMuonTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventTauToMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             moveVariableProducer (process, "EventTauToMuonTPProducer", channel)
 

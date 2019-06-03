@@ -153,6 +153,18 @@ ZtoTauToMuProbeTrkWithFilter.name = cms.string ("ZtoTauToMuProbeTrkWithFilter")
 ZtoTauToMuProbeTrkWithSSFilter = copy.deepcopy (ZtoTauToMuProbeTrk)
 ZtoTauToMuProbeTrkWithSSFilter.name = cms.string ("ZtoTauToMuProbeTrkWithSSFilter")
 
+########
+# Versions of the P(veto) numerators with veto/loose IDs applied to electrons/muons instead of no ID at all
+# from EXO-19-010 pre-approval question May 31st 2019
+ZtoTauToMuProbeTrkWithLooseFilter = copy.deepcopy(ZtoTauToMuProbeTrkWithFilter)
+ZtoTauToMuProbeTrkWithLooseFilter.name = cms.string ("ZtoTauToMuProbeTrkWithLooseFilter")
+replaceSingleCut(ZtoTauToMuProbeTrkWithLooseFilter.cuts, cutTrkVetoElecVeto, cutTrkElecVeto)
+
+ZtoTauToMuProbeTrkWithLooseSSFilter = copy.deepcopy(ZtoTauToMuProbeTrkWithSSFilter)
+ZtoTauToMuProbeTrkWithLooseSSFilter.name = cms.string ("ZtoTauToMuProbeTrkWithLooseSSFilter")
+replaceSingleCut(ZtoTauToMuProbeTrkWithLooseSSFilter.cuts, cutTrkVetoElecVeto, cutTrkElecVeto)
+########
+
 ZtoTauToMuProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToMuProbeTrkWithZCuts)
 ZtoTauToMuProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToMuProbeTrkWithoutD0Cut")
 removeCuts (ZtoTauToMuProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
@@ -230,6 +242,18 @@ ZtoTauToEleProbeTrkWithFilter.name = cms.string ("ZtoTauToEleProbeTrkWithFilter"
 ZtoTauToEleProbeTrkWithSSFilter = copy.deepcopy (ZtoTauToEleProbeTrk)
 ZtoTauToEleProbeTrkWithSSFilter.name = cms.string ("ZtoTauToEleProbeTrkWithSSFilter")
 
+########
+# Versions of the P(veto) numerators with veto/loose IDs applied to electrons/muons instead of no ID at all
+# from EXO-19-010 pre-approval question May 31st 2019
+ZtoTauToEleProbeTrkWithLooseFilter = copy.deepcopy(ZtoTauToEleProbeTrkWithFilter)
+ZtoTauToEleProbeTrkWithLooseFilter.name = cms.string ("ZtoTauToEleProbeTrkWithLooseFilter")
+replaceSingleCut(ZtoTauToEleProbeTrkWithLooseFilter.cuts, cutTrkLooseMuonVeto, cutTrkMuonVeto)
+
+ZtoTauToEleProbeTrkWithLooseSSFilter = copy.deepcopy(ZtoTauToEleProbeTrkWithSSFilter)
+ZtoTauToEleProbeTrkWithLooseSSFilter.name = cms.string ("ZtoTauToEleProbeTrkWithLooseSSFilter")
+replaceSingleCut(ZtoTauToEleProbeTrkWithLooseSSFilter.cuts, cutTrkLooseMuonVeto, cutTrkMuonVeto)
+########
+
 ZtoTauToEleProbeTrkWithoutD0Cut = copy.deepcopy (ZtoTauToEleProbeTrkWithZCuts)
 ZtoTauToEleProbeTrkWithoutD0Cut.name = cms.string ("ZtoTauToEleProbeTrkWithoutD0Cut")
 removeCuts (ZtoTauToEleProbeTrkWithoutD0Cut.cuts, [cutTrkD0])
@@ -275,9 +299,13 @@ createHitsVariations (TauTagPt55MetTrig,               "TauTagPt55MetTrig")
 createHitsVariations (ZtoTauToMuProbeTrk,              "ZtoTauToMuProbeTrk")
 createHitsVariations (ZtoTauToMuProbeTrkWithFilter,    "ZtoTauToMuProbeTrkWithFilter")
 createHitsVariations (ZtoTauToMuProbeTrkWithSSFilter,  "ZtoTauToMuProbeTrkWithSSFilter")
+createHitsVariations (ZtoTauToMuProbeTrkWithLooseFilter,    "ZtoTauToMuProbeTrkWithLooseFilter")
+createHitsVariations (ZtoTauToMuProbeTrkWithLooseSSFilter,  "ZtoTauToMuProbeTrkWithLooseSSFilter")
 createHitsVariations (ZtoTauToEleProbeTrk,             "ZtoTauToEleProbeTrk")
 createHitsVariations (ZtoTauToEleProbeTrkWithFilter,   "ZtoTauToEleProbeTrkWithFilter")
 createHitsVariations (ZtoTauToEleProbeTrkWithSSFilter, "ZtoTauToEleProbeTrkWithSSFilter")
+createHitsVariations (ZtoTauToEleProbeTrkWithLooseFilter,   "ZtoTauToEleProbeTrkWithLooseFilter")
+createHitsVariations (ZtoTauToEleProbeTrkWithLooseSSFilter, "ZtoTauToEleProbeTrkWithLooseSSFilter")
 createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,     "ZtoTauToMuProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToEleProbeTrkWithZCuts,    "ZtoTauToEleProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToMuDisTrk,                "ZtoTauToMuDisTrk")

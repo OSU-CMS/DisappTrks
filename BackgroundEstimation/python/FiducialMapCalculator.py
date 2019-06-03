@@ -69,6 +69,9 @@ class FiducialMapCalculator:
                 totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
         meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
 
+        print '\nMean inefficiency (including any hot spots) = ', meanInefficiency
+        meanInefficiency_withHotSpots = meanInefficiency
+
         # now with the mean, calculate the standard deviation as stdDev^2 = 1/(N-1) * sum(inefficiency - meanInefficiency)^2
         stdDevInefficiency = 0
 
@@ -103,6 +106,33 @@ class FiducialMapCalculator:
                     eta = "{0:0.2f}".format(efficiency.GetXaxis().GetBinCenter(xbin))
                     phi = "{0:0.2f}".format(efficiency.GetYaxis().GetBinCenter(ybin))
                     hotSpots.append((eta, phi))
+
+        # do this again to calculate the mean inefficiency without hot spots
+        totalEventsBeforeVeto = 0
+        totalEventsAfterVeto = 0
+
+        for xbin in range(1, beforeVeto.GetXaxis().GetNbins()):
+            for ybin in range(1, beforeVeto.GetYaxis().GetNbins()):
+                if beforeVeto.GetBinContent(xbin, ybin) <= 0:
+                    continue
+                isHotSpot_ = False
+                for hs_ in hotSpots:
+                    eta = "{0:0.2f}".format(efficiency.GetXaxis().GetBinCenter(xbin))
+                    phi = "{0:0.2f}".format(efficiency.GetYaxis().GetBinCenter(ybin))
+                    if hs_[0] == eta and hs_[1] == phi:
+                        isHotSpot_ = True
+                        break
+                if isHotSpot_:
+                        continue
+                totalEventsBeforeVeto += beforeVeto.GetBinContent(xbin, ybin)
+                totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
+        meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
+
+        print 'Mean inefficiency (excluding identified hot spots) = ', meanInefficiency
+        meanInefficiency_withoutHotSpots = meanInefficiency
+        print '\nRatio of mean inefficiency excluding/including hot spots = ', meanInefficiency_withoutHotSpots / meanInefficiency_withHotSpots, '\n'
+        print '\nPercentage drop = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / meanInefficiency_withHotSpots
+        print '\nPer-invfb rate, difference = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / self._luminosityInInvFb
 
         return hotSpots
 

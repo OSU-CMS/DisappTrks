@@ -149,6 +149,18 @@ ZtoMuProbeTrkWithFilter.name = cms.string ("ZtoMuProbeTrkWithFilter")
 ZtoMuProbeTrkWithSSFilter = copy.deepcopy (ZtoMuProbeTrk)
 ZtoMuProbeTrkWithSSFilter.name = cms.string ("ZtoMuProbeTrkWithSSFilter")
 
+########
+# Versions of the P(veto) numerators with veto/loose IDs applied to electrons/muons instead of no ID at all
+# from EXO-19-010 pre-approval question May 31st 2019
+ZtoMuProbeTrkWithLooseFilter = copy.deepcopy(ZtoMuProbeTrkWithFilter)
+ZtoMuProbeTrkWithLooseFilter.name = cms.string ("ZtoMuProbeTrkWithLooseFilter")
+replaceSingleCut(ZtoMuProbeTrkWithLooseFilter.cuts, cutTrkVetoElecVeto, cutTrkElecVeto)
+
+ZtoMuProbeTrkWithLooseSSFilter = copy.deepcopy(ZtoMuProbeTrkWithSSFilter)
+ZtoMuProbeTrkWithLooseSSFilter.name = cms.string ("ZtoMuProbeTrkWithLooseSSFilter")
+replaceSingleCut(ZtoMuProbeTrkWithLooseSSFilter.cuts, cutTrkVetoElecVeto, cutTrkElecVeto)
+########
+
 ZtoMuProbeTrkBeforeArbitration = copy.deepcopy (ZtoMuProbeTrkWithZCuts)
 ZtoMuProbeTrkBeforeArbitration.name = cms.string ("ZtoMuProbeTrkBeforeArbitration")
 removeCuts (ZtoMuProbeTrkBeforeArbitration.cuts, [cutTrkArbitration, cutMuTrkInvMass80To100, cutMuTrkOS])
@@ -221,6 +233,8 @@ createHitsVariations (ZtoMuDisTrk,               "ZtoMuDisTrk")
 createHitsVariations (ZtoMuProbeTrk,             "ZtoMuProbeTrk")
 createHitsVariations (ZtoMuProbeTrkWithFilter,   "ZtoMuProbeTrkWithFilter")
 createHitsVariations (ZtoMuProbeTrkWithSSFilter, "ZtoMuProbeTrkWithSSFilter")
+createHitsVariations (ZtoMuProbeTrkWithLooseFilter,   "ZtoMuProbeTrkWithLooseFilter")
+createHitsVariations (ZtoMuProbeTrkWithLooseSSFilter, "ZtoMuProbeTrkWithLooseSSFilter")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

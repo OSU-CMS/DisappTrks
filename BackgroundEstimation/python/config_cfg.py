@@ -7,6 +7,9 @@ def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
     names = {x : int(x[5]) for x in cutTrkNValidHitsVariations if int(x[5]) in hitRange} # "NHits5"[5] = 5
     return [globals ()[chName + x] for x in names]
 
+def getNLayersChannelVariations (chName):
+    return [globals()[chName + x] for x in ['NLayers4', 'NLayers5', 'NLayers6plus']]
+
 ################################################################################
 # MET channels
 ################################################################################
@@ -77,8 +80,9 @@ if False:
     add_channels  (process,  [ZtoEleProbeTrkWithSSFilter],       histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
 
 # T&P channels in specific nValidHits bins; run out of ZtoEleProbeTrkWith(SS)Filter above
-# add_channels (process, getNHitsVariations("ZtoEleProbeTrkWithFilter"), histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
-# add_channels (process, getNHitsVariations("ZtoEleProbeTrkWithSSFilter"),     histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
+if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrkWithFilter"),   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrkWithSSFilter"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
 
 # Single electron control regions for background estimate
 if False:

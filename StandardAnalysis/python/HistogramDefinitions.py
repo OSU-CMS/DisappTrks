@@ -277,9 +277,15 @@ TrackExtraHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestElectron"),
-            title = cms.string("deltaRMinElecLooseMvaId;#DeltaR_{min}(track,electron)"),
+            title = cms.string("deltaRMinElec;#DeltaR_{min}(track,electron)"),
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestElectron"),
+            ),
+        cms.PSet (
+            name = cms.string("trackDeltaRToClosestVetoElectron"),
+            title = cms.string("deltaRMinElecVetoId;#DeltaR_{min}(track,electron)"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestVetoElectron"),
             ),
         cms.PSet (
             name = cms.string("trackTauDeltaRVsTrackElectronDeltaR"),
@@ -297,9 +303,15 @@ TrackExtraHistograms = cms.PSet(
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestMuon"),
-            title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),
+            title = cms.string("deltaRMinMuon;#DeltaR_{min}(track,muon)"),
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("deltaRToClosestMuon"),
+            ),
+        cms.PSet (
+            name = cms.string("trackDeltaRToClosestLooseMuon"),
+            title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("deltaRToClosestLooseMuon"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestTau"),
@@ -1581,10 +1593,22 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("nProbesPassingVeto"),
         ),
         cms.PSet (
+            name = cms.string("nProbesPassingLooseVeto"),
+            title = cms.string(";number of probes passing loose veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesPassingLooseVeto"),
+        ),
+        cms.PSet (
             name = cms.string("nSSProbesPassingVeto"),
             title = cms.string(";number of same-sign probes passing veto"),
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
             inputVariables = cms.vstring("nSSProbesPassingVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesPassingLooseVeto"),
+            title = cms.string(";number of same-sign probes passing loose veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesPassingLooseVeto"),
         ),
         cms.PSet (
             name = cms.string("nProbesPassingVetoVsNGoodTPPairs"),
@@ -1592,6 +1616,13 @@ EventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
             binsY = cms.untracked.vdouble(10, -0.5, 9.5),
             inputVariables = cms.vstring("nGoodTPPairs", "nProbesPassingVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPassingLooseVetoVsNGoodTPPairs"),
+            title = cms.string(";number of good T&P pairs;number of probes passing loose veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            binsY = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodTPPairs", "nProbesPassingLooseVeto"),
         ),
         cms.PSet (
             name = cms.string("leadingJetPt"),

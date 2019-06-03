@@ -29,7 +29,9 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     edm::EDGetTokenT<vector<pat::Jet> > tokenJets_;
     edm::EDGetTokenT<vector<pat::PackedCandidate> > tokenPFCands_;
     bool doFilter_;
+    bool doLooseFilter_;
     bool doSSFilter_;
+    bool doLooseSSFilter_;
     bool doJetFilter_;
 
     const string tagCollectionParameter () const;
@@ -37,6 +39,7 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     bool goodInvMass (const T &, const pat::Jet &, double &) const;
     bool goodInvMass (const T &, const pat::PackedCandidate &, double &) const;
     bool passesVeto (const osu::Track &) const;
+    bool passesLooseVeto (const osu::Track &) const;
     template<class T0> const double getTrackIsolation (const T0 &, const vector<T0> &, const double, const double = 1.0e-12) const;
     bool jetMatchedToMuon (const pat::Jet &, const vector<pat::PackedCandidate> &) const;
 };

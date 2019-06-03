@@ -60,6 +60,8 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'QCD_2400to3200' : 2394000.0,
     'QCD_3200toInf'  : 925000.0,
 
+    'DYJetsToLL_50' : 99793463.0,
+
 }
 
 bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo files
@@ -70,7 +72,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'QCD_2400to3200' : 812733.0,
     'QCD_3200toInf'  : 399922.0,
 
-    #'DYJetsToLL_50' : 27213432.0,
+    'DYJetsToLL_50' : 27267842.0,
     
 }
 
