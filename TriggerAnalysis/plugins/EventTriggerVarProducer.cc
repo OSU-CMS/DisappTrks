@@ -85,16 +85,20 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   //////////////////////////////////////////////////////////////////////////////
 
   signalGrandOrFires = false;
+  signalGrandOrFiresWithoutIsoTrk = false;
 
   for(unsigned i = 0; i < allTriggerNames.size(); i++) {
     string thisName = allTriggerNames.triggerName(i);
     for(auto name : signalTriggerNames) {
       if(thisName.find(name) == 0 && triggerBits->accept(i)) {
         signalGrandOrFires = true;
-        break;
+        if(thisName.find("_IsoTrk50_v") == std::string::npos) {
+          signalGrandOrFiresWithoutIsoTrk = true;
+          break;
+        }
       }
     }
-    if(signalGrandOrFires) break;
+    if(signalGrandOrFires && signalGrandOrFiresWithoutIsoTrk) break;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -183,6 +187,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   }
 
   (*eventvariables)["passesGrandOrTrigger"] = signalGrandOrFires;
+  (*eventvariables)["passesGrandOrTriggerWithoutIsoTrk"] = signalGrandOrFiresWithoutIsoTrk;
 
   (*eventvariables)["etaJetLeading"] = etaJetLeading;
 

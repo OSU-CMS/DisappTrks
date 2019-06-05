@@ -1395,6 +1395,12 @@ firesGrandOrTrigger = cms.PSet(
     #alias = cms.string("passes OR of all signal triggers"),
 )
 
+firesGrandOrTriggerWithoutIsoTrk = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("passesGrandOrTriggerWithoutIsoTrk > 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutLeadJetCentral = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     # -999 means there are no jets, and for trigger efficiencies we want to allow the case where there are zero jets

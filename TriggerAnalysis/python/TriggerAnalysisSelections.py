@@ -110,11 +110,18 @@ GrandORNumerator = copy.deepcopy(GrandOrDenominator)
 GrandORNumerator.name = cms.string("GrandOrNumerator")
 addCuts(GrandORNumerator.cuts, [firesGrandOrTrigger])
 
+GrandOrNumeratorWithoutIsoTrk = copy.deepcopy(GrandOrDenominator)
+GrandOrNumeratorWithoutIsoTrk.name = cms.string("GrandOrNumeratorWithoutIsoTrk")
+addCuts(GrandOrNumeratorWithoutIsoTrk.cuts, [firesGrandOrTriggerWithoutIsoTrk])
+
 # Now for the Track version of GrandORNumerator
 GrandORNumeratorTrk = copy.deepcopy(GrandOrDenominatorTrk)
 GrandORNumeratorTrk.name = cms.string("GrandOrNumeratorTrk")
 addCuts(GrandORNumeratorTrk.cuts, [firesGrandOrTrigger])
 
+GrandORNumeratorTrkWithoutIsoTrk = copy.deepcopy(GrandOrDenominatorTrk)
+GrandORNumeratorTrkWithoutIsoTrk.name = cms.string("GrandOrNumeratorTrkWithoutIsoTrk")
+addCuts(GrandORNumeratorTrkWithoutIsoTrk.cuts, [firesGrandOrTriggerWithoutIsoTrk])
 
 ##########################################################################################################
 # MET leg numerators

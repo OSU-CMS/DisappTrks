@@ -46,6 +46,7 @@ private:
 
   std::vector<string> signalTriggerNames;
   bool signalGrandOrFires;
+  bool signalGrandOrFiresWithoutIsoTrk;
 };
 
 #endif
