@@ -48,11 +48,6 @@ background_systematics = {
         'value' : str (1.0 + (10.84 - 10.44) / 10.84),
         'background' : 'Fake',
     },
-    'Fake_syst_d0Extrapolation' : { # difference between (transfer factor) * (baseline sideband) and observed tracks |d0|<0.02cm
-        # correlated! between nlayers since it's the same value
-        'value' : str (1.0 + (32.6 - 32.0) / 32.0),
-        'background' : 'Fake',
-    },
 
     'Elec_energy_NLayers4' : { # error on energy assumption
         'value' : str (1.0 + 13.8466686504 / 100.0),
