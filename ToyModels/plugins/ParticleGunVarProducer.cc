@@ -100,7 +100,11 @@ ParticleGunVarProducer<T, Args...>::AddVariables (const edm::Event &event)
     {
 //      cout <<"BestMatch PdgId:" <<probe.genMatchedParticle().bestMatchPdgId <<endl;
 //     if( probe.genMatchedParticle().bestMatchPdgId == 1000024 ){
+#ifdef DATA_FORMAT_IS_CUSTOM
      if( probe.d0() < 10.0 ){
+#else
+      if( probe.dxy() < 10.0 ){
+#endif
         isLeptonVeto = passesVeto(probe);
         isOuterHitsVeto = passesOuterHits(probe);
 	if( isLeptonVeto == false ){
