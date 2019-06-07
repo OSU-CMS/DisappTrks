@@ -852,7 +852,12 @@ cutMCCharginoNeutralino = cms.PSet(
     cutString = cms.string("isCharginoNeutralino"),
     numberRequired = cms.string(">= 1"),
 )
-
+# reject charginos getting to the muon detector
+cutCharginoDecayLength3m = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("decayLength_1000024_0 >= 3000.0"),
+    numberRequired = cms.string("== 0"),
+)
 
 ##################################################
 ## muons

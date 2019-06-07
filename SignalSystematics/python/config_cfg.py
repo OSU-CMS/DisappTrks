@@ -45,6 +45,17 @@ if False:
 	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
 	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
 
+# Loose vetoes systematic channels
+if False:
+	add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+
+	#add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesDecayLength3mNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	#add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesDecayLength3mNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+	#add_channels  (process,  [disTrkSelectionSmearedJetsLooseVetoesDecayLength3mNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)
+
+
 # Number of missing outer hits channel
 if False:
 	#add_channels  (process,  [disTrkNoNMissOut],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, branchSets = branchSets)

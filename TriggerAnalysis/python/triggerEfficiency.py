@@ -374,6 +374,12 @@ class TriggerEfficiency:
                 self.Denominator["hist"].Rebin(self._rebinFactor)
                 self.Numerator["hist"].Rebin(self._rebinFactor)
 		
+            for ibin in range(self.Numerator["hist"].GetNbinsX()):
+                if self.Numerator["hist"].GetBinContent(ibin+1) > self.Denominator["hist"].GetBinContent(ibin+1):
+                    print 'Fixing bad bin:', (ibin+1)
+                    self.Numerator["hist"].SetBinContent(ibin+1, self.Denominator["hist"].GetBinContent(ibin+1))
+                    self.Numerator["hist"].SetBinError(ibin+1, self.Denominator["hist"].GetBinError(ibin+1))
+
             efficiencyGraph = TGraphAsymmErrors(self.Numerator["hist"], self.Denominator["hist"], "cp")
 
             pt_cmsPrelim = TPaveText(0.132832, 0.859453, 0.486216, 0.906716, "brNDC")

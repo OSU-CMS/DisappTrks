@@ -1064,3 +1064,252 @@ class MissingOuterHitsSystematic:
             width = max (len (word) for row in systematic for word in row) + 2
             for row in systematic:
                 self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
+
+class LeptonVetoScaleFactorSystematic:
+
+    _integrateHistogram = ""
+    _fout = ""
+    _masses = None
+    _lifetimes = None
+    _signalSuffix = ""
+    _fout = None
+    _foutForPlot = None
+    _vetoDeltaR = 0.15
+    _pogPayloadFile = ""
+    _pogPayloadName = ""
+
+    def __init__ (self, flavor, masses, lifetimes, intLumi = None):
+        self._integrateHistogram = "Track Plots/trackDeltaRToClosest" + flavor
+        self._masses = masses
+        self._lifetimes = lifetimes
+        self._weightsCentral = [
+            'eventvariable_lifetimeWeight',
+            'eventvariable_isrWeight',
+            'eventvariable_grandOrWeight',
+            'eventvariable_puScalingFactor',
+            'eventvariable_L1ECALPrefiringWeight',
+        ]
+        self._weightsUp = copy.deepcopy(self._weightsCentral)
+        self._weightsDown = copy.deepcopy(self._weightsCentral)
+        self._intLumi = intLumi
+
+    def addChannel (self, role, name, sample, condorDir):
+        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        if sample != "":
+            channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
+            channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+            channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
+            print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        setattr (self, role, channel)
+
+    def setVetoDeltaR(self, deltaR):
+        self._vetoDeltaR = deltaR
+
+    def setPOGPayload(self, filePath, payloadName):
+        self._pogPayloadFile = os.path.abspath(filePath)
+        self._pogPayloadName = payloadName
+
+    def addSignalSuffix (self, signalSuffix):
+        self._signalSuffix = signalSuffix
+
+    def addFout (self, fout):
+        self._fout = fout
+
+    def addFoutForPlot (self, foutForPlot):
+        self._foutForPlot = foutForPlot
+
+    def getOriginalSample(self, condorDir, sample, mass, lifetime):
+        lifetimeFloat = float(lifetime.replace('p', '.'))
+        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+            for i in range(len(self._weightsCentral)):
+                if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsCentral[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsUp[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsDown[i] = 'eventvariable_lifetimeWeight'
+            return sample
+
+        if lifetime in [10, 100, 1000, 10000]:
+            raise Exception('Original sample condor/' + condorDir + '/' + sample + '.root does not exist!')
+
+        originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
+        if originalLifetime == 1:
+            originalLifetime = 10
+        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
+            raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
+
+        for i in range(len(self._weightsCentral)):
+            if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsCentral[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsUp[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsDown[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+
+        return originalSample
+
+    def GetHistogramFromTree(self, sample, condorDir, name, mass, lifetime):
+        realSample = self.getOriginalSample(condorDir, sample, mass, lifetime)
+
+        chain = TChain(name + 'TreeMaker/Tree')
+        chain.Add('condor/' + condorDir + '/' + realSample + '/hist_*.root')
+
+        if chain.GetEntries() == 0:
+            h = TH1D(self._integrateHistogram, self._integrateHistogram, 100, 0, 1)
+            h.SetDirectory(0)
+            return h
+
+        realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
+        nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
+        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+
+        if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
+            h = TH1D(self._integrateHistogram, self._integrateHistogram, 100, 0, 1)
+            for iEvent in range(chain.GetEntries()):
+                chain.GetEntry(iEvent)
+                w = crossSectionWeight
+                for wgt in self._weightsCentral:
+                    if wgt == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                        w *= GetMissingLifetimeWeight(chain)
+                    else:
+                        w *= getattr(chain, wgt)
+                h.Fill(getattr(chain, self._integrateHistogram), w)
+            h.SetDirectory(0)
+            return h
+
+        weightString = str(crossSectionWeight)
+        for w in self._weightsCentral:
+            weightString = weightString + ' * ' + w
+
+        chain.Draw(self._integrateHistogram + ' >> h(100, 0, 1)', weightString, 'goff')
+        h = gDirectory.Get('h') 
+        h.SetDirectory(0)
+        return h
+
+    def getRelativeVetoEfficiency(self, channel, sample = "", mass = None, lifetime = None):
+        if channel["sample"] != "":
+            sample = channel["sample"]
+        if os.path.isfile('condor/' + channel["condorDir"] + '/' + sample + '.root') and lifetime != '1':
+            h = getHist(sample, channel["condorDir"], channel["name"] + "Plotter", self._integrateHistogram)
+        elif mass is not None and lifetime is not None:
+            h = self.GetHistogramFromTree(sample, channel["condorDir"], channel["name"], mass, lifetime)
+        else:
+            print 'Provide mass and lifetime for tree-based integration!'
+            return Measurement(0, 0, 0)
+
+        # eff(veto) / eff(loose veto) = (npass(veto)/nTracks) / (npass(loose veto)/nTracks) 
+        #                             = npass(veto)/npass(loose veto)
+        #                             = Integral(>= 0.15) / Integral()
+
+        passesError = Double(0.0)
+        totalError = Double(0.0)
+
+        passes = h.IntegralAndError(h.GetXaxis().FindBin(self._vetoDeltaR), -1, passesError)
+        total = h.IntegralAndError(0, -1, totalError)
+
+        eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
+        eff = Measurement (eff, effErrorLow, effErrorHigh)
+
+        return eff
+
+    def getEffectiveLoosePOGScaleFactor(self, sample, condorDir, name, mass, lifetime):
+        # only from trees
+        realSample = self.getOriginalSample(condorDir, sample, mass, lifetime)
+
+        chain = TChain(name + 'TreeMaker/Tree')
+        chain.Add('condor/' + condorDir + '/' + realSample + '/hist_*.root')
+
+        totalWeight = Measurement(0.0, 0.0, 0.0)
+        unweightedTotal = 0.0
+
+        if chain.GetEntries() == 0:
+            return totalWeight
+
+        realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
+        nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
+        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+
+        fSF_POG = TFile(self._pogPayloadFile)
+        hSF_POG = fSF_POG.Get(self._pogPayloadName)
+
+        for iEvent in range(chain.GetEntries()):
+            chain.GetEntry(iEvent)
+            w = crossSectionWeight
+            for wgt in self._weightsCentral:
+                if wgt == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                    w *= GetMissingLifetimeWeight(chain)
+                else:
+                    w *= getattr(chain, wgt)
+                
+            if "electron" in self._pogPayloadFile:
+                pogBinX = hSF_POG.GetXaxis().FindBin(chain.track_eta)
+                pogBinY = hSF_POG.GetYaxis().FindBin(chain.track_pt)
+            elif "muon" in self._pogPayloadFile:
+                pogBinX = hSF_POG.GetXaxis().FindBin(chain.track_pt)
+                pogBinY = hSF_POG.GetYaxis().FindBin(abs(chain.track_eta))
+
+            # check against overflow
+            if pogBinX > hSF_POG.GetNbinsX():
+                pogBinX = hSF_POG.GetNbinsX()
+            if pogBinY > hSF_POG.GetNbinsY():
+                pogBinY = hSF_POG.GetNbinsY()
+
+            # check against underflow
+            if pogBinX == 0:
+                pogBinX = 1
+            if pogBinY == 0:
+                pogBinY = 1
+
+            pogSF = hSF_POG.GetBinContent(pogBinX, pogBinY)
+            pogSF_error = hSF_POG.GetBinError(pogBinX, pogBinY)
+
+            totalWeight += w * Measurement(pogSF, pogSF_error, pogSF_error)
+            unweightedTotal += w
+        
+        fSF_POG.Close()
+        return totalWeight / unweightedTotal
+
+    def printSystematic(self):
+        systematic = []
+        masses = map(float, self._masses)
+        lifetimes = [float(x.replace('0p', '0.')) for x in self._lifetimes]
+        massBins = array("d", masses + [masses[-1] + 100])
+        lifetimeBins = array("d", lifetimes + [lifetimes[-1] * 10.0])
+        h = TH2D("leptonVetoScaleFactor", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
+
+        dataEfficiencyRatio = self.getRelativeVetoEfficiency(self.Data)
+
+        for mass in self._masses:
+            for lifetime in self._lifetimes:
+                sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
+                signalEfficiencyRatio = self.getRelativeVetoEfficiency(self.Signal, sample, mass, lifetime)
+
+                scaleFactor = dataEfficiencyRatio / signalEfficiencyRatio
+                scaleFactorPOG = self.getEffectiveLoosePOGScaleFactor(sample, self.Signal["condorDir"], self.Signal["name"], mass, lifetime)
+                
+                scaleFactorTotal = scaleFactor * scaleFactorPOG
+
+                systematic.append([sample, str(scaleFactorTotal.centralValue()), str(2.0 - scaleFactorTotal.centralValue())])
+
+                scaleFactor.printUncertainty(False)
+                scaleFactor.printLongFormat(True)
+                h.Fill(mass, lifetime, scaleFactor.centralValue())
+                print "[{0} GeV, {1} cm] data ratio: {2}, MC ratio: {3}, SF: {4}, SF(POG): {5}, SF(total): {6}".format(mass, 
+                                                                                                                       lifetime, 
+                                                                                                                       str(dataEfficiencyRatio), 
+                                                                                                                       str(signalEfficiencyRatio), 
+                                                                                                                       str(scaleFactor), 
+                                                                                                                       str(scaleFactorPOG), 
+                                                                                                                       str(scaleFactorTotal))
+
+        if self._foutForPlot:
+            self._foutForPlot.cd()
+            h.Write()
+            self._foutForPlot.Close()
+
+        if self._fout:
+            width = max(len(word) for row in systematic for word in row) + 2
+            for row in systematic:
+                self._fout.write("".join(word.ljust(width) for word in row) + "\n")

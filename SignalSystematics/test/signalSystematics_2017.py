@@ -235,7 +235,6 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
 if systematic == "L1_ECAL_PREFIRING_WEIGHT" or systematic == "ALL":
 
-
     print "********************************************************************************"
     print "evaluating L1 ECAL prefiring weight systematic (2017) " + nLayersWord
     print "--------------------------------------------------------------------------------"
@@ -248,6 +247,56 @@ if systematic == "L1_ECAL_PREFIRING_WEIGHT" or systematic == "ALL":
     l1ECALPrefiringWeightSystematic.defineFluctuationUp  ('eventvariable_L1ECALPrefiringWeight', 'eventvariable_L1ECALPrefiringWeightUp')
     l1ECALPrefiringWeightSystematic.defineFluctuationDown('eventvariable_L1ECALPrefiringWeight', 'eventvariable_L1ECALPrefiringWeightDown')
     l1ECALPrefiringWeightSystematic.printSystematic()
+
+    print "********************************************************************************\n\n"
+
+    fout.close ()
+
+    print "\n\n"
+
+if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating muon veto scale factor systematic (2017) " + nLayersWord
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__muonVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
+
+    masses = [700]
+    allLifetimes = ['100']
+
+    muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi)
+    muonVetoSFSystematic.addFout(fout)
+    muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_looseVetoes")
+    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes" + nLayersWord,   "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
+    muonVetoSFSystematic.addSignalSuffix("_" + suffix)
+    muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2017Loose')
+    muonVetoSFSystematic.printSystematic()
+
+    print "********************************************************************************\n\n"
+
+    fout.close ()
+
+    print "\n\n"
+
+if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating electron veto scale factor systematic (2017) " + nLayersWord
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__electronVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
+
+    masses = [700]
+    allLifetimes = ['100']
+
+    electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi)
+    electronVetoSFSystematic.addFout(fout)
+    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",                 dirs['Brian'] + "2017/signalAcceptance_full_v8_looseVetoes")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter" + nLayersWord,          "SingleMu_2017DEF", dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers_looseVetoes")
+    electronVetoSFSystematic.addSignalSuffix("_" + suffix)
+    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2017Veto')
+    electronVetoSFSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
 
