@@ -30,7 +30,7 @@ replaceSingleCut(disTrkSelectionSmearedJetsLooseVetoes.cuts, cutTrkLooseMuonVeto
 
 disTrkSelectionSmearedJetsLooseVetoesDecayLength3m = copy.deepcopy(disTrkSelectionSmearedJetsLooseVetoes)
 disTrkSelectionSmearedJetsLooseVetoesDecayLength3m.name = cms.string("disTrkSelectionSmearedJetsLooseVetoesDecayLength3m")
-addSingleCut(disTrkSelectionSmearedJetsLooseVetoesDecayLength3m.cuts, cutCharginoDecayLength3m)
+addSingleCut(disTrkSelectionSmearedJetsLooseVetoesDecayLength3m.cuts, cutCharginoDecayLength3m, cutMet)
 
 ################################################################################
 ## ISR signal systematic
