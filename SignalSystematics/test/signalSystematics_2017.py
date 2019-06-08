@@ -261,12 +261,11 @@ if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__muonVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
-
-    masses = [700]
-    allLifetimes = ['100']
+    foutForPlot = TFile.Open ("muonVetoScaleFactors_2017_" + nLayersWord + ".root", "recreate")
 
     muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi)
     muonVetoSFSystematic.addFout(fout)
+    muonVetoSFSystematic.addFoutForPlot(foutForPlot)
     muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_looseVetoes")
     muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes" + nLayersWord,   "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
     muonVetoSFSystematic.addSignalSuffix("_" + suffix)
@@ -286,14 +285,13 @@ if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__electronVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
-
-    masses = [700]
-    allLifetimes = ['100']
+    foutForPlot = TFile.Open ("electronVetoScaleFactors_2017_" + nLayersWord + ".root", "recreate")
 
     electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi)
     electronVetoSFSystematic.addFout(fout)
+    electronVetoSFSystematic.addFoutForPlot(foutForPlot)
     electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",                 dirs['Brian'] + "2017/signalAcceptance_full_v8_looseVetoes")
-    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter" + nLayersWord,          "SingleMu_2017DEF", dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers_looseVetoes")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter" + nLayersWord,          "SingleMu_2017", dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers_looseVetoes")
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
     electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2017Veto')
     electronVetoSFSystematic.printSystematic()

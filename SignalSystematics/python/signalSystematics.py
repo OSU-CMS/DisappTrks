@@ -1068,6 +1068,7 @@ class MissingOuterHitsSystematic:
 class LeptonVetoScaleFactorSystematic:
 
     _integrateHistogram = ""
+    _treeVariableName = ""
     _fout = ""
     _masses = None
     _lifetimes = None
@@ -1080,6 +1081,7 @@ class LeptonVetoScaleFactorSystematic:
 
     def __init__ (self, flavor, masses, lifetimes, intLumi = None):
         self._integrateHistogram = "Track Plots/trackDeltaRToClosest" + flavor
+        self._treeVariableName = "track_deltaRToClosest" + flavor
         self._masses = masses
         self._lifetimes = lifetimes
         self._weightsCentral = [
@@ -1175,7 +1177,7 @@ class LeptonVetoScaleFactorSystematic:
                         w *= GetMissingLifetimeWeight(chain)
                     else:
                         w *= getattr(chain, wgt)
-                h.Fill(getattr(chain, self._integrateHistogram), w)
+                h.Fill(getattr(chain, self._treeVariableName), w)
             h.SetDirectory(0)
             return h
 
@@ -1183,7 +1185,7 @@ class LeptonVetoScaleFactorSystematic:
         for w in self._weightsCentral:
             weightString = weightString + ' * ' + w
 
-        chain.Draw(self._integrateHistogram + ' >> h(100, 0, 1)', weightString, 'goff')
+        chain.Draw(self._treeVariableName + ' >> h(100, 0, 1)', weightString, 'goff')
         h = gDirectory.Get('h') 
         h.SetDirectory(0)
         return h
@@ -1210,9 +1212,11 @@ class LeptonVetoScaleFactorSystematic:
         total = h.IntegralAndError(0, -1, totalError)
 
         eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
-        eff = Measurement (eff, effErrorLow, effErrorHigh)
+        
+        if math.isnan(effErrorLow) or math.isnan(effErrorHigh):
+            return Measurement(eff, 0.0, 0.0)
 
-        return eff
+        return Measurement(eff, effErrorLow, effErrorHigh)
 
     def getEffectiveLoosePOGScaleFactor(self, sample, condorDir, name, mass, lifetime):
         # only from trees
@@ -1277,36 +1281,46 @@ class LeptonVetoScaleFactorSystematic:
         lifetimes = [float(x.replace('0p', '0.')) for x in self._lifetimes]
         massBins = array("d", masses + [masses[-1] + 100])
         lifetimeBins = array("d", lifetimes + [lifetimes[-1] * 10.0])
-        h = TH2D("leptonVetoScaleFactor", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
+        hSF         = TH2D("leptonVetoScaleFactors", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
+        hPOG        = TH2D("leptonPOGScaleFactors", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
+        hSystematic = TH2D("leptonVetoScaleFactorsSystematics", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
 
         dataEfficiencyRatio = self.getRelativeVetoEfficiency(self.Data)
+        print 'Data ratio =', str(dataEfficiencyRatio), '\n'
 
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
                 signalEfficiencyRatio = self.getRelativeVetoEfficiency(self.Signal, sample, mass, lifetime)
 
-                scaleFactor = dataEfficiencyRatio / signalEfficiencyRatio
+                scaleFactor = dataEfficiencyRatio / signalEfficiencyRatio if signalEfficiencyRatio.centralValue() > 0 else Measurement(1.0)
                 scaleFactorPOG = self.getEffectiveLoosePOGScaleFactor(sample, self.Signal["condorDir"], self.Signal["name"], mass, lifetime)
                 
-                scaleFactorTotal = scaleFactor * scaleFactorPOG
+                if signalEfficiencyRatio.centralValue() > 0 and not math.isnan(signalEfficiencyRatio.uncertaintyDown()) and not math.isnan(signalEfficiencyRatio.uncertaintyUp()):
+                    scaleFactorTotal = scaleFactor * scaleFactorPOG
+                else:
+                    scaleFactorTotal = scaleFactorPOG
 
                 systematic.append([sample, str(scaleFactorTotal.centralValue()), str(2.0 - scaleFactorTotal.centralValue())])
 
                 scaleFactor.printUncertainty(False)
                 scaleFactor.printLongFormat(True)
-                h.Fill(mass, lifetime, scaleFactor.centralValue())
-                print "[{0} GeV, {1} cm] data ratio: {2}, MC ratio: {3}, SF: {4}, SF(POG): {5}, SF(total): {6}".format(mass, 
-                                                                                                                       lifetime, 
-                                                                                                                       str(dataEfficiencyRatio), 
-                                                                                                                       str(signalEfficiencyRatio), 
-                                                                                                                       str(scaleFactor), 
-                                                                                                                       str(scaleFactorPOG), 
-                                                                                                                       str(scaleFactorTotal))
+                hSF.Fill(mass, lifetime, scaleFactor.centralValue())
+                hPOG.Fill(mass, lifetime, scaleFactorPOG.centralValue())
+                hSystematic.Fill(mass, lifetime, (scaleFactorTotal.centralValue() - 1.0) * 100.0)
+                print "[{0} GeV, {1} cm] SF: {2}, SF(POG): {3}, SF(total): {4}".format(
+                    mass,
+                    lifetime,
+                    str(scaleFactor),
+                    str(scaleFactorPOG),
+                    str(scaleFactorTotal)
+                )
 
         if self._foutForPlot:
             self._foutForPlot.cd()
-            h.Write()
+            hSF.Write()
+            hPOG.Write()
+            hSystematic.Write()
             self._foutForPlot.Close()
 
         if self._fout:
