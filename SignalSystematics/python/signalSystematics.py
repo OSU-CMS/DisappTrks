@@ -1229,7 +1229,7 @@ class LeptonVetoScaleFactorSystematic:
         unweightedTotal = 0.0
 
         if chain.GetEntries() == 0:
-            return totalWeight
+            return Measurement(1.0, 0.0, 0.0)
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
@@ -1301,7 +1301,10 @@ class LeptonVetoScaleFactorSystematic:
                 else:
                     scaleFactorTotal = scaleFactorPOG
 
-                systematic.append([sample, str(scaleFactorTotal.centralValue()), str(2.0 - scaleFactorTotal.centralValue())])
+                if scaleFactorTotal.centralValue() < 1.0:
+                    systematic.append([sample, str(scaleFactorTotal.centralValue()), "1.0"])
+                else:
+                    systematic.append([sample, "1.0", str(scaleFactorTotal.centralValue())])
 
                 scaleFactor.printUncertainty(False)
                 scaleFactor.printLongFormat(True)

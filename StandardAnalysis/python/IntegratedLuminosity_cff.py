@@ -359,7 +359,7 @@ lumi_2018_ntuples = {
     #"SingleMuon_2018A" : 13994.713,
     "SingleMuon_2018B" : 7060.622497490,
     "SingleMuon_2018C" : 6894.770971269,
-    #"SingleMuon_2018D" : 31929.065,
+    "SingleMuon_2018D" : 31585.906779588,
 
     # no hltpath
     "Tau_2018A" : 14022.518202245,
