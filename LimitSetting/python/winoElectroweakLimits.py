@@ -109,9 +109,8 @@ elif arguments.era == "2016DEFGH":
 	data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 	data_channel = 'DisTrkSelectionPlotter/Met Plots'
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	# STILL BLINDED, use 2016 as junk
-	data_dataset = "MET_2016"
-	data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
+	data_dataset = "MET_2017"
+	data_condor_dir = dirs["Brian"] + '/2017/unblindedResults/'
 	data_channel = 'DisTrkSelectionPlotter/Met Plots'
 
 ################################
