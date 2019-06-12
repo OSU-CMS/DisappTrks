@@ -34,7 +34,7 @@ path = "main"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2018BC']
+datasets = ['2018B', '2018C', '2018BC']
 
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
@@ -63,14 +63,13 @@ for dataset in datasets:
                                    inputFile,
                                    dirs['Brian'] + grandORInputFolder)
         grandEfficiency.addChannel("Denominator",
-                                   "METLegDenominator",
+                                   "GrandOrDenominator",
                                    inputFile,
                                    dirs['Brian'] + grandORInputFolder)
         grandEfficiency.setDatasetLabel(inputFile)
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
 
-    #for trigger in triggersMet:
     for trigger in triggerFiltersMet:
 
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
@@ -98,16 +97,21 @@ for dataset in datasets:
                 if "2018" in dataset:
                     efficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
                 if useCorrectVariables:
-                    if 'PFMHTNoMu' in trigger:
+                    if 'PFMETNoMu' in trigger:
+                        efficiency.setMetLegHistName('Met Plots/metNoMuLogX')
+                        efficiency.setMetLegAxisTitle('PF E_{T}^{miss, no #mu} [GeV]')
+                    elif 'PFMHTNoMu' in trigger:
                         efficiency.setMetLegHistName('Eventvariable Plots/MHTNoMuLogX')
                         efficiency.setMetLegAxisTitle('H_{T}^{miss, no #mu} [GeV]')
-                    elif 'PFMHT' in trigger:
-                        efficiency.setMetLegHistName('Eventvariable Plots/MHTLogX')
-                        efficiency.setMetLegAxisTitle('H_{T}^{miss} [GeV]')
                     elif 'PFMET' in trigger:
                         efficiency.setMetLegHistName('Met Plots/metLogX')
                         efficiency.setMetLegAxisTitle('PF E_{T}^{miss} [GeV]')
+                    elif 'PFMHT' in trigger:
+                        efficiency.setMetLegHistName('Eventvariable Plots/MHTLogX')
+                        efficiency.setMetLegAxisTitle('H_{T}^{miss} [GeV]')
                     else:
+                        if 'IsoTrk50' not in trigger:
+                            print 'Not clear what the correct x-axis data should be for this trigger. Using metNoMu.'
                         efficiency.setMetLegHistName('Met Plots/metNoMuLogX')
                         efficiency.setMetLegAxisTitle('PF E_{T}^{miss, no #mu} [GeV]')
 
@@ -120,6 +124,7 @@ for dataset in datasets:
                                       inputFile,
                                       dirs['Brian'] + inputFolder)
                 efficiency.setDatasetLabel(inputFile)
+                efficiency.addRebinFactor(1) # durp
                 efficiency.plotEfficiency()
                 print "********************************************************************************"
 

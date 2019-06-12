@@ -374,7 +374,7 @@ class TriggerEfficiency:
                 self.Denominator["hist"].Rebin(self._rebinFactor)
                 self.Numerator["hist"].Rebin(self._rebinFactor)
 		
-            for ibin in range(self.Numerator["hist"].GetNbinsX()):
+            for ibin in range(-1, self.Numerator["hist"].GetNbinsX()+1):
                 if self.Numerator["hist"].GetBinContent(ibin+1) > self.Denominator["hist"].GetBinContent(ibin+1):
                     print 'Fixing bad bin:', (ibin+1)
                     self.Numerator["hist"].SetBinContent(ibin+1, self.Denominator["hist"].GetBinContent(ibin+1))

@@ -176,7 +176,7 @@ muonScaleFactors2018 = cms.VPSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Trigger"),
         version = cms.string("2018"),
-        wp = cms.string("IsoMu24"),
+        wp = cms.string("IsoMu24LumiWeightedAveABCD"),
     ),
     cms.PSet (
         inputCollection = cms.string("muons"),

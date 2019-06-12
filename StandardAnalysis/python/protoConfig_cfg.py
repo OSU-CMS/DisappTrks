@@ -29,15 +29,6 @@ process.source = cms.Source ("PoolSource",
     skipBadFiles = cms.untracked.bool (True),
     fileNames = cms.untracked.vstring ([
         "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_1.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_10.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_100.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_101.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_102.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_103.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_104.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_105.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_106.root",
-        "/store/user/ahart/WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-DisappTrks-v1/160205_142511/0000/miniAODWithCandidateTracks_107.root",
     ]),
     inputCommands = cms.untracked.vstring ([
       "keep *",
@@ -58,19 +49,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://xrootd.rcac.purdue.edu//store/user/ahart/EGamma/Run2018C-17Sep2018/190306_204331/0000/RECO_PAT_99.root",
-    ])
-    process.source.secondaryFileNames = cms.untracked.vstring([
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/99607477-E37B-464B-898D-1A4E6E867624.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/B9EE50F5-395C-084F-B6B6-5F9841A7F482.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/0D9010EE-5562-424F-845B-FD97A5D295B6.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/4E7ED33B-B15D-0F42-9E2C-D91309F70F5E.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/732F3C57-A88B-FB47-89E4-61FB63BAB11D.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/ED3F8A61-0239-724A-9357-53AF6FF6C6AE.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/34A6BD02-DA84-D548-A285-456E8D6C92E6.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/A4931F7B-3607-6843-8809-0777D92CF8FC.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/E15C36AE-6B98-5A4B-86B0-E3BE5B7569A9.root",
-        "/store/data/Run2018C/EGamma/MINIAOD/17Sep2018-v1/100000/5262F963-ABA3-8540-AFDB-3D77BBEB268E.root",
+        "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',
