@@ -37,7 +37,7 @@ dataset_names_bkgd = {
     'QCD_15to30'      : "/QCD_Pt_15to30_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_30to50'      : "/QCD_Pt_30to50_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_50to80'      : "/QCD_Pt_50to80_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'QCD_80to120'     : "",
+    'QCD_80to120'     : "/QCD_Pt_80to120_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v2-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_120to170'    : "/QCD_Pt_120to170_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_170to300'    : "/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_300to470'    : "/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
@@ -53,30 +53,31 @@ dataset_names_bkgd = {
     'DYJetsToLL_50'     : "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'DYJetsToLL_10to50' : "/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
-    'SingleTop_s_channel'         : "",
+    'SingleTop_s_channel'         : "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'SingleTop_t_channel_antitop' : "",
     'SingleTop_t_channel_top'     : "",
     'SingleTop_tW'                : "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'SingleTop_tbarW'             : "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
+    'WJetsToLNu_HT70to80'     : "/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT100to200'   : "",
     'WJetsToLNu_HT200to400'   : "",
     'WJetsToLNu_HT400to600'   : "/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'WJetsToLNu_HT600to800'   : "",
+    'WJetsToLNu_HT600to800'   : "/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT800to1200'  : "/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT1200to2500' : "",
-    'WJetsToLNu_HT2500toInf'  : "",
+    'WJetsToLNu_HT2500toInf'  : "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
     'WJetsToLNu' : "",
 
-    'WW' : "",
-    'WZ' : "",
-    'ZZ' : "",
+    'WW' : "/WW_TuneCP5_13TeV-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
+    'WZ' : "/WZ_TuneCP5_13TeV-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
+    'ZZ' : "/ZZ_TuneCP5_13TeV-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
 
     'ZJetsToNuNu_HT100to200'   : "/ZJetsToNuNu_HT-100To200_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT200to400'   : "/ZJetsToNuNu_HT-200To400_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT400to600'   : "/ZJetsToNuNu_HT-400To600_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'ZJetsToNuNu_HT600to800'   : "",
+    'ZJetsToNuNu_HT600to800'   : "/ZJetsToNuNu_HT-600To800_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT800to1200'  : "",
     'ZJetsToNuNu_HT1200to2500' : "/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT2500toInf'  : "/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
@@ -94,7 +95,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'QCD_15to30'     : 19856000.0,
     'QCD_30to50'     : 5640000.0,
     'QCD_50to80'     : 25643000.0,
-    'QCD_80to120'    : -1,
+    'QCD_80to120'    : 29535000.0, # ??? from crab report only
     'QCD_120to170'   : 25390000.0,
     'QCD_170to300'   : 29740000.0,
     'QCD_300to470'   : 17400000.0,
@@ -116,6 +117,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'SingleTop_tW'                : 7740170.0,
     'SingleTop_tbarW'             : 5813561.0,
 
+    'WJetsToLNu_HT70to80'     : -1,
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 5932701.0,
@@ -146,12 +148,12 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'TTJets_SemiLeptonic' : -1,
     'TTJets_2L2Nu'        : -1,
     'TTJets_2L2Nu'        : -1,
-    
+
     # QCD
     'QCD_15to30'     : 29.0,
     'QCD_30to50'     : 61.0,
     'QCD_50to80'     : 963.0,
-    'QCD_80to120'    : -1,
+    'QCD_80to120'    : 2297.0, # ??? from crab report only
     'QCD_120to170'   : 4587.0,
     'QCD_170to300'   : 31143.0,
     'QCD_300to470'   : 142147.0,
@@ -173,6 +175,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'SingleTop_tW'                : 3210565.0,
     'SingleTop_tbarW'             : 2412622.0,
 
+    'WJetsToLNu_HT70to80'     : -1,
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 2576579.0,
