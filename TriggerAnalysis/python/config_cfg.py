@@ -1,23 +1,31 @@
 from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
+def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
+    if checkBlinding:
+        signalRequirement = 4 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")) else 7
+        hitRange = [x for x in hitRange if x < signalRequirement]
+    names = {x : int(x[5]) for x in cutTrkNValidHitsVariations if int(x[5]) in hitRange} # "NHits5"[5] = 5
+    return [globals ()[chName + x] for x in names]
+
+def getNLayersChannelVariations (chName):
+    return [globals()[chName + x] for x in ['NLayers4', 'NLayers5', 'NLayers6plus']]
+
 variableProducers.append('EventTriggerVarProducer')
 
 ################################################################################
 # Data and W+Jets MC channels
 ################################################################################
 
-# HLT_MET75_IsoTrk50 channels
+# MET legs
 #  add_channels  (process,  [METLegDenominator],                    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  METLegNumerator.values(),               histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# HLT_MET*_IsoTrk50 track legs
 #  add_channels  (process,  TrackLegDenominatorWithMuons.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  TrackLegNumeratorWithMuons.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 # The Grand Or
 #  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [GrandORNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-# The Grand Or Using Tracks
-#  add_channels  (process,  [GrandOrDenominatorTrk],  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [GrandORNumeratorTrk],    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 # Testing: require a match of any muon to the HLT track rather than just the lead muon
 #  add_channels  (process,  TrackLegNumeratorWithMuonsAnyHLTMatch.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
@@ -29,14 +37,25 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  TrackLegNumeratorZtoMuMu.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 ################################################################################
-# Signal MC channels
+# Signal MC channels (using tracks instead of muons)
 ################################################################################
 
-# HLT_MET75_IsoTrk50 channels
-#  add_channels  (process,  [METLegDenominatorTrk],                  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  METLegNumeratorTrk.values(),             histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  TrackLegDenominatorWithTracks.values(),  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
-#  add_channels  (process,  TrackLegNumeratorWithTracks.values(),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+# MET legs with tracks
+if False:
+    add_channels(process,  getNLayersChannelVariations("METLegDenominatorTrk"),                        histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("HLTMET105IsoTrk50vMETLegNumeratorTrk"), histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("HLTMET120IsoTrk50vMETLegNumeratorTrk"), histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+# Track legs with tracks
+if False:
+    add_channels(process,  getNLayersChannelVariations("HLTMET105IsoTrk50vTrackLegNumeratorWithTracks"),   histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("HLTMET120IsoTrk50vTrackLegNumeratorWithTracks"),   histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("HLTMET105IsoTrk50vTrackLegDenominatorWithTracks"), histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("HLTMET120IsoTrk50vTrackLegDenominatorWithTracks"), histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+
+# The Grand Or with tracks
+if False:
+    add_channels(process,  getNLayersChannelVariations("GrandOrDenominatorTrk"),  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+    add_channels(process,  getNLayersChannelVariations("GrandOrNumeratorTrk"),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 ################################################################################
 # HLT purity measurement channels -- BasicSelection but only with one HLT path

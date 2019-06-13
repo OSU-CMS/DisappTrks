@@ -6,6 +6,22 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from DisappTrks.StandardAnalysis.EventSelections import *
 
+def createHitsVariations (ch, chName):
+    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
+    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
+def createHitsVariationsDict (channelDict):
+    for ch in channelDict:
+        chName = channelDict[ch].name.value()
+        globals ().update (createChannelVariations (channelDict[ch], chName, None, cutTrkNLayersVariations))
+        globals ().update (createChannelVariations (channelDict[ch], chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+            replaceSingleCut (globals ()[chName + 'NHits3'].cuts,   cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+            replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
 ##########################################################################################################
 # MET leg denominator for all paths
 ##########################################################################################################
@@ -74,7 +90,7 @@ METLegDenominatorTrk = cms.PSet(
         cutTrkD0,
         cutTrkDZ,
         cutTrkNValidPixelHitsSignal,
-        cutTrkNLayersWMeasurement,
+        cutTrkNValidHitsSignal,
         cutTrkNMissIn,
         cutTrkNMissMidNoDrop,
         cutTrkIsoTight,
@@ -86,19 +102,18 @@ GrandOrDenominatorTrk = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(
         cutLeadJetCentral,
-	cutTrkPt55,
+        cutTrkPt55,
         cutTrkEta25,
         cutTrkNormalizedChi2,
         cutTrkD0,
         cutTrkDZ,
         cutTrkNValidPixelHitsSignal,
-        cutTrkNLayersWMeasurement,
+        cutTrkNValidHitsSignal,
         cutTrkNMissIn,
         cutTrkNMissMidNoDrop,
         cutTrkIsoTight,
     )
 )
-
 
 ##########################################################################################################
 # Numerator for the Grand Or of all signal HLT paths
@@ -106,22 +121,22 @@ GrandOrDenominatorTrk = cms.PSet(
 
 # Have to add the signal OR'd triggers as a cut rather than extend the triggers, since you need
 # (IsoMu || IsoTkMu) && (MET75_IsoTrk50 || PFMET250 || ...)
-GrandORNumerator = copy.deepcopy(GrandOrDenominator)
-GrandORNumerator.name = cms.string("GrandOrNumerator")
-addCuts(GrandORNumerator.cuts, [firesGrandOrTrigger])
+GrandOrNumerator = copy.deepcopy(GrandOrDenominator)
+GrandOrNumerator.name = cms.string("GrandOrNumerator")
+addCuts(GrandOrNumerator.cuts, [firesGrandOrTrigger])
 
-GrandOrNumeratorWithoutIsoTrk = copy.deepcopy(GrandOrDenominator)
+GrandOrNumeratorWithoutIsoTrk = copy.deepcopy(GrandOrDenominatorTrk)
 GrandOrNumeratorWithoutIsoTrk.name = cms.string("GrandOrNumeratorWithoutIsoTrk")
 addCuts(GrandOrNumeratorWithoutIsoTrk.cuts, [firesGrandOrTriggerWithoutIsoTrk])
 
-# Now for the Track version of GrandORNumerator
-GrandORNumeratorTrk = copy.deepcopy(GrandOrDenominatorTrk)
-GrandORNumeratorTrk.name = cms.string("GrandOrNumeratorTrk")
-addCuts(GrandORNumeratorTrk.cuts, [firesGrandOrTrigger])
+# Now for the Track version of GrandOrNumerator
+GrandOrNumeratorTrk = copy.deepcopy(GrandOrDenominatorTrk)
+GrandOrNumeratorTrk.name = cms.string("GrandOrNumeratorTrk4")
+addCuts(GrandOrNumeratorTrk.cuts, [firesGrandOrTrigger])
 
-GrandORNumeratorTrkWithoutIsoTrk = copy.deepcopy(GrandOrDenominatorTrk)
-GrandORNumeratorTrkWithoutIsoTrk.name = cms.string("GrandOrNumeratorTrkWithoutIsoTrk")
-addCuts(GrandORNumeratorTrkWithoutIsoTrk.cuts, [firesGrandOrTriggerWithoutIsoTrk])
+GrandOrNumeratorTrkWithoutIsoTrk = copy.deepcopy(GrandOrDenominatorTrk)
+GrandOrNumeratorTrkWithoutIsoTrk.name = cms.string("GrandOrNumeratorTrkWithoutIsoTrk")
+addCuts(GrandOrNumeratorTrkWithoutIsoTrk.cuts, [firesGrandOrTriggerWithoutIsoTrk])
 
 ##########################################################################################################
 # MET leg numerators
@@ -231,7 +246,7 @@ for trig in triggerFiltersTrack:
             cutTrkD0,
             cutTrkDZ,
             cutTrkNValidPixelHitsSignal,
-            cutTrkNLayersWMeasurement,
+            cutTrkNValidHitsSignal,
             cutTrkNMissIn,
             cutTrkNMissMidNoDrop,
             cutTrkIsoTight,
@@ -362,6 +377,21 @@ isoTrkSelectionOnlyMET90IsoTrk50HltMet105 = copy.deepcopy(isoTrkSelection)
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.name = cms.string("IsoTrkSelectionOnlyMET90IsoTrk50HltMet105")
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.triggers = cms.vstring("HLT_MET90_IsoTrk50_v")
 isoTrkSelectionOnlyMET90IsoTrk50HltMet105.cuts.insert(0, cutHltMet105)
+
+##########################################################################################################
+
+createHitsVariations(METLegDenominatorTrk, "METLegDenominatorTrk")
+createHitsVariationsDict(METLegNumeratorTrk)
+createHitsVariations(GrandOrDenominatorTrk, "GrandOrDenominatorTrk")
+createHitsVariations(GrandOrNumeratorTrk, "GrandOrNumeratorTrk")
+createHitsVariations(GrandOrNumeratorWithoutIsoTrk, "GrandOrNumeratorWithoutIsoTrk")
+createHitsVariations(GrandOrNumeratorTrkWithoutIsoTrk, "GrandOrNumeratorTrkWithoutIsoTrk")
+createHitsVariationsDict(TrackLegDenominatorWithTracks)
+createHitsVariationsDict(TrackLegNumeratorWithTracks)
+createHitsVariationsDict(TrackLegDenominatorWithTracksNoTrig)
+createHitsVariationsDict(TrackLegNumeratorWithTracksNoTrig)
+createHitsVariationsDict(TrackLegDenominatorWithTracksAnyHLTMatch)
+createHitsVariationsDict(TrackLegNumeratorWithTracksAnyHLTMatch)
 
 ##########################################################################################################
 # ARC question testing channels

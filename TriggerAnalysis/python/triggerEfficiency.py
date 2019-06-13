@@ -163,6 +163,111 @@ def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
 
     return
 
+def compareDatasets(trigger, leg, datasets, lineColors, legendLabels, axisTitle, canvas, dataLumi, metHLTFilters):
+
+    inputFiles = [TFile.Open("triggerEfficiency_" + x + ".root") for x in datasets]
+    efficiencies = [x.Get(trigger + "_" + leg) for x in inputFiles]
+
+    lineColors = [1, 600, 8] # only 3 for now...
+
+    for iEff in range(len(efficiencies)):
+        SetStyle(efficiencies[iEff])
+        efficiencies[iEff].SetLineColor(lineColors[iEff])
+        efficiencies[iEff].SetMarkerColor(lineColors[iEff])
+
+    oneLine = TLine(xlo, 1.0, xhi, 1.0)
+    oneLine.SetLineWidth(3)
+    oneLine.SetLineStyle(2)
+
+    backgroundHist = TH1D("backgroundHist", "backgroundHist", 1, xlo, xhi)
+    backgroundHist.GetYaxis().SetTitle("Trigger Efficiency")
+    backgroundHist.GetYaxis().SetRangeUser(ylo, yhi)
+    backgroundHist.GetXaxis().SetTitle(axisTitle)
+    SetStyle(backgroundHist)
+
+    canvas.cd()
+    backgroundHist.Draw()
+    for eff in efficiencies:
+        eff.Draw("CP same")
+    #oneLine.Draw("same")
+
+    pt_cmsPrelim = TPaveText(0.132832, 0.859453, 0.486216, 0.906716, "brNDC")
+    pt_cmsPrelim.SetBorderSize(0)
+    pt_cmsPrelim.SetFillStyle(0)
+    pt_cmsPrelim.SetTextFont(62)
+    pt_cmsPrelim.SetTextSize(0.0374065)
+    if dataLumi > 0:
+        pt_cmsPrelim.AddText("CMS Preliminary")
+    else:
+        pt_cmsPrelim.AddText("CMS Simulation")
+    pt_cmsPrelim.Draw("same")
+
+    if dataLumi > 0:
+        pt_lumi = TPaveText(0.744361, 0.92928, 0.860902, 0.977667, "brNDC")
+        pt_lumi.SetBorderSize(0)
+        pt_lumi.SetFillStyle(0)
+        pt_lumi.SetTextFont(42)
+        pt_lumi.SetTextSize(0.0374065)
+        pt_lumi.AddText("{:.2f}".format(dataLumi / 1000.0) + " fb^{-1}, 13 TeV")
+        pt_lumi.Draw("same")
+
+    pt_leg = TPaveText(0.160401, 0.768657, 0.342105, 0.863184, "brNDC")
+    pt_leg.SetBorderSize(0)
+    pt_leg.SetFillStyle(0)
+    pt_leg.SetTextFont(42)
+    pt_leg.SetTextSize(0.025)
+    pt_leg.SetTextAlign(12)
+    if leg == "METLeg":
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1]
+        pt_leg.AddText(legLabel)
+    if leg == "TrackLeg":
+        pt_leg.AddText(trigger + "*")
+        legLabel = ""
+        for filt in metHLTFilters[:-1]:
+            legLabel = legLabel + filt + ", "
+        legLabel = legLabel + metHLTFilters[-1] + " applied"
+        pt_leg.AddText(legLabel)
+    if leg == "METPath":
+        if trigger == "GrandOr":
+            pt_leg.AddText("OR of Signal Paths")
+        else:
+            if len(trigger) > 25 and len(trigger.split("_")) > 2:
+                firstLine = trigger.split("_")[0] + "_" + trigger.split("_")[1] + "_"
+                pt_leg.AddText(firstLine)
+                secondLine = ""
+                for line in trigger.split("_")[2:-1]:
+                    secondLine += line + "_"
+                secondLine += trigger.split("_")[-1] + "*"
+                pt_leg.AddText(secondLine)
+            else:
+                pt_leg.AddText(trigger + "*")
+    pt_leg.Draw("same")
+
+    legendLabel = trigger
+
+    legend = TLegend(0.65, 0.75, 0.93, 0.88)
+    legend.SetBorderSize(0)
+    legend.SetFillColor(0)
+    legend.SetFillStyle(0)
+    legend.SetTextFont(42)
+    if leg == 'METLeg':
+        legend.SetHeader('MET Leg')
+    elif leg == 'TrackLeg':
+        legend.SetHeader('Track Leg')
+    for iEff in range(len(efficiencies)):
+        legend.AddEntry(efficiencies[iEff], legendLabels[iEff], 'P')
+    legend.Draw("same")
+
+    canvas.SaveAs('compareDatasets.pdf')
+
+    for inputFile in inputFiles:
+        inputFile.Close()
+
+    return
+
 def compareTriggers(triggerA, triggerB, leg, dataset, axisTitle, canvas, dataLumi, metHLTFilters):
     inputFile = TFile.Open("triggerEfficiency_" + dataset + ".root", "read")
 
