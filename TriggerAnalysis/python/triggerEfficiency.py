@@ -163,12 +163,10 @@ def compare(trigger, leg, data, mc, axisTitle, canvas, dataLumi, metHLTFilters):
 
     return
 
-def compareDatasets(trigger, leg, datasets, lineColors, legendLabels, axisTitle, canvas, dataLumi, metHLTFilters):
+def compareDatasets(trigger, leg, datasets, lineColors, legendLabels, axisTitle, canvas, dataLumi, metHLTFilters, outputSuffix = None):
 
     inputFiles = [TFile.Open("triggerEfficiency_" + x + ".root") for x in datasets]
     efficiencies = [x.Get(trigger + "_" + leg) for x in inputFiles]
-
-    lineColors = [1, 600, 8] # only 3 for now...
 
     for iEff in range(len(efficiencies)):
         SetStyle(efficiencies[iEff])
@@ -261,7 +259,10 @@ def compareDatasets(trigger, leg, datasets, lineColors, legendLabels, axisTitle,
         legend.AddEntry(efficiencies[iEff], legendLabels[iEff], 'P')
     legend.Draw("same")
 
-    canvas.SaveAs('compareDatasets.pdf')
+    if outputSuffix is not None:
+        canvas.SaveAs('compareDatasets_' + trigger + '_' + leg + '_' + outputSuffix + '.pdf')
+    else:
+        canvas.SaveAs('compareDatasets_' + trigger + '_' + leg + '_.pdf')
 
     for inputFile in inputFiles:
         inputFile.Close()

@@ -35,7 +35,7 @@ path = "all"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2017', 'AMSB_chargino_300GeV_100cm_94X', 'AMSB_chargino_700GeV_100cm_94X', 'AMSB_chargino_1100GeV_100cm_94X']
+datasets = ['2017']
 
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
@@ -46,12 +46,6 @@ for dataset in datasets:
     inputFolder = "2017/weeklyTSG/Aug21"
     grandORInputFolderDeno = "2017/triggerEfficiencyGrandOr_SingleMu_Deno"
     grandORInputFolderNum = "2017/triggerEfficiencyGrandOr_SingleMu"
-
-    if dataset.startswith("AMSB_"):
-        inputFile = dataset
-        inputFolder = '2017/triggerEfficiencySignal_v2'
-        grandORInputFolderDeno = "2017/triggerEfficiencySignal_v2"
-        grandORInputFolderNum = "2017/triggerEfficiencySignal_v2"
 
     fout = TFile.Open("triggerEfficiency_" + inputFile + ".root", "recreate")
 
@@ -67,13 +61,13 @@ for dataset in datasets:
         if "2017" in dataset:
             grandEfficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
         grandEfficiency.addChannel("Numerator",
-                                   "GrandOrNumeratorTrk" if dataset.startswith("AMSB_") else "GrandOrNumerator",
+                                   "GrandOrNumerator",
                                    inputFile,
-                                   (dirs['Brian'] if dataset.startswith("AMSB_") else dirs['Kai']) + grandORInputFolderNum)
+                                   dirs['Kai'] + grandORInputFolderNum)
         grandEfficiency.addChannel("Denominator",
-                                   "GrandOrDenominatorTrk" if dataset.startswith("AMSB_") else "GrandOrDenominator",
+                                   "GrandOrDenominator",
                                    inputFile,
-                                   (dirs['Brian'] if dataset.startswith("AMSB_") else dirs['Kai']) + grandORInputFolderDeno)
+                                   dirs['Kai'] + grandORInputFolderDeno)
         grandEfficiency.setDatasetLabel(inputFile)
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
@@ -83,9 +77,6 @@ for dataset in datasets:
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
 
         if path == trigger or path == "all" or (path == "main" and "IsoTrk50" in trigger):
-
-            if dataset.startswith("AMSB_") and "IsoTrk50" not in trigger:
-                continue
 
             print "********************************************************************************"
             print "Calculating efficiency of", trigger, " in dataset:", dataset, ")"
@@ -98,10 +89,7 @@ for dataset in datasets:
                 numeratorName = triggerWithoutUnderscores + "METLegNumerator"
                 denominatorName = "METLegDenominator"
 
-                if dataset.startswith("AMSB_"):
-                    numeratorName += "WithTracks"
-                    denominatorName += "WithTracks"
-                elif leg == "TrackLeg":
+                if leg == "TrackLeg":
                     numeratorName = triggerWithoutUnderscores + "TrackLegNumeratorWithMuons"
                     denominatorName = triggerWithoutUnderscores + "TrackLegDenominatorWithMuons"
 
@@ -143,10 +131,6 @@ for dataset in datasets:
 
 emptyFilters = []
 metAxisTitle = 'PF E_{T}^{miss, no #mu}'
-
-compareDatasets('GrandOr', 'METPath', ['AMSB_chargino_300GeV_100cm_94X', 'AMSB_chargino_700GeV_100cm_94X', 'AMSB_chargino_1100GeV_100cm_94X'], [1, 600, 8], ['AMSB 300GeV c#tau=100cm', 'AMSB 700GeV c#tau=100cm', 'AMSB 1100GeV c#tau=100cm'], metAxisTitle, canvas, -1, emptyFilters)
-
-sys.exit()
 
 for trigger in triggersMet:
 
