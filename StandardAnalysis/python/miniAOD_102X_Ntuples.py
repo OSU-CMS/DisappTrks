@@ -95,7 +95,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'QCD_15to30'     : 19856000.0,
     'QCD_30to50'     : 5640000.0,
     'QCD_50to80'     : 25643000.0,
-    'QCD_80to120'    : 29535000.0, # ??? from crab report only
+    'QCD_80to120'    : 29535000.0,
     'QCD_120to170'   : 25390000.0,
     'QCD_170to300'   : 29740000.0,
     'QCD_300to470'   : 17400000.0,
@@ -111,7 +111,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'DYJetsToLL_50'     : 99793463.0,
     'DYJetsToLL_10to50' : 39309948.0,
 
-    'SingleTop_s_channel'         : -1,
+    'SingleTop_s_channel'         : 20000000.0,
     'SingleTop_t_channel_antitop' : -1,
     'SingleTop_t_channel_top'     : -1,
     'SingleTop_tW'                : 7740170.0,
@@ -121,10 +121,10 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 5932701.0,
-    'WJetsToLNu_HT600to800'   : -1,
+    'WJetsToLNu_HT600to800'   : 20079356.0,
     'WJetsToLNu_HT800to1200'  : 8441662.0,
     'WJetsToLNu_HT1200to2500' : -1,
-    'WJetsToLNu_HT2500toInf'  : -1,
+    'WJetsToLNu_HT2500toInf'  : 3281971.0,
 
     'WJetsToLNu' : -1,
 
@@ -135,7 +135,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'ZJetsToNuNu_HT100to200'   : 24287910.0,
     'ZJetsToNuNu_HT200to400'   : 23760670.0,
     'ZJetsToNuNu_HT400to600'   : 9527919.0,
-    'ZJetsToNuNu_HT600to800'   : -1,
+    'ZJetsToNuNu_HT600to800'   : 5761094.0,
     'ZJetsToNuNu_HT800to1200'  : -1,
     'ZJetsToNuNu_HT1200to2500' : 342781.0,
     'ZJetsToNuNu_HT2500toInf'  : 359639.0,
@@ -169,7 +169,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'DYJetsToLL_50'     : 27267842.0,
     'DYJetsToLL_10to50' : 146282.0,
 
-    'SingleTop_s_channel'         : -1,
+    'SingleTop_s_channel'         : 5142126.0,
     'SingleTop_t_channel_antitop' : -1,
     'SingleTop_t_channel_top'     : -1,
     'SingleTop_tW'                : 3210565.0,
@@ -179,10 +179,10 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 2576579.0,
-    'WJetsToLNu_HT600to800'   : -1,
+    'WJetsToLNu_HT600to800'   : 9408834.0,
     'WJetsToLNu_HT800to1200'  : 4224073.0,
     'WJetsToLNu_HT1200to2500' : -1,
-    'WJetsToLNu_HT2500toInf'  : -1,
+    'WJetsToLNu_HT2500toInf'  : 2110654.0,
 
     'WJetsToLNu' : -1,
 
@@ -193,7 +193,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'ZJetsToNuNu_HT100to200'   : 1288439.0,
     'ZJetsToNuNu_HT200to400'   : 6145021.0,
     'ZJetsToNuNu_HT400to600'   : 3678612.0,
-    'ZJetsToNuNu_HT600to800'   : -1,
+    'ZJetsToNuNu_HT600to800'   : 2500168.0,
     'ZJetsToNuNu_HT800to1200'  : -1,
     'ZJetsToNuNu_HT1200to2500' : 186609.0,
     'ZJetsToNuNu_HT2500toInf'  : 232040.0,
