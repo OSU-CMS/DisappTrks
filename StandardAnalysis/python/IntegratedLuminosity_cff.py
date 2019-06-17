@@ -352,7 +352,7 @@ lumi_2018_ntuples = {
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
     #"EGamma_2018A" : 14002.865,
     #"EGamma_2018B" : 7097.149,
-    "EGamma_2018C" : 6116.897718,
+    "EGamma_2018C" : 6615.617770,
     #"EGamma_2018D" : 31929.065,
 
     # --hltpath "HLT_IsoMu24_v*"
@@ -364,14 +364,14 @@ lumi_2018_ntuples = {
     # no hltpath
     "Tau_2018A" : 14022.518202245,
     #"Tau_2018B" : 7097.149,
-    #"Tau_2018C" : 6940.791,
+    "Tau_2018C" : 6873.907668,
     #"Tau_2018D" : 31929.971,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
         "Tau_2018A" : 73.802727380,
         #"Tau_2018B" : 37.353,
-        #"Tau_2018C" : 36.511,
+        "Tau_2018C" : 36.178461,
         #"Tau_2018D" : 168.048,
     }
 
