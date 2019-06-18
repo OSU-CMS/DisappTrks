@@ -5,10 +5,10 @@
 ############################################################################################################
 
 dataset_names_data = {
-    #"MET_2018A" :
-    #"MET_2018B" :
-    #"MET_2018C" :
-    #"MET_2018D" :
+    "MET_2018A" : "/MET/ahart-Run2018A-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
+    "MET_2018B" : "/MET/ahart-Run2018B-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
+    "MET_2018C" : "/MET/ahart-Run2018C-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
+    "MET_2018D" : "/MET/ahart-Run2018D-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
 
     #"EGamma_2018A"
     #"EGamma_2018B"
@@ -29,9 +29,9 @@ dataset_names_data = {
 dataset_names_bkgd = {
 
     # TTJets
-    #'TTJets_SemiLeptonic' : 
-    #'TTJets_2L2Nu' : 
-    #'TTJets_2L2Nu' : 
+    'TTJets_SemiLeptonic'  :  "/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
+    'TTJets_2L2Nu'         :  "/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
+    'TTJets_Hadronic'      :  "/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
 
     # QCD
     'QCD_15to30'      : "/QCD_Pt_15to30_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",

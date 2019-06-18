@@ -343,11 +343,12 @@ lumi_2018_ntuples = {
     # Normtag: https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM, https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis
     # brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json -u /pb -i [your json] --hltpath "xyz"
 
-    # --hltpath "HLT_PFMET120_PFMHT120_IDTight_v*"
-    #"MET_2018A" : 14002.865,
-    #"MET_2018B" : 7097.149,
-    #"MET_2018C" : 6937.082,
-    #"MET_2018D" : 31929.065,
+    # --hltpath "HLT_MET105_IsoTrk50_v*"
+    # bril worksuite 3.5.2
+    "MET_2018A" : 14024.176505487,
+    "MET_2018B" : 7060.764380203,
+    "MET_2018C" : 6894.782079681,
+    "MET_2018D" : 31742.980644688,
 
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
     #"EGamma_2018A" : 14002.865,
