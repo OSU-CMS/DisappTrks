@@ -126,11 +126,11 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'WJetsToLNu_HT1200to2500' : -1,
     'WJetsToLNu_HT2500toInf'  : 3281971.0,
 
-    'WJetsToLNu' : 71122242.0, #From crab report
+    'WJetsToLNu' : 71122242.0,
 
-    'WW' : -1,
-    'WZ' : -1,
-    'ZZ' : -1,
+    'WW' : 7920000.0,
+    'WZ' : 3885000.0,
+    'ZZ' : 1979000.0,
 
     'ZJetsToNuNu_HT100to200'   : 24287910.0,
     'ZJetsToNuNu_HT200to400'   : 23760670.0,
@@ -184,11 +184,11 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'WJetsToLNu_HT1200to2500' : -1,
     'WJetsToLNu_HT2500toInf'  : 2110654.0,
 
-    'WJetsToLNu' : 11787702.0, #From crab report
+    'WJetsToLNu' : 11787702.0,
 
-    'WW' : -1,
-    'WZ' : -1,
-    'ZZ' : -1,
+    'WW' : 1241393.0,
+    'WZ' : 495668.0,
+    'ZZ' : 194508.0,
 
     'ZJetsToNuNu_HT100to200'   : 1288439.0,
     'ZJetsToNuNu_HT200to400'   : 6145021.0,
