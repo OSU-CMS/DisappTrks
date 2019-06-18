@@ -59,7 +59,7 @@ dataset_names_bkgd = {
     'SingleTop_tW'                : "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'SingleTop_tbarW'             : "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
-    'WJetsToLNu_HT70to80'     : "/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'WJetsToLNu_HT70to100'     : "/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT100to200'   : "",
     'WJetsToLNu_HT200to400'   : "",
     'WJetsToLNu_HT400to600'   : "/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
@@ -68,7 +68,7 @@ dataset_names_bkgd = {
     'WJetsToLNu_HT1200to2500' : "",
     'WJetsToLNu_HT2500toInf'  : "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
-    'WJetsToLNu' : "",
+    'WJetsToLNu' : "/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
     'WW' : "/WW_TuneCP5_13TeV-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
     'WZ' : "/WZ_TuneCP5_13TeV-pythia8/ahart-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-459ed261fc2a3db7f584aa89b8cb658b/USER",
@@ -117,7 +117,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'SingleTop_tW'                : 7740170.0,
     'SingleTop_tbarW'             : 5813561.0,
 
-    'WJetsToLNu_HT70to80'     : -1,
+    'WJetsToLNu_HT70to100'     : 28159421.0,
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 5932701.0,
@@ -126,11 +126,11 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'WJetsToLNu_HT1200to2500' : -1,
     'WJetsToLNu_HT2500toInf'  : 3281971.0,
 
-    'WJetsToLNu' : -1,
+    'WJetsToLNu' : 71122242.0,
 
-    'WW' : -1,
-    'WZ' : -1,
-    'ZZ' : -1,
+    'WW' : 7920000.0,
+    'WZ' : 3885000.0,
+    'ZZ' : 1979000.0,
 
     'ZJetsToNuNu_HT100to200'   : 24287910.0,
     'ZJetsToNuNu_HT200to400'   : 23760670.0,
@@ -175,7 +175,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'SingleTop_tW'                : 3210565.0,
     'SingleTop_tbarW'             : 2412622.0,
 
-    'WJetsToLNu_HT70to80'     : -1,
+    'WJetsToLNu_HT70to100'     : 6561102.0,
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 2576579.0,
@@ -184,11 +184,11 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'WJetsToLNu_HT1200to2500' : -1,
     'WJetsToLNu_HT2500toInf'  : 2110654.0,
 
-    'WJetsToLNu' : -1,
+    'WJetsToLNu' : 11787702.0,
 
-    'WW' : -1,
-    'WZ' : -1,
-    'ZZ' : -1,
+    'WW' : 1241393.0,
+    'WZ' : 495668.0,
+    'ZZ' : 194508.0,
 
     'ZJetsToNuNu_HT100to200'   : 1288439.0,
     'ZJetsToNuNu_HT200to400'   : 6145021.0,
