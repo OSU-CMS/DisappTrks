@@ -30,11 +30,11 @@ canvas.SetFrameBorderMode(0)
 canvas.SetFrameFillStyle(0)
 canvas.SetFrameBorderMode(0)
 
-path = "main"
+path = "all"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2018B', '2018C', '2018BC']
+datasets = ['2018B', '2018C', '2018BC', 'WJetsToLNu']
 
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
@@ -45,12 +45,16 @@ for dataset in datasets:
     inputFolder = "2018/fromLPC/triggerEfficienciesData"
     grandORInputFolder = "2018/fromLPC/triggerEfficienciesData"
 
+    if dataset is 'WJetsToLNu':
+        inputFile = dataset
+        grandORInputFolder = "2018/grandOrEfficiency_WJets"
+
     fout = TFile.Open("triggerEfficiency_" + inputFile + ".root", "recreate")
 
     if path == 'GrandOr' or path == "all":
 
         print "********************************************************************************"
-        print "Calculating efficiency of the Grand Or in search region (", dataset, ")"
+        print "Calculating efficiency of the Grand Or in dataset (", dataset, ")"
         print "--------------------------------------------------------------------------------"
 
         grandEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
@@ -69,6 +73,9 @@ for dataset in datasets:
         grandEfficiency.setDatasetLabel(inputFile)
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
+
+    if dataset is 'WJetsToLNu':
+        continue
 
     for trigger in triggerFiltersMet:
 
@@ -124,7 +131,6 @@ for dataset in datasets:
                                       inputFile,
                                       dirs['Brian'] + inputFolder)
                 efficiency.setDatasetLabel(inputFile)
-                efficiency.addRebinFactor(1) # durp
                 efficiency.plotEfficiency()
                 print "********************************************************************************"
 
@@ -132,8 +138,6 @@ for dataset in datasets:
     fout.Close()
 
 # Compare MC to data
-
 metAxisTitle = 'PF E_{T}^{miss, no #mu}'
 
-#compareTriggers("HLT_MET105_IsoTrk50_v", "HLT_MET120_IsoTrk50_v", "TrackLeg", "SingleMu_2018", "Muon p_{T} [GeV]", canvas, lumi["SingleMuon_2018"], ['hltMET105/120', 'hltMETClean65'])
-#compareTriggers("HLT_MET105_IsoTrk50_v", "HLT_MET120_IsoTrk50_v", "METLeg", "SingleMu_2018", "PF E_{T}&{miss, no #mu} [GeV]", canvas, lumi["SingleMuon_2018"], ['hltMET105/120', 'hltMETClean65'])
+compare('GrandOr', 'METPath', 'SingleMu_2018BC', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2018BC"], [])
