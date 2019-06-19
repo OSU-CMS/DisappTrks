@@ -43,7 +43,7 @@ useCorrectVariables = True
 for dataset in datasets:
 
     inputFile = "SingleMu_" + dataset
-    inputFolder = "2017/weeklyTSG/Aug21"
+    inputFolder = "2017/triggerEfficiencyData"
     grandORInputFolderDeno = "2017/triggerEfficiencyGrandOr_SingleMu_Deno"
     grandORInputFolderNum = "2017/triggerEfficiencyGrandOr_SingleMu"
 
