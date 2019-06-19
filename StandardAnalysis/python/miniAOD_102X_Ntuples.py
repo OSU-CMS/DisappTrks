@@ -87,9 +87,9 @@ dataset_names_bkgd = {
 bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSkimCutFlow.py, use -j 1 for one job per file
 
     # TTJets
-    'TTJets_SemiLeptonic' : -1,
-    'TTJets_2L2Nu'        : -1,
-    'TTJets_2L2Nu'        : -1,
+    'TTJets_SemiLeptonic' : 101630000.0,
+    'TTJets_2L2Nu'        : 64330000.0,
+    'TTJets_Hadronic'     : 134080000.0,
 
     # QCD
     'QCD_15to30'     : 19856000.0,
@@ -117,7 +117,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'SingleTop_tW'                : 7740170.0,
     'SingleTop_tbarW'             : 5813561.0,
 
-    'WJetsToLNu_HT70to100'     : 28159421.0,
+    'WJetsToLNu_HT70to100'    : 28159421.0,
     'WJetsToLNu_HT100to200'   : -1,
     'WJetsToLNu_HT200to400'   : -1,
     'WJetsToLNu_HT400to600'   : 5932701.0,
@@ -145,9 +145,9 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
 bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo files
 
     # TTJets
-    'TTJets_SemiLeptonic' : -1,
-    'TTJets_2L2Nu'        : -1,
-    'TTJets_2L2Nu'        : -1,
+    'TTJets_SemiLeptonic' : 35943684.0,
+    'TTJets_2L2Nu'        : 35121003.0,
+    'TTJets_Hadronic'     : 353833.0,
 
     # QCD
     'QCD_15to30'     : 29.0,
