@@ -99,6 +99,10 @@ isoTrkCuts = [
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     isoTrkCuts.insert(5, cutTrk2017LowEfficiencyRegion)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    # IMPORTANT FIXME: looks like this region started dying later in 2018 B
+    # probably this is only relevant for C+D, but we've only checked C for now
+    isoTrkCuts.insert(5, cutTrk2018LowEfficiencyRegion)
 
 isoTrkWithPt55Cuts = copy.deepcopy(isoTrkCuts)
 addSingleCut(isoTrkWithPt55Cuts, cutTrkPt55, cutTrkEta)

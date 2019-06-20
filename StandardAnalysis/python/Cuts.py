@@ -385,6 +385,12 @@ cutTrk2017LowEfficiencyRegion = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string("Veto low efficiency 2017 eta-phi region"),
 )
+cutTrk2018LowEfficiencyRegion = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("phi < 0.4 || eta < 0 || eta > 1.42 || phi > 0.8"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Veto low efficiency 2018 eta-phi region"),
+)
 cutTrkFiducialElectron = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("isFiducialElectronTrack"),
