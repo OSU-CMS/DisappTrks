@@ -21,9 +21,9 @@ dataset_names_data = {
     "SingleMu_2018D" : "/SingleMuon/bfrancis-Run2018D-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
 
     "Tau_2018A"  : "/Tau/kwei-Run2018A-17Sep2018-v2-134ed1c8518933d56bc124df945e0135/USER",
-    #"Tau_2018B"
-    #"Tau_2018C"
-    #"Tau_2018D"
+    "Tau_2018B"  : "/Tau/kwei-Run2018B-17Sep2018-v2-134ed1c8518933d56bc124df945e0135/USER",
+    "Tau_2018C"  : "/Tau/kwei-Run2018C-17Sep2018-v2-134ed1c8518933d56bc124df945e0135/USER",
+    #"Tau_2018D"  : "/Tau/kwei-Run2018D-17Sep2018-v2-134ed1c8518933d56bc124df945e0135/USER",
 }
 
 dataset_names_bkgd = {
