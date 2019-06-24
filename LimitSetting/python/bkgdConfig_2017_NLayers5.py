@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
-
 backgrounds = {
     'Fake' : {
-        'yield' : '0.88',
-        'error' : str (1.0 - 0.21/0.88) + '/' + str (1.0 + 0.25/0.88),
+        'yield' : '0.91',
+        'error' : str (1.0 - 0.22/0.91) + '/' + str (1.0 + 0.26/0.91),
     },
     'Elec' : {
         'N' : '11',
@@ -23,7 +22,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers5' : { # error on alpha
-        'value' : '1.00053097569',
+        'value' : '1.00052390363',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers5' : { # error on alpha
@@ -45,7 +44,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers5' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : str (1.0 + (0.88 - 0.58) / 0.88),
+        'value' : str (1.0 + (0.91 - 0.60) / 0.91),
         'background' : 'Fake',
     },
 

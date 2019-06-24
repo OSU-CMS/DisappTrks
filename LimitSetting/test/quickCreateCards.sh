@@ -34,12 +34,12 @@ combineDatacards.py -l wino -s ${SUFFIX}
 echo
 
 echo "Now run:"
-echo "runLimits.py --noPicky -b -l wino -M Asymptotic -c limits_all20156_${SUFFIX} -e 20156"
-echo "runLimits.py --noPicky -b -l wino -M Asymptotic -c limits_2017_all_${SUFFIX} -e 2017_all"
-echo "runLimits.py --noPicky -b -l wino -M Asymptotic -c limits_2017_NLayers4_${SUFFIX} -e 2017_NLayers4"
-echo "runLimits.py --noPicky -b -l wino -M Asymptotic -c limits_2017_NLayers5_${SUFFIX} -e 2017_NLayers5"
-echo "runLimits.py --noPicky -b -l wino -M Asymptotic -c limits_2017_NLayers6plus_${SUFFIX} -e 2017_NLayers6plus"
-echo "runLimits.py --noPicky -b -l amsbLimitConfig.py -M Asymptotic -c limits_run2_${SUFFIX} "
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_all20156_${SUFFIX} -e 20156"
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2017_all_${SUFFIX} -e 2017_all"
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2017_NLayers4_${SUFFIX} -e 2017_NLayers4"
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2017_NLayers5_${SUFFIX} -e 2017_NLayers5"
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2017_NLayers6plus_${SUFFIX} -e 2017_NLayers6plus"
+echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_run2_${SUFFIX} -e run2"
 echo
 
 echo "Examples of plotting..."

@@ -148,7 +148,7 @@ def customize (process,
         process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017') # fixme
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
@@ -156,17 +156,18 @@ def customize (process,
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X')
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017') # fixme
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X') # fixme
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
+        # fixme incomplete
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
 
-        setMissingHitsCorrection (process, "2017")
+        setMissingHitsCorrection (process, "2017") # fixme
 
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")

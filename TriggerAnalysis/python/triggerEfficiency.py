@@ -402,14 +402,17 @@ class TriggerEfficiency:
     _trackLegAxisTitle =  "Muon p_{T} [GeV]"
     _datasetLabel = ""
     _isMC = False
+    _tgraphSuffix = None
 
     def __init__(self, path, metHLTFilters, leg):
         self._path = path
         self._metHLTFilters = metHLTFilters
         self._leg = leg
 
-    def addTFile(self, fout):
+    def addTFile(self, fout, nameSuffix = None):
         self._fout = fout
+        if nameSuffix is not None:
+            self._tgraphSuffix = nameSuffix
 
     def addTCanvas(self, canvas):
         self._canvas = canvas
@@ -573,9 +576,14 @@ class TriggerEfficiency:
             else:
                 self._canvas.SaveAs('plots_' + self.Denominator["sample"] + '/' + self._path + "_" + self._leg + ".pdf")
             self._fout.cd()
-            efficiencyGraph.Write(self._path + "_" + self._leg)
-            if doFit:
-                fitFunc.Write(self._path + "_" + self._leg + "_fitResult")
+            if self._tgraphSuffix is not None:
+                efficiencyGraph.Write(self._path + "_" + self._leg + "_" + self._tgraphSuffix)
+                if doFit:
+                    fitFunc.Write(self._path + "_" + self._leg + "_" + self._tgraphSuffix + "_fitResult")
+            else:
+                efficiencyGraph.Write(self._path + "_" + self._leg)
+                if doFit:
+                    fitFunc.Write(self._path + "_" + self._leg + "_fitResult")
 
         else:
             print "Denominator and Numerator must be defined for path ", self._path, ", leg ", self._leg

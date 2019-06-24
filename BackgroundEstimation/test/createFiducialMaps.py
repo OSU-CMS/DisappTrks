@@ -34,10 +34,10 @@ for runPeriod in runPeriods:
     if '2017' in runPeriod:
         condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
     if '2018' in runPeriod:
-        condorDirectory = dirs['Kai'] + "2018/elecHotSpots"
+        condorDirectory = dirs['Kai'] + "2018/electronHotSpots"
         datasetName = "EGamma"
         
-    if not '2018' in runPeriod:
+    if not '2018' in runPeriod or runPeriod is '2018C':
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -66,9 +66,9 @@ for runPeriod in runPeriods:
     if '2017' in runPeriod:
         condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
     if '2018' in runPeriod:
-        condorDirectory = dirs['Brian'] + "2018/muonHotSpots"
+        condorDirectory = dirs['Brian'] + "2018/muonHotSpotsOldCuts"
 
-    if not '2018' in runPeriod or runPeriod == '2018B' or runPeriod == '2018C':       
+    if runPeriod != '2018A' and runPeriod != '2018':
 
         print "********************************************************************************"
         print "Calculating muon fiducial map in search region", runPeriod

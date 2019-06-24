@@ -2,12 +2,12 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: RECO -s RAW2DIGI,L1Reco,RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2017,run2_miniAOD_94XFall17 --scenario pp --conditions 94X_dataRun2_ReReco_EOY17_v6 --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds,Configuration/DataProcessing/RecoTLR.customisePostEra_Run2_2017 --filein file:pippo.root -n 100 --python_filename=rereco_2017_MINIAODv2_cfg.py --no_exec
+# with command line options: RECO -s RAW2DIGI,L1Reco,RECO,EI,PAT --runUnscheduled --nThreads 4 --data --era Run2_2018,run2_miniAOD_devel --scenario pp --conditions 102X_dataRun2_Sep2018ABC_v2 --eventcontent MINIAOD --datatier MINIAOD --customise DisappTrks/BackgroundEstimation/customize.addMoreCaloTowers,DisappTrks/BackgroundEstimation/customize.addMoreElectronSeeds --filein file:pippo.root -n 100 --python_filename=rereco_2018ABC_MINIAOD_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process('RECO',eras.Run2_2017,eras.run2_miniAOD_94XFall17)
+process = cms.Process('RECO',eras.Run2_2018,eras.run2_miniAOD_devel)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -60,10 +60,11 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
     fastCloning = cms.untracked.bool(False),
     fileName = cms.untracked.string('RECO_RAW2DIGI_L1Reco_RECO_EI_PAT.root'),
     outputCommands = process.MINIAODEventContent.outputCommands,
-    overrideBranchesSplitLevel = cms.untracked.VPSet(cms.untracked.PSet(
-        branch = cms.untracked.string('patPackedCandidates_packedPFCandidates__*'),
-        splitLevel = cms.untracked.int32(99)
-    ), 
+    overrideBranchesSplitLevel = cms.untracked.VPSet(
+        cms.untracked.PSet(
+            branch = cms.untracked.string('patPackedCandidates_packedPFCandidates__*'),
+            splitLevel = cms.untracked.int32(99)
+        ), 
         cms.untracked.PSet(
             branch = cms.untracked.string('recoGenParticles_prunedGenParticles__*'),
             splitLevel = cms.untracked.int32(99)
@@ -107,7 +108,8 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedESRecHits_*'),
             splitLevel = cms.untracked.int32(99)
-        )),
+        )
+    ),
     overrideInputFileSplitLevels = cms.untracked.bool(True),
     splitLevel = cms.untracked.int32(0)
 )
@@ -116,7 +118,7 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '94X_dataRun2_ReReco_EOY17_v6', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '102X_dataRun2_Sep2018ABC_v2', '')
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
@@ -178,12 +180,6 @@ process = addMoreCaloTowers(process)
 
 #call to customisation function addMoreElectronSeeds imported from DisappTrks.BackgroundEstimation.customize
 process = addMoreElectronSeeds(process)
-
-# Automatic addition of the customisation function from Configuration.DataProcessing.RecoTLR
-from Configuration.DataProcessing.RecoTLR import customisePostEra_Run2_2017 
-
-#call to customisation function customisePostEra_Run2_2017 imported from Configuration.DataProcessing.RecoTLR
-process = customisePostEra_Run2_2017(process)
 
 # End of customisation functions
 #do not add changes to your config after this point (unless you know what you are doing)

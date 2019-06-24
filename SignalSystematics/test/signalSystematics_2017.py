@@ -4,7 +4,8 @@ import math
 from DisappTrks.SignalSystematics.signalSystematics import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
-from ROOT import TFile
+from DisappTrks.TriggerAnalysis.triggerEfficiency import *
+from ROOT import TFile, TCanvas
 import os
 import re
 import sys
@@ -295,6 +296,78 @@ if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
     electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2017Veto')
     electronVetoSFSystematic.printSystematic()
+
+    print "********************************************************************************\n\n"
+
+    fout.close ()
+
+    print "\n\n"
+
+if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != 'NLayers6plus':
+
+    # first calculate the trigger turn-on curves for this category and NLayers6plus
+    print "********************************************************************************"
+    print "evaluating trigger turn-on curves (2017) " + nLayersWord
+    print "--------------------------------------------------------------------------------"
+
+    canvas = TCanvas("c1", "c1", 561, 482, 800, 830)
+    canvas.Range(0.644391, -0.1480839, 3.167468, 1.19299)
+    canvas.SetFillColor(0)
+    canvas.SetBorderMode(0)
+    canvas.SetBorderSize(2)
+    canvas.SetLogx()
+    canvas.SetTickx(1)
+    canvas.SetTicky(1)
+    canvas.SetLeftMargin(0.122807)
+    canvas.SetRightMargin(0.05012531)
+    canvas.SetTopMargin(0.06947891)
+    canvas.SetBottomMargin(0.1104218)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+    canvas.SetFrameFillStyle(0)
+    canvas.SetFrameBorderMode(0)
+
+    foutForEfficienciesThisNLayers = TFile('triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root', 'recreate')
+    foutForEfficienciesNLayers6plus = TFile('triggerEfficiency_AMSB_chargino_NLayers6plus.root', 'recreate')
+
+    for mass in masses:
+        inputFile = 'AMSB_chargino_' + str(mass) + 'GeV_allLifetimes'
+
+        grandOrEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
+        grandOrEfficiency.addTFile(foutForEfficienciesThisNLayers, nameSuffix = 'AMSB_' + str(mass) + 'GeV')
+        grandOrEfficiency.addTCanvas(canvas)
+        grandOrEfficiency.addChannel("Numerator",   "GrandOrNumeratorTrk4"   + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_full')
+        grandOrEfficiency.addChannel("Denominator", "GrandOrDenominatorTrk" + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_full')
+        grandOrEfficiency.setDatasetLabel(inputFile)
+        grandOrEfficiency.setIsMC(True)
+        grandOrEfficiency.plotEfficiency()
+
+        grandOrEfficiencyNLayers6plus = TriggerEfficiency('GrandOr', [], 'METPath')
+        grandOrEfficiencyNLayers6plus.addTFile(foutForEfficienciesNLayers6plus, nameSuffix = 'AMSB_' + str(mass) + 'GeV')
+        grandOrEfficiencyNLayers6plus.addTCanvas(canvas)
+        grandOrEfficiencyNLayers6plus.addChannel("Numerator",   "GrandOrNumeratorTrk4NLayers6plus",   inputFile, dirs['Brian'] + '2017/grandOr_signal_full')
+        grandOrEfficiencyNLayers6plus.addChannel("Denominator", "GrandOrDenominatorTrkNLayers6plus", inputFile, dirs['Brian'] + '2017/grandOr_signal_full')
+        grandOrEfficiencyNLayers6plus.setDatasetLabel(inputFile)
+        grandOrEfficiencyNLayers6plus.setIsMC(True)
+        grandOrEfficiencyNLayers6plus.plotEfficiency()
+
+    # now calculate the systematic based on the difference between this category and NLayers6plus
+    print "********************************************************************************"
+    print "evaluating trigger turn-on systematic (2017) " + nLayersWord
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__triggerTurnOn_2017_" + nLayersWord + ".txt", "w")
+
+    foutForSystematics  = TFile('triggerTurnOnSystematic_2017_' + nLayersWord + '.root', 'recreate')
+
+    turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi)
+    turnOnSystematic.addExtraSamples(extraSamples)
+    turnOnSystematic.addFout(fout)
+    turnOnSystematic.addSignalSuffix ("_" + suffix)
+    turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
+    turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
+    turnOnSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
 

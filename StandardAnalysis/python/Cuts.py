@@ -272,7 +272,7 @@ cutJetTightLepVeto = cms.PSet(
     alias = cms.string(">= 1 jet passing TightLepVeto ID"),
 )
 # https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutJetTightLepVeto.cutString = cms.string("\
     ((\
     neutralHadronEnergyFraction<0.90 && \
@@ -284,7 +284,19 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     abs(eta)<=2.7) \
     || (neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2 && abs(eta)<=3.0 && abs(eta)>2.7) \
     || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
-    print '# Using 2017 recs for Jet TightLepVeto'
+    print '# Using 2017 reqs for Jet TightLepVeto'
+
+# https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2018
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    cutJetTightLepVeto.cutString = cms.string("\
+    (\
+    (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
+    (abs(eta) > 2.6 && abs(eta) <= 2.7 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.99 && muonEnergyFraction<0.8 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.8) || \
+    (abs(eta) > 2.7 && abs(eta) <= 3.0 && neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2) || \
+    (abs(eta) > 3.0 && neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.2 && neutralMultiplicity>10)\
+    )")
+    print '# Using 2018 reqs for Jet TightLepVeto'
+
 
 #############
 # pair of jets pt > 30
@@ -384,6 +396,12 @@ cutTrk2017LowEfficiencyRegion = cms.PSet(
     cutString = cms.string("phi < 2.7 || eta < 0 || eta > 1.42"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("Veto low efficiency 2017 eta-phi region"),
+)
+cutTrk2018LowEfficiencyRegion = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("phi < 0.4 || eta < 0 || eta > 1.42 || phi > 0.8"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Veto low efficiency 2018 eta-phi region"),
 )
 cutTrkFiducialElectron = cms.PSet(
     inputCollection = cms.vstring("tracks"),
