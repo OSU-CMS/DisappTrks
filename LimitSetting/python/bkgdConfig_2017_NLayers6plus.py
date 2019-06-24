@@ -5,7 +5,7 @@
 backgrounds = {
     'Fake' : {
         'yield' : '0.02',
-        'error' : str (1.0 - 0.02/0.2) + '/' + str(1.0 + 0.21/0.02),
+        'error' : str (1.0 - 0.02/0.2) + '/' + str(1.0 + 0.22/0.02),
     },
     'Elec' : {
         'N' : '33',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.00053097569',
+        'value' : '1.00052390363',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha

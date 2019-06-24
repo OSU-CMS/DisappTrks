@@ -1330,3 +1330,345 @@ class LeptonVetoScaleFactorSystematic:
             width = max(len(word) for row in systematic for word in row) + 2
             for row in systematic:
                 self._fout.write("".join(word.ljust(width) for word in row) + "\n")
+
+class WeightSystematicFromTrees(SystematicCalculator):
+
+    def __init__ (self, masses, lifetimes, intLumi):
+        SystematicCalculator.__init__(self, masses, lifetimes)
+        self._weightsCentral = [
+            'eventvariable_lifetimeWeight',
+            'eventvariable_isrWeight',
+            'eventvariable_grandOrWeight',
+            'eventvariable_puScalingFactor',
+            'eventvariable_L1ECALPrefiringWeight',
+        ]
+        self._weightsUp = copy.deepcopy(self._weightsCentral)
+        self._weightsDown = copy.deepcopy(self._weightsCentral)
+        self._intLumi = intLumi
+
+    def defineWeightToFluctuate(self, originalWeight):
+        for i, w in enumerate(self._weightsCentral):
+            if originalWeight == w:
+                self._weightsUp[i] = w + 'Up'
+                self._weightsDown[i] = w + 'Down'
+
+    def defineFluctuationUp(self, originalWeight, upWeight):
+        for i, w in enumerate(self._weightsUp):
+            if originalWeight == w:
+                self._weightsUp[i] = upWeight
+                return
+        print originalWeight + ' is not in the original list of weights'
+        return
+
+    def defineFluctuationDown(self, originalWeight, downWeight):
+        for i, w in enumerate(self._weightsDown):
+            if originalWeight == w:
+                self._weightsDown[i] = downWeight
+                return
+        print originalWeight + ' is not in the original list of weights'
+        return
+
+    def getOriginalSample(self, condorDir, sample, mass, lifetime):
+        lifetimeFloat = float(lifetime.replace('p', '.'))
+        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+            for i in range(len(self._weightsCentral)):
+                if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsCentral[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsUp[i] = 'eventvariable_lifetimeWeight'
+                if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsDown[i] = 'eventvariable_lifetimeWeight'
+            return sample
+
+        if lifetime in [10, 100, 1000, 10000]:
+            raise Exception('Original sample condor/' + condorDir + '/' + sample + '.root does not exist!')
+
+        originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
+        if originalLifetime == 1:
+            originalLifetime = 10
+        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
+        if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
+            raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
+
+        for i in range(len(self._weightsCentral)):
+            if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsCentral[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsUp[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsUp[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+            if self._weightsDown[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsDown[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+
+        return originalSample
+
+    def GetYieldFromTree(self, sample, condorDir, name, mass, lifetime):
+        total = totalUp = totalDown = 0.0
+
+        realSample = self.getOriginalSample(condorDir, sample, mass, lifetime)
+
+        chain = TChain(name + 'TreeMaker/Tree')
+        chain.Add('condor/' + condorDir + '/' + realSample + '/hist_*.root')
+
+        realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
+        nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
+        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+
+        for iEvent in range(chain.GetEntries()):
+            chain.GetEntry(iEvent)
+
+            if lifetime == '1':
+                missingWeight = GetMissingLifetimeWeight(chain)
+
+            thisWeightCentral = crossSectionWeight
+            thisWeightUp = crossSectionWeight
+            thisWeightDown = crossSectionWeight
+
+            for iWeight in range(len(self._weightsCentral)):
+                if self._weightsCentral[iWeight] == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                    thisWeightCentral *= missingWeight
+                    thisWeightUp      *= missingWeight
+                    thisWeightDown    *= missingWeight
+                else:
+                    thisWeightCentral *= getattr(chain, self._weightsCentral[iWeight])
+                    if not math.isnan(getattr(chain, self._weightsUp[iWeight])):
+                        thisWeightUp *= getattr(chain, self._weightsUp[iWeight])
+                    else:
+                        thisWeightUp *= getattr(chain, self._weightsCentral[iWeight])
+                    if not math.isnan(getattr(chain, self._weightsDown[iWeight])):
+                        thisWeightDown *= getattr(chain, self._weightsDown[iWeight])
+                    else:
+                        thisWeightDown *= getattr(chain, self._weightsCentral[iWeight])
+
+            total     += thisWeightCentral
+            totalUp   += thisWeightUp
+            totalDown += thisWeightDown
+
+        return total, totalUp, totalDown
+
+    def printSampleSystematic(self, mass, lifetime):
+        if not hasattr(self, 'central'):
+            print '"central" not defined, not printing systematic...'
+            return (float ("nan"), float ("nan"), float ("nan"))
+
+        sample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
+        central, up, down = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)
+
+        relDiffDown = (down - central) / central if central > 0.0 else 0.0
+        relDiffUp = (up - central) / central if central > 0.0 else 0.0
+
+        print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+        return (sample, relDiffDown, relDiffUp)
+
+    def printSystematic(self):
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
+        for mass in self._masses:
+            for lifetime in self._lifetimes:
+                sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime)
+                self._systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
+
+                if abs (relDiffDown) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffDown)
+                if abs (relDiffUp) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffUp)
+
+                self._averageSystematic += abs (relDiffDown)
+                self._averageSystematic += abs (relDiffUp)
+                self._n += 2
+        self._averageSystematic /= self._n
+
+        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
+        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+
+        if self._fout:
+            width = max (len (word) for row in self._systematic for word in row) + 2
+            for row in self._systematic:
+                if row[0] in self._extraSamples:
+                    extraRow = copy.deepcopy (row)
+                    for sample in self._extraSamples[row[0]]:
+                        extraRow[0] = sample
+                        self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
+
+                self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
+
+class TriggerTurnOnSystematic:
+
+    _integrateHistogram = "Met Plots/metNoMu"
+    _treeVariableName = "met_noMuPt"
+    _fout = ""
+    _doFout = False
+
+    _systematic = []
+    _maxSystematic = 0.0
+    _averageSystematic = 0.0
+    _n = 0
+
+    _signalSuffix = ""
+    _extraSamples = {}
+
+    def __init__ (self, masses, lifetimes, intLumi):
+        self._masses = masses
+        self._lifetimes = lifetimes
+        self._weightsCentral = [
+            'eventvariable_lifetimeWeight',
+            'eventvariable_isrWeight',
+            'eventvariable_grandOrWeight',
+            'eventvariable_puScalingFactor',
+            'eventvariable_L1ECALPrefiringWeight',
+        ]
+        self._intLumi = intLumi
+
+
+    def addChannel (self, role, name, suffix, condorDir):
+        channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
+        setattr (self, role, channel)
+
+    def addEfficiencies (self, role, name, inputFile):
+        channel = {"name" : name, "inputFile" : inputFile}
+        setattr (self, role, channel)
+
+    def addSignalSuffix (self, signalSuffix):
+        self._signalSuffix = signalSuffix
+    
+    def addExtraSamples (self, extraSamples):
+        self._extraSamples = extraSamples
+
+    def addIntegrateHistogram (self, integrateHistogram):
+        self._integrateHistogram = integrateHistogram
+
+    def addFout (self, fout):
+        self._fout = fout
+        self._doFout = True
+
+    def getOriginalSample(self, condorDir, sample, mass, lifetime):
+        lifetimeFloat = float(lifetime.replace('p', '.'))
+        if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+            for i in range(len(self._weightsCentral)):
+                if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                    self._weightsCentral[i] = 'eventvariable_lifetimeWeight'
+            return sample
+
+        if lifetime in [10, 100, 1000, 10000]:
+            raise Exception('Original sample condor/' + condorDir + '/' + sample + '.root does not exist!')
+
+        originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
+        if originalLifetime == 1:
+            originalLifetime = 10
+        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
+            raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
+
+        for i in range(len(self._weightsCentral)):
+            if self._weightsCentral[i].startswith('eventvariable_lifetimeWeight'):
+                self._weightsCentral[i] = 'eventvariable_lifetimeWeight_1000024_' + str(originalLifetime) + 'cmTo' + str(lifetime) + 'cm'
+
+        return originalSample
+
+    def GetHistogramFromTree(self, sample, condorDir, name, mass, lifetime):
+        realSample = self.getOriginalSample(condorDir, sample, mass, lifetime)
+
+        chain = TChain(name + 'TreeMaker/Tree')
+        chain.Add('condor/' + condorDir + '/' + realSample + '/hist_*.root')
+
+        if chain.GetEntries() == 0:
+            h = TH1D(self._integrateHistogram, self._integrateHistogram, 2000, 0.0, 10000.0)
+            h.SetDirectory(0)
+            return h
+
+        realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
+        nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
+        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+
+        if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
+            h = TH1D(self._integrateHistogram, self._integrateHistogram, 2000, 0.0, 10000.0)
+            for iEvent in range(chain.GetEntries()):
+                chain.GetEntry(iEvent)
+                w = crossSectionWeight
+                for wgt in self._weightsCentral:
+                    if wgt == 'eventvariable_lifetimeWeight_1000024_10cmTo1cm':
+                        w *= GetMissingLifetimeWeight(chain)
+                    else:
+                        w *= getattr(chain, wgt)
+                h.Fill(getattr(chain, self._treeVariableName), w)
+            h.SetDirectory(0)
+            return h
+
+        weightString = str(crossSectionWeight)
+        for w in self._weightsCentral:
+            weightString = weightString + ' * ' + w
+
+        chain.Draw(self._treeVariableName + ' >> h(2000, 0.0, 10000.0)', weightString, 'goff')
+        h = gDirectory.Get('h') 
+        h.SetDirectory(0)
+        return h
+
+    def printSampleSystematic (self, mass, lifetime):
+
+        if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator"):
+            realLifetime = lifetime if lifetime != '1' else '10'
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            condorDir = self.central["condorDir"]
+            name = self.central["name"]
+            if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+                metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            else:
+                metHist = self.GetHistogramFromTree(sample, condorDir, name, mass, lifetime)
+            central = metHist.Integral (0, metHist.GetNbinsX () + 1)
+
+            denominatorEfficiencyFile = TFile (self.Denominator["inputFile"])
+            denominatorEfficiency = denominatorEfficiencyFile.Get(self.Denominator["name"].replace('XYZ', str(mass)))
+            numeratorEfficiencyFile = TFile (self.Numerator["inputFile"])
+            numeratorEfficiency = numeratorEfficiencyFile.Get(self.Numerator["name"].replace('XYZ', str(mass)))
+
+            scaledValue = 0.0
+
+            for ibin in range(metHist.GetNbinsX()):
+                x = metHist.GetBinCenter(ibin+1)
+                scaledValue += metHist.GetBinContent(ibin+1) * numeratorEfficiency.Eval(x) / denominatorEfficiency.Eval(x) if denominatorEfficiency.Eval(x) > 0.0 else 0.0
+
+            relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
+            if relDiff < 0.0:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
+                return (sample, relDiff, 0.0)
+            elif relDiff == 0.0:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0)
+                return (sample, 0.0, 0.0)
+            else:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0))
+                return (sample, 0.0, relDiff)
+        else:
+            print "central, Denominator, and Denominator not all defined. Not printing systematic..."
+            return (float ("nan"), float ("nan"), float ("nan"))
+
+    def printSystematic (self):
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
+        for mass in self._masses:
+            for lifetime in self._lifetimes:
+                sample, relDiffDown, relDiffUp = self.printSampleSystematic (mass, lifetime)
+                self._systematic.append ([sample, str (max (1.0 + relDiffDown, 1.0e-12)), str (max (1.0 + relDiffUp, 1.0e-12))])
+
+                if abs (relDiffDown) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffDown)
+                if abs (relDiffUp) > self._maxSystematic:
+                  self._maxSystematic = abs (relDiffUp)
+
+                self._averageSystematic += abs (relDiffDown)
+                self._averageSystematic += abs (relDiffUp)
+                self._n += 2
+        self._averageSystematic /= self._n
+
+        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
+        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+
+        if self._fout:
+            width = max (len (word) for row in self._systematic for word in row) + 2
+            for row in self._systematic:
+                if row[0] in self._extraSamples:
+                    extraRow = copy.deepcopy (row)
+                    for sample in self._extraSamples[row[0]]:
+                        extraRow[0] = sample
+                        self._fout.write ("".join (word.ljust (width) for word in extraRow) + "\n")
+
+                self._fout.write ("".join (word.ljust (width) for word in row) + "\n")

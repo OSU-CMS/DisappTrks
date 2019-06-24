@@ -141,6 +141,7 @@ if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	external_systematic_uncertainties.append("L1ECALPrefiringWeight_"   + arguments.era)
 	external_systematic_uncertainties.append("electronVetoScaleFactor_" + arguments.era)
 	external_systematic_uncertainties.append("muonVetoScaleFactor_"     + arguments.era)
+	external_systematic_uncertainties.append("triggerTurnOn_"           + arguments.era)
 
 if arguments.era == "2015":
 	signal_systematic_uncertainties = {

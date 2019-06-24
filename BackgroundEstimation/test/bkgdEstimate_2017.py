@@ -59,7 +59,7 @@ for runPeriod in runPeriods:
             #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/fakeTrackBackgroundVeryClean_v2")
             fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayersWord,  "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017_directcopy"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
             fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
 
             print "********************************************************************************"
@@ -99,7 +99,7 @@ for runPeriod in runPeriods:
             #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
             fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017_directcopy"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
             fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
 
             print "********************************************************************************"
@@ -126,28 +126,6 @@ for runPeriod in runPeriods:
             print "P_fake: ", pFakeAllSidebands
             print "********************************************************************************"
             print "\n\n"
-
-            if False:
-
-                print "********************************************************************************"
-                print "performing fake track background estimate with basic selection in search region(2017", runPeriod, "--", nLayersWord, ")"
-                print "--------------------------------------------------------------------------------"
-
-                fout = TFile.Open("fakeTrackBkgdEstimate_basic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
-
-                fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-                fakeTrackBkgdEstimate.addTFile (fout)
-                fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-                fakeTrackBkgdEstimate.addMinD0 (0.05)
-                fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "DisTrkSelectionNoD0Cut3LayersVeryClean",          "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_superCleanTransferFactor")
-                fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "DisTrkSelectionNoD0Cut"+nLayersWord,  "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic")
-                fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                         "MET_2017"  +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
-
-                print "********************************************************************************"
-                fakeTrackBkgdEstimate.printNest ()
-                fout.Close ()
-                print "********************************************************************************"
-                print "\n\n"
 
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 

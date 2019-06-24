@@ -4,8 +4,8 @@
 
 backgrounds = {
     'Fake' : {
-        'yield' : '10.84',
-        'error' : str (1.0 + 0.79/10.84),
+        'yield' : '11.22',
+        'error' : str (1.0 + 0.82/10.84),
     },
     'Elec' : {
         'N' : '15',
@@ -23,7 +23,7 @@ backgrounds = {
 
 background_systematics = {
     'Fake_alpha_NLayers4' : { # error on alpha
-        'value' : '1.00053097569',
+        'value' : '1.00052390363',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
@@ -45,7 +45,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers4' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : str (1.0 + (10.84 - 10.44) / 10.84),
+        'value' : str (1.0 + (11.22 - 10.80) / 11.22),
         'background' : 'Fake',
     },
 
