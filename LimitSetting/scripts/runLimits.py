@@ -102,7 +102,7 @@ for mass in masses:
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
 
-        if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0":
+        if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0" or os.environ["CMSSW_VERSION"] == "CMSSW_10_2_13":
           # ProfileLikelihood method seems to have been removed, so for the time being we won't use a hint with -H...
           combine_expected_options = combine_observed_options = " "  # default random number seed = 123456
         else:
