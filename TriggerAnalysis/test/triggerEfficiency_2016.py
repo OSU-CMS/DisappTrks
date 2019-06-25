@@ -74,7 +74,7 @@ for dataset in datasets:
         grandEfficiency.plotEfficiency()
         print "********************************************************************************"
 
-    for trigger in triggersMet:
+    for trigger in triggerFiltersMet:
 
         triggerWithoutUnderscores = re.sub(r"_", "", trigger)
 
@@ -157,3 +157,9 @@ for trigger in triggersMetAndIsoTrk:
 emptyFilters = []
 compare('GrandOr', 'METPath', 'SingleMu_2016BC', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2016BC"], emptyFilters)
 compare('GrandOr', 'METPath', 'SingleMu_2016DEFGH', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2016DEFGH"], emptyFilters)
+
+compareTriggers("HLT_MET75_IsoTrk50_v", "HLT_MET90_IsoTrk50_v", "TrackLeg", "SingleMu_2016BC", "Muon p_{T} [GeV]", canvas, lumi["SingleMuon_2016BC"], ['hltMET75/90', 'hltMETClean65'])
+compareTriggers("HLT_MET75_IsoTrk50_v", "HLT_MET90_IsoTrk50_v", "METLeg", "SingleMu_2016BC", "PF E_{T}^{miss, no #mu}", canvas, lumi["SingleMuon_2016BC"], ['hltMET75/90', 'hltMETClean65'])
+
+compareTriggers("HLT_MET75_IsoTrk50_v", "HLT_MET90_IsoTrk50_v", "TrackLeg", "SingleMu_2016DEFGH", "Muon p_{T} [GeV]", canvas, lumi["SingleMuon_2016DEFGH"], ['hltMET75/90', 'hltMETClean65'])
+compareTriggers("HLT_MET75_IsoTrk50_v", "HLT_MET90_IsoTrk50_v", "METLeg", "SingleMu_2016DEFGH", "PF E_{T}^{miss, no #mu}", canvas, lumi["SingleMuon_2016DEFGH"], ['hltMET75/90', 'hltMETClean65'])

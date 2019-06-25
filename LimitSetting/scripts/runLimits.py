@@ -130,14 +130,14 @@ for mass in masses:
             combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
             combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
         else:
-#            combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-#            combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+#            combine_expected_options += "-M AsymptoticLimits --minimizerStrategy 1 --picky --minosAlgo stepping "
+#            combine_observed_options += "-M AsymptoticLimits --minimizerStrategy 1 --picky --minosAlgo stepping "
             if not arguments.noPicky:
-                combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
-                combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_expected_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_observed_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
             else:
-                combine_expected_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
-                combine_observed_options += "-M Asymptotic --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
+                combine_expected_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
+                combine_observed_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --minosAlgo stepping "
         if (samplesByGravitinoMass and float(chiMasses[mass]['value']) < 150) or (not samplesByGravitinoMass and float(mass) < 150):
             lifetimeFloat = float(lifetime.replace('0p', '0.'))
             if lifetimeFloat > 9 and lifetimeFloat < 300:   # Use a smaller maximum for lifetimes with a larger signal yield

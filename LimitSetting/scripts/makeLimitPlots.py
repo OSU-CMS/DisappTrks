@@ -850,7 +850,7 @@ def fetchLimits(mass,lifetime,directories):
 
         tmp_limit = { }
         # for Asymptotic CLs, get the limits from the root file
-        if method == "Asymptotic":
+        if method == "AsymptoticLimits":
             file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
 #       file = TFile(makeSignalRootFileName(chiMasses[mass]['value'],lifetime,directory,"expected"))
             limit_tree = file.Get('limit')
