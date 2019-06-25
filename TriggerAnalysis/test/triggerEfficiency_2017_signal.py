@@ -35,13 +35,12 @@ path = "all"
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-masses = [300, 700, 1100]
-lifetimes = [10, 100, 1000, 10000]
-datasetsDict = { (mass, lifetime) : ('AMSB_chargino_' + str(mass) + 'GeV_' + str(lifetime) + 'cm_94X') for mass in masses for lifetime in lifetimes }
-labelsDict = { (mass, lifetime) : (str(mass) + ' GeV, c#tau = ' + str(lifetime) + ' cm') for mass in masses for lifetime in lifetimes }
+masses = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+datasetsDict = { mass : ('AMSB_chargino_' + str(mass) + 'GeV_allLifetimes') for mass in masses }
+labelsDict = { mass : (str(mass) + ' GeV') for mass in masses }
 datasets = datasetsDict.values()
 
-inputFolder = dirs['Brian'] + '2017/triggerEfficiencySignal_v3'
+inputFolder = dirs['Brian'] + '2017/grandOr_signal_full'
 
 for nLayersWord in ["NLayers4", "NLayers5", "NLayers6plus"]:
     for dataset in datasets:
@@ -60,36 +59,13 @@ for nLayersWord in ["NLayers4", "NLayers5", "NLayers6plus"]:
             grandEfficiency.setIsMC(True)
             grandEfficiency.plotEfficiency()
             print "********************************************************************************"
-        for trigger in triggerFiltersTrack:
-            triggerWithoutUnderscores = re.sub(r"_", "", trigger)
-            if path == trigger or path == "all":
-                print "********************************************************************************"
-                print "Calculating efficiency of", trigger, "in dataset:", dataset, ")"
-                print "--------------------------------------------------------------------------------"
-                for leg in ["METLeg", "TrackLeg"]:
-                    numeratorName = triggerWithoutUnderscores + "METLegNumeratorTrk" + nLayersWord
-                    denominatorName = "METLegDenominatorTrk" + nLayersWord
-                    if leg == "TrackLeg":
-                        numeratorName = triggerWithoutUnderscores + "TrackLegNumeratorWithTracks" + nLayersWord
-                        denominatorName = triggerWithoutUnderscores + "TrackLegDenominatorWithTracks" + nLayersWord
-                    efficiency = TriggerEfficiency(trigger, triggerFiltersMet[trigger], leg)
-                    efficiency.addTFile(fout)
-                    efficiency.addTCanvas(canvas)
-                    efficiency.setMetLegHistName('Met Plots/metNoMuLogX')
-                    efficiency.setMetLegAxisTitle('PF E_{T}^{miss, no #mu} [GeV]')
-                    efficiency.addChannel("Numerator",   numeratorName, inputFile, inputFolder)
-                    efficiency.addChannel("Denominator", denominatorName, inputFile, inputFolder)
-                    efficiency.setDatasetLabel(inputFile)
-                    efficiency.setIsMC(True)
-                    efficiency.plotEfficiency()
-                    print "********************************************************************************"
         fout.Close()
 
 ###############################################
 # make comparison plots
 ###############################################
 
-def makeSpecificComparisonPlots(trigger, leg, nLayersWord, canvas, mass = -1, lifetime = -1):
+def makeSpecificComparisonPlots(trigger, leg, nLayersWord, canvas, mass = -1):
     lineColors = [1, 632, 600, 8]
     xaxisLabel = 'Track p_{T} [GeV]' if leg is 'TrackLeg' else 'PF E_{T}^{miss, no #mu}'
     filtersList = []
@@ -100,30 +76,13 @@ def makeSpecificComparisonPlots(trigger, leg, nLayersWord, canvas, mass = -1, li
     # for nLayersWord at one given mass, compare lifetimes
     if mass > 0:
         compareDatasets(trigger, leg, 
-                        [datasetsDict[(mass, x)] + '_' + nLayersWord for x in lifetimes],
+                        [datasetsDict[mass] + '_' + nLayersWord],
                         lineColors,
                         [labelsDict[(mass, x)] for x in lifetimes],
                         xaxisLabel, canvas, -1, filtersList, str(mass) + 'GeV_' + nLayersWord)
-    # for nLayersWord at one given lifetime, compare masses
-    elif lifetime > 0:
-        compareDatasets(trigger, leg,
-                        [datasetsDict[(x, lifetime)] + '_' + nLayersWord for x in masses],
-                        lineColors,
-                        [labelsDict[(x, lifetime)] for x in masses],
-                        xaxisLabel, canvas, -1, filtersList, str(lifetime) + 'cm_' + nLayersWord)
-
-for nLayersWord in ["NLayers4", "NLayers5", "NLayers6plus"]:
-    makeSpecificComparisonPlots('GrandOr', 'METPath', nLayersWord, canvas, mass = 700)
-    makeSpecificComparisonPlots('GrandOr', 'METPath', nLayersWord, canvas, lifetime = 100)
-
-    makeSpecificComparisonPlots('HLT_MET105_IsoTrk50_v', 'METLeg', nLayersWord, canvas, mass = 700)
-    makeSpecificComparisonPlots('HLT_MET105_IsoTrk50_v', 'METLeg', nLayersWord, canvas, lifetime = 100)
-
-    makeSpecificComparisonPlots('HLT_MET105_IsoTrk50_v', 'TrackLeg', nLayersWord, canvas, mass = 700)
-    makeSpecificComparisonPlots('HLT_MET105_IsoTrk50_v', 'TrackLeg', nLayersWord, canvas, lifetime = 100)
 
 compareDatasets('GrandOr', 'METPath',
-                ['AMSB_chargino_700GeV_100cm_94X_NLayers' + x for x in ['4', '5', '6plus']],
+                ['AMSB_chargino_700GeV_allLifetimes_NLayers' + x for x in ['4', '5', '6plus']],
                 [1, 632, 600, 8],
                 ['NLayers' + x for x in ['4', '5', '6plus']],
                 'PF E_{T}^{miss, no #mu}', canvas, -1, [], 'compareNLayers_700_100')
