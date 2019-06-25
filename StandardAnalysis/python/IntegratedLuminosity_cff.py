@@ -353,11 +353,11 @@ lumi_2018_ntuples = {
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
     #"EGamma_2018A" : 14002.865,
     #"EGamma_2018B" : 7097.149,
-    "EGamma_2018C" : 6615.617770,
+    "EGamma_2018C" : 6688.523784,
     #"EGamma_2018D" : 31929.065,
 
     # --hltpath "HLT_IsoMu24_v*"
-    #"SingleMuon_2018A" : 13994.713,
+    "SingleMuon_2018A" : 14027.047498708,
     "SingleMuon_2018B" : 7060.622497490,
     "SingleMuon_2018C" : 6894.770971269,
     "SingleMuon_2018D" : 31585.906779588,
