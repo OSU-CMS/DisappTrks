@@ -156,8 +156,8 @@ def customize (process,
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017') # fixme
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X') # fixme
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)

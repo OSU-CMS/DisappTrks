@@ -444,8 +444,10 @@ for systematic in external_systematic_uncertainties:
 ###setting up observed number of events
 observation = 0
 if not run_blind_limits:
-    observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
-
+    if not useHistogramForObservation:
+        observation = rawObservation
+    else:
+        observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 allYieldsAndErrors = {}
 

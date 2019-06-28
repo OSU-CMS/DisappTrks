@@ -34,13 +34,26 @@ struct SlimTrack {
   double dEdxPixel;
   double dEdxStrip;
 
-  SlimTrack (const reco::Track &track, const double meanDEdxPixel, const double meanDEdxStrip) :
-    pt (track.pt ()),
+  unsigned int numMeasurementsPixels;
+  unsigned int numMeasurementsStrips;
+
+  int numSaturatedMeasurementsPixels;
+  int numSaturatedMeasurementsStrips;
+
+  SlimTrack (const reco::Track &track, 
+             const double meanDEdxPixel, const double meanDEdxStrip, 
+             const unsigned int nMeasPixel, const unsigned int nMeasStrips, 
+             const int nSaturatedPixels, const int nSaturatedStrips) :
+    pt  (track.pt ()),
     eta (track.eta ()),
     phi (track.phi ()),
-    p (track.p ()),
+    p   (track.p ()),
     dEdxPixel (meanDEdxPixel),
-    dEdxStrip (meanDEdxStrip)
+    dEdxStrip (meanDEdxStrip),
+    numMeasurementsPixels (nMeasPixel),
+    numMeasurementsStrips (nMeasStrips),
+    numSaturatedMeasurementsPixels (nSaturatedPixels),
+    numSaturatedMeasurementsStrips (nSaturatedStrips)
   {}
 };
 
@@ -68,6 +81,7 @@ class DEdxAnalyzer : public edm::EDAnalyzer {
       edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > dEdxStripToken_;
 
       double minPt_;
+      int minNMissOut_;
       int requiredNumLayers_;
       string vetoElectronsOrMuons_;
 
