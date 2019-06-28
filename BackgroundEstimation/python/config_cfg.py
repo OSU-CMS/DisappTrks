@@ -92,6 +92,8 @@ if False:
 # Single electron control regions in specific nValidHits bins; run out of ElectronTagPt55
 # add_channels (process, getNHitsVariations("ElectronTagPt55"),        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
 # add_channels (process, getNHitsVariations("ElectronTagPt55MetTrig"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNLayersChannelVariations("ElectronTagPt55"),        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNLayersChannelVariations("ElectronTagPt55MetTrig"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for tau background estimate
 if False:
