@@ -166,6 +166,7 @@ def customize (process,
         # fixme incomplete
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
+        setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2017") # fixme
 
