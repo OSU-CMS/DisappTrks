@@ -78,7 +78,7 @@ dataset_names_bkgd = {
     'ZJetsToNuNu_HT200to400'   : "/ZJetsToNuNu_HT-200To400_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT400to600'   : "/ZJetsToNuNu_HT-400To600_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT600to800'   : "/ZJetsToNuNu_HT-600To800_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'ZJetsToNuNu_HT800to1200'  : "",
+    'ZJetsToNuNu_HT800to1200'  : "/ZJetsToNuNu_HT-800To1200_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT1200to2500' : "/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'ZJetsToNuNu_HT2500toInf'  : "/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
@@ -171,17 +171,17 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
 
     'SingleTop_s_channel'         : 5142126.0,
     'SingleTop_t_channel_antitop' : 327092.0,
-    'SingleTop_t_channel_top'     : -1,
+    'SingleTop_t_channel_top'     : 153173.0,
     'SingleTop_tW'                : 3210565.0,
     'SingleTop_tbarW'             : 2412622.0,
 
-    'WJetsToLNu_HT70to100'     : 6561102.0,
-    'WJetsToLNu_HT100to200'   : -1,
-    'WJetsToLNu_HT200to400'   : -1,
+    'WJetsToLNu_HT70to100'    : 6561102.0,
+    'WJetsToLNu_HT100to200'   : 7837681.0,
+    'WJetsToLNu_HT200to400'   : 8973185.0,
     'WJetsToLNu_HT400to600'   : 2576579.0,
     'WJetsToLNu_HT600to800'   : 9408834.0,
     'WJetsToLNu_HT800to1200'  : 4224073.0,
-    'WJetsToLNu_HT1200to2500' : -1,
+    'WJetsToLNu_HT1200to2500' : 4227077.0,
     'WJetsToLNu_HT2500toInf'  : 2110654.0,
 
     'WJetsToLNu' : 11787702.0,
@@ -194,7 +194,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'ZJetsToNuNu_HT200to400'   : 6145021.0,
     'ZJetsToNuNu_HT400to600'   : 3678612.0,
     'ZJetsToNuNu_HT600to800'   : 2500168.0,
-    'ZJetsToNuNu_HT800to1200'  : -1,
+    'ZJetsToNuNu_HT800to1200'  : 871102.0,
     'ZJetsToNuNu_HT1200to2500' : 186609.0,
     'ZJetsToNuNu_HT2500toInf'  : 232040.0,
     
