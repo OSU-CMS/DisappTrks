@@ -10,10 +10,10 @@ dataset_names_data = {
     "MET_2018C" : "/MET/ahart-Run2018C-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
     "MET_2018D" : "/MET/ahart-Run2018D-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
 
-    #"EGamma_2018A"
+    #"EGamma_2018A" : ["/EGamma/kwei-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/bfrancis-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018A-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     #"EGamma_2018B"
     "EGamma_2018C"  : "/EGamma/kwei-Run2018C-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER",
-    #"EGamma_2018D"
+    #"EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
 
     "SingleMu_2018A" : "/SingleMuon/bfrancis-Run2018A-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
     "SingleMu_2018B" : "/SingleMuon/bfrancis-Run2018B-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
@@ -43,8 +43,8 @@ dataset_names_bkgd = {
     'QCD_300to470'    : "/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_470to600'    : "/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_600to800'    : "/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'QCD_800to1000'   : "", # accidentally ran MuEnriched
-    'QCD_1000to1400'  : "",
+    'QCD_800to1000'   : "", # accidentally ran MuEnriched, regular stuck idle
+    'QCD_1000to1400'  : "", # disk replica failed after 30 days -- use 2017 sample
     'QCD_1400to1800'  : "/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER", # includes ext1
     'QCD_1800to2400'  : "/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'QCD_2400to3200'  : "/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER", # includes ext1
@@ -54,18 +54,18 @@ dataset_names_bkgd = {
     'DYJetsToLL_10to50' : "/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/bfrancis-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
     'SingleTop_s_channel'         : "/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'SingleTop_t_channel_antitop' : "",
-    'SingleTop_t_channel_top'     : "",
+    'SingleTop_t_channel_antitop' : "/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'SingleTop_t_channel_top'     : "/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'SingleTop_tW'                : "/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'SingleTop_tbarW'             : "/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
-    'WJetsToLNu_HT70to100'     : "/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'WJetsToLNu_HT100to200'   : "",
-    'WJetsToLNu_HT200to400'   : "",
+    'WJetsToLNu_HT70to100'    : "/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'WJetsToLNu_HT100to200'   : "/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
+    'WJetsToLNu_HT200to400'   : "/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT400to600'   : "/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT600to800'   : "/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT800to1200'  : "/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
-    'WJetsToLNu_HT1200to2500' : "",
+    'WJetsToLNu_HT1200to2500' : "/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
     'WJetsToLNu_HT2500toInf'  : "/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
 
     'WJetsToLNu' : "/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kwei-RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1-64a04fda89c1c1eeaec69b5836717950/USER",
@@ -112,7 +112,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'DYJetsToLL_10to50' : 39309948.0,
 
     'SingleTop_s_channel'         : 20000000.0,
-    'SingleTop_t_channel_antitop' : -1,
+    'SingleTop_t_channel_antitop' : 3326400.0,
     'SingleTop_t_channel_top'     : -1,
     'SingleTop_tW'                : 7740170.0,
     'SingleTop_tbarW'             : 5813561.0,
@@ -170,7 +170,7 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
     'DYJetsToLL_10to50' : 146282.0,
 
     'SingleTop_s_channel'         : 5142126.0,
-    'SingleTop_t_channel_antitop' : -1,
+    'SingleTop_t_channel_antitop' : 327092.0,
     'SingleTop_t_channel_top'     : -1,
     'SingleTop_tW'                : 3210565.0,
     'SingleTop_tbarW'             : 2412622.0,
