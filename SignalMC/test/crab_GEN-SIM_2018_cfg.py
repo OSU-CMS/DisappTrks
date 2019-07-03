@@ -74,8 +74,8 @@ if __name__ == '__main__':
       for mass in range(100, 1200, 100):
           for ctau in [1, 10, 100, 1000, 10000]:
               config.General.requestName = 'AMSB_chargino%dGeV_ctau%dcm_step1' % (mass, ctau)
-              config.JobType.psetName = 'step1/pythia8Decay/AMSB_chargino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
-              config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
+              config.JobType.psetName = 'step1/pythia8/AMSB_chargino_M-%dGeV_CTau-%dcm_TuneCP5_PSweights_13TeV_pythia8_step1.py' % (mass, ctau)
+              config.Data.outputPrimaryDataset = 'AMSB_chargino_M-%dGeV_CTau-%dcm_TuneCP5_PSweights_13TeV_pythia8' % (mass, ctau)
               config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
               if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
                   forkAndSubmit(config)
@@ -86,7 +86,7 @@ if __name__ == '__main__':
           for gluinoMass in range(700, 2300, 100):
               for ctau in [10, 100, 1000, 10000]:
                   config.General.requestName = 'AMSB_gluino%dGeVToChargino%dGeV_ctau%dcm_step1' % (gluinoMass, mass, ctau)
-                  config.JobType.psetName = 'step1/pythia8Decay/AMSB_gluinoToChargino_M-%dGeV_M-%dGeV_CTau-%dcm_step1.py' % (gluinoMass, mass, ctau)
+                  config.JobType.psetName = 'step1/pythia8/AMSB_gluinoToChargino_M-%dGeV_M-%dGeV_CTau-%dcm_step1.py' % (gluinoMass, mass, ctau)
                   config.Data.outputPrimaryDataset = 'AMSB_gluinoToChargino_M-%d_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (gluinoMass, mass, ctau)
                   config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetimeForStrong[ctau]
                   if reallySubmitMass[mass] and reallySubmitGluinoMass[gluinoMass] and reallySubmitLifetime[ctau]:
@@ -98,8 +98,8 @@ if __name__ == '__main__':
       for mass in range(100, 1000, 100):
           for ctau in [1, 10, 100, 1000, 10000]:
               config.General.requestName = 'Higgsino%dGeV_ctau%dcm_step1' % (mass, ctau)
-              config.JobType.psetName = 'step1/higgsino/Higgsino%dGeV_ctau%dcm_step1.py' % (mass, ctau)
-              config.Data.outputPrimaryDataset = 'Higgsino_M-%d_CTau-%d_TuneCP5_13TeV_pythia8' % (mass, ctau)
+              config.JobType.psetName = 'step1/pythia8/Higgsino_M-%dGeV_ctau%dcm_TuneCP5_PSweights_13TeV_pythia8_step1.py' % (mass, ctau)
+              config.Data.outputPrimaryDataset = 'Higgsino_M-%dGeV_CTau-%dcm_TuneCP5_PSweights_13TeV_pythia8' % (mass, ctau)
               config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
               if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
                   forkAndSubmit(config)
