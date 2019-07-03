@@ -11,6 +11,13 @@ if os.environ['CMSSW_VERSION'] != 'CMSSW_10_2_0':
 	print
 	sys.exit()
 
+baseDir = os.environ['CMSSW_BASE'] + '/src/DisappTrks/SignalMC/'
+
+if not os.path.exists(baseDir + 'data/geant4'):
+	os.mkdir(baseDir + 'data/geant4')
+if not os.path.exists(baseDir + 'data/geant4_higgsino'):
+	os.mkdir(baseDir + 'data/geant4_higgsino')
+
 def findMassValue(fileName, particleName):
 	inputFile = open(fileName, 'r')
 	for line in inputFile:
@@ -61,10 +68,6 @@ xsecsHiggsino = {
 }
 
 ctaus = [1, 10, 100, 1000, 10000] # cm
-
-baseDir = os.environ['CMSSW_BASE'] + '/src/DisappTrks/SignalMC/'
-
-
 
 ################################################################
 # step 1: create the gen fragments

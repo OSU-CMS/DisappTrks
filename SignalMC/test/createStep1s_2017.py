@@ -13,6 +13,11 @@ if os.environ['CMSSW_VERSION'] != 'CMSSW_9_3_13':
 
 baseDir = os.environ['CMSSW_BASE'] + '/src/DisappTrks/SignalMC/'
 
+if not os.path.exists(baseDir + 'data/geant4'):
+	os.mkdir(baseDir + 'data/geant4')
+if not os.path.exists(baseDir + 'data/geant4_higgsino'):
+	os.mkdir(baseDir + 'data/geant4_higgsino')
+
 def findMassValue(fileName, particleName):
 	inputFile = open(fileName, 'r')
 	for line in inputFile:
