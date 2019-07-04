@@ -1933,13 +1933,6 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("dijetMaxDeltaPhi"),
         ),
         cms.PSet (
-            name = cms.string("packedTriggerFiresBit"),
-            title = cms.string("Packed bit for individual trigger fires;Bit"),
-            # For N triggers in DisappTrks.TriggerAnalysis.AllTriggers triggerFiltersMet, need 2**N bins
-            binsX = cms.untracked.vdouble(2**15, 0, 2**15),
-            inputVariables = cms.vstring("packedTriggerFiresBit"),
-        ),
-        cms.PSet (
             name = cms.string("numberOfCharginos"),
             title = cms.string(";number of charginos"),
             binsX = cms.untracked.vdouble(3, -0.5, 2.5),
@@ -2699,13 +2692,6 @@ EventTriggerVarHistograms = cms.PSet(
             title = cms.string(";HT_{T}^{miss, no #mu} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("MHTNoMu"),
-        ),
-        cms.PSet (
-            name = cms.string("packedTriggerFiresBit"),
-            title = cms.string("Packed bit for individual trigger fires;Bit"),
-            # For N triggers in DisappTrks.TriggerAnalysis.AllTriggers triggerFiltersMet, need 2**N bins
-            binsX = cms.untracked.vdouble(2**15, 0, 2**15),
-            inputVariables = cms.vstring("packedTriggerFiresBit"),
         ),
         cms.PSet (
             name = cms.string("numPVReco"),
