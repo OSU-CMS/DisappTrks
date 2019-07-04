@@ -11,6 +11,7 @@ config.General.transferLogs = True
 
 config.JobType.pluginName = 'PrivateMC'
 config.JobType.psetName = ''
+config.JobType.allowUndistributedCMSSW = True
 
 config.Data.outputPrimaryDataset = ''
 config.Data.splitting = 'EventBased'
