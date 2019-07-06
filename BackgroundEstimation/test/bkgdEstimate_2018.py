@@ -56,11 +56,10 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2018"  +  runPeriod,  dirs['Brian']+"2018/fakeTrackBackgroundVeryClean_v2")
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",          "SingleMu_2018"  +  runPeriod,  dirs['Andrew']+"2018/fakeTrackBackground_noD0")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayersWord,  "SingleMu_2018"  +  runPeriod,  dirs['Andrew']+"2018/fakeTrackBackground_noD0")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2018_directcopy"       +  runPeriod,  dirs['Brian']+"2018/fromRutgers/basicSelection_noDuplicates/")
-            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2018"  +  runPeriod,  dirs['Andrew']+"2018/zToMuMu")
+            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/fakeBackground")
+            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayersWord, "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/fakeBackground")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Kai']   + "2018/fromLPC/basicSelection/")
+            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/zToMuMu")
 
             print "********************************************************************************"
             print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
@@ -96,11 +95,10 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2018"  +  runPeriod,  dirs['Andrew']+"2018/fakeTrackSystematic_zToEE_superCleanTransferFactor")
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",          "EGamma_2018"  +  runPeriod,  dirs['Kai']+"2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,      "EGamma_2018"  +  runPeriod,  dirs['Kai']+"2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                      "MET_2018"     +  runPeriod,  dirs['Kai']+"2018/fromLPC/basicSelection")
-            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                               "EGamma_2018"  +  runPeriod,  dirs['Kai']+"2018/fromLPC/zToEE")
+            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2018"    + runPeriod, dirs['Kai'] + "2018/fromLPC/basicSelection")
+            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/zToEE")
 
             print "********************************************************************************"
             print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
@@ -335,7 +333,7 @@ for runPeriod in runPeriods:
 
             for iBin in range(1, len(nLayersWords)):
                 tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2018"         + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
-           basicSelection     tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
+                tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
                 tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
                 tauBkgdEstimate.appendChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[iBin], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[iBin])
                 tauBkgdEstimate.appendChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[iBin], "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[iBin])
