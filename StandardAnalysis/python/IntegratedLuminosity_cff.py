@@ -352,7 +352,7 @@ lumi_2018_ntuples = {
 
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
     #"EGamma_2018A" : 14002.865,
-    #"EGamma_2018B" : 7097.149,
+    "EGamma_2018B" : 7060.617355256,
     "EGamma_2018C" : 6688.523784,
     #"EGamma_2018D" : 31929.065,
 

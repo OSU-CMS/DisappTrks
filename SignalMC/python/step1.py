@@ -60,6 +60,75 @@ amsb = {
 }
 
 # key: ( chargino mass [GeV], chargino lifetime [cm/c])
+amsb2018 = {
+    (100, 1)     : "/AMSB_chargino_M-100GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-c1b4a04b60ebc93d8b685addaa907874/USER",
+    (100, 10)    : "/AMSB_chargino_M-100GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-fcb128e93bdd9f041bf97ff1daa4c3d5/USER",
+    (100, 100)   : "/AMSB_chargino_M-100GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-f72b88e236dbf1d79fb43f4fb525988d/USER",
+    (100, 1000)  : "/AMSB_chargino_M-100GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-2a0b2e217b7e46b1f3926d8a11a99a7c/USER",
+    (100, 10000) : "/AMSB_chargino_M-100GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-aa38ebbc0cb167365efa20fafcc83320/USER",
+
+    (200, 1) : "/AMSB_chargino_M-200GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-ebd7f8d59bd840378b1a7ef6bf215281/USER",
+    (200, 10) : "/AMSB_chargino_M-200GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-1d8d90c70400f9fb73d45ba72e320200/USER",
+    (200, 100) : "/AMSB_chargino_M-200GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-70537a4e281d0c85628f271e16205413/USER",
+    (200, 1000) : "/AMSB_chargino_M-200GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-1f6c6400ec13ae29845e933e42f21d5c/USER",
+    (200, 10000) : "/AMSB_chargino_M-200GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-679a7afc8706d7f0c192e9c2902e704e/USER",
+
+    (300, 1)     : "/AMSB_chargino_M-300GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-53dc40346b64e9cc45d64a6d1f673eb3/USER",
+    (300, 10)    : "/AMSB_chargino_M-300GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-563fe6ed02f9cdb8fc9c87bb106d29ac/USER",
+    (300, 100)   : "/AMSB_chargino_M-300GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-ec1e8bee81f0b5b41f199632d8a1c09d/USER",
+    (300, 1000)  : "/AMSB_chargino_M-300GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-645adbc52f068b809ef6612a0e7febce/USER",
+    (300, 10000) : "/AMSB_chargino_M-300GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-fb98e84586d1b086b81d3850e29cba18/USER",
+
+    (400, 1)     : "/AMSB_chargino_M-400GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-0675c1a2e8325156bf1ab6033074fa94/USER",
+    (400, 10)    : "/AMSB_chargino_M-400GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-914f255410a2fb3978807aea6fc7916b/USER",
+    (400, 100)   : "/AMSB_chargino_M-400GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-be49b9b767427d76d9ecb7d42b011674/USER",
+    (400, 1000)  : "/AMSB_chargino_M-400GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-5964a100fba60fab15351b4f2bdb3f15/USER",
+    (400, 10000) : "/AMSB_chargino_M-400GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-906f69c531e9ce221f25760a075a0297/USER",
+
+    (500, 1)     : "/AMSB_chargino_M-500GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-78012a008cb73b77da48b4c767b54b57/USER",
+    (500, 10)    : "/AMSB_chargino_M-500GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-06edbc2fafd94d4d75bf84e13bb600e3/USER",
+    (500, 100)   : "/AMSB_chargino_M-500GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-c2b724e34485a500d5ba30a2b01d74a1/USER",
+    (500, 1000)  : "/AMSB_chargino_M-500GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-2dd68b0f789b73d048e5e5f6abe570b7/USER",
+    (500, 10000) : "/AMSB_chargino_M-500GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-9940f1d2aa6a66f60545a60ab4aa72f8/USER",
+
+    (600, 1)     : "/AMSB_chargino_M-600GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-e0799da1442817e0a60faab6e990ca2a/USER",
+    (600, 10)    : "/AMSB_chargino_M-600GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-1138b541f604d66bbd4db86542580bd5/USER",
+    (600, 100)   : "/AMSB_chargino_M-600GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-276b49fb3f23f793b6a4c420d73e501a/USER",
+    (600, 1000)  : "/AMSB_chargino_M-600GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-6b887c2c27c2f95facc580f12fe56176/USER",
+    (600, 10000) : "/AMSB_chargino_M-600GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-e3b538e011b6001b408c9d67bff6061c/USER",
+
+    (700, 1)     : "/AMSB_chargino_M-700GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-0fb0e31677ecd4351ff3bac7c0058298/USER",
+    (700, 10)    : "/AMSB_chargino_M-700GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-b8ce6f8c53a3006ae210eda3326a9165/USER",
+    (700, 100)   : "/AMSB_chargino_M-700GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-a45f2813683bab8d5852a060bd52dddf/USER",
+    (700, 1000)  : "/AMSB_chargino_M-700GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-cdd5fac0721bc114705c8636aa734009/USER",
+    (700, 10000) : "/AMSB_chargino_M-700GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-d99d74fe007bd6a6006e0b9313b86342/USER",
+
+    (800, 1)     : "/AMSB_chargino_M-800GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-de4831d56e74a839b1bd8d4eb68e5e15/USER",
+    (800, 10)    : "/AMSB_chargino_M-800GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-86564f90db069789103b443f4c255136/USER",
+    (800, 100)   : "/AMSB_chargino_M-800GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-0f94ae4d6b436af7810daca2c5136313/USER",
+    (800, 1000)  : "/AMSB_chargino_M-800GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-943024c380a340f350e4197028091ac3/USER",
+    (800, 10000) : "/AMSB_chargino_M-800GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-7b59c7b8edc75bdf48b5a9cfc0fbfefc/USER",
+
+    (900, 1)     : "/AMSB_chargino_M-900GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-470eabdd394d07510c43e6f6171ac233/USER",
+    (900, 10)    : "/AMSB_chargino_M-900GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-e38aaca29beae9bc96b55efc643def23/USER",
+    (900, 100)   : "/AMSB_chargino_M-900GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-a7fe8f5456c43b50209297bbc1faadb4/USER",
+    (900, 1000)  : "/AMSB_chargino_M-900GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-e58f3aa76435630f06ff216392801e98/USER",
+    (900, 10000) : "/AMSB_chargino_M-900GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-e7672b46260f69c8aaa91a847959409f/USER",
+
+    (1000, 1)     : "/AMSB_chargino_M-1000GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-c06213d0f1e5cc1f966490dde786b760/USER",
+    (1000, 10)    : "/AMSB_chargino_M-1000GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-79d479bfc5126d71e7ead75a880d9051/USER",
+    (1000, 100)   : "/AMSB_chargino_M-1000GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-9420ab5bde310021c98edb8b95192b33/USER",
+    (1000, 1000)  : "/AMSB_chargino_M-1000GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-93d8d3d8f5e6431967f6472771fe7f2c/USER",
+    (1000, 10000) : "/AMSB_chargino_M-1000GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-8cc33e1600757d5c5d8576f8bb924821/USER",
+
+    (1100, 1)     : "/AMSB_chargino_M-1100GeV_CTau-1cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-630a67df2fa60929d8ac31f9dd49360e/USER",
+    (1100, 10)    : "/AMSB_chargino_M-1100GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-2407a1a3456093bb9c7d0af1a4d1155a/USER",
+    (1100, 100)   : "/AMSB_chargino_M-1100GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-4f7f698a89d8135105cd39d32a0e19ba/USER",
+    (1100, 1000)  : "/AMSB_chargino_M-1100GeV_CTau-1000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-822b764b009be895c7449e4a0e28a92c/USER",
+    (1100, 10000) : "/AMSB_chargino_M-1100GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1-7d1edc8edb343fd955baed8a1923260d/USER",
+}
+
+# key: ( chargino mass [GeV], chargino lifetime [cm/c])
 higgsino = {
     (100, 10000) : '/Higgsino_M-100_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-16874aa24e07889f5692668889436cc1/USER',
     (100, 1000)  : '/Higgsino_M-100_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-429b8a2549a2f7ae6f79a3fb8da81033/USER',
@@ -107,3 +176,5 @@ higgsino = {
     (900, 10)    : '/Higgsino_M-900_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-90836cd308069f5df6c5a1e18db44fff/USER',
     (900, 1)     : '/Higgsino_M-900_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-35c494a77f8b4fa80ab49dea78353856/USER',
 }
+
+higgsino2018 = {}

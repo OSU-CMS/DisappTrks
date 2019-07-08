@@ -66,27 +66,25 @@ for runPeriod in runPeriods:
     if '2017' in runPeriod:
         condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
     if '2018' in runPeriod:
-        condorDirectory = dirs['Brian'] + "2018/muonHotSpotsOldCuts"
+        condorDirectory = dirs['Brian'] + "2018/fromLPC/muonHotSpots"
 
-    if runPeriod != '2018A' and runPeriod != '2018':
-
-        print "********************************************************************************"
-        print "Calculating muon fiducial map in search region", runPeriod
-        print "--------------------------------------------------------------------------------"
+    print "********************************************************************************"
+    print "Calculating muon fiducial map in search region", runPeriod
+    print "--------------------------------------------------------------------------------"
     
-        fout = TFile.Open("newMuonFiducialMap_" + runPeriod + ".root", "recreate")
+    fout = TFile.Open("newMuonFiducialMap_" + runPeriod + ".root", "recreate")
     
-        muonMap = FiducialMapCalculator()
-        #muonMap.setVerboseComparison(True)
-        muonMap.addTFile(fout)
-        muonMap.addTCanvas(canvas)
-        muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
-        muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "SingleMu_" + runPeriod, condorDirectory)
-        muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "SingleMu_" + runPeriod, condorDirectory)
-        muonMap.CalculateFiducialMap()
-        muonMap.MakePlots()
-        muonMap.CompareFiducialMap()
-        print "********************************************************************************"
-        print "\n\n"
+    muonMap = FiducialMapCalculator()
+    #muonMap.setVerboseComparison(True)
+    muonMap.addTFile(fout)
+    muonMap.addTCanvas(canvas)
+    muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
+    muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "SingleMu_" + runPeriod, condorDirectory)
+    muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "SingleMu_" + runPeriod, condorDirectory)
+    muonMap.CalculateFiducialMap()
+    muonMap.MakePlots()
+    muonMap.CompareFiducialMap()
+    print "********************************************************************************"
+    print "\n\n"
     
-        fout.Close()
+    fout.Close()

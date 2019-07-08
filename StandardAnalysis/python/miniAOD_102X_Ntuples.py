@@ -11,7 +11,7 @@ dataset_names_data = {
     "MET_2018D" : "/MET/ahart-Run2018D-17Sep2018-v2-4a666b96e844710047f00452b66377b0/USER",
 
     #"EGamma_2018A" : ["/EGamma/kwei-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/bfrancis-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018A-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
-    #"EGamma_2018B"
+    "EGamma_2018B" : ["/EGamma/kwei-Run2018B-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018B-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     "EGamma_2018C"  : "/EGamma/kwei-Run2018C-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER",
     #"EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
 
@@ -113,17 +113,17 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
 
     'SingleTop_s_channel'         : 20000000.0,
     'SingleTop_t_channel_antitop' : 3326400.0,
-    'SingleTop_t_channel_top'     : -1,
+    'SingleTop_t_channel_top'     : 1599600.0,
     'SingleTop_tW'                : 7740170.0,
     'SingleTop_tbarW'             : 5813561.0,
 
     'WJetsToLNu_HT70to100'    : 28159421.0,
-    'WJetsToLNu_HT100to200'   : -1,
-    'WJetsToLNu_HT200to400'   : -1,
+    'WJetsToLNu_HT100to200'   : 29552325.0,
+    'WJetsToLNu_HT200to400'   : 24936269.0,
     'WJetsToLNu_HT400to600'   : 5932701.0,
     'WJetsToLNu_HT600to800'   : 20079356.0,
     'WJetsToLNu_HT800to1200'  : 8441662.0,
-    'WJetsToLNu_HT1200to2500' : -1,
+    'WJetsToLNu_HT1200to2500' : 7623501.0,
     'WJetsToLNu_HT2500toInf'  : 3281971.0,
 
     'WJetsToLNu' : 71122242.0,
@@ -136,7 +136,7 @@ bkgd_crabSeen = { # run framework job with CandidateTrackProducer/test/analyzeSk
     'ZJetsToNuNu_HT200to400'   : 23760670.0,
     'ZJetsToNuNu_HT400to600'   : 9527919.0,
     'ZJetsToNuNu_HT600to800'   : 5761094.0,
-    'ZJetsToNuNu_HT800to1200'  : -1,
+    'ZJetsToNuNu_HT800to1200'  : 1819062.0,
     'ZJetsToNuNu_HT1200to2500' : 342781.0,
     'ZJetsToNuNu_HT2500toInf'  : 359639.0,
 
