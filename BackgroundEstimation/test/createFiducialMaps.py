@@ -4,10 +4,11 @@ import math
 from DisappTrks.BackgroundEstimation.FiducialMapCalculator import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
-from ROOT import gROOT, TCanvas, TFile, TGraphErrors
+from ROOT import gROOT, TCanvas, TFile, TGraphErrors, gStyle
 import os
 
-gROOT.SetBatch ()
+gROOT.SetBatch()
+gStyle.SetPalette(56)
 
 dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
