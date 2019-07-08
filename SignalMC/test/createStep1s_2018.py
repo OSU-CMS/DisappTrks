@@ -78,7 +78,7 @@ if scriptStep == 1:
 	baseParticleFile = baseDir + 'data/geant4_AMSB_chargino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsWino:
 		for ctau in ctaus:
-			outputConfigFile   = baseDir + 'python/pythia8/AMSB_chargino_M-%dGeV_CTau-%dcm_TuneCP5_PSweights_13TeV_pythia8_cff.py' % (mass, ctau)
+			outputConfigFile   = baseDir + 'python/pythia8/AMSB_chargino_M%dGeV_CTau%dcm_TuneCP5_PSweights_13TeV_pythia8_cff.py' % (mass, ctau)
 			outputParticleFile = baseDir + 'data/geant4/geant4_AMSB_chargino_%dGeV_ctau%dcm.slha' % (mass, ctau)
 			slhaFile           = baseDir + 'data/SLHA_withDecay/%dcm/AMSB_chargino_%dGeV_%dcm_Isajet780.slha' % (ctau, mass, ctau)
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
@@ -100,7 +100,7 @@ if scriptStep == 1:
 	baseParticleFile = baseDir + 'data/geant4_higgsino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsHiggsino:
 		for ctau in ctaus:
-			outputConfigFile   = baseDir + 'python/pythia8/Higgsino_M-%dGeV_CTau-%dcm_TuneCP5_PSweights_13TeV_pythia8_cff.py' % (mass, ctau)
+			outputConfigFile   = baseDir + 'python/pythia8/Higgsino_M%dGeV_CTau%dcm_TuneCP5_PSweights_13TeV_pythia8_cff.py' % (mass, ctau)
 			outputParticleFile = baseDir + 'data/geant4_higgsino/geant4_higgsino_%dGeV_ctau%dcm.slha' % (mass, ctau)
 			slhaFile           = baseDir + 'data/SLHA_withDecay/%dcm/Higgsino_%dGeV_%dcm_Isajet780.slha' % (ctau, mass, ctau)
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
@@ -128,14 +128,14 @@ if scriptStep == 1:
 ################################################################
 if scriptStep == 2:
 	# first wino-like LSP case
-	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/pythia8/AMSB_chargino_M-{0}GeV_CTau-{1}cm_TuneCP5_PSweights_13TeV_pythia8_cff.py'
+	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/pythia8/AMSB_chargino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13TeV_pythia8_cff.py'
 	cmd += ' --fileout file:AMSB_chargino{0}GeV_ctau{1}cm_step1.root'
 	cmd += ' --mc --eventcontent RAWSIM'
 	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,SimG4Core/Application/customiseSequentialSim.customiseSequentialSim'
 	cmd += ' --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v9'
 	cmd += ' --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended'
 	cmd += ' --era Run2_2018'
-	cmd += ' --python_filename step1/pythia8/AMSB_chargino_M-{0}GeV_CTau-{1}cm_TuneCP5_PSweights_13TeV_pythia8_step1.py'
+	cmd += ' --python_filename step1/pythia8/AMSB_chargino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13TeV_pythia8_step1.py'
 	cmd += ' --no_exec -n 10'
 
 	for mass in xsecsWino:
@@ -145,14 +145,14 @@ if scriptStep == 2:
 	print 'Created electroweak (wino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8'
 
 	# now higgsino-like LSP case
-	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/pythia8/Higgsino_M-{0}GeV_CTau-{1}cm_TuneCP5_PSweights_13TeV_pythia8_cff.py'
-	cmd += ' --fileout file:Higgsino_M-{0}GeV_ctau{1}cm_step1.root'
+	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/pythia8/Higgsino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13TeV_pythia8_cff.py'
+	cmd += ' --fileout file:Higgsino_M{0}GeV_ctau{1}cm_step1.root'
 	cmd += ' --mc --eventcontent RAWSIM'
 	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,SimG4Core/Application/customiseSequentialSim.customiseSequentialSim'
 	cmd += ' --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v9'
 	cmd += ' --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended'
 	cmd += ' --era Run2_2018'
-	cmd += ' --python_filename step1/pythia8/Higgsino_M-{0}GeV_ctau{1}cm_TuneCP5_PSweights_13TeV_pythia8_step1.py'
+	cmd += ' --python_filename step1/pythia8/Higgsino_M{0}GeV_ctau{1}cm_TuneCP5_PSweights_13TeV_pythia8_step1.py'
 	cmd += ' --no_exec -n 10'
 
 	for mass in xsecsHiggsino:
