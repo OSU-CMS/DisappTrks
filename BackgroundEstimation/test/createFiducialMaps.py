@@ -35,10 +35,10 @@ for runPeriod in runPeriods:
     if '2017' in runPeriod:
         condorDirectory = dirs['Brian'] + "2017/fromLPC/eleHotSpots"
     if '2018' in runPeriod:
-        condorDirectory = dirs['Kai'] + "2018/electronHotSpots"
+        condorDirectory = dirs['Brian'] + "2018/fromLPC/eleHotSpots"
         datasetName = "EGamma"
         
-    if runPeriod in ['2018B', '2018C']:
+    if runPeriod in ['2018A', '2018B', '2018C']:
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod
@@ -89,3 +89,16 @@ for runPeriod in runPeriods:
     print "\n\n"
     
     fout.Close()
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_"):
+    remakePayload('Electron', '2015')
+    remakePayload('Muon',     '2015')
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    remakePayload('Electron', '2016')
+    remakePayload('Muon',     '2016')
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    remakePayload('Electron', '2017', ['B', 'C', 'D', 'E', 'F'])
+    remakePayload('Muon', '2017', ['B', 'C', 'D', 'E', 'F'])
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    remakePayload('Electron', '2018', ['A', 'B', 'C'])
+    remakePayload('Muon',     '2018', ['A', 'B', 'C', 'D'])
