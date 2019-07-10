@@ -38,7 +38,7 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Kai'] + "2018/electronHotSpots"
         datasetName = "EGamma"
         
-    if not '2018' in runPeriod or runPeriod is '2018C':
+    if runPeriod in ['2018B', '2018C']:
 
         print "********************************************************************************"
         print "Calculating electron fiducial map in search region", runPeriod

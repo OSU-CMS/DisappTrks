@@ -144,11 +144,11 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2018" + runPeriod)
 
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers")
+            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_rereco_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/eleBkgdWithFilterBinnedLayers")
+            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_rereco_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/eleBkgdWithFilterBinnedLayers")
+            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
+            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
         
             for iBin in range(1, len(nLayersWords)):
             	electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
@@ -319,32 +319,32 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "SingleMu_2018"         + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[0], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[0], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[0], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[0], "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[0], "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[0])
-            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[0], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[0], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-            tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[0], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[0], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits")
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[0], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[0], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[0], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[0], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[0], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+            tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[0], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+            tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[0], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
 
             for iBin in range(1, len(nLayersWords)):
-                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2018"         + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[iBin], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[iBin], "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[iBin], "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWords[iBin])
-                tauBkgdEstimate.appendChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-                tauBkgdEstimate.appendChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[iBin], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-                tauBkgdEstimate.appendChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[iBin], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-                tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-                tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits")
-
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # temporary measure
+                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+                tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+                tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+                tauBkgdEstimate.appendChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[iBin], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+                tauBkgdEstimate.appendChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+                tauBkgdEstimate.appendChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+                tauBkgdEstimate.appendChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+                tauBkgdEstimate.appendChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[iBin], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+                tauBkgdEstimate.appendChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[iBin], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+                tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+                tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+ 
+            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
@@ -354,12 +354,6 @@ for runPeriod in runPeriods:
 
             combinedPpassMetCut = tauBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = tauBkgdEstimate.getPpassMetTriggers()
-
-            print "********************************************************************************"
-
-            if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
-                print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
 
             print "********************************************************************************"
             
@@ -384,25 +378,31 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2018"         + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWord)
-            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWord)
-            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "SingleMu_rereco_2018"  + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToMuBkgd"  + nLayersWord)
-            tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWord, "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWord)
-            tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWord, "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWord)
-            tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWord, "SingleEle_rereco_2018" + runPeriod, dirs['Brian']+"2018/fromLPC/zToTauToEleBkgd" + nLayersWord)
-            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWord, "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWord, "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits_v2")
-            tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWord, "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "SingleEle_2018"        + runPeriod, dirs['Brian']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2018"              + runPeriod, dirs['Brian']+"2018/fromLPC/tauControlRegionBinnedHits")
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWord, "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWord, "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_rereco_2018"   + runPeriod, dirs['Kai']   + "2018/fromLPC/ZtoTauToEleProbeTrk")
+            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWord, "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWord, "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
+            tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWord, "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+            tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
+            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
 
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # temporary measure
+            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
 
             nEstTau[(nLayersWord, runPeriod)] = tauBkgdEstimate.printNest()
             tauBkgdEstimate.printPpassVetoTagProbe()
+
+            print "********************************************************************************"
+
+            if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
+                print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
+                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
 
             print "********************************************************************************"
 
