@@ -358,12 +358,6 @@ for runPeriod in runPeriods:
             combinedPpassMetTriggers, combinedTriggerEfficiency = tauBkgdEstimate.getPpassMetTriggers()
 
             print "********************************************************************************"
-
-            if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
-                print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
-
-            print "********************************************************************************"
             
             fout.Close()
 
@@ -406,6 +400,12 @@ for runPeriod in runPeriods:
             nEstTau[(nLayersWord, runPeriod)] = tauBkgdEstimate.printNest()
             tauBkgdEstimate.printPpassVetoTagProbe()
 
+            print "********************************************************************************"
+
+            if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
+                print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
+                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+            
             print "********************************************************************************"
 
             fout.Close()

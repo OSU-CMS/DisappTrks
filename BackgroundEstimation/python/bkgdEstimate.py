@@ -958,9 +958,14 @@ class FakeTrackBkgdEstimate:
             f.SetParameter (1, 40.0)
             f.SetParLimits (1, 1.0e-3, 1.0e3)
             f.SetParName (1, "Gaussian norm")
-            f.SetParameter (2, 20.0)
-            f.SetParLimits (2, -1.0e3, 1.0e3)
-            f.SetParName (2, "constant")
+            if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+              f.SetParameter (2, 1.0)
+              f.SetParLimits (2, 1.0e-3, 1.0e3)
+              f.SetParName (2, "constant")
+            else:
+              f.SetParameter (2, 20.0)
+              f.SetParLimits (2, -1.0e3, 1.0e3)
+              f.SetParName (2, "constant")
             for i in range (0, 10):
               d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
             d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)

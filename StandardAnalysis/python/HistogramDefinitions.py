@@ -851,6 +851,21 @@ TrackMuonHistograms = cms.PSet(
     )
 )
 
+JetMetHistograms = cms.PSet(
+    inputCollection = cms.vstring("jets", "mets"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("leadJetPtVsMetNoMu"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];leading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            binsY = metBinsSlimmed,
+            indexX = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("met.noMuPt", "jet.pt"),
+        )
+    ),
+)
+
 MuonMETHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "mets"),
     histograms = cms.VPSet (

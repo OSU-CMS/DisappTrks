@@ -26,7 +26,7 @@ if len(sys.argv) > 2:
 
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', B', 'C', 'D']
-runPeriods = ['C']
+runPeriods = ['ABC']
 
 nEstFake = {}
 nEstElectron = {}
