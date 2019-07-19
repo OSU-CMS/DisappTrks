@@ -101,44 +101,72 @@ def writeJSON(datasetDict, outputName):
 	with open(outputName, 'w') as outputFile:
 		json.dump(lumiJSON, outputFile)
 
-#######################################################
+# every time you remove a file from the workspace, there may be less duplicates remaining
+# for example take workspace = { f1 : [1], f2 : [2] }
+# f2 is easily removed, and fixes the problem -- f1 can be kept and trimmed from the workspace
+def trimWorkspace(workspace, filesToKeep):
+	print 'Recalculating duplicated lumis...'
+	allLumis = list(itertools.chain(*[x for x in workspace.values()]))
+	duplicateLumis = [x for x in set(allLumis) if allLumis.count(x) > 1]
+	print '\tFound', len(duplicateLumis), 'duplicated lumi sections!\n'
+
+	nNewlyPerfectFiles = 0
+	for x in workspace.keys():
+		containsDupe = False
+		for dupe in duplicateLumis:
+			if dupe in workspace[x]:
+				containsDupe = True
+				break
+		if not containsDupe:
+			filesToKeep[x] = workspace.pop(x)
+			nNewlyPerfectFiles += 1
+	print nNewlyPerfectFiles, 'files have completely unique lumi contents after this latest round of removals'
 
 def doubleCheckResults():
-	dataset = pickle.load(open('allFileContents_SingleMuon_bfrancis-Run2018A-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5USER.pkl', 'rb'))
+	dataset = pickle.load(open('allFileContents_' + datasetLabel + '.pkl', 'rb'))
 	mixed  = pickle.load(open('workspace.pkl', 'rb'))
 	deletions = pickle.load(open('filesSafeToRemove.pkl', 'rb'))
 
+	remainingDataset = copy.deepcopy(dataset)
+	for x in remainingDataset.keys():
+		if x in mixed or x in deletions:
+			remainingDataset.pop(x)
+
+	print 'Searching for remaining duplicated lumis...'
+	remainingLumis = list(itertools.chain(*[x for x in remainingDataset.values()]))
+	remainingDuplicates = [x for x in set(remainingLumis) if remainingLumis.count(x) > 1]
+	print '\tFound', len(remainingDuplicates), 'duplicated lumi sections after removing filesSafeToRemove and mixedFiles!\n'
+
 	lostLumis = set()
 
-	for f in mixed:
-	        for lumi in mixed[f]:
-	                wouldRemain = False
-	                for otherFile in dataset:
-	                        if otherFile in mixed or otherFile in deletions: continue
-	                        if lumi in dataset[otherFile]:
-	                                wouldRemain = True
-	                                break
-	                if not wouldRemain:
-	                        lostLumis.add(lumi)
-
-	print 'Deleting mixed files would lose', len(lostLumis), 'lumis'
+	if len(mixed) == 0:
+		print 'There are no mixed files to worry about!'
+	else:
+		for f in mixed:
+			for lumi in mixed[f]:
+				if not lumi in remainingLumis:
+					lostLumis.add(lumi)
+		print 'Deleting mixed files would lose', len(lostLumis), 'lumis'
 
 	somethingWentWrong = False
 	for f in deletions:
-	        these_lumis = set(deletions[f])
-	        mistakes = set()
-	        for lumi in deletions[f]:
-	                for otherFile in dataset:
-	                        if otherFile in mixed or otherFile in deletions: continue
-	                        if lumi in dataset[otherFile]:
-	                                break
-	                        if lumi not in lostLumis:
-	                                mistakes.add(lumi)
-	        if len(mistakes) > 0:
-	                print 'Something went wrong with "deletable" file:', f
-	                somethingWentWrong = True
+		these_lumis = set(deletions[f])
+		mistakes = set()
+		for lumi in deletions[f]:
+			if lumi not in remainingLumis:
+				mistakes.add(lumi)
+		if len(mistakes) > 0:
+			print 'Something went wrong with "deletable" file:', f
+			somethingWentWrong = True
 	if not somethingWentWrong:
-	 	print 'Deleting all filesSafeToRemove would only lose what you would lose in the mixed files.'
+		print 'Deleting all filesSafeToRemove would only lose what you would lose in the mixed files.'
+
+if os.path.exists('workspace.pkl'): os.remove('workspace.pkl')
+if os.path.exists('mixedFiles.json'): os.remove('mixedFiles.json')
+if os.path.exists('keep.json'): os.remove('keep.json')
+if os.path.exists('filesSafeToRemove.txt'): os.remove('filesSafeToRemove.txt')
+if os.path.exists('filesSafeToRemove.pkl'): os.remove('filesSafeToRemove.pkl')
+if os.path.exists('mixedFiles.txt'): os.remove('mixedFiles.txt')
 
 #######################################################
 # Fill datasetFileContents with entire dataset
@@ -201,13 +229,7 @@ for x in workspace.keys():
 		nPerfectFiles += 1
 print nPerfectFiles, 'files have completely unique lumi contents'
 
-writeJSON(filesToKeep, 'keep.json')
-print '\tWrote keep.json'
-
-#######################################################
-
-#pickle.dump(workspace, open('datasetFileContents_onlyBad.pkl', 'wb'))
-#print 'Created datasetFileContents_onlyBad.pkl'
+# perfectly clean files have been removed from workspace
 
 #######################################################
 # second to keep making things easier on us, find any files
@@ -234,6 +256,8 @@ for x in workspace.keys():
 			nFilesSafeToRemove += 1
 			break
 print '\nFind', nFilesSubsetsOfAnother, 'files that are subsets of a different file, and can be removed'
+
+trimWorkspace(workspace, filesToKeep)
 
 #######################################################
 # we now have a mixed set of sets of lumis, and need
@@ -263,6 +287,8 @@ for x in workspace.keys():
 		nFilesSafeToRemove += 1
 print '\nOf the remaining files,', nFilesInCover, 'provide a covering of all lumis and', nFilesNotInCover, 'can be removed'
 
+trimWorkspace(workspace, filesToKeep)
+
 #######################################################
 # lastly find any files whose contents are all contained
 # in other files; ie, it only contains duplicates
@@ -286,26 +312,32 @@ for fileName in workspace.keys():
 
 print 'Find', nFilesOnlyContainingDuplicates, 'files that only contain duplicates, and can be removed'
 
+trimWorkspace(workspace, filesToKeep)
+
 #######################################################
 
-f_safeToRemove.close()
-
-print '\n\nIn the end, you can remove', nFilesSafeToRemove, 'files safely. See filesSafeToRemove.txt for the list.'
+print '*********************************************************************************************************'
+print 'Writing JSONs: keep.json (what will remain), workspace.json (what potentially is lost due to mixing)'
+writeJSON(filesToKeep, 'keep.json')
+writeJSON(workspace, 'workspace.json')
+print '*********************************************************************************************************'
+print 'Saving pickle copies of: filesSafeToRemove.pkl, workspace.pkl'
 pickle.dump(filesSafeToRemove, open('filesSafeToRemove.pkl', 'wb'))
-print '\tWrote filesSafeToRemove.pkl with their contents.'
+pickle.dump(workspace, open('workspace.pkl', 'wb'))
+print '*********************************************************************************************************'
+
+f_safeToRemove.close()
+print '\n\nIn the end, you can remove', nFilesSafeToRemove, 'files safely. See filesSafeToRemove.txt for the list.'
+
 if len(workspace) == 0:
 	print '\nThere are no mixed files remaining to deal with, so this deletion does not lose any luminosity!'
 else:
 	print '\nThere are however', len(workspace), 'remaining files that cannot be cleanly dealt with. You can delete them, but will lose luminosity!'
-	writeJSON(workspace, 'mixedFiles.json')
-	pickle.dump(workspace, open('workspace.pkl', 'wb'))
-	print '\tWrote mixedFiles.json and workspace.pkl with these contents'
-
 	f_mixedFiles = open('mixedFiles.txt', 'w')
 	f_mixedFiles.write('Files that have duplicated lumis, but are mixed together with unique lumis')
 	f_mixedFiles.write('Deleting these are probably necessary, but a recovery CRAB job is then also necessary\n\n')
 	for x in workspace:
-		f_mixedFiles.write(x)
+		f_mixedFiles.write(x + '\n')
 	f_mixedFiles.close()
 	print '\tWrote mixedFiles.txt'
 
