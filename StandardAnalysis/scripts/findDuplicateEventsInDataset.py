@@ -16,16 +16,17 @@ from multiprocessing import cpu_count
 from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 
 if len(sys.argv) < 2:
-	print 'Usage: python findDuplicateLumisInDataset.py dataset'
+	print 'Usage: python findDuplicateLumisInDataset.py dataset (dataset2 dataset3 ...)'
 	sys.exit(2)
 
-datasetName = sys.argv[1]
+datasetNames = sys.argv[1:]
+datasetLabels = []
 
-dataset0 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\1", datasetName)
-dataset1 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\2", datasetName)
-dataset2 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\3", datasetName)
-
-datasetLabel = dataset0 + '_' + dataset1 + dataset2
+for x in datasetNames:
+	dataset0 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\1", x)
+	dataset1 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\2", x)
+	dataset2 = re.sub (r"^\/([^/]*)\/([^/]*)\/([^/]*)$", r"\3", x)
+	datasetLabels.append(dataset0 + '_' + dataset1 + dataset2)
 
 threads = []
 printLock = Lock()
@@ -39,18 +40,19 @@ def getLumisInFile(fileName, i, nFiles):
 	global printLock
 	global semaphore
 	global datasetFileContents
-	global datasetLabel
+	global datasetLabels
 
 	semaphore.acquire()
 
+	# 54: should be something better...
 	baseName = fileName[54:].replace('/', '.')
 
-	if not os.path.exists('eventContentJSONs_' + datasetLabel + '/' + baseName):
-		ps = subprocess.Popen('dasgoclient --query="lumi file=' + fileName + ' instance=prod/phys03" -json  > eventContentJSONs_' + datasetLabel + '/' + baseName, 
+	if not os.path.exists('eventContentJSONs_' + datasetLabels[0] + '/' + baseName):
+		ps = subprocess.Popen('dasgoclient --query="lumi file=' + fileName + ' instance=prod/phys03" -json  > eventContentJSONs_' + datasetLabels[0] + '/' + baseName, 
 							  shell = True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		output = ps.communicate()[0]
 
-	f = open('eventContentJSONs_' + datasetLabel + '/' + baseName, 'r')
+	f = open('eventContentJSONs_' + datasetLabels[0] + '/' + baseName, 'r')
 	data = json.load(f)
 	f.close()
 
@@ -123,7 +125,7 @@ def trimWorkspace(workspace, filesToKeep):
 	print nNewlyPerfectFiles, 'files have completely unique lumi contents after this latest round of removals'
 
 def doubleCheckResults():
-	dataset = pickle.load(open('allFileContents_' + datasetLabel + '.pkl', 'rb'))
+	dataset = pickle.load(open('allFileContents_' + datasetLabels[0] + '.pkl', 'rb'))
 	mixed  = pickle.load(open('workspace.pkl', 'rb'))
 	deletions = pickle.load(open('filesSafeToRemove.pkl', 'rb'))
 
@@ -171,33 +173,42 @@ if os.path.exists('mixedFiles.txt'): os.remove('mixedFiles.txt')
 #######################################################
 # Fill datasetFileContents with entire dataset
 # datasetFileContents[file] = [(run, lumi), (run, lumi), ...]
+#
+# If multiple datasets are given we'll name everything after the first one only
 #######################################################
 
-if not os.path.exists('allFileContents_' + datasetLabel + '.pkl'):
-	# Get the files in the dataset
-	listOfFiles = subprocess.check_output('dasgoclient --query="file dataset=' + datasetName + ' instance=prod/phys03"', shell = True).split()
-	if not os.path.exists('eventContentJSONs_' + datasetLabel):
-		os.mkdir('eventContentJSONs_' + datasetLabel)
-	print 'Running over files in dataset...'
-	nFiles = len(listOfFiles)
-	iFile = 0
+if not os.path.exists('allFileContents_' + datasetLabels[0] + '.pkl'):
+	# Get the files in the datasets
+	listOfFiles = {}
+	for x in datasetNames:
+		print 'Getting list of files for dataset', x
+		listOfFiles[x] = subprocess.check_output('dasgoclient --query="file dataset=' + x + ' instance=prod/phys03"', shell = True).split()
+	if not os.path.exists('eventContentJSONs_' + datasetLabels[0]):
+		os.mkdir('eventContentJSONs_' + datasetLabels[0])
+
 	for x in listOfFiles:
-		iFile += 1
-		while active_count() > 20:
-			time.sleep(1)
-		threads.append(Thread(target = getLumisInFile, args = (x, iFile, nFiles)))
-		threads[-1].start()
-	for thread in threads:
-		thread.join()
-	progress.setPercentDone(100.0)
-	progress.printProgress(True)
+		print 'Running dasgoclient over files in dataset', x
+		progress.setPercentDone(0.0)
+		progress.printProgress(False)
+		nFiles = len(listOfFiles[x])
+		iFile = 0
+		for y in listOfFiles[x]:
+			iFile += 1
+			while active_count() > 20:
+				time.sleep(1)
+			threads.append(Thread(target = getLumisInFile, args = (y, iFile, nFiles)))
+			threads[-1].start()
+		for thread in threads:
+			thread.join()
+		progress.setPercentDone(100.0)
+		progress.printProgress(True)
 
 	# save a copy of datasetFileContents
-	pickle.dump(datasetFileContents, open('allFileContents_' + datasetLabel + '.pkl', 'wb'))
-	print '\nCreated allFileContents_' + datasetLabel + '.pkl from results in eventContentJSONs_' + datasetLabel + '/'
+	pickle.dump(datasetFileContents, open('allFileContents_' + datasetLabels[0] + '.pkl', 'wb'))
+	print '\nCreated allFileContents_' + datasetLabels[0] + '.pkl from results in eventContentJSONs_' + datasetLabels[0] + '/'
 else:
-	print '\nReading in dictionary from existing allFileContents_' + datasetLabel + '.pkl'
-	datasetFileContents = pickle.load(open('allFileContents_' + datasetLabel + '.pkl', 'rb'))
+	print '\nReading in dictionary from existing allFileContents_' + datasetLabels[0] + '.pkl'
+	datasetFileContents = pickle.load(open('allFileContents_' + datasetLabels[0] + '.pkl', 'rb'))
 
 #######################################################
 
