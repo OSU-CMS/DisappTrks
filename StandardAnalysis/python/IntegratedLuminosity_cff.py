@@ -357,7 +357,7 @@ lumi_2018_ntuples = {
     #"EGamma_2018D" : 31929.065,
 
     # --hltpath "HLT_IsoMu24_v*"
-    "SingleMuon_2018A" : 14027.047498708,
+    "SingleMuon_2018A" : 13956.7120657598,
     "SingleMuon_2018B" : 7060.622497490,
     "SingleMuon_2018C" : 6894.770971269,
     "SingleMuon_2018D" : 31585.906779588,
