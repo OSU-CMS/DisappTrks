@@ -41,7 +41,7 @@ class LeptonBkgdEstimate:
     _fiducialMuonSigmaCut = 2.0
     _rebinFactor = 1
     _useHistogramsForPpassVeto = True
-    _useHistogramsForPpassMetTriggers = False
+    _useOnlineQuantitiesForPpassMetTriggers = False
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -96,8 +96,8 @@ class LeptonBkgdEstimate:
     def addUseHistogramsForPpassVeto (self, useHistogramsForPpassVeto):
         self._useHistogramsForPpassVeto = useHistogramsForPpassVeto
 
-    def addUseHistogramsForPpassMetTriggers (self, useHistogramsForPpassMetTriggers):
-        self._useHistogramsForPpassMetTriggers = useHistogramsForPpassMetTriggers
+    def useOnlineQuantitiesForPpassMetTriggers (self, useOnlineQuantitiesForPpassMetTriggers):
+        self._useOnlineQuantitiesForPpassMetTriggers = useOnlineQuantitiesForPpassMetTriggers
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -319,38 +319,38 @@ class LeptonBkgdEstimate:
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
-            totalHist = passesHist = l1TotalHist = l1PassesHist = None
+            triggerEffTotalHist = triggerEffPassesHist = l1TotalHist = l1PassesHist = None
             total = 0.0
             passes = 0.0
 
-            if not self._useHistogramsForPpassMetTriggers:
+            # Get the metNoMu (modified)
+            # Get the denominator/numerator of the trigger efficiency
+            if not self._useOnlineQuantitiesForPpassMetTriggers:
                 channel = self.TrigEffDenom if hasattr (self, "TrigEffDenom") else self.TagPt35
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                totalHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                hist = "Met Plots/metNoMu"
+                triggerEffTotalHist = getHistFromChannelDict (channel, hist)
                 if "extensions" in channel:
                     for x in channel["extensions"]:
-                        totalHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
+                        triggerEffTotalHist.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
 
                 channel = self.TrigEffNumer if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                passesHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                triggerEffPassesHist = getHistFromChannelDict (channel, hist)
                 if "extensions" in channel:
                     for x in channel["extensions"]:
-                        passesHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
-
+                        triggerEffPassesHist.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
             else:
                 hist = self._Flavor + "-eventvariable Plots/passesMETTriggersWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
                 trigEffHist = getHistFromChannelDict (self.TagPt35MetTrig, hist)
                 addChannelExtensions(trigEffHist, self.TagPt35MetTrig, hist)
 
-                totalHist = trigEffHist.ProjectionX ()
-                totalHist.SetDirectory (0)
-                totalHist.SetName ("total")
+                triggerEffTotalHist = trigEffHist.ProjectionX ()
+                triggerEffTotalHist.SetDirectory (0)
+                triggerEffTotalHist.SetName ("total")
 
                 trigEffHist.GetYaxis ().SetRangeUser (1.0, 2.0)
-                passesHist = trigEffHist.ProjectionX ()
-                passesHist.SetDirectory (0)
-                passesHist.SetName ("passes")
+                triggerEffPassesHist = trigEffHist.ProjectionX ()
+                triggerEffPassesHist.SetDirectory (0)
+                triggerEffPassesHist.SetName ("passes")
 
                 if hasattr (self, "TagPt35MetL1Trig"):
                     hist = self._Flavor + "-eventvariable Plots/passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
@@ -387,7 +387,6 @@ class LeptonBkgdEstimate:
 
                     progressIndicator.printProgress (True)
 
-            #metHist = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
             hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
             metHist2D = getHistFromChannelDict (self.TagPt35, hist)
             addChannelExtensions(metHist2D, self.TagPt35, hist)
@@ -395,14 +394,14 @@ class LeptonBkgdEstimate:
             metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
             metHist = metHist2D.ProjectionX ("metHist")
 
-            self.plotTriggerEfficiency (passesHist, totalHist, "HLT")
+            self.plotTriggerEfficiency (triggerEffPassesHist, triggerEffTotalHist, "HLT")
             if l1PassesHist and l1TotalHist:
                 self.plotTriggerEfficiency (l1PassesHist, l1TotalHist, "L1")
-                passesHist.Multiply (l1PassesHist)
-                totalHist.Multiply (l1TotalHist)
-                self.plotTriggerEfficiency (passesHist, totalHist, "Full")
-            passesHist.Divide (totalHist)
-            metHist.Multiply (passesHist)
+                triggerEffPassesHist.Multiply (l1PassesHist)
+                triggerEffTotalHist.Multiply (l1TotalHist)
+                self.plotTriggerEfficiency (triggerEffPassesHist, triggerEffTotalHist, "Full")
+            triggerEffPassesHist.Divide (triggerEffTotalHist)
+            metHist.Multiply (triggerEffPassesHist)
 
             total = 0.0
             totalError = Double (0.0)
@@ -424,7 +423,7 @@ class LeptonBkgdEstimate:
 
             eff = passes / total if total > 0.0 else 0.0
             print "P (pass met triggers): " + str (eff)
-            return (eff, passesHist)
+            return (eff, triggerEffPassesHist)
         else:
             print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
             return (float ("nan"), float ("nan"))

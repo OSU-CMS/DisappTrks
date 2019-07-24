@@ -56,11 +56,10 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3LayersVeryClean",          "SingleMu_2017"  +  runPeriod,  dirs['Brian']+"2017/fakeTrackBackgroundVeryClean_v2")
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0CutNLayers4",      "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0Cut"+nLayersWord,  "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017_directcopy"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
-            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                    "MET_2017"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
+            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                           "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
 
             print "********************************************************************************"
             print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
@@ -96,11 +95,10 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
-            #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0Cut3LayersVeryClean",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE_superCleanTransferFactor")
-            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",          "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoEEDisTrkNoD0CutNLayers4",      "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoEEDisTrkNoD0Cut"+nLayersWord,  "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017_directcopy"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
-            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                              "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
+            fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                  "MET_2017"       +  runPeriod,  dirs['Brian']+"2017/fromRutgers/basicSelection_noDuplicates/")
+            fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoEE",                           "SingleEle_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToEE")
 
             print "********************************************************************************"
             print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
@@ -159,7 +157,7 @@ for runPeriod in runPeriods:
                 electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
                 electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
 
-            electronBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -196,7 +194,7 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
         
-            electronBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -242,7 +240,7 @@ for runPeriod in runPeriods:
                 muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
                 muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
 
-            muonBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -282,7 +280,7 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
             muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
 
-            muonBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -346,7 +344,7 @@ for runPeriod in runPeriods:
                 tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
                 tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2017"              + runPeriod, dirs['Brian']+"2017/fromLPC/tauControlRegionBinnedHits")
 
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # temporary measure
+            tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
@@ -392,7 +390,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
             tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2017"              + runPeriod, dirs['Brian']+"2017/fromLPC/tauControlRegionBinnedHits")
 
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # temporary measure
+            tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
