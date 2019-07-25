@@ -31,13 +31,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         from DisappTrks.StandardAnalysis.miniAOD_94X_Ntuples import *
     else:
         print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET
-        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "check for updated with MiniAODv2!" + A_RESET + ")"
+        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_94X_Samples" + A_RESET
         from DisappTrks.StandardAnalysis.miniAOD_94X_Samples import *
         lumi.update (CreateCompositeLumis (lumi_2017, '2017', 'BCDEF'))
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     if UseCandidateTracks:
         print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Ntuples" + A_RESET
-        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Ntuples" + A_RESET + " (" + A_BRIGHT_YELLOW + "incomplete!" + A_RESET + ")"
+        print "# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Ntuples" + A_RESET
         from DisappTrks.StandardAnalysis.miniAOD_102X_Ntuples import *
     else:
         print "# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET
@@ -339,6 +339,7 @@ colors["WZ"] = 393
 colors["ZZ"] = 397
 colors["VG"] = 400
 colors["VV"] = 800
+colors["TTJets"] = 870 # kAzure+10
 colors["allBkgd"] = 601
 
 labels["DYJetsToLL_50"] = "Z#rightarrowll"
