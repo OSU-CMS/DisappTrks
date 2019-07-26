@@ -245,11 +245,11 @@ def moveVariableProducer (process, producerName, channelName):
     global moveVariableProducerIndex
     moveVariableProducerIndex = moveVariableProducerIndex + 1
 
-    producer = plotter = eventvariableProducer = None
-    producerLabel = plotterLabel = ""
-    plotterPath = None
+    producer = treemaker = plotter = eventvariableProducer = None
+    producerLabel = treemakerLabel = plotterLabel = ""
+    plotterPath = treemakerPath = None
 
-    # find the variable producer and Plotter
+    # find the variable producer and Plotter and TreeMaker (if it exists)
     for a in dir (process):
         x = getattr (process, a)
         if hasattr (x, "type_"):
@@ -259,6 +259,9 @@ def moveVariableProducer (process, producerName, channelName):
             if x.type_ () == "Plotter" and a == channelName+"Plotter":
                 plotter = copy.deepcopy (x)
                 plotterLabel = copy.deepcopy (a)
+            if x.type_ () == "TreeMaker" and a == channelName+"TreeMaker":
+                treemaker = copy.deepcopy (x)
+                treemakerLabel = copy.deepcopy (a)
 
     # find the eventvariable producer associated to the channel
     # by way of the channels' cms.Path
@@ -275,7 +278,6 @@ def moveVariableProducer (process, producerName, channelName):
         producer.collections.electrons = copy.deepcopy (plotter.collections.electrons)
         producer.collections.muons = copy.deepcopy (plotter.collections.muons)
         producer.collections.taus = copy.deepcopy (plotter.collections.taus)
-    
     setattr (process, producerLabel + "Copy" + str(moveVariableProducerIndex), producer)
     producer = getattr (process, producerLabel + "Copy" + str(moveVariableProducerIndex))
 
@@ -308,15 +310,34 @@ def moveVariableProducer (process, producerName, channelName):
     setattr (process, plotterLabel, plotter)
     plotter = getattr (process, plotterLabel)
 
-    # insert the copy of the variable producer we created above into the path
-    # of the Plotter, right before the Plotter
-    #process.variableProducerPath.remove (getattr (process, producerLabel))
-    plotterPath = getattr (process, channelName)
-    plotterPath.remove (getattr (process, plotterLabel))
-    plotterPath += producer
-    plotterPath += eventvariableProducer
-    plotterPath += plotter
-    setattr (process, channelName, plotterPath)
+    # change the input tags for the TreeMaker, if it exists, which points to the products of the
+    # variable producer to those produced by the copy of the variable producer
+    # we created above
+    if treemaker is not None:
+        if hasattr (treemaker.collections, "eventvariables") and hasattr (treemaker.collections, "uservariables"):
+            eventvariables = getattr (treemaker.collections, "eventvariables")
+            uservariables = getattr (treemaker.collections, "uservariables")
+            for i in range (0, min (len (eventvariables), len (uservariables))):
+                if eventvariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
+                    eventvariables[i].setModuleLabel ("objectProducerCopy" + str (moveVariableProducerIndex))
+                    uservariables[i].setModuleLabel ("objectProducerCopy" + str (moveVariableProducerIndex))
+            setattr (treemaker.collections, "eventvariables", eventvariables)
+            setattr (treemaker.collections, "uservariables", uservariables)
+        setattr (process, treemakerLabel, treemaker)
+        treemaker = getattr (process, treemakerLabel)
+
+    # insert the copy of the variable producer created above into the path
+    # of the channel, right before the plotter and the TreeMaker if it exists
+    channelPath = getattr (process, channelName)
+    channelPath.remove (getattr (process, plotterLabel))
+    if treemaker is not None:
+        channelPath.remove (getattr (process, treemakerLabel))
+    channelPath += producer
+    channelPath += eventvariableProducer
+    if treemaker is not None:
+        channelPath += treemaker
+    channelPath += plotter
+    setattr (process, channelName, channelPath)
 
 # Arbitration cuts (i.e. pick a random one amongst however many objects are left) have to be done at the end
 # of the selection, otherwise you might be throwing out a possible passing object if there are any more cuts

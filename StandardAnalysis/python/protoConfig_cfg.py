@@ -263,6 +263,8 @@ tauMETTriggerProducer = ["EventTauMETTriggerProducer", "EventTauL1ETMProducer"]
 
 particleGunMuonVarProducer = ["ParticleGunMuonVarProducer"]
 
+dedxHitInfoVarProducer = ["DeDxHitInfoVarProducer"]
+
 ################################################################################
 
 ################################################################################

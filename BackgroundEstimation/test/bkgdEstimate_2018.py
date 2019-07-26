@@ -26,7 +26,7 @@ if len(sys.argv) > 2:
 
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', B', 'C', 'D']
-runPeriods = ['C']
+runPeriods = ['ABC']
 
 nEstFake = {}
 nEstElectron = {}
@@ -157,7 +157,7 @@ for runPeriod in runPeriods:
             	electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
             	electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
 
-            electronBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -194,7 +194,7 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
         
-            electronBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -240,7 +240,7 @@ for runPeriod in runPeriods:
                 muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
                 muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
 
-            muonBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -280,7 +280,7 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
             muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
 
-            muonBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
 
             print "********************************************************************************"
@@ -344,7 +344,7 @@ for runPeriod in runPeriods:
                 tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
                 tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
  
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
@@ -390,7 +390,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
             tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
 
-            tauBkgdEstimate.addUseHistogramsForPpassMetTriggers(False) # use offline quantities instead of online
+            tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
             print "********************************************************************************"
