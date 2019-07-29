@@ -28,6 +28,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 for runPeriod in runPeriods:
 
+    print "********************************************************************************"
+    print "Calculating electron fiducial map in search region", runPeriod
+    print "--------------------------------------------------------------------------------"
+
     condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
     datasetName = "SingleEle"
     if '2016' in runPeriod:
@@ -38,28 +42,22 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/eleHotSpots"
         datasetName = "EGamma"
         
-    if runPeriod in ['2018A', '2018B', '2018C']:
-
-        print "********************************************************************************"
-        print "Calculating electron fiducial map in search region", runPeriod
-        print "--------------------------------------------------------------------------------"
+    fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
     
-        fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
-    
-        electronMap = FiducialMapCalculator()
-        #electronMap.setVerboseComparison(True)
-        electronMap.addTFile(fout)
-        electronMap.addTCanvas(canvas)
-        electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
-        electronMap.addChannel("Denominator", "Electron" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
-        electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
-        electronMap.CalculateFiducialMap()
-        electronMap.MakePlots()
-        electronMap.CompareFiducialMap()
-        print "********************************************************************************"
-        print "\n\n"
+    electronMap = FiducialMapCalculator()
+    #electronMap.setVerboseComparison(True)
+    electronMap.addTFile(fout)
+    electronMap.addTCanvas(canvas)
+    electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+    electronMap.addChannel("Denominator", "Electron" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
+    electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
+    electronMap.CalculateFiducialMap()
+    electronMap.MakePlots()
+    electronMap.CompareFiducialMap()
+    print "********************************************************************************"
+    print "\n\n"
         
-        fout.Close()
+    fout.Close()
 
     condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
     if '2016' in runPeriod:
@@ -100,5 +98,5 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     remakePayload('Electron', '2017', ['B', 'C', 'D', 'E', 'F'])
     remakePayload('Muon', '2017', ['B', 'C', 'D', 'E', 'F'])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    remakePayload('Electron', '2018', ['A', 'B', 'C'])
+    remakePayload('Electron', '2018', ['A', 'B', 'C', 'D'])
     remakePayload('Muon',     '2018', ['A', 'B', 'C', 'D'])
