@@ -177,27 +177,20 @@ datasetsSigHiggsino = [
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "80X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
-        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSigHiggsino[i])
+    for i in range (0, len (datasetsSig)):         datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSigHiggsino[i])
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
-        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSigHiggsino[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
-        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
-        datasetsSigHiggsino.append('Higgsino_' + str(i) + 'GeV_1cm_94X')
+    for i in range (0, len (datasetsSig)):         datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSigHiggsino[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]: datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:             datasetsSigHiggsino.append('Higgsino_' + str(i) + 'GeV_1cm_94X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
-        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
-        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
-        datasetsSig.append('Higgsino_' + str(i) + 'GeV_1cm_102X')
+    for i in range (0, len (datasetsSig)):         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]: datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:             datasetsSig.append('Higgsino_' + str(i) + 'GeV_1cm_102X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
@@ -246,7 +239,7 @@ higgsino_xsecs = {
 for x in types:
     if not x.startswith('Higgsino_'):
         continue
-    mass = re.sub (r'Higgsino_([^_]*)GeV_[^_]*cm_.*', r'\1', dataset0)
+    mass = re.sub (r'Higgsino_([^_]*)GeV_[^_]*cm_.*', r'\1', x)
     crossSections[x] = higgsino_xsecs[mass]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -448,6 +441,8 @@ for attribute in list (locals ()):
         continue
     newKeys = {}
     for a in locals ()[attribute]:
+        if not type(a) is str:
+            continue
         if re.match (r".*2016B.*", a):
             b = re.sub (r"(.*)2016B(.*)", r"\g<1>2016BC\2", a)
             newKeys[b] = copy.deepcopy (locals ()[attribute][a])
@@ -466,6 +461,8 @@ for attribute in list (locals ()):
         continue
     newKeys = {}
     for a in locals ()[attribute]:
+        if not type(a) is str:
+            continue
         if re.match (r"DYJetsToLL_50", a) or re.match (r"WZ", a) or re.match (r"WZToLNuNuNu", a):
             b = re.sub (r"(.*)", r"\1_2016MC", a)
             newKeys[b] = copy.deepcopy (locals ()[attribute][a])
