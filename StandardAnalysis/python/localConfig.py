@@ -128,69 +128,76 @@ datasetsSig = [
     'AMSB_chargino_1100GeV_10000cm_76X',
 ]
 
-datasetsSigHiggsino = [
-    'Higgsino_100GeV_10cm_76X',
-    'Higgsino_100GeV_100cm_76X',
-    'Higgsino_100GeV_1000cm_76X',
-    'Higgsino_100GeV_10000cm_76X',
+datasetsSigHiggsino = []
 
-    'Higgsino_200GeV_10cm_76X',
-    'Higgsino_200GeV_100cm_76X',
-    'Higgsino_200GeV_1000cm_76X',
-    'Higgsino_200GeV_10000cm_76X',
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+    datasetsSigHiggsino = [
+        'Higgsino_100GeV_10cm_76X',
+        'Higgsino_100GeV_100cm_76X',
+        'Higgsino_100GeV_1000cm_76X',
+        'Higgsino_100GeV_10000cm_76X',
 
-    'Higgsino_300GeV_10cm_76X',
-    'Higgsino_300GeV_100cm_76X',
-    'Higgsino_300GeV_1000cm_76X',
-    'Higgsino_300GeV_10000cm_76X',
+        'Higgsino_200GeV_10cm_76X',
+        'Higgsino_200GeV_100cm_76X',
+        'Higgsino_200GeV_1000cm_76X',
+        'Higgsino_200GeV_10000cm_76X',
 
-    'Higgsino_400GeV_10cm_76X',
-    'Higgsino_400GeV_100cm_76X',
-    'Higgsino_400GeV_1000cm_76X',
-    'Higgsino_400GeV_10000cm_76X',
+        'Higgsino_300GeV_10cm_76X',
+        'Higgsino_300GeV_100cm_76X',
+        'Higgsino_300GeV_1000cm_76X',
+        'Higgsino_300GeV_10000cm_76X',
 
-    'Higgsino_500GeV_10cm_76X',
-    'Higgsino_500GeV_100cm_76X',
-    'Higgsino_500GeV_1000cm_76X',
-    'Higgsino_500GeV_10000cm_76X',
+        'Higgsino_400GeV_10cm_76X',
+        'Higgsino_400GeV_100cm_76X',
+        'Higgsino_400GeV_1000cm_76X',
+        'Higgsino_400GeV_10000cm_76X',
 
-    'Higgsino_600GeV_10cm_76X',
-    'Higgsino_600GeV_100cm_76X',
-    'Higgsino_600GeV_1000cm_76X',
-    'Higgsino_600GeV_10000cm_76X',
+        'Higgsino_500GeV_10cm_76X',
+        'Higgsino_500GeV_100cm_76X',
+        'Higgsino_500GeV_1000cm_76X',
+        'Higgsino_500GeV_10000cm_76X',
 
-    'Higgsino_700GeV_10cm_76X',
-    'Higgsino_700GeV_100cm_76X',
-    'Higgsino_700GeV_1000cm_76X',
-    'Higgsino_700GeV_10000cm_76X',
+        'Higgsino_600GeV_10cm_76X',
+        'Higgsino_600GeV_100cm_76X',
+        'Higgsino_600GeV_1000cm_76X',
+        'Higgsino_600GeV_10000cm_76X',
 
-    'Higgsino_800GeV_10cm_76X',
-    'Higgsino_800GeV_100cm_76X',
-    'Higgsino_800GeV_1000cm_76X',
-    'Higgsino_800GeV_10000cm_76X',
+        'Higgsino_700GeV_10cm_76X',
+        'Higgsino_700GeV_100cm_76X',
+        'Higgsino_700GeV_1000cm_76X',
+        'Higgsino_700GeV_10000cm_76X',
+
+        'Higgsino_800GeV_10cm_76X',
+        'Higgsino_800GeV_100cm_76X',
+        'Higgsino_800GeV_1000cm_76X',
+        'Higgsino_800GeV_10000cm_76X',
     
-    'Higgsino_900GeV_10cm_76X',
-    'Higgsino_900GeV_100cm_76X',
-    'Higgsino_900GeV_1000cm_76X',
-    'Higgsino_900GeV_10000cm_76X',
-]
+        'Higgsino_900GeV_10cm_76X',
+        'Higgsino_900GeV_100cm_76X',
+        'Higgsino_900GeV_1000cm_76X',
+        'Higgsino_900GeV_10000cm_76X',
+    ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "80X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):         datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
-    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSigHiggsino[i])
+    for i in range (0, len (datasetsSig)):
+        datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_80X", datasetsSig[i])
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "94X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):         datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
-    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSigHiggsino[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]: datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:             datasetsSigHiggsino.append('Higgsino_' + str(i) + 'GeV_1cm_94X')
+    for i in range (0, len (datasetsSig)):
+        datasetsSig[i]         = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)):
+        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSigHiggsino[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
+        datasetsSigHiggsino.append('Higgsino_' + str(i) + 'GeV_1cm_94X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET
-    for i in range (0, len (datasetsSig)):         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
-    for i in range (0, len (datasetsSigHiggsino)): datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]: datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:             datasetsSig.append('Higgsino_' + str(i) + 'GeV_1cm_102X')
+    for i in range (0, len (datasetsSig)):
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
 else:
     print "# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET
 
