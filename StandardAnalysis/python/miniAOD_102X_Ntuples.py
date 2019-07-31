@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ############################################################################################################
-#########  LIST OF MINIAOD 2017 94X DATASETS  ##############################################################
+#########  LIST OF MINIAOD 2017 102X DATASETS  ##############################################################
 ############################################################################################################
 
 dataset_names_data = {
@@ -13,7 +13,7 @@ dataset_names_data = {
     "EGamma_2018A" : ["/EGamma/kwei-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/bfrancis-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018A-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     "EGamma_2018B" : ["/EGamma/kwei-Run2018B-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018B-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     "EGamma_2018C"  : "/EGamma/kwei-Run2018C-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER",
-    #"EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
+    "EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
 
     "SingleMu_2018A" : "/SingleMuon/bfrancis-Run2018A-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
     "SingleMu_2018B" : "/SingleMuon/bfrancis-Run2018B-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
@@ -203,6 +203,71 @@ bkgd_crabSkimmed = { # taken from DAS, checked with framework jobs' datasetInfo 
 optional_dict_ntupleEff = { x : bkgd_crabSkimmed[x] / bkgd_crabSeen[x] for x in bkgd_crabSeen }
 
 dataset_names_sig = {
+    'AMSB_chargino_100GeV_1cm_102X'     : "/AMSB_chargino_M-100_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_100GeV_10cm_102X'    : "/AMSB_chargino_M-100_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_100GeV_100cm_102X'   : "/AMSB_chargino_M-100_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_100GeV_1000cm_102X'  : "/AMSB_chargino_M-100_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_100GeV_10000cm_102X' : "/AMSB_chargino_M-100_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_200GeV_1cm_102X'     : "/AMSB_chargino_M-200_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_200GeV_10cm_102X'    : "/AMSB_chargino_M-200_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_200GeV_100cm_102X'   : "/AMSB_chargino_M-200_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_200GeV_1000cm_102X'  : "/AMSB_chargino_M-200_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_200GeV_10000cm_102X' : "/AMSB_chargino_M-200_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_300GeV_1cm_102X'     : "/AMSB_chargino_M-300_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_300GeV_10cm_102X'    : "/AMSB_chargino_M-300_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_300GeV_100cm_102X'   : "/AMSB_chargino_M-300_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_300GeV_1000cm_102X'  : "/AMSB_chargino_M-300_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_300GeV_10000cm_102X' : "/AMSB_chargino_M-300_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_400GeV_1cm_102X'     : "/AMSB_chargino_M-400_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_400GeV_10cm_102X'    : "/AMSB_chargino_M-400_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_400GeV_100cm_102X'   : "/AMSB_chargino_M-400_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_400GeV_1000cm_102X'  : "/AMSB_chargino_M-400_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_400GeV_10000cm_102X' : "/AMSB_chargino_M-400_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_500GeV_1cm_102X'     : "/AMSB_chargino_M-500_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_500GeV_10cm_102X'    : "/AMSB_chargino_M-500_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_500GeV_100cm_102X'   : "/AMSB_chargino_M-500_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_500GeV_1000cm_102X'  : "/AMSB_chargino_M-500_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_500GeV_10000cm_102X' : "/AMSB_chargino_M-500_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_600GeV_1cm_102X'     : "/AMSB_chargino_M-600_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_600GeV_10cm_102X'    : "/AMSB_chargino_M-600_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_600GeV_100cm_102X'   : "/AMSB_chargino_M-600_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_600GeV_1000cm_102X'  : "/AMSB_chargino_M-600_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_600GeV_10000cm_102X' : "/AMSB_chargino_M-600_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_700GeV_1cm_102X'     : "/AMSB_chargino_M-700_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_700GeV_10cm_102X'    : "/AMSB_chargino_M-700_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_700GeV_100cm_102X'   : "/AMSB_chargino_M-700_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_700GeV_1000cm_102X'  : "/AMSB_chargino_M-700_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_700GeV_10000cm_102X' : "/AMSB_chargino_M-700_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_800GeV_1cm_102X'     : "/AMSB_chargino_M-800_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_800GeV_10cm_102X'    : "/AMSB_chargino_M-800_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_800GeV_100cm_102X'   : "/AMSB_chargino_M-800_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_800GeV_1000cm_102X'  : "/AMSB_chargino_M-800_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_800GeV_10000cm_102X' : "/AMSB_chargino_M-800_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_900GeV_1cm_102X'     : "/AMSB_chargino_M-900_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_900GeV_10cm_102X'    : "/AMSB_chargino_M-900_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_900GeV_100cm_102X'   : "/AMSB_chargino_M-900_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_900GeV_1000cm_102X'  : "/AMSB_chargino_M-900_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_900GeV_10000cm_102X' : "/AMSB_chargino_M-900_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_1000GeV_1cm_102X'     : "/AMSB_chargino_M-1000_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1000GeV_10cm_102X'    : "/AMSB_chargino_M-1000_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1000GeV_100cm_102X'   : "/AMSB_chargino_M-1000_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1000GeV_1000cm_102X'  : "/AMSB_chargino_M-1000_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1000GeV_10000cm_102X' : "/AMSB_chargino_M-1000_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+
+    'AMSB_chargino_1100GeV_1cm_102X'     : "/AMSB_chargino_M-1100_CTau-1_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1100GeV_10cm_102X'    : "/AMSB_chargino_M-1100_CTau-10_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1100GeV_100cm_102X'   : "/AMSB_chargino_M-1100_CTau-100_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1100GeV_1000cm_102X'  : "/AMSB_chargino_M-1100_CTau-1000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
+    'AMSB_chargino_1100GeV_10000cm_102X' : "/AMSB_chargino_M-1100_CTau-10000_TuneCP5_PSweights_13TeV_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15/MINIAODSIM",
 }
 
 dataset_names = {}
