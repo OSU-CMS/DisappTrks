@@ -646,13 +646,21 @@ class LeptonBkgdEstimate:
                     totalHist = getHistFromChannelDict (self.TagProbe, hist)
                     addChannelExtensions(totalHist, self.TagProbe, hist)
 
+                    if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                        hist = "Eventvariable Plots/nGoodSSTPPairs"
+                        totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+                        addChannelExtensions(totalBackgroundHist, self.TagProbe, hist)
+
                     hist = "Eventvariable Plots/nProbesPassingVeto"
                     passesHist = getHistFromChannelDict (self.TagProbePass, hist)
                     addChannelExtensions(passesHist, self.TagProbePass, hist)
 
                     total = 0.0
+                    totalBackground = 0.0
                     passes = 0.0
+
                     totalError = 0.0
+                    totalBackgroundError = 0.0
                     passesError = 0.0
 
                     # there could be more than one pair so add N(1) + 2*N(2) + 3*N(3) + ...
@@ -660,10 +668,15 @@ class LeptonBkgdEstimate:
                         total += (ibin-1) * totalHist.GetBinContent (ibin)
                         totalError = math.hypot (totalError, (ibin-1) * totalHist.GetBinError (ibin))
 
+                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                            totalBackground += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
+                            totalBackgroundError = math.hypot (totalBackgroundError, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+
                         passes += (ibin-1) * passesHist.GetBinContent (ibin)
                         passesError = math.hypot (passesError, (ibin-1) * passesHist.GetBinError (ibin))
 
                     total = Measurement (total, totalError)
+                    totalBackground = Measurement (totalBackground, totalBackgroundError)
                     passes = Measurement (passes, passesError if passes != 0.0 else up68)
 
                 passes1 = Measurement (0.0, 0.0)
@@ -683,13 +696,21 @@ class LeptonBkgdEstimate:
                         totalHist = getHistFromChannelDict (self.TagProbe1, hist)
                         addChannelExtensions(totalHist, self.TagProbe1, hist)
 
+                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                            hist = "Eventvariable Plots/nGoodSSTPPairs"
+                            totalBackgroundHist = getHistFromChannelDict(self.TagProbe1, hist)
+                            addChannelExtensions(totalBackgroundHist, self.TagProbe1, hist)
+
                         hist = "Eventvariable Plots/nProbesPassingVeto"
                         passesHist = getHistFromChannelDict (self.TagProbePass1, hist)
                         addChannelExtensions(passesHist, self.TagProbePass1, hist)
 
                         total1 = 0.0
+                        totalBackground1 = 0.0
                         passes1 = 0.0
+
                         total1Error = 0.0
+                        totalBackground1Error = 0.0
                         passes1Error = 0.0
 
                         # there could be more than one pair so add N(1) + 2*N(2) + 3*N(3) + ...
@@ -697,10 +718,15 @@ class LeptonBkgdEstimate:
                             total1 += (ibin-1) * totalHist.GetBinContent (ibin)
                             total1Error = math.hypot (total1Error, (ibin-1) * totalHist.GetBinError (ibin))
 
+                            if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinError (ibin)
+                                totalBackground1Error += math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+
                             passes1 += (ibin-1) * passesHist.GetBinContent (ibin)
                             passes1Error = math.hypot (passes1Error, (ibin-1) * passesHist.GetBinError (ibin))
 
                         total += Measurement (total1, total1Error)
+                        totalBackground += Measurement (totalBackground1, totalBackground1Error)
                         passes1 = Measurement (passes1, passes1Error if passes1 != 0.0 else up68)
 
                 background = Measurement (0.0, 0.0)
@@ -722,9 +748,27 @@ class LeptonBkgdEstimate:
                     background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
                     background1 = Measurement (background1, backgroundError)
 
-                if (passes - background - background1) > 0.0:
-                    passes -= background
-                    passes1 -= background1
+                if hasattr (self, "TagProbePass1"):
+                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '+', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                else:
+                    print 'P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+
+                # apply same-sign subtraction
+                passes -= background
+                passes1 -= background1
+
+                if passes < 0:
+                    print 'Warning: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    passes = Measurement (0.0, 0.0, up68)
+                if passes1 < 0:
+                    print 'Warning: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    passes1 = Measurement (0.0, 0.0, up68)
+
+                if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                    total -= totalBackground
+                    if total <= 0:
+                        print 'Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.'
+                        sys.exit()
 
                 passes.isPositive ()
                 passes1.isPositive ()
