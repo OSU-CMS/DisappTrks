@@ -386,6 +386,11 @@ cutTrkInvestigate2017Ineff = cms.PSet(
     cutString = cms.string("eta > 0.35 && eta < 1.42 && phi > 2.8"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkInvestigate2018Ineff = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("eta > 0.2 && eta < 1.42 && phi > 0.4 && phi < 0.8"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkTOBCrack = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("!inTOBCrack"),

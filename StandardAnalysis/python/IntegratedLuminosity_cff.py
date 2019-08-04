@@ -351,13 +351,13 @@ lumi_2018_ntuples = {
     "MET_2018D" : 31742.980644688,
 
     # --hltpath "HLT_Ele32_WPTight_Gsf_v*"
-    #"EGamma_2018A" : 14002.865,
-    #"EGamma_2018B" : 7097.149,
-    "EGamma_2018C" : 6615.617770,
-    #"EGamma_2018D" : 31929.065,
+    "EGamma_2018A" : 14012.067987968,
+    "EGamma_2018B" : 7060.617355256,
+    "EGamma_2018C" : 6688.523784,
+    "EGamma_2018D" : 30955.343627310,
 
     # --hltpath "HLT_IsoMu24_v*"
-    #"SingleMuon_2018A" : 13994.713,
+    "SingleMuon_2018A" : 13956.7120657598,
     "SingleMuon_2018B" : 7060.622497490,
     "SingleMuon_2018C" : 6894.770971269,
     "SingleMuon_2018D" : 31585.906779588,
@@ -366,14 +366,14 @@ lumi_2018_ntuples = {
     "Tau_2018A" : 14022.518202245,
     "Tau_2018B" : 7015.791118,
     "Tau_2018C" : 6873.907668,
-    #"Tau_2018D" : 31929.971,
+    "Tau_2018D" : 31742.631527,
 
     # --hltpath "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"
     "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*" : {
         "Tau_2018A" : 73.802727380,
         "Tau_2018B" : 36.925216,
         "Tau_2018C" : 36.178461,
-        #"Tau_2018D" : 168.048,
+        "Tau_2018D" : 167.066482,
     }
 
 }

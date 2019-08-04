@@ -10,6 +10,7 @@ DEdxAnalyzer::DEdxAnalyzer (const edm::ParameterSet &cfg) :
   dEdxPixel_ (cfg.getParameter<edm::InputTag> ("dEdxPixel")),
   dEdxStrip_ (cfg.getParameter<edm::InputTag> ("dEdxStrip")),
   minPt_ (cfg.getParameter<double> ("minPt")),
+  minNMissOut_ (cfg.getParameter<int> ("minNMissOut")),
   requiredNumLayers_ (cfg.getParameter<int> ("requiredNumLayers")),
   vetoElectronsOrMuons_ (cfg.getParameter<string> ("vetoElectronsOrMuons"))
 {
@@ -69,13 +70,20 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
     const reco::DeDxData &dEdxDataStrip = (*dEdxStrip)[trackRef];
 
     if (trackRef->pt () < minPt_) continue;
-    if (requiredNumLayers_ > 0 && trackRef->hitPattern().trackerLayersWithMeasurement() != requiredNumLayers_) continue;
+    if (requiredNumLayers_ > 0) {
+      if(requiredNumLayers_ == 6 && trackRef->hitPattern().trackerLayersWithMeasurement() < requiredNumLayers_) continue;
+      else if(trackRef->hitPattern().trackerLayersWithMeasurement() != requiredNumLayers_) continue;
+    }
     if (vetoElectronsOrMuons_ == "electrons" && isNearElectron (*trackRef, *electrons)) continue;
     if (vetoElectronsOrMuons_ == "muons" && isNearMuon (*trackRef, *muons)) continue;
     if (vetoElectronsOrMuons_ == "both" && 
         (isNearElectron (*trackRef, *electrons) || isNearMuon (*trackRef, *muons))) continue;
+    if (minNMissOut_ > 0 && trackRef->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS) < minNMissOut_) continue;
 
-    selectedTracks.push_back (SlimTrack (*trackRef, dEdxDataPixel.dEdx(), dEdxDataStrip.dEdx()));
+    selectedTracks.push_back (SlimTrack (*trackRef, 
+                                         dEdxDataPixel.dEdx(), dEdxDataStrip.dEdx(),
+                                         dEdxDataPixel.numberOfMeasurements(), dEdxDataStrip.numberOfMeasurements(),
+                                         dEdxDataPixel.numberOfSaturatedMeasurements(), dEdxDataStrip.numberOfSaturatedMeasurements()));
   }
   clog << "found " << selectedTracks.size () << " tracks in " << event.id () << endl;
   if (selectedTracks.empty ()) return;
@@ -95,6 +103,11 @@ DEdxAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
 
     oneDHists_.at ("massEstimatePixel")->Fill  (sqrt((selectedTrack.dEdxPixel - 3.375) / 2.684 * selectedTrack.p * selectedTrack.p));
     oneDHists_.at ("massEstimateStrip")->Fill  (sqrt((selectedTrack.dEdxStrip - 3.375) / 2.684 * selectedTrack.p * selectedTrack.p));
+
+    cout << "\tp = " << selectedTrack.p << ", pixels = " << selectedTrack.dEdxPixel << ", strips = " << selectedTrack.dEdxStrip << endl;
+    cout << "\t\t(eta, phi) = (" << selectedTrack.eta << ", " << selectedTrack.phi << ")" << endl;
+    cout << "\t\tnumMeasurements pixels = " << selectedTrack.numMeasurementsPixels << " (" << selectedTrack.numSaturatedMeasurementsPixels << " saturated)" << endl;
+    cout << "\t\tnumMeasurements strips = " << selectedTrack.numMeasurementsStrips << " (" << selectedTrack.numSaturatedMeasurementsStrips << " saturated)" << endl;
   }
 }
 

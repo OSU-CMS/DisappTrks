@@ -148,7 +148,7 @@ def customize (process,
         process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017') # fixme
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2018') # fixme
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
@@ -156,8 +156,8 @@ def customize (process,
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017') # fixme
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X') # fixme
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
@@ -166,6 +166,7 @@ def customize (process,
         # fixme incomplete
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
+        setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2017") # fixme
 
@@ -192,6 +193,8 @@ def customize (process,
 
     for channel in getListOfChannels (process):
         moveVariableProducer (process, "TriggerWeightProducer", channel)
+        if hasattr (process, "DeDxHitInfoVarProducer"):
+            moveVariableProducer (process, "DeDxHitInfoVarProducer", channel)
 
         doFilter    = ("WithFilter" in channel)
         doLooseFilter    = ("WithLooseFilter" in channel)

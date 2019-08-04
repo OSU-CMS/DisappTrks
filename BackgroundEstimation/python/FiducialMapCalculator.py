@@ -322,3 +322,29 @@ class FiducialMapCalculator:
                     nInBoth += 1
 
         print 'Total that were in both = ', nInBoth
+
+def remakePayload(flavor, year, eras = ['']):
+    combineInclusive = (len(eras) > 1)
+    fNewPayload = TFile(flavor + '.root', 'RECREATE')
+    for era in eras:
+        fInput = TFile('new' + flavor + 'FiducialMap_2018' + era + '.root', 'READ')
+        hBefore = fInput.Get('beforeVeto')
+        hAfter = fInput.Get('afterVeto')
+        fNewPayload.cd()
+        hBefore.Write('beforeVeto_2018' + era)
+        hAfter.Write('afterVeto_2018' + era)
+        if combineInclusive:
+            if era == eras[0]:
+                hBefore_inclusive = hBefore.Clone()
+                hAfter_inclusive = hAfter.Clone()
+                hBefore_inclusive.SetDirectory(0)
+                hAfter_inclusive.SetDirectory(0)
+            else:
+                hBefore_inclusive.Add(hBefore)
+                hAfter_inclusive.Add(hAfter)
+    if combineInclusive:
+        fNewPayload.cd()
+        hBefore_inclusive.Write('beforeVeto')
+        hAfter_inclusive.Write('afterVeto')
+    fNewPayload.Close()
+    print '\nNew fiducial map payload file: ' + flavor + '.root'

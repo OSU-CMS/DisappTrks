@@ -222,8 +222,9 @@ class WeightSystematicFromTrees(SystematicCalculator):
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
-            'eventvariable_L1ECALPrefiringWeight',
         ]
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -866,8 +867,9 @@ class MissingOuterHitsSystematic:
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
-            'eventvariable_L1ECALPrefiringWeight',
         ]
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1089,8 +1091,9 @@ class LeptonVetoScaleFactorSystematic:
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
-            'eventvariable_L1ECALPrefiringWeight',
         ]
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1340,8 +1343,9 @@ class WeightSystematicFromTrees(SystematicCalculator):
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
-            'eventvariable_L1ECALPrefiringWeight',
         ]
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1514,8 +1518,9 @@ class TriggerTurnOnSystematic:
             'eventvariable_isrWeight',
             'eventvariable_grandOrWeight',
             'eventvariable_puScalingFactor',
-            'eventvariable_L1ECALPrefiringWeight',
         ]
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._intLumi = intLumi
 
 

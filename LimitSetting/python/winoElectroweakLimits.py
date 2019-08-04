@@ -95,6 +95,8 @@ run_blind_limits = False
 
 data_dataset = data_condor_dir = data_channel = ""
 
+useHistogramForObservation = True # integrate MET for the observed counts
+
 #condor directory in which to find data root file
 if arguments.era == "2015":
 	data_dataset = "MET_2015"
@@ -112,6 +114,13 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	data_dataset = "MET_2017"
 	data_condor_dir = dirs["Brian"] + '/2017/unblindedResults/'
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2017_NLayers4":
+		rawObservation = 17
+	elif arguments.era == "2017_NLayers5":
+		rawObservation = 4
+	elif arguments.era == "2017_NLayers6plus":
+		rawObservation = 6
 
 ################################
 ### Systematic Uncertainties ###

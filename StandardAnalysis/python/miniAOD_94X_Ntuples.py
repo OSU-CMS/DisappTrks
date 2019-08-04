@@ -251,14 +251,72 @@ dataset_names_sig = {
     'AMSB_chargino_1100GeV_10000cm_94X' : "/AMSB_chargino_M-1100_CTau-10000_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-94X_mc2017_realistic_v11-v1/MINIAODSIM",
 }
 
+dataset_names_sig_higgsino = {
+    'Higgsino_100GeV_1cm_102X'     : "/Higgsino_M-100_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_100GeV_10cm_102X'    : "/Higgsino_M-100_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_100GeV_100cm_102X'   : "/Higgsino_M-100_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_100GeV_1000cm_102X'  : "/Higgsino_M-100_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_100GeV_10000cm_102X' : "/Higgsino_M-100_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_200GeV_1cm_102X'     : "/Higgsino_M-200_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_200GeV_10cm_102X'    : "/Higgsino_M-200_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_200GeV_100cm_102X'   : "/Higgsino_M-200_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_200GeV_1000cm_102X'  : "/Higgsino_M-200_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_200GeV_10000cm_102X' : "/Higgsino_M-200_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_300GeV_1cm_102X'     : "/Higgsino_M-300_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_300GeV_10cm_102X'    : "/Higgsino_M-300_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_300GeV_100cm_102X'   : "/Higgsino_M-300_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_300GeV_1000cm_102X'  : "/Higgsino_M-300_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_300GeV_10000cm_102X' : "/Higgsino_M-300_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_400GeV_1cm_102X'     : "/Higgsino_M-400_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_400GeV_10cm_102X'    : "/Higgsino_M-400_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_400GeV_100cm_102X'   : "/Higgsino_M-400_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_400GeV_1000cm_102X'  : "/Higgsino_M-400_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_400GeV_10000cm_102X' : "/Higgsino_M-400_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_500GeV_1cm_102X'     : "/Higgsino_M-500_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_500GeV_10cm_102X'    : "/Higgsino_M-500_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_500GeV_100cm_102X'   : "/Higgsino_M-500_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_500GeV_1000cm_102X'  : "/Higgsino_M-500_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_500GeV_10000cm_102X' : "/Higgsino_M-500_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_600GeV_1cm_102X'     : "/Higgsino_M-600_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_600GeV_10cm_102X'    : "/Higgsino_M-600_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_600GeV_100cm_102X'   : "/Higgsino_M-600_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_600GeV_1000cm_102X'  : "/Higgsino_M-600_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_600GeV_10000cm_102X' : "/Higgsino_M-600_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_700GeV_1cm_102X'     : "/Higgsino_M-700_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_700GeV_10cm_102X'    : "/Higgsino_M-700_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_700GeV_100cm_102X'   : "/Higgsino_M-700_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_700GeV_1000cm_102X'  : "/Higgsino_M-700_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_700GeV_10000cm_102X' : "/Higgsino_M-700_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_800GeV_1cm_102X'     : "/Higgsino_M-800_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_800GeV_10cm_102X'    : "/Higgsino_M-800_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_800GeV_100cm_102X'   : "/Higgsino_M-800_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_800GeV_1000cm_102X'  : "/Higgsino_M-800_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_800GeV_10000cm_102X' : "/Higgsino_M-800_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+
+    'Higgsino_900GeV_1cm_102X'     : "/Higgsino_M-900_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_900GeV_10cm_102X'    : "/Higgsino_M-900_CTau-10_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_900GeV_100cm_102X'   : "/Higgsino_M-900_CTau-100_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_900GeV_1000cm_102X'  : "/Higgsino_M-900_CTau-1000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+    'Higgsino_900GeV_10000cm_102X' : "/Higgsino_M-900_CTau-10000_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step4-cc4e3afb33a46be4369f613d311bc65c/USER",
+}
+
 dataset_names = {}
 dataset_names.update (dataset_names_data)
 dataset_names.update (dataset_names_bkgd)
 dataset_names.update (dataset_names_sig)
+dataset_names.update (dataset_names_sig_higgsino)
 
 import re
 
 new_dataset_names = {}
+
 for dataset0 in dataset_names:
     if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_.*', dataset0):
         continue
@@ -273,6 +331,24 @@ for dataset0 in dataset_names:
             ctau = ctauP = str (ctau)
             ctauP = re.sub (r'\.', r'p', ctau)
         dataset = 'AMSB_chargino_' + mass + 'GeV_' + ctauP + 'cm_' + suffix
+
+        new_dataset_names[dataset] = dataset_names[dataset0]
+
+# higgsino
+for dataset0 in dataset_names:
+    if not re.match (r'Higgsino_[^_]*GeV_[^_]*cm_.*', dataset0):
+        continue
+    mass = re.sub (r'Higgsino_([^_]*)GeV_[^_]*cm_.*', r'\1', dataset0)
+    ctau0 = float (re.sub (r'Higgsino_[^_]*GeV_([^_]*)cm_.*', r'\1', dataset0))
+    suffix = re.sub (r'Higgsino_[^_]*GeV_[^_]*cm_(.*)', r'\1', dataset0)
+    for i in range (2, 10):
+        ctau = ctauP = 0.1 * i * ctau0
+        if int (ctau) * 10 == int (ctau * 10):
+            ctau = ctauP = str (int (ctau))
+        else:
+            ctau = ctauP = str (ctau)
+            ctauP = re.sub (r'\.', r'p', ctau)
+        dataset = 'Higgsino_' + mass + 'GeV_' + ctauP + 'cm_' + suffix
 
         new_dataset_names[dataset] = dataset_names[dataset0]
 

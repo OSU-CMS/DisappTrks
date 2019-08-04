@@ -102,7 +102,9 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
             print 'WARNING: somehow event number ' + str(iEvent) + ' in sample ' + process + ' has no charginos at all! Ignoring this event...'
             printLock.release()
             continue # or lifetimeWeight = 0 really
-        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor * chain.eventvariable_L1ECALPrefiringWeight
+        thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+            thisWeight *= chain.eventvariable_L1ECALPrefiringWeight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 
@@ -444,8 +446,10 @@ for systematic in external_systematic_uncertainties:
 ###setting up observed number of events
 observation = 0
 if not run_blind_limits:
-    observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
-
+    if not useHistogramForObservation:
+        observation = rawObservation
+    else:
+        observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 allYieldsAndErrors = {}
 

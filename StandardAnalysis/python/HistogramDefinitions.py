@@ -851,6 +851,21 @@ TrackMuonHistograms = cms.PSet(
     )
 )
 
+JetMetHistograms = cms.PSet(
+    inputCollection = cms.vstring("jets", "mets"),
+    histograms = cms.VPSet(
+        cms.PSet(
+            name = cms.string("leadJetPtVsMetNoMu"),
+            title = cms.string(";E_{T}^{miss, no #mu} [GeV];leading jet p_{T} [GeV]"),
+            binsX = metBinsSlimmed,
+            binsY = metBinsSlimmed,
+            indexX = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("met.noMuPt", "jet.pt"),
+        )
+    ),
+)
+
 MuonMETHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "mets"),
     histograms = cms.VPSet (
@@ -1933,13 +1948,6 @@ EventVariableHistograms = cms.PSet(
             inputVariables = cms.vstring("dijetMaxDeltaPhi"),
         ),
         cms.PSet (
-            name = cms.string("packedTriggerFiresBit"),
-            title = cms.string("Packed bit for individual trigger fires;Bit"),
-            # For N triggers in DisappTrks.TriggerAnalysis.AllTriggers triggerFiltersMet, need 2**N bins
-            binsX = cms.untracked.vdouble(2**15, 0, 2**15),
-            inputVariables = cms.vstring("packedTriggerFiresBit"),
-        ),
-        cms.PSet (
             name = cms.string("numberOfCharginos"),
             title = cms.string(";number of charginos"),
             binsX = cms.untracked.vdouble(3, -0.5, 2.5),
@@ -2699,13 +2707,6 @@ EventTriggerVarHistograms = cms.PSet(
             title = cms.string(";HT_{T}^{miss, no #mu} [GeV]"),
             binsX = cms.untracked.vdouble(binsLogX),
             inputVariables = cms.vstring("MHTNoMu"),
-        ),
-        cms.PSet (
-            name = cms.string("packedTriggerFiresBit"),
-            title = cms.string("Packed bit for individual trigger fires;Bit"),
-            # For N triggers in DisappTrks.TriggerAnalysis.AllTriggers triggerFiltersMet, need 2**N bins
-            binsX = cms.untracked.vdouble(2**15, 0, 2**15),
-            inputVariables = cms.vstring("packedTriggerFiresBit"),
         ),
         cms.PSet (
             name = cms.string("numPVReco"),

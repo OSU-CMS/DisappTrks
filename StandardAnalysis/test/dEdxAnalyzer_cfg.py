@@ -31,6 +31,7 @@ process.dEdxAnalyzer = cms.EDAnalyzer ("DEdxAnalyzer",
     dEdxPixel = cms.InputTag ("dedxPixelHarmonic2", ""),
     dEdxStrip = cms.InputTag ("dedxHarmonic2", ""),
     minPt = cms.double (55.0),
+    minNMissOut = cms.int32(-1),
     requiredNumLayers = cms.int32 (-1),
     vetoElectronsOrMuons = cms.string ("both")
 )
