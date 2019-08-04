@@ -13,7 +13,7 @@ dataset_names_data = {
     "EGamma_2018A" : ["/EGamma/kwei-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/bfrancis-Run2018A-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018A-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     "EGamma_2018B" : ["/EGamma/kwei-Run2018B-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER", "/EGamma/ahart-Run2018B-17Sep2018-v2-4577a47d17bc5b8278d0c376e2ee13f4/USER"],
     "EGamma_2018C"  : "/EGamma/kwei-Run2018C-17Sep2018-v2-487fd77bb7c60ed3ff81debc3418af81/USER",
-    #"EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
+    "EGamma_2018D" : ["/EGamma/kwei-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/bfrancis-Run2018D-17Sep2018-v2-5df6117fd729c508dd536ee09ddeb227/USER", "/EGamma/ahart-Run2018D-17Sep2018-v2-0fcad106c23a623c565d0f2b57a34f32/USER"],
 
     "SingleMu_2018A" : "/SingleMuon/bfrancis-Run2018A-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
     "SingleMu_2018B" : "/SingleMuon/bfrancis-Run2018B-17Sep2018-v2-c93e9ee70511413295b863cbd96e3fa5/USER",
