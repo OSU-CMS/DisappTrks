@@ -41,7 +41,7 @@ class LeptonBkgdEstimate:
     _fiducialMuonSigmaCut = 2.0
     _rebinFactor = 1
     _useHistogramsForPpassVeto = True
-    _useHistogramsForPpassMetTriggers = False
+    _useOnlineQuantitiesForPpassMetTriggers = False
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -96,8 +96,8 @@ class LeptonBkgdEstimate:
     def addUseHistogramsForPpassVeto (self, useHistogramsForPpassVeto):
         self._useHistogramsForPpassVeto = useHistogramsForPpassVeto
 
-    def addUseHistogramsForPpassMetTriggers (self, useHistogramsForPpassMetTriggers):
-        self._useHistogramsForPpassMetTriggers = useHistogramsForPpassMetTriggers
+    def useOnlineQuantitiesForPpassMetTriggers (self, useOnlineQuantitiesForPpassMetTriggers):
+        self._useOnlineQuantitiesForPpassMetTriggers = useOnlineQuantitiesForPpassMetTriggers
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -319,38 +319,38 @@ class LeptonBkgdEstimate:
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
-            totalHist = passesHist = l1TotalHist = l1PassesHist = None
+            triggerEffTotalHist = triggerEffPassesHist = l1TotalHist = l1PassesHist = None
             total = 0.0
             passes = 0.0
 
-            if not self._useHistogramsForPpassMetTriggers:
+            # Get the metNoMu (modified)
+            # Get the denominator/numerator of the trigger efficiency
+            if not self._useOnlineQuantitiesForPpassMetTriggers:
                 channel = self.TrigEffDenom if hasattr (self, "TrigEffDenom") else self.TagPt35
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                totalHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                hist = "Met Plots/metNoMu"
+                triggerEffTotalHist = getHistFromChannelDict (channel, hist)
                 if "extensions" in channel:
                     for x in channel["extensions"]:
-                        totalHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
+                        triggerEffTotalHist.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
 
                 channel = self.TrigEffNumer if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig
-                hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracksX"
-                passesHist = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
+                triggerEffPassesHist = getHistFromChannelDict (channel, hist)
                 if "extensions" in channel:
                     for x in channel["extensions"]:
-                        passesHist.Add (self.getHistFromProjectionZ (x["sample"], x["condorDir"], x["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu"))
-
+                        triggerEffPassesHist.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
             else:
                 hist = self._Flavor + "-eventvariable Plots/passesMETTriggersWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
                 trigEffHist = getHistFromChannelDict (self.TagPt35MetTrig, hist)
                 addChannelExtensions(trigEffHist, self.TagPt35MetTrig, hist)
 
-                totalHist = trigEffHist.ProjectionX ()
-                totalHist.SetDirectory (0)
-                totalHist.SetName ("total")
+                triggerEffTotalHist = trigEffHist.ProjectionX ()
+                triggerEffTotalHist.SetDirectory (0)
+                triggerEffTotalHist.SetName ("total")
 
                 trigEffHist.GetYaxis ().SetRangeUser (1.0, 2.0)
-                passesHist = trigEffHist.ProjectionX ()
-                passesHist.SetDirectory (0)
-                passesHist.SetName ("passes")
+                triggerEffPassesHist = trigEffHist.ProjectionX ()
+                triggerEffPassesHist.SetDirectory (0)
+                triggerEffPassesHist.SetName ("passes")
 
                 if hasattr (self, "TagPt35MetL1Trig"):
                     hist = self._Flavor + "-eventvariable Plots/passesL1ETMWithout" + self._Flavor + "Vs" + self._Flavor + "MetNoMuMinusOnePt"
@@ -387,7 +387,6 @@ class LeptonBkgdEstimate:
 
                     progressIndicator.printProgress (True)
 
-            #metHist = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
             hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
             metHist2D = getHistFromChannelDict (self.TagPt35, hist)
             addChannelExtensions(metHist2D, self.TagPt35, hist)
@@ -395,14 +394,14 @@ class LeptonBkgdEstimate:
             metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
             metHist = metHist2D.ProjectionX ("metHist")
 
-            self.plotTriggerEfficiency (passesHist, totalHist, "HLT")
+            self.plotTriggerEfficiency (triggerEffPassesHist, triggerEffTotalHist, "HLT")
             if l1PassesHist and l1TotalHist:
                 self.plotTriggerEfficiency (l1PassesHist, l1TotalHist, "L1")
-                passesHist.Multiply (l1PassesHist)
-                totalHist.Multiply (l1TotalHist)
-                self.plotTriggerEfficiency (passesHist, totalHist, "Full")
-            passesHist.Divide (totalHist)
-            metHist.Multiply (passesHist)
+                triggerEffPassesHist.Multiply (l1PassesHist)
+                triggerEffTotalHist.Multiply (l1TotalHist)
+                self.plotTriggerEfficiency (triggerEffPassesHist, triggerEffTotalHist, "Full")
+            triggerEffPassesHist.Divide (triggerEffTotalHist)
+            metHist.Multiply (triggerEffPassesHist)
 
             total = 0.0
             totalError = Double (0.0)
@@ -424,7 +423,7 @@ class LeptonBkgdEstimate:
 
             eff = passes / total if total > 0.0 else 0.0
             print "P (pass met triggers): " + str (eff)
-            return (eff, passesHist)
+            return (eff, triggerEffPassesHist)
         else:
             print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
             return (float ("nan"), float ("nan"))
@@ -647,13 +646,21 @@ class LeptonBkgdEstimate:
                     totalHist = getHistFromChannelDict (self.TagProbe, hist)
                     addChannelExtensions(totalHist, self.TagProbe, hist)
 
+                    if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                        hist = "Eventvariable Plots/nGoodSSTPPairs"
+                        totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+                        addChannelExtensions(totalBackgroundHist, self.TagProbe, hist)
+
                     hist = "Eventvariable Plots/nProbesPassingVeto"
                     passesHist = getHistFromChannelDict (self.TagProbePass, hist)
                     addChannelExtensions(passesHist, self.TagProbePass, hist)
 
                     total = 0.0
+                    totalBackground = 0.0
                     passes = 0.0
+
                     totalError = 0.0
+                    totalBackgroundError = 0.0
                     passesError = 0.0
 
                     # there could be more than one pair so add N(1) + 2*N(2) + 3*N(3) + ...
@@ -661,10 +668,15 @@ class LeptonBkgdEstimate:
                         total += (ibin-1) * totalHist.GetBinContent (ibin)
                         totalError = math.hypot (totalError, (ibin-1) * totalHist.GetBinError (ibin))
 
+                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                            totalBackground += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
+                            totalBackgroundError = math.hypot (totalBackgroundError, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+
                         passes += (ibin-1) * passesHist.GetBinContent (ibin)
                         passesError = math.hypot (passesError, (ibin-1) * passesHist.GetBinError (ibin))
 
                     total = Measurement (total, totalError)
+                    totalBackground = Measurement (totalBackground, totalBackgroundError)
                     passes = Measurement (passes, passesError if passes != 0.0 else up68)
 
                 passes1 = Measurement (0.0, 0.0)
@@ -684,13 +696,21 @@ class LeptonBkgdEstimate:
                         totalHist = getHistFromChannelDict (self.TagProbe1, hist)
                         addChannelExtensions(totalHist, self.TagProbe1, hist)
 
+                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                            hist = "Eventvariable Plots/nGoodSSTPPairs"
+                            totalBackgroundHist = getHistFromChannelDict(self.TagProbe1, hist)
+                            addChannelExtensions(totalBackgroundHist, self.TagProbe1, hist)
+
                         hist = "Eventvariable Plots/nProbesPassingVeto"
                         passesHist = getHistFromChannelDict (self.TagProbePass1, hist)
                         addChannelExtensions(passesHist, self.TagProbePass1, hist)
 
                         total1 = 0.0
+                        totalBackground1 = 0.0
                         passes1 = 0.0
+
                         total1Error = 0.0
+                        totalBackground1Error = 0.0
                         passes1Error = 0.0
 
                         # there could be more than one pair so add N(1) + 2*N(2) + 3*N(3) + ...
@@ -698,10 +718,15 @@ class LeptonBkgdEstimate:
                             total1 += (ibin-1) * totalHist.GetBinContent (ibin)
                             total1Error = math.hypot (total1Error, (ibin-1) * totalHist.GetBinError (ibin))
 
+                            if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinError (ibin)
+                                totalBackground1Error += math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+
                             passes1 += (ibin-1) * passesHist.GetBinContent (ibin)
                             passes1Error = math.hypot (passes1Error, (ibin-1) * passesHist.GetBinError (ibin))
 
                         total += Measurement (total1, total1Error)
+                        totalBackground += Measurement (totalBackground1, totalBackground1Error)
                         passes1 = Measurement (passes1, passes1Error if passes1 != 0.0 else up68)
 
                 background = Measurement (0.0, 0.0)
@@ -723,9 +748,27 @@ class LeptonBkgdEstimate:
                     background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
                     background1 = Measurement (background1, backgroundError)
 
-                if (passes - background - background1) > 0.0:
-                    passes -= background
-                    passes1 -= background1
+                if hasattr (self, "TagProbePass1"):
+                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '+', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                else:
+                    print 'P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+
+                # apply same-sign subtraction
+                passes -= background
+                passes1 -= background1
+
+                if passes < 0:
+                    print 'Warning: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    passes = Measurement (0.0, 0.0, up68)
+                if passes1 < 0:
+                    print 'Warning: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    passes1 = Measurement (0.0, 0.0, up68)
+
+                if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                    total -= totalBackground
+                    if total <= 0:
+                        print 'Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.'
+                        sys.exit()
 
                 passes.isPositive ()
                 passes1.isPositive ()

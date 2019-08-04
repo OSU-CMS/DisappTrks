@@ -193,6 +193,8 @@ def customize (process,
 
     for channel in getListOfChannels (process):
         moveVariableProducer (process, "TriggerWeightProducer", channel)
+        if hasattr (process, "DeDxHitInfoVarProducer"):
+            moveVariableProducer (process, "DeDxHitInfoVarProducer", channel)
 
         doFilter    = ("WithFilter" in channel)
         doLooseFilter    = ("WithLooseFilter" in channel)

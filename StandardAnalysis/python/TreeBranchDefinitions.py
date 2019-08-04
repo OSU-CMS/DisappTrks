@@ -6,6 +6,10 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 ##### Set up the branches to be added to the tree #####
 #######################################################
 
+###########################
+##### Event variables #####
+###########################
+
 EventVariableBranches_names = [
     "isrPt",
     "lifetimeWeight",
@@ -52,6 +56,12 @@ EventVariableBranches_names = [
     "nGoodTagPFCHPairs",
 ]
 
+# hitCharge_<track number>_<hit number>
+for itrk in range(3):
+    for ihit in range(20):
+        EventVariableBranches_names.append('hitCharge_' + str(itrk) + '_' + str(ihit))
+        EventVariableBranches_names.append('hitIsPixel_' + str(itrk) + '_' + str(ihit))
+
 EventVariableBranches = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in EventVariableBranches_names]),
@@ -70,6 +80,10 @@ for srcCTau in [1, 10, 100, 1000, 10000]:
                 inputVariables = cms.vstring(thisName),
             )
         )
+
+###########################
+#####       MET       #####
+###########################
 
 MetShiftBranches_names = [
     "noMuPt",
@@ -90,6 +104,10 @@ MetShiftBranches = cms.PSet(
     inputCollection = cms.vstring("mets"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in MetShiftBranches_names]),
 )
+
+###########################
+#####     Tracks      #####
+###########################
 
 TrackDebugBranches_names = [
     "packedPixelBarrelHitPattern",
@@ -185,6 +203,7 @@ TrackDebugBranches_names = [
     "numberOfLostHits",
 
     "pt",
+    "p",
     "eta",
     "phi",
     "normalizedChi2",
@@ -246,6 +265,7 @@ TrackDebugBranches_names = [
 from DisappTrks.StandardAnalysis.protoConfig_cfg import UseCandidateTracks
 if not UseCandidateTracks:
     TrackDebugBranches_names.extend([
+        "dRToMatchedCandidateTrack",
         "matchedCaloJetEmEnergy",
         "matchedCaloJetHadEnergy",
         "pfLepOverlap",
@@ -261,17 +281,50 @@ if not UseCandidateTracks:
         "dEdxStrip",
         "dEdxPixel",
     ])
-
+else:
+    TrackDebugBranches_names.extend([
+        "dRToMatchedIsolatedTrack",
+        "matchedIsolatedTrack_pfIsolationDR03.chargedHadronIso",
+        "matchedIsolatedTrack_pfIsolationDR03.neutralHadronIso",
+        "matchedIsolatedTrack_pfIsolationDR03.photonIso",
+        "matchedIsolatedTrack_pfIsolationDR03.puChargedHadronIso",
+        "matchedIsolatedTrack_matchedCaloJetEmEnergy",
+        "matchedIsolatedTrack_matchedCaloJetHadEnergy",
+        "matchedIsolatedTrack_pfLepOverlap",
+        "matchedIsolatedTrack_pfNeutralSum",
+        "matchedIsolatedTrack_dz",
+        "matchedIsolatedTrack_dxy",
+        "matchedIsolatedTrack_dzError",
+        "matchedIsolatedTrack_dxyError",
+        "matchedIsolatedTrack_fromPV",
+        "matchedIsolatedTrack_isHighPurityTrack",
+        "matchedIsolatedTrack_isTightTrack",
+        "matchedIsolatedTrack_isLooseTrack",
+        "matchedIsolatedTrack_dEdxStrip",
+        "matchedIsolatedTrack_dEdxPixel",
+        "matchedIsolatedTrack_crossedEcalStatus",
+        "matchedIsolatedTrack_crossHcalStatus",
+        "matchedIsolatedTrack_deltaEta",
+        "matchedIsolatedTrack_deltaPhi",        
+    ])
 
 TrackDebugBranches = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in TrackDebugBranches_names]),
 )
 
+####################################
+#####     Isolated Tracks      #####
+####################################
+
 IsolatedTrackDebugBranches = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     branches = cms.VPSet ([cms.PSet(name = cms.string("matchedCandidateTrack_" + x), inputVariables = cms.vstring("matchedCandidateTrack." + x)) for x in TrackDebugBranches_names]),
 )
+
+####################################
+#####   Track-eventvariables   #####
+####################################
 
 TrackEventvariablesDebugBranches = cms.PSet(
     inputCollection = cms.vstring("tracks", "eventvariables"),
@@ -284,12 +337,12 @@ TrackEventvariablesDebugBranches = cms.PSet(
             name = cms.string("trackDZWRTPV"),
             inputVariables = cms.vstring(trackDZWRTPV),
         ),
-        cms.PSet(
-            name = cms.string("trackDZWRTPV"),
-            inputVariables = cms.vstring(trackDZWRTPV),
-        ),
     )   
 )
+
+####################################
+#####    Toy Model variables   #####
+####################################
 
 # Toy model for tracker-as-target
 FakeDecayBranches = cms.PSet (
