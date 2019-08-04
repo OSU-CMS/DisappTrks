@@ -55,6 +55,21 @@ GrandOrDenominator = cms.PSet(
     )
 )
 
+# Electron pt > 55 for the grand combination of triggers
+GrandOrDenominatorWithElectrons = cms.PSet(
+    name = cms.string("GrandOrDenominatorWithElectrons"),
+    triggers = triggersSingleEle,
+    cuts = cms.VPSet(
+        cutLeadJetCentral,
+        cutElectronPt55,
+        cutElectronEta21,
+        cutElectronTightID,
+        cutElectronNMissIn,
+        cutElectronNMissMid,
+        cutElectronTightPFIso,
+    )
+)
+
 ##########################################################################################################
 # MET leg denominator for all paths using ZtoMuMu selection
 ##########################################################################################################
@@ -124,6 +139,10 @@ GrandOrDenominatorTrk = cms.PSet(
 GrandOrNumerator = copy.deepcopy(GrandOrDenominator)
 GrandOrNumerator.name = cms.string("GrandOrNumerator")
 addCuts(GrandOrNumerator.cuts, [firesGrandOrTrigger])
+
+GrandOrNumeratorWithElectrons = copy.deepcopy(GrandOrDenominatorWithElectrons)
+GrandOrNumeratorWithElectrons.name = cms.string("GrandOrNumeratorWithElectrons")
+addCuts(GrandOrNumeratorWithElectrons.cuts, [firesGrandOrTrigger])
 
 GrandOrNumeratorWithoutIsoTrk = copy.deepcopy(GrandOrDenominatorTrk)
 GrandOrNumeratorWithoutIsoTrk.name = cms.string("GrandOrNumeratorWithoutIsoTrk")
