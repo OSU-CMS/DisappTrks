@@ -4,8 +4,12 @@ process = cms.Process ("ISR")
 
 process.load ("FWCore.MessageService.MessageLogger_cfi")
 
+process.options = cms.untracked.PSet (
+    numberOfThreads = cms.untracked.uint32 (4),
+    numberOfStreams = cms.untracked.uint32 (0),
+)
 process.maxEvents = cms.untracked.PSet ( input = cms.untracked.int32 (-1) )
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.source = cms.Source ("PoolSource",
     # replace 'myfile.root' with the source file you want to use
