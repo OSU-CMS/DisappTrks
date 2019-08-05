@@ -1221,6 +1221,11 @@ cutElectronPt50 = cms.PSet (
     cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1"),
 )
+cutElectronPt55 = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 55"),
+    numberRequired = cms.string(">= 1"),
+)
 cutElectronEta21 = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("fabs(eta) < 2.1"),
@@ -1476,6 +1481,16 @@ cutMuonNMissIn = cms.PSet (
 )
 cutMuonNMissMid = cms.PSet (
     inputCollection = cms.vstring("muons"),
+    cutString = cms.string("missingMiddleHitsFromTrackerLayersWithoutMeasurements == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronNMissIn = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("missingInnerHitsFromTrackerLayersWithoutMeasurements == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+cutElectronNMissMid = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
     cutString = cms.string("missingMiddleHitsFromTrackerLayersWithoutMeasurements == 0"),
     numberRequired = cms.string(">= 1"),
 )

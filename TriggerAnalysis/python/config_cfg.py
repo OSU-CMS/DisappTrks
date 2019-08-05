@@ -27,6 +27,10 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
+# The Grand Or with electrons
+#  add_channels  (process,  [GrandOrDenominatorWithElectrons],  histSetsTrigger,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  [GrandOrNumeratorWithElectrons],    histSetsTrigger,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
+
 # Testing: require a match of any muon to the HLT track rather than just the lead muon
 #  add_channels  (process,  TrackLegNumeratorWithMuonsAnyHLTMatch.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
