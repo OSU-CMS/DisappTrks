@@ -1,12 +1,10 @@
-#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-
 #include "DisappTrks/SignalMC/plugins/ISRAnalyzer.h"
 
-#include "TLorentzVector.h"
-
 ISRAnalyzer::ISRAnalyzer (const edm::ParameterSet &cfg) :
-  genParticles_ (cfg.getParameter<edm::InputTag> ("genParticles"))
+  genParticlesToken_ (consumes<vector<reco::GenParticle> > (cfg.getParameter<edm::InputTag> ("genParticles")))
 {
+  usesResource ("TFileService");
+
   TH1::SetDefaultSumw2 ();
   vector<double> bins;
   logSpace (1000, 0.0, 4.0, bins);
@@ -24,43 +22,37 @@ void
 ISRAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<reco::GenParticle> > genParticles;
-  event.getByLabel (genParticles_, genParticles);
+  event.getByToken (genParticlesToken_, genParticles);
 
   TLorentzVector p (0.0, 0.0, 0.0, 0.0);
   bool foundChargino = false;
   for (const auto &genParticle : *genParticles)
     {
       int pdgId = genParticle.pdgId ();
-      unsigned status = genParticle.status ();
+      unsigned status = (genParticle.isLastCopy () ? 1 : 0);
 
       if (abs (pdgId) != 23 && abs (pdgId) != 24 && abs (pdgId) != 1000022 && abs (pdgId) != 1000024)
         continue;
-      if (abs (pdgId) == 23)
+      /*if (abs (pdgId) == 23)
         clog << "event contains a Z boson" << endl;
       if (abs (pdgId) == 24)
-        clog << "event contains a W boson" << endl;
-      if (status != 1 && status != 62)
+        clog << "event contains a W boson" << endl;*/
+      if (status != 1)
         continue;
       switch (abs (pdgId))
         {
           case 23:
-            if (status == 62)
-              oneDHists_.at ("isrZPt")->Fill (genParticle.pt ());
+            oneDHists_.at ("isrZPt")->Fill (genParticle.pt ());
             break;
           case 24:
-            if (status == 62)
-              oneDHists_.at ("isrWPt")->Fill (genParticle.pt ());
+            oneDHists_.at ("isrWPt")->Fill (genParticle.pt ());
             break;
           case 1000022:
-            if (status == 1)
-              p += TLorentzVector (genParticle.px (), genParticle.py (), genParticle.pz (), genParticle.energy ());
+            p += TLorentzVector (genParticle.px (), genParticle.py (), genParticle.pz (), genParticle.energy ());
             break;
           case 1000024:
-            if (status == 1)
-              {
-                p += TLorentzVector (genParticle.px (), genParticle.py (), genParticle.pz (), genParticle.energy ());
-                foundChargino = true;
-              }
+            p += TLorentzVector (genParticle.px (), genParticle.py (), genParticle.pz (), genParticle.energy ());
+            foundChargino = true;
             break;
           default:
             break;
