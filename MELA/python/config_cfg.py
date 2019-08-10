@@ -2,9 +2,9 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # Central value channels
 if True:
-	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],     [], weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
-	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],     [], weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
-	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus], [], weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers4],     histSets, weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers5],     histSets, weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
+	add_channels  (process,  [disTrkSelectionSmearedJetsNLayers6plus], histSets, weights, [], collMap, variableProducers + dedxHitInfoVarProducer, branchSets = branchSetsMELA)
 
 if hasattr(process, 'EventJetVarProducer'):
 	process.EventJetVarProducer.triggerNames = triggerNamesInclusive

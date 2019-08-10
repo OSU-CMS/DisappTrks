@@ -24,14 +24,14 @@ for srcCTau in [1, 10, 100, 1000, 10000]:
         MELAeventvariableNames.append(thisName)
 
 MELAeventvariableBranches = cms.PSet(
-	inputCollections = cms.vstring('eventvariables'),
-	branches = cms.VPSet([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in MELAdEdxMeasurementNames]),
+	inputCollection = cms.vstring('eventvariables'),
+	branches = cms.VPSet([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in MELAeventvariableNames]),
 )
 
 ####################################################################
 
 MELAtrackMetBranches = cms.PSet(
-	inputCollections = cms.vstring('tracks', 'mets'),
+	inputCollection = cms.vstring('tracks', 'mets'),
 	branches = cms.VPSet(
 		cms.PSet(
 			name = cms.string('trackMetPhi'),
@@ -43,11 +43,15 @@ MELAtrackMetBranches = cms.PSet(
 ####################################################################
 
 MELAtrackJetBranches = cms.PSet(
-	inputCollections = cms.vstring('tracks', 'jets'),
+	inputCollection = cms.vstring('tracks', 'jets'),
 	branches = cms.VPSet(
 		cms.PSet(
-			name = cms.string('trackMetPhi'),
-			inputVariables = cms.vstring('dPhi(jet.noMuPhi, track.phi)'),
+			name = cms.string('trackJetPhi'),
+			inputVariables = cms.vstring('dPhi(jet.phi, track.phi)'),
+		),
+		cms.PSet(
+			name = cms.string('trackJetDR'),
+			inputVariables = cms.vstring('deltaR(jet, track)'),
 		),
 	),
 )
@@ -55,15 +59,23 @@ MELAtrackJetBranches = cms.PSet(
 ####################################################################
 
 MELAtrackBranches = cms.PSet(
-	inputCollections = cms.vstring('tracks'),
+	inputCollection = cms.vstring('tracks'),
 	branches = cms.VPSet(
 		cms.PSet(
-			name = cms.string('matchedIsolatedTrack_dEdxStrip'),
-			inputVariables = cms.vstring('matchedIsolatedTrack_dEdxStrip'),
+			name = cms.string('matchedIsolatedTrack.dEdxStrip'),
+			inputVariables = cms.vstring('matchedIsolatedTrack.dEdxStrip'),
 		),
 		cms.PSet(
-			name = cms.string('matchedIsolatedTrack_dEdxPixel'),
-			inputVariables = cms.vstring('matchedIsolatedTrack_dEdxPixel'),
+			name = cms.string('matchedIsolatedTrack.dEdxPixel'),
+			inputVariables = cms.vstring('matchedIsolatedTrack.dEdxPixel'),
+		),
+		cms.PSet(
+			name = cms.string('pt'),
+			inputVariables = cms.vstring('pt'),
+		),
+		cms.PSet(
+			name = cms.string('p'),
+			inputVariables = cms.vstring('p'),
 		),
 	),
 )
