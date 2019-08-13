@@ -36,7 +36,9 @@ nEstTau = {}
 nLeptons = {}
 nTotal = {}
 
-fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
+# ARC EXO-19-010: use one large sideband for fake estimate
+#fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
+fakeSidebands = [(0.05, 0.50)]
 
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
@@ -144,14 +146,14 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("SingleElectron 2017" + runPeriod)
 
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleBkgdNoFilter_v2")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
         
             for iBin in range(1, len(nLayersWords)):
-                electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
+                electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleBkgdNoFilter_v2")
                 electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
                 electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
                 electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")
@@ -188,7 +190,7 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("SingleElectron 2017" + runPeriod)
 
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleBkgdNoFilter_v2")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/fromLPC/electronControlRegionBinnedLayers")

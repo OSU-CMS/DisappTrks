@@ -9,7 +9,7 @@ backgrounds = {
     },
     'Elec' : {
         'N' : '33',
-        'alpha' : '0.142867612755',
+        'alpha' : '0.143033435983',
     },
     'Muon' : {
         'N' : '10',
@@ -27,7 +27,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.01047519123',
+        'value' : '1.01047534248',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
