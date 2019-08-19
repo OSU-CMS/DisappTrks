@@ -579,23 +579,20 @@ class LeptonBkgdEstimate:
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
 
-        nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         nEst.isPositive ()
 
-        N = alpha = alphaError = float ("nan")
-        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            N = passes
-            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
-                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
-            else:
-                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
-
+        alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        alpha.isPositive ()
         alpha.printLongFormat ()
 
-        print "N: " + str (N)
+        print "N: " + str (nCtrl)
         print "alpha: " + str (alpha)
         if not (alpha == 0):
-            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+            if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
+                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+            else:
+                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
@@ -612,23 +609,20 @@ class LeptonBkgdEstimate:
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
 
-        nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         nEst.isPositive ()
 
-        N = alpha = alphaError = float ("nan")
-        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            N = passes
-            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
-                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
-            else:
-                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
-
+        alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        alpha.isPositive ()
         alpha.printLongFormat ()
 
-        print "N: " + str (N)
+        print "N: " + str (nCtrl)
         print "alpha: " + str (alpha)
         if not (alpha == 0):
-            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+            if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
+                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+            else:
+                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 

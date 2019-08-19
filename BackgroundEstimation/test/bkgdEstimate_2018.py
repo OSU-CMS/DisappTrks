@@ -25,8 +25,8 @@ if len(sys.argv) > 2:
     combineLayers = False
 
 # '' will gives you Dataset_2018.root for the whole year
-#runPeriods = ['A', B', 'C', 'D']
-runPeriods = ['ABC']
+#runPeriods = ['A', 'B', 'C', 'D']
+runPeriods = ['']
 
 nEstFake = {}
 nEstElectron = {}
@@ -36,7 +36,9 @@ nEstTau = {}
 nLeptons = {}
 nTotal = {}
 
-fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
+# ARC EXO-19-010: use one large sideband for fake estimate
+#fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
+fakeSidebands = [(0.05, 0.50)]
 
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
@@ -68,23 +70,24 @@ for runPeriod in runPeriods:
             nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()[0]
             fout.Close ()
 
-            print "********************************************************************************"
-            print "Mean result over sidebands: "
-            nEstAllSidebands = Measurement(0, 0)
-            pFakeAllSidebands = Measurement(0, 0)
-            for sb in fakeSidebands:
-                fakeTrackBkgdEstimate.addMinD0 (sb[0])
-                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
-                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
-                nEstAllSidebands += sbResults[0]
-                pFakeAllSidebands += sbResults[1]
-                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
-            nEstAllSidebands /= len(fakeSidebands)
-            pFakeAllSidebands /= len(fakeSidebands)
-            print "N_est (mean): ", nEstAllSidebands
-            print "P_fake (mean): ", pFakeAllSidebands
-            print "********************************************************************************"
-            print "\n\n"
+            if len(fakeSidebands) > 1:
+                print "********************************************************************************"
+                print "Mean result over sidebands: "
+                nEstAllSidebands = Measurement(0, 0)
+                pFakeAllSidebands = Measurement(0, 0)
+                for sb in fakeSidebands:
+                    fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                    fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                    sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                    nEstAllSidebands += sbResults[0]
+                    pFakeAllSidebands += sbResults[1]
+                    print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+                nEstAllSidebands /= len(fakeSidebands)
+                pFakeAllSidebands /= len(fakeSidebands)
+                print "N_est (mean): ", nEstAllSidebands
+                print "P_fake (mean): ", pFakeAllSidebands
+                print "********************************************************************************"
+                print "\n\n"
 
             print "********************************************************************************"
             print "performing fake track background estimate with Z->ee selection in search region(2018", runPeriod, "--", nLayersWord, ")"
@@ -95,6 +98,9 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
+            # durp
+            # only 99.4% of events were run over (failed job in A), so there is an extra prescale factor
+            fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
             fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2018"    + runPeriod, dirs['Kai'] + "2018/fromLPC/basicSelection")
@@ -107,23 +113,24 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.printNest ()
             fout.Close ()
 
-            print "********************************************************************************"
-            print "Mean result over sidebands: "
-            nEstAllSidebands = Measurement(0, 0)
-            pFakeAllSidebands = Measurement(0, 0)
-            for sb in fakeSidebands:
-                fakeTrackBkgdEstimate.addMinD0 (sb[0])
-                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
-                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
-                nEstAllSidebands += sbResults[0]
-                pFakeAllSidebands += sbResults[1]
-                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
-            nEstAllSidebands /= len(fakeSidebands)
-            pFakeAllSidebands /= len(fakeSidebands)
-            print "N_est: ", nEstAllSidebands
-            print "P_fake: ", pFakeAllSidebands
-            print "********************************************************************************"
-            print "\n\n"
+            if len(fakeSidebands) > 1:
+                print "********************************************************************************"
+                print "Mean result over sidebands: "
+                nEstAllSidebands = Measurement(0, 0)
+                pFakeAllSidebands = Measurement(0, 0)
+                for sb in fakeSidebands:
+                    fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                    fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                    sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                    nEstAllSidebands += sbResults[0]
+                    pFakeAllSidebands += sbResults[1]
+                    print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+                nEstAllSidebands /= len(fakeSidebands)
+                pFakeAllSidebands /= len(fakeSidebands)
+                print "N_est: ", nEstAllSidebands
+                print "P_fake: ", pFakeAllSidebands
+                print "********************************************************************************"
+                print "\n\n"
 
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 
@@ -222,7 +229,8 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod])
+            # only 99.6% of events were run over (failed jobs in D), so there is an extra prescale factor
+            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod] * (114607516 + 59181419 + 58079395 + 268251329) / 497872980)
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
