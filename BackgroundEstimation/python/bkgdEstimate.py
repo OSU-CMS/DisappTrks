@@ -586,13 +586,26 @@ class LeptonBkgdEstimate:
         alpha.isPositive ()
         alpha.printLongFormat ()
 
-        print "N: " + str (nCtrl)
+        if alpha.centralValue () > 0:
+            print "N: " + str (nCtrl)
+        else:
+            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
+            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
+            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
+                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
+            else:
+                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
+            print "N: " + str (passes)
+
         print "alpha: " + str (alpha)
-        if not (alpha == 0):
+        if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
                 print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
             else:
                 print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+        else:
+            print 'WARNING: alpha STILL ended up as zero, so no relative error can be printed.'
+
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
@@ -616,13 +629,26 @@ class LeptonBkgdEstimate:
         alpha.isPositive ()
         alpha.printLongFormat ()
 
-        print "N: " + str (nCtrl)
+        if alpha.centralValue () > 0:
+            print "N: " + str (nCtrl)
+        else:
+            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
+            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
+            if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
+                alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
+            else:
+                alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
+            print "N: " + str (passes)
+
         print "alpha: " + str (alpha)
-        if not (alpha == 0):
+        if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
                 print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
             else:
                 print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+        else:
+            print 'WARNING: alpha ended up as zero, so no relative error can be printed.'
+
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
@@ -721,8 +747,8 @@ class LeptonBkgdEstimate:
                             total1Error = math.hypot (total1Error, (ibin-1) * totalHist.GetBinError (ibin))
 
                             if totalBackgroundExists:
-                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinError (ibin)
-                                totalBackground1Error += math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
+                                totalBackground1Error = math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
 
                             passes1 += (ibin-1) * passesHist.GetBinContent (ibin)
                             passes1Error = math.hypot (passes1Error, (ibin-1) * passesHist.GetBinError (ibin))
@@ -751,7 +777,7 @@ class LeptonBkgdEstimate:
                     background1 = Measurement (background1, backgroundError)
 
                 if hasattr (self, "TagProbePass1"):
-                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '+', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '-', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
                 else:
                     print 'P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
 
@@ -760,10 +786,10 @@ class LeptonBkgdEstimate:
                 passes1 -= background1
 
                 if passes < 0:
-                    print 'Warning: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print 'INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
                     passes = Measurement (0.0, 0.0, up68)
                 if passes1 < 0:
-                    print 'Warning: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print 'INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
                     passes1 = Measurement (0.0, 0.0, up68)
 
                 total -= totalBackground

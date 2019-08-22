@@ -229,18 +229,18 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2017" + runPeriod)
 
-            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[0], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
+            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[0], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[0], "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
             muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[0], "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
-            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[0], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
-            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[0], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[0], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[0], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
 
             for iBin in range(1, len(nLayersWords)):
-                muonBkgdEstimate.appendChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[iBin], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
+                muonBkgdEstimate.appendChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[iBin], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
                 muonBkgdEstimate.appendChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[iBin], "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
                 muonBkgdEstimate.appendChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[iBin], "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
-                muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
-                muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+                muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+                muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
 
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
@@ -276,11 +276,11 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2017" + runPeriod)
 
-            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
+            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
             muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWord, "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
-            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
-            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
+            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBackgroundControlRegionBinnedLayers")
 
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
@@ -321,7 +321,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2017" + runPeriod)
             
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/tauToMuBkgd_v2")
             tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[0], "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
             tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[0], "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[0])
             tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[0], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleTauBkgdNoFilter_v2")
@@ -334,7 +334,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2017"              + runPeriod, dirs['Brian']+"2017/fromLPC/tauControlRegionBinnedHits")
 
             for iBin in range(1, len(nLayersWords)):
-                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
+                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/tauToMuBkgd_v2")
                 tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
                 tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWords[iBin])
                 tauBkgdEstimate.appendChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[iBin], "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleTauBkgdNoFilter_v2")
@@ -380,7 +380,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2017" + runPeriod)
             
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWord)
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/tauToMuBkgd_v2")
             tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWord)
             tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWord)
             tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleTauBkgdNoFilter_v2")
@@ -429,10 +429,10 @@ if background == "ALL":
             nLeptons[(nLayersWord, runPeriod)] += nEstMuon[(nLayersWord, runPeriod)] + nEstTau[(nLayersWord, runPeriod)]
             nTotal[(nLayersWord, runPeriod)] = nLeptons[(nLayersWord, runPeriod)] + nEstFake[(nLayersWord, runPeriod)]
             print "********************************************************************************"
-            print "Total background from leptons (2017" + runPeriod + ", " + nLayersWord + "): " + nLayersWord[(nLayersWord, runPeriod)]
-            print "Total background from fake tracks (2017" + runPeriod + ", " + nLayersWord + "): " + nEstFake[(nLayersWord, runPeriod)]
+            print "Total background from leptons (2017" + runPeriod + ", " + nLayersWord + "): " + str(nLeptons[(nLayersWord, runPeriod)])
+            print "Total background from fake tracks (2017" + runPeriod + ", " + nLayersWord + "): " + str(nEstFake[(nLayersWord, runPeriod)])
             print "********************************************************************************"
-            print "Total background (2017" + runPeriod + ", " + nLayersWord + "): " + nTotal[(nLayersWord, runPeriod)]
+            print "Total background (2017" + runPeriod + ", " + nLayersWord + "): " + str(nTotal[(nLayersWord, runPeriod)])
             print "********************************************************************************"
             print "\n\n"
 
@@ -453,15 +453,15 @@ if background == "ALL":
             ex.append(0.0)
             i += 1.0
 
-            electron.append( nEstElectron[(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).centralValue()
-            muon.append    ( nEstMuon    [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).centralValue()
-            tau.append     ( nEstTau     [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).centralValue()
-            fake.append    ( nEstFake    [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).centralValue()
+            electron.append(nEstElectron[(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            muon.append    (nEstMuon    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            tau.append     (nEstTau     [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            fake.append    (nEstFake    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
 
-            eElectron.append( nEstElectron[(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).maxUncertainty()
-            eMuon.append    ( nEstMuon    [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).maxUncertainty()
-            eTau.append     ( nEstTau     [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).maxUncertainty()
-            eFake.append    ( nEstFake    [(nLayersWord, runPeriod)] / lumi["MET_2017" + runPeriod] ).maxUncertainty()
+            eElectron.append(nEstElectron[(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eMuon.append    (nEstMuon    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eTau.append     (nEstTau     [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eFake.append    (nEstFake    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
 
         gElectron = TGraphErrors(len(x), x, electron, ex, eElectron)
         gMuon     = TGraphErrors(len(x), x, muon,     ex, eMuon)
