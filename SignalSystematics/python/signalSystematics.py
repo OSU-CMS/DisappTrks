@@ -16,54 +16,10 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-def getExtraSamples (suffix):
-    extraSamples = {
-        "AMSB_chargino_100GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_100GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_100GeV_100cm_" + suffix : [],
-        "AMSB_chargino_100GeV_10cm_" + suffix : [],
-        "AMSB_chargino_100GeV_1cm_" + suffix : [],
-        "AMSB_chargino_200GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_200GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_200GeV_100cm_" + suffix : [],
-        "AMSB_chargino_200GeV_10cm_" + suffix : [],
-        "AMSB_chargino_200GeV_1cm_" + suffix : [],
-        "AMSB_chargino_300GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_300GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_300GeV_100cm_" + suffix : [],
-        "AMSB_chargino_300GeV_10cm_" + suffix : [],
-        "AMSB_chargino_300GeV_1cm_" + suffix : [],
-        "AMSB_chargino_400GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_400GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_400GeV_100cm_" + suffix : [],
-        "AMSB_chargino_400GeV_10cm_" + suffix : [],
-        "AMSB_chargino_400GeV_1cm_" + suffix : [],
-        "AMSB_chargino_500GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_500GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_500GeV_100cm_" + suffix : [],
-        "AMSB_chargino_500GeV_10cm_" + suffix : [],
-        "AMSB_chargino_500GeV_1cm_" + suffix : [],
-        "AMSB_chargino_600GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_600GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_600GeV_100cm_" + suffix : [],
-        "AMSB_chargino_600GeV_10cm_" + suffix : [],
-        "AMSB_chargino_600GeV_1cm_" + suffix : [],
-        "AMSB_chargino_700GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_700GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_700GeV_100cm_" + suffix : [],
-        "AMSB_chargino_700GeV_10cm_" + suffix : [],
-        "AMSB_chargino_700GeV_1cm_" + suffix : [],
-        "AMSB_chargino_800GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_800GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_800GeV_100cm_" + suffix : [],
-        "AMSB_chargino_800GeV_10cm_" + suffix : [],
-        "AMSB_chargino_800GeV_1cm_" + suffix : [],
-        "AMSB_chargino_900GeV_10000cm_" + suffix : [],
-        "AMSB_chargino_900GeV_1000cm_" + suffix : [],
-        "AMSB_chargino_900GeV_100cm_" + suffix : [],
-        "AMSB_chargino_900GeV_10cm_" + suffix : [],
-        "AMSB_chargino_900GeV_1cm_" + suffix : [],
-    }
+def getExtraSamples(suffix):
+    masses = range(100, 1200 if (suffix == '94X' or suffix == '102X') else 1000, 100)
+    ctaus = [1, 10, 100, 1000, 10000]
+    extraSamples = { 'AMSB_chargino_{0}GeV_{1}cm_'.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
 
     for sample in extraSamples:
         if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_.*', sample):
