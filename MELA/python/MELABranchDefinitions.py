@@ -6,6 +6,10 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 
 MELAeventvariableNames = ['hitCharge_' + str(itrk) + '_' + str(ihit) for itrk in range(2) for ihit in range(20)]
 MELAeventvariableNames.extend(['hitIsPixel_' + str(itrk) + '_' + str(ihit) for itrk in range(2) for ihit in range(20)])
+MELAeventvariableNames.extend(['pixelSize_' + str(itrk) + '_' + str(ihit) for itrk in range(2) for ihit in range(20)])
+MELAeventvariableNames.extend(['pixelSizeX_' + str(itrk) + '_' + str(ihit) for itrk in range(2) for ihit in range(20)])
+MELAeventvariableNames.extend(['pixelSizeY_' + str(itrk) + '_' + str(ihit) for itrk in range(2) for ihit in range(20)])
+
 MELAeventvariableNames.extend([
 	'lifetimeWeight',
 	'puScalingFactor',

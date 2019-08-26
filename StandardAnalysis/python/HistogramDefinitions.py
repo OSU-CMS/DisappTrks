@@ -868,14 +868,14 @@ JetMetHistograms = cms.PSet(
             title = cms.string(";Jet #phi;E_{T}^{miss} #phi"),
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(64, -3.2, 3.2),
-            inputVariables = cms.vstring("jet.phi, met.phi"),
+            inputVariables = cms.vstring("jet.phi", "met.phi"),
         ),
         cms.PSet(
             name = cms.string("metNoMuPhiVsJetPhi"),
             title = cms.string(";Jet #phi;E_{T}^{miss, no #mu} #phi"),
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(64, -3.2, 3.2),
-            inputVariables = cms.vstring("jet.phi, met.noMuPhi"),
+            inputVariables = cms.vstring("jet.phi", "met.noMuPhi"),
         ),
     ),
 )

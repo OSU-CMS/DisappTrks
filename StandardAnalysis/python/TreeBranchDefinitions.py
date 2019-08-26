@@ -65,6 +65,9 @@ for itrk in range(3):
     for ihit in range(20):
         EventVariableBranches_names.append('hitCharge_' + str(itrk) + '_' + str(ihit))
         EventVariableBranches_names.append('hitIsPixel_' + str(itrk) + '_' + str(ihit))
+        EventVariableBranches_names.append('pixelSize_' + str(itrk) + '_' + str(ihit))
+        EventVariableBranches_names.append('pixelSizeX_' + str(itrk) + '_' + str(ihit))
+        EventVariableBranches_names.append('pixelSizeY_' + str(itrk) + '_' + str(ihit))
 
 EventVariableBranches = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
@@ -313,7 +316,7 @@ else:
         "matchedIsolatedTrack_crossedEcalStatus",
         "matchedIsolatedTrack_crossHcalStatus",
         "matchedIsolatedTrack_deltaEta",
-        "matchedIsolatedTrack_deltaPhi",        
+        "matchedIsolatedTrack_deltaPhi",
     ])
 
 TrackDebugBranches = cms.PSet(
