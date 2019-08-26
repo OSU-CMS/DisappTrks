@@ -200,13 +200,10 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   bool metJet_hem1516 = false;
   for (const auto &jet1 : *jets) {
     if (!IsValidJet(jet1)) continue;
-    if (jet.eta() >= -3.0 && jet.eta() <= -1.3) {
-      if (jet.phi() >= -1.57 && jet.phi() <= -0.87) jetIn_hem1516 = true;
-      if (jet.phi() >= -1.57 + 3.14159 && jet.phi() <= -0.87 + 3.14159) {
-        jetOpposite_hem1516 = true;
-        n_jetsOpposite_hem1516++;
-      }
-      if (jet.phi() >= -1.57 + 3.14159 && jet.phi() <= -0.87 + 3.14159 && met->at(0).phi() >= -1.57 && met->at(0).phi() <= -0.87) metJet_hem1516 = true;
+    if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
+      if (jet1.phi() >= -1.57 && jet1.phi() <= -0.87) jetIn_hem1516 = true;
+      if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159) jetOpposite_hem1516 = true;
+      if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159 && mets->at(0).phi() >= -1.57 && mets->at(0).phi() <= -0.87) metJet_hem1516 = true;
     }
   }
 
