@@ -386,6 +386,15 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
+            if runPeriod == '2018':
+                # Can only find 3/38 events in SingleMuon 2018A
+                if nLayersWord == 'NLayers4':
+                    tauBkgdEstimate.addTagProbePass1ScaleFactor(121./94.)
+                if nLayersWord == 'NLayers5':
+                    tauBkgdEstimate.addTagProbePass1ScaleFactor(28./21.)
+                if nLayersWord == 'NLayers6plus':
+                    tauBkgdEstimate.addTagProbePass1ScaleFactor(21./20.)
+
             tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
             tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
             tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
@@ -435,14 +444,14 @@ if background == "ALL":
             nLeptons[(nLayersWord, runPeriod)] += nEstMuon[(nLayersWord, runPeriod)] + nEstTau[(nLayersWord, runPeriod)]
             nTotal[(nLayersWord, runPeriod)] = nLeptons[(nLayersWord, runPeriod)] + nEstFake[(nLayersWord, runPeriod)]
             print "********************************************************************************"
-            print "Total background from leptons (2018" + runPeriod + ", " + nLayersWord + "): " + nLayersWord[(nLayersWord, runPeriod)]
-            print "Total background from fake tracks (2018" + runPeriod + ", " + nLayersWord + "): " + nEstFake[(nLayersWord, runPeriod)]
+            print "Total background from leptons (2017" + runPeriod + ", " + nLayersWord + "): " + str(nLeptons[(nLayersWord, runPeriod)])
+            print "Total background from fake tracks (2017" + runPeriod + ", " + nLayersWord + "): " + str(nEstFake[(nLayersWord, runPeriod)])
             print "********************************************************************************"
-            print "Total background (2018" + runPeriod + ", " + nLayersWord + "): " + nTotal[(nLayersWord, runPeriod)]
+            print "Total background (2017" + runPeriod + ", " + nLayersWord + "): " + str(nTotal[(nLayersWord, runPeriod)])
             print "********************************************************************************"
             print "\n\n"
 
-    fout = TFile.Open("backgroundCrossSections_2018.root", "recreate")
+    fout = TFile.Open("backgroundCrossSections_2017.root", "recreate")
 
     for nLayersWord in nLayersWords:
 
@@ -459,15 +468,15 @@ if background == "ALL":
             ex.append(0.0)
             i += 1.0
 
-            electron.append( nEstElectron[(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).centralValue()
-            muon.append    ( nEstMuon    [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).centralValue()
-            tau.append     ( nEstTau     [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).centralValue()
-            fake.append    ( nEstFake    [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).centralValue()
+            electron.append(nEstElectron[(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            muon.append    (nEstMuon    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            tau.append     (nEstTau     [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            fake.append    (nEstFake    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
 
-            eElectron.append( nEstElectron[(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).maxUncertainty()
-            eMuon.append    ( nEstMuon    [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).maxUncertainty()
-            eTau.append     ( nEstTau     [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).maxUncertainty()
-            eFake.append    ( nEstFake    [(nLayersWord, runPeriod)] / lumi["MET_2018" + runPeriod] ).maxUncertainty()
+            eElectron.append(nEstElectron[(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eMuon.append    (nEstMuon    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eTau.append     (nEstTau     [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eFake.append    (nEstFake    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
 
         gElectron = TGraphErrors(len(x), x, electron, ex, eElectron)
         gMuon     = TGraphErrors(len(x), x, muon,     ex, eMuon)

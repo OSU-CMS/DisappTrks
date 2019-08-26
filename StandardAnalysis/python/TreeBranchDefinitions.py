@@ -54,6 +54,10 @@ EventVariableBranches_names = [
 
     "nGoodTagJetPairs",
     "nGoodTagPFCHPairs",
+
+    "jetInHEM1516",
+    "jetOppositeHEM1516",
+    "metJetHEM1516",
 ]
 
 # hitCharge_<track number>_<hit number>
@@ -99,6 +103,10 @@ MetShiftBranches_names = [
     "noMuPt_TauEnDown",
     "noMuPt_UnclusteredEnDown",
     "noMuPt_PhotonEnDown",
+
+    "pt",
+    "phi",
+    "noMuPhi",
 ]
 MetShiftBranches = cms.PSet(
     inputCollection = cms.vstring("mets"),

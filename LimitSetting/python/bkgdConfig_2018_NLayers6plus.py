@@ -5,56 +5,56 @@
 backgrounds = {
     'Fake' : {
         'N' : '1',
-        'alpha' : '0.0401045591525',
+        'alpha' : '0.0470347041845',
     },
     'Elec' : {
-        'N' : '487280',
-        'alpha' : '9.68654274291e-06',
+        'N' : '663040',
+        'alpha' : '8.67086211783e-06',
     },
     'Muon' : {
-        'N' : '851260',
-        'alpha' : '5.62966412617e-07',
+        'N' : '1184700',
+        'alpha' : '7.43867597659e-07',
     },
     'Tau' : {
-        'N' : '5130',
-        'alpha' : '9.80525123437e-05',
+        'N' : '6500',
+        'alpha' : '7.88906709106e-05',
     },
 }
 
 background_systematics = {
     'Fake_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.00052390363',
+        'value' : '1.00039624234',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.18461799309',
+        'value' : '1.18456798398',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.424276463',
+        'value' : '1.27349597197',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.46083926013',
+        'value' : '0.0/2.0049301189',
         'background' : 'Tau',
     },
 
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.42537586979',
+        'value' : '1.33272782539',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers6plus' : { # difference between ZtoMuMu and ZtoEE methods
-    'value' : str (1.0 + abs(0.04 - 0.122) / 0.04),
+    'value' : str (1.0 + abs(0.047 - 0.096) / 0.047),
         'background' : 'Fake',
     },
 
     'Elec_energy_NLayers6plus' : { # error on energy assumption
-        'value' : str (1.0 + 12.4474529027 / 100.0),
+        'value' : str (1.0 + 12.8496947621 / 100.0),
         'background' : 'Elec',
     },
     'Tau_energy_NLayers6plus' : { # error on energy assumption
-        'value' : str (1.0 + 16.8609344527 / 100.0),
+        'value' : str (1.0 + 22.1600192288 / 100.0),
         'background' : 'Tau',
     },
 }

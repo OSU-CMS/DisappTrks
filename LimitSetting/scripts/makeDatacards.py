@@ -160,7 +160,7 @@ def GetYieldAndError(condor_dir, process, channel):
 
     return yieldAndError
 
-def writeDatacard(mass, lifetime, observation, dictionary):
+def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFactor):
     global semaphore
     global printLock
 
@@ -188,7 +188,10 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     signal_yield_weight = signalYieldAndError['weight']
 
     target_signal_yield = 10.0
-    signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
+    if ignoreSignalScaleFactor:
+        signal_yield_sf = 1.0
+    else:
+        signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
     signal_yield_without_sf = signal_yield
     signal_yield *= signal_yield_sf
     signal_yield_weight *= signal_yield_sf
@@ -464,7 +467,7 @@ print
 
 for mass in masses:
     for lifetime in lifetimes:
-        threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors)))
+        threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors, arguments.ignoreSignalScaleFactor)))
         threads[-1].start ()
 for thread in threads:
     thread.join ()

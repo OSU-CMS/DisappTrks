@@ -123,15 +123,13 @@ HeaderText = LumiText + " (13 TeV)"
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.", "0p")
-    #return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"ns"
     return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
 
-def makeSignalRootFileName(mass,lifetime,directory,limit_type):
-    signal_name = makeSignalName(mass,lifetime)
-    if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
-        os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
-    #print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
-    return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
+def makeSignalRootFileName(mass, lifetime, directory, limit_type):
+    signal_name = makeSignalName(mass, lifetime)
+    if glob.glob("limits/" + directory + "/" + signal_name + "_" + limit_type + "/higgsCombine" + signal_name + ".*.root"):
+        os.system ("mv -f limits/" + directory + "/" + signal_name + "_" + limit_type + "/higgsCombine" + signal_name + ".*.root limits/" + directory + "/" + signal_name + "_" + limit_type + "/limits_" + signal_name + ".root")
+    return "limits/" + directory + "/" + signal_name + "_" + limit_type + "/limits_" + signal_name + ".root"
 
 def makeSignalSFFileName(mass,lifetime,directory):
     signal_name = makeSignalName(mass,lifetime)
@@ -141,7 +139,6 @@ def makeSignalLogFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
-    #print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
@@ -190,7 +187,6 @@ def getTheoryOneSigmaGraph():
     graph.SetMarkerColor(colorSchemes['theory']['oneSigma'])
 
     return graph
-
 
 def getGraph(limits, x_key, y_key):
     x = [ ]
@@ -832,8 +828,6 @@ def getTwoSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
 
 
 def fetchLimits(mass,lifetime,directories):
-#def fetchLimits(chMass,lifetime,directories):
-
     limit = { }
     limit['expected'] = 1.0e12
 
@@ -852,7 +846,7 @@ def fetchLimits(mass,lifetime,directories):
         # for Asymptotic CLs, get the limits from the root file
         if method == "AsymptoticLimits":
             file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
-#       file = TFile(makeSignalRootFileName(chiMasses[mass]['value'],lifetime,directory,"expected"))
+            #file = TFile(makeSignalRootFileName(chiMasses[mass]['value'],lifetime,directory,"expected"))
             limit_tree = file.Get('limit')
             if limit_tree.GetEntries() < 6:
                 continue
@@ -889,7 +883,42 @@ def fetchLimits(mass,lifetime,directories):
                 if quantileExpected == -1.0:
                     tmp_limit['observed'] = limit_tree.limit
             file.Close()
+        #########################################################
 
+        elif method == "AsymptoticSignificance":
+            file = TFile(makeSignalRootFileName(mass, lifetime, directory, "expected"))
+            limit_tree = file.Get('limit')
+            if not file.GetNkeys():
+                print "Returning -1 for file.GetNkeys"
+                return -1
+            limit_tree = file.Get('limit')
+            if not limit_tree:
+                print "Returning -1 for no limit_tree"
+                return -1
+            if limit_tree.GetEntries() != 1:
+                continue
+            limit_tree.GetEntry(0)
+            tmp_limit['expected'] = limit_tree.limit
+            tmp_limit['down1'] = 0
+            tmp_limit['down2'] = 0
+            tmp_limit['up1'] = 0
+            tmp_limit['up2'] = 0
+            file.Close()
+
+            file = TFile(makeSignalRootFileName(mass, lifetime, directory, "observed"))
+            limit_tree = file.Get('limit')
+            if not file.GetNkeys():
+                print "Returning -1 for file.GetNkeys"
+                return -1
+            limit_tree = file.Get('limit')
+            if not limit_tree:
+                print "Returning -1 for no limit_tree"
+                return -1
+            if limit_tree.GetEntries() != 1:
+                continue
+            limit_tree.GetEntry(0)
+            tmp_limit['observed'] = limit_tree.limit
+            file.Close()
         #########################################################
 
         elif method == "HybridNew":
@@ -961,14 +990,13 @@ def fetchLimits(mass,lifetime,directories):
             if arguments.verbose:
                 print "Debug: found down2 limit: ", tmp_limit['down2']
 
-
         # for other methods, get the ranges from the log file
         else:
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
-#            print "Debug:  opening file: "
-#            print makeSignalLogFileName(mass,lifetime,directory,"expected")
+            #print "Debug:  opening file: "
+            #print makeSignalLogFileName(mass,lifetime,directory,"expected")
             for line in file:
-#                print "Debug: line = " + line
+                #print "Debug: line = " + line
                 line = line.rstrip("\n").split(":")
                 if line[0] == "median expected limit":
                     tmp_limit['expected'] = float(line[1].split(" ")[3])
@@ -979,34 +1007,35 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down2'] = float(line[1].split(" ")[1])
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
-#            print "Debug:  finished expected"
+            #print "Debug:  finished expected"
 
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
-#            print "Debug:  opening observed file: "
-#            print makeSignalLogFileName(mass,lifetime,directory,"observed")
+            #print "Debug:  opening observed file: "
+            #print makeSignalLogFileName(mass,lifetime,directory,"observed")
             for line in file:
                 line = line.rstrip("\n").split(":")
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
             file.close()
 
-        tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
-        tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
-        tmp_limit['down2'] = math.fabs(tmp_limit['down2'] - tmp_limit['expected'])
-        tmp_limit['down1'] = math.fabs(tmp_limit['down1'] - tmp_limit['expected'])
+        if not arguments.plotSignificance:
+            tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
+            tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
+            tmp_limit['down2'] = math.fabs(tmp_limit['down2'] - tmp_limit['expected'])
+            tmp_limit['down1'] = math.fabs(tmp_limit['down1'] - tmp_limit['expected'])
 
-        xSection = float(signal_cross_sections[str(mass)]['value'])
-        # The limits are given as fractions r of the estimated yield: r = Y_limit / Y_est,
-        # where Y_est = Lumi*xSection_theory*eff
-        # Note that since lumi and eff are constant, r = xSection_limit / xSection_theory
-        # So to get the limit in pb, multiply by the theory cross section:
-        # xSection_limit = r * xSection_theory
-        tmp_limit['up2'] *= xSection
-        tmp_limit['up1'] *= xSection
-        tmp_limit['observed'] *= xSection
-        tmp_limit['expected'] *= xSection
-        tmp_limit['down1'] *= xSection
-        tmp_limit['down2'] *= xSection
+            xSection = float(signal_cross_sections[str(mass)]['value'])
+            # The limits are given as fractions r of the estimated yield: r = Y_limit / Y_est,
+            # where Y_est = Lumi*xSection_theory*eff
+            # Note that since lumi and eff are constant, r = xSection_limit / xSection_theory
+            # So to get the limit in pb, multiply by the theory cross section:
+            # xSection_limit = r * xSection_theory
+            tmp_limit['up2'] *= xSection
+            tmp_limit['up1'] *= xSection
+            tmp_limit['observed'] *= xSection
+            tmp_limit['expected'] *= xSection
+            tmp_limit['down1'] *= xSection
+            tmp_limit['down2'] *= xSection
 
         try:
             f = open (makeSignalSFFileName (mass,lifetime,directory))
@@ -1033,7 +1062,6 @@ def fetchLimits(mass,lifetime,directories):
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
-
 
 def drawPlot(plot, th2fType=""):
     gStyle.SetPalette(62) # kColorPrintableOnGrey
@@ -1492,10 +1520,6 @@ def drawPlot(plot, th2fType=""):
     # canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
     print "Wrote plot to " + outputPlotName + ".pdf"
 
-
-
-
-
 ######################################################################################################
 
 
@@ -1504,6 +1528,13 @@ outputFile = TFile(outputFileName, "RECREATE")
 
 # for each plot that has been defined, extract the limits and draw the plot accordingly
 for plot in plotDefinitions:
+
+    if arguments.plotSignificance:
+        if not plot['title'].startswith('significance'):
+            continue
+    else:
+        if plot['title'].startswith('significance'):
+            continue
 
     #fetch all the limits needed for this plot
     if 'th2fs' in plot:

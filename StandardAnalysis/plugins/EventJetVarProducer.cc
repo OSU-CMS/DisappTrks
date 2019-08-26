@@ -195,6 +195,21 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   bool hasCharginoFlag = hasChargino (mcParticles), hasNeutralinoFlag = hasNeutralino (mcParticles);
 
+  bool jetIn_hem1516 = false;
+  bool jetOpposite_hem1516 = false;
+  bool metJet_hem1516 = false;
+  for (const auto &jet1 : *jets) {
+    if (!IsValidJet(jet1)) continue;
+    if (jet.eta() >= -3.0 && jet.eta() <= -1.3) {
+      if (jet.phi() >= -1.57 && jet.phi() <= -0.87) jetIn_hem1516 = true;
+      if (jet.phi() >= -1.57 + 3.14159 && jet.phi() <= -0.87 + 3.14159) {
+        jetOpposite_hem1516 = true;
+        n_jetsOpposite_hem1516++;
+      }
+      if (jet.phi() >= -1.57 + 3.14159 && jet.phi() <= -0.87 + 3.14159 && met->at(0).phi() >= -1.57 && met->at(0).phi() <= -0.87) metJet_hem1516 = true;
+    }
+  }
+
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["ptJetLeading"]     = ptJetLeading;
@@ -224,6 +239,10 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["numberOfCharginos"]  = (hasCharginoFlag ? (hasNeutralinoFlag ? 1 : 2) : 0);
 
   (*eventvariables)["packedTriggerFiresBit"] = (triggerBits.isValid () ? packTriggerFires(event, triggerBits) : 0);
+
+  (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
+  (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
+  (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
 
   isFirstEvent_ = false;
 }

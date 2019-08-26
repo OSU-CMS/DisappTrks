@@ -862,7 +862,21 @@ JetMetHistograms = cms.PSet(
             indexX = cms.untracked.int32(0),
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("met.noMuPt", "jet.pt"),
-        )
+        ),
+        cms.PSet(
+            name = cms.string("metPhiVsJetPhi"),
+            title = cms.string(";Jet #phi;E_{T}^{miss} #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("jet.phi, met.phi"),
+        ),
+        cms.PSet(
+            name = cms.string("metNoMuPhiVsJetPhi"),
+            title = cms.string(";Jet #phi;E_{T}^{miss, no #mu} #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("jet.phi, met.noMuPhi"),
+        ),
     ),
 )
 
@@ -1952,6 +1966,24 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";number of charginos"),
             binsX = cms.untracked.vdouble(3, -0.5, 2.5),
             inputVariables = cms.vstring("numberOfCharginos"),
+        ),
+        cms.PSet (
+            name = cms.string("jetInHEM1516"),
+            title = cms.string(";jet pointing towards HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("jetInHEM1516"),
+        ),
+        cms.PSet (
+            name = cms.string("jetOppositeHEM1516"),
+            title = cms.string(";jet pointing away from HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("jetOppositeHEM1516"),
+        ),
+        cms.PSet (
+            name = cms.string("metJetHEM1516"),
+            title = cms.string(";jet pointing away, met towards HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("metJetHEM1516"),
         ),
     )
 )

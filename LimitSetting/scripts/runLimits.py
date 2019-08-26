@@ -28,6 +28,14 @@ if arguments.limitType not in validLimitTypes:
     print
     sys.exit(0)
 
+if arguments.method not in ["HybridNew", "MarkovChainMC", "AsymptoticLimits", "AsymptoticSignificance"]:
+    print
+    print "Invalid method (-M). Allowed methods:"
+    for x in ["HybridNew", "MarkovChainMC", "AsymptoticLimits", "AsymptoticSignificance"]:
+        print "\t" + x
+    print
+    sys.exit(0)
+
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
 
@@ -102,26 +110,12 @@ for mass in masses:
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
 
-        if os.environ["CMSSW_VERSION"] == "CMSSW_8_1_0" or os.environ["CMSSW_VERSION"] == "CMSSW_10_2_13":
-          # ProfileLikelihood method seems to have been removed, so for the time being we won't use a hint with -H...
-          combine_expected_options = combine_observed_options = " "  # default random number seed = 123456
-        else:
-          combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
-          combine_expected_options = combine_observed_options = " -H ProfileLikelihood "  # default random number seed = 123456
+        combine_expected_options = combine_observed_options = " "  # default random number seed = 123456
  
         if arguments.method == "HybridNew":
             combine_expected_options += "-M " + arguments.method + " "
             combine_observed_options += "-M " + arguments.method + " "
-            #            combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-            #            hybridExtraOptions = "--rule CLs --testStat LHC -T 500 --fork 4 --frequentist "
-            #            hybridExtraOptions = "--fork 4 --testStat LHC "  # limits_2014_08_01b
-            #            hybridExtraOptions = "--fork 4 --frequentist " # limits_2014_08_01c
-            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC " # limits_2014_08_01d
-            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 " # limits_2014_08_01e
-            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01f
-            #            hybridExtraOptions = "--fork 4 --rAbsAcc 0.00001 -T 2000 " # limits_2014_08_01g
-            #            hybridExtraOptions = " --rRelAcc 0.5 -t 10 --saveToys -s -1 " # limits_2014_08_05:  testing only for toy production!
-            #            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 4000 " # limits_2014_09_30:  test more toys
+            hybridExtraOptions = "--fork 4 --frequentist --testStat LHC --rAbsAcc 0.00001 -T 2000 "
             combine_expected_options = combine_expected_options + hybridExtraOptions + " --expectedFromGrid 0.5 "
             combine_observed_options = combine_observed_options + hybridExtraOptions
         elif arguments.method == "MarkovChainMC":
@@ -129,9 +123,10 @@ for mass in masses:
             combine_observed_options += "-M " + arguments.method + " "
             combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
             combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-        else:
-#            combine_expected_options += "-M AsymptoticLimits --minimizerStrategy 1 --picky --minosAlgo stepping "
-#            combine_observed_options += "-M AsymptoticLimits --minimizerStrategy 1 --picky --minosAlgo stepping "
+        elif arguments.method == "AsymptoticSignificance":
+            combine_expected_options += "-M Significance --pval -t -1 --expectSignal=1 "
+            combine_observed_options += "-M Significance --pval "
+        elif arguments.method == "AsymptoticLimits":
             if not arguments.noPicky:
                 combine_expected_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
                 combine_observed_options += "-M AsymptoticLimits --cminDefaultMinimizerStrategy 1 --picky --minosAlgo stepping "
