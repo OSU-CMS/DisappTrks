@@ -1771,6 +1771,27 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("hem1516weight"),
+            title = cms.string(";HEM 15/16 jet #phi weight"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("hem1516weightUp"),
+            title = cms.string(";HEM 15/16 jet #phi weight +1#sigma"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weightUp"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("hem1516weightDown"),
+            title = cms.string(";HEM 15/16 jet #phi weight -1#sigma"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weightDown"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
             name = cms.string("didDecay0"),
             title = cms.string(";did decay"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),

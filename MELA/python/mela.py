@@ -84,8 +84,6 @@ class LikelihoodEstimator:
             chargeEfficiency = float(hitsPdf.Integral(ix+1, -1)) # already normalized
             for iy in range(5):
                 p = binom.sf(iy-1, 4, chargeEfficiency) # 1 - cdf
-                if ix < 10:
-                    print 'binom.sf(', iy-1, 4, chargeEfficiency, ') =', p
                 eff.SetBinContent(ix+1, iy+1, p)
         return eff
 
@@ -150,22 +148,32 @@ class LikelihoodEstimator:
         nplot = TH1D('nOver5', 'nOver5', 10, 0, 10)
         nplot.SetDirectory(0)
 
+        pixSize = TH1D('pixelSize', 'pixelSize', 100, 0, 100)
+        chargeVsSize = TH2D('chargeVsSize', 'chargeVsSize', 100, 0, 100, 1000, 0, 100)
+
         for event in self._observation:
             hitCharges = [getattr(event, 'eventvariable_hitCharge_0_%d' % i) for i in range(20)]
             hitIsPixel = [getattr(event, 'eventvariable_hitIsPixel_0_%d' % i) for i in range(20)]
+            pixelSize = [getattr(event, 'eventvariable_pixelSize_0_%d' % i) for i in range(20)]
             nOver5 = 0
             for i in range(20):
                 if hitIsPixel[i]:
                     pixelHits.Fill(hitCharges[i])
+                    chargeVsSize.Fill(pixelSize[i], hitCharges[i])
+                    pixSize.Fill(pixelSize[i])
                     if hitCharges[i] > 5:
                         nOver5 += 1
             nplot.Fill(nOver5)
+
+
 
         if pixelHits.Integral(1, -1) > 0:
             pixelHits.Scale(1.0 / pixelHits.Integral(1, -1))
         fout.cd()
         pixelHits.Write()
         nplot.Write()
+        pixSize.Write()
+        chargeVsSize.Write()
         print 'Created observationPdf_' + self._nLayersWord + '.root'
         fout.Close()
 

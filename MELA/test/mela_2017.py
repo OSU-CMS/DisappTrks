@@ -32,7 +32,7 @@ for nLayersWord in nLayersWords:
 
 	estimator = LikelihoodEstimator(nLayersWord)
 	estimator.addSignal('AMSB_chargino_700GeV_100cm_94X', 'disTrkSelectionSmearedJets' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8', 700, 100)
-	estimator.addData  ('observation', 					  'DisTrkSelection' 		   + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8')
+	estimator.addData  ('observation', 					  'disTrkSelectionSmearedJets' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8')
 
 	estimator.constructSignalPdfs()
 	estimator.constructDataPdf()

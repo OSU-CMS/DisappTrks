@@ -33,6 +33,15 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VE
             )
         )
 
+# This will only be applied if customize(process, ..., applyHEMCorrections = True) is used.
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    weights.append (
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string("hem1516weight")
+        )
+    )
+
 #####################################################################
 # Lepton scale factors. N.B. these are weights you're applying,
 # LeptonScaleFactors.py control which eventvariables are produced.

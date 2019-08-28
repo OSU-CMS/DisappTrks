@@ -58,6 +58,9 @@ EventVariableBranches_names = [
     "jetInHEM1516",
     "jetOppositeHEM1516",
     "metJetHEM1516",
+    "hem1516weight",
+    "hem1516weightUp",
+    "hem1516weightDown",
 ]
 
 # hitCharge_<track number>_<hit number>

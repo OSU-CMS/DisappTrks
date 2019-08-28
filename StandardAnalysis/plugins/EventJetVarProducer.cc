@@ -3,6 +3,7 @@
 
 #include "TH2D.h"
 #include "TH1D.h"
+#include "TFile.h"
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "TLorentzVector.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
@@ -52,6 +53,9 @@ private:
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
 
   vector<string> triggerNames;
+  
+  bool doHEMweights;
+  TH1D * hem1516weights_;
 };
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
@@ -66,6 +70,18 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
+
+  doHEMweights = cfg.getParameter<string>("hem1516filePath") != "";
+
+  if (doHEMweights) {
+    cout << "\tdurp: doHEMweights so getting -- " << cfg.getParameter<string>("hem1516filePath").c_str() << endl;
+    TFile * hem1516file_ = new TFile(cfg.getParameter<string>("hem1516filePath").c_str());
+    cout << "\tdurp: getting 2018CD from it" << endl;
+    hem1516weights_ = (TH1D*)hem1516file_->Get("2018CD");
+    hem1516weights_->SetDirectory(0);
+    hem1516file_->Close();
+    cout << "\tdurp okay has entries = " << hem1516weights_->GetEntries() << endl;
+  }
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -207,6 +223,23 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     }
   }
 
+  // durp
+  double hem1516_weight = 1.0;
+  double hem1516_weight_up = 1.0;
+  double hem1516_weight_down = 1.0;
+  if (doHEMweights) {
+    for (const auto &jet1 : *jets) {
+      if (!IsValidJet(jet1)) continue;
+      cout << "\tdurp *= weight " << hem1516weights_->GetBinContent(hem1516weights_->GetXaxis()->FindBin(jet1.phi())) << endl;
+      double thisWeight = hem1516weights_->GetBinContent(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
+      double thisError = hem1516weights_->GetBinError(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
+
+      hem1516_weight *= thisWeight;
+      hem1516_weight_up *= thisWeight + thisError;
+      hem1516_weight_down *= thisWeight - thisError;
+    }
+  }
+
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["ptJetLeading"]     = ptJetLeading;
@@ -240,6 +273,9 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
   (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
   (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
+  (*eventvariables)["hem1516weight"] = hem1516_weight;
+  (*eventvariables)["hem1516weightUp"] = hem1516_weight_up;
+  (*eventvariables)["hem1516weightDown"] = hem1516_weight_down;
 
   isFirstEvent_ = false;
 }

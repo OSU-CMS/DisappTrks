@@ -14,7 +14,8 @@ def customize (process,
                applyTriggerReweighting = True,
                applyMissingHitsCorrections = True,
                runMETFilters = True,
-               runEcalBadCalibFilters = True):
+               runEcalBadCalibFilters = True,
+               applyHEMCorrections = False):
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
@@ -259,5 +260,11 @@ def customize (process,
 
     if hasattr (process, "EventJetVarProducer") and not hasattr (process.EventJetVarProducer, "triggerNames"):
         process.EventJetVarProducer.triggerNames = cms.vstring ()
+
+    # if applyHEMCorrections = False, no payload file is given and the weights are stored as just 1.0
+    if applyHEMCorrections:
+        process.EventJetVarProducer.hem1516filePath = cms.string(os.environ["CMSSW_BASE"] + '/src/DisappTrks/StandardAnalysis/data/hem1516_weights.root')
+    else:
+        process.EventJetVarProducer.hem1516filePath = cms.string('')
 
     return process
