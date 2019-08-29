@@ -27,15 +27,15 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
-        'value' : '0.0/5.9505639115',
+        'value' : '0.000001/5.9505639115', # 0 --> 0.000001 numerical safety
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
-        'value' : '0.0/2.27716131842',
+        'value' : '0.000001/2.27716131842', # 0 --> 0.000001 numerical safety
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers4' : { # error on alpha
-        'value' : '0.0/2.12826855612',
+        'value' : '0.000001/2.12826855612', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
