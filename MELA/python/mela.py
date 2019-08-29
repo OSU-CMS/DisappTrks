@@ -57,6 +57,8 @@ class LikelihoodEstimator:
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weights.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._nLayersWord = nLayersWord
 
     def addSignal(self, sample, channelName, condorDir, mass, ctau):

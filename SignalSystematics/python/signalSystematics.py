@@ -181,6 +181,8 @@ class WeightSystematicFromTrees(SystematicCalculator):
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -826,6 +828,8 @@ class MissingOuterHitsSystematic:
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1050,6 +1054,8 @@ class LeptonVetoScaleFactorSystematic:
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1302,6 +1308,8 @@ class WeightSystematicFromTrees(SystematicCalculator):
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
@@ -1477,8 +1485,9 @@ class TriggerTurnOnSystematic:
         ]
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         self._intLumi = intLumi
-
 
     def addChannel (self, role, name, suffix, condorDir):
         channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}

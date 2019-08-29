@@ -105,6 +105,8 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
         thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             thisWeight *= chain.eventvariable_L1ECALPrefiringWeight
+        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+            self._weightsCentral.append('eventvariable_hem1516weight')
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 

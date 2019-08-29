@@ -56,6 +56,8 @@ private:
   
   bool doHEMweights;
   TH1D * hem1516weights_;
+
+  double hem1516lumi_before_, hem1516lumi_after_; // before and after the problem
 };
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
@@ -74,13 +76,14 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   doHEMweights = cfg.getParameter<string>("hem1516filePath") != "";
 
   if (doHEMweights) {
-    cout << "\tdurp: doHEMweights so getting -- " << cfg.getParameter<string>("hem1516filePath").c_str() << endl;
     TFile * hem1516file_ = new TFile(cfg.getParameter<string>("hem1516filePath").c_str());
-    cout << "\tdurp: getting 2018CD from it" << endl;
     hem1516weights_ = (TH1D*)hem1516file_->Get("2018CD");
     hem1516weights_->SetDirectory(0);
     hem1516file_->Close();
-    cout << "\tdurp okay has entries = " << hem1516weights_->GetEntries() << endl;
+    hem1516lumi_before_ = cfg.getParameter<double>("hem1516lumiBefore");
+    hem1516lumi_after_ = cfg.getParameter<double>("hem1516lumiAfter");
+
+    cout << "\tHEM 15/16 corrections applied with (" << hem1516lumi_before_ << " /pb) before it failed, and (" << hem1516lumi_after_ << " /pb) after it failed" << endl;
   }
 }
 
@@ -223,16 +226,18 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     }
   }
 
-  // durp
   double hem1516_weight = 1.0;
   double hem1516_weight_up = 1.0;
   double hem1516_weight_down = 1.0;
   if (doHEMweights) {
     for (const auto &jet1 : *jets) {
       if (!IsValidJet(jet1)) continue;
-      cout << "\tdurp *= weight " << hem1516weights_->GetBinContent(hem1516weights_->GetXaxis()->FindBin(jet1.phi())) << endl;
       double thisWeight = hem1516weights_->GetBinContent(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
       double thisError = hem1516weights_->GetBinError(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
+
+      // weight for luminosity; before the issue w=1 (no weights)
+      thisWeight = (hem1516lumi_before_ + thisWeight * hem1516lumi_after_) / (hem1516lumi_before_ + hem1516lumi_after_);
+      thisError = thisError * hem1516lumi_after_ / (hem1516lumi_before_ + hem1516lumi_after_);
 
       hem1516_weight *= thisWeight;
       hem1516_weight_up *= thisWeight + thisError;
