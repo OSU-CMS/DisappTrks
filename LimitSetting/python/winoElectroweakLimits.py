@@ -88,7 +88,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	actual_bin_name = 'Bin2017' + nLayersWord
 	intLumi = lumi["MET_2017"]
 elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v2/'
+	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3/'
 	signal_suffix = signal_suffix_in_datacard = '102X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -142,11 +142,11 @@ elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
 	data_condor_dir = dirs["Brian"] + '/2018/unblindedResults/'
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
 	useHistogramForObservation = False
-	if arguments.era == "2017_NLayers4":
+	if arguments.era == "2018_NLayers4":
 		rawObservation = 0
-	elif arguments.era == "2017_NLayers5":
+	elif arguments.era == "2018_NLayers5":
 		rawObservation = 0
-	elif arguments.era == "2017_NLayers6plus":
+	elif arguments.era == "2018_NLayers6plus":
 		rawObservation = 0
 
 ################################
@@ -170,6 +170,14 @@ external_systematic_uncertainties = [
     "trigger_grandOrWeightMC",
 ]
 
+if arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
+	external_systematic_uncertainties = [
+    	"isr",
+    	"pileup",
+    	"trigger_grandOrWeightData",
+    	"trigger_grandOrWeightMC",
+	]
+
 if not arguments.era in ["20156", "2017_all", "run2"]:
 	for i in range(len(external_systematic_uncertainties)):
 		external_systematic_uncertainties[i] += "_" + arguments.era
@@ -179,6 +187,8 @@ if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	external_systematic_uncertainties.append("muonVetoScaleFactor_"     + arguments.era)
 	if arguments.era != "2017_NLayers6plus":
 		external_systematic_uncertainties.append("triggerTurnOn_"           + arguments.era)
+if arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
+	external_systematic_uncertainties.append("HEM1516Weight_" + arguments.era)
 
 if arguments.era == "2015":
 	signal_systematic_uncertainties = {
@@ -240,7 +250,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	        'value' : '1.023',
 	    },
 	    'trkReco_Bin2017_' + nLayersWord :  {
-	        'value' : '1.045', # use value from 2016
+	        'value' : '1.021',
 	    },
 	    'Ecalo_Bin2017_' + nLayersWord : {
 	        'value' : str (1.0 + 0.956275783525 / 100.0),
@@ -258,7 +268,7 @@ elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
 	        'value' : '1.023',
 	    },
 	    'trkReco_Bin2018_' + nLayersWord :  {
-	        'value' : '1.045', # use value from 2016
+	        'value' : '1.025', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
 	    },
 	    'Ecalo_Bin2018_' + nLayersWord : {
 	        'value' : str (1.0 + 0.373129152421 / 100.0),
