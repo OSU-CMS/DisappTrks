@@ -147,27 +147,38 @@ class LikelihoodEstimator:
         pixelHits.Sumw2()
         pixelHits.SetDirectory(0)
 
-        nplot = TH1D('nOver5', 'nOver5', 10, 0, 10)
+        nplot = TH1D('nOver5', 'nOver5;number of pixel hits (> 5 MeV/cm)', 10, 0, 10)
         nplot.SetDirectory(0)
 
         pixSize = TH1D('pixelSize', 'pixelSize', 100, 0, 100)
-        chargeVsSize = TH2D('chargeVsSize', 'chargeVsSize', 100, 0, 100, 1000, 0, 100)
+        pixSizeX = TH1D('pixelSizeX', 'pixelSizeX', 100, 0, 100)
+        pixSizeY = TH1D('pixelSizeY', 'pixelSizeY', 100, 0, 100)
+        pixSizeYvsX = TH2D('pixelSizeYvsX', 'pixelSizeYvsX', 100, 0, 100, 100, 0, 100)
+        chargeVsSize = TH2D('chargeVsSize', 'chargeVsSize;pixel cluster size;dE/dx [MeV/cm]', 100, 0, 100, 1000, 0, 100)
+
+        sizeVsHitNumber = TH2D('sizeVsHitNumber', 'sizeVsHitNumber;hit number;pixel cluster size', 6, 0, 6, 100, 0, 100)
+        chargeVsHitNumber = TH2D('chargeVsHitNumber', 'chargeVsHitNumber;hit number;dE/dx [MeV/cm]', 6, 0, 6, 100, 0, 100)
 
         for event in self._observation:
             hitCharges = [getattr(event, 'eventvariable_hitCharge_0_%d' % i) for i in range(20)]
             hitIsPixel = [getattr(event, 'eventvariable_hitIsPixel_0_%d' % i) for i in range(20)]
             pixelSize = [getattr(event, 'eventvariable_pixelSize_0_%d' % i) for i in range(20)]
+            pixelSizeX = [getattr(event, 'eventvariable_pixelSizeX_0_%d' % i) for i in range(20)]
+            pixelSizeY = [getattr(event, 'eventvariable_pixelSizeY_0_%d' % i) for i in range(20)]
             nOver5 = 0
             for i in range(20):
                 if hitIsPixel[i]:
                     pixelHits.Fill(hitCharges[i])
                     chargeVsSize.Fill(pixelSize[i], hitCharges[i])
                     pixSize.Fill(pixelSize[i])
+                    pixSizeX.Fill(pixelSizeX[i])
+                    pixSizeY.Fill(pixelSizeY[i])
+                    pixSizeYvsX.Fill(pixelSizeX[i], pixelSizeY[i])
                     if hitCharges[i] > 5:
                         nOver5 += 1
+                    sizeVsHitNumber.Fill(i, pixelSize[i])
+                    chargeVsHitNumber.Fill(i, hitCharges[i])
             nplot.Fill(nOver5)
-
-
 
         if pixelHits.Integral(1, -1) > 0:
             pixelHits.Scale(1.0 / pixelHits.Integral(1, -1))
@@ -175,7 +186,12 @@ class LikelihoodEstimator:
         pixelHits.Write()
         nplot.Write()
         pixSize.Write()
+        pixSizeX.Write()
+        pixSizeY.Write()
+        pixSizeYvsX.Write()
         chargeVsSize.Write()
+        chargeVsHitNumber.Write()
+        sizeVsHitNumber.Write()
         print 'Created observationPdf_' + self._nLayersWord + '.root'
         fout.Close()
 

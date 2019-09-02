@@ -265,7 +265,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
 	signal_systematic_uncertainties = {
 	    'lumi_Bin2018_' + nLayersWord :  {
-	        'value' : '1.023',
+	        'value' : '1.025',
 	    },
 	    'trkReco_Bin2018_' + nLayersWord :  {
 	        'value' : '1.025', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
