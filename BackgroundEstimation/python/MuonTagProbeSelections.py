@@ -111,6 +111,19 @@ MuonTagPt55MetCut.name = cms.string("MuonTagPt55MetCut")
 addCuts(MuonTagPt55MetCut.cuts, [cutMuonMetMinusOne])
 
 ################################################################################
+# Versions of the above with a veto on MET phi do deal with HEM 15/16
+# in 2018 CD
+################################################################################
+
+MuonTagPt55HEMveto = copy.deepcopy(MuonTagPt55)
+MuonTagPt55HEMveto.name = cms.string("MuonTagPt55HEMveto")
+addCuts(MuonTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+MuonTagPt55MetTrigHEMveto = copy.deepcopy(MuonTagPt55MetTrig)
+MuonTagPt55MetTrigHEMveto.name = cms.string("MuonTagPt55MetTrigHEMveto")
+addCuts(MuonTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+################################################################################
 ## Muon tag and probe sample
 ################################################################################
 ZtoMuProbeTrkWithZCuts = copy.deepcopy(MuonTagSkim)
@@ -232,6 +245,8 @@ removeCuts(ZtoMuDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 createHitsVariations (MuonTagPt55,               "MuonTagPt55")
 createHitsVariations (MuonTagPt55MetTrig,        "MuonTagPt55MetTrig")
+createHitsVariations (MuonTagPt55HEMveto,        "MuonTagPt55HEMveto")
+createHitsVariations (MuonTagPt55MetTrigHEMveto, "MuonTagPt55MetTrigHEMveto")
 createHitsVariations (ZtoMuProbeTrkWithZCuts,    "ZtoMuProbeTrkWithZCuts")
 createHitsVariations (ZtoMuDisTrk,               "ZtoMuDisTrk")
 createHitsVariations (ZtoMuProbeTrk,             "ZtoMuProbeTrk")

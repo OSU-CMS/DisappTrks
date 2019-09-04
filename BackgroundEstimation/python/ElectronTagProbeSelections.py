@@ -118,6 +118,19 @@ ElectronTagPt55MetCut.name = cms.string("ElectronTagPt55MetCut")
 addCuts(ElectronTagPt55MetCut.cuts, [cutElectronMetMinusOne])
 
 ################################################################################
+# Versions of the above with a veto on MET phi do deal with HEM 15/16
+# in 2018 CD
+################################################################################
+
+ElectronTagPt55HEMveto = copy.deepcopy(ElectronTagPt55)
+ElectronTagPt55HEMveto.name = cms.string("ElectronTagPt55HEMveto")
+addCuts(ElectronTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+ElectronTagPt55MetTrigHEMveto = copy.deepcopy(ElectronTagPt55MetTrig)
+ElectronTagPt55MetTrigHEMveto.name = cms.string("ElectronTagPt55MetTrigHEMveto")
+addCuts(ElectronTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+################################################################################
 ## Electron tag and probe sample
 ################################################################################
 ZtoEleProbeTrkWithZCuts = copy.deepcopy(ElectronTagSkim)
@@ -234,6 +247,8 @@ removeCuts(ZtoEleDisTrkNoValidHitsCut.cuts, [cutTrkNValidHitsSignal])
 ################################################################################
 createHitsVariations (ElectronTagPt55,            "ElectronTagPt55")
 createHitsVariations (ElectronTagPt55MetTrig,     "ElectronTagPt55MetTrig")
+createHitsVariations (ElectronTagPt55HEMveto,        "ElectronTagPt55HEMveto")
+createHitsVariations (ElectronTagPt55MetTrigHEMveto, "ElectronTagPt55MetTrigHEMveto")
 createHitsVariations (ZtoEleProbeTrkWithZCuts,    "ZtoEleProbeTrkWithZCuts")
 createHitsVariations (ZtoEleDisTrk,               "ZtoEleDisTrk")
 createHitsVariations (ZtoEleProbeTrk,             "ZtoEleProbeTrk")
