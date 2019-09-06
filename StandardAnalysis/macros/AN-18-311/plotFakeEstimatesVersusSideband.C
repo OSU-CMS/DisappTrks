@@ -1,5 +1,7 @@
 const bool run2017 = true;
 
+const bool drawSingleSB = true;
+
 void go2017() {
   TH1D * h4 = new TH1D("h4", "h4;sideband lower bound |d_{xy}| [cm];fake track estimate", 10, 0, 0.5);
   TH1D * h5 = new TH1D("h5", "h5;sideband lower bound |d_{xy}| [cm];fake track estimate", 10, 0, 0.5);
@@ -21,6 +23,9 @@ void go2017() {
   TLine * mean4 = new TLine(0, 11.22, 0.5, 11.22);
   TBox *  err4 = new TBox(0, 11.22 - 0.82, 0.5, 11.22 + 0.82);
 
+  TLine * singleSB4 = new TLine(0, 10.87, 0.5, 10.87);
+  TBox * singleSBerr4 = new TBox(0, 10.87 - 0.66, 0.5, 10.87 + 0.66);
+
   double values_5[9] = {0.7, 2.12, 0.29, 0.89, 1.22, 1.4, 0.0, 1.6, 0.0};
   double errors_5[9] = {0.31, 0.64, 0.29, 0.63, 0.86, 1.0, 0.87, 1.1, 0.89};
 
@@ -36,6 +41,9 @@ void go2017() {
 
   TLine * mean5 = new TLine(0, 0.91, 0.5, 0.91);
   TBox  * err5 = new TBox(0, 0.91 - 0.22, 0.5, 0.91 + 0.26);
+
+  TLine * singleSB5 = new TLine(0, 1.00, 0.5, 1.00);
+  TBox * singleSBerr5 = new TBox(0, 1.00 - 0.2, 0.5, 1.00 + 0.2);
 
   double values_6[9] = {0.14, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   double errors_6[9] = {0.14, 0.22, 0.33, 0.50, 0.69, 0.82, 0.87, 0.88, 0.89};
@@ -53,6 +61,9 @@ void go2017() {
   TLine * mean6 = new TLine(0, 0.02, 0.5, 0.02);
   TBox * err6 = new TBox(0, 0.02 - 0.02, 0.5, 0.02 + 0.22);
 
+  TLine * singleSB6 = new TLine(0, 0.04, 0.5, 0.04);
+  TBox * singleSBerr6 = new TBox(0, 0.04 - 0.4, 0.5, 0.04 + 0.04);
+
   h4->GetYaxis()->SetRangeUser(5e-2, 20);
   h4->GetYaxis()->SetTitleOffset(1.0);
 
@@ -64,17 +75,33 @@ void go2017() {
   mean5->SetLineColor(8);
   mean6->SetLineColor(kBlue);
 
+  singleSB4->SetLineColor(kRed);
+  singleSB5->SetLineColor(8);
+  singleSB6->SetLineColor(kBlue);
+
   err4->SetLineColor(kRed);
   err5->SetLineColor(8);
   err6->SetLineColor(kBlue);
+
+  singleSBerr4->SetLineColor(kRed);
+  singleSBerr5->SetLineColor(8);
+  singleSBerr6->SetLineColor(kBlue);
 
   err4->SetFillColor(kRed);
   err5->SetFillColor(8);
   err6->SetFillColor(kBlue);
 
+  singleSBerr4->SetFillColor(kRed);
+  singleSBerr5->SetFillColor(8);
+  singleSBerr6->SetFillColor(kBlue);
+
   err4->SetFillStyle(3002);
   err5->SetFillStyle(3002);
   err6->SetFillStyle(3002);
+
+  singleSBerr4->SetFillStyle(3002);
+  singleSBerr5->SetFillStyle(3002);
+  singleSBerr6->SetFillStyle(3002);
 
   h4->SetMarkerColor(kRed);
   h5->SetMarkerColor(8);
@@ -88,6 +115,10 @@ void go2017() {
   mean5->SetLineWidth(3);
   mean6->SetLineWidth(3);
 
+  singleSB4->SetLineWidth(3);
+  singleSB5->SetLineWidth(3);
+  singleSB6->SetLineWidth(3);
+
   TCanvas * can = new TCanvas("c1", "c1", 10, 10, 800, 800);
   can->SetLogy(true);
 
@@ -95,13 +126,24 @@ void go2017() {
   h5->Draw("e1 same");
   h6->Draw("e1 same");
 
-  mean4->Draw("same");
-  mean5->Draw("same");
-  mean6->Draw("same");
+  if(drawSingleSB) {
+    singleSB4->Draw("same");
+    singleSB5->Draw("same");
+    singleSB6->Draw("same");
 
-  err4->Draw("same");
-  err5->Draw("same");
-  err6->Draw("same");
+    singleSBerr4->Draw("same");
+    singleSBerr5->Draw("same");
+    singleSBerr6->Draw("same");
+  }
+  else {
+    mean4->Draw("same");
+    mean5->Draw("same");
+    mean6->Draw("same");
+
+    err4->Draw("same");
+    err5->Draw("same");
+    err6->Draw("same");
+  }
 
   TLatex * prelim = new TLatex();
   prelim->SetNDC();

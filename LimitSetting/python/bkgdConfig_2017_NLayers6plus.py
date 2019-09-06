@@ -4,20 +4,20 @@
 
 backgrounds = {
     'Fake' : {
-        'yield' : '0.02',
-        'error' : str (1.0 - 0.02/0.2) + '/' + str(1.0 + 0.22/0.02),
+        'N' : '1',
+        'alpha' : '0.0401045591525',
     },
     'Elec' : {
-        'N' : '33',
-        'alpha' : '0.142867612755',
+        'N' : '487280',
+        'alpha' : '9.68654274291e-06',
     },
     'Muon' : {
-        'N' : '10',
-        'alpha' : '0.0479208828347',
+        'N' : '851260',
+        'alpha' : '5.62966412617e-07',
     },
     'Tau' : {
-        'N' : '7',
-        'alpha' : '0.0534253089594',
+        'N' : '5130',
+        'alpha' : '9.80525123437e-05',
     },
 }
 
@@ -27,25 +27,25 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.01047519123',
+        'value' : '1.18461799309',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.0034194308',
+        'value' : '1.424276463',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.17312628559',
+        'value' : '1.46083926013',
         'background' : 'Tau',
     },
 
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.38923987949',
+        'value' : '1.42537586979',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers6plus' : { # difference between ZtoMuMu and ZtoEE methods
-    'value' : str (1.0 + (0.07 - 0.02) / 0.02),
+    'value' : str (1.0 + abs(0.04 - 0.122) / 0.04),
         'background' : 'Fake',
     },
 

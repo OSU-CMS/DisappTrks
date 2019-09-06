@@ -103,8 +103,10 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
             printLock.release()
             continue # or lifetimeWeight = 0 really
         thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
-        if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+        if arguments.era.startswith('2017_'):
             thisWeight *= chain.eventvariable_L1ECALPrefiringWeight
+        elif arguments.era.startswith('2018_'):
+            thisWeight *= chain.eventvariable_hem1516weight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 
@@ -160,7 +162,7 @@ def GetYieldAndError(condor_dir, process, channel):
 
     return yieldAndError
 
-def writeDatacard(mass, lifetime, observation, dictionary):
+def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFactor):
     global semaphore
     global printLock
 
@@ -188,7 +190,10 @@ def writeDatacard(mass, lifetime, observation, dictionary):
     signal_yield_weight = signalYieldAndError['weight']
 
     target_signal_yield = 10.0
-    signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
+    if ignoreSignalScaleFactor:
+        signal_yield_sf = 1.0
+    else:
+        signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
     signal_yield_without_sf = signal_yield
     signal_yield *= signal_yield_sf
     signal_yield_weight *= signal_yield_sf
@@ -464,7 +469,7 @@ print
 
 for mass in masses:
     for lifetime in lifetimes:
-        threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors)))
+        threads.append (Thread (target = writeDatacard, args = (mass, lifetime, observation, allYieldsAndErrors, arguments.ignoreSignalScaleFactor)))
         threads[-1].start ()
 for thread in threads:
     thread.join ()

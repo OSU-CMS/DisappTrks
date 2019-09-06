@@ -303,6 +303,7 @@ histSets = cms.VPSet (
     MetExtraHistograms,
     MetEventVariableHistograms,
     JetHistograms,
+    JetMetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
     TrackMETHistograms,
@@ -323,6 +324,7 @@ histSetsMetJet = cms.VPSet (
     MetExtraHistograms,
     MetEventVariableHistograms,
     JetHistograms,
+    JetMetHistograms,
     EventVariableHistograms,
     EventVariablePVHistograms,
 )
@@ -374,6 +376,7 @@ histSetsParticleGun = cms.VPSet (
 ################################################################################
 
 from DisappTrks.StandardAnalysis.TreeBranchDefinitions import *
+from DisappTrks.MELA.MELABranchDefinitions import *
 
 branchSets = cms.VPSet (
     EventVariableBranches,
@@ -392,6 +395,13 @@ branchSetsIsolatedTracks = cms.VPSet (
 
 branchSetsParticleGun = cms.VPSet (
     FakeDecayBranches,
+)
+
+branchSetsMELA = cms.VPSet (
+    MELAeventvariableBranches,
+    MELAtrackMetBranches,
+    MELAtrackJetBranches,
+    MELAtrackBranches,
 )
 
 ################################################################################

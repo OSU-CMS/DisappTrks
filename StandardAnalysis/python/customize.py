@@ -14,7 +14,8 @@ def customize (process,
                applyTriggerReweighting = True,
                applyMissingHitsCorrections = True,
                runMETFilters = True,
-               runEcalBadCalibFilters = True):
+               runEcalBadCalibFilters = True,
+               applyHEMCorrections = False):
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
@@ -140,7 +141,6 @@ def customize (process,
             process.prefiringweight.DataEra = cms.string("2017BtoF")
             process.L1PrefiringWeightProducer.DataEra = cms.string("2017BtoF")
 
-    # fixme, all set to 2017 values
     elif runPeriod == "2018":
         process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2018")
@@ -148,7 +148,7 @@ def customize (process,
         process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2018') # fixme
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
@@ -163,12 +163,11 @@ def customize (process,
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        # fixme incomplete
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
-        setMissingHitsCorrection (process, "2017") # fixme
+        setMissingHitsCorrection (process, "2018")
 
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")
@@ -262,4 +261,14 @@ def customize (process,
     if hasattr (process, "EventJetVarProducer") and not hasattr (process.EventJetVarProducer, "triggerNames"):
         process.EventJetVarProducer.triggerNames = cms.vstring ()
 
+    # if applyHEMCorrections = False, no payload file is given and the weights are stored as just 1.0
+    if applyHEMCorrections:
+        process.EventJetVarProducer.hem1516filePath = cms.string(os.environ["CMSSW_BASE"] + '/src/DisappTrks/StandardAnalysis/data/hem1516_weights.root')
+        process.EventJetVarProducer.hem1516lumiBefore = cms.double(21084.9408857)
+        process.EventJetVarProducer.hem1516lumiAfter = cms.double(38637.7627244)
+    else:
+        process.EventJetVarProducer.hem1516filePath = cms.string('')
+        process.EventJetVarProducer.hem1516lumiBefore = cms.double(21084.9408857)
+        process.EventJetVarProducer.hem1516lumiAfter = cms.double(38637.7627244)
+        
     return process

@@ -3,6 +3,7 @@
 
 #include "TH2D.h"
 #include "TH1D.h"
+#include "TFile.h"
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "TLorentzVector.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
@@ -52,6 +53,11 @@ private:
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
 
   vector<string> triggerNames;
+  
+  bool doHEMweights;
+  TH1D * hem1516weights_;
+
+  double hem1516lumi_before_, hem1516lumi_after_; // before and after the problem
 };
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
@@ -66,6 +72,19 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
+
+  doHEMweights = cfg.getParameter<string>("hem1516filePath") != "";
+
+  if (doHEMweights) {
+    TFile * hem1516file_ = new TFile(cfg.getParameter<string>("hem1516filePath").c_str());
+    hem1516weights_ = (TH1D*)hem1516file_->Get("2018CD");
+    hem1516weights_->SetDirectory(0);
+    hem1516file_->Close();
+    hem1516lumi_before_ = cfg.getParameter<double>("hem1516lumiBefore");
+    hem1516lumi_after_ = cfg.getParameter<double>("hem1516lumiAfter");
+
+    cout << "\tHEM 15/16 corrections applied with (" << hem1516lumi_before_ << " /pb) before it failed, and (" << hem1516lumi_after_ << " /pb) after it failed" << endl;
+  }
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -195,6 +214,37 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
 
   bool hasCharginoFlag = hasChargino (mcParticles), hasNeutralinoFlag = hasNeutralino (mcParticles);
 
+  bool jetIn_hem1516 = false;
+  bool jetOpposite_hem1516 = false;
+  bool metJet_hem1516 = false;
+  for (const auto &jet1 : *jets) {
+    if (!IsValidJet(jet1)) continue;
+    if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
+      if (jet1.phi() >= -1.57 && jet1.phi() <= -0.87) jetIn_hem1516 = true;
+      if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159) jetOpposite_hem1516 = true;
+      if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159 && mets->at(0).phi() >= -1.57 && mets->at(0).phi() <= -0.87) metJet_hem1516 = true;
+    }
+  }
+
+  double hem1516_weight = 1.0;
+  double hem1516_weight_up = 1.0;
+  double hem1516_weight_down = 1.0;
+  if (doHEMweights) {
+    for (const auto &jet1 : *jets) {
+      if (!IsValidJet(jet1)) continue;
+      double thisWeight = hem1516weights_->GetBinContent(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
+      double thisError = hem1516weights_->GetBinError(hem1516weights_->GetXaxis()->FindBin(jet1.phi()));
+
+      // weight for luminosity; before the issue w=1 (no weights)
+      thisWeight = (hem1516lumi_before_ + thisWeight * hem1516lumi_after_) / (hem1516lumi_before_ + hem1516lumi_after_);
+      thisError = thisError * hem1516lumi_after_ / (hem1516lumi_before_ + hem1516lumi_after_);
+
+      hem1516_weight *= thisWeight;
+      hem1516_weight_up *= thisWeight + thisError;
+      hem1516_weight_down *= thisWeight - thisError;
+    }
+  }
+
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["ptJetLeading"]     = ptJetLeading;
@@ -224,6 +274,13 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["numberOfCharginos"]  = (hasCharginoFlag ? (hasNeutralinoFlag ? 1 : 2) : 0);
 
   (*eventvariables)["packedTriggerFiresBit"] = (triggerBits.isValid () ? packTriggerFires(event, triggerBits) : 0);
+
+  (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
+  (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
+  (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
+  (*eventvariables)["hem1516weight"] = hem1516_weight;
+  (*eventvariables)["hem1516weightUp"] = hem1516_weight_up;
+  (*eventvariables)["hem1516weightDown"] = hem1516_weight_down;
 
   isFirstEvent_ = false;
 }

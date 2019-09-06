@@ -862,7 +862,21 @@ JetMetHistograms = cms.PSet(
             indexX = cms.untracked.int32(0),
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("met.noMuPt", "jet.pt"),
-        )
+        ),
+        cms.PSet(
+            name = cms.string("metPhiVsJetPhi"),
+            title = cms.string(";Jet #phi;E_{T}^{miss} #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("jet.phi", "met.phi"),
+        ),
+        cms.PSet(
+            name = cms.string("metNoMuPhiVsJetPhi"),
+            title = cms.string(";Jet #phi;E_{T}^{miss, no #mu} #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("jet.phi", "met.noMuPhi"),
+        ),
     ),
 )
 
@@ -1757,6 +1771,27 @@ EventVariableHistograms = cms.PSet(
             weight = cms.untracked.bool(False),
         ),
         cms.PSet (
+            name = cms.string("hem1516weight"),
+            title = cms.string(";HEM 15/16 jet #phi weight"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weight"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("hem1516weightUp"),
+            title = cms.string(";HEM 15/16 jet #phi weight +1#sigma"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weightUp"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
+            name = cms.string("hem1516weightDown"),
+            title = cms.string(";HEM 15/16 jet #phi weight -1#sigma"),
+            binsX = cms.untracked.vdouble(100, 0.0, 2.0),
+            inputVariables = cms.vstring("hem1516weightDown"),
+            weight = cms.untracked.bool(False),
+        ),
+        cms.PSet (
             name = cms.string("didDecay0"),
             title = cms.string(";did decay"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),
@@ -1952,6 +1987,24 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";number of charginos"),
             binsX = cms.untracked.vdouble(3, -0.5, 2.5),
             inputVariables = cms.vstring("numberOfCharginos"),
+        ),
+        cms.PSet (
+            name = cms.string("jetInHEM1516"),
+            title = cms.string(";jet pointing towards HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("jetInHEM1516"),
+        ),
+        cms.PSet (
+            name = cms.string("jetOppositeHEM1516"),
+            title = cms.string(";jet pointing away from HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("jetOppositeHEM1516"),
+        ),
+        cms.PSet (
+            name = cms.string("metJetHEM1516"),
+            title = cms.string(";jet pointing away, met towards HEM 15/16"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("metJetHEM1516"),
         ),
     )
 )

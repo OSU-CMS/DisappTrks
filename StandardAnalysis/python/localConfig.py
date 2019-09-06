@@ -61,7 +61,7 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasetsBkgd.append('TTJetsComposite')
 else:
     datasetsBkgd.append('TTJets')
@@ -269,12 +269,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         'SingleTop_tbarW',
     ]
     composite_dataset_definitions['TTJetsComposite'] = [
-        'TTJets_inclusive',
-  #      'TTJets_SingleLeptFromT',
-  #      'TTJets_DiLept',
-        'TTJets_SingleLeptFromTbar',
+        'TTJets_SemiLeptonic',
+        'TTJets_2L2Nu',
+        'TTJets_Hadronic',        
     ]
-    # no 5-10, 10-15 samples in 94X
+    # no 5-10, 10-15 samples in 102X
     composite_dataset_definitions['QCD'] = [
         'QCD_15to30',
         'QCD_30to50',
@@ -302,19 +301,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         'ZJetsToNuNu_HT2500toInf',
     ]
     composite_dataset_definitions["VV"] = [
-        'WWToLNuQQ',
-        'WWToLNuLNu',
-        'WZToLNu2QorQQ2L',
-        'WZToLNuNuNu',
-        'WZToLLLNu',
-        'WG',
-        'ZG',
+        'WW',
+        'WZ',
+        'ZZ',
     ]
     composite_dataset_definitions["VG"] = [
         'WG',
         'ZG',
     ]
     composite_dataset_definitions['WJetsToLNu_HT'] = [
+        'WJetsToLNu_HT70to100',
         'WJetsToLNu_HT100to200',
         'WJetsToLNu_HT200to400',
         'WJetsToLNu_HT400to600',

@@ -4,20 +4,22 @@
 
 backgrounds = {
     'Fake' : {
-        'yield' : '11.22',
-        'error' : str (1.0 + 0.82/10.84),
+        'N' : '271',
+        'alpha' : '0.0401045591548',
     },
     'Elec' : {
-        'N' : '15',
-        'alpha' : '0.0756021250521',
+        'N' : '4690',
+        'alpha' : '0.00024571115223',
     },
     'Muon' : {
-        'N' : '104',
-        'alpha' : '0.0011607222849',
+        # really should be N=1, alpha=0.0 - 0.0 + 0.00189403535617
+        # re-parameterize with N = 0 (p_veto numerator)
+        'N' : '0',
+        'alpha' : '0.0017',
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.022230490',
+        'alpha' : '0.00679298350983',
     },
 }
 
@@ -27,25 +29,25 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
-        'value' : '1.10006941274',
+        'value' : '1.63667781118',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
-        'value' : '2.00120350117',
+        'value' : '2.00320619491',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers4' : { # error on alpha
-        'value' : '0.00508931961', # 0 +0.00508931961 -0
+        'value' : '0.236387898146/2.22039172999',
         'background' : 'Tau',
     },
 
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.38923987949',
+        'value' : '1.42537586979',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers4' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : str (1.0 + (11.22 - 10.80) / 11.22),
+        'value' : str (1.0 + (10.87 - 10.17) / 10.87),
         'background' : 'Fake',
     },
 

@@ -40,14 +40,23 @@ parser.add_option("-e", "--era", dest="era", default="",
                   help="data-taking era for which to create cards")
 parser.add_option("-l", "--limitType", dest="limitType", default="",
                   help="type of limit to use (which signal grid)")
+parser.add_option("--ignoreSignalScaleFactor", dest="ignoreSignalScaleFactor", action='store_true', default=False,
+                  help="ignore the normalization of signal yields to 10.0 by way of scale factors; needed for Significance")
+parser.add_option("--plotSignificance", dest="plotSignificance", action='store_true', default=False,
+                  help="plot only the signficance")
 
 (arguments, args) = parser.parse_args()
 
 validEras = ["2015", 
              "2016BC", "2016DEFGH", 
              "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus",
+             "2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus",
              "20156",
              "2017_all",
+             "2018_all",
              "run2"]
 
-validLimitTypes = ["wino"]
+validLimitTypes = [
+      "wino",
+      "higgsino",
+]

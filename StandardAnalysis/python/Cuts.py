@@ -55,6 +55,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 else:
     print "# MetNoMu > 100 GeV"
 
+cutVetoMetPhiHEM1516 = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("phi < -1.6 || phi > -0.6"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutDummyMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("noMuPt > -1"),

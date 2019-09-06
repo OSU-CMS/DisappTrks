@@ -12,7 +12,7 @@ yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
-showObserved = (not arguments.era.startswith("2017") and arguments.era != "run2")
+showObserved = (not arguments.era.startswith("2018") and arguments.era != "run2")
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -234,6 +234,34 @@ plotDefinitions = [
             'th2fsToInclude' : ['exp'] + (['obs'] if showObserved else []),
         },
     },
+
+    # only plotted if option "--plotSignificance"
+    {
+        'title' : 'significance_vs_mass_color',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : True,
+
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        'yAxisType' : 'lifetime',
+
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+        'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
+        'zAxisLabel' : 'significance p-value',
+        #'zAxisFixMin' : 0.005,
+        'zAxisFixMax' : 1,
+
+        'fillPotHoles' : True,
+
+        #'extraDrawOptions' : "text",
+
+         #'theoryLabel' : 'tan#beta = 5, #mu > 0',
+
+        'th2fs' : {
+            'th2fsToInclude' : ['exp'] + (['obs'] if showObserved else []),
+        },
+    }
 
 ]
 

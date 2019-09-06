@@ -579,23 +579,33 @@ class LeptonBkgdEstimate:
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
 
-        nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         nEst.isPositive ()
 
-        N = alpha = alphaError = float ("nan")
-        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            N = passes
+        alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        alpha.isPositive ()
+        alpha.printLongFormat ()
+
+        if alpha.centralValue () > 0:
+            print "N: " + str (nCtrl)
+        else:
+            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
+            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
             if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
+            print "N: " + str (passes)
 
-        alpha.printLongFormat ()
-
-        print "N: " + str (N)
         print "alpha: " + str (alpha)
-        if not (alpha == 0):
-            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+        if alpha.centralValue () > 0:
+            if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
+                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+            else:
+                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+        else:
+            print 'WARNING: alpha STILL ended up as zero, so no relative error can be printed.'
+
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
@@ -612,23 +622,33 @@ class LeptonBkgdEstimate:
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
 
-        nEst = nCtrl * pPassVeto * pPassMetCut * pPassMetTriggers
+        nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         nEst.isPositive ()
 
-        N = alpha = alphaError = float ("nan")
-        if hasattr (passes, "centralValue") and hasattr (total, "centralValue"):
-            N = passes
+        alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        alpha.isPositive ()
+        alpha.printLongFormat ()
+
+        if alpha.centralValue () > 0:
+            print "N: " + str (nCtrl)
+        else:
+            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
+            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
             if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
+            print "N: " + str (passes)
 
-        alpha.printLongFormat ()
-
-        print "N: " + str (N)
         print "alpha: " + str (alpha)
-        if not (alpha == 0):
-            print "error on alpha: " + str (1.0 + (alpha.maxUncertainty () / alpha.centralValue ()))
+        if alpha.centralValue () > 0:
+            if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
+                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+            else:
+                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+        else:
+            print 'WARNING: alpha ended up as zero, so no relative error can be printed.'
+
         print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
         return nEst
 
@@ -646,9 +666,14 @@ class LeptonBkgdEstimate:
                     totalHist = getHistFromChannelDict (self.TagProbe, hist)
                     addChannelExtensions(totalHist, self.TagProbe, hist)
 
-                    if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
-                        hist = "Eventvariable Plots/nGoodSSTPPairs"
-                        totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+                    totalBackgroundExists = True
+
+                    hist = "Eventvariable Plots/nGoodSSTPPairs"
+                    totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+                    if not isinstance(totalBackgroundHist, TObject):
+                        print "Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!"
+                        totalBackgroundExists = False
+                    if totalBackgroundExists:
                         addChannelExtensions(totalBackgroundHist, self.TagProbe, hist)
 
                     hist = "Eventvariable Plots/nProbesPassingVeto"
@@ -668,7 +693,7 @@ class LeptonBkgdEstimate:
                         total += (ibin-1) * totalHist.GetBinContent (ibin)
                         totalError = math.hypot (totalError, (ibin-1) * totalHist.GetBinError (ibin))
 
-                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+                        if totalBackgroundExists:
                             totalBackground += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
                             totalBackgroundError = math.hypot (totalBackgroundError, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
 
@@ -696,10 +721,13 @@ class LeptonBkgdEstimate:
                         totalHist = getHistFromChannelDict (self.TagProbe1, hist)
                         addChannelExtensions(totalHist, self.TagProbe1, hist)
 
-                        if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
-                            hist = "Eventvariable Plots/nGoodSSTPPairs"
-                            totalBackgroundHist = getHistFromChannelDict(self.TagProbe1, hist)
-                            addChannelExtensions(totalBackgroundHist, self.TagProbe1, hist)
+                        totalBackgroundExists = True
+                        hist = "Eventvariable Plots/nGoodSSTPPairs"
+                        totalBackgroundHist = getHistFromChannelDict(self.TagProbe1, hist)
+                        if not isinstance(totalBackgroundHist, TObject):
+                            print "Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!"
+                            totalBackgroundExists = False
+                        addChannelExtensions(totalBackgroundHist, self.TagProbe1, hist)
 
                         hist = "Eventvariable Plots/nProbesPassingVeto"
                         passesHist = getHistFromChannelDict (self.TagProbePass1, hist)
@@ -718,9 +746,9 @@ class LeptonBkgdEstimate:
                             total1 += (ibin-1) * totalHist.GetBinContent (ibin)
                             total1Error = math.hypot (total1Error, (ibin-1) * totalHist.GetBinError (ibin))
 
-                            if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
-                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinError (ibin)
-                                totalBackground1Error += math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+                            if totalBackgroundExists:
+                                totalBackground1 += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
+                                totalBackground1Error = math.hypot (totalBackground1Error, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
 
                             passes1 += (ibin-1) * passesHist.GetBinContent (ibin)
                             passes1Error = math.hypot (passes1Error, (ibin-1) * passesHist.GetBinError (ibin))
@@ -749,7 +777,7 @@ class LeptonBkgdEstimate:
                     background1 = Measurement (background1, backgroundError)
 
                 if hasattr (self, "TagProbePass1"):
-                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '+', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '-', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
                 else:
                     print 'P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
 
@@ -758,17 +786,16 @@ class LeptonBkgdEstimate:
                 passes1 -= background1
 
                 if passes < 0:
-                    print 'Warning: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print 'INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
                     passes = Measurement (0.0, 0.0, up68)
                 if passes1 < 0:
-                    print 'Warning: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print 'INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
                     passes1 = Measurement (0.0, 0.0, up68)
 
-                if os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
-                    total -= totalBackground
-                    if total <= 0:
-                        print 'Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.'
-                        sys.exit()
+                total -= totalBackground
+                if total <= 0:
+                    print 'Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.'
+                    sys.exit()
 
                 passes.isPositive ()
                 passes1.isPositive ()
@@ -921,29 +948,29 @@ class LeptonBkgdEstimate:
 def gaussian (x, par):
     return TMath.Gaus (x[0], 0.0, par[0]) * par[1] + par[2]
 
+def flatFunction (x, par):
+    return par[0]
+
 def getIntegralError (f, a, b):
     integralError = Double (0.0)
     nominal = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
 
-    par0 = f.GetParameter (0)
-    par1 = f.GetParameter (1)
-    par2 = f.GetParameter (2)
+    pars = []
+    for i in range(f.GetNumberFreeParameters()):
+        pars.append(f.GetParameter(i))
 
     # Increasing each of the parameters should increase the integral
-    f.SetParameter (0, par0 + f.GetParError (0))
-    f.SetParameter (1, par1 + f.GetParError (1))
-    f.SetParameter (2, par2 + f.GetParError (2))
+    for i, par in enumerate(pars):
+        f.SetParameter(i, par + f.GetParError(i))
     up = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
 
     # Decreasing each of the parameters should increase the integral
-    f.SetParameter (0, par0 - f.GetParError (0))
-    f.SetParameter (1, par1 - f.GetParError (1))
-    f.SetParameter (2, par2 - f.GetParError (2))
+    for i, par in enumerate(pars):
+        f.SetParameter(i, par - f.GetParError(i))
     down = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
 
-    f.SetParameter (0, par0)
-    f.SetParameter (1, par1)
-    f.SetParameter (2, par2)
+    for i, par in enumerate(pars):
+        f.SetParameter(i, par)
 
     return max (abs (up - nominal), abs (down - nominal))
 
@@ -955,6 +982,8 @@ class FakeTrackBkgdEstimate:
     _nHits = None
     _minD0 = 0.02
     _maxD0 = 0.1
+    _reweightPileupToBasic = False
+    _useFlatD0Fit = False
 
     def __init__ (self):
         pass
@@ -980,6 +1009,12 @@ class FakeTrackBkgdEstimate:
     def addMaxD0 (self, maxD0):
         self._maxD0 = maxD0
 
+    def doReweightPileupToBasic (self, doReweight):
+        self._reweightPileupToBasic = doReweight
+
+    def setUseFlatD0Fit (self, doUseFlat):
+        self._useFlatD0Fit = doUseFlat
+
     def addChannel (self, role, name, sample, condorDir, verbose = True):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
@@ -989,6 +1024,15 @@ class FakeTrackBkgdEstimate:
         if verbose: print "yield for " + name + ": " + str (channel["yield"])
 
     def printTransferFactor (self, verbose = True):
+
+        if self._useFlatD0Fit:
+            transferFactor = self._minD0 / (self._maxD0 - self._minD0)
+            passes = 2.0 * (self._maxD0 - self._minD0)
+            fails = 2.0 * self._minD0
+            if verbose:
+                print 'Transfer factor (flat): (' + str (passes) + ') / ' + str (fails) + ') = ' + str (transferFactor)
+            return (transferFactor, passes, fails, 0.0, 0.0)
+
         if hasattr (self, "Basic3hits"):
             d0 = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPV")
             d0Mag = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPVMag")
@@ -1010,7 +1054,7 @@ class FakeTrackBkgdEstimate:
               f.SetParLimits (2, -1.0e3, 1.0e3)
               f.SetParName (2, "constant")
             for i in range (0, 10):
-              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+                d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
             d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
 
             if self._fout.IsOpen():
@@ -1020,7 +1064,7 @@ class FakeTrackBkgdEstimate:
 
             d0Mag.Scale (2.0)
             for i in range (0, 10):
-              d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+                d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
 
             passesError = Double (0.0)
             passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
@@ -1078,6 +1122,28 @@ class FakeTrackBkgdEstimate:
             if hasattr (self, "ZtoLL") and hasattr (self, "Basic"):
                 norm = self.Basic["yield"] / self.ZtoLL["yield"]
                 pFake = n / self.ZtoLL["yield"]
+
+                if self._reweightPileupToBasic:
+                    histName = 'Eventvariable Plots/numPVReco'
+                    puWeights = getHistFromChannelDict(self.Basic, histName)
+                    puZtoLL = getHistFromChannelDict(self.ZtoLL, histName)
+                    puWeights.Scale(1.0 / puWeights.Integral(0, -1))
+                    puZtoLL.Scale(1.0 / puZtoLL.Integral(0, -1))
+                    puWeights.Divide(puZtoLL)
+
+                    puBkgd = getHistFromChannelDict(self.DisTrkInvertD0, histName)
+                    nReweighted = 0.0
+                    nReweightedErr = 0.0
+                    for ibin in range(puBkgd.GetNbinsX() + 1):
+                        nReweighted += puWeights.GetBinContent(ibin+1) * puBkgd.GetBinContent(ibin+1)
+                        if puWeights.GetBinContent(ibin+1) > 0.0 and puBkgd.GetBinContent(ibin+1) > 0.0:
+                            nReweightedErr += (puWeights.GetBinContent(ibin+1) * puBkgd.GetBinContent(ibin+1) * 
+                                               math.hypot(puWeights.GetBinError(ibin+1) / puWeights.GetBinContent(ibin+1), 
+                                                          puBkgd.GetBinError(ibin+1) / puBkgd.GetBinContent(ibin+1))
+                                               ) ** 2
+                    nReweighted = Measurement(nReweighted, math.sqrt(nReweightedErr))
+                    print 'Reweighting pileup to BasicSelection, overall weight =', nReweighted, '/', self.DisTrkInvertD0["yield"], '=', nReweighted / self.DisTrkInvertD0["yield"]
+                    pFake = nReweighted / self.ZtoLL["yield"]
             elif hasattr (self, "Basic"):
                 pFake = n / self.Basic["yield"]
 

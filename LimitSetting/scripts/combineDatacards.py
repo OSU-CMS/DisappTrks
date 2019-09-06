@@ -46,7 +46,7 @@ for combinedCard in datacardCombinations:
     if not os.path.exists('limits/limits_' + combinedCard + '_' + suffix):
         os.mkdir('limits/limits_' + combinedCard + '_' + suffix)
 
-def makeCombinedCard (i, N, combinedCard, mass, lifetime):
+def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFactor):
     global semaphore
     global printLock
     global progress
@@ -97,52 +97,53 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime):
         sumYields += realYields['Bin' + card.replace('_', '')]
 
     # now scale the bins in the combined card so that their total is 10.0 events
-    scaleFactor = 10.0 / sumYields if sumYields > 0.0 else 1.0
-    scaledYields = {x : realYields[x] * scaleFactor for x in realYields}
+    if not ignoreSignalScaleFactor:
+        scaleFactor = 10.0 / sumYields if sumYields > 0.0 else 1.0
+        scaledYields = {x : realYields[x] * scaleFactor for x in realYields}
 
-    # edit the combined card, replacing the rates -- currently all scaled to 10.0 -- to (realYield * scaleFactor)
-    rateLines = subprocess.check_output('sed -n "/^rate/p" ' + outputCardFile, shell = True).split()
-    processLines = subprocess.check_output('sed -n "/^process\s*0\s*/p" ' + outputCardFile, shell = True).split()
-    binLines = subprocess.check_output('awk "/^bin/{c++; if (c==2) {print}}" ' + outputCardFile, shell = True).split()
+        # edit the combined card, replacing the rates -- currently all scaled to 10.0 -- to (realYield * scaleFactor)
+        rateLines = subprocess.check_output('sed -n "/^rate/p" ' + outputCardFile, shell = True).split()
+        processLines = subprocess.check_output('sed -n "/^process\s*0\s*/p" ' + outputCardFile, shell = True).split()
+        binLines = subprocess.check_output('awk "/^bin/{c++; if (c==2) {print}}" ' + outputCardFile, shell = True).split()
 
-    for iBin in range(len(rateLines)):
-        # skip headers in lines
-        if iBin == 0:
-            continue
-        # if this is a signal process (0), replace the rate with this new scaled value
-        if processLines[iBin] == '0':
-            rateLines[iBin] = str(scaledYields[binLines[iBin]])
+        for iBin in range(len(rateLines)):
+            # skip headers in lines
+            if iBin == 0:
+                continue
+            # if this is a signal process (0), replace the rate with this new scaled value
+            if processLines[iBin] == '0':
+                rateLines[iBin] = str(scaledYields[binLines[iBin]])
 
-    # now replace the rates in the combined card
-    subprocess.call('sed -i "s/^rate.*/' + ' '.join(rateLines) + '/" ' + outputCardFile, shell = True)
+        # now replace the rates in the combined card
+        subprocess.call('sed -i "s/^rate.*/' + ' '.join(rateLines) + '/" ' + outputCardFile, shell = True)
 
-    # also now fix the signalSF file
-    subprocess.call('echo ' + str(scaleFactor) + ' > ' + outputCardFile.replace('datacard_', 'signalSF_'), shell = True)
+        # also now fix the signalSF file
+        subprocess.call('echo ' + str(scaleFactor) + ' > ' + outputCardFile.replace('datacard_', 'signalSF_'), shell = True)
 
-    # find the signal stat lines, since these will need to change
-    signalStatLines = subprocess.check_output('sed -n "/^signal_stat_.*gmN.*/p" ' + outputCardFile, shell = True).split('\n')
-    for iLine in range(len(signalStatLines)):
-        if not signalStatLines[iLine].startswith('signal_stat_Bin'):
-            continue
-        gmN_number = -1
-        stat_idx = -1
-        binName = ''
-        lineEntries = signalStatLines[iLine].split()
-        for ix, x in enumerate(lineEntries):
-            if x.startswith('signal_stat_Bin'):
-                binName = x.replace('signal_stat_', '')
-            if x.isdigit():
-                gmN_number = int(x)
-            if '.' in x:
-                stat_idx = ix
-        if stat_idx < 0:
-            printLock.acquire()
-            print 'WARNING: cannot find signal stat error in file ' + outputCardFile + ', line = ' + signalStatLines[iLine]
-            printLock.release()
-            continue
-        lineEntries[stat_idx] = str(scaledYields[binName] / gmN_number)
-        signalStatLines[iLine] = ' '.join(lineEntries)
-        subprocess.call('sed -i "s/^signal_stat_' + binName + '.*/' + signalStatLines[iLine] + '/" ' + outputCardFile, shell = True)
+        # find the signal stat lines, since these will need to change
+        signalStatLines = subprocess.check_output('sed -n "/^signal_stat_.*gmN.*/p" ' + outputCardFile, shell = True).split('\n')
+        for iLine in range(len(signalStatLines)):
+            if not signalStatLines[iLine].startswith('signal_stat_Bin'):
+                continue
+            gmN_number = -1
+            stat_idx = -1
+            binName = ''
+            lineEntries = signalStatLines[iLine].split()
+            for ix, x in enumerate(lineEntries):
+                if x.startswith('signal_stat_Bin'):
+                    binName = x.replace('signal_stat_', '')
+                if x.isdigit():
+                    gmN_number = int(x)
+                if '.' in x:
+                    stat_idx = ix
+            if stat_idx < 0:
+                printLock.acquire()
+                print 'WARNING: cannot find signal stat error in file ' + outputCardFile + ', line = ' + signalStatLines[iLine]
+                printLock.release()
+                continue
+            lineEntries[stat_idx] = str(scaledYields[binName] / gmN_number)
+            signalStatLines[iLine] = ' '.join(lineEntries)
+            subprocess.call('sed -i "s/^signal_stat_' + binName + '.*/' + signalStatLines[iLine] + '/" ' + outputCardFile, shell = True)
 
     semaphore.release ()
 
@@ -163,7 +164,7 @@ for combinedCard in datacardCombinations:
     for mass in allMasses:
         for lifetime in allLifetimes:
             i += 1
-            threads.append(Thread(target = makeCombinedCard, args = (i, nCards, combinedCard, mass, lifetime)))
+            threads.append(Thread(target = makeCombinedCard, args = (i, nCards, combinedCard, mass, lifetime, arguments.ignoreSignalScaleFactor)))
             threads[-1].start()
 
     for thread in threads:

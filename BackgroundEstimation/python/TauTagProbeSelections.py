@@ -114,6 +114,19 @@ TauTagPt55NoJetCutsMetTrig.name = cms.string("TauTagPt55NoJetCutsMetTrig")
 TauTagPt55NoJetCutsMetTrig.triggers = triggersMet
 
 ################################################################################
+# Versions of the above with a veto on MET phi do deal with HEM 15/16
+# in 2018 CD
+################################################################################
+
+TauTagPt55HEMveto = copy.deepcopy(TauTagPt55)
+TauTagPt55HEMveto.name = cms.string("TauTagPt55HEMveto")
+addCuts(TauTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+TauTagPt55MetTrigHEMveto = copy.deepcopy(TauTagPt55MetTrig)
+TauTagPt55MetTrigHEMveto.name = cms.string("TauTagPt55MetTrigHEMveto")
+addCuts(TauTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
+
+################################################################################
 ## Tau tag and probe sample
 ################################################################################
 # after invariant mass cut of 10 GeV
@@ -296,6 +309,8 @@ addSingleCut(ZtoTauToEleDisTrkBetterPurity.cuts, cutLowMet, cutElectronArbitrati
 ################################################################################
 createHitsVariations (TauTagPt55,                      "TauTagPt55")
 createHitsVariations (TauTagPt55MetTrig,               "TauTagPt55MetTrig")
+createHitsVariations (TauTagPt55HEMveto,               "TauTagPt55HEMveto")
+createHitsVariations (TauTagPt55MetTrigHEMveto,        "TauTagPt55MetTrigHEMveto")
 createHitsVariations (ZtoTauToMuProbeTrk,              "ZtoTauToMuProbeTrk")
 createHitsVariations (ZtoTauToMuProbeTrkWithFilter,    "ZtoTauToMuProbeTrkWithFilter")
 createHitsVariations (ZtoTauToMuProbeTrkWithSSFilter,  "ZtoTauToMuProbeTrkWithSSFilter")
