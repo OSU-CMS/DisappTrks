@@ -70,6 +70,30 @@ GrandOrDenominatorWithElectrons = cms.PSet(
     )
 )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    withElectronCuts = [
+        cutLeadJetCentral,
+        cutElectronPt55,
+        cutElectronEta21,
+        cutElectronVIDTightID,
+        cutElectronD02017,
+        cutElectronDZ2017,
+        cutElectronNMissIn,
+        cutElectronNMissMid,
+        cutElectronTightPFIso,
+    ]
+else:
+    withElectronCuts = [
+        cutLeadJetCentral,
+        cutElectronPt55,
+        cutElectronEta21,
+        cutElectronTightID,
+        cutElectronNMissIn,
+        cutElectronNMissMid,
+        cutElectronTightPFIso,
+    ]
+addCuts(GrandOrDenominatorWithElectrons.cuts, withElectronCuts)
+
 ##########################################################################################################
 # MET leg denominator for all paths using ZtoMuMu selection
 ##########################################################################################################
