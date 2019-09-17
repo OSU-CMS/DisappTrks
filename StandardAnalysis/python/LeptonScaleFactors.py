@@ -127,12 +127,13 @@ electronScaleFactors2017 = cms.VPSet (
         inputCollection = cms.string("electrons"),
         sfType = cms.string("Reco"),
         version = cms.string("2017"),
+        wp = cms.string("V2"),
     ),
     cms.PSet (
         inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
         version = cms.string("2017"),
-        wp = cms.string("Tight"),
+        wp = cms.string("TightV2"),
     ),
 )
 

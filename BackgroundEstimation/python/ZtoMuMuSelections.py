@@ -46,6 +46,25 @@ addCuts(ZtoMuMuDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 createHitsVariations (ZtoMuMuDisTrk, "ZtoMuMuDisTrk")
 
 ##################################################
+## Hits systematic backup (ARC EXO-19-010)
+##################################################
+ZtoMuMuTauCtrlSelection = copy.deepcopy(ZtoMuMu)
+ZtoMuMuTauCtrlSelection.name = cms.string("ZtoMuMuTauCtrlSelection")
+addCuts(ZtoMuMuTauCtrlSelection.cuts, isoTrkWithPt55Cuts + [cutTrkElecVeto, cutTrkMuonVeto])
+removeCuts(ZtoMuMuTauCtrlSelection.cuts, [cutTrkJetDeltaPhi])
+
+ZtoMuMuTauHitsSystematicSelection = copy.deepcopy(ZtoMuMuTauCtrlSelection)
+ZtoMuMuTauHitsSystematicSelection.name = cms.string("ZtoMuMuTauHitsSystematicSelection")
+cutsToRemove = [
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+]
+removeCuts(ZtoMuMuTauHitsSystematicSelection.cuts, cutsToRemove)
+
+createHitsVariations (ZtoMuMuTauCtrlSelection, "ZtoMuMuTauCtrlSelection")
+createHitsVariations (ZtoMuMuTauHitsSystematicSelection, "ZtoMuMuTauHitsSystematicSelection")
+
+##################################################
 ## Fake track control sample:  Z->mu mu + candidate track in Ecalo sideband
 ##################################################
 ZtoMuMuCandTrkEcaloSdband = copy.deepcopy(ZtoMuMu)

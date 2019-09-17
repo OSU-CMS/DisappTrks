@@ -279,6 +279,10 @@ for runPeriod in runPeriods:
             combinedPpassMetCut = muonBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = muonBkgdEstimate.getPpassMetTriggers()
 
+            combinedPpassHEMveto = None
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                combinedPpassHEMveto = muonBkgdEstimate.getPpassHEMveto()
+
             print "********************************************************************************"
 
             fout.Close()
@@ -326,7 +330,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 
@@ -397,6 +401,10 @@ for runPeriod in runPeriods:
             combinedPpassMetCut = tauBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = tauBkgdEstimate.getPpassMetTriggers()
 
+            combinedPpassHEMveto = None
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                combinedPpassHEMveto = tauBkgdEstimate.getPpassHEMveto()
+
             print "********************************************************************************"
             
             fout.Close()
@@ -457,7 +465,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 
