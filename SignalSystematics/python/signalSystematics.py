@@ -757,6 +757,53 @@ class HitsSystematic:
         setattr (self, role, channel)
         print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
 
+    def appendChannel (self, role, name, sample, condorDir):
+        if not hasattr (self, role):
+            print "Cannot append to role", role, "before it has been defined!"
+            return
+
+        channel = getattr (self, role)
+
+        if "weight" not in channel or "total" not in channel or "yield" not in channel:
+            print "Role", role, "is missing weight/total/yield and is improperly defined!"
+            return
+
+        n = None
+        nError = None
+
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        w = (nError * nError) / n
+        n /= w
+        nError /= w
+        thisTotal = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisTotal.isPositive ()
+
+        # calculate effective weight:
+        # if total(a) = Ta*wa, want X such that total(a+b) = (Ta + Tb) * X = Ta*wa + Tb*wb
+        # X = (Ta*wa + Tb*wb) / (Ta + Tb)
+        effectiveWeight = (channel["total"].centralValue() + thisTotal.centralValue()) / (channel["total"].centralValue()/channel["weight"] + thisTotal.centralValue()/w)
+
+        channel["weight"] = effectiveWeight
+        channel["total"] += thisTotal
+        channel["total"].isPositive ()
+
+        n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+        n /= w
+        nError /= w
+        thisYield = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisYield.isPositive ()
+
+        channel["yield"] += thisYield
+        channel["yield"].isPositive ()
+
+        channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        if "extensions" in channel:
+            channel["extensions"].append(channelExtension)
+        else:
+            channel["extensions"] = [channelExtension]
+
+        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
+
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
 
@@ -767,6 +814,10 @@ class HitsSystematic:
             condorDir = channel["condorDir"]
             name = channel["name"]
             hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+
+            if "extensions" in channel:
+                for x in channel["extensions"]:
+                    hits.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", self._integrateHistogram))
 
             passesError = Double (0.0)
             totalError = Double (0.0)

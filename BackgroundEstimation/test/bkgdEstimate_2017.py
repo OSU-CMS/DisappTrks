@@ -43,6 +43,9 @@ fakeSidebands = [(0.05, 0.50)]
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
 
+# Perform the fake estimate in BasicSelection? Could contain signal!
+unblindBasicSelection = True
+
 for runPeriod in runPeriods:
 
     if background == "FAKE" or background == "ALL":
@@ -50,7 +53,7 @@ for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
 
             print "********************************************************************************"
-            print "performing fake track background estimate in search region(2017", runPeriod, "--", nLayersWord, ")"
+            print "performing fake track background estimate in search region (2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
             fout = TFile.Open("fakeTrackBkgdEstimate_zToMuMu_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
@@ -70,26 +73,28 @@ for runPeriod in runPeriods:
             nEstFake[(nLayersWord, runPeriod)] = fakeTrackBkgdEstimate.printNest ()[0]
             fout.Close ()
 
-            print "********************************************************************************"
-            print "Mean result over sidebands: "
-            nEstAllSidebands = Measurement(0, 0)
-            pFakeAllSidebands = Measurement(0, 0)
-            for sb in fakeSidebands:
-                fakeTrackBkgdEstimate.addMinD0 (sb[0])
-                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
-                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
-                nEstAllSidebands += sbResults[0]
-                pFakeAllSidebands += sbResults[1]
-                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
-            nEstAllSidebands /= len(fakeSidebands)
-            pFakeAllSidebands /= len(fakeSidebands)
-            print "N_est (mean): ", nEstAllSidebands
-            print "P_fake (mean): ", pFakeAllSidebands
+            if len(fakeSidebands) > 1:
+                print "********************************************************************************"
+                print "Mean result over sidebands: "
+                nEstAllSidebands = Measurement(0, 0)
+                pFakeAllSidebands = Measurement(0, 0)
+                for sb in fakeSidebands:
+                    fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                    fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                    sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                    nEstAllSidebands += sbResults[0]
+                    pFakeAllSidebands += sbResults[1]
+                    print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+                nEstAllSidebands /= len(fakeSidebands)
+                pFakeAllSidebands /= len(fakeSidebands)
+                print "N_est (mean): ", nEstAllSidebands
+                print "P_fake (mean): ", pFakeAllSidebands
+            
             print "********************************************************************************"
             print "\n\n"
 
             print "********************************************************************************"
-            print "performing fake track background estimate with Z->ee selection in search region(2017", runPeriod, "--", nLayersWord, ")"
+            print "performing fake track background estimate with Z->ee selection in search region (2017", runPeriod, "--", nLayersWord, ")"
             print "--------------------------------------------------------------------------------"
 
             fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
@@ -109,23 +114,65 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.printNest ()
             fout.Close ()
 
-            print "********************************************************************************"
-            print "Mean result over sidebands: "
-            nEstAllSidebands = Measurement(0, 0)
-            pFakeAllSidebands = Measurement(0, 0)
-            for sb in fakeSidebands:
-                fakeTrackBkgdEstimate.addMinD0 (sb[0])
-                fakeTrackBkgdEstimate.addMaxD0 (sb[1])
-                sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
-                nEstAllSidebands += sbResults[0]
-                pFakeAllSidebands += sbResults[1]
-                print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
-            nEstAllSidebands /= len(fakeSidebands)
-            pFakeAllSidebands /= len(fakeSidebands)
-            print "N_est: ", nEstAllSidebands
-            print "P_fake: ", pFakeAllSidebands
+            if len(fakeSidebands) > 1:
+                print "********************************************************************************"
+                print "Mean result over sidebands: "
+                nEstAllSidebands = Measurement(0, 0)
+                pFakeAllSidebands = Measurement(0, 0)
+                for sb in fakeSidebands:
+                    fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                    fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                    sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                    nEstAllSidebands += sbResults[0]
+                    pFakeAllSidebands += sbResults[1]
+                    print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+                nEstAllSidebands /= len(fakeSidebands)
+                pFakeAllSidebands /= len(fakeSidebands)
+                print "N_est: ", nEstAllSidebands
+                print "P_fake: ", pFakeAllSidebands
+            
             print "********************************************************************************"
             print "\n\n"
+
+            if unblindBasicSelection:
+                print "********************************************************************************"
+                print "performing fake track background estimate with basic selection in search region (2017", runPeriod, "--", nLayersWord, ")"
+                print "--------------------------------------------------------------------------------"
+
+                fout = TFile.Open("fakeTrackBkgdEstimate_basic_2017" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+
+                fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+                fakeTrackBkgdEstimate.addTFile (fout)
+                fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2017" + runPeriod])
+                fakeTrackBkgdEstimate.addChannel ("Basic3hits",     "DisTrkSelectionNoD0CutNLayers4",       "MET_2017" + runPeriod,  dirs['Brian'] + "2017/fromLPC/fakeBasic")
+                fakeTrackBkgdEstimate.addChannel ("DisTrkInvertD0", "DisTrkSelectionNoD0Cut" + nLayersWord, "MET_2017" + runPeriod,  dirs['Brian'] + "2017/fromLPC/fakeBasic")
+                fakeTrackBkgdEstimate.addChannel ("Basic",          "BasicSelection",                       "MET_2017" + runPeriod,  dirs['Brian'] + "2017/fromRutgers/basicSelection_noDuplicates/")
+
+                print "********************************************************************************"
+                print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
+                fakeTrackBkgdEstimate.addMinD0 (fakeSidebands[0][0])
+                fakeTrackBkgdEstimate.addMaxD0 (fakeSidebands[0][1])
+                fakeTrackBkgdEstimate.printNest ()
+                fout.Close ()
+
+                if len(fakeSidebands) > 1:
+                    print "********************************************************************************"
+                    print "Mean result over sidebands: "
+                    nEstAllSidebands = Measurement(0, 0)
+                    pFakeAllSidebands = Measurement(0, 0)
+                    for sb in fakeSidebands:
+                        fakeTrackBkgdEstimate.addMinD0 (sb[0])
+                        fakeTrackBkgdEstimate.addMaxD0 (sb[1])
+                        sbResults = fakeTrackBkgdEstimate.printNest (verbose = False)
+                        nEstAllSidebands += sbResults[0]
+                        pFakeAllSidebands += sbResults[1]
+                        print '\t({:.2f}, {:.2f}: N_est = '.format(sb[0], sb[1]) + str(sbResults[0]) + ' ; P_fake = ' + str(sbResults[1])
+                    nEstAllSidebands /= len(fakeSidebands)
+                    pFakeAllSidebands /= len(fakeSidebands)
+                    print "N_est: ", nEstAllSidebands
+                    print "P_fake: ", pFakeAllSidebands
+                print "********************************************************************************"
+                print "\n\n"
 
     if background == "ELECTRON" or background == "LEPTON" or background == "ALL":
 

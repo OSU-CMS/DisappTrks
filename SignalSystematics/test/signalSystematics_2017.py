@@ -208,6 +208,28 @@ if systematic == "HITS" or systematic == "ALL":
 
     print "\n\n"
 
+if systematic == "HITS_V2" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating hits systematic V2 (2017)"
+    print "--------------------------------------------------------------------------------"
+
+    hitsSystematic = HitsSystematic ()
+    hitsSystematic.addChannel  ("Data",  "ZtoEETauHitsSystematicSelection" + nLayersWord,  "SingleEle_2017",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.addChannel  ("MC",    "ZtoEETauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
 if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "********************************************************************************"
@@ -225,6 +247,32 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2017",     dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
     missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "AllMC_scaled", dirs['Brian'] + "2017/fromLPC/missingHitsCorrection_bkgdMC_scaledRight")
     missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
+    missingOuterHitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    fout.close ()
+    foutForPlot.Close ()
+
+    print "\n\n"
+
+if systematic == "MISSING_OUTER_HITS_V2" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating missing outer hits systematic V2 (2017)"
+    print "--------------------------------------------------------------------------------"
+
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__nMissOutV2_2017_" + nLayersWord + ".txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematicV2_2017_" + nLayersWord + ".root", "recreate")
+
+    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi)
+    missingOuterHitsSystematic.addFout (fout)
+    missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
+    missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
+    missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
+    missingOuterHitsSystematic.addChannel  ("Data",    "ZtoEETauCtrlSelection" + nLayersWord, "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.addChannel  ("MC",      "ZtoEETauCtrlSelection" + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut"      + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"

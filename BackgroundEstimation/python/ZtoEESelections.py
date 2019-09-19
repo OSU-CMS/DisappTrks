@@ -57,6 +57,25 @@ addCuts(ZtoEEDisTrk.cuts, [cutTrkPt55] + disTrkCuts)
 createHitsVariations (ZtoEEDisTrk, "ZtoEEDisTrk")
 
 ##################################################
+## Hits systematic backup (ARC EXO-19-010)
+##################################################
+ZtoEETauCtrlSelection = copy.deepcopy(ZtoEE)
+ZtoEETauCtrlSelection.name = cms.string("ZtoEETauCtrlSelection")
+addCuts(ZtoEETauCtrlSelection.cuts, isoTrkWithPt55Cuts + [cutTrkElecVeto, cutTrkMuonVeto])
+removeCuts(ZtoEETauCtrlSelection.cuts, [cutTrkJetDeltaPhi])
+
+ZtoEETauHitsSystematicSelection = copy.deepcopy(ZtoEETauCtrlSelection)
+ZtoEETauHitsSystematicSelection.name = cms.string("ZtoEETauHitsSystematicSelection")
+cutsToRemove = [
+    cutTrkNMissIn,
+    cutTrkNMissMid,
+]
+removeCuts(ZtoEETauHitsSystematicSelection.cuts, cutsToRemove)
+
+createHitsVariations (ZtoEETauCtrlSelection, "ZtoEETauCtrlSelection")
+createHitsVariations (ZtoEETauHitsSystematicSelection, "ZtoEETauHitsSystematicSelection")
+
+##################################################
 ## Fake track control samples:  Z->e e + disappearing track
 ## With inverted, dropped, or loosened D0 cuts
 ##################################################
