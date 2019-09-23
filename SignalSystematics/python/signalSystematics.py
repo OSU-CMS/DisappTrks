@@ -764,45 +764,13 @@ class HitsSystematic:
 
         channel = getattr (self, role)
 
-        if "weight" not in channel or "total" not in channel or "yield" not in channel:
-            print "Role", role, "is missing weight/total/yield and is improperly defined!"
-            return
-
-        n = None
-        nError = None
-
-        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
-        w = (nError * nError) / n
-        n /= w
-        nError /= w
-        thisTotal = Measurement (n * w, (nError if n != 0.0 else up68) * w)
-        thisTotal.isPositive ()
-
-        # calculate effective weight:
-        # if total(a) = Ta*wa, want X such that total(a+b) = (Ta + Tb) * X = Ta*wa + Tb*wb
-        # X = (Ta*wa + Tb*wb) / (Ta + Tb)
-        effectiveWeight = (channel["total"].centralValue() + thisTotal.centralValue()) / (channel["total"].centralValue()/channel["weight"] + thisTotal.centralValue()/w)
-
-        channel["weight"] = effectiveWeight
-        channel["total"] += thisTotal
-        channel["total"].isPositive ()
-
-        n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
-        n /= w
-        nError /= w
-        thisYield = Measurement (n * w, (nError if n != 0.0 else up68) * w)
-        thisYield.isPositive ()
-
-        channel["yield"] += thisYield
-        channel["yield"].isPositive ()
-
         channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         if "extensions" in channel:
             channel["extensions"].append(channelExtension)
         else:
             channel["extensions"] = [channelExtension]
 
-        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
+        print 'yield for role', role, 'appended with channel', name
 
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
@@ -867,6 +835,11 @@ class MissingOuterHitsSystematic:
     _signalSuffix = ""
     _fout = None
     _foutForPlot = None
+    
+    _systematic = []
+    _maxSystematic = 0.0
+    _averageSystematic = 0.0
+    _n = 0
 
     def __init__ (self, masses, lifetimes, intLumi = None):
         self._masses = masses
@@ -894,6 +867,21 @@ class MissingOuterHitsSystematic:
             print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
         setattr (self, role, channel)
 
+    def appendChannel (self, role, name, sample, condorDir):
+        if not hasattr (self, role):
+            print "Cannot append to role", role, "before it has been defined!"
+            return
+
+        channel = getattr (self, role)
+
+        channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        if "extensions" in channel:
+            channel["extensions"].append(channelExtension)
+        else:
+            channel["extensions"] = [channelExtension]
+
+        print 'yield for role', role, 'appended with channel', name
+
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
 
@@ -916,6 +904,9 @@ class MissingOuterHitsSystematic:
                 name = channel["name"]
                 if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
                     hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+                    if "extensions" in channel:
+                        for x in channel["extensions"]:
+                            hits.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", self._integrateHistogram))
                 else:
                     hits = self.GetHitsFromTree(sample, condorDir, name, mass, lifetime)
 
@@ -1031,6 +1022,9 @@ class MissingOuterHitsSystematic:
             return (float ("nan"), float ("nan"))
 
     def printSystematic (self):
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
         dataHits = None
         mcHits = None
         signalHits = None
@@ -1067,6 +1061,16 @@ class MissingOuterHitsSystematic:
                 sys.printLongFormat (True)
                 h.Fill (mass, lifetime, abs (sys.centralValue () / 100.0))
                 print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%"
+
+                if abs (sys.centralValue()) > self._maxSystematic:
+                  self._maxSystematic = abs (sys.centralValue())
+
+                self._averageSystematic += abs (sys.centralValue())
+                self._n += 1
+
+        self._averageSystematic /= self._n
+        print "maximum systematic: " + str (self._maxSystematic) + "%"
+        print "average systematic: " + str (self._averageSystematic) + "%"
 
         if self._foutForPlot:
             self._foutForPlot.cd ()

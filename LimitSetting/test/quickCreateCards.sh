@@ -9,14 +9,25 @@ eval `scramv1 runtime -sh`
 
 ######################
 
-echo "Creating 2018_NLayers6plus..."
-makeDatacards.py -g -e 2018_NLayers6plus -c limits_2018_NLayers6plus_${SUFFIX}
+echo "Creating 2018AB_NLayers6plus..."
+makeDatacards.py -g -e 2018AB_NLayers6plus -c limits_2018AB_NLayers6plus_${SUFFIX}
 
-echo "Creating 2018_NLayers5..."
-makeDatacards.py -g -e 2018_NLayers5 -c limits_2018_NLayers5_${SUFFIX}
+echo "Creating 2018AB_NLayers5..."
+makeDatacards.py -g -e 2018AB_NLayers5 -c limits_2018AB_NLayers5_${SUFFIX}
 
-echo "Creating 2018_NLayers4..."
-makeDatacards.py -g -e 2018_NLayers4 -c limits_2018_NLayers4_${SUFFIX}
+echo "Creating 2018AB_NLayers4..."
+makeDatacards.py -g -e 2018AB_NLayers4 -c limits_2018AB_NLayers4_${SUFFIX}
+
+######################
+
+echo "Creating 2018CD_NLayers6plus..."
+makeDatacards.py -g -e 2018CD_NLayers6plus -c limits_2018CD_NLayers6plus_${SUFFIX}
+
+echo "Creating 2018CD_NLayers5..."
+makeDatacards.py -g -e 2018CD_NLayers5 -c limits_2018CD_NLayers5_${SUFFIX}
+
+echo "Creating 2018CD_NLayers4..."
+makeDatacards.py -g -e 2018CD_NLayers4 -c limits_2018CD_NLayers4_${SUFFIX}
 
 ######################
 

@@ -4,48 +4,48 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '458',
-        'alpha' : '0.0470347041726',
+        'N' : '175',
+        'alpha' : '0.0354151132521',
     },
     'Elec' : {
-        'N' : '6820',
-        'alpha' : '3.20677542574e-05',
+        'N' : '2436',
+        'alpha' : '0.000341313138484',
     },
     'Muon' : {
         'N' : '2',
-        'alpha' : '0.0321683162682',
+        'alpha' : '0.0412718576098 ',
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.00369262906411',
+        'alpha' : '0.00317332618218',
     },
 }
 
 background_systematics = {
     'Fake_alpha_NLayers4' : { # error on alpha
-        'value' : '1.00039624234',
+        'value' : '1.00074624437',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
-        'value' : '0.000001/5.9505639115', # 0 --> 0.000001 numerical safety
+        'value' : '1.62436298695',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
-        'value' : '0.000001/2.27716131842', # 0 --> 0.000001 numerical safety
+        'value' : '0.000001/2.04720676682', # 0 --> 0.000001 numerical safety
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers4' : { # error on alpha
-        'value' : '0.000001/2.12826855612', # 0 --> 0.000001 numerical safety
+        'value' : '0.000001/2.92515558686', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.33272779851',
+        'value' : '1.52067687913',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers4' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : str (1.0 + (21.50 - 19.60) / 21.50),
+        'value' : str (1.0 + abs(6.2 - 7.59) / 6.2),
         'background' : 'Fake',
     },
 

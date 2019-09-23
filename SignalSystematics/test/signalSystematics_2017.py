@@ -215,8 +215,10 @@ if systematic == "HITS_V2" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel  ("Data",  "ZtoEETauHitsSystematicSelection" + nLayersWord,  "SingleEle_2017",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    hitsSystematic.addChannel  ("MC",    "ZtoEETauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.addChannel    ("Data",  "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "SingleEle_2017",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.appendChannel ("Data",  "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "SingleMu_2017",   dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
+    hitsSystematic.addChannel    ("MC",    "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.appendChannel ("MC",    "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
     hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
     print "--------------------------------------------------------------------------------"
     print "before correction to missing middle hits"
@@ -270,9 +272,11 @@ if systematic == "MISSING_OUTER_HITS_V2" or systematic == "ALL":
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel  ("Data",    "ZtoEETauCtrlSelection" + nLayersWord, "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    missingOuterHitsSystematic.addChannel  ("MC",      "ZtoEETauCtrlSelection" + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut"      + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
+    missingOuterHitsSystematic.addChannel    ("Data",    "ZtoEETauCtrlSelection"   + nLayersWord, "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.appendChannel ("Data",    "ZtoMuMuTauCtrlSelection" + nLayersWord, "SingleMu_2017",  dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
+    missingOuterHitsSystematic.addChannel    ("MC",      "ZtoEETauCtrlSelection"   + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.addChannel    ("MC",      "ZtoMuMuTauCtrlSelection" + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
+    missingOuterHitsSystematic.addChannel    ("Signal",  "DisTrkNoNMissOut"        + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"
