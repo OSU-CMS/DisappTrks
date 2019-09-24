@@ -215,7 +215,10 @@ if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"
 
 if not arguments.era in ["20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "run2"]:
 	for i in range(len(external_systematic_uncertainties)):
-		external_systematic_uncertainties[i] += "_" + arguments.era
+		if arguments.era.startswith("2018"):
+			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
+		else:
+			external_systematic_uncertainties[i] += "_" + arguments.era
 
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	external_systematic_uncertainties.append("L1ECALPrefiringWeight_"   + arguments.era)
