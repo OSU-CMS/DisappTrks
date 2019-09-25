@@ -497,7 +497,7 @@ if background == "ALL":
             print "********************************************************************************"
             print "\n\n"
 
-    fout = TFile.Open("backgroundCrossSections_2017.root", "recreate")
+    fout = TFile.Open("backgroundCrossSections_2018.root", "recreate")
 
     for nLayersWord in nLayersWords:
 
@@ -505,8 +505,7 @@ if background == "ALL":
         electron   =  array ("d");  muon   =  array ("d");  tau   =  array ("d");  fake   =  array ("d")
         eElectron  =  array ("d");  eMuon  =  array ("d");  eTau  =  array ("d");  eFake  =  array ("d")
 
-        #runPeriodsToPlot = ["B", "C", "D", "E", "F"]
-        runPeriodsToPlot = [""]
+        runPeriodsToPlot = ['AB', 'CD']
         i = 0.0
 
         for runPeriod in runPeriodsToPlot:

@@ -50,9 +50,12 @@ parser.add_option("--plotSignificance", dest="plotSignificance", action='store_t
 validEras = ["2015", 
              "2016BC", "2016DEFGH", 
              "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus",
-             "2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus",
+             "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+             "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus",
              "20156",
              "2017_all",
+             "2018AB_all",
+             "2018CD_all",
              "2018_all",
              "run2"]
 

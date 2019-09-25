@@ -20,6 +20,11 @@ def createHitsVariations (ch, chName):
 disTrkSelectionSmearedJets = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJets.name = cms.string("disTrkSelectionSmearedJets")
 replaceSingleCut (disTrkSelectionSmearedJets.cuts, cutJetJERSmearedPt, cutJetPt)
+
+disTrkSelectionSmearedJetsHEMveto = copy.deepcopy(disTrkSelectionSmearedJets)
+disTrkSelectionSmearedJetsHEMveto.name = cms.string("disTrkSelectionSmearedJetsHEMveto")
+addCuts (disTrkSelectionSmearedJetsHEMveto.cuts, [cutVetoMetPhiHEM1516])
+
 ################################################################################
 ################################################################################
 
@@ -106,6 +111,7 @@ disTrkSelectionSmearedJetsL1PrefiringTest.name = cms.string("disTrkSelectionSmea
 addSingleCut(disTrkSelectionSmearedJetsL1PrefiringTest.cuts, cutVetoL1PrefiringJets, cutLeadingJetMetPhi)
 
 createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJets")
+createHitsVariations(disTrkSelectionSmearedJetsHEMveto, "disTrkSelectionSmearedJetsHEMveto")
 createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")
 createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJetsDown")
 createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")

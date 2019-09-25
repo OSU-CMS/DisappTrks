@@ -247,7 +247,7 @@ if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
     muonVetoSFSystematic.addFout(fout)
     muonVetoSFSystematic.addFoutForPlot(foutForPlot)
     muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes" + nLayersWord,   "SingleEle_2018", dirs['Brian'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
+    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes"   + nLayersWord, "SingleEle_2018", dirs['Kai'] + "2018/fromLPC/eleBkgdWithLooseFilterBinnedLayers")
     muonVetoSFSystematic.addSignalSuffix("_" + suffix)
     muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2018Loose')
     muonVetoSFSystematic.printSystematic()
@@ -270,8 +270,8 @@ if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False
     electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi)
     electronVetoSFSystematic.addFout(fout)
     electronVetoSFSystematic.addFoutForPlot(foutForPlot)
-    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",                 dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter" + nLayersWord,          "SingleMu_2018", dirs['Brian'] + "2018/muonBackgroundNoFilterBinnedLayers_looseVetoes")
+    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",              dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "SingleMu_2018", dirs['Brian'] + "2018/muonBackgroundNoFilterBinnedLayers_looseVetoes")
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
     electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2018Veto')
     electronVetoSFSystematic.printSystematic()
@@ -347,27 +347,6 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
     turnOnSystematic.printSystematic()
-
-    print "********************************************************************************\n\n"
-
-    fout.close ()
-
-    print "\n\n"
-
-if systematic == "HEM_15_16_WEIGHT" or systematic == "ALL":
-
-    print "********************************************************************************"
-    print "evaluating HEM 15/16 weight systematic (2018) " + nLayersWord
-    print "--------------------------------------------------------------------------------"
-
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__HEM1516Weight_2018_" + nLayersWord + ".txt", "w")
-
-    l1ECALPrefiringWeightSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
-    l1ECALPrefiringWeightSystematic.addFout(fout)
-    l1ECALPrefiringWeightSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
-    l1ECALPrefiringWeightSystematic.defineFluctuationUp  ('eventvariable_hem1516weight', 'eventvariable_hem1516weightUp')
-    l1ECALPrefiringWeightSystematic.defineFluctuationDown('eventvariable_hem1516weight', 'eventvariable_hem1516weightDown')
-    l1ECALPrefiringWeightSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
 
