@@ -81,9 +81,10 @@ if False:
 
 # T&P channels in specific nValidHits bins; run out of ZtoEleProbeTrkWith(SS)Filter above
 if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrk"),   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
     add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrkWithFilter"),   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
     add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrkWithSSFilter"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
-
+    add_channels  (process,  getNLayersChannelVariations("ZtoEleProbeTrkWithLooseFilter"),   histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronTPProducer, ignoreSkimmedCollections = True)
 # Single electron control regions for background estimate
 if False:
     add_channels  (process,  [ElectronTagPt55],         histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
@@ -94,6 +95,8 @@ if False:
 # add_channels (process, getNHitsVariations("ElectronTagPt55MetTrig"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
 # add_channels (process, getNLayersChannelVariations("ElectronTagPt55"),        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
 # add_channels (process, getNLayersChannelVariations("ElectronTagPt55MetTrig"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNLayersChannelVariations("ElectronTagPt55HEMveto"),        histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
+# add_channels (process, getNLayersChannelVariations("ElectronTagPt55MetTrigHEMveto"), histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers + electronMETTriggerProducer, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for tau background estimate
 if False:
@@ -101,6 +104,10 @@ if False:
     add_channels  (process,  [ZtoTauToEleProbeTrkWithFilter],   histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
     add_channels  (process,  [ZtoTauToEleProbeTrkWithSSFilter], histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
 
+if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoTauToEleProbeTrk"),             histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoTauToEleProbeTrkWithFilter"),   histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoTauToEleProbeTrkWithSSFilter"), histSetsElectron, weightsWithEleSF, scaleFactorProducersWithElectrons, collMap, variableProducers + tauToElectronTPProducer, ignoreSkimmedCollections = True)
 # Tag-and-probe channels for older background estimate; 
 #  add_channels  (process,  [ZtoEleProbeTrkBeforeArbitration],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEleProbeTrkWithZCuts],          histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
@@ -127,6 +134,10 @@ if False:
 #  add_channels  (process,  [ZtoEEDisTrkSidebandD0CutNHits4],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEEDisTrkSidebandD0CutNHits5],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [ZtoEEDisTrkSidebandD0CutNHits6],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+
+if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoEETauCtrlSelection"),            histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoEETauHitsSystematicSelection"),  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True) 
 
 # Channels for doing the lepton background estimates with fewer numbers of hits
 #  add_channels  (process,  [ElectronTagPt55NoValidHitsCut],               histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
@@ -176,6 +187,14 @@ if False:
     add_channels  (process,  [ZtoMuProbeTrk],                   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithFilter],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithSSFilter],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
+    add_channels  (process,  [ZtoMuProbeTrkWithLooseFilter],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
+
+# T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWith(SS)Filter above
+if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuProbeTrk"),                   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuProbeTrkWithFilter"),         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuProbeTrkWithSSFilter"),       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer, ignoreSkimmedCollections = True)
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuProbeTrkWithLooseFilter"),       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer, ignoreSkimmedCollections = True)
 
 # T&P channels in specific nValidHits bins; run out of ZtoMuProbeTrkWith(SS)Filter above
 # add_channels (process, getNHitsVariations("ZtoMuProbeTrkWithFilter"),   histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
@@ -223,6 +242,10 @@ if False:
     add_channels  (process,  [ZtoMuMuDisTrkNHits5],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrkNHits6],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 #  add_channels  (process,  [ZtoMuMuDisTrkNLayers4NoECaloCut],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+#  Z->mumutau channels
+if False:
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuMuTauCtrlSelection"),                 histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
+    add_channels  (process,  getNLayersChannelVariations("ZtoMuMuTauHitsSystematicSelection"),                 histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # TESTING: Z->mumu channels for fake track background estimate with no D0 requirement on the isoTrk
 if False:
@@ -315,6 +338,10 @@ if False:
 if False:
     add_channels  (process,  [TauTagPt55],         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer)
     add_channels  (process,  [TauTagPt55MetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+
+if False:
+    add_channels  (process,  getNLayersChannelVariations("TauTagPt55"),         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer)
+    add_channels  (process,  getNLayersChannelVariations("TauTagPt55MetTrig"),  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
 # Channels for doing the lepton background estimates with fewer numbers of hits
 #  add_channels  (process,  [TauTagPt55NoValidHitsCut],         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers)
