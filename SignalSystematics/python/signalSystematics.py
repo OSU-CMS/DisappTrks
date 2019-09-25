@@ -764,13 +764,45 @@ class HitsSystematic:
 
         channel = getattr (self, role)
 
+        if "weight" not in channel or "total" not in channel or "yield" not in channel:
+            print "Role", role, "is missing weight/total/yield and is improperly defined!"
+            return
+
+        n = None
+        nError = None
+
+        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        w = (nError * nError) / n
+        n /= w
+        nError /= w
+        thisTotal = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisTotal.isPositive ()
+
+        # calculate effective weight:
+        # if total(a) = Ta*wa, want X such that total(a+b) = (Ta + Tb) * X = Ta*wa + Tb*wb
+        # X = (Ta*wa + Tb*wb) / (Ta + Tb)
+        effectiveWeight = (channel["total"].centralValue() + thisTotal.centralValue()) / (channel["total"].centralValue()/channel["weight"] + thisTotal.centralValue()/w)
+
+        channel["weight"] = effectiveWeight
+        channel["total"] += thisTotal
+        channel["total"].isPositive ()
+
+        n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+        n /= w
+        nError /= w
+        thisYield = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+        thisYield.isPositive ()
+
+        channel["yield"] += thisYield
+        channel["yield"].isPositive ()
+
         channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         if "extensions" in channel:
             channel["extensions"].append(channelExtension)
         else:
             channel["extensions"] = [channelExtension]
 
-        print 'yield for role', role, 'appended with channel', name
+        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
 
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
@@ -835,11 +867,6 @@ class MissingOuterHitsSystematic:
     _signalSuffix = ""
     _fout = None
     _foutForPlot = None
-    
-    _systematic = []
-    _maxSystematic = 0.0
-    _averageSystematic = 0.0
-    _n = 0
 
     def __init__ (self, masses, lifetimes, intLumi = None):
         self._masses = masses
@@ -867,21 +894,6 @@ class MissingOuterHitsSystematic:
             print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
         setattr (self, role, channel)
 
-    def appendChannel (self, role, name, sample, condorDir):
-        if not hasattr (self, role):
-            print "Cannot append to role", role, "before it has been defined!"
-            return
-
-        channel = getattr (self, role)
-
-        channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        if "extensions" in channel:
-            channel["extensions"].append(channelExtension)
-        else:
-            channel["extensions"] = [channelExtension]
-
-        print 'yield for role', role, 'appended with channel', name
-
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
 
@@ -904,9 +916,6 @@ class MissingOuterHitsSystematic:
                 name = channel["name"]
                 if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
                     hits = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
-                    if "extensions" in channel:
-                        for x in channel["extensions"]:
-                            hits.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", self._integrateHistogram))
                 else:
                     hits = self.GetHitsFromTree(sample, condorDir, name, mass, lifetime)
 
@@ -1022,9 +1031,6 @@ class MissingOuterHitsSystematic:
             return (float ("nan"), float ("nan"))
 
     def printSystematic (self):
-        self._maxSystematic = 0.0
-        self._averageSystematic = 0.0
-        self._n = 0
         dataHits = None
         mcHits = None
         signalHits = None
@@ -1061,16 +1067,6 @@ class MissingOuterHitsSystematic:
                 sys.printLongFormat (True)
                 h.Fill (mass, lifetime, abs (sys.centralValue () / 100.0))
                 print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%"
-
-                if abs (sys.centralValue()) > self._maxSystematic:
-                  self._maxSystematic = abs (sys.centralValue())
-
-                self._averageSystematic += abs (sys.centralValue())
-                self._n += 1
-
-        self._averageSystematic /= self._n
-        print "maximum systematic: " + str (self._maxSystematic) + "%"
-        print "average systematic: " + str (self._averageSystematic) + "%"
 
         if self._foutForPlot:
             self._foutForPlot.cd ()
@@ -1529,6 +1525,12 @@ class TriggerTurnOnSystematic:
     _signalSuffix = ""
     _extraSamples = {}
 
+    _lumis = {
+             "central": 1,
+             "central1": 0,
+             "central2": 0,
+             }
+
     def __init__ (self, masses, lifetimes, intLumi):
         self._masses = masses
         self._lifetimes = lifetimes
@@ -1564,6 +1566,9 @@ class TriggerTurnOnSystematic:
     def addFout (self, fout):
         self._fout = fout
         self._doFout = True
+
+    def addLumis (self, lumis):
+        self._lumis = lumis
 
     def getOriginalSample(self, condorDir, sample, mass, lifetime):
         lifetimeFloat = float(lifetime.replace('p', '.'))
@@ -1629,7 +1634,7 @@ class TriggerTurnOnSystematic:
 
     def printSampleSystematic (self, mass, lifetime):
 
-        if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator"):
+        if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and not hasattr (self, "Denominator1") and not hasattr (self, "Numerator1"):
             realLifetime = lifetime if lifetime != '1' else '10'
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
@@ -1651,7 +1656,82 @@ class TriggerTurnOnSystematic:
                 x = metHist.GetBinCenter(ibin+1)
                 scaledValue += metHist.GetBinContent(ibin+1) * numeratorEfficiency.Eval(x) / denominatorEfficiency.Eval(x) if denominatorEfficiency.Eval(x) > 0.0 else 0.0
 
+
             relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
+            if relDiff < 0.0:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
+                return (sample, relDiff, 0.0)
+            elif relDiff == 0.0:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0)
+                return (sample, 0.0, 0.0)
+            else:
+                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0))
+                return (sample, 0.0, relDiff)
+
+
+        if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and hasattr (self, "central1") and hasattr (self, "Denominator1") and hasattr (self, "Numerator1") and hasattr (self, "central2") and hasattr (self, "Denominator2") and hasattr (self, "Numerator2") :
+            realLifetime = lifetime if lifetime != '1' else '10'
+            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            condorDir = self.central["condorDir"]
+            condorDir1 = self.central1["condorDir"]
+            condorDir2 = self.central2["condorDir"]
+            name = self.central["name"]
+            if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
+                metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
+            else:
+                metHist = self.GetHistogramFromTree(sample, condorDir, name, mass, lifetime)
+
+            if os.path.isfile('condor/' + condorDir1 + '/' + sample + '.root') and lifetime != '1':
+                metHist1 = getHist (sample, condorDir1, name + "Plotter", self._integrateHistogram)
+            else:
+                metHist1 = self.GetHistogramFromTree(sample, condorDir1, name, mass, lifetime)
+
+            if os.path.isfile('condor/' + condorDir2 + '/' + sample + '.root') and lifetime != '1':
+                metHist2 = getHist (sample, condorDir2, name + "Plotter", self._integrateHistogram)
+            else:
+                metHist2 = self.GetHistogramFromTree(sample, condorDir2, name, mass, lifetime)
+            central = metHist.Integral (0, metHist.GetNbinsX () + 1)
+            central1 = metHist1.Integral (0, metHist1.GetNbinsX () + 1)
+            central2 = metHist2.Integral (0, metHist2.GetNbinsX () + 1)
+
+            denominatorEfficiencyFile = TFile (self.Denominator["inputFile"])
+            denominatorEfficiency = denominatorEfficiencyFile.Get(self.Denominator["name"].replace('XYZ', str(mass)))
+            numeratorEfficiencyFile = TFile (self.Numerator["inputFile"])
+            numeratorEfficiency = numeratorEfficiencyFile.Get(self.Numerator["name"].replace('XYZ', str(mass)))
+
+            print 'condor/' + condorDir1 + '/' + self.Denominator1["inputFile"]
+            denominatorEfficiencyFile1 = TFile ('condor/' + condorDir1 + '/' + self.Denominator1["inputFile"])
+            denominatorEfficiency1 = denominatorEfficiencyFile1.Get(self.Denominator1["name"].replace('XYZ', str(mass)))
+            numeratorEfficiencyFile1 = TFile ('condor/' + condorDir1 + '/' + self.Numerator1["inputFile"])
+            numeratorEfficiency1 = numeratorEfficiencyFile1.Get(self.Numerator1["name"].replace('XYZ', str(mass)))
+
+            denominatorEfficiencyFile2 = TFile ('condor/' + condorDir2 + '/' + self.Denominator2["inputFile"])
+            denominatorEfficiency2 = denominatorEfficiencyFile2.Get(self.Denominator2["name"].replace('XYZ', str(mass)))
+            numeratorEfficiencyFile2 = TFile ('condor/' + condorDir2 + '/' + self.Numerator2["inputFile"])
+            numeratorEfficiency2 = numeratorEfficiencyFile2.Get(self.Numerator2["name"].replace('XYZ', str(mass)))
+
+            scaledValue  = 0.0
+            scaledValue0 = 0.0
+            scaledValue1 = 0.0
+            scaledValue2 = 0.0
+
+            for ibin in range(metHist.GetNbinsX()):
+                x = metHist.GetBinCenter(ibin+1)
+                scaledValue0 += metHist.GetBinContent(ibin+1) * numeratorEfficiency.Eval(x) / denominatorEfficiency.Eval(x) if denominatorEfficiency.Eval(x) > 0.0 else 0.0 
+
+            for ibin in range(metHist1.GetNbinsX()):
+                x = metHist1.GetBinCenter(ibin+1)
+                scaledValue1 += metHist1.GetBinContent(ibin+1) * numeratorEfficiency1.Eval(x) / denominatorEfficiency1.Eval(x) if denominatorEfficiency1.Eval(x) > 0.0 else 0.0 
+
+            for ibin in range(metHist2.GetNbinsX()):
+                x = metHist2.GetBinCenter(ibin+1)
+                scaledValue2 += metHist2.GetBinContent(ibin+1) * numeratorEfficiency2.Eval(x) / denominatorEfficiency2.Eval(x) if denominatorEfficiency2.Eval(x) > 0.0 else 0.0 
+
+            scaledValue = ( self._lumis["central"]*scaledValue0 + self._lumis["central1"]*scaledValue1 + self._lumis["central2"]*scaledValue2 )/(self._lumis["central"]+self._lumis["central1"]+self._lumis["central2"])
+                
+
+            relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
+            print "lumi averaged results:"
             if relDiff < 0.0:
                 print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
                 return (sample, relDiff, 0.0)

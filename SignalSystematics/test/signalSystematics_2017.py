@@ -215,10 +215,8 @@ if systematic == "HITS_V2" or systematic == "ALL":
     print "--------------------------------------------------------------------------------"
 
     hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel    ("Data",  "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "SingleEle_2017",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    hitsSystematic.appendChannel ("Data",  "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "SingleMu_2017",   dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
-    hitsSystematic.addChannel    ("MC",    "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    hitsSystematic.appendChannel ("MC",    "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
+    hitsSystematic.addChannel  ("Data",  "ZtoEETauHitsSystematicSelection" + nLayersWord,  "SingleEle_2017",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    hitsSystematic.addChannel  ("MC",    "ZtoEETauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
     hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
     print "--------------------------------------------------------------------------------"
     print "before correction to missing middle hits"
@@ -272,11 +270,9 @@ if systematic == "MISSING_OUTER_HITS_V2" or systematic == "ALL":
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel    ("Data",    "ZtoEETauCtrlSelection"   + nLayersWord, "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    missingOuterHitsSystematic.appendChannel ("Data",    "ZtoMuMuTauCtrlSelection" + nLayersWord, "SingleMu_2017",  dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
-    missingOuterHitsSystematic.addChannel    ("MC",      "ZtoEETauCtrlSelection"   + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
-    missingOuterHitsSystematic.addChannel    ("MC",      "ZtoMuMuTauCtrlSelection" + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToMuMutauCtrl")
-    missingOuterHitsSystematic.addChannel    ("Signal",  "DisTrkNoNMissOut"        + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
+    missingOuterHitsSystematic.addChannel  ("Data",    "ZtoEETauCtrlSelection" + nLayersWord, "SingleEle_2017", dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.addChannel  ("MC",      "ZtoEETauCtrlSelection" + nLayersWord, "DYJetsToLL_50",  dirs['Brian'] + "2017/fromLPC/zToEEtauCtrl")
+    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut"      + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_full_v8_noNMissOutCut")
     missingOuterHitsSystematic.printSystematic ()
 
     print "********************************************************************************"
@@ -415,10 +411,17 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi)
     turnOnSystematic.addExtraSamples(extraSamples)
     turnOnSystematic.addFout(fout)
+    turnOnSystematic.addLumis({"central":35864.601, "central1":4822.568, "central2":868.626})
     turnOnSystematic.addSignalSuffix ("_" + suffix)
     turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
     turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
+    turnOnSystematic.addChannel("central1", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_full_verA")
+    turnOnSystematic.addEfficiencies("Denominator1", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator1",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
+    turnOnSystematic.addChannel("central2", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_full_verB")
+    turnOnSystematic.addEfficiencies("Denominator2", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator2",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
     turnOnSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
