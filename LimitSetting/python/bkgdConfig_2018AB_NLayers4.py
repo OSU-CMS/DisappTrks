@@ -50,29 +50,29 @@ background_systematics = {
     },
 
     'Elec_energy_NLayers4' : { # error on energy assumption
-        'value' : str (1.0 + 13.8438107161 / 100.0),
+        'value' : str (1.0 + 14.4101362584 / 100.0),
         'background' : 'Elec',
     },
     'Tau_energy_NLayers4' : { # error on energy assumption
-        'value' : str (1.0 + 22.1600192288 / 100.0),
+        'value' : str (1.0 + 24.8215525905 / 100.0),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPoffline_NLayers4' : {
-        'value' : str(1.073677),
+        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.714) / 0.7517)),
         'background' : 'Muon',
     },
     'Tau_lowStatPoffline_NLayers4' : {
-        'value' : str(1.073677),
+        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.714) / 0.7517)),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPtrigger_NLayers4' : {
-        'value' : str(1.014094),
+        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.384) / 0.429)),
         'background' : 'Muon',
     },
     'Tau_lowStatPtrigger_NLayers4' : {
-        'value' : str(1.014094),
+        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.384) / 0.429)),
         'background' : 'Tau',
     },
 

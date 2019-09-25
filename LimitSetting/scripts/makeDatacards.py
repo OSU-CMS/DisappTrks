@@ -105,8 +105,6 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
         thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
         if arguments.era.startswith('2017_'):
             thisWeight *= chain.eventvariable_L1ECALPrefiringWeight
-        elif arguments.era.startswith('2018_'):
-            thisWeight *= chain.eventvariable_hem1516weight
         totalWeight += thisWeight
         totalWeight2 += thisWeight * thisWeight
 

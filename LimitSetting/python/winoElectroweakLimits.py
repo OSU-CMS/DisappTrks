@@ -62,7 +62,7 @@ elif arguments.era.startswith("2018CD"):
 elif arguments.era.startswith("2018_"):
 	intLumi = lumi["MET_2018"]
 	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetime
+	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
 elif arguments.era == "run2":

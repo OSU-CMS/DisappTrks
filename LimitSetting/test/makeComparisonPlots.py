@@ -58,7 +58,8 @@ gROOT.SetBatch()
 suffix = sys.argv[1]
 
 compareNLayersBins('2017')
-compareNLayersBins('2018')
+compareNLayersBins('2018AB')
+compareNLayersBins('2018CD')
 
 f20156 = TFile('limits/limits_all20156_' + suffix + '/limit_plots.root')
 f2017 = TFile('limits/limits_2017_all_' + suffix + '/limit_plots.root')

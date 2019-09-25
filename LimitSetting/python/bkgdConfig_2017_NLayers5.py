@@ -58,20 +58,20 @@ background_systematics = {
     },
 
     'Muon_lowStatPoffline_NLayers5' : {
-        'value' : str(1.0593),
+        'value' : '1.0/' + str(1.0593),
         'background' : 'Muon',
     },
     'Tau_lowStatPoffline_NLayers5' : {
-        'value' : str(1.0593),
+        'value' : '1.0/' + str(1.0593),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPtrigger_NLayers5' : {
-        'value' : str(1.0097),
+        'value' : '1.0/' + str(1.0097),
         'background' : 'Muon',
     },
     'Tau_lowStatPtrigger_NLayers5' : {
-        'value' : str(1.0097),
+        'value' : '1.0/' + str(1.0097),
         'background' : 'Tau',
     },
 }
