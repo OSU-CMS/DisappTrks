@@ -292,13 +292,16 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	    'Ecalo_Bin2017_' + nLayersWord : {
 	        'value' : str (1.0 + 0.956275783525 / 100.0),
 	    },
-	    'Nmissin_Bin2017_' + nLayersWord :  {
-	        'value' : str (1.0 + 0.0227345880789 / 100.0),
-	    },
-	    'Nmissmid_Bin2017_' + nLayersWord :  {
-	        'value' : str (1.0 + 5.1633269796 / 100.0),
-	    },
 	}
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 4.20586172635 / 100.0)}
+	    signal_systematic_uncertainties['Nmissmid_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 4.99225631249 / 100.0)},
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 1.61290322581 / 100.0)}
+	    signal_systematic_uncertainties['Nmissmid_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 1.52146917422 / 100.0)},
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 0.0868040086816 / 100.0)}
+	    signal_systematic_uncertainties['Nmissmid_Bin2017_' + nLayersWord] :  {'value' : str (1.0 + 3.93835665641 / 100.0)},
 elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					   "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	signal_systematic_uncertainties = {

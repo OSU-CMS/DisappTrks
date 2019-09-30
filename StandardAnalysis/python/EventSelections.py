@@ -56,7 +56,7 @@ addCuts(basicSelection.cuts, jetCuts + [cutLeadingJetMetPhi])
 #####################################################################
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data") and (osusub.datasetLabel.endswith("_2018C") or osusub.datasetLabel.endswith("_2018D")):
-        addCuts(basicSelection.cuts, [cutVetoMetPhiHEM1516])
+        addCuts(basicSelection.cuts, [jetInHEM1516])
 
 basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")

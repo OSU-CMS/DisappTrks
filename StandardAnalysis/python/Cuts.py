@@ -61,6 +61,12 @@ cutVetoMetPhiHEM1516 = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+cutVetoJetsHEM1516 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("jetInHEM1516 == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutDummyMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("noMuPt > -1"),

@@ -202,7 +202,6 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   bool jetOpposite_hem1516 = false;
   bool metJet_hem1516 = false;
   for (const auto &jet1 : *jets) {
-    if (!IsValidJet(jet1)) continue;
     if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
       if (jet1.phi() >= -1.57 && jet1.phi() <= -0.87) jetIn_hem1516 = true;
       if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159) jetOpposite_hem1516 = true;
