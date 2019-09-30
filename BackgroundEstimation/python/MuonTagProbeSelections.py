@@ -117,11 +117,11 @@ addCuts(MuonTagPt55MetCut.cuts, [cutMuonMetMinusOne])
 
 MuonTagPt55HEMveto = copy.deepcopy(MuonTagPt55)
 MuonTagPt55HEMveto.name = cms.string("MuonTagPt55HEMveto")
-addCuts(MuonTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
+addCuts(MuonTagPt55HEMveto.cuts, [cutVetoJetsHEM1516])
 
 MuonTagPt55MetTrigHEMveto = copy.deepcopy(MuonTagPt55MetTrig)
 MuonTagPt55MetTrigHEMveto.name = cms.string("MuonTagPt55MetTrigHEMveto")
-addCuts(MuonTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
+addCuts(MuonTagPt55MetTrigHEMveto.cuts, [cutVetoJetsHEM1516])
 
 ################################################################################
 ## Muon tag and probe sample
