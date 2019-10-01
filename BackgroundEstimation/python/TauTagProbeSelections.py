@@ -120,11 +120,11 @@ TauTagPt55NoJetCutsMetTrig.triggers = triggersMet
 
 TauTagPt55HEMveto = copy.deepcopy(TauTagPt55)
 TauTagPt55HEMveto.name = cms.string("TauTagPt55HEMveto")
-addCuts(TauTagPt55HEMveto.cuts, [cutVetoJetsHEM1516])
+addCuts(TauTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
 
 TauTagPt55MetTrigHEMveto = copy.deepcopy(TauTagPt55MetTrig)
 TauTagPt55MetTrigHEMveto.name = cms.string("TauTagPt55MetTrigHEMveto")
-addCuts(TauTagPt55MetTrigHEMveto.cuts, [cutVetoJetsHEM1516])
+addCuts(TauTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
 
 ################################################################################
 ## Tau tag and probe sample

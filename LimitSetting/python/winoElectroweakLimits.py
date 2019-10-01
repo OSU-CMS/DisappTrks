@@ -18,6 +18,10 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
+if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era == "run2":
+	masses.extend(['1000', '1100'])
+	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
+
 # define maximal set of masses/lifetimes for datacard combinations
 allMasses = masses + ['1000', '1100']
 allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
@@ -49,26 +53,16 @@ if "MET_" + arguments.era in lumi:
 	intLumi = lumi["MET_" + arguments.era]
 elif arguments.era.startswith("2017"):
 	intLumi = lumi["MET_2017"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era.startswith("2018AB"):
 	intLumi = lumi["MET_2018AB"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era.startswith("2018CD"):
 	intLumi = lumi["MET_2018CD"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era.startswith("2018_"):
 	intLumi = lumi["MET_2018"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
 elif arguments.era == "run2":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 
 # condor directory in which to find signal root files
 if arguments.era == "2015":

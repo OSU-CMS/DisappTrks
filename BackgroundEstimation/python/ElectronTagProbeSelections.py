@@ -124,11 +124,11 @@ addCuts(ElectronTagPt55MetCut.cuts, [cutElectronMetMinusOne])
 
 ElectronTagPt55HEMveto = copy.deepcopy(ElectronTagPt55)
 ElectronTagPt55HEMveto.name = cms.string("ElectronTagPt55HEMveto")
-addCuts(ElectronTagPt55HEMveto.cuts, [cutVetoJetsHEM1516])
+addCuts(ElectronTagPt55HEMveto.cuts, [cutVetoMetPhiHEM1516])
 
 ElectronTagPt55MetTrigHEMveto = copy.deepcopy(ElectronTagPt55MetTrig)
 ElectronTagPt55MetTrigHEMveto.name = cms.string("ElectronTagPt55MetTrigHEMveto")
-addCuts(ElectronTagPt55MetTrigHEMveto.cuts, [cutVetoJetsHEM1516])
+addCuts(ElectronTagPt55MetTrigHEMveto.cuts, [cutVetoMetPhiHEM1516])
 
 ################################################################################
 ## Electron tag and probe sample
