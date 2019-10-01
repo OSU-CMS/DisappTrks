@@ -1668,7 +1668,6 @@ class TriggerTurnOnSystematic:
                 print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0))
                 return (sample, 0.0, relDiff)
 
-
         if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and hasattr (self, "central1") and hasattr (self, "Denominator1") and hasattr (self, "Numerator1") and hasattr (self, "central2") and hasattr (self, "Denominator2") and hasattr (self, "Numerator2") :
             realLifetime = lifetime if lifetime != '1' else '10'
             sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
@@ -1681,25 +1680,13 @@ class TriggerTurnOnSystematic:
             else:
                 metHist = self.GetHistogramFromTree(sample, condorDir, name, mass, lifetime)
 
-            if os.path.isfile('condor/' + condorDir1 + '/' + sample + '.root') and lifetime != '1':
-                metHist1 = getHist (sample, condorDir1, name + "Plotter", self._integrateHistogram)
-            else:
-                metHist1 = self.GetHistogramFromTree(sample, condorDir1, name, mass, lifetime)
-
-            if os.path.isfile('condor/' + condorDir2 + '/' + sample + '.root') and lifetime != '1':
-                metHist2 = getHist (sample, condorDir2, name + "Plotter", self._integrateHistogram)
-            else:
-                metHist2 = self.GetHistogramFromTree(sample, condorDir2, name, mass, lifetime)
             central = metHist.Integral (0, metHist.GetNbinsX () + 1)
-            central1 = metHist1.Integral (0, metHist1.GetNbinsX () + 1)
-            central2 = metHist2.Integral (0, metHist2.GetNbinsX () + 1)
 
-            denominatorEfficiencyFile = TFile (self.Denominator["inputFile"])
+            denominatorEfficiencyFile = TFile ('condor/' + condorDir + '/' + self.Denominator["inputFile"])
             denominatorEfficiency = denominatorEfficiencyFile.Get(self.Denominator["name"].replace('XYZ', str(mass)))
-            numeratorEfficiencyFile = TFile (self.Numerator["inputFile"])
+            numeratorEfficiencyFile = TFile ('condor/' + condorDir + '/' + self.Numerator["inputFile"])
             numeratorEfficiency = numeratorEfficiencyFile.Get(self.Numerator["name"].replace('XYZ', str(mass)))
 
-            print 'condor/' + condorDir1 + '/' + self.Denominator1["inputFile"]
             denominatorEfficiencyFile1 = TFile ('condor/' + condorDir1 + '/' + self.Denominator1["inputFile"])
             denominatorEfficiency1 = denominatorEfficiencyFile1.Get(self.Denominator1["name"].replace('XYZ', str(mass)))
             numeratorEfficiencyFile1 = TFile ('condor/' + condorDir1 + '/' + self.Numerator1["inputFile"])
@@ -1710,7 +1697,6 @@ class TriggerTurnOnSystematic:
             numeratorEfficiencyFile2 = TFile ('condor/' + condorDir2 + '/' + self.Numerator2["inputFile"])
             numeratorEfficiency2 = numeratorEfficiencyFile2.Get(self.Numerator2["name"].replace('XYZ', str(mass)))
 
-            scaledValue  = 0.0
             scaledValue0 = 0.0
             scaledValue1 = 0.0
             scaledValue2 = 0.0
@@ -1718,20 +1704,12 @@ class TriggerTurnOnSystematic:
             for ibin in range(metHist.GetNbinsX()):
                 x = metHist.GetBinCenter(ibin+1)
                 scaledValue0 += metHist.GetBinContent(ibin+1) * numeratorEfficiency.Eval(x) / denominatorEfficiency.Eval(x) if denominatorEfficiency.Eval(x) > 0.0 else 0.0 
+                scaledValue1 += metHist.GetBinContent(ibin+1) * numeratorEfficiency1.Eval(x) / denominatorEfficiency1.Eval(x) if denominatorEfficiency1.Eval(x) > 0.0 else 0.0 
+                scaledValue2 += metHist.GetBinContent(ibin+1) * numeratorEfficiency2.Eval(x) / denominatorEfficiency2.Eval(x) if denominatorEfficiency2.Eval(x) > 0.0 else 0.0 
 
-            for ibin in range(metHist1.GetNbinsX()):
-                x = metHist1.GetBinCenter(ibin+1)
-                scaledValue1 += metHist1.GetBinContent(ibin+1) * numeratorEfficiency1.Eval(x) / denominatorEfficiency1.Eval(x) if denominatorEfficiency1.Eval(x) > 0.0 else 0.0 
-
-            for ibin in range(metHist2.GetNbinsX()):
-                x = metHist2.GetBinCenter(ibin+1)
-                scaledValue2 += metHist2.GetBinContent(ibin+1) * numeratorEfficiency2.Eval(x) / denominatorEfficiency2.Eval(x) if denominatorEfficiency2.Eval(x) > 0.0 else 0.0 
-
-            scaledValue = ( self._lumis["central"]*scaledValue0 + self._lumis["central1"]*scaledValue1 + self._lumis["central2"]*scaledValue2 )/(self._lumis["central"]+self._lumis["central1"]+self._lumis["central2"])
-                
+            scaledValue = (self._lumis["central"]*scaledValue0 + self._lumis["central1"]*scaledValue1 + self._lumis["central2"]*scaledValue2) / (self._lumis["central"]+self._lumis["central1"]+self._lumis["central2"])
 
             relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
-            print "lumi averaged results:"
             if relDiff < 0.0:
                 print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
                 return (sample, relDiff, 0.0)
