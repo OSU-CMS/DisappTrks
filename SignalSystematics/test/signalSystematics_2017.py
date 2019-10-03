@@ -208,6 +208,7 @@ if systematic == "HITS" or systematic == "ALL":
 
     print "\n\n"
 
+# use the larger of HITS and HITS_V2 (EXO-19-010 ARC)
 if systematic == "HITS_V2" or systematic == "ALL":
 
     print "********************************************************************************"
@@ -258,6 +259,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "\n\n"
 
+# still use muon control region, so this is just for information
 if systematic == "MISSING_OUTER_HITS_V2" or systematic == "ALL":
 
     print "********************************************************************************"

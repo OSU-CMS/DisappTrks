@@ -201,10 +201,19 @@ external_systematic_uncertainties = [
 if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	external_systematic_uncertainties = [
-    	"isr",
-    	"pileup",
-    	"trigger_grandOrWeightData",
-    	"trigger_grandOrWeightMC",
+		"isr",
+		"jec",
+		"jer",
+		"metVaryElectronEn",
+		"metVaryJetEn",
+		"metVaryJetRes",
+		"metVaryPhotonEn",
+		"metVaryTauEn",
+		"metVaryUnclusteredEn",
+		#"nMissOut",
+		"pileup",
+		"trigger_grandOrWeightData",
+		"trigger_grandOrWeightMC",
 	]
 
 if not arguments.era in ["20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "run2"]:

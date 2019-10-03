@@ -53,7 +53,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     print "\n\n"
 
-if (systematic == "MET" or systematic == "ALL") and False:
+if systematic == "MET" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating met systematics (2018) " + nLayersWord
@@ -82,7 +82,7 @@ if (systematic == "MET" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "JEC" or systematic == "ALL") and False:
+if systematic == "JEC" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating JEC systematic (2018) " + nLayersWord
@@ -94,8 +94,8 @@ if (systematic == "JEC" or systematic == "ALL") and False:
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
     jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3")
-    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jecSyst")
-    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jecSyst")
+    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jecSyst")
+    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jecSyst")
     jecSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -104,7 +104,7 @@ if (systematic == "JEC" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "JER" or systematic == "ALL") and False:
+if systematic == "JER" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating JER systematic (2018) " + nLayersWord
@@ -115,9 +115,9 @@ if (systematic == "JER" or systematic == "ALL") and False:
     jerSystematic = SystematicCalculator(masses, lifetimes)
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
-    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_full_v3")
-    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jerSyst")
-    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jerSyst")
+    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3")
+    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jerSyst")
+    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jerSyst")
     jerSystematic.printSystematic()
 
     print "********************************************************************************"
