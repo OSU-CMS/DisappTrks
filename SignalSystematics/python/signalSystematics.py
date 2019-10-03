@@ -3,6 +3,7 @@ import os
 import sys
 import math
 import copy
+import functools
 from array import array
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain, gDirectory
@@ -747,6 +748,9 @@ class HitsSystematic:
 
     _integrateHistogram = "Track Plots/trackNHitsMissingMiddleVsInner"
 
+    getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = 2.0, fiducialMuonSigmaCut = 2.0)
+    getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = 2.0, fiducialMuonSigmaCut = 2.0)
+
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
@@ -779,7 +783,7 @@ class HitsSystematic:
         # calculate effective weight:
         # if total(a) = Ta*wa, want X such that total(a+b) = (Ta + Tb) * X = Ta*wa + Tb*wb
         # X = (Ta*wa + Tb*wb) / (Ta + Tb)
-        effectiveWeight = (channel["total"].centralValue() + thisTotal.centralValue()) / (channel["total"].centralValue()/channel["weight"] + thisTotal.centralValue()/w)
+        effectiveWeight = (channel["total"] + thisTotal.centralValue()) / (channel["total"]/channel["weight"] + thisTotal.centralValue()/w)
 
         channel["weight"] = effectiveWeight
         channel["total"] += thisTotal
@@ -865,6 +869,11 @@ class MissingOuterHitsSystematic:
     _signalSuffix = ""
     _fout = None
     _foutForPlot = None
+
+    _systematic = []
+    _maxSystematic = 0.0
+    _averageSystematic = 0.0
+    _n = 0
 
     def __init__ (self, masses, lifetimes, intLumi = None):
         self._masses = masses
@@ -1036,6 +1045,11 @@ class MissingOuterHitsSystematic:
         massBins = array ("d", masses + [masses[-1] + 100])
         lifetimeBins = array ("d", lifetimes + [lifetimes[-1] * 10.0])
         h = TH2D ("nMissOutSystematic", ";chargino mass [GeV];chargino lifetime [cm/c]", len (massBins) - 1, massBins, len (lifetimeBins) - 1, lifetimeBins)
+
+        self._maxSystematic = 0.0
+        self._averageSystematic = 0.0
+        self._n = 0
+
         for mass in self._masses:
             for lifetime in self._lifetimes:
                 sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
@@ -1063,6 +1077,15 @@ class MissingOuterHitsSystematic:
                 sys.printLongFormat (True)
                 h.Fill (mass, lifetime, abs (sys.centralValue () / 100.0))
                 print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%"
+
+                if sys.centralValue() > self._maxSystematic:
+                    self._maxSystematic = sys.centralValue()
+                self._averageSystematic += sys.centralValue()
+                self._n += 1
+
+        self._averageSystematic /= self._n
+        print "maximum systematic: " + str (self._maxSystematic) + "%"
+        print "average systematic: " + str (self._averageSystematic) + "%"
 
         if self._foutForPlot:
             self._foutForPlot.cd ()
