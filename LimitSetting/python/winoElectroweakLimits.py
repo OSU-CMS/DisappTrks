@@ -296,7 +296,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	        'value' : str (1.0 + 0.956275783525 / 100.0),
 	    },
 	    'Nmissmid_Bin2017_' + nLayersWord : {
-	    	'value' : '1.051633269796'),
+	    	'value' : '1.051633269796',
 	    },
 	}
 	if arguments.era.endswith("NLayers4"):
