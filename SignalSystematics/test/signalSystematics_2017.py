@@ -41,7 +41,8 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2017_" + nLayersWord + ".txt", "w")
 
-    pileupSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    pileupSystematic.addExtraSamples(extraSamples)
     pileupSystematic.addFout(fout)
     pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
     pileupSystematic.defineWeightToFluctuate('eventvariable_puScalingFactor')
@@ -134,7 +135,8 @@ if systematic == "ISR" or systematic == "ALL":
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2017_" + nLayersWord + ".txt", "w")
 
-    isrSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    isrSystematic.addExtraSamples(extraSamples)
     isrSystematic.addFout(fout)
     isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v9")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
@@ -155,7 +157,8 @@ if systematic == "TRIGGER" or systematic == "ALL":
     for flux in ['Data', 'MC']:
         fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_grandOrWeight" + flux + '_2017_' + nLayersWord + ".txt", "w")
 
-        triggerSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+        triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+        triggerSystematic.addExtraSamples(extraSamples)
         triggerSystematic.addFout(fout)
         triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_full_v8")
         triggerSystematic.defineFluctuationUp  ('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Up')
