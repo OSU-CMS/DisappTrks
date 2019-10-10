@@ -12,7 +12,7 @@ yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
-showObserved = (not arguments.era.startswith("2018") and arguments.era != "run2")
+showObserved = (not arguments.era.startswith("2018") and arguments.era != "all20178" and arguments.era != "run2")
 
 # description of all the plots to be made
 plotDefinitions = [

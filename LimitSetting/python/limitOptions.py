@@ -57,6 +57,7 @@ validEras = ["2015",
              "2018AB_all",
              "2018CD_all",
              "2018_all",
+             "all20178",
              "run2"]
 
 validLimitTypes = [

@@ -211,7 +211,7 @@ if systematic == "HITS" or systematic == "ALL":
 
     print "\n\n"
 
-if (systematic == "MISSING_OUTER_HITS" or systematic == "ALL") and False:
+if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating missing outer hits systematic (2018)"
@@ -237,7 +237,7 @@ if (systematic == "MISSING_OUTER_HITS" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
+if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating muon veto scale factor systematic (2018) " + nLayersWord
@@ -261,7 +261,7 @@ if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
+if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating electron veto scale factor systematic (2018) " + nLayersWord
@@ -285,7 +285,7 @@ if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False
 
     print "\n\n"
 
-if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != 'NLayers6plus' and False:
+if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != 'NLayers6plus':
 
     # first calculate the trigger turn-on curves for this category and NLayers6plus
     print "********************************************************************************"

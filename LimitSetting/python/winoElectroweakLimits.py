@@ -18,7 +18,7 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era == "run2":
+if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era == "all20178" or arguments.era == "run2":
 	masses.extend(['1000', '1100'])
 	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 
@@ -31,6 +31,9 @@ datacardCombinations = {
 	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
 	'2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'2018_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'run2'     : ['2015',
 				  '2016BC', '2016DEFGH', 
@@ -61,6 +64,8 @@ elif arguments.era.startswith("2018_"):
 	intLumi = lumi["MET_2018"]
 elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
+elif arguments.era == "all20178":
+	intLumi = lumi["MET_2017"] + lumi["MET_2018"]
 elif arguments.era == "run2":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"]
 
@@ -198,25 +203,7 @@ external_systematic_uncertainties = [
     "trigger_grandOrWeightMC",
 ]
 
-if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
-					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-	external_systematic_uncertainties = [
-		"isr",
-		"jec",
-		"jer",
-		"metVaryElectronEn",
-		"metVaryJetEn",
-		"metVaryJetRes",
-		"metVaryPhotonEn",
-		"metVaryTauEn",
-		"metVaryUnclusteredEn",
-		#"nMissOut",
-		"pileup",
-		"trigger_grandOrWeightData",
-		"trigger_grandOrWeightMC",
-	]
-
-if not arguments.era in ["20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "run2"]:
+if not arguments.era in ["all20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
 	for i in range(len(external_systematic_uncertainties)):
 		if arguments.era.startswith("2018"):
 			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
