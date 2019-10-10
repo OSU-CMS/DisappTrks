@@ -211,6 +211,31 @@ if systematic == "HITS" or systematic == "ALL":
 
     print "\n\n"
 
+# use the larger of HITS and HITS_V2 (EXO-19-010 ARC)
+if systematic == "HITS_V2" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating hits systematic V2 (2017)"
+    print "--------------------------------------------------------------------------------"
+
+    hitsSystematic = HitsSystematic ()
+    hitsSystematic.addChannel    ("Data",  "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "EGamma_2018",  dirs['Kai'] + "2018/ZtoEETauCtrl")
+    hitsSystematic.appendChannel ("Data",  "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "SingleMu_2018",   dirs['Kai'] + "2018/ZtoMuMuTauCtrl")
+    hitsSystematic.addChannel    ("MC",    "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "DYJetsToLL_50",   dirs['Kai'] + "2018/ZtoEETauCtrl")
+    hitsSystematic.appendChannel ("MC",    "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Kai'] + "2018/ZtoMuMuTauCtrl")
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
 if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "********************************************************************************"
