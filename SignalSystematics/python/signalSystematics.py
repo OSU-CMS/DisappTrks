@@ -1111,6 +1111,10 @@ class LeptonVetoScaleFactorSystematic:
     _pogPayloadFile = ""
     _pogPayloadName = ""
 
+    _maxSystematic = 0.0
+    _averageSystematic = 0.0
+    _n = 0
+
     def __init__ (self, flavor, masses, lifetimes, intLumi = None):
         self._integrateHistogram = "Track Plots/trackDeltaRToClosest" + flavor
         self._treeVariableName = "track_deltaRToClosest" + flavor
@@ -1352,6 +1356,11 @@ class LeptonVetoScaleFactorSystematic:
                     str(scaleFactorTotal)
                 )
 
+                if abs(1.0 - scaleFactorTotal.centralValue()) > self._maxSystematic:
+                    self._maxSystematic = abs(1.0 - scaleFactorTotal.centralValue())
+                self._averageSystematic += abs(1.0 - scaleFactorTotal.centralValue())
+                self._n += 1
+
         if self._foutForPlot:
             self._foutForPlot.cd()
             hSF.Write()
@@ -1363,6 +1372,10 @@ class LeptonVetoScaleFactorSystematic:
             width = max(len(word) for row in systematic for word in row) + 2
             for row in systematic:
                 self._fout.write("".join(word.ljust(width) for word in row) + "\n")
+
+        self._averageSystematic /= self._n
+        print "maximum systematic: " + str (self._maxSystematic) + "%"
+        print "average systematic: " + str (self._averageSystematic) + "%"
 
 class WeightSystematicFromTrees(SystematicCalculator):
 

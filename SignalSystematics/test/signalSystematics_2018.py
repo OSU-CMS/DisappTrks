@@ -275,7 +275,7 @@ if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
     muonVetoSFSystematic.addFout(fout)
     muonVetoSFSystematic.addFoutForPlot(foutForPlot)
     muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes"   + nLayersWord, "SingleEle_2018", dirs['Kai'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
+    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithLooseFilter"   + nLayersWord, "EGamma_2018ABCD", dirs['Kai'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
     muonVetoSFSystematic.addSignalSuffix("_" + suffix)
     muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2018Loose')
     muonVetoSFSystematic.printSystematic()
@@ -299,9 +299,9 @@ if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
     electronVetoSFSystematic.addFout(fout)
     electronVetoSFSystematic.addFoutForPlot(foutForPlot)
     electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",              dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "SingleMu_2018", dirs['Kai'] + "2018/fromLPC/muonBackgroundNoFilterBinnedLayers_looseVetoes")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "SingleMu_2018", dirs['Kai'] + "2018/fromLPC/muonBkgdWithLooseFilterBinnedLayers")
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
-    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2018Veto')
+    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2017Veto')
     electronVetoSFSystematic.printSystematic()
 
     print "********************************************************************************\n\n"

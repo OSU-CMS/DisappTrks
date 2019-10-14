@@ -165,22 +165,22 @@ elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plu
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
 	useHistogramForObservation = False
 	if arguments.era == "2018AB_NLayers4":
-		rawObservation = 0
+		rawObservation = 5
 	elif arguments.era == "2018AB_NLayers5":
 		rawObservation = 0
 	elif arguments.era == "2018AB_NLayers6plus":
-		rawObservation = 0
+		rawObservation = 2
 elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	data_dataset = "MET_2018CD"
 	data_condor_dir = dirs["Brian"] + '/2018/unblindWithHEMveto/'
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
 	useHistogramForObservation = False
 	if arguments.era == "2018CD_NLayers4":
-		rawObservation = 0
+		rawObservation = 11
 	elif arguments.era == "2018CD_NLayers5":
-		rawObservation = 0
+		rawObservation = 2
 	elif arguments.era == "2018CD_NLayers6plus":
-		rawObservation = 0
+		rawObservation = 1
 
 ################################
 ### Systematic Uncertainties ###
