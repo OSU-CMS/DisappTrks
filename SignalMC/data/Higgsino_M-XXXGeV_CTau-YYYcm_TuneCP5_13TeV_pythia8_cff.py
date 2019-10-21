@@ -33,6 +33,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
             '1000024:addChannel = 1 0.0075 100 1000022 -13 14',
             '1000024:addChannel = 1 0.0075 100 1000023 -13 14',
             '1000024:tau0 = %.1f' % CTAU,
+            '1000023:mayDecay = false',
             'ParticleDecays:tau0Max = %.1f' % (CTAU * 10),
        ),
         parameterSets = cms.vstring(
