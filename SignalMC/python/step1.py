@@ -177,4 +177,14 @@ higgsino = {
     (900, 1)     : '/Higgsino_M-900_CTau-1_TuneCP5_13TeV_pythia8/ahart-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-35c494a77f8b4fa80ab49dea78353856/USER',
 }
 
-higgsino2018 = {}
+higgsino2018 = {
+    (100, 10000) : '/Higgsino_M-100GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-3fc1b2bb601bee3eb425eadc05e4924d/USER',
+    (200, 10000) : '/Higgsino_M-200GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-f3122659abf8025bcf00457887baad9f/USER',
+    (300, 10000) : '/Higgsino_M-300GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-fcee57edff64630437e077af86a38a79/USER',
+    (400, 10000) : '/Higgsino_M-400GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-9bef4f9f01f31fcb14a84b24a8450c48/USER',
+    (500, 10000) : '/Higgsino_M-500GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-0efce4e59aebc884a2faac585e059684/USER',
+    (600, 10000) : '/Higgsino_M-600GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-e6630106b015b42fe7496ae127422fd1/USER',
+    (700, 10000) : '/Higgsino_M-700GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-535d6cade63d1c4d2164692e491baf25/USER',
+    (800, 10000) : '/Higgsino_M-800GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-8d5b975b5de6393636e2680f63aa4fd2/USER',
+    (900, 10000) : '/Higgsino_M-900GeV_CTau-10000cm_TuneCP5_PSweights_13TeV_pythia8/bfrancis-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-09e1515ea1c11c516d60f1ffe93f1569/USER',    
+}
