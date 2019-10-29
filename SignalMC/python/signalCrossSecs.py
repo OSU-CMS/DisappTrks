@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
+import math
 from OSUT3Analysis.Configuration.Measurement import Measurement
 
-#values and errors taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1wino and
 # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVn2x1wino
-
 chargino_neutralino_cross_sections = {
     # values and errors are in pb; errors are absolute, converted to relative below
     '100' : {
@@ -53,6 +52,7 @@ chargino_neutralino_cross_sections = {
     },
 }
 
+# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1wino
 chargino_chargino_cross_sections = {
     # values and errors are in pb; errors are absolute, converted to relative below
     '100' : {
@@ -116,6 +116,105 @@ for mass in chargino_neutralino_cross_sections:
     chargino_neutralino_cross_sections[mass]['error'] = str (1.0 + (cn.uncertainty () / cn.centralValue ()))
     chargino_chargino_cross_sections[mass]['error'] = str (1.0 + (cc.uncertainty () / cc.centralValue ()))
     signal_cross_sections[mass] = {
+        'value' : str (total.centralValue ()),
+        'error' : str (1.0 + (total.uncertainty () / total.centralValue ())),
+    }
+
+# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVn2x1hino
+# multiply by two for degenerate N1/N2
+higgsino_n2c1 = {
+    # values and errors are in pb; errors are absolute, converted to relative below
+    '100' : {
+        'value' : str ( 5325.95 * 1.0e-3 * 2 ),
+        'error' : str ( 191.047 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '200' : {
+        'value' : str ( 424.166 * 1.0e-3 * 2 ),
+        'error' : str ( 20.1252 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '300' : {
+        'value' : str ( 90.8167 * 1.0e-3 * 2 ),
+        'error' : str ( 5.48175 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '400' : {
+        'value' : str ( 28.423  * 1.0e-3 * 2 ),
+        'error' : str ( 2.08121 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '500' : {
+        'value' : str ( 10.8865  * 1.0e-3 * 2 ),
+        'error' : str ( 0.923598 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '600' : {
+        'value' : str ( 4.73741  * 1.0e-3 * 2 ),
+        'error' : str ( 0.454855 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '700' : {
+        'value' : str ( 2.23385  * 1.0e-3 * 2 ),
+        'error' : str ( 0.233891 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '800' : {
+        'value' : str ( 1.12392  * 1.0e-3 * 2 ),
+        'error' : str ( 0.130506 * 1.0e-3 * math.sqrt(2) ),
+    },
+    '900' : {
+        'value' : str ( 0.58695   * 1.0e-3 * 2 ),
+        'error' : str ( 0.0707011 * 1.0e-3 * math.sqrt(2) ),
+    },
+}
+
+# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1hino
+higgsino_c1c1 = {
+    # values and errors are in pb; errors are absolute, converted to relative below
+    '100' : {
+        'value' : str ( 2883.67 * 1.0e-3 ),
+        'error' : str ( 126.968 * 1.0e-3 ),
+    },
+    '200' : {
+        'value' : str ( 244.321 * 1.0e-3 ),
+        'error' : str ( 13.8982 * 1.0e-3 ),
+    },
+    '300' : {
+        'value' : str ( 52.569 * 1.0e-3 ),
+        'error' : str ( 3.5507 * 1.0e-3 ),
+    },
+    '400' : {
+        'value' : str ( 16.3405 * 1.0e-3 ),
+        'error' : str ( 1.26734 * 1.0e-3 ),
+    },
+    '500' : {
+        'value' : str ( 6.21625  * 1.0e-3 ),
+        'error' : str ( 0.543279 * 1.0e-3 ),
+    },
+    '600' : {
+        'value' : str ( 2.68388  * 1.0e-3 ),
+        'error' : str ( 0.255607 * 1.0e-3 ),
+    },
+    '700' : {
+        'value' : str ( 1.25981  * 1.0e-3 ),
+        'error' : str ( 0.13226 * 1.0e-3 ),
+    },
+    '800' : {
+        'value' : str ( 0.630966  * 1.0e-3 ),
+        'error' : str ( 0.0708789 * 1.0e-3 ),
+    },
+    '900' : {
+        'value' : str ( 0.328529  * 1.0e-3 ),
+        'error' : str ( 0.0403214 * 1.0e-3 ),
+    },
+}
+
+signal_cross_sections_higgsino = {}
+
+for mass in higgsino_n2c1:
+    cn = Measurement (higgsino_n2c1[mass]['value'], higgsino_n2c1[mass]['error'])
+    cc = Measurement (higgsino_c1c1[mass]['value'], higgsino_c1c1[mass]['error'])
+
+    total = cn + cc
+
+    # convert errors from absolute to relative
+    higgsino_n2c1[mass]['error'] = str (1.0 + (cn.uncertainty () / cn.centralValue ()))
+    higgsino_c1c1[mass]['error'] = str (1.0 + (cc.uncertainty () / cc.centralValue ()))
+    signal_cross_sections_higgsino[mass] = {
         'value' : str (total.centralValue ()),
         'error' : str (1.0 + (total.uncertainty () / total.centralValue ())),
     }

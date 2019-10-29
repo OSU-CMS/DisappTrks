@@ -45,14 +45,16 @@ class AnalysisEra:
             return ['A', 'B', 'C', 'D']
         return []
 
-def addLifetimeReweighting (datasets):
+
+def addLifetimeReweighting (datasets, isHiggsino = False):
     new_datasets = []
+    matchPattern = r'Higgsino_([^_]*)GeV_([^_]*)cm_(.*)' if isHiggsino else r'AMSB_chargino_([^_]*)GeV_([^_]*)cm_(.*)'
     for dataset0 in datasets:
-        if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_.*', dataset0):
+        if not re.match (matchPattern, dataset0):
             continue
-        mass = re.sub (r'AMSB_chargino_([^_]*)GeV_[^_]*cm_.*', r'\1', dataset0)
-        ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm_.*', r'\1', dataset0))
-        suffix = re.sub (r'AMSB_chargino_[^_]*GeV_[^_]*cm_(.*)', r'\1', dataset0)
+        mass = re.sub (matchPattern, r'\1', dataset0)
+        ctau0 = float (re.sub (matchPattern, r'\2', dataset0))
+        suffix = re.sub (matchPattern, r'\3', dataset0)
         for i in range (2, 10):
             ctau = ctauP = 0.1 * i * ctau0
             if int (ctau) * 10 == int (ctau * 10):
@@ -60,12 +62,10 @@ def addLifetimeReweighting (datasets):
             else:
                 ctau = ctauP = str (ctau)
                 ctauP = re.sub (r'\.', r'p', ctau)
-            dataset = 'AMSB_chargino_' + mass + 'GeV_' + ctauP + 'cm_' + suffix
-
+            dataset = ('Higgsino_' if isHiggsino else 'AMSB_chargino_') + mass + 'GeV_' + ctauP + 'cm_' + suffix
             new_datasets.append (dataset)
-
     datasets.extend (new_datasets)
-
+    
 def getUser():
     dirs = {}
     cwd = os.getcwd()
