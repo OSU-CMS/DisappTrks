@@ -17,17 +17,22 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-def getExtraSamples(suffix):
-    masses = range(100, 1200 if (suffix == '94X' or suffix == '102X') else 1000, 100)
+def getExtraSamples(suffix, isHiggsino = False):
+    masses = range(100, 1000, 100)
+    if not isHiggsino and (suffix == '94X' or suffix == '102X'):
+        masses.extend([1000, 1100])
     ctaus = [1, 10, 100, 1000, 10000]
-    extraSamples = { 'AMSB_chargino_{0}GeV_{1}cm_'.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
+    sampleName = 'Higgsino_{0}GeV_{1}cm_' if isHiggsino else 'AMSB_chargino_{0}GeV_{1}cm_'
+    extraSamples = { sampleName.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
+
+    matchPattern = r'Higgsino_([^_]*)GeV_([^_]*)cm_(.*)' if isHiggsino else r'AMSB_chargino_([^_]*)GeV_([^_]*)cm_(.*)'
 
     for sample in extraSamples:
-        if not re.match (r'AMSB_chargino_[^_]*GeV_[^_]*cm_.*', sample):
+        if not re.match (matchPattern, sample):
             continue
-        mass = re.sub (r'AMSB_chargino_([^_]*)GeV_[^_]*cm_.*', r'\1', sample)
-        ctau0 = float (re.sub (r'AMSB_chargino_[^_]*GeV_([^_]*)cm_.*', r'\1', sample))
-        suffix = re.sub (r'AMSB_chargino_[^_]*GeV_[^_]*cm_(.*)', r'\1', sample)
+        mass = re.sub (matchPattern, r'\1', sample)
+        ctau0 = float (re.sub (matchPattern, r'\2', sample))
+        suffix = re.sub (matchPattern, r'\3', sample)
         for i in range (2, 10):
             ctau = ctauP = 0.1 * i * ctau0
             if int (ctau) * 10 == int (ctau * 10):
@@ -35,7 +40,7 @@ def getExtraSamples(suffix):
             else:
                 ctau = ctauP = str (ctau)
                 ctauP = re.sub (r'\.', r'p', ctau)
-            dataset = 'AMSB_chargino_' + mass + 'GeV_' + ctauP + 'cm_' + suffix
+            dataset = ('Higgsino_' if isHiggsino else 'AMSB_chargino_') + mass + 'GeV_' + ctauP + 'cm_' + suffix
 
             extraSamples[sample].append (dataset)
 
@@ -76,13 +81,16 @@ class SystematicCalculator:
     _averageSystematic = 0.0
     _n = 0
 
+    _isHiggsino = False
+
     # when "fluctuations" is used in EventWeights.py, there is no CutFlowPlotter
     # but the "total, totalError" remain the same as the central value channel
     _isWeightFluctuation = False
 
-    def __init__ (self, masses, lifetimes):
+    def __init__ (self, masses, lifetimes, isHiggsino = False):
         self._masses = masses
         self._lifetimes = lifetimes
+        self._isHiggsino = isHiggsino
 
     def addChannel (self, role, name, suffix, condorDir):
         channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
@@ -104,7 +112,7 @@ class SystematicCalculator:
     def printSampleSystematic (self, mass, lifetime):
         realLifetime = lifetime if lifetime != '1' else '10'
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
             total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
@@ -129,7 +137,7 @@ class SystematicCalculator:
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
             print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
             return (sample, relDiffDown, relDiffUp)
@@ -172,8 +180,8 @@ class SystematicCalculator:
 
 class WeightSystematicFromTrees(SystematicCalculator):
 
-    def __init__ (self, masses, lifetimes, intLumi):
-        SystematicCalculator.__init__(self, masses, lifetimes)
+    def __init__ (self, masses, lifetimes, intLumi, isHiggsino = False):
+        SystematicCalculator.__init__(self, masses, lifetimes, isHiggsino)
         self._weightsCentral = [
             'eventvariable_lifetimeWeight',
             'eventvariable_isrWeight',
@@ -226,7 +234,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
         if originalLifetime == 1:
             originalLifetime = 10
-        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
+        originalSample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
 
@@ -289,7 +297,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             print '"central" not defined, not printing systematic...'
             return (float ("nan"), float ("nan"), float ("nan"))
 
-        sample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
+        sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
         central, up, down = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)
 
         relDiffDown = (down - central) / central if central > 0.0 else 0.0
@@ -332,15 +340,15 @@ class WeightSystematicFromTrees(SystematicCalculator):
                 self._fout.write ("".join (word.ljust (width) for word in row) + "\n")
 
 class SelectionSystematicFromTrees(WeightSystematicFromTrees):
-    def __init__ (self, masses, lifetimes, intLumi):
-        WeightSystematicFromTrees.__init__(self, masses, lifetimes, intLumi)
+    def __init__ (self, masses, lifetimes, intLumi, isHiggsino = False):
+        WeightSystematicFromTrees.__init__(self, masses, lifetimes, intLumi, isHiggsino)
 
     def printSampleSystematic(self, mass, lifetime):
         if not hasattr(self, 'central') or not hasattr(self, 'up') or not hasattr(self, 'down'):
             print '"central", "up", or "down" not defined, not printing systematic...'
             return (float ("nan"), float ("nan"), float ("nan"))
 
-        sample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
+        sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
         
         central = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)[0]
         up      = self.GetYieldFromTree(sample, self.up['condorDir'],      self.up['name'],      mass, lifetime)[0]
@@ -388,8 +396,8 @@ class SelectionSystematicFromTrees(WeightSystematicFromTrees):
 # Save for 2015-6 use
 class TriggerSystematic(SystematicCalculator):
 
-    def __init__ (self, masses, lifetimes):
-        SystematicCalculator.__init__ (self, masses, lifetimes)
+    def __init__ (self, masses, lifetimes, isHiggsino = False):
+        SystematicCalculator.__init__ (self, masses, lifetimes, isHiggsino)
         self._fluctuations = []
         self._foutPrefix = ""
         self._foutSuffix = ""
@@ -408,7 +416,7 @@ class TriggerSystematic(SystematicCalculator):
 
     def printSampleSystematic (self, mass, lifetime, fluctuation):
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
 
@@ -492,8 +500,8 @@ class TriggerSystematic(SystematicCalculator):
 
 class MetSystematic(SystematicCalculator):
 
-    def __init__ (self, masses, lifetimes):
-        SystematicCalculator.__init__ (self, masses, lifetimes)
+    def __init__ (self, masses, lifetimes, isHiggsino = False):
+        SystematicCalculator.__init__ (self, masses, lifetimes, isHiggsino)
         self._metCut = 100.0
         self._metTypes = []
         self._foutPrefix = ""
@@ -517,7 +525,7 @@ class MetSystematic(SystematicCalculator):
     def printSampleSystematic (self, mass, lifetime, metType):
         realLifetime = lifetime if lifetime != '1' else '10'
         if hasattr (self, "central") and hasattr (self, "down") and hasattr (self, "up"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
 
@@ -536,7 +544,7 @@ class MetSystematic(SystematicCalculator):
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
             print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
             return (sample, relDiffDown, relDiffUp)
@@ -638,21 +646,21 @@ class PileupSystematic:
 
     def printPileupSystematic (self, mass, lifetime):
         if hasattr (self, "PileupCentral") and hasattr (self, "PileupDown") and hasattr (self, "PileupUp"):
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupCentral["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupCentral["suffix"]
             condorDir = self.PileupCentral["condorDir"]
             name = self.PileupCentral["name"]
             total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
             central = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupDown["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupDown["suffix"]
             condorDir = self.PileupDown["condorDir"]
             name = self.PileupDown["name"]
             total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             metHist = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
             down = metHist.Integral (0, metHist.GetNbinsX () + 1) / total
 
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupUp["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.PileupUp["suffix"]
             condorDir = self.PileupUp["condorDir"]
             name = self.PileupUp["name"]
             total, totalError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
@@ -875,7 +883,9 @@ class MissingOuterHitsSystematic:
     _averageSystematic = 0.0
     _n = 0
 
-    def __init__ (self, masses, lifetimes, intLumi = None):
+    _isHiggsino = False
+
+    def __init__ (self, masses, lifetimes, intLumi = None, isHiggsino = False):
         self._masses = masses
         self._lifetimes = lifetimes
         self._weightsCentral = [
@@ -889,6 +899,7 @@ class MissingOuterHitsSystematic:
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
+        self._isHiggsino = isHiggsino
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -958,7 +969,7 @@ class MissingOuterHitsSystematic:
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
         if originalLifetime == 1:
             originalLifetime = 10
-        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        originalSample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
 
@@ -1014,7 +1025,7 @@ class MissingOuterHitsSystematic:
         if hasattr (self, "Signal"):
             if not hits:
                 channel = getattr (self, "Signal")
-                sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
+                sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
                 condorDir = channel["condorDir"]
                 name = channel["name"]
 
@@ -1052,7 +1063,7 @@ class MissingOuterHitsSystematic:
 
         for mass in self._masses:
             for lifetime in self._lifetimes:
-                sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
+                sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
                 eTrue3ToInf, signalHits = self.getNMissOutEfficiency ("Signal", 3, 12, hits = None, sample = sample, mass = mass, lifetime = lifetime)
                 eTrue2, signalHits = self.getNMissOutEfficiency      ("Signal", 2, 2,  hits = signalHits, sample = sample, mass = mass, lifetime = lifetime)
                 eTrue1, signalHits = self.getNMissOutEfficiency      ("Signal", 1, 1,  hits = signalHits, sample = sample, mass = mass, lifetime = lifetime)
@@ -1115,7 +1126,9 @@ class LeptonVetoScaleFactorSystematic:
     _averageSystematic = 0.0
     _n = 0
 
-    def __init__ (self, flavor, masses, lifetimes, intLumi = None):
+    _isHiggsino = False
+
+    def __init__ (self, flavor, masses, lifetimes, intLumi = None, isHiggsino = False):
         self._integrateHistogram = "Track Plots/trackDeltaRToClosest" + flavor
         self._treeVariableName = "track_deltaRToClosest" + flavor
         self._masses = masses
@@ -1131,6 +1144,7 @@ class LeptonVetoScaleFactorSystematic:
         self._weightsUp = copy.deepcopy(self._weightsCentral)
         self._weightsDown = copy.deepcopy(self._weightsCentral)
         self._intLumi = intLumi
+        self._isHiggsino = isHiggsino
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -1175,7 +1189,7 @@ class LeptonVetoScaleFactorSystematic:
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
         if originalLifetime == 1:
             originalLifetime = 10
-        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        originalSample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
 
@@ -1327,7 +1341,7 @@ class LeptonVetoScaleFactorSystematic:
 
         for mass in self._masses:
             for lifetime in self._lifetimes:
-                sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
+                sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm" + self._signalSuffix
                 signalEfficiencyRatio = self.getRelativeVetoEfficiency(self.Signal, sample, mass, lifetime)
 
                 scaleFactor = dataEfficiencyRatio / signalEfficiencyRatio if signalEfficiencyRatio.centralValue() > 0 else Measurement(1.0)
@@ -1379,8 +1393,8 @@ class LeptonVetoScaleFactorSystematic:
 
 class WeightSystematicFromTrees(SystematicCalculator):
 
-    def __init__ (self, masses, lifetimes, intLumi):
-        SystematicCalculator.__init__(self, masses, lifetimes)
+    def __init__ (self, masses, lifetimes, intLumi, isHiggsino = False):
+        SystematicCalculator.__init__(self, masses, lifetimes, isHiggsino)
         self._weightsCentral = [
             'eventvariable_lifetimeWeight',
             'eventvariable_isrWeight',
@@ -1433,7 +1447,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
         if originalLifetime == 1:
             originalLifetime = 10
-        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
+        originalSample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(originalLifetime) + 'cm_' + self.central['suffix']
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
 
@@ -1496,7 +1510,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             print '"central" not defined, not printing systematic...'
             return (float ("nan"), float ("nan"), float ("nan"))
 
-        sample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
+        sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
         central, up, down = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)
 
         relDiffDown = (down - central) / central if central > 0.0 else 0.0
@@ -1550,6 +1564,8 @@ class TriggerTurnOnSystematic:
     _averageSystematic = 0.0
     _n = 0
 
+    _isHiggsino = False
+
     _signalSuffix = ""
     _extraSamples = {}
 
@@ -1559,7 +1575,7 @@ class TriggerTurnOnSystematic:
              "central2": 0,
              }
 
-    def __init__ (self, masses, lifetimes, intLumi):
+    def __init__ (self, masses, lifetimes, intLumi, isHiggsino = False):
         self._masses = masses
         self._lifetimes = lifetimes
         self._weightsCentral = [
@@ -1571,6 +1587,7 @@ class TriggerTurnOnSystematic:
         if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             self._weightsCentral.append('eventvariable_L1ECALPrefiringWeight')
         self._intLumi = intLumi
+        self._isHiggsino = isHiggsino
 
     def addChannel (self, role, name, suffix, condorDir):
         channel = {"name" : name, "suffix" : suffix, "condorDir" : condorDir}
@@ -1610,7 +1627,7 @@ class TriggerTurnOnSystematic:
         originalLifetime = int(math.pow(10 , math.ceil((math.log10(lifetimeFloat)))))
         if originalLifetime == 1:
             originalLifetime = 10
-        originalSample = 'AMSB_chargino_' + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
+        originalSample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(originalLifetime) + 'cm' + self._signalSuffix
         if not os.path.isfile('condor/' + condorDir + '/' + originalSample + '.root'):
             raise Exception('Original sample condor/' + condorDir + '/' + originalSample + '.root does not exist!')
 
@@ -1662,7 +1679,7 @@ class TriggerTurnOnSystematic:
 
         if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and not hasattr (self, "Denominator1") and not hasattr (self, "Numerator1"):
             realLifetime = lifetime if lifetime != '1' else '10'
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             name = self.central["name"]
             if os.path.isfile('condor/' + condorDir + '/' + sample + '.root') and lifetime != '1':
@@ -1696,7 +1713,7 @@ class TriggerTurnOnSystematic:
 
         if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and hasattr (self, "central1") and hasattr (self, "Denominator1") and hasattr (self, "Numerator1") and hasattr (self, "central2") and hasattr (self, "Denominator2") and hasattr (self, "Numerator2") :
             realLifetime = lifetime if lifetime != '1' else '10'
-            sample = "AMSB_chargino_" + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
+            sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (realLifetime) + "cm_" + self.central["suffix"]
             condorDir = self.central["condorDir"]
             condorDir1 = self.central1["condorDir"]
             condorDir2 = self.central2["condorDir"]

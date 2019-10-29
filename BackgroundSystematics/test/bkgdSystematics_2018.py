@@ -21,8 +21,7 @@ if len(sys.argv) > 2:
     nLayersWords = [sys.argv[2]]
 
 # '' will gives you Dataset_2017.root for the whole year
-#runPeriods = ['A', 'B', 'C', 'D']
-runPeriods = ['']
+runPeriods = ['AB', 'CD']
 
 if background == "FAKE" or background == "ALL":
 
