@@ -34,6 +34,9 @@ if arguments.limitType not in validLimitTypes:
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
     from DisappTrks.LimitSetting.winoElectroweakPlots import *
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
+    from DisappTrks.LimitSetting.higgsinoElectroweakPlots import *
 
 if arguments.outputDir:
     if not os.path.exists("limits/" + arguments.outputDir):

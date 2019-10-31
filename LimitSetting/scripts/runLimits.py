@@ -38,7 +38,9 @@ if arguments.method not in ["HybridNew", "MarkovChainMC", "AsymptoticLimits", "A
 
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
-
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
+    
 if not arguments.outputDir:
     print "No output directory specified, shame on you"
     sys.exit(0)

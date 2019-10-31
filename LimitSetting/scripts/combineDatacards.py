@@ -20,6 +20,8 @@ if arguments.limitType not in validLimitTypes:
 
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
 
 # format the suffix
 suffix = ""
