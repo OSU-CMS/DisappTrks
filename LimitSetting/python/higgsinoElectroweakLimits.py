@@ -20,17 +20,17 @@ lifetimes = ['200', '300', '400', '500', '600', '700', '800', '900', '1000',
 allMasses = masses
 allLifetimes = lifetimes
 datacardCombinations = {
-	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+	#'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
 	'2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'2018_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
-	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
-				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
-	'run2'     : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
-				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	#'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+	#			  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+	#			  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	#'run2'     : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+	#			  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+	#			  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -160,13 +160,13 @@ external_systematic_uncertainties = [
     #"higgsino_electronVetoScaleFactor_",
     #"higgsino_muonVetoScaleFactor_",
 ]
-if False: # not done
-	if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
-		for i in range(len(external_systematic_uncertainties)):
-			if arguments.era.startswith("2018"):
-				external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
-			else:
-				external_systematic_uncertainties[i] += "_" + arguments.era
+
+if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
+	for i in range(len(external_systematic_uncertainties)):
+		if arguments.era.startswith("2018"):
+			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
+		else:
+			external_systematic_uncertainties[i] += "_" + arguments.era
 
 if False: # not done
 	if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:

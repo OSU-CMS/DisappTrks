@@ -40,7 +40,7 @@ if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
 elif arguments.limitType == "higgsino":
     from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
-    
+
 if not arguments.outputDir:
     print "No output directory specified, shame on you"
     sys.exit(0)
@@ -101,10 +101,13 @@ for mass in masses:
     for lifetime in lifetimes:
         lifetime = lifetime.replace(".0", "")
         lifetime = lifetime.replace("0.", "0p")
-        if samplesByGravitinoMass:
-            signal_name = "AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns"
-        else:
-            signal_name = "AMSB_mChi" + mass + "_" + lifetime + "cm"
+        if arguments.limitType == "wino":
+            if samplesByGravitinoMass:
+                signal_name = "AMSB_mChi" + chiMasses[mass]['value'] + "_" + lifetime + "ns"
+            else:
+                signal_name = "AMSB_mChi" + mass + "_" + lifetime + "cm"
+        elif arguments.limitType == "higgsino":
+            signal_name = "Higgsino_mChi" + mass + "_" + lifetime + "cm"
         condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
         condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
         datacard_name = "datacard_"+signal_name+".txt"

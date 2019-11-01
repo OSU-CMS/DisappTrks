@@ -126,7 +126,7 @@ HeaderText = LumiText + " (13 TeV)"
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.", "0p")
-    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
+    return ("AMSB_mChi" if arguments.limitType == "wino" else "Higgsino_mChi") + str(mass) + "_" + str(lifetime) + "cm"
 
 def makeSignalRootFileName(mass, lifetime, directory, limit_type):
     signal_name = makeSignalName(mass, lifetime)

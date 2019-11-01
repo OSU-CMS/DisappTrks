@@ -38,7 +38,7 @@ parser.add_option("-o", "--saveObjects", dest="saveObjects",
                   help="objects to save in output root file")
 parser.add_option("-e", "--era", dest="era", default="",
                   help="data-taking era for which to create cards")
-parser.add_option("-l", "--limitType", dest="limitType", default="",
+parser.add_option("-l", "--limitType", dest="limitType", default="wino",
                   help="type of limit to use (which signal grid)")
 parser.add_option("--ignoreSignalScaleFactor", dest="ignoreSignalScaleFactor", action='store_true', default=False,
                   help="ignore the normalization of signal yields to 10.0 by way of scale factors; needed for Significance")

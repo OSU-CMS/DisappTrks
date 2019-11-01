@@ -13,7 +13,6 @@ from threading import Thread, Lock, Semaphore
 from multiprocessing import cpu_count
 
 from DisappTrks.LimitSetting.limitOptions import *
-from DisappTrks.LimitSetting.winoElectroweakLimits import *
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain, TH2D
 
@@ -23,6 +22,18 @@ if not arguments.era in validEras:
   print str(validEras)
   print
   sys.exit(0)
+
+if arguments.limitType not in validLimitTypes:
+    print
+    print "Invalid or empty limit type to plot (-l). Allowed types:"
+    print str(validLimitTypes)
+    print
+    sys.exit(0)
+
+if arguments.limitType == "wino":
+    from DisappTrks.LimitSetting.winoElectroweakLimits import *
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
 
 if arguments.outputDir:
     if not os.path.exists("limits/" + arguments.outputDir):
@@ -66,7 +77,7 @@ def GetMissingLifetimeWeight(chain):
             w *= dstPDF / srcPDF
         return w
 
-def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
+def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, limitType):
     global printLock
 
     if os.path.isfile('condor/' + condor_dir + '/' + process + '.root') and not '_1cm_' in process:
@@ -86,7 +97,13 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau):
 
     realInputFile = TFile('condor/' + condor_dir + '/' + realProcessName + '.root')
     nGenerated = realInputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
-    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
+    crossSectionWeight = 1.0 
+    if process != data_dataset:
+        crossSectionWeight *= lumi / nGenerated
+        if limitType == "higgsino":
+            crossSectionWeight *= float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
+        elif limitType == "wino":
+            crossSectionWeight *= float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
 
     totalWeight = 0.0
     totalWeight2 = 0.0
@@ -170,18 +187,27 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
 
     lifetime = lifetime.replace(".0", "")
     lifetime = lifetime.replace("0.", "0p")
-    if samplesByGravitinoMass:
-        signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
-        shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
-    else:
-        signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
-        shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
+    if arguments.limitType == "wino":
+        if samplesByGravitinoMass:
+            signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns_" + signal_suffix
+            shorter_signal_dataset = "AMSB_mGrav" + mass + "K_" + lifetime + "ns"
+        else:
+            signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
+            shorter_signal_dataset = "AMSB_chargino_" + mass + "GeV_" + lifetime + "cm"
+    elif arguments.limitType == "higgsino":
+        signal_dataset = "Higgsino_" + mass + "GeV_" + lifetime + "cm_" + signal_suffix
+        shorter_signal_dataset = "Higgsino_" + mass + "GeV_" + lifetime + "cm"
 
     srcCTau = int(math.pow(10 , math.ceil((math.log10( lifetimeFloat )))))
     # acceptance is too low for 1cm, so here just reweight from 10cm...
     if lifetime.startswith('0p') or lifetime == '1':
         srcCTau = 10
-    signalYieldAndError = GetReweightedYieldAndError(signal_condor_dir, signal_dataset, signal_channel, str(srcCTau) + 'cm', lifetime + 'cm')
+    signalYieldAndError = GetReweightedYieldAndError(signal_condor_dir, 
+                                                     signal_dataset, 
+                                                     signal_channel, 
+                                                     str(srcCTau) + 'cm', 
+                                                     lifetime + 'cm',
+                                                     arguments.limitType)
 
     signal_yield = signalYieldAndError['yield']
     signal_yield_raw = signalYieldAndError['rawYield']
@@ -218,16 +244,17 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
         observation = totalBkgd
 
     default_channel_name = "MyChan"
-    if samplesByGravitinoMass:
-        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
-        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
-        os.system("rm -f limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt")
-        signalSF = open("limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+chiMasses[mass]['value']+"_"+lifetime+"ns.txt","w")
-    else:
-        os.system("rm -f limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
-        datacard = open("limits/"+arguments.outputDir+"/datacard_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w")
-        os.system("rm -f limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt")
-        signalSF = open("limits/"+arguments.outputDir+"/signalSF_AMSB_mChi"+mass+"_"+lifetime+"cm.txt","w")
+    if arguments.limitType == "wino":
+        if samplesByGravitinoMass:
+            fSuffix = "AMSB_mChi" + chiMasses[mass]['value'] + "_" + lifetime + "ns.txt"
+        else:
+            fSuffix = "AMSB_mChi" + mass + "_" + lifetime + "cm.txt"
+    elif arguments.limitType == "higgsino":
+        fSuffix = "Higgsino_mChi" + mass + "_" + lifetime + "cm.txt"
+    os.system("rm -f limits/" + arguments.outputDir + "/datacard_" + fSuffix)
+    datacard = open("limits/" + arguments.outputDir + "/datacard_" + fSuffix, "w")
+    os.system("rm -f limits/" + arguments.outputDir + "/signalSF_" + fSuffix)
+    signalSF = open("limits/" + arguments.outputDir + "/signalSF_" + fSuffix, "w")
 
     datacard.write('imax 1 number of channels\n')
     datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
