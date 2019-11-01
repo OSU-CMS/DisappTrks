@@ -10,7 +10,7 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, 
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.SignalMC.signalCrossSecs import signal_cross_sections
+from DisappTrks.SignalMC.signalCrossSecs import signal_cross_sections, signal_cross_sections_higgsino
 
 setTDRStyle()
 
@@ -258,7 +258,11 @@ class WeightSystematicFromTrees(SystematicCalculator):
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         for iEvent in range(chain.GetEntries()):
             chain.GetEntry(iEvent)
@@ -996,7 +1000,11 @@ class MissingOuterHitsSystematic:
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
             hHits = TH1D('trackNHitsMissingOuterCorrected', 'trackNHitsMissingOuterCorrected', 16, -0.5, 15.5)
@@ -1216,7 +1224,11 @@ class LeptonVetoScaleFactorSystematic:
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
             h = TH1D(self._integrateHistogram, self._integrateHistogram, 100, 0, 1)
@@ -1284,7 +1296,11 @@ class LeptonVetoScaleFactorSystematic:
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         fSF_POG = TFile(self._pogPayloadFile)
         hSF_POG = fSF_POG.Get(self._pogPayloadName)
@@ -1471,7 +1487,11 @@ class WeightSystematicFromTrees(SystematicCalculator):
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         for iEvent in range(chain.GetEntries()):
             chain.GetEntry(iEvent)
@@ -1650,7 +1670,11 @@ class TriggerTurnOnSystematic:
 
         realInputFile = TFile('condor/' + condorDir + '/' + realSample + '.root')
         nGenerated = realInputFile.Get(name + 'CutFlowPlotter/eventCounter').GetEntries()
-        crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated
+        
+        if self._isHiggsino:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections_higgsino[realSample.split('_')[1][:-3]]['value']) / nGenerated
+        else:
+            crossSectionWeight = self._intLumi * float(signal_cross_sections[realSample.split('_')[2][:-3]]['value']) / nGenerated            
 
         if 'eventvariable_lifetimeWeight_1000024_10cmTo1cm' in self._weightsCentral:
             h = TH1D(self._integrateHistogram, self._integrateHistogram, 2000, 0.0, 10000.0)
