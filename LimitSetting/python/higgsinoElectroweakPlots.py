@@ -14,9 +14,7 @@ convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
 showObserved = True
 
-branchingRatiosStrings = ["B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1,2} #pi^{#pm}) = 95.5%", 
-                          "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1,2} e^{#pm} #nu) = 3%",
-                          "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1,2} #mu^{#pm} #nu) = 1.5%"]
+branchingRatiosString = "#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1,2} + X (X = #pi^{#pm} 95.5%, e^{#pm} #nu 3%, #mu^{#pm} #nu 1.5%)"
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -44,7 +42,7 @@ plotDefinitions = [
         'yAxisFixMin' : 2e-2, # lowest that looks good
         'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,
 
-        'theoryLabel' : ['tan #beta = 5, #mu > 0'] + branchingRatiosStrings,
+        'theoryLabel' : ['tan #beta = 5, #mu > 0'] + branchingRatiosString,
 
         'graphs' : [
             {

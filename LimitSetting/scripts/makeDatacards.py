@@ -100,9 +100,9 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
     crossSectionWeight = 1.0 
     if process != data_dataset:
         crossSectionWeight *= lumi / nGenerated
-        if limitType == "higgsino":
+        if arguments.limitType == "higgsino":
             crossSectionWeight *= float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
-        elif limitType == "wino":
+        elif arguments.limitType == "wino":
             crossSectionWeight *= float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
 
     totalWeight = 0.0
@@ -151,8 +151,15 @@ def GetYieldAndError(condor_dir, process, channel):
 
     raw_integral = hist.GetEntries ()
 
-    crossSectionWeight = 1.0 if process == data_dataset else lumi * float(signal_cross_sections[process.split('_')[2][:-3]]['value']) / nGenerated
     # don't need cross section uncertainties, since that is its own nuisance parameter
+    crossSectionWeight = 1.0 
+    if process != data_dataset:
+        crossSectionWeight *= lumi / nGenerated
+        if arguments.limitType == "higgsino":
+            crossSectionWeight *= float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
+        elif arguments.limitType == "wino":
+            crossSectionWeight *= float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
+
 
     if process != data_dataset:
         datasetInfo = open("condor/" + condor_dir + "/" + process + "/datasetInfo_" + process + "_cfg.py")
@@ -360,9 +367,8 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
                 row.append('-')
         datacard_data.append(row)
 
-
     #add a row for the cross-section error for the signal
-    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),6))]
+    row = ['signal_cross_sec', 'lnN', '', str(round(float(signal_cross_sections[mass]['error'] if arguments.limitType == "wino" else signal_cross_sections_higgsino[mass]['error']), 6))]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
@@ -398,12 +404,12 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
 
     #################
 
-    signalOrigYield = lumi * float(signal_cross_sections[mass]['value'])
+    signalOrigYield = lumi * float(signal_cross_sections[mass]['value'] if arguments.limitType == "wino" else signal_cross_sections_higgsino[mass]['value'])
     signalEff = signal_yield / signalOrigYield if signalOrigYield > 0.0 else 1.0
-    signalEffErr = signalEff * (float(signal_cross_sections[mass]['error']) - 1.0)
+    signalEffErr = signalEff * (float(signal_cross_sections[mass]['value'] if arguments.limitType == "wino" else signal_cross_sections_higgsino[mass]['value']) - 1.0)
 
     datacard.write('# lumi = ' + str(lumi) + '\n')
-    datacard.write('# sig cross sec = ' + signal_cross_sections[mass]['value'] + '\n')
+    datacard.write('# sig cross sec = ' + (signal_cross_sections[mass]['value'] if arguments.limitType == "wino" else signal_cross_sections_higgsino[mass]['value']) + '\n')
     datacard.write('# signalOrigYield = ' + str(signalOrigYield) + '\n')
     datacard.write('# signalYield = '     + str(signal_yield) + '\n')
     datacard.write('# signalEff = ' + str(signalEff) + '\n')
