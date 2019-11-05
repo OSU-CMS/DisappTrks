@@ -33,6 +33,7 @@ def getExtraSamples(suffix, isHiggsino = False):
         mass = re.sub (matchPattern, r'\1', sample)
         ctau0 = float (re.sub (matchPattern, r'\2', sample))
         suffix = re.sub (matchPattern, r'\3', sample)
+
         for i in range (2, 10):
             ctau = ctauP = 0.1 * i * ctau0
             if int (ctau) * 10 == int (ctau * 10):
@@ -42,7 +43,7 @@ def getExtraSamples(suffix, isHiggsino = False):
                 ctauP = re.sub (r'\.', r'p', ctau)
             dataset = ('Higgsino_' if isHiggsino else 'AMSB_chargino_') + mass + 'GeV_' + ctauP + 'cm_' + suffix
 
-            extraSamples[sample].append (dataset)
+            extraSamples[re.sub(r'_1cm_', '_10cm_', sample)].append (dataset)
 
     return extraSamples
 
