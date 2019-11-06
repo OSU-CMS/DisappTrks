@@ -20,6 +20,8 @@ if arguments.limitType not in validLimitTypes:
 
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
 
 # format the suffix
 suffix = ""
@@ -58,7 +60,7 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
     progress.printProgress(False)
     printLock.release ()
 
-    sample = 'AMSB_mChi' + mass + '_' + lifetime.replace('0.', '0p') + 'cm'
+    sample = ('AMSB' if arguments.limitType == "wino" else 'Higgsino') + '_mChi' + mass + '_' + lifetime.replace('0.', '0p') + 'cm'
 
     # create the combined card
     outputCardFile = 'limits/limits_' + combinedCard + '_' + suffix + '/datacard_' + sample + '.txt'

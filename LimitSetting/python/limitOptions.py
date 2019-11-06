@@ -38,7 +38,7 @@ parser.add_option("-o", "--saveObjects", dest="saveObjects",
                   help="objects to save in output root file")
 parser.add_option("-e", "--era", dest="era", default="",
                   help="data-taking era for which to create cards")
-parser.add_option("-l", "--limitType", dest="limitType", default="",
+parser.add_option("-l", "--limitType", dest="limitType", default="wino",
                   help="type of limit to use (which signal grid)")
 parser.add_option("--ignoreSignalScaleFactor", dest="ignoreSignalScaleFactor", action='store_true', default=False,
                   help="ignore the normalization of signal yields to 10.0 by way of scale factors; needed for Significance")
@@ -50,10 +50,14 @@ parser.add_option("--plotSignificance", dest="plotSignificance", action='store_t
 validEras = ["2015", 
              "2016BC", "2016DEFGH", 
              "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus",
-             "2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus",
+             "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+             "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus",
              "20156",
              "2017_all",
+             "2018AB_all",
+             "2018CD_all",
              "2018_all",
+             "all20178",
              "run2"]
 
 validLimitTypes = [

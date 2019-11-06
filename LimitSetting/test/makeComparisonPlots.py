@@ -58,7 +58,8 @@ gROOT.SetBatch()
 suffix = sys.argv[1]
 
 compareNLayersBins('2017')
-compareNLayersBins('2018')
+compareNLayersBins('2018AB')
+compareNLayersBins('2018CD')
 
 f20156 = TFile('limits/limits_all20156_' + suffix + '/limit_plots.root')
 f2017 = TFile('limits/limits_2017_all_' + suffix + '/limit_plots.root')
@@ -79,9 +80,9 @@ gr_2017 = f2017.Get('lifetime_vs_mass_graph_expected')
 gr_2018 = f2018.Get('lifetime_vs_mass_graph_expected')
 gr_run2 = fRun2.Get('lifetime_vs_mass_graph_expected')
 
-gr_20156.SetLineColor(600) # kBlue
+gr_20156.SetLineColor(616) # kGreen
 gr_2017.SetLineColor(632) # kRed
-gr_2018.SetLineColor(432) # kCyan
+gr_2018.SetLineColor(600) # kBlue
 
 leg = TLegend(0.582707, 0.151515, 0.934837, 0.297258, '', 'brNDC')
 leg.AddEntry(gr_run2, 'Run 2', 'L')

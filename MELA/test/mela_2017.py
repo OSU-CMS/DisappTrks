@@ -31,8 +31,13 @@ for nLayersWord in nLayersWords:
 	print "--------------------------------------------------------------------------------"
 
 	estimator = LikelihoodEstimator(nLayersWord)
-	estimator.addSignal('AMSB_chargino_700GeV_100cm_94X', 'disTrkSelectionSmearedJets' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8', 700, 100)
-	estimator.addData  ('observation', 					  'disTrkSelectionSmearedJets' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8')
+	estimator.addSignal('AMSB_chargino_700GeV_100cm_94X', 'disTrkSelectionSmearedJets' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_full_v9', 700, 100)
+	
+	estimator.addData  ('observation', 'observation_v2',   'DisTrkSelection' + nLayersWord, dirs['Brian'] + '2017/signalAcceptance_hitInfo_v8')
+	#estimator.addData  ('fake',        'SingleMu_2017',	'ZtoMuMuDisTrkNoD0Cut'       + nLayersWord, dirs['Brian'] + '2017/fake_dedx', useTrees = True)
+
+	estimator.setPrintObservedTracks(True)
 
 	estimator.constructSignalPdfs()
-	estimator.constructDataPdf()
+	estimator.constructDataPdf('observation')
+	#estimator.constructDataPdf('fake')

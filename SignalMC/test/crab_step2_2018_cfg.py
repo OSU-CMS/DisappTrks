@@ -20,7 +20,7 @@ config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 1
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall18MiniAOD-102X_upgrade2018_realistic_v15-v1'
+config.Data.outputDatasetTag = 'RunIIFall18MiniAOD-102X_upgrade2018_realistic_v15-v3'
 
 config.JobType.maxMemoryMB = 8000
 

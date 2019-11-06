@@ -34,6 +34,9 @@ if arguments.limitType not in validLimitTypes:
 if arguments.limitType == "wino":
     from DisappTrks.LimitSetting.winoElectroweakLimits import *
     from DisappTrks.LimitSetting.winoElectroweakPlots import *
+elif arguments.limitType == "higgsino":
+    from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
+    from DisappTrks.LimitSetting.higgsinoElectroweakPlots import *
 
 if arguments.outputDir:
     if not os.path.exists("limits/" + arguments.outputDir):
@@ -123,7 +126,7 @@ HeaderText = LumiText + " (13 TeV)"
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
     lifetime = str(lifetime).replace("0.", "0p")
-    return "AMSB_mChi"+str(mass)+"_"+str(lifetime)+"cm"
+    return ("AMSB_mChi" if arguments.limitType == "wino" else "Higgsino_mChi") + str(mass) + "_" + str(lifetime) + "cm"
 
 def makeSignalRootFileName(mass, lifetime, directory, limit_type):
     signal_name = makeSignalName(mass, lifetime)

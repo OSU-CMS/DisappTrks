@@ -26,7 +26,8 @@ if len(sys.argv) > 2:
 
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', 'B', 'C', 'D']
-runPeriods = ['']
+#runPeriods = ['']
+runPeriods = ['AB', 'CD']
 
 nEstFake = {}
 nEstElectron = {}
@@ -39,6 +40,8 @@ nTotal = {}
 # ARC EXO-19-010: use one large sideband for fake estimate
 #fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
 fakeSidebands = [(0.05, 0.50)]
+
+applyHEMveto = True
 
 stdout = sys.stdout
 nullout = open("/dev/null", "w")
@@ -60,7 +63,7 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/fakeBackground")
             fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayersWord, "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/fakeBackground")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Kai']   + "2018/fromLPC/basicSelection/")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Brian'] + "2018/fromLPC/basicSelection_v2")
             fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/zToMuMu")
 
             print "********************************************************************************"
@@ -101,10 +104,10 @@ for runPeriod in runPeriods:
             # durp
             # only 99.4% of events were run over (failed job in A), so there is an extra prescale factor
             fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
-            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2018"    + runPeriod, dirs['Kai'] + "2018/fromLPC/basicSelection")
-            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/zToEE")
+            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/fakeTrackSystematic_zToEE")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2018"    + runPeriod, dirs['Brian'] + "2018/fromLPC/basicSelection_v2")
+            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/zToEE")
 
             print "********************************************************************************"
             print "Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1])
@@ -157,12 +160,19 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2018"        + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
         
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                # HEM 15/16 issue; veto MET in phi range
+                electronBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[0], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
+
             for iBin in range(1, len(nLayersWords)):
-            	electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
-            	electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            	electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            	electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            	electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
+            	electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
+            	electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
+            	electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
+            	electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
+            	electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
+                if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                    # HEM 15/16 issue; veto MET in phi range
+                    electronBkgdEstimate.appendChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[iBin], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
 
             electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
@@ -200,6 +210,10 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
             electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
+
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                # HEM 15/16 issue; veto MET in phi range
+                electronBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
         
             electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
@@ -229,8 +243,7 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            # only 99.6% of events were run over (failed jobs in D), so there is an extra prescale factor
-            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod] * (114607516 + 59181419 + 58079395 + 268251329) / 497872980)
+            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod])
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
@@ -241,12 +254,19 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
             muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
 
+
             for iBin in range(1, len(nLayersWords)):
                 muonBkgdEstimate.appendChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
                 muonBkgdEstimate.appendChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
                 muonBkgdEstimate.appendChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
                 muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
                 muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
+
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                # only NLayers6plus has any events passing in CD, so these aren't in the above block -- they're the only channels, so no "appendChannel"
+                # HEM 15/16 issue; veto MET in phi range
+                #muonBkgdEstimate.addChannel("TagPt35HEMveto",        "MuonTagPt55HEMvetoNLayers6plus",        "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
+                muonBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "MuonTagPt55MetTrigHEMvetoNLayers6plus", "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
 
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
@@ -258,6 +278,10 @@ for runPeriod in runPeriods:
 
             combinedPpassMetCut = muonBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = muonBkgdEstimate.getPpassMetTriggers()
+
+            combinedPpassHEMveto = None
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                combinedPpassHEMveto = muonBkgdEstimate.getPpassHEMveto()
 
             print "********************************************************************************"
 
@@ -288,6 +312,12 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
             muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
 
+            if runPeriod in ['C', 'D', 'CD'] and nLayersWord == "NLayers6plus" and applyHEMveto:
+                # only NLayers6plus has any events passing in CD
+                # HEM 15/16 issue; veto MET in phi range
+                #muonBkgdEstimate.addChannel("TagPt35HEMveto",        "MuonTagPt55HEMvetoNLayers6plus",        "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
+                muonBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "MuonTagPt55MetTrigHEMvetoNLayers6plus", "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
+
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
 
@@ -300,7 +330,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 
@@ -339,6 +369,10 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[0], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
             tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
 
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                # HEM 15/16 issue; veto MET in phi range
+                tauBkgdEstimate.addChannel("TrigEffNumerHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[0], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
+
             for iBin in range(1, len(nLayersWords)):
                 tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
                 tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
@@ -352,6 +386,10 @@ for runPeriod in runPeriods:
                 tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
                 tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
  
+                if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                    # HEM 15/16 issue; veto MET in phi range
+                    tauBkgdEstimate.appendChannel("TrigEffNumerHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[iBin], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
+
             tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
@@ -362,6 +400,10 @@ for runPeriod in runPeriods:
 
             combinedPpassMetCut = tauBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = tauBkgdEstimate.getPpassMetTriggers()
+
+            combinedPpassHEMveto = None
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                combinedPpassHEMveto = tauBkgdEstimate.getPpassHEMveto()
 
             print "********************************************************************************"
             
@@ -407,6 +449,10 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "EGamma_2018"          + runPeriod, dirs['Kai']   + "2018/fromLPC/electronControlRegionBinnedLayers")
             tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2018"             + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
 
+            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
+                # HEM 15/16 issue; veto MET in phi range
+                tauBkgdEstimate.addChannel("TrigEffNumerHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
+
             tauBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             tauBkgdEstimate.addRebinFactor(8)
 
@@ -419,7 +465,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 
@@ -444,14 +490,14 @@ if background == "ALL":
             nLeptons[(nLayersWord, runPeriod)] += nEstMuon[(nLayersWord, runPeriod)] + nEstTau[(nLayersWord, runPeriod)]
             nTotal[(nLayersWord, runPeriod)] = nLeptons[(nLayersWord, runPeriod)] + nEstFake[(nLayersWord, runPeriod)]
             print "********************************************************************************"
-            print "Total background from leptons (2017" + runPeriod + ", " + nLayersWord + "): " + str(nLeptons[(nLayersWord, runPeriod)])
-            print "Total background from fake tracks (2017" + runPeriod + ", " + nLayersWord + "): " + str(nEstFake[(nLayersWord, runPeriod)])
+            print "Total background from leptons (2018" + runPeriod + ", " + nLayersWord + "): " + str(nLeptons[(nLayersWord, runPeriod)])
+            print "Total background from fake tracks (2018" + runPeriod + ", " + nLayersWord + "): " + str(nEstFake[(nLayersWord, runPeriod)])
             print "********************************************************************************"
-            print "Total background (2017" + runPeriod + ", " + nLayersWord + "): " + str(nTotal[(nLayersWord, runPeriod)])
+            print "Total background (2018" + runPeriod + ", " + nLayersWord + "): " + str(nTotal[(nLayersWord, runPeriod)])
             print "********************************************************************************"
             print "\n\n"
 
-    fout = TFile.Open("backgroundCrossSections_2017.root", "recreate")
+    fout = TFile.Open("backgroundCrossSections_2018.root", "recreate")
 
     for nLayersWord in nLayersWords:
 
@@ -459,8 +505,7 @@ if background == "ALL":
         electron   =  array ("d");  muon   =  array ("d");  tau   =  array ("d");  fake   =  array ("d")
         eElectron  =  array ("d");  eMuon  =  array ("d");  eTau  =  array ("d");  eFake  =  array ("d")
 
-        #runPeriodsToPlot = ["B", "C", "D", "E", "F"]
-        runPeriodsToPlot = [""]
+        runPeriodsToPlot = ['AB', 'CD']
         i = 0.0
 
         for runPeriod in runPeriodsToPlot:
@@ -468,15 +513,15 @@ if background == "ALL":
             ex.append(0.0)
             i += 1.0
 
-            electron.append(nEstElectron[(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
-            muon.append    (nEstMuon    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
-            tau.append     (nEstTau     [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
-            fake.append    (nEstFake    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2017" + runPeriod])
+            electron.append(nEstElectron[(nLayersWord, runPeriod)].centralValue() / lumi["MET_2018" + runPeriod])
+            muon.append    (nEstMuon    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2018" + runPeriod])
+            tau.append     (nEstTau     [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2018" + runPeriod])
+            fake.append    (nEstFake    [(nLayersWord, runPeriod)].centralValue() / lumi["MET_2018" + runPeriod])
 
-            eElectron.append(nEstElectron[(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
-            eMuon.append    (nEstMuon    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
-            eTau.append     (nEstTau     [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
-            eFake.append    (nEstFake    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2017" + runPeriod])
+            eElectron.append(nEstElectron[(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2018" + runPeriod])
+            eMuon.append    (nEstMuon    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2018" + runPeriod])
+            eTau.append     (nEstTau     [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2018" + runPeriod])
+            eFake.append    (nEstFake    [(nLayersWord, runPeriod)].maxUncertainty() / lumi["MET_2018" + runPeriod])
 
         gElectron = TGraphErrors(len(x), x, electron, ex, eElectron)
         gMuon     = TGraphErrors(len(x), x, muon,     ex, eMuon)

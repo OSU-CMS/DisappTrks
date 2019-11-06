@@ -41,7 +41,8 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__pileup_2018_" + nLayersWord + ".txt", "w")
 
-    pileupSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    pileupSystematic.addExtraSamples(extraSamples)
     pileupSystematic.addFout(fout)
     pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
     pileupSystematic.defineWeightToFluctuate('eventvariable_puScalingFactor')
@@ -53,7 +54,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     print "\n\n"
 
-if (systematic == "MET" or systematic == "ALL") and False:
+if systematic == "MET" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating met systematics (2018) " + nLayersWord
@@ -82,7 +83,7 @@ if (systematic == "MET" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "JEC" or systematic == "ALL") and False:
+if systematic == "JEC" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating JEC systematic (2018) " + nLayersWord
@@ -94,8 +95,8 @@ if (systematic == "JEC" or systematic == "ALL") and False:
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
     jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3")
-    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jecSyst")
-    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jecSyst")
+    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jecSyst")
+    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jecSyst")
     jecSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -104,7 +105,7 @@ if (systematic == "JEC" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "JER" or systematic == "ALL") and False:
+if systematic == "JER" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating JER systematic (2018) " + nLayersWord
@@ -115,9 +116,9 @@ if (systematic == "JER" or systematic == "ALL") and False:
     jerSystematic = SystematicCalculator(masses, lifetimes)
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
-    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_full_v3")
-    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jerSyst")
-    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Kai'] + "2018/signalAcceptance_v3_jerSyst")
+    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3")
+    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jerSyst")
+    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Brian'] + "2018/signalAcceptance_v3_jerSyst")
     jerSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -134,7 +135,8 @@ if systematic == "ISR" or systematic == "ALL":
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__isr_2018_" + nLayersWord + ".txt", "w")
 
-    isrSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    isrSystematic.addExtraSamples(extraSamples)
     isrSystematic.addFout(fout)
     isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
@@ -155,7 +157,8 @@ if systematic == "TRIGGER" or systematic == "ALL":
     for flux in ['Data', 'MC']:
         fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__trigger_grandOrWeight" + flux + '_2018_' + nLayersWord + ".txt", "w")
 
-        triggerSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+        triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+        triggerSystematic.addExtraSamples(extraSamples)
         triggerSystematic.addFout(fout)
         triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
         triggerSystematic.defineFluctuationUp  ('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Up')
@@ -208,7 +211,32 @@ if systematic == "HITS" or systematic == "ALL":
 
     print "\n\n"
 
-if (systematic == "MISSING_OUTER_HITS" or systematic == "ALL") and False:
+# use the larger of HITS and HITS_V2 (EXO-19-010 ARC)
+if systematic == "HITS_V2" or systematic == "ALL":
+
+    print "********************************************************************************"
+    print "evaluating hits systematic V2 (2017)"
+    print "--------------------------------------------------------------------------------"
+
+    hitsSystematic = HitsSystematic ()
+    hitsSystematic.addChannel    ("Data",  "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "EGamma_2018",  dirs['Kai'] + "2018/ZtoEETauCtrl")
+    hitsSystematic.appendChannel ("Data",  "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "SingleMu_2018",   dirs['Kai'] + "2018/ZtoMuMuTauCtrl")
+    hitsSystematic.addChannel    ("MC",    "ZtoEETauHitsSystematicSelection"   + nLayersWord,  "DYJetsToLL_50",   dirs['Kai'] + "2018/ZtoEETauCtrl")
+    hitsSystematic.appendChannel ("MC",    "ZtoMuMuTauHitsSystematicSelection" + nLayersWord,  "DYJetsToLL_50",   dirs['Kai'] + "2018/ZtoMuMuTauCtrl")
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "before correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+    hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleCorrectedVsInner")
+    print "--------------------------------------------------------------------------------"
+    print "after correction to missing middle hits"
+    hitsSystematic.printSystematic ()
+
+    print "********************************************************************************"
+
+    print "\n\n"
+
+if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating missing outer hits systematic (2018)"
@@ -234,7 +262,7 @@ if (systematic == "MISSING_OUTER_HITS" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
+if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating muon veto scale factor systematic (2018) " + nLayersWord
@@ -247,7 +275,7 @@ if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
     muonVetoSFSystematic.addFout(fout)
     muonVetoSFSystematic.addFoutForPlot(foutForPlot)
     muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithFilterLooseVetoes" + nLayersWord,   "SingleEle_2018", dirs['Brian'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
+    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithLooseFilter"   + nLayersWord, "EGamma_2018ABCD", dirs['Kai'] + "2018/fromLPC/eleBkgdNoFilterBinnedLayers_looseVetoes")
     muonVetoSFSystematic.addSignalSuffix("_" + suffix)
     muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2018Loose')
     muonVetoSFSystematic.printSystematic()
@@ -258,7 +286,7 @@ if (systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
 
     print "\n\n"
 
-if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False:
+if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
 
     print "********************************************************************************"
     print "evaluating electron veto scale factor systematic (2018) " + nLayersWord
@@ -270,10 +298,10 @@ if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False
     electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi)
     electronVetoSFSystematic.addFout(fout)
     electronVetoSFSystematic.addFoutForPlot(foutForPlot)
-    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",                 dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
-    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter" + nLayersWord,          "SingleMu_2018", dirs['Brian'] + "2018/muonBackgroundNoFilterBinnedLayers_looseVetoes")
+    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",              dirs['Brian'] + "2018/signalAcceptance_v3_looseVetoes")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "SingleMu_2018", dirs['Kai'] + "2018/fromLPC/muonBkgdWithLooseFilterBinnedLayers")
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
-    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2018Veto')
+    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2017Veto')
     electronVetoSFSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
@@ -282,7 +310,7 @@ if (systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL") and False
 
     print "\n\n"
 
-if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != 'NLayers6plus' and False:
+if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != 'NLayers6plus':
 
     # first calculate the trigger turn-on curves for this category and NLayers6plus
     print "********************************************************************************"
@@ -339,7 +367,7 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
 
     foutForSystematics  = TFile('triggerTurnOnSystematic_2018_' + nLayersWord + '.root', 'recreate')
 
-    turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi)
+    turnOnSystematic = TriggerTurnOnSystematic(masses, lifetimes, lumi)
     turnOnSystematic.addExtraSamples(extraSamples)
     turnOnSystematic.addFout(fout)
     turnOnSystematic.addSignalSuffix ("_" + suffix)
@@ -347,27 +375,6 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
     turnOnSystematic.printSystematic()
-
-    print "********************************************************************************\n\n"
-
-    fout.close ()
-
-    print "\n\n"
-
-if systematic == "HEM_15_16_WEIGHT" or systematic == "ALL":
-
-    print "********************************************************************************"
-    print "evaluating HEM 15/16 weight systematic (2018) " + nLayersWord
-    print "--------------------------------------------------------------------------------"
-
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__HEM1516Weight_2018_" + nLayersWord + ".txt", "w")
-
-    l1ECALPrefiringWeightSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
-    l1ECALPrefiringWeightSystematic.addFout(fout)
-    l1ECALPrefiringWeightSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
-    l1ECALPrefiringWeightSystematic.defineFluctuationUp  ('eventvariable_hem1516weight', 'eventvariable_hem1516weightUp')
-    l1ECALPrefiringWeightSystematic.defineFluctuationDown('eventvariable_hem1516weight', 'eventvariable_hem1516weightDown')
-    l1ECALPrefiringWeightSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
 

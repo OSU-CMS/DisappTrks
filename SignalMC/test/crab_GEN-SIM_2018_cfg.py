@@ -19,7 +19,7 @@ config.Data.unitsPerJob = 100
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.publication = True
-config.Data.outputDatasetTag = 'RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v1'
+config.Data.outputDatasetTag = 'RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3'
 
 # Uncomment one of the following pairs
 

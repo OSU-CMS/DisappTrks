@@ -296,26 +296,73 @@ class LeptonBkgdEstimate:
 
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
-            total = self.TagPt35["yield"]
-            passes = 0.0
-
-            #met = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
-            
-            hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
-            met = getHistFromChannelDict (self.TagPt35, hist)
-            addChannelExtensions(met, self.TagPt35, hist)
-
-            passesError = Double (0.0)
-            passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
-            passes = Measurement (passes, passesError)
-            passes.isPositive ()
-
-            eff = passes / total if total > 0.0 else 0.0
-            print "P (pass met cut): " + str (eff)
-            return eff
+            channel = self.TagPt35
         else:
             print "TagPt35 not defined. Not printing P (pass met cut)..."
             return float ("nan")
+
+        total = channel["yield"]
+        passes = 0.0
+
+        #met = self.getHistFromProjectionZ (channel["sample"], channel["condorDir"], channel["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
+            
+        hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
+        met = getHistFromChannelDict (channel, hist)
+        addChannelExtensions(met, channel, hist)
+
+        passesError = Double (0.0)
+        passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
+        passes = Measurement (passes, passesError)
+        passes.isPositive ()
+
+        eff = passes / total if total > 0.0 else 0.0
+        print "P (pass met cut): " + str (eff)
+        return eff
+
+    def printPpassHEMveto (self):
+        if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
+            hist = "Met Plots/metNoMu"
+            channel = self.TrigEffNumer if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig
+            denominator = getHistFromChannelDict (channel, hist)
+            nEventsDenominator = Double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
+            if "extensions" in channel:
+                for x in channel["extensions"]:
+                    denominator.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
+
+            channel = self.TrigEffNumerHEMveto if hasattr (self, "TrigEffNumerHEMveto") else self.TagPt35MetTrigHEMveto
+            numerator = getHistFromChannelDict (channel, hist)
+            nEventsNumerator = Double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
+            if "extensions" in channel:
+                for x in channel["extensions"]:
+                    numerator.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
+
+            if self._Flavor != "Muon":
+                # temporary scale factor to correct cases where a different number of events were run over (incomplete jobs)
+                # derived from the CutFlowPlotter/eventCounter histogram
+                # muons used a skim in D but had 100% completion, so just turn this off for muons...
+                sf = nEventsDenominator / nEventsNumerator if nEventsNumerator > 0.0 else 0.0
+                if sf > 1.0:
+                    print "\tApplying correction for incomplete jobs:", sf
+                numerator.Scale(sf)
+
+            totalError = Double (0.0)
+            total = denominator.IntegralAndError (denominator.FindBin (self._metCut), denominator.GetNbinsX () + 1, totalError)
+            total = Measurement (total, totalError)
+
+            passesError = Double (0.0)
+            passes = numerator.IntegralAndError (numerator.FindBin (self._metCut), numerator.GetNbinsX () + 1, passesError)
+            passes = Measurement (passes, passesError)
+
+            eff = passes / total if total > 0.0 else 0.0
+            print "P (pass HEM 15/16 veto): " + str (eff)
+            return eff
+
+        else:
+            print "TagPt35MetTrig(HEMveto) or TrigEffNumer(HEMveto) are not defined. Not printing P (pass HEM veto)..."
+            return (float ("nan"), float ("nan"))
+
+    def getPpassHEMveto (self):
+        return self.printPpassHEMveto ()
 
     def printPpassMetTriggers (self):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
@@ -580,9 +627,17 @@ class LeptonBkgdEstimate:
             pPassVeto = self.printPpassVeto ()
 
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+
+        if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
+            print "Applying HEM 15/16 veto"
+            pPassHEMveto = self.printPpassHEMveto ()
+            nEst *= pPassHEMveto
+
         nEst.isPositive ()
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
+            alpha *= pPassHEMveto
         alpha.isPositive ()
         alpha.printLongFormat ()
 
@@ -615,7 +670,7 @@ class LeptonBkgdEstimate:
     def getPpassMetTriggers (self):
         return self.printPpassMetTriggers ()
 
-    def printNestCombinedMet (self, pPassMetCut, pPassMetTriggers):
+    def printNestCombinedMet (self, pPassMetCut, pPassMetTriggers, pPassHEMveto = None):
         nCtrl = self.printNctrl ()
         pPassVeto, passes, scaleFactor, total = self.printPpassVetoTagProbe ()
 
@@ -623,9 +678,13 @@ class LeptonBkgdEstimate:
             pPassVeto = self.printPpassVeto ()
 
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if pPassHEMveto is not None:
+            nEst *= pPassHEMveto
         nEst.isPositive ()
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if pPassHEMveto is not None:
+            alpha *= pPassHEMveto
         alpha.isPositive ()
         alpha.printLongFormat ()
 

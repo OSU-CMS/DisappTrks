@@ -12,7 +12,7 @@ yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
-showObserved = (not arguments.era.startswith("2018") and arguments.era != "run2")
+showObserved = True
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -49,82 +49,6 @@ plotDefinitions = [
             {
                 'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
-            },
-        ],
-    },
-
-    ###################### CTAU = 10 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_10cm',
-
-        'convertToMassSplitting' : False,
-        'makeColorPlot' : False,
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
-        'yAxisLabel' : 'c#tau = 10 cm',
-
-        'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
-        ],
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 10.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
-            },
-        ],
-    },
-
-    ###################### CTAU = 100 cm
-    {
-        # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_100cm',
-
-        'convertToMassSplitting' : False,
-        'makeColorPlot' : False,
-
-        # current options are 'mass' and 'lifetime'
-        'xAxisType' : 'mass',
-
-        # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
-        'yAxisLabel' : 'c#tau = 100 cm',
-
-        'theoryLabel' : [
-            '#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
-        ],
-
-        # optional (scaled automatically if not included)
-        'yAxis' : yAxisRangeFor1DMassLimits,
-
-        # optional (False if not included)
-        # currently only works if the x-axis is mass
-        'showTheory' : True,
-
-        #define all the curves to include on this canvas
-        'graphs' : [
-            {
-                'lifetime' : 100.0,
-                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
-                'colorScheme' : 'brazilian',
-                'legendEntry' : '',
             },
         ],
     },
@@ -264,44 +188,3 @@ plotDefinitions = [
     }
 
 ]
-
-if arguments.era.startswith('2017') or arguments.era == 'run2':
-    plotDefinitions.append(
-        ###################### CTAU = 1 cm
-        {
-            # this will be the name of the canvas in the output root file
-            'title' : 'limits_vs_1cm',
-
-            'convertToMassSplitting' : False,
-            'makeColorPlot' : False,
-
-            # current options are 'mass' and 'lifetime'
-            'xAxisType' : 'mass',
-
-            # xmin, xmax, label
-            'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
-            'yAxisLabel' : 'c#tau = 1 cm',
-
-            'theoryLabel' : [
-                '#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm/c (' + str (convertToNs (1.0)) + ' ns)',
-                "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
-            ],
-
-            # optional (scaled automatically if not included)
-            'yAxis' : yAxisRangeFor1DMassLimits,
-
-            # optional (False if not included)
-            # currently only works if the x-axis is mass
-            'showTheory' : True,
-
-            #define all the curves to include on this canvas
-            'graphs' : [
-                {
-                    'lifetime' : 1.0,
-                    'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
-                    'colorScheme' : 'brazilian',
-                    'legendEntry' : '',
-                },
-            ],
-        }
-    )

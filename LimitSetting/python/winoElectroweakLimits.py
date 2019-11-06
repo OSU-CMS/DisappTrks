@@ -18,17 +18,28 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
+if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era == "all20178" or arguments.era == "run2":
+	masses.extend(['1000', '1100'])
+	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
+
 # define maximal set of masses/lifetimes for datacard combinations
 allMasses = masses + ['1000', '1100']
 allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 datacardCombinations = {
 	'all20156' : ['2015', '2016BC', '2016DEFGH'],
 	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
-	'2018_all' : ['2018_NLayers4', '2018_NLayers5', '2018_NLayers6plus'],
+	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
+	'2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'2018_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'run2'     : ['2015',
 				  '2016BC', '2016DEFGH', 
 				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-				  '2018_NLayers4', '2018_NLayers5', '2018_NLayers6plus'],
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -45,18 +56,18 @@ if "MET_" + arguments.era in lumi:
 	intLumi = lumi["MET_" + arguments.era]
 elif arguments.era.startswith("2017"):
 	intLumi = lumi["MET_2017"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
-elif arguments.era.startswith("2018"):
+elif arguments.era.startswith("2018AB"):
+	intLumi = lumi["MET_2018AB"]
+elif arguments.era.startswith("2018CD"):
+	intLumi = lumi["MET_2018CD"]
+elif arguments.era.startswith("2018_"):
 	intLumi = lumi["MET_2018"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 elif arguments.era == "20156":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"]
+elif arguments.era == "all20178":
+	intLumi = lumi["MET_2017"] + lumi["MET_2018"]
 elif arguments.era == "run2":
 	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"]
-	masses.extend(['1000', '1100'])
-	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 
 # condor directory in which to find signal root files
 if arguments.era == "2015":
@@ -80,21 +91,29 @@ elif arguments.era == "2016DEFGH":
 	actual_bin_name = 'Bin2016DEFGH'
 	intLumi = lumi["MET_2016DEFGH"]
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v8/'
+	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v9/'
 	signal_suffix = signal_suffix_in_datacard = '94X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
 	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
 	actual_bin_name = 'Bin2017' + nLayersWord
 	intLumi = lumi["MET_2017"]
-elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
+elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"]:
 	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3/'
 	signal_suffix = signal_suffix_in_datacard = '102X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
 	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
-	actual_bin_name = 'Bin2018' + nLayersWord
-	intLumi = lumi["MET_2018"]
+	actual_bin_name = 'Bin2018AB' + nLayersWord
+	intLumi = lumi["MET_2018AB"]
+elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
+	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3_HEMveto/'
+	signal_suffix = signal_suffix_in_datacard = '102X'
+	nLayersWord = arguments.era.split('_')[1]
+	signal_channel = 'disTrkSelectionSmearedJetsHEMveto' + nLayersWord + 'Plotter/Met Plots'
+	signal_channel_tree = 'disTrkSelectionSmearedJetsHEMveto' + nLayersWord + 'TreeMaker/Tree'
+	actual_bin_name = 'Bin2018CD' + nLayersWord
+	intLumi = lumi["MET_2018CD"]
 
 lumi = intLumi
 
@@ -103,7 +122,10 @@ lumi = intLumi
 #######################
 
 # Get the backgrounds for this era
-if arguments.era in ["2015", "2016BC", "2016DEFGH", "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus", "2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
+if arguments.era in ["2015", "2016BC", "2016DEFGH", 
+					 "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus", 
+					 "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	exec('from bkgdConfig_' + arguments.era + ' import *')
 
 #this just sets the observed number of events equal to the total background expectation
@@ -137,17 +159,28 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 		rawObservation = 4
 	elif arguments.era == "2017_NLayers6plus":
 		rawObservation = 6
-elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
-	data_dataset = "MET_2018"
-	data_condor_dir = dirs["Brian"] + '/2018/unblindedResults/'
+elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"]:
+	data_dataset = "MET_2018AB"
+	data_condor_dir = dirs["Brian"] + '/2018/unblindNoHEMveto/'
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
 	useHistogramForObservation = False
-	if arguments.era == "2018_NLayers4":
+	if arguments.era == "2018AB_NLayers4":
+		rawObservation = 5
+	elif arguments.era == "2018AB_NLayers5":
 		rawObservation = 0
-	elif arguments.era == "2018_NLayers5":
-		rawObservation = 0
-	elif arguments.era == "2018_NLayers6plus":
-		rawObservation = 0
+	elif arguments.era == "2018AB_NLayers6plus":
+		rawObservation = 2
+elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
+	data_dataset = "MET_2018CD"
+	data_condor_dir = dirs["Brian"] + '/2018/unblindWithHEMveto/'
+	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2018CD_NLayers4":
+		rawObservation = 11
+	elif arguments.era == "2018CD_NLayers5":
+		rawObservation = 2
+	elif arguments.era == "2018CD_NLayers6plus":
+		rawObservation = 1
 
 ################################
 ### Systematic Uncertainties ###
@@ -170,25 +203,26 @@ external_systematic_uncertainties = [
     "trigger_grandOrWeightMC",
 ]
 
-if arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
-	external_systematic_uncertainties = [
-    	"isr",
-    	"pileup",
-    	"trigger_grandOrWeightData",
-    	"trigger_grandOrWeightMC",
-	]
-
-if not arguments.era in ["20156", "2017_all", "run2"]:
+if not arguments.era in ["all20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
 	for i in range(len(external_systematic_uncertainties)):
-		external_systematic_uncertainties[i] += "_" + arguments.era
+		if arguments.era.startswith("2018"):
+			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
+		else:
+			external_systematic_uncertainties[i] += "_" + arguments.era
+
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	external_systematic_uncertainties.append("L1ECALPrefiringWeight_"   + arguments.era)
 	external_systematic_uncertainties.append("electronVetoScaleFactor_" + arguments.era)
 	external_systematic_uncertainties.append("muonVetoScaleFactor_"     + arguments.era)
 	if arguments.era != "2017_NLayers6plus":
 		external_systematic_uncertainties.append("triggerTurnOn_"           + arguments.era)
-if arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
-	external_systematic_uncertainties.append("HEM1516Weight_" + arguments.era)
+
+if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
+	external_systematic_uncertainties.append("electronVetoScaleFactor_2018_" + arguments.era[7:])
+	external_systematic_uncertainties.append("muonVetoScaleFactor_2018_"     + arguments.era[7:])
+	if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
+		external_systematic_uncertainties.append("triggerTurnOn_2018_"       + arguments.era[7:])
 
 if arguments.era == "2015":
 	signal_systematic_uncertainties = {
@@ -255,14 +289,18 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	    'Ecalo_Bin2017_' + nLayersWord : {
 	        'value' : str (1.0 + 0.956275783525 / 100.0),
 	    },
-	    'Nmissin_Bin2017_' + nLayersWord :  {
-	        'value' : str (1.0 + 0.0227345880789 / 100.0),
-	    },
-	    'Nmissmid_Bin2017_' + nLayersWord :  {
-	        'value' : str (1.0 + 5.1633269796 / 100.0),
+	    'Nmissmid_Bin2017_' + nLayersWord : {
+	    	'value' : '1.051633269796',
 	    },
 	}
-elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] =  {'value' : str (1.0 + 4.20586172635 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] =  {'value' : str (1.0 + 1.61290322581 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] =  {'value' : str (1.0 + 0.0868040086816 / 100.0)}
+elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+					   "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	signal_systematic_uncertainties = {
 	    'lumi_Bin2018_' + nLayersWord :  {
 	        'value' : '1.025',
@@ -273,10 +311,14 @@ elif arguments.era in ["2018_NLayers4", "2018_NLayers5", "2018_NLayers6plus"]:
 	    'Ecalo_Bin2018_' + nLayersWord : {
 	        'value' : str (1.0 + 0.373129152421 / 100.0),
 	    },
-	    'Nmissin_Bin2018_' + nLayersWord :  {
-	        'value' : str (1.0 + 0.430847539825 / 100.0),
-	    },
-	    'Nmissmid_Bin2018_' + nLayersWord :  {
-	        'value' : str (1.0 + 0.271815295067 / 100.0),
-	    },
 	}
+
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2018_'  + nLayersWord] =  {'value' : str (1.0 + 0.430847539825 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2018_' + nLayersWord] =  {'value' : str (1.0 + 2.52100840336 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2018_'  + nLayersWord] =  {'value' : str (1.0 + 2.94117647059 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2018_' + nLayersWord] =  {'value' : str (1.0 + 4.87652492286 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2018_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2018_' + nLayersWord] =  {'value' : str (1.0 + 3.72041349824 / 100.0)}

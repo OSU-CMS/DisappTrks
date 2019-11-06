@@ -190,12 +190,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_94X", datasetsSigHiggsino[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_94X')
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900]:
-        datasetsSigHiggsino.append('Higgsino_' + str(i) + 'GeV_1cm_94X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET
     for i in range (0, len (datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)):
+        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
 else:
@@ -228,18 +228,18 @@ datasetsSigHiggsinoShort800 = [x for x in datasetsSigHiggsino if x.startswith('H
 datasetsSigHiggsinoShort900 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_900GeV_')]
 
 addLifetimeReweighting (datasetsSig)
-addLifetimeReweighting (datasetsSigHiggsino)
+addLifetimeReweighting (datasetsSigHiggsino, isHiggsino = True)
 
-higgsino_xsecs = {
-    '100' : 5767.34,
-    '200' : 488.642,
-    '300' : 105.138,
-    '400' : 32.681,
-    '500' : 12.4325,
-    '600' : 5.36776,
-    '700' : 2.51962,
-    '800' : 1.261932,
-    '900' : 0.657058,
+higgsino_xsecs = { # [pb]
+    '100' : 13.53557,
+    '200' : 1.092653,
+    '300' : 0.2342024,
+    '400' : 0.0731865,
+    '500' : 0.02798925,
+    '600' : 0.0121587,
+    '700' : 0.00572751,
+    '800' : 0.002878806,
+    '900' : 0.001502429,
 }
 
 # set the cross sections for Higgsino samples
