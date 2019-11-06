@@ -13,8 +13,8 @@ from DisappTrks.LimitSetting.limitOptions import *
 masses = ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 # chargino tau values in cm
-lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'
-			 '2', '3', '4', '5', '6', '7', '8', '9', '10',
+lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1',
+             '2', '3', '4', '5', '6', '7', '8', '9', '10',
              '20', '30', '40', '50', '60', '70', '80', '90', '100',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
@@ -148,20 +148,20 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 # Use order of AN
 external_systematic_uncertainties = [
     "higgsino_isr",
-    #"higgsino_jec",
-    #"higgsino_jer",
-    #"higgsino_metVaryElectronEn",
-    #"higgsino_metVaryJetEn",
-    #"higgsino_metVaryJetRes",
-    #"higgsino_metVaryPhotonEn",
-    #"higgsino_metVaryTauEn",
-    #"higgsino_metVaryUnclusteredEn",
-    #"higgsino_nMissOut",
+    "higgsino_jec",
+    "higgsino_jer",
+    "higgsino_metVaryElectronEn",
+    "higgsino_metVaryJetEn",
+    "higgsino_metVaryJetRes",
+    "higgsino_metVaryPhotonEn",
+    "higgsino_metVaryTauEn",
+    "higgsino_metVaryUnclusteredEn",
+    "higgsino_nMissOut",
     "higgsino_pileup",
     "higgsino_trigger_grandOrWeightData",
     "higgsino_trigger_grandOrWeightMC",
-    #"higgsino_electronVetoScaleFactor_",
-    #"higgsino_muonVetoScaleFactor_",
+    "higgsino_electronVetoScaleFactor_",
+    "higgsino_muonVetoScaleFactor_",
 ]
 
 if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
@@ -171,15 +171,14 @@ if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "al
 		else:
 			external_systematic_uncertainties[i] += "_" + arguments.era
 
-if False: # not done
-	if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-		external_systematic_uncertainties.append("higgsino_L1ECALPrefiringWeight_"   + arguments.era)
-		if arguments.era != "2017_NLayers6plus":
-			external_systematic_uncertainties.append("higgsino_triggerTurnOn_"           + arguments.era)
-	if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
-						 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-		if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
-			external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
+if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_L1ECALPrefiringWeight_"   + arguments.era)
+	if arguments.era != "2017_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_"           + arguments.era)
+if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
+	if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
 
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	signal_systematic_uncertainties = {
