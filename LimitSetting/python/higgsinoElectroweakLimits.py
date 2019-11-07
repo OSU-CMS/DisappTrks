@@ -160,8 +160,8 @@ external_systematic_uncertainties = [
     "higgsino_pileup",
     "higgsino_trigger_grandOrWeightData",
     "higgsino_trigger_grandOrWeightMC",
-    "higgsino_electronVetoScaleFactor_",
-    "higgsino_muonVetoScaleFactor_",
+    "higgsino_electronVetoScaleFactor",
+    "higgsino_muonVetoScaleFactor",
 ]
 
 if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
