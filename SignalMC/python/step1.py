@@ -140,7 +140,7 @@ higgsino = {
   (200, 10000) : '/Higgsino_M-200_CTau-10000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-b71ec5265bcc3523a7475efe67d1d474/USER',
   (300, 10)    : '/Higgsino_M-300_CTau-10_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-0c212fdb499811f8d48009af7eaf1a00/USER',
   (300, 100)   : '/Higgsino_M-300_CTau-100_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-03f58b90027f3489cb24bbe549b77161/USER',
-  (300, 1000)  : '/Higgsino_M-300_CTau-1000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-d0fcd70772662d0792625d17d74d1f67/USER',
+  (300, 1000)  : '/Higgsino_M-300_CTau-1000_TuneCP5_13TeV_pythia8/bfrancis-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1p2-d0fcd70772662d0792625d17d74d1f67/USER',
   (300, 10000) : '/Higgsino_M-300_CTau-10000_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-d2a49acc39c8cd1679f4c01054502abf/USER',
   (400, 10)    : '/Higgsino_M-400_CTau-10_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-1490356afc35530f2c9af7f1c226cd28/USER',
   (400, 100)   : '/Higgsino_M-400_CTau-100_TuneCP5_13TeV_pythia8/kwei-RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1-22ab98cd7b50c4e95ffa1ad665d84419/USER',

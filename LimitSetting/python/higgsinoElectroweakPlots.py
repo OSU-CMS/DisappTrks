@@ -14,8 +14,6 @@ convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
 showObserved = True
 
-branchingRatiosString = "#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1,2} + X (X = #pi^{#pm} 95.5%, e^{#pm} #nu 3%, #mu^{#pm} #nu 1.5%)"
-
 # description of all the plots to be made
 plotDefinitions = [
 
@@ -42,12 +40,53 @@ plotDefinitions = [
         'yAxisFixMin' : 2e-2, # lowest that looks good
         'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,
 
-        'theoryLabel' : ['tan #beta = 5, #mu > 0'] + branchingRatiosString,
+        'theoryLabel' : [
+            'tan #beta = 5, #mu > 0',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
 
         'graphs' : [
             {
                 'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
                 'colorScheme' : 'brazilian',
+            },
+        ],
+    },
+
+    ###################### CTAU = 1 cm
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'limits_vs_1cm',
+
+        'convertToMassSplitting' : False,
+        'makeColorPlot' : False,
+
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+
+        # xmin, xmax, label
+        'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
+        'yAxisLabel' : 'c#tau = 1 cm',
+
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm/c (' + str (convertToNs (1.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
+
+        # optional (scaled automatically if not included)
+        'yAxis' : yAxisRangeFor1DMassLimits,
+
+        # optional (False if not included)
+        # currently only works if the x-axis is mass
+        'showTheory' : True,
+
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'lifetime' : 1.0,
+                'graphsToInclude' : ['twoSigma','oneSigma','exp'] + (['obs'] if showObserved else []),
+                'colorScheme' : 'brazilian',
+                'legendEntry' : '',
             },
         ],
     },
@@ -67,7 +106,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10 cm',
 
-        'theoryLabel' : ['#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)'] + branchingRatiosString,
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm/c (' + str (convertToNs (10.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -102,7 +144,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 100 cm',
 
-        'theoryLabel' : ['#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)'] + branchingRatiosString,
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm/c (' + str (convertToNs (100.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -137,7 +182,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 1000 cm',
 
-        'theoryLabel' : ['#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm/c (' + str (convertToNs (1000.0)) + ' ns)'] + branchingRatiosString,
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm/c (' + str (convertToNs (1000.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
@@ -172,7 +220,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10000 cm',
 
-        'theoryLabel' : ['#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm/c (' + str (convertToNs (10000.0)) + ' ns)'] + branchingRatiosString,
+        'theoryLabel' : [
+            '#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm/c (' + str (convertToNs (10000.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}',
+        ],
 
         # optional (scaled automatically if not included)
         'yAxis' : yAxisRangeFor1DMassLimits,
