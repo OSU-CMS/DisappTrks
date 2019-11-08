@@ -148,20 +148,20 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 # Use order of AN
 external_systematic_uncertainties = [
     "higgsino_isr",
-    #"higgsino_jec",
-    #"higgsino_jer",
-    #"higgsino_metVaryElectronEn",
-    #"higgsino_metVaryJetEn",
-    #"higgsino_metVaryJetRes",
-    #"higgsino_metVaryPhotonEn",
-    #"higgsino_metVaryTauEn",
-    #"higgsino_metVaryUnclusteredEn",
-    #"higgsino_nMissOut",
+    "higgsino_jec",
+    "higgsino_jer",
+    "higgsino_metVaryElectronEn",
+    "higgsino_metVaryJetEn",
+    "higgsino_metVaryJetRes",
+    "higgsino_metVaryPhotonEn",
+    "higgsino_metVaryTauEn",
+    "higgsino_metVaryUnclusteredEn",
+    "higgsino_nMissOut",
     "higgsino_pileup",
     "higgsino_trigger_grandOrWeightData",
     "higgsino_trigger_grandOrWeightMC",
-    #"higgsino_electronVetoScaleFactor_",
-    #"higgsino_muonVetoScaleFactor_",
+    "higgsino_electronVetoScaleFactor",
+    "higgsino_muonVetoScaleFactor",
 ]
 
 if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
@@ -171,15 +171,14 @@ if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "al
 		else:
 			external_systematic_uncertainties[i] += "_" + arguments.era
 
-if False: # not done
-	if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-		external_systematic_uncertainties.append("higgsino_L1ECALPrefiringWeight_"   + arguments.era)
-		if arguments.era != "2017_NLayers6plus":
-			external_systematic_uncertainties.append("higgsino_triggerTurnOn_"           + arguments.era)
-	if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
-						 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-		if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
-			external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
+if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_L1ECALPrefiringWeight_"   + arguments.era)
+	if arguments.era != "2017_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_"           + arguments.era)
+if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
+					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
+	if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
 
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	signal_systematic_uncertainties = {
