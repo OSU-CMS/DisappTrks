@@ -91,7 +91,7 @@ elif arguments.era == "2016DEFGH":
 	actual_bin_name = 'Bin2016DEFGH'
 	intLumi = lumi["MET_2016DEFGH"]
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v9/'
+	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_full_v9_newISRweights/'
 	signal_suffix = signal_suffix_in_datacard = '94X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -99,7 +99,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	actual_bin_name = 'Bin2017' + nLayersWord
 	intLumi = lumi["MET_2017"]
 elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3/'
+	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3_newISRweights/'
 	signal_suffix = signal_suffix_in_datacard = '102X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -107,7 +107,7 @@ elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plu
 	actual_bin_name = 'Bin2018AB' + nLayersWord
 	intLumi = lumi["MET_2018AB"]
 elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3_HEMveto/'
+	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3_HEMveto_newISRweights/'
 	signal_suffix = signal_suffix_in_datacard = '102X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJetsHEMveto' + nLayersWord + 'Plotter/Met Plots'

@@ -138,7 +138,7 @@ if systematic == "ISR" or systematic == "ALL":
     isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
     isrSystematic.addExtraSamples(extraSamples)
     isrSystematic.addFout(fout)
-    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3")
+    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2018/signalAcceptance_v3_newISRweights")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
     isrSystematic.printSystematic ()
 
