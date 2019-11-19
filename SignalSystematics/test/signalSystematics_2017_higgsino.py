@@ -20,7 +20,7 @@ allLifetimes = ['0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1',
                '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 suffix = "94X"
 
-extraSamples = getExtraSamples(suffix)
+extraSamples = getExtraSamples(suffix, isHiggsino = True)
 
 systematic = "all"
 if len (sys.argv) > 1:
@@ -41,7 +41,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_pileup_2017_" + nLayersWord + ".txt", "w")
 
-    pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     pileupSystematic.addExtraSamples(extraSamples)
     pileupSystematic.addFout(fout)
     pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
@@ -69,7 +69,7 @@ if systematic == "MET" or systematic == "ALL":
         'PhotonEn',
     ]
 
-    metSystematic = MetSystematic(masses, lifetimes)
+    metSystematic = MetSystematic(masses, lifetimes, isHiggsino = True)
     metSystematic.addExtraSamples(extraSamples)
     metSystematic.addChannel("central", "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_higgsino_metSyst")
     metSystematic.addChannel("up",      "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Brian']+"2017/signalAcceptance_higgsino_metSyst")
@@ -91,7 +91,7 @@ if systematic == "JEC" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jec_2017_" + nLayersWord + ".txt", "w")
 
-    jecSystematic = SystematicCalculator(masses, lifetimes)
+    jecSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
     jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino")
@@ -113,7 +113,7 @@ if systematic == "JER" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jer_2017_" + nLayersWord + ".txt", "w")
 
-    jerSystematic = SystematicCalculator(masses, lifetimes)
+    jerSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
     jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino")
@@ -135,7 +135,7 @@ if systematic == "ISR" or systematic == "ALL":
 
     fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_isr_2017_" + nLayersWord + ".txt", "w")
 
-    isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+    isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     isrSystematic.addExtraSamples(extraSamples)
     isrSystematic.addFout(fout)
     isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
@@ -157,7 +157,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
     for flux in ['Data', 'MC']:
         fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_trigger_grandOrWeight" + flux + '_2017_' + nLayersWord + ".txt", "w")
 
-        triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi)
+        triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
         triggerSystematic.addExtraSamples(extraSamples)
         triggerSystematic.addFout(fout)
         triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
@@ -180,7 +180,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_nMissOut_2017_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("nMissOutSystematic_2017_" + nLayersWord + ".root", "recreate")
 
-    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi)
+    missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi, isHiggsino = True)
     missingOuterHitsSystematic.addFout (fout)
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
@@ -205,7 +205,7 @@ if systematic == "L1_ECAL_PREFIRING_WEIGHT" or systematic == "ALL":
 
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_L1ECALPrefiringWeight_2017_" + nLayersWord + ".txt", "w")
 
-    l1ECALPrefiringWeightSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi)
+    l1ECALPrefiringWeightSystematic = WeightSystematicFromTrees(masses, allLifetimes, lumi, isHiggsino = True)
     l1ECALPrefiringWeightSystematic.addFout(fout)
     l1ECALPrefiringWeightSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
     l1ECALPrefiringWeightSystematic.defineFluctuationUp  ('eventvariable_L1ECALPrefiringWeight', 'eventvariable_L1ECALPrefiringWeightUp')
@@ -227,7 +227,7 @@ if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL":
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_muonVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("muonVetoScaleFactors_2017_" + nLayersWord + ".root", "recreate")
 
-    muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi)
+    muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi, isHiggsino = True)
     muonVetoSFSystematic.addFout(fout)
     muonVetoSFSystematic.addFoutForPlot(foutForPlot)
     muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Brian'] + "2017/signalAcceptance_higgsino_looseVetoes")
@@ -251,7 +251,7 @@ if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL":
     fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_electronVetoScaleFactor_2017_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("electronVetoScaleFactors_2017_" + nLayersWord + ".root", "recreate")
 
-    electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi)
+    electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi, isHiggsino = True)
     electronVetoSFSystematic.addFout(fout)
     electronVetoSFSystematic.addFoutForPlot(foutForPlot)
     electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",                 dirs['Brian'] + "2017/signalAcceptance_higgsino_looseVetoes")
@@ -294,7 +294,7 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     foutForEfficienciesNLayers6plus = TFile('triggerEfficiency_Higgsino_NLayers6plus.root', 'recreate')
 
     for mass in masses:
-        inputFile = 'AMSB_chargino_' + str(mass) + 'GeV_allLifetimes'
+        inputFile = 'Higgsino_' + str(mass) + 'GeV_allLifetimes'
 
         grandOrEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
         grandOrEfficiency.addTFile(foutForEfficienciesThisNLayers, nameSuffix = 'Higgsino_' + str(mass) + 'GeV')
@@ -323,7 +323,7 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
 
     foutForSystematics  = TFile('triggerTurnOnSystematic_2017_higgsino_' + nLayersWord + '.root', 'recreate')
 
-    turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi)
+    turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi, isHiggsino = True)
     turnOnSystematic.addExtraSamples(extraSamples)
     turnOnSystematic.addFout(fout)
     turnOnSystematic.addLumis({"central":35864.601, "central1":4822.568, "central2":868.626})
