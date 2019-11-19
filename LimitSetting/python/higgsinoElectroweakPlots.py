@@ -9,6 +9,8 @@ convertCmToNs = True
 outputName = "limit_plots.root"
 yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 
+roundLumiText = True
+
 speedLightCmPerNs = TMath.C () * 1.0e-7
 convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 

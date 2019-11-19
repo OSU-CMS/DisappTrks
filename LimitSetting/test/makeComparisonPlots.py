@@ -1,6 +1,19 @@
 import sys
 from ROOT import TFile,	TCanvas, TGraph, TLegend, gROOT
 
+def printSpecificLimits(era):
+	fin = TFile('limits/limits_' + era + '_' + sys.argv[1] + '/limit_plots.root')
+	grObs = fin.Get('lifetime_vs_mass_graph_observed')
+	grExp = fin.Get('lifetime_vs_mass_graph_expected')
+	grObsRotated = TGraph(grObs.GetN(), grObs.GetY(), grObs.GetX())
+	grExpRotated = TGraph(grExp.GetN(), grExp.GetY(), grExp.GetX())
+	taus = [7, 3, 0.2, 0.05]
+	print '--------------------'
+	print 'For era:', era
+	print 'Observed =', ', '.join([str(grObsRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus])
+	print 'Expected =', ', '.join([str(grExpRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus])
+	print '--------------------'
+
 def compareNLayersBins(year):
 	fCombined = TFile('limits/limits_' + year + '_all_' + suffix + '/limit_plots.root')
 	fNLayers4 = TFile('limits/limits_' + year + '_NLayers4_' + suffix + '/limit_plots.root')
@@ -100,3 +113,5 @@ can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.pdf')
 can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.C')
 print 'Created limitsLifetimeVsMassCombinedRun2CompareYears.pdf'
 
+printSpecificLimits('all20178')
+printSpecificLimits('run2')
