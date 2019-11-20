@@ -23,17 +23,14 @@ lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1',
 allMasses = masses
 allLifetimes = lifetimes
 datacardCombinations = {
-	#'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
 	'2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'2018_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
-	#'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-	#			  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
-	#			  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
-	#'run2'     : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-	#			  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
-	#			  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -63,7 +60,7 @@ elif arguments.era == "run2":
 
 # condor directory in which to find signal root files
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_higgsino_newISRweights/'
+	signal_condor_dir = dirs["Brian"] + '/2017/signalAcceptance_higgsino/'
 	signal_suffix = signal_suffix_in_datacard = '94X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'

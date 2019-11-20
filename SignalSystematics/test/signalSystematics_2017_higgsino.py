@@ -95,8 +95,8 @@ if systematic == "JEC" or systematic == "ALL":
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
     jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino")
-    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_higgsino_jecSyst")
-    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_higgsino_jecSyst")
+    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino_jecSyst")
+    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino_jecSyst")
     jecSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -117,8 +117,8 @@ if systematic == "JER" or systematic == "ALL":
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
     jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino")
-    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_higgsino_jerSyst")
-    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Kai'] + "2017/signalAcceptance_higgsino_jerSyst")
+    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino_jerSyst")
+    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Brian'] + "2017/signalAcceptance_higgsino_jerSyst")
     jerSystematic.printSystematic()
 
     print "********************************************************************************"
@@ -331,10 +331,10 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
     turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
-    turnOnSystematic.addChannel("central1", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_higgsino_verA")
+    turnOnSystematic.addChannel("central1", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino_verA")
     turnOnSystematic.addEfficiencies("Denominator1", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator1",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
-    turnOnSystematic.addChannel("central2", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_higgsino_verB")
+    turnOnSystematic.addChannel("central2", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino_verB")
     turnOnSystematic.addEfficiencies("Denominator2", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
     turnOnSystematic.addEfficiencies("Numerator2",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
     turnOnSystematic.printSystematic()
