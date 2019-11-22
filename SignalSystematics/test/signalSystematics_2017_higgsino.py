@@ -293,26 +293,26 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     foutForEfficienciesThisNLayers = TFile('triggerEfficiency_Higgsino_' + nLayersWord + '.root', 'recreate')
     foutForEfficienciesNLayers6plus = TFile('triggerEfficiency_Higgsino_NLayers6plus.root', 'recreate')
 
-    for mass in masses:
-        inputFile = 'Higgsino_' + str(mass) + 'GeV_allLifetimes'
+    #for mass in masses:
+    #    inputFile = 'Higgsino_' + str(mass) + 'GeV_allLifetimes'
 
-        grandOrEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
-        grandOrEfficiency.addTFile(foutForEfficienciesThisNLayers, nameSuffix = 'Higgsino_' + str(mass) + 'GeV')
-        grandOrEfficiency.addTCanvas(canvas)
-        grandOrEfficiency.addChannel("Numerator",   "GrandOrNumeratorTrk4"   + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
-        grandOrEfficiency.addChannel("Denominator", "GrandOrDenominatorTrk" + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
-        grandOrEfficiency.setDatasetLabel(inputFile)
-        grandOrEfficiency.setIsMC(True)
-        grandOrEfficiency.plotEfficiency()
+    #    grandOrEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
+    #    grandOrEfficiency.addTFile(foutForEfficienciesThisNLayers, nameSuffix = 'Higgsino_' + str(mass) + 'GeV')
+    #    grandOrEfficiency.addTCanvas(canvas)
+    #    grandOrEfficiency.addChannel("Numerator",   "GrandOrNumeratorTrk4"   + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
+    #    grandOrEfficiency.addChannel("Denominator", "GrandOrDenominatorTrk" + nLayersWord, inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
+    #    grandOrEfficiency.setDatasetLabel(inputFile)
+    #    grandOrEfficiency.setIsMC(True)
+    #    grandOrEfficiency.plotEfficiency()
 
-        grandOrEfficiencyNLayers6plus = TriggerEfficiency('GrandOr', [], 'METPath')
-        grandOrEfficiencyNLayers6plus.addTFile(foutForEfficienciesNLayers6plus, nameSuffix = 'Higgsino_' + str(mass) + 'GeV')
-        grandOrEfficiencyNLayers6plus.addTCanvas(canvas)
-        grandOrEfficiencyNLayers6plus.addChannel("Numerator",   "GrandOrNumeratorTrk4NLayers6plus",   inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
-        grandOrEfficiencyNLayers6plus.addChannel("Denominator", "GrandOrDenominatorTrkNLayers6plus", inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
-        grandOrEfficiencyNLayers6plus.setDatasetLabel(inputFile)
-        grandOrEfficiencyNLayers6plus.setIsMC(True)
-        grandOrEfficiencyNLayers6plus.plotEfficiency()
+    #    grandOrEfficiencyNLayers6plus = TriggerEfficiency('GrandOr', [], 'METPath')
+    #    grandOrEfficiencyNLayers6plus.addTFile(foutForEfficienciesNLayers6plus, nameSuffix = 'Higgsino_' + str(mass) + 'GeV')
+    #    grandOrEfficiencyNLayers6plus.addTCanvas(canvas)
+    #    grandOrEfficiencyNLayers6plus.addChannel("Numerator",   "GrandOrNumeratorTrk4NLayers6plus",   inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
+    #    grandOrEfficiencyNLayers6plus.addChannel("Denominator", "GrandOrDenominatorTrkNLayers6plus", inputFile, dirs['Brian'] + '2017/grandOr_signal_higgsino')
+    #    grandOrEfficiencyNLayers6plus.setDatasetLabel(inputFile)
+    #    grandOrEfficiencyNLayers6plus.setIsMC(True)
+    #    grandOrEfficiencyNLayers6plus.plotEfficiency()
 
     # now calculate the systematic based on the difference between this category and NLayers6plus
     print "********************************************************************************"
@@ -323,20 +323,20 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
 
     foutForSystematics  = TFile('triggerTurnOnSystematic_2017_higgsino_' + nLayersWord + '.root', 'recreate')
 
-    turnOnSystematic = TriggerTurnOnSystematic(masses, allLifetimes, lumi, isHiggsino = True)
+    turnOnSystematic = TriggerTurnOnSystematic(masses, lifetimes, lumi, isHiggsino = True)
     turnOnSystematic.addExtraSamples(extraSamples)
     turnOnSystematic.addFout(fout)
     turnOnSystematic.addLumis({"central":35864.601, "central1":4822.568, "central2":868.626})
     turnOnSystematic.addSignalSuffix ("_" + suffix)
-    turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino")
-    turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
-    turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
-    turnOnSystematic.addChannel("central1", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino_verA")
-    turnOnSystematic.addEfficiencies("Denominator1", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
-    turnOnSystematic.addEfficiencies("Numerator1",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
-    turnOnSystematic.addChannel("central2", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Brian'] + "2017/signalAcceptance_higgsino_verB")
-    turnOnSystematic.addEfficiencies("Denominator2", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_NLayers6plus.root')
-    turnOnSystematic.addEfficiencies("Numerator2",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_AMSB_chargino_' + nLayersWord + '.root')
+    turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_full_higgsino")
+    turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_' + nLayersWord + '.root')
+    turnOnSystematic.addChannel("central1", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_full_higgsino_verA")
+    turnOnSystematic.addEfficiencies("Denominator1", "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator1",   "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_' + nLayersWord + '.root')
+    turnOnSystematic.addChannel("central2", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Kai'] + "2017/signalAcceptance_full_higgsino_verB")
+    turnOnSystematic.addEfficiencies("Denominator2", "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_NLayers6plus.root')
+    turnOnSystematic.addEfficiencies("Numerator2",   "GrandOr_METPath_Higgsino_XYZGeV", 'triggerEfficiency_Higgsino_' + nLayersWord + '.root')
     turnOnSystematic.printSystematic()
 
     print "********************************************************************************\n\n"
