@@ -48,9 +48,17 @@ EventVariableBranches_names = [
 
     "nGoodTPPairs",
     "nProbesPassingVeto",
+    "nProbesPassingLooseVeto",
+    "nProbesFiringTrigger",
+    "nProbesMatchingTag",
+    "nProbesFiringTriggerMatchingTag",
 
     "nGoodSSTPPairs",
     "nSSProbesPassingVeto",
+    "nSSProbesPassingLooseVeto",
+    "nSSProbesFiringTrigger",
+    "nSSProbesMatchingTag",
+    "nSSProbesFiringTriggerMatchingTag",
 
     "nGoodTagJetPairs",
     "nGoodTagPFCHPairs",

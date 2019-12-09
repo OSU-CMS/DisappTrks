@@ -38,6 +38,11 @@ triggerFiltersTrack = {
     'HLT_MET90_IsoTrk50_v' : ['hltTrk50Filter'],
 }
 
+# durp
+triggerFiltersElectron = ("", "")
+triggerFiltersMuon = ("", "")
+triggerFiltersTau = ("", "")
+
 # 2016
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     triggerFiltersMet = {
@@ -88,6 +93,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
     }
 
+    triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle35noerWPTightGsfTrackIsoFilter")
+    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07")
+    triggerFiltersTau = ("hltL1JetsHLTPFTau50Track30MediumChargedIsolationMatchQuadJetIsoTau::HLT", "hltSelectedPFTau50MediumChargedIsolationL1HLTMatchedQuadIsoTau")
+
 # 2018
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggerFiltersMet = {
@@ -111,6 +120,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         'HLT_MET105_IsoTrk50_v' : ['hltTrk50Filter'],
         'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
     }
+
+    triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
+    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
+    triggerFiltersTau = ("hltL1JetsHLTPFTau50Track30MediumChargedIsolationMatchQuadJetIsoTau::HLT", "hltSelectedPFTau50MediumChargedIsolationL1HLTMatchedQuadIsoTau")
 
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer

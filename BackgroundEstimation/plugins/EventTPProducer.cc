@@ -9,12 +9,18 @@ EventTPProducer<T, Args...>::EventTPProducer (const edm::ParameterSet &cfg) :
   doLooseFilter_ (cfg.getParameter<bool> ("doLooseFilter")),
   doSSFilter_ (cfg.getParameter<bool> ("doSSFilter")),
   doLooseSSFilter_ (cfg.getParameter<bool> ("doLooseSSFilter")),
-  doJetFilter_ (cfg.getParameter<bool> ("doJetFilter"))
+  doJetFilter_ (cfg.getParameter<bool> ("doJetFilter")),
+  triggerCollectionName_ (cfg.getParameter<string> ("triggerCollectionName")),
+  triggerFilterName_ (cfg.getParameter<string> ("triggerFilterName")),
+  triggerMatchingDR_ (cfg.getParameter<double> ("triggerMatchingDR")),
+  probeTagMatchingDR_ (cfg.getParameter<double> ("probeTagMatchingDR"))
 {
   tokenTags_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   tokenProbes_ = consumes<vector<osu::Track> > (collections_.getParameter<edm::InputTag> ("tracks"));
   tokenJets_ = consumes<vector<pat::Jet> > (collections_.getParameter<edm::InputTag> ("jets"));
   tokenPFCands_ = consumes<vector<pat::PackedCandidate> > (collections_.getParameter<edm::InputTag> ("pfCandidates"));
+  tokenTriggerBits_  = consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
+  tokenTriggerObjs_  = consumes<vector<pat::TriggerObjectStandAlone> >(collections_.getParameter<edm::InputTag>("trigobjs"));
 }
 
 template<class T, class... Args>
@@ -31,22 +37,43 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   edm::Handle<vector<osu::Track> > probes;
   event.getByToken (tokenProbes_, probes);
 
+  if (!tags.isValid () || !probes.isValid ())
+    return;
+
   edm::Handle<vector<pat::Jet> > jets;
   event.getByToken (tokenJets_, jets);
 
   edm::Handle<vector<pat::PackedCandidate> > pfCands;
   event.getByToken (tokenPFCands_, pfCands);
 
-  if (!tags.isValid () || !probes.isValid ())
-    return;
+  edm::Handle<vector<pat::TriggerObjectStandAlone> > triggerObjs;
+  event.getByToken(tokenTriggerObjs_, triggerObjs);
 
-  unsigned nGoodTPPairs = 0, nProbesPassingVeto = 0, nProbesPassingLooseVeto = 0,
-           nGoodTagJetPairs = 0, nGoodTagPFCHPairs = 0,
-           nGoodSSTPPairs = 0, nSSProbesPassingVeto = 0, nSSProbesPassingLooseVeto = 0;
+  edm::Handle<edm::TriggerResults> triggerBits;
+  if(!event.getByToken(tokenTriggerBits_, triggerBits)) {
+    clog << "ERROR:  Could not find triggerBits collection." << endl;
+    return;
+  }
+
+  unsigned nGoodTPPairs = 0, 
+           nProbesPassingVeto = 0, 
+           nProbesPassingLooseVeto = 0, 
+           nProbesFiringTrigger = 0,
+           nProbesMatchingTag = 0,
+           nProbesFiringTriggerMatchingTag = 0;
+  unsigned nGoodSSTPPairs = 0, 
+           nSSProbesPassingVeto = 0, 
+           nSSProbesPassingLooseVeto = 0, 
+           nSSProbesFiringTrigger = 0,
+           nSSProbesMatchingTag = 0,
+           nSSProbesFiringTriggerMatchingTag = 0;
+  unsigned nGoodTagJetPairs = 0, nGoodTagPFCHPairs = 0;
+
   vector<double> masses,
                  tagJetMasses, jetChargedHadronEnergyFractions, jetNeutralHadronEnergyFractions,
                  tagPFCHMasses, pfchRelIsos;
   vector<int> chargeProducts;
+
   for (const auto &tag : *tags)
     {
       for (const auto &probe : *probes)
@@ -56,15 +83,27 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
                isGoodTPPair = isGoodInvMass && (tag.charge () * probe.charge () < 0.0),
                isGoodSSTPPair = isGoodInvMass && (tag.charge () * probe.charge () > 0.0),
                isProbePassingVeto = passesVeto (probe),
-               isProbePassingLooseVeto = passesLooseVeto (probe);
+               isProbePassingLooseVeto = passesLooseVeto (probe),
+               isProbeFiringTrigger = firesTrigger (event, *triggerObjs, *triggerBits, probe),
+               isProbeAlsoTag = matchedToTag(probe, *tags);
 
-          isGoodTPPair && nGoodTPPairs++;
-          (isGoodTPPair && isProbePassingVeto) && nProbesPassingVeto++;
-          (isGoodTPPair && isProbePassingLooseVeto) && nProbesPassingLooseVeto++;
+          if(isGoodTPPair) {
+            nGoodTPPairs++;
+            if(isProbePassingVeto)      nProbesPassingVeto++;
+            if(isProbePassingLooseVeto) nProbesPassingLooseVeto++;
+            if(isProbeFiringTrigger)    nProbesFiringTrigger++;
+            if(isProbeAlsoTag)          nProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag) nProbesFiringTriggerMatchingTag++;
+          }
 
-          isGoodSSTPPair && nGoodSSTPPairs++;
-          (isGoodSSTPPair && isProbePassingVeto) && nSSProbesPassingVeto++;
-          (isGoodSSTPPair && isProbePassingLooseVeto) && nSSProbesPassingLooseVeto++;
+          if(isGoodSSTPPair) {
+            nGoodSSTPPairs++;
+            if(isProbePassingVeto)      nSSProbesPassingVeto++;
+            if(isProbePassingLooseVeto) nSSProbesPassingLooseVeto++;
+            if(isProbeFiringTrigger)    nSSProbesFiringTrigger++;
+            if(isProbeAlsoTag)          nSSProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag) nSSProbesFiringTriggerMatchingTag++;
+          }
 
           if (isGoodTPPair || isGoodSSTPPair)
             {
@@ -121,10 +160,16 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
   (*eventvariables)["nGoodTPPairs"] = nGoodTPPairs;
   (*eventvariables)["nProbesPassingVeto"] = nProbesPassingVeto;
   (*eventvariables)["nProbesPassingLooseVeto"] = nProbesPassingLooseVeto;
+  (*eventvariables)["nProbesFiringTrigger"] = nProbesFiringTrigger;
+  (*eventvariables)["nProbesMatchingTag"] = nProbesMatchingTag;
+  (*eventvariables)["nProbesFiringTriggerMatchingTag"] = nProbesFiringTriggerMatchingTag;
 
   (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
   (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
   (*eventvariables)["nSSProbesPassingLooseVeto"] = nSSProbesPassingLooseVeto;
+  (*eventvariables)["nSSProbesFiringTrigger"] = nSSProbesFiringTrigger;
+  (*eventvariables)["nSSProbesMatchingTag"] = nSSProbesMatchingTag;
+  (*eventvariables)["nSSProbesFiringTriggerMatchingTag"] = nSSProbesFiringTriggerMatchingTag;
 
   (*eventvariables)["nGoodTagJetPairs"] = nGoodTagJetPairs;
   (*eventvariables)["nGoodTagPFCHPairs"] = nGoodTagPFCHPairs;
@@ -346,6 +391,15 @@ EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
   return passes;
 }
 
+template<class T, class... Args> template<class T0> bool
+EventTPProducer<T, Args...>::matchedToTag (const osu::Track &probe, const vector<T0> &tags) const
+{
+  for (const auto tag : tags) {
+    if (deltaR (probe, tag) < probeTagMatchingDR_) return true;
+  }
+  return false;
+}
+
 template<> bool
 EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
 {
@@ -419,6 +473,33 @@ EventTPProducer<osu::Muon, osu::Tau>::passesLooseVeto (const osu::Track &probe) 
   bool passes = probe.deltaRToClosestLooseMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;          
   return passes;
+}
+
+template<class T, class... Args> bool
+EventTPProducer<T, Args...>::firesTrigger (const edm::Event &event,
+                                           const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                           const edm::TriggerResults &triggerBits,
+                                           const osu::Track &probe) const
+{
+  for(auto triggerObj : triggerObjs) {
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+    triggerObj.unpackNamesAndLabels(event, triggerBits);
+#else
+    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
+#endif
+
+    if(triggerObj.collection() == (triggerCollectionName_)) {
+      for(const auto &thisFilterName : triggerObj.filterLabels()) {
+        if(thisFilterName == triggerFilterName_) {
+          if(deltaR(probe, triggerObj) < triggerMatchingDR_) return true;
+        }
+      }
+    }
+
+  }
+
+  return false;
 }
 
 template<class T, class... Args> template<class T0> const double

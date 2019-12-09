@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.Triggers import *
+from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
@@ -206,6 +207,10 @@ def customize (process,
             getattr (process, "EventElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
             getattr (process, "EventElectronTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
+            getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersElectron[0])
+            getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersElectron[1])
+            getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
+            getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventElectronTPProducer", channel)
         if hasattr (process, "EventMuonTPProducer"):
             getattr (process, "EventMuonTPProducer").doFilter = cms.bool (doFilter)
@@ -213,6 +218,10 @@ def customize (process,
             getattr (process, "EventMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
             getattr (process, "EventMuonTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
+            getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersMuon[0])
+            getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersMuon[1])
+            getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
+            getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventMuonTPProducer", channel)
         if hasattr (process, "EventTauToElectronTPProducer"):
             getattr (process, "EventTauToElectronTPProducer").doFilter = cms.bool (doFilter)
@@ -220,6 +229,10 @@ def customize (process,
             getattr (process, "EventTauToElectronTPProducer").doSSFilter = cms.bool (doSSFilter)
             getattr (process, "EventTauToElectronTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventTauToElectronTPProducer").doJetFilter = cms.bool (doJetFilter)
+            getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersElectron[0])
+            getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersElectron[1])
+            getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
+            getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventTauToElectronTPProducer", channel)
         if hasattr (process, "EventTauToMuonTPProducer"):
             getattr (process, "EventTauToMuonTPProducer").doFilter = cms.bool (doFilter)
@@ -227,6 +240,10 @@ def customize (process,
             getattr (process, "EventTauToMuonTPProducer").doSSFilter = cms.bool (doSSFilter)
             getattr (process, "EventTauToMuonTPProducer").doLooseSSFilter = cms.bool (doLooseSSFilter)
             getattr (process, "EventTauToMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
+            getattr (process, "EventTauToMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersMuon[0])
+            getattr (process, "EventTauToMuonTPProducer").triggerFilterName = cms.string (triggerFiltersMuon[1])
+            getattr (process, "EventTauToMuonTPProducer").triggerMatchingDR = cms.double (0.3)
+            getattr (process, "EventTauToMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventTauToMuonTPProducer", channel)
 
         if hasattr (process, "EventElectronMETTriggerProducer"):

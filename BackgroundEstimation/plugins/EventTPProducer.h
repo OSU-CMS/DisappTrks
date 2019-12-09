@@ -24,15 +24,25 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
 
   private:
     void AddVariables(const edm::Event &);
+
     edm::EDGetTokenT<vector<T> > tokenTags_;
     edm::EDGetTokenT<vector<osu::Track> > tokenProbes_;
     edm::EDGetTokenT<vector<pat::Jet> > tokenJets_;
     edm::EDGetTokenT<vector<pat::PackedCandidate> > tokenPFCands_;
+    edm::EDGetTokenT<edm::TriggerResults> tokenTriggerBits_;
+    edm::EDGetTokenT<vector<pat::TriggerObjectStandAlone> > tokenTriggerObjs_;
+
     bool doFilter_;
     bool doLooseFilter_;
     bool doSSFilter_;
     bool doLooseSSFilter_;
     bool doJetFilter_;
+    
+    string triggerCollectionName_;
+    string triggerFilterName_;
+    double triggerMatchingDR_;
+
+    double probeTagMatchingDR_;
 
     const string tagCollectionParameter () const;
     bool goodInvMass (const T &, const osu::Track &, double &) const;
@@ -40,6 +50,8 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     bool goodInvMass (const T &, const pat::PackedCandidate &, double &) const;
     bool passesVeto (const osu::Track &) const;
     bool passesLooseVeto (const osu::Track &) const;
+    bool firesTrigger (const edm::Event &, const vector<pat::TriggerObjectStandAlone> &, const edm::TriggerResults &, const osu::Track &) const;
+    template<class T0> bool matchedToTag (const osu::Track &, const vector<T0> &) const;
     template<class T0> const double getTrackIsolation (const T0 &, const vector<T0> &, const double, const double = 1.0e-12) const;
     bool jetMatchedToMuon (const pat::Jet &, const vector<pat::PackedCandidate> &) const;
 };

@@ -1182,7 +1182,7 @@ DiMuonExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("diMuonPt"),
             title = cms.string("Di-muon pT;p_{T} (#mu#mu)"),
-            binsX = cms.untracked.vdouble(1000, 0, 1000),
+            binsX = cms.untracked.vdouble(5000, 0, 5000),
             inputVariables = cms.vstring("pT (muon, muon)")
         ),
     )
@@ -2784,6 +2784,12 @@ EventTriggerVarHistograms = cms.PSet(
             title = cms.string(";Lead track is matched to hltTrk50Filter object"),
             binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
             inputVariables = cms.vstring("leadTrackMatchToHLTTrack"),
+        ),
+        cms.PSet (
+            name = cms.string("passesHLTTrk50Filter"),
+            title = cms.string("passesHLTTrk50Filter"),
+            binsX = cms.untracked.vdouble(2.0, -0.5, 1.5),
+            inputVariables = cms.vstring("passesHLTTrk50Filter"),
         ),
     )
 )

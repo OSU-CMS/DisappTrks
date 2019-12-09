@@ -203,6 +203,8 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
   (*eventvariables)["hltMet"] = onlineMet;
   (*eventvariables)["hltMetClean"] = onlineMetClean;
 
+  (*eventvariables)["passesHLTTrk50Filter"] = passesHLTTrk50Filter;
+
   selectedTracks.clear();
   selectedMuons.clear();
 
