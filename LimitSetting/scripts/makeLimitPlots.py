@@ -1418,6 +1418,16 @@ def drawPlot(plot, th2fType=""):
     HeaderLabel.SetFillStyle(0)
     HeaderLabel.Draw()
 
+    if 'theoryHeader' in plot:
+        TheoryHeaderLabel = TPaveLabel(0.14787, 0.932171, 0.434837, 0.982558, plot['theoryHeader'], "NDC")
+        TheoryHeaderLabel.SetTextSize(0.512816)
+        TheoryHeaderLabel.SetTextFont(42)
+        TheoryHeaderLabel.SetTextAlign(12)
+        TheoryHeaderLabel.SetBorderSize(0)
+        TheoryHeaderLabel.SetFillColor(0)
+        TheoryHeaderLabel.SetFillStyle(0)
+        TheoryHeaderLabel.Draw()
+
     if plot['makeColorPlot']:
         LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS" if arguments.paperMode else "CMS Preliminary", "NDC")
         LumiLabel.SetTextSize(0.769225)

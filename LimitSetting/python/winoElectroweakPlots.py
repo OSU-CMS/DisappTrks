@@ -16,6 +16,8 @@ convertToNs = (lambda a : round (a / speedLightCmPerNs, 2))
 
 showObserved = True
 
+theoryComments = ['tan #beta = 5, #mu > 0', 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, wino-like #tilde{#chi}_{0}']
+
 # description of all the plots to be made
 plotDefinitions = [
 
@@ -42,10 +44,8 @@ plotDefinitions = [
         'yAxisFixMin' : 2e-2, # lowest that looks good
         'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,
 
-        'theoryLabel' : [
-            'tan #beta = 5, #mu > 0',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
-        ],
+        'theoryLabel' : theoryComments,
+        #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
 
         'graphs' : [
             {
@@ -72,7 +72,7 @@ plotDefinitions = [
 
         'theoryLabel' : [
             'c#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (10.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, wino-like #tilde{#chi}_{0}',
         ],
 
         # optional (scaled automatically if not included)
@@ -108,9 +108,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 100 cm',
 
+
         'theoryLabel' : [
             'c#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (100.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, wino-like #tilde{#chi}_{0}',
         ],
 
         # optional (scaled automatically if not included)
@@ -148,7 +149,7 @@ plotDefinitions = [
 
         'theoryLabel' : [
             'c#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (1000.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, wino-like #tilde{#chi}_{0}',
         ],
 
         # optional (scaled automatically if not included)
@@ -186,7 +187,7 @@ plotDefinitions = [
 
         'theoryLabel' : [
             'c#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (10000.0)) + ' ns)',
-            "B (#tilde{#chi}^{#pm}_{1} #rightarrow #tilde{#chi}^{0}_{1} #pi^{#pm}) = 100%",
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, wino-like #tilde{#chi}_{0}',
         ],
 
         # optional (scaled automatically if not included)
