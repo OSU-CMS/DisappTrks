@@ -95,7 +95,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
     triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle35noerWPTightGsfTrackIsoFilter")
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07")
-    triggerFiltersTau = ("hltL1JetsHLTPFTau50Track30MediumChargedIsolationMatchQuadJetIsoTau::HLT", "hltSelectedPFTau50MediumChargedIsolationL1HLTMatchedQuadIsoTau")
+    triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
 
 # 2018
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -123,7 +123,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
     triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
-    triggerFiltersTau = ("hltL1JetsHLTPFTau50Track30MediumChargedIsolationMatchQuadJetIsoTau::HLT", "hltSelectedPFTau50MediumChargedIsolationL1HLTMatchedQuadIsoTau")
+    triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
 
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer

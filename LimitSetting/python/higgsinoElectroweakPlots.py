@@ -70,7 +70,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 1 cm',
 
-        'theoryLabel' : theoryComments,
+        'theoryLabel' : [
+            'c#tau_{#tilde{#chi}^{#pm}_{1}} = 1 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (1.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
+        ],
         #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
 
         # optional (scaled automatically if not included)
@@ -106,7 +109,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10 cm',
 
-        'theoryLabel' : theoryComments,
+        'theoryLabel' : [
+            'c#tau_{#tilde{#chi}^{#pm}_{1}} = 10 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (10.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
+        ],
         #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
 
         # optional (scaled automatically if not included)
@@ -142,7 +148,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 100 cm',
 
-        'theoryLabel' : theoryComments,
+        'theoryLabel' : [
+            'c#tau_{#tilde{#chi}^{#pm}_{1}} = 100 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (100.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
+        ],
         #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
 
         # optional (scaled automatically if not included)
@@ -178,7 +187,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 1000 cm',
 
-        'theoryLabel' : theoryComments,
+        'theoryLabel' : [
+            'c#tau_{#tilde{#chi}^{#pm}_{1}} = 1000 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (1000.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
+        ],
         #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
 
         # optional (scaled automatically if not included)
@@ -214,7 +226,10 @@ plotDefinitions = [
         'xAxisLabel' : 'm_{#tilde{#chi}^{#pm}_{1}} [GeV]',
         'yAxisLabel' : 'c#tau = 10000 cm',
 
-        'theoryLabel' : theoryComments,
+        'theoryLabel' : [
+            'c#tau_{#tilde{#chi}^{#pm}_{1}} = 10000 cm (#tau_{#tilde{#chi}^{#pm}_{1}} = ' + str (convertToNs (10000.0)) + ' ns)',
+            'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
+        ],
         #'theoryHeader' : 'pp #rightarrow #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{#mp}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1,2}, higgsino-like #tilde{#chi}_{0}',
         
         # optional (scaled automatically if not included)

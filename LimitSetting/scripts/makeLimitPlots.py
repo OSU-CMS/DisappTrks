@@ -1253,6 +1253,9 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        tGraphs[-1].SetName(plot['title']+"_graph_twoSigma")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
 
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
@@ -1264,6 +1267,9 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        tGraphs[-1].SetName(plot['title']+"_graph_oneSigma")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
 
                     if graphName is 'exp':
                         tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
@@ -1275,10 +1281,9 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        if arguments.saveObjects and "exp" in arguments.saveObjects:
-                            tGraphs[-1].SetName(plot['title']+"_graph_expected")
-                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
-                            tGraphs[-1].Write()
+                        tGraphs[-1].SetName(plot['title']+"_graph_expected")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
 
                     if graphName is 'obs':
                         tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
@@ -1290,10 +1295,9 @@ def drawPlot(plot, th2fType=""):
                         if graphName is 'legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        if arguments.saveObjects and "obs" in arguments.saveObjects:
-                            tGraphs[-1].SetName(plot['title']+"_graph_observed")
-                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
-                            tGraphs[-1].Write()
+                        tGraphs[-1].SetName(plot['title']+"_graph_observed")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
 
             else:  # is2D == True
                 for graphName in graph['graphsToInclude']:
@@ -1309,6 +1313,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        tGraphs[-1].SetName(plot['title']+"_graph_twoSigma")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
                     if graphName is 'oneSigma':
                         tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                         if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
@@ -1321,6 +1328,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        tGraphs[-1].SetName(plot['title']+"_graph_oneSigma")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
                     if graphName is 'exp':
                         tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
                         #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
@@ -1333,10 +1343,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        if arguments.saveObjects and "exp" in arguments.saveObjects:
-                            tGraphs[-1].SetName(plot['title']+"_graph_expected")
-                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
-                            tGraphs[-1].Write()
+                        tGraphs[-1].SetName(plot['title']+"_graph_expected")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
                     if graphName is 'twoSigmaTheory':
                         isMakeTable = True
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
@@ -1350,6 +1359,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        tGraphs[-1].SetName(plot['title']+"_graph_twoSigmaTheory")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
                     if graphName is 'oneSigmaTheory':
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
                         lineWidth = tGraphs[-1].GetLineWidth ()
@@ -1362,6 +1374,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        tGraphs[-1].SetName(plot['title']+"_graph_oneSigmaTheory")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
                     if graphName is 'obs':
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
                         makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
@@ -1373,10 +1388,9 @@ def drawPlot(plot, th2fType=""):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        if 'obs' and arguments.saveObjects and "obs" in arguments.saveObjects:
-                            tGraphs[-1].SetName(plot['title']+"_graph_observed")
-                            print "Writing TGraph with name: ", tGraphs[-1].GetName()
-                            tGraphs[-1].Write()
+                        tGraphs[-1].SetName(plot['title']+"_graph_observed")
+                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        tGraphs[-1].Write()
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' not in plot or not plot['showTheoryError']):
         if plot['xAxisType'] is 'mass':
             tGraphs.append(getTheoryGraph())
@@ -1385,10 +1399,9 @@ def drawPlot(plot, th2fType=""):
                 legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
             else:
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
-            if arguments.saveObjects and "theory" in arguments.saveObjects:
-                tGraphs[-1].SetName(plot['title']+"_graph_theory")
-                print "Writing TGraph with name: ", tGraphs[-1].GetName()
-                tGraphs[-1].Write()
+            tGraphs[-1].SetName(plot['title']+"_graph_theory")
+            print "Writing TGraph with name: ", tGraphs[-1].GetName()
+            tGraphs[-1].Write()
     if not is2D:
     #get the min and max of all graphs, so the y-axis can be set appropriately
         absMin =  999
