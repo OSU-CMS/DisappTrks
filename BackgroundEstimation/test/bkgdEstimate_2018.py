@@ -205,6 +205,20 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2018" + runPeriod)
 
+            electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+
+            if False:
+                if runPeriod is 'AB':
+                    electronBkgdEstimate.useExternalTriggerEfficiency (47952, 118, 50044, 141)
+                    #if nLayersWord is 'NLayers4': electronBkgdEstimate.useExternalTriggerEfficiency (647, 12, 812, 29)
+                    #elif nLayersWord is 'NLayers5': electronBkgdEstimate.useExternalTriggerEfficiency (1572, 10, 1702, 12)
+                    #elif nLayersWord is 'NLayers6plus': electronBkgdEstimate.useExternalTriggerEfficiency (45733, 96, 47532, 100)
+                elif runPeriod is 'CD':
+                    electronBkgdEstimate.useExternalTriggerEfficiency (67485, 137, 70422, 167)
+                    #if nLayersWord is 'NLayers4': electronBkgdEstimate.useExternalTriggerEfficiency (920, 24, 1131, 46)
+                    #elif nLayersWord is 'NLayers5': electronBkgdEstimate.useExternalTriggerEfficiency (2137, 10, 2323, 14)
+                    #elif nLayersWord is 'NLayers6plus': electronBkgdEstimate.useExternalTriggerEfficiency (64428, 103, 66968, 107)
+
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
@@ -305,6 +319,20 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
+
+            muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
+
+            if False:
+                if runPeriod is 'AB':
+                    muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412351, 139)
+                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (22, 2, 132, 49) # >55 GeV (0-0)/(17 - 24) --> NaN
+                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (30, 0, 92, 5) # >55 GeV (0-0)/(2 - 3) --> NaN
+                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412332, 63)
+                elif runPeriod is 'CD':
+                    muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452247, 75)
+                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (5, 2, 101, 65) # >55 GeV (0-0)/(20-24) --> NaN
+                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (6, 0, 94, 8) # >55 GeV (0-0)/(5-3) --> NaN
+                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452222, 48)
 
             muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWord)
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWord)
@@ -428,6 +456,8 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
+            tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
+
             if runPeriod == '2018':
                 # Can only find 3/38 events in SingleMuon 2018A
                 if nLayersWord == 'NLayers4':

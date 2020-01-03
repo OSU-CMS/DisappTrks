@@ -42,6 +42,7 @@ class LeptonBkgdEstimate:
     _rebinFactor = 1
     _useHistogramsForPpassVeto = True
     _useOnlineQuantitiesForPpassMetTriggers = False
+    _useExternalTriggerEfficiency = False
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -98,6 +99,25 @@ class LeptonBkgdEstimate:
 
     def useOnlineQuantitiesForPpassMetTriggers (self, useOnlineQuantitiesForPpassMetTriggers):
         self._useOnlineQuantitiesForPpassMetTriggers = useOnlineQuantitiesForPpassMetTriggers
+
+    def useExternalFlatTriggerEfficiency (self, eff):
+        self._useExternalTriggerEfficiency = True
+        print "External trigger efficiency: " + str(eff)
+        setattr (self, 'externalTriggerEfficiency', eff)
+
+    def useExternalTriggerEfficiency (self, nMatchedOS, nMatchedSS, nOS, nSS):
+        self._useExternalTriggerEfficiency = True
+
+        matchedOS = Measurement (nMatchedOS, math.sqrt (nMatchedOS)) if nMatchedOS > 0 else Measurement (0.0, 0.0, up68)
+        matchedSS = Measurement (nMatchedSS, math.sqrt (nMatchedSS)) if nMatchedSS > 0 else Measurement (0.0, 0.0, up68)
+        allOS     = Measurement (nOS, math.sqrt (nOS)) if nOS > 0 else Measurement (0.0, 0.0, up68)
+        allSS     = Measurement (nSS, math.sqrt (nSS)) if nSS > 0 else Measurement (0.0, 0.0, up68)
+
+        eff = (matchedOS - matchedSS) / (allOS - allSS)
+        eff.isPositive ()
+
+        print "External trigger efficiency: " + str(eff)
+        setattr (self, 'externalTriggerEfficiency', eff)
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -628,6 +648,9 @@ class LeptonBkgdEstimate:
 
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
 
+        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            nEst /= self.externalTriggerEfficiency
+
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
             print "Applying HEM 15/16 veto"
             pPassHEMveto = self.printPpassHEMveto ()
@@ -636,6 +659,8 @@ class LeptonBkgdEstimate:
         nEst.isPositive ()
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            alpha /= self.externalTriggerEfficiency        
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
             alpha *= pPassHEMveto
         alpha.isPositive ()
@@ -678,11 +703,15 @@ class LeptonBkgdEstimate:
             pPassVeto = self.printPpassVeto ()
 
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            nEst /= self.externalTriggerEfficiency
         if pPassHEMveto is not None:
             nEst *= pPassHEMveto
         nEst.isPositive ()
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            alpha /= self.externalTriggerEfficiency
         if pPassHEMveto is not None:
             alpha *= pPassHEMveto
         alpha.isPositive ()

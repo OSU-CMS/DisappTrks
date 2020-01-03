@@ -237,6 +237,8 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleElectron_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("SingleElectron 2017" + runPeriod)
 
+            electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "SingleEle_2017"        + runPeriod, dirs['Brian']+"2017/eleBkgdNoFilter_v2")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "SingleEle_rereco_2017" + runPeriod, dirs['Brian']+"2017/fromLPC/eleBkgdNoFilterBinnedLayers")
@@ -322,6 +324,8 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2017" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2017" + runPeriod)
+
+            muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
 
             muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "SingleMu_2017"        + runPeriod, dirs['Brian'] + "2017/muonBkgdNoFilterNLayers_v2")
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "SingleMu_rereco_2017" + runPeriod, dirs['Brian'] + "2017/muonBackgroundNoFilterBinnedLayers")
@@ -427,6 +431,17 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2017" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2017" + runPeriod)
             
+            tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
+
+            if False:            
+                tauBkgdEstimate.useExternalTriggerEfficiency (198, 19, 322, 77)
+                if nLayersWord is 'NLayers4':
+                    tauBkgdEstimate.useExternalTriggerEfficiency (2, 0, 11, 0) # >55 GeV (0-2)/(12 - 11) --> -100%?
+                elif nLayersWord is 'NLayers5':
+                    tauBkgdEstimate.useExternalTriggerEfficiency (4, 0, 8, 2)
+                elif nLayersWord is 'NLayers6plus':
+                    tauBkgdEstimate.useExternalTriggerEfficiency (194, 17, 302, 64)
+
             tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "SingleMu_2017"         + runPeriod, dirs['Brian']+"2017/tauToMuBkgd_v2")
             tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWord)
             tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "SingleMu_rereco_2017"  + runPeriod, dirs['Brian']+"2017/fromLPC/zToTauToMuBkgd"  + nLayersWord)
