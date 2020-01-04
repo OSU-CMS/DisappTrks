@@ -9,15 +9,15 @@ backgrounds = {
     },
     'Elec' : {
         'N' : '428330',
-        'alpha' : '9.21112023782e-06',
+        'alpha' : '1.09656193307e-05',
     },
     'Muon' : {
         'N' : '755690',
-        'alpha' : '5.6333111788e-07',
+        'alpha' : '5.99288423277e-07',
     },
     'Tau' : {
         'N' : '3800',
-        'alpha' : '0.00012486963909',
+        'alpha' : '0.000138744043434',
     },
 }
 
@@ -27,15 +27,15 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.21322592728',
+        'value' : '1.21330899396',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.37485214219',
+        'value' : '1.37487629459',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '0.000001/2.13481304581', # 0 --> 0.000001 numerical safety
+        'value' : '0.000001/2.13483262792', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
