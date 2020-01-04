@@ -2,7 +2,7 @@
 
 import math, os, sys
 from OSUT3Analysis.Configuration.Measurement import Measurement
-from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate
+from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate, prettyPrintTotals
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
@@ -478,30 +478,9 @@ sys.stdout = stdout
 
 # print sums
 if background == "ALL":
-    nElectrons = {}
-    nMuons = {}
-    nTaus = {}
-    nFakes = {}
-
-    nLeptons = copy.deepcopy(nEstElectron)
-    nTotal = copy.deepcopy(nEstElectron)
-
-    for runPeriod in runPeriods:
-        for nLayersWord in nLayersWords:
-            nLeptons[(nLayersWord, runPeriod)] += nEstMuon[(nLayersWord, runPeriod)] + nEstTau[(nLayersWord, runPeriod)]
-            nTotal[(nLayersWord, runPeriod)] = nLeptons[(nLayersWord, runPeriod)] + nEstFake[(nLayersWord, runPeriod)]
-            print "********************************************************************************"
-            print "Total background from leptons (2017" + runPeriod + ", " + nLayersWord + "): " + str(nLeptons[(nLayersWord, runPeriod)])
-            print "Total background from fake tracks (2017" + runPeriod + ", " + nLayersWord + "): " + str(nEstFake[(nLayersWord, runPeriod)])
-            print "********************************************************************************"
-            print "Total background (2017" + runPeriod + ", " + nLayersWord + "): " + str(nTotal[(nLayersWord, runPeriod)])
-            print "********************************************************************************"
-            print "\n\n"
-
+    prettyPrintTotals(nEstElectron, nEstMuon, nEstTau, nEstFake, nLayersWords, runPeriods, '2017')
     fout = TFile.Open("backgroundCrossSections_2017.root", "recreate")
-
     for nLayersWord in nLayersWords:
-
         x = array("d"); ex = array("d")
         electron   =  array ("d");  muon   =  array ("d");  tau   =  array ("d");  fake   =  array ("d")
         eElectron  =  array ("d");  eMuon  =  array ("d");  eTau  =  array ("d");  eFake  =  array ("d")

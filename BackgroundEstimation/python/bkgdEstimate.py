@@ -20,6 +20,61 @@ gStyle.SetOptStat(0)
 
 up68 = 0.5 * TMath.ChisquareQuantile (0.68, 2)
 
+def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, year):
+    print 'pretty print totals for paper:'
+    for runPeriod in runPeriods:
+        for nLayersWord in nLayersWords:
+            exec('from DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord + ' import background_systematics')
+            
+            eleSystematic = [0.0, 0.0]
+            muonSystematic = [0.0, 0.0]
+            tauSystematic = [0.0, 0.0]
+            fakeSystematic = [0.0, 0.0]
+            
+            for systematic in background_systematics:
+                if '_alpha_' in systematic:
+                    continue
+
+                if '/' in background_systematics[systematic]['value']:
+                    systValue = (1.0 - float(background_systematics[systematic]['value'].split('/')[0]), float(background_systematics[systematic]['value'].split('/')[1]) - 1.0)
+                else:
+                    systValue = (float(background_systematics[systematic]['value']) - 1.0, float(background_systematics[systematic]['value']) - 1.0)
+
+                if background_systematics[systematic]['background'] is 'Fake': 
+                    fakeSystematic[0] += (systValue[0] * fakes[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                    fakeSystematic[1] += (systValue[1] * fakes[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                elif background_systematics[systematic]['background'] is 'Elec':
+                    eleSystematic[0] += (systValue[0] * electrons[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                    eleSystematic[1] += (systValue[1] * electrons[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                elif background_systematics[systematic]['background'] is 'Muon':
+                    muonSystematic[0] += (systValue[0] * muons[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                    muonSystematic[1] += (systValue[1] * muons[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                elif background_systematics[systematic]['background'] is 'Tau':
+                    tauSystematic[0] += (systValue[0] * taus[(nLayersWord, runPeriod)].centralValue()) ** 2.
+                    tauSystematic[1] += (systValue[1] * taus[(nLayersWord, runPeriod)].centralValue()) ** 2.
+
+            electrons[(nLayersWord, runPeriod)].setSystematicDown(math.sqrt(eleSystematic[0]))
+            electrons[(nLayersWord, runPeriod)].setSystematicUp(math.sqrt(eleSystematic[1]))
+
+            muons[(nLayersWord, runPeriod)].setSystematicDown(math.sqrt(muonSystematic[0]))
+            muons[(nLayersWord, runPeriod)].setSystematicUp(math.sqrt(muonSystematic[1]))
+
+            taus[(nLayersWord, runPeriod)].setSystematicDown(math.sqrt(tauSystematic[0]))
+            taus[(nLayersWord, runPeriod)].setSystematicUp(math.sqrt(tauSystematic[1]))
+
+            fakes[(nLayersWord, runPeriod)].setSystematicDown(math.sqrt(fakeSystematic[0]))
+            fakes[(nLayersWord, runPeriod)].setSystematicUp(math.sqrt(fakeSystematic[1]))
+
+            leptons = electrons[(nLayersWord, runPeriod)] + muons[(nLayersWord, runPeriod)] + taus[(nLayersWord, runPeriod)]
+            totals = leptons + fakes[(nLayersWord, runPeriod)]
+
+            print "********************************************************************************"
+            print "Total background from leptons (" + year + runPeriod + ", " + nLayersWord + "): " + str(leptons)
+            print "Total background from fake tracks (" + year + runPeriod + ", " + nLayersWord + "): " + str(fakes[(nLayersWord, runPeriod)])
+            print "********************************************************************************"
+            print "Total background (" + year + runPeriod + ", " + nLayersWord + "): " + str(totals)
+            print "********************************************************************************"
+
 class LeptonBkgdEstimate:
     _Flavor = ""
     _flavor = ""
