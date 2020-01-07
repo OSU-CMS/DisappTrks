@@ -2,7 +2,7 @@
 
 import math, os, sys
 from OSUT3Analysis.Configuration.Measurement import Measurement
-from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate
+from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate, prettyPrintTotals
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
@@ -358,7 +358,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
+                nEstMuon[(nLayersWord, runPeriod)] = muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 
@@ -495,7 +495,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
+                nEstTau[(nLayersWord, runPeriod)] = tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers, combinedPpassHEMveto)
 
             print "********************************************************************************"
 

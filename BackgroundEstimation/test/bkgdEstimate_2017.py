@@ -345,7 +345,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                nEstMuon[(nLayersWord, runPeriod)] = muonBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
 
             print "********************************************************************************"
 
@@ -466,7 +466,7 @@ for runPeriod in runPeriods:
 
             if nLayersWord == "NLayers4" or nLayersWord == "NLayers5":
                 print "using the combined 4/5/6+ layers sample for Poffline and Ptrigger:"
-                tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
+                nEstTau[(nLayersWord, runPeriod)] = tauBkgdEstimate.printNestCombinedMet(combinedPpassMetCut, combinedPpassMetTriggers)
             
             print "********************************************************************************"
 
