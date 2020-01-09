@@ -3,25 +3,42 @@
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
-from ROOT import TFile, TH1D, TH2D, TPaveText, TLegend
+from ROOT import TFile, TH1D, TH2D, TPaveText, TLegend, TLatex, TString
 
 gROOT.SetBatch() # I am Groot.
 
 dirs = getUser()
-canvas = TCanvas("c1", "c1",800,800)
-setCanvasStyle(canvas)
+canvas = TCanvas("c1", "c1", 10, 10, 800, 800)
+#setCanvasStyle(canvas)
 
 nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
-combineLayers = True
-if len(sys.argv) > 2:
-    nLayersWords = [sys.argv[2]]
-    combineLayers = False
 
-drawSignal = False
+lumiString = ''
+if len(sys.argv) > 1:
+    lumiString = str(round(lumi[sys.argv[1]] / 1000.0, 2)) + ' fb^{-1} 13 TeV'
+else:
+    print 'Give dataset as argument, e.g. makePlots.py MET_2017'
+    sys.exit()
+
+drawSignal = True
 
 def normToObs(obs, h):
 	if h.Integral() > 0:
 		h.Scale(obs.Integral() / h.Integral())
+
+prelim = TLatex()
+prelim.SetNDC()
+prelim.SetTextAngle(0)
+prelim.SetTextFont(62)
+prelim.SetTextAlign(12)
+prelim.SetTextSize(0.04)
+
+run = TLatex()
+run.SetNDC()
+run.SetTextAngle(0)
+run.SetTextFont(42)
+run.SetTextAlign(32)
+run.SetTextSize(0.035)
 
 for nLayersWord in nLayersWords:
  	observation = TFile('observationPdf_' + nLayersWord + '.root', 'read')
@@ -91,11 +108,14 @@ for nLayersWord in nLayersWords:
 
  	##############################################################
 
-	leg = TLegend (0.413534, 0.729328, 0.794486, 0.815891)
+	# durp
+	#leg = TLegend (0.413534, 0.729328, 0.794486, 0.815891)
+	leg = TLegend (0.313534, 0.729328, 0.694486, 0.815891)
 	leg.SetBorderSize(0)
 	leg.SetFillStyle(0)
 	leg.SetTextFont(42)
-	leg.SetTextSize(0.0387597)
+	#leg.SetTextSize(0.0387597)
+	leg.SetTextSize(0.025)
 	leg.AddEntry(dedx_obs,  "Observation", "pe")
 	leg.AddEntry(dedx_fake, "Fake track estimate", "l")
 	if drawSignal:
@@ -111,12 +131,15 @@ for nLayersWord in nLayersWords:
 	legHits.AddEntry(dedx_fake_2,  "3rd", "l")
 	legHits.AddEntry(dedx_fake_3,  "4th", "l")
 
-	ks = TPaveText(0.421053, 0.824289, 0.820802, 0.872093, "brNDC")
+	# durp
+	#ks = TPaveText(0.421053, 0.824289, 0.820802, 0.872093, "brNDC")
+	ks = TPaveText(0.351053, 0.824289, 0.750802, 0.872093, "brNDC")
 	ks.SetBorderSize(0)
 	ks.SetFillStyle(0)
 	ks.SetTextFont(42)
-	ks.SetTextSize(0.0387597)
-	
+	#ks.SetTextSize(0.0387597)
+	ks.SetTextSize(0.03)
+
  	##############################################################
 
 	setStyle(dedx_obs)
@@ -135,10 +158,13 @@ for nLayersWord in nLayersWords:
  		dedx_signal.Draw('hist same')
  	dedx_obs.Draw('e1 same')
 	ks.Clear()
-	ks.AddText("KS test p-value: " + str (round (dedx_obs.KolmogorovTest (dedx_fake), 3)))
+	ks.AddText("KS test (obs, fake) p-value: " + str (round (dedx_obs.KolmogorovTest (dedx_fake), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -158,7 +184,10 @@ for nLayersWord in nLayersWords:
 	ks.AddText("KS test p-value: " + str (round (dedx_obs_noBigClusters.KolmogorovTest (dedx_fake_noBigClusters), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_noBigClusters_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_noBigClusters_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -178,7 +207,10 @@ for nLayersWord in nLayersWords:
 	ks.AddText("KS test p-value: " + str (round (dedx_obs_0.KolmogorovTest (dedx_fake_0), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_hit0_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit0_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -198,7 +230,10 @@ for nLayersWord in nLayersWords:
 	ks.AddText("KS test p-value: " + str (round (dedx_obs_1.KolmogorovTest (dedx_fake_1), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_hit1_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit1_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -218,7 +253,10 @@ for nLayersWord in nLayersWords:
 	ks.AddText("KS test p-value: " + str (round (dedx_obs_2.KolmogorovTest (dedx_fake_2), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_hit2_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit2_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -238,7 +276,10 @@ for nLayersWord in nLayersWords:
 	ks.AddText("KS test p-value: " + str (round (dedx_obs_3.KolmogorovTest (dedx_fake_3), 3)))
 	ks.Draw('same')
 	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('dedx_hit3_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit3_' + nLayersWord + '.C')
 
  	############################################################## 	
 
@@ -261,7 +302,10 @@ for nLayersWord in nLayersWords:
  	ks.AddText("KS test p-value: " + str (round (nOver5_obs.KolmogorovTest (nOver5_fake), 3)))
  	ks.Draw('same')
  	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('nOver5_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('nOver5_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -285,7 +329,10 @@ for nLayersWord in nLayersWords:
  	ks.AddText("KS test p-value: " + str (round (pixelSize_obs.KolmogorovTest (pixelSize_fake), 3)))
  	ks.Draw('same')
  	leg.Draw('same')
+	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
+	run.DrawLatex(0.9, 0.93, lumiString)
  	canvas.SaveAs('pixelSize_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('pixelSize_' + nLayersWord + '.C')
  	canvas.SetLogy(False)
 
  	##############################################################

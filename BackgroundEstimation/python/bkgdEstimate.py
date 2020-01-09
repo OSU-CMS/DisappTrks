@@ -22,6 +22,7 @@ up68 = 0.5 * TMath.ChisquareQuantile (0.68, 2)
 
 def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, year):
     print 'pretty print totals for paper:'
+    fullTotal = Measurement(0.0, 0.0, 0.0, 0.0, 0.0)
     for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
             exec('from DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord + ' import background_systematics')
@@ -68,12 +69,16 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
             leptons = electrons[(nLayersWord, runPeriod)] + muons[(nLayersWord, runPeriod)] + taus[(nLayersWord, runPeriod)]
             totals = leptons + fakes[(nLayersWord, runPeriod)]
 
+            fullTotal += totals
+
             print "********************************************************************************"
             print "Total background from leptons (" + year + runPeriod + ", " + nLayersWord + "): " + str(leptons)
             print "Total background from fake tracks (" + year + runPeriod + ", " + nLayersWord + "): " + str(fakes[(nLayersWord, runPeriod)])
             print "********************************************************************************"
             print "Total background (" + year + runPeriod + ", " + nLayersWord + "): " + str(totals)
             print "********************************************************************************"
+    print 'Full total across all nLayers categories, run periods:'
+    print str(fullTotal)
 
 class LeptonBkgdEstimate:
     _Flavor = ""
