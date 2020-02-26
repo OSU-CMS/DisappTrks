@@ -38,7 +38,7 @@ private:
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
-  edm::EDGetTokenT<vector<pat::PackedGenParticle> > tokenMcparticles_;
+  edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > tokenMcparticles_;
   edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
 
   bool isFirstEvent_;
@@ -48,8 +48,8 @@ private:
 
   unsigned getNTracks (const edm::Handle<vector<pat::PackedCandidate> > &, const edm::Handle<vector<pat::PackedCandidate> > &, const vector<PhysicsObject> &, double &, unsigned &, unsigned &) const;
   bool isInJet (const pat::PackedCandidate &, const vector<PhysicsObject> &) const;
-  bool hasChargino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
-  bool hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &) const;
+  bool hasChargino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &) const;
+  bool hasNeutralino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &) const;
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
 
   vector<string> triggerNames;
@@ -64,7 +64,7 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMets_        =  consumes<vector<TYPE(mets)> >             (collections_.getParameter<edm::InputTag>  ("mets"));
   tokenPFCands_     =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("pfCandidates"));
   tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
-  tokenMcparticles_ =  consumes<vector<pat::PackedGenParticle> > (collections_.getParameter<edm::InputTag>  ("mcparticles"));
+  tokenMcparticles_ =  consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
@@ -116,7 +116,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   edm::Handle<vector<pat::PackedCandidate> > lostTracks;
   event.getByToken (tokenLostTracks_, lostTracks);
 
-  edm::Handle<vector<pat::PackedGenParticle> > mcParticles;
+  edm::Handle<vector<TYPE(hardInteractionMcparticles)> > mcParticles;
   event.getByToken (tokenMcparticles_, mcParticles);
 
   edm::Handle<edm::TriggerResults> triggerBits;
@@ -315,7 +315,7 @@ EventJetVarProducer::isInJet (const pat::PackedCandidate &cand, const vector<Phy
 }
 
 bool
-EventJetVarProducer::hasChargino (const edm::Handle<vector<pat::PackedGenParticle> > &mcParticles) const
+EventJetVarProducer::hasChargino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &mcParticles) const
 {
   if (mcParticles.isValid ())
     {
@@ -335,7 +335,7 @@ EventJetVarProducer::hasChargino (const edm::Handle<vector<pat::PackedGenParticl
 }
 
 bool
-EventJetVarProducer::hasNeutralino (const edm::Handle<vector<pat::PackedGenParticle> > &mcParticles) const
+EventJetVarProducer::hasNeutralino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &mcParticles) const
 {
   if (mcParticles.isValid ())
     {
