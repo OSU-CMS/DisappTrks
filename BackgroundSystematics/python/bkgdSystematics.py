@@ -271,7 +271,7 @@ class FakeTrackSystematic:
         sample = channel["sample"]
         condorDir = channel["condorDir"]
         name = channel["name"]
-        hist = "Track Plots/bestMatchPdgId"
+        hist = "Track Plots/bestMatchPdgId" # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
         genMatch = getHist (sample, condorDir, name + "Plotter", hist)
 
         totalError = Double (0.0)

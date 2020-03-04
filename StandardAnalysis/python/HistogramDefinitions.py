@@ -339,10 +339,10 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("genMatchedParticle.promptFinalState.isNonnull", "genMatchedParticle.directPromptTauDecayProductFinalState.isNonnull"),
         ),
         cms.PSet (
-            name = cms.string("bestMatchPt"),
+            name = cms.string("bestMatchPt"), # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
             title = cms.string(";p_{T} of matched generator particle [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("genMatchedParticle.bestMatch.pt"),
+            inputVariables = cms.vstring("genMatchedParticle.promptOrTauDecay.pt"),
         ),
         cms.PSet (
             name = cms.string("trackNHitsMissingOuterVsEta"),

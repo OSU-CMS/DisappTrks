@@ -728,39 +728,39 @@ cutTrkMatchedGen = cms.PSet(
 )
 cutTrkMatchChargino = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 1000024"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 1000024"), # N.B. "promptOrTauDecay" changed to "promptOrTauDecay"
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchCharginoByMother = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatch.motherRef.pdgId) == 1000024 && abs (genMatchedParticle.bestMatchPdgId) == 1000022"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecay.motherRef.pdgId) == 1000024 && abs (genMatchedParticle.promptOrTauDecayPdgId) == 1000022"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenElec = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 11"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenMuon = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 13"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 13"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenTau = cms.PSet(
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 15"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchReal = cms.PSet(
     # matched to a charged lepton
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 11 || abs (genMatchedParticle.bestMatchPdgId) == 13 || abs (genMatchedParticle.bestMatchPdgId) == 15"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 11 || abs (genMatchedParticle.promptOrTauDecayPdgId) == 13 || abs (genMatchedParticle.promptOrTauDecayPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchFake = cms.PSet(
     # not matched to any genParticle
     inputCollection = cms.vstring("tracks"),
-    cutString = cms.string("abs (genMatchedParticle.bestMatchPdgId) == 0"),
+    cutString = cms.string("abs (genMatchedParticle.promptOrTauDecayPdgId) == 0"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkMatchGenPhoton = cms.PSet(

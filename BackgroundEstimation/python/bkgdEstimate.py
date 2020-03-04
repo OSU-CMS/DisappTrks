@@ -216,6 +216,7 @@ class LeptonBkgdEstimate:
             pdgLo, pdgHi = self.getPdgRange()
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
+            # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
             n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
             n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
@@ -261,6 +262,7 @@ class LeptonBkgdEstimate:
             pdgLo, pdgHi = self.getPdgRange()
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
+            # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
             n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
             n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
