@@ -291,7 +291,7 @@ from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
 if not UseCandidateTracks:
     from DisappTrks.StandardAnalysis.HistogramDefinitionsIsolatedTracks import *
 else:
-    from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
+    from DisappTrks.StandardAnalysis.frameworkHistogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
     from DisappTrks.StandardAnalysis.HistogramDefinitions import *
 
 histSets = cms.VPSet (

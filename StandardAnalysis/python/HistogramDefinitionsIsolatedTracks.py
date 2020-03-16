@@ -1,4 +1,4 @@
-from OSUT3Analysis.Configuration.histogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
+from DisappTrks.StandardAnalysis.frameworkHistogramDefinitions import * # import this first so we can overwrite standard histogram definitions if needed
 from DisappTrks.StandardAnalysis.HistogramDefinitions import *
 
 def cullHistogram(histoPSet, name):
