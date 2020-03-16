@@ -132,6 +132,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
         'absError'   : math.sqrt(totalWeight2),
         'weight'     : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
         'acceptance' : totalWeight / nGenerated / crossSectionWeight,
+        'acceptanceError' : math.sqrt(totalWeight2) / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -531,6 +532,7 @@ for yld in allYieldsAndErrors:
     hYields.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['yield'])
     hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['absError'])
     hAcceptances.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['acceptance'])
+    hAcceptances.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['acceptanceError'])
 
 hYields.Write('yields')
 hAcceptances.Write('acceptances')

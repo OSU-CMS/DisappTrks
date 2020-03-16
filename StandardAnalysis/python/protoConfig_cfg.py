@@ -404,4 +404,15 @@ branchSetsMELA = cms.VPSet (
     MELAtrackBranches,
 )
 
+branchSetsMVA = cms.VPSet (
+    EventVariableBranches,
+    MetShiftBranches,
+    TrackDebugBranches,
+    TrackEventvariablesDebugBranches,
+    MELAeventvariableBranches,
+    MELAtrackMetBranches,
+    MELAtrackJetBranches,
+    MELAtrackBranches,
+)
+
 ################################################################################
