@@ -2,8 +2,8 @@ import FWCore.ParameterSet.Config as cms
 import copy
 from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in this file
 from DisappTrks.StandardAnalysis.EventSelections import basicSelection
-from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections.py import ElectronTagSkim
-from DisappTrks.BackgroundEstimation.MuonTagProbeSelections.py import MuonTagSkim
+from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import ElectronTagSkim
+from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import MuonTagSkim
 
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
@@ -21,6 +21,8 @@ mvaPreselectionCuts = [
     cutTrkEtaMuonIneff1,
     cutTrkEtaMuonIneff2,
     cutTrkTOBCrack,
+    cutTrkNValidPixelHitsSignal,
+    cutTrkNValidHitsSignal,
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -76,7 +78,7 @@ createHitsVariations(mvaElePreselection, "mvaElePreselection")
 
 mvaMuonPreselection = copy.deepcopy(MuonTagSkim)
 mvaMuonPreselection.name = cms.string("mvaMuonPreselection")
-addSingleCut(mvaMuonPreselection.cuts, cutElectronMatchToTrigObj, cutElectronPt)
+addSingleCut(mvaMuonPreselection.cuts, cutElectronMatchToTrigObj, cutMuonPt)
 
 cutsToAdd = [
     cutMuonArbitration,

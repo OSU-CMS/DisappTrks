@@ -10,12 +10,14 @@ if False:
 # MVA channels
 ##########################################################################
 
+from DisappTrks.MELA.MVASelections import *
+
 # signal
 if False:
     add_channels(
         process, 
         [mvaMETPreselectionSmearedJetsNLayers4, mvaMETPreselectionSmearedJetsNLayers5, mvaMETPreselectionSmearedJetsNLayers6plus],
-        cms.VPSet(), 
+        histSets, 
         weights, 
         [], 
         collMap, 
@@ -27,7 +29,7 @@ if False:
     add_channels(
         process, 
         [mvaElePreselectionSmearedJetsNLayers4, mvaElePreselectionSmearedJetsNLayers5, mvaElePreselectionSmearedJetsNLayers6plus],
-        cms.VPSet(),
+        histSets, 
         weightsWithEleSF,
         [],
         collMap,
@@ -39,7 +41,7 @@ if False:
     add_channels(
         process, 
         [mvaMuonPreselectionSmearedJetsNLayers4, mvaMuonPreselectionSmearedJetsNLayers5, mvaMuonPreselectionSmearedJetsNLayers6plus],
-        cms.VPSet(),
+        histSets, 
         weightsWithMuonSF,
         [],
         collMap,
