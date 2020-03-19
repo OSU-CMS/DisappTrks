@@ -4,6 +4,7 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.StandardAnalysis.EventSelections import basicSelection
 from DisappTrks.BackgroundEstimation.ElectronTagProbeSelections import ElectronTagSkim
 from DisappTrks.BackgroundEstimation.MuonTagProbeSelections import MuonTagSkim
+from DisappTrks.BackgroundEstimation.ZtoMuMuSelections import ZtoMuMu
 
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
@@ -40,11 +41,24 @@ mvaMETPreselection = copy.deepcopy(basicSelection)
 mvaMETPreselection.name = cms.string("mvaMETPreselection")
 addCuts(mvaMETPreselection.cuts, mvaPreselectionCuts)
 
+# signal
 mvaMETPreselectionSmearedJets = copy.deepcopy(mvaMETPreselection)
+mvaMETPreselectionSmearedJets.name = cms.string("mvaMETPreselectionSmearedJets")
 replaceSingleCut(mvaMETPreselectionSmearedJets.cuts, cutJetJERSmearedPt, cutJetPt)
+addCuts(mvaMETPreselectionSmearedJets.cuts, [cutTrkMatchCharginoByMother])
 
 createHitsVariations(mvaMETPreselection, "mvaMETPreselection")
 createHitsVariations(mvaMETPreselectionSmearedJets, "mvaMETPreselectionSmearedJets")
+
+###########################################################
+# ZtoMuMu preselection: ZtoMuMu + track, no fiducial map
+###########################################################
+
+ZToMuMuPreselection = copy.deepcopy(ZtoMuMu)
+ZToMuMuPreselection.name = cms.string("ZtoMuMuPreselection")
+addCuts(ZToMuMuPreselection.cuts, mvaPreselectionCuts)
+
+createHitsVariations(ZToMuMuPreselection, "ZToMuMuPreselection")
 
 ###########################################################
 # electron preselection: ZtoEleProbeTrk, no fiducial map

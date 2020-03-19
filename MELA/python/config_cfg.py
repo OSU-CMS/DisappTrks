@@ -19,31 +19,43 @@ if False:
         [mvaMETPreselectionSmearedJetsNLayers4, mvaMETPreselectionSmearedJetsNLayers5, mvaMETPreselectionSmearedJetsNLayers6plus],
         histSets, 
         weights, 
-        [], 
+        scaleFactorProducers, 
         collMap, 
         variableProducers + dedxHitInfoVarProducer, 
+        branchSets = branchSetsMVA)
+
+# fakes
+if False:
+    add_channels(
+        process,
+        [ZToMuMuPreselectionNLayers4, ZToMuMuPreselectionNLayers5, ZToMuMuPreselectionNLayers6plus],
+        histSetsMuon,
+        weightsWithMuonSF,
+        scaleFactorProducersWithMuons,
+        collMap,
+        variableProducersWithMuons + dedxHitInfoVarProducer,
         branchSets = branchSetsMVA)
 
 # electrons
 if False:
     add_channels(
         process, 
-        [mvaElePreselectionSmearedJetsNLayers4, mvaElePreselectionSmearedJetsNLayers5, mvaElePreselectionSmearedJetsNLayers6plus],
-        histSets, 
+        [mvaElePreselectionNLayers4, mvaElePreselectionNLayers5, mvaElePreselectionNLayers6plus],
+        histSetsElectron, 
         weightsWithEleSF,
-        [],
+        scaleFactorProducersWithElectrons,
         collMap,
-        variableProducersWithElectrons + dedxHitInfoVarProducer,
+        variableProducers + dedxHitInfoVarProducer,
         branchSets = branchSetsMVA)
 
 # muons
 if False:
     add_channels(
         process, 
-        [mvaMuonPreselectionSmearedJetsNLayers4, mvaMuonPreselectionSmearedJetsNLayers5, mvaMuonPreselectionSmearedJetsNLayers6plus],
-        histSets, 
+        [mvaMuonPreselectionNLayers4, mvaMuonPreselectionNLayers5, mvaMuonPreselectionNLayers6plus],
+        histSetsMuon, 
         weightsWithMuonSF,
-        [],
+        scaleFactorProducersWithMuons,
         collMap,
         variableProducersWithMuons + dedxHitInfoVarProducer,
         branchSets = branchSetsMVA)
