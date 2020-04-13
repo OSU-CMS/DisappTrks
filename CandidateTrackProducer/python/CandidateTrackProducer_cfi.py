@@ -16,6 +16,7 @@ candidateTrackProducer = cms.EDFilter ("CandidateTrackProducer",
   dEdxDataPixel      =  cms.InputTag  ("dedxPixelHarmonic2"),
   dEdxDataStrip      =  cms.InputTag  ("dedxHarmonic2"),
   candMinPt          =  cms.double(10),
+  usedEdx            =  cms.bool(True), # turn off for FastSim
 )
 
 class Collections:

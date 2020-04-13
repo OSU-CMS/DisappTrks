@@ -67,6 +67,7 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::InputTag gt2dedxPixelTag_;
       edm::InputTag gt2dedxStripTag_;
       double candMinPt_;
+      bool use_dEdx_;
 
       edm::EDGetTokenT<vector<reco::Track> >       tracksToken_;
       edm::EDGetTokenT<double>                     rhoToken_;

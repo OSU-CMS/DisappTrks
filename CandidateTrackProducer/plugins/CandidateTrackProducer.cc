@@ -48,7 +48,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   HBHERecHitsTag_   (iConfig.getParameter<edm::InputTag> ("HBHERecHits")),
   gt2dedxPixelTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataPixel")),
   gt2dedxStripTag_  (iConfig.getParameter<edm::InputTag> ("dEdxDataStrip")),
-  candMinPt_        (iConfig.getParameter<double> ("candMinPt"))
+  candMinPt_        (iConfig.getParameter<double> ("candMinPt")),
+  use_dEdx_         (iConfig.getParameter<bool> ("usedEdx"))
 {
   produces<vector<CandidateTrack> > ();
 
@@ -105,14 +106,18 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
   // associate generalTracks with their DeDx data (estimator for pixel dE/dx)
   edm::Handle<edm::ValueMap<reco::DeDxData> > gt2dedxPixel;
-  iEvent.getByToken(gt2dedxPixelToken_, gt2dedxPixel);
-  if (!gt2dedxPixel.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for pixels in the event!\n";
+  if(use_dEdx_) {
+    iEvent.getByToken(gt2dedxPixelToken_, gt2dedxPixel);
+    if (!gt2dedxPixel.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for pixels in the event!\n";
+  }
 
   // associate generalTracks with their DeDx data (estimator for strip dE/dx)
   edm::Handle<edm::ValueMap<reco::DeDxData> > gt2dedxStrip;
-  iEvent.getByToken(gt2dedxStripToken_, gt2dedxStrip);
-  if (!gt2dedxStrip.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for strips in the event!\n";
-  
+  if(use_dEdx_) {
+    iEvent.getByToken(gt2dedxStripToken_, gt2dedxStrip);
+    if (!gt2dedxStrip.isValid()) throw cms::Exception("FatalError") << "Unable to find DeDxData ValueMap for strips in the event!\n";
+  }
+
   unique_ptr<vector<CandidateTrack> > candTracks (new vector<CandidateTrack> ());
   unsigned int iTrack = -1;
   for (const auto &track : *tracks) {
@@ -143,7 +148,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
 
     reco::TrackRef tkref = reco::TrackRef(tracks, iTrack);
 
-    if(gt2dedxPixel->contains(tkref.id())) {
+    if(use_dEdx_ && gt2dedxPixel->contains(tkref.id())) {
       candTrack.set_dEdx_pixel((*gt2dedxPixel)[tkref].dEdx(), 
                                (*gt2dedxPixel)[tkref].dEdxError(),
                                (*gt2dedxPixel)[tkref].numberOfSaturatedMeasurements(),
@@ -153,7 +158,7 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
       candTrack.set_dEdx_pixel(-1, -1, 0, 0);
     }
 
-    if(gt2dedxStrip->contains(tkref.id())) {
+    if(use_dEdx_ && gt2dedxStrip->contains(tkref.id())) {
       candTrack.set_dEdx_strip((*gt2dedxStrip)[tkref].dEdx(), 
                                (*gt2dedxStrip)[tkref].dEdxError(),
                                (*gt2dedxStrip)[tkref].numberOfSaturatedMeasurements(),
