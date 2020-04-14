@@ -386,7 +386,11 @@ template<> bool
 EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
 {
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
+#if DATA_FORMAT == MINI_AOD_2017
+             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+#else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+#endif
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
   return passes;
 }
@@ -444,7 +448,11 @@ template<> bool
 EventTPProducer<osu::Electron, osu::Tau>::passesLooseVeto (const osu::Track &probe) const
 {
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
+#if DATA_FORMAT == MINI_AOD_2017
+             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+#else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+#endif
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
   return passes;
 }
