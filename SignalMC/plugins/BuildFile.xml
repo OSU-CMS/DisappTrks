@@ -1,4 +1,5 @@
 <use  name="root"/>
+<use  name="rootrflx"/>
 <use  name="clhep"/>
 <use  name="CommonTools/UtilAlgos"/>
 <use  name="DataFormats/Candidate"/>
@@ -13,11 +14,15 @@
 <use  name="DataFormats/PatCandidates"/>
 <use  name="DataFormats/TrackReco"/>
 <use  name="DataFormats/VertexReco"/>
+<use  name="DisappTrks/SignalMC"/>
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
 <use  name="FWCore/Utilities"/>
+<use  name="Geometry/CaloGeometry"/>
+<use  name="MagneticField/Engine"/>
+<use  name="MagneticField/Records"/>
 <use  name="RecoTauTag/TauTagTools"/>
 <use  name="SimDataFormats/GeneratorProducts"/>
 <use  name="SimDataFormats/Track"/>
