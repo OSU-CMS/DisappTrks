@@ -129,10 +129,10 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
         'yield'      : totalWeight,
         'rawYield'   : chain.GetEntries(),
         'error'      : 1.0 + (math.sqrt(totalWeight2) / totalWeight) if totalWeight > 0.0 else 1.0,
-        'absError'   : math.sqrt(totalWeight2),
+        'absError'   : math.sqrt(totalWeight2) if totalWeight2 > 0.0 else 1.1,
         'weight'     : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
         'acceptance' : totalWeight / nGenerated / crossSectionWeight,
-        'acceptanceError' : math.sqrt(totalWeight2) / nGenerated / crossSectionWeight,
+        'acceptanceError' : (math.sqrt(totalWeight2) if totalWeight2 > 0.0 else 1.1) / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -181,6 +181,7 @@ def GetYieldAndError(condor_dir, process, channel):
         'absError'   : intError,
         'weight'     : integral / raw_integral if raw_integral > 0.0 else 0.0,
         'acceptance' : integral / nGenerated / crossSectionWeight,
+        'acceptanceError' : (integral if integral > 0.0 else 1.1) / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -530,7 +531,7 @@ for yld in allYieldsAndErrors:
     ibinX = hYields.GetXaxis().FindBin(mass)
     ibinY = hYields.GetYaxis().FindBin(lifetime)
     hYields.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['yield'])
-    hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['absError'])
+    hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['yield'] * allYieldsAndErrors[yld]['acceptanceError'] / allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['acceptanceError'])
 
