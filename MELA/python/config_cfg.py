@@ -33,7 +33,7 @@ if False:
         weightsWithMuonSF,
         scaleFactorProducersWithMuons,
         collMap,
-        variableProducersWithMuons + dedxHitInfoVarProducer,
+        variableProducers + dedxHitInfoVarProducer,
         branchSets = branchSetsMVA)
 
 # electrons
@@ -57,7 +57,7 @@ if False:
         weightsWithMuonSF,
         scaleFactorProducersWithMuons,
         collMap,
-        variableProducersWithMuons + dedxHitInfoVarProducer,
+        variableProducers + dedxHitInfoVarProducer,
         branchSets = branchSetsMVA)
 
 if hasattr(process, 'EventJetVarProducer'):

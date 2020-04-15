@@ -4,7 +4,7 @@ import os
 import sys
 import math
 
-from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse, TLatex
+from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse, TLatex, TH1D
 
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
@@ -211,6 +211,8 @@ class FiducialMapCalculator:
         pasCMSLatex.DrawLatex(0.12, 0.925, "CMS Preliminary")
         self._canvas.SaveAs('fiducialMapCalc_efficiency_' + self.Numerator["sample"] + '.pdf')
 
+        h_rawSigma = TH1D('rawSigma', 'rawSigma', 40, -20, 20)
+
         for xbin in range(1, self.Numerator["histogram"].GetXaxis().GetNbins()):
             for ybin in range(1, self.Numerator["histogram"].GetYaxis().GetNbins()):
 
@@ -219,10 +221,17 @@ class FiducialMapCalculator:
                     continue
 
                 valueInSigma = (thisInefficiency - self._meanInefficiency) / self._stdDevInefficiency
+
+                h_rawSigma.Fill(valueInSigma)
+
                 if valueInSigma < 0:
                     valueInSigma = 0
 
                 self.Numerator["histogram"].SetBinContent(xbin, ybin, valueInSigma)
+
+        fout_rawSigma = TFile('rawSigma.root', 'recreate')
+        h_rawSigma.Write('rawSigma')
+        fout_rawSigma.Close()
 
         self._canvas.SetLogz(False)
         self.Numerator["histogram"].GetZaxis().SetLabelSize(0.04)

@@ -13,14 +13,10 @@ canvas = TCanvas("c1", "c1", 10, 10, 800, 800)
 
 nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
 
-lumiString = ''
-if len(sys.argv) > 1:
-    lumiString = str(round(lumi[sys.argv[1]] / 1000.0, 2)) + ' fb^{-1} 13 TeV'
-else:
-    print 'Give dataset as argument, e.g. makePlots.py MET_2017'
-    sys.exit()
+lumiString = str(round(lumi['MET_2017'] / 1000.0, 2)) + ' + ' + str(round(lumi['MET_2018'] / 1000.0, 2)) + ' fb^{-1} 13 TeV'
+yearString = '20178'
 
-drawSignal = True
+drawSignal = False
 
 def normToObs(obs, h):
 	if h.Integral() > 0:
@@ -45,32 +41,63 @@ for nLayersWord in nLayersWords:
  	fake = TFile('fakePdf_' + nLayersWord + '.root', 'read')
  	signal = TFile('signalPdfs_' + nLayersWord + '.root', 'read')
 
+	observation2018 = TFile('2018/observationPdf_' + nLayersWord + '.root', 'read')
+	fake2018 = TFile('2018/fakePdf_' + nLayersWord + '.root', 'read')
+	signal2018 = TFile('2018/signalPdfs_' + nLayersWord + '.root', 'read')
+
  	dedx_obs = observation.Get('pixelHits')
  	dedx_fake = fake.Get('pixelHits')
  	dedx_signal = signal.Get('AMSB_chargino_700GeV_100cm_94X')
 
+	dedx_obs.Add(observation2018.Get('pixelHits'))
+	dedx_fake.Add(fake2018.Get('pixelHits'))
+	dedx_signal.Add(signal2018.Get('AMSB_chargino_700GeV_100cm_102X'), -1.0)
+
  	dedx_obs_noBigClusters = observation.Get('pixelHits_noBigClusters')
  	dedx_fake_noBigClusters = fake.Get('pixelHits_noBigClusters')
+
+	dedx_obs_noBigClusters.Add(observation2018.Get('pixelHits_noBigClusters'))
+	dedx_fake_noBigClusters.Add(fake2018.Get('pixelHits_noBigClusters'))
 
  	dedx_obs_0 = observation.Get('pixelHits_hit0')
  	dedx_fake_0 = fake.Get('pixelHits_hit0')
 
+	dedx_obs_0.Add(observation2018.Get('pixelHits_hit0'))
+	dedx_fake_0.Add(fake2018.Get('pixelHits_hit0'))
+
 	dedx_obs_1 = observation.Get('pixelHits_hit1')
  	dedx_fake_1 = fake.Get('pixelHits_hit1')
+
+	dedx_obs_1.Add(observation2018.Get('pixelHits_hit1'))
+	dedx_fake_1.Add(fake2018.Get('pixelHits_hit1'))
 
  	dedx_obs_2 = observation.Get('pixelHits_hit2')
  	dedx_fake_2 = fake.Get('pixelHits_hit2')
 
+	dedx_obs_2.Add(observation2018.Get('pixelHits_hit2'))
+	dedx_fake_2.Add(fake2018.Get('pixelHits_hit2'))
+
 	dedx_obs_3 = observation.Get('pixelHits_hit3')
  	dedx_fake_3 = fake.Get('pixelHits_hit3')
+
+	dedx_obs_3.Add(observation2018.Get('pixelHits_hit3'))
+	dedx_fake_3.Add(fake2018.Get('pixelHits_hit3'))
 
  	nOver5_obs = observation.Get('nOver5')
  	nOver5_fake = fake.Get('nOver5')
  	nOver5_signal = signal.Get('AMSB_chargino_700GeV_100cm_94X_nOver5')
 
+	nOver5_obs.Add(observation2018.Get('nOver5'))
+	nOver5_fake.Add(fake2018.Get('nOver5'))
+	nOver5_signal.Add(signal2018.Get('AMSB_chargino_700GeV_100cm_102X_nOver5'), -1.0)
+
  	pixelSize_obs = observation.Get('pixelSize')
  	pixelSize_fake = fake.Get('pixelSize')
  	pixelSize_signal = signal.Get('AMSB_chargino_700GeV_100cm_94X_pixelSize')
+
+	pixelSize_obs.Add(observation2018.Get('pixelSize'))
+	pixelSize_fake.Add(fake2018.Get('pixelSize'))
+	pixelSize_signal.Add(signal2018.Get('AMSB_chargino_700GeV_100cm_102X_pixelSize'))
 
  	##############################################################
 
@@ -163,8 +190,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -186,8 +213,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_noBigClusters_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_noBigClusters_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_noBigClusters_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_noBigClusters_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -209,8 +236,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_hit0_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_hit0_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_hit0_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit0_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -232,8 +259,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_hit1_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_hit1_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_hit1_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit1_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -255,8 +282,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_hit2_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_hit2_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_hit2_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit2_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -278,8 +305,8 @@ for nLayersWord in nLayersWords:
 	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('dedx_hit3_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('dedx_hit3_' + nLayersWord + '.C')
+ 	canvas.SaveAs('dedx_hit3_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('dedx_hit3_' + yearString + '_' + nLayersWord + '.C')
 
  	############################################################## 	
 
@@ -304,8 +331,8 @@ for nLayersWord in nLayersWords:
  	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('nOver5_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('nOver5_' + nLayersWord + '.C')
+ 	canvas.SaveAs('nOver5_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('nOver5_' + yearString + '_' + nLayersWord + '.C')
 
  	##############################################################
 
@@ -331,8 +358,8 @@ for nLayersWord in nLayersWords:
  	leg.Draw('same')
 	prelim.DrawLatex(0.105, 0.925, 'CMS Preliminary')
 	run.DrawLatex(0.9, 0.93, lumiString)
- 	canvas.SaveAs('pixelSize_' + nLayersWord + '.pdf')
- 	canvas.SaveAs('pixelSize_' + nLayersWord + '.C')
+ 	canvas.SaveAs('pixelSize_' + yearString + '_' + nLayersWord + '.pdf')
+ 	canvas.SaveAs('pixelSize_' + yearString + '_' + nLayersWord + '.C')
  	canvas.SetLogy(False)
 
  	##############################################################
