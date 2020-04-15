@@ -42,7 +42,7 @@ class CharginoImageAnalyzer : public edm::EDAnalyzer {
    private:
       void analyze (const edm::Event &, const edm::EventSetup &);
 
-      void getImage(const reco::GenParticle &, const EBRecHitCollection &, const EERecHitCollection &, const HBHERecHitCollection &, vector<vector<double> > &) const;
+      void getImage(const reco::GenParticle &, const EBRecHitCollection &, const EERecHitCollection &, const HBHERecHitCollection &, vector<vector<double> > &, vector<vector<double> > &) const;
       const math::XYZVector getPosition(const DetId &) const;
 
       edm::InputTag genParticles_;
