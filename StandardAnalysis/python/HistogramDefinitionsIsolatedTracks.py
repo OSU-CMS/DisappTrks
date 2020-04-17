@@ -612,3 +612,103 @@ IsoTrackCandTrackEventVariableHistograms = cms.PSet(
         ),
     )
 )
+
+
+##########################################################
+###   Histograms for pat::IsolatedTrack
+##########################################################
+IsolatedTrackHistograms = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name  = cms.string("Associated ECalo DR05"),
+            title = cms.string(";IsolatedTrack associated ECalo [GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocEMCaloDR05"),
+        ),
+        cms.PSet (
+            name  = cms.string("Associated HCalo DR05"),
+            title = cms.string(";IsolatedTrack associated HCalo [GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocHadCaloDR05"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack rhoPUCorr"),
+            title = cms.string(";IsolatedTrack rhoPUCorr"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.rhoPUCorr"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocCaloDR05"),
+            title = cms.string(";IsolatedTrack assocCaloDR05[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocCaloDR05"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocEMCaloDR05"),
+            title = cms.string(";IsolatedTrack assocEMCaloDR05[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocEMCaloDR05 "),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocHadCaloDR05"),
+            title = cms.string(";IsolatedTrack assocHadCaloDR05[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocHadCaloDR05"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocCaloDR05NoPU"),
+            title = cms.string(";IsolatedTrack assocCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocCaloDR05  - track.rhoPUCorr * 3.14 * 0.5 * 0.5 "),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocEMCaloDR05NoPU"),
+            title = cms.string(";IsolatedTrack assocEMCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocEMCaloDR05 - track.rhoPUCorr * 3.14 * 0.5 * 0.5"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocHadCaloDR05NoPU"),
+            title = cms.string(";IsolatedTrack assocHadCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocHadCaloDR05  - track.rhoPUCorr * 3.14 * 0.5 * 0.5"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack missingInnerHits"),
+            title = cms.string(";IsolatedTrack missingInnerHits"),
+            binsX = cms.untracked.vdouble(20,0,20),
+            inputVariables = cms.vstring("track.missingInnerHits_"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack missingMiddleHits"),
+            title = cms.string(";IsolatedTrack missingMiddleHits"),
+            binsX = cms.untracked.vdouble(20,0,20),
+            inputVariables = cms.vstring("track.missingMiddleHits_"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack missingOuterHits"),
+            title = cms.string(";IsolatedTrack missingOuterHits"),
+            binsX = cms.untracked.vdouble(20,0,20),
+            inputVariables = cms.vstring("track.missingOuterHits_"),
+        ),
+    )
+)
+
+IsoTrkCharginoHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name  = cms.string("nCharginoMatchedIsoTrk"),
+            title = cms.string(";nIsolatedTrack matched to chargino"),
+            binsX = cms.untracked.vdouble(10,0,10),
+            inputVariables = cms.vstring("nCharginoMatchedIsoTrk"),
+        ),
+        cms.PSet (
+            name  = cms.string("nGenChargino"),
+            title = cms.string(";nGenChargino"),
+            binsX = cms.untracked.vdouble(10,0,10),
+            inputVariables = cms.vstring("nGenChargino"),
+        ),
+    )
+)

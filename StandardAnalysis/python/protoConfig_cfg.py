@@ -49,7 +49,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
+#        "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
+     #"file:/uscms/home/kwei726/nobackup/IsoTrkDevelopment/CMSSW_10_2_14/src/PhysicsTools/PatAlgos/test/IsolatedTrack_DistrkCut_PAT.root",
+     "file:/uscms/home/kwei726/nobackup/IsoTrkDevelopment/CMSSW_10_2_14/src/PhysicsTools/PatAlgos/test/IsolatedTrack_Signal_chargino_cTau10cm_DistrkCut_PAT.root",
     ])
 
 process.TFileService = cms.Service ('TFileService',
@@ -263,6 +265,8 @@ tauMETTriggerProducer = ["EventTauMETTriggerProducer", "EventTauL1ETMProducer"]
 
 particleGunMuonVarProducer = ["ParticleGunMuonVarProducer"]
 
+genMatchedTrackProducer = ["GenMatchedTrackProducer"]
+
 dedxHitInfoVarProducer = ["DeDxHitInfoVarProducer"]
 
 ################################################################################
@@ -281,6 +285,7 @@ from DisappTrks.BackgroundEstimation.ZtoEESelections import *
 from DisappTrks.SignalSystematics.SignalSystematicSelections import *
 from DisappTrks.ToyModels.MuonGunSelections import *
 from DisappTrks.TriggerAnalysis.TriggerAnalysisSelections import *
+from DisappTrks.IsoTrkDevelopment.CharginoIsoTrkSelections import *
 ################################################################################
 
 ################################################################################
@@ -369,6 +374,11 @@ histSetsStandardAndTrigger.append(EventTriggerVarVsMetHistograms)
 histSetsParticleGun = cms.VPSet (
     TrackHistograms,
     FakeDecayHistograms,
+)
+
+histSetsIsoTrkChargino = cms.VPSet (
+    IsoTrkCharginoHistograms,
+    IsolatedTrackHistograms,
 )
 
 ################################################################################

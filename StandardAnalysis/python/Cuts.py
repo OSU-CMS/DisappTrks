@@ -1554,3 +1554,15 @@ cutGenTrkPt45to55 = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks with 45 GeV < p_{T} < 55 GeV"),
 )
+
+##########################################################
+###   Cuts for Isolated Track development
+##########################################################
+
+cutCharginoMatched = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("nCharginoMatchedIsoTrk"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 tracks matched with GEN chargino"),
+)
+
