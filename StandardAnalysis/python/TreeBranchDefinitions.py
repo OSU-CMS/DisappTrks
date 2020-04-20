@@ -396,3 +396,151 @@ FakeDecayBranches = cms.PSet (
         ),
     )
 )
+
+##########################################
+####   IsolatedTrack mini-validation  ####
+##########################################
+
+# miniTree for IsolatedTrack development
+miniIsoTrkDebugBranches_names = [
+    "packedPixelBarrelHitPattern",
+    "packedPixelEndcapHitPattern",
+    
+    "firstLayerWithValidHit",
+    "lastLayerWithValidHit",
+    
+    "hasValidHitInPixelBarrelLayer1",
+    "hasValidHitInPixelBarrelLayer2",
+    "hasValidHitInPixelBarrelLayer3",
+    "hasValidHitInPixelBarrelLayer4",
+
+    "hasValidHitInPixelEndcapLayer1",
+    "hasValidHitInPixelEndcapLayer2",
+    "hasValidHitInPixelEndcapLayer3",
+    
+    "hitPattern_.pixelBarrelLayersNull",
+    "hitPattern_.pixelEndcapLayersNull",
+
+    "hitPattern_.numberOfValidPixelHits", 
+    "hitPattern_.trackerLayersWithMeasurement",
+
+    "bestTrackNumberOfValidHits",
+    "bestTrackNumberOfValidPixelHits",
+    "bestTrackNumberOfValidPixelBarrelHits",
+    "bestTrackNumberOfValidPixelEndcapHits",
+    "bestTrackMissingInnerHits",
+    "bestTrackMissingMiddleHits",
+    "bestTrackMissingOuterHits",
+
+    "hitAndTOBDrop_bestTrackMissingOuterHits",
+
+    "numberOfTrackerHits",
+    "numberOfPixelHits",
+    "numberOfStripHits",
+    "numberOfPixelBarrelHits",
+    "numberOfPixelEndcapHits",
+    "numberOfStripTIBHits",
+    "numberOfStripTIDHits",
+    "numberOfStripTOBHits",
+    "numberOfStripTECHits",
+
+    "missingInnerHits",
+    "missingMiddleHits",
+    "missingOuterHits",
+
+    "missingTrackerHits",
+    "missingPixelHits",
+    "missingStripHits",
+    "missingPixelBarrelHits",
+    "missingPixelEndcapHits",
+    "missingStripTIBHits",
+    "missingStripTIDHits",
+    "missingStripTOBHits",
+    "missingStripTECHits",
+
+    "expectedTrackerHits",
+    "expectedPixelHits",
+    "expectedStripHits",
+    "expectedPixelBarrelHits",
+    "expectedPixelEndcapHits",
+    "expectedStripTIBHits",
+    "expectedStripTIDHits",
+    "expectedStripTOBHits",
+    "expectedStripTECHits",
+
+    "expectedIncludeInactiveTrackerHits",
+    "expectedIncludeInactivePixelHits",
+    "expectedIncludeInactiveStripHits",
+    "expectedIncludeInactivePixelBarrelHits",
+    "expectedIncludeInactivePixelEndcapHits",
+    "expectedIncludeInactiveStripTIBHits",
+    "expectedIncludeInactiveStripTIDHits",
+    "expectedIncludeInactiveStripTOBHits",
+    "expectedIncludeInactiveStripTECHits",
+
+    "trackerLayersNull",
+    "pixelLayersNull",
+    "stripLayersNull",
+    "pixelBarrelLayersNull",
+    "pixelEndcapLayersNull",
+    "stripTIBLayersNull",
+    "stripTIDLayersNull",
+    "stripTOBLayersNull",
+    "stripTECLayersNull",
+
+    "numberOfBadHits",
+
+    "numberOfLostInnerHits",
+    "numberOfLostMiddleHits",
+    "numberOfLostOuterHits",
+    "numberOfLostHits",
+
+    "pt",
+    "p",
+    "eta",
+    "phi",
+    "normalizedChi2",
+    "charge",
+    "caloNewDRp5",
+    "dRMinJet",
+
+    "assocCaloDR05",
+    "assocEMCaloDR05",
+    "assocHadCaloDR05",
+
+    "assocCaloDR05NoPU",
+    "assocEMCaloDR05NoPU",
+    "assocHadCaloDR05NoPU",
+
+    "assocCaloDR05NoPUCalo",
+    "assocEMCaloDR05NoPUCalo",
+    "assocHadCaloDR05NoPUCalo",
+
+
+    "assocCaloDR05NoPUCentralCalo",
+    "assocEMCaloDR05NoPUCentralCalo",
+    "assocHadCaloDR05NoPUCentralCalo",
+
+    "trackIsoDR05",
+
+    "matchedCaloJetEmEnergy",
+    "matchedCaloJetHadEnergy",
+    "pfLepOverlap",
+    "pfNeutralSum",
+    "dz",
+    "dxy",
+    "dzError",
+    "dxyError",
+    "fromPV",
+    "isHighPurityTrack",
+    "isTightTrack",
+    "isLooseTrack",
+    "dEdxStrip",
+    "dEdxPixel",
+]
+
+
+miniIsoTrkDebugBranches = cms.PSet (
+    inputCollection = cms.vstring("tracks"),
+    branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in miniIsoTrkDebugBranches_names]),
+)

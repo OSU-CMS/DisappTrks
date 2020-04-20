@@ -675,6 +675,24 @@ IsolatedTrackHistograms = cms.PSet(
             inputVariables = cms.vstring("track.assocHadCaloDR05  - track.rhoPUCorr * 3.14 * 0.5 * 0.5"),
         ),
         cms.PSet (
+            name  = cms.string("IsolatedTrack assocCaloDR05NoPUCalo"),
+            title = cms.string(";IsolatedTrack assocCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocCaloDR05 - track.rhoPUCorrCalo * 3.14 * 0.5 * 0.5"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocEMCaloDR05NoPUCalo"),
+            title = cms.string(";IsolatedTrack assocEMCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocEMCaloDR05 - track.rhoPUCorrCalo * 3.14 * 0.5 * 0.5"),
+        ),
+        cms.PSet (
+            name  = cms.string("IsolatedTrack assocHadCaloDR05NoPUCalo"),
+            title = cms.string(";IsolatedTrack assocHadCaloDR05NoPU[GeV]"),
+            binsX = cms.untracked.vdouble(100,0,50),
+            inputVariables = cms.vstring("track.assocHadCaloDR05 - track.rhoPUCorrCalo * 3.14 * 0.5 * 0.5"),
+        ),
+        cms.PSet (
             name  = cms.string("IsolatedTrack missingInnerHits"),
             title = cms.string(";IsolatedTrack missingInnerHits"),
             binsX = cms.untracked.vdouble(20,0,20),

@@ -1560,9 +1560,17 @@ cutGenTrkPt45to55 = cms.PSet(
 ##########################################################
 
 cutCharginoMatched = cms.PSet(
-    inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("nCharginoMatchedIsoTrk"),
+    inputCollection = cms.vstring( "tracks" , "hardInteractionMcparticles" ),
+    cutString = cms.string(" deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024 "),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 tracks matched with GEN chargino"),
 )
+
+cutLowCaloDR05NoPU = cms.PSet(
+    inputCollection = cms.vstring( "tracks" ),
+    cutString = cms.string("track.assocCaloDR05NoPU < 10.0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 tracks with low energy deposit"),
+)
+
 
