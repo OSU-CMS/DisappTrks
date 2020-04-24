@@ -47,12 +47,15 @@ process.charginoImageAnalyzer = cms.EDAnalyzer ("CharginoImageAnalyzer",
     EBRecHits          =  cms.InputTag  ("reducedEcalRecHitsEB"),
     EERecHits          =  cms.InputTag  ("reducedEcalRecHitsEE"),
     HBHERecHits        =  cms.InputTag  ("reducedHcalRecHits", "hbhereco"),
-    x_lo = cms.double (-1.6),
-    x_hi = cms.double (1.6),
-    n_x = cms.int32 (32),
-    y_lo = cms.double (-1.6),
-    y_hi = cms.double (1.6),
-    n_y = cms.int32 (32),
+    matchingID = cms.int32(1000022),
+    matchingMotherID = cms.int32(1000024), # use 0 for no mother ID requirement
+    matchingStatus = cms.int32(1), # use 0 for no gen status requirement
+    x_lo = cms.double (-0.5),
+    x_hi = cms.double (0.5),
+    n_x = cms.int32 (50),
+    y_lo = cms.double (-0.5),
+    y_hi = cms.double (0.5),
+    n_y = cms.int32 (50),
 )
 
 process.myPath = cms.Path (process.charginoImageAnalyzer)

@@ -6,24 +6,34 @@
 #include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
 
 CharginoImageAnalyzer::CharginoImageAnalyzer(const edm::ParameterSet &cfg) :
-  genParticles_   (cfg.getParameter<edm::InputTag>("genParticles")),
-  EBRecHitsTag_   (cfg.getParameter<edm::InputTag> ("EBRecHits")),
-  EERecHitsTag_   (cfg.getParameter<edm::InputTag> ("EERecHits")),
-  HBHERecHitsTag_ (cfg.getParameter<edm::InputTag> ("HBHERecHits")),
-  x_lo (cfg.getParameter<double>("x_lo")),
-  x_hi (cfg.getParameter<double>("x_hi")),
-  y_lo (cfg.getParameter<double>("y_lo")),
-  y_hi (cfg.getParameter<double>("y_hi")),
-  n_x  (cfg.getParameter<int>("n_x")),
-  n_y  (cfg.getParameter<int>("n_y"))
+  genParticles_     (cfg.getParameter<edm::InputTag> ("genParticles")),
+  EBRecHitsTag_     (cfg.getParameter<edm::InputTag> ("EBRecHits")),
+  EERecHitsTag_     (cfg.getParameter<edm::InputTag> ("EERecHits")),
+  HBHERecHitsTag_   (cfg.getParameter<edm::InputTag> ("HBHERecHits")),
+  matchingID_       (cfg.getParameter<int>           ("matchingID")),
+  matchingMotherID_ (cfg.getParameter<int>           ("matchingMotherID")),
+  matchingStatus_   (cfg.getParameter<int>           ("matchingStatus")),
+  x_lo              (cfg.getParameter<double>        ("x_lo")),
+  x_hi              (cfg.getParameter<double>        ("x_hi")),
+  y_lo              (cfg.getParameter<double>        ("y_lo")),
+  y_hi              (cfg.getParameter<double>        ("y_hi")),
+  n_x               (cfg.getParameter<int>           ("n_x")),
+  n_y               (cfg.getParameter<int>           ("n_y"))
 {
-  tree_ = fs_->make<TTree>("tree", "tree");
-
   genParticlesToken_ = consumes<vector<reco::GenParticle> > (genParticles_);
 
   EBRecHitsToken_       = consumes<EBRecHitCollection>   (EBRecHitsTag_);
   EERecHitsToken_       = consumes<EERecHitCollection>   (EERecHitsTag_);
   HBHERecHitsToken_     = consumes<HBHERecHitCollection> (HBHERecHitsTag_);
+
+  for(int i = 0; i < n_x; i++) {
+    image_ecal.push_back(vector<double>(n_y, 0.0));
+    image_hcal.push_back(vector<double>(n_y, 0.0));
+  }
+
+  tree_ = fs_->make<TTree>("tree", "tree");
+  tree_->Branch("ecal", &image_ecal);
+  tree_->Branch("hcal", &image_hcal);
 
 }
 
@@ -50,20 +60,12 @@ CharginoImageAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &s
   if (!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
-  vector<vector<double> > image_ecal, image_hcal;
-  for(int i = 0; i < n_x; i++) {
-    image_ecal.push_back(vector<double>(n_y, 0.0));
-    image_hcal.push_back(vector<double>(n_y, 0.0));
-  }
-
-  tree_->Branch("ecal", &image_ecal);
-  tree_->Branch("hcal", &image_hcal);
-
   for(const auto &genParticle : *genParticles) {
-    if(abs(genParticle.pdgId()) != 1000022) continue;
-    if(genParticle.status() != 1) continue;
+    if(abs(genParticle.pdgId()) != matchingID_) continue;
+    if(matchingMotherID_ != 0 && abs(genParticle.motherRef()->pdgId()) != matchingMotherID_) continue;
+    if(matchingStatus_ != 0 && genParticle.status() != matchingStatus_) continue;
 
-    getImage(genParticle, *EBRecHits, *EERecHits, *HBHERecHits, image_ecal, image_hcal);
+    getImage(genParticle, *EBRecHits, *EERecHits, *HBHERecHits);
 
     tree_->Fill();
   }
@@ -75,9 +77,7 @@ CharginoImageAnalyzer::getImage(
   const reco::GenParticle &genParticle,
   const EBRecHitCollection &EBRecHits,
   const EERecHitCollection &EERecHits,
-  const HBHERecHitCollection &HBHERecHits,
-  vector<vector<double> > &image_ecal,
-  vector<vector<double> > &image_hcal) const
+  const HBHERecHitCollection &HBHERecHits)
 {
 
   for(int i = 0; i < n_x; i++) {

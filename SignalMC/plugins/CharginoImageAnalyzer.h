@@ -42,7 +42,7 @@ class CharginoImageAnalyzer : public edm::EDAnalyzer {
    private:
       void analyze (const edm::Event &, const edm::EventSetup &);
 
-      void getImage(const reco::GenParticle &, const EBRecHitCollection &, const EERecHitCollection &, const HBHERecHitCollection &, vector<vector<double> > &, vector<vector<double> > &) const;
+      void getImage(const reco::GenParticle &, const EBRecHitCollection &, const EERecHitCollection &, const HBHERecHitCollection &);
       const math::XYZVector getPosition(const DetId &) const;
 
       edm::InputTag genParticles_;
@@ -62,8 +62,11 @@ class CharginoImageAnalyzer : public edm::EDAnalyzer {
       TTree * tree_;
       TH2D * averageImage_;
 
-      double x_lo, x_hi, y_lo, y_hi;
-      int n_x, n_y;
+      vector<vector<double> > image_ecal, image_hcal;
+
+      const int matchingID_, matchingMotherID_, matchingStatus_;
+      const double x_lo, x_hi, y_lo, y_hi;
+      const int n_x, n_y;
 };
 
 #endif

@@ -69,6 +69,10 @@ EventVariableBranches_names = [
     "hem1516weight",
     "hem1516weightUp",
     "hem1516weightDown",
+
+    "genCharginoMass",
+    "genNeutralinoMass",
+    "genGluinoMass",
 ]
 
 # hitCharge_<track number>_<hit number>

@@ -41,6 +41,8 @@ private:
   edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > tokenMcparticles_;
   edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
 
+  double genGluinoMass_, genNeutralinoMass_, genCharginoMass_;
+
   bool isFirstEvent_;
 
   bool IsValidJet(const TYPE(jets) & jet);
@@ -50,6 +52,7 @@ private:
   bool isInJet (const pat::PackedCandidate &, const vector<PhysicsObject> &) const;
   bool hasChargino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &) const;
   bool hasNeutralino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &) const;
+  void findGenMasses (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &);
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
 
   vector<string> triggerNames;
@@ -209,6 +212,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
     }
   }
 
+  findGenMasses(mcParticles);
+
   (*eventvariables)["nJets"]            = validJets.size ();
   (*eventvariables)["dijetMaxDeltaPhi"] = dijetMaxDeltaPhi;
   (*eventvariables)["ptJetLeading"]     = ptJetLeading;
@@ -236,6 +241,10 @@ EventJetVarProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["isCharginoChargino"]  = (hasCharginoFlag ? !hasNeutralinoFlag : false);
   (*eventvariables)["isCharginoNeutralino"]  = (hasCharginoFlag ? hasNeutralinoFlag : false);
   (*eventvariables)["numberOfCharginos"]  = (hasCharginoFlag ? (hasNeutralinoFlag ? 1 : 2) : 0);
+
+  (*eventvariables)["genCharginoMass"] = genCharginoMass_;
+  (*eventvariables)["genNeutralinoMass"] = genNeutralinoMass_;
+  (*eventvariables)["genGluinoMass"] = genGluinoMass_;
 
   (*eventvariables)["packedTriggerFiresBit"] = (triggerBits.isValid () ? packTriggerFires(event, triggerBits) : 0);
 
@@ -352,6 +361,22 @@ EventJetVarProducer::hasNeutralino (const edm::Handle<vector<TYPE(hardInteractio
     if (isFirstEvent_)
       clog << "[EventJetVarProducer] NOT determining generated signal event type..." << endl;
   return false;
+}
+
+void
+EventJetVarProducer::findGenMasses (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &mcParticles)
+{
+  genCharginoMass_ = -1.;
+  genNeutralinoMass_ = -1.;
+  genGluinoMass_ = -1.;
+
+  if(mcParticles.isValid()) {
+    for(const auto &mcParticle : *mcParticles) {
+      if(genGluinoMass_ < 0.     && abs(mcParticle.pdgId()) == 1000021) genGluinoMass_ = mcParticle.mass();
+      if(genNeutralinoMass_ < 0. && abs(mcParticle.pdgId()) == 1000022) genNeutralinoMass_ = mcParticle.mass();
+      if(genCharginoMass_ < 0.   && abs(mcParticle.pdgId()) == 1000024) genCharginoMass_ = mcParticle.mass();
+    }
+  }
 }
 
 uint32_t
