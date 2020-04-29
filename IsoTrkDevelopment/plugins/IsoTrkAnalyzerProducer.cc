@@ -9,13 +9,17 @@
 
 #define M_Z (91.1876)
 #define CHARGINO (1000024)
+#define isMC (false)
+
 template<class T, class... Args>
 IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg)
 {
   tokenProbes_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
-  genParticlesToken_ = consumes<vector<reco::GenParticle> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
-  pileupInfoToken_   = consumes<edm::View<PileupSummaryInfo>>(collections_.getParameter<edm::InputTag>("pileupinfos")),
+  if(isMC){
+    genParticlesToken_ = consumes<vector<reco::GenParticle> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
+    pileupInfoToken_   = consumes<edm::View<PileupSummaryInfo>>(collections_.getParameter<edm::InputTag>("pileupinfos"));
+  }
 
   TH1::SetDefaultSumw2();
 
@@ -119,15 +123,16 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
   event.getByToken (tokenProbes_, probes);
 
   edm::Handle<vector<reco::GenParticle> > genParticles;
-  event.getByToken (genParticlesToken_, genParticles);
-
   edm::Handle<edm::View<PileupSummaryInfo>> pileupInfos;
-  event.getByToken(pileupInfoToken_, pileupInfos);
+  if (isMC){
+    event.getByToken (genParticlesToken_, genParticles);
+    event.getByToken(pileupInfoToken_, pileupInfos);
+  }
 
   //std::cout << "probes isValid: " << probes.isValid () << std::endl;
   //std::cout << "genParticles isValid: " << genParticles.isValid () << std::endl;
   //std::cout << "pileupInfos isValid: " << pileupInfos.isValid () << std::endl;
-  if ( !probes.isValid () || !genParticles.isValid() )
+  if ( !probes.isValid () && !genParticles.isValid() )
     return;
 
   int nCharginoMatchedIsoTrk = 0;
@@ -138,130 +143,138 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
 
   vector<PileupSummaryInfo>::const_iterator iterPU;
   double truePV = -1;
-  for(edm::View<PileupSummaryInfo>::const_iterator iterPU = pileupInfos->begin(); iterPU != pileupInfos->end(); iterPU++) {
-        if(iterPU->getBunchCrossing() == 0) truePV = iterPU->getTrueNumInteractions();
+  if(isMC){
+    for(edm::View<PileupSummaryInfo>::const_iterator iterPU = pileupInfos->begin(); iterPU != pileupInfos->end(); iterPU++) {
+          if(iterPU->getBunchCrossing() == 0) truePV = iterPU->getTrueNumInteractions();
+    }
+    oneDHists_.at("nPU")->Fill(truePV);
   }
-  oneDHists_.at("nPU")->Fill(truePV);
+
 
   // Find Chargino matched IsolatedTrack
   for (const auto &probe : *probes){
-    for (const auto &genParticle : *genParticles){
-      //if(abs(genParticle.pdgId()) == CHARGINO && genProbeMatched(probe,genParticle)){
-      if(genProbeMatched(probe,genParticle)){
         
-        vector<bool> cutResult_IsoTrk = {true,abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
-        vector<bool> cutResult_Chargino = {true, genParticle.pdgId() == CHARGINO, abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
-        vector<bool> cutResult_susySoftDisTrk= vector<bool>(cutResult_IsoTrk.size(), ( probe.pt() > 10. && (probe.pt() > 15. || probe.hitPattern().pixelLayersWithMeasurement() == probe.hitPattern().trackerLayersWithMeasurement())  && abs(probe.dxy()) < 0.02 && abs(probe.dz()) < 0.1 && (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 0.2) && !(probe.pfLepOverlap()) && probe.pfNeutralSum()/probe.pt() < 0.2 ));
-        vector<bool> cutResult_HighPtTrack = vector<bool>(cutResult_IsoTrk.size(),( probe.pt() > 50 &&  probe.isHighPurityTrack() &&  abs(probe.dxy()) < 0.5 && abs(probe.dz()) < 0.5 &&  (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 1.0 || probe.pt() > 100) ));
-        vector<bool> cutResult_InclusiveIsoTrk;
-        vector<bool> cutResult_PreviousIsoTrk;
+    vector<bool> cutResult_IsoTrk = {true,abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+    vector<bool> cutResult_susySoftDisTrk= vector<bool>(cutResult_IsoTrk.size(), ( probe.pt() > 10. && (probe.pt() > 15. || probe.hitPattern().pixelLayersWithMeasurement() == probe.hitPattern().trackerLayersWithMeasurement())  && abs(probe.dxy()) < 0.02 && abs(probe.dz()) < 0.1 && (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 0.2) && !(probe.pfLepOverlap()) && probe.pfNeutralSum()/probe.pt() < 0.2 ));
+    vector<bool> cutResult_HighPtTrack = vector<bool>(cutResult_IsoTrk.size(),( probe.pt() > 50 &&  probe.isHighPurityTrack() &&  abs(probe.dxy()) < 0.5 && abs(probe.dz()) < 0.5 &&  (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 1.0 || probe.pt() > 100) ));
+    vector<bool> cutResult_InclusiveIsoTrk;
+    vector<bool> cutResult_PreviousIsoTrk;
 
-        for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end(); ++itr ){
-         int ibin = itr-cutResult_IsoTrk.begin();
-          cutResult_InclusiveIsoTrk.push_back( cutResult_IsoTrk.at(ibin) || cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
-          cutResult_PreviousIsoTrk.push_back( cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
-        }
-        for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end() && *itr != false; ++itr ){
-          oneDHists_.at("cutflow_IsoTrk")->Fill(itr-cutResult_IsoTrk.begin()+0.5);
-        }
-        for(std::vector<bool>::iterator itr = cutResult_InclusiveIsoTrk.begin(); itr != cutResult_InclusiveIsoTrk.end() && *itr != false; ++itr ){
-          oneDHists_.at("cutflow_InclusiveIsoTrk")->Fill(itr-cutResult_InclusiveIsoTrk.begin()+0.5);
-        }
-        for(std::vector<bool>::iterator itr = cutResult_PreviousIsoTrk.begin(); itr != cutResult_PreviousIsoTrk.end() && *itr != false; ++itr ){
-          oneDHists_.at("cutflow_PreviousIsoTrk")->Fill(itr-cutResult_PreviousIsoTrk.begin()+0.5);
-        }
-        for(std::vector<bool>::iterator itr = cutResult_Chargino.begin(); itr != cutResult_Chargino.end() && *itr != false; ++itr ){
-          oneDHists_.at("cutflow_Chargino")->Fill(itr-cutResult_Chargino.begin()+0.5);
-        }
-       
+    for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end(); ++itr ){
+      int ibin = itr-cutResult_IsoTrk.begin();
+      cutResult_InclusiveIsoTrk.push_back( cutResult_IsoTrk.at(ibin) || cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
+      cutResult_PreviousIsoTrk.push_back( cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
+    }
+    for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end() && *itr != false; ++itr ){
+      oneDHists_.at("cutflow_IsoTrk")->Fill(itr-cutResult_IsoTrk.begin()+0.5);
+    }
+    for(std::vector<bool>::iterator itr = cutResult_InclusiveIsoTrk.begin(); itr != cutResult_InclusiveIsoTrk.end() && *itr != false; ++itr ){
+      oneDHists_.at("cutflow_InclusiveIsoTrk")->Fill(itr-cutResult_InclusiveIsoTrk.begin()+0.5);
+    }
+    for(std::vector<bool>::iterator itr = cutResult_PreviousIsoTrk.begin(); itr != cutResult_PreviousIsoTrk.end() && *itr != false; ++itr ){
+      oneDHists_.at("cutflow_PreviousIsoTrk")->Fill(itr-cutResult_PreviousIsoTrk.begin()+0.5);
+    }
 
-        matchedProbeLorentzVectors.push_back(probe.p4());
-        nCharginoMatchedIsoTrk++;
 
-        // Fill track-matched Chargino
-        TVector3 x(genParticle.vx(), genParticle.vy(), genParticle.vz()),
+    // Fill chargino-matched IsolatedTrack
+    oneDHists_.at("charge")->Fill(probe.charge());
+    oneDHists_.at("pt")->Fill(probe.pt());
+    oneDHists_.at("phi")->Fill(probe.phi());
+    oneDHists_.at("eta")->Fill(probe.eta());
+
+    oneDHists_.at("dxy")->Fill(probe.dxy());
+    oneDHists_.at("dz")->Fill(probe.dz());
+
+    oneDHists_.at("numberOfValidHits")->Fill(probe.hitPattern().numberOfValidHits());
+    oneDHists_.at("numberOfMissingInnerHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
+    oneDHists_.at("numberOfMissingMiddleHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
+    oneDHists_.at("numberOfMissingOuterHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
+
+    oneDHists_.at("assocCaloDR05")->Fill(probe.assocCaloDR05());
+    oneDHists_.at("assocEMCaloDR05")->Fill(probe.assocEMCaloDR05());
+    oneDHists_.at("assocHadCaloDR05")->Fill(probe.assocHadCaloDR05());
+
+    oneDHists_.at("assocCaloDR05NoPU")->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPU")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPU")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
+
+    oneDHists_.at("assocCaloDR05NoPUCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPUCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPUCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
+
+
+    oneDHists_.at("assocCaloDR05NoPUCentralCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPUCentralCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPUCentralCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
+
+
+    twoDHists_["numberOfValidHits"]->Fill(truePV, probe.hitPattern().numberOfValidHits());
+    twoDHists_["numberOfMissingInnerHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
+    twoDHists_["numberOfMissingMiddleHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
+    twoDHists_["numberOfMissingOuterHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
+    if (isMC){
+      twoDHists_["chargeVsPU"]->Fill(truePV, probe.charge());
+      twoDHists_["ptVsPU"]->Fill(truePV, probe.pt());
+      twoDHists_["etaVsPU"]->Fill(truePV, probe.eta());
+      twoDHists_["assocCalNoPUVsMissingOuterHits"]->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5,probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
+    }
+
+    if (isMC){
+      for (const auto &genParticle : *genParticles){
+        if(abs(genParticle.pdgId()) == CHARGINO && genProbeMatched(probe,genParticle)){
+       // if(genProbeMatched(probe,genParticle)){
+          matchedProbeLorentzVectors.push_back(probe.p4());
+          nCharginoMatchedIsoTrk++;
+        
+          vector<bool> cutResult_Chargino = {true, genParticle.pdgId() == CHARGINO, abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+          for(std::vector<bool>::iterator itr = cutResult_Chargino.begin(); itr != cutResult_Chargino.end() && *itr != false; ++itr ){
+            oneDHists_.at("cutflow_Chargino")->Fill(itr-cutResult_Chargino.begin()+0.5);
+          }
+
+          // Fill track-matched Chargino
+          TVector3 x(genParticle.vx(), genParticle.vy(), genParticle.vz()),
                y(0.0, 0.0, 0.0);
 
-        double boost = 1.0 /(genParticle.p4().Beta(), genParticle.p4().Gamma());
-        getEndVertex(genParticle, y);
+          double boost = 1.0 /(genParticle.p4().Beta(), genParticle.p4().Gamma());
+          getEndVertex(genParticle, y);
 
-        oneDHists_.at("genCharge")->Fill(genParticle.charge());
-        oneDHists_.at("genMass")->Fill(genParticle.mass());
-        oneDHists_.at("genPt")->Fill(genParticle.pt());
-        oneDHists_.at("genPhi")->Fill(genParticle.phi());
-        oneDHists_.at("genEta")->Fill(genParticle.eta());
-        oneDHists_.at("genP")->Fill(genParticle.p());
-        oneDHists_.at("genBeta")->Fill(genParticle.p4().Beta());
-        oneDHists_.at("genGamma")->Fill(genParticle.p4().Gamma());
-        oneDHists_.at("genBetaGamma")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma());
-        oneDHists_.at("genBetaGammaM")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma() * genParticle.mass());
+          oneDHists_.at("genCharge")->Fill(genParticle.charge());
+          oneDHists_.at("genMass")->Fill(genParticle.mass());
+          oneDHists_.at("genPt")->Fill(genParticle.pt());
+          oneDHists_.at("genPhi")->Fill(genParticle.phi());
+          oneDHists_.at("genEta")->Fill(genParticle.eta());
+          oneDHists_.at("genP")->Fill(genParticle.p());
+          oneDHists_.at("genBeta")->Fill(genParticle.p4().Beta());
+          oneDHists_.at("genGamma")->Fill(genParticle.p4().Gamma());
+          oneDHists_.at("genBetaGamma")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma());
+          oneDHists_.at("genBetaGammaM")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma() * genParticle.mass());
+  
+          oneDHists_.at("genDecayLength_10")->Fill((x - y).Mag());
+          oneDHists_.at("genDecayLength_100")->Fill((x - y).Mag());
+          oneDHists_.at("genDecayLength_1000")->Fill((x - y).Mag());
+          oneDHists_.at("genDecayLength_10000")->Fill((x - y).Mag());
+          oneDHists_.at("genDecayLength_100000")->Fill((x - y).Mag());
+  
+          oneDHists_.at("genCTau_10")->Fill((x - y).Mag() * boost);
+          oneDHists_.at("genCTau_100")->Fill((x - y).Mag() * boost);
+          oneDHists_.at("genCTau_1000")->Fill((x - y).Mag() * boost);
+          oneDHists_.at("genCTau_10000")->Fill((x - y).Mag() * boost);
+          oneDHists_.at("genCTau_100000")->Fill((x - y).Mag() * boost);
 
-        oneDHists_.at("genDecayLength_10")->Fill((x - y).Mag());
-        oneDHists_.at("genDecayLength_100")->Fill((x - y).Mag());
-        oneDHists_.at("genDecayLength_1000")->Fill((x - y).Mag());
-        oneDHists_.at("genDecayLength_10000")->Fill((x - y).Mag());
-        oneDHists_.at("genDecayLength_100000")->Fill((x - y).Mag());
-
-        oneDHists_.at("genCTau_10")->Fill((x - y).Mag() * boost);
-        oneDHists_.at("genCTau_100")->Fill((x - y).Mag() * boost);
-        oneDHists_.at("genCTau_1000")->Fill((x - y).Mag() * boost);
-        oneDHists_.at("genCTau_10000")->Fill((x - y).Mag() * boost);
-        oneDHists_.at("genCTau_100000")->Fill((x - y).Mag() * boost);
-
-        // Fill chargino-matched IsolatedTrack
-        oneDHists_.at("charge")->Fill(probe.charge());
-        oneDHists_.at("pt")->Fill(probe.pt());
-        oneDHists_.at("phi")->Fill(probe.phi());
-        oneDHists_.at("eta")->Fill(probe.eta());
-
-        oneDHists_.at("dxy")->Fill(probe.dxy());
-        oneDHists_.at("dz")->Fill(probe.dz());
-
-        oneDHists_.at("numberOfValidHits")->Fill(probe.hitPattern().numberOfValidHits());
-        oneDHists_.at("numberOfMissingInnerHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
-        oneDHists_.at("numberOfMissingMiddleHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
-        oneDHists_.at("numberOfMissingOuterHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
-
-        oneDHists_.at("assocCaloDR05")->Fill(probe.assocCaloDR05());
-        oneDHists_.at("assocEMCaloDR05")->Fill(probe.assocEMCaloDR05());
-        oneDHists_.at("assocHadCaloDR05")->Fill(probe.assocHadCaloDR05());
-
-        oneDHists_.at("assocCaloDR05NoPU")->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocEMCaloDR05NoPU")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocHadCaloDR05NoPU")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
-
-        oneDHists_.at("assocCaloDR05NoPUCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocEMCaloDR05NoPUCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocHadCaloDR05NoPUCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
-
-
-        oneDHists_.at("assocCaloDR05NoPUCentralCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocEMCaloDR05NoPUCentralCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
-        oneDHists_.at("assocHadCaloDR05NoPUCentralCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
-
-        twoDHists_["chargeVsPU"]->Fill(truePV, probe.charge());
-        twoDHists_["ptVsPU"]->Fill(truePV, probe.pt());
-        twoDHists_["etaVsPU"]->Fill(truePV, probe.eta());
-
-        twoDHists_["numberOfValidHits"]->Fill(truePV, probe.hitPattern().numberOfValidHits());
-        twoDHists_["numberOfMissingInnerHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
-        twoDHists_["numberOfMissingMiddleHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
-        twoDHists_["numberOfMissingOuterHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
-
-        twoDHists_["assocCalNoPUVsMissingOuterHits"]->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5,probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
-
-        break;
+          break;
+        }
       }
     }
   }
-
-  for (const auto &genParticle : *genParticles)
-    {
-      if (abs(genParticle.pdgId()) == CHARGINO && genParticle.status() == 23 ){
-        genLorentzVectors.push_back(genParticle.p4());
-        nGenChargino++;
+  if(isMC){
+    for (const auto &genParticle : *genParticles)
+      {
+        if (abs(genParticle.pdgId()) == CHARGINO && genParticle.status() == 23 ){
+          genLorentzVectors.push_back(genParticle.p4());
+          nGenChargino++;
+        }
       }
-    }
+  }
   // End of truth particles
 
   oneDHists_.at("nCharginos")->Fill(nGenChargino);
