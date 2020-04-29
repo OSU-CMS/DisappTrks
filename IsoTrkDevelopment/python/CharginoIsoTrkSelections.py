@@ -11,6 +11,29 @@ charginoMatchedCut = [
     cutCharginoMatched,
 ]
 
+charginoValidationCut = [
+    cutCharginoFromPV,
+    cutCharginodxy,
+    cutCharginodz,
+    cutCharginopt,
+    cutCharginoIsLooseTrack,
+    cutCharginoIsTightTrack,
+    cutCharginoIsHighPurityTrack,
+    cutCharginoLowCaloDR05NoPU,
+    cutCharginoInclusive,
+]
+
+isotrkValidationCut = [
+    cutIsoTrkFromPV,
+    cutIsoTrkdxy,
+    cutIsoTrkdz,
+    cutIsoTrkpt,
+    cutIsLooseTrack,
+    cutIsTightTrack,
+    cutIsHighPurityTrack,
+    cutIsoTrkLowCaloDR05NoPU,
+    cutIsoTrkInclusive,
+]
 CharginoMatchedSkim = cms.PSet(
     name = cms.string("CharginoMatchedSkim"),
     triggers = cms.vstring(),
@@ -18,3 +41,12 @@ CharginoMatchedSkim = cms.PSet(
 )
 
 addCuts(CharginoMatchedSkim.cuts, charginoMatchedCut)
+addCuts(CharginoMatchedSkim.cuts, charginoValidationCut)
+
+IsoTrkSkim = cms.PSet(
+    name = cms.string("IsoTrkSkim"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (),
+)
+
+addCuts(IsoTrkSkim.cuts, isotrkValidationCut)

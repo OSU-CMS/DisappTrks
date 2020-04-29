@@ -13,7 +13,9 @@ process = customize (process,
 					 applyMissingHitsCorrections = False, 
 					 runMETFilters = False)
 
-#moveVariableProducer(process, "ParticleGunMuonVarProducer", "MuonGunSkim")
+moveVariableProducer(process, "GenMatchedTrackProducer", "NoCuts")
+moveVariableProducer(process, "GenMatchedTrackProducer", "IsoTrkSkim")
+moveVariableProducer(process, "GenMatchedTrackProducer", "CharginoMatchedSkim")
 
 # When using these channels for calculating a new weight in MC, use the following customization instead:
 # ZtoMuMuISRStudy, ZtoMuMuISRStudyJet30

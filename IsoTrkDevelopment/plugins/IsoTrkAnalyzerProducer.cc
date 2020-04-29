@@ -5,6 +5,7 @@
 
 #include "TLorentzVector.h"
 #include "TMath.h"
+#include "TString.h"
 
 #define M_Z (91.1876)
 #define CHARGINO (1000024)
@@ -15,9 +16,30 @@ IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::Parameter
   tokenProbes_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
   genParticlesToken_ = consumes<vector<reco::GenParticle> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
   pileupInfoToken_   = consumes<edm::View<PileupSummaryInfo>>(collections_.getParameter<edm::InputTag>("pileupinfos")),
+
   TH1::SetDefaultSumw2();
 
+  
   oneDHists_["nPU"] = fs_->make<TH1D>("nPU", ";trueNumInteractions", 100, 0, 100);
+
+  // Object-by-object CutFlow
+  vector<TString> cuts_IsoTrk = {"total","dxy < 0.05","dz < 1.0", "pt > 45GeV", "looseTrack", "tightTrack", "HighPurityTrack", "low NoPU energy deposit < 10 GeV"};
+  vector<TString> cuts_Chargino = {"total","isChargino","dxy < 0.05","dz < 1.0", "pt > 45GeV", "looseTrack", "tightTrack", "HighPurityTrack", "low NoPU energy deposit < 10 GeV"};
+  oneDHists_["cutflow_IsoTrk"] = fs_->make<TH1D>("cutflow_IsoTrk","", cuts_IsoTrk.size(), 0, cuts_IsoTrk.size());
+  oneDHists_["cutflow_InclusiveIsoTrk"] = fs_->make<TH1D>("cutflow_InclusiveIsoTrk","", cuts_IsoTrk.size(), 0, cuts_IsoTrk.size());
+  oneDHists_["cutflow_PreviousIsoTrk"] = fs_->make<TH1D>("cutflow_PreviousIsoTrk","", cuts_IsoTrk.size(), 0, cuts_IsoTrk.size());
+  oneDHists_["cutflow_Chargino"] = fs_->make<TH1D>("cutflow_Chargino","", cuts_Chargino.size(), 0, cuts_Chargino.size());
+  
+  for (std::vector<TString>::iterator iCut = cuts_IsoTrk.begin() ; iCut != cuts_IsoTrk.end(); ++iCut){
+    int ibin = iCut - cuts_IsoTrk.begin();
+    oneDHists_.at("cutflow_IsoTrk")->GetXaxis()->SetBinLabel(ibin+1, *iCut);
+    oneDHists_.at("cutflow_InclusiveIsoTrk")->GetXaxis()->SetBinLabel(ibin+1, *iCut);
+    oneDHists_.at("cutflow_PreviousIsoTrk")->GetXaxis()->SetBinLabel(ibin+1, *iCut);
+  }
+  for (std::vector<TString>::iterator iCut = cuts_Chargino.begin() ; iCut != cuts_Chargino.end(); ++iCut){
+    int ibin = iCut - cuts_Chargino.begin();
+    oneDHists_.at("cutflow_Chargino")->GetXaxis()->SetBinLabel(ibin+1, *iCut);
+  }
   // IsoTrk-matched Chargino
   oneDHists_["nCharginos"] = fs_->make<TH1D>("nCharginos", ";number of charginos", 5, -0.5, 4.5);
   oneDHists_["genCharge"] = fs_->make<TH1D>("genCharge", ";generator chargino charge", 3, -1.5, 1.5);
@@ -49,6 +71,9 @@ IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::Parameter
   oneDHists_["phi"] = fs_->make<TH1D>("phi", ";track #phi", 100, -3.2, 3.2);
   oneDHists_["eta"] = fs_->make<TH1D>("eta", ";track #eta", 100, -5.0, 5.0);
 
+  oneDHists_["dxy"] = fs_->make<TH1D>("dxy",";track d_{xy}", 100, -5.0, 5.0 );
+  oneDHists_["dz"]  = fs_->make<TH1D>("dz",";track d_{z}", 100, -5.0, 5.0 );
+
   oneDHists_["numberOfValidHits"] = fs_->make<TH1D>("numberOfValidHits", ";track number of valid hits", 100, -0.5, 99.5);
   oneDHists_["numberOfMissingInnerHits"] = fs_->make<TH1D>("numberOfMissingInnerHits", ";track number of missing inner hits", 20, -0.5, 19.5);
   oneDHists_["numberOfMissingMiddleHits"] = fs_->make<TH1D>("numberOfMissingMiddleHits", ";track number of missing middle hits", 20, -0.5, 19.5);
@@ -78,7 +103,7 @@ IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::Parameter
   twoDHists_["numberOfMissingInnerHits"] = fs_->make<TH2D>("numberOfMissingInnerHitsVsPU", ";trueNumInteractions;track number of missing inner hits", 100, 0, 100, 20, -0.5, 19.5);
   twoDHists_["numberOfMissingMiddleHits"] = fs_->make<TH2D>("numberOfMissingMiddleHitsVsPU", ";trueNumInteractions;track number of missing middle hits", 100, 0, 100, 20, -0.5, 19.5);
   twoDHists_["numberOfMissingOuterHits"] = fs_->make<TH2D>("numberOfMissingOuterHitsVsPU", ";trueNumInteractions;track number of missing outer hits", 100, 0, 100, 20, -0.5, 19.5);
-  
+  twoDHists_["assocCalNoPUVsMissingOuterHits"] = fs_->make<TH2D>("assocCaloDR05NoPUVsMissingOuterHits",";assocCaloDR05NoPU [GeV]; track number of missing outer hits",200, -0.5, 99.5, 20, -0.5, 19.5);
 
 }
 
@@ -121,7 +146,35 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
   // Find Chargino matched IsolatedTrack
   for (const auto &probe : *probes){
     for (const auto &genParticle : *genParticles){
-      if(abs(genParticle.pdgId()) == CHARGINO && genProbeMatched(probe,genParticle)){
+      //if(abs(genParticle.pdgId()) == CHARGINO && genProbeMatched(probe,genParticle)){
+      if(genProbeMatched(probe,genParticle)){
+        
+        vector<bool> cutResult_IsoTrk = {true,abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+        vector<bool> cutResult_Chargino = {true, genParticle.pdgId() == CHARGINO, abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+        vector<bool> cutResult_susySoftDisTrk= vector<bool>(cutResult_IsoTrk.size(), ( probe.pt() > 10. && (probe.pt() > 15. || probe.hitPattern().pixelLayersWithMeasurement() == probe.hitPattern().trackerLayersWithMeasurement())  && abs(probe.dxy()) < 0.02 && abs(probe.dz()) < 0.1 && (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 0.2) && !(probe.pfLepOverlap()) && probe.pfNeutralSum()/probe.pt() < 0.2 ));
+        vector<bool> cutResult_HighPtTrack = vector<bool>(cutResult_IsoTrk.size(),( probe.pt() > 50 &&  probe.isHighPurityTrack() &&  abs(probe.dxy()) < 0.5 && abs(probe.dz()) < 0.5 &&  (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 1.0 || probe.pt() > 100) ));
+        vector<bool> cutResult_InclusiveIsoTrk;
+        vector<bool> cutResult_PreviousIsoTrk;
+
+        for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end(); ++itr ){
+         int ibin = itr-cutResult_IsoTrk.begin();
+          cutResult_InclusiveIsoTrk.push_back( cutResult_IsoTrk.at(ibin) || cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
+          cutResult_PreviousIsoTrk.push_back( cutResult_susySoftDisTrk.at(ibin) || cutResult_HighPtTrack.at(ibin));
+        }
+        for(std::vector<bool>::iterator itr = cutResult_IsoTrk.begin(); itr != cutResult_IsoTrk.end() && *itr != false; ++itr ){
+          oneDHists_.at("cutflow_IsoTrk")->Fill(itr-cutResult_IsoTrk.begin()+0.5);
+        }
+        for(std::vector<bool>::iterator itr = cutResult_InclusiveIsoTrk.begin(); itr != cutResult_InclusiveIsoTrk.end() && *itr != false; ++itr ){
+          oneDHists_.at("cutflow_InclusiveIsoTrk")->Fill(itr-cutResult_InclusiveIsoTrk.begin()+0.5);
+        }
+        for(std::vector<bool>::iterator itr = cutResult_PreviousIsoTrk.begin(); itr != cutResult_PreviousIsoTrk.end() && *itr != false; ++itr ){
+          oneDHists_.at("cutflow_PreviousIsoTrk")->Fill(itr-cutResult_PreviousIsoTrk.begin()+0.5);
+        }
+        for(std::vector<bool>::iterator itr = cutResult_Chargino.begin(); itr != cutResult_Chargino.end() && *itr != false; ++itr ){
+          oneDHists_.at("cutflow_Chargino")->Fill(itr-cutResult_Chargino.begin()+0.5);
+        }
+       
+
         matchedProbeLorentzVectors.push_back(probe.p4());
         nCharginoMatchedIsoTrk++;
 
@@ -161,6 +214,9 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
         oneDHists_.at("phi")->Fill(probe.phi());
         oneDHists_.at("eta")->Fill(probe.eta());
 
+        oneDHists_.at("dxy")->Fill(probe.dxy());
+        oneDHists_.at("dz")->Fill(probe.dz());
+
         oneDHists_.at("numberOfValidHits")->Fill(probe.hitPattern().numberOfValidHits());
         oneDHists_.at("numberOfMissingInnerHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
         oneDHists_.at("numberOfMissingMiddleHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
@@ -192,6 +248,8 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
         twoDHists_["numberOfMissingMiddleHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
         twoDHists_["numberOfMissingOuterHits"]->Fill(truePV, probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
 
+        twoDHists_["assocCalNoPUVsMissingOuterHits"]->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5,probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
+
         break;
       }
     }
@@ -207,7 +265,7 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
   // End of truth particles
 
   oneDHists_.at("nCharginos")->Fill(nGenChargino);
-  std::cout << "nCharginoMatchedIsoTrk :" << nCharginoMatchedIsoTrk << "   nGenChargino: " << nGenChargino << std::endl;  
+  //std::cout << "nCharginoMatchedIsoTrk :" << nCharginoMatchedIsoTrk << "   nGenChargino: " << nGenChargino << std::endl;  
   // Store probe/genParticle associated variables
   (*eventvariables)["nCharginoMatchedIsoTrk"] = nCharginoMatchedIsoTrk;
   (*eventvariables)["nGenChargino"]           = nGenChargino; 

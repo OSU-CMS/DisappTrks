@@ -1566,11 +1566,127 @@ cutCharginoMatched = cms.PSet(
     alias = cms.string(">= 1 tracks matched with GEN chargino"),
 )
 
-cutLowCaloDR05NoPU = cms.PSet(
-    inputCollection = cms.vstring( "tracks" ),
-    cutString = cms.string("track.assocCaloDR05NoPU < 10.0"),
+cutCharginoLowCaloDR05NoPU = cms.PSet(
+    inputCollection = cms.vstring( "tracks", "hardInteractionMcparticles" ),
+    cutString = cms.string(" ( track.assocCaloDR05 - track.rhoPUCorr * 3.14 *0.5*0.5 ) < 10.0 && deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 tracks with low energy deposit"),
+    alias = cms.string(">= 1 chargino as isolated track with low NoPU energy deposit"),
 )
 
+cutCharginoIsLooseTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+    cutString = cms.string("deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024 && track.isLooseTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 chargino as loose isolated track"),
+)
 
+cutCharginoIsTightTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+    cutString = cms.string("deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024 && track.isTightTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 chargino as tight isolated track"),
+)
+
+cutCharginoIsHighPurityTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+    cutString = cms.string("deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024 && track.isHighPurityTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 chargino as high-purity isolated track"),
+)
+
+cutCharginoFromPV = cms.PSet(
+    inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+    cutString = cms.string("track.fromPV && deltaR(track,hardInteractionMcparticle) < 0.01 && abs( hardInteractionMcparticle.pdgId ) == 1000024"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 chargino from PV"),
+)
+
+cutCharginodxy = cms.PSet(
+     inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+     cutString = cms.string("fabs(track.dxy) < 0.2 && deltaR(track,hardInteractionMcparticle) < 0.01 && fabs( hardInteractionMcparticle.pdgId ) == 1000024"),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 chargino with dxy < 0.2"),
+)   
+ 
+cutCharginodz = cms.PSet(
+     inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+     cutString = cms.string("fabs(track.dz) < 1.0 && deltaR(track,hardInteractionMcparticle) < 0.01 && fabs( hardInteractionMcparticle.pdgId ) == 1000024"),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 chargino with dz < 1.0"),
+)   
+
+cutCharginopt = cms.PSet(
+     inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+     cutString = cms.string("track.pt > 30.0 && deltaR(track,hardInteractionMcparticle) < 0.01 && fabs( hardInteractionMcparticle.pdgId ) == 1000024"),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 chargino with pt > 30 GeV"),
+)
+
+cutCharginoInclusive = cms.PSet(
+     inputCollection = cms.vstring("tracks","hardInteractionMcparticles"),
+     cutString = cms.string("track.fromPV && fabs(track.dxy) < 0.2 && fabs(track.dz) < 1.0 && track.pt > 30.0 && track.isHighPurityTrack && deltaR(track,hardInteractionMcparticle) < 0.01 && fabs( hardInteractionMcparticle.pdgId ) == 1000024 "),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 chargino passing all criterias above"),
+) 
+cutIsoTrkLowCaloDR05NoPU = cms.PSet(
+    inputCollection = cms.vstring( "tracks"),
+    cutString = cms.string(" ( track.assocCaloDR05 - track.rhoPUCorr * 3.14 *0.5*0.5 ) < 10.0 "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 isolated track with low NoPU energy deposit"),
+)
+
+cutIsLooseTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string(" track.isLooseTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 isolated track as loose track"),
+)
+
+cutIsTightTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string(" track.isTightTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 isolated track as tight track"),
+)
+
+cutIsHighPurityTrack = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string(" track.isHighPurityTrack "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 isolated track as high-purity track"),
+)
+
+cutIsoTrkFromPV = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("track.fromPV "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 isolated track from PV"),
+)
+
+cutIsoTrkdxy = cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     cutString = cms.string("fabs(track.dxy) < 0.2 "),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 isolated track with dxy < 0.2"),
+)   
+ 
+cutIsoTrkdz = cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     cutString = cms.string("fabs(track.dz) < 1.0 "),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 isolated track with dz < 1.0"),
+)
+
+cutIsoTrkpt = cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     cutString = cms.string("track.pt > 30.0"),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 isolated track with pt > 30 GeV"),
+)
+
+cutIsoTrkInclusive = cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     cutString = cms.string("track.fromPV && fabs(track.dxy) < 0.2 && fabs(track.dz) < 1.0 && track.pt > 30.0 &&track.isHighPurityTrack &&  ( track.assocCaloDR05 - track.rhoPUCorr * 3.14 *0.5*0.5 ) < 10.0"),
+     numberRequired = cms.string(">= 1"),
+     alias = cms.string(">= 1 isolated track passing all criterias above"),
+)   
