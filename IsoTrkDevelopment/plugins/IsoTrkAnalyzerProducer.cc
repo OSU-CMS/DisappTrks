@@ -16,6 +16,9 @@ IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::Parameter
   EventVariableProducer(cfg)
 {
   tokenProbes_ = consumes<vector<T> > (collections_.getParameter<edm::InputTag> (tagCollectionParameter ()));
+  rhoToken_ = consumes<double>(edm::InputTag{"fixedGridRhoFastjetAll"}); 
+  rhoCaloToken_ = consumes<double>(edm::InputTag{"fixedGridRhoFastjetAllCalo"}); 
+  rhoCentralCaloToken_ = consumes<double>(edm::InputTag{"fixedGridRhoFastjetCentralCalo"}); 
   if(isMC){
     genParticlesToken_ = consumes<vector<reco::GenParticle> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
     pileupInfoToken_   = consumes<edm::View<PileupSummaryInfo>>(collections_.getParameter<edm::InputTag>("pileupinfos"));
@@ -23,7 +26,33 @@ IsoTrkAnalyzerProducer<T, Args...>::IsoTrkAnalyzerProducer (const edm::Parameter
 
   TH1::SetDefaultSumw2();
 
-  
+  tree_ = fs_->make<TTree>("tree", "tree");
+  tree_->Branch("charge",&bCharge);
+  tree_->Branch("pt",&bPt);
+  tree_->Branch("eta",&bEta);
+  tree_->Branch("phi",&bPhi);
+  tree_->Branch("dxy",&bDxy);
+  tree_->Branch("dz",&bDz);
+  tree_->Branch("isHighPurityTrack",&bIsHighPurityTrack);
+  tree_->Branch("isTightTrack",&bIsTightTrack);
+  tree_->Branch("isLooseTrack",&bIsLooseTrack);
+  tree_->Branch("assocEMCaloDR05",&bAssocEMCaloDR05);
+  tree_->Branch("assocHadCaloDR05",&bAssocHadCaloDR05);
+  tree_->Branch("assocCaloDR05",&bAssocCaloDR05);
+  tree_->Branch("rhoPUCorr",&bRhoPUCorr); 
+  tree_->Branch("rhoPUCorrCalo",&bRhoPUCorrCalo); 
+  tree_->Branch("rhoPUCorrCentralCalo",&bRhoPUCorrCentralCalo); 
+  tree_->Branch("numberOfValidHits",&bNumberOfValidHits);
+  tree_->Branch("numberOfMissingInnerHits",&bNumberOfMissingInnerHits);
+  tree_->Branch("numberOfMissingMiddleHits",&bNumberOfMissingMiddleHits);
+  tree_->Branch("numberOfMissingOuterHits",&bNumberOfMissingOuterHits);
+  tree_->Branch("passExistingSlimming",&bPassExistingSlimming);
+  tree_->Branch("pfLepOverlap",&bpfLepOverlap);
+  tree_->Branch("pfNeutralSum",&pfNeutralSum);
+  tree_->Branch("trackIsoDR05",&btrackIsoDR05);
+  tree_->Branch("chargedHadronIso",&bchargedHadronIso);
+  tree_->Branch("neutralHadronIso",&bneutralHadronIso);
+   
   oneDHists_["nPU"] = fs_->make<TH1D>("nPU", ";trueNumInteractions", 100, 0, 100);
 
   // Object-by-object CutFlow
@@ -122,6 +151,13 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
   edm::Handle<vector<T> > probes;
   event.getByToken (tokenProbes_, probes);
 
+  edm::Handle<double> rhoHandle;
+  event.getByToken (rhoToken_, rhoHandle);
+  edm::Handle<double> rhoCaloHandle;
+  event.getByToken (rhoCaloToken_, rhoCaloHandle );
+  edm::Handle<double> rhoCentralCaloHandle;
+  event.getByToken (rhoCentralCaloToken_, rhoCentralCaloHandle );
+
   edm::Handle<vector<reco::GenParticle> > genParticles;
   edm::Handle<edm::View<PileupSummaryInfo>> pileupInfos;
   if (isMC){
@@ -154,7 +190,7 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
   // Find Chargino matched IsolatedTrack
   for (const auto &probe : *probes){
         
-    vector<bool> cutResult_IsoTrk = {true,abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+    vector<bool> cutResult_IsoTrk = {true,abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocEMCaloDR05() + probe.assocHadCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5 < 10.0 };
     vector<bool> cutResult_susySoftDisTrk= vector<bool>(cutResult_IsoTrk.size(), ( probe.pt() > 10. && (probe.pt() > 15. || probe.hitPattern().pixelLayersWithMeasurement() == probe.hitPattern().trackerLayersWithMeasurement())  && abs(probe.dxy()) < 0.02 && abs(probe.dz()) < 0.1 && (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 0.2) && !(probe.pfLepOverlap()) && probe.pfNeutralSum()/probe.pt() < 0.2 ));
     vector<bool> cutResult_HighPtTrack = vector<bool>(cutResult_IsoTrk.size(),( probe.pt() > 50 &&  probe.isHighPurityTrack() &&  abs(probe.dxy()) < 0.5 && abs(probe.dz()) < 0.5 &&  (probe.miniPFIsolation().chargedHadronIso()/probe.pt() < 1.0 || probe.pt() > 100) ));
     vector<bool> cutResult_InclusiveIsoTrk;
@@ -175,7 +211,41 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
       oneDHists_.at("cutflow_PreviousIsoTrk")->Fill(itr-cutResult_PreviousIsoTrk.begin()+0.5);
     }
 
+  
+    // Fill the TTree for Isolated Tracks
+    bCharge = probe.charge();
+    bPt = probe.pt();
+    bEta = probe.eta();
+    bPhi = probe.phi();
 
+    bDxy = probe.dxy();
+    bDz = probe.dz();
+
+    bIsHighPurityTrack = probe.isHighPurityTrack();
+    bIsTightTrack = probe.isTightTrack();
+    bIsLooseTrack = probe.isLooseTrack();
+
+    bAssocEMCaloDR05 = probe.assocEMCaloDR05();
+    bAssocHadCaloDR05 = probe.assocHadCaloDR05();
+    bAssocCaloDR05 = probe.assocEMCaloDR05() + probe.assocHadCaloDR05();
+    bRhoPUCorr = *rhoHandle;
+    bRhoPUCorrCalo = *rhoCaloHandle; 
+    bRhoPUCorrCentralCalo = *rhoCentralCaloHandle;
+    bNumberOfValidHits = probe.hitPattern().numberOfValidHits();
+    bNumberOfMissingInnerHits = probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS);
+    bNumberOfMissingMiddleHits = probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS);
+    bNumberOfMissingOuterHits = probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS);
+    
+    bPassExistingSlimming = (cutResult_susySoftDisTrk.at(1) || cutResult_HighPtTrack.at(1));
+   
+    bpfLepOverlap = probe.pfLepOverlap(); 
+    pfNeutralSum = probe.pfNeutralSum();
+    btrackIsoDR05 = probe.trackIsoDR05();
+    bchargedHadronIso = probe.miniPFIsolation().chargedHadronIso();
+    bneutralHadronIso = probe.miniPFIsolation().neutralHadronIso(); 
+
+    tree_->Fill();
+ 
     // Fill chargino-matched IsolatedTrack
     oneDHists_.at("charge")->Fill(probe.charge());
     oneDHists_.at("pt")->Fill(probe.pt());
@@ -190,22 +260,22 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
     oneDHists_.at("numberOfMissingMiddleHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
     oneDHists_.at("numberOfMissingOuterHits")->Fill(probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
 
-    oneDHists_.at("assocCaloDR05")->Fill(probe.assocCaloDR05());
+    oneDHists_.at("assocCaloDR05")->Fill(probe.assocEMCaloDR05() + probe.assocHadCaloDR05());
     oneDHists_.at("assocEMCaloDR05")->Fill(probe.assocEMCaloDR05());
     oneDHists_.at("assocHadCaloDR05")->Fill(probe.assocHadCaloDR05());
 
-    oneDHists_.at("assocCaloDR05NoPU")->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocEMCaloDR05NoPU")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocHadCaloDR05NoPU")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocCaloDR05NoPU")->Fill(probe.assocEMCaloDR05() + probe.assocHadCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPU")->Fill(probe.assocEMCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPU")->Fill(probe.assocHadCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5);
 
-    oneDHists_.at("assocCaloDR05NoPUCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocEMCaloDR05NoPUCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocHadCaloDR05NoPUCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocCaloDR05NoPUCalo")->Fill(probe.assocEMCaloDR05() + probe.assocHadCaloDR05() - *rhoCaloHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPUCalo")->Fill(probe.assocEMCaloDR05() - *rhoCaloHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPUCalo")->Fill(probe.assocHadCaloDR05() - *rhoCaloHandle * TMath::Pi()*0.5*0.5);
 
 
-    oneDHists_.at("assocCaloDR05NoPUCentralCalo")->Fill(probe.assocCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocEMCaloDR05NoPUCentralCalo")->Fill(probe.assocEMCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
-    oneDHists_.at("assocHadCaloDR05NoPUCentralCalo")->Fill(probe.assocHadCaloDR05() - probe.rhoPUCorrCentralCalo() * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocCaloDR05NoPUCentralCalo")->Fill(probe.assocEMCaloDR05() + probe.assocHadCaloDR05() - *rhoCentralCaloHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocEMCaloDR05NoPUCentralCalo")->Fill(probe.assocEMCaloDR05() - *rhoCentralCaloHandle * TMath::Pi()*0.5*0.5);
+    oneDHists_.at("assocHadCaloDR05NoPUCentralCalo")->Fill(probe.assocHadCaloDR05() - *rhoCentralCaloHandle * TMath::Pi()*0.5*0.5);
 
 
     twoDHists_["numberOfValidHits"]->Fill(truePV, probe.hitPattern().numberOfValidHits());
@@ -216,7 +286,7 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
       twoDHists_["chargeVsPU"]->Fill(truePV, probe.charge());
       twoDHists_["ptVsPU"]->Fill(truePV, probe.pt());
       twoDHists_["etaVsPU"]->Fill(truePV, probe.eta());
-      twoDHists_["assocCalNoPUVsMissingOuterHits"]->Fill(probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5,probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
+      twoDHists_["assocCalNoPUVsMissingOuterHits"]->Fill(probe.assocEMCaloDR05()+probe.assocHadCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5,probe.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
     }
 
     if (isMC){
@@ -226,7 +296,7 @@ IsoTrkAnalyzerProducer<T, Args...>::AddVariables (const edm::Event &event )
           matchedProbeLorentzVectors.push_back(probe.p4());
           nCharginoMatchedIsoTrk++;
         
-          vector<bool> cutResult_Chargino = {true, genParticle.pdgId() == CHARGINO, abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocCaloDR05() - probe.rhoPUCorr() * TMath::Pi()*0.5*0.5 < 10.0 };
+          vector<bool> cutResult_Chargino = {true, genParticle.pdgId() == CHARGINO, abs(probe.dxy()) < 0.05, abs(probe.dz()) < 1.0, probe.pt() > 45.0, probe.isLooseTrack(), probe.isTightTrack(), probe.isHighPurityTrack(),probe.assocEMCaloDR05()+probe.assocHadCaloDR05() - *rhoHandle * TMath::Pi()*0.5*0.5 < 10.0 };
           for(std::vector<bool>::iterator itr = cutResult_Chargino.begin(); itr != cutResult_Chargino.end() && *itr != false; ++itr ){
             oneDHists_.at("cutflow_Chargino")->Fill(itr-cutResult_Chargino.begin()+0.5);
           }

@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "TTree.h"
+
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TVector3.h"
@@ -37,12 +39,29 @@ template<class T, class... Args> class IsoTrkAnalyzerProducer : public EventVari
     edm::EDGetTokenT<vector<T> > tokenProbes_;
     edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
     edm::EDGetTokenT<edm::View<PileupSummaryInfo> > pileupInfoToken_;
-
+    edm::EDGetTokenT<double> rhoToken_;
+    edm::EDGetTokenT<double> rhoCaloToken_;
+    edm::EDGetTokenT<double> rhoCentralCaloToken_;
     const string tagCollectionParameter () const;
     bool genProbeMatched (const osu::Track &probe, const reco::GenParticle &genParticle) const;
     void getEndVertex (const reco::GenParticle &, TVector3 &) const;
 
     edm::Service<TFileService> fs_;
+    TTree * tree_;
+    
+    int bCharge;
+    double bPt,bEta,bPhi,bDxy,bDz;
+    bool bIsHighPurityTrack,bIsTightTrack,bIsLooseTrack;
+    double bAssocEMCaloDR05,bAssocHadCaloDR05,bAssocCaloDR05;
+    double bRhoPUCorr, bRhoPUCorrCalo, bRhoPUCorrCentralCalo;
+    int bNumberOfValidHits,bNumberOfMissingInnerHits,bNumberOfMissingMiddleHits,bNumberOfMissingOuterHits;
+    int bPassExistingSlimming;
+    bool bpfLepOverlap;
+    float pfNeutralSum;
+    float btrackIsoDR05;
+    float bchargedHadronIso;
+    float bneutralHadronIso; 
+
     map<string, TH1D *> oneDHists_;
     map<string, TH2D *> twoDHists_;
 };
