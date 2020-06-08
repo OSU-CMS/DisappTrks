@@ -7,7 +7,7 @@ EventVariableProducer(cfg)
   tracksToken_ = consumes<vector<osu::Track> >(collections_.getParameter<edm::InputTag>("tracks"));
 }
 
-void DeDxHitInfoVarProducer::AddVariables(const edm::Event &event) {
+void DeDxHitInfoVarProducer::AddVariables(const edm::Event &event, const edm::EventSetup &setup) {
 
   edm::Handle<vector<osu::Track> > tracks;
   if(!event.getByToken(tracksToken_, tracks) || !tracks.isValid()) return;
@@ -21,6 +21,12 @@ void DeDxHitInfoVarProducer::AddVariables(const edm::Event &event) {
   vector<vector<int> > pixelSize(tracks->size());
   vector<vector<int> > pixelSizeX(tracks->size());
   vector<vector<int> > pixelSizeY(tracks->size());
+
+  /*
+  edm::ESHandle<TrackerTopology> tTopoHandle;
+  iSetup.get<TrackerTopologyRcd>().get(tTopoHandle);
+  const TrackerTopology& tTopo = *tTopoHandle;
+  */
 
   for(unsigned int itrk = 0; itrk < tracks->size(); itrk++) {
     if((*tracks)[itrk].dRToMatchedIsolatedTrack() < 0) continue; // INVALID_VALUE
@@ -38,7 +44,7 @@ void DeDxHitInfoVarProducer::AddVariables(const edm::Event &event) {
 	if(!isPixel && !isStrip) continue; // probably shouldn't happen
         if(isPixel && isStrip) continue;
 
-			// shape selection for strips
+        // shape selection for strips
         if(isStrip && !DeDxTools::shapeSelection(*(hitInfo->stripCluster(iHit)))) continue;
         float norm = isPixel ? 3.61e-06 : 3.61e-06 * 265;
 

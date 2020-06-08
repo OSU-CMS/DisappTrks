@@ -14,7 +14,7 @@ public:
   ~DeDxHitInfoVarProducer() {};
 
 private:
-  void AddVariables(const edm::Event &);
+  void AddVariables(const edm::Event &, const edm::EventSetup &, const edm::EventSetup &);
 
   edm::EDGetTokenT<reco::DeDxHitInfoAss> isoTrk2dedxHitInfoToken_;
   edm::EDGetTokenT<vector<osu::Track> > tracksToken_;

@@ -6,7 +6,7 @@ EventGenJetVarProducer::EventGenJetVarProducer(const edm::ParameterSet &cfg) :
   	genJetsToken_ = consumes<reco::GenJetCollection> (genJetsTag_);
 }
 
-void EventGenJetVarProducer::AddVariables(const edm::Event &event) {
+void EventGenJetVarProducer::AddVariables(const edm::Event &event, const edm::EventSetup &setup) {
 
 	edm::Handle<reco::GenJetCollection> genJets;
 	event.getByToken(genJetsToken_, genJets);

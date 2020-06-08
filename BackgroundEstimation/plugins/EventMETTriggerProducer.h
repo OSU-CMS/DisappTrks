@@ -22,7 +22,7 @@ template<class T> class EventMETTriggerProducer : public EventVariableProducer
     ~EventMETTriggerProducer ();
 
   private:
-    void AddVariables(const edm::Event &);
+    void AddVariables(const edm::Event &, const edm::EventSetup &);
     edm::EDGetTokenT<edm::TriggerResults> tokenTriggers_;
     edm::EDGetTokenT<vector<pat::TriggerObjectStandAlone> > tokenTriggerObjects_;
     edm::EDGetTokenT<vector<T> > tokenTags_;

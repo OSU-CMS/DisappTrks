@@ -12,7 +12,7 @@ public:
   ~EventGenJetVarProducer() {};
 
 private:
-  void AddVariables(const edm::Event &);
+  void AddVariables(const edm::Event &, const edm::EventSetup &);
 
   edm::InputTag genJetsTag_;
   edm::EDGetTokenT<reco::GenJetCollection> genJetsToken_;

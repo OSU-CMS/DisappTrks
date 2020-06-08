@@ -41,7 +41,7 @@ template<class T> class EventL1ETMProducer : public EventVariableProducer
     ~EventL1ETMProducer ();
 
   private:
-    void AddVariables(const edm::Event &);
+    void AddVariables(const edm::Event &, const edm::EventSetup &);
     void beginRun (const edm::Run &, const edm::EventSetup &);
 
     edm::EDGetTokenT<edm::TriggerResults> tokenTriggers_;

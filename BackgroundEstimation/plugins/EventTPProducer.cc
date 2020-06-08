@@ -29,7 +29,7 @@ EventTPProducer<T, Args...>::~EventTPProducer ()
 }
 
 template<class T, class... Args> void
-EventTPProducer<T, Args...>::AddVariables (const edm::Event &event)
+EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<T> > tags;
   event.getByToken (tokenTags_, tags);

@@ -15,7 +15,7 @@ EventTriggerVarProducer::EventTriggerVarProducer(const edm::ParameterSet &cfg) :
   signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
 }
 
-void EventTriggerVarProducer::AddVariables(const edm::Event &event) {
+void EventTriggerVarProducer::AddVariables(const edm::Event &event, const edm::EventSetup &setup) {
 
   //////////////////////////////////////////////////////////////////////////////
   // Leading jet eta

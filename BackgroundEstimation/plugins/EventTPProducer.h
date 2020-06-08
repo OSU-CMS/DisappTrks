@@ -23,7 +23,7 @@ template<class T, class... Args> class EventTPProducer : public EventVariablePro
     ~EventTPProducer ();
 
   private:
-    void AddVariables(const edm::Event &);
+    void AddVariables(const edm::Event &, const edm::EventSetup &);
 
     edm::EDGetTokenT<vector<T> > tokenTags_;
     edm::EDGetTokenT<vector<osu::Track> > tokenProbes_;
