@@ -1158,13 +1158,13 @@ cutEleTrkInvMass10 = cms.PSet(
 )
 cutEleTrkInvMass80To100 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
-    cutString = cms.string(invMassWithMuon ("electron") + " > " + str(mZPDG - 10) + " && " + invMassWithMuon ("electron") + " < " + str(mZPDG + 10)),
+    cutString = cms.string(invMassWithElectron ("electron") + " > " + str(mZPDG - 10) + " && " + invMassWithElectron ("electron") + " < " + str(mZPDG + 10)),
     numberRequired = cms.string(">= 1"),
     alias = cms.string (">= 1 electron-track pairs with " + str(mZPDG - 10) + " < invMass(electron,track) < " + str(mZPDG + 10)),
 )
 cutEleTrkInvMass40To75 = cms.PSet(
     inputCollection = cms.vstring("electrons", "tracks"),
-    cutString = cms.string(invMassWithMuon ("electron") + " > " + str(mZPDG - 50) + " && " + invMassWithMuon ("electron") + " < " + str(mZPDG - 15)),
+    cutString = cms.string(invMassWithElectron ("electron") + " > " + str(mZPDG - 50) + " && " + invMassWithElectron ("electron") + " < " + str(mZPDG - 15)),
     numberRequired = cms.string(">= 1"),
     alias = cms.string (">= 1 electron-track pairs with " + str(mZPDG - 50) + " < invMass(electron,track) < " + str(mZPDG - 15)),
 )

@@ -21,7 +21,7 @@ ElectronTagSkim = cms.PSet(
 )
 tagElectronCuts = [
     cutMetFilters,
-    cutElectronPt, # pt>25 for 2015-6, >35 for 2017
+    cutElectronPt, # pt>25 for 2015-6, >35 for 2017, >32 for 2018
     cutElectronEta21,
     cutElectronTightID,
     cutElectronTightPFIso,
