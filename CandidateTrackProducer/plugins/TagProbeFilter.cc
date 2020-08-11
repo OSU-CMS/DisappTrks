@@ -272,7 +272,7 @@ TagProbeFilter<T>::selectProbes (const reco::Vertex &vertex,
     if(track.hitPattern().numberOfValidHits() < 4) continue; // cutTrkNValidHitsSignal
     if(track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) != 0) continue; // cutTrkNMissIn
     if(track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) != 0) continue; // cutTrkNMissMid
-    if(getTrackIsolation(track, tracks, true, false, 0.3) / track.pt() < 0.05) continue; // cutTrkIso
+    if(getTrackIsolation(track, tracks, true, false, 0.3) / track.pt() >= 0.05) continue; // cutTrkIso
 
     double trackD0WRTPV = ((track.vx() - vertex.x()) * track.py() - (track.vy() - vertex.y()) * track.px()) / track.pt();
     if(fabs(trackD0WRTPV) >= 0.02) continue;
