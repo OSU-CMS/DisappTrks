@@ -131,12 +131,12 @@ process.MINIAODoutput.outputCommands.extend(
 )
 
 # Set up skim filter paths; cannot OR filters within one path, but can OR in output SelectEvents
-process.electronTagProbeFilterPath      = cms.Path(process.electronTagProbeFilter)
-process.tauToElectronTagProbeFilterPath = cms.Path(process.tauToElectronTagProbeFilter)
+process.muonTagProbeFilterPath = cms.Path(process.muonTagProbeFilter)
+process.tauToMuonTagProbeFilterPath = cms.Path(process.tauToMuonTagProbeFilter)
 process.MINIAODoutput.SelectEvents = cms.untracked.PSet (
     SelectEvents = cms.vstring (
-        "electronTagProbeFilterPath",
-        "tauToElectronTagProbeFilterPath",
+        "muonTagProbeFilterPath",
+        "tauToMuonTagProbeFilterPath",
     )
 )
 
@@ -198,8 +198,8 @@ process.schedule = cms.Schedule(
     process.Flag_trkPOG_toomanystripclus53X,
     process.Flag_trkPOG_logErrorTooManyClusters,
     process.Flag_METFilters,
-    process.electronTagProbeFilterPath,
-    process.tauToElectronTagProbeFilterPath,
+    process.muonTagProbeFilterPath,
+    process.tauToMuonTagProbeFilterPath,
     process.candidateTracks,
     process.endjob_step,
     process.MINIAODoutput_step)

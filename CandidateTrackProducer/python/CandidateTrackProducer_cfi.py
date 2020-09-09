@@ -172,9 +172,41 @@ electronTagProbeFilter = cms.EDFilter ("ElectronTagProbeFilter",
   dataTakingPeriod = cms.string(""),
 )
 
-muonTagProbeFilter = copy.deepcopy(electronTagProbeFilter)
-tauToElectronTagProbeFilter = copy.deepcopy(electronTagProbeFilter)
-tauToMuonTagProbeFilter = copy.deepcopy(electronTagProbeFilter)
+tauToElectronTagProbeFilter = cms.EDFilter ("TauToElectronTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+muonTagProbeFilter = cms.EDFilter ("MuonTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+tauToMuonTagProbeFilter = cms.EDFilter ("TauToMuonTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
   muonSkimFilter.ptCut = cms.double(26)
@@ -214,8 +246,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
 
   electronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
   tauToElectronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
-  muonTagProbeFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
-  tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
+  muonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
+  tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
 
   electronTagProbeFilter.dataTakingPeriod = cms.string ("2017")
   tauToElectronTagProbeFilter.dataTakingPeriod = cms.string ("2017")
