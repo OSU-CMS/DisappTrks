@@ -208,7 +208,7 @@ tauToMuonTagProbeFilter = cms.EDFilter ("TauToMuonTagProbeFilter",
   dataTakingPeriod = cms.string(""),
 )
 
-zToEEFilter = cms.EDFilter ("ZtoEEFilter",
+zToEEFilter = cms.EDFilter ("ZToEEFilter",
   triggers         = collections.MiniAOD.triggers,
   vertices         = collections.MiniAOD.vertices,
   electrons        = collections.MiniAOD.electrons,
@@ -217,7 +217,7 @@ zToEEFilter = cms.EDFilter ("ZtoEEFilter",
   dataTakingPeriod = cms.string(""),
 )
 
-zToMuMuFilter = cms.EDFilter ("ZtoMuMuFilter",
+zToMuMuFilter = cms.EDFilter ("ZToMuMuFilter",
   triggers         = collections.MiniAOD.triggers,
   vertices         = collections.MiniAOD.vertices,
   electrons        = collections.MiniAOD.electrons,

@@ -20,10 +20,10 @@ using namespace std;
 enum Flavor {ELECTRON, MUON};
 
 template<Flavor T>
-class ZtoLLFilter : public edm::EDFilter {
+class ZToLLFilter : public edm::EDFilter {
    public:
-      ZtoLLFilter (const edm::ParameterSet &);
-      ~ZtoLLFilter ();
+      ZToLLFilter (const edm::ParameterSet &);
+      ~ZToLLFilter ();
 
       bool filter (edm::Event &, const edm::EventSetup &);
 

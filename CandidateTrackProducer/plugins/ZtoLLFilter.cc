@@ -1,10 +1,10 @@
 #include "TLorentzVector.h"
 
 #include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
-#include "DisappTrks/CandidateTrackProducer/plugins/ZtoLLFilter.h"
+#include "DisappTrks/CandidateTrackProducer/plugins/ZToLLFilter.h"
 
 template<Flavor T>
-ZtoLLFilter<T>::ZtoLLFilter (const edm::ParameterSet& iConfig) :
+ZToLLFilter<T>::ZToLLFilter (const edm::ParameterSet& iConfig) :
   triggers_   (iConfig.getParameter<edm::InputTag> ("triggers")),
   vertices_   (iConfig.getParameter<edm::InputTag> ("vertices")),
   electrons_  (iConfig.getParameter<edm::InputTag> ("electrons")),
@@ -23,12 +23,12 @@ ZtoLLFilter<T>::ZtoLLFilter (const edm::ParameterSet& iConfig) :
 }
 
 template<Flavor T>
-ZtoLLFilter<T>::~ZtoLLFilter ()
+ZToLLFilter<T>::~ZToLLFilter ()
 {
 }
 
 template<Flavor T> bool
-ZtoLLFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
+ZToLLFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<edm::TriggerResults> triggers;
   event.getByToken(triggersToken_, triggers);
@@ -55,7 +55,7 @@ ZtoLLFilter<T>::filter (edm::Event &event, const edm::EventSetup &setup)
 }
 
 template<Flavor T> bool
-ZtoLLFilter<T>::passesTrigger (const edm::Event &event, const edm::TriggerResults &triggers) const
+ZToLLFilter<T>::passesTrigger (const edm::Event &event, const edm::TriggerResults &triggers) const
 {
   bool triggerDecision = triggerNames_.empty() ? true : false;
   const edm::TriggerNames &triggerNames = event.triggerNames (triggers);
@@ -75,7 +75,7 @@ ZtoLLFilter<T>::passesTrigger (const edm::Event &event, const edm::TriggerResult
 }
 
 template<Flavor T> void
-ZtoLLFilter<T>::selectLeptons(const edm::Event &event,
+ZToLLFilter<T>::selectLeptons(const edm::Event &event,
                               const reco::Vertex &vertex,
                               const vector<pat::Electron> &electrons,
                               const vector<pat::Muon> &muons,
@@ -86,7 +86,7 @@ ZtoLLFilter<T>::selectLeptons(const edm::Event &event,
 }
 
 template<> void
-ZtoLLFilter<ELECTRON>::selectLeptons(const edm::Event &event,
+ZToLLFilter<ELECTRON>::selectLeptons(const edm::Event &event,
                                      const reco::Vertex &vertex,
                                      const vector<pat::Electron> &electrons,
                                      const vector<pat::Muon> &muons,
@@ -112,7 +112,7 @@ ZtoLLFilter<ELECTRON>::selectLeptons(const edm::Event &event,
 }
 
 template<> void
-ZtoLLFilter<MUON>::selectLeptons(const edm::Event &event,
+ZToLLFilter<MUON>::selectLeptons(const edm::Event &event,
                                  const reco::Vertex &vertex,
                                  const vector<pat::Electron> &electrons,
                                  const vector<pat::Muon> &muons,
@@ -133,14 +133,14 @@ ZtoLLFilter<MUON>::selectLeptons(const edm::Event &event,
 }
 
 template<Flavor T> bool
-ZtoLLFilter<T>::filterDecision(const vector<pat::Electron> selectedElectrons,
+ZToLLFilter<T>::filterDecision(const vector<pat::Electron> selectedElectrons,
                                const vector<pat::Muon> selectedMuons) const
 {
   return true;
 }
 
 template<> bool
-ZtoLLFilter<ELECTRON>::filterDecision(const vector<pat::Electron> selectedElectrons,
+ZToLLFilter<ELECTRON>::filterDecision(const vector<pat::Electron> selectedElectrons,
                                       const vector<pat::Muon> selectedMuons) const
 {
   if(selectedElectrons.size() != 2) return false;
@@ -158,7 +158,7 @@ ZtoLLFilter<ELECTRON>::filterDecision(const vector<pat::Electron> selectedElectr
 }
 
 template<> bool
-ZtoLLFilter<MUON>::filterDecision(const vector<pat::Electron> selectedElectrons,
+ZToLLFilter<MUON>::filterDecision(const vector<pat::Electron> selectedElectrons,
                                   const vector<pat::Muon> selectedMuons) const
 {
   if(selectedMuons.size() != 2) return false;
@@ -175,8 +175,8 @@ ZtoLLFilter<MUON>::filterDecision(const vector<pat::Electron> selectedElectrons,
   return true;
 }
 
-typedef ZtoLLFilter<ELECTRON> ZtoEEFilter;
-typedef ZtoLLFilter<MUON>     ZtoMuMuFilter;
+typedef ZToLLFilter<ELECTRON> ZToEEFilter;
+typedef ZToLLFilter<MUON>     ZToMuMuFilter;
 
-DEFINE_FWK_MODULE (ZtoEEFilter);
-DEFINE_FWK_MODULE (ZtoMuMuFilter);
+DEFINE_FWK_MODULE (ZToEEFilter);
+DEFINE_FWK_MODULE (ZToMuMuFilter);
