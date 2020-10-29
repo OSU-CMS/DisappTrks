@@ -17,7 +17,7 @@ ParticleGunVarProducer<T, Args...>::~ParticleGunVarProducer ()
 }
 
 template<class T, class... Args> void
-ParticleGunVarProducer<T, Args...>::AddVariables (const edm::Event &event)
+ParticleGunVarProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<T> > probes;
   event.getByToken (tokenProbes_, probes);

@@ -54,7 +54,7 @@ private:
   const osu::Track &getLeadTrack (const vector<osu::Track> &) const;
   bool passesInclusiveMetTriggers (const edm::Event &, const edm::TriggerResults &);
 
-  void AddVariables(const edm::Event &);
+  void AddVariables(const edm::Event &, const edm::EventSetup &);
 };
 
 TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
@@ -99,7 +99,7 @@ TriggerWeightProducer::~TriggerWeightProducer()
     delete grandOrDenominator_;
 }
 
-void TriggerWeightProducer::AddVariables(const edm::Event &event) {
+void TriggerWeightProducer::AddVariables(const edm::Event &event, const edm::EventSetup &setup) {
 
   if(!produceMetLeg_ && !produceTrackLeg_ && !produceGrandOr_) {
     if(isFirstEvent_) {

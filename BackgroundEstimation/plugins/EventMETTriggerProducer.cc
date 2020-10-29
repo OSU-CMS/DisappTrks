@@ -27,7 +27,7 @@ EventMETTriggerProducer<T>::~EventMETTriggerProducer ()
 }
 
 template<class T> void
-EventMETTriggerProducer<T>::AddVariables (const edm::Event &event)
+EventMETTriggerProducer<T>::AddVariables (const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<edm::TriggerResults> triggers;
   event.getByToken (tokenTriggers_, triggers);

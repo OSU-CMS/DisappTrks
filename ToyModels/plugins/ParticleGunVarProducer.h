@@ -24,7 +24,7 @@ template<class T, class... Args> class ParticleGunVarProducer : public EventVari
     ~ParticleGunVarProducer ();
 
   private:
-    void AddVariables(const edm::Event &);
+    void AddVariables(const edm::Event &, const edm::EventSetup &);
     edm::EDGetTokenT<vector<T> > tokenProbes_;
     edm::EDGetTokenT<vector<TYPE(muons)> > tokenMuons_;
     edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;

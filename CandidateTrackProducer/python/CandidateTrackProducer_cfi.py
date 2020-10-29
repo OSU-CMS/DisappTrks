@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import os
+import copy
 
 # The following are needed for the calculation of associated calorimeter energy
 from Configuration.StandardSequences.GeometryRecoDB_cff import *
@@ -35,6 +36,7 @@ collections.MiniAOD = cms.PSet (
   taus             = cms.InputTag ("slimmedTaus",                    ""),
   triggers         = cms.InputTag ("TriggerResults",                 "",                    "HLT"),
   vertices         = cms.InputTag ("offlineSlimmedPrimaryVertices",  ""),
+  trigobjs         = cms.InputTag ('slimmedPatTrigger'),
 )
 
 electronIdName = "cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
@@ -158,6 +160,72 @@ tauSkimFilter = cms.EDFilter ("TauSkimFilter",
   triggerNames =  cms.vstring ("HLT_LooseIsoPFTau50_Trk30_eta2p1_v"),
 )
 
+electronTagProbeFilter = cms.EDFilter ("ElectronTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+tauToElectronTagProbeFilter = cms.EDFilter ("TauToElectronTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+muonTagProbeFilter = cms.EDFilter ("MuonTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+tauToMuonTagProbeFilter = cms.EDFilter ("TauToMuonTagProbeFilter",
+  triggers         = collections.MiniAOD.triggers,
+  triggerObjects   = collections.MiniAOD.trigobjs,
+  vertices         = collections.MiniAOD.vertices,
+  met              = collections.MiniAOD.mets,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  tracks           = cms.InputTag ("generalTracks"),
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+zToEEFilter = cms.EDFilter ("ZToEEFilter",
+  triggers         = collections.MiniAOD.triggers,
+  vertices         = collections.MiniAOD.vertices,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
+zToMuMuFilter = cms.EDFilter ("ZToMuMuFilter",
+  triggers         = collections.MiniAOD.triggers,
+  vertices         = collections.MiniAOD.vertices,
+  electrons        = collections.MiniAOD.electrons,
+  muons            = collections.MiniAOD.muons,
+  triggerNames     = cms.vstring (),
+  dataTakingPeriod = cms.string(""),
+)
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0"):
   muonSkimFilter.ptCut = cms.double(26)
   muonSkimFilter.triggerNames =  cms.vstring ("HLT_IsoMu24_v", "HLT_IsoTkMu24_v")
@@ -194,6 +262,20 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
   muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
   tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
 
+  electronTagProbeFilter.triggerNames      = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
+  tauToElectronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
+  zToEEFilter.triggerNames                 = cms.vstring ("HLT_Ele35_WPTight_Gsf_v")
+  muonTagProbeFilter.triggerNames      = cms.vstring ("HLT_IsoMu27_v")
+  tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu27_v")
+  zToMuMuFilter.triggerNames           = cms.vstring ("HLT_IsoMu27_v")
+
+  electronTagProbeFilter.dataTakingPeriod      = cms.string ("2017")
+  tauToElectronTagProbeFilter.dataTakingPeriod = cms.string ("2017")
+  zToEEFilter.dataTakingPeriod                 = cms.string ("2017")
+  muonTagProbeFilter.dataTakingPeriod      = cms.string ("2017")
+  tauToMuonTagProbeFilter.dataTakingPeriod = cms.string ("2017")
+  zToMuMuFilter.dataTakingPeriod           = cms.string ("2017")
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
   metSkimFilter.ptCut = cms.double(120)
   electronSkimFilter.ptCut = cms.double(32)
@@ -221,3 +303,17 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
   electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
   muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
   tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
+
+  electronTagProbeFilter.triggerNames      = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  tauToElectronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  zToEEFilter.triggerNames                 = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  muonTagProbeFilter.triggerNames      = cms.vstring ("HLT_IsoMu24_v"),
+  tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
+  zToMuMuFilter.triggerNames           = cms.vstring ("HLT_IsoMu24_v")
+
+  electronTagProbeFilter.dataTakingPeriod      = cms.string ("2018")
+  tauToElectronTagProbeFilter.dataTakingPeriod = cms.string ("2018")
+  zToEEFilter.dataTakingPeriod                 = cms.string ("2018")
+  muonTagProbeFilter.dataTakingPeriod      = cms.string ("2018")
+  tauToMuonTagProbeFilter.dataTakingPeriod = cms.string ("2018")
+  zToMuMuFilter.dataTakingPeriod           = cms.string ("2018")

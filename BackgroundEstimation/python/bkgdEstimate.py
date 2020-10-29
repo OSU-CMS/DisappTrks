@@ -72,10 +72,16 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
             fullTotal += totals
 
             print "********************************************************************************"
-            print "Total background from leptons (" + year + runPeriod + ", " + nLayersWord + "): " + str(leptons)
-            print "Total background from fake tracks (" + year + runPeriod + ", " + nLayersWord + "): " + str(fakes[(nLayersWord, runPeriod)])
-            print "********************************************************************************"
-            print "Total background (" + year + runPeriod + ", " + nLayersWord + "): " + str(totals)
+            print "Period: " + year + runPeriod
+            print "nLayers: " + nLayersWord
+            print "\tElectrons: " + str(electrons[(nLayersWord, runPeriod)])
+            print "\tMuons: " + str(muons[(nLayersWord, runPeriod)])
+            print "\tTaus: " + str(taus[(nLayersWord, runPeriod)])
+            print "\t-------------------------------------"
+            print "\tLeptons (total): " + str(leptons)
+            print "\tFake tracks: " + str(fakes[(nLayersWord, runPeriod)])
+            print "\t-------------------------------------"
+            print "Total background: " + str(totals)
             print "********************************************************************************"
     print 'Full total across all nLayers categories, run periods:'
     print str(fullTotal)

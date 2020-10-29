@@ -28,7 +28,7 @@ private:
 
   bool isGoodMuon(const pat::Muon &, const reco::Vertex &, const vector<pat::Muon> &) const;
 
-  void AddVariables(const edm::Event &);
+  void AddVariables(const edm::Event &, const edm::EventSetup &);
 
   edm::EDGetTokenT<vector<TYPE(jets)> > tokenJets_;
   edm::EDGetTokenT<vector<TYPE(tracks)> > tokenTracks_;

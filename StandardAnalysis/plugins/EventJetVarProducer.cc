@@ -33,7 +33,7 @@ public:
   ~EventJetVarProducer ();
 
 private:
-  void AddVariables(const edm::Event &);
+  void AddVariables(const edm::Event &, const edm::EventSetup &);
   edm::EDGetTokenT<vector<TYPE(jets)> >             tokenJets_;
   edm::EDGetTokenT<vector<TYPE(mets)> >             tokenMets_;
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenPFCands_;
@@ -96,7 +96,7 @@ EventJetVarProducer::IsValidHTJet(const TYPE(jets) & jet) {
 }
 
 void
-EventJetVarProducer::AddVariables (const edm::Event &event) {
+EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetup &setup) {
 
   edm::Handle<vector<TYPE(jets)> > jets;
   if (!event.getByToken (tokenJets_, jets)) {
