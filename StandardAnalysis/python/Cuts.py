@@ -959,6 +959,13 @@ cutMuonTightPFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin
     alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.15"),
 )
 
+cutMuonVeryTightPFIso= cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("(pfIsolationR04_.sumChargedHadronPt + max (0.0, pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5 * pfIsolationR04_.sumPUPt)) / pt < 0.1"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons with #Delta#beta-corrected rel. iso. < 0.1"),
+)
+
 cutMuonPairPt = cms.PSet (
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 22"),
