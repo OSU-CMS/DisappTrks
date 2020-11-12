@@ -348,7 +348,7 @@ for trig in TrackLegDenominatorWithMuons:
 TrackLegNumeratorWithMuonsNoTrig = {}
 for trig in TrackLegNumeratorWithMuons:
     TrackLegNumeratorWithMuonsNoTrig[trig] = copy.deepcopy(TrackLegNumeratorWithMuons[trig])
-    TrackLegNumeratorWithMuonsNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "_rackLegNumeratorWithMuonsNoTrig")
+    TrackLegNumeratorWithMuonsNoTrig[trig].name = cms.string(re.sub(r"_", "", trig) + "TrackLegNumeratorWithMuonsNoTrig")
     TrackLegNumeratorWithMuonsNoTrig[trig].triggers = cms.vstring()
 
 TrackLegDenominatorWithTracksNoTrig = {}
