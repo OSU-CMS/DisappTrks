@@ -23,6 +23,14 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  TrackLegDenominatorWithMuons.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  TrackLegNumeratorWithMuons.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
+# HLT_MET*_IsoTrk50 track legs w/o SingleMu trigger
+#  add_channels  (process,  TrackLegDenominatorWithMuonsNoTrig.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegNumeratorWithMuonsNoTrig.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+
+# HLT_MET*_IsoTrk50 track legs for track
+#  add_channels  (process,  TrackLegDenominatorWithTracks.values(),  histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+#  add_channels  (process,  TrackLegNumeratorWithTracks.values(),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
+
 # The Grand Or
 #  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 #  add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
