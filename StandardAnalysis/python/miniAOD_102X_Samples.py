@@ -26,6 +26,9 @@ dataset_names_data = {
     'Tau_2018C' : '/Tau/Run2018C-17Sep2018-v1/MINIAOD',
     'Tau_2018D' : '/Tau/Run2018D-PromptReco-v2/MINIAOD',
 
+    #'SingleMu_2018HLT' : "/SingleMuon/kwei-Run2018A-102X_dataRun2_v12-v2-MINIAOD-ec97f2257e2f2171639f7df7772219b2/USER",
+    'SingleMu_2018HLT' : "/SingleMuon/kwei-Run2018A-102X_dataRun2_v12-v3-MINIAOD-ec97f2257e2f2171639f7df7772219b2/USER",#HLT: /users/kwei/DisappTrk_2020_Dev/V8
+
 }
 
 sibling_datasets = {
