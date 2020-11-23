@@ -6,7 +6,7 @@ c = 299792458.0 * 100.0 # cm/s
 
 if os.environ['CMSSW_VERSION'] != 'CMSSW_9_3_13':
 	print
-	print 'Private generation of 2018 samples must proceed in CMSSW_9_3_13, but you are in', os.environ['CMSSW_VERSION']
+	print 'Private generation of 2017 samples must proceed in CMSSW_9_3_13, but you are in', os.environ['CMSSW_VERSION']
 	print 'Quitting...'
 	print
 	sys.exit()
