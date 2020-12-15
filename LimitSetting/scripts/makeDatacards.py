@@ -227,6 +227,13 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
         signal_yield_sf = 1.0
     else:
         signal_yield_sf = target_signal_yield / signal_yield if signal_yield > 0.0 else 1.0
+
+    try:
+        if adhocSignalScaling[signal_dataset] > 0:
+            signal_yield_sf /= adhocSignalScaling[signal_dataset]
+    except:
+        pass
+
     signal_yield_without_sf = signal_yield
     signal_yield *= signal_yield_sf
     signal_yield_weight *= signal_yield_sf
@@ -235,12 +242,12 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
     background_errors = { }
     totalBkgd = 0
     for background in backgrounds :
-        if 'alpha' in backgrounds[str(background)]:
-            background_yields[background] = str(float(backgrounds[str(background)]['alpha']) * float(backgrounds[str(background)]['N']))
-            background_errors[background] = str(backgrounds[str(background)]['alpha'])
+        if 'alpha' in backgrounds[background]:
+            background_yields[background] = str(float(backgrounds[background]['alpha']) * float(backgrounds[background]['N']) * (backgrounds[background]['adhocScaling'] if 'adhocScaling' in backgrounds[background] else 1.0))
+            background_errors[background] = str(float(backgrounds[background]['alpha']) * (backgrounds[background]['adhocScaling'] if 'adhocScaling' in backgrounds[background] else 1.0))
         else:
-            background_yields[background] = str(float(backgrounds[str(background)]['yield']))
-            background_errors[background] = str(backgrounds[str(background)]['error'])
+            background_yields[background] = str(float(backgrounds[background]['yield']) * (backgrounds[background]['adhocScaling'] if 'adhocScaling' in backgrounds[background] else 1.0))
+            background_errors[background] = str(backgrounds[background]['error'])
 
         if arguments.verbose:
             printLock.acquire ()
