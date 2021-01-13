@@ -28,6 +28,7 @@ dataset_names_data = {
 
     #'SingleMu_2018HLT' : "/SingleMuon/kwei-Run2018A-102X_dataRun2_v12-v2-MINIAOD-ec97f2257e2f2171639f7df7772219b2/USER",
     'SingleMu_2018HLT' : "/SingleMuon/kwei-Run2018A-102X_dataRun2_v12-v3-MINIAOD-ec97f2257e2f2171639f7df7772219b2/USER",#HLT: /users/kwei/DisappTrk_2020_Dev/V8
+    'SingleMu_2018HLT_v2' : "/SingleMuon/kwei-Run2018C-102X_dataRun2_v12-v4-MINIAOD-ec97f2257e2f2171639f7df7772219b2/USER",#HLT: /users/kwei/DisappTrk_2020_Dev/V9
 
 }
 
