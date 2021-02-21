@@ -269,7 +269,30 @@ bool EventTriggerVarProducer::getHLTObj(const edm::Event &event,
   return (leadingPt > 0.0);
 }
 
+bool EventTriggerVarProducer::matchedToHLTObj(const edm::Event &event,
+                                              const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                              const edm::TriggerResults &triggerBits,
+                                              const string &collection,
+                                              const pat::Muon &muon) const {
+  double dR = -1.0;
+  for(auto triggerObj : triggerObjs) {
 
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+    triggerObj.unpackNamesAndLabels(event, triggerBits);
+#else
+    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
+#endif
+
+    if(triggerObj.collection() == (collection + "::HLT") or triggerObj.collection() == (collection + "::RECO")) {
+      if(deltaR(triggerObj, muon) < 0.1) {
+        dR = deltaR(triggerObj, muon);
+        break;
+      }
+    }
+  }
+
+  return (dR > 0.0);
+}
 
 bool EventTriggerVarProducer::isGoodTrack(const TYPE(tracks) &track,
                                           const reco::Vertex &pv,
