@@ -97,7 +97,9 @@ class HLTrigVarProducer : public edm::EDAnalyzer {
   TH1D *nPhoton;
   TH2D *metPtVsphotonPt;
   TH2D *hltmetPtVsphotonPt;
-
+  TH2D *hltmetPtVshltegammaCandPt;
+  TH1D *nHltegammaCands;
+  TH1D *hltegammaCandPt;
 };
 
 //
@@ -131,8 +133,11 @@ HLTrigVarProducer::HLTrigVarProducer(const edm::ParameterSet& cfg)
   pfMetVsL1Met = fs->make<TH2D>("pfMetVsL1Met" , "pfMet vs L1 MET; L1 MET [GeV]; PF MET [GeV]", 100, -0.5, 499.5, 100, -0.5, 499.5);
   photonPt = fs->make<TH1D>("photon" , "photon pT; Photon pT [GeV]", 100 , -0.5 ,499.5);
   nPhoton = fs->make<TH1D>("nPhoton" , "Num of photon; nPhoton", 10 , -0.5 , 9.5);
+  nHltegammaCands = fs->make<TH1D>("nHltegammaCands" , "Num of hltEgammaCands; nEGammaCand", 10 , -0.5 , 9.5);
+  hltegammaCandPt = fs->make<TH1D>("hltEgammaCandPt" , "hltEgammaCand pT; hltEGammaCand pT [GeV]", 100 , -0.5 ,499.5);
   metPtVsphotonPt = fs->make<TH2D>("metPtVsphotonPt", "pfMet vs photon pT; PF MET [GeV]; Photon pT [GeV]", 100, -0.5, 499.5, 100, -0.5, 499.5);
-  hltmetPtVsphotonPt = fs->make<TH2D>("hltmetPtVsphotonPt", "hltMet vs photon  pT; hltMET [GeV]; Photon  pT[GeV]", 100, -0.5, 499.5, 100, -0.5, 499.5);
+  hltmetPtVsphotonPt = fs->make<TH2D>("hltmetPtVsphotonPt", "hltMet vs photon  pT; hltMET [GeV]; Photon  pT [GeV]", 100, -0.5, 499.5, 100, -0.5, 499.5);
+  hltmetPtVshltegammaCandPt = fs->make<TH2D>("hltmetPtVshltegammaCandPt", "hltMet vs hltEgammaCand pT; hltMET [GeV]; hltEGammaCand pT [GeV]",100, -0.5, 499.5, 100, -0.5, 499.5);
 }
 
 
@@ -213,15 +218,35 @@ HLTrigVarProducer::analyze(const edm::Event& event, const edm::EventSetup& setup
         }
       }
     }
+
+    vector<pat::TriggerObjectStandAlone> hltEgammaCands;
+    double hltEgammaPtMax = 0.0;
+    getHLTObj(event, *triggerObjs, *triggerBits, "hltEgammaCandidates", hltEgammaCands);
+    if(hltEgammaCands.size() > 0){
+      for(const auto &hltEgamma: hltEgammaCands){
+        if (hltEgamma.pt() > hltEgammaPtMax){
+          hltEgammaPtMax = hltEgamma.pt();
+        }
+        hltegammaCandPt->Fill(hltEgamma.pt());
+      }
+      nHltegammaCands->Fill(hltEgammaCands.size());
+    }
+    else {
+      nHltegammaCands->Fill(0);
+      hltegammaCandPt->Fill(0.0);
+    }
+    
     vector<pat::TriggerObjectStandAlone> hltMets;
     getHLTObj(event, *triggerObjs, *triggerBits, "hltMet", hltMets);
     if(hltMets.size() > 0){
       hltmetPt->Fill(hltMets.at(0).pt());
       hltmetPtVsphotonPt->Fill(hltMets.at(0).pt(),photonPtMax);
+      hltmetPtVshltegammaCandPt->Fill(hltMets.at(0).pt(),hltEgammaPtMax);
     }
     else {
       hltmetPt->Fill(0.0);
       hltmetPtVsphotonPt->Fill(0.0,photonPtMax);
+      hltmetPtVshltegammaCandPt->Fill(0.0,hltEgammaPtMax);
     }
 }
 
