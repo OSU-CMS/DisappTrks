@@ -14,7 +14,13 @@
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 
+#include "OSUT3Analysis/AnaTools/interface/CMSSWVersion.h"
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0)
+#include "CommonTools/Egamma/interface/ConversionTools.h"
+#else
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+#endif
 
 #include "DisappTrks/CandidateTrackProducer/interface/CutResult.h"
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
+# If 'adhocScaling' is supplied, the background will be scaled by the value -- for normal limits, don't use it!
 
 backgrounds = {
     'Fake' : {
@@ -57,4 +58,11 @@ background_systematics = {
         'value' : str (1.0 + 16.8609344527 / 100.0),
         'background' : 'Tau',
     },
+}
+
+# Any entries here will scale the sample's signal yields, via signalSF.txt, by the given value
+# This should be empty or not exist at all in normal operation!
+# { datasetLabel : value }
+adhocSignalScaling = {
+
 }
