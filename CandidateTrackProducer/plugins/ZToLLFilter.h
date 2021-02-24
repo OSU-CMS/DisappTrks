@@ -13,7 +13,11 @@
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0)
+#include "CommonTools/Egamma/interface/ConversionTools.h"
+#else
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+#endif
 
 using namespace std;
 
