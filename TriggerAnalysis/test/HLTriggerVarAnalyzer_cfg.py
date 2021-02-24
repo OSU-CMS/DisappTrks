@@ -28,7 +28,7 @@ process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 process.demo = cms.EDAnalyzer("HLTrigVarProducer",
                               mets = cms.InputTag('slimmedMETs'),
-                              l1mets = cms.InputTag('l1extraParticles','MHT','RECO'),
+                              #l1mets = cms.InputTag('l1extraParticles','MET','RECO'),
                               photons = cms.InputTag('slimmedPhotons'),
                               triggers = cms.InputTag('TriggerResults','','HLT'),
                               trigobjs = cms.InputTag('slimmedPatTrigger')
