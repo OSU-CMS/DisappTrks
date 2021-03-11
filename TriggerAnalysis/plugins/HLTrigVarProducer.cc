@@ -134,10 +134,10 @@ HLTrigVarProducer::HLTrigVarProducer(const edm::ParameterSet& cfg)
   tokenTriggerObjs_  = consumes<vector<pat::TriggerObjectStandAlone> >(cfg.getParameter<edm::InputTag>("trigobjs"));
    //now do what ever initialization is needed
   edm::Service<TFileService> fs;
+  
   //use variable binning for met histograms (determined empirically)
-
-  float bins[] = {0, 25, 50, 75, 100, 125, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
-  int binnum = 15;
+  //float bins[] = {0, 25, 50, 75, 100, 125, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+  //int binnum = 15;
 
   metPt = fs->make<TH1D>("met" , "met pT; MET [GeV}", 100 , -0.5 ,499.5);
   l1metPt = fs->make<TH1D>("l1met" , "l1 met pT; L1 MET [GeV]", 100 , -0.5 ,499.5);
