@@ -254,3 +254,12 @@ higgsino2018 = {
     (900, 100)   : '/Higgsino_M-900GeV_CTau-100cm_TuneCP5_PSweights_13TeV_pythia8/kwei-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-01900f48d5279f76fbae8dc7c880c0ee/USER',
     (900, 10)    : '/Higgsino_M-900GeV_CTau-10cm_TuneCP5_PSweights_13TeV_pythia8/kwei-RunIIFall18MiniAOD-102X_upgrade2018_realistic_v9-v3-4468a15e66571b1ac2ab0533cd3f6d07/USER',
 }
+
+higgsinoRun3 = {
+    (700, 10000) : '/Higgsino_M-700GeV_CTau-10000cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-be4df7a796a6e699fa6cd95cfa878a95/USER',
+    (700, 1000)  : '/Higgsino_M-700GeV_CTau-1000cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-3064151267ea858f8898649dd42c47ae/USER',
+    (700, 100)   : '/Higgsino_M-700GeV_CTau-100cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-50028091f0e82e2d6d29622cfeef3af7/USER',
+    (700, 10)    : '/Higgsino_M-700GeV_CTau-10cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-03154de9a01f36099761bac5973bd8d6/USER',
+    (700, 1)     : '/Higgsino_M-700GeV_CTau-1cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-33ce4c350aad231deb6fd82e978b5698/USER',
+','
+}
