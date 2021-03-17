@@ -261,5 +261,4 @@ higgsinoRun3 = {
     (700, 100)   : '/Higgsino_M-700GeV_CTau-100cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-50028091f0e82e2d6d29622cfeef3af7/USER',
     (700, 10)    : '/Higgsino_M-700GeV_CTau-10cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-03154de9a01f36099761bac5973bd8d6/USER',
     (700, 1)     : '/Higgsino_M-700GeV_CTau-1cm_TuneCP5_PSweights_14TeV_pythia8/bfrancis-Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15-33ce4c350aad231deb6fd82e978b5698/USER',
-','
 }
