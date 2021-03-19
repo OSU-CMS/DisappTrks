@@ -19,7 +19,7 @@ config.Data.unitsPerJob = 100
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.publication = True
-config.Data.outputDatasetTag = 'Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15'
+config.Data.outputDatasetTag = 'Run3Winter20DRPremixMiniAOD-110X_mcRun3_2021_realistic_v6-v1'
 
 # Uncomment one of the following pairs
 

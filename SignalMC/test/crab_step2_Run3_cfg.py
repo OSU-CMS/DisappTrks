@@ -11,7 +11,7 @@ config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'step2/AMSB_chargino_step2_Run3_cfg.py'
-config.JobType.numCores = 4
+config.JobType.numCores = 8
 config.JobType.allowUndistributedCMSSW = True
 
 config.Data.inputDataset = ''

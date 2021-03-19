@@ -4,9 +4,9 @@ import sys
 
 c = 299792458.0 * 100.0 # cm/s
 
-if os.environ['CMSSW_VERSION'] != 'CMSSW_11_2_2':
+if os.environ['CMSSW_VERSION'] != 'CMSSW_11_0_2':
 	print
-	print 'Private generation of Run 3 samples must proceed in CMSSW_11_2_2, but you are in', os.environ['CMSSW_VERSION']
+	print 'Private generation of Run 3 samples must proceed in CMSSW_11_0_2, but you are in', os.environ['CMSSW_VERSION']
 	print 'Quitting...'
 	print
 	sys.exit()
