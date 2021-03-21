@@ -20,7 +20,7 @@ config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 1
 config.Data.publication = True
-config.Data.outputDatasetTag = 'Run3Winter21GS-Pilot_112X_mcRun3_2021_realistic_v15'
+config.Data.outputDatasetTag = 'Run3Winter20DRPremixMiniAOD-110X_mcRun3_2021_realistic_v6-v1_step2'
 
 config.JobType.maxMemoryMB = 8000
 
