@@ -70,11 +70,7 @@ DECAY 24 2.085000e+00 # ww
 DECAY 25 5.000000e-03 # wh
 DECAY 255 0.000000e+00 # ws0
 DECAY 1000101 2.000000e-15 # wHE
-      5.000000e-01 2 11 255 # br(~he -> e- ~s0)
-      5.000000e-01 2 13 255 # br(~he -> mu- ~s0)
 DECAY -1000101 2.000000e-15 # wHE
-      5.000000e-01 2 -11 255 # br(~HE -> e+ ~s0)
-      5.000000e-01 2 -13 255 # br(~HE -> mu+ ~s0)
 DECAY 1 0.000000e+00 # d : 0.0
 DECAY 2 0.000000e+00 # u : 0.0
 DECAY 3 0.000000e+00 # s : 0.0
@@ -110,23 +106,26 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
-from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
 generator = cms.EDFilter("Pythia8HadronizerFilter",
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(1),
-    filterEfficiency = cms.untracked.double(1.0),
+    filterEfficiency = cms.untracked.double(-1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     SLHATableForPythia8 = cms.string('%s' % SLHA_TABLE),
     comEnergy = cms.double(13000.),
     PythiaParameters = cms.PSet(
         pythia8CommonSettingsBlock,
         pythia8CP5SettingsBlock,
-        pythia8PSweightsSettingsBlock,
+        processParameters = cms.vstring(
+            '1000101:new = he~ HE~ 2 -3 0 125.1 0.0 125.1 125.1 98.6635 1 1 0 1 0',
+            '1000101:addChannel = 1 0.5 100 255 11',
+            '1000101:addChannel = 1 0.5 100 255 13',
+            '255:new = s0~ void 1 0 0 125.0 0.0 125.0 125.0 0.0 0 0 0 0 0'
         ),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CP5Settings',
-                                    'pythia8PSweightsSettings',
+                                    'processParameters'
                                     )
     )
 )
