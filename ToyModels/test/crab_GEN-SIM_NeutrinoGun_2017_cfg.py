@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-from CRABClient.UserUtilities import config, getUsernameFromSiteDB
+from CRABClient.UserUtilities import config
 config = config()
 
 config.General.requestName = ''
@@ -14,8 +14,8 @@ config.JobType.psetName = ''
 
 config.Data.outputPrimaryDataset = ''
 config.Data.splitting = 'EventBased'
-config.Data.unitsPerJob = 100
-NJOBS = 10  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
+config.Data.unitsPerJob = 2500
+NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.publication = True
 config.Data.outputDatasetTag = 'RunIIFall17DRPremix-93X_mc2017_realistic_v3-v1'
@@ -47,6 +47,5 @@ if __name__ == '__main__':
     config.General.requestName = 'NeutrinoGun_step1'
     config.JobType.psetName = 'NeutrinoGun_step1.py'
     config.Data.outputPrimaryDataset = 'NeutrinoGun_TuneCP5_13TeV_pythia8'
-    config.Data.totalUnits = config.Data.unitsPerJob * numJobsPerLifetime[ctau]
     forkAndSubmit(config)
 
