@@ -23,10 +23,10 @@
 
 using namespace std;
 
-class ZToLLFilter : public edm::EDFilter {
+class TrainingPreselectionSkim : public edm::EDFilter {
    public:
-      ZToLLFilter (const edm::ParameterSet &);
-      ~ZToLLFilter ();
+      TrainingPreselectionSkim (const edm::ParameterSet &);
+      ~TrainingPreselectionSkim ();
 
       bool filter (edm::Event &, const edm::EventSetup &);
 
