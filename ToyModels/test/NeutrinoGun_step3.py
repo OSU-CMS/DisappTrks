@@ -25,20 +25,12 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-<<<<<<< HEAD
-    input = cms.untracked.int32(-1)
-=======
     input = cms.untracked.int32(10)
->>>>>>> 44f620fa578b3a5fc715d6916f4ab8049cf4713e
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-<<<<<<< HEAD
-    fileNames = cms.untracked.vstring('/store/user/micarrig/NeutrinoGun_TuneCP5_13TeV_pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1_step2/210408_183152/0000/NeutrinoGun_step2_1.root'),
-=======
     fileNames = cms.untracked.vstring('file:NeutrinoGun_step2.root'),
->>>>>>> 44f620fa578b3a5fc715d6916f4ab8049cf4713e
     secondaryFileNames = cms.untracked.vstring()
 )
 
