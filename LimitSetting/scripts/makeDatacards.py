@@ -538,7 +538,8 @@ for yld in allYieldsAndErrors:
     ibinX = hYields.GetXaxis().FindBin(mass)
     ibinY = hYields.GetYaxis().FindBin(lifetime)
     hYields.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['yield'])
-    hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['yield'] * allYieldsAndErrors[yld]['acceptanceError'] / allYieldsAndErrors[yld]['acceptance'])
+    if allYieldsAndErrors[yld]['acceptance'] > 0:
+        hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['yield'] * allYieldsAndErrors[yld]['acceptanceError'] / allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['acceptanceError'])
 

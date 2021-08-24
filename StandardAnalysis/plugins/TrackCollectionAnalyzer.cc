@@ -128,6 +128,7 @@ private:
 	
     const double GetHCALMINIAOD(const CandidateTrack &track, const HBHERecHitCollection & miniHBHERecHits, const HBHERecHitCollection & miniHCALRecHits, const double dR, bool eGamma) const;
     const double GetEcaloHFHO(const CandidateTrack &track, const HFRecHitCollection & miniHFRecHits, const HORecHitCollection & miniHORecHits, const double dR) const;   
+    
     const double GetPFEnergy(const CandidateTrack &track, const edm::Handle<pat::PackedCandidateCollection> &packedCandidates, const int pdgID, const double dR) const;
     
     const math::XYZVector getPosition(const DetId& id) const;

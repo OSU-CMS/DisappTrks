@@ -351,7 +351,7 @@ EventJetVarProducer::hasNeutralino (const edm::Handle<vector<TYPE(hardInteractio
       unsigned i = 0;
       for (const auto &mcParticle : *mcParticles)
         {
-          if (abs (mcParticle.pdgId ()) == 1000022)
+          if (abs (mcParticle.pdgId ()) == 1000022 || abs(mcParticle.pdgId ()) == 1000023)
             return true;
           if ((++i) >= 10)
             break;
