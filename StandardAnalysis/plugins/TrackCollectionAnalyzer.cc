@@ -122,12 +122,13 @@ private:
 
     const double MinDRtoJet(const vector<pat::Jet> &jets, const CandidateTrack &track) const;
 
-    const double GetEcaloAOD(const CandidateTrack &track, const IsolatedTrack &isoTrack, const EBRecHitCollection &EBRecHits, const EERecHitCollection &EERecHits, const HBHERecHitCollection &HBHERecHits, double dR) const;
+    const double GetEcaloAOD(const CandidateTrack &track, const EBRecHitCollection &EBRecHits, const EERecHitCollection &EERecHits, const HBHERecHitCollection &HBHERecHits, double dR) const;
 
-    const double GetECALMINIAOD(const CandidateTrack &track, const IsolatedTrack &isoTrack, const EcalRecHitCollection &miniEBRecHits, const EcalRecHitCollection & miniEERecHits, const double dR) const;
+    const double GetECALMINIAOD(const CandidateTrack &track, const EcalRecHitCollection &miniEBRecHits, const EcalRecHitCollection & miniEERecHits, const double dR) const;
 	
-    const double GetHCALMINIAOD(const CandidateTrack &track, const IsolatedTrack &isoTrack, const HBHERecHitCollection & miniHBHERecHits, const HBHERecHitCollection & miniHCALRecHits, const double dR, bool eGamma) const;
-    const double GetEcaloHFHO(const CandidateTrack &track, const IsolatedTrack &isoTrack, const HFRecHitCollection & miniHFRecHits, const HORecHitCollection & miniHORecHits, const double dR) const;   
+    const double GetHCALMINIAOD(const CandidateTrack &track, const HBHERecHitCollection & miniHBHERecHits, const HBHERecHitCollection & miniHCALRecHits, const double dR, bool eGamma) const;
+    const double GetEcaloHFHO(const CandidateTrack &track, const HFRecHitCollection & miniHFRecHits, const HORecHitCollection & miniHORecHits, const double dR) const;   
+    
     const double GetPFEnergy(const CandidateTrack &track, const edm::Handle<pat::PackedCandidateCollection> &packedCandidates, const int pdgID, const double dR) const;
     
     const math::XYZVector getPosition(const DetId& id) const;
@@ -1247,7 +1248,7 @@ TrackCollectionAnalyzer::MinDRtoJet(const vector<pat::Jet> &jets, const Candidat
 }
 
 const double
-TrackCollectionAnalyzer::GetEcaloAOD(const CandidateTrack &track, const IsolatedTrack &isoTrack, const EBRecHitCollection &EBRecHits, const EERecHitCollection &EERecHits, const HBHERecHitCollection &HBHERecHits, double dR) const
+TrackCollectionAnalyzer::GetEcaloAOD(const CandidateTrack &track, const EBRecHitCollection &EBRecHits, const EERecHitCollection &EERecHits, const HBHERecHitCollection &HBHERecHits, double dR) const
 {
 
   double trackEcalo = 0;
@@ -1278,7 +1279,6 @@ TrackCollectionAnalyzer::GetEcaloAOD(const CandidateTrack &track, const Isolated
 
 const double
 TrackCollectionAnalyzer::GetECALMINIAOD(const CandidateTrack &track, 
-                                        const IsolatedTrack &isoTrack,
 					const EcalRecHitCollection &miniEBRecHits, 
 					const EcalRecHitCollection & miniEERecHits, 
 					const double dR) const
@@ -1306,7 +1306,6 @@ TrackCollectionAnalyzer::GetECALMINIAOD(const CandidateTrack &track,
 
 const double 
 TrackCollectionAnalyzer::GetHCALMINIAOD(const CandidateTrack &track, 
-                                        const IsolatedTrack &isoTrack,
                                         const HBHERecHitCollection & miniHBHERecHits,
                                         const HBHERecHitCollection & miniHCALRecHits,
                                         const double dR,
@@ -1336,7 +1335,6 @@ TrackCollectionAnalyzer::GetHCALMINIAOD(const CandidateTrack &track,
 
 const double
 TrackCollectionAnalyzer::GetEcaloHFHO(const CandidateTrack &track,
-                                      const IsolatedTrack &isoTrack,
                                       const HFRecHitCollection & miniHFRecHits, 
                                       const HORecHitCollection & miniHORecHits, 
                                       const double dR) const
