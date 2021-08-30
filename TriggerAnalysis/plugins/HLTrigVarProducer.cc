@@ -56,6 +56,9 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 
+#include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
+#include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
+
 //
 // class declaration
 //
@@ -178,6 +181,7 @@ HLTrigVarProducer::HLTrigVarProducer(const edm::ParameterSet& cfg)
   tokenPhoton_       = consumes<vector<pat::Photon> >(cfg.getParameter<edm::InputTag>("photons"));
   tokenTriggerBits_  = consumes<edm::TriggerResults>(cfg.getParameter<edm::InputTag>("triggers"));
   tokenTriggerObjs_  = consumes<vector<pat::TriggerObjectStandAlone> >(cfg.getParameter<edm::InputTag>("trigobjs"));
+  triggerNames       = cfg.getParameter<vector<string> >("triggerNames");
   //tokenGenParticles_ = consumes<vector<reco::GenParticle> >(cfg.getParameter<edm::InputTag>("mcparticles"));
    //now do what ever initialization is needed
   edm::Service<TFileService> fs;
@@ -333,11 +337,11 @@ HLTrigVarProducer::analyze(const edm::Event& event, const edm::EventSetup& setup
     event.getByToken(tokenTriggerObjs_, triggerObjs);
 
     for(auto triggerObj : *triggerObjs) {
-//#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
       triggerObj.unpackNamesAndLabels(event, *triggerBits);
-//#else
-//      triggerObj.unpackPathNames(allTriggerNames);
-//#endif
+#else
+      triggerObj.unpackPathNames(allTriggerNames);
+#endif
     }
 
     const edm::TriggerNames &allTriggerNames = event.triggerNames(*triggerBits);
@@ -388,6 +392,12 @@ HLTrigVarProducer::analyze(const edm::Event& event, const edm::EventSetup& setup
           triggerFires[name] |= triggerBits->accept(i);
           break;
         }
+      }
+      if (thisName.find("HLT_PFMET105_IsoTrk50")  == 0){
+        cout << "HLT_PFMET105_IsoTrk50:"  << triggerBits->accept(i)  << endl;
+      }
+      if (thisName.find("HLT_MET105_PFJet80_Recoiling_v0")  == 0){
+        cout << "HLT_MET105_PFJet80_Recoiling_v0:"  << triggerBits->accept(i)  << endl;
       }
       if (thisName.find("HLT_MET105_IsoTrk50") ==  0 ){
         MET105IsoTrk50_Fired |= triggerBits->accept(i);
@@ -667,11 +677,11 @@ bool HLTrigVarProducer::getHLTObj(const edm::Event &event,
 
   for(auto triggerObj : triggerObjs) {
 
-//#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
     triggerObj.unpackNamesAndLabels(event, triggerBits);
-//#else
-//    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
-//#endif
+#else
+    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
+#endif
 
     if(triggerObj.collection() == (collection + "::HLT")) {
       obj = triggerObj;
@@ -690,7 +700,7 @@ bool HLTrigVarProducer::isGoodTrack(const pat::IsolatedTrack &track,
                                     const reco::Vertex &pv,
                                     const vector<pat::IsolatedTrack> &tracks) const {
 
-#if DATA_FORMAT == MINI_AOD_2017
+//#if DATA_FORMAT == MINI_AOD_2017
   bool result = (fabs(track.eta()) < 2.5 &&
                  track.isHighPurityTrack() && // bfrancis: is this what we want to do? replaces normalizedChi2 < 10.0
                  fabs(track.dxy()) < 0.2 &&
@@ -700,7 +710,7 @@ bool HLTrigVarProducer::isGoodTrack(const pat::IsolatedTrack &track,
                  track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS) == 0 &&
                  track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
                  track.pfIsolationDR03().chargedHadronIso() / track.pt() < 0.01); // replaces trackIsoNoPUDRp3/pt
-#else
+/*#else
   bool result = (fabs(track.eta()) < 2.5 &&
                  track.normalizedChi2() < 10.0 &&
                  fabs(track.dxy(pv.position())) < 0.2 &&
@@ -711,7 +721,7 @@ bool HLTrigVarProducer::isGoodTrack(const pat::IsolatedTrack &track,
                  track.hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) == 0 &&
                  track.trackIsoNoPUDRp3() / track.pt() < 0.01);
 #endif
-
+*/
   return result;
 }
 //define this as a plug-in
