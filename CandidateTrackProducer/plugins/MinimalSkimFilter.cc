@@ -1,7 +1,5 @@
 #include "TVector2.h"
 
-#include "OSUT3Analysis/AnaTools/interface/CMSSWVersion.h"
-
 #include "DisappTrks/CandidateTrackProducer/plugins/MinimalSkimFilter.h"
 
 template<MinimalSkim T>

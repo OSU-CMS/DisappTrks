@@ -67,45 +67,16 @@ def addLifetimeReweighting (datasets, isHiggsino = False):
     datasets.extend (new_datasets)
     
 def getUser():
-    dirs = {}
+    dirs = {'Zach':'pollockCondor/', 'Andrew':'hartCondor/', 'Brian':'francisCondor/', 'Wells':'wellsCondor/', 'Kai':'weiCondor/', 'Mike':'carriganCondor/', 'Breno':'orzariCondor/'}
+    userList = {'Wells':'wulsin', 'Andrew':'hart', 'Brian':'bfrancis', 'Zach':'zpollock', 'Kai':'kwei', 'Mike':'mcarrigan', 'Breno':'borzari'}
     cwd = os.getcwd()
-    if "wulsin" in cwd:
-        dirs['Andrew'] = "hartCondor/"
-        dirs['Brian']  = "francisCondor/"
-        dirs['Wells']  = ""
-        dirs['Kai']    = "weiCondor/"
-        user = "wulsin"
-    elif "hart" in cwd:
-        dirs['Andrew'] = ""
-        dirs['Brian']  = "francisCondor/"
-        dirs['Wells']  = "wellsCondor/"
-        dirs['Kai']    = "weiCondor/"
-        user = "hart"
-    elif "bfrancis" in cwd:
-        dirs['Andrew'] = "hartCondor/"
-        dirs['Brian']  = ""
-        dirs['Wells']  = "wellsCondor/"
-        dirs['Zach']   = "pollockCondor/"
-        dirs['Kai']    = "weiCondor/"
-        user = "bfrancis"
-    elif "zpollock" in cwd:
-        dirs['Andrew'] = "hartCondor/"
-        dirs['Brian']  = "francisCondor/"
-        dirs['Wells']  = "wellsCondor/"
-        dirs['Zach']   = ""
-        dirs['Kai']    = "weiCondor/"
-        user = "zpollock"
-    elif "kwei" in cwd:
-        dirs['Andrew'] = "hartCondor/"
-        dirs['Brian']  = "francisCondor/"
-        dirs['Wells']  = "wellsCondor/"
-        dirs['Zach']   = "pollockCondor/"
-        dirs['Kai']    = ""
-        users = "kwei"
-    else:
-        print "Error:  could not identify user as bfrancis, hart, wulsin, or zpollock."
-        os.exit(0)
-    return dirs
+    for key in userList:
+        if userList[key] in cwd:
+            dirs[key] = ''
+            user = userList[key]
+            return dirs
+    print "Error:  could not identify user."
+    os.exit(0)
 
 ################################################################################
 # Functions for getting the invariant mass of an object and a track, given
