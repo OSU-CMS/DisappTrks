@@ -129,6 +129,47 @@ void DeepSetElectronVarProducer::fillDescriptions(edm::ConfigurationDescriptions
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
   desc.add<std::string>("outputTensorName");
+  desc.add<edm::InputTag>("triggers"),
+  desc.add<edm::InputTag>("triggerObjects"),
+  desc.add<edm::InputTag>("tracks"),
+  desc.add<edm::InputTag>("genParticles");
+  desc.add<edm::InputTag>("met");
+  desc.add<edm::InputTag>("electrons");
+  desc.add<edm::InputTag>("muons");
+  desc.add<edm::InputTag>("taus");
+  desc.add<edm::InputTag>("pfCandidates");
+  desc.add<edm::InputTag>("vertices");
+  desc.add<edm::InputTag>("jets");
+
+  desc.add<edm::InputTag>("rhoCentralCalo");
+
+  desc.add<edm::InputTag>("EBRecHits");
+  desc.add<edm::InputTag>("EERecHits");
+  desc.add<edm::InputTag>("ESRecHits");
+  desc.add<edm::InputTag>("HBHERecHits");
+  desc.add<edm::InputTag>("CSCSegments");
+  desc.add<edm::InputTag>("DTRecSegments");
+  desc.add<edm::InputTag>("RPCRecHits");
+
+  desc.add<edm::InputTag>("dEdxPixel");
+  desc.add<edm::InputTag>("dEdxStrip");
+  desc.add<edm::InputTag>("isoTrk2dedxHitInfo");
+  desc.add<edm::InputTag>("isolatedTracks");  
+  desc.add<edm::InputTag>("genTracks");
+
+  desc.add<edm::InputTag>("pileupInfo");
+
+  desc.add<double>("minGenParticlePt");
+  desc.add<double>("minTrackPt");
+  desc.add<double>("maxRelTrackIso");
+  
+  desc.add<std::string>("dataTakingPeriod");
+
+  desc.add<double>("etaRangeNearTrack");
+  desc.add<double>("phiRangeNearTrack");
+  desc.add<int>("maxNumOfRecHits");
+  desc.add<vector<string>>("signalTriggerNames");
+  desc.add<vector<string>>("metFilterNames");
   descriptions.addWithDefaultLabel(desc);
 }
 

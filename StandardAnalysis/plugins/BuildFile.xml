@@ -20,6 +20,7 @@
 <use  name="FWCore/Common"/>
 <use  name="FWCore/Framework"/>
 <use  name="FWCore/MessageLogger"/>
+<use  name="FWCore/PluginManager" />
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
 <use  name="FWCore/Utilities"/>
