@@ -17,6 +17,8 @@ if not os.path.exists(baseDir + 'data/geant4'):
 	os.mkdir(baseDir + 'data/geant4')
 if not os.path.exists(baseDir + 'data/geant4_higgsino'):
 	os.mkdir(baseDir + 'data/geant4_higgsino')
+if not os.path.exists(baseDir + 'python/madgraph5'):
+	os.mkdir(baseDir + 'python/madgraph5')
 
 def findMassValue(fileName, particleName):
 	inputFile = open(fileName, 'r')
