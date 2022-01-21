@@ -31,7 +31,8 @@ process.demo = cms.EDAnalyzer("HLTrigVarProducer",
                               #l1mets = cms.InputTag('l1extraParticles','MET','RECO'),
                               photons = cms.InputTag('slimmedPhotons'),
                               triggers = cms.InputTag('TriggerResults','','HLT'),
-                              trigobjs = cms.InputTag('slimmedPatTrigger')
+                              trigobjs = cms.InputTag('slimmedPatTrigger'),
+                              triggerNames = cms.vstring(["HLT_MET75_IsoTrk50_v*"])
                               )
 #process.triggerSelection = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::TEST", HLTPaths = ["HLT_MET0_*"])
 #process.triggerSelection = hltHighLevel.clone(TriggerResultsTag = "TriggerResults::TEST", HLTPaths = ["HLT_MET75_IsoTrk50_v*"])
