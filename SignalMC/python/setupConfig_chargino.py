@@ -85,4 +85,4 @@ ProductionFilterSequence = cms.Sequence(generator)
 
 ''')
     fout.close()
-    print FILE_out + " has been generated\n"
+    print(FILE_out + " has been generated\n")

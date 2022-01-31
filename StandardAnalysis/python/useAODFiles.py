@@ -9,7 +9,7 @@ def getDASData (query):
     jsondict = das_client.get_data ('https://cmsweb.cern.ch', query, 0, 0, False)
     status = jsondict['status']
     if status != 'ok':
-        print "DAS query status: %s"%(status)
+        print("DAS query status: %s"%(status))
         return results
 
     mongo_query = jsondict['mongo_query']

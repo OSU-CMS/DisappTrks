@@ -1,6 +1,6 @@
 from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
-def getNHitsVariations (chName, hitRange = range(3, 8), checkBlinding = False):
+def getNHitsVariations (chName, hitRange = list(range(3, 8)), checkBlinding = False):
     if checkBlinding:
         signalRequirement = 4 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")) else 7
         hitRange = [x for x in hitRange if x < signalRequirement]
@@ -109,9 +109,9 @@ if False:
 if hasattr(process, 'EventJetVarProducer'):
 	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 else:
-    print
-    print 'You haven\'t added any channels. There\'s nothing to do!'
-    print
+    print()
+    print('You haven\'t added any channels. There\'s nothing to do!')
+    print()
     sys.exit(0)
 
 if hasattr(process, 'EventTriggerVarProducer'):

@@ -10,7 +10,7 @@ import os
 import sys
 
 if len(sys.argv) < 2:
-    print "Error:  Must specify as argument the condor directory"
+    print("Error:  Must specify as argument the condor directory")
     exit(0)
 
 command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="
@@ -34,6 +34,6 @@ plots = [
 for plot in plots:
     command += plot + " "
 
-print "Executing: ", command
+print("Executing: ", command)
 os.system(command)
 

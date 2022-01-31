@@ -56,7 +56,7 @@ def getHist(sample, condor_dir, channel, hist, quietFailure = False):
     inputFile = TFile(dataset_file)
     h0 = inputFile.Get(channel + "/" + hist)
     if not h0:
-        if not quietFailure: print "ERROR [getHist]: didn't find histogram ", channel+str("/")+hist, "in file", dataset_file
+        if not quietFailure: print("ERROR [getHist]: didn't find histogram ", channel+str("/")+hist, "in file", dataset_file)
         return 0
     h = h0.Clone()
     h.SetDirectory(0)
@@ -69,7 +69,7 @@ def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSi
     if not h3d:
         h = None
         if alternate1DHist:
-            if verbose: print "WARNING: not applying fiducial cuts via projections."
+            if verbose: print("WARNING: not applying fiducial cuts via projections.")
             h = getHist (sample, condor_dir, channel, alternate1DHist)
         return h
 
@@ -93,7 +93,7 @@ def getYield(sample,condor_dir,channel):
     inputFile = TFile(dataset_file)
     metPtHistogram = inputFile.Get(channel + "/Met Plots/metPt")
     if not metPtHistogram:
-        print "ERROR: didn't find histogram ", channel+str("/Met Plots/metPt"), "in file ", dataset_file
+        print("ERROR: didn't find histogram ", channel+str("/Met Plots/metPt"), "in file ", dataset_file)
         return 0
     statError_ = Double (0.0)
     yield_     = float(metPtHistogram.IntegralAndError (0, metPtHistogram.GetNbinsX () + 1, statError_))
@@ -103,13 +103,13 @@ def getYield(sample,condor_dir,channel):
 
 def getHistFromChannelDict(channel, hist, quietFailure = False):
     if "sample" not in channel or "condorDir" not in channel or "name" not in channel:
-        print "Bad channel given to getHistFromChannelDict: " + str(channel)
+        print("Bad channel given to getHistFromChannelDict: " + str(channel))
         return
     dataset_file = "condor/%s/%s.root" % (channel["condorDir"], channel["sample"])
     inputFile = TFile(dataset_file)
     h0 = inputFile.Get(channel["name"] + "Plotter/" + hist)
     if not h0:
-        if not quietFailure: print "ERROR [quietFailure]: didn't find histogram ", channel["name"] + str("Plotter/") + hist, "in file", dataset_file
+        if not quietFailure: print("ERROR [quietFailure]: didn't find histogram ", channel["name"] + str("Plotter/") + hist, "in file", dataset_file)
         return 0
     h = h0.Clone()
     h.SetDirectory(0)

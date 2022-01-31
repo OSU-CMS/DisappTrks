@@ -51,9 +51,9 @@ cutMet = cms.PSet(
 )
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     cutMet.cutString = cms.string("noMuPt > 120")
-    print "# MetNoMu > 120 GeV"
+    print("# MetNoMu > 120 GeV")
 else:
-    print "# MetNoMu > 100 GeV"
+    print("# MetNoMu > 100 GeV")
 
 cutVetoMetPhiHEM1516 = cms.PSet(
     inputCollection = cms.vstring("mets"),
@@ -296,7 +296,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     abs(eta)<=2.7) \
     || (neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2 && abs(eta)<=3.0 && abs(eta)>2.7) \
     || (neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.02 && neutralMultiplicity>10 && abs(eta)>3.0)")
-    print '# Using 2017 reqs for Jet TightLepVeto'
+    print('# Using 2017 reqs for Jet TightLepVeto')
 
 # https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2018
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -307,7 +307,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     (abs(eta) > 2.7 && abs(eta) <= 3.0 && neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2) || \
     (abs(eta) > 3.0 && neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.2 && neutralMultiplicity>10)\
     )")
-    print '# Using 2018 reqs for Jet TightLepVeto'
+    print('# Using 2018 reqs for Jet TightLepVeto')
 
 
 #############
@@ -497,9 +497,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
     cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
-    print "# Hits requirement: 4/4"
+    print("# Hits requirement: 4/4")
 else:
-    print "# Hits requirement: 3/7"
+    print("# Hits requirement: 3/7")
 
 cutTrkNValidHitsLE = {
     x : cms.PSet (
@@ -912,19 +912,19 @@ cutMuonPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Muon PT cut: >26 GeV (2016)"
+    print("# Muon PT cut: >26 GeV (2016)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v || match_HLT_IsoTkMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Muon PT cut: >29 GeV (2017)"
+    print("# Muon PT cut: >29 GeV (2017)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu27_v") 
     cutMuonPt.cutString = cms.string("pt > 29")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Muon PT cut: >26 GeV (2018)"
+    print("# Muon PT cut: >26 GeV (2018)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
     cutMuonPt.cutString = cms.string("pt > 26")
 else:
-    print "# Muon PT cut: >22 GeV (2015)"
+    print("# Muon PT cut: >22 GeV (2015)")
 
 cutMuonPt35 = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -1214,21 +1214,21 @@ cutElectronPt = cms.PSet (
 )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Electron PT cut: >25 GeV (2016)"
+    print("# Electron PT cut: >25 GeV (2016)")
     cutElectronMatchToTrigObj.cutString = cms.string ("match_HLT_Ele25_eta2p1_WPTight_Gsf_v")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Electron PT cut: >35 GeV (2017)"
+    print("# Electron PT cut: >35 GeV (2017)")
     cutElectronPt.cutString = cms.string("pt > 35")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele35_WPTight_Gsf_v")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Electron PT cut: >32 GeV (2018)"
+    print("# Electron PT cut: >32 GeV (2018)")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
 else:
-    print "# Electron PT cut: >25 GeV (2015)"
+    print("# Electron PT cut: >25 GeV (2015)")
 
 # this should be the final printout for what we're switching based on CMSSW_VERSION
-print "########################################################################"
+print("########################################################################")
 
 cutElectronPt35 = cms.PSet (
     inputCollection = cms.vstring("electrons"),

@@ -18,7 +18,7 @@ gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
 def getExtraSamples(suffix, isHiggsino = False):
-    masses = range(100, 1000, 100)
+    masses = list(range(100, 1000, 100))
     if not isHiggsino and (suffix == '94X' or suffix == '102X'):
         masses.extend([1000, 1100])
     ctaus = [1, 10, 100, 1000, 10000]
@@ -140,10 +140,10 @@ class SystematicCalculator:
 
             sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
-            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
             return (sample, relDiffDown, relDiffUp)
         else:
-            print "central, down, and up not all defined. Not printing systematic..."
+            print("central, down, and up not all defined. Not printing systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -165,8 +165,8 @@ class SystematicCalculator:
                 self._n += 2
         self._averageSystematic /= self._n
 
-        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (self._maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (self._averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in self._systematic for word in row) + 2
@@ -206,7 +206,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             if originalWeight == w:
                 self._weightsUp[i] = upWeight
                 return
-        print originalWeight + ' is not in the original list of weights'
+        print(originalWeight + ' is not in the original list of weights')
         return
 
     def defineFluctuationDown(self, originalWeight, downWeight):
@@ -214,7 +214,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             if originalWeight == w:
                 self._weightsDown[i] = downWeight
                 return
-        print originalWeight + ' is not in the original list of weights'
+        print(originalWeight + ' is not in the original list of weights')
         return
 
     def getOriginalSample(self, condorDir, sample, mass, lifetime):
@@ -299,7 +299,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
 
     def printSampleSystematic(self, mass, lifetime):
         if not hasattr(self, 'central'):
-            print '"central" not defined, not printing systematic...'
+            print('"central" not defined, not printing systematic...')
             return (float ("nan"), float ("nan"), float ("nan"))
 
         sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
@@ -308,7 +308,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
         relDiffDown = (down - central) / central if central > 0.0 else 0.0
         relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-        print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+        print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
         return (sample, relDiffDown, relDiffUp)
 
     def printSystematic(self):
@@ -330,8 +330,8 @@ class WeightSystematicFromTrees(SystematicCalculator):
                 self._n += 2
         self._averageSystematic /= self._n
 
-        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (self._maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (self._averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in self._systematic for word in row) + 2
@@ -350,7 +350,7 @@ class SelectionSystematicFromTrees(WeightSystematicFromTrees):
 
     def printSampleSystematic(self, mass, lifetime):
         if not hasattr(self, 'central') or not hasattr(self, 'up') or not hasattr(self, 'down'):
-            print '"central", "up", or "down" not defined, not printing systematic...'
+            print('"central", "up", or "down" not defined, not printing systematic...')
             return (float ("nan"), float ("nan"), float ("nan"))
 
         sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
@@ -362,7 +362,7 @@ class SelectionSystematicFromTrees(WeightSystematicFromTrees):
         relDiffDown = (down - central) / central if central > 0.0 else 0.0
         relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-        print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+        print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
         return (sample, relDiffDown, relDiffUp)
 
     def printSystematic (self):
@@ -384,8 +384,8 @@ class SelectionSystematicFromTrees(WeightSystematicFromTrees):
                 self._n += 2
         self._averageSystematic /= self._n
 
-        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (self._maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (self._averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in self._systematic for word in row) + 2
@@ -437,11 +437,11 @@ class TriggerSystematic(SystematicCalculator):
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
             return (sample, relDiffDown, relDiffUp)
 
         else:
-            print "central, down, and up not all defined. Not printing systematic..."
+            print("central, down, and up not all defined. Not printing systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -480,8 +480,8 @@ class TriggerSystematic(SystematicCalculator):
 
             self._averageSystematic /= self._n
 
-            print "maximum %s systematic: %f%%" % (fluctuation, self._maxSystematic * 100.0)
-            print "average %s systematic: %f%%" % (fluctuation, self._averageSystematic * 100.0)
+            print("maximum %s systematic: %f%%" % (fluctuation, self._maxSystematic * 100.0))
+            print("average %s systematic: %f%%" % (fluctuation, self._averageSystematic * 100.0))
 
             if self._doFout:
                 fout = open(self._foutPrefix + fluctuation + "_" + self._foutSuffix, "w")
@@ -499,9 +499,9 @@ class TriggerSystematic(SystematicCalculator):
 
         self._overallAverageSystematic /= self._nTriggerSystematics
 
-        print "\n"
-        print "maximum trigger systematic (all types): %f%%" % (self._overallMaxSystematic * 100.0)
-        print "average trigger systematic (all types): %f%%" % (self._overallAverageSystematic * 100.0)
+        print("\n")
+        print("maximum trigger systematic (all types): %f%%" % (self._overallMaxSystematic * 100.0))
+        print("average trigger systematic (all types): %f%%" % (self._overallAverageSystematic * 100.0))
 
 class MetSystematic(SystematicCalculator):
 
@@ -551,11 +551,11 @@ class MetSystematic(SystematicCalculator):
 
             sample = ("Higgsino_" if self._isHiggsino else "AMSB_chargino_") + str (mass) + "GeV_" + str (lifetime) + "cm_" + self.central["suffix"]
 
-            print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+            print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
             return (sample, relDiffDown, relDiffUp)
 
         else:
-            print "central, down, and up not all defined. Not printing systematic..."
+            print("central, down, and up not all defined. Not printing systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -594,8 +594,8 @@ class MetSystematic(SystematicCalculator):
 
             self._averageSystematic /= self._n
 
-            print "maximum %s systematic: %f%%" % (metType, self._maxSystematic * 100.0)
-            print "average %s systematic: %f%%" % (metType, self._averageSystematic * 100.0)
+            print("maximum %s systematic: %f%%" % (metType, self._maxSystematic * 100.0))
+            print("average %s systematic: %f%%" % (metType, self._averageSystematic * 100.0))
 
             if self._doFout:
                 fout = open(self._foutPrefix + metType + "_" + self._foutSuffix, "w")
@@ -613,9 +613,9 @@ class MetSystematic(SystematicCalculator):
 
         self._overallAverageSystematic /= self._nMetSystematics
 
-        print "\n"
-        print "maximum met systematic (all types): %f%%" % (self._overallMaxSystematic * 100.0)
-        print "average met systematic (all types): %f%%" % (self._overallAverageSystematic * 100.0)
+        print("\n")
+        print("maximum met systematic (all types): %f%%" % (self._overallMaxSystematic * 100.0))
+        print("average met systematic (all types): %f%%" % (self._overallAverageSystematic * 100.0))
 
 # Save for 2015-6 use
 class PileupSystematic:
@@ -675,10 +675,10 @@ class PileupSystematic:
             relDiffDown = (down - central) / central if central > 0.0 else 0.0
             relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-            print "(" + sample + ") down: " + str (down) + ", central: " + str (central) + ", up: " + str (up) + ", systematic uncertainty: " + str (relDiffDown * 100.0) + "%/" + str (relDiffUp * 100.0) + "%"
+            print("(" + sample + ") down: " + str (down) + ", central: " + str (central) + ", up: " + str (up) + ", systematic uncertainty: " + str (relDiffDown * 100.0) + "%/" + str (relDiffUp * 100.0) + "%")
             return (sample, relDiffDown, relDiffUp)
         else:
-            print "PileupCentral, PileupDown, and PileupUp not all defined. Not printing pileup systematic..."
+            print("PileupCentral, PileupDown, and PileupUp not all defined. Not printing pileup systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -701,8 +701,8 @@ class PileupSystematic:
                 n += 2
         averageSystematic /= n
 
-        print "maximum systematic: " + str (maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in systematic for word in row) + 2
@@ -725,7 +725,7 @@ class ECaloSystematic:
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        print("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"]))
 
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
@@ -745,17 +745,17 @@ class ECaloSystematic:
 
             eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-            print "efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh)
+            print("efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
             return (eff, effErrorLow, effErrorHigh)
         else:
-            print dataOrMC + " not defined. Not printing ECalo systematic..."
+            print(dataOrMC + " not defined. Not printing ECalo systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
         data, dataErrorLow, dataErrorHigh = self.printECaloSystematic ("Data")
         mc, mcErrorLow, mcErrorHigh = self.printECaloSystematic ("MC")
 
-        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
+        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%")
 
 class HitsSystematic:
 
@@ -770,17 +770,17 @@ class HitsSystematic:
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        print("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"]))
 
     def appendChannel (self, role, name, sample, condorDir):
         if not hasattr (self, role):
-            print "Cannot append to role", role, "before it has been defined!"
+            print("Cannot append to role", role, "before it has been defined!")
             return
 
         channel = getattr (self, role)
 
         if "weight" not in channel or "total" not in channel or "yield" not in channel:
-            print "Role", role, "is missing weight/total/yield and is improperly defined!"
+            print("Role", role, "is missing weight/total/yield and is improperly defined!")
             return
 
         n = None
@@ -817,7 +817,7 @@ class HitsSystematic:
         else:
             channel["extensions"] = [channelExtension]
 
-        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
+        print('yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield'])
 
     def addIntegrateHistogram (self, integrateHistogram):
         self._integrateHistogram = integrateHistogram
@@ -851,27 +851,27 @@ class HitsSystematic:
 
             eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-            print "efficiency of " + label + " cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh)
+            print("efficiency of " + label + " cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
             return (eff, effErrorLow, effErrorHigh)
         else:
-            print dataOrMC + " not defined. Not printing hits systematic..."
+            print(dataOrMC + " not defined. Not printing hits systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "X")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "X")
 
-        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n"
+        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n")
 
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "Y")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "Y")
 
-        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n"
+        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n")
 
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC")
 
-        print "systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%"
+        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%")
 
 class MissingOuterHitsSystematic:
 
@@ -912,7 +912,7 @@ class MissingOuterHitsSystematic:
             channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
             channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
-            print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+            print("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"]))
         setattr (self, role, channel)
 
     def addIntegrateHistogram (self, integrateHistogram):
@@ -953,7 +953,7 @@ class MissingOuterHitsSystematic:
 
             return (eff, hits)
         else:
-            print dataOrMC + " not defined. Not printing missing outer hits systematic..."
+            print(dataOrMC + " not defined. Not printing missing outer hits systematic...")
             return (float ("nan"), float ("nan"))
 
     def getOriginalSample(self, condorDir, sample, mass, lifetime):
@@ -1052,7 +1052,7 @@ class MissingOuterHitsSystematic:
 
             return (n, hits)
         else:
-            print "\"Signal\" not defined. Not printing missing outer hits systematic..."
+            print("\"Signal\" not defined. Not printing missing outer hits systematic...")
             return (float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -1060,7 +1060,7 @@ class MissingOuterHitsSystematic:
         mcHits = None
         signalHits = None
         systematic = []
-        masses = map (float, self._masses)
+        masses = list(map (float, self._masses))
         lifetimes = [float(x.replace('0p', '0.')) for x in self._lifetimes]
         massBins = array ("d", masses + [masses[-1] + 100])
         lifetimeBins = array ("d", lifetimes + [lifetimes[-1] * 10.0])
@@ -1096,7 +1096,7 @@ class MissingOuterHitsSystematic:
                 sys.printUncertainty (False)
                 sys.printLongFormat (True)
                 h.Fill (mass, lifetime, abs (sys.centralValue () / 100.0))
-                print "[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%"
+                print("[" + str (mass) + " GeV, " + str (lifetime) + " cm] data eff.: " + str (dataEff) + ", MC eff.: " + str (mcEff) + ", systematic uncertainty: " + str (sys) + "%")
 
                 if sys.centralValue() > self._maxSystematic:
                     self._maxSystematic = sys.centralValue()
@@ -1104,8 +1104,8 @@ class MissingOuterHitsSystematic:
                 self._n += 1
 
         self._averageSystematic /= self._n
-        print "maximum systematic: " + str (self._maxSystematic) + "%"
-        print "average systematic: " + str (self._averageSystematic) + "%"
+        print("maximum systematic: " + str (self._maxSystematic) + "%")
+        print("average systematic: " + str (self._averageSystematic) + "%")
 
         if self._foutForPlot:
             self._foutForPlot.cd ()
@@ -1161,7 +1161,7 @@ class LeptonVetoScaleFactorSystematic:
             channel["yield"], channel["yieldError"] = getYield (sample, condorDir, name + "Plotter")
             channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
             channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
-            print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+            print("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"]))
         setattr (self, role, channel)
 
     def setVetoDeltaR(self, deltaR):
@@ -1262,7 +1262,7 @@ class LeptonVetoScaleFactorSystematic:
         elif mass is not None and lifetime is not None:
             h = self.GetHistogramFromTree(sample, channel["condorDir"], channel["name"], mass, lifetime)
         else:
-            print 'Provide mass and lifetime for tree-based integration!'
+            print('Provide mass and lifetime for tree-based integration!')
             return Measurement(0, 0, 0)
 
         # eff(veto) / eff(loose veto) = (npass(veto)/nTracks) / (npass(loose veto)/nTracks) 
@@ -1345,7 +1345,7 @@ class LeptonVetoScaleFactorSystematic:
 
     def printSystematic(self):
         systematic = []
-        masses = map(float, self._masses)
+        masses = list(map(float, self._masses))
         lifetimes = [float(x.replace('0p', '0.')) for x in self._lifetimes]
         massBins = array("d", masses + [masses[-1] + 100])
         lifetimeBins = array("d", lifetimes + [lifetimes[-1] * 10.0])
@@ -1354,7 +1354,7 @@ class LeptonVetoScaleFactorSystematic:
         hSystematic = TH2D("leptonVetoScaleFactorsSystematics", ";chargino mass [GeV];chargino lifetime [cm/c]", len(massBins) - 1, massBins, len(lifetimeBins) - 1, lifetimeBins)
 
         dataEfficiencyRatio = self.getRelativeVetoEfficiency(self.Data)
-        print 'Data ratio =', str(dataEfficiencyRatio), '\n'
+        print('Data ratio =', str(dataEfficiencyRatio), '\n')
 
         for mass in self._masses:
             for lifetime in self._lifetimes:
@@ -1379,13 +1379,13 @@ class LeptonVetoScaleFactorSystematic:
                 hSF.Fill(mass, lifetime, scaleFactor.centralValue())
                 hPOG.Fill(mass, lifetime, scaleFactorPOG.centralValue())
                 hSystematic.Fill(mass, lifetime, (scaleFactorTotal.centralValue() - 1.0) * 100.0)
-                print "[{0} GeV, {1} cm] SF: {2}, SF(POG): {3}, SF(total): {4}".format(
+                print("[{0} GeV, {1} cm] SF: {2}, SF(POG): {3}, SF(total): {4}".format(
                     mass,
                     lifetime,
                     str(scaleFactor),
                     str(scaleFactorPOG),
                     str(scaleFactorTotal)
-                )
+                ))
 
                 if abs(1.0 - scaleFactorTotal.centralValue()) > self._maxSystematic:
                     self._maxSystematic = abs(1.0 - scaleFactorTotal.centralValue())
@@ -1405,8 +1405,8 @@ class LeptonVetoScaleFactorSystematic:
                 self._fout.write("".join(word.ljust(width) for word in row) + "\n")
 
         self._averageSystematic /= self._n
-        print "maximum systematic: " + str (self._maxSystematic) + "%"
-        print "average systematic: " + str (self._averageSystematic) + "%"
+        print("maximum systematic: " + str (self._maxSystematic) + "%")
+        print("average systematic: " + str (self._averageSystematic) + "%")
 
 class WeightSystematicFromTrees(SystematicCalculator):
 
@@ -1435,7 +1435,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             if originalWeight == w:
                 self._weightsUp[i] = upWeight
                 return
-        print originalWeight + ' is not in the original list of weights'
+        print(originalWeight + ' is not in the original list of weights')
         return
 
     def defineFluctuationDown(self, originalWeight, downWeight):
@@ -1443,7 +1443,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
             if originalWeight == w:
                 self._weightsDown[i] = downWeight
                 return
-        print originalWeight + ' is not in the original list of weights'
+        print(originalWeight + ' is not in the original list of weights')
         return
 
     def getOriginalSample(self, condorDir, sample, mass, lifetime):
@@ -1528,7 +1528,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
 
     def printSampleSystematic(self, mass, lifetime):
         if not hasattr(self, 'central'):
-            print '"central" not defined, not printing systematic...'
+            print('"central" not defined, not printing systematic...')
             return (float ("nan"), float ("nan"), float ("nan"))
 
         sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
@@ -1537,7 +1537,7 @@ class WeightSystematicFromTrees(SystematicCalculator):
         relDiffDown = (down - central) / central if central > 0.0 else 0.0
         relDiffUp = (up - central) / central if central > 0.0 else 0.0
 
-        print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0))
+        print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, down, central, up, (relDiffDown * 100.0), (relDiffUp * 100.0)))
         return (sample, relDiffDown, relDiffUp)
 
     def printSystematic(self):
@@ -1559,8 +1559,8 @@ class WeightSystematicFromTrees(SystematicCalculator):
                 self._n += 2
         self._averageSystematic /= self._n
 
-        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (self._maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (self._averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in self._systematic for word in row) + 2
@@ -1727,13 +1727,13 @@ class TriggerTurnOnSystematic:
 
             relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
             if relDiff < 0.0:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0))
                 return (sample, relDiff, 0.0)
             elif relDiff == 0.0:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0)
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0))
                 return (sample, 0.0, 0.0)
             else:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0))
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0)))
                 return (sample, 0.0, relDiff)
 
         if hasattr (self, "central") and hasattr (self, "Denominator") and hasattr (self, "Numerator") and hasattr (self, "central1") and hasattr (self, "Denominator1") and hasattr (self, "Numerator1") and hasattr (self, "central2") and hasattr (self, "Denominator2") and hasattr (self, "Numerator2") :
@@ -1779,16 +1779,16 @@ class TriggerTurnOnSystematic:
 
             relDiff = (scaledValue - central) / central if central > 0.0 else 0.0
             if relDiff < 0.0:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0)
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, scaledValue, central, central, (relDiff * 100.0), 0.0))
                 return (sample, relDiff, 0.0)
             elif relDiff == 0.0:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0)
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, central, 0.0, 0.0))
                 return (sample, 0.0, 0.0)
             else:
-                print "(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0))
+                print("(%s) down: %f, central: %f, up: %f, systematic uncertainty: %f%%/%f%%" % (sample, central, central, scaledValue, 0.0, (relDiff * 100.0)))
                 return (sample, 0.0, relDiff)
         else:
-            print "central, Denominator, and Denominator not all defined. Not printing systematic..."
+            print("central, Denominator, and Denominator not all defined. Not printing systematic...")
             return (float ("nan"), float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -1810,8 +1810,8 @@ class TriggerTurnOnSystematic:
                 self._n += 2
         self._averageSystematic /= self._n
 
-        print "maximum systematic: " + str (self._maxSystematic * 100.0) + "%"
-        print "average systematic: " + str (self._averageSystematic * 100.0) + "%"
+        print("maximum systematic: " + str (self._maxSystematic * 100.0) + "%")
+        print("average systematic: " + str (self._averageSystematic * 100.0) + "%")
 
         if self._fout:
             width = max (len (word) for row in self._systematic for word in row) + 2

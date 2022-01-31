@@ -21,7 +21,7 @@ gStyle.SetOptStat(0)
 up68 = 0.5 * TMath.ChisquareQuantile (0.68, 2)
 
 def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, year):
-    print 'pretty print totals for paper:'
+    print('pretty print totals for paper:')
     fullTotal = Measurement(0.0, 0.0, 0.0, 0.0, 0.0)
     for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
@@ -71,20 +71,20 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
 
             fullTotal += totals
 
-            print "********************************************************************************"
-            print "Period: " + year + runPeriod
-            print "nLayers: " + nLayersWord
-            print "\tElectrons: " + str(electrons[(nLayersWord, runPeriod)])
-            print "\tMuons: " + str(muons[(nLayersWord, runPeriod)])
-            print "\tTaus: " + str(taus[(nLayersWord, runPeriod)])
-            print "\t-------------------------------------"
-            print "\tLeptons (total): " + str(leptons)
-            print "\tFake tracks: " + str(fakes[(nLayersWord, runPeriod)])
-            print "\t-------------------------------------"
-            print "Total background: " + str(totals)
-            print "********************************************************************************"
-    print 'Full total across all nLayers categories, run periods:'
-    print str(fullTotal)
+            print("********************************************************************************")
+            print("Period: " + year + runPeriod)
+            print("nLayers: " + nLayersWord)
+            print("\tElectrons: " + str(electrons[(nLayersWord, runPeriod)]))
+            print("\tMuons: " + str(muons[(nLayersWord, runPeriod)]))
+            print("\tTaus: " + str(taus[(nLayersWord, runPeriod)]))
+            print("\t-------------------------------------")
+            print("\tLeptons (total): " + str(leptons))
+            print("\tFake tracks: " + str(fakes[(nLayersWord, runPeriod)]))
+            print("\t-------------------------------------")
+            print("Total background: " + str(totals))
+            print("********************************************************************************")
+    print('Full total across all nLayers categories, run periods:')
+    print(str(fullTotal))
 
 class LeptonBkgdEstimate:
     _Flavor = ""
@@ -168,7 +168,7 @@ class LeptonBkgdEstimate:
 
     def useExternalFlatTriggerEfficiency (self, eff):
         self._useExternalTriggerEfficiency = True
-        print "External trigger efficiency: " + str(eff)
+        print("External trigger efficiency: " + str(eff))
         setattr (self, 'externalTriggerEfficiency', eff)
 
     def useExternalTriggerEfficiency (self, nMatchedOS, nMatchedSS, nOS, nSS):
@@ -182,7 +182,7 @@ class LeptonBkgdEstimate:
         eff = (matchedOS - matchedSS) / (allOS - allSS)
         eff.isPositive ()
 
-        print "External trigger efficiency: " + str(eff)
+        print("External trigger efficiency: " + str(eff))
         setattr (self, 'externalTriggerEfficiency', eff)
 
     def useMetMinusOneForIntegrals (self, flag = True):
@@ -232,17 +232,17 @@ class LeptonBkgdEstimate:
         channel["yield"].isPositive ()
 
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"])
+        print("yield for " + name + ": " + str (channel["yield"]))
 
     def appendChannel (self, role, name, sample, condorDir, useIdMatch = False):
         if not hasattr (self, role):
-            print "Cannot append to role", role, "before it has been defined!"
+            print("Cannot append to role", role, "before it has been defined!")
             return
 
         channel = getattr (self, role)
 
         if "weight" not in channel or "total" not in channel or "yield" not in channel:
-            print "Role", role, "is missing weight/total/yield and is improperly defined!"
+            print("Role", role, "is missing weight/total/yield and is improperly defined!")
             return
 
         n = None
@@ -286,7 +286,7 @@ class LeptonBkgdEstimate:
         else:
             channel["extensions"] = [channelExtension]
 
-        print 'yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield']
+        print('yield for role', role, 'appended with channel', name, 'increased yield to', channel['yield'])
 
     def printNctrl (self):
         self.plotMetForNctrl ()
@@ -294,10 +294,10 @@ class LeptonBkgdEstimate:
             n = self.TagPt35ForNctrl["yield"] if hasattr (self, "TagPt35ForNctrl") else self.TagPt35["yield"]
             n *= self._prescale
 
-            print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            print("N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
             return n
         else:
-            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl..."
+            print("Neither TagPt35 nor TagPt35ForNctrl defined. Not printing N_ctrl...")
             return float ("nan")
 
     def plotMetForNctrl (self):
@@ -362,9 +362,9 @@ class LeptonBkgdEstimate:
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneForNctrl")
             else:
-                print "A TFile and TCanvas must be added. Not making plots..."
+                print("A TFile and TCanvas must be added. Not making plots...")
         else:
-            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET for N_ctrl..."
+            print("Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET for N_ctrl...")
 
     def printPpassVeto (self):
         if not hasattr (self._pPassVeto, "centralValue"):
@@ -373,20 +373,20 @@ class LeptonBkgdEstimate:
                 passes = self.CandTrkIdPt35NoMet["yield"]
 
                 eff = passes / total
-                print "P (pass lepton veto) in baseline sample: " + str (eff)
+                print("P (pass lepton veto) in baseline sample: " + str (eff))
                 return eff
             else:
-                print "TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)..."
+                print("TagPt35 and CandTrkIdPt35NoMet not both defined. Not printing P (pass lepton veto)...")
                 return float ("nan")
         else:
-            print "P (pass lepton veto) from user input: " + str (self._pPassVeto)
+            print("P (pass lepton veto) from user input: " + str (self._pPassVeto))
             return self._pPassVeto
 
     def printPpassMetCut (self):
         if hasattr (self, "TagPt35"):
             channel = self.TagPt35
         else:
-            print "TagPt35 not defined. Not printing P (pass met cut)..."
+            print("TagPt35 not defined. Not printing P (pass met cut)...")
             return float ("nan")
 
         total = channel["yield"]
@@ -404,7 +404,7 @@ class LeptonBkgdEstimate:
         passes.isPositive ()
 
         eff = passes / total if total > 0.0 else 0.0
-        print "P (pass met cut): " + str (eff)
+        print("P (pass met cut): " + str (eff))
         return eff
 
     def printPpassHEMveto (self):
@@ -430,7 +430,7 @@ class LeptonBkgdEstimate:
                 # muons used a skim in D but had 100% completion, so just turn this off for muons...
                 sf = nEventsDenominator / nEventsNumerator if nEventsNumerator > 0.0 else 0.0
                 if sf > 1.0:
-                    print "\tApplying correction for incomplete jobs:", sf
+                    print("\tApplying correction for incomplete jobs:", sf)
                 numerator.Scale(sf)
 
             totalError = Double (0.0)
@@ -442,11 +442,11 @@ class LeptonBkgdEstimate:
             passes = Measurement (passes, passesError)
 
             eff = passes / total if total > 0.0 else 0.0
-            print "P (pass HEM 15/16 veto): " + str (eff)
+            print("P (pass HEM 15/16 veto): " + str (eff))
             return eff
 
         else:
-            print "TagPt35MetTrig(HEMveto) or TrigEffNumer(HEMveto) are not defined. Not printing P (pass HEM veto)..."
+            print("TagPt35MetTrig(HEMveto) or TrigEffNumer(HEMveto) are not defined. Not printing P (pass HEM veto)...")
             return (float ("nan"), float ("nan"))
 
     def getPpassHEMveto (self):
@@ -557,10 +557,10 @@ class LeptonBkgdEstimate:
             total.isPositive ()
 
             eff = passes / total if total > 0.0 else 0.0
-            print "P (pass met triggers): " + str (eff)
+            print("P (pass met triggers): " + str (eff))
             return (eff, triggerEffPassesHist)
         else:
-            print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
+            print("TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)...")
             return (float ("nan"), float ("nan"))
 
     def plotTriggerEfficiency (self, passesHist, totalHist, label = ""):
@@ -603,7 +603,7 @@ class LeptonBkgdEstimate:
             self._fout.cd ()
             self._canvas.Write ("triggerEfficiency_" + label)
         else:
-            print "A TFile and TCanvas must be added. Not making plots..."
+            print("A TFile and TCanvas must be added. Not making plots...")
 
     def printNback (self):
         self.plotMetForNback ()
@@ -620,10 +620,10 @@ class LeptonBkgdEstimate:
             nError /= w
             n = Measurement (n * w, (nError if n != 0.0 else up68) * w)
 
-            print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            print("N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
             return n
         else:
-            print "CandTrkIdPt35 not defined. Not printing N_back..."
+            print("CandTrkIdPt35 not defined. Not printing N_back...")
             return float ("nan")
 
     def plotMetForNback (self):
@@ -632,7 +632,7 @@ class LeptonBkgdEstimate:
                 hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
                 met = self.getHistFromProjectionZ (self.CandTrkIdPt35["sample"], self.CandTrkIdPt35["condorDir"], self.CandTrkIdPt35["name"] + "Plotter", hist, alternate1DHist = "Met Plots/metNoMu")
                 if not isinstance(met, TObject):
-                    print "Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"]
+                    print("Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"])
                     return
                 if "extensions" in self.CandTrkIdPt35:
                     for x in self.CandTrkIdPt35["extensions"]:
@@ -645,7 +645,7 @@ class LeptonBkgdEstimate:
                 hist = "Track-" + self._flavor + " Plots/" + self._flavor + "NoMuMinusOnePtVsMaxSigmaForFiducialTracks"
                 metMinusOne = self.getHistFromProjectionZ (self.CandTrkIdPt35["sample"], self.CandTrkIdPt35["condorDir"], self.CandTrkIdPt35["name"] + "Plotter", hist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
                 if not isinstance(metMinusOne, TObject):
-                    print "Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"]
+                    print("Warning [plotMetForNback]: Could not get required hists from sample=", self.CandTrkIdPt35["sample"], "condorDir=", self.CandTrkIdPt35["condorDir"], "name=", self.CandTrkIdPt35["name"])
                     return
                 if "extensions" in self.CandTrkIdPt35:
                     for x in self.CandTrkIdPt35["extensions"]:
@@ -695,9 +695,9 @@ class LeptonBkgdEstimate:
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneForNback")
             else:
-                print "A TFile and TCanvas must be added. Not making plots..."
+                print("A TFile and TCanvas must be added. Not making plots...")
         else:
-            print "CandTrkIdPt35 not defined. Not plotting MET for N_back..."
+            print("CandTrkIdPt35 not defined. Not plotting MET for N_back...")
 
     def makePassesConsistentWithTotal (self, passes, total):
         for i in range (0, passes.GetNbinsX () + 2):
@@ -720,7 +720,7 @@ class LeptonBkgdEstimate:
             nEst /= self.externalTriggerEfficiency
 
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
-            print "Applying HEM 15/16 veto"
+            print("Applying HEM 15/16 veto")
             pPassHEMveto = self.printPpassHEMveto ()
             nEst *= pPassHEMveto
 
@@ -735,26 +735,26 @@ class LeptonBkgdEstimate:
         alpha.printLongFormat ()
 
         if alpha.centralValue () > 0:
-            print "N: " + str (nCtrl)
+            print("N: " + str (nCtrl))
         else:
-            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
-            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
+            print('INFO: one of the estimate probabilities is zero, so alpha would be zero.')
+            print('      Instead giving N as the P(veto) numerator, and alpha to match.')
             if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
-            print "N: " + str (passes)
+            print("N: " + str (passes))
 
-        print "alpha: " + str (alpha)
+        print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
-                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+                print("error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ())))
             else:
-                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+                print("error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ())))
         else:
-            print 'WARNING: alpha STILL ended up as zero, so no relative error can be printed.'
+            print('WARNING: alpha STILL ended up as zero, so no relative error can be printed.')
 
-        print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+        print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
         return nEst
 
     def getPpassMetCut (self):
@@ -786,26 +786,26 @@ class LeptonBkgdEstimate:
         alpha.printLongFormat ()
 
         if alpha.centralValue () > 0:
-            print "N: " + str (nCtrl)
+            print("N: " + str (nCtrl))
         else:
-            print 'INFO: one of the estimate probabilities is zero, so alpha would be zero.'
-            print '      Instead giving N as the P(veto) numerator, and alpha to match.'
+            print('INFO: one of the estimate probabilities is zero, so alpha would be zero.')
+            print('      Instead giving N as the P(veto) numerator, and alpha to match.')
             if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
-            print "N: " + str (passes)
+            print("N: " + str (passes))
 
-        print "alpha: " + str (alpha)
+        print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
-                print "error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ()))
+                print("error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ())))
             else:
-                print "error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ()))
+                print("error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ())))
         else:
-            print 'WARNING: alpha ended up as zero, so no relative error can be printed.'
+            print('WARNING: alpha ended up as zero, so no relative error can be printed.')
 
-        print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
+        print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
         return nEst
 
     def printPpassVetoTagProbe (self):
@@ -827,7 +827,7 @@ class LeptonBkgdEstimate:
                     hist = "Eventvariable Plots/nGoodSSTPPairs"
                     totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
                     if not isinstance(totalBackgroundHist, TObject):
-                        print "Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!"
+                        print("Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!")
                         totalBackgroundExists = False
                     if totalBackgroundExists:
                         addChannelExtensions(totalBackgroundHist, self.TagProbe, hist)
@@ -881,7 +881,7 @@ class LeptonBkgdEstimate:
                         hist = "Eventvariable Plots/nGoodSSTPPairs"
                         totalBackgroundHist = getHistFromChannelDict(self.TagProbe1, hist)
                         if not isinstance(totalBackgroundHist, TObject):
-                            print "Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!"
+                            print("Warning [printPpassVetoTagProbe]: Could not get nGoodSSTPPairs histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!")
                             totalBackgroundExists = False
                         addChannelExtensions(totalBackgroundHist, self.TagProbe1, hist)
 
@@ -933,24 +933,24 @@ class LeptonBkgdEstimate:
                     background1 = Measurement (background1, backgroundError)
 
                 if hasattr (self, "TagProbePass1"):
-                    print 'P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '-', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                    print('P_veto := (', passes.centralValue(), '+', passes1.centralValue(), '-', background.centralValue(), '-', background1.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')')
                 else:
-                    print 'P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')'
+                    print('P_veto := (', passes.centralValue(), '-', background.centralValue(), ') / (', total.centralValue(), '-', totalBackground.centralValue(), ')')
 
                 # apply same-sign subtraction
                 passes -= background
                 passes1 -= background1
 
                 if passes < 0:
-                    print 'INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print('INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
                     passes = Measurement (0.0, 0.0, up68)
                 if passes1 < 0:
-                    print 'INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!'
+                    print('INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
                     passes1 = Measurement (0.0, 0.0, up68)
 
                 total -= totalBackground
                 if total <= 0:
-                    print 'Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.'
+                    print('Warning: same-sign subtraction is non-positive in the denominator?! Thats impressive but you messed up.')
                     sys.exit()
 
                 passes.isPositive ()
@@ -971,13 +971,13 @@ class LeptonBkgdEstimate:
                 else:
                     eff = scaledPasses / total
 
-                print "P (pass lepton veto) in tag-probe sample: " + str (eff)
+                print("P (pass lepton veto) in tag-probe sample: " + str (eff))
                 return (eff, p, sf, total)
             else:
-                print "TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency..."
+                print("TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency...")
                 return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
         else:
-            print "P (pass lepton veto) from user input: " + str (self._pPassVeto)
+            print("P (pass lepton veto) from user input: " + str (self._pPassVeto))
             return (self._pPassVeto, float ("nan"), float ("nan"), float ("nan"))
 
     def plotPpassVeto (self):
@@ -1096,9 +1096,9 @@ class LeptonBkgdEstimate:
                     self._fout.cd ()
                     self._canvas.Write ("pPassVetoInvMassDependence")
             else:
-                print "A TFile and TCanvas must be added. Not making plots..."
+                print("A TFile and TCanvas must be added. Not making plots...")
         else:
-            print "Neither TagProbe nor TagProbePass defined. Not plotting P_veto pt dependence..."
+            print("Neither TagProbe nor TagProbePass defined. Not plotting P_veto pt dependence...")
 
 # Gaussian function for fitting d0 distribution
 def gaussian (x, par):
@@ -1177,7 +1177,7 @@ class FakeTrackBkgdEstimate:
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
-        if verbose: print "yield for " + name + ": " + str (channel["yield"])
+        if verbose: print("yield for " + name + ": " + str (channel["yield"]))
 
     def printTransferFactor (self, verbose = True):
 
@@ -1186,7 +1186,7 @@ class FakeTrackBkgdEstimate:
             passes = 2.0 * (self._maxD0 - self._minD0)
             fails = 2.0 * self._minD0
             if verbose:
-                print 'Transfer factor (flat): (' + str (passes) + ') / ' + str (fails) + ') = ' + str (transferFactor)
+                print('Transfer factor (flat): (' + str (passes) + ') / ' + str (fails) + ') = ' + str (transferFactor))
             return (transferFactor, passes, fails, 0.0, 0.0)
 
         if hasattr (self, "Basic3hits"):
@@ -1237,14 +1237,14 @@ class FakeTrackBkgdEstimate:
 
             if fails > 0.0:
                 transferFactor = passes / fails
-                if verbose: print "Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor)
+                if verbose: print("Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor))
                 return (transferFactor, passes, fails, passesError, failsError)
             else:
-                if verbose: print "N(fail d0 cut, 3 hits) = 0, not printing scale factor..."
+                if verbose: print("N(fail d0 cut, 3 hits) = 0, not printing scale factor...")
                 return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
         else:
-            if verbose: print "Basic3hits is not defined. Not printing transfer factor..."
+            if verbose: print("Basic3hits is not defined. Not printing transfer factor...")
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
     def printNctrl (self, verbose = True):
@@ -1298,7 +1298,7 @@ class FakeTrackBkgdEstimate:
                                                           puBkgd.GetBinError(ibin+1) / puBkgd.GetBinContent(ibin+1))
                                                ) ** 2
                     nReweighted = Measurement(nReweighted, math.sqrt(nReweightedErr))
-                    print 'Reweighting pileup to BasicSelection, overall weight =', nReweighted, '/', self.DisTrkInvertD0["yield"], '=', nReweighted / self.DisTrkInvertD0["yield"]
+                    print('Reweighting pileup to BasicSelection, overall weight =', nReweighted, '/', self.DisTrkInvertD0["yield"], '=', nReweighted / self.DisTrkInvertD0["yield"])
                     pFake = nReweighted / self.ZtoLL["yield"]
             elif hasattr (self, "Basic"):
                 pFake = n / self.Basic["yield"]
@@ -1308,11 +1308,11 @@ class FakeTrackBkgdEstimate:
             n *= self._prescale
 
             if verbose:
-                print "N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
-                print "P_fake^raw: " + str (pFake)
+                print("N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
+                print("P_fake^raw: " + str (pFake))
             return (n, nRaw, norm, pFake)
         else:
-            if verbose: print "DisTrkInvertD0 is not defined. Not printing N_ctrl..."
+            if verbose: print("DisTrkInvertD0 is not defined. Not printing N_ctrl...")
             return (float ("nan"), float ("nan"))
 
     def printNest (self, verbose = True):
@@ -1331,12 +1331,12 @@ class FakeTrackBkgdEstimate:
 
         if verbose:
             alpha.printLongFormat ()
-            print "P_fake: " + str (pFake)
-            print "N: " + str (N)
-            print "alpha: " + str (alpha)
-            print "error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan"))
-            print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
-            print "error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan"))
+            print("P_fake: " + str (pFake))
+            print("N: " + str (N))
+            print("alpha: " + str (alpha))
+            print("error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan")))
+            print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
+            print("error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan")))
 
         return nEst, pFake
 
@@ -1344,10 +1344,10 @@ class FakeTrackBkgdEstimate:
         if hasattr (self, "DisTrkIdFake"):
             n = self.DisTrkIdFake["yield"]
 
-            if verbose: print "N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)"
+            if verbose: print("N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
             return n
         else:
-            if verbose: print "DisTrkIdFake not defined. Not printing N_back..."
+            if verbose: print("DisTrkIdFake not defined. Not printing N_back...")
             return float ("nan")
 
 class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
@@ -1360,13 +1360,13 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
-        if verbose: print "yield for " + name + ": " + str (channel["yield"])
+        if verbose: print("yield for " + name + ": " + str (channel["yield"]))
 
     def addTrees(self, role, treeName, filePaths):
         _chain = TChain(treeName)
         for x in glob.glob(filePaths + '/*/hist_*.root'):
             _chain.Add(x)
-        print 'Added ' + str(_chain.GetEntries()) + ' events for role ' + role
+        print('Added ' + str(_chain.GetEntries()) + ' events for role ' + role)
         setattr(self, role + 'Chain', _chain)
 
     def getTransferFactor (self, cutString):
@@ -1415,7 +1415,7 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
                 return (Measurement(-1, -1),) * 3 + (float("nan"),) * 2 
 
         else:
-            print "Basic3hits is not defined. Not printing transfer factor..."
+            print("Basic3hits is not defined. Not printing transfer factor...")
             return (Measurement(-1, -1),) * 3 + (float("nan"),) * 2 
 
     def printNctrl (self, cutString):
@@ -1483,12 +1483,12 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
 
         if True:
             alpha.printLongFormat ()
-            print "P_fake: " + str (pFake)
-            print "N: " + str (N)
-            print "alpha: " + str (alpha)
-            print "error on alpha: " + str(errorOnAlphaRel)
-            print "N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)"
-            print "error from fit: " + str(errorFromFitRel)
+            print("P_fake: " + str (pFake))
+            print("N: " + str (N))
+            print("alpha: " + str (alpha))
+            print("error on alpha: " + str(errorOnAlphaRel))
+            print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
+            print("error from fit: " + str(errorFromFitRel))
 
         return (nEst, pFake, N, alpha, errorOnAlphaRel, errorFromFitRel)
 

@@ -8,7 +8,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 if hasattr(process, 'EventJetVarProducer'):
 	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 else:
-    print
-    print 'You haven\'t added any channels. There\'s nothing to do!'
-    print
+    print()
+    print('You haven\'t added any channels. There\'s nothing to do!')
+    print()
     sys.exit(0)
