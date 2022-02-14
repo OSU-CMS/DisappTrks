@@ -37,7 +37,7 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     h.GetXaxis().SetLabelSize(0.04)
     h.GetXaxis().SetTitleOffset(1.0)
     h.GetXaxis().SetTitleSize(0.04)
-    if xTitle is not "":
+    if xTitle != "":
         h.GetXaxis().SetTitle(xTitle)
     if xRange[0] != 0 or xRange[1] != 0:
         h.GetXaxis().SetRangeUser(xRange[0], xRange[1])
@@ -46,7 +46,7 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     h.GetYaxis().SetLabelSize(0.04)
     h.GetYaxis().SetTitleOffset(1.5)
     h.GetYaxis().SetTitleSize(0.04)
-    if yTitle is not "":
+    if yTitle != "":
         h.GetYaxis().SetTitle(yTitle)
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])

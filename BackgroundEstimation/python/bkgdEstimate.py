@@ -41,16 +41,16 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
                 else:
                     systValue = (float(background_systematics[systematic]['value']) - 1.0, float(background_systematics[systematic]['value']) - 1.0)
 
-                if background_systematics[systematic]['background'] is 'Fake': 
+                if background_systematics[systematic]['background'] == 'Fake': 
                     fakeSystematic[0] += (systValue[0] * fakes[(nLayersWord, runPeriod)].centralValue()) ** 2.
                     fakeSystematic[1] += (systValue[1] * fakes[(nLayersWord, runPeriod)].centralValue()) ** 2.
-                elif background_systematics[systematic]['background'] is 'Elec':
+                elif background_systematics[systematic]['background'] == 'Elec':
                     eleSystematic[0] += (systValue[0] * electrons[(nLayersWord, runPeriod)].centralValue()) ** 2.
                     eleSystematic[1] += (systValue[1] * electrons[(nLayersWord, runPeriod)].centralValue()) ** 2.
-                elif background_systematics[systematic]['background'] is 'Muon':
+                elif background_systematics[systematic]['background'] == 'Muon':
                     muonSystematic[0] += (systValue[0] * muons[(nLayersWord, runPeriod)].centralValue()) ** 2.
                     muonSystematic[1] += (systValue[1] * muons[(nLayersWord, runPeriod)].centralValue()) ** 2.
-                elif background_systematics[systematic]['background'] is 'Tau':
+                elif background_systematics[systematic]['background'] == 'Tau':
                     tauSystematic[0] += (systValue[0] * taus[(nLayersWord, runPeriod)].centralValue()) ** 2.
                     tauSystematic[1] += (systValue[1] * taus[(nLayersWord, runPeriod)].centralValue()) ** 2.
 
@@ -773,14 +773,14 @@ class LeptonBkgdEstimate:
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             nEst /= self.externalTriggerEfficiency
-        if pPassHEMveto is not None:
+        if pPassHEMveto != None:
             nEst *= pPassHEMveto
         nEst.isPositive ()
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             alpha /= self.externalTriggerEfficiency
-        if pPassHEMveto is not None:
+        if pPassHEMveto != None:
             alpha *= pPassHEMveto
         alpha.isPositive ()
         alpha.printLongFormat ()
@@ -1250,7 +1250,7 @@ class FakeTrackBkgdEstimate:
     def printNctrl (self, verbose = True):
         if hasattr (self, "DisTrkInvertD0"):
             hits = getHistFromChannelDict (self.DisTrkInvertD0, "Track Plots/trackLayersWithMeasurementVsPixelHits")
-            if self._nHits is not None:
+            if self._nHits !=  None:
                 if self._nHits >= 6:
                     nError = Double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
@@ -1420,7 +1420,7 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
 
     def printNctrl (self, cutString):
         if hasattr (self, "DisTrkInvertD0Chain"):
-            if self._nHits is not None:
+            if self._nHits !=  None:
                 self.DisTrkInvertD0Chain.Draw('track_hitPattern_.trackerLayersWithMeasurement:track_hitPattern_.numberOfValidPixelHits >> h2d(10, -0.5, 9.5, 20, -0.5, 19.5)', cutString, 'goff')
                 hits = gDirectory.Get('h2d')
                 if self._nHits >= 6:
