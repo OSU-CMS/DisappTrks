@@ -45,21 +45,21 @@ muonIDPayload = ""
 muonIsoPayload = ""
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# EventWeights applied: 2016"
+    print("# EventWeights applied: 2016")
     electronRecoPayload = "electronReco2016"
     electronIDPayload = "electronID2016Tight"
     muonTriggerPayload = "muonTrigger2016IsoMu24_OR_IsoTkMu24"
     muonIDPayload = "muonID2016Tight"
     muonIsoPayload = "muonIso2016Tight"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# EventWeights applied: 2017"
+    print("# EventWeights applied: 2017")
     # no reco payload for 2017 V1
     electronIDPayload = "electronID2017Tight"
     muonTriggerPayload = "muonTrigger2017IsoMu27"
     muonIDPayload = "muonID2017Tight"
     muonIsoPayload = "muonIso2017TightTightID"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# EventWeights applied: 2018"
+    print("# EventWeights applied: 2018")
     electronRecoPayload = "electronReco2018"
     electronIDPayload = "electronID2018Tight"
     # the average of "before HLT update" to "after", weighted by the lumi before/after the change
@@ -67,7 +67,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     muonIDPayload = "muonID2018Tight"
     muonIsoPayload = "muonIso2018TightTightID"
 else:
-    print "# EventWeights applied: 2015"
+    print("# EventWeights applied: 2015")
     electronRecoPayload = "electronReco2015"
     electronIDPayload = "electronID2015Tight"
     muonTriggerPayload = "muonTrigger2015IsoMu20_OR_IsoTkMu20"

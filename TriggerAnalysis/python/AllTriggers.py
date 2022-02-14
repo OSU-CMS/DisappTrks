@@ -8,13 +8,13 @@ import os
 ##########################################################################################################
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Trigger filters: 2016"
+    print("# Trigger filters: 2016")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Trigger filters: 2017"
+    print("# Trigger filters: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Trigger filters: 2018"
+    print("# Trigger filters: 2018")
 else:
-    print "# Trigger filters: 2015"
+    print("# Trigger filters: 2015")
     
 # 2015 values by default
 
@@ -128,7 +128,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer
 triggerFiltersInclusive = cms.vstring()
-for filt in [f for fList in (triggerFiltersMet.values() + triggerFiltersTrack.values()) for f in fList]:
+for filt in [f for fList in (list(triggerFiltersMet.values()) + list(triggerFiltersTrack.values())) for f in fList]:
     if filt not in triggerFiltersInclusive:
         triggerFiltersInclusive.append(filt)
 

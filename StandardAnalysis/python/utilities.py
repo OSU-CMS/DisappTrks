@@ -31,7 +31,7 @@ class AnalysisEra:
             self.is2018 = True
             self.eraName = '2018'
         else:
-            print self.release + ' is not a valid release. Quitting.'
+            print(self.release + ' is not a valid release. Quitting.')
             sys.exit(0)
             
     def availableSubEras(self):
@@ -75,7 +75,7 @@ def getUser():
             dirs[key] = ''
             user = userList[key]
             return dirs
-    print "Error:  could not identify user."
+    print("Error:  could not identify user.")
     os.exit(0)
 
 ################################################################################
@@ -158,12 +158,12 @@ def setMissingHitsCorrection (process, correction):
         if not hasattr (x, "type_"):
             continue
         if x.type_ () == "OSUTrackProducer":
-            print "# Missing hits corrections (" + a + "): " + correction
+            print("# Missing hits corrections (" + a + "): " + correction)
             for y in MissingHitsCorrections[correction]:
                 setattr (x, y, MissingHitsCorrections[correction][y])
-                print "#   " + y + ": " + str (getattr (x, y).value ())
+                print("#   " + y + ": " + str (getattr (x, y).value ()))
     # this is the last customization that prints info, so now print a big line to clean things up
-    print "########################################################################"
+    print("########################################################################")
 
 def setThresholdForFiducialMapVeto (process, threshold):
     fiducialMaps = ["electrons", "muons"]
@@ -179,7 +179,7 @@ def setThresholdForFiducialMapVeto (process, threshold):
                     if hasattr (y, fiducialMap):
                         z = getattr (y, fiducialMap)
                         for i in range (0, len (z)):
-                            print "# Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "..."
+                            print("# Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "...")
                             setattr (z[i], "thresholdForVeto", cms.double (threshold))
 
 def setFiducialMaps (process, electrons, muons):
@@ -197,7 +197,7 @@ def setFiducialMaps (process, electrons, muons):
                         z = getattr (y, fiducialMap)
                         histFile = electrons if fiducialMap == "electrons" else muons
                         for i in range (0, len (z)):
-                            print "# Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"..."
+                            print("# Setting histFile for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to \"" + histFile + "\"...")
                             setattr (z[i], "histFile", cms.FileInPath (histFile))
 
 def setUseEraByEraFiducialMaps (process, doUse = True):
@@ -206,7 +206,7 @@ def setUseEraByEraFiducialMaps (process, doUse = True):
         if not hasattr (x, "type_"):
             continue
         if x.type_ () == "OSUTrackProducer":
-            print "# Setting era-by-era implementation of fiducial maps to " + str (doUse)
+            print("# Setting era-by-era implementation of fiducial maps to " + str (doUse))
             setattr (x, "useEraByEraFiducialMaps", cms.bool (doUse))
 
 moveVariableProducerIndex = -1

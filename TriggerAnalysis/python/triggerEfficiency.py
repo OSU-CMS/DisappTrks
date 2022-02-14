@@ -485,7 +485,7 @@ class TriggerEfficiency:
 		
             for ibin in range(-1, self.Numerator["hist"].GetNbinsX()+1):
                 if self.Numerator["hist"].GetBinContent(ibin+1) > self.Denominator["hist"].GetBinContent(ibin+1):
-                    print 'Fixing bad bin:', (ibin+1)
+                    print('Fixing bad bin:', (ibin+1))
                     self.Numerator["hist"].SetBinContent(ibin+1, self.Denominator["hist"].GetBinContent(ibin+1))
                     self.Numerator["hist"].SetBinError(ibin+1, self.Denominator["hist"].GetBinError(ibin+1))
 
@@ -586,5 +586,5 @@ class TriggerEfficiency:
                     fitFunc.Write(self._path + "_" + self._leg + "_fitResult")
 
         else:
-            print "Denominator and Numerator must be defined for path ", self._path, ", leg ", self._leg
+            print("Denominator and Numerator must be defined for path ", self._path, ", leg ", self._leg)
             return 0.0

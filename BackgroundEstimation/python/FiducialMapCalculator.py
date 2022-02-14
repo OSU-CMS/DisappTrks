@@ -50,7 +50,7 @@ class FiducialMapCalculator:
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
         channel["histogram"] = getHist(sample, condorDir, name + "Plotter", self._histogramName)
         setattr(self, role, channel)
-        print "yield for " + name + ": " + str(channel["histogram"].Integral())
+        print("yield for " + name + ": " + str(channel["histogram"].Integral()))
 
     def FindHotSpots(self, beforeVeto, afterVeto):
         hotSpots = []
@@ -69,7 +69,7 @@ class FiducialMapCalculator:
                 totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
         meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
 
-        print '\nMean inefficiency (including any hot spots) = ', meanInefficiency
+        print('\nMean inefficiency (including any hot spots) = ', meanInefficiency)
         meanInefficiency_withHotSpots = meanInefficiency
 
         # now with the mean, calculate the standard deviation as stdDev^2 = 1/(N-1) * sum(inefficiency - meanInefficiency)^2
@@ -86,7 +86,7 @@ class FiducialMapCalculator:
                 stdDevInefficiency += (thisInefficiency - meanInefficiency)**2
 
         if nRegionsWithTag < 2:
-            print 'Only ', nRegionsWithTag, ' regions with a tag lepton exist, cannot calculate fiducial map!!!'
+            print('Only ', nRegionsWithTag, ' regions with a tag lepton exist, cannot calculate fiducial map!!!')
             return hotSpots
 
         stdDevInefficiency /= nRegionsWithTag - 1
@@ -128,17 +128,17 @@ class FiducialMapCalculator:
                 totalEventsAfterVeto  += afterVeto.GetBinContent(xbin, ybin)
         meanInefficiency = totalEventsAfterVeto / totalEventsBeforeVeto
 
-        print 'Mean inefficiency (excluding identified hot spots) = ', meanInefficiency
+        print('Mean inefficiency (excluding identified hot spots) = ', meanInefficiency)
         meanInefficiency_withoutHotSpots = meanInefficiency
-        print '\nRatio of mean inefficiency excluding/including hot spots = ', meanInefficiency_withoutHotSpots / meanInefficiency_withHotSpots, '\n'
-        print '\nPercentage drop = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / meanInefficiency_withHotSpots
-        print '\nPer-invfb rate, difference = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / self._luminosityInInvFb
+        print('\nRatio of mean inefficiency excluding/including hot spots = ', meanInefficiency_withoutHotSpots / meanInefficiency_withHotSpots, '\n')
+        print('\nPercentage drop = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / meanInefficiency_withHotSpots)
+        print('\nPer-invfb rate, difference = ', (meanInefficiency_withoutHotSpots - meanInefficiency_withHotSpots) / self._luminosityInInvFb)
 
         return hotSpots
 
     def CalculateFiducialMap(self):
         if not hasattr(self, "Numerator") or not hasattr(self, "Denominator"):
-            print "Either Numerator or Denominator has not been defined. Not finding hot spots..."
+            print("Either Numerator or Denominator has not been defined. Not finding hot spots...")
             self._hotSpotsList = []
             return
 
@@ -150,7 +150,7 @@ class FiducialMapCalculator:
 
     def MakePlots(self):
         if not hasattr(self, "Numerator") or not hasattr(self, "Denominator"):
-            print "Either Numerator or Denominator has not been defined. Not finding hot spots..."
+            print("Either Numerator or Denominator has not been defined. Not finding hot spots...")
             return
 
         circles = []
@@ -271,12 +271,12 @@ class FiducialMapCalculator:
         oldHotSpots = self.FindHotSpots(existingMapDenominator, existingMapNumerator)
         existingMapFile.Close()
 
-        print "********************************************************************************"
-        print "Compared to the existing map (" + existingMapName + "):"
-        print "********************************************************************************"
+        print("********************************************************************************")
+        print("Compared to the existing map (" + existingMapName + "):")
+        print("********************************************************************************")
 
         if self._verboseComparison:
-            print '\n\nHot spots that went away with new data:'
+            print('\n\nHot spots that went away with new data:')
         nWentAway = 0
         # look through all the old hot spots
         for old in oldHotSpots:
@@ -291,13 +291,13 @@ class FiducialMapCalculator:
             # if you didn't find the old spot in the new list, it went away
             if not thisInNew:
                 if self._verboseComparison:
-                    print old
+                    print(old)
                 nWentAway += 1
 
-        print 'Total hot spots that went away = ', nWentAway
+        print('Total hot spots that went away = ', nWentAway)
 
         if self._verboseComparison:
-            print '\nNew hot spots:'
+            print('\nNew hot spots:')
         nNewSpots = 0
         # look through new hot spots
         for new in self._hotSpotsList:
@@ -312,13 +312,13 @@ class FiducialMapCalculator:
             # if you didn't find the new spot in the old list, it appeared as a new one
             if not thisInOld:
                 if self._verboseComparison:
-                    print new
+                    print(new)
                 nNewSpots += 1
 
-        print 'Total new hot spots = ', nNewSpots
+        print('Total new hot spots = ', nNewSpots)
 
         if self._verboseComparison:
-            print '\nHot spots that are in both maps:'
+            print('\nHot spots that are in both maps:')
         nInBoth = 0
         # look thorugh old list
         for old in oldHotSpots:
@@ -327,10 +327,10 @@ class FiducialMapCalculator:
             for new in self._hotSpotsList:
                 if old == new:
                     if self._verboseComparison:
-                        print old
+                        print(old)
                     nInBoth += 1
 
-        print 'Total that were in both = ', nInBoth
+        print('Total that were in both = ', nInBoth)
 
 def remakePayload(flavor, year, eras = ['']):
     combineInclusive = (len(eras) > 1)
@@ -356,4 +356,4 @@ def remakePayload(flavor, year, eras = ['']):
         hBefore_inclusive.Write('beforeVeto')
         hAfter_inclusive.Write('afterVeto')
     fNewPayload.Close()
-    print '\nNew fiducial map payload file: ' + flavor + '.root'
+    print('\nNew fiducial map payload file: ' + flavor + '.root')

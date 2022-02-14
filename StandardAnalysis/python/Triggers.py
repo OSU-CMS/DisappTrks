@@ -3,13 +3,13 @@ import os
 import copy
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# Triggers: 2016"
+    print("# Triggers: 2016")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Triggers: 2017"
+    print("# Triggers: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# Triggers: 2018"
+    print("# Triggers: 2018")
 else:
-    print "# Triggers: 2015"
+    print("# Triggers: 2015")
 
 ##########################################################################################################
 # Main triggers for signal selection

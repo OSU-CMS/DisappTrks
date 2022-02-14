@@ -97,16 +97,16 @@ process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
     if osusub.datasetLabel.endswith('2018D'):
         data_global_tag = '102X_dataRun2_Prompt_v13'
-    print "# Global tag: " + data_global_tag
+    print("# Global tag: " + data_global_tag)
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
-    print "# Global tag: " + mc_global_tag
+    print("# Global tag: " + mc_global_tag)
 ################################################################################
 
 process.metFilterPath = cms.Path ()
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    print "# MET filters: using BadPFMuonFilter and BadChargedCandidateFilter"
+    print("# MET filters: using BadPFMuonFilter and BadChargedCandidateFilter")
     process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
     process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
     process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
@@ -119,7 +119,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
     process.metFilterPath = cms.Path (process.BadPFMuonFilter * process.BadChargedCandidateFilter)
 else:
-    print "# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter"
+    print("# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter")
 ################################################################################
 # Recommended by: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#2018_data
 
@@ -137,7 +137,7 @@ baddetEcallist = cms.vuint32(
      872421694,872437056,872437057,872437313])
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    print "# MET filters: using passecalBadCalibFilterUpdate"
+    print("# MET filters: using passecalBadCalibFilterUpdate")
     process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
     process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
       "EcalBadCalibFilter",
@@ -158,24 +158,24 @@ collMap = copy.deepcopy(collectionMap)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
     if not UseCandidateTracks:
-        print "# Collections: collectionMapMiniAOD2017"
+        print("# Collections: collectionMapMiniAOD2017")
     else:
-        print "# Collections: collectionMapMiniAOD2017 with candidateTrackProducer"
+        print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
 else:
     if not UseCandidateTracks:
-        print "# Collections: collectionMap"
+        print("# Collections: collectionMap")
     else:
-        print "# Collections: collectionMap with candidateTrackProducer"
+        print("# Collections: collectionMap with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
 
 if UseGeantDecays:
-    print "# hardInteractionMcparticles: prunedGenParticlePlusGeant"
+    print("# hardInteractionMcparticles: prunedGenParticlePlusGeant")
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticlePlusGeant')
 else:
-    print "# hardInteractionMcparticles: prunedGenParticles"
+    print("# hardInteractionMcparticles: prunedGenParticles")
     collMap.hardInteractionMcparticles = cms.InputTag ('prunedGenParticles')
 
 ################################################################################
@@ -193,13 +193,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         fileDataType_ = subprocess.call('edmIsRealData.py ' + process.source.fileNames[0], shell = True, stdout=FNULL, stderr=subprocess.STDOUT)
         FNULL.close()
         if not fileDataType_ == 0 and not fileDataType_ == 1:
-            print "ERROR: Can not determine if " + process.source.fileNames[0] + " is data or MC. Does this file exist?"
+            print("ERROR: Can not determine if " + process.source.fileNames[0] + " is data or MC. Does this file exist?")
             sys.exit()
         isData_ = (fileDataType_ == 1)
     else:
-        print "ERROR: There are no input files provided in process.source.fileNames."
+        print("ERROR: There are no input files provided in process.source.fileNames.")
         sys.exit()
-    print "# Applying fixEE2017 = True method for 2017 " + "data" if isData_ else "MC"
+    print("# Applying fixEE2017 = True method for 2017 " + "data" if isData_ else "MC")
     try:
         runMetCorAndUncFromMiniAOD(
             process,
@@ -208,10 +208,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             postfix = "ModifiedMET"
         )
     except TypeError:
-        print "ERROR: the \'fixEE2017\' method must be applied for 94X 2017 data, however you have not"
-        print "       set up your environment to do so. Please run:"
-        print "       git cms-merge-topic cms-met:METFixEE2017_949"
-        print "       and rebuild."
+        print("ERROR: the \'fixEE2017\' method must be applied for 94X 2017 data, however you have not")
+        print("       set up your environment to do so. Please run:")
+        print("       git cms-merge-topic cms-met:METFixEE2017_949")
+        print("       and rebuild.")
         sys.exit()
     collMap.mets = cms.InputTag ('slimmedMETsModifiedMET', '')
 

@@ -68,7 +68,7 @@ class FakeTrackSystematic:
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        print(("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])))
 
     def reweightTo (self, sampleName, condorDir, channelName, histName):
         self._reweightToSample = sampleName
@@ -92,11 +92,11 @@ class FakeTrackSystematic:
                 self._useBasicTransferFactor = True
                 self._basicTransferFactor = basicPass / basicFail
                 self._basicTransferFactorError = (basicPass / basicFail) * math.hypot (basicPassError/basicPass, basicFailError/basicFail)
-                print "Basic transfer factor (3 hits) = " + str(self._basicTransferFactor) + " +/- " + str(self._basicTransferFactorError)
+                print(("Basic transfer factor (3 hits) = " + str(self._basicTransferFactor) + " +/- " + str(self._basicTransferFactorError)))
             else:
-                print "Zero sideband D0 events for Basic (3 hits), not using transfer factor!"
+                print("Zero sideband D0 events for Basic (3 hits), not using transfer factor!")
         else:
-            print "DisTrkNHits3NoD0Cut not defined, not using transfer factor!"
+            print("DisTrkNHits3NoD0Cut not defined, not using transfer factor!")
 
         if hasattr (self, "ZtoMuMuDisTrkNHits3NoD0Cut"):
             zToMuMuPass, zToMuMuPassError = getHistIntegral (self.ZtoMuMuDisTrkNHits3NoD0Cut["sample"],
@@ -113,11 +113,11 @@ class FakeTrackSystematic:
                 self._useZtoMuMuTransferFactor = True
                 self._zToMuMuTransferFactor = zToMuMuPass / zToMuMuFail
                 self._zToMuMuTransferFactorError = (zToMuMuPass / zToMuMuFail) * math.hypot (zToMuMuPassError/zToMuMuPass, zToMuMuFailError/zToMuMuFail)
-                print "ZtoMuMu transfer factor (3 hits) = " + str(self._zToMuMuTransferFactor) + " +/- " + str(self._zToMuMuTransferFactorError)
+                print(("ZtoMuMu transfer factor (3 hits) = " + str(self._zToMuMuTransferFactor) + " +/- " + str(self._zToMuMuTransferFactorError)))
             else:
-                print "Zero sideband D0 events for ZtoMuMu (3 hits), not using transfer factor!"
+                print("Zero sideband D0 events for ZtoMuMu (3 hits), not using transfer factor!")
         else:
-            print "ZtoMuMuDisTrkNHits3NoD0Cut not defined, not using transfer factor!"
+            print("ZtoMuMuDisTrkNHits3NoD0Cut not defined, not using transfer factor!")
 
     def getTruthFakeRate (self, getTruthFakeRate):
         self._getTruthFakeRate = getTruthFakeRate
@@ -145,11 +145,11 @@ class FakeTrackSystematic:
             if self._useBasicTransferFactor:
                 disTrkCorrection = disTrkCorrection * self._basicTransferFactor
                 disTrkCorrectionError = math.hypot (disTrkCorrectionError, self._basicTransferFactorError)
-                print 'Using', disTrkCorrection, '+/-', disTrkCorrectionError, 'for Basic as a transfer factor'
+                print(('Using', disTrkCorrection, '+/-', disTrkCorrectionError, 'for Basic as a transfer factor'))
             if self._useZtoMuMuTransferFactor:
                 zToMuMuDisTrkCorrection = zToMuMuDisTrkCorrection * self._zToMuMuTransferFactor
                 zToMuMuDisTrkCorrectionError = math.hypot (zToMuMuDisTrkCorrectionError, self._zToMuMuTransferFactorError)
-                print "Using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"
+                print(("Using", zToMuMuDisTrkCorrection, "+/-", zToMuMuDisTrkCorrectionError, "for ZtoMuMu as a transfer factor"))
 
             passes = (disTrkCorrection * disTrkNHits["yield"], zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yield"])
             passesError = (math.hypot (disTrkCorrection * disTrkNHits["yieldError"], disTrkCorrectionError * disTrkNHits["yield"]), math.hypot (zToMuMuDisTrkCorrection * zToMuMuDisTrkNHits["yieldError"], zToMuMuDisTrkCorrectionError * zToMuMuDisTrkNHits["yield"]))
@@ -158,7 +158,7 @@ class FakeTrackSystematic:
             fakeRateError = (math.hypot ((passes[0] * totalError[0]) / (total[0] * total[0]), (passesError[0] * total[0]) / (total[0] * total[0])), math.hypot ((passes[1] * totalError[1]) / (total[1] * total[1]), (passesError[1] * total[1]) / (total[1] * total[1])))
 
             if self._reweightToSample and self._reweightToCondorDir and self._reweightToChannel and self._reweightToHist:
-                print "REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING"
+                print("REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING REWEIGHTING")
                 fakeRate, fakeRateError = self.getReweightedYields (disTrkNHits,
                                                                     zToMuMuDisTrkNHits,
                                                                     disTrkCorrection,
@@ -171,15 +171,15 @@ class FakeTrackSystematic:
             ratioError = math.hypot ((fakeRate[0] * fakeRateError[1]) / (fakeRate[0] * fakeRate[0]), (fakeRateError[0] * fakeRate[1]) / (fakeRate[0] * fakeRate[0])) if fakeRate[0] > 0.0 else 0.0
 
             if fakeRateError[0] > 0.0 and fakeRateError[1] > 0.0:
-                print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError)
+                print("nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: " + str ((fakeRate[1] - fakeRate[0]) / math.hypot (fakeRateError[1], fakeRateError[0])) + " sigma, ratio: " + str (ratio) + " +- " + str (ratioError))
             else:
-                print "nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: nan" + ", ratio: " + str (ratio) + " +- " + str (ratioError)
+                print("nHits: " + str (nHits) + ", basic: " + str (fakeRate[0]) + " +- " + str (fakeRateError[0]) + ", zToMuMu: " + str (fakeRate[1]) + " +- " + str (fakeRateError[1]) + ", difference: nan" + ", ratio: " + str (ratio) + " +- " + str (ratioError))
             if self._plotDiff:
                 ratio = fakeRate[1] - fakeRate[0]
                 ratioError = math.hypot (fakeRateError[1], fakeRateError[0])
             return (fakeRate, fakeRateError, ratio, ratioError)
         else:
-            print "DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio..."
+            print("DisTrkNHits" + str (nHits) + ", and ZtoMuMuDisTrkNHits" + str (nHits) + " not all defined. Not printing fake rate ratio...")
             return (float ("nan"), float ("nan"), float ("nan"), float ("nan"))
 
     def getReweightedYields (self, disTrkNHits, zToMuMuDisTrkNHits, disTrkCorrection, disTrkCorrectionError, zToMuMuDisTrkCorrection, zToMuMuDisTrkCorrectionError, outputLabel = ""):
@@ -264,7 +264,7 @@ class FakeTrackSystematic:
 
             return (fakeRate, fakeRateError)
         else:
-            print "Basic and ZtoLL are not defined. Not reweighting fake track rates..."
+            print("Basic and ZtoLL are not defined. Not reweighting fake track rates...")
             return ((float ("nan"), float ("nan")), (float ("nan"), float ("nan")))
 
     def getTruthFakeRateCorrection (self, channel):
@@ -288,7 +288,7 @@ class FakeTrackSystematic:
         fakeRate5, fakeRate5Error, ratio5, ratio5Error = self.printFakeRateRatio (5)
         fakeRate6, fakeRate6Error, ratio6, ratio6Error = self.printFakeRateRatio (6)
 
-        print "systematic uncertainty: " + str ((abs (ratio5 - 1.0) + ratio5Error) * 100.0) + "%"
+        print("systematic uncertainty: " + str ((abs (ratio5 - 1.0) + ratio5Error) * 100.0) + "%")
 
         basicFakeRate = TH1D ("basicFakeRate", ";number of hits", 400, 2.5, 6.5)
         zToMuMuFakeRate = TH1D ("zToMuMuFakeRate", ";number of hits", 400, 2.5, 6.5)
@@ -415,7 +415,7 @@ class LeptonEnergySystematic:
         channel["total"], channel["totalError"] = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
         channel["weight"] = (channel["totalError"] * channel["totalError"]) / channel["total"]
         setattr (self, role, channel)
-        print "yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"])
+        print("yield for " + name + ": " + str (channel["yield"]) + " +- " + str (channel["yieldError"]))
 
     def printPpassMetTriggers (self, metMinusOneHist):
         if hasattr (self, "TagPt35") and (hasattr (self, "TagPt35MetTrig") or (hasattr (self, "TrigEffDenom") and hasattr (self, "TrigEffNumer"))):
@@ -458,10 +458,10 @@ class LeptonEnergySystematic:
 
             eff = passes / total if total > 0.0 else 0.0
             effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
-            print "P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
+            print("P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError))
             return (eff, effError)
         else:
-            print "TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)..."
+            print("TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)...")
             return (float ("nan"), float ("nan"))
 
     def printPpassMetCut (self, metMinusOneHist):
@@ -485,10 +485,10 @@ class LeptonEnergySystematic:
 
             eff = passes / total if total > 0.0 else 0.0
             effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
-            print "P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError)
+            print("P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError))
             return (eff, effError)
         else:
-            print "TagPt35 not defined. Not printing P (pass met cut)..."
+            print("TagPt35 not defined. Not printing P (pass met cut)...")
             return (float ("nan"), float ("nan"))
 
     def printSystematic (self):
@@ -508,9 +508,9 @@ class LeptonEnergySystematic:
         if (pPassMetCut0[0] * pPassMetTriggers0[0] > 0.0):
             ratioError /= ((pPassMetCut0[0] * pPassMetTriggers0[0]) * (pPassMetCut0[0] * pPassMetTriggers0[0]))
 
-        print "ratio: " + str (ratio) + " +- " + str (ratioError)
+        print("ratio: " + str (ratio) + " +- " + str (ratioError))
 
-        print "systematic uncertainty: " + str (abs (ratio - 1.0) * 100.0) + "%"
+        print("systematic uncertainty: " + str (abs (ratio - 1.0) * 100.0) + "%")
 
     def plotMet (self):
         if hasattr (self, "TagPt35") or hasattr (self, "TagPt35ForNctrl"):
@@ -574,6 +574,6 @@ class LeptonEnergySystematic:
                 self._fout.cd ()
                 self._canvas.Write ("metMinusOneComparison")
             else:
-                print "A TFile and TCanvas must be added. Not making plots..."
+                print("A TFile and TCanvas must be added. Not making plots...")
         else:
-            print "Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET..."
+            print("Neither TagPt35 nor TagPt35ForNctrl defined. Not plotting MET...")

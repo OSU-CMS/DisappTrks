@@ -258,7 +258,7 @@ HLTrigEffAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& setup
     int TriggerFired = 0;
     for(unsigned i = 0; i < allSecTriggerNames.size(); i++) {
       string thisName = allSecTriggerNames.triggerName(i);
-      //cout << "PathName:" << thisName  <<  " Decision:" << sectriggerBits->accept(i)<< endl;
+      cout << "PathName:" << thisName  <<  " Decision:" << sectriggerBits->accept(i)<< endl;
       if (thisName.find(triggerName) ==  0 ){
         TriggerFired |= sectriggerBits->accept(i);
       }
@@ -266,7 +266,7 @@ HLTrigEffAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& setup
 
     for(unsigned i = 0; i < allTriggerNames.size(); i++) {
       string thisName = allTriggerNames.triggerName(i);
-      //cout << "TriggerName: " << thisName << endl;
+      cout << "TriggerName: " << thisName << endl;
     }
     fireTrigger = TriggerFired;
 

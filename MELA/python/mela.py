@@ -19,7 +19,7 @@ gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
 def getExtraSamples(suffix):
-    masses = range(100, 1200 if (suffix == '94X' or suffix == '102X') else 1000, 100)
+    masses = list(range(100, 1200 if (suffix == '94X' or suffix == '102X') else 1000, 100))
     ctaus = [1, 10, 100, 1000, 10000]
     extraSamples = { 'AMSB_chargino_{0}GeV_{1}cm_'.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
 
@@ -73,7 +73,7 @@ class LikelihoodEstimator:
         }
 
         self._signalHypotheses[sample]['chain'].Add('condor/' + condorDir + '/' + sample + '/hist_*.root')
-        print 'Added entries for ' + channelName + ': ' + str(self._signalHypotheses[sample]['chain'].GetEntries())
+        print('Added entries for ' + channelName + ': ' + str(self._signalHypotheses[sample]['chain'].GetEntries()))
 
     def addData(self, role, sample, channelName, condorDir, useTrees = False, eras = []):
         channel = {}
@@ -85,7 +85,7 @@ class LikelihoodEstimator:
             channel['file'] = TFile('condor/' + condorDir + '/' + sample + '.root')
             channel['tree'] = channel['file'].Get(channelName + 'TreeMaker/Tree')
         setattr(self, role, channel)
-        print 'Added entries for role ' + role + ': ' + str(channel['tree'].GetEntries())
+        print('Added entries for role ' + role + ': ' + str(channel['tree'].GetEntries()))
 
     def getEfficiencyGrid(self, sample, hitsPdf):
         eff = TH2D(sample + '_eff', sample + '_eff', 1000, 0, 100, 5, 0, 5)
@@ -102,15 +102,15 @@ class LikelihoodEstimator:
         self._printObservationTracks = doPrint
 
     def printTrackInformation(self, event):
-        print
-        print '*****************************'
-        print 'Observed track:'
-        print '\tp =', event.track_p
-        print '\tpt =', event.track_pt
-        print '\t(eta, phi) = (', event.track_eta, ',', event.track_phi, ')'
-        print '\tnLayersWithmeasurement =', getattr(event, 'track_hitPattern_.trackerLayersWithMeasurement')
-        print '\t\tpackedPixelBarrelHitPattern =', event.track_packedPixelBarrelHitPattern
-        print '\t\tpackedPixelEndcapHitPattern =', event.track_packedPixelEndcapHitPattern
+        print()
+        print('*****************************')
+        print('Observed track:')
+        print('\tp =', event.track_p)
+        print('\tpt =', event.track_pt)
+        print('\t(eta, phi) = (', event.track_eta, ',', event.track_phi, ')')
+        print('\tnLayersWithmeasurement =', getattr(event, 'track_hitPattern_.trackerLayersWithMeasurement'))
+        print('\t\tpackedPixelBarrelHitPattern =', event.track_packedPixelBarrelHitPattern)
+        print('\t\tpackedPixelEndcapHitPattern =', event.track_packedPixelEndcapHitPattern)
         for i in range(20):
             isPixel  = getattr(event, 'eventvariable_hitIsPixel_0_%d' % i)
             charge   = getattr(event, 'eventvariable_hitCharge_0_%d' % i)
@@ -119,11 +119,11 @@ class LikelihoodEstimator:
             pixSize  = getattr(event, 'eventvariable_pixelSize_0_%d' % i)
             pixSizeX = getattr(event, 'eventvariable_pixelSizeX_0_%d' % i)
             pixSizeY = getattr(event, 'eventvariable_pixelSizeY_0_%d' % i)
-            print '\thit {0} -- {1}: {2} MeV/cm ; cluster size = ({3}, {4}) = {5}'.format(i, 'PIX' if isPixel else 'STRIPS', charge, pixSizeX, pixSizeY, pixSize)
+            print('\thit {0} -- {1}: {2} MeV/cm ; cluster size = ({3}, {4}) = {5}'.format(i, 'PIX' if isPixel else 'STRIPS', charge, pixSizeX, pixSizeY, pixSize))
 
     def constructSignalPdfs(self):
-        print
-        print 'Constructing signal pdfs...'
+        print()
+        print('Constructing signal pdfs...')
         fout = TFile('signalPdfs_' + self._nLayersWord + '.root', 'recreate')
         for sample in self._signalHypotheses:
 
@@ -199,7 +199,7 @@ class LikelihoodEstimator:
             pixSizeY.Write()
             sizeVsHitNumber.Write()
             chargeVsSize.Write()
-        print 'Created signalPdfs_' + self._nLayersWord + '.root'
+        print('Created signalPdfs_' + self._nLayersWord + '.root')
         fout.Close()
 
     def constructDataPdf(self, role):
@@ -280,5 +280,5 @@ class LikelihoodEstimator:
         chargeVsSize.Write()
         chargeVsHitNumber.Write()
         sizeVsHitNumber.Write()
-        print 'Created ' + role + 'Pdf_' + self._nLayersWord + '.root'
+        print('Created ' + role + 'Pdf_' + self._nLayersWord + '.root')
         fout.Close()
