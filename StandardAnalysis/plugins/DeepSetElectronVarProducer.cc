@@ -52,6 +52,7 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   PhiRange_           (cfg.getParameter<double> ("phiRangeNearTrack")),
   maxHits_            (cfg.getParameter<int>    ("maxNumOfRecHits")),
   inputTensorName_    (cfg.getParameter<std::string>("inputTensorName")),
+  inputTrackTensorName_ (cfg.getParameter<std::string>("inputTrackTensorName")),
   outputTensorName_   (cfg.getParameter<std::string>("outputTensorName")),
   session_(tensorflow::createSession(cacheData->graphDef)) {
   assert(dataTakingPeriod_ == "2017" || dataTakingPeriod_ == "2018");
@@ -128,6 +129,7 @@ void DeepSetElectronVarProducer::fillDescriptions(edm::ConfigurationDescriptions
   edm::ParameterSetDescription desc;
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
+  desc.add<std::string>("inputTrackTensorName");
   desc.add<std::string>("outputTensorName");
   desc.add<edm::InputTag>("triggers"),
   desc.add<edm::InputTag>("triggerObjects"),
@@ -329,14 +331,15 @@ DeepSetElectronVarProducer::analyze(const edm::Event &event, const edm::EventSet
 
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
-  tensorflow::Tensor input(tensorflow::DT_FLOAT, {101,4});
+  tensorflow::Tensor input(tensorflow::DT_FLOAT, {100,4});
+  tensorflow::Tensor inputTrack(tensorflow::DT_FLOAT, {1,4});
 
   for(auto &track : trackInfos_) 
   {
-    input.matrix<float>()(101, 0) = nPV_;
-    input.matrix<float>()(101, 1) = track.eta;
-    input.matrix<float>()(101, 2) = track.phi;
-    input.matrix<float>()(101, 3) = track.nValidPixelHits;
+    inputTrack.matrix<float>()(0, 0) = nPV_;
+    inputTrack.matrix<float>()(0, 1) = track.eta;
+    inputTrack.matrix<float>()(0, 2) = track.phi;
+    inputTrack.matrix<float>()(0, 3) = track.nValidPixelHits;
     std::vector<std::vector<double>> recHitsNearTrack;
     for (auto &hit : recHitInfos_){
       std::vector<double> hitNearTrack;
@@ -385,7 +388,7 @@ DeepSetElectronVarProducer::analyze(const edm::Event &event, const edm::EventSet
       }
     }
     std::vector<tensorflow::Tensor> outputs;
-    tensorflow::run(session_, {{inputTensorName_, input}}, {outputTensorName_}, &outputs);
+    tensorflow::run(session_, {{inputTensorName_, input},{inputTrackTensorName_, inputTrack}}, {outputTensorName_}, &outputs);
 
     // print the output
     std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
