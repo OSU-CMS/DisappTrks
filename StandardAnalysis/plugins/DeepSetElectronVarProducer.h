@@ -284,6 +284,7 @@ class DeepSetElectronVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCac
 
       // tensorflow
       std::string inputTensorName_;
+      std::string inputTrackTensorName_;
       std::string outputTensorName_;
 
       tensorflow::Session* session_;
