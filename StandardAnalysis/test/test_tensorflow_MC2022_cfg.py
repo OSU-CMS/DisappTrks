@@ -33,7 +33,9 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:step1_RECO.root'),
+    fileNames = cms.untracked.vstring(#'file:step1_RECO.root'),
+    #'/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/30002/01326cce-6f8b-40a4-a0e9-8af154b3ac55.root'
+    '/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/2550000/0088b6cd-2fc0-402a-9905-34419b8abb40.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -161,6 +163,67 @@ process.tensorflowPlugin.inputTensorName = cms.string("Input_input")
 #process.tensorflowPlugin.outputTensorName = cms.string("sequential/output/Sigmoid")
 process.tensorflowPlugin.outputTensorName = cms.string("sequential/Output/Sigmoid")
 
+
+process.load("DisappTrks.StandardAnalysis.fakeTrackVarProducer_cfi")
+process.fakeTrackVarProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
+process.fakeTrackVarProducer.inputTensorName = cms.string("Input_input")
+process.fakeTrackVarProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+process.fakeTrackVarProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
+process.fakeTrackVarProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
+process.fakeTrackVarProducer.tracks= cms.InputTag("candidateTrackProducer")
+process.fakeTrackVarProducer.genParticles = cms.InputTag("prunedGenParticles", "")
+process.fakeTrackVarProducer.met = cms.InputTag("slimmedMETs")
+process.fakeTrackVarProducer.electrons = cms.InputTag("slimmedElectrons", "")
+process.fakeTrackVarProducer.muons = cms.InputTag("slimmedMuons", "")
+process.fakeTrackVarProducer.taus = cms.InputTag("slimmedTaus", "")
+process.fakeTrackVarProducer.pfCandidates = cms.InputTag("packedPFCandidates", "")
+process.fakeTrackVarProducer.vertices = cms.InputTag("offlineSlimmedPrimaryVertices", "")
+process.fakeTrackVarProducer.jets = cms.InputTag("slimmedJets", "")
+
+process.fakeTrackVarProducer.rhoCentralCalo = cms.InputTag("fixedGridRhoFastjetCentralCalo")
+
+process.fakeTrackVarProducer.EBRecHits = cms.InputTag("reducedEcalRecHitsEB")
+process.fakeTrackVarProducer.EERecHits = cms.InputTag("reducedEcalRecHitsEE")
+process.fakeTrackVarProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
+process.fakeTrackVarProducer.HBHERecHits = cms.InputTag("reducedHcalRecHits", "hbhereco")
+process.fakeTrackVarProducer.CSCSegments = cms.InputTag("cscSegments")
+process.fakeTrackVarProducer.DTRecSegments = cms.InputTag("dt4DSegments")
+process.fakeTrackVarProducer.RPCRecHits = cms.InputTag("rpcRecHits")
+
+process.fakeTrackVarProducer.dEdxPixel = cms.InputTag ("dedxPixelHarmonic2", "")
+process.fakeTrackVarProducer.dEdxStrip = cms.InputTag ("dedxHarmonic2", "")
+process.fakeTrackVarProducer.isolatedTracks = cms.InputTag("isolatedTracks", "")
+process.fakeTrackVarProducer.isoTrk2dedxHitInfo = cms.InputTag("isolatedTracks", "")
+process.fakeTrackVarProducer.genTracks = cms.InputTag("generalTracks", "")
+process.fakeTrackVarProducer.pileupInfo = cms.InputTag ("addPileupInfo")
+
+process.fakeTrackVarProducer.minTrackPt = cms.double(20.0)
+process.fakeTrackVarProducer.minGenParticlePt = cms.double(-1)
+process.fakeTrackVarProducer.maxRelTrackIso = cms.double(-1)
+process.fakeTrackVarProducer.dataTakingPeriod = cms.string("2017")
+process.fakeTrackVarProducer.etaRangeNearTrack = cms.double(-1)
+process.fakeTrackVarProducer.phiRangeNearTrack = cms.double(-1)
+process.fakeTrackVarProducer.maxNumOfRecHits = cms.int32(-1)
+process.fakeTrackVarProducer.signalTriggerNames = cms.vstring([
+        'HLT_MET105_IsoTrk50_v',
+        'HLT_PFMET120_PFMHT120_IDTight_v',
+        'HLT_PFMET130_PFMHT130_IDTight_v',
+        'HLT_PFMET140_PFMHT140_IDTight_v',
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        'HLT_PFMET250_HBHECleaned_v',
+        'HLT_PFMET300_HBHECleaned_v'])
+process.fakeTrackVarProducer.metFilterNames = cms.vstring([
+        "Flag_goodVertices",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_HBHENoiseFilter",
+        "Flag_HBHENoiseIsoFilter",
+        "Flag_EcalDeadCellTriggerPrimitiveFilter",
+        "Flag_BadPFMuonFilter",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_globalSuperTightHalo2016Filter"])
+
 process.load("DisappTrks.StandardAnalysis.deepSetElectronVarProducer_cfi")
 process.deepSetElectronVarProducer.graphPath = cms.string(os.path.join(datadir, "graph_electron.pb"))
 process.deepSetElectronVarProducer.inputTensorName = cms.string("input")
@@ -222,6 +285,73 @@ process.deepSetElectronVarProducer.metFilterNames = cms.vstring([
         "Flag_globalTightHalo2016Filter",
         "Flag_globalSuperTightHalo2016Filter"])
 
+
+process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
+    triggers       = cms.InputTag("TriggerResults", "", "HLT"),
+    triggerObjects = cms.InputTag("slimmedPatTrigger"),
+    tracks         = cms.InputTag("candidateTrackProducer"),
+    genParticles   = cms.InputTag("prunedGenParticles", ""),
+    met            = cms.InputTag("slimmedMETs"),
+    electrons      = cms.InputTag("slimmedElectrons", ""),
+    muons          = cms.InputTag("slimmedMuons", ""),
+    taus           = cms.InputTag("slimmedTaus", ""),
+    pfCandidates   = cms.InputTag("packedPFCandidates", ""),
+    vertices       = cms.InputTag("offlineSlimmedPrimaryVertices", ""),
+    jets           = cms.InputTag("slimmedJets", ""),
+
+    rhoCentralCalo = cms.InputTag("fixedGridRhoFastjetCentralCalo"),
+
+    EBRecHits     =  cms.InputTag("reducedEcalRecHitsEB"),
+    EERecHits     =  cms.InputTag("reducedEcalRecHitsEE"),
+    ESRecHits     =  cms.InputTag("reducedEcalRecHitsES"),
+    HBHERecHits   =  cms.InputTag("reducedHcalRecHits", "hbhereco"),
+    CSCSegments   =  cms.InputTag("cscSegments"),
+    DTRecSegments =  cms.InputTag("dt4DSegments"),
+    RPCRecHits    =  cms.InputTag("rpcRecHits"),
+
+    tauDecayModeFinding      = cms.InputTag("hpsPFTauDiscriminationByDecayModeFinding"),
+    tauElectronDiscriminator = cms.InputTag("hpsPFTauDiscriminationByMVA6LooseElectronRejection"),
+    tauMuonDiscriminator     = cms.InputTag("hpsPFTauDiscriminationByLooseMuonRejection3"),
+
+    dEdxPixel = cms.InputTag ("dedxPixelHarmonic2", ""),
+    dEdxStrip = cms.InputTag ("dedxHarmonic2", ""),
+    isolatedTracks = cms.InputTag("isolatedTracks", ""),
+    isoTrk2dedxHitInfo = cms.InputTag("isolatedTracks", ""),
+    genTracks = cms.InputTag("generalTracks", ""),
+    pileupInfo = cms.InputTag ("addPileupInfo"),
+
+    signalTriggerNames = cms.vstring([
+        'HLT_MET105_IsoTrk50_v',
+        'HLT_PFMET120_PFMHT120_IDTight_v',
+        'HLT_PFMET130_PFMHT130_IDTight_v',
+        'HLT_PFMET140_PFMHT140_IDTight_v',
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        'HLT_PFMET250_HBHECleaned_v',
+        'HLT_PFMET300_HBHECleaned_v']),
+
+    metFilterNames = cms.vstring([
+        "Flag_goodVertices",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_HBHENoiseFilter",
+        "Flag_HBHENoiseIsoFilter",
+        "Flag_EcalDeadCellTriggerPrimitiveFilter",
+        "Flag_BadPFMuonFilter",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_globalSuperTightHalo2016Filter"]),
+
+    minGenParticlePt = cms.double(-1),
+    minTrackPt       = cms.double(20.0),
+    maxRelTrackIso   = cms.double(-1.0),
+
+    dataTakingPeriod = cms.string("2017")
+)
+process.trackImageProducerPath = cms.Path(process.trackImageProducer)
+
+process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('drop *')
+
+process.isolatedTracks.saveDeDxHitInfoCut = cms.string("pt > 1.")
 # Path and EndPath definitions
 process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter)
 process.Flag_BadChargedCandidateSummer16Filter = cms.Path(process.BadChargedCandidateSummer16Filter)
@@ -256,10 +386,44 @@ process.endjob_step = cms.EndPath(process.endOfProcess)
 process.MINIAODSIMoutput_step = cms.EndPath(process.MINIAODSIMoutput)
 
 process.deepSetElectronVarProducerPath = cms.Path(process.deepSetElectronVarProducer)
+process.FakeTrackVarProducerPath = cms.Path(process.fakeTrackVarProducer)
 process.tensorflowPluginPath = cms.Path(process.tensorflowPlugin)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,process.Flag_HBHENoiseIsoFilter,process.Flag_CSCTightHaloFilter,process.Flag_CSCTightHaloTrkMuUnvetoFilter,process.Flag_CSCTightHalo2015Filter,process.Flag_globalTightHalo2016Filter,process.Flag_globalSuperTightHalo2016Filter,process.Flag_HcalStripHaloFilter,process.Flag_hcalLaserEventFilter,process.Flag_EcalDeadCellTriggerPrimitiveFilter,process.Flag_EcalDeadCellBoundaryEnergyFilter,process.Flag_ecalBadCalibFilter,process.Flag_goodVertices,process.Flag_eeBadScFilter,process.Flag_ecalLaserCorrFilter,process.Flag_trkPOGFilters,process.Flag_chargedHadronTrackResolutionFilter,process.Flag_muonBadTrackFilter,process.Flag_BadChargedCandidateFilter,process.Flag_BadPFMuonFilter,process.Flag_BadPFMuonDzFilter,process.Flag_hfNoisyHitsFilter,process.Flag_BadChargedCandidateSummer16Filter,process.Flag_BadPFMuonSummer16Filter,process.Flag_trkPOG_manystripclus53X,process.Flag_trkPOG_toomanystripclus53X,process.Flag_trkPOG_logErrorTooManyClusters,process.Flag_METFilters,process.candidateTracks,process.tensorflowPluginPath,process.deepSetElectronVarProducerPath,process.endjob_step,process.MINIAODSIMoutput_step)
+process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,
+				process.Flag_HBHENoiseIsoFilter,
+				process.Flag_CSCTightHaloFilter,
+				process.Flag_CSCTightHaloTrkMuUnvetoFilter,
+				process.Flag_CSCTightHalo2015Filter,
+				process.Flag_globalTightHalo2016Filter,
+				process.Flag_globalSuperTightHalo2016Filter,
+				process.Flag_HcalStripHaloFilter,
+				process.Flag_hcalLaserEventFilter,
+				process.Flag_EcalDeadCellTriggerPrimitiveFilter,
+				process.Flag_EcalDeadCellBoundaryEnergyFilter,
+				process.Flag_ecalBadCalibFilter,
+				process.Flag_goodVertices,
+				process.Flag_eeBadScFilter,
+				process.Flag_ecalLaserCorrFilter,
+				process.Flag_trkPOGFilters,
+				process.Flag_chargedHadronTrackResolutionFilter,
+				process.Flag_muonBadTrackFilter,
+				process.Flag_BadChargedCandidateFilter,
+				process.Flag_BadPFMuonFilter,
+				process.Flag_BadPFMuonDzFilter,
+				process.Flag_hfNoisyHitsFilter,
+				process.Flag_BadChargedCandidateSummer16Filter,
+				process.Flag_BadPFMuonSummer16Filter,
+				process.Flag_trkPOG_manystripclus53X,
+				process.Flag_trkPOG_toomanystripclus53X,
+				process.Flag_trkPOG_logErrorTooManyClusters,
+				process.Flag_METFilters,
+				process.candidateTracks,
+				#process.tensorflowPluginPath,
+				#process.deepSetElectronVarProducerPath,
+                                process.FakeTrackVarProducerPath,
+				process.endjob_step,
+				process.MINIAODSIMoutput_step)
 process.schedule.associate(process.patTask)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
