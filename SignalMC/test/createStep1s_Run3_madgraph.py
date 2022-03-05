@@ -17,8 +17,6 @@ if not os.path.exists(baseDir + 'data/geant4'):
 	os.mkdir(baseDir + 'data/geant4')
 if not os.path.exists(baseDir + 'data/geant4_higgsino'):
 	os.mkdir(baseDir + 'data/geant4_higgsino')
-if not os.path.exists(baseDir + 'python/madgraph5'):
-	os.mkdir(baseDir + 'python/madgraph5')
 
 def findMassValue(fileName, particleName):
 	inputFile = open(fileName, 'r')
@@ -43,6 +41,9 @@ xsecsHiggsino = { m : -1. for m in range(100, 1600, 100) }
 
 ctaus = [1, 10, 100, 1000, 10000] # cm
 
+#xqcut varies depending on the mass of the chargino
+xqcut = 0.0
+
 ################################################################
 # step 1: create the gen fragments
 ################################################################
@@ -51,6 +52,14 @@ if scriptStep == 1:
 	baseConfigFile   = baseDir + 'data/AMSB_chargino_M-XXXGeV_CTau-YYYcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	baseParticleFile = baseDir + 'data/geant4_AMSB_chargino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsWino:
+		if mass >= 100 and mass <= 400:
+			xqcut = 40.0
+		if mass >= 500 and mass <= 900:
+			xqcut = 50.0
+		if mass >= 1000 and mass <= 1900:
+			xqcut = 60.0
+		if mass == 2000:
+			xqcut = 70.0
 		for ctau in ctaus:
 			outputConfigFile   = baseDir + 'python/madgraph5/AMSB_chargino_M%dGeV_CTau%dcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py' % (mass, ctau)
 			outputParticleFile = baseDir + 'data/geant4/geant4_AMSB_chargino_%dGeV_ctau%dcm.slha' % (mass, ctau)
@@ -58,6 +67,7 @@ if scriptStep == 1:
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
 			os.system('sed -i "s/YYY/' + str(int(ctau * 10.0)) + '/g" ' + outputConfigFile) # mm
 			os.system('sed -i "s/ZZZ/' + str(xsecsWino[mass]) + '/g" ' + outputConfigFile)
+                        os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
 			mW1ss = findMassValue(slhaFile, 'w1ss')
 			mZ1ss = findMassValue(slhaFile, 'z1ss')
 			tau = ctau / c * 1.e9 # ns
@@ -67,12 +77,21 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
+			print(mass, ctau, xqcut)
 	print 'Created electroweak (wino-like) configuration fragments and particle files in directory: ' + baseDir
 
 	# now higgsino-like LSP case
 	baseConfigFile   = baseDir + 'data/Higgsino_M-XXXGeV_CTau-YYYcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	baseParticleFile = baseDir + 'data/geant4_higgsino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsHiggsino:
+                if mass >= 100 and mass <= 400:
+                        xqcut = 40.0
+                if mass >= 500 and mass <= 900:
+                        xqcut = 50.0
+                if mass >= 1000 and mass <= 1900:
+                        xqcut = 60.0
+                if mass == 2000:
+                        xqcut = 70.0
 		for ctau in ctaus:
 			outputConfigFile   = baseDir + 'python/madgraph5/Higgsino_M%dGeV_CTau%dcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py' % (mass, ctau)
 			outputParticleFile = baseDir + 'data/geant4_higgsino/geant4_higgsino_%dGeV_ctau%dcm.slha' % (mass, ctau)
@@ -80,6 +99,7 @@ if scriptStep == 1:
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
 			os.system('sed -i "s/YYY/' + str(int(ctau * 10.0)) + '/g" ' + outputConfigFile) # mm
 			os.system('sed -i "s/ZZZ/' + str(xsecsHiggsino[mass]) + '/g" ' + outputConfigFile)
+                        os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
 			mW1ss = findMassValue(slhaFile, 'w1ss')
 			mZ1ss = findMassValue(slhaFile, 'z1ss')
 			mZ2ss = findMassValue(slhaFile, 'z2ss')
@@ -91,6 +111,7 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
+                        print(mass, ctau, xqcut)
 	print 'Created electroweak (higgsino-like) configuration fragments and particle files in directory: ' + baseDir
 
 	print
