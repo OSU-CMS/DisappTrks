@@ -17,6 +17,8 @@ if not os.path.exists(baseDir + 'data/geant4'):
 	os.mkdir(baseDir + 'data/geant4')
 if not os.path.exists(baseDir + 'data/geant4_higgsino'):
 	os.mkdir(baseDir + 'data/geant4_higgsino')
+if not os.path.exists(baseDir + 'python/madgraph5'):
+        os.mkdir(baseDir + 'python/madgraph5')
 
 def findMassValue(fileName, particleName):
 	inputFile = open(fileName, 'r')
@@ -77,7 +79,6 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
-			print(mass, ctau, xqcut)
 	print 'Created electroweak (wino-like) configuration fragments and particle files in directory: ' + baseDir
 
 	# now higgsino-like LSP case
@@ -111,7 +112,6 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
-                        print(mass, ctau, xqcut)
 	print 'Created electroweak (higgsino-like) configuration fragments and particle files in directory: ' + baseDir
 
 	print
