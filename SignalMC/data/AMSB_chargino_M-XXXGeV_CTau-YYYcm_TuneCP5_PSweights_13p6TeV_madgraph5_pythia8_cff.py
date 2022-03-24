@@ -10,7 +10,7 @@ from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring('~/genproductions/bin/MadGraph5_aMCatNLO/AMSB_chargino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MCHI, CTAU/10)),
+    args = cms.vstring('~/genproductions/bin/MadGraph5_aMCatNLO/AMSB_chargino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MCHI, int(CTAU/10))),
     nEvents = cms.untracked.uint32(1000),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
@@ -56,7 +56,7 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4/geant4_AMSB_chargino_%sGeV_ctau%scm.slha' % (MCHI, int(CTAU/10)))
 )
 
 ProductionFilterSequence = cms.Sequence(externalLHEProducer*generator)
