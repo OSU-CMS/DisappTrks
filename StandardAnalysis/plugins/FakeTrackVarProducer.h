@@ -9,7 +9,10 @@
 
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
-#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
+#include "DisappTrks/StandardAnalysis/interface/NetworkOutput.h"
+
+#include "FWCore/Framework/interface/stream/EDProducer.h"
+//#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 // Tensorflow
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
@@ -97,7 +100,8 @@ struct CacheData {
   std::atomic<tensorflow::GraphDef*> graphDef;
 };
 
-class FakeTrackVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
+//class FakeTrackVarProducer : public edm::stream::EDProducer<edm::GlobalCache<CacheData>> {
+class FakeTrackVarProducer : public edm::stream::EDProducer<edm::GlobalCache<CacheData>> {
    public:
       explicit FakeTrackVarProducer(const edm::ParameterSet &, const CacheData*);
       ~FakeTrackVarProducer();
@@ -108,9 +112,13 @@ class FakeTrackVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCache<Cac
       static void globalEndJob(const CacheData*);
 
    private:
-      void analyze(const edm::Event &, const edm::EventSetup &);
+      //void beginStream(edm::StreamID) override;
 
-      void endJob();
+      //void endStream() override;
+
+      virtual void produce(edm::Event&, const edm::EventSetup&) override;
+
+      virtual void endRun(edm::Run const&, edm::EventSetup const&) override; 
 
       int getDetectorIndex(const int) const;
 
@@ -182,7 +190,7 @@ class FakeTrackVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCache<Cac
       std::vector<std::vector<double>> getHitMap(const vector<TrackDeDxInfo>) const;
       std::pair<double, double> getMaxHits(const vector<TrackDeDxInfo>) const;
       unsigned long encodeLayers(const std::vector<std::vector<double>>) const;
-      std::pair<std::array<double, 3>, std::array<double, 3>> getClosestVertices(const std::vector<VertexInfo>, float track_dz, float track_d0) const;
+      std::pair<std::array<double, 3>, std::array<double, 3>> getClosestVertices(const std::vector<VertexInfo>, float track_vz, float track_vx, float track_vy) const;
 
       edm::InputTag triggers_;
       edm::InputTag trigObjs_;
@@ -242,6 +250,9 @@ class FakeTrackVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCache<Cac
       edm::ESHandle<EcalChannelStatus> ecalStatus_;
       edm::ESHandle<TrackerTopology> trackerTopology_;
 
+      edm::EDPutTokenT<vector<float> > putTokenNetworkScores_;
+
+      //vector<float> networkScores_;
       vector<TrackInfo> trackInfos_;
       vector<RecHitInfo> recHitInfos_;
       vector<GenParticleInfo> genParticleInfos_;

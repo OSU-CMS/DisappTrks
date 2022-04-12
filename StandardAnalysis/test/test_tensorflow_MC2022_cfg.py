@@ -27,7 +27,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(-1),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
@@ -155,6 +155,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '120X_mcRun3_2021_realistic_v6'
 
 process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
+from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
+#process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
 
 # setup tensorflowPlugin by loading the auto-generated cfi (see tensorflowPlugin.fillDescriptions)
 process.load("DisappTrks.StandardAnalysis.tensorflowPlugin_cfi")
@@ -162,12 +164,14 @@ process.tensorflowPlugin.graphPath = cms.string(os.path.join(datadir, "graph.pb"
 process.tensorflowPlugin.inputTensorName = cms.string("Input_input")
 #process.tensorflowPlugin.outputTensorName = cms.string("sequential/output/Sigmoid")
 process.tensorflowPlugin.outputTensorName = cms.string("sequential/Output/Sigmoid")
+#process.tensorflowPlugin.outputTensorName = cms.string("Identity")
 
 
 process.load("DisappTrks.StandardAnalysis.fakeTrackVarProducer_cfi")
 process.fakeTrackVarProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
 process.fakeTrackVarProducer.inputTensorName = cms.string("Input_input")
-process.fakeTrackVarProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+#process.fakeTrackVarProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+process.fakeTrackVarProducer.outputTensorName = cms.string("Identity")
 process.fakeTrackVarProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
 process.fakeTrackVarProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
 process.fakeTrackVarProducer.tracks= cms.InputTag("candidateTrackProducer")
@@ -349,7 +353,16 @@ process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
 )
 process.trackImageProducerPath = cms.Path(process.trackImageProducer)
 
-process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('drop *')
+process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('drop *', 
+                                                                "keep CandidateTracks_*_*_*",
+								'keep *_isolatedTracks_*_*',
+                                                                'keep networkScores_*_*_*', 
+								'keep NetworkOutput_*_*_*')
+#process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep networkScores*')
+#process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep NetworkOutput_*')
+#process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('drop *')
+#process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep CandidateTrack*')
+#process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep networkScores*')
 
 process.isolatedTracks.saveDeDxHitInfoCut = cms.string("pt > 1.")
 # Path and EndPath definitions

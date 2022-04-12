@@ -89,8 +89,12 @@ FakeTrackVarProducer::FakeTrackVarProducer(const edm::ParameterSet &cfg, const C
   signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
   metFilterNames = cfg.getParameter<vector<string> >("metFilterNames");
 
-  
+  //putTokenNetworkScores_ = produces<vector<float> >("networkScores");
+  //produces<std::vector<std::vector<tensorflow::Tensor> > > ("networkScores");
+  produces<NetworkOutput>("networkScores");
+  //produces<std::vector<std::vector<CandidateTrack> > >("networkScores");
 
+  //networkScores_.clear();
   trackInfos_.clear();
   recHitInfos_.clear();
   genParticleInfos_.clear();
@@ -174,7 +178,7 @@ void FakeTrackVarProducer::fillDescriptions(edm::ConfigurationDescriptions& desc
 }
 
 void
-FakeTrackVarProducer::analyze(const edm::Event &event, const edm::EventSetup &setup)
+FakeTrackVarProducer::produce(edm::Event &event, const edm::EventSetup &setup)
 {
   // get collections, setup objects
 
@@ -304,6 +308,7 @@ FakeTrackVarProducer::analyze(const edm::Event &event, const edm::EventSetup &se
   getTracks(tracks, pv, *jets, *electrons, *muons, *taus, tagElectrons, tagMuons, met->at(0), isoTracks, isoTrk2dedxHitInfo, dEdxStrip, dEdxPixel, genTracks);
 
   if(trackInfos_.size() == 0) return; // only fill tree with passing tracks
+  std::cout << "Number of tracks: " << trackInfos_.size() << "event: " << eventNumber_ << std::endl;
 
   getRecHits(event);
   if(genParticles.isValid()) getGenParticles(*genParticles);
@@ -330,6 +335,11 @@ FakeTrackVarProducer::analyze(const edm::Event &event, const edm::EventSetup &se
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
   tensorflow::Tensor input(tensorflow::DT_FLOAT, {1,176});
+  auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
+  std::vector<float> v_networkScores_;
+  //std::unique_ptr<std::vector<std::vector<tensorflow::Tensor> > > networkScores_(new std::vector<std::vector<tensorflow::Tensor> >());
+  
+  int track_num = 0;
 
   for(auto &track : trackInfos_) 
   {
@@ -337,7 +347,7 @@ FakeTrackVarProducer::analyze(const edm::Event &event, const edm::EventSetup &se
     std::vector<std::vector<double>> hitMap = getHitMap(track.dEdxInfo);   
     std::pair<double, double> maxHits = getMaxHits(track.dEdxInfo);
     unsigned long encodedLayers = encodeLayers(hitMap);
-    std::pair<std::array<double, 3>, std::array<double, 3>> closest_dz = getClosestVertices(vertexInfos_, track.dz, track.d0);
+    std::pair<std::array<double, 3>, std::array<double, 3>> closest_vtx = getClosestVertices(vertexInfos_, track.vz, track.vx, track.vy);
 
     //if(maxHits.first == 0) std::cout << "test";
     //if((closest_dz.first)[0] == 0) std::cout <<"test";
@@ -361,92 +371,66 @@ FakeTrackVarProducer::analyze(const edm::Event &event, const edm::EventSetup &se
     input.matrix<float>()(0, 15) = track.pt;
     input.matrix<float>()(0, 16) = track.d0;
     input.matrix<float>()(0, 17) = track.dz;
-    input.matrix<float>()(0, 18) = maxHits.second; //need to create function to get total rec hit energy
+    input.matrix<float>()(0, 18) = track.charge; //need to create function to get total rec hit energy
     input.matrix<float>()(0, 19) = track.deltaRToClosestElectron;
     input.matrix<float>()(0, 20) = track.deltaRToClosestMuon;
     input.matrix<float>()(0, 21) = track.deltaRToClosestTauHad;
     input.matrix<float>()(0, 22) = track.normalizedChi2;
+    input.matrix<float>()(0, 23) = maxHits.second;
+    input.matrix<float>()(0, 24) = maxHits.first;
+    input.matrix<float>()(0, 25) = encodedLayers;
+    input.matrix<float>()(0, 26) = (closest_vtx.first)[0];
+    input.matrix<float>()(0, 27) = (closest_vtx.first)[1];
+    input.matrix<float>()(0, 28) = (closest_vtx.first)[2];
+    input.matrix<float>()(0, 29) = (closest_vtx.second)[0];
+    input.matrix<float>()(0, 30) = (closest_vtx.second)[1];
+    input.matrix<float>()(0, 31) = (closest_vtx.second)[2];
 
     for(unsigned int i=0; i<hitMap.size(); i++){
         for(unsigned int j=0; j<hitMap[i].size(); j++){
-            std::cout << "Hit Map i: " << i << ", j: " << j << ", map: " << hitMap[i][j] << std::endl;
-            if(hitMap[i][j] != 0) input.matrix<float>()(0,23+j+i*hitMap[i].size()) = hitMap[i][j]; 
+            //if(hitMap[i][j] != 0) input.matrix<float>()(0,23+j+i*hitMap[i].size()) = hitMap[i][j]; 
+            input.matrix<float>()(0,32+j+i*hitMap[i].size()) = hitMap[i][j]; 
         } 
     }
 
-    input.matrix<float>()(0, 167) = maxHits.first;
-    input.matrix<float>()(0, 168) = maxHits.second;
-    input.matrix<float>()(0, 169) = encodedLayers;
-    input.matrix<float>()(0, 170) = (closest_dz.first)[0];
-    input.matrix<float>()(0, 171) = (closest_dz.second)[0];
-    input.matrix<float>()(0, 172) = (closest_dz.first)[1];
-    input.matrix<float>()(0, 173) = (closest_dz.second)[1];
-    input.matrix<float>()(0, 174) = (closest_dz.first)[2];
-    input.matrix<float>()(0, 175) = (closest_dz.second)[2];
-
-    //input.matrix<unsigned long>()(0,23) = encodedLayers;
-
-    //The rest of the inputs are dependent on layer/energy/position of pixel hits
-    //Need functions to get these
-
-    /*std::vector<std::vector<double>> recHitsNearTrack;
-    for (auto &hit : recHitInfos_){
-      std::vector<double> hitNearTrack;
-      double dEta = track.eta - hit.eta;
-      double dPhi = track.phi - hit.phi;
-      if( fabs(dPhi) > TMath::Pi() ){
-        dPhi -= round(dPhi/(2* TMath::Pi()))*2*TMath::Pi();
-      }
-      if (fabs(dEta) >= EtaRange_ or fabs(dPhi) >= PhiRange_)
-      {
-        continue;
-      }
-      int detIndex = getDetectorIndex(hit.detType);
-      double energy = 1;
-      if (detIndex != 2)
-      {
-        energy = hit.energy;
-      }
-      hitNearTrack.push_back(dEta);
-      hitNearTrack.push_back(dPhi);
-      hitNearTrack.push_back(energy);
-      hitNearTrack.push_back(detIndex);
-
-      recHitsNearTrack.push_back(hitNearTrack);
-      std::sort(recHitsNearTrack.begin(),recHitsNearTrack.end(),
-                [](const std::vector<double>& a, const std::vector<double>& b) {
-                  return a[2] > b[2];
-                });
-
-      int numRecHits = recHitsNearTrack.size();
-      for (int iHit = 0; iHit < min(maxHits_, numRecHits); iHit++)
-      {
-        input.matrix<float>()(iHit, 0) = recHitsNearTrack.at(iHit)[0];
-        input.matrix<float>()(iHit, 1) = recHitsNearTrack.at(iHit)[1];
-        input.matrix<float>()(iHit, 2) = recHitsNearTrack.at(iHit)[2];
-        input.matrix<float>()(iHit, 3) = recHitsNearTrack.at(iHit)[3];
-      }
-      if (numRecHits < maxHits_){
-        for (int iHit = numRecHits; iHit < maxHits_; iHit++)
-        {
-          input.matrix<float>()(iHit, 0) = 0;
-          input.matrix<float>()(iHit, 1) = 0;
-          input.matrix<float>()(iHit, 2) = 0;
-          input.matrix<float>()(iHit, 3) = 0;
-        }
-      }
-    }*/
     std::vector<tensorflow::Tensor> outputs;
     tensorflow::run(session_, {{inputTensorName_, input}}, {outputTensorName_}, &outputs);
 
-    // print the output
-    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
+    //std::cout << "Number of outputs: " << outputs.size() << std::endl;
+
+    //auto output_tensor = outputs[0].flat<float>();
+
+    //std::cout << "output tensor: " << output_tensor(0) << std::endl;
+
+    //float score = outputs[0].matrix<float>()(0,0);
+
+    //networkScores_->push_back(outputs);
+    //for(unsigned int out=0; out < sizeof(output_tensor)/sizeof(output_tensor(0)); out++){
+	//float score = output_tensor(out);
+        //v_networkScores_.push_back(score);
+    //}
+    float score = outputs[0].matrix<float>()(0,0);
+    v_networkScores_.push_back(score);
+
+    track_num++;
   }
+
+  int counter = 0;
+  //std::cout << "About to place score into product" << std::endl;
+  for(std::vector<float>::iterator it = v_networkScores_.begin(); it != v_networkScores_.end(); it++){
+    //std::cout << "Trying to place output: " << *it << std::endl;
+    //networkScores_->setOutput(counter, *it);
+    networkScores_->addOutput(*it);
+    //std::cout << "Added output to product: " << counter << std::endl;
+    counter++;
+  }
+
+  event.put(std::move(networkScores_), "networkScores");
   
 
 }
 
-void FakeTrackVarProducer::endJob() {
+void FakeTrackVarProducer::endRun(const edm::Run& Run, const edm::EventSetup& setup) {
   // close the session
   tensorflow::closeSession(session_);
 }
@@ -1369,7 +1353,7 @@ FakeTrackVarProducer::getHitMap(const vector<TrackDeDxInfo> trackDeDxInfos) cons
 
     newLayer = true;
 
-    std::cout << "Get Hit Map, sub detector: " << hit.subDet << ", layer: " << hit.hitLayerId << ", energy: " << hit.charge << ", num hits: " << numHits<< std::endl;
+    //std::cout << "Get Hit Map, sub detector: " << hit.subDet << ", layer: " << hit.hitLayerId << ", energy: " << hit.charge << ", num hits: " << numHits<< std::endl;
 
     //if(numHits == hitsWanted-1) break; //check if greater hits then break
 
@@ -1446,18 +1430,22 @@ FakeTrackVarProducer::encodeLayers(const std::vector<std::vector<double>> layerH
 }
 
 std::pair<std::array<double, 3>, std::array<double, 3>>
-FakeTrackVarProducer::getClosestVertices(const std::vector<VertexInfo> v_info, float track_dz, float track_d0) const {
+FakeTrackVarProducer::getClosestVertices(const std::vector<VertexInfo> v_info, float track_vz, float track_vx, float track_vy) const {
 
-  std::array<double, 3> d0, dz;
+  std::array<double, 3> d0 {{10e3, 10e3, 10e3}};
+  std::array<double, 3> dz {{10e3, 10e3, 10e3}};
 
   for(auto &info : v_info){
-    float deltaZ = abs(info.vertex.Z() - track_dz);
-    float delta0 = abs(sqrt(pow(info.vertex.X(),2) + pow(info.vertex.Y(),2)) - track_d0);
+    float deltaZ = abs(info.vertex.Z() - track_vz);
+    float delta0 = abs(sqrt(pow(info.vertex.X()-track_vx,2) + pow(info.vertex.Y()-track_vy,2)));
+    //std::cout << "delta0: " << delta0 << " , deltaZ: " << deltaZ << std::endl;
     int size = sizeof(dz)/sizeof(dz[0]);
-    if(deltaZ < dz[size-1]) dz[size-1] = deltaZ;
-    std::sort(dz.begin(), dz.end());
-    if(delta0 < d0[size-1]) d0[size-1] = delta0;
-    std::sort(d0.begin(), d0.end());
+    //std::cout << "size: " << size << std::endl;
+    if(abs(deltaZ) < abs(dz[size-1])) dz[size-1] = deltaZ;
+    std::sort(dz.begin(), dz.end(), [](float i, float j){ return abs(i) < abs(j); });
+    if(abs(delta0) < abs(d0[size-1])) d0[size-1] = delta0;
+    std::sort(d0.begin(), d0.end(), [](float i, float j){ return abs(i) < abs(j); });
+    //std::cout << "d0: " << d0[0] << " " << d0[1] << " " << d0[2] << ", dz: " << dz[0] << " " << dz[1] << " " << dz[2] << std::endl;
   }
 
   std::pair<std::array<double, 3>, std::array<double, 3>> closestVertices(dz, d0);

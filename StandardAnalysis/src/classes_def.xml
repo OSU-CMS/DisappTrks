@@ -21,5 +21,9 @@
   <class name="std::vector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> >" />
   <class name="edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> >" />
   <class name="edm::Wrapper<edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiGlobalPixelCluster>,SiGlobalPixelCluster,edmNew::DetSetVector<SiGlobalPixelCluster>::FindForDetSetVector> > >" />
+  <class name="edm::Wrapper<std::vector<NetworkOutput> >" />
+  <class name="std::vector<NetworkOutput>" />
+  <class name="NetworkOutput" />
+  <class name="edm::Wrapper<NetworkOutput>" />
 </lcgdict>
 
