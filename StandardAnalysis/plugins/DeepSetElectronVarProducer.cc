@@ -129,7 +129,7 @@ void DeepSetElectronVarProducer::fillDescriptions(edm::ConfigurationDescriptions
   edm::ParameterSetDescription desc;
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
-  desc.add<std::string>("inputTrkTensorName");
+  desc.add<std::string>("inputTrackTensorName");
   desc.add<std::string>("outputTensorName");
   desc.add<edm::InputTag>("triggers"),
   desc.add<edm::InputTag>("triggerObjects"),
