@@ -9,7 +9,10 @@
 
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
-#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
+#include "DisappTrks/StandardAnalysis/interface/NetworkOutput.h"
+
+#include "FWCore/Framework/interface/stream/EDProducer.h"
+//#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 // Tensorflow
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
@@ -102,7 +105,7 @@ struct CacheData {
   std::atomic<tensorflow::GraphDef*> graphDef;
 };
 
-class DeepSetElectronVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
+class DeepSetElectronVarProducer : public edm::stream::EDProducer<edm::GlobalCache<CacheData>> {
    public:
       explicit DeepSetElectronVarProducer(const edm::ParameterSet &, const CacheData*);
       ~DeepSetElectronVarProducer();
@@ -113,10 +116,12 @@ class DeepSetElectronVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCac
       static void globalEndJob(const CacheData*);
 
    private:
-      void analyze(const edm::Event &, const edm::EventSetup &);
+      //void produce(edm::Event &, const edm::EventSetup &);
+      //void endRun();
 
-      void endJob();
-
+      virtual void produce(edm::Event&, const edm::EventSetup&) override;
+      virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
+ 
       int getDetectorIndex(const int) const;
 
       void getGeometries(const edm::EventSetup &);
@@ -284,6 +289,7 @@ class DeepSetElectronVarProducer : public edm::stream::EDAnalyzer<edm::GlobalCac
 
       // tensorflow
       std::string inputTensorName_;
+      std::string inputTrkTensorName_;
       std::string outputTensorName_;
 
       tensorflow::Session* session_;

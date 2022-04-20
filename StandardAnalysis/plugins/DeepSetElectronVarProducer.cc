@@ -52,6 +52,7 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   PhiRange_           (cfg.getParameter<double> ("phiRangeNearTrack")),
   maxHits_            (cfg.getParameter<int>    ("maxNumOfRecHits")),
   inputTensorName_    (cfg.getParameter<std::string>("inputTensorName")),
+  inputTrkTensorName_ (cfg.getParameter<std::string>("inputTrkTensorName")),
   outputTensorName_   (cfg.getParameter<std::string>("outputTensorName")),
   session_(tensorflow::createSession(cacheData->graphDef)) {
   assert(dataTakingPeriod_ == "2017" || dataTakingPeriod_ == "2018");
@@ -89,7 +90,7 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
   metFilterNames = cfg.getParameter<vector<string> >("metFilterNames");
 
-  
+  produces<NetworkOutput>("networkScores"); 
 
   trackInfos_.clear();
   recHitInfos_.clear();
@@ -128,6 +129,7 @@ void DeepSetElectronVarProducer::fillDescriptions(edm::ConfigurationDescriptions
   edm::ParameterSetDescription desc;
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
+  desc.add<std::string>("inputTrkTensorName");
   desc.add<std::string>("outputTensorName");
   desc.add<edm::InputTag>("triggers"),
   desc.add<edm::InputTag>("triggerObjects"),
@@ -174,7 +176,7 @@ void DeepSetElectronVarProducer::fillDescriptions(edm::ConfigurationDescriptions
 }
 
 void
-DeepSetElectronVarProducer::analyze(const edm::Event &event, const edm::EventSetup &setup)
+DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &setup)
 {
   // get collections, setup objects
 
@@ -329,14 +331,19 @@ DeepSetElectronVarProducer::analyze(const edm::Event &event, const edm::EventSet
 
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
-  tensorflow::Tensor input(tensorflow::DT_FLOAT, {101,4});
+  tensorflow::Tensor input(tensorflow::DT_FLOAT, {100,4});
+  tensorflow::Tensor trkinput(tensorflow::DT_FLOAT, {1,4});
 
+  auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
+  std::vector<float> v_networkScores_;
+  //std::unique_ptr<std::vector<std::vector<tensorflow::Tensor> > > networkScores_(new std::vector<std::vector<tensorflow::Tensor> >());
+  
   for(auto &track : trackInfos_) 
   {
-    input.matrix<float>()(101, 0) = nPV_;
-    input.matrix<float>()(101, 1) = track.eta;
-    input.matrix<float>()(101, 2) = track.phi;
-    input.matrix<float>()(101, 3) = track.nValidPixelHits;
+    trkinput.matrix<float>()(1, 0) = nPV_;
+    trkinput.matrix<float>()(1, 1) = track.eta;
+    trkinput.matrix<float>()(1, 2) = track.phi;
+    trkinput.matrix<float>()(1, 3) = track.nValidPixelHits;
     std::vector<std::vector<double>> recHitsNearTrack;
     for (auto &hit : recHitInfos_){
       std::vector<double> hitNearTrack;
@@ -385,16 +392,27 @@ DeepSetElectronVarProducer::analyze(const edm::Event &event, const edm::EventSet
       }
     }
     std::vector<tensorflow::Tensor> outputs;
-    tensorflow::run(session_, {{inputTensorName_, input}}, {outputTensorName_}, &outputs);
+    tensorflow::run(session_, {{inputTensorName_, input},{inputTrkTensorName_,trkinput}}, {outputTensorName_}, &outputs);
 
     // print the output
     std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
+    float score = outputs[0].matrix<float>()(0,0);
+    v_networkScores_.push_back(score);
   }
-  
 
+  int counter = 0;
+  //std::cout << "About to place score into product" << std::endl;
+  for(std::vector<float>::iterator it = v_networkScores_.begin(); it != v_networkScores_.end(); it++){
+    //std::cout << "Trying to place output: " << *it << std::endl;
+    //networkScores_->setOutput(counter, *it);
+    networkScores_->addOutput(*it);
+    //std::cout << "Added output to product: " << counter << std::endl;
+    counter++;
+    }
+  event.put(std::move(networkScores_), "networkScores");
 }
 
-void DeepSetElectronVarProducer::endJob() {
+void DeepSetElectronVarProducer::endRun(const edm::Run& Run, const edm::EventSetup& setup) {
   // close the session
   tensorflow::closeSession(session_);
 }
