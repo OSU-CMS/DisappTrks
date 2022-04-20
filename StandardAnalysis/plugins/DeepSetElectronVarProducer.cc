@@ -52,7 +52,7 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   PhiRange_           (cfg.getParameter<double> ("phiRangeNearTrack")),
   maxHits_            (cfg.getParameter<int>    ("maxNumOfRecHits")),
   inputTensorName_    (cfg.getParameter<std::string>("inputTensorName")),
-  inputTrackTensorName_ (cfg.getParameter<std::string>("inputTrkTensorName")),
+  inputTrackTensorName_ (cfg.getParameter<std::string>("inputTrackTensorName")),
   outputTensorName_   (cfg.getParameter<std::string>("outputTensorName")),
   session_(tensorflow::createSession(cacheData->graphDef)) {
   assert(dataTakingPeriod_ == "2017" || dataTakingPeriod_ == "2018");
