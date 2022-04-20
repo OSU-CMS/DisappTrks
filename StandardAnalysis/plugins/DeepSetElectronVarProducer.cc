@@ -392,7 +392,7 @@ DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &se
       }
     }
     std::vector<tensorflow::Tensor> outputs;
-    tensorflow::run(session_, {{inputTensorName_, input},{inputTrackTensorName_,inputTrack}}, {outputTensorName_}, &outputs);
+    tensorflow::run(session_, {{inputTensorName_, input},{inputTrackTensorName_, inputTrack}}, {outputTensorName_}, &outputs);
 
     // print the output
     std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
