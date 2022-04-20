@@ -409,7 +409,7 @@ DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &se
     //std::cout << "Added output to product: " << counter << std::endl;
     counter++;
     }
-  event.put(std::move(networkScores_), "networkScores");
+  event.put(std::move(networkScores_), "DeepSetElectronScores");
 }
 
 void DeepSetElectronVarProducer::endRun(const edm::Run& Run, const edm::EventSetup& setup) {
