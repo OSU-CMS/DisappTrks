@@ -289,7 +289,7 @@ class DeepSetElectronVarProducer : public edm::stream::EDProducer<edm::GlobalCac
 
       // tensorflow
       std::string inputTensorName_;
-      std::string inputTrkTensorName_;
+      std::string inputTrackTensorName_;
       std::string outputTensorName_;
 
       tensorflow::Session* session_;

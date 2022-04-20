@@ -52,7 +52,7 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   PhiRange_           (cfg.getParameter<double> ("phiRangeNearTrack")),
   maxHits_            (cfg.getParameter<int>    ("maxNumOfRecHits")),
   inputTensorName_    (cfg.getParameter<std::string>("inputTensorName")),
-  inputTrkTensorName_ (cfg.getParameter<std::string>("inputTrkTensorName")),
+  inputTrackTensorName_ (cfg.getParameter<std::string>("inputTrkTensorName")),
   outputTensorName_   (cfg.getParameter<std::string>("outputTensorName")),
   session_(tensorflow::createSession(cacheData->graphDef)) {
   assert(dataTakingPeriod_ == "2017" || dataTakingPeriod_ == "2018");
@@ -332,7 +332,7 @@ DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &se
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
   tensorflow::Tensor input(tensorflow::DT_FLOAT, {100,4});
-  tensorflow::Tensor trkinput(tensorflow::DT_FLOAT, {1,4});
+  tensorflow::Tensor inputTrack(tensorflow::DT_FLOAT, {1,4});
 
   auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
   std::vector<float> v_networkScores_;
@@ -340,10 +340,10 @@ DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &se
   
   for(auto &track : trackInfos_) 
   {
-    trkinput.matrix<float>()(1, 0) = nPV_;
-    trkinput.matrix<float>()(1, 1) = track.eta;
-    trkinput.matrix<float>()(1, 2) = track.phi;
-    trkinput.matrix<float>()(1, 3) = track.nValidPixelHits;
+    inputTrack.matrix<float>()(0, 0) = nPV_;
+    inputTrack.matrix<float>()(0, 1) = track.eta;
+    inputTrack.matrix<float>()(0, 2) = track.phi;
+    inputTrack.matrix<float>()(0, 3) = track.nValidPixelHits;
     std::vector<std::vector<double>> recHitsNearTrack;
     for (auto &hit : recHitInfos_){
       std::vector<double> hitNearTrack;
@@ -392,7 +392,7 @@ DeepSetElectronVarProducer::produce(edm::Event &event, const edm::EventSetup &se
       }
     }
     std::vector<tensorflow::Tensor> outputs;
-    tensorflow::run(session_, {{inputTensorName_, input},{inputTrkTensorName_,trkinput}}, {outputTensorName_}, &outputs);
+    tensorflow::run(session_, {{inputTensorName_, input},{inputTrackTensorName_,inputTrack}}, {outputTensorName_}, &outputs);
 
     // print the output
     std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
