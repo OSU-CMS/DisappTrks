@@ -68,7 +68,7 @@
  4 = asrwgtflavor     ! highest quark flavor for a_s reweight
  True  = auto_ptj_mjj  ! Automatic setting of ptj and mjj if xqcut >0
                                    ! (turn off for VBF and single top processes)
- 30.0   = xqcut   ! minimum kt jet measure between partons
+ 40.0   = xqcut   ! minimum kt jet measure between partons
 
 #***********************************************************************
 # Turn on either the ktdurham or ptlund cut to activate                *

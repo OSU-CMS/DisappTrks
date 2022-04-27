@@ -1,5 +1,6 @@
 MCHI = XXX  # GeV
 CTAU = YYY  # mm
+XQCUT = AAA
 COM_ENERGY = 13600.
 
 import FWCore.ParameterSet.Config as cms
@@ -9,7 +10,7 @@ from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring('~/genproductions/bin/MadGraph5_aMCatNLO/Higgsino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MCHI, CTAU/10)),
+    args = cms.vstring('~/genproductions/bin/MadGraph5_aMCatNLO/Higgsino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MCHI, int(CTAU/10))),
     nEvents = cms.untracked.uint32(1000),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
@@ -44,7 +45,7 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
             'JetMatching:etaJetMax = 5.',
             'JetMatching:coneRadius = 1.',
             'JetMatching:slowJetPower = 1',
-            'JetMatching:qCut = 40.', #this is the actual merging scale
+            'JetMatching:qCut = %.1f' % (XQCUT * 1.5), #this is the actual merging scale
             'JetMatching:nQmatch = 5', #4 corresponds to 4-flavour scheme (no matching of b-quarks), 5 for 5-flavour scheme
             'JetMatching:nJetMax = 1', #number of partons in born matrix element for highest multiplicity
             'JetMatching:doShowerKt = off', #off for MLM matching, turn on for shower-kT matching
@@ -61,7 +62,7 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
     useregge = cms.bool(False),
     hscpFlavor = cms.untracked.string('stau'),
     massPoint = cms.untracked.int32(MCHI),  # value not used
-    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_higgsino/geant4_higgsino_%sGeV_ctau%scm.slha' % (MCHI, CTAU/10))
+    particleFile = cms.untracked.string('DisappTrks/SignalMC/data/geant4_higgsino/geant4_higgsino_%sGeV_ctau%scm.slha' % (MCHI, int(CTAU/10)))
 )
 
 ProductionFilterSequence = cms.Sequence(externalLHEProducer*generator)
