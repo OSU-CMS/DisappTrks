@@ -45,7 +45,11 @@ void DeDxHitInfoVarProducer::AddVariables(const edm::Event &event, const edm::Ev
         if(isPixel && isStrip) continue;
 
         // shape selection for strips
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(12,4,0)
+        if(isStrip && !deDxTools::shapeSelection(*(hitInfo->stripCluster(iHit)))) continue;
+#else
         if(isStrip && !DeDxTools::shapeSelection(*(hitInfo->stripCluster(iHit)))) continue;
+#endif
         float norm = isPixel ? 3.61e-06 : 3.61e-06 * 265;
 
         charge[itrk].push_back(norm * hitInfo->charge(iHit) / hitInfo->pathlength(iHit));
