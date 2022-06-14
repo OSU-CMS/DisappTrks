@@ -4,10 +4,10 @@ import sys
 
 c = 299792458.0 * 100.0 # cm/s
 
-if os.environ['CMSSW_VERSION'] != 'CMSSW_11_0_2':
+if os.environ['CMSSW_VERSION'] != 'CMSSW_12_4_0_pre4':
 	print
-	print 'Private generation of Run 3 samples must proceed in CMSSW_11_0_2, but you are in', os.environ['CMSSW_VERSION']
-	print 'Quitting...'
+	print('Private generation of Run 3 samples must proceed in CMSSW_12_4_0_pre4, but you are in', os.environ['CMSSW_VERSION'])
+	print('Quitting...')
 	print
 	sys.exit()
 
@@ -69,7 +69,7 @@ if scriptStep == 1:
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
 			os.system('sed -i "s/YYY/' + str(int(ctau * 10.0)) + '/g" ' + outputConfigFile) # mm
 			os.system('sed -i "s/ZZZ/' + str(xsecsWino[mass]) + '/g" ' + outputConfigFile)
-                        os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
+			os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
 			mW1ss = findMassValue(slhaFile, 'w1ss')
 			mZ1ss = findMassValue(slhaFile, 'z1ss')
 			tau = ctau / c * 1.e9 # ns
@@ -79,20 +79,20 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
-	print 'Created electroweak (wino-like) configuration fragments and particle files in directory: ' + baseDir
+	print('Created electroweak (wino-like) configuration fragments and particle files in directory: ' + baseDir)
 
 	# now higgsino-like LSP case
 	baseConfigFile   = baseDir + 'data/Higgsino_M-XXXGeV_CTau-YYYcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	baseParticleFile = baseDir + 'data/geant4_higgsino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsHiggsino:
-                if mass >= 100 and mass <= 400:
-                        xqcut = 40.0
-                if mass >= 500 and mass <= 900:
-                        xqcut = 50.0
-                if mass >= 1000 and mass <= 1900:
-                        xqcut = 60.0
-                if mass == 2000:
-                        xqcut = 70.0
+		if mass >= 100 and mass <= 400:
+			xqcut = 40.0
+		if mass >= 500 and mass <= 900:
+			xqcut = 50.0
+		if mass >= 1000 and mass <= 1900:
+			xqcut = 60.0
+		if mass == 2000:
+			xqcut = 70.0
 		for ctau in ctaus:
 			outputConfigFile   = baseDir + 'python/madgraph5/Higgsino_M%dGeV_CTau%dcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py' % (mass, ctau)
 			outputParticleFile = baseDir + 'data/geant4_higgsino/geant4_higgsino_%dGeV_ctau%dcm.slha' % (mass, ctau)
@@ -100,7 +100,7 @@ if scriptStep == 1:
 			os.system('sed "s/XXX/' + str(mass) + '/g" ' + baseConfigFile + ' > ' + outputConfigFile)
 			os.system('sed -i "s/YYY/' + str(int(ctau * 10.0)) + '/g" ' + outputConfigFile) # mm
 			os.system('sed -i "s/ZZZ/' + str(xsecsHiggsino[mass]) + '/g" ' + outputConfigFile)
-                        os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
+			os.system('sed -i "s/AAA/' + str(xqcut) + '/g" ' + outputConfigFile)
 			mW1ss = findMassValue(slhaFile, 'w1ss')
 			mZ1ss = findMassValue(slhaFile, 'z1ss')
 			mZ2ss = findMassValue(slhaFile, 'z2ss')
@@ -112,10 +112,10 @@ if scriptStep == 1:
 			os.system('sed -i "s/_CTAU/' + str(ctau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_TAU/' + str(tau) + '/g" ' + outputParticleFile)
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
-	print 'Created electroweak (higgsino-like) configuration fragments and particle files in directory: ' + baseDir
+	print('Created electroweak (higgsino-like) configuration fragments and particle files in directory: ' + baseDir)
 
 	print
-	print 'Now "scram b" and run this again with argument "2" to create the step 1 configs'
+	print('Now "scram b" and run this again with argument "2" to create the step 1 configs')
 	print
 
 ################################################################
@@ -126,9 +126,9 @@ if scriptStep == 2:
 	# first wino-like LSP case
 	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/madgraph5/AMSB_chargino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	cmd += ' --fileout file:AMSB_chargino{0}GeV_ctau{1}cm_step1.root'
-	cmd += ' --mc --eventcontent RAWSIM,LHE'
-	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,SimG4Core/Application/customiseSequentialSim.customiseSequentialSim'
-	cmd += ' --datatier GEN-SIM,LHE --conditions 110X_mcRun3_2021_realistic_v6'
+	cmd += ' --mc --eventcontent RAWSIM'
+	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi'
+	cmd += ' --datatier GEN-SIM --conditions auto:phase1_2021_realistic'
 	cmd += ' --beamspot Run3RoundOptics25ns13TeVLowSigmaZ --step LHE,GEN,SIM --geometry DB:Extended'
 	cmd += ' --era Run3'
 	cmd += ' --python_filename step1/pythia8/AMSB_chargino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_step1.py'
@@ -138,14 +138,14 @@ if scriptStep == 2:
 		for ctau in ctaus:
 			os.system(cmd.format(mass, ctau))
 
-	print 'Created electroweak (wino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8'
+	print('Created electroweak (wino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8')
 
 	# now higgsino-like LSP case
 	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/madgraph5/Higgsino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	cmd += ' --fileout file:Higgsino_M{0}GeV_ctau{1}cm_step1.root'
-	cmd += ' --mc --eventcontent RAWSIM,LHE'
-	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi,SimG4Core/Application/customiseSequentialSim.customiseSequentialSim'
-	cmd += ' --datatier GEN-SIM,LHE --conditions 110X_mcRun3_2021_realistic_v6'
+	cmd += ' --mc --eventcontent RAWSIM'
+	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi'
+	cmd += ' --datatier GEN-SIM --conditions auto:phase1_2021_realistic'
 	cmd += ' --beamspot Run3RoundOptics25ns13TeVLowSigmaZ --step LHE,GEN,SIM --geometry DB:Extended'
 	cmd += ' --era Run3'
 	cmd += ' --python_filename step1/pythia8/Higgsino_M{0}GeV_ctau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_step1.py'
@@ -155,4 +155,4 @@ if scriptStep == 2:
 		for ctau in ctaus:
 			os.system(cmd.format(mass, ctau))
 
-	print 'Created electroweak (higgsino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8'
+	print('Created electroweak (higgsino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8')
