@@ -20,7 +20,7 @@ config.Data.unitsPerJob = 100
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.publication = True
-config.Data.outputDatasetTag = 'Run3Winter20DRPremixMiniAOD-110X_mcRun3_2021_realistic_v6-v1'
+config.Data.outputDatasetTag = 'Run3Summer22DRPremixMiniAOD-124X_mcRun3_2021_realistic_v1-v1'
 
 # Uncomment one of the following pairs
 
@@ -40,16 +40,16 @@ if __name__ == '__main__':
 
     from CRABAPI.RawCommand import crabCommand
     from CRABClient.ClientExceptions import ClientException
-    from httplib import HTTPException
+    from http.client import HTTPException
     from multiprocessing import Process
 
     def submit(config):
         try:
             crabCommand('submit', config = config)
         except HTTPException as hte:
-            print "Failed submitting task: %s" % (hte.headers)
+            print("Failed submitting task: %s" % (hte.headers))
         except ClientException as cle:
-            print "Failed submitting task: %s" % (cle)
+            print("Failed submitting task: %s" % (cle))
 
     def forkAndSubmit(config):
         p = Process(target=submit, args=(config,))
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     reallySubmitMass = { x : False for x in range(100, 1200, 100)}
     reallySubmitGluinoMass = { x : False for x in range(700, 2300, 100)}
     reallySubmitLifetime = { x : False for x in [1, 10, 100, 1000, 10000]}
-    numJobsPerLifetime = { x : (2500 if x == 10000 else 500) for x in [1, 10, 100, 1000, 10000]}
+    numJobsPerLifetime = { x : (1300 if x == 10000 else 650) for x in [1, 10, 100, 1000, 10000]}
     numJobsPerLifetimeForStrong = {
         10    : 800,
         100   : 50,
@@ -85,7 +85,7 @@ if __name__ == '__main__':
               if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
                   forkAndSubmit(config)
               else:
-                  print 'Skipping submission of request:', config.General.requestName
+                  print('Skipping submission of request:', config.General.requestName)
     elif reallySubmitStrong:
       for mass in range(100, 1000, 100):
           for gluinoMass in range(700, 2300, 100):
@@ -98,7 +98,7 @@ if __name__ == '__main__':
                       if os.path.isfile(config.JobType.psetName):
                           forkAndSubmit(config)
                   else:
-                      print 'Skipping submission of request:', config.General.requestName
+                      print('Skipping submission of request:', config.General.requestName)
     elif reallySubmitHiggsinoEWK:
       for mass in range(100, 1000, 100):
           for ctau in [1, 10, 100, 1000, 10000]:
@@ -109,4 +109,4 @@ if __name__ == '__main__':
               if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
                   forkAndSubmit(config)
               else:
-                  print 'Skipping submission of request:', config.General.requestName
+                  print('Skipping submission of request:', config.General.requestName)
