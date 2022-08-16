@@ -1,6 +1,7 @@
 <use  name="root"/>
 <use  name="CommonTools/UtilAlgos"/>
 <use  name="CondFormats/DataRecord"/>
+<use  name="CondFormats/EcalObjects"/>
 <use  name="CondFormats/RunInfo"/>
 <use  name="DataFormats/Common"/>
 <use  name="DataFormats/EgammaCandidates"/>
@@ -24,11 +25,13 @@
 <use  name="FWCore/ParameterSet"/>
 <use  name="FWCore/ServiceRegistry"/>
 <use  name="FWCore/Utilities"/>
+<use  name="Geometry/CaloGeometry"/>
+<use  name="Geometry/CSCGeometry"/>
 <use  name="Geometry/Records"/>
+<use  name="Geometry/RPCGeometry"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <use  name="TrackingTools/TrackAssociator"/>
 <use  name="RecoTracker/DeDx"/>
-<use  name="Geometry/RPCGeometry"/>
 <use  name="PhysicsTools/TensorFlow" />
 
 <flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>

@@ -303,11 +303,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
   electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
   muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
   tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
-
+  
   electronTagProbeFilter.triggerNames      = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
   tauToElectronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
   zToEEFilter.triggerNames                 = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
-  muonTagProbeFilter.triggerNames      = cms.vstring ("HLT_IsoMu24_v"),
+  muonTagProbeFilter.triggerNames      = cms.vstring ("HLT_IsoMu24_v")
   tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
   zToMuMuFilter.triggerNames           = cms.vstring ("HLT_IsoMu24_v")
 
