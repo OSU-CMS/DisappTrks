@@ -4,6 +4,7 @@
 #include "DataFormats/Common/interface/RefProd.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "DataFormats/Common/interface/ContainerMask.h"
+#include "DisappTrks/StandardAnalysis/interface/NetworkOutput.h"
 
 namespace DisappTrks_StandardAnalysis {
   struct dictionary {
@@ -28,5 +29,7 @@ namespace DisappTrks_StandardAnalysis {
     edm::Wrapper<edm::ContainerMask<SiGlobalPixelClusterCollectionNew> > w_cm1;
   };
 }
+
+
 
 #endif
