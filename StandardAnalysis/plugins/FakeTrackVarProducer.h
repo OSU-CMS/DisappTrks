@@ -241,6 +241,13 @@ class FakeTrackVarProducer : public edm::stream::EDProducer<edm::GlobalCache<Cac
       edm::EDGetTokenT<vector<pat::IsolatedTrack> >isoTrackToken_;
       edm::EDGetTokenT<vector<reco::Track> > genTracksToken_;
       edm::EDGetTokenT<edm::View<PileupSummaryInfo> > pileupInfoToken_;
+      edm::ESGetToken<CaloGeometry, CaloGeometryRecord> caloGeometryToken_;
+      edm::ESGetToken<CSCGeometry, MuonGeometryRecord> cscGeometryToken_;
+      edm::ESGetToken<DTGeometry, MuonGeometryRecord> dtGeometryToken_;
+      edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeometryToken_;
+      edm::ESGetToken<EcalChannelStatus, EcalChannelStatusRcd> ecalStatusToken_;
+      edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopologyToken_;
+
 
       edm::ESHandle<CaloGeometry> caloGeometry_;
       edm::ESHandle<CSCGeometry>  cscGeometry_;

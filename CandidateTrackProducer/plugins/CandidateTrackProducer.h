@@ -34,6 +34,9 @@
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
 #include "DataFormats/Common/interface/ValueMap.h"
 
+#include "MagneticField/Engine/interface/MagneticField.h"
+#include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
+
 using namespace std;
 
 //
@@ -78,6 +81,8 @@ class CandidateTrackProducer : public edm::EDFilter {
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
       edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > gt2dedxStripToken_;
       edm::EDGetTokenT<edm::ValueMap<reco::DeDxData> > gt2dedxPixelToken_;
+      edm::ESGetToken<MagneticField, IdealMagneticFieldRecord> magFieldToken_;
+      edm::ESGetToken<CaloGeometry, CaloGeometryRecord> caloGeometryToken_;
 
       edm::ESHandle<CaloGeometry> caloGeometry_;
       bool insideCone(const CandidateTrack &, const DetId &, const double) const;

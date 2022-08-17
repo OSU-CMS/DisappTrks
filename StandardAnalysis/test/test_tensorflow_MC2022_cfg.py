@@ -27,7 +27,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(100),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
@@ -61,7 +61,7 @@ process.options = cms.untracked.PSet(
     numberOfConcurrentLuminosityBlocks = cms.untracked.uint32(0),
     numberOfConcurrentRuns = cms.untracked.uint32(1),
     numberOfStreams = cms.untracked.uint32(0),
-    numberOfThreads = cms.untracked.uint32(1),
+    numberOfThreads = cms.untracked.uint32(0),
     printDependencies = cms.untracked.bool(False),
     sizeOfStackForThreadsInKB = cms.optional.untracked.uint32,
     throwIfIllegalParameter = cms.untracked.bool(True),
@@ -433,7 +433,7 @@ process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,
 				process.Flag_METFilters,
 				process.candidateTracks,
 				#process.tensorflowPluginPath,
-				#process.deepSetElectronVarProducerPath,
+				process.deepSetElectronVarProducerPath,
                                 process.FakeTrackVarProducerPath,
 				process.endjob_step,
 				process.MINIAODSIMoutput_step)
@@ -444,7 +444,7 @@ associatePatAlgosToolsTask(process)
 #Setup FWK for multithreaded
 process.options.numberOfThreads = 4
 process.options.numberOfStreams = 0
-process.options.numberOfConcurrentLuminosityBlocks = 2
+process.options.numberOfConcurrentLuminosityBlocks = 1
 process.options.eventSetup.numberOfConcurrentIOVs = 1
 if hasattr(process, 'DQMStore'): process.DQMStore.assertLegacySafe=cms.untracked.bool(False)
 

@@ -86,6 +86,12 @@ DeepSetElectronVarProducer::DeepSetElectronVarProducer(const edm::ParameterSet &
   isoTrackToken_ = consumes<vector<pat::IsolatedTrack> > (isoTracks_);
   genTracksToken_ = consumes<vector<reco::Track> > (genTracks_);
   pileupInfoToken_ = consumes<edm::View<PileupSummaryInfo> > (pileupInfo_);
+  caloGeometryToken_    = esConsumes<CaloGeometry, CaloGeometryRecord>();
+  cscGeometryToken_        = esConsumes<CSCGeometry, MuonGeometryRecord>();
+  dtGeometryToken_        = esConsumes<DTGeometry, MuonGeometryRecord>();
+  rpcGeometryToken_        = esConsumes<RPCGeometry, MuonGeometryRecord>();
+  ecalStatusToken_         = esConsumes<EcalChannelStatus, EcalChannelStatusRcd>();
+  trackerTopologyToken_    = esConsumes<TrackerTopology, TrackerTopologyRcd>();
 
   signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
   metFilterNames = cfg.getParameter<vector<string> >("metFilterNames");
@@ -459,24 +465,26 @@ DeepSetElectronVarProducer::findMatchedGenTrack (const edm::Handle<vector<reco::
 
 void
 DeepSetElectronVarProducer::getGeometries(const edm::EventSetup &setup) {
-  setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  caloGeometry_ = setup.getHandle(caloGeometryToken_);
   if(!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(cscGeometry_);
+  cscGeometry_ = setup.getHandle(cscGeometryToken_);
   if(!cscGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (CSC) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(dtGeometry_);
+  dtGeometry_ = setup.getHandle(dtGeometryToken_);
   if(!dtGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (DT) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(rpcGeometry_);
+  rpcGeometry_ = setup.getHandle(rpcGeometryToken_);
   if(!rpcGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (RPC) in event!\n";
 
-  setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
-  setup.get<TrackerTopologyRcd>().get(trackerTopology_);
+  ecalStatus_ = setup.getHandle(ecalStatusToken_);
+  //setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
+  trackerTopology_ = setup.getHandle(trackerTopologyToken_);
+  //setup.get<TrackerTopologyRcd>().get(trackerTopology_);
 }
 
 int
