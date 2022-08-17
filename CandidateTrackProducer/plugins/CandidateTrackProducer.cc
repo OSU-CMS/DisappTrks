@@ -22,9 +22,6 @@
 #include "DisappTrks/CandidateTrackProducer/interface/CandidateTrack.h"
 #include "DisappTrks/CandidateTrackProducer/plugins/CandidateTrackProducer.h"
 
-#include "MagneticField/Engine/interface/MagneticField.h"
-#include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
-
 
 #include "DataFormats/Math/interface/deltaR.h"
 #include "Geometry/CaloGeometry/interface/CaloSubdetectorGeometry.h"
@@ -62,6 +59,8 @@ CandidateTrackProducer::CandidateTrackProducer (const edm::ParameterSet& iConfig
   HBHERecHitsToken_     = consumes<HBHERecHitCollection>          (HBHERecHitsTag_);
   gt2dedxPixelToken_    = consumes<edm::ValueMap<reco::DeDxData> > (gt2dedxPixelTag_);
   gt2dedxStripToken_    = consumes<edm::ValueMap<reco::DeDxData> > (gt2dedxStripTag_);
+  magFieldToken_        = esConsumes<MagneticField, IdealMagneticFieldRecord>();
+  caloGeometryToken_    = esConsumes<CaloGeometry, CaloGeometryRecord>();
 }
 
 CandidateTrackProducer::~CandidateTrackProducer ()
@@ -85,10 +84,11 @@ CandidateTrackProducer::filter (edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<double> rhoCentralCaloHandle;
   iEvent.getByToken (rhoCentralCaloToken_, rhoCentralCaloHandle );
 
-  edm::ESHandle<MagneticField> magneticField;
-  iSetup.get<IdealMagneticFieldRecord>().get(magneticField);
+  edm::ESHandle<MagneticField> magneticField = iSetup.getHandle(magFieldToken_);
+  //iSetup.getByToken<IdealMagneticFieldRecord>().get(magneticField);
 
-  iSetup.get<CaloGeometryRecord>().get(caloGeometry_);
+  caloGeometry_ = iSetup.getHandle(caloGeometryToken_);
+  //iSetup.get<CaloGeometryRecord>().get(caloGeometry_);
   if (!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
