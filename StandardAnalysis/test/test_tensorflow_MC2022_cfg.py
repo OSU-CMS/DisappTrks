@@ -34,8 +34,8 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(#'file:step1_RECO.root'),
-    #'/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/30002/01326cce-6f8b-40a4-a0e9-8af154b3ac55.root'
-    '/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/2550000/0088b6cd-2fc0-402a-9905-34419b8abb40.root'),
+    '/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/30002/01326cce-6f8b-40a4-a0e9-8af154b3ac55.root'),
+    #'/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/2550000/0088b6cd-2fc0-402a-9905-34419b8abb40.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -353,11 +353,11 @@ process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
 )
 process.trackImageProducerPath = cms.Path(process.trackImageProducer)
 
-process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('drop *', 
-                                                                "keep CandidateTracks_*_*_*",
-								'keep *_isolatedTracks_*_*',
-                                                                'keep networkScores_*_*_*', 
-								'keep NetworkOutput_*_*_*')
+#process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('drop *', 
+#                                                                "keep CandidateTracks_*_*_*",
+#								'keep *_isolatedTracks_*_*',
+#                                                                'keep networkScores_*_*_*', 
+#								'keep NetworkOutput_*_*_*')
 #process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep networkScores*')
 #process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('keep NetworkOutput_*')
 #process.MINIAODSIMoutput.outputCommands.extend = cms.untracked.vstring('drop *')
@@ -433,7 +433,7 @@ process.schedule = cms.Schedule(process.Flag_HBHENoiseFilter,
 				process.Flag_METFilters,
 				process.candidateTracks,
 				#process.tensorflowPluginPath,
-				process.deepSetElectronVarProducerPath,
+				#process.deepSetElectronVarProducerPath,
                                 process.FakeTrackVarProducerPath,
 				process.endjob_step,
 				process.MINIAODSIMoutput_step)

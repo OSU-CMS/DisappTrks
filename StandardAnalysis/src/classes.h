@@ -27,6 +27,12 @@ namespace DisappTrks_StandardAnalysis {
 
     edm::ContainerMask<SiGlobalPixelClusterCollectionNew> cm1;
     edm::Wrapper<edm::ContainerMask<SiGlobalPixelClusterCollectionNew> > w_cm1;
+
+    NetworkOutput NetworkOutput0;
+    vector<NetworkOutput> NetworkOutput1;
+    edm::Wrapper<NetworkOutput> NetworkOutput2;
+    edm::Wrapper<vector<NetworkOutput> > NetworkOutput3;
+
   };
 }
 
