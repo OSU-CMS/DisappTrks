@@ -27,6 +27,7 @@ namespace DisappTrks_StandardAnalysis {
 
     edm::ContainerMask<SiGlobalPixelClusterCollectionNew> cm1;
     edm::Wrapper<edm::ContainerMask<SiGlobalPixelClusterCollectionNew> > w_cm1;
+
   };
 }
 

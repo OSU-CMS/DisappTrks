@@ -95,11 +95,8 @@ FakeTrackVarProducer::FakeTrackVarProducer(const edm::ParameterSet &cfg, const C
   signalTriggerNames = cfg.getParameter<vector<string> >("signalTriggerNames");
   metFilterNames = cfg.getParameter<vector<string> >("metFilterNames");
 
-  //putTokenNetworkScores_ = produces<vector<float> >("networkScores");
-  //produces<std::vector<std::vector<tensorflow::Tensor> > > ("networkScores");
   produces<NetworkOutput>("networkScores");
-  //produces<std::vector<std::vector<CandidateTrack> > >("networkScores");
-
+  
   //networkScores_.clear();
   trackInfos_.clear();
   recHitInfos_.clear();
@@ -343,7 +340,6 @@ FakeTrackVarProducer::produce(edm::Event &event, const edm::EventSetup &setup)
   tensorflow::Tensor input(tensorflow::DT_FLOAT, {1,176});
   auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
   std::vector<float> v_networkScores_;
-  //std::unique_ptr<std::vector<std::vector<tensorflow::Tensor> > > networkScores_(new std::vector<std::vector<tensorflow::Tensor> >());
   
   int track_num = 0;
 
@@ -402,32 +398,20 @@ FakeTrackVarProducer::produce(edm::Event &event, const edm::EventSetup &setup)
     std::vector<tensorflow::Tensor> outputs;
     tensorflow::run(session_, {{inputTensorName_, input}}, {outputTensorName_}, &outputs);
 
-    //std::cout << "Number of outputs: " << outputs.size() << std::endl;
+    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
 
-    //auto output_tensor = outputs[0].flat<float>();
 
-    //std::cout << "output tensor: " << output_tensor(0) << std::endl;
-
-    //float score = outputs[0].matrix<float>()(0,0);
-
-    //networkScores_->push_back(outputs);
-    //for(unsigned int out=0; out < sizeof(output_tensor)/sizeof(output_tensor(0)); out++){
-	//float score = output_tensor(out);
-        //v_networkScores_.push_back(score);
-    //}
     float score = outputs[0].matrix<float>()(0,0);
     v_networkScores_.push_back(score);
 
     track_num++;
-  }
+
+  }// end of track loop
 
   int counter = 0;
   //std::cout << "About to place score into product" << std::endl;
   for(std::vector<float>::iterator it = v_networkScores_.begin(); it != v_networkScores_.end(); it++){
-    //std::cout << "Trying to place output: " << *it << std::endl;
-    //networkScores_->setOutput(counter, *it);
     networkScores_->addOutput(*it);
-    //std::cout << "Added output to product: " << counter << std::endl;
     counter++;
   }
 
@@ -515,9 +499,7 @@ FakeTrackVarProducer::getGeometries(const edm::EventSetup &setup) {
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (RPC) in event!\n";
 
   ecalStatus_ = setup.getHandle(ecalStatusToken_);
-  //setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
   trackerTopology_ = setup.getHandle(trackerTopologyToken_);
-  //setup.get<TrackerTopologyRcd>().get(trackerTopology_);
   
 }
 

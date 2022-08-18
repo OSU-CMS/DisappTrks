@@ -1,6 +1,8 @@
 #ifndef NETWORKOUTPUT_H
 #define NETWORKOUTPUT_H
 
+#include <vector>
+
 using namespace std;
 
 
@@ -9,8 +11,6 @@ class NetworkOutput
   public:
     
     NetworkOutput () {};
-    //NetworkOutput (const reco::Track &);
-    //NetworkOutput (const reco::Track &, const vector<reco::Track> &);
     ~NetworkOutput () {};
 
     const float getOutput(int ID) const{
@@ -18,6 +18,7 @@ class NetworkOutput
     }
 
     const std::vector<float> scores() const { return this->networkOutput_; };
+
 
     void setOutput(int ID, const float networkOutput){
       networkOutput_[ID] = std::move(networkOutput);
