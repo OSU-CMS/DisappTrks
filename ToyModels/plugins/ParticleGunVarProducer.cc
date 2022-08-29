@@ -100,7 +100,9 @@ ParticleGunVarProducer<T, Args...>::AddVariables (const edm::Event &event, const
     {
 //      cout <<"promptOrTauDecay PdgId:" <<probe.genMatchedParticle().promptOrTauDecayPdgId <<endl;
 //     if( probe.genMatchedParticle().promptOrTauDecayPdgId == 1000024 ){
-#if DATA_FORMAT_IS_CUSTOM
+#if DATA_FORMAT_IS_CUSTOM && DATA_FORMAT_IS_2022
+     if( probe.dxy() < 10.0 ){
+#elif DATA_FORMAT_IS_CUSTOM
      if( probe.d0() < 10.0 ){
 #else
       if( probe.dxy() < 10.0 ){
@@ -194,6 +196,9 @@ template<> bool
 ParticleGunVarProducer<osu::Track,TYPE(muons)>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
+  bool passes = probe.deltaRToClosestPFMuon () > 0.15
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
   bool passes = probe.deltaRToClosestPFMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else

@@ -15,6 +15,10 @@
   #define tracks_TYPE  CandidateTrack
   #define secondaryTracks_TYPE  CandidateTrack
 
+#elif DATA_FORMAT_IS_2022
+
+  #include "OSUT3Analysis/AnaTools/interface/DataFormatMiniAOD2022.h"
+
 #else
 
   #include "OSUT3Analysis/AnaTools/interface/DataFormatMiniAOD.h"
