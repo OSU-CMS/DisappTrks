@@ -158,10 +158,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VE
 ################################################################################
 # Set up the collectionMap
 ################################################################################
-from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017, collectionMapMiniAOD2022
 collMap = copy.deepcopy(collectionMap)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
     if not UseCandidateTracks:
         print("# Collections: collectionMapMiniAOD2017")
@@ -169,6 +169,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    collMap = copy.deepcopy(collectionMapMiniAOD2022)
+    if UseCandidateTracks:
+        print("# CandidateTracks not used in 2022, switch to IsolatedTrack")
+    else:
+        print("# Collections: collectionMapMiniAOD2022")
 else:
     if not UseCandidateTracks:
         print("# Collections: collectionMap")
