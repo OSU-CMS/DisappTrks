@@ -125,6 +125,33 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
     triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
 
+if os.environ["CMSSW_VERSION"].startswith ("cmssw_12_4_"):
+    triggerFiltersMet = {
+        'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
+        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
+        'HLT_PFMET105_IsoTrk50_v'                               : ['hltMET75', 'hltPFMET105'],
+
+
+        'HLT_PFMET120_PFMHT120_IDTight_v'                   : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'],
+        'HLT_PFMET130_PFMHT130_IDTight_v'                   : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
+        'HLT_PFMET140_PFMHT140_IDTight_v'                   : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
+
+        'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_FilterHF_v'  : ['hltMET80','hltMHT80','hltPFMHTNoMuTight110HFCleaned','hltPFMETNoMu110'],
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'           : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'],
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v'           : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTNoMuTightID130', 'hltPFMETNoMu130'],
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v'           : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTNoMuTightID140', 'hltPFMETNoMu140'],
+    }
+
+    triggerFiltersTrack = {
+        'HLT_MET105_IsoTrk50_v' : ['hltTrk50Filter'],
+        'HLT_MET120_IsoTrk50_v' : ['hltTrk50Filter'],
+        'HLT_PFMET105_IsoTrk50_v' : ['hltTrk50Filter']
+    }
+
+    triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
+    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
+    triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
+
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer
 triggerFiltersInclusive = cms.vstring()
