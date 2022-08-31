@@ -8,6 +8,8 @@
 dataset_names_data = {
 
     'MET_2022A' : '/MET/Run2022A-PromptReco-v1/MINIAOD',
+    'MET_2022B' : '/MET/Run2022B-PromptReco-v1/MINIAOD',
+    'MET_2022C' : '/MET/Run2022C-PromptReco-v1/MINIAOD',
 
 }
 
