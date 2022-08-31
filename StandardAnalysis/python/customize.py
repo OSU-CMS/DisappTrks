@@ -169,6 +169,35 @@ def customize (process,
 
         setMissingHitsCorrection (process, "2018")
 
+    elif runPeriod == "2022":
+        
+        process.PUScalingFactorProducer.PU     = cms.string ("")
+        process.PUScalingFactorProducer.target = cms.string ("")
+        process.PUScalingFactorProducer.targetUp = cms.string ("")
+        process.PUScalingFactorProducer.targetDown = cms.string ("")
+
+        process.ISRWeightProducer.weightFile = cms.string("")
+        process.ISRWeightProducer.weightHist = cms.vstring()
+        #process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        #process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        #process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        #process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.TriggerWeightProducer.efficiencyFile = cms.string("")
+        process.TriggerWeightProducer.dataset = cms.string("")
+        process.TriggerWeightProducer.target = cms.string("")
+        #process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
+
+        #setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
+        #setThresholdForFiducialMapVeto (process, 2.0)
+        #setUseEraByEraFiducialMaps (process, True)
+        
+        setMissingHitsCorrection (process, "uncorrected")
+
     if not applyPUReweighting:
         process.PUScalingFactorProducer.PU     = cms.string ("")
         process.PUScalingFactorProducer.target = cms.string ("")

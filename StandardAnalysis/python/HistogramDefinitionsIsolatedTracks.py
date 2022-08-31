@@ -3,7 +3,7 @@ from DisappTrks.StandardAnalysis.HistogramDefinitions import *
 
 def cullHistogram(histoPSet, name):
     histos = histoPSet.histograms
-    for i in xrange(len(histos) - 1, -1, -1):
+    for i in range(len(histos) - 1, -1, -1):
         if histos[i].name == name:
             del histos[i]
 

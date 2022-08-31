@@ -8,7 +8,7 @@ import re
 
 # Change this to False if you want to use IsolatedTracks instead of CandidateTracks in ntuples
 # This is perhaps a weird place to put this switch, but this is the first DisappTrks module imported in protoConfig
-UseCandidateTracks = True
+UseCandidateTracks = False
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
@@ -43,6 +43,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         print("# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET)
         print("# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")")
         from DisappTrks.StandardAnalysis.miniAOD_102X_Samples import *
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    if UseCandidateTracks:
+        print("CandidateTracks not supported please change UseCandidaeTracks bool to false in config_cfg.py")
+    else:
+        print("# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_124X_Samples" + A_RESET)
+        print("# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_124X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")")
+        from DisappTrks.StandardAnalysis.miniAOD_124X_Samples import *
 else:
     print("# Datasets and background samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET)
     from DisappTrks.StandardAnalysis.miniAODV2Samples import *
@@ -193,6 +200,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Signal samples: " + A_BRIGHT_CYAN + "102X samples" + A_RESET)
     for i in range (0, len (datasetsSig)):
+        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)):
+        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
+        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    print("# Signal samples: " + A_BRIGHT_CYAN + "124X samples" + A_RESET)
+    for i in range(0, len(datasetsSig)):
         datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
     for i in range (0, len (datasetsSigHiggsino)):
         datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])

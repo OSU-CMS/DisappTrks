@@ -8,6 +8,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print("# Triggers: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Triggers: 2018")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    print("# Triggers: 2022 FIXME")
 else:
     print("# Triggers: 2015")
 
@@ -18,7 +20,7 @@ else:
 triggersMetAndIsoTrk = cms.vstring(
     "HLT_MET75_IsoTrk50_v", # trigger designed for disappearing tracks
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )

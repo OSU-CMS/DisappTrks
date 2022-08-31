@@ -49,7 +49,7 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     cutMet.cutString = cms.string("noMuPt > 120")
     print("# MetNoMu > 120 GeV")
 else:
@@ -309,6 +309,15 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     )")
     print('# Using 2018 reqs for Jet TightLepVeto')
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    cutJetTightLepVeto.cutString = cms.string("\
+    (\
+    (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
+    (abs(eta) > 2.6 && abs(eta) <= 2.7 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.99 && muonEnergyFraction<0.8 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.8) || \
+    (abs(eta) > 2.7 && abs(eta) <= 3.0 && neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2) || \
+    (abs(eta) > 3.0 && neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.2 && neutralMultiplicity>10)\
+    )")
+    print('# Using 2018 reqs for Jet TightLepVeto FIXME for 2022')
 
 #############
 # pair of jets pt > 30
@@ -493,7 +502,7 @@ cutTrkNLayersExclusive = {
 cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
 cutTrkNValidHitsSignal = cutTrkNValidHits[7]
 cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
     cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
@@ -602,7 +611,7 @@ cutTrkIso = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
         cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
     
 cutTrkGsfTrkVeto = cms.PSet(
@@ -846,7 +855,7 @@ cutTrkMatchMC = cms.PSet(
 )
 
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
         cutTrkD0.inputCollection = cms.vstring("tracks")
         cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
 
@@ -923,6 +932,10 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Muon PT cut: >26 GeV (2018)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
     cutMuonPt.cutString = cms.string("pt > 26")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    print("# Muon PT cut: >26 GeV (2022) FIXME")
+    cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v")
+    cutMuonPt.cutString = cms.string("pt > 26")
 else:
     print("# Muon PT cut: >22 GeV (2015)")
 
@@ -978,6 +991,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutMuonPairPt.cutString = cms.string("pt > 29")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    cutMuonPairPt.cutString = cms.string("pt > 26")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
 
 cutMuonPairEta21 = cms.PSet (
@@ -1222,6 +1237,10 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele35_WPTight_Gsf_v")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Electron PT cut: >32 GeV (2018)")
+    cutElectronPt.cutString = cms.string("pt > 32")
+    cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    print("# Electron PT cut: >32 GeV (2022) FIXME")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
 else:

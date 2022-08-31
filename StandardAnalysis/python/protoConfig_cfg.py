@@ -17,7 +17,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
     mc_global_tag = '102X_upgrade2018_realistic_v18'
-
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    data_global_tag = '124X_dataRun3_Prompt_v4'
+    mc_global_tag = 'fixme'
 ################################################################################
 # Create the skeleton process
 ################################################################################
@@ -51,7 +53,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
-
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    process.source.inputCommands = cms.untracked.vstring(["keep *"])
+    process.source.fileNames = cms.untracked.vstring([
+        "root://cms-xrd-global.cern.ch///store/data/Run2022C/MET/MINIAOD/PromptReco-v1/000/355/863/00000/9c1fb8c1-cdf2-4845-979c-fc718383387e.root",
+    ])
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
@@ -72,16 +78,16 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.categories.append ("OSUTrackProducer")
 #process.MessageLogger.categories.append ("osu_Track")
-process.MessageLogger.categories.append ("InfoPrinter")
-process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.debugModules.append ("InfoPrinter")
+process.MessageLogger.debugModules.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
-process.MessageLogger.categories.append ("disappTrks_TriggerWeightProducer")
+process.MessageLogger.debugModules.append ("disappTrks_TriggerWeightProducer")
 process.MessageLogger.cerr.disappTrks_TriggerWeightProducer = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
-process.MessageLogger.categories.append ("OSUJetProducer")
+process.MessageLogger.debugModules.append ("OSUJetProducer")
 process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
@@ -155,7 +161,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VE
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap, collectionMapMiniAOD2017
 collMap = copy.deepcopy(collectionMap)
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2017)
     if not UseCandidateTracks:
         print("# Collections: collectionMapMiniAOD2017")

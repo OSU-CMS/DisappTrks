@@ -378,12 +378,19 @@ lumi_2018_ntuples = {
 
 }
 
+lumi_2022_promptReco = {
+
+    "MET_2022A" : 9239,
+
+}
+
 # now create a single lumi dict, starting with 2015
 lumi = lumi_2015rereco
 
 lumi = InsertYear(lumi_2016, lumi)
 lumi = InsertYear(lumi_2017_ntuples, lumi)
 lumi = InsertYear(lumi_2018_ntuples, lumi)
+lumi = InsertYear(lumi_2022_promptReco, lumi)
 
 # set up some composite aliases for convenience
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
