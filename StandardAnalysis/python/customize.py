@@ -179,15 +179,15 @@ def customize (process,
         process.ISRWeightProducer.weightFile = cms.string("")
         process.ISRWeightProducer.weightHist = cms.vstring()
         #process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
-        #process.ISRWeightProducer.motherIdsToReject = cms.vint32()
-        #process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
-        #process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.TriggerWeightProducer.efficiencyFile = cms.string("")
         process.TriggerWeightProducer.dataset = cms.string("")
         process.TriggerWeightProducer.target = cms.string("")
-        #process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
