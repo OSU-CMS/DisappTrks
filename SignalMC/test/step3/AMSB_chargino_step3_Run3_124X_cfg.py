@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step2 --filein file:AMSB_chargino_step2.root --fileout file:AMSB_chargino_step3.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions auto:phase1_2021_realistic --step RAW2DIGI,RECO,RECOSIM --nThreads 4 --era Run3 --python_filename step3/AMSB_chargino_step3_Run3_124X_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n -1
+# with command line options: step2 --filein file:AMSB_chargino_step2.root --fileout file:AMSB_chargino_step3.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions auto:phase1_2021_realistic --step RAW2DIGI,RECO,RECOSIM --era Run3 --python_filename step3/AMSB_chargino_step3_Run3_124X_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n -1
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run3_cff import Run3
@@ -30,7 +30,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:../step2/AMSB_chargino700GeV_ctau1cm_step2.root'),
+    fileNames = cms.untracked.vstring('file:AMSB_chargino_step2.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -81,7 +81,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(31457280),
-    fileName = cms.untracked.string('file:AMSB_chargino700GeV_ctau1cm_step3.root'),
+    fileName = cms.untracked.string('file:AMSB_chargino_step3.root'),
     outputCommands = process.AODSIMEventContent.outputCommands
 )
 
@@ -102,10 +102,6 @@ process.AODSIMoutput_step = cms.EndPath(process.AODSIMoutput)
 process.schedule = cms.Schedule(process.raw2digi_step,process.reconstruction_step,process.recosim_step,process.endjob_step,process.AODSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
-
-#Setup FWK for multithreaded
-process.options.numberOfThreads = 4
-process.options.numberOfStreams = 0
 
 # customisation of the process.
 
