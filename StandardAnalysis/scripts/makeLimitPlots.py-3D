@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Fixme:  Merge this script with makeLimitPlots.py
 

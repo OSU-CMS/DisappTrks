@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from CRABClient.UserUtilities import config#, getUsernameFromSiteDB
 config = config()

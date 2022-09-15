@@ -32,8 +32,8 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  TrackLegNumeratorWithTracks.values(),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # The Grand Or
-#  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 # The Grand Or with electrons
 #  add_channels  (process,  [GrandOrDenominatorWithElectrons],  histSetsTrigger,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)

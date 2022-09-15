@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Fits an exponential function to a histogram in a specified file.
 # Reports the fitted parameters and prints the plot.

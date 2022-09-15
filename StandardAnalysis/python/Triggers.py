@@ -24,6 +24,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    triggersMetAndIsoTrk = cms.vstring(
+        "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
+        "HLT_MET120_IsoTrk50_v",
+        "HLT_PFMET105_IsoTrk50_v", # trigger designed for disappearing tracks
+    )
 
 triggersMetInclusive = cms.vstring(
     "HLT_MET250_v",
@@ -94,10 +100,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
         'HLT_PFMET120_PFMHT120_IDTight_v',
         'HLT_PFMET130_PFMHT130_IDTight_v',
         'HLT_PFMET140_PFMHT140_IDTight_v',
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v',
         'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_FilterHF_v',
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_FilterHF_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_FilterHF_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_FilterHF_v',
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_FilterHF_v',
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
         'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
         'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        'HLT_PFMET120_PFMHT120_IDTight_PFHT60_v',
     )
 
 triggersMet = triggersMetAndIsoTrk + triggersMetInclusive
@@ -123,6 +135,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     )
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    triggersSingleMu = cms.vstring(
+        "HLT_IsoMu24_v",
+    )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"): #FIXME
     triggersSingleMu = cms.vstring(
         "HLT_IsoMu24_v",
     )
@@ -154,6 +171,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         "HLT_Ele32_WPTight_Gsf_v",
     )
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"): #FIXME
+    triggersSingleEle = cms.vstring(
+        "HLT_Ele32_WPTight_Gsf_v",
+    )
+
 ##########################################################################################################
 # Single Tau triggers
 ##########################################################################################################
@@ -170,6 +192,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggersSingleTau = cms.vstring(
         "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
+    )
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"): #FIXME
+    triggersSingleTau = cms.vstring(
+        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1",
     )
 
 triggersZeroBias = cms.vstring(

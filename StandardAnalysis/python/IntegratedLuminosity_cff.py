@@ -384,6 +384,9 @@ lumi_2022_promptReco = {
     "MET_2022B" : -1,
     "MET_2022C" : 4.843287008761286736,
 
+    "SingleMu_2022A" : 1, #FIXME
+    "SingleMu_2022B" : 1, #FIXME
+    "SingleMu_2022C" : 1, #FIXME
 }
 
 # now create a single lumi dict, starting with 2015

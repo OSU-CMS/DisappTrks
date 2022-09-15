@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # key: ( chargino mass [GeV], chargino lifetime [cm/c])
 amsb = {

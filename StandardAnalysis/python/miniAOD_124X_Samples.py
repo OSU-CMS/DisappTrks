@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 ############################################################################################################
 #########  LIST OF MINIAOD 2022 12_4_X DATASETS  ###########################################################
@@ -6,11 +6,21 @@
 
 
 dataset_names_data = {
-
+    # MET
     'MET_2022A' : '/MET/Run2022A-PromptReco-v1/MINIAOD',
     'MET_2022B' : '/MET/Run2022B-PromptReco-v1/MINIAOD',
     'MET_2022C' : '/MET/Run2022C-PromptReco-v1/MINIAOD',
 
+    #SingleMuon
+    'SingleMu_2022A' : '/SingleMuon/Run2022A-PromptReco-v1/MINIAOD',
+    'SingleMu_2022B' : '/SingleMuon/Run2022B-PromptReco-v1/MINIAOD',
+    'SingleMu_2022C' : '/SingleMuon/Run2022C-PromptReco-v1/MINIAOD',
+
+}
+run3_skim_sibling_datasets = { # Fixme
+    'MET_2022A' : '/MET/Run2022A-EXOHighMET-PromptReco-v1/RAW-RECO',
+    'MET_2022B' : '/MET/Run2022B-EXOHighMET-PromptReco-v1/RAW-RECO',
+    'MET_2022C' : '/MET/Run2022C-EXOHighMET-PromptReco-v1/RAW-RECO',
 }
 
 dataset_names_sig = {}

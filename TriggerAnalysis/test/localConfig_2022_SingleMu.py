@@ -2,10 +2,10 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2022_cfg.py"
 
-intLumi = lumi["MET_2022A"]
+intLumi = lumi["SingleMu_2022C"]
 
 datasetsData = [
-    'MET_2022A',
+    'SingleMu_2022C',
 ]
 
 datasets = datasetsBkgd + datasetsData + datasetsSig

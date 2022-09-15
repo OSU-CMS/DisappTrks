@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Makes a plot of two eta histograms produced by running decayAnalyzer_cfg.py
 

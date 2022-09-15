@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import math, os, sys
 from OSUT3Analysis.Configuration.Measurement import Measurement

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import FWCore.ParameterSet.Config as cms
@@ -85,6 +85,31 @@ def customizeForL1ETMProducer (producer):
 
     elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         print("# Using 2018 MET trigger filters in EventL1ETMProducer_cfg.py...")
+
+        # The items in each vector correspond to the following triggers, in this order:
+        # HLT_MET105_IsoTrk50_v*, HLT_PFMET120_PFMHT120_IDTight_v*
+
+        producer.etmCollections              = cms.vstring ("hltGtStage2Digis:EtSum:HLT")
+        producer.etmFilterSubstrings         = cms.vstring ("ETM")
+        producer.etmFilterSubstringsToReject = cms.vstring ("HTT", "IsoTau")
+
+        producer.additionalCollections = cms.vstring ()
+        producer.additionalFilters     = cms.vstring ()
+
+        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2017.txt") #Should be fixed later
+
+        if producer.type_ () == "EventElectronL1ETMProducer":
+            producer.tagCollection = cms.string ("hltGtStage2Digis:EGamma:HLT")
+        elif producer.type_ () == "EventMuonL1ETMProducer":
+            producer.tagCollection = cms.string ("hltGtStage2Digis:Muon:HLT")
+        elif producer.type_ () == "EventTauL1ETMProducer":
+            producer.tagCollection = cms.string ("hltGtStage2Digis:Tau:HLT")
+        else:
+            print("# Unknown producer type! Cannot set collection for tag lepton.")
+            exit (1)
+
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+        print("# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...")
 
         # The items in each vector correspond to the following triggers, in this order:
         # HLT_MET105_IsoTrk50_v*, HLT_PFMET120_PFMHT120_IDTight_v*

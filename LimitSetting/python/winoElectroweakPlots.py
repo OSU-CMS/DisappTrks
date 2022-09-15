@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from DisappTrks.LimitSetting.limitOptions import *
 from DisappTrks.LimitSetting.winoElectroweakLimits import *

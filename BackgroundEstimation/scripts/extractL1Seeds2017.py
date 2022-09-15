@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 class L1Seed:
     _run = None
@@ -185,7 +185,7 @@ def extractL1Seeds (fileName):
     return l1Seeds
 
 if len (sys.argv) < 2:
-    print "Usage: " + os.path.basename (sys.argv[0]) + " HTML_FILE|HTML_DIR"
+    print( "Usage: " + os.path.basename (sys.argv[0]) + " HTML_FILE|HTML_DIR" )
     sys.exit (1)
 
 fileName = None

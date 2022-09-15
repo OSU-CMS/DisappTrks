@@ -23,7 +23,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
 ################################################################################
 # Create the skeleton process
 ################################################################################
-process = cms.Process ('OSUAnalysis')
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    from Configuration.Eras.Era_Run3_cff import Run3
+    process = cms.Process ('OSUAnalysis',Run3)
+else:
+    process = cms.Process ('OSUAnalysis')
 
 # set up the PoolSource with some default MC files suitable for testing
 process.source = cms.Source ("PoolSource",
