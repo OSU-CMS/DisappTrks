@@ -379,10 +379,28 @@ lumi_2018_ntuples = {
 }
 
 lumi_2022_promptReco = {
+#command used:
+# brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /fb -i Cert_Collisions2022_eraD_357538_357900_Golden.json --hlt "HLT_PFMET105_IsoTrk50_*"
 
+# using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
-    "MET_2022B" : -1,
-    "MET_2022C" : 4.843287008761286736,
+    "MET_2022B" : 0.077329631,
+    #"MET_2022C" : 4.843287008761286736,
+    "MET_2022C" : 4.476362177,
+    "MET_2022D" : 2.747864685317,
+
+# using HLT_IsoMu24_v* with Muon json files
+    "SingleMuon_2022A" : -1,
+    "SingleMuon_2022B" : 0.088919022, # 0.077329631 from golden json
+    "SingleMuon_2022C" : 5.726153735, # but I get 4.476362177when using the Golden json
+    "SingleMuon_2022D" : 3.271312170, # 2.747864685 from golden json
+
+# using HLT_Ele32_WPTight_Gsf_v*
+    "SingleElectron_2022A:" : -1,
+    "SingleElectron_2022B" : 0.077329631,
+    "SingleElectron_2022C" : 4.476362177,
+    "SingleElectron_2022D" : 2.747864685,
+
 
     "SingleMu_2022A" : 1, #FIXME
     "SingleMu_2022B" : 1, #FIXME
