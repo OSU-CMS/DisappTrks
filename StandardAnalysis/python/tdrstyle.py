@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #from ROOT import TStyle
-from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
+from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave#, Double
 def setTDRStyle():
     tdrStyle = TStyle("tdrStyle","Style for P-TDR")
     tdrStyle.SetCanvasBorderMode(0)
