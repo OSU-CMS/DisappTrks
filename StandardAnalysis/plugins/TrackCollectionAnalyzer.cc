@@ -21,7 +21,7 @@
 
 #include "DataFormats/Math/interface/deltaR.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -59,7 +59,7 @@
 
 using namespace std;
 
-class TrackCollectionAnalyzer : public edm::EDAnalyzer {
+class TrackCollectionAnalyzer : public edm::stream::EDAnalyzer<> {
 public:
     explicit TrackCollectionAnalyzer(const edm::ParameterSet &);
     ~TrackCollectionAnalyzer();

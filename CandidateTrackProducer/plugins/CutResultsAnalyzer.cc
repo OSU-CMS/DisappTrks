@@ -3,7 +3,7 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/Run.h"
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-class CutResultsAnalyzer : public edm::EDAnalyzer {
+class CutResultsAnalyzer : public edm::stream::EDAnalyzer<> {
   public:
     CutResultsAnalyzer(const edm::ParameterSet &);
     ~CutResultsAnalyzer();

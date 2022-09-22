@@ -18,7 +18,7 @@
 #include "DataFormats/METReco/interface/GenMET.h"
 #include "DataFormats/METReco/interface/GenMETCollection.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -28,7 +28,7 @@
 
 using namespace std;
 
-class CharginoValidator : public edm::EDAnalyzer {
+class CharginoValidator : public edm::stream::EDAnalyzer<> {
    public:
       explicit CharginoValidator (const edm::ParameterSet &);
       ~CharginoValidator ();

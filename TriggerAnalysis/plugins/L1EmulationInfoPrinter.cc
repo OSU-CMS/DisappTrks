@@ -21,7 +21,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -72,16 +72,16 @@ using namespace std;
 using namespace pat;
 using namespace l1t;
 using namespace reco;
-class L1EmulationInfoPrinter : public edm::EDAnalyzer {
+class L1EmulationInfoPrinter : public edm::stream::EDAnalyzer<> {
    public:
       explicit L1EmulationInfoPrinter(const edm::ParameterSet&);
       ~L1EmulationInfoPrinter();
       bool passJetTightLepVeto(const reco::PFJet &jet) const;
 
    private:
-      virtual void beginJob() override;
+      void beginJob();
       virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
-      virtual void endJob() override;
+      void endJob();
 
 
       // ----------member data ---------------------------

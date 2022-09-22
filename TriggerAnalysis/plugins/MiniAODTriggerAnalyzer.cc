@@ -4,7 +4,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -15,7 +15,7 @@
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 
-class MiniAODTriggerAnalyzer : public edm::EDAnalyzer {
+class MiniAODTriggerAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit MiniAODTriggerAnalyzer(const edm::ParameterSet&);
       ~MiniAODTriggerAnalyzer() {}
