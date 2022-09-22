@@ -419,7 +419,7 @@ class TriggerEfficiency:
 
     def addLuminosityInInvPb(self, luminosityInInvPb):
         self._luminosityInInvFb = luminosityInInvPb / 1000.0
-        self._luminosityLabel = "{:.2f}".format(self._luminosityInInvFb) + " fb^{-1}, 13 TeV"
+        self._luminosityLabel = "{:.2f}".format(self._luminosityInInvFb) + " fb^{-1}, 13.6 TeV"
 
     def addLuminosityLabel(self, luminosityLabel):
         self._luminosityLabel = luminosityLabel
