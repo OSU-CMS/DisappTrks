@@ -30,22 +30,25 @@ canvas.SetFrameBorderMode(0)
 canvas.SetFrameFillStyle(0)
 canvas.SetFrameBorderMode(0)
 
-path = "all"
+path = "PFMET105IsoTrk"
+skipTrackLeg = False
+
 if len (sys.argv) > 1:
     path = sys.argv[1]
 
-datasets = ['2022D', 'WJetsToLNu']
-
+datasets = ['2022C','2022D', 'WJetsToLNu']
+datasets = ['2022C']
 # Use HT/MHT/PFMET/etc correctly, or use metNoMu for everything?
 useCorrectVariables = True
 
 for dataset in datasets:
 
     inputFile = "SingleMu_" + dataset
-    inputFolder = "2018/fromLPC/triggerEfficienciesData"
-    grandORInputFolder = "2018/fromLPC/triggerEfficienciesData"
+    inputFolder = "2022/TrackLeg_v2"
+    grandORInputFolder = "2022/GrandOrTrigger_v2"
+    PFMETIsoTrkInputFolder = "2022/TrigEff_PFMET_IsoTrk"
 
-    if dataset is 'WJetsToLNu':
+    if dataset == 'WJetsToLNu':
         inputFile = dataset
         grandORInputFolder = "2018/grandOrEfficiency_WJets"
 
@@ -53,28 +56,72 @@ for dataset in datasets:
 
     if path == 'GrandOr' or path == "all":
 
-        print "********************************************************************************"
-        print "Calculating efficiency of the Grand Or in dataset (", dataset, ")"
-        print "--------------------------------------------------------------------------------"
+        print( "********************************************************************************")
+        print( "Calculating efficiency of the Grand Or in dataset (", dataset, ")")
+        print( "--------------------------------------------------------------------------------")
 
         grandEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
         grandEfficiency.addTFile(fout)
         grandEfficiency.addTCanvas(canvas)
-        if "2018" in dataset:
-            grandEfficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
+        if "2022" in dataset:
+            grandEfficiency.addLuminosityInInvPb(lumi["SingleMu_" + dataset])
         grandEfficiency.addChannel("Numerator",
                                    "GrandOrNumerator",
                                    inputFile,
-                                   dirs['Brian'] + grandORInputFolder)
+                                   dirs['Kai'] + grandORInputFolder)
         grandEfficiency.addChannel("Denominator",
                                    "GrandOrDenominator",
                                    inputFile,
-                                   dirs['Brian'] + grandORInputFolder)
+                                   dirs['Kai'] + grandORInputFolder)
         grandEfficiency.setDatasetLabel(inputFile)
         grandEfficiency.plotEfficiency()
-        print "********************************************************************************"
+        print( "********************************************************************************")
 
-    if dataset is 'WJetsToLNu':
+    if path == 'PFMET105IsoTrk':
+
+        print( "********************************************************************************")
+        print( "Calculating efficiency of the HLT_PFMET105_IsoTrk50_v* in dataset (", dataset, ")")
+        print( "--------------------------------------------------------------------------------")
+
+        legs = ["hltMETLeg","TrackLeg","hltPFMETLeg"]
+
+        for leg in legs:
+            if leg == "hltMETLeg":
+                numeratorName = "HLTPFMET105IsoTrk50vhltMETLegNumeratorWithMuons"
+                denominatorName = "METLegDenominator"
+                filters = []
+            if leg == "TrackLeg":
+                numeratorName = "HLTPFMET105IsoTrk50visoTrkLegNumeratorWithMuons"
+                denominatorName = "HLTPFMET105IsoTrk50vhltMETLegNumeratorWithMuons"
+                filters = ['hltMET75']
+            if leg == "hltPFMETLeg":
+                numeratorName = "HLTPFMET105IsoTrk50vPFMETLegNumeratorWithMuons"
+                denominatorName = "HLTPFMET105IsoTrk50visoTrkLegNumeratorWithMuons"
+                filters = ['hltMET75','hltTrk50Filter']
+
+            PFMETIsoTrkEfficiency = TriggerEfficiency('HLT_PFMET105_IsoTrk50_v*',filters , leg)
+            PFMETIsoTrkEfficiency.addTFile(fout)
+            PFMETIsoTrkEfficiency.addTCanvas(canvas)
+
+            if leg != "TrackLeg":
+                PFMETIsoTrkEfficiency.setMetLegHistName('Met Plots/metLogX')
+                PFMETIsoTrkEfficiency.setMetLegAxisTitle('PF E_{T}^{miss} [GeV]')
+
+            if "2022" in dataset:
+                PFMETIsoTrkEfficiency.addLuminosityInInvPb(lumi["SingleMu_" + dataset])
+            PFMETIsoTrkEfficiency.addChannel("Numerator",
+                                   numeratorName,
+                                   inputFile,
+                                   dirs['Kai'] + PFMETIsoTrkInputFolder)
+            PFMETIsoTrkEfficiency.addChannel("Denominator",
+                                   denominatorName,
+                                   inputFile,
+                                   dirs['Kai'] + PFMETIsoTrkInputFolder)
+            PFMETIsoTrkEfficiency.setDatasetLabel(inputFile)
+            PFMETIsoTrkEfficiency.plotEfficiency()
+        print( "********************************************************************************")
+
+    if dataset == 'WJetsToLNu':
         continue
 
     for trigger in triggerFiltersMet:
@@ -83,9 +130,10 @@ for dataset in datasets:
 
         if path == trigger or path == "all" or (path == "main" and "IsoTrk50" in trigger):
 
-            print "********************************************************************************"
-            print "Calculating efficiency of", trigger, " in search region (", dataset, ")"
-            print "--------------------------------------------------------------------------------"
+            print( "********************************************************************************")
+            print( "Calculating efficiency of", trigger, " in search region (", dataset, ")")
+            print( "--------------------------------------------------------------------------------")
+
 
             legs = ["METLeg", "TrackLeg"] if "IsoTrk50" in trigger else ["METPath"]
 
@@ -94,15 +142,15 @@ for dataset in datasets:
                 numeratorName = triggerWithoutUnderscores + "METLegNumerator"
                 denominatorName = "METLegDenominator"
 
-                if leg == "TrackLeg":
+                if leg == "TrackLeg" and not skipTrackLeg:
                     numeratorName = triggerWithoutUnderscores + "TrackLegNumeratorWithMuons"
                     denominatorName = triggerWithoutUnderscores + "TrackLegDenominatorWithMuons"
 
                 efficiency = TriggerEfficiency(trigger, triggerFiltersMet[trigger], leg)
                 efficiency.addTFile(fout)
                 efficiency.addTCanvas(canvas)
-                if "2018" in dataset:
-                    efficiency.addLuminosityInInvPb(lumi["SingleMuon_" + dataset])
+                if "2022" in dataset:
+                    efficiency.addLuminosityInInvPb(lumi["SingleMu_" + dataset])
                 if useCorrectVariables:
                     if 'PFMETNoMu' in trigger:
                         efficiency.setMetLegHistName('Met Plots/metNoMuLogX')
@@ -118,21 +166,21 @@ for dataset in datasets:
                         efficiency.setMetLegAxisTitle('H_{T}^{miss} [GeV]')
                     else:
                         if 'IsoTrk50' not in trigger:
-                            print 'Not clear what the correct x-axis data should be for this trigger. Using metNoMu.'
+                            print( 'Not clear what the correct x-axis data should be for this trigger. Using metNoMu.')
                         efficiency.setMetLegHistName('Met Plots/metNoMuLogX')
                         efficiency.setMetLegAxisTitle('PF E_{T}^{miss, no #mu} [GeV]')
 
                 efficiency.addChannel("Numerator",
                                       numeratorName,
                                       inputFile,
-                                      dirs['Brian'] + inputFolder)
+                                      dirs['Kai'] + inputFolder)
                 efficiency.addChannel("Denominator",
                                       denominatorName,
                                       inputFile,
-                                      dirs['Brian'] + inputFolder)
+                                      dirs['Kai'] + inputFolder)
                 efficiency.setDatasetLabel(inputFile)
                 efficiency.plotEfficiency()
-                print "********************************************************************************"
+                print( "********************************************************************************")
 
 
     fout.Close()
@@ -140,4 +188,4 @@ for dataset in datasets:
 # Compare MC to data
 metAxisTitle = 'PF E_{T}^{miss, no #mu}'
 
-compare('GrandOr', 'METPath', 'SingleMu_2018BC', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2018BC"], [])
+#compare('GrandOr', 'METPath', 'SingleMu_2018BC', 'WJetsToLNu', 'PF E_{T}^{miss, no #mu}', canvas, lumi["SingleMuon_2018BC"], [])
