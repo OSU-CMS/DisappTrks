@@ -390,10 +390,10 @@ lumi_2022_promptReco = {
     "MET_2022D" : 2.747864685317,
 
 # using HLT_IsoMu24_v* with Muon json files
-    "SingleMuon_2022A" : -1,
-    "SingleMuon_2022B" : 0.088919022, # 0.077329631 from golden json
-    "SingleMuon_2022C" : 5.726153735, # but I get 4.476362177when using the Golden json
-    "SingleMuon_2022D" : 3.271312170, # 2.747864685 from golden json
+    "SingleMu_2022A" : -1,
+    "SingleMu_2022B" : 0.077329631,
+    "SingleMu_2022C" : 4.476362177, 
+    "SingleMu_2022D" : 2.747864685, 
 
 # using HLT_Ele32_WPTight_Gsf_v*
     "SingleElectron_2022A:" : -1,
@@ -401,10 +401,6 @@ lumi_2022_promptReco = {
     "SingleElectron_2022C" : 4.476362177,
     "SingleElectron_2022D" : 2.747864685,
 
-
-    "SingleMu_2022A" : 1, #FIXME
-    "SingleMu_2022B" : 1, #FIXME
-    "SingleMu_2022C" : 1, #FIXME
 }
 
 # now create a single lumi dict, starting with 2015
