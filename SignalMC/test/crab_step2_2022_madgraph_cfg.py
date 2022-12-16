@@ -18,7 +18,7 @@ config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
 config.Data.totalUnits = 650 ###how many files to analyze
 config.Data.publication = True
-config.Data.outputDatasetTag = 'Run3Summer22DRPremixMiniAOD-124X_mcRun3_2021_realistic_v12-v1_step2'
+config.Data.outputDatasetTag = 'Run3Summer22DRPremixMiniAOD-124X_mcRun3_2022_realistic_v12-v1_step2'
 
 config.JobType.maxMemoryMB = 4000
 config.JobType.maxJobRuntimeMin = 200
@@ -77,7 +77,7 @@ if __name__ == '__main__':
                 else:
                     print('Skipping submission of request:', config.General.requestName)
     if reallySubmitHiggsinoEWK:
-        for mass in range(100, 1000, 100):
+        for mass in range(100, 1600, 100):
             for ctau in [1, 10, 100, 1000, 10000]:
                 config.General.requestName = 'Higgsino%dGeV_ctau%dcm_step2' % (mass, ctau)
                 config.Data.inputDataset = step1.higgsinoRun3[(mass, ctau)]
