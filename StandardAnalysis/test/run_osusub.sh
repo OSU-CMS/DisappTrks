@@ -8,5 +8,5 @@ do
   ((version=version+1))
 done
 
-osusub.py -n 10 -m 100 -t Dataset -d /MET/Run2022A-PromptReco-v1/MINIAOD -A -P -l localConfig_2022.py -w run2022_test_v$version/ --redirector FNAL -g -R "Memory > 3000" -J P_Golden22
+osusub.py -n 9999 -m -1 -t Dataset -A -P -l localConfig_2022.py -w run2022_test_v$version/ --redirector FNAL -g -R "request_memory=3000MB request_cpus=4" -J P_Golden22
 
