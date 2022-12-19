@@ -81,7 +81,7 @@ if scriptStep == 1:
 			os.system('sed -i "s/_WIDTH/' + str(width) + '/g" ' + outputParticleFile)
 	print('Created electroweak (wino-like) configuration fragments and particle files in directory: ' + baseDir)
 
-	now higgsino-like LSP case
+	# now higgsino-like LSP case
 	baseConfigFile   = baseDir + 'data/Higgsino_M-XXXGeV_CTau-YYYcm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	baseParticleFile = baseDir + 'data/geant4_higgsino_XXXGeV_ctauYYYcm.slha'
 	for mass in xsecsHiggsino:
@@ -140,16 +140,16 @@ if scriptStep == 2:
 
 	print('Created electroweak (wino-like) GEN-SIM configuration files in directory: ' + os.getcwd() + '/step1/pythia8')
 
-	now higgsino-like LSP case
+	# now higgsino-like LSP case
 	cmd = 'cmsDriver.py DisappTrks/SignalMC/python/madgraph5/Higgsino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_cff.py'
 	cmd += ' --fileout file:Higgsino_M{0}GeV_ctau{1}cm_step1.root'
 	cmd += ' --mc --eventcontent RAWSIM'
-        cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi'
-        cmd += ' --datatier GEN-SIM --conditions 124X_mcRun3_2022_realistic_v12'
-        cmd += ' --beamspot Realistic25ns13p6TeVEarly2022Collision --step LHE,GEN,SIM --geometry DB:Extended'
-        cmd += ' --era Run3'
-        cmd += ' --python_filename step1/pythia8/Higgsino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_step1.py'
-        cmd += ' --no_exec -n 10'
+	cmd += ' --customise Configuration/DataProcessing/Utils.addMonitoring,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi'
+	cmd += ' --datatier GEN-SIM --conditions 124X_mcRun3_2022_realistic_v12'
+	cmd += ' --beamspot Realistic25ns13p6TeVEarly2022Collision --step LHE,GEN,SIM --geometry DB:Extended'
+	cmd += ' --era Run3'
+	cmd += ' --python_filename step1/pythia8/Higgsino_M{0}GeV_CTau{1}cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8_step1.py'
+	cmd += ' --no_exec -n 10'
 
 	for mass in xsecsHiggsino:
 		for ctau in ctaus:
