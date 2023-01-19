@@ -6,6 +6,18 @@
 
 
 dataset_names_data = {
+    #EGamma
+    'EGamma_2022E' : '/EGamma/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
+    'EGamma_2022F' : '/EGamma/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+    'EGamma_2022G' : '/EGamma/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
+
+    #Tau
+    'Tau_2022E' : '/Tau/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
+    'Tau_2022F' : '/Tau/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+
+}
+
+run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2022
     # MET
     'MET_2022A' : '/MET/Run2022A-PromptReco-v1/MINIAOD',
     'MET_2022B' : '/MET/Run2022B-PromptReco-v1/MINIAOD',
@@ -33,18 +45,6 @@ dataset_names_data = {
     'Tau_2022D' : '/Tau/Run2022D-PromptReco-v3/MINIAOD',
     'Tau_2022E' : '/Tau/Run2022E-PromptReco-v1/MINIAOD',
     'Tau_2022F' : '/Tau/Run2022F-PromptReco-v1/MINIAOD',
-
-
-}
-run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2022
-
-    #EGamma
-    'EGamma_2022E' : '/EGamma/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
-    'EGamma_2022F' : '/EGamma/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
-
-    #Tau
-    'Tau_2022E' : '/Tau/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
-    'Tau_2022F' : '/Tau/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
 
 }
 

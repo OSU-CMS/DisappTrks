@@ -396,10 +396,12 @@ lumi_2022_promptReco = {
     "SingleMu_2022D" : 2.747864685, 
 
 # using HLT_Ele32_WPTight_Gsf_v*
-    "SingleElectron_2022A:" : -1,
-    "SingleElectron_2022B" : 0.077329631,
-    "SingleElectron_2022C" : 4.476362177,
-    "SingleElectron_2022D" : 2.747864685,
+    "EGamma_2022A:" : -1,
+    "EGamma_2022B" : 0.077329631,
+    "EGamma_2022C" : 4.476362177,
+    "EGamma_2022D" : 2.747864685,
+    "EGamma_2022E" : -1, #fixme
+    "EGamma_2022F" : -1, #fixme
 
 }
 
