@@ -19,7 +19,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     mc_global_tag = '102X_upgrade2018_realistic_v18'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     data_global_tag = '124X_dataRun3_Prompt_v4'
-    mc_global_tag = 'fixme'
+    mc_global_tag = '124X_mcRun3_2022_realistic_v12'
 ################################################################################
 # Create the skeleton process
 ################################################################################
@@ -186,6 +186,9 @@ else:
         print("# Collections: collectionMap with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
+
+print(collMap.tracks)
+print(collMap.secondaryTracks)
 
 if UseGeantDecays:
     print("# hardInteractionMcparticles: prunedGenParticlePlusGeant")
