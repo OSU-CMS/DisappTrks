@@ -68,10 +68,11 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    datasetsBkgd.append('TTJetsComposite')
-else:
-    datasetsBkgd.append('TTJets')
+#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+#    datasetsBkgd.append('TTJetsComposite')
+#else:
+#    datasetsBkgd.append('TTJets')
 
 datasetsBkgdForMET = copy.deepcopy(datasetsBkgd)
 
