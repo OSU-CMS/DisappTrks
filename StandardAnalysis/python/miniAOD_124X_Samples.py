@@ -37,6 +37,8 @@ run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2
     'EGamma_2022D' : '/EGamma/Run2022D-PromptReco-v3/MINIAOD',
     'EGamma_2022E' : '/EGamma/Run2022E-PromptReco-v1/MINIAOD',
     'EGamma_2022F' : '/EGamma/Run2022F-PromptReco-v1/MINIAOD',
+    'EGamma_2022G' : '/EGamma/Run2022G-PromptReco-v1/MINIAOD',
+
 
     #Tau
     'Tau_2022A' : '/Tau/Run2022A-PromptReco-v1/MINIAOD',
