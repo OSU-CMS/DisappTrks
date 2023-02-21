@@ -27,11 +27,12 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
+
     fileNames = cms.untracked.vstring(secondary),
     secondaryFileNames = cms.untracked.vstring(dataset)
 )
@@ -195,8 +196,9 @@ process.trackImageProducerPath = cms.Path(process.trackImageProducer)
 # setup tensorflowProducer by loading the auto-generated cfi (see tensorflowProducer.fillDescriptions)
 process.load("DisappTrks.StandardAnalysis.tensorflowProducer_cfi")
 process.tensorflowProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
-process.tensorflowProducer.inputTensorName = cms.string("Input_input")
-process.tensorflowProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+process.tensorflowProducer.inputTensorName = cms.string("input")
+process.tensorflowProducer.inputTrackTensorName = cms.string("input_track")
+process.tensorflowProducer.outputTensorName = cms.string("Identity")
 
 process.tensorflowProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
 process.tensorflowProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
@@ -256,23 +258,23 @@ process.tensorflowProducer.metFilterNames = cms.vstring([
 process.tensorflowPluginPath = cms.Path(process.tensorflowProducer)
 
 
-process.load("DisappTrks.StandardAnalysis.testMETProducer_cfi")
-process.testMETProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
-process.testMETProducer.inputTensorName = cms.string("Input_input")
-process.testMETProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
-'''
-process.testMETProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
-process.testMETProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
-process.testMETProducer.genParticles = cms.InputTag("prunedGenParticles", "")
-process.testMETProducer.met = cms.InputTag("slimmedMETs")
-process.testMETProducer.electrons = cms.InputTag("slimmedElectrons", "")
-process.testMETProducer.muons = cms.InputTag("slimmedMuons", "")
-process.testMETProducer.taus = cms.InputTag("slimmedTaus", "")
-process.testMETProducer.pfCandidates = cms.InputTag("packedPFCandidates", "")
-process.testMETProducer.vertices = cms.InputTag("offlineSlimmedPrimaryVertices", "")
-process.testMETProducer.jets = cms.InputTag("slimmedJets", "")
-'''
-process.testMETPluginPath = cms.Path(process.testMETProducer)
+# process.load("DisappTrks.StandardAnalysis.testMETProducer_cfi")
+# process.testMETProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
+# process.testMETProducer.inputTensorName = cms.string("Input_input")
+# process.testMETProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+# '''
+# process.testMETProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
+# process.testMETProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
+# process.testMETProducer.genParticles = cms.InputTag("prunedGenParticles", "")
+# process.testMETProducer.met = cms.InputTag("slimmedMETs")
+# process.testMETProducer.electrons = cms.InputTag("slimmedElectrons", "")
+# process.testMETProducer.muons = cms.InputTag("slimmedMuons", "")
+# process.testMETProducer.taus = cms.InputTag("slimmedTaus", "")
+# process.testMETProducer.pfCandidates = cms.InputTag("packedPFCandidates", "")
+# process.testMETProducer.vertices = cms.InputTag("offlineSlimmedPrimaryVertices", "")
+# process.testMETProducer.jets = cms.InputTag("slimmedJets", "")
+# '''
+# process.testMETPluginPath = cms.Path(process.testMETProducer)
 
 
 process.load("DisappTrks.StandardAnalysis.fakeTrackVarProducer_cfi")
@@ -411,7 +413,7 @@ process.MINIAODoutput_step = cms.EndPath(process.MINIAODoutput)
 #associatePatAlgosToolsTask(process)
 
 
-process.schedule = cms.Schedule(process.trackImageProducerPath,process.tensorflowPluginPath)
+process.schedule = cms.Schedule(process.tensorflowPluginPath)
 #Setup FWK for multithreaded
 process.options.numberOfThreads=cms.untracked.uint32(4)
 process.options.numberOfStreams=cms.untracked.uint32(0)

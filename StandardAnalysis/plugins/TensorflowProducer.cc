@@ -187,6 +187,7 @@ private:
 
   std::string graphPath_;
   std::string inputTensorName_;
+  std::string inputTrackTensorName_;
   std::string outputTensorName_;
 
   tensorflow::GraphDef* graphDef_;
@@ -313,6 +314,7 @@ private:
 TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const CacheData* cacheData)
   : graphPath_(config.getParameter<std::string>("graphPath")),
     inputTensorName_(config.getParameter<std::string>("inputTensorName")),
+    inputTrackTensorName_(config.getParameter<std::string>("inputTrackTensorName")),
     outputTensorName_(config.getParameter<std::string>("outputTensorName")),
     session_(tensorflow::createSession(cacheData->graphDef, 4)),
    
@@ -464,7 +466,9 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
   getGeometries(iSetup);
   getChannelStatusMaps();
 
-  TVector2 metNoMuVec(met->at(0).px(), met->at(0).py());
+  TVector2 metNoMuVec(met->at(0).px(), met->at(0).py()); // Get METNoMu
+
+  // Make cut to ensure there are only muons
   for(const auto &pfCandidate : *pfCandidates) {
     if(abs(pfCandidate.pdgId()) != 13) continue;
     TVector2 muon(pfCandidate.px(), pfCandidate.py());
@@ -476,6 +480,7 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
   firesGrandOrTrigger_ = false;
   passMETFilters_ = true;
 
+  // Apply Triggers
   for(unsigned i = 0; i < allTriggerNames.size(); i++) {
     string thisName = allTriggerNames.triggerName(i);
 
@@ -495,11 +500,12 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
 
     if(firesGrandOrTrigger_ && !passMETFilters_) break;
   }
-
+  // Get number of primary vertices
   const reco::Vertex &pv = vertices->at(0);
   nPV_ = vertices->size();
   numGoodPVs_ = countGoodPrimaryVertices(*vertices);
 
+  // Get information of all vertices
   vertexInfos_.clear();
   for(auto vertex : *vertices){
       VertexInfo info;
@@ -555,91 +561,74 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
 
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
-  std::cout << "Creating tensor for input variables" << std::endl;
-  input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 176});
+ tensorflow::Tensor input(tensorflow::DT_FLOAT, {100,4});
+  tensorflow::Tensor inputTrack(tensorflow::DT_FLOAT, {1,4});
 
   auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
   std::vector<float> v_networkScores_;
-  
-  int track_num = 0;
+  //std::unique_ptr<std::vector<std::vector<tensorflow::Tensor> > > networkScores_(new std::vector<std::vector<tensorflow::Tensor> >());
 
-  for(auto &track : trackInfos_) 
+  for(auto &track : trackInfos_)
   {
+    inputTrack.matrix<float>()(0, 0) = nPV_;
+    inputTrack.matrix<float>()(0, 1) = track.eta;
+    inputTrack.matrix<float>()(0, 2) = track.phi;
+    inputTrack.matrix<float>()(0, 3) = track.nValidPixelHits;
+    std::vector<std::vector<double>> recHitsNearTrack;
+    for (auto &hit : recHitInfos_){
+      std::vector<double> hitNearTrack;
+      double dEta = track.eta - hit.eta;
+      double dPhi = track.phi - hit.phi;
+      if( fabs(dPhi) > TMath::Pi() ){
+        dPhi -= round(dPhi/(2* TMath::Pi()))*2*TMath::Pi();
+      }
+      if (fabs(dEta) >= EtaRange_ or fabs(dPhi) >= PhiRange_)
+      {
+        continue;
+      }
+      int detIndex = getDetectorIndex(hit.detType);
+      double energy = 1;
+      if (detIndex != 2)
+      {
+        energy = hit.energy;
+      }
+      hitNearTrack.push_back(dEta);
+      hitNearTrack.push_back(dPhi);
+      hitNearTrack.push_back(energy);
+      hitNearTrack.push_back(detIndex);
 
-    std::vector<std::vector<double>> hitMap = getHitMap(track.dEdxInfo);   
-    std::pair<double, double> maxHits = getMaxHits(track.dEdxInfo);
-    unsigned long encodedLayers = encodeLayers(hitMap);
-    std::pair<std::array<double, 3>, std::array<double, 3>> closest_vtx = getClosestVertices(vertexInfos_, track.vz, track.vx, track.vy);
+			recHitsNearTrack.push_back(hitNearTrack);
+      std::sort(recHitsNearTrack.begin(),recHitsNearTrack.end(),
+                [](const std::vector<double>& a, const std::vector<double>& b) {
+                  return a[2] > b[2];
+                });
 
-    //if(maxHits.first == 0) std::cout << "test";
-    //if((closest_dz.first)[0] == 0) std::cout <<"test";
-
-
-    input_.tensor<float, 2>()(0, 0) = nPV_;
-    input_.tensor<float, 2>()(0, 1) = track.trackIso;
-    input_.tensor<float, 2>()(0, 2) = track.eta;
-    input_.tensor<float, 2>()(0, 3) = track.phi;
-    input_.tensor<float, 2>()(0, 4) = track.nValidPixelHits;
-    input_.tensor<float, 2>()(0, 5) = track.nValidHits;
-    input_.tensor<float, 2>()(0, 6) = track.missingOuterHits;
-    input_.tensor<float, 2>()(0, 7) = track.dEdxPixel;
-    input_.tensor<float, 2>()(0, 8) = track.dEdxStrip;
-    input_.tensor<float, 2>()(0, 9) = track.numMeasurementsPixel;
-    input_.tensor<float, 2>()(0, 10) = track.numMeasurementsStrip;
-    input_.tensor<float, 2>()(0, 11) = track.numSatMeasurementsPixel;
-    input_.tensor<float, 2>()(0, 12) = track.numSatMeasurementsStrip;
-    input_.tensor<float, 2>()(0, 13) = track.dRMinJet;
-    input_.tensor<float, 2>()(0, 14) = track.ecalo;
-    input_.tensor<float, 2>()(0, 15) = track.pt;
-    input_.tensor<float, 2>()(0, 16) = track.d0;
-    input_.tensor<float, 2>()(0, 17) = track.dz;
-    input_.tensor<float, 2>()(0, 18) = track.charge; //need to create function to get total rec hit energy
-    input_.tensor<float, 2>()(0, 19) = track.deltaRToClosestElectron;
-    input_.tensor<float, 2>()(0, 20) = track.deltaRToClosestMuon;
-    input_.tensor<float, 2>()(0, 21) = track.deltaRToClosestTauHad;
-    input_.tensor<float, 2>()(0, 22) = 0; //track.normalizedChi2;
-    input_.tensor<float, 2>()(0, 23) = maxHits.second;
-    input_.tensor<float, 2>()(0, 24) = maxHits.first;
-    input_.tensor<float, 2>()(0, 25) = encodedLayers;
-    input_.tensor<float, 2>()(0, 26) = (closest_vtx.first)[0];
-    input_.tensor<float, 2>()(0, 27) = (closest_vtx.first)[1];
-    input_.tensor<float, 2>()(0, 28) = (closest_vtx.first)[2];
-    input_.tensor<float, 2>()(0, 29) = (closest_vtx.second)[0];
-    input_.tensor<float, 2>()(0, 30) = (closest_vtx.second)[1];
-    input_.tensor<float, 2>()(0, 31) = (closest_vtx.second)[2];
-
-    for(unsigned int i=0; i<hitMap.size(); i++){
-        for(unsigned int j=0; j<hitMap[i].size(); j++){
-            //if(hitMap[i][j] != 0) input_.tensor<float, 2>()(0,23+j+i*hitMap[i].size()) = hitMap[i][j]; 
-            input_.tensor<float, 2>()(0,32+j+i*hitMap[i].size()) = hitMap[i][j]; 
-        } 
+      int numRecHits = recHitsNearTrack.size();
+      for (int iHit = 0; iHit < min(maxHits_, numRecHits); iHit++)
+      {
+        input.matrix<float>()(iHit, 0) = recHitsNearTrack.at(iHit)[0];
+        input.matrix<float>()(iHit, 1) = recHitsNearTrack.at(iHit)[1];
+        input.matrix<float>()(iHit, 2) = recHitsNearTrack.at(iHit)[2];
+        input.matrix<float>()(iHit, 3) = recHitsNearTrack.at(iHit)[3];
+      }
+      if (numRecHits < maxHits_){
+        for (int iHit = numRecHits; iHit < maxHits_; iHit++)
+        {
+          input.matrix<float>()(iHit, 0) = 0;
+          input.matrix<float>()(iHit, 1) = 0;
+          input.matrix<float>()(iHit, 2) = 0;
+          input.matrix<float>()(iHit, 3) = 0;
+        }
+      }
     }
-
     std::vector<tensorflow::Tensor> outputs;
-    tensorflow::run(session_, {{inputTensorName_, input_}}, {outputTensorName_}, &outputs);
+    tensorflow::run(session_, {{inputTensorName_, input},{inputTrackTensorName_, inputTrack}}, {outputTensorName_}, &outputs);
 
-    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << " " << outputs[0].matrix<float>()(0, 1) << std::endl;
-
-    std::cout << "output tensor size: " << outputs[0].shape().dims() << " " << outputs[0].shape().dim_size(0) << std::endl;
-
-
-
+    // print the output
+    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << std::endl << std::endl;
     float score = outputs[0].matrix<float>()(0,0);
     v_networkScores_.push_back(score);
-
-    track_num++;
-
-  }// end of track loop
-
-  int counter = 0;
-  //std::cout << "About to place score into product" << std::endl;
-  for(std::vector<float>::iterator it = v_networkScores_.begin(); it != v_networkScores_.end(); it++){
-    networkScores_->addOutput(*it);
-    counter++;
   }
-
-  event.put(std::move(networkScores_), "networkScores");
-
 }
 
 // ------------ method called once each stream before processing any runs, lumis or events  ------------
@@ -690,6 +679,7 @@ void TensorflowProducer::fillDescriptions(edm::ConfigurationDescriptions& descri
   edm::ParameterSetDescription desc;
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
+  desc.add<std::string>("inputTrackTensorName");
   desc.add<std::string>("outputTensorName");
     
   desc.add<edm::InputTag>("triggers"),
@@ -1623,7 +1613,27 @@ TensorflowProducer::getClosestVertices(const std::vector<VertexInfo> v_info, flo
   return closestVertices;
 
 }
+int
+TensorflowProducer::getDetectorIndex(const int detectorIndex) const
+{
+  if(detectorIndex == DetType::EB or detectorIndex == DetType::EE)
+  {
+    return 0;
+  }
+  else if (detectorIndex == DetType::HCAL)
+  {
+    return 1;
+  }
+  else if (detectorIndex >= DetType::CSC and detectorIndex <= DetType::RPC)
+  {
+    return 2;
+  }
+  else
+  {
+    return -1;
+  }
 
+}
 //define this as a plug-in
 DEFINE_FWK_MODULE(TensorflowProducer);
 
