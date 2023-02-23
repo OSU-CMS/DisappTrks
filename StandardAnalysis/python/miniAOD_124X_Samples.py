@@ -15,6 +15,9 @@ dataset_names_data = {
     'Tau_2022E' : '/Tau/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
     'Tau_2022F' : '/Tau/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
 
+    #MET
+    'MET_2022G' : '/JetMET/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
+
 }
 
 run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2022
@@ -24,6 +27,7 @@ run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2
     'MET_2022C' : '/MET/Run2022C-PromptReco-v1/MINIAOD',
     #'MET_2022D' : '/MET/Run2022D-PromptReco-v1/MINIAOD',
     #'MET_2022E' : '/MET/Run2022E-PromptReco-v1/MINIAOD',
+    'MET_2022G' : '/JetMET/Run2022G-PromptReco-v1/MINIAOD',
 
     #SingleMuon
     'SingleMu_2022A' : '/SingleMuon/Run2022A-PromptReco-v1/MINIAOD',
