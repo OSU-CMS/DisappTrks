@@ -67,9 +67,15 @@ run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2
     'Tau_2022E' : '/Tau/Run2022E-PromptReco-v1/MINIAOD',
     'Tau_2022F' : '/Tau/Run2022F-PromptReco-v1/MINIAOD',
 
+    'AMSB_chargino_700GeV_100cm_124X' : '/AMSB_chargino_M-700GeV_CTau-100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/borzari-Run3Summer22DRPremixMiniAOD-124X_mcRun3_2022_realistic_v12-v1_step3/USER',
+
 }
 
-dataset_names_sig = {}
+dataset_names_sig = {
+
+    'AMSB_chargino_700GeV_100cm_124X' : '/AMSB_chargino_M-700GeV_CTau-100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/borzari-Run3Summer22DRPremixMiniAOD-124X_mcRun3_2022_realistic_v12-v1_step4/USER',
+
+}
 
 dataset_names_bkgd = {}
 
