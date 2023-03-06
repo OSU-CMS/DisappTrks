@@ -1,12 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import glob, sys, os
 
-dirName = sys.argv[2]
-fileName = sys.argv[3]
-
-print "processing \"" + dirName + "/*.root\"..."
-print "writing histograms to \"" + fileName + "\""
-
 ###########################################################
 ##### Set up process #####
 ###########################################################
@@ -18,13 +12,15 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (-1)
 )
+
 process.source = cms.Source ("PoolSource",
     fileNames = cms.untracked.vstring (
-        map (lambda a : "file:" + a, [f for f in glob.glob (dirName + "/*.root") if os.path.getsize(f) != 0])
+        'file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/1000cm/700GeV/AMSB_chargino_M_700GeV_CTau_1000cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_4.root'
     ),
 )
+
 process.TFileService = cms.Service ('TFileService',
-    fileName = cms.string (fileName)
+    fileName = cms.string ('outputFile.root')
 )
 
 ###########################################################
@@ -34,9 +30,11 @@ process.TFileService = cms.Service ('TFileService',
 process.charginoValidator = cms.EDAnalyzer ("CharginoValidator",
     tracks = cms.InputTag ("generalTracks", ""),
     #genParticles = cms.InputTag ("genParticlePlusGeant", ""),
+    pfmet = cms.InputTag ("pfMet", ""),
     genParticles = cms.InputTag ("genParticles", ""),
-    pileupInfo = cms.InputTag ("addPileupInfo"),
+    #pileupInfo = cms.InputTag ("addPileupInfo"),
     genMets = cms.InputTag ("genMetTrue"),
+    muonsCol = cms.InputTag ("muons", ""),
     cutPythia8Flag = cms.untracked.bool (True), # genParticle.fromHardProcessBeforeFSR()
 )
 
