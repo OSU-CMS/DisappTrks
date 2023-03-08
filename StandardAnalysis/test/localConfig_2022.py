@@ -6,6 +6,8 @@ intLumi = lumi["EGamma_2022E"]
 
 datasetsData = ["EGamma_2022E"]
 
+datasetsSig = ["AMSB_chargino_700GeV_100cm_124X"]
+
 datasets = datasetsData
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
