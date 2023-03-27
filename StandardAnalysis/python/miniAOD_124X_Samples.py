@@ -7,11 +7,13 @@
 
 dataset_names_data = {
     #EGamma
+    'EGamma_2022A' : '/EGamma/Run2022A-EXODisappTrk-10Dec2022-v1/AOD',
     'EGamma_2022E' : '/EGamma/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
     'EGamma_2022F' : '/EGamma/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
     'EGamma_2022G' : '/EGamma/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
     #Tau
+    'Tau_2022B' : '/Tau/Run2022B-PromptReco-v1/MINIAOD',
     'Tau_2022E' : '/Tau/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
     'Tau_2022F' : '/Tau/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
 
@@ -50,7 +52,7 @@ run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2
     'SingleMu_2022C' : '/SingleMuon/Run2022C-PromptReco-v1/MINIAOD',
 
     #EGamma
-    'EGamma_2022A' : '/EGamma/Run2022A-PromptReco-v1/MINIAOD',
+    'EGamma_2022A' : '/EGamma/Run2022A-10Dec2022-v1/MINIAOD',
     'EGamma_2022B' : '/EGamma/Run2022B-PromptReco-v1/MINIAOD',
     'EGamma_2022C' : '/EGamma/Run2022C-PromptReco-v1/MINIAOD',
     'EGamma_2022D' : '/EGamma/Run2022D-PromptReco-v3/MINIAOD',

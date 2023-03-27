@@ -233,6 +233,13 @@ disappearingCuts = [
 addCuts(disTrkSelection.cuts, disappearingCuts)
 disTrkCuts = candTrkCuts + disappearingCuts
 
+ecaloSelection = copy.deepcopy(NoCuts)
+ecaloSelection.name = cms.string("ecaloSelection")
+ecaloCuts = [
+    cutTrkEcalo
+]
+addCuts(ecaloSelection.cuts, ecaloCuts)
+
 disTrkNoNMissOut = copy.deepcopy(disTrkSelection)
 disTrkNoNMissOut.name = cms.string("DisTrkNoNMissOut")
 removeCuts(disTrkNoNMissOut.cuts, [cutTrkNMissOut])
