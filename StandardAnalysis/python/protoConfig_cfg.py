@@ -60,8 +60,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "root://cms-xrd-global.cern.ch///store/data/Run2022C/MET/MINIAOD/PromptReco-v1/000/355/863/00000/9c1fb8c1-cdf2-4845-979c-fc718383387e.root",
+        #"file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
+        "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
+    # process.source.secondaryFileNames = cms.untracked.vstring([
+    #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
+    # ])
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
@@ -79,7 +84,7 @@ process.options = cms.untracked.PSet (
 # Add the message logger
 ################################################################################
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 #process.MessageLogger.categories.append ("OSUTrackProducer")
 #process.MessageLogger.categories.append ("osu_Track")
 process.MessageLogger.debugModules.append ("InfoPrinter")
@@ -176,6 +181,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2022)
     if UseCandidateTracks:
+        collMap.tracks = cms.InputTag ('candidateTrackProducer')
+        collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
         print("# CandidateTracks not used in 2022, switch to IsolatedTrack")
     else:
         print("# Collections: collectionMapMiniAOD2022")
@@ -186,9 +193,6 @@ else:
         print("# Collections: collectionMap with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
-
-print(collMap.tracks)
-print(collMap.secondaryTracks)
 
 if UseGeantDecays:
     print("# hardInteractionMcparticles: prunedGenParticlePlusGeant")
