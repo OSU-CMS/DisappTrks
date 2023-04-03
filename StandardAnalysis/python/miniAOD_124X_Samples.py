@@ -18,6 +18,11 @@ dataset_names_data = {
     #MET
     'MET_2022G' : '/JetMET/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
+    #Muon
+    'SingleMu_2022E' : '/Muon/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
+    'SingleMu_2022F' : '/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+    'SingleMu_2022G' : '/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
+
 }
 
 run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2022
@@ -32,7 +37,11 @@ run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2
     #SingleMuon
     'SingleMu_2022A' : '/SingleMuon/Run2022A-PromptReco-v1/MINIAOD',
     'SingleMu_2022B' : '/SingleMuon/Run2022B-PromptReco-v1/MINIAOD',
-    'SingleMu_2022C' : '/SingleMuon/Run2022C-PromptReco-v1/MINIAOD',
+    'SingleMu_2022C' : '/Muon/Run2022C-PromptReco-v1/MINIAOD',
+    'SingleMu_2022D' : '/Muon/Run2022D-PromptReco-v3/MINIAOD',
+    'SingleMu_2022E' : '/Muon/Run2022E-PromptReco-v1/MINIAOD',
+    'SingleMu_2022F' : '/Muon/Run2022F-PromptReco-v1/MINIAOD',
+    'SingleMu_2022G' : '/Muon/Run2022G-PromptReco-v1/MINIAOD',
 
     #EGamma
     'EGamma_2022A' : '/EGamma/Run2022A-PromptReco-v1/MINIAOD',

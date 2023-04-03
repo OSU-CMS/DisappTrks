@@ -2,9 +2,9 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2022_cfg.py"
 
-intLumi = lumi["EGamma_2022E"]
+intLumi = lumi["SingleMu_2022F"]
 
-datasetsData = ["EGamma_2022E"]
+datasetsData = ["SingleMu_2022F"]
 
 datasets = datasetsData
 
