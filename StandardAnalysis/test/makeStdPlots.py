@@ -9,7 +9,7 @@ import os
 import sys
 
 if len(sys.argv) < 2:
-    print "ERROR:  Must specify name of condor directory as argument."
+    print("ERROR:  Must specify name of condor directory as argument.")
     exit(0)
 
 condorDir = "condor/" + sys.argv[1]
@@ -31,8 +31,8 @@ plotsList = [
     "Jet_Plots/jetPt.pdf",
     "Jet_Plots/jetEta.pdf",
     "Eventvariable_Plots/dijetMaxDeltaPhi.pdf",
-    "Eventvariable_Plots/deltaPhiMetJetLeading.pdf",
-    "Eventvariable_Plots/deltaPhiMetJetSubleading.pdf",
+    "Met-eventvariable_Plots/deltaPhiMetJetLeading.pdf",
+    "Met-eventvariable_Plots/deltaPhiMetJetSubleading.pdf",
     "Track_Plots/trackPt.pdf",
     "Track_Plots/trackEta.pdf",
     "Track_Plots/trackNumValidHits.pdf",
@@ -51,17 +51,17 @@ plotsList = [
 
 for i in range(0, len(finalPlotDirs)):
 
-    print "\n\nMoving to directory: ", finalPlotDirs[i]
+    print("\n\nMoving to directory: ", finalPlotDirs[i])
     os.chdir(pwd)
     os.chdir(finalPlotDirs[i])
 
     cmd = "mergePdf.py " + outputNames[i] + " "
     for plot in plotsList:
         cmd += plot + " "
-    print "Executing command: " + cmd
+    print("Executing command: " + cmd)
     os.system(cmd)
 
     os.system("mv " + outputNames[i] + " ../../")
-    print "Finished writing plot to ", os.path.join(condorDir, outputNames[i])
+    print("Finished writing plot to ", os.path.join(condorDir, outputNames[i]))
 
 
