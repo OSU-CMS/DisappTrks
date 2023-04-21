@@ -312,7 +312,7 @@ bool EventTriggerVarProducer::matchedToHLTObj(const edm::Event &event,
                                               const vector<pat::TriggerObjectStandAlone> &triggerObjs,
                                               const edm::TriggerResults &triggerBits,
                                               const string &collection,
-                                              const pat::IsolatedTrack &iso) const {
+                                              const TYPE(tracks) &iso) const {
   double dR = -1.0;
   for(auto triggerObj : triggerObjs) {
 
