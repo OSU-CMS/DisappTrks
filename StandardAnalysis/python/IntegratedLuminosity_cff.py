@@ -405,9 +405,11 @@ lumi_2022_promptReco = {
     "EGamma_2022B" : 0.077329631,
     "EGamma_2022C" : 4.476362177,
     "EGamma_2022D" : 2.747864685,
-    "EGamma_2022E" : -1, #fixme
+    "EGamma_2022E" : 6.121188303, #fixme
     "EGamma_2022F" : -1, #fixme
-    "EGamma_2022G" : -1, #fixme
+    "EGamma_2022G" : 3.283111599, #fixme
+
+    "Tau_2022B" : -1,
 
 }
 

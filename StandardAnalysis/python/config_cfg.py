@@ -17,7 +17,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [basicSelectionNoAngularCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True)
+#  add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True)
 #  add_channels  (process,  [disTrkSelectionNHits3],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits4],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits5],         histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -49,13 +49,14 @@ add_channels  (process,  [basicSelection],                histSets,  weights,  [
 #  add_channels  (process,  [disTrkNoEcaloNLayers6plus],            histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
-#  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
+#add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoNeutralino],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [charginoChargino],                   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [charginoNeutralino],                 histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [ecaloSelection],                     histSetsDebug,  weights,  [],  collMap,  variableProducers,  True)
 ################################################################################
 
 ################################################################################
