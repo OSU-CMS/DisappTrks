@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from CRABClient.UserUtilities import config
 import DisappTrks.SignalMC.step1 as step1

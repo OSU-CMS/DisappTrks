@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.SignalMC.signalCrossSecs import *

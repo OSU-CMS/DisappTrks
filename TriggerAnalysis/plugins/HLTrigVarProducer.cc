@@ -21,7 +21,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -64,7 +64,7 @@
 //
 using namespace std;
 using namespace pat;
-class HLTrigVarProducer : public edm::EDAnalyzer {
+class HLTrigVarProducer : public edm::stream::EDAnalyzer<> {
    public:
       explicit HLTrigVarProducer(const edm::ParameterSet&);
       ~HLTrigVarProducer();
@@ -80,9 +80,9 @@ class HLTrigVarProducer : public edm::EDAnalyzer {
                        const vector<pat::IsolatedTrack> &tracks) const;
 
    private:
-      virtual void beginJob() override;
+      void beginJob();
       virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
-      virtual void endJob() override;
+      void endJob();
 
 
       // ----------member data ---------------------------

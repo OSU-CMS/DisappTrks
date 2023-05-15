@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from ROOT import TFile, TH1D, TH2D, TH3D, TGraph2D, TMarker
 import sys

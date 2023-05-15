@@ -10,7 +10,7 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class EventTimeAnalyzer : public edm::EDAnalyzer {
+class EventTimeAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit EventTimeAnalyzer (const edm::ParameterSet &);
       ~EventTimeAnalyzer ();

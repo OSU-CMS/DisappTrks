@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 # If 'adhocScaling' is supplied, the background will be scaled by the value -- for normal limits, don't use it!

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os, glob, tarfile, re, math, copy
 from ROOT import TFile, TH1D, TGraphAsymmErrors, Double

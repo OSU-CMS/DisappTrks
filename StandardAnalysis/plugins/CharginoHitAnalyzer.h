@@ -16,7 +16,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/Math/interface/deltaR.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -25,7 +25,7 @@
 
 using namespace std;
 
-class CharginoHitAnalyzer : public edm::EDAnalyzer {
+class CharginoHitAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit CharginoHitAnalyzer (const edm::ParameterSet &);
       ~CharginoHitAnalyzer ();

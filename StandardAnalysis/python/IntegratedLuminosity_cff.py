@@ -379,10 +379,37 @@ lumi_2018_ntuples = {
 }
 
 lumi_2022_promptReco = {
+#command used:
+# brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /fb -i Cert_Collisions2022_eraD_357538_357900_Golden.json --hlt "HLT_PFMET105_IsoTrk50_*"
 
+# using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
-    "MET_2022B" : -1,
-    "MET_2022C" : 4.843287008761286736,
+    "MET_2022B" : 90.100668583,
+    "MET_2022C" : 5067.183864430,
+    "MET_2022D" : 3002.294492741,
+    "MET_2022E" : 5870.638540164,
+    "MET_2022F" : 18015.978262574,
+    "MET_2022G" : 3118.633730489,
+
+# using HLT_IsoMu24_v* with Muon json files
+    "SingleMu_2022A" : -1,
+    "SingleMu_2022B" : 0.077329631,
+    "SingleMu_2022C" : 4.476362177, 
+    "SingleMu_2022D" : 2.747864685, 
+    "SingleMu_2022E" : -1, #FIXME
+    "SingleMu_2022F" : -1, #FIXME
+    "SingleMu_2022G" : -1, #FIXME
+
+# using HLT_Ele32_WPTight_Gsf_v*
+    "EGamma_2022A:" : -1,
+    "EGamma_2022B" : 0.077329631,
+    "EGamma_2022C" : 4.476362177,
+    "EGamma_2022D" : 2.747864685,
+    "EGamma_2022E" : 6.121188303, #fixme
+    "EGamma_2022F" : -1, #fixme
+    "EGamma_2022G" : 3.283111599, #fixme
+
+    "Tau_2022B" : -1,
 
 }
 

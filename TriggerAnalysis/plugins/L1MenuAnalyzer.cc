@@ -1,6 +1,6 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
@@ -35,7 +35,7 @@ using namespace l1t;
  author Sam  Harper (RAL), 2019
 *****************************************************************************/
 
-class L1MenuAnalyzer : public edm::EDAnalyzer {
+class L1MenuAnalyzer : public edm::stream::EDAnalyzer<> {
  
 public:
   explicit L1MenuAnalyzer(const edm::ParameterSet& iConfig);

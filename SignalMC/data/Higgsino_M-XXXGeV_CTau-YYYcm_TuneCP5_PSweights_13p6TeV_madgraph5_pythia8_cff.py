@@ -9,16 +9,8 @@ from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
-#externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-#    args = cms.vstring('~/genproductions/bin/MadGraph5_aMCatNLO/Higgsino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MCHI, int(CTAU/10))),
-#    nEvents = cms.untracked.uint32(1000),
-#    numberOfParameters = cms.uint32(1),
-#    outputFile = cms.string('cmsgrid_final.lhe'),
-#    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')
-#)
-
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring('root://eosuser.cern.ch//eos/user/b/borzari/GenValidation/gridpack_AMSB_Run3/%scm/Higgsino_M%sGeV_ctau%scm_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (int(CTAU/10), MCHI, int(CTAU/10))),
+    args = cms.vstring('root://eosuser.cern.ch//eos/user/b/borzari/GenValidation/gridpack_AMSB_Run3_MG5v299_correctEvents/%scm/Higgsino_M%sGeV_ctau%scm_slc7_amd64_gcc900_CMSSW_12_0_2_tarball.tar.xz' % (int(CTAU/10), MCHI, int(CTAU/10))),
     nEvents = cms.untracked.uint32(10),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),

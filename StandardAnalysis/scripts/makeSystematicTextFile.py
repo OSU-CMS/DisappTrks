@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copied from https://raw.github.com/DisplacedSUSY/DisplacedSUSY/master/Configuration/scripts/makeSystematicTextFile.py
 

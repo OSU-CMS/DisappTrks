@@ -68,7 +68,7 @@ def addLifetimeReweighting (datasets, isHiggsino = False):
     
 def getUser():
     dirs = {'Zach':'pollockCondor/', 'Andrew':'hartCondor/', 'Brian':'francisCondor/', 'Wells':'wellsCondor/', 'Kai':'weiCondor/', 'Mike':'carriganCondor/', 'Breno':'orzariCondor/'}
-    userList = {'Wells':'wulsin', 'Andrew':'hart', 'Brian':'bfrancis', 'Zach':'zpollock', 'Kai':'kwei', 'Mike':'mcarrigan', 'Breno':'borzari'}
+    userList = {'Wells':'wulsin', 'Andrew':'hart', 'Brian':'bfrancis', 'Zach':'zpollock', 'Kai':'kwei', 'Mike':'mcarrigan', 'Breno':'borzari', 'Ryan':'rsantos', 'Matt':'mjoyce'}
     cwd = os.getcwd()
     for key in userList:
         if userList[key] in cwd:

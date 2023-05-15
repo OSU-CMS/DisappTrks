@@ -22,7 +22,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -55,7 +55,7 @@
 // class declaration
 //
 
-class MyTrigAnalyzer : public edm::EDAnalyzer {
+class MyTrigAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit MyTrigAnalyzer(const edm::ParameterSet&);
       ~MyTrigAnalyzer();
@@ -64,9 +64,9 @@ class MyTrigAnalyzer : public edm::EDAnalyzer {
 
 
    private:
-      virtual void beginJob() override;
+      void beginJob();
       virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
-      virtual void endJob() override;
+      void endJob();
   edm::Handle<reco::PFMETCollection> mets;
   edm::Handle<reco::GenMETCollection> genMets;
   edm::Handle<reco::CaloMETCollection> hltmets;

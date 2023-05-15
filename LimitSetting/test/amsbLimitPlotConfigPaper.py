@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Local options file to be used with makeLimitPlots.py
 # Usage:

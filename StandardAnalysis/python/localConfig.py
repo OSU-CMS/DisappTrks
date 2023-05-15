@@ -68,10 +68,11 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    datasetsBkgd.append('TTJetsComposite')
-else:
-    datasetsBkgd.append('TTJets')
+#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+#    datasetsBkgd.append('TTJetsComposite')
+#else:
+#    datasetsBkgd.append('TTJets')
 
 datasetsBkgdForMET = copy.deepcopy(datasetsBkgd)
 
@@ -133,6 +134,8 @@ datasetsSig = [
     'AMSB_chargino_1100GeV_100cm_76X',
     'AMSB_chargino_1100GeV_1000cm_76X',
     'AMSB_chargino_1100GeV_10000cm_76X',
+
+    'AMSB_chargino_700GeV_100cm_124X',
 ]
 
 datasetsSigHiggsino = []
@@ -207,12 +210,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     print("# Signal samples: " + A_BRIGHT_CYAN + "124X samples" + A_RESET)
-    for i in range(0, len(datasetsSig)):
-        datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
-    for i in range (0, len (datasetsSigHiggsino)):
-        datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
-    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
-        datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
+    #TODO: update this to use the existing MC signal samples when everything works!!!
+    #for i in range(0, len(datasetsSig)):
+    #    datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
+    #for i in range (0, len (datasetsSigHiggsino)):
+    #    datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
+    #for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
+    #    datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
 else:
     print("# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET)
 
@@ -242,8 +246,9 @@ datasetsSigHiggsinoShort700 = [x for x in datasetsSigHiggsino if x.startswith('H
 datasetsSigHiggsinoShort800 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_800GeV_')]
 datasetsSigHiggsinoShort900 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_900GeV_')]
 
-addLifetimeReweighting (datasetsSig)
-addLifetimeReweighting (datasetsSigHiggsino, isHiggsino = True)
+#TODO: update this to use the existing MC signal samples when everything works!!!
+#addLifetimeReweighting (datasetsSig)
+#addLifetimeReweighting (datasetsSigHiggsino, isHiggsino = True)
 
 higgsino_xsecs = { # [pb]
     '100' : 13.53557,

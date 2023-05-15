@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Toy script to determine the upper limit on the bkgd sum, for the PAS.
 # Allow an arbitrary number of samples with Poisson distributions, with different upper limits.

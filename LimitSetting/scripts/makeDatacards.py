@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Script to extract signal efficiencies and set up the necessary cards for running limits.
 

@@ -31,7 +31,7 @@
 
 #include "DataFormats/Math/interface/deltaPhi.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -42,7 +42,7 @@ using namespace std;
 
 enum DetType { None, ECAL, HCAL, Muon };
 
-class TrackImageAnalyzer : public edm::EDAnalyzer {
+class TrackImageAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit TrackImageAnalyzer(const edm::ParameterSet &);
       ~TrackImageAnalyzer();

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Calculates the systematic uncertainty associated with Ecalo, by reweighting data and MC distributions by the signal distribution, then taking the difference in yields.
 #

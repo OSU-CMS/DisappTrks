@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from DisappTrks.TriggerAnalysis.triggerEfficiency import *
 from DisappTrks.StandardAnalysis.Triggers import *

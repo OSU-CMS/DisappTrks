@@ -8,7 +8,7 @@
 
 #include "TH1D.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -23,7 +23,7 @@
 using std::min;
 using namespace std;
 
-class GenZPtAnalyzer : public edm::EDAnalyzer
+class GenZPtAnalyzer : public edm::stream::EDAnalyzer<>
 {
  public:
   GenZPtAnalyzer (const edm::ParameterSet &);

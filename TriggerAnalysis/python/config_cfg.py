@@ -17,11 +17,17 @@ variableProducers.append('EventTriggerVarProducer')
 ################################################################################
 
 # MET legs
-#  add_channels  (process,  [METLegDenominator],                    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  METLegNumerator.values(),               histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels  (process,  [METLegDenominator],                    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels  (process,  METLegNumerator.values(),               histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 # HLT_MET*_IsoTrk50 track legs
-#  add_channels  (process,  TrackLegDenominatorWithMuons.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  TrackLegNumeratorWithMuons.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels  (process,  TrackLegDenominatorWithMuons.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels  (process,  TrackLegNumeratorWithMuons.values(),    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+
+# HLT_PFMET*_IsoTrk50 legs: The filters in PFMET*_IsoTrk are hltMET, isoTrk50, and hltPFMET, specific denomonator needed
+# add_channels (process,  [METLegDenominator],                    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels (process,  [PFMET105IsoTrk50METLegNumerator],      histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels (process,  [PFMET105IsoTrk50TrkLegNumerator],      histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+# add_channels (process,  [PFMET105IsoTrk50PFMETLegNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 # HLT_MET*_IsoTrk50 track legs w/o SingleMu trigger
 #  add_channels  (process,  TrackLegDenominatorWithMuonsNoTrig.values(),  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
@@ -32,8 +38,8 @@ variableProducers.append('EventTriggerVarProducer')
 #  add_channels  (process,  TrackLegNumeratorWithTracks.values(),    histSetsTrigger,  weights,  scaleFactorProducers,  collMap,  variableProducers,  False)
 
 # The Grand Or
-#  add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
-#  add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#add_channels  (process,  [GrandOrDenominator],  histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
+#add_channels  (process,  [GrandOrNumerator],    histSetsTrigger,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers,  False)
 
 # The Grand Or with electrons
 #  add_channels  (process,  [GrandOrDenominatorWithElectrons],  histSetsTrigger,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers,  False)
