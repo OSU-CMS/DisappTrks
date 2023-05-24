@@ -8,68 +8,71 @@
 dataset_names_data = {
     #EGamma
     'EGamma_2022A' : '/EGamma/Run2022A-EXODisappTrk-10Dec2022-v1/AOD',
-    'EGamma_2022E' : '/EGamma/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
+    'EGamma_2022B' : '/EGamma/Run2022B-EXODisappTrk-10Dec2022-v1/AOD',
+    'EGamma_2022C' : '/EGamma/Run2022C-EXODisappTrk-10Dec2022-v1/AOD',
+    'EGamma_2022D' : '/EGamma/Run2022D-EXODisappTrk-10Dec2022-v1/AOD',
+    'EGamma_2022E' : '/EGamma/Run2022E-EXODisappTrk-10Dec2022-v3/AOD',
     'EGamma_2022F' : '/EGamma/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
     'EGamma_2022G' : '/EGamma/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
     #Tau
-    'Tau_2022B' : '/Tau/Run2022B-PromptReco-v1/MINIAOD',
+    'Tau_2022A' : '/Tau/Run2022A-EXODisappTrk-10Dec2022-v1/AOD',
+    'Tau_2022B' : '/Tau/Run2022B-EXODisappTrk-10Dec2022-v1/AOD',
+    'Tau_2022C' : '/Tau/Run2022C-EXODisappTrk-10Dec2022-v1/AOD',
+    'Tau_2022D' : '/Tau/Run2022D-EXODisappTrk-10Dec2022-v1/AOD',
     'Tau_2022E' : '/Tau/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
     'Tau_2022F' : '/Tau/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+    'Tau_2022G' : '/Tau/Run2022G-EXODisappTrk-PromptReco-v1/AOD',   
 
     #MET
-    #'MET_2022A' : '/MET/lpclonglived-Skim_EXODisappTrks_MET_Run2022A-485942db884bb77e20d203394ccaa614/USER',
-    #'MET_2022B' : '/MET/lpclonglived-Skim_EXODisappTrks_MET_Run2022B-485942db884bb77e20d203394ccaa614/USER',
-    #'MET_2022C' : '/MET/lpclonglived-Skim_EXODisappTrks_MET_Run2022C-485942db884bb77e20d203394ccaa614/USER',
-    #'MET_2022D' : '',
-    #'MET_2022E' : '/JetMET/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
-    #'MET_2022F' : '/JetMET/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
-    #'MET_2022G' : '/JetMET/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
+    'MET_2022A' :  '',
+    'MET_2022B' : '',
+    'MET_2022C': '', #MET instead of JETMET
+    'JetMET_2022C' : '/JetMET/Run2022C-EXODisappTrk-10Dec2022-v1/AOD',
+    'JetMET_2022D' : '/JetMET/Run2022D-EXODisappTrk-10Dec2022-v1/AOD',
+    'JetMET_2022E' : '/JetMET/Run2022E-EXODisappTrk-10Dec2022-v2/AOD',
+    'JetMET_2022F' : '/JetMET/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+    'JetMET_2022G' : '/JetMET/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
-    #temporary
-    'MET_2022A' : '/MET/Run2022A-10Dec2022-v2/MINIAOD',
-    'MET_2022B' : '/MET/Run2022B-PromptReco-v1/MINIAOD',
-    'MET_2022C' : '/MET/Run2022C-10Dec2022-v2/MINIAOD',
-    'MET_2022D' : '/JetMET/Run2022D-10Dec2022-v1/MINIAOD',
-    'MET_2022E' : '/JetMET/Run2022E-PromptReco-v1/MINIAOD',
-    'MET_2022F' : '/JetMET/Run2022F-PromptReco-v1/MINIAOD',
-    'MET_2022G' : '/JetMET/Run2022G-PromptReco-v1/MINIAOD',
-    
     #Muon
-    'SingleMu_2022E' : '/Muon/Run2022E-EXODisappTrk-PromptReco-v1/AOD',
-    'SingleMu_2022F' : '/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
-    'SingleMu_2022G' : '/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
+    'SingleMu_2022A' : '',
+    'SingleMu_2022B' : '',
+    'Muon_2022C' : '/Muon/Run2022C-EXODisappTrk-10Dec2022-v1/AOD',
+    'Muon_2022D' : '/Muon/Run2022D-EXODisappTrk-10Dec2022-v1/AOD',
+    'Muon_2022E' : '/Muon/Run2022E-EXODisappTrk-10Dec2022-v2/AOD',
+    'Muon_2022F' : '/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
+    'Muon_2022G' : '/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
 }
 
-run3_skim_sibling_datasets = { # Fixme -> added those that exist as of Nov 14, 2022
+run3_skim_sibling_datasets = { 
     # MET
-    #'MET_2022A' : '/MET/Run2022A-PromptReco-v1/MINIAOD',
-    #'MET_2022B' : '/MET/Run2022B-PromptReco-v1/MINIAOD',
-    #'MET_2022C' : '/MET/Run2022C-PromptReco-v1/MINIAOD',
-    #'MET_2022D' : '/JetMET/Run2022D-10Dec2022-v1/MINIAOD',
-    #'MET_2022E' : '/JetMET/Run2022E-PromptReco-v1/MINIAOD',
-    #'MET_2022F' : '/JetMET/Run2022F-PromptReco-v1/MINIAOD',
-    #'MET_2022G' : '/JetMET/Run2022G-PromptReco-v1/MINIAOD',
+    'MET_2022A' : '/MET/Run2022A-10Dec2022-v2/MINIAOD',
+    'MET_2022B' : '/MET/Run2022B-10Dec2022-v2/MINIAOD',
+    'MET_2022C' : '/MET/Run2022C-10Dec2022-v2/MINIAOD',
+    'JetMET_2022C' : '/JetMET/Run2022C-10Dec2022-v1/MINIAOD',
+    'JetMET_2022D' : '/JetMET/Run2022D-10Dec2022-v1/MINIAOD',
+    'JetMET_2022E' : '/JetMET/Run2022E-PromptReco-v1/MINIAOD',
+    'JetMET_2022F' : '/JetMET/Run2022E-10Dec2022-v2/MINIAOD',
+    'JetMET_2022G' : '/JetMET/Run2022G-PromptReco-v1/MINIAOD',
 
     #SingleMuon
     'SingleMu_2022A' : '/SingleMuon/Run2022A-PromptReco-v1/MINIAOD',
     'SingleMu_2022B' : '/SingleMuon/Run2022B-PromptReco-v1/MINIAOD',
-    'SingleMu_2022C' : '/Muon/Run2022C-PromptReco-v1/MINIAOD',
-    'SingleMu_2022D' : '/Muon/Run2022D-PromptReco-v3/MINIAOD',
-    'SingleMu_2022E' : '/Muon/Run2022E-PromptReco-v1/MINIAOD',
-    'SingleMu_2022F' : '/Muon/Run2022F-PromptReco-v1/MINIAOD',
-    'SingleMu_2022G' : '/Muon/Run2022G-PromptReco-v1/MINIAOD',
+    'Muon_2022C' : '/Muon/Run2022C-10Dec2022-v1/MINIAOD',
+    'Muon_2022D' : '/Muon/Run2022E-10Dec2022-v2/MINIAOD',
+    'Muon_2022E' : '/Muon/Run2022E-PromptReco-v1/MINIAOD',
+    'Muon_2022F' : '/Muon/Run2022F-PromptReco-v1/MINIAOD',
+    'Muon_2022G' : '/Muon/Run2022G-PromptReco-v1/MINIAOD',
 
     #EGamma
-    'EGamma_2022A' : '/EGamma/Run2022A-10Dec2022-v1/MINIAOD',
-    'EGamma_2022B' : '/EGamma/Run2022B-PromptReco-v1/MINIAOD',
-    'EGamma_2022C' : '/EGamma/Run2022C-PromptReco-v1/MINIAOD',
-    'EGamma_2022D' : '/EGamma/Run2022D-PromptReco-v3/MINIAOD',
-    'EGamma_2022E' : '/EGamma/Run2022E-PromptReco-v1/MINIAOD',
+    'EGamma_2022A' : '/EGamma/Run2022A-10Dec2022-v1/MINIAOD', 
+    'EGamma_2022B' : '/EGamma/Run2022B-10Dec2022-v1/MINIAOD', 
+    'EGamma_2022C' : '/EGamma/Run2022C-10Dec2022-v1/MINIAOD', 
+    'EGamma_2022D' : '/EGamma/Run2022D-10Dec2022-v1/MINIAOD', 
+    'EGamma_2022E' : '/EGamma/Run2022E-10Dec2022-v3/MINIAOD',
     'EGamma_2022F' : '/EGamma/Run2022F-PromptReco-v1/MINIAOD',
     'EGamma_2022G' : '/EGamma/Run2022G-PromptReco-v1/MINIAOD',
-
 
     #Tau
     'Tau_2022A' : '/Tau/Run2022A-PromptReco-v1/MINIAOD',
