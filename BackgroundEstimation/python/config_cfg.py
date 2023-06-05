@@ -167,7 +167,7 @@ if False:
 # SingleMuon channels
 ################################################################################
 # Base skim and ZtoMuMu
-if False:
+if True:
     add_channels  (process,  [MuonTagSkim],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Tag-and-probe channels for fiducial map
