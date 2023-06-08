@@ -402,12 +402,12 @@ lumi_2022_promptReco = {
 
 # using HLT_Ele32_WPTight_Gsf_v*
     "EGamma_2022A:" : -1,
-    "EGamma_2022B" : 0.077329631,
-    "EGamma_2022C" : 4.476362177,
-    "EGamma_2022D" : 2.747864685,
-    "EGamma_2022E" : -1, #fixme
-    "EGamma_2022F" : -1, #fixme
-    "EGamma_2022G" : -1, #fixme
+    "EGamma_2022B" : 90.121853109,
+    "EGamma_2022C" : 5070.714850818,
+    "EGamma_2022D" : 3006.332095564,
+    "EGamma_2022E" : 5878.354165126, #fixme
+    "EGamma_2022F" : 18006.671456310, #fixme
+    "EGamma_2022G" : 3121.865601704, #fixme
 
 }
 
@@ -433,3 +433,4 @@ lumi = CreateCompositeLumis(lumi, '2015', 'D')
 lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
+lumi = CreateCompositeLumis(lumi, '2022', 'ABCDEFG')

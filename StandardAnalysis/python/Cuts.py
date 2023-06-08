@@ -1274,12 +1274,12 @@ cutElectronEta24 = cms.PSet (
     cutString = cms.string("fabs(eta) < 2.4"),
     numberRequired = cms.string(">= 1"),
 )
-cutElectronTightID = cms.PSet (
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesTightID_noIsolation_LegacySpring15 > 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 electrons with isTightElectronWRTVtx (Legacy Spring15) > 0"),
-)
+# cutElectronTightID = cms.PSet (
+#     inputCollection = cms.vstring("electrons"),
+#     cutString = cms.string("passesTightID_noIsolation_LegacySpring15 > 0"),
+#     numberRequired = cms.string(">= 1"),
+#     alias = cms.string(">= 1 electrons with isTightElectronWRTVtx (Legacy Spring15) > 0"),
+# )
 cutElectronTightPFIso = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("((fabs (superCluster.eta) <= 1.479) && (((pfIso_.sumChargedHadronPt + max (0.0, pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho * AEff)) / pt) < 0.0591)) \

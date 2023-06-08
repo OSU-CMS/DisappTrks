@@ -69,7 +69,7 @@ if False:
 
 # "Old" style cuts (nPixel >= 3, nValidHits >= 7) t&p channels for fiducial map
 # Use these!
-if False:
+if True:
     add_channels  (process,  [ElectronFiducialCalcBeforeOldCuts], histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
     add_channels  (process,  [ElectronFiducialCalcAfterOldCuts],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
