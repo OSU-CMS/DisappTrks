@@ -288,7 +288,6 @@ lumi_2017 = {
         "Tau_2017E" : 391.614,
         "Tau_2017F" : 465.888,
     },
-
 }
 
 lumi_2017_ntuples = {
@@ -409,6 +408,56 @@ lumi_2022_promptReco = {
     "EGamma_2022F" : -1, #fixme
     "EGamma_2022G" : -1, #fixme
 
+# HLT_MediumChargedIsoPFTau*HighPtRelaxedIso_Trk50_eta2p1_v*
+  "HLT_MediumChargedIsoPFTau*HighPtRelaxedIso_Trk50_eta2p1_v*":
+    {
+        "Tau_2022A" : -1,
+        "Tau_2022B" : -1,
+        "Tau_2022C" : -1,
+        "Tau_2022D" : -1,
+        "Tau_2022E" : -1,
+        "Tau_2022F" : -1,
+        "Tau_2022G" : -1,},
+
+  "HLT_VBF_DoubleMediumChargedIsoPFTauHPS20_Trk1_eta2p1_v*":
+    {
+        "Tau_2022A" : -1,
+        "Tau_2022B" : -1,
+        "Tau_2022C" : -1,
+        "Tau_2022D" : -1,
+        "Tau_2022E" : -1,
+        "Tau_2022F" : -1,
+        "Tau_2022G" : -1,},
+
+  "HLT_DoubleMediumDeepTauIsoPFTauHPS*_L2NN_eta2p1_v*":
+    {
+        "Tau_2022A" : -1,
+        "Tau_2022B" : -1,
+        "Tau_2022C" : -1,
+        "Tau_2022D" : -1,
+        "Tau_2022E" : -1,
+        "Tau_2022F" : -1,
+        "Tau_2022G" : -1,},
+
+  "HLT_DoubleMediumChargedIsoPFTauHPS*_Trk1_eta2p1_v*":
+    {
+        "Tau_2022A" : -1,
+        "Tau_2022B" : -1,
+        "Tau_2022C" : -1,
+        "Tau_2022D" : -1,
+        "Tau_2022E" : -1,
+        "Tau_2022F" : -1,
+        "Tau_2022G" : -1,},
+
+  "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v*":
+    {
+        "Tau_2022A" : -1,
+        "Tau_2022B" : -1,
+        "Tau_2022C" : -1,
+        "Tau_2022D" : -1,
+        "Tau_2022E" : -1,
+        "Tau_2022F" : -1,
+        "Tau_2022G" : -1,},
 }
 
 # now create a single lumi dict, starting with 2015
