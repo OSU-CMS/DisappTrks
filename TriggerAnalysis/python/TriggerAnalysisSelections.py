@@ -63,7 +63,7 @@ GrandOrDenominatorWithElectrons = cms.PSet(
         cutLeadJetCentral,
         cutElectronPt55,
         cutElectronEta21,
-        cutElectronTightID,
+        #cutElectronTightID,
         cutElectronNMissIn,
         cutElectronNMissMid,
         cutElectronTightPFIso,

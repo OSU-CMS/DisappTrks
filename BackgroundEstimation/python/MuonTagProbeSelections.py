@@ -273,5 +273,6 @@ cutsToAdd = [
     cutTrkPt30,
 ]
 cutsToAdd += isoTrkCuts
-removeCuts(cutsToAdd, [cutTrkJetDeltaPhi, cutTrkDZ, cutTrkD0, cutTrkIso])
+#removeCuts(cutsToAdd, [cutTrkJetDeltaPhi, cutTrkDZ, cutTrkD0, cutTrkIso])
+removeCuts(cutsToAdd, [cutTrkJetDeltaPhi, cutTrkDZ, cutTrkD0])
 addCuts(MuonFiducialCalcCutsBeforeIsoTrk.cuts, cutsToAdd)

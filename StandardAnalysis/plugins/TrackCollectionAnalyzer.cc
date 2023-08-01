@@ -135,6 +135,7 @@ private:
 
     void getGeometries(const edm::EventSetup &setup);
 
+        // What does InputTag do
     edm::InputTag candidateTracks_;
     edm::InputTag generalTracks_;
     edm::InputTag packedCandidates_;
@@ -210,6 +211,7 @@ private:
     edm::Service<TFileService> fs_;
     TTree * tree_;
 
+        // This should be what I need to recreate
     vector<bool> isInPackedCandidates;
     vector<bool> isInLostTracks;
     vector<bool> isInIsolatedTracks;
@@ -307,7 +309,7 @@ TrackCollectionAnalyzer::TrackCollectionAnalyzer(const edm::ParameterSet &cfg) :
 
     triggersToken_     = consumes<edm::TriggerResults>           (triggers_);
     trigObjsToken_     = consumes<vector<pat::TriggerObjectStandAlone> > (trigObjs_);
-    candidateTracksToken_  = consumes<vector<CandidateTrack> >       (candidateTracks_);
+    //  candidateTracksToken_  = consumes<vector<CandidateTrack> >       (candidateTracks_);
     generalTracksToken_    = consumes<vector<reco::Track> >          (generalTracks_);
     packedCandidatesToken_ = consumes<pat::PackedCandidateCollection>(packedCandidates_);
     lostTracksToken_       = consumes<pat::PackedCandidateCollection>(lostTracks_);
@@ -562,11 +564,14 @@ void TrackCollectionAnalyzer::analyze(const edm::Event &event, const edm::EventS
         double dRMinJet = MinDRtoJet(*jets, track);
 
         double trackIso = 0.0;
+
+
         for(const auto &t : *candidateTracks) {
             if(fabs(track.dz(t.vertex())) > 3.0 * hypot(track.dzError(), t.dzError())) continue;
             double dR = deltaR(track, t);
             if(dR < 0.3 && dR > 1.0e-12) trackIso += t.pt();
         }
+
 
         bool this_inPackedCandidates = false;
         for(const auto& pc : *packedCandidates) {

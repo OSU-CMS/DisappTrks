@@ -7,7 +7,8 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process('PAT',eras.Run2_2017)
+# eras.Run3_2023 is a modifier that will allow us to selectively configure things
+process = cms.Process('PAT',eras.Run3_2023)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -28,6 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
+                            # NOTE: Need to change this input source
     fileNames = cms.untracked.vstring('file:/store/user/bfrancis/signalMC/2017/step3/higgsino_700GeV_100cm/hist_0.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
@@ -49,6 +51,7 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     compressionAlgorithm = cms.untracked.string('LZMA'),
     compressionLevel = cms.untracked.int32(4),
     dataset = cms.untracked.PSet(
+        # NOTE: Is the data now MINIAODSIM?
         dataTier = cms.untracked.string('MINIAODSIM'),
         filterName = cms.untracked.string('')
     ),

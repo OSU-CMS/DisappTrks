@@ -20,7 +20,7 @@ isoTrkCutsLoose = [
     cutTrkNValidHitsSignal,
     cutTrkNMissIn,
     cutTrkNMissMid,
-    cutTrkIso,
+    #cutTrkIso,
     cutTrkD0Loose,
     cutTrkDZLoose,
     cutTrkJetDeltaPhi,

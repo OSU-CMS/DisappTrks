@@ -98,7 +98,7 @@ isoTrkCuts = [
     cutTrkNValidHitsSignal,
     cutTrkNMissIn,
     cutTrkNMissMid,
-    cutTrkIso,
+   # cutTrkIso,
     cutTrkD0,
     cutTrkDZ,
     cutTrkJetDeltaPhi,
@@ -115,8 +115,8 @@ isoTrkWithPt55Cuts = copy.deepcopy(isoTrkCuts)
 addSingleCut(isoTrkWithPt55Cuts, cutTrkPt55, cutTrkEta)
 
 isoTrkWithPt55BeforeIsoCuts = copy.deepcopy(isoTrkWithPt55Cuts)
-removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkIso, cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
-
+#removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkIso, cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
+removeCuts(isoTrkWithPt55BeforeIsoCuts, [cutTrkD0, cutTrkDZ, cutTrkJetDeltaPhi])
 isoTrkWithPt55BeforeValidPixelHitCuts = copy.deepcopy(isoTrkWithPt55BeforeIsoCuts)
 removeCuts(isoTrkWithPt55BeforeValidPixelHitCuts, [cutTrkNValidPixelHitsSignal, cutTrkNValidHitsSignal, cutTrkNMissIn, cutTrkNMissMid])
 
@@ -145,7 +145,7 @@ addSingleCut (isoTrkSelectionBeforeValidPixelHitsMatching.cuts, cutTrkMatchCharg
 isoTrkSelectionBeforeD0DZ = copy.deepcopy(isoTrkSelectionBeforeIsoCut)
 isoTrkSelectionBeforeD0DZ.name = cms.string("isoTrkSelectionBeforeD0DZ")
 removeCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutJetPt])
-addCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutTrkIso])
+#addCuts (isoTrkSelectionBeforeD0DZ.cuts, [cutTrkIso])
 
 isoTrkSelectionBeforeIsoCutLargeIsoDiffPos = copy.deepcopy(isoTrkSelectionBeforeIsoCut)
 isoTrkSelectionBeforeIsoCutLargeIsoDiffPos.name = cms.string("isoTrkSelectionBeforeIsoCutLargeIsoDiffPos")
@@ -183,8 +183,8 @@ addCuts(isoTrkSelectionNMissOut4.cuts, [cutTrkNMissOut4])
 
 nonIsoTrkSelection = copy.deepcopy(isoTrkSelection)
 nonIsoTrkSelection.name = cms.string("NonIsoTrkSelection")
-removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso, cutTrkJetDeltaPhi])
-
+#removeCuts(nonIsoTrkSelection.cuts, [cutTrkIso, cutTrkJetDeltaPhi])
+removeCuts(nonIsoTrkSelection.cuts, [ cutTrkJetDeltaPhi])
 ##########################################################################
 
 candTrkSelection = copy.deepcopy(isoTrkSelection)

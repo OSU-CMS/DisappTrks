@@ -13,11 +13,15 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [metMinimalSkim],  histSetsMetJet,  weights,  [],  collMap,  variableProducers,  True)
 
 # Channels needed for background estimates and systematics
-#  add_channels  (process,  [vertexCutOnly],                 histSets,  weights,  [],  collMap,  variableProducers,  True)
+# add_channels(
+#    process, [vertexCutOnly], histSets, weights, [], collMap, variableProducers, True
+# )
 #  add_channels  (process,  [basicSelectionNoAngularCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True)
+add_channels(
+    process, [basicSelection], histSets, weights, [], collMap, variableProducers, True
+)
 #  add_channels  (process,  [disTrkSelectionNHits3],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits4],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits5],         histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -186,15 +190,16 @@ add_channels  (process,  [basicSelection],                histSets,  weights,  [
 #  add_channels  (process,  [MinimalMETMatchedCandidateTrackSelection], cms.VPSet(IsolatedTrackCandidateTrackHistograms), weights, scaleFactorProducers, collMap, variableProducers, False)
 ################################################################################
 
-if hasattr(process, 'EventJetVarProducer'):
-	process.EventJetVarProducer.triggerNames = triggerNamesInclusive
+if hasattr(process, "EventJetVarProducer"):
+    process.EventJetVarProducer.triggerNames = triggerNamesInclusive
 else:
     print()
-    print('You haven\'t added any channels. There\'s nothing to do!')
+    print("You haven't added any channels. There's nothing to do!")
     print()
     sys.exit(0)
-    
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
+
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
+    process.fullPatMetSequenceModifiedMETPath = cms.Path(
+        process.fullPatMetSequenceModifiedMET
+    )
     process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
-    

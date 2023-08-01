@@ -173,12 +173,12 @@ createHitsVariations (ZtoMuMuDisTrkSidebandD0Cut, "ZtoMuMuDisTrkSidebandD0Cut")
 
 ZtoMuMuCandTrkNoIso = copy.deepcopy(ZtoMuMuCandTrk)
 ZtoMuMuCandTrkNoIso.name = cms.string("ZtoMuMuCandTrkNoIso")
-removeCuts(ZtoMuMuCandTrkNoIso.cuts, [cutTrkIso])
+#removeCuts(ZtoMuMuCandTrkNoIso.cuts, [cutTrkIso])
 
 ZtoMuMuDisTrkNoIsoNoCalo = copy.deepcopy(ZtoMuMuDisTrk)
 ZtoMuMuDisTrkNoIsoNoCalo.name = cms.string("ZtoMuMuDisTrkNoIsoNoCalo")
-removeCuts(ZtoMuMuDisTrkNoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
-
+#removeCuts(ZtoMuMuDisTrkNoIsoNoCalo.cuts, [cutTrkIso, cutTrkEcalo])
+removeCuts(ZtoMuMuDisTrkNoIsoNoCalo.cuts, [cutTrkEcalo])
 createHitsVariations (ZtoMuMuDisTrkNoIsoNoCalo, "ZtoMuMuDisTrkNoIsoNoCalo")
 
 ##################################################

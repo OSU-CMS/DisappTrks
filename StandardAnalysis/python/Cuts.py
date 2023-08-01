@@ -605,15 +605,16 @@ cutTrkFourLayersAnyHitQuality = cms.PSet(
     cutString = cms.string("expectedIncludeInactivePixelHits == 4"),
     numberRequired = cms.string(">= 1"),
 )
-cutTrkIso = cms.PSet(
-    inputCollection = cms.vstring("tracks"),
-    cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
-    numberRequired = cms.string(">= 1"),
-)
-if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
-        cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
-    
+# cutTrkIso = cms.PSet(
+#     inputCollection = cms.vstring("tracks"),
+#     cutString = cms.string(" ( trackIsoNoPUDRp3 / pt ) < 0.05"),
+#     numberRequired = cms.string(">= 1"),
+# )
+
+# if not UseCandidateTracks:
+#     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+#         cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
+
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
@@ -791,7 +792,7 @@ cutTrkArbitration = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
-    arbitration = cms.string("random"),
+    #arbitration = cms.string("random"),
     alias = cms.string("pick random track"),
 )
 cutTrkLargeIsoDiffPos = cms.PSet(
@@ -1311,7 +1312,7 @@ cutElectronArbitration = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
-    arbitration = cms.string("random"),
+    #arbitration = cms.string("random"),
     alias = cms.string("pick random electron"),
 )
 cutElectronMetMinusOne = cms.PSet (
