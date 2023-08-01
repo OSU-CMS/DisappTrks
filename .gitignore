@@ -11,3 +11,5 @@
 __init__.py
 hist.root
 crab.log
+*.pdf
+/BackgroundEstimation/test/#bc85ec49358ff37667b733e00923a6558d72beb0#
