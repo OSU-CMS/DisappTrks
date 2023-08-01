@@ -412,52 +412,52 @@ lumi_2022_promptReco = {
   "HLT_MediumChargedIsoPFTau*HighPtRelaxedIso_Trk50_eta2p1_v*":
     {
         "Tau_2022A" : -1,
-        "Tau_2022B" : -1,
-        "Tau_2022C" : -1,
-        "Tau_2022D" : -1,
-        "Tau_2022E" : -1,
-        "Tau_2022F" : -1,
-        "Tau_2022G" : -1,},
+        "Tau_2022B" : 0,
+        "Tau_2022C" : 0,
+        "Tau_2022D" : 0,
+        "Tau_2022E" : 0,
+        "Tau_2022F" : 3765.763955800,
+        "Tau_2022G" : 0,},
 
   "HLT_VBF_DoubleMediumChargedIsoPFTauHPS20_Trk1_eta2p1_v*":
     {
         "Tau_2022A" : -1,
-        "Tau_2022B" : -1,
-        "Tau_2022C" : -1,
-        "Tau_2022D" : -1,
-        "Tau_2022E" : -1,
-        "Tau_2022F" : -1,
-        "Tau_2022G" : -1,},
+        "Tau_2022B" : 90.121853109,
+        "Tau_2022C" : 547.350216492,
+        "Tau_2022D" : 0,
+        "Tau_2022E" : 0,
+        "Tau_2022F" : 0,
+        "Tau_2022G" : 0,},
 
   "HLT_DoubleMediumDeepTauIsoPFTauHPS*_L2NN_eta2p1_v*":
     {
         "Tau_2022A" : -1,
-        "Tau_2022B" : -1,
-        "Tau_2022C" : -1,
-        "Tau_2022D" : -1,
-        "Tau_2022E" : -1,
-        "Tau_2022F" : -1,
-        "Tau_2022G" : -1,},
+        "Tau_2022B" : 90.121853109,
+        "Tau_2022C" : 0,
+        "Tau_2022D" : 0,
+        "Tau_2022E" : 0,
+        "Tau_2022F" : 0,
+        "Tau_2022G" : 0,},
 
   "HLT_DoubleMediumChargedIsoPFTauHPS*_Trk1_eta2p1_v*":
     {
         "Tau_2022A" : -1,
-        "Tau_2022B" : -1,
-        "Tau_2022C" : -1,
-        "Tau_2022D" : -1,
-        "Tau_2022E" : -1,
-        "Tau_2022F" : -1,
-        "Tau_2022G" : -1,},
+        "Tau_2022B" : 0,
+        "Tau_2022C" : 0,
+        "Tau_2022D" : 0,
+        "Tau_2022E" : 0,
+        "Tau_2022F" : 3765.763955800,
+        "Tau_2022G" : 0,},
 
   "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v*":
     {
         "Tau_2022A" : -1,
-        "Tau_2022B" : -1,
-        "Tau_2022C" : -1,
-        "Tau_2022D" : -1,
-        "Tau_2022E" : -1,
-        "Tau_2022F" : -1,
-        "Tau_2022G" : -1,},
+        "Tau_2022B" : 0,
+        "Tau_2022C" : 5070.714850818,
+        "Tau_2022D" : 3006.332095564,
+        "Tau_2022E" : 5878.354165126,
+        "Tau_2022F" : 18006.671456310,
+        "Tau_2022G" : 3091.990140791,},
 }
 
 # now create a single lumi dict, starting with 2015
