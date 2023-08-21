@@ -392,13 +392,13 @@ lumi_2022_promptReco = {
     "MET_2022G" : 3118.633730489,
 
 # using HLT_IsoMu24_v* with Muon json files
-    "SingleMu_2022A" : -1,
-    "SingleMu_2022B" : 0.077329631,
-    "SingleMu_2022C" : 4.476362177, 
-    "SingleMu_2022D" : 2.747864685, 
-    "SingleMu_2022E" : -1, #FIXME
-    "SingleMu_2022F" : -1, #FIXME
-    "SingleMu_2022G" : -1, #FIXME
+    "Muon_2022A" : -1,
+    "Muon_2022B" : 0.077329631,
+    "Muon_2022C" : 4.476362177, 
+    "Muon_2022D" : 2.747864685, 
+    "Muon_2022E" : -1, #FIXME
+    "Muon_2022F" : -1, #FIXME
+    "Muon_2022G" : -1, #FIXME
 
 # using HLT_Ele32_WPTight_Gsf_v*
     "EGamma_2022A:" : -1,

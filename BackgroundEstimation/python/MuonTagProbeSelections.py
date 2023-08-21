@@ -6,7 +6,7 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
         replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
@@ -196,7 +196,7 @@ addCuts(MuonFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017I
 
 MuonFiducialCalcBeforeOldCuts = copy.deepcopy(MuonFiducialCalcBefore)
 MuonFiducialCalcBeforeOldCuts.name = cms.string("MuonFiducialCalcBeforeOldCuts")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
@@ -211,7 +211,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 MuonFiducialCalcAfterOldCuts = copy.deepcopy(MuonFiducialCalcAfter)
 MuonFiducialCalcAfterOldCuts.name = cms.string("MuonFiducialCalcAfterOldCuts")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
