@@ -37,9 +37,9 @@ dataset_names_data = {
     #Muon
     'SingleMu_2022A' : '',
     'SingleMu_2022B' : '',
-    'Muon_2022C' : '/Muon/Run2022C-EXODisappTrk-10Dec2022-v1/AOD',
-    'Muon_2022D' : '/Muon/Run2022D-EXODisappTrk-10Dec2022-v1/AOD',
-    'Muon_2022E' : '/Muon/Run2022E-EXODisappTrk-10Dec2022-v2/AOD',
+    'Muon_2022C' : '/Muon/Run2022C-EXODisappTrk-27Jun2023-v1/AOD',
+    'Muon_2022D' : '/Muon/Run2022D-EXODisappTrk-27Jun2023-v2/AOD',
+    'Muon_2022E' : '/Muon/Run2022E-EXODisappTrk-27Jun2023-v1/AOD',
     'Muon_2022F' : '/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD',
     'Muon_2022G' : '/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD',
 
@@ -59,9 +59,9 @@ run3_skim_sibling_datasets = {
     #SingleMuon
     'SingleMu_2022A' : '/SingleMuon/Run2022A-PromptReco-v1/MINIAOD',
     'SingleMu_2022B' : '/SingleMuon/Run2022B-PromptReco-v1/MINIAOD',
-    'Muon_2022C' : '/Muon/Run2022C-10Dec2022-v1/MINIAOD',
-    'Muon_2022D' : '/Muon/Run2022E-10Dec2022-v2/MINIAOD',
-    'Muon_2022E' : '/Muon/Run2022E-PromptReco-v1/MINIAOD',
+    'Muon_2022C' : '/Muon/Run2022C-27Jun2023-v1/MINIAOD',
+    'Muon_2022D' : '/Muon/Run2022D-27Jun2023-v2/MINIAOD',
+    'Muon_2022E' : '/Muon/Run2022E-27Jun2023-v1/MINIAOD',
     'Muon_2022F' : '/Muon/Run2022F-PromptReco-v1/MINIAOD',
     'Muon_2022G' : '/Muon/Run2022G-PromptReco-v1/MINIAOD',
 

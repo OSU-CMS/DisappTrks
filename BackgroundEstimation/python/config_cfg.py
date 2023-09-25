@@ -229,7 +229,7 @@ if False:
 #  add_channels  (process,  [ZtoTauToMuDisTrkBetterPurity],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Z->mumu channels for fake track background estimate
-if False:
+if True:
     # Important! The muon pt cuts are higher in MuonTagSkim than for ZtoMuMu. 
     # You must run the ZtoMuMu skim over the full nTuples, *not* the MuonTagSkim, to get the right events
     add_channels  (process,  [ZtoMuMu],                        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
