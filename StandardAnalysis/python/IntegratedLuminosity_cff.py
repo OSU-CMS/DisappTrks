@@ -415,7 +415,7 @@ lumi_2022_promptReco = {
     "Tau_2022D" : 3006.332095564,
     "Tau_2022E" : 5878.354165126,
     "Tau_2022F" : 18006.671456310,
-    "Tau_2022G" : 3091.990140791,},
+    "Tau_2022G" : 3091.990140791,
 }
 
 # now create a single lumi dict, starting with 2015
