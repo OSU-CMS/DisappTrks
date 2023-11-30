@@ -35,11 +35,11 @@ run3_skim_sibling_datasets = {
     "MET_2022F": "/JetMET/Run2022F-EXODisappTrk-PromptReco-v1/AOD",
     "MET_2022G": "/JetMET/Run2022G-EXODisappTrk-PromptReco-v1/AOD",
     # Muon
-    "SingleMu_2022C": "/Muon/Run2022C-EXODisappTrk-27Jun2023-v1/AOD",
-    "SingleMu_2022D": "/Muon/Run2022D-EXODisappTrk-27Jun2023-v2/AOD",
-    "SingleMu_2022E": "/Muon/Run2022E-EXODisappTrk-27Jun2023-v1/AOD",
-    "SingleMu_2022F": "/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD",
-    "SingleMu_2022G": "/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD",
+    "Muon_2022C": "/Muon/Run2022C-EXODisappTrk-27Jun2023-v1/AOD",
+    "Muon_2022D": "/Muon/Run2022D-EXODisappTrk-27Jun2023-v2/AOD",
+    "Muon_2022E": "/Muon/Run2022E-EXODisappTrk-27Jun2023-v1/AOD",
+    "Muon_2022F": "/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD",
+    "Muon_2022G": "/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD",
 }
 
 dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
@@ -51,14 +51,14 @@ dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
     #'MET_2022E' : '/JetMET/Run2022E-PromptReco-v1/MINIAOD',
     #'MET_2022F' : '/JetMET/Run2022F-PromptReco-v1/MINIAOD',
     #'MET_2022G' : '/JetMET/Run2022G-PromptReco-v1/MINIAOD',
-    # SingleMuon
-    "SingleMu_2022A": "/SingleMuon/Run2022A-PromptReco-v1/MINIAOD",
-    "SingleMu_2022B": "/SingleMuon/Run2022B-PromptReco-v1/MINIAOD",
-    "SingleMu_2022C": "/Muon/Run2022C-22Sep2023-v1/MINIAOD",
-    "SingleMu_2022D": "/Muon/Run2022D-22Sep2023-v1/MINIAOD",
-    "SingleMu_2022E": "/Muon/Run2022E-22Sep2023-v1/MINIAOD",
-    "SingleMu_2022F": "/Muon/Run2022F-PromptReco-v1/MINIAOD",
-    "SingleMu_2022G": "/Muon/Run2022G-22Sep2023-v1/MINIAOD",
+    # Muonon
+    "Muon_2022A": "/SingleMuon/Run2022A-PromptReco-v1/MINIAOD",
+    "Muon_2022B": "/SingleMuon/Run2022B-PromptReco-v1/MINIAOD",
+    "Muon_2022C": "/Muon/Run2022C-22Sep2023-v1/MINIAOD",
+    "Muon_2022D": "/Muon/Run2022D-22Sep2023-v1/MINIAOD",
+    "Muon_2022E": "/Muon/Run2022E-22Sep2023-v1/MINIAOD",
+    "Muon_2022F": "/Muon/Run2022F-PromptReco-v1/MINIAOD",
+    "Muon_2022G": "/Muon/Run2022G-22Sep2023-v1/MINIAOD",
     # EGamma
     "EGamma_2022A": "/EGamma/Run2022A-22Sep2023-v1/MINIAOD",
     "EGamma_2022B": "/EGamma/Run2022B-22Sep2023-v2/MINIAOD",
