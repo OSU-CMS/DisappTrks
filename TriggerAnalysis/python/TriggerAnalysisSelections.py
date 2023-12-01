@@ -449,6 +449,28 @@ createHitsVariationsDict(TrackLegDenominatorWithTracksAnyHLTMatch)
 createHitsVariationsDict(TrackLegNumeratorWithTracksAnyHLTMatch)
 
 ##########################################################################################################
+# PFMET_IsoTrk50 trigger Numerators
+##########################################################################################################
+
+PFMET105IsoTrk50METLegNumerator = copy.deepcopy(METLegDenominator)
+PFMET105IsoTrk50METLegNumerator.name = cms.string("HLTPFMET105IsoTrk50vhltMETLegNumeratorWithMuons")
+addCuts(PFMET105IsoTrk50METLegNumerator.cuts, [firesFilter['hltMET75']])
+
+PFMET105IsoTrk50TrkLegNumerator = copy.deepcopy(PFMET105IsoTrk50METLegNumerator)
+PFMET105IsoTrk50TrkLegNumerator.name = cms.string("HLTPFMET105IsoTrk50visoTrkLegNumeratorWithMuons")
+firesFilter['hltTrk50Filter'] = cms.PSet(
+                inputCollection = cms.vstring("eventvariables"),
+                cutString = cms.string("fires_hltTrk50Filter > 0"),
+                numberRequired = cms.string(">= 1"),
+                alias = cms.string('hltTrk50Filter'),
+            )
+addCuts(PFMET105IsoTrk50TrkLegNumerator.cuts, [firesFilter['hltTrk50Filter']])
+
+PFMET105IsoTrk50PFMETLegNumerator = copy.deepcopy(PFMET105IsoTrk50TrkLegNumerator)
+PFMET105IsoTrk50PFMETLegNumerator.name = cms.string("HLTPFMET105IsoTrk50vPFMETLegNumeratorWithMuons")
+addCuts(PFMET105IsoTrk50PFMETLegNumerator.cuts, [firesFilter['hltPFMET105']])
+
+##########################################################################################################
 # ARC question testing channels
 ##########################################################################################################
 

@@ -25,14 +25,14 @@ cullHistograms(TrackExtraHistograms, ['trackIsolation',
                                       'trackDRMinJetVsIso'])
 
 # no RecHits for calo energy methods
-cullHistograms(TrackExtraHistograms, ['trackFitPlane', 
-                                      'trackCaloEMDeltaRp5', 
-                                      'trackCaloHadDeltaRp5', 
-                                      'trackCaloTot', 
-                                      'trackCaloTotByP', 
-                                      'trackCaloTot_RhoCorr', 
-                                      'trackCaloTot_RhoCorrWide',
-                                      'trackCaloTotByP_RhoCorr'])
+# cullHistograms(TrackExtraHistograms, ['trackFitPlane',
+#                                       'trackCaloEMDeltaRp5',
+#                                       'trackCaloHadDeltaRp5',
+#                                       'trackCaloTot',
+#                                       'trackCaloTotByP',
+#                                       'trackCaloTot_RhoCorr',
+#                                       'trackCaloTot_RhoCorrWide',
+#                                       'trackCaloTotByP_RhoCorr'])
 
 # the track fit covariance matrix isn't available in pat::IsolatedTrack, so ptError can't be calculated
 cullHistograms(TrackExtraHistograms, ['trackPtError', 'trackPtErrorByPt'])

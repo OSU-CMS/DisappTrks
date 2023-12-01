@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Toy script to determine the upper limit on an observation of 0 events,
 # for an arbitrary number of samples with different lumi weights

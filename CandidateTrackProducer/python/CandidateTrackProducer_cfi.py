@@ -46,6 +46,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
   electronIdName = "cutBasedElectronID-Fall17-94X-V1-tight"
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
   electronIdName = "cutBasedElectronID-Fall17-94X-V2-tight"
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4"):
+  electronIdName = "cutBasedElectronID-Fall17-94X-V2-tight"
 
 metSkimFilter = cms.EDFilter ("METSkimFilter",
   triggers     =  collections.MiniAOD.triggers,
@@ -277,6 +279,48 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4"):
   zToMuMuFilter.dataTakingPeriod           = cms.string ("2017")
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2"):
+  metSkimFilter.ptCut = cms.double(120)
+  electronSkimFilter.ptCut = cms.double(32)
+  muonSkimFilter.ptCut = cms.double(26)
+
+  electronSkimFilter.d0Cuts = cms.vdouble(0.05, 0.10)
+  electronSkimFilter.dZCuts = cms.vdouble(0.10, 0.20)
+
+  metSkimFilter.triggerNames = cms.vstring (
+    "HLT_MET105_IsoTrk50_v",
+    "HLT_MET120_IsoTrk50_v",
+
+    "HLT_PFMET120_PFMHT120_IDTight_v",
+    "HLT_PFMET130_PFMHT130_IDTight_v",
+    "HLT_PFMET140_PFMHT140_IDTight_v",
+    "HLT_PFMETTypeOne140_PFMHT140_IDTight_v",
+    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+    "HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v",
+    "HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v",
+    "HLT_PFMET250_HBHECleaned_v",
+    "HLT_PFMET300_HBHECleaned_v",
+    "HLT_PFMET200_HBHE_BeamHaloCleaned_v",
+    "HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v",
+  )
+  electronSkimFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  muonSkimFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
+  tauSkimFilter.triggerNames = cms.vstring ("HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v")
+  
+  electronTagProbeFilter.triggerNames      = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  tauToElectronTagProbeFilter.triggerNames = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  zToEEFilter.triggerNames                 = cms.vstring ("HLT_Ele32_WPTight_Gsf_v")
+  muonTagProbeFilter.triggerNames      = cms.vstring ("HLT_IsoMu24_v")
+  tauToMuonTagProbeFilter.triggerNames = cms.vstring ("HLT_IsoMu24_v")
+  zToMuMuFilter.triggerNames           = cms.vstring ("HLT_IsoMu24_v")
+
+  electronTagProbeFilter.dataTakingPeriod      = cms.string ("2018")
+  tauToElectronTagProbeFilter.dataTakingPeriod = cms.string ("2018")
+  zToEEFilter.dataTakingPeriod                 = cms.string ("2018")
+  muonTagProbeFilter.dataTakingPeriod      = cms.string ("2018")
+  tauToMuonTagProbeFilter.dataTakingPeriod = cms.string ("2018")
+  zToMuMuFilter.dataTakingPeriod           = cms.string ("2018")
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4"):
   metSkimFilter.ptCut = cms.double(120)
   electronSkimFilter.ptCut = cms.double(32)
   muonSkimFilter.ptCut = cms.double(26)

@@ -13,6 +13,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print("# Trigger filters: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Trigger filters: 2018")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    print("# Trigger filters: 2022")
 else:
     print("# Trigger filters: 2015")
     
@@ -125,16 +127,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
     triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
 
-if os.environ["CMSSW_VERSION"].startswith ("cmssw_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     triggerFiltersMet = {
-        'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105', 'hltMETClean65'],
-        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120', 'hltMETClean65'],
-        'HLT_PFMET105_IsoTrk50_v'                               : ['hltMET75', 'hltPFMET105'],
+        'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105'],
+        'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120'],
+        'HLT_PFMET105_IsoTrk50_v'                               : ['hltMET75','hltPFMET105'],
 
 
-        'HLT_PFMET120_PFMHT120_IDTight_v'                   : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'],
-        'HLT_PFMET130_PFMHT130_IDTight_v'                   : ['hltMET100', 'hltMETClean90', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
-        'HLT_PFMET140_PFMHT140_IDTight_v'                   : ['hltMET110', 'hltMETClean100', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
+        'HLT_PFMET120_PFMHT120_IDTight_v'                   : ['hltMET90', 'hltMHT90', 'hltPFMHTTightID120', 'hltPFMET120'],
+        'HLT_PFMET130_PFMHT130_IDTight_v'                   : ['hltMET100', 'hltMHT100', 'hltPFMHTTightID130', 'hltPFMET130'],
+        'HLT_PFMET140_PFMHT140_IDTight_v'                   : ['hltMET110', 'hltMHT110', 'hltPFMHTTightID140', 'hltPFMET140'],
 
         'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_FilterHF_v'  : ['hltMET80','hltMHT80','hltPFMHTNoMuTight110HFCleaned','hltPFMETNoMu110'],
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v'           : ['hltMET90', 'hltMETClean80', 'hltMHT90', 'hltPFMHTNoMuTightID120', 'hltPFMETNoMu120'],

@@ -2,7 +2,7 @@
 
 #define CANDIDATE_TRACK_TO_RECO_TRACK
 
-#include "FWCore/Framework/interface/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class CandidateTrackToRecoTrack : public edm::EDProducer {
+class CandidateTrackToRecoTrack : public edm::stream::EDProducer<> {
    public:
       explicit CandidateTrackToRecoTrack (const edm::ParameterSet &);
       ~CandidateTrackToRecoTrack ();

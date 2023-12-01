@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Makes all relevant tables for AN and other analysis documentation.
 
@@ -308,7 +308,7 @@ def makeBkgdEstimate(options):
     fout = open (outputFile, "w")
 
     content  = "# Table produced with makeANTables.py  \n"
-    content += "#!/usr/bin/env python  \n"
+    content += "#!/usr/bin/env python3  \n"
     content += "# ../scripts/bkgdFromData.py -l " + options["outputFile"] + " -w condor_2016_MM_DD_BkgdEstFullSel   \n"
     content += "# mergeOutput.py -q -C -s FakeBkgd -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel  # To combine ee and mumu fake track samples (optional) \n"
     content += "# makePlots.py       -l localConfigBkgdEst.py -w condor_2016_MM_DD_BkgdEstFullSel -o stacked_histograms.root   \n"
@@ -741,7 +741,7 @@ if arguments.all or "bkgdSumm" in arguments.tableSelection:
 
 
     content = "# Bkgd configuration file for limit-setting produced with makeANTables.py \n"
-    content += "#!/usr/bin/env python  \n"
+    content += "#!/usr/bin/env python3  \n"
 
     content += "backgrounds = {\n"
     content += "'Elec' : {\n"

@@ -147,12 +147,22 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event, const edm::E
        selectedMuons.end(),
        [](const pat::Muon *a, const pat::Muon *b) -> bool { return (a->pt() > b->pt()); });
 
+   //bool leadTrackMatchToHLTTrack = (!selectedTracks.empty() > 0 &&
+   //                                 passesHLTTrk50Filter &&
+   //                                 deltaR(*selectedTracks.at(0), isoTrk) < 0.1);
+   //bool leadMuonMatchToHLTTrack  = (!selectedMuons.empty() > 0 &&
+   //                                 passesHLTTrk50Filter &&
+   //                                 deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
+
    bool leadTrackMatchToHLTTrack = (!selectedTracks.empty() > 0 &&
                                     passesHLTTrk50Filter &&
-                                    deltaR(*selectedTracks.at(0), isoTrk) < 0.1);
-   bool leadMuonMatchToHLTTrack  = (!selectedMuons.empty() > 0 &&
+                                    matchedToHLTObj(event, *triggerObjs, *triggerBits, "hltTrk50Filter", *selectedTracks.at(0))
+                                    );
+   bool leadMuonMatchToHLTTrack = (!selectedMuons.empty() > 0 &&
                                     passesHLTTrk50Filter &&
-                                    deltaR(*selectedMuons.at(0), isoTrk) < 0.1);
+                                    matchedToHLTObj(event, *triggerObjs, *triggerBits, "hltTrk50Filter", *selectedMuons.at(0))
+                                    );
+                    
 
   //////////////////////////////////////////////////////////////////////////////
   // Lead muon and track pt
@@ -167,12 +177,15 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event, const edm::E
 
   pat::TriggerObjectStandAlone hltMet;
   pat::TriggerObjectStandAlone hltMetClean;
+  pat::TriggerObjectStandAlone hltPFMet;
 
   getHLTObj(event, *triggerObjs, *triggerBits, "hltMet", hltMet);
   getHLTObj(event, *triggerObjs, *triggerBits, "hltMetClean", hltMetClean);
+  getHLTObj(event, *triggerObjs, *triggerBits, "hltPFMet", hltPFMet);
 
   double onlineMet = hltMet.pt();
   double onlineMetClean = hltMetClean.pt();
+  double onlinePFMet = hltPFMet.pt();
 
   //////////////////////////////////////////////////////////////////////////////
   // Insert event variables
@@ -202,6 +215,7 @@ void EventTriggerVarProducer::AddVariables(const edm::Event &event, const edm::E
 
   (*eventvariables)["hltMet"] = onlineMet;
   (*eventvariables)["hltMetClean"] = onlineMetClean;
+  (*eventvariables)["hltPFMet"] = onlinePFMet;
 
   (*eventvariables)["passesHLTTrk50Filter"] = passesHLTTrk50Filter;
 
@@ -286,6 +300,31 @@ bool EventTriggerVarProducer::matchedToHLTObj(const edm::Event &event,
     if(triggerObj.collection() == (collection + "::HLT") or triggerObj.collection() == (collection + "::RECO")) {
       if(deltaR(triggerObj, muon) < 0.1) {
         dR = deltaR(triggerObj, muon);
+        break;
+      }
+    }
+  }
+
+  return (dR > 0.0);
+}
+
+bool EventTriggerVarProducer::matchedToHLTObj(const edm::Event &event,
+                                              const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                                              const edm::TriggerResults &triggerBits,
+                                              const string &collection,
+                                              const TYPE(tracks) &iso) const {
+  double dR = -1.0;
+  for(auto triggerObj : triggerObjs) {
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
+    triggerObj.unpackNamesAndLabels(event, triggerBits);
+#else
+    triggerObj.unpackPathNames(event.triggerNames(triggerBits));
+#endif
+
+    if(triggerObj.collection() == (collection + "::HLT") or triggerObj.collection() == (collection + "::RECO")) {
+      if(deltaR(triggerObj, iso) < 0.1) {
+        dR = deltaR(triggerObj, iso);
         break;
       }
     }

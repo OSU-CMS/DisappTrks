@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Calculate the electron veto probability, for different cuts on number of missing outer hits.
 

@@ -16,7 +16,7 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/DeDxData.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -57,7 +57,7 @@ struct SlimTrack {
   {}
 };
 
-class DEdxAnalyzer : public edm::EDAnalyzer {
+class DEdxAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit DEdxAnalyzer (const edm::ParameterSet &);
       ~DEdxAnalyzer ();

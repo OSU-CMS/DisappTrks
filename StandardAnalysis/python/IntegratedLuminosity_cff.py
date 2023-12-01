@@ -379,10 +379,38 @@ lumi_2018_ntuples = {
 }
 
 lumi_2022_promptReco = {
+#command used:
+# brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json -u /fb -i Cert_Collisions2022_eraD_357538_357900_Golden.json --hlt "HLT_PFMET105_IsoTrk50_*"
 
+# using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
-    "MET_2022B" : -1,
-    "MET_2022C" : 4.843287008761286736,
+    "MET_2022B" : 90.100668583,
+    "JetMET_2022C" : 5067.183864430,
+    "JetMET_2022D" : 3002.294492741,
+    "MET_2022E" : 5870.638540164,
+    "MET_2022F" : 18015.978262574,
+    "MET_2022G" : 3118.633730489,
+
+# using HLT_IsoMu24_v* with Golden json files
+    "Muon_2022A" : -1,
+    "Muon_2022B" : 77.329631,
+    "Muon_2022C" : 4476.362177, 
+    "Muon_2022D" : 2747.864685, 
+    "Muon_2022E" : 5878.354165,
+    "Muon_2022F" : 18006.977824,
+    "Muon_2022G" : 3121.865602,
+
+# using HLT_Ele32_WPTight_Gsf_v*
+    "EGamma_2022A:" : -1,
+    "EGamma_2022B" : 0077.329631,
+    "EGamma_2022C" : 4476.362177,
+    "EGamma_2022D" : 2747.864685,
+    #"EGamma_2022E" : 6.121188303, #fixme
+    "EGamma_2022E" : 5878.354165,
+    "EGamma_2022F" : -1, #fixme
+    "EGamma_2022G" : 3283.111599, #fixme
+
+    "Tau_2022B" : -1,
 
 }
 

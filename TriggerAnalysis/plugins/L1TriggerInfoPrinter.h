@@ -8,7 +8,7 @@
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerReadoutRecord.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class L1TriggerInfoPrinter : public edm::EDAnalyzer
+class L1TriggerInfoPrinter : public edm::stream::EDAnalyzer<>
 {
   public:
     L1TriggerInfoPrinter (const edm::ParameterSet &);

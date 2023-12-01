@@ -23,7 +23,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -51,7 +51,7 @@
 using namespace std;
 
 
-class DecayAnalyzer : public edm::EDAnalyzer {
+class DecayAnalyzer : public edm::stream::EDAnalyzer<> {
    public:
       explicit DecayAnalyzer(const edm::ParameterSet&);
       ~DecayAnalyzer();

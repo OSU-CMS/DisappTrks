@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Takes as input a cutFlow.tex file created using makeCutFlows.py
 # Creates a .tex file that can be copied to the AN.

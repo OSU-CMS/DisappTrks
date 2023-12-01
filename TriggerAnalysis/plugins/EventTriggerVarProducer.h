@@ -24,6 +24,11 @@ private:
                        const edm::TriggerResults &triggerBits,
                        const string &collection,
                        const pat::Muon &muon) const;
+    bool matchedToHLTObj(const edm::Event &event,
+                       const vector<pat::TriggerObjectStandAlone> &triggerObjs,
+                       const edm::TriggerResults &triggerBits,
+                       const string &collection,
+                       const TYPE(tracks) &iso) const;
 
   bool genMatched(const TYPE(tracks) &, const vector<reco::GenParticle> &, const int, const int, const double) const;
   bool genMatched(const pat::Muon &, const vector<reco::GenParticle> &, const int, const int, const double) const;

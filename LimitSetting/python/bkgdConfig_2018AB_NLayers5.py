@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 backgrounds = {
