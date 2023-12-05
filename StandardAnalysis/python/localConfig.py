@@ -12,7 +12,7 @@ UseCandidateTracks = False
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_'))
+UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_'))
 
 print("########################################################################")
 print("# Switching the following since the release is " + A_BRIGHT_BLUE + os.environ["CMSSW_VERSION"] + A_RESET + ":")

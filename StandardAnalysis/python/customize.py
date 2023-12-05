@@ -176,9 +176,10 @@ def customize (process,
         process.PUScalingFactorProducer.targetUp = cms.string ("")
         process.PUScalingFactorProducer.targetDown = cms.string ("")
 
-        process.ISRWeightProducer.weightFile = cms.string("")
-        process.ISRWeightProducer.weightHist = cms.vstring()
-        #process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        # process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
+        process.ISRWeightProducer.weightHist = cms.vstring('SingleMu_2018')
+        process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
@@ -207,6 +208,8 @@ def customize (process,
     if not applyISRReweighting:
         process.ISRWeightProducer.weightFile = cms.string("")
         process.ISRWeightProducer.weightHist = cms.vstring()
+
+    print(process.ISRWeightProducer.weightFile, process.ISRWeightProducer.weightHist)
 
     if not applyTriggerReweighting:
         process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
