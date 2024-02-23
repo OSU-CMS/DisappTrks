@@ -6,6 +6,8 @@ from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
 from DisappTrks.StandardAnalysis.utilities import *
 
+from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+
 def setStyle(h, color = 1):
     h.SetLineColor(color)
     h.SetLineStyle(1)
@@ -84,9 +86,9 @@ def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSi
 def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectronSigmaCut, fiducialMuonSigmaCut):
     hist = "Track-met Plots/metNoMuMinusOnePtVsMaxSigmaForFiducialTracks"
     h = getHistFromProjectionZ (sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = "Met Plots/metNoMu")
-    statError_ = Double(0.0)
+    statError_ = c_double(0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
     yield_ = h.IntegralAndError(0, -1, statError_)
-    return (yield_, statError_)
+    return (yield_, statError_.value)
 
 def getYield(sample,condor_dir,channel):
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
@@ -95,11 +97,11 @@ def getYield(sample,condor_dir,channel):
     if not metPtHistogram:
         print("ERROR: didn't find histogram ", channel+str("/Met Plots/metPt"), "in file ", dataset_file)
         return 0
-    statError_ = Double (0.0)
+    statError_ = c_double(0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
     yield_     = float(metPtHistogram.IntegralAndError (0, metPtHistogram.GetNbinsX () + 1, statError_))
 
     inputFile.Close()
-    return (yield_, statError_)
+    return (yield_, statError_.value)
 
 def getHistFromChannelDict(channel, hist, quietFailure = False):
     if "sample" not in channel or "condorDir" not in channel or "name" not in channel:

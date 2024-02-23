@@ -6,6 +6,8 @@ import copy
 import functools
 from array import array
 
+from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain, gDirectory
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
@@ -738,14 +740,14 @@ class ECaloSystematic:
             name = channel["name"]
             ecalo = getHist (sample, condorDir, name + "Plotter", self._integrateHistogram)
 
-            passesError = Double (0.0)
-            totalError = Double (0.0)
+            passesError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+            totalError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
             passes = ecalo.IntegralAndError (0, ecalo.FindBin (10.0) - 1, passesError)
             total = ecalo.IntegralAndError (0, ecalo.GetNbinsX () + 1, totalError)
 
             eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-            print("efficiency of ECalo cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
+            print("efficiency of ECalo cut in " + dataOrMC + ": " + str (eff.value) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
             return (eff, effErrorLow, effErrorHigh)
         else:
             print(dataOrMC + " not defined. Not printing ECalo systematic...")
@@ -755,7 +757,7 @@ class ECaloSystematic:
         data, dataErrorLow, dataErrorHigh = self.printECaloSystematic ("Data")
         mc, mcErrorLow, mcErrorHigh = self.printECaloSystematic ("MC")
 
-        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%")
+        print("systematic uncertainty: " + str ((abs (data.value - mc.value) / data.value) * 100.0) + "%")
 
 class HitsSystematic:
 
@@ -834,8 +836,8 @@ class HitsSystematic:
                 for x in channel["extensions"]:
                     hits.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", self._integrateHistogram))
 
-            passesError = Double (0.0)
-            totalError = Double (0.0)
+            passesError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+            totalError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
             passes = 0.0
             total = hits.IntegralAndError (0, hits.GetNbinsX () + 1, 0, hits.GetNbinsY () + 1, totalError)
             label = ""
@@ -851,7 +853,7 @@ class HitsSystematic:
 
             eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
 
-            print("efficiency of " + label + " cut in " + dataOrMC + ": " + str (eff) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
+            print("efficiency of " + label + " cut in " + dataOrMC + ": " + str (eff.value) + " - " + str (effErrorLow) + " + " + str (effErrorHigh))
             return (eff, effErrorLow, effErrorHigh)
         else:
             print(dataOrMC + " not defined. Not printing hits systematic...")
@@ -861,17 +863,17 @@ class HitsSystematic:
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "X")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "X")
 
-        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n")
+        print("systematic uncertainty: " + str ((abs (data.value - mc.value) / data.value) * 100.0) + "%\n")
 
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data", "Y")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC", "Y")
 
-        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%\n")
+        print("systematic uncertainty: " + str ((abs (data.value - mc.value) / data.value) * 100.0) + "%\n")
 
         data, dataErrorLow, dataErrorHigh = self.printHitsSystematic ("Data")
         mc, mcErrorLow, mcErrorHigh = self.printHitsSystematic ("MC")
 
-        print("systematic uncertainty: " + str ((abs (data - mc) / data) * 100.0) + "%")
+        print("systematic uncertainty: " + str ((abs (data.value - mc.value) / data.value) * 100.0) + "%")
 
 class MissingOuterHitsSystematic:
 
@@ -943,13 +945,13 @@ class MissingOuterHitsSystematic:
             if nHigh < 0:
                 nHigh = nLow
 
-            passesError = Double (0.0)
-            totalError = Double (0.0)
+            passesError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+            totalError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
             passes = hits.IntegralAndError (hits.FindBin (nLow), hits.FindBin (nHigh), totalError)
             total = hits.IntegralAndError (0, hits.GetNbinsX () + 1, totalError)
 
             eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
-            eff = Measurement (eff, effErrorLow, effErrorHigh)
+            eff = Measurement (eff.value, effErrorLow, effErrorHigh)
 
             return (eff, hits)
         else:
@@ -1046,7 +1048,7 @@ class MissingOuterHitsSystematic:
             if nHigh < 0:
                 nHigh = nLow
 
-            nError = Double (0.0)
+            nError = c_double (0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
             n = hits.IntegralAndError (hits.FindBin (nLow), hits.FindBin (nHigh), nError)
             n = Measurement (n, nError)
 
@@ -1269,8 +1271,8 @@ class LeptonVetoScaleFactorSystematic:
         #                             = npass(veto)/npass(loose veto)
         #                             = Integral(>= 0.15) / Integral()
 
-        passesError = Double(0.0)
-        totalError = Double(0.0)
+        passesError = c_double(0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+        totalError = c_double(0.0) # changed from Double to c_double; see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
 
         passes = h.IntegralAndError(h.GetXaxis().FindBin(self._vetoDeltaR), -1, passesError)
         total = h.IntegralAndError(0, -1, totalError)
@@ -1278,9 +1280,10 @@ class LeptonVetoScaleFactorSystematic:
         eff, effErrorLow, effErrorHigh = getEfficiency (passes, passesError, total, totalError)
         
         if math.isnan(effErrorLow) or math.isnan(effErrorHigh):
-            return Measurement(eff, 0.0, 0.0)
+            return Measurement(eff.value, 0.0, 0.0)
 
-        return Measurement(eff, effErrorLow, effErrorHigh)
+        print(eff.value,effErrorLow,effErrorHigh)
+        return Measurement(eff.value, effErrorLow, effErrorHigh)
 
     def getEffectiveLoosePOGScaleFactor(self, sample, condorDir, name, mass, lifetime):
         # only from trees

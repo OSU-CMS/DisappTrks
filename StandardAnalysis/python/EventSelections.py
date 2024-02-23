@@ -301,6 +301,15 @@ justTriggers = cms.PSet(
         cutDummyMet,
     ),
 )
+
+justTriggersElecOnly = copy.deepcopy (justTriggers)
+justTriggersElecOnly.name = cms.string ("JustTriggersElecTrigOnly")
+justTriggersElecOnly.triggers = triggersSingleEle
+
+justTriggersMuOnly = copy.deepcopy (justTriggers)
+justTriggersMuOnly.name = cms.string ("JustTriggersMuTrigOnly")
+justTriggersMuOnly.triggers = triggersSingleMu
+
 justMET75IsoTrk50 = cms.PSet(
     name = cms.string("JustMET75IsoTrk50"),
     triggers = cms.vstring("HLT_MET75_IsoTrk50_v"),
