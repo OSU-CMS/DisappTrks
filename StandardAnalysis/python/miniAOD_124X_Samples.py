@@ -41,6 +41,15 @@ run3_skim_sibling_datasets = {
     "Muon_2022E": "/Muon/Run2022E-EXODisappTrk-27Jun2023-v1/AOD",
     "Muon_2022F": "/Muon/Run2022F-EXODisappTrk-PromptReco-v1/AOD",
     "Muon_2022G": "/Muon/Run2022G-EXODisappTrk-PromptReco-v1/AOD",
+
+    # SignalMC
+    'AMSB_chargino_700GeV_10000cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/10000cm/700GeV/AMSB_chargino_M_700GeV_CTau_10000cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/',
+    'AMSB_chargino_700GeV_1000cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/1000cm/700GeV/AMSB_chargino_M_700GeV_CTau_1000cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/',
+    'AMSB_chargino_700GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/',
+    'AMSB_chargino_700GeV_10cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/10cm/700GeV/AMSB_chargino_M_700GeV_CTau_10cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/',
+    'AMSB_chargino_100GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/100GeV/AMSB_chargino_M_100GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/',
+    'AMSB_chargino_Pythia700GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/Pythia700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_pythia8/',
+    'AMSB_chargino_Pythia100GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/Pythia100GeV/AMSB_chargino_M_100GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_pythia8/',
 }
 
 dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
@@ -83,15 +92,53 @@ dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
     "MET_2022F": "/JetMET/Run2022F-PromptReco-v1/MINIAOD",
     "MET_2022G": "/JetMET/Run2022G-22Sep2023-v2/MINIAOD",
 
-
-    "AMSB_chargino_700GeV_100cm_124X": "/AMSB_chargino_M-700GeV_CTau-100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/borzari-Run3Summer22DRPremixMiniAOD-124X_mcRun3_2022_realistic_v12-v1_step3/USER",
 }
 
 dataset_names_sig = {
-    'AMSB_chargino_700GeV_100cm_124X' : '/AMSB_chargino_M-700GeV_CTau-100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/borzari-Run3Summer22DRPremixMiniAOD-124X_mcRun3_2022_realistic_v12-v1_step4/USER',
+    'AMSB_chargino_700GeV_10000cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/10000cm/700GeV/',
+    'AMSB_chargino_700GeV_1000cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/1000cm/700GeV/',
+    'AMSB_chargino_700GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/',
+    'AMSB_chargino_700GeV_10cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/10cm/700GeV/',
+    'AMSB_chargino_100GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/100GeV/',
+    'AMSB_chargino_Pythia700GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/Pythia700GeV/',
+    'AMSB_chargino_Pythia100GeV_100cm_124X' : '/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/Pythia100GeV/',
 }
 
-dataset_names_bkgd = {}
+dataset_names_bkgd = {
+
+    'WToLNu_4Jets_PostEE' : '/WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WToLNu_2Jets_PostEE' : '/WtoLNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT2-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'DYJetsToLL_M50_PostEE' : '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WW_PostEE' : '/WW_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WZ_PostEE' : '/WZ_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT2-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'ZZ_PostEE' : '/ZZ_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'TTto2L2Nu_PostEE' : '/TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'TTtoLNu2Q_PostEE' : '/TTtoLNu2Q_TuneCP5_13p6TeV_powheg-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'TTto4Q_PostEE' : '/TTto4Q_TuneCP5_13p6TeV_powheg-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT15to30_PostEE' : '/QCD_PT-15to30_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT2-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT30to50_PostEE' : '/QCD_PT-30to50_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT2-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT50to80_PostEE' : '/QCD_PT-50to80_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT80to120_PostEE' : '/QCD_PT-80to120_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT120to170_PostEE' : '/QCD_PT-120to170_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT170to300_PostEE' : '/QCD_PT-170to300_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT300to470_PostEE' : '/QCD_PT-300to470_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT470to600_PostEE' : '/QCD_PT-470to600_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT600to800_PostEE' : '/QCD_PT-600to800_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT800to1000_PostEE' : '/QCD_PT-800to1000_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT1000to1400_PostEE' : '/QCD_PT-1000to1400_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT1400to1800_PostEE' : '/QCD_PT-1400to1800_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT1800to2400_PostEE' : '/QCD_PT-1800to2400_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'QCD_PT2400to3200_PostEE' : '/QCD_PT-2400to3200_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'Zto2Nu_4Jets_HT100to200_PostEE' : '/Zto2Nu-4Jets_HT-100to200_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'Zto2Nu_4Jets_HT200to400_PostEE' : '/Zto2Nu-4Jets_HT-200to400_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'Zto2Nu_4Jets_HT400to800_PostEE' : '/Zto2Nu-4Jets_HT-400to800_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'Zto2Nu_4Jets_HT800to1500_PostEE' : '/Zto2Nu-4Jets_HT-800to1500_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'Zto2Nu_4Jets_HT1500to2500_PostEE' : '/Zto2Nu-4Jets_HT-1500to2500_TuneCP5_13p6TeV_madgraphMLM-pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WtoMuNu_M100to200' : '/WtoMuNu_M-100to200_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WtoMuNu_M200to500' : '/WtoMuNu_M-200to500_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'WtoMuNu_M500to1000' : '/WtoMuNu_M-500to1000_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+
+}
 
 dataset_names = {}
 dataset_names.update(dataset_names_data)

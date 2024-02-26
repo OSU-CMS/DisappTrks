@@ -22,13 +22,15 @@ process.load('Configuration.StandardSequences.Skims_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(-1),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/data/users/mcarrigan/condor/signalMC/Run3/step3/higgsino_100GeV_1cm/Higgsino_M_100GeV_CTau_1cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_100.root'),
+    # fileNames = cms.untracked.vstring('file:/data/users/mcarrigan/condor/signalMC/Run3/step3/higgsino_100GeV_1cm/Higgsino_M_100GeV_CTau_1cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_100.root'),
+    #fileNames = cms.untracked.vstring('/store/mc/Run3Summer22EEDRPremix/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/AODSIM/forPOG_124X_mcRun3_2022_realistic_postEE_v1-v3/2810000/002cda4f-e18b-4323-981b-9e06c13e0d67.root'),
+    fileNames = cms.untracked.vstring('/store/mc/Run3Summer22EEDRPremix/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/AODSIM/forPOG_124X_mcRun3_2022_realistic_postEE_v1-v3/2810000/002cda4f-e18b-4323-981b-9e06c13e0d67.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -83,10 +85,12 @@ process.SKIMStreamEXODisappTrk = cms.OutputModule("PoolOutputModule",
     outputCommands = process.EXODisappTrkSkimContent.outputCommands
 )
 
+process.MessageLogger.cerr.FwkReport.reportEvery = 20000
+
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase1_2021_realistic', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '124X_mcRun3_2022_realistic_postEE_v1', '')
 
 # Path and EndPath definitions
 #process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)

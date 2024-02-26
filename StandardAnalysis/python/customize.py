@@ -171,27 +171,29 @@ def customize (process,
 
     elif runPeriod == "2022":
         
-        process.PUScalingFactorProducer.PU     = cms.string ("")
-        process.PUScalingFactorProducer.target = cms.string ("")
-        process.PUScalingFactorProducer.targetUp = cms.string ("")
-        process.PUScalingFactorProducer.targetDown = cms.string ("")
+        # These come from the 2018 corrections - need to be fixed
+        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2018")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
+        # These come from the 2018 corrections - need to be fixed
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
-        # process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
-        process.ISRWeightProducer.weightHist = cms.vstring('SingleMu_2018')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string("")
-        process.TriggerWeightProducer.dataset = cms.string("")
-        process.TriggerWeightProducer.target = cms.string("")
+        # These come from the 2018 corrections - need to be fixed
+        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
-        process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         #setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
         #setThresholdForFiducialMapVeto (process, 2.0)

@@ -18,6 +18,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True)
+#  add_channels  (process,  [justTriggersElecOnly],                histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [justTriggersMuOnly],                histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits3],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits4],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits5],         histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -49,7 +51,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkNoEcaloNLayers6plus],            histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
-#add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collMap,  variableProducers,  False)
