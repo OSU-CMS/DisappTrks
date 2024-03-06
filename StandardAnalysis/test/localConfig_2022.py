@@ -2,9 +2,9 @@ from DisappTrks.StandardAnalysis.localConfig import *
 
 config_file = "config_2022_cfg.py"
 
-intLumi = lumi["Tau_2022F"]
+intLumi = lumi["Tau_2022G"]
 
-datasetsData = ["Tau_2022F"]
+datasetsData = ["Tau_2022G"]
 
 datasetsSig = ["AMSB_chargino_700GeV_100cm_124X"]
 
