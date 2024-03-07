@@ -1,5 +1,5 @@
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -24,7 +24,7 @@ using namespace std;
 enum Flavor {ELECTRON, MUON};
 
 template<Flavor T>
-class ZToLLFilter : public edm::EDFilter {
+class ZToLLFilter : public edm::stream::EDFilter<> {
    public:
       ZToLLFilter (const edm::ParameterSet &);
       ~ZToLLFilter ();

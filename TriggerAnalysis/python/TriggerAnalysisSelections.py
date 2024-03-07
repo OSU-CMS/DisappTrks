@@ -9,7 +9,7 @@ from DisappTrks.StandardAnalysis.EventSelections import *
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
         replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
@@ -18,7 +18,7 @@ def createHitsVariationsDict (channelDict):
         chName = channelDict[ch].name.value()
         globals ().update (createChannelVariations (channelDict[ch], chName, None, cutTrkNLayersVariations))
         globals ().update (createChannelVariations (channelDict[ch], chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
             replaceSingleCut (globals ()[chName + 'NHits3'].cuts,   cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
             replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
@@ -82,7 +82,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         cutElectronNMissMid,
         cutElectronTightPFIso,
     ]
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     withElectronCuts = [
         cutLeadJetCentral,
         cutElectronPt55,

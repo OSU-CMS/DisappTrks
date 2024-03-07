@@ -19,7 +19,7 @@
 //
 
 // user include files
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -49,7 +49,7 @@ struct CaloEnergy
   double eHad;
 };
 
-class CandidateTrackProducer : public edm::EDFilter {
+class CandidateTrackProducer : public edm::stream::EDFilter<> {
    public:
       explicit CandidateTrackProducer (const edm::ParameterSet&);
       ~CandidateTrackProducer ();

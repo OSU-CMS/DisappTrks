@@ -158,11 +158,6 @@ private:
 
     edm::InputTag miniEBRecHits_, miniEERecHits_;
 
-#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0) 
-    edm::InputTag miniESRecHits_;
-    edm::InputTag miniHBHERecHits_, miniHCALRecHits_, miniHFRecHits_, miniHORecHits_;
-#endif
-
     edm::EDGetTokenT<vector<CandidateTrack> > candidateTracksToken_;
     edm::EDGetTokenT<vector<reco::Track> > generalTracksToken_;
     edm::EDGetTokenT<pat::PackedCandidateCollection> packedCandidatesToken_;
@@ -199,6 +194,14 @@ private:
     edm::EDGetTokenT<HORecHitCollection> miniHORecHitsToken_;
 #endif 
 
+    const edm::ESGetToken<CaloGeometry, CaloGeometryRecord> caloGeomToken_;
+    const edm::ESGetToken<CSCGeometry, MuonGeometryRecord> cscGeomToken_;
+    const edm::ESGetToken<DTGeometry, MuonGeometryRecord> dtGeomToken_;
+    const edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken_;
+
+    const edm::ESGetToken<EcalChannelStatus, EcalChannelStatusRcd> ecalStatToken_;
+    const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopoToken_;
+
     edm::ESHandle<CaloGeometry> caloGeometry_;
     edm::ESHandle<CSCGeometry>  cscGeometry_;
     edm::ESHandle<DTGeometry>   dtGeometry_;
@@ -206,6 +209,11 @@ private:
 
     edm::ESHandle<EcalChannelStatus> ecalStatus_;
     edm::ESHandle<TrackerTopology> trackerTopology_;
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0) 
+    edm::InputTag miniESRecHits_;
+    edm::InputTag miniHBHERecHits_, miniHCALRecHits_, miniHFRecHits_, miniHORecHits_;
+#endif
 
     edm::Service<TFileService> fs_;
     TTree * tree_;
@@ -292,7 +300,13 @@ TrackCollectionAnalyzer::TrackCollectionAnalyzer(const edm::ParameterSet &cfg) :
     ESRecHits_     (cfg.getParameter<edm::InputTag> ("ESRecHits")),
     HBHERecHits_   (cfg.getParameter<edm::InputTag> ("HBHERecHits")),
     miniEBRecHits_ (cfg.getParameter<edm::InputTag> ("miniEBRecHits")),
-    miniEERecHits_ (cfg.getParameter<edm::InputTag> ("miniEERecHits"))
+    miniEERecHits_ (cfg.getParameter<edm::InputTag> ("miniEERecHits")),
+    caloGeomToken_(esConsumes<CaloGeometry, CaloGeometryRecord>()),
+    cscGeomToken_(esConsumes<CSCGeometry, MuonGeometryRecord>()),
+    dtGeomToken_(esConsumes<DTGeometry, MuonGeometryRecord>()),
+    rpcGeomToken_(esConsumes<RPCGeometry, MuonGeometryRecord>()),
+    ecalStatToken_(esConsumes<EcalChannelStatus, EcalChannelStatusRcd>()),
+    trackerTopoToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>())
 #if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0)
         ,
         miniESRecHits_ (cfg.getParameter<edm::InputTag> ("miniESRecHits")),
@@ -1391,24 +1405,30 @@ TrackCollectionAnalyzer::getPosition(const DetId& id) const
 
 void
 TrackCollectionAnalyzer::getGeometries(const edm::EventSetup &setup) {
-  setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  // setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  caloGeometry_ = setup.getHandle(caloGeomToken_);
   if(!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(cscGeometry_);
+  // setup.get<MuonGeometryRecord>().get(cscGeometry_);
+  cscGeometry_ = setup.getHandle(cscGeomToken_);
   if(!cscGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (CSC) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(dtGeometry_);
+  // setup.get<MuonGeometryRecord>().get(dtGeometry_);
+  dtGeometry_ = setup.getHandle(dtGeomToken_);
   if(!dtGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (DT) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(rpcGeometry_);
+  // setup.get<MuonGeometryRecord>().get(rpcGeometry_);
+  rpcGeometry_ = setup.getHandle(rpcGeomToken_);
   if(!rpcGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (RPC) in event!\n";
 
-  setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
-  setup.get<TrackerTopologyRcd>().get(trackerTopology_);
+  // setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
+  // setup.get<TrackerTopologyRcd>().get(trackerTopology_);
+  ecalStatus_ = setup.getHandle(ecalStatToken_);
+  trackerTopology_ = setup.getHandle(trackerTopoToken_);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
