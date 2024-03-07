@@ -1,7 +1,8 @@
 #include "DisappTrks/TriggerAnalysis/plugins/L1TriggerInfoPrinter.h"
 
 L1TriggerInfoPrinter::L1TriggerInfoPrinter (const edm::ParameterSet &cfg) :
-  l1GtReadoutRecord_ (cfg.getParameter<edm::InputTag> ("l1GtReadoutRecord"))
+  l1GtReadoutRecord_ (cfg.getParameter<edm::InputTag> ("l1GtReadoutRecord")),
+  tok_l1gt_ (esConsumes<L1GtTriggerMenu, L1GtTriggerMenuRcd>())
 {
   tok_gtRec_ = consumes<L1GlobalTriggerReadoutRecord> (l1GtReadoutRecord_);
 }
@@ -17,7 +18,8 @@ L1TriggerInfoPrinter::analyze (const edm::Event &iEvent, const edm::EventSetup &
   ss.str ("");
 
   edm::ESHandle<L1GtTriggerMenu> menuRcd;
-  iSetup.get<L1GtTriggerMenuRcd>().get(menuRcd) ;
+  // iSetup.get<L1GtTriggerMenuRcd>().get(menuRcd) ;
+  menuRcd = iSetup.getHandle(tok_l1gt_);
   const L1GtTriggerMenu* menu = menuRcd.product();
   const AlgorithmMap& bitMap = menu->gtAlgorithmMap();
   ss<<" Number of algorithms in L1 GT menu: "<<bitMap.size()<<endl;

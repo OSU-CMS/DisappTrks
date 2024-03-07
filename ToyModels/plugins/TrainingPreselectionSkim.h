@@ -1,5 +1,5 @@
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -23,7 +23,7 @@
 
 using namespace std;
 
-class TrainingPreselectionSkim : public edm::EDFilter {
+class TrainingPreselectionSkim : public edm::stream::EDFilter<> {
    public:
       TrainingPreselectionSkim (const edm::ParameterSet &);
       ~TrainingPreselectionSkim ();

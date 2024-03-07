@@ -11,7 +11,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -46,7 +46,7 @@ using namespace HepMC;
 // class decleration
 //
 
-class HepMCDecayFilter : public edm::EDFilter {
+class HepMCDecayFilter : public edm::stream::EDFilter<> {
 public:
   explicit HepMCDecayFilter(const edm::ParameterSet&);
   ~HepMCDecayFilter();

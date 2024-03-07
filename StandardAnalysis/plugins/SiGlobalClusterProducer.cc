@@ -1,7 +1,8 @@
 #include "DisappTrks/StandardAnalysis/plugins/SiGlobalClusterProducer.h"
 
 SiGlobalClusterProducer::SiGlobalClusterProducer (const edm::ParameterSet &cfg) :
-  siPixelClusters_ (cfg.getParameter<edm::InputTag> ("siPixelClusters"))
+  siPixelClusters_ (cfg.getParameter<edm::InputTag> ("siPixelClusters")),
+  geomToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>())
 {
   siPixelClustersToken_ = consumes<edmNew::DetSetVector<SiPixelCluster> > (siPixelClusters_);
   produces<edmNew::DetSetVector<SiGlobalPixelCluster> > ("globalPixelClusters");
@@ -19,8 +20,9 @@ SiGlobalClusterProducer::produce (edm::Event &event, const edm::EventSetup &setu
 
   globalPixelClusters_ = make_unique<edmNew::DetSetVector<SiGlobalPixelCluster> > ();
 
-  edm::ESHandle<TrackerGeometry> theTrackerGeometry;
-  setup.get<TrackerDigiGeometryRecord> ().get (theTrackerGeometry);
+  // edm::ESHandle<TrackerGeometry> theTrackerGeometry;
+  // setup.get<TrackerDigiGeometryRecord> ().get (theTrackerGeometry);
+  edm::ESHandle<TrackerGeometry> theTrackerGeometry = setup.getHandle(geomToken_);
   const TrackerGeometry &theTracker (*theTrackerGeometry);
 
   for (edmNew::DetSetVector<SiPixelCluster>::const_iterator detSet = siPixelClusters->begin (); detSet != siPixelClusters->end (); detSet++)
