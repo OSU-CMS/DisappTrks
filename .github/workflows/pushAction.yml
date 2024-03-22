@@ -1,10 +1,7 @@
-name: pushTest
-
+name: example
 on: push
-
 jobs:
-  job_1:
+  greeting:
     runs-on: ubuntu-latest
     steps:
-      - name: My first step
-        run: echo hello world
+      - run: echo hello world
