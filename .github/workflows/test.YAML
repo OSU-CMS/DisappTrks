@@ -1,0 +1,17 @@
+cmssw_compile:
+  tags:
+    - cvmfs
+  variables:
+    CMS_PATH: /cvmfs/cms.cern.ch
+    CMSSW_RELEASE: CMSSW_12_4_11_patch3
+  script:
+    # IMPORTANT: Expand aliases in noninteractive bash mode
+    # Otherwise cmsrel and cmsenv won't work
+    - shopt -s expand_aliases
+    - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
+    - cmsrel ${CMSSW_RELEASE}
+    - cd ${CMSSW_RELEASE}/src
+    - cmsenv
+    - mkdir -p AnalysisCode
+    - cp -r "${CI_PROJECT_DIR}/ZPeakAnalysis" "${CMSSW_BASE}/src/AnalysisCode/"
+    - scram b
