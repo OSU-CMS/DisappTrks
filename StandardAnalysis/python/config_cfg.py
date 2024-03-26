@@ -14,6 +14,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # Channels needed for background estimates and systematics
 #  add_channels  (process,  [vertexCutOnly],                 histSets,  weights,  [],  collMap,  variableProducers,  True)
+#  add_channels  (process,  [jetVetoMap2022],                 histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels  (process,  [basicSelectionNoAngularCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)

@@ -37,6 +37,11 @@ vertexCutOnly = cms.PSet(
     )
 )
 
+jetVetoMap2022 = copy.deepcopy (vertexCutOnly)
+jetVetoMap2022.name = cms.string ("jetVetoMap2022")
+jetVetoMapCut = [cutVetoJetMap2022]
+addCuts(jetVetoMap2022.cuts, jetVetoMapCut)
+
 metMinimalSkim = copy.deepcopy (vertexCutOnly)
 metMinimalSkim.name = cms.string ("metMinimalSkim")
 addCuts (metMinimalSkim.cuts, [cutMet])
