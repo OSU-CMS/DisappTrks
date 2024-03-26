@@ -1194,8 +1194,8 @@ JetExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("jetEtaVsPhi"),
             title = cms.string("jetEtaVsPhi;jetEtaVsPhi"),
-            binsX = cms.untracked.vdouble(100, -3, 3),
-            binsY = cms.untracked.vdouble(100, -3, 3),
+            binsX = cms.untracked.vdouble(82, -5.191, 5.191),
+            binsY = cms.untracked.vdouble(72, -3.1415927, 3.1415927),
             inputVariables = cms.vstring("eta" , "phi"),
         ),
         cms.PSet (
@@ -2005,6 +2005,12 @@ EventVariableHistograms = cms.PSet(
             title = cms.string(";jet pointing away, met towards HEM 15/16"),
             binsX = cms.untracked.vdouble(2, -0.5, 1.5),
             inputVariables = cms.vstring("metJetHEM1516"),
+        ),
+        cms.PSet (
+            name = cms.string("vetoJetMap2022"),
+            title = cms.string("Jet in Veto Map 2022"),
+            binsX = cms.untracked.vdouble(2, -0.5, 1.5),
+            inputVariables = cms.vstring("jetVeto2022"),
         ),
     )
 )
