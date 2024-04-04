@@ -202,7 +202,7 @@ class FakeTrackVarProducer : public edm::stream::EDProducer<edm::GlobalCache<Cac
       edm::InputTag vertices_;
       edm::InputTag jets_;
       edm::InputTag rhoCentralCalo_;
-      edm::InputTag EBRecHits_, EERecHits_, ESRecHits_;
+      edm::InputTag EBRecHits_, EERecHits_; //, ESRecHits_;
       edm::InputTag HBHERecHits_;
       edm::InputTag cscSegments_, dtRecSegments_, rpcRecHits_;
 
@@ -229,7 +229,7 @@ class FakeTrackVarProducer : public edm::stream::EDProducer<edm::GlobalCache<Cac
 
       edm::EDGetTokenT<EBRecHitCollection>         EBRecHitsToken_;
       edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
-      edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
+      //edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
       edm::EDGetTokenT<CSCSegmentCollection>       CSCSegmentsToken_;
       edm::EDGetTokenT<DTRecSegment4DCollection>   DTRecSegmentsToken_;

@@ -28,7 +28,7 @@ FakeTrackVarProducer::FakeTrackVarProducer(const edm::ParameterSet &cfg, const C
 
   EBRecHits_     (cfg.getParameter<edm::InputTag> ("EBRecHits")),
   EERecHits_     (cfg.getParameter<edm::InputTag> ("EERecHits")),
-  ESRecHits_     (cfg.getParameter<edm::InputTag> ("ESRecHits")),
+  //ESRecHits_     (cfg.getParameter<edm::InputTag> ("ESRecHits")),
   HBHERecHits_   (cfg.getParameter<edm::InputTag> ("HBHERecHits")),
   cscSegments_   (cfg.getParameter<edm::InputTag> ("CSCSegments")),
   dtRecSegments_ (cfg.getParameter<edm::InputTag> ("DTRecSegments")),
@@ -73,7 +73,7 @@ FakeTrackVarProducer::FakeTrackVarProducer(const edm::ParameterSet &cfg, const C
 
   EBRecHitsToken_     = consumes<EBRecHitCollection>       (EBRecHits_);
   EERecHitsToken_     = consumes<EERecHitCollection>       (EERecHits_);
-  ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
+  //ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
   HBHERecHitsToken_   = consumes<HBHERecHitCollection>     (HBHERecHits_);
   CSCSegmentsToken_   = consumes<CSCSegmentCollection>     (cscSegments_);
   DTRecSegmentsToken_ = consumes<DTRecSegment4DCollection> (dtRecSegments_);
@@ -152,7 +152,7 @@ void FakeTrackVarProducer::fillDescriptions(edm::ConfigurationDescriptions& desc
 
   desc.add<edm::InputTag>("EBRecHits");
   desc.add<edm::InputTag>("EERecHits");
-  desc.add<edm::InputTag>("ESRecHits");
+  //desc.add<edm::InputTag>("ESRecHits");
   desc.add<edm::InputTag>("HBHERecHits");
   desc.add<edm::InputTag>("CSCSegments");
   desc.add<edm::InputTag>("DTRecSegments");
@@ -836,12 +836,12 @@ FakeTrackVarProducer::getRecHits(const edm::Event &event)
     }
   }
 
-  edm::Handle<ESRecHitCollection> ESRecHits;
+  /*edm::Handle<ESRecHitCollection> ESRecHits;
   event.getByToken(ESRecHitsToken_, ESRecHits);
   for(const auto &hit : *ESRecHits) {
     math::XYZVector pos = getPosition(hit.detid());
     recHitInfos_.push_back(RecHitInfo(pos.eta(), pos.phi(), hit.energy(), -999., DetType::ES));
-  }
+  }*/
 
   edm::Handle<HBHERecHitCollection> HBHERecHits;
   event.getByToken(HBHERecHitsToken_, HBHERecHits);

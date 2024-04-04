@@ -88,6 +88,8 @@
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
 
+#include <math.h>
+
 //
 // class declaration
 //
@@ -203,7 +205,7 @@ private:
   edm::InputTag vertices_;
   edm::InputTag jets_;
   edm::InputTag rhoCentralCalo_;
-  edm::InputTag EBRecHits_, EERecHits_, ESRecHits_;
+  edm::InputTag EBRecHits_, EERecHits_; //, ESRecHits_;
   edm::InputTag HBHERecHits_;
 
   edm::InputTag dEdxPixel_;
@@ -227,7 +229,7 @@ private:
 
   edm::EDGetTokenT<EBRecHitCollection>         EBRecHitsToken_;
   edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
-  edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
+  //edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
   edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
 
 
@@ -331,7 +333,7 @@ TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const Ca
 
     EBRecHits_     (config.getParameter<edm::InputTag> ("EBRecHits")),
     EERecHits_     (config.getParameter<edm::InputTag> ("EERecHits")),
-    ESRecHits_     (config.getParameter<edm::InputTag> ("ESRecHits")),
+    //ESRecHits_     (config.getParameter<edm::InputTag> ("ESRecHits")),
     HBHERecHits_   (config.getParameter<edm::InputTag> ("HBHERecHits")),
 
     dEdxPixel_ (config.getParameter<edm::InputTag> ("dEdxPixel")),
@@ -366,7 +368,7 @@ TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const Ca
 
   EBRecHitsToken_     = consumes<EBRecHitCollection>       (EBRecHits_);
   EERecHitsToken_     = consumes<EERecHitCollection>       (EERecHits_);
-  ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
+  //ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
   HBHERecHitsToken_   = consumes<HBHERecHitCollection>     (HBHERecHits_);
   
   dEdxPixelToken_ = consumes<edm::ValueMap<reco::DeDxData> > (dEdxPixel_);
@@ -556,7 +558,7 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
   //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
 
   std::cout << "Creating tensor for input variables" << std::endl;
-  input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 176});
+  input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 96});
 
   auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
   std::vector<float> v_networkScores_;
@@ -597,7 +599,7 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
     input_.tensor<float, 2>()(0, 19) = track.deltaRToClosestElectron;
     input_.tensor<float, 2>()(0, 20) = track.deltaRToClosestMuon;
     input_.tensor<float, 2>()(0, 21) = track.deltaRToClosestTauHad;
-    input_.tensor<float, 2>()(0, 22) = 0; //track.normalizedChi2;
+    input_.tensor<float, 2>()(0, 22) = track.normalizedChi2;
     input_.tensor<float, 2>()(0, 23) = maxHits.second;
     input_.tensor<float, 2>()(0, 24) = maxHits.first;
     input_.tensor<float, 2>()(0, 25) = encodedLayers;
@@ -608,6 +610,8 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
     input_.tensor<float, 2>()(0, 30) = (closest_vtx.second)[1];
     input_.tensor<float, 2>()(0, 31) = (closest_vtx.second)[2];
 
+    std::cout << "Hit map size " << hitMap.size() <<"x" << hitMap[0].size() << std::endl;
+
     for(unsigned int i=0; i<hitMap.size(); i++){
         for(unsigned int j=0; j<hitMap[i].size(); j++){
             //if(hitMap[i][j] != 0) input_.tensor<float, 2>()(0,23+j+i*hitMap[i].size()) = hitMap[i][j]; 
@@ -615,12 +619,59 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
         } 
     }
 
+    for(unsigned int i=0; i<input_.shape().dim_size(1); ++i){
+      input_.tensor<float, 2>()(0, i) = tanh(input_.tensor<float, 2>()(0, i));
+      //cout << "converting to tanh " << i << std::endl;
+    }
+
+    /*std::cout << "Inputs: " << std::endl;
+    std::cout << "nPV: " << input_.tensor<float, 2>()(0, 0) << std::endl;
+    std::cout << "trackIso: " << input_.tensor<float, 2>()(0, 1) << std::endl;
+    std::cout << "eta: " << input_.tensor<float, 2>()(0, 2) << std::endl;
+    std::cout << "phi: " << input_.tensor<float, 2>()(0, 3) << std::endl;
+    std::cout << "validPixelHits: " << input_.tensor<float, 2>()(0, 4) << std::endl;
+    std::cout << "validHits: " << input_.tensor<float, 2>()(0, 5) << std::endl;
+    std::cout << "missingOuterHits: " << input_.tensor<float, 2>()(0, 6) << std::endl;
+    std::cout << "dedxPixel: " << input_.tensor<float, 2>()(0, 7) << std::endl;
+    std::cout << "dedxStrip: " << input_.tensor<float, 2>()(0, 8) << std::endl;
+    std::cout << "numMeasurementsPixel: " << input_.tensor<float, 2>()(0, 9) << std::endl;
+    std::cout << "numMeasurementsStrip: " << input_.tensor<float, 2>()(0, 10) << std::endl;    
+    std::cout << "numSatPixel: " << input_.tensor<float, 2>()(0, 11) << std::endl;
+    std::cout << "numSatStrip: " << input_.tensor<float, 2>()(0, 12) << std::endl;
+    std::cout << "drMinJet: " << input_.tensor<float, 2>()(0, 13) << std::endl;
+    std::cout << "Ecalo: " << input_.tensor<float, 2>()(0, 14) << std::endl;
+    std::cout << "PT: " << input_.tensor<float, 2>()(0, 15) << std::endl;
+    std::cout << "d0: " << input_.tensor<float, 2>()(0, 16) << std::endl;
+    std::cout << "dz: " << input_.tensor<float, 2>()(0, 17) << std::endl;
+    std::cout << "totalCharge: " << input_.tensor<float, 2>()(0, 18) << std::endl;
+    std::cout << "drElectron: " << input_.tensor<float, 2>()(0, 19) << std::endl;
+    std::cout << "drMuon: " << input_.tensor<float, 2>()(0, 20) << std::endl;
+    std::cout << "drTau: " << input_.tensor<float, 2>()(0, 21) << std::endl;
+    std::cout << "normChi2: " << input_.tensor<float, 2>()(0, 22) << std::endl;
+    std::cout << "sumEnergy: " << input_.tensor<float, 2>()(0, 23) << std::endl;
+    std::cout << "diffEnergy: " << input_.tensor<float, 2>()(0, 24) << std::endl;
+    std::cout << "encodedLayers: " << input_.tensor<float, 2>()(0, 25) << std::endl;
+    std::cout << "dz1: " << input_.tensor<float, 2>()(0, 26) << std::endl;
+    std::cout << "dz2: " << input_.tensor<float, 2>()(0, 27) << std::endl;
+    std::cout << "dz3: " << input_.tensor<float, 2>()(0, 28) << std::endl;
+    std::cout << "d01: " << input_.tensor<float, 2>()(0, 29) << std::endl;
+    std::cout << "d02: " << input_.tensor<float, 2>()(0, 30) << std::endl;
+    std::cout << "d03: " << input_.tensor<float, 2>()(0, 31) << std::endl;
+
+    for (int x=0; x < 16; ++x){
+      std::cout << "charge " << x << ": " << input_.tensor<float, 2>()(0, 32+4*x) << std::endl;
+      std::cout << "HitSize " << x << ": " << input_.tensor<float, 2>()(0, 33+4*x) << std::endl;
+      std::cout << "HitSizeX " << x << ": " << input_.tensor<float, 2>()(0, 34+4*x) << std::endl;
+      std::cout << "HitSizeY " << x << ": " << input_.tensor<float, 2>()(0, 35+4*x) << std::endl;
+    }*/
+
+
     std::vector<tensorflow::Tensor> outputs;
     tensorflow::run(session_, {{inputTensorName_, input_}}, {outputTensorName_}, &outputs);
-
-    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << " " << outputs[0].matrix<float>()(0, 1) << std::endl;
-
-    std::cout << "output tensor size: " << outputs[0].shape().dims() << " " << outputs[0].shape().dim_size(0) << std::endl;
+    std::cout << "Inputs " << input_.DebugString() << std::endl;
+    std::cout << " -> " << outputs[0].tensor<float, 2>()(0, 0) << " " << outputs[0].tensor<float, 2>()(0, 1)  << " " << outputs[0].DebugString() << std::endl;
+    std::cout << "and " << outputs[0].tensor<float, 2>()(1, 0) << " " << outputs[0].tensor<float, 2>()(1, 1) << std::endl;
+    std::cout << "output tensor size: " << outputs[0].shape().dims() << " " << outputs[0].shape().dim_size(1) << std::endl;
 
 
 
@@ -707,7 +758,7 @@ void TensorflowProducer::fillDescriptions(edm::ConfigurationDescriptions& descri
 
   desc.add<edm::InputTag>("EBRecHits");
   desc.add<edm::InputTag>("EERecHits");
-  desc.add<edm::InputTag>("ESRecHits");
+  //desc.add<edm::InputTag>("ESRecHits");
   desc.add<edm::InputTag>("HBHERecHits");
 
 
@@ -1130,12 +1181,12 @@ TensorflowProducer::getRecHits(const edm::Event &event)
     }
   }
 
-  edm::Handle<ESRecHitCollection> ESRecHits;
+  /*edm::Handle<ESRecHitCollection> ESRecHits;
   event.getByToken(ESRecHitsToken_, ESRecHits);
   for(const auto &hit : *ESRecHits) {
     math::XYZVector pos = getPosition(hit.detid());
     recHitInfos_.push_back(RecHitInfo(pos.eta(), pos.phi(), hit.energy(), -999., DetType::ES));
-  }
+  }*/
 
   edm::Handle<HBHERecHitCollection> HBHERecHits;
   event.getByToken(HBHERecHitsToken_, HBHERecHits);
@@ -1515,7 +1566,7 @@ TensorflowProducer::getHitMap(const vector<TrackDeDxInfo> trackDeDxInfos) const 
   //hit.pixelHitSizeX, hit.pixelHitSizeY, hit.stripShapeSelection, hit.hitPosX, hit.hitPosY]
 
   int hitsWanted = 16;
-  int numHitVar = 9;
+  int numHitVar = 4;
   int numHits = 0;
   bool newLayer = true;
   std::vector<std::vector<double>> layerHits(hitsWanted, vector<double>(numHitVar));
@@ -1534,16 +1585,19 @@ TensorflowProducer::getHitMap(const vector<TrackDeDxInfo> trackDeDxInfos) const 
         newLayer = false;
         //check if the hit has more energy, want to have max energy hit in detector/layer
         if(hit.charge > layerHits[i][1]){
-          std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
-                                          (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+          //std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
+          //                                (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+          std::vector<double> thisLayer = {(double)hit.charge, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY};
           layerHits[i] = thisLayer;
         }
         break;
       }
     } //end loop over existing hits
     if(newLayer && numHits < hitsWanted-1){
-      std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
-                                      (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+      //std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
+      //                                (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+      std::vector<double> thisLayer = {(double)hit.charge, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY};
+
       layerHits[numHits] = thisLayer;
       numHits++;
     }
