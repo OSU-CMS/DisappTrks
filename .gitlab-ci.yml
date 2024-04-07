@@ -1,5 +1,12 @@
 image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
 
+stages:
+  - cmssw_setup
+  - test
+
+
+
+
 variables:
   CMSSW_VERSION: "CMSSW_13_3_0_pre2"     # CMSSW version being used.
   SCRAM_ARCH:    "slc7_amd64_gcc11"  
@@ -42,6 +49,9 @@ cmssw_setup:
     - git clone https://github.com/OSU-CMS/OSUT3Analysis.git
     - OSUT3Analysis/AnaTools/scripts/setupFramework.py -f MINI_AOD_2022 -c DisappTrks/StandardAnalysis/interface/CustomDataFormat.h
     - scramv1 b -j 9
+
+test:
+  script:
     - cd DisappTrks
     - git checkout CI
     - cd ..
