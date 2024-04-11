@@ -39,7 +39,5 @@ cmssw_setup:
     - scramv1 b -j 9
     - cd DisappTrks
     - git checkout CI
-    - cd ..
-    - ls DisappTrks
-    - ls DisappTrks/CITests/
-    - bash DisappTrks/CITests/run.sh
+    - cd CITests
+    - bash run.sh
