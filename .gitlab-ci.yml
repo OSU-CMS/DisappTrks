@@ -26,6 +26,7 @@ cmssw_setup:
     - cmsrel CMSSW_12_4_11_patch3
     - cd CMSSW_12_4_11_patch3/src
     - cmsenv
+    - which crab #verify the CRAB installation 
     - git config --global user.name "Boris Johnson"
     - git config --global user.github Boris
     - git config --global user.email "Boris@John.son"
