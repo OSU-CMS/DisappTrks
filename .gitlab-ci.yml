@@ -44,9 +44,6 @@ cmssw_setup:
       - git clone https://github.com/OSU-CMS/OSUT3Analysis.git
       - OSUT3Analysis/AnaTools/scripts/setupFramework.py -f MINI_AOD_2022 -c DisappTrks/StandardAnalysis/interface/CustomDataFormat.h
       - scramv1 b -j 9
-
-  - name: test
-    run:
       - cd DisappTrks
       - git checkout CI
       - cd ..
