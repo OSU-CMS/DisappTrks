@@ -67,7 +67,7 @@ dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
     "Muon_2022C": "/Muon/Run2022C-22Sep2023-v1/MINIAOD",
     "Muon_2022D": "/Muon/Run2022D-22Sep2023-v1/MINIAOD",
     "Muon_2022E": "/Muon/Run2022E-22Sep2023-v1/MINIAOD",
-    "Muon_2022F": "/Muon/Run2022F-PromptReco-v1/MINIAOD",
+    "Muon_2022F": "/Muon/Run2022F-19Dec2023-v1/MINIAOD",
     "Muon_2022G": "/Muon/Run2022G-22Sep2023-v1/MINIAOD",
     # EGamma
     "EGamma_2022A": "/EGamma/Run2022A-22Sep2023-v1/MINIAOD",
