@@ -378,6 +378,11 @@ cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 1"),
 )
+cutTrkPt25 = cms.PSet(  # LOWER PT CUT FOR SKIMMING
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1"),
+)
 cutTrkPt20 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 20"),
@@ -448,6 +453,11 @@ cutTrkFiducialMuon = cms.PSet(
 cutTrkFiducialECAL = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("isFiducialECALTrack"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkIsHighPurity = cms.PSet( # to be used in signal MC trigger efficiency
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("isHighPurityTrack"),
     numberRequired = cms.string(">= 1"),
 )
 # cutTrkEtaEcalCrackVeto = cms.PSet(  # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
