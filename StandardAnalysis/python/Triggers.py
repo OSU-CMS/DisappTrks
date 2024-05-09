@@ -291,8 +291,7 @@ triggersMetAllGoodInB = cms.vstring(
     'HLT_PFMETTypeOne130_PFMHT130_IDTight_v',
 )
 
-
-
-
-
-
+# Although the EXO_DisappTrks selection uses many more triggers, since this is just for BG MC samples
+# which will be subjected to one of the single lepton triggers at some point, the choice to only use
+# these is to select/save fewer events to keep the files size manageable
+triggersAllSkimming = triggersSingleMu + triggersSingleEle + triggersSingleTau
