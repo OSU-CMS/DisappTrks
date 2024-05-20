@@ -780,7 +780,7 @@ FakeTrackVarProducer::getTracks(const edm::Handle<vector<CandidateTrack> > track
     info.isTagProbeTauToMuon = 0;
 
     if(info.passesProbeSelection) {
-      for(const auto tag : tagElectrons) {
+      for(const auto &tag : tagElectrons) {
         double thisDR = deltaR(tag, track);
         if(info.deltaRToClosestTagElectron < 0 || thisDR < info.deltaRToClosestTagElectron) {
           info.deltaRToClosestTagElectron = thisDR;
@@ -789,7 +789,7 @@ FakeTrackVarProducer::getTracks(const edm::Handle<vector<CandidateTrack> > track
         info.isTagProbeTauToElectron |= isTagProbeTauToElePair(track, tag, met);
       }
 
-      for(const auto tag : tagMuons) {
+      for(const auto &tag : tagMuons) {
         double thisDR = deltaR(tag, track);
         if(info.deltaRToClosestTagMuon < 0 || thisDR < info.deltaRToClosestTagMuon) {
           info.deltaRToClosestTagMuon = thisDR;
@@ -885,7 +885,7 @@ FakeTrackVarProducer::getRecHits(const edm::Event &event)
     DTChamberId chamber = seg.chamberId();
     if(seg.hasPhi()) {
       time = seg.phiSegment()->t0();
-      for(const auto recHit : seg.phiSegment()->specificRecHits()){
+      for(const auto &recHit : seg.phiSegment()->specificRecHits()){
         DTWireId wire = recHit.wireId();
         DTLayerId layer = wire.layerId();
         DTSuperLayerId superlayer = layer.superlayerId();
@@ -897,7 +897,7 @@ FakeTrackVarProducer::getRecHits(const edm::Event &event)
     }
     if(seg.hasZed()) {
       time = seg.zSegment()->t0();
-      for(const auto recHit : seg.zSegment()->specificRecHits()){
+      for(const auto &recHit : seg.zSegment()->specificRecHits()){
         DTWireId wire = recHit.wireId();
         DTLayerId layer = wire.layerId();
         DTSuperLayerId superlayer = layer.superlayerId();
