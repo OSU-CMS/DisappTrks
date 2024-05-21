@@ -727,7 +727,7 @@ void TrackCollectionAnalyzer::analyze(const edm::Event &event, const edm::EventS
         double deltaRToClosestTagElectron = -1;
         int track_isProbeEleTrack = 0b00;
         //if(isProbeTrack(track, dRMinJet, trackIso)) {
-          for(const auto tag : tagElectrons) {
+          for(const auto &tag : tagElectrons) {
             double thisDR = deltaR(tag, track);
             if(deltaRToClosestTagElectron < 0 || thisDR < deltaRToClosestTagElectron) {
               deltaRToClosestTagElectron = thisDR;
@@ -751,7 +751,7 @@ void TrackCollectionAnalyzer::analyze(const edm::Event &event, const edm::EventS
         double deltaRToClosestTagMuon = -1;
         int track_isProbeMuonTrack = 0b00;
         //if(isProbeTrack(track, dRMinJet, trackIso)) {
-          for(const auto tag : tagMuons) {
+          for(const auto &tag : tagMuons) {
             double thisDR = deltaR(tag, track);
             if(deltaRToClosestTagMuon < 0 || thisDR < deltaRToClosestTagMuon) {
               deltaRToClosestTagMuon = thisDR;

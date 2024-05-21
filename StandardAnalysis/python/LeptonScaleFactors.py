@@ -193,6 +193,20 @@ muonScaleFactors2018 = cms.VPSet (
     ),
 )
 
+electronScaleFactors2022 = cms.VPSet (
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2022"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2022"),
+        wp = cms.string("Tight"),
+    ),
+)
+
 ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
     'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
@@ -217,8 +231,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2018
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2018
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-    print("# Lepton SFs: 2022  FIXME")
-    #ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2022
+    print("# Lepton SFs: 2022  FIXME (electrons fixed)")
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2022
     #MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2022
 else:
     print("# Lepton SFs: 2015")
