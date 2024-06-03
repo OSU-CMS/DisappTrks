@@ -67,6 +67,12 @@ cutVetoJetsHEM1516 = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+cutVetoJetMap2022 = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("jetVeto2022 == 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutDummyMet = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("noMuPt > -1"),
@@ -312,12 +318,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     cutJetTightLepVeto.cutString = cms.string("\
     (\
-    (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
+    (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.99 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0.01 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
     (abs(eta) > 2.6 && abs(eta) <= 2.7 && neutralHadronEnergyFraction<0.90 && neutralEmEnergyFraction<0.99 && muonEnergyFraction<0.8 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.8) || \
-    (abs(eta) > 2.7 && abs(eta) <= 3.0 && neutralEmEnergyFraction>0.02 && neutralEmEnergyFraction<0.99 && neutralMultiplicity>2) || \
-    (abs(eta) > 3.0 && neutralEmEnergyFraction<0.90 && neutralHadronEnergyFraction>0.2 && neutralMultiplicity>10)\
+    (abs(eta) > 2.7 && abs(eta) <= 3.0 && neutralEmEnergyFraction<0.99 && neutralHadronEnergyFraction<0.99 && neutralMultiplicity>1) || \
+    (abs(eta) > 3.0 && neutralEmEnergyFraction<0.4 && neutralMultiplicity>10)\
     )")
-    print('# Using 2018 reqs for Jet TightLepVeto FIXME for 2022')
+    print('# Using 2022 reqs for Jet TightLepVeto https://twiki.cern.ch/twiki/bin/view/CMS/JetID13p6TeV')
 
 #############
 # pair of jets pt > 30
@@ -370,6 +376,11 @@ cutTrkPt35 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
 cutTrkPt30 = cms.PSet(  # LOWER PT CUT FOR SYSTEMATICS STUDIES
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkPt25 = cms.PSet(  # LOWER PT CUT FOR SKIMMING
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1"),
 )
 cutTrkPt20 = cms.PSet(
@@ -442,6 +453,11 @@ cutTrkFiducialMuon = cms.PSet(
 cutTrkFiducialECAL = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("isFiducialECALTrack"),
+    numberRequired = cms.string(">= 1"),
+)
+cutTrkIsHighPurity = cms.PSet( # to be used in signal MC trigger efficiency
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("isHighPurityTrack"),
     numberRequired = cms.string(">= 1"),
 )
 # cutTrkEtaEcalCrackVeto = cms.PSet(  # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
