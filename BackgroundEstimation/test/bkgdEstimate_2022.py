@@ -158,8 +158,8 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
             electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            #electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "2022/fromLPC/electronControlRegionBinnedLayers")
-            #electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "2022/fromLPC/electronControlRegionBinnedLayers")
+            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "2022/fromLPC/electronControlRegionBinnedLayers")
+            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "2022/fromLPC/electronControlRegionBinnedLayers")
         
             '''if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
                 # HEM 15/16 issue; veto MET in phi range
