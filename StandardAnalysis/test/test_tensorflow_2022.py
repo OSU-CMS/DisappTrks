@@ -4,7 +4,6 @@
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
 # with command line options: REMINIAOD -s PAT --runUnscheduled --nThreads 4 --data --era Run2_2018 --scenario pp --conditions 102X_dataRun2_Sep2018Rereco_v1 --eventcontent MINIAOD --datatier MINIAOD --filein file:pippo.root -n 100 --python_filename=treeMaker_real2018_cfg.py --no_exec
 import FWCore.ParameterSet.Config as cms
-from datasets_EGamma2017F import dataset, secondary
 from Configuration.StandardSequences.Eras import eras
 import os
 
@@ -27,18 +26,17 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(secondary),
-    secondaryFileNames = cms.untracked.vstring(dataset)
+    fileNames = cms.untracked.vstring("file:/home/mcarrigan/scratch0/disTracksML/CMSSW_12_4_11_patch3/src/DisappTrks/StandardAnalysis/test/skim_1.root"),
 )
 
-process.TFileService = cms.Service ('TFileService',
+'''process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('images.root')
-)
+)'''
 
 process.options = cms.untracked.PSet(
 
@@ -109,10 +107,11 @@ process.MINIAODoutput = cms.OutputModule("PoolOutputModule",
             branch = cms.untracked.string('patJets_slimmedJetsPuppi__*'),
             splitLevel = cms.untracked.int32(99)
         ), 
-        cms.untracked.PSet(
-            branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedESRecHits_*'),
-            splitLevel = cms.untracked.int32(99)
-        )),
+        #cms.untracked.PSet(
+        #    branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedESRecHits_*'),
+        #    splitLevel = cms.untracked.int32(99)
+        #)
+    ),
     overrideInputFileSplitLevels = cms.untracked.bool(True),
     splitLevel = cms.untracked.int32(0)
 )
@@ -128,7 +127,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '124X_dataRun3_Prompt_v4', '')
 #from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
 #process.MINIAODoutput.outputCommands.extend(disappTrksOutputCommands)
 
-process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
+'''process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
     triggers       = cms.InputTag("TriggerResults", "", "HLT"),
     triggerObjects = cms.InputTag("slimmedPatTrigger"),
     tracks         = cms.InputTag("isolatedTracks"),
@@ -145,7 +144,7 @@ process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
 
     EBRecHits     =  cms.InputTag("reducedEcalRecHitsEB"),
     EERecHits     =  cms.InputTag("reducedEcalRecHitsEE"),
-    ESRecHits     =  cms.InputTag("reducedEcalRecHitsES"),
+    #ESRecHits     =  cms.InputTag("reducedEcalRecHitsES"),
     HBHERecHits   =  cms.InputTag("reducedHcalRecHits", "hbhereco"),
     #CSCSegments   =  cms.InputTag("cscSegments"),
     #DTRecSegments =  cms.InputTag("dt4DSegments"),
@@ -190,13 +189,13 @@ process.trackImageProducer = cms.EDAnalyzer ("TrackImageProducerMINIAOD",
 
     dataTakingPeriod = cms.string("2022")
 )
-process.trackImageProducerPath = cms.Path(process.trackImageProducer)
+process.trackImageProducerPath = cms.Path(process.trackImageProducer)'''
 
 # setup tensorflowProducer by loading the auto-generated cfi (see tensorflowProducer.fillDescriptions)
 process.load("DisappTrks.StandardAnalysis.tensorflowProducer_cfi")
 process.tensorflowProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
 process.tensorflowProducer.inputTensorName = cms.string("Input_input")
-process.tensorflowProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+process.tensorflowProducer.outputTensorName = cms.string("sequential_1/Output_xyz/Sigmoid")
 
 process.tensorflowProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
 process.tensorflowProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
@@ -213,7 +212,7 @@ process.tensorflowProducer.rhoCentralCalo = cms.InputTag("fixedGridRhoFastjetCen
 
 process.tensorflowProducer.EBRecHits = cms.InputTag("reducedEcalRecHitsEB")
 process.tensorflowProducer.EERecHits = cms.InputTag("reducedEcalRecHitsEE")
-process.tensorflowProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
+#process.tensorflowProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
 process.tensorflowProducer.HBHERecHits = cms.InputTag("reducedHcalRecHits", "hbhereco")
 #process.tensorflowProducer.CSCSegments = cms.InputTag("cscSegments")
 #process.tensorflowProducer.DTRecSegments = cms.InputTag("dt4DSegments")
@@ -256,10 +255,10 @@ process.tensorflowProducer.metFilterNames = cms.vstring([
 process.tensorflowPluginPath = cms.Path(process.tensorflowProducer)
 
 
-process.load("DisappTrks.StandardAnalysis.testMETProducer_cfi")
-process.testMETProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
-process.testMETProducer.inputTensorName = cms.string("Input_input")
-process.testMETProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
+#process.load("DisappTrks.StandardAnalysis.testMETProducer_cfi")
+#process.testMETProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
+#process.testMETProducer.inputTensorName = cms.string("Input_input")
+#process.testMETProducer.outputTensorName = cms.string("sequential/Output/Sigmoid")
 '''
 process.testMETProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
 process.testMETProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
@@ -272,10 +271,10 @@ process.testMETProducer.pfCandidates = cms.InputTag("packedPFCandidates", "")
 process.testMETProducer.vertices = cms.InputTag("offlineSlimmedPrimaryVertices", "")
 process.testMETProducer.jets = cms.InputTag("slimmedJets", "")
 '''
-process.testMETPluginPath = cms.Path(process.testMETProducer)
+#process.testMETPluginPath = cms.Path(process.testMETProducer)
 
 
-process.load("DisappTrks.StandardAnalysis.fakeTrackVarProducer_cfi")
+'''process.load("DisappTrks.StandardAnalysis.fakeTrackVarProducer_cfi")
 process.fakeTrackVarProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
 process.fakeTrackVarProducer.inputTensorName = cms.string("Input_input")
 process.fakeTrackVarProducer.outputTensorName = cms.string("Identity")
@@ -294,7 +293,7 @@ process.fakeTrackVarProducer.rhoCentralCalo = cms.InputTag("fixedGridRhoFastjetC
 
 process.fakeTrackVarProducer.EBRecHits = cms.InputTag("reducedEcalRecHitsEB")
 process.fakeTrackVarProducer.EERecHits = cms.InputTag("reducedEcalRecHitsEE")
-process.fakeTrackVarProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
+#process.fakeTrackVarProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
 process.fakeTrackVarProducer.HBHERecHits = cms.InputTag("reducedHcalRecHits", "hbhereco")
 #process.fakeTrackVarProducer.CSCSegments = cms.InputTag("cscSegments")
 #process.fakeTrackVarProducer.DTRecSegments = cms.InputTag("dt4DSegments")
@@ -336,9 +335,11 @@ process.fakeTrackVarProducer.metFilterNames = cms.vstring([
 
 #process.deepSetElectronVarProducerPath = cms.Path(process.deepSetElectronVarProducer)
 
-process.FakeTrackVarProducerPath = cms.Path(process.fakeTrackVarProducer)
+process.FakeTrackVarProducerPath = cms.Path(process.fakeTrackVarProducer)'''
 
-#process.MINIAODoutput.outputCommands = cms.untracked.vstring('drop *')
+process.MINIAODoutput.outputCommands = cms.untracked.vstring('keep networkScores_*_*_*',
+                                                             'keep NetworkOutput_*_*_*',
+                                                             'keep *')
 
 process.isolatedTracks.saveDeDxHitInfoCut = cms.string("pt > 1.")
 
@@ -401,17 +402,19 @@ process.MINIAODoutput_step = cms.EndPath(process.MINIAODoutput)
 				process.Flag_trkPOG_toomanystripclus53X,
 				process.Flag_trkPOG_logErrorTooManyClusters,
 				process.Flag_METFilters,
-				process.trackImageProducerPath,
+				#process.trackImageProducerPath,
 				process.tensorflowPluginPath,
 				process.endjob_step,
 				process.MINIAODoutput_step)'''
+
+
+process.schedule = cms.Schedule(process.tensorflowPluginPath, process.endjob_step, process.MINIAODoutput_step)
 
 #process.schedule.associate(process.patTask)
 #from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 #associatePatAlgosToolsTask(process)
 
 
-process.schedule = cms.Schedule(process.trackImageProducerPath,process.tensorflowPluginPath)
 #Setup FWK for multithreaded
 process.options.numberOfThreads=cms.untracked.uint32(4)
 process.options.numberOfStreams=cms.untracked.uint32(0)
