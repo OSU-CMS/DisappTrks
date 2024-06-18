@@ -301,7 +301,7 @@ private:
   // recHits range
   double EtaRange_;
   double PhiRange_;
-  int maxHits_;
+  int maxHits_ = 100;
 
   //void beginRun(edm::Run const&, edm::EventSetup const&) override;
   //virtual void endRun(edm::Run const&, edm::EventSetup const&); 
@@ -625,29 +625,65 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
       hitNearTrack.push_back(detIndex);
 
 			recHitsNearTrack.push_back(hitNearTrack);
+
+      std::cout << "Pushed back track " << recHitsNearTrack.size() << std::endl;
+    }
+
       std::sort(recHitsNearTrack.begin(),recHitsNearTrack.end(),
                 [](const std::vector<double>& a, const std::vector<double>& b) {
                   return a[2] > b[2];
                 });
 
-      int numRecHits = recHitsNearTrack.size();
-      for (int iHit = 0; iHit < min(maxHits_, numRecHits); iHit++)
-      {
+      std::cout << "Sorted tracks " << std::endl;
+      int numRecHits = (int)recHitsNearTrack.size();
+    
+      for (int iHit = 0; iHit < min(maxHits_, numRecHits); iHit++) {
         inputDS.matrix<float>()(iHit, 0) = recHitsNearTrack.at(iHit)[0];
         inputDS.matrix<float>()(iHit, 1) = recHitsNearTrack.at(iHit)[1];
         inputDS.matrix<float>()(iHit, 2) = recHitsNearTrack.at(iHit)[2];
         inputDS.matrix<float>()(iHit, 3) = recHitsNearTrack.at(iHit)[3];
       }
-      if (numRecHits < maxHits_){
-        for (int iHit = numRecHits; iHit < maxHits_; iHit++)
-        {
+
+      std::cout << "Set available tracks" << std::endl;
+      std::cout << "There are " << numRecHits << "out of max " << maxHits_ << std::endl;
+
+      if (numRecHits < maxHits_) {
+        std::cout << "Setting extra rec hits as empty" << std::endl;
+        for (int iHit = numRecHits; iHit < maxHits_; iHit++) {
+          std::cout << "hit " << iHit << " set to 0" << std::endl;
           inputDS.matrix<float>()(iHit, 0) = 0;
           inputDS.matrix<float>()(iHit, 1) = 0;
           inputDS.matrix<float>()(iHit, 2) = 0;
           inputDS.matrix<float>()(iHit, 3) = 0;
         }
       }
+      std::cout << "Filled out buffer" << std::endl;
+    //}
+
+    for(int iHit=0; iHit < numRecHits; iHit++){
+      std::cout << "----------------------------------------" << std::endl;
+      std::cout << "Rec Hit " << iHit << std::endl;
+      std::cout << "\t dEta: " << recHitsNearTrack.at(iHit)[0] << std::endl;
+      std::cout << "\t dPhi: " << recHitsNearTrack.at(iHit)[1] << std::endl;
+      std::cout << "\t energy: " << recHitsNearTrack.at(iHit)[2] << std::endl;
+      std::cout << "\t detID: " << recHitsNearTrack.at(iHit)[3] << std::endl;
+      std::cout << "--------------------------------------------" << std::endl;
     }
+
+    std::cout << "Deep Sets Inputs: \n";
+    std::cout << "\t nPV: " << inputTrackDS.matrix<float>()(0, 0) << std::endl;
+    std::cout << "\t eta: " << inputTrackDS.matrix<float>()(0, 1) << std::endl;
+    std::cout << "\t phi: " << inputTrackDS.matrix<float>()(0, 2) << std::endl;
+    std::cout << "\t nValidPixelHits: " << inputTrackDS.matrix<float>()(0, 3) << std::endl;
+    
+    for(int iHit = 0; iHit < inputDS.dim_size(0); iHit++){
+      std::cout << "\t Hit " << iHit << std::endl;
+      std::cout << "\t\t dEta: " << inputDS.matrix<float>()(iHit, 0) << std::endl;
+      std::cout << "\t\t dPhi: " << inputDS.matrix<float>()(iHit, 1) << std::endl;
+      std::cout << "\t\t energy: " << inputDS.matrix<float>()(iHit, 2) << std::endl;
+      std::cout << "\t\t detID: " << inputDS.matrix<float>()(iHit, 3) << std::endl;
+    }
+
     std::vector<tensorflow::Tensor> outputsDS;
     tensorflow::run(sessionDS_, {{inputTensorNameDS_, inputDS},{inputTrackTensorNameDS_, inputTrackDS}}, {outputTensorNameDS_}, &outputsDS);
 
