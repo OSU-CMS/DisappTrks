@@ -12,7 +12,7 @@
 #include "DataFormats/METReco/interface/PFMET.h"
 #include "DataFormats/MuonReco/interface/Muon.h"
 
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-class EventDisplays : public edm::EDFilter
+class EventDisplays : public edm::stream::EDFilter<>
 {
   public:
     EventDisplays (const edm::ParameterSet &);

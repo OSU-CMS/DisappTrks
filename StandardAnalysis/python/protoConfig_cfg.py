@@ -20,10 +20,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     data_global_tag = '124X_dataRun3_Prompt_v4'
     mc_global_tag = '124X_mcRun3_2022_realistic_v12'
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): # This is set for 2022 postEE campaign; if using 2022 preEE samples, change it
+    data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+    mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
 ################################################################################
 # Create the skeleton process
 ################################################################################
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     from Configuration.Eras.Era_Run3_cff import Run3
     process = cms.Process ('OSUAnalysis',Run3)
 else:
@@ -57,16 +60,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        #"file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
         # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
-        "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
+        # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
-    # process.source.secondaryFileNames = cms.untracked.vstring([
-    #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
-    # ])
+    process.source.secondaryFileNames = cms.untracked.vstring([
+        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
+    ])
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
@@ -178,7 +181,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2022)
     if UseCandidateTracks:
         collMap.tracks = cms.InputTag ('candidateTrackProducer')

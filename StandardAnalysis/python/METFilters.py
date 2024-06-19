@@ -29,5 +29,5 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
   metFilters.remove("Flag_globalTightHalo2016Filter")
   metFilters.append("Flag_globalSuperTightHalo2016Filter")
 
-if os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
   pass #FIXME

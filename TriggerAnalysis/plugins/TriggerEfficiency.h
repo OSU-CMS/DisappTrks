@@ -18,7 +18,7 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -31,7 +31,7 @@
 using namespace std;
 
 template<class T>
-class TriggerEfficiency : public edm::EDFilter
+class TriggerEfficiency : public edm::stream::EDFilter<>
 {
   public:
     TriggerEfficiency (const edm::ParameterSet &);

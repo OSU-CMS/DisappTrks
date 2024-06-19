@@ -12,7 +12,7 @@ UseCandidateTracks = False
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_'))
+UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_13_0_'))
 
 print("########################################################################")
 print("# Switching the following since the release is " + A_BRIGHT_BLUE + os.environ["CMSSW_VERSION"] + A_RESET + ":")
@@ -43,7 +43,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         print("# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET)
         print("# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")")
         from DisappTrks.StandardAnalysis.miniAOD_102X_Samples import *
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     if UseCandidateTracks:
         print("CandidateTracks not supported please change UseCandidaeTracks bool to false in config_cfg.py")
     else:
@@ -68,7 +68,7 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
 ]
-#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_
+#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_ CMSSW_13_0_
 #if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #    datasetsBkgd.append('TTJetsComposite')
 #else:
@@ -208,7 +208,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     print("# Signal samples: " + A_BRIGHT_CYAN + "124X samples" + A_RESET)
     #TODO: update this to use the existing MC signal samples when everything works!!!
     #for i in range(0, len(datasetsSig)):

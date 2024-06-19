@@ -31,7 +31,7 @@ class L1TriggerInfoPrinter : public edm::stream::EDAnalyzer<>
 
   private:
     edm::InputTag l1GtReadoutRecord_;
-
+    const edm::ESGetToken<L1GtTriggerMenu, L1GtTriggerMenuRcd> tok_l1gt_;
     edm::EDGetTokenT<L1GlobalTriggerReadoutRecord> tok_gtRec_;
 };
 

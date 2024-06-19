@@ -25,7 +25,9 @@ TrackImageAnalyzer::TrackImageAnalyzer(const edm::ParameterSet &cfg) :
   minTrackPt_         (cfg.getParameter<double> ("minTrackPt")),
   maxRelTrackIso_     (cfg.getParameter<double> ("maxRelTrackIso")),
   maxDEtaTrackRecHit_ (cfg.getParameter<double> ("maxDEtaTrackRecHit")),
-  maxDPhiTrackRecHit_ (cfg.getParameter<double> ("maxDPhiTrackRecHit"))
+  maxDPhiTrackRecHit_ (cfg.getParameter<double> ("maxDPhiTrackRecHit")),
+
+  caloGeomToken_(esConsumes<CaloGeometry, CaloGeometryRecord>())
 {
   tracksToken_       = consumes<vector<reco::Track> >       (tracks_);
   genParticlesToken_ = consumes<vector<reco::GenParticle> > (genParticles_);
@@ -107,7 +109,8 @@ TrackImageAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &setu
   edm::Handle<reco::PFTauDiscriminator> tauMuonDiscriminator;
   event.getByToken(tauMuonDiscriminatorToken_, tauMuonDiscriminator);
 
-  setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  // setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  caloGeometry_ = setup.getHandle(caloGeomToken_);
   if (!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
