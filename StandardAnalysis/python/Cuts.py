@@ -103,9 +103,16 @@ cutMetPassecalBadCalibFilterUpdate = cms.PSet(
     cutString = cms.string("passecalBadCalibFilterUpdate"),
     numberRequired = cms.string(">= 1"),
 )
+# This was used for Run 2 and is different for Run 3; changing the name here to not have to
+# change this cut in every selection that uses it
+# cutMetFilters = cms.PSet(
+#     inputCollection = cms.vstring("mets"),
+#     cutString = cms.string("badPFMuonFilter && badChargedCandidateFilter && passecalBadCalibFilterUpdate"),
+#     numberRequired = cms.string(">= 1"),
+# )
 cutMetFilters = cms.PSet(
     inputCollection = cms.vstring("mets"),
-    cutString = cms.string("badPFMuonFilter && badChargedCandidateFilter && passecalBadCalibFilterUpdate"),
+    cutString = cms.string("passecalBadCalibFilterUpdate"),
     numberRequired = cms.string(">= 1"),
 )
 

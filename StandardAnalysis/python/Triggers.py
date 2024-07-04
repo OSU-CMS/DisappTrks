@@ -196,7 +196,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): #FIXME
     triggersSingleTau = cms.vstring(
-        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1",
+        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v",
     )
 
 triggersZeroBias = cms.vstring(
