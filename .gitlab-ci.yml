@@ -15,11 +15,11 @@ variables:
 before_script: # Commands run before all stages
  # python 3 installation not needed if running on private "runner" computer
  # python 3 needed for CMSSW 12 https://hypernews.cern.ch/HyperNews/CMS/get/comp-ops/5318.html
- - yum install -y  python3
- - yum install -y  libXpm   # Just needed to create histograms from ROOT TTree.
+ #- yum install -y  python3
+ #- yum install -y  libXpm   # Just needed to create histograms from ROOT TTree.
  - source $CMS_PATH/cmsset_default.sh
  - shopt -s expand_aliases  # Allows aliases like cmsenv to be used.
- - yum install -y openssl-devel #used to do CMSSW setup
+ #- yum install -y openssl-devel #used to do CMSSW setup
 
 
 cmssw_setup:
