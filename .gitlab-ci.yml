@@ -8,8 +8,8 @@ stages:
 
 
 variables:
-  CMSSW_VERSION: "CMSSW_13_3_0_pre2"     # CMSSW version being used.
-  SCRAM_ARCH:    "slc7_amd64_gcc11"  
+  CMSSW_VERSION: "CMSSW_13_3_2"     # CMSSW version being used.
+  SCRAM_ARCH:    "el8_amd64_gcc12"  
   CMS_PATH: "/cvmfs/cms.cern.ch/"
 
 before_script: # Commands run before all stages
@@ -35,8 +35,8 @@ cmssw_setup:
     - shopt -s expand_aliases
     # access CVMFS
     - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
-    - cmsrel CMSSW_12_4_11_patch3
-    - cd CMSSW_12_4_11_patch3/src
+    - cmsrel CMSSW_13_3_2
+    - cd CMSSW_13_3_2/src
     - cmsenv
     - git config --global user.name "Boris Johnson"
     - git config --global user.github Boris
