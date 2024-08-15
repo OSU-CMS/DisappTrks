@@ -88,6 +88,8 @@
 #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
 
+#include <math.h>
+
 //
 // class declaration
 //
@@ -95,8 +97,10 @@
 enum DetType { None, EB, EE, ES, HCAL, CSC, DT, RPC };
 
 struct CacheData {
-  CacheData() : graphDef(nullptr) {}
+  CacheData() : graphDef(nullptr), graphDefDS(nullptr) {}
   std::atomic<tensorflow::GraphDef*> graphDef;
+  std::atomic<tensorflow::GraphDef*> graphDefDS;
+
 };
 
 class TensorflowProducer : public edm::stream::EDProducer<edm::GlobalCache<CacheData>> {
@@ -186,11 +190,18 @@ private:
 
 
   std::string graphPath_;
+  std::string graphPathDS_;
+
   std::string inputTensorName_;
   std::string outputTensorName_;
+  std::string inputTensorNameDS_;
+  std::string outputTensorNameDS_;
+  std::string inputTrackTensorNameDS_;
 
   tensorflow::GraphDef* graphDef_;
+  tensorflow::GraphDef* graphDefDS_;
   tensorflow::Session* session_;
+  tensorflow::Session* sessionDS_;
 
   tensorflow::Tensor input_;
 
@@ -203,7 +214,7 @@ private:
   edm::InputTag vertices_;
   edm::InputTag jets_;
   edm::InputTag rhoCentralCalo_;
-  edm::InputTag EBRecHits_, EERecHits_, ESRecHits_;
+  edm::InputTag EBRecHits_, EERecHits_; //, ESRecHits_;
   edm::InputTag HBHERecHits_;
 
   edm::InputTag dEdxPixel_;
@@ -227,7 +238,7 @@ private:
 
   edm::EDGetTokenT<EBRecHitCollection>         EBRecHitsToken_;
   edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
-  edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
+  //edm::EDGetTokenT<ESRecHitCollection>         ESRecHitsToken_;
   edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
 
 
@@ -249,6 +260,7 @@ private:
   edm::ESHandle<TrackerTopology> trackerTopology_;
 
   edm::EDPutTokenT<vector<float> > putTokenNetworkScores_;
+  edm::EDPutTokenT<vector<float> > putTokenNetworkScoresDS_;
 
   //vector<float> networkScores_;
   vector<TrackInfo> trackInfos_;
@@ -289,7 +301,7 @@ private:
   // recHits range
   double EtaRange_;
   double PhiRange_;
-  int maxHits_;
+  int maxHits_ = 100;
 
   //void beginRun(edm::Run const&, edm::EventSetup const&) override;
   //virtual void endRun(edm::Run const&, edm::EventSetup const&); 
@@ -312,9 +324,16 @@ private:
 //
 TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const CacheData* cacheData)
   : graphPath_(config.getParameter<std::string>("graphPath")),
+    graphPathDS_(config.getParameter<std::string>("graphPathDS")),
     inputTensorName_(config.getParameter<std::string>("inputTensorName")),
     outputTensorName_(config.getParameter<std::string>("outputTensorName")),
+    inputTensorNameDS_(config.getParameter<std::string>("inputTensorNameDS")),
+    outputTensorNameDS_(config.getParameter<std::string>("outputTensorNameDS")),
+    inputTrackTensorNameDS_ (config.getParameter<std::string>("inputTrackTensorNameDS")),
+
     session_(tensorflow::createSession(cacheData->graphDef, 4)),
+    sessionDS_(tensorflow::createSession(cacheData->graphDefDS, 4)),
+
    
     triggers_     (config.getParameter<edm::InputTag> ("triggers")),
     trigObjs_     (config.getParameter<edm::InputTag> ("triggerObjects")),
@@ -331,7 +350,7 @@ TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const Ca
 
     EBRecHits_     (config.getParameter<edm::InputTag> ("EBRecHits")),
     EERecHits_     (config.getParameter<edm::InputTag> ("EERecHits")),
-    ESRecHits_     (config.getParameter<edm::InputTag> ("ESRecHits")),
+    //ESRecHits_     (config.getParameter<edm::InputTag> ("ESRecHits")),
     HBHERecHits_   (config.getParameter<edm::InputTag> ("HBHERecHits")),
 
     dEdxPixel_ (config.getParameter<edm::InputTag> ("dEdxPixel")),
@@ -366,7 +385,7 @@ TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const Ca
 
   EBRecHitsToken_     = consumes<EBRecHitCollection>       (EBRecHits_);
   EERecHitsToken_     = consumes<EERecHitCollection>       (EERecHits_);
-  ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
+  //ESRecHitsToken_     = consumes<ESRecHitCollection>       (ESRecHits_);
   HBHERecHitsToken_   = consumes<HBHERecHitCollection>     (HBHERecHits_);
   
   dEdxPixelToken_ = consumes<edm::ValueMap<reco::DeDxData> > (dEdxPixel_);
@@ -382,7 +401,9 @@ TensorflowProducer::TensorflowProducer(const edm::ParameterSet &config, const Ca
   signalTriggerNames = config.getParameter<vector<string> >("signalTriggerNames");
   metFilterNames = config.getParameter<vector<string> >("metFilterNames");
 
-  produces<NetworkOutput>("networkScores");
+  produces<NetworkOutput>("networkScoreFakeTrackNN");
+  produces<NetworkOutput>("networkScoreElectronDS");
+
   
   //networkScores_.clear();
   trackInfos_.clear();
@@ -553,18 +574,127 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
     }
   }
 
-  //std::sort(recHitInfos_.begin(),recHitInfos_.end(),hitInfoOrder());
+  // Define input tensors for all networks 
 
-  std::cout << "Creating tensor for input variables" << std::endl;
-  input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 176});
+  tensorflow::Tensor inputDS(tensorflow::DT_FLOAT, {100,4}); //deep sets input tensors
+  tensorflow::Tensor inputTrackDS(tensorflow::DT_FLOAT, {1,4});
+
+  auto networkScoresDS_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
+  std::vector<float> v_networkScoresDS_;
+  
+  input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 96}); //fake tracks input tensors
+  //input_ = tensorflow::Tensor(tensorflow::DT_FLOAT, tensorflow::TensorShape{1 , 176});
 
   auto networkScores_ = std::make_unique<NetworkOutput>(); //(new std::vector<float> ());
   std::vector<float> v_networkScores_;
   
   int track_num = 0;
 
+  //Loop over tracks
   for(auto &track : trackInfos_) 
   {
+
+    ////////////////////////////////////////////////////////////////
+    //Deep Sets 
+    ////////////////////////////////////////////////////////////////
+    inputTrackDS.matrix<float>()(0, 0) = nPV_;
+    inputTrackDS.matrix<float>()(0, 1) = track.eta;
+    inputTrackDS.matrix<float>()(0, 2) = track.phi;
+    inputTrackDS.matrix<float>()(0, 3) = track.nValidPixelHits;
+    std::vector<std::vector<double>> recHitsNearTrack;
+    for (auto &hit : recHitInfos_){
+      std::vector<double> hitNearTrack;
+      double dEta = track.eta - hit.eta;
+      double dPhi = track.phi - hit.phi;
+      if( fabs(dPhi) > TMath::Pi() ){
+        dPhi -= round(dPhi/(2* TMath::Pi()))*2*TMath::Pi();
+      }
+      if (fabs(dEta) >= EtaRange_ or fabs(dPhi) >= PhiRange_)
+      {
+        continue;
+      }
+      int detIndex = getDetectorIndex(hit.detType);
+      double energy = 1;
+      if (detIndex != 2)
+      {
+        energy = hit.energy;
+      }
+      hitNearTrack.push_back(dEta);
+      hitNearTrack.push_back(dPhi);
+      hitNearTrack.push_back(energy);
+      hitNearTrack.push_back(detIndex);
+
+			recHitsNearTrack.push_back(hitNearTrack);
+
+      std::cout << "Pushed back track " << recHitsNearTrack.size() << std::endl;
+    }
+
+      std::sort(recHitsNearTrack.begin(),recHitsNearTrack.end(),
+                [](const std::vector<double>& a, const std::vector<double>& b) {
+                  return a[2] > b[2];
+                });
+
+      std::cout << "Sorted tracks " << std::endl;
+      int numRecHits = (int)recHitsNearTrack.size();
+    
+      for (int iHit = 0; iHit < min(maxHits_, numRecHits); iHit++) {
+        inputDS.matrix<float>()(iHit, 0) = recHitsNearTrack.at(iHit)[0];
+        inputDS.matrix<float>()(iHit, 1) = recHitsNearTrack.at(iHit)[1];
+        inputDS.matrix<float>()(iHit, 2) = recHitsNearTrack.at(iHit)[2];
+        inputDS.matrix<float>()(iHit, 3) = recHitsNearTrack.at(iHit)[3];
+      }
+
+      std::cout << "Set available tracks" << std::endl;
+      std::cout << "There are " << numRecHits << "out of max " << maxHits_ << std::endl;
+
+      if (numRecHits < maxHits_) {
+        std::cout << "Setting extra rec hits as empty" << std::endl;
+        for (int iHit = numRecHits; iHit < maxHits_; iHit++) {
+          std::cout << "hit " << iHit << " set to 0" << std::endl;
+          inputDS.matrix<float>()(iHit, 0) = 0;
+          inputDS.matrix<float>()(iHit, 1) = 0;
+          inputDS.matrix<float>()(iHit, 2) = 0;
+          inputDS.matrix<float>()(iHit, 3) = 0;
+        }
+      }
+      std::cout << "Filled out buffer" << std::endl;
+    //}
+
+    for(int iHit=0; iHit < numRecHits; iHit++){
+      std::cout << "----------------------------------------" << std::endl;
+      std::cout << "Rec Hit " << iHit << std::endl;
+      std::cout << "\t dEta: " << recHitsNearTrack.at(iHit)[0] << std::endl;
+      std::cout << "\t dPhi: " << recHitsNearTrack.at(iHit)[1] << std::endl;
+      std::cout << "\t energy: " << recHitsNearTrack.at(iHit)[2] << std::endl;
+      std::cout << "\t detID: " << recHitsNearTrack.at(iHit)[3] << std::endl;
+      std::cout << "--------------------------------------------" << std::endl;
+    }
+
+    std::cout << "Deep Sets Inputs: \n";
+    std::cout << "\t nPV: " << inputTrackDS.matrix<float>()(0, 0) << std::endl;
+    std::cout << "\t eta: " << inputTrackDS.matrix<float>()(0, 1) << std::endl;
+    std::cout << "\t phi: " << inputTrackDS.matrix<float>()(0, 2) << std::endl;
+    std::cout << "\t nValidPixelHits: " << inputTrackDS.matrix<float>()(0, 3) << std::endl;
+    
+    for(int iHit = 0; iHit < inputDS.dim_size(0); iHit++){
+      std::cout << "\t Hit " << iHit << std::endl;
+      std::cout << "\t\t dEta: " << inputDS.matrix<float>()(iHit, 0) << std::endl;
+      std::cout << "\t\t dPhi: " << inputDS.matrix<float>()(iHit, 1) << std::endl;
+      std::cout << "\t\t energy: " << inputDS.matrix<float>()(iHit, 2) << std::endl;
+      std::cout << "\t\t detID: " << inputDS.matrix<float>()(iHit, 3) << std::endl;
+    }
+
+    std::vector<tensorflow::Tensor> outputsDS;
+    tensorflow::run(sessionDS_, {{inputTensorNameDS_, inputDS},{inputTrackTensorNameDS_, inputTrackDS}}, {outputTensorNameDS_}, &outputsDS);
+
+    // print the output
+    std::cout << " -> " << outputsDS[0].matrix<float>()(0, 0) << std::endl << std::endl;
+    float scoreDS = outputsDS[0].matrix<float>()(0,0);
+    v_networkScoresDS_.push_back(scoreDS);
+
+    ///////////////////////////////////////////////////////////////////
+    // Fake Track Netowork
+    ///////////////////////////////////////////////////////////////////
 
     std::vector<std::vector<double>> hitMap = getHitMap(track.dEdxInfo);   
     std::pair<double, double> maxHits = getMaxHits(track.dEdxInfo);
@@ -597,7 +727,7 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
     input_.tensor<float, 2>()(0, 19) = track.deltaRToClosestElectron;
     input_.tensor<float, 2>()(0, 20) = track.deltaRToClosestMuon;
     input_.tensor<float, 2>()(0, 21) = track.deltaRToClosestTauHad;
-    input_.tensor<float, 2>()(0, 22) = 0; //track.normalizedChi2;
+    input_.tensor<float, 2>()(0, 22) = track.normalizedChi2;
     input_.tensor<float, 2>()(0, 23) = maxHits.second;
     input_.tensor<float, 2>()(0, 24) = maxHits.first;
     input_.tensor<float, 2>()(0, 25) = encodedLayers;
@@ -608,6 +738,8 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
     input_.tensor<float, 2>()(0, 30) = (closest_vtx.second)[1];
     input_.tensor<float, 2>()(0, 31) = (closest_vtx.second)[2];
 
+    std::cout << "Hit map size " << hitMap.size() <<"x" << hitMap[0].size() << std::endl;
+
     for(unsigned int i=0; i<hitMap.size(); i++){
         for(unsigned int j=0; j<hitMap[i].size(); j++){
             //if(hitMap[i][j] != 0) input_.tensor<float, 2>()(0,23+j+i*hitMap[i].size()) = hitMap[i][j]; 
@@ -615,14 +747,59 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
         } 
     }
 
+    for(unsigned int i=0; i<input_.shape().dim_size(1); ++i){
+      input_.tensor<float, 2>()(0, i) = tanh(input_.tensor<float, 2>()(0, i));
+      //cout << "converting to tanh " << i << std::endl;
+    }
+
+    /*std::cout << "Inputs: " << std::endl;
+    std::cout << "nPV: " << input_.tensor<float, 2>()(0, 0) << std::endl;
+    std::cout << "trackIso: " << input_.tensor<float, 2>()(0, 1) << std::endl;
+    std::cout << "eta: " << input_.tensor<float, 2>()(0, 2) << std::endl;
+    std::cout << "phi: " << input_.tensor<float, 2>()(0, 3) << std::endl;
+    std::cout << "validPixelHits: " << input_.tensor<float, 2>()(0, 4) << std::endl;
+    std::cout << "validHits: " << input_.tensor<float, 2>()(0, 5) << std::endl;
+    std::cout << "missingOuterHits: " << input_.tensor<float, 2>()(0, 6) << std::endl;
+    std::cout << "dedxPixel: " << input_.tensor<float, 2>()(0, 7) << std::endl;
+    std::cout << "dedxStrip: " << input_.tensor<float, 2>()(0, 8) << std::endl;
+    std::cout << "numMeasurementsPixel: " << input_.tensor<float, 2>()(0, 9) << std::endl;
+    std::cout << "numMeasurementsStrip: " << input_.tensor<float, 2>()(0, 10) << std::endl;    
+    std::cout << "numSatPixel: " << input_.tensor<float, 2>()(0, 11) << std::endl;
+    std::cout << "numSatStrip: " << input_.tensor<float, 2>()(0, 12) << std::endl;
+    std::cout << "drMinJet: " << input_.tensor<float, 2>()(0, 13) << std::endl;
+    std::cout << "Ecalo: " << input_.tensor<float, 2>()(0, 14) << std::endl;
+    std::cout << "PT: " << input_.tensor<float, 2>()(0, 15) << std::endl;
+    std::cout << "d0: " << input_.tensor<float, 2>()(0, 16) << std::endl;
+    std::cout << "dz: " << input_.tensor<float, 2>()(0, 17) << std::endl;
+    std::cout << "totalCharge: " << input_.tensor<float, 2>()(0, 18) << std::endl;
+    std::cout << "drElectron: " << input_.tensor<float, 2>()(0, 19) << std::endl;
+    std::cout << "drMuon: " << input_.tensor<float, 2>()(0, 20) << std::endl;
+    std::cout << "drTau: " << input_.tensor<float, 2>()(0, 21) << std::endl;
+    std::cout << "normChi2: " << input_.tensor<float, 2>()(0, 22) << std::endl;
+    std::cout << "sumEnergy: " << input_.tensor<float, 2>()(0, 23) << std::endl;
+    std::cout << "diffEnergy: " << input_.tensor<float, 2>()(0, 24) << std::endl;
+    std::cout << "encodedLayers: " << input_.tensor<float, 2>()(0, 25) << std::endl;
+    std::cout << "dz1: " << input_.tensor<float, 2>()(0, 26) << std::endl;
+    std::cout << "dz2: " << input_.tensor<float, 2>()(0, 27) << std::endl;
+    std::cout << "dz3: " << input_.tensor<float, 2>()(0, 28) << std::endl;
+    std::cout << "d01: " << input_.tensor<float, 2>()(0, 29) << std::endl;
+    std::cout << "d02: " << input_.tensor<float, 2>()(0, 30) << std::endl;
+    std::cout << "d03: " << input_.tensor<float, 2>()(0, 31) << std::endl;
+
+    for (int x=0; x < 16; ++x){
+      std::cout << "charge " << x << ": " << input_.tensor<float, 2>()(0, 32+4*x) << std::endl;
+      std::cout << "HitSize " << x << ": " << input_.tensor<float, 2>()(0, 33+4*x) << std::endl;
+      std::cout << "HitSizeX " << x << ": " << input_.tensor<float, 2>()(0, 34+4*x) << std::endl;
+      std::cout << "HitSizeY " << x << ": " << input_.tensor<float, 2>()(0, 35+4*x) << std::endl;
+    }*/
+
+
     std::vector<tensorflow::Tensor> outputs;
     tensorflow::run(session_, {{inputTensorName_, input_}}, {outputTensorName_}, &outputs);
-
-    std::cout << " -> " << outputs[0].matrix<float>()(0, 0) << " " << outputs[0].matrix<float>()(0, 1) << std::endl;
-
-    std::cout << "output tensor size: " << outputs[0].shape().dims() << " " << outputs[0].shape().dim_size(0) << std::endl;
-
-
+    /*std::cout << "Inputs " << input_.DebugString() << std::endl;
+    std::cout << " -> " << outputs[0].tensor<float, 2>()(0, 0) << " " << outputs[0].tensor<float, 2>()(0, 1)  << " " << outputs[0].DebugString() << std::endl;
+    std::cout << "and " << outputs[0].tensor<float, 2>()(1, 0) << " " << outputs[0].tensor<float, 2>()(1, 1) << std::endl;
+    std::cout << "output tensor size: " << outputs[0].shape().dims() << " " << outputs[0].shape().dim_size(1) << std::endl;*/
 
     float score = outputs[0].matrix<float>()(0,0);
     v_networkScores_.push_back(score);
@@ -632,14 +809,16 @@ void TensorflowProducer::produce(edm::Event& event, const edm::EventSetup& iSetu
   }// end of track loop
 
   int counter = 0;
-  //std::cout << "About to place score into product" << std::endl;
   for(std::vector<float>::iterator it = v_networkScores_.begin(); it != v_networkScores_.end(); it++){
     networkScores_->addOutput(*it);
     counter++;
   }
+  for(std::vector<float>::iterator it = v_networkScoresDS_.begin(); it != v_networkScoresDS_.end(); it++){
+    networkScoresDS_->addOutput(*it);
+  }
 
-  event.put(std::move(networkScores_), "networkScores");
-
+  event.put(std::move(networkScores_), "networkScoreFakeTrackNN");
+  event.put(std::move(networkScoresDS_), "networkScoreElectronDS");
 }
 
 // ------------ method called once each stream before processing any runs, lumis or events  ------------
@@ -689,9 +868,14 @@ void TensorflowProducer::fillDescriptions(edm::ConfigurationDescriptions& descri
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.add<std::string>("graphPath");
+  desc.add<std::string>("graphPathDS");
+
   desc.add<std::string>("inputTensorName");
   desc.add<std::string>("outputTensorName");
-    
+  desc.add<std::string>("inputTensorNameDS");
+  desc.add<std::string>("outputTensorNameDS");
+  desc.add<std::string>("inputTrackTensorNameDS");
+
   desc.add<edm::InputTag>("triggers"),
   desc.add<edm::InputTag>("triggerObjects"),
   desc.add<edm::InputTag>("genParticles");
@@ -707,7 +891,7 @@ void TensorflowProducer::fillDescriptions(edm::ConfigurationDescriptions& descri
 
   desc.add<edm::InputTag>("EBRecHits");
   desc.add<edm::InputTag>("EERecHits");
-  desc.add<edm::InputTag>("ESRecHits");
+  //desc.add<edm::InputTag>("ESRecHits");
   desc.add<edm::InputTag>("HBHERecHits");
 
 
@@ -745,6 +929,12 @@ std::unique_ptr<CacheData> TensorflowProducer::initializeGlobalCache(const edm::
     cache->graphDef = tensorflow::loadGraphDef(graphPath);
   }
 
+  std::string graphPathDS = config.getParameter<std::string>("graphPathDS");
+  if (!graphPathDS.empty()) {
+    graphPathDS = edm::FileInPath(graphPathDS).fullPath();
+    cache->graphDefDS = tensorflow::loadGraphDef(graphPathDS);
+  }
+
   return cache;
 }
 
@@ -752,6 +942,10 @@ void TensorflowProducer::globalEndJob(const CacheData* cacheData) {
   // reset the graphDef
   if (cacheData->graphDef != nullptr) {
     delete cacheData->graphDef;
+  }
+
+  if (cacheData->graphDefDS != nullptr) {
+    delete cacheData->graphDefDS;
   }
 }
 
@@ -1130,12 +1324,12 @@ TensorflowProducer::getRecHits(const edm::Event &event)
     }
   }
 
-  edm::Handle<ESRecHitCollection> ESRecHits;
+  /*edm::Handle<ESRecHitCollection> ESRecHits;
   event.getByToken(ESRecHitsToken_, ESRecHits);
   for(const auto &hit : *ESRecHits) {
     math::XYZVector pos = getPosition(hit.detid());
     recHitInfos_.push_back(RecHitInfo(pos.eta(), pos.phi(), hit.energy(), -999., DetType::ES));
-  }
+  }*/
 
   edm::Handle<HBHERecHitCollection> HBHERecHits;
   event.getByToken(HBHERecHitsToken_, HBHERecHits);
@@ -1515,7 +1709,7 @@ TensorflowProducer::getHitMap(const vector<TrackDeDxInfo> trackDeDxInfos) const 
   //hit.pixelHitSizeX, hit.pixelHitSizeY, hit.stripShapeSelection, hit.hitPosX, hit.hitPosY]
 
   int hitsWanted = 16;
-  int numHitVar = 9;
+  int numHitVar = 4; //9 for full
   int numHits = 0;
   bool newLayer = true;
   std::vector<std::vector<double>> layerHits(hitsWanted, vector<double>(numHitVar));
@@ -1534,16 +1728,19 @@ TensorflowProducer::getHitMap(const vector<TrackDeDxInfo> trackDeDxInfos) const 
         newLayer = false;
         //check if the hit has more energy, want to have max energy hit in detector/layer
         if(hit.charge > layerHits[i][1]){
-          std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
-                                          (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+          /*std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
+                                          (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};*/
+          std::vector<double> thisLayer = {(double)hit.charge, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY};
           layerHits[i] = thisLayer;
         }
         break;
       }
     } //end loop over existing hits
     if(newLayer && numHits < hitsWanted-1){
-      std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
-                                      (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};
+      /*std::vector<double> thisLayer = {(double)hit.hitLayerId, (double)hit.charge, (double)hit.subDet, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY,
+                                      (double)hit.stripShapeSelection, (double)hit.hitPosX, (double)hit.hitPosY};*/
+      std::vector<double> thisLayer = {(double)hit.charge, (double)hit.pixelHitSize, (double)hit.pixelHitSizeX, (double)hit.pixelHitSizeY};
+
       layerHits[numHits] = thisLayer;
       numHits++;
     }
@@ -1622,6 +1819,28 @@ TensorflowProducer::getClosestVertices(const std::vector<VertexInfo> v_info, flo
   std::pair<std::array<double, 3>, std::array<double, 3>> closestVertices(dz, d0);
   return closestVertices;
 
+}
+
+int
+TensorflowProducer::getDetectorIndex(const int detectorIndex) const
+{
+  if(detectorIndex == DetType::EB or detectorIndex == DetType::EE)
+  {
+    return 0;
+  }
+  else if (detectorIndex == DetType::HCAL)
+  {
+    return 1;
+  }
+  else if (detectorIndex >= DetType::CSC and detectorIndex <= DetType::RPC)
+  {
+    return 2;
+  }
+  else
+  {
+    return -1;
+  }
+  
 }
 
 //define this as a plug-in

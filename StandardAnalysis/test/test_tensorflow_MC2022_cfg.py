@@ -6,12 +6,13 @@
 import FWCore.ParameterSet.Config as cms
 import os
 from Configuration.Eras.Era_Run3_cff import Run3
+from Configuration.StandardSequences.Eras import eras
 
 # get the data/ directory
 thisdir = os.path.dirname(os.path.abspath("__file__"))
 datadir = os.path.join(os.path.dirname(thisdir), "test")
 
-process = cms.Process('PAT',Run3)
+process = cms.Process('PAT',eras.Run3)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -28,18 +29,17 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(100),
-    output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(#'file:step1_RECO.root'),
-    '/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/30002/01326cce-6f8b-40a4-a0e9-8af154b3ac55.root'),
+    fileNames = cms.untracked.vstring(
+    #'file:step1_RECO.root'),
+    #'/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/30002/01326cce-6f8b-40a4-a0e9-8af154b3ac55.root'),
     #'/store/mc/Run3Summer21DRPremix/DYToLL_M-50_TuneCP5_14TeV-pythia8/AODSIM/120X_mcRun3_2021_realistic_v6-v2/2550000/0088b6cd-2fc0-402a-9905-34419b8abb40.root'),
-    secondaryFileNames = cms.untracked.vstring()
-)
-
-process.options = cms.untracked.PSet(
+    'file:/abyss/users/mcarrigan/DYJetsToLL_M-50-merged/EXODisappTrk_34.root'),
+    )
+'''process.options = cms.untracked.PSet(
     FailPath = cms.untracked.vstring(),
     IgnoreCompletely = cms.untracked.vstring(),
     Rethrow = cms.untracked.vstring(),
@@ -66,7 +66,7 @@ process.options = cms.untracked.PSet(
     sizeOfStackForThreadsInKB = cms.optional.untracked.uint32,
     throwIfIllegalParameter = cms.untracked.bool(True),
     wantSummary = cms.untracked.bool(False)
-)
+)'''
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
@@ -153,12 +153,12 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '120X_mcRun3_2021_realistic_v6', '')
 
-process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
+'''process.load('DisappTrks.CandidateTrackProducer.CandidateTrackProducer_cfi')
 process.candidateTracks = cms.Path(process.candidateTrackProducer)
 from DisappTrks.CandidateTrackProducer.customize import disappTrksOutputCommands
-#process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)
+#process.MINIAODSIMoutput.outputCommands.extend(disappTrksOutputCommands)'''
 
-# setup tensorflowPlugin by loading the auto-generated cfi (see tensorflowPlugin.fillDescriptions)
+'''# setup tensorflowPlugin by loading the auto-generated cfi (see tensorflowPlugin.fillDescriptions)
 process.load("DisappTrks.StandardAnalysis.tensorflowPlugin_cfi")
 process.tensorflowPlugin.graphPath = cms.string(os.path.join(datadir, "graph.pb"))
 process.tensorflowPlugin.inputTensorName = cms.string("Input_input")
@@ -465,6 +465,148 @@ from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)
+
+# End of customisation functions
+
+# Customisation from command line
+
+# Add early deletion of temporary data products to reduce peak memory need
+from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
+process = customiseEarlyDelete(process)
+# End adding early deletion
+'''
+
+process.load("DisappTrks.StandardAnalysis.tensorflowProducer_cfi")
+#process.tensorflowProducer.graphPath = cms.string(os.path.join(datadir, "graph.pb")
+process.tensorflowProducer.graphPath = cms.string(os.path.join(datadir, "graph_oct25.pb"))
+process.tensorflowProducer.inputTensorName = cms.string("Input_input")
+process.tensorflowProducer.outputTensorName = cms.string("sequential/Output_xyz/Sigmoid")
+
+process.tensorflowProducer.graphPathDS = cms.string(os.path.join(datadir, "graph_electron.pb"))
+process.tensorflowProducer.inputTensorNameDS = cms.string("input")
+process.tensorflowProducer.inputTrackTensorNameDS = cms.string("input_track")
+process.tensorflowProducer.outputTensorNameDS = cms.string("model_1/output_xyz/Softmax")
+
+process.tensorflowProducer.triggers = cms.InputTag("TriggerResults", "", "HLT")
+process.tensorflowProducer.triggerObjects = cms.InputTag("slimmedPatTrigger")
+process.tensorflowProducer.genParticles = cms.InputTag("prunedGenParticles", "")
+process.tensorflowProducer.met = cms.InputTag("slimmedMETs")
+process.tensorflowProducer.electrons = cms.InputTag("slimmedElectrons", "")
+process.tensorflowProducer.muons = cms.InputTag("slimmedMuons", "")
+process.tensorflowProducer.taus = cms.InputTag("slimmedTaus", "")
+process.tensorflowProducer.pfCandidates = cms.InputTag("packedPFCandidates", "")
+process.tensorflowProducer.vertices = cms.InputTag("offlineSlimmedPrimaryVertices", "")
+process.tensorflowProducer.jets = cms.InputTag("slimmedJets", "")
+
+process.tensorflowProducer.rhoCentralCalo = cms.InputTag("fixedGridRhoFastjetCentralCalo")
+
+process.tensorflowProducer.EBRecHits = cms.InputTag("reducedEcalRecHitsEB")
+process.tensorflowProducer.EERecHits = cms.InputTag("reducedEcalRecHitsEE")
+#process.tensorflowProducer.ESRecHits = cms.InputTag("reducedEcalRecHitsES")
+process.tensorflowProducer.HBHERecHits = cms.InputTag("reducedHcalRecHits", "hbhereco")
+#process.tensorflowProducer.CSCSegments = cms.InputTag("cscSegments")
+#process.tensorflowProducer.DTRecSegments = cms.InputTag("dt4DSegments")
+#process.tensorflowProducer.RPCRecHits = cms.InputTag("rpcRecHits")
+
+process.tensorflowProducer.dEdxPixel = cms.InputTag ("dedxPixelHarmonic2", "")
+process.tensorflowProducer.dEdxStrip = cms.InputTag ("dedxHarmonic2", "")
+process.tensorflowProducer.isolatedTracks = cms.InputTag("isolatedTracks", "")
+process.tensorflowProducer.isoTrk2dedxHitInfo = cms.InputTag("isolatedTracks", "")
+#process.tensorflowProducer.genTracks = cms.InputTag("generalTracks", "")
+process.tensorflowProducer.pileupInfo = cms.InputTag ("addPileupInfo")
+
+process.tensorflowProducer.minTrackPt = cms.double(20.0)
+process.tensorflowProducer.minGenParticlePt = cms.double(-1)
+process.tensorflowProducer.maxRelTrackIso = cms.double(-1)
+process.tensorflowProducer.dataTakingPeriod = cms.string("2022")
+process.tensorflowProducer.etaRangeNearTrack = cms.double(-1)
+process.tensorflowProducer.phiRangeNearTrack = cms.double(-1)
+process.tensorflowProducer.maxNumOfRecHits = cms.int32(-1)
+process.tensorflowProducer.signalTriggerNames = cms.vstring([
+        'HLT_MET105_IsoTrk50_v',
+        'HLT_PFMET120_PFMHT120_IDTight_v',
+        'HLT_PFMET130_PFMHT130_IDTight_v',
+        'HLT_PFMET140_PFMHT140_IDTight_v',
+        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
+        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
+        'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v',
+        'HLT_PFMET250_HBHECleaned_v',
+        'HLT_PFMET300_HBHECleaned_v'])
+process.tensorflowProducer.metFilterNames = cms.vstring([
+        "Flag_goodVertices",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_HBHENoiseFilter",
+        "Flag_HBHENoiseIsoFilter",
+        "Flag_EcalDeadCellTriggerPrimitiveFilter",
+        "Flag_BadPFMuonFilter",
+        "Flag_globalTightHalo2016Filter",
+        "Flag_globalSuperTightHalo2016Filter"])
+
+process.tensorflowPluginPath = cms.Path(process.tensorflowProducer)
+
+process.MINIAODSIMoutput.outputCommands = cms.untracked.vstring('keep networkScores_*_*_*',
+                                                             'keep NetworkOutput_*_*_*',
+                                                             'keep *')
+
+process.isolatedTracks.saveDeDxHitInfoCut = cms.string("pt > 1.")
+
+# Path and EndPath definitions
+process.Flag_trackingFailureFilter = cms.Path(process.goodVertices+process.trackingFailureFilter)
+process.Flag_goodVertices = cms.Path(process.primaryVertexFilter)
+process.Flag_CSCTightHaloFilter = cms.Path(process.CSCTightHaloFilter)
+process.Flag_trkPOGFilters = cms.Path(process.trkPOGFilters)
+process.Flag_HcalStripHaloFilter = cms.Path(process.HcalStripHaloFilter)
+process.Flag_trkPOG_logErrorTooManyClusters = cms.Path(~process.logErrorTooManyClusters)
+process.Flag_EcalDeadCellTriggerPrimitiveFilter = cms.Path(process.EcalDeadCellTriggerPrimitiveFilter)
+process.Flag_ecalLaserCorrFilter = cms.Path(process.ecalLaserCorrFilter)
+process.Flag_globalSuperTightHalo2016Filter = cms.Path(process.globalSuperTightHalo2016Filter)
+process.Flag_eeBadScFilter = cms.Path(process.eeBadScFilter)
+process.Flag_METFilters = cms.Path(process.metFilters)
+process.Flag_chargedHadronTrackResolutionFilter = cms.Path(process.chargedHadronTrackResolutionFilter)
+process.Flag_globalTightHalo2016Filter = cms.Path(process.globalTightHalo2016Filter)
+process.Flag_CSCTightHaloTrkMuUnvetoFilter = cms.Path(process.CSCTightHaloTrkMuUnvetoFilter)
+process.Flag_HBHENoiseIsoFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseIsoFilter)
+process.Flag_BadChargedCandidateSummer16Filter = cms.Path(process.BadChargedCandidateSummer16Filter)
+process.Flag_hcalLaserEventFilter = cms.Path(process.hcalLaserEventFilter)
+process.Flag_BadPFMuonFilter = cms.Path(process.BadPFMuonFilter)
+process.Flag_ecalBadCalibFilter = cms.Path(process.ecalBadCalibFilter)
+process.Flag_HBHENoiseFilter = cms.Path(process.HBHENoiseFilterResultProducer+process.HBHENoiseFilter)
+process.Flag_trkPOG_toomanystripclus53X = cms.Path(~process.toomanystripclus53X)
+process.Flag_EcalDeadCellBoundaryEnergyFilter = cms.Path(process.EcalDeadCellBoundaryEnergyFilter)
+process.Flag_BadChargedCandidateFilter = cms.Path(process.BadChargedCandidateFilter)
+process.Flag_trkPOG_manystripclus53X = cms.Path(~process.manystripclus53X)
+process.Flag_BadPFMuonSummer16Filter = cms.Path(process.BadPFMuonSummer16Filter)
+process.Flag_muonBadTrackFilter = cms.Path(process.muonBadTrackFilter)
+process.Flag_CSCTightHalo2015Filter = cms.Path(process.CSCTightHalo2015Filter)
+process.endjob_step = cms.EndPath(process.endOfProcess)
+process.MINIAODoutput_step = cms.EndPath(process.MINIAODSIMoutput)
+
+# Schedule definition
+
+
+process.schedule = cms.Schedule(process.tensorflowPluginPath, process.endjob_step, process.MINIAODoutput_step)
+
+#process.schedule.associate(process.patTask)
+#from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
+#associatePatAlgosToolsTask(process)
+
+
+#Setup FWK for multithreaded
+process.options.numberOfThreads=cms.untracked.uint32(1)
+process.options.numberOfStreams=cms.untracked.uint32(0)
+process.options.numberOfConcurrentLuminosityBlocks = 1
+
+#do not add changes to your config after this point (unless you know what you are doing)
+from FWCore.ParameterSet.Utilities import convertToUnscheduled
+process=convertToUnscheduled(process)
+
+# customisation of the process.
+
+# Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllData 
+
+#call to customisation function miniAOD_customizeAllData imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
+process = miniAOD_customizeAllData(process)
 
 # End of customisation functions
 
