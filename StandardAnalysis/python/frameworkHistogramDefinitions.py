@@ -1693,6 +1693,18 @@ TrackHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons"])),
             inputVariables = cms.vstring("abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId)"),
         ),
+        cms.PSet (
+            name = cms.string("DeepSetsElectronScore"),
+            title = cms.string(";Deep Sets Electron Score"),
+            binsX = cms.untracked.vdouble(50.0, 0.0, 1.0),
+            inputVariables = cms.vstring("deepSetsElectronScore"),
+        ),
+        cms.PSet (
+            name = cms.string("fakeTrackScore"),
+            title = cms.string(";Fake Track NN Score"),
+            binsX = cms.untracked.vdouble(50.0, 0.0, 1.0),
+            inputVariables = cms.vstring("fakeTrackScore"),
+        )
     )
 )
 

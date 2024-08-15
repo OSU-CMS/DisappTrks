@@ -14,6 +14,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
 
 selectionNames = ['FiducialCalcBefore', 'FiducialCalcAfter']
+sim = True
 
 # Will use Dataset_runPeriod.root
 runPeriods = ['2015']
@@ -27,7 +28,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
     runPeriods = ['2022F']
-    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
+    #selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
 
 for runPeriod in runPeriods:
 
@@ -45,8 +47,13 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/eleHotSpots"
         datasetName = "EGamma"
     if '2022' in runPeriod:
-        condorDirectory = dirs['Mike'] + 'EGamma_2022/EGamma_2022F_fiducialMap'
-        datasetName = 'EGamma'
+        if sim:
+            #condorDirectory = dirs['Mike'] + 'sim/DYJets_M50_deepSets'
+            condorDirectory = dirs['Mike'] + 'sim/DY_Jets_M50_deepSets_v2'
+            datasetName = 'DYJetsToLL_M50_merged'
+        else:
+            condorDirectory = dirs['Mike'] + 'EGamma_2022/EGamma_2022F_fiducialMap'
+            datasetName = 'EGamma'
         
     fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
     
@@ -54,12 +61,16 @@ for runPeriod in runPeriods:
     #electronMap.setVerboseComparison(True)
     electronMap.addTFile(fout)
     electronMap.addTCanvas(canvas)
-    electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
-    electronMap.addChannel("Denominator", "Electron" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
-    electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
+    fname = datasetName
+    if not sim: 
+        electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+        fname += '_' + runPeriod
+    electronMap.addChannel("Denominator", "Electron" + selectionNames[0], fname, condorDirectory)
+    electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], fname, condorDirectory)
     electronMap.CalculateFiducialMap()
     electronMap.MakePlots()
-    electronMap.CompareFiducialMap()
+    if not sim:
+        electronMap.CompareFiducialMap()
     print("********************************************************************************")
     print("\n\n")
         
