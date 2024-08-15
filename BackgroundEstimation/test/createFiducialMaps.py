@@ -15,6 +15,8 @@ canvas = TCanvas("c1", "c1", 800, 800)
 
 selectionNames = ['FiducialCalcBefore', 'FiducialCalcAfter']
 
+simulation = False
+
 # Will use Dataset_runPeriod.root
 runPeriods = ['2015']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -26,7 +28,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     runPeriods = ['2018A', '2018B', '2018C', '2018D', '2018']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
-    runPeriods = ['2022F']
+    if not simulation:
+        runPeriods = ['2022F']
+    else:
+        runPeriods = ['sim']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 
 for runPeriod in runPeriods:
@@ -47,6 +52,10 @@ for runPeriod in runPeriods:
     if '2022' in runPeriod:
         condorDirectory = dirs['Mike'] + 'EGamma_2022/EGamma_2022F_fiducialMap'
         datasetName = 'EGamma'
+
+    if simulation:
+        datasetName = 'DYJetsToLL_M50_merged'
+        condorDirectory = dirs['Mike'] + 'sim/DYJets_M50_fiducialMaps'
         
     fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
     
@@ -54,12 +63,16 @@ for runPeriod in runPeriods:
     #electronMap.setVerboseComparison(True)
     electronMap.addTFile(fout)
     electronMap.addTCanvas(canvas)
-    electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+    if datasetName + "_" + runPeriod in lumi.keys():
+        electronMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+    else:
+        electronMap.addLuminosityInInvPb(1e-10)
+
     electronMap.addChannel("Denominator", "Electron" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
     electronMap.addChannel("Numerator",   "Electron" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
     electronMap.CalculateFiducialMap()
     electronMap.MakePlots()
-    electronMap.CompareFiducialMap()
+    #electronMap.CompareFiducialMap()
     print("********************************************************************************")
     print("\n\n")
         
