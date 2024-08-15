@@ -471,6 +471,18 @@ cutDeepSets = cms.PSet(
 #     numberRequired = cms.string(">= 1"),
 # )
 
+cutTrkDeepSets = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deepSetsElectronScore > 0.5"),
+    numberRequired = cms.string('>= 1'),
+)
+
+cutTrkFakeNN = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("fakeTrackScore > 0.5"),
+    numberRequired = cms.string('>= 1'),
+)
+
 ########################################
 ##### track number of valid hits   #####
 ########################################
