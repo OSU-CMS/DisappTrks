@@ -64,6 +64,7 @@ EventL1ETMProducer<T>::beginRun (const edm::Run &run, const edm::EventSetup &set
 template<class T> void
 EventL1ETMProducer<T>::AddVariables (const edm::Event &event, const edm::EventSetup &setup)
 {
+
   edm::Handle<edm::TriggerResults> triggers;
   event.getByToken (tokenTriggers_, triggers);
 
@@ -154,6 +155,8 @@ EventL1ETMProducer<T>::AddVariables (const edm::Event &event, const edm::EventSe
   for (unsigned i = 0; i < additionalCollections_.size (); i++)
     (*eventvariables)["passes_" + additionalFilters_.at (i)] = anatools::triggerObjectExists (event, *triggers, *triggerObjects, additionalCollections_.at (i), additionalFilters_.at (i));
 }
+
+
 
 template<class T> const string
 EventL1ETMProducer<T>::tagCollectionParameter () const

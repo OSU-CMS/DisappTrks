@@ -24,6 +24,19 @@ NoCuts = cms.PSet(
 )
 
 ##########################################################################
+##### Skimming #####
+##########################################################################
+
+skimming = cms.PSet(
+    name = cms.string("Skimming"),
+    triggers = triggersAllSkimming,
+    cuts = cms.VPSet(
+        cutTrkPt25,
+        cutTrkEta,
+    )
+)
+
+##########################################################################
 ##### Preselection #####
 ##########################################################################
 
@@ -36,6 +49,11 @@ vertexCutOnly = cms.PSet(
         cutGoodPV,
     )
 )
+
+jetVetoMap2022 = copy.deepcopy (vertexCutOnly)
+jetVetoMap2022.name = cms.string ("jetVetoMap2022")
+jetVetoMapCut = [cutVetoJetMap2022]
+addCuts(jetVetoMap2022.cuts, jetVetoMapCut)
 
 metMinimalSkim = copy.deepcopy (vertexCutOnly)
 metMinimalSkim.name = cms.string ("metMinimalSkim")
@@ -69,6 +87,11 @@ removeCuts (basicSelectionNoDijetPhiCut.cuts, [cutDijetDeltaPhiMax])
 basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+
+#test deep sets score
+deepSetsSelection = copy.deepcopy(vertexCutOnly)
+deepSetsSelection.name = cms.string("DeepSetsSelection")
+addCuts(deepSetsSelection.cuts, [cutTrkDeepSets])
 
 ################################################################################
 ## Testing channels to compare pat::IsolatedTrack to CandidateTrack

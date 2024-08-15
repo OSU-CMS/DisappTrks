@@ -1147,8 +1147,8 @@ TrackCollectionAnalyzer::getTagMuons (const edm::Event &event,
                                            triggers,
                                            muon,
                                            trigObjs,
-                                           (is2017_ ? "hltIterL3MuonCandidates::HLT" : "hltL3MuonCandidates::HLT"),
-                                           (is2017_ ? "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07" : "hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"))) {
+                                          (is2017_ ? "hltIterL3MuonCandidates::HLT" : "hltIterL3MuonCandidates::HLT"),
+                                          (is2017_ ? "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07" : "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered"))) {
         continue; // cutMuonMatchToTrigObj
     }
     if(fabs(muon.eta()) >= 2.1) continue;

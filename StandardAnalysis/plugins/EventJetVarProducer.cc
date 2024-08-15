@@ -40,6 +40,7 @@ private:
   edm::EDGetTokenT<vector<pat::PackedCandidate> >   tokenLostTracks_;
   edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > tokenMcparticles_;
   edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
+  edm::EDGetTokenT<vector<TYPE(muons)> >            tokenMuons_;
 
   double genGluinoMass_, genNeutralinoMass_, genCharginoMass_;
 
@@ -54,8 +55,11 @@ private:
   bool hasNeutralino (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &) const;
   void findGenMasses (const edm::Handle<vector<TYPE(hardInteractionMcparticles)> > &);
   uint32_t packTriggerFires (const edm::Event &event, const edm::Handle<edm::TriggerResults> &) const;
+  bool jetLooseSelection (const TYPE(jets)&, const vector<TYPE(muons)> &) const;
+  bool jetTightID (const TYPE(jets)&) const;
 
   vector<string> triggerNames;
+  bool isCRAB_ = false;
   
 };
 
@@ -69,8 +73,10 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenLostTracks_  =  consumes<vector<pat::PackedCandidate> >   (collections_.getParameter<edm::InputTag>  ("lostTracks"));
   tokenMcparticles_ =  consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
+  tokenMuons_       =  consumes<vector<TYPE(muons)> >            (collections_.getParameter<edm::InputTag>  ("muons"));
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
+  isCRAB_ = cfg.getParameter<bool>("isCRAB");
 
 }
 
@@ -116,6 +122,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
     return;
   }
 
+  edm::Handle<vector<TYPE(muons)> > muons;
+  if (!event.getByToken (tokenMuons_, muons)) {
+    clog << "ERROR:  Could not find muons collection." << endl;
+    return;
+  }
+
   edm::Handle<vector<pat::PackedCandidate> > lostTracks;
   event.getByToken (tokenLostTracks_, lostTracks);
 
@@ -124,6 +136,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
 
   edm::Handle<edm::TriggerResults> triggerBits;
   event.getByToken(tokenTriggerBits_, triggerBits);
+
+  string jetVetoName = "";
+  if (isCRAB_) {jetVetoName = "Summer22EE_23Sep2023_RunEFG_v1.root";}
+  else {jetVetoName = "/data/users/mcarrigan/condor/run3Inputs/Summer22EE_23Sep2023_RunEFG_v1.root";}
+  TFile* f_jetVeto = TFile::Open(jetVetoName.c_str(), "read");
+  TH2D* jetVetoMap = (TH2D*)f_jetVeto->Get("jetvetomap");
 
   vector<PhysicsObject> validJets;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
@@ -204,7 +222,15 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   bool jetIn_hem1516 = false;
   bool jetOpposite_hem1516 = false;
   bool metJet_hem1516 = false;
+
+  bool jetVeto2022 = false;
+
   for (const auto &jet1 : *jets) {
+    if (jetLooseSelection(jet1, *muons)) {
+      if (jetVetoMap->GetBinContent(jetVetoMap->FindFixBin(jet1.eta(), jet1.phi())) > 0){
+        jetVeto2022 = true;
+      } 
+    }
     if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
       if (jet1.phi() >= -1.57 && jet1.phi() <= -0.87) jetIn_hem1516 = true;
       if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159) jetOpposite_hem1516 = true;
@@ -251,8 +277,11 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
   (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
   (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
+  (*eventvariables)["jetVeto2022"] = jetVeto2022;
 
   isFirstEvent_ = false;
+
+  f_jetVeto->Close();
 }
 
 unsigned
@@ -403,6 +432,72 @@ EventJetVarProducer::packTriggerFires (const edm::Event &event, const edm::Handl
   // if you never found a path you're interested in in allTriggerNames, then it's safe to say it didn't fire
   return value;
 }
+
+bool 
+EventJetVarProducer::jetLooseSelection (const TYPE(jets) &jet, const vector<TYPE(muons)> &muons) const
+{
+  // jet pt cut
+  if ( jet.pt() < 15 ) return false;
+  
+  // jet em fraction < 0.9
+  if ( jet.neutralEmEnergyFraction() < 0.9 ) return false;
+
+  // dR(jet, muon) > 0.2
+  for (auto& muon: muons){
+    double dR = deltaR(jet, muon);
+    if ( dR < 0.2 ) return false;
+  }
+
+  //Add JET tight ID
+  if (!jetTightID(jet)) return false;
+  
+  //Add Jet PU ID once suggestions are given by Jets Group https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJetID
+  
+  return true;
+
+}
+
+//Jet Tight ID for 2022 as defined https://twiki.cern.ch/twiki/bin/view/CMS/JetID13p6TeV
+bool 
+EventJetVarProducer::jetTightID (const TYPE(jets)& jet) const
+{
+
+  if ( fabs(jet.eta()) <= 2.6 ) {
+    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
+    if ( jet.neutralEmEnergyFraction() >= 0.90 ) return false;
+    if ( (jet.chargedMultiplicity() + jet.neutralMultiplicity()) <= 1 ) return false;
+    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
+    if ( jet.chargedHadronEnergyFraction() <= 0.01 ) return false;
+    if ( jet.chargedMultiplicity() <= 0 ) return false;
+    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
+    return true;
+  }
+  else if ( (fabs(jet.eta()) > 2.6) && (fabs(jet.eta()) <= 2.7) ){
+    if ( jet.neutralHadronEnergyFraction() >= 0.90 ) return false;
+    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
+    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
+    if ( jet.chargedMultiplicity() <= 0 ) return false;
+    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
+    return true;
+  }
+  else if( (fabs(jet.eta()) > 2.7) && (fabs(jet.eta()) <= 3.0) ){
+    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
+    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
+    if ( jet.neutralMultiplicity() <= 1 ) return false;
+    return true;
+  }
+  else if( (fabs(jet.eta()) > 3.0) && (fabs(jet.eta()) <= 5.0) ) {
+    if ( jet.neutralEmEnergyFraction() >= 0.40 ) return false;
+    if ( jet.neutralMultiplicity() <= 10 ) return false;
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
+
+
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 DEFINE_FWK_MODULE(EventJetVarProducer);
