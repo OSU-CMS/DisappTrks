@@ -216,6 +216,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
+ElectronDeepSetsAfter = copy.deepcopy(ElectronFiducialCalcBeforeOldCuts)
+ElectronDeepSetsAfter.name = cms.string("ElectronDeepSetsAfter")
+addCuts(ElectronDeepSetsAfter.cuts, [cutTrkDeepSets])
+
 ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
 addSingleCut(ZtoEleDisTrk.cuts, cutTrkNMissOut, cutEleTrkOS)

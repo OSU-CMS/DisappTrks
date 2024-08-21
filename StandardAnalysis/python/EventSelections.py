@@ -88,6 +88,11 @@ basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
+#test deep sets score
+deepSetsSelection = copy.deepcopy(vertexCutOnly)
+deepSetsSelection.name = cms.string("DeepSetsSelection")
+addCuts(deepSetsSelection.cuts, [cutTrkDeepSets])
+
 ################################################################################
 ## Testing channels to compare pat::IsolatedTrack to CandidateTrack
 ## in the MET dataset

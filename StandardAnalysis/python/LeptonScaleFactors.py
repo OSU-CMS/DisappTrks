@@ -252,7 +252,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2018
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2018
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-    print("# Lepton SFs: 2022  FIXME")
+    print("# Lepton SFs: 2022")
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2022
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2022
 else:

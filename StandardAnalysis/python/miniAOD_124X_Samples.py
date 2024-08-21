@@ -137,6 +137,7 @@ dataset_names_bkgd = {
     'WtoMuNu_M100to200' : '/WtoMuNu_M-100to200_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
     'WtoMuNu_M200to500' : '/WtoMuNu_M-200to500_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
     'WtoMuNu_M500to1000' : '/WtoMuNu_M-500to1000_TuneCP5_13p6TeV_pythia8/borzari-Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1-v3_EXODisappTrkPAT-9d47b08148d63ab5a7c705d3cebd063d/USER',
+    'DYJetsToLL_M50_merged' : '/abyss/users/mcarrigan/DYJetsToLL_M-50-merged/',
 
 }
 
