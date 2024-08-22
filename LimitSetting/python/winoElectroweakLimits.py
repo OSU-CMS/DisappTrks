@@ -25,7 +25,7 @@ if arguments.era.startswith("2017") or arguments.era.startswith("2018") or argum
 # define maximal set of masses/lifetimes for datacard combinations
 allMasses = masses + ['1000', '1100']
 allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
-datacardCombinations = {
+'''datacardCombinations = {
 	'all20156' : ['2015', '2016BC', '2016DEFGH'],
 	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
@@ -40,6 +40,9 @@ datacardCombinations = {
 				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+}'''
+datacardCombinations = {
+	'2018AB_all' : ['2018AB_NLayers6plus'], #debugging
 }
 
 # name of histogram to integrate to get yields
@@ -99,7 +102,7 @@ elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	actual_bin_name = 'Bin2017' + nLayersWord
 	intLumi = lumi["MET_2017"]
 elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"]:
-	signal_condor_dir = dirs["Brian"] + '/2018/signalAcceptance_v3_newISRweights/'
+	signal_condor_dir = dirs['Mike'] + '/bfrancisStore/2018/signalAcceptance_v3_newISRweights/'
 	signal_suffix = signal_suffix_in_datacard = '102X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -126,7 +129,7 @@ if arguments.era in ["2015", "2016BC", "2016DEFGH",
 					 "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus", 
 					 "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-	exec('from bkgdConfig_' + arguments.era + ' import *')
+	exec('from DisappTrks.LimitSetting.bkgdConfig_' + arguments.era + ' import *')
 
 #this just sets the observed number of events equal to the total background expectation
 run_blind_limits = False
