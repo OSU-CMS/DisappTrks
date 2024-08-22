@@ -63,12 +63,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        "/store/user/borzari/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/3Skimming_2022EE/240627_204809/0000/selected_100.root",
         # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
         # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
     process.source.secondaryFileNames = cms.untracked.vstring([
-        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
     ])
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')

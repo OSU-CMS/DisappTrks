@@ -28,8 +28,10 @@ datasetsSig = ["AMSB_chargino_100GeV_10cm_124X"]
 # datasetsSig = ["AMSB_chargino_1100GeV_100cm_124X"]
 # datasetsSig = ["AMSB_chargino_1100GeV_10cm_124X"]
 
+datasetsBkgd = ['DYJetsToLL_M50_PostEE']
+
 # datasets = datasetsBkgd + datasetsData + datasetsSig
-datasets = datasetsSig
+datasets = datasetsBkgd
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")
