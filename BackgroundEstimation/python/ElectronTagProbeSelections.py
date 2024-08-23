@@ -203,6 +203,10 @@ ElectronFiducialCalcBeforeInvestigate2018Ineff = copy.deepcopy(ElectronFiducialC
 ElectronFiducialCalcBeforeInvestigate2018Ineff.name = cms.string("ElectronFiducialCalcBeforeInvestigate2018Ineff")
 addCuts(ElectronFiducialCalcBeforeInvestigate2018Ineff.cuts, [cutTrkInvestigate2018Ineff])
 
+ElectronDeepSetsBeforeOldCuts = copy.deepcopy(ElectronFiducialCalcBeforeOldCuts)
+ElectronDeepSetsBeforeOldCuts.name = cms.string("ElectronDeepSetsBeforeOldCuts")
+addCuts(ElectronDeepSetsBeforeOldCuts.cuts, [cutDeepSets])
+
 ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
 addSingleCut(ElectronFiducialCalcAfter.cuts, cutTrkVetoElecVeto, cutEleTrkOS)

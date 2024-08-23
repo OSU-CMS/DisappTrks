@@ -59,7 +59,7 @@ def getNLayersChannelVariations (chName):
 ################################################################################
 
 # Base skim
-# add_channels  (process,  [ElectronTagSkim],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
+#add_channels  (process,  [ElectronTagSkim],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
 
 # Tag-and-probe channels for fiducial map
 # Don't use anymore

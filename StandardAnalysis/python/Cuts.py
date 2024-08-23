@@ -467,6 +467,11 @@ cutTrkIsHighPurity = cms.PSet( # to be used in signal MC trigger efficiency
     cutString = cms.string("isHighPurityTrack"),
     numberRequired = cms.string(">= 1"),
 )
+
+cutDeepSets = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("")
+)
 # cutTrkEtaEcalCrackVeto = cms.PSet(  # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
 #     inputCollection = cms.vstring("tracks"),
 #     cutString = cms.string("fabs ( eta ) "),

@@ -16,6 +16,8 @@ canvas = TCanvas("c1", "c1", 800, 800)
 selectionNames = ['FiducialCalcBefore', 'FiducialCalcAfter']
 sim = True
 
+simulation = False
+
 # Will use Dataset_runPeriod.root
 runPeriods = ['2015']
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
