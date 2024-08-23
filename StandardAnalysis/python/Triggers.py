@@ -104,7 +104,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_V
         'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_FilterHF_v',
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_FilterHF_v',
         'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_FilterHF_v',
-        'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_FilterHF_v',
         'HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_FilterHF_v',
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v',
         'HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v',
