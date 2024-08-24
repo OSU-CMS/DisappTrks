@@ -171,11 +171,11 @@ def customize (process,
 
     elif runPeriod == "2022":
         
-        # These come from the 2018 corrections - need to be fixed
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2018")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
+        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2022")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2022Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2022Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2022_22Sep2023") # This is usually not added in here, but it makes things easier
 
         # These come from the 2018 corrections - need to be fixed
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
@@ -202,11 +202,11 @@ def customize (process,
 
     elif runPeriod == "2023":
 
-        # These come from the 2018 corrections - need to be fixed
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2018")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
+        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2023")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2023Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2023Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2023_22Sep2023") # This is usually not added in here, but it makes things easier
 
         # These come from the 2018 corrections - need to be fixed
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
