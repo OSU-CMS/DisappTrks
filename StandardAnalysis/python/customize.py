@@ -171,11 +171,11 @@ def customize (process,
 
     elif runPeriod == "2022":
         
-        # These come from the 2018 corrections - need to be fixed
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2018")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
+        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2022")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2022Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2022Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2022_22Sep2023") # This is usually not added in here, but it makes things easier
 
         # These come from the 2018 corrections - need to be fixed
         process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
@@ -186,10 +186,40 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
+        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2022')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2022')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
+
+        #setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
+        #setThresholdForFiducialMapVeto (process, 2.0)
+        #setUseEraByEraFiducialMaps (process, True)
+
+        setMissingHitsCorrection (process, "uncorrected")
+
+    elif runPeriod == "2023":
+
+        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2023")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2023Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2023Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2023_22Sep2023") # This is usually not added in here, but it makes things easier
+
         # These come from the 2018 corrections - need to be fixed
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
+        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
+        process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2023')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2023')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
