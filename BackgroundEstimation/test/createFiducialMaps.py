@@ -30,8 +30,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
     runPeriods = ['2022F']
-    #selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
-    selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
+    #selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
 
 for runPeriod in runPeriods:
 

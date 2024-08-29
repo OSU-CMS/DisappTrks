@@ -22,7 +22,7 @@ from OSUT3Analysis.Configuration.formattingUtilities import *
 from OSUT3Analysis.Configuration.histogramUtilities import *
 
 sys.path.append(os.path.abspath(os.environ['CMSSW_BASE']+'/src/DisappTrks/StandardAnalysis/test'))
-from localConfig import *  # To get list of datasets
+from DisappTrks.StandardAnalysis.localConfig import *  # To get list of datasets
 
 os.system("mkdir -p tables/")
 
@@ -36,8 +36,8 @@ elif "hart" in cwd:
     AndrewDir = ""
     user = "hart"
 else:
-    print "Error:  could not identify user as wulsin or hart."
-    os.exit(0)
+    print( "Error:  could not identify user as wulsin or hart.")
+    sys.exit(0)
 
 ## Nominal selection
 candTrkDir            = WellsDir+"bkgdCtrlChannelsWithFiducial_76X" # https://cmshead.mps.ohio-state.edu:8080/DisappearingTracks/644
@@ -248,7 +248,7 @@ def makeLeptonEst(options):
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
     outputFile = "tables/" + options['type'] + "Est.tex"
     fout = open (outputFile, "w")
@@ -278,7 +278,7 @@ def makeLeptonEst(options):
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
     return leptonEst
 
@@ -325,8 +325,8 @@ def makeBkgdEstimate(options):
     content += "    WellsDir = 'WellsCondorNew/'   \n"
     content += "    AndrewDir = ''   \n"
     content += "else:   \n"
-    content += "    print 'Error: could not identify user as wulsin or hart.'   \n"
-    content += "    os.exit(0)   \n"
+    content += "    print( 'Error: could not identify user as wulsin or hart.')   \n"
+    content += "    sys.exit(0)   \n"
     content += "       \n"
     content += "impurities = []  # not yet implemented   \n"
     content += "       \n"
@@ -393,7 +393,7 @@ def makeBkgdEstimate(options):
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
 
 
@@ -679,7 +679,7 @@ if arguments.all \
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
 
     outputFile = "tables/fakeEst.tex"
@@ -714,7 +714,7 @@ if arguments.all \
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
 if arguments.all or "bkgdSumm" in arguments.tableSelection:
     ###################################################
@@ -930,7 +930,7 @@ if arguments.all or "bkgdChk" in arguments.tableSelection:
     fout.write(content)
     fout.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
 if arguments.all or "fakeSyst" in arguments.tableSelection:
     ###################################################
@@ -983,7 +983,7 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
                                      pow(fakeRateSearch["PErr"] / fakeRateSearch["P"], 2))
         devFromUnity = max(ratio + ratioErr - 1.0, 1.0 - (ratio - ratioErr))
         # print "Debug:  for nhits = ", n, ", fakeRateSearch = ", fakeRateSearch, ", fakeRateCtrl = ", fakeRateCtrl
-        print "Deviation from unity for number of hits = ", n, ": ", devFromUnity
+        print( "Deviation from unity for number of hits = ", n, ": ", devFromUnity)
         if n == 5:
             fakeTrkSystErr = devFromUnity
         content += getLatexNumString(ratio, ratioErr) + " \\\\ \n"
@@ -1020,7 +1020,7 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
     foutPy.write(textPy)
     foutPy.close()
     os.system("cat " + outputFile)
-    print "Finished writing " + outputFile + "\n\n\n"
+    print( "Finished writing " + outputFile + "\n\n\n")
 
     ##################################################
     # Make associated plots
@@ -1065,15 +1065,15 @@ if arguments.all or "fakeSyst" in arguments.tableSelection:
 ###################################################
 ###################################################
 
-print "Finished running makeANTables.py"
+print( "Finished running makeANTables.py")
 
-print "Copy tables to AN area with: "
+print( "Copy tables to AN area with: ")
 if user == "wulsin":
-    print "scp tables/*tex wulsin@lxplus.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-15-213/trunk/tables/"
-    print "OR: "
-    print "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir76/tables/*tex\" tables/"
+    print( "scp tables/*tex wulsin@lxplus.cern.ch:/afs/cern.ch/user/w/wulsin/docs/cmsdocs/notes/AN-15-213/trunk/tables/")
+    print( "OR: ")
+    print( "notes/AN-15-213/trunk> scp wulsin@cms-in0.mps.ohio-state.edu:\"~/workdir76/tables/*tex\" tables/")
 elif user == "hart":
-    print "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/"
+    print( "scp tables/*tex hart@lxplus5.cern.ch:/afs/cern.ch/user/h/hart/myDir/notes/AN-15-213/trunk/tables/")
 
 
 

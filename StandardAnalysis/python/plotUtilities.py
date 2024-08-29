@@ -54,7 +54,10 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
 def getHist(sample, condor_dir, channel, hist, quietFailure = False):
-    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    if condor_dir.endswith('.root'):
+        dataset_file = condor_dir
+    else:
+        dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
     inputFile = TFile(dataset_file)
     h0 = inputFile.Get(channel + "/" + hist)
     if not h0:
@@ -107,8 +110,12 @@ def getHistFromChannelDict(channel, hist, quietFailure = False):
     if "sample" not in channel or "condorDir" not in channel or "name" not in channel:
         print("Bad channel given to getHistFromChannelDict: " + str(channel))
         return
-    dataset_file = "condor/%s/%s.root" % (channel["condorDir"], channel["sample"])
+    if channel["condorDir"].endswith('.root'):
+        dataset_file = channel["condorDir"]
+    else:
+        dataset_file = "condor/%s/%s.root" % (channel["condorDir"], channel["sample"])
     inputFile = TFile(dataset_file)
+    #print("Trying to get {} from {}".format(channel['name']+"Plotter/" + hist, dataset_file))
     h0 = inputFile.Get(channel["name"] + "Plotter/" + hist)
     if not h0:
         if not quietFailure: print("ERROR [quietFailure]: didn't find histogram ", channel["name"] + str("Plotter/") + hist, "in file", dataset_file)
