@@ -252,7 +252,7 @@ external_systematic_uncertainties = [
     "trigger_grandOrWeightMC",
 ]
 
-if not arguments.era in ["all20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2", "run2p2022"]:
+if not arguments.era in ["all20156", "2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2", "2022_all", "run3", "run2run3"]:
 	for i in range(len(external_systematic_uncertainties)):
 		if arguments.era.startswith("2018"):
 			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
