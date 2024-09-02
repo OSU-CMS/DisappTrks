@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
 
+lumiScaling = (5010.409016184 + 2970.045129108 + 5806.955207286 + 17781.598893382 + 3082.753035617 + 17794.0 + 9451.0) / (14024.176505487 + 7060.764380203) # target_lumi / 2018AB_lumi
+
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 backgrounds = {
     'Fake' : {
-        'N' : '13',
+        'N' : str(round(13*lumiScaling)), # '13',
         'alpha' : '0.0354151129416',
     },
     'Elec' : {
-        'N' : '5098',
+        'N' : str(round(5098*lumiScaling)), # '5098',
         'alpha' : '2.95225133864e-05',
     },
     'Muon' : {
-        'N' : '0',
+        'N' : str(round(0.0*lumiScaling)), # '0',
         'alpha' : '0.0334303587209',
     },
     'Tau' : {
-        'N' : '0',
+        'N' : str(round(0.0*lumiScaling)), # '0',
         'alpha' : '0.00221629130184',
     },
 }
 
+# Still using 2018AB values; NEEDS TO BE UPDATED
 background_systematics = {
     'Fake_alpha_NLayers5' : { # error on alpha
         'value' : '1.00074624437',

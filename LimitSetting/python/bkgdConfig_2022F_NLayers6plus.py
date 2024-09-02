@@ -2,7 +2,7 @@
 
 # Bkgd configuration file for limit-setting produced with makeANTables.py
 
-lumiScaling = (17781.598893382 + 5010.409016184 + 2970.045129108 + 5806.955207286 + 3082.753035617) / (14024.176505487 + 7060.764380203) # target_lumi / 2018AB_lumi
+lumiScaling = (5010.409016184 + 2970.045129108 + 5806.955207286 + 17781.598893382 + 3082.753035617 + 17794.0 + 9451.0) / (14024.176505487 + 7060.764380203) # target_lumi / 2018AB_lumi
 
 backgrounds = {
     'Fake' : {
@@ -23,6 +23,7 @@ backgrounds = {
     },
 }
 
+# Still using 2018AB values; NEEDS TO BE UPDATED
 background_systematics = {
     'Fake_alpha_NLayers6plus' : { # error on alpha
         'value' : '1.00074624437',

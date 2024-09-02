@@ -18,10 +18,10 @@ lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
-if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "all20178" or arguments.era == "run2" or arguments.era == "run2p2022":
+if arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "all20178" or arguments.era == "run2" or arguments.era == "run2run3" or arguments.era == "run3":
 	masses.extend(['1000', '1100'])
 	lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
-if arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "run2p2022":
+if arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "run2run3" or arguments.era == "run3":
 	masses.extend(['1200'])
 
 # define maximal set of masses/lifetimes for datacard combinations
@@ -43,7 +43,8 @@ allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + l
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'2022_all'  : ['2022F_NLayers4', '2022F_NLayers5', '2022F_NLayers6plus'],
-	'run2p2022' : ['2015',
+	'run3'  	: ['2022F_NLayers4', '2022F_NLayers5', '2022F_NLayers6plus'],
+	'run2run3' : ['2015',
 				  '2016BC', '2016DEFGH',
 				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
@@ -52,7 +53,7 @@ allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + l
 }'''
 #debugging
 datacardCombinations = {
-	'2022_all'  : ['2022F_NLayers4', '2022F_NLayers5', '2022F_NLayers6plus'],
+	'run3'  : ['2022F_NLayers4', '2022F_NLayers5', '2022F_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -85,8 +86,10 @@ elif arguments.era == "2022F":
 	intLumi = lumi["MET_2022F"]
 elif arguments.era == "2022_all":
 	intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"]
-elif arguments.era == "run2p2022":
-	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"] + lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"]
+elif arguments.era == "run3":
+	intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451
+elif arguments.era == "run2run3":
+	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"] + lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451
 
 # condor directory in which to find signal root files
 if arguments.era == "2015":
@@ -96,21 +99,21 @@ if arguments.era == "2015":
 	actual_bin_name = 'Bin2015'
 	intLumi = lumi["MET_2015"]
 elif arguments.era == "2016BC":
-	signal_condor_dir = dirs['Breno'] + '/bfrancisStore/2016_final/signalAcceptance_BC_final/'
+	signal_condor_dir = dirs['Breno'] + '/bfrancisDeepStore/2016_final/signalAcceptance_BC_final/'
 	signal_suffix = '80X'
 	signal_suffix_in_datacard = '80X_BC'
 	signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
 	actual_bin_name = 'Bin2016BC'
 	intLumi = lumi["MET_2016BC"]
 elif arguments.era == "2016DEFGH":
-	signal_condor_dir = dirs['Breno'] + '/bfrancisStore/2016_final/signalAcceptance_DEFGH_final/'
+	signal_condor_dir = dirs['Breno'] + '/bfrancisDeepStore/2016_final/signalAcceptance_DEFGH_final/'
 	signal_suffix = '80X'
 	signal_suffix_in_datacard = '80X_DEFGH'
 	signal_channel = 'disTrkSelectionSmearedJetsPlotter/Met Plots'
 	actual_bin_name = 'Bin2016DEFGH'
 	intLumi = lumi["MET_2016DEFGH"]
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
-	signal_condor_dir = dirs['Breno'] + '/bfrancisStore/2017/signalAcceptance_full_v9_newISRweights/'
+	signal_condor_dir = dirs['Breno'] + '/bfrancisDeepStore/2017/signalAcceptance_full_v9_newISRweights/'
 	signal_suffix = signal_suffix_in_datacard = '94X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -140,9 +143,9 @@ elif arguments.era in ["2022F_NLayers4", "2022F_NLayers5", "2022F_NLayers6plus"]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
 	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
 	actual_bin_name = 'Bin2022F' + nLayersWord
-	# intLumi = lumi["MET_2022F"]
-	intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"]
-	# intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451.0
+	intLumi = lumi["MET_2022F"]
+	# intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"] # scaling to 2022 lumi
+	# intLumi = lumi["JetMET_2022C"] + lumi["JetMET_2022D"] + lumi["MET_2022E"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451.0 # scaling to 2022+2023 lumi
 
 lumi = intLumi
 
@@ -164,22 +167,24 @@ run_blind_limits = True
 
 data_dataset = data_condor_dir = data_channel = ""
 
-useHistogramForObservation = True # integrate MET for the observed counts
+useHistogramForObservation = False # integrate MET for the observed counts
 
-lumiScaling = (17781.598893382 + 5010.409016184 + 2970.045129108 + 5806.955207286 + 3082.753035617) / (14024.176505487 + 7060.764380203) # target_lumi / 2018AB_lumi
 #condor directory in which to find data root file
 if arguments.era == "2015":
 	data_dataset = "MET_2015"
 	data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 	data_channel = 'DisTrkSelectionPlotter/Met Plots'
+	rawObservation = 1
 elif arguments.era == "2016BC":
 	data_dataset = "MET_2016BC"
 	data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 	data_channel = 'DisTrkSelectionPlotter/Met Plots'
+	rawObservation = 2
 elif arguments.era == "2016DEFGH":
 	data_dataset = "MET_2016DEFGH"
 	data_condor_dir = dirs["Andrew"] + '/2016_final_prompt/disappearingTracks/'
 	data_channel = 'DisTrkSelectionPlotter/Met Plots'
+	rawObservation = 4
 elif arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	data_dataset = "MET_2017"
 	data_condor_dir = dirs['Breno'] + '/bfrancisStore/2017/unblindedResults/'
@@ -220,11 +225,11 @@ elif arguments.era in ["2022F_NLayers4", "2022F_NLayers5", "2022F_NLayers6plus"]
 	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
 	useHistogramForObservation = False
 	if arguments.era == "2022F_NLayers4":
-		rawObservation = round(5*lumiScaling)
+		rawObservation = 5
 	elif arguments.era == "2022F_NLayers5":
-		rawObservation = round(1*lumiScaling)
+		rawObservation = 0
 	elif arguments.era == "2022F_NLayers6plus":
-		rawObservation = round(2*lumiScaling)
+		rawObservation = 2
 
 ################################
 ### Systematic Uncertainties ###
@@ -275,7 +280,7 @@ if arguments.era in ["2022F_NLayers4", "2022F_NLayers5", "2022F_NLayers6plus"]:
 	external_systematic_uncertainties.append("electronVetoScaleFactor_2022_" + arguments.era[6:])
 	external_systematic_uncertainties.append("muonVetoScaleFactor_2022_"     + arguments.era[6:])
 	if arguments.era != "2022F_NLayers6plus":
-		external_systematic_uncertainties.append("triggerTurnOn_2018_"       + arguments.era[6:])
+		external_systematic_uncertainties.append("triggerTurnOn_2022_"       + arguments.era[6:])
 
 if arguments.era == "2015":
 	signal_systematic_uncertainties = {

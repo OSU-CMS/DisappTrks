@@ -65,7 +65,8 @@ validEras = ["2015",
              "run2",
              "2022F_NLayers4", "2022F_NLayers5", "2022F_NLayers6plus",
              "2022_all",
-             "run2p2022",]
+             "run3",
+             "run2run3",]
 
 validLimitTypes = [
       "wino",
