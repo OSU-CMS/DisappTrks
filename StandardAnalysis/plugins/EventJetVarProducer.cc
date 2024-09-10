@@ -143,6 +143,10 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   TFile* f_jetVeto = TFile::Open(jetVetoName.c_str(), "read");
   TH2D* jetVetoMap = (TH2D*)f_jetVeto->Get("jetvetomap");
 
+  jetVetoMap->SetDirectory(0);
+  f_jetVeto->Close();
+  delete f_jetVeto;
+
   vector<PhysicsObject> validJets;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
   double deltaPhiMetJetLeading    =  999.;  // default is large positive value
@@ -238,6 +242,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
     }
   }
 
+  delete jetVetoMap;
+
   findGenMasses(mcParticles);
 
   (*eventvariables)["nJets"]            = validJets.size ();
@@ -280,8 +286,6 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   (*eventvariables)["jetVeto2022"] = jetVeto2022;
 
   isFirstEvent_ = false;
-
-  f_jetVeto->Close();
 }
 
 unsigned
