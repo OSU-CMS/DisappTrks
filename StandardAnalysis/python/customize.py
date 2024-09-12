@@ -198,11 +198,10 @@ def customize (process,
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
-        #setUseEraByEraFiducialMaps (process, True)
-
-        setMissingHitsCorrection (process, "2018")
+        setUseEraByEraFiducialMaps (process, True)
+        setMissingHitsCorrection (process, "uncorrected")
 
     elif runPeriod == "2023":
 
@@ -229,9 +228,9 @@ def customize (process,
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
-        #setUseEraByEraFiducialMaps (process, True)
+        setUseEraByEraFiducialMaps (process, True)
         
         setMissingHitsCorrection (process, "uncorrected")
 
@@ -253,7 +252,6 @@ def customize (process,
         process.TriggerWeightProducer.target          =  cms.string  ("")
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
-        process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
 
     if not applyMissingHitsCorrections:
         setMissingHitsCorrection (process, "uncorrected")

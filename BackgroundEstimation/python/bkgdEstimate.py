@@ -4,6 +4,8 @@ import sys
 import math
 import functools
 import glob
+import importlib
+
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1, gDirectory, TH2D, TChain
 
@@ -25,7 +27,8 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
     fullTotal = Measurement(0.0, 0.0, 0.0, 0.0, 0.0)
     for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
-            exec('from DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord + ' import background_systematics')
+            module = importlib.import_module('DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord) 
+            background_systematics = getattr(module, 'background_systematics')
             
             eleSystematic = [0.0, 0.0]
             muonSystematic = [0.0, 0.0]
@@ -428,7 +431,7 @@ class LeptonBkgdEstimate:
                 # temporary scale factor to correct cases where a different number of events were run over (incomplete jobs)
                 # derived from the CutFlowPlotter/eventCounter histogram
                 # muons used a skim in D but had 100% completion, so just turn this off for muons...
-                sf = nEventsDenominator / nEventsNumerator if nEventsNumerator > 0.0 else 0.0
+                sf = nEventsDenominator.value / nEventsNumerator.value if nEventsNumerator.value > 0.0 else 0.0
                 if sf > 1.0:
                     print("\tApplying correction for incomplete jobs:", sf)
                 numerator.Scale(sf)
