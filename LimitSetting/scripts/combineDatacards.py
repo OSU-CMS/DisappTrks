@@ -106,15 +106,16 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
         processLines = subprocess.check_output('sed -n "/^process\s*0\s*/p" ' + outputCardFile, shell = True).split()
         binLines = subprocess.check_output('awk "/^bin/{c++; if (c==2) {print}}" ' + outputCardFile, shell = True).split()
 
+        rateLines = [x.decode('utf-8') for x in rateLines][1:] # need to decode, first entry is string 'rate'
+        processLines = [x.decode('utf-8') for x in processLines][1:] # need to decode, first entry is string 'process'
+        binLines = [x.decode('utf-8') for x in binLines][1:] # need to decode, first entry is string 'bin'
+
         for iBin in range(len(rateLines)):
-            # skip headers in lines
-            if iBin == 0:
-                continue
             # if this is a signal process (0), replace the rate with this new scaled value
             if processLines[iBin] == '0':
                 rateLines[iBin] = str(scaledYields[binLines[iBin]])
 
-        rateLines = [x.decode('utf-8') for x in rateLines][1:] #need to decode, first entry is string 'rate'
+        rateLines = ['rate','\t','\t'] + rateLines # re-add the rate at the beginning of the line and "skip" two columns
 
         # now replace the rates in the combined card
         subprocess.call('sed -i "s/^rate.*/' + ' '.join(rateLines) + '/" ' + outputCardFile, shell = True)
