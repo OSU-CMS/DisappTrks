@@ -25,7 +25,9 @@ if arguments.era.startswith("2022") or arguments.era.startswith("2023") or argum
 	masses.extend(['1200'])
 
 # define maximal set of masses/lifetimes for datacard combinations
-allMasses = masses + ['1000', '1100', '1200']
+allMasses = masses + ['1000', '1100']
+if arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "run2run3" or arguments.era == "run3":
+	allMasses.extend(['1200'])
 allLifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'] + lifetimes
 '''datacardCombinations = {
 	'all20156' : ['2015', '2016BC', '2016DEFGH'],
