@@ -1180,7 +1180,7 @@ DiMuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
     histograms = cms.VPSet (
         cms.PSet (
-            name = cms.string("diMuonPt"),
+            name = cms.string("diMuonPtWide"),
             title = cms.string("Di-muon pT;p_{T} (#mu#mu)"),
             binsX = cms.untracked.vdouble(5000, 0, 5000),
             inputVariables = cms.vstring("pT (muon, muon)")
