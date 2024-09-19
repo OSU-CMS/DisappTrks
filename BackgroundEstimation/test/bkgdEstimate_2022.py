@@ -155,11 +155,11 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_electronTagPT/")
-            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_electronTagPT/")
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "abyss/EGamma_2022/EGamma_2022F_ZtoEleProbeTrk/")
+            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "abyss/EGamma_2022/EGamma_2022F_ZtoEleProbeTrk/")
+            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "abyss/EGamma_2022/EGamma_2022F_ZtoEleProbeTrk/")
+            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "abyss/EGamma_2022/EGamma_2022F_TagPT/")
+            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "abyss/EGamma_2022/EGamma_2022F_TagPT/")
         
             '''if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
                 # HEM 15/16 issue; veto MET in phi range
