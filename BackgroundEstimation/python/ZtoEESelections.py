@@ -41,6 +41,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         cutEEChargeProduct,
         cutEEInvMassZLo,
         cutEEInvMassZHi,
+        cutElectronPt,
     ]
 addCuts(ZtoEE.cuts, zToEEElectronCuts)
 
