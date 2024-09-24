@@ -42,7 +42,7 @@ nTotal = {}
 #fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
 fakeSidebands = [(0.05, 0.50)]
 
-applyHEMveto = True
+applyHEMveto = False
 
 stdout = sys.stdout
 nullout = open("/dev/null", "w")

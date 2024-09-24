@@ -178,7 +178,7 @@ if False:
 
 # "Old" style cuts (nPixel >= 3, nValidHits >= 7) t&p channels for fiducial map
 # Use these!
-if False:
+if True:
     add_channels  (process,  [MuonFiducialCalcBeforeOldCuts],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [MuonFiducialCalcAfterOldCuts],   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 

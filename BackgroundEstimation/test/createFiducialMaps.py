@@ -26,11 +26,15 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     runPeriods = ['2018A', '2018B', '2018C', '2018D', '2018']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 
+if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
+    runPeriods = ['2022F']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
+    
 for runPeriod in runPeriods:
-
-    print "********************************************************************************"
-    print "Calculating electron fiducial map in search region", runPeriod
-    print "--------------------------------------------------------------------------------"
+    '''
+    print( "********************************************************************************")
+    print( "Calculating electron fiducial map in search region", runPeriod)
+    print( "--------------------------------------------------------------------------------")
 
     condorDirectory = dirs['Brian'] + "2015/eleHotSpots"
     datasetName = "SingleEle"
@@ -54,11 +58,11 @@ for runPeriod in runPeriods:
     electronMap.CalculateFiducialMap()
     electronMap.MakePlots()
     electronMap.CompareFiducialMap()
-    print "********************************************************************************"
-    print "\n\n"
+    print( "********************************************************************************")
+    print( "\n\n")
         
     fout.Close()
-
+    '''
     condorDirectory = dirs['Brian'] + "2015/muonHotSpots"
     if '2016' in runPeriod:
         condorDirectory = dirs['Brian'] + "2016_final/muonHotSpots"
@@ -66,10 +70,13 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
     if '2018' in runPeriod:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/muonHotSpots"
+    if '2022' in runPeriod:
+        condorDirectory = dirs['Matt'] + 'Muon_2022/Muon_2022F_fidmap'
+        datasetName = 'Muon'
 
-    print "********************************************************************************"
-    print "Calculating muon fiducial map in search region", runPeriod
-    print "--------------------------------------------------------------------------------"
+    print( "********************************************************************************")
+    print( "Calculating muon fiducial map in search region", runPeriod)
+    print( "--------------------------------------------------------------------------------")
     
     fout = TFile.Open("newMuonFiducialMap_" + runPeriod + ".root", "recreate")
     
@@ -77,14 +84,14 @@ for runPeriod in runPeriods:
     #muonMap.setVerboseComparison(True)
     muonMap.addTFile(fout)
     muonMap.addTCanvas(canvas)
-    muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
-    muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "SingleMu_" + runPeriod, condorDirectory)
-    muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "SingleMu_" + runPeriod, condorDirectory)
+    muonMap.addLuminosityInInvPb(lumi[datasetName + "_" + runPeriod])
+    muonMap.addChannel("Denominator", "Muon" + selectionNames[0], datasetName + "_" + runPeriod, condorDirectory)
+    muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], datasetName + "_" + runPeriod, condorDirectory)
     muonMap.CalculateFiducialMap()
     muonMap.MakePlots()
     muonMap.CompareFiducialMap()
-    print "********************************************************************************"
-    print "\n\n"
+    print( "********************************************************************************")
+    print( "\n\n")
     
     fout.Close()
 

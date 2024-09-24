@@ -18,8 +18,8 @@ datasetsBG = ["WToLNu_4Jets_PostEE"]
 # datasetsBG = ["TTto4Q_PostEE"]
 
 #datasets = datasetsBkgd + datasetsData + datasetsSig
-# datasets = datasetsData
-datasets = datasetsBG
+datasets = datasetsData
+#datasets = datasetsBG
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")

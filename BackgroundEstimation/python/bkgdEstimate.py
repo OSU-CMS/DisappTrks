@@ -726,11 +726,11 @@ class LeptonBkgdEstimate:
 
         nEst.isPositive ()
 
-        print("Types in alpha", type(scaleFactor), type(pPassVeto), type(pPassMetCut), type(pPassMetTriggers))
-        print("Debugging: \n\t pPassVeto {} \n\t passes {} \n\t scaleFactor {} \n\t total {} \n\t pPassMetCut {} \n\t pPassMetTriggers {}".format(str(pPassVeto), str(passes), str(scaleFactor), str(total), str(pPassMetCut), str(pPassMetTriggers)))
+        #print("Types in alpha", type(scaleFactor), type(pPassVeto), type(pPassMetCut), type(pPassMetTriggers))
+        #print("Debugging: \n\t pPassVeto {} \n\t passes {} \n\t scaleFactor {} \n\t total {} \n\t pPassMetCut {} \n\t pPassMetTriggers {}".format(str(pPassVeto), str(passes), str(scaleFactor), str(total), str(pPassMetCut), str(pPassMetTriggers)))
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
-        print("Debugging, alpha after construction {}".format(str(alpha)))
+        #print("Debugging, alpha after construction {}".format(str(alpha)))
         if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             alpha /= self.externalTriggerEfficiency        
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
@@ -749,7 +749,7 @@ class LeptonBkgdEstimate:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
             print("N: " + str (passes))
 
-        print("Alpha is of type", type(alpha))
+        #print("Alpha is of type", type(alpha))
         print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
@@ -977,7 +977,7 @@ class LeptonBkgdEstimate:
                     eff = scaledPasses / total
 
                 print("P (pass lepton veto) in tag-probe sample: " + str (eff))
-                print("Debugging P {}, Eff {}".format(str(p), str(eff)))
+                #print("Debugging P {}, Eff {}".format(str(p), str(eff)))
                 return (eff, p, sf, total)
             else:
                 print("TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency...")

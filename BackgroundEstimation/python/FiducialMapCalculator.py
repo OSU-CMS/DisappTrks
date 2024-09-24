@@ -265,6 +265,10 @@ class FiducialMapCalculator:
             existingMapName += '2017_data.root'
         elif '2018' in self.Numerator["sample"]:
             existingMapName += '2017_data.root' # doesn't exist yet, compare to 2017
+
+        elif '2022' in self.Numerator['sample']:
+            existingMapName += '2017_data.root' #doesn't exist yet, compare to 2017
+            
         existingMapFile = TFile(existingMapName, 'read')
         existingMapDenominator = existingMapFile.Get('beforeVeto')
         existingMapNumerator = existingMapFile.Get('afterVeto')

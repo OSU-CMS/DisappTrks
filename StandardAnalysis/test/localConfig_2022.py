@@ -47,7 +47,8 @@ datasetsSig = ["AMSB_chargino_100GeV_100cm_124X"]
 datasetsBG = ["WtoMuNu_M500to1000"]
 
 # datasets = datasetsSig
-datasets = datasetsBG
+#datasets = datasetsBG
+datasets = datasetsData
 
 #setNJobs (datasets, composite_dataset_definitions, nJobs, 500)
 #setDatasetType (datasets, composite_dataset_definitions, types, "bgMC")
