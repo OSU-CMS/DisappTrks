@@ -13,13 +13,13 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-background = "ELECTRON"
+background = "FAKE"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
 
-#nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
-nLayersWords = ['']
+nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
+#nLayersWords = ['']
 combineLayers = True
 if len(sys.argv) > 2:
     nLayersWords = [sys.argv[2]]
@@ -40,7 +40,7 @@ nTotal = {}
 
 # ARC EXO-19-010: use one large sideband for fake estimate
 #fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
-fakeSidebands = [(0.05, 0.50)]
+fakeSidebands = [(0.05, 0.26)] #was 0.05, 0.5
 
 applyHEMveto = False
 
@@ -53,7 +53,7 @@ for runPeriod in runPeriods:
 
         for nLayersWord in nLayersWords:
 
-            print("********************************************************************************")
+            '''print("********************************************************************************")
             print("performing fake track background estimate in search region(2018", runPeriod, "--", nLayersWord, ")")
             print("--------------------------------------------------------------------------------")
 
@@ -91,24 +91,24 @@ for runPeriod in runPeriods:
                 print("N_est (mean): ", nEstAllSidebands)
                 print("P_fake (mean): ", pFakeAllSidebands)
                 print("********************************************************************************")
-                print("\n\n")
+                print("\n\n")'''
 
             print("********************************************************************************")
-            print("performing fake track background estimate with Z->ee selection in search region(2018", runPeriod, "--", nLayersWord, ")")
+            print("performing fake track background estimate with Z->ee selection in search region(2022", runPeriod, "--", nLayersWord, ")")
             print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
-            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
+            fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2022" + runPeriod])
             # durp
             # only 99.4% of events were run over (failed job in A), so there is an extra prescale factor
-            fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
-            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/fakeTrackSystematic_zToEE")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2018"    + runPeriod, dirs['Brian'] + "2018/fromLPC/basicSelection_v2")
-            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2018" + runPeriod, dirs['Kai']   + "2018/fromLPC/zToEE")
+            #fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
+            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEEDisTrkNoD0CutNLayer")
+            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEEDisTrkNoD0CutNLayer")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + "MET_2022/MET_2022_basicSelection")
+            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEE")
 
             print("********************************************************************************")
             print("Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1]))
