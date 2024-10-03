@@ -40,7 +40,7 @@ nTotal = {}
 
 # ARC EXO-19-010: use one large sideband for fake estimate
 #fakeSidebands = [(x * 0.05, (x + 1) * 0.05) for x in range(1, 10)]
-fakeSidebands = [(0.05, 0.26)] #was 0.05, 0.5
+fakeSidebands = [(0.05, 0.5)] 
 
 applyHEMveto = False
 
