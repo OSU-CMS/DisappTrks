@@ -264,6 +264,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo / p"),
             ),
         cms.PSet (
+            name = cms.string("trackCaloJetEnergy"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+            ),
+        cms.PSet (
             name = cms.string("trackPtError"),
             title = cms.string("ptError;#sigma(p_{T}) [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
