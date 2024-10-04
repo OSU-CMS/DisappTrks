@@ -652,8 +652,9 @@ cutTrkIso = cms.PSet(
 )
 if not UseCandidateTracks:
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-        cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
-    
+        # This cut does something very similar to the old trackIsoNoPUDRp3. pfIsolationDR03_.chargedHadronIso sums the pT of all PF charged pions that are compatible to the PV in a DR 0.3 cone around an IsolatedTrack. The 0.05 requirement is the same as the one in the HLT_MET105_IsoTrk50 path. In this way, the track isolation is still PU independent, which makes the efficiency of the cut higher.
+        cutTrkIso.cutString = cms.string (" (pfIsolationDR03_.chargedHadronIso / pt) < 0.05")
+
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
