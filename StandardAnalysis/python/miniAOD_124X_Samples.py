@@ -76,7 +76,7 @@ dataset_names_data = {  # Fixme -> added those that exist as of Nov 14, 2022
     "EGamma_2022D": "/EGamma/Run2022D-22Sep2023-v1/MINIAOD",
     "EGamma_2022E": "/EGamma/Run2022E-22Sep2023-v1/MINIAOD",
     "EGamma_2022F": "/EGamma/Run2022F-22Sep2023-v1/MINIAOD",
-    "EGamma_2022G": "/EGamma/Run2022G-PromptReco-v1/MINIAOD",
+    "EGamma_2022G": "/EGamma/Run2022G-19Dec2023-v1/MINIAOD",
     # Tau
     "Tau_2022C": "/Tau/Run2022C-22Sep2023-v1/MINIAOD",
     "Tau_2022D": "/Tau/Run2022D-22Sep2023-v1/MINIAOD",
