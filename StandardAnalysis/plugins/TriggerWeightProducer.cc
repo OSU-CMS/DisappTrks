@@ -59,7 +59,7 @@ private:
 
 TriggerWeightProducer::TriggerWeightProducer(const edm::ParameterSet &cfg) :
   EventVariableProducer (cfg),
-  efficiencyFile_       (cfg.getParameter<string> ("efficiencyFile")),
+  efficiencyFile_       (cfg.getParameter<edm::FileInPath> ("efficiencyFile").fullPath()),
   dataset_              (cfg.getParameter<string> ("dataset")),
   target_               (cfg.getParameter<string> ("target")),
   inclusiveMetTriggers_ (cfg.getParameter<vector<string> > ("inclusiveMetTriggers")),

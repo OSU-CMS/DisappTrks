@@ -59,8 +59,6 @@ private:
   bool jetTightID (const TYPE(jets)&) const;
 
   vector<string> triggerNames;
-  bool isCRAB_ = false;
-  
 };
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
@@ -76,8 +74,6 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMuons_       =  consumes<vector<TYPE(muons)> >            (collections_.getParameter<edm::InputTag>  ("muons"));
 
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
-  isCRAB_ = cfg.getParameter<bool>("isCRAB");
-
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -137,9 +133,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   edm::Handle<edm::TriggerResults> triggerBits;
   event.getByToken(tokenTriggerBits_, triggerBits);
 
-  string jetVetoName = "";
-  if (isCRAB_) {jetVetoName = "Summer22EE_23Sep2023_RunEFG_v1.root";}
-  else {jetVetoName = "/data/users/mcarrigan/condor/run3Inputs/Summer22EE_23Sep2023_RunEFG_v1.root";}
+  string jetVetoName = edm::FileInPath("OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root").fullPath();
   TFile* f_jetVeto = TFile::Open(jetVetoName.c_str(), "read");
   TH2D* jetVetoMap = (TH2D*)f_jetVeto->Get("jetvetomap");
 
