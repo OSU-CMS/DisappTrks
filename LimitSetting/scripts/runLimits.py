@@ -15,25 +15,19 @@ from array import *
 from DisappTrks.LimitSetting.limitOptions import *
 
 if not arguments.era in validEras:
-  print
-  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
-  print str(validEras)
-  print
+  print( "Invalid or empty data-taking era specific (-e). Allowed eras:")
+  print( str(validEras))
   sys.exit(0)
 
 if arguments.limitType not in validLimitTypes:
-    print
-    print "Invalid or empty limit type to run (-l). Allowed types:"
-    print str(validLimitTypes)
-    print
+    print( "Invalid or empty limit type to run (-l). Allowed types:")
+    print( str(validLimitTypes))
     sys.exit(0)
 
 if arguments.method not in ["HybridNew", "MarkovChainMC", "AsymptoticLimits", "AsymptoticSignificance"]:
-    print
-    print "Invalid method (-M). Allowed methods:"
+    print( "Invalid method (-M). Allowed methods:")
     for x in ["HybridNew", "MarkovChainMC", "AsymptoticLimits", "AsymptoticSignificance"]:
-        print "\t" + x
-    print
+        print( "\t" + x)
     sys.exit(0)
 
 if arguments.limitType == "wino":
@@ -42,7 +36,7 @@ elif arguments.limitType == "higgsino":
     from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
 
 if not arguments.outputDir:
-    print "No output directory specified, shame on you"
+    print( "No output directory specified, shame on you")
     sys.exit(0)
 
 if arguments.outputDir:
@@ -55,7 +49,7 @@ def output_condor(combine_command, datacard, options):
     f = open ("condor.sh", "w")
     f.write (script)
     f.close ()
-    os.chmod ("condor.sh", 0775)
+    os.chmod ("condor.sh", 775)
     command = "condor.sh"
 
     sub_file = ""
@@ -75,6 +69,8 @@ def output_condor(combine_command, datacard, options):
         sub_file += "Log                     = condor_$(Process).log\n"
         sub_file += "\n"
         sub_file += "should_transfer_files   = yes\n"
+        print("Combine command", type(combine_command), combine_command)
+        print("datacard", type(datacard), datacard)
         sub_file += "transfer_input_files    = " + combine_command + "," + datacard + "\n"
         sub_file += "\n"
         sub_file += "request_memory          = 2048MB\n"
@@ -90,7 +86,7 @@ def output_condor(combine_command, datacard, options):
 ### create a file to keep track of which combine method was used
 ### (since extracting the limits is different for each one)
 #methodFile = open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.outputDir+"/method.txt", "w")
-print os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+arguments.outputDir+"/method.txt"
+print( os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+arguments.outputDir+"/method.txt")
 methodFile = open(os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+arguments.outputDir+"/method.txt", "w")
 
 methodFile.write(arguments.method)
@@ -111,6 +107,8 @@ for mass in masses:
         condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
         condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
         datacard_name = "datacard_"+signal_name+".txt"
+        print("OutputDir:", arguments.outputDir)
+        print("Datacard name", datacard_name)
         datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
         datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
         datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
@@ -147,20 +145,21 @@ for mass in masses:
                 combine_expected_options += " --rMin 0.00000001 --rMax 2 "
                 combine_observed_options += " --rMin 0.00000001 --rMax 2 "
 
-        combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
+        combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0].decode('UTF-8')
         combine_command = combine_command.rstrip()
 
         shutil.rmtree(condor_expected_dir, True)
         os.mkdir(condor_expected_dir)
+        print("Output:", datacard_src_name, datacard_dst_expected_name)
         shutil.copy(datacard_src_name, datacard_dst_expected_name)
         os.chdir(condor_expected_dir)
 
         if not arguments.batchMode:
             command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
-            print command
+            print( command)
             os.system(command)
         else:
-            print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
+            print( "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name)
             output_condor(combine_command, datacard_name, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
@@ -175,11 +174,11 @@ for mass in masses:
                 os.chdir(condor_expected_dirVary)
                 if not arguments.batchMode:
                     commandVary = command.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])
-                    print commandVary
+                    print( commandVary)
                     os.system(commandVary)
                 else:
                     combine_expected_optionsVary = combine_expected_options.replace("expectedFromGrid 0.5", "expectedFromGrid " + vary[1])
-                    print "combine "+datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name
+                    print( "combine "+datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name)
                     output_condor(combine_command, datacard_name, datacard_name+" "+combine_expected_optionsVary+" --name "+signal_name+" | tee /dev/null")
                     os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
@@ -193,12 +192,12 @@ for mass in masses:
         if not arguments.batchMode:
             #            command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
             command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".txt"
-            print command
+            print( command)
             os.system(command)
 
 
         else:
-            print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
+            print( "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name)
             output_condor(combine_command, datacard_name, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 

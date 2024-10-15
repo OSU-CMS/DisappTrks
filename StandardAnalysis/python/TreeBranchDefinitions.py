@@ -94,7 +94,7 @@ for srcCTau in [1, 10, 100, 1000, 10000]:
     if srcCTau == 10:
         destinationCTaus.extend([float(0.01 * i * srcCTau) for i in range(1, 11)])
     for dst in destinationCTaus:
-        dstCTau = str(int(dst)) if dst > 1 else '0p' + str(int(10 * dst))
+        dstCTau = str(int(dst)) if dst >= 1 else '0p' + str(int(10 * dst))
         thisName = "lifetimeWeight_1000024_" + str(srcCTau) + "cmTo" + dstCTau + "cm"
         EventVariableBranches.branches.append(
             cms.PSet(

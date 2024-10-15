@@ -11,23 +11,20 @@ import re
 from array import *
 from threading import Thread, Lock, Semaphore
 from multiprocessing import cpu_count
+import ctypes
 
 from DisappTrks.LimitSetting.limitOptions import *
 
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double, TChain, TH2D
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, TChain, TH2D
 
 if not arguments.era in validEras:
-  print
-  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
-  print str(validEras)
-  print
+  print( "\nInvalid or empty data-taking era specific (-e). Allowed eras:\n")
+  print( str(validEras))
   sys.exit(0)
 
 if arguments.limitType not in validLimitTypes:
-    print
-    print "Invalid or empty limit type to plot (-l). Allowed types:"
-    print str(validLimitTypes)
-    print
+    print( "\nInvalid or empty limit type to plot (-l). Allowed types:\n")
+    print( str(validLimitTypes))
     sys.exit(0)
 
 if arguments.limitType == "wino":
@@ -39,7 +36,7 @@ if arguments.outputDir:
     if not os.path.exists("limits/" + arguments.outputDir):
         os.system("mkdir limits/" + arguments.outputDir)
 else:
-    print "No output directory specified, shame on you"
+    print( "No output directory specified, shame on you")
     sys.exit(0)
 
 def fancyTable(arrays):
@@ -47,7 +44,7 @@ def fancyTable(arrays):
     def areAllEqual(lst):
         return not lst or [lst[0]] * len(lst) == lst
 
-    if not areAllEqual(map(len, arrays)):
+    if not areAllEqual(list(map(len, arrays))):
         exit('Cannot print a table with unequal array lengths.')
 
     verticalMaxLengths = [max(value) for value in map(lambda * x:x, *[map(len, a) for a in arrays])]
@@ -87,7 +84,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
 
     if arguments.verbose:
         printLock.acquire ()
-        print 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...'
+        print( 'Reweighting yield from ' + realProcessName + ' to ' + process + ' ...')
         printLock.release ()
 
     chain = TChain(signal_channel_tree)
@@ -116,7 +113,7 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
             lifetimeWeight = getattr(chain, lifetimeWeightName)
         if chain.eventvariable_cTau_1000024_0 < 0:
             printLock.acquire()
-            print 'WARNING: somehow event number ' + str(iEvent) + ' in sample ' + process + ' has no charginos at all! Ignoring this event...'
+            print( 'WARNING: somehow event number ' + str(iEvent) + ' in sample ' + process + ' has no charginos at all! Ignoring this event...')
             printLock.release()
             continue # or lifetimeWeight = 0 really
         thisWeight = crossSectionWeight * lifetimeWeight * chain.eventvariable_isrWeight * chain.eventvariable_grandOrWeight * chain.eventvariable_puScalingFactor
@@ -141,14 +138,14 @@ def GetYieldAndError(condor_dir, process, channel):
     inputFile = TFile("condor/" + condor_dir + "/" + process + ".root")
     hist = inputFile.Get(channel + "/" + integrateHistogramName)
     if not hist:
-        print "Could not find hist " + channel + "/" + integrateHistogramName + " in " + inputFile.GetName()
+        print( "Could not find hist " + channel + "/" + integrateHistogramName + " in " + inputFile.GetName())
     hist.SetDirectory(0)
     nGenerated = inputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
     inputFile.Close()
 
-    intError = Double (0.0)
-    integral = hist.IntegralAndError(0, hist.GetNbinsX() + 1, intError)
-    fracError = 1.0 + (intError / integral) if integral > 0.0 else 1.0
+    intError = 0.0
+    integral = hist.IntegralAndError(0, hist.GetNbinsX() + 1, ctypes.c_double(intError))
+    fracError = float(1.0 + (intError / integral)) if integral > 0.0 else 1.0
 
     raw_integral = hist.GetEntries ()
 
@@ -251,7 +248,7 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
 
         if arguments.verbose:
             printLock.acquire ()
-            print "Debug:  for bkgd: " + str(background) + ", yield = " + str(background_yields[background]) + ", error = " + str(background_errors[background])
+            print("Debug:  for bkgd: " + str(background) + ", yield = " + str(background_yields[background]) + ", error = " + str(background_errors[background]))
             printLock.release ()
 
         totalBkgd += float(background_yields[background])
@@ -315,9 +312,9 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
         if 'alpha' in backgrounds[str(background)]:
             rate_row.append(str(background_yields[background]))
             if arguments.verbose:
-                print "Debug: for background " + str(background)
-                print "Debug: for background " + str(background) + ": " + str(background_yields[background])
-                print "Debug: for background " + str(background) + ": " + str(background_yields[background])
+                print( "Debug: for background " + str(background))
+                print( "Debug: for background " + str(background) + ": " + str(background_yields[background]))
+                print( "Debug: for background " + str(background) + ": " + str(background_yields[background]))
         else:
             rate_row.append(background_yields[background])
         empty_row.append('')
@@ -451,7 +448,7 @@ def writeDatacard(mass, lifetime, observation, dictionary, ignoreSignalScaleFact
         if not useBatch:
             command = command + ' | tee ' + logfile
         if arguments.verbose:
-            print command
+            print( command)
         datacard95.write(command)
         datacard95.close(command)
 
@@ -472,9 +469,9 @@ for systematic in external_systematic_uncertainties:
         newLine = intermediateLine.rstrip("\n").split("~")
 
         dataset = newLine[0]
-        if len(newLine) is 2:
+        if len(newLine) == 2:
             systematics_dictionary[systematic][dataset] = newLine[1]
-        elif len(newLine) is 3:
+        elif len(newLine) == 3:
             systematics_dictionary[systematic][dataset]= newLine[1] + "/" + newLine[2]
 
             # turn off systematic when the central yield is zero
@@ -503,9 +500,7 @@ threads = []
 printLock = Lock ()
 semaphore = Semaphore (cpu_count () + 1)
 
-print
-print 'Writing cards for era', arguments.era, '...'
-print
+print('\nWriting cards for era', arguments.era, '...\n')
 
 for mass in masses:
     for lifetime in lifetimes:

@@ -404,7 +404,7 @@ EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
 template<class T, class... Args> template<class T0> bool
 EventTPProducer<T, Args...>::matchedToTag (const osu::Track &probe, const vector<T0> &tags) const
 {
-  for (const auto tag : tags) {
+  for (const auto &tag : tags) {
     if (deltaR (probe, tag) < probeTagMatchingDR_) return true;
   }
   return false;

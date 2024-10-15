@@ -31,7 +31,7 @@
 #include "Geometry/Records/interface/TrackerTopologyRcd.h"
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+#include "FWCore/Framework/interface/stream/EDAnalyzer.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
 
@@ -70,7 +70,6 @@
 #include "DataFormats/JetReco/interface/PFJet.h"
 #include "DataFormats/JetReco/interface/PFJetCollection.h"
 #include "DataFormats/MuonReco/interface/Muon.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -80,7 +79,7 @@
 
 using namespace std;
 
-class CharginoValidator : public edm::one::EDAnalyzer<edm::one::SharedResources> {
+class CharginoValidator : public edm::stream::EDAnalyzer<> {
    public:
       explicit CharginoValidator (const edm::ParameterSet &);
       ~CharginoValidator ();

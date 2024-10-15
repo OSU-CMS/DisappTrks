@@ -81,6 +81,7 @@ class TrackImageAnalyzer : public edm::stream::EDAnalyzer<> {
       edm::EDGetTokenT<EERecHitCollection>         EERecHitsToken_;
       edm::EDGetTokenT<HBHERecHitCollection>       HBHERecHitsToken_;
 
+      const edm::ESGetToken<CaloGeometry, CaloGeometryRecord> caloGeomToken_;
       edm::ESHandle<CaloGeometry> caloGeometry_;
 
       edm::Service<TFileService> fs_;

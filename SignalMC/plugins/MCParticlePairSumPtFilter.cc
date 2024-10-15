@@ -11,7 +11,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -32,7 +32,7 @@ using namespace std;
 // class decleration
 //
 
-class MCParticlePairSumPtFilter : public edm::EDFilter {
+class MCParticlePairSumPtFilter : public edm::stream::EDFilter<> {
 public:
   explicit MCParticlePairSumPtFilter(const edm::ParameterSet&);
   ~MCParticlePairSumPtFilter();

@@ -12,7 +12,7 @@ UseCandidateTracks = False
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_'))
+UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_13_0_'))
 
 print("########################################################################")
 print("# Switching the following since the release is " + A_BRIGHT_BLUE + os.environ["CMSSW_VERSION"] + A_RESET + ":")
@@ -43,7 +43,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         print("# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET)
         print("# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_102X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")")
         from DisappTrks.StandardAnalysis.miniAOD_102X_Samples import *
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     if UseCandidateTracks:
         print("CandidateTracks not supported please change UseCandidaeTracks bool to false in config_cfg.py")
     else:
@@ -68,7 +68,7 @@ datasetsBkgd = [
     'VV',
     'SingleTop',
 ]
-#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_
+#TODO: need to check what this does and if it is useful or not for run3 CMSSW_12_4_ CMSSW_13_0_
 #if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #    datasetsBkgd.append('TTJetsComposite')
 #else:
@@ -135,12 +135,17 @@ datasetsSig = [
     'AMSB_chargino_1100GeV_1000cm_76X',
     'AMSB_chargino_1100GeV_10000cm_76X',
 
+    'AMSB_chargino_1200GeV_10cm_76X',
+    'AMSB_chargino_1200GeV_100cm_76X',
+    'AMSB_chargino_1200GeV_1000cm_76X',
+    'AMSB_chargino_1200GeV_10000cm_76X',
+
     'AMSB_chargino_700GeV_100cm_124X',
 ]
 
 datasetsSigHiggsino = []
 
-if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_13_0_"):
     datasetsSigHiggsino = [
         'Higgsino_100GeV_10cm_76X',
         'Higgsino_100GeV_100cm_76X',
@@ -186,6 +191,11 @@ if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_") or os.environ["CMSSW_VER
         'Higgsino_900GeV_100cm_76X',
         'Higgsino_900GeV_1000cm_76X',
         'Higgsino_900GeV_10000cm_76X',
+
+        'Higgsino_1000GeV_10cm_76X',
+        'Higgsino_1000GeV_100cm_76X',
+        'Higgsino_1000GeV_1000cm_76X',
+        'Higgsino_1000GeV_10000cm_76X',
     ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -208,15 +218,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
     for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
         datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
-    print("# Signal samples: " + A_BRIGHT_CYAN + "124X samples" + A_RESET)
-    #TODO: update this to use the existing MC signal samples when everything works!!!
-    #for i in range(0, len(datasetsSig)):
-    #    datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSig[i])
-    #for i in range (0, len (datasetsSigHiggsino)):
-    #    datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_102X", datasetsSigHiggsino[i])
-    #for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]:
-    #    datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_102X')
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    print("# Signal samples: " + A_BRIGHT_CYAN + "130X samples" + A_RESET)
+    for i in range(0, len(datasetsSig)):
+       datasetsSig[i] = re.sub (r"(.*)_76X$", r"\1_130X", datasetsSig[i])
+    for i in range (0, len (datasetsSigHiggsino)):
+       datasetsSigHiggsino[i] = re.sub (r"(.*)_76X$", r"\1_130X", datasetsSigHiggsino[i])
+    for i in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]:
+       datasetsSig.append('AMSB_chargino_' + str(i) + 'GeV_1cm_130X')
 else:
     print("# Signal samples: " + A_BRIGHT_CYAN + "76X samples" + A_RESET)
 
@@ -233,6 +242,7 @@ datasetsSigShort800 = [x for x in datasetsSig if x.startswith('AMSB_chargino_800
 datasetsSigShort900 = [x for x in datasetsSig if x.startswith('AMSB_chargino_900GeV_')]
 datasetsSigShort1000 = [x for x in datasetsSig if x.startswith('AMSB_chargino_1000GeV_')]
 datasetsSigShort1100 = [x for x in datasetsSig if x.startswith('AMSB_chargino_1100GeV_')]
+datasetsSigShort1200 = [x for x in datasetsSig if x.startswith('AMSB_chargino_1200GeV_')]
 
 datasetsSigHiggsinoShort = copy.deepcopy(datasetsSigHiggsino)
 
@@ -245,6 +255,7 @@ datasetsSigHiggsinoShort600 = [x for x in datasetsSigHiggsino if x.startswith('H
 datasetsSigHiggsinoShort700 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_700GeV_')]
 datasetsSigHiggsinoShort800 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_800GeV_')]
 datasetsSigHiggsinoShort900 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_900GeV_')]
+datasetsSigHiggsinoShort1000 = [x for x in datasetsSigHiggsino if x.startswith('Higgsino_1000GeV_')]
 
 #TODO: update this to use the existing MC signal samples when everything works!!!
 #addLifetimeReweighting (datasetsSig)
@@ -260,6 +271,7 @@ higgsino_xsecs = { # [pb]
     '700' : 0.00572751,
     '800' : 0.002878806,
     '900' : 0.001502429,
+    '1000' : 0.001502429,
 }
 
 # set the cross sections for Higgsino samples

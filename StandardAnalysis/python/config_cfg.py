@@ -20,13 +20,14 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # Channels needed for background estimates and systematics
 #  add_channels  (process,  [vertexCutOnly],                 histSets,  weights,  [],  collMap,  variableProducers,  True)
-#  add_channels  (process,  [jetVetoMap2022],                 histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#  add_channels  (process,  [jetVetoMap2022],                histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels  (process,  [basicSelectionNoAngularCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True)
-#  add_channels  (process,  [justTriggersElecOnly],                histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [justTriggersMuOnly],                histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#  add_channels (process,   [deepSetsSelection],             histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#  add_channels  (process,  [justTriggersElecOnly],          histSets,  weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [justTriggersMuOnly],            istSets,   weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits3],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits4],         histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNHits5],         histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -34,7 +35,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # Channels requiring MET+jet+track
 #  add_channels  (process,  [nonIsoTrkSelection],             histSets,      weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [isoTrkSelection],                histSets,      weights,  [],  collMap,  variableProducers,  False)
+#  add_channels  (process,  [isoTrkSelection],                histSets,      weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True)
 #  add_channels  (process,  [isoTrkSelectionInvertDRJetCut],  histSets,      weights,  [],  collMap,  variableProducers,  True)
 #  add_channels  (process,  [isoTrkSelectionBeforeIsoCut],    histSets,      weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [candTrkSelection],               histSets,      weights,  [],  collMap,  variableProducers,  False)

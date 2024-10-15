@@ -1601,13 +1601,13 @@ TrackHistograms = cms.PSet(
             name = cms.string("trackd0"),
             title = cms.string("Track d_{0};track d_{0} [cm]"),
             binsX = cms.untracked.vdouble(100, -0.5, 0.5),
-            inputVariables = cms.vstring("d0"),
+            inputVariables = cms.vstring("dxy"),
         ),
         cms.PSet (
             name = cms.string("trackd0Mag"),
             title = cms.string("Track d_{0};track |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(50, 0.0, 0.5),
-            inputVariables = cms.vstring("fabs(d0)"),
+            inputVariables = cms.vstring("fabs(dxy)"),
         ),
         cms.PSet (
             name = cms.string("trackdz"),
@@ -1693,6 +1693,18 @@ TrackHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(getPdgBins(["quarks", "leptons", "bosons"])),
             inputVariables = cms.vstring("abs (genMatchedParticle.directPromptTauDecayProductFinalState.pdgId)"),
         ),
+        cms.PSet (
+            name = cms.string("DeepSetsElectronScore"),
+            title = cms.string(";Deep Sets Electron Score"),
+            binsX = cms.untracked.vdouble(50.0, 0.0, 1.0),
+            inputVariables = cms.vstring("deepSetsElectronScore"),
+        ),
+        cms.PSet (
+            name = cms.string("fakeTrackScore"),
+            title = cms.string(";Fake Track NN Score"),
+            binsX = cms.untracked.vdouble(50.0, 0.0, 1.0),
+            inputVariables = cms.vstring("fakeTrackScore"),
+        )
     )
 )
 
@@ -1740,37 +1752,37 @@ TrackEventVarHistograms = cms.PSet(
             name = cms.string("trackd0WRTPV"),
             title = cms.string("Track d_{0} wrt leading PV;track d_{0} [cm]"),
             binsX = cms.untracked.vdouble(100, -0.5, 0.5),
-            inputVariables = cms.vstring(trackD0WRTPV),
+            inputVariables = cms.vstring('track.dxy'),
         ),
         cms.PSet (
             name = cms.string("trackd0WRTPV_Zoom"),
             title = cms.string("Track d_{0} wrt leading PV;track d_{0} [cm]"),
             binsX = cms.untracked.vdouble(100, -0.1, 0.1),
-            inputVariables = cms.vstring(trackD0WRTPV),
+            inputVariables = cms.vstring('track.dxy'),
         ),
         cms.PSet (
             name = cms.string("trackd0WRTPVMag"),
             title = cms.string("Track d_{0} wrt leading PV;track |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(50, 0, 0.5),
-            inputVariables = cms.vstring("fabs ( " + trackD0WRTPV + " )"),
+            inputVariables = cms.vstring("fabs ( " + 'track.dxy' + " )"),
         ),
         cms.PSet (
             name = cms.string("trackdzWRTPV"),
             title = cms.string("Track d_{z} wrt leading PV;track d_{z} [cm]"),
             binsX = cms.untracked.vdouble(100, -10, 10),
-            inputVariables = cms.vstring(trackDZWRTPV),
+            inputVariables = cms.vstring('track.dz'),
         ),
         cms.PSet (
             name = cms.string("trackdzWRTPV_Zoom"),
             title = cms.string("Track d_{z} wrt leading PV;track d_{z} [cm]"),
             binsX = cms.untracked.vdouble(100, -2, 2),
-            inputVariables = cms.vstring(trackDZWRTPV),
+            inputVariables = cms.vstring('track.dz'),
         ),
         cms.PSet (
             name = cms.string("trackdzWRTPVMag"),
             title = cms.string("Track d_{z} wrt leading PV;track |d_{z}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 10),
-            inputVariables = cms.vstring("fabs( " + trackDZWRTPV + " )" ),
+            inputVariables = cms.vstring("fabs( " + 'track.dz' + " )" ),
         ),
     )
 )

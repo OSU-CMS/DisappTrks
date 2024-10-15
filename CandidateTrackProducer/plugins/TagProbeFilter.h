@@ -1,5 +1,5 @@
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -26,7 +26,7 @@ using namespace std;
 enum Flavor {ELECTRON, MUON, TAUTOELECTRON, TAUTOMUON};
 
 template<Flavor T>
-class TagProbeFilter : public edm::EDFilter {
+class TagProbeFilter : public edm::stream::EDFilter<> {
    public:
       TagProbeFilter (const edm::ParameterSet &);
       ~TagProbeFilter ();

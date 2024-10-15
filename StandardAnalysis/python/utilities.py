@@ -11,7 +11,8 @@ class AnalysisEra:
     is2015 = False
     is2016 = False
     is2017 = False
-    is2017 = False
+    is2018 = False
+    is2022 = False
     release = ''
     eraName = ''
 
@@ -30,6 +31,9 @@ class AnalysisEra:
         elif self.release.startswith('CMSSW_10_2_'):
             self.is2018 = True
             self.eraName = '2018'
+        elif self.release.startswith('CMSSW_12_') or self.release.startswith('CMSSW_13_'):
+            self.is2022 = True
+            self.eraName = '2022'
         else:
             print(self.release + ' is not a valid release. Quitting.')
             sys.exit(0)
@@ -43,6 +47,8 @@ class AnalysisEra:
             return ['B', 'C', 'D', 'E', 'F']
         if self.is2018:
             return ['A', 'B', 'C', 'D']
+        if self.is2022:
+            return ['A', 'B', 'C', 'D', 'E', 'F']
         return []
 
 
