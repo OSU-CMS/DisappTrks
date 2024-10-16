@@ -14,9 +14,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1", 800, 800)
 
 selectionNames = ['FiducialCalcBefore', 'FiducialCalcAfter']
-sim = True
-
-simulation = False
+sim = False
 
 # Will use Dataset_runPeriod.root
 runPeriods = ['2015']
@@ -30,8 +28,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
     runPeriods = ['2022F']
-    #selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
-    selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
+    selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
+    #selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
 
 for runPeriod in runPeriods:
 
@@ -54,10 +52,10 @@ for runPeriod in runPeriods:
             condorDirectory = dirs['Mike'] + 'sim/DY_Jets_M50_deepSets_v2'
             datasetName = 'DYJetsToLL_M50_merged'
         else:
-            condorDirectory = dirs['Mike'] + 'EGamma_2022/EGamma_2022F_fiducialMap'
+            condorDirectory = dirs['Mike'] + '/abyss/EGamma_2022/EGamma_2022F_fiducialMap/'
             datasetName = 'EGamma'
         
-    fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
+    fout = TFile.Open("newElectronFiducialMap_" + runPeriod + "_v2.root", "recreate")
     
     electronMap = FiducialMapCalculator()
     #electronMap.setVerboseComparison(True)
@@ -85,8 +83,10 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
     if '2018' in runPeriod:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/muonHotSpots"
+    if '2022' in runPeriod:
+        condorDirectory = dirs['Mike'] + 'abyss/Muon_2022/fiducialMap/'
 
-    '''print("********************************************************************************")
+    print("********************************************************************************")
     print("Calculating muon fiducial map in search region", runPeriod)
     print("--------------------------------------------------------------------------------")
     
@@ -96,16 +96,16 @@ for runPeriod in runPeriods:
     #muonMap.setVerboseComparison(True)
     muonMap.addTFile(fout)
     muonMap.addTCanvas(canvas)
-    muonMap.addLuminosityInInvPb(lumi["SingleMuon_" + runPeriod])
-    muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "SingleMu_" + runPeriod, condorDirectory)
-    muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "SingleMu_" + runPeriod, condorDirectory)
+    muonMap.addLuminosityInInvPb(lumi["Muon_" + runPeriod])
+    muonMap.addChannel("Denominator", "Muon" + selectionNames[0], "Muon_" + runPeriod, condorDirectory)
+    muonMap.addChannel("Numerator",   "Muon" + selectionNames[1], "Muon_" + runPeriod, condorDirectory)
     muonMap.CalculateFiducialMap()
     muonMap.MakePlots()
     muonMap.CompareFiducialMap()
     print("********************************************************************************")
     print("\n\n")
     
-    fout.Close()'''
+    fout.Close()
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_"):
     remakePayload('Electron', '2015')
