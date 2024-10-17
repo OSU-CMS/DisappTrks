@@ -6,6 +6,7 @@ from DisappTrks.StandardAnalysis.METFilters import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 from DisappTrks.StandardAnalysis.protoConfig_cfg import UseCandidateTracks
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import dataFormat
 import os
 
 ##############################
@@ -721,6 +722,10 @@ cutTrkEcalo = cms.PSet(
     cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
     numberRequired = cms.string(">= 1"),
 )
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcalo.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) < 10")
+
 cutTrkNMissOut0 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 0"),
@@ -761,6 +766,13 @@ cutTrkEcaloInv50 = cms.PSet(
     cutString = cms.string("caloNewNoPUDRp5CentralCalo > 50"),
     numberRequired = cms.string(">= 1"),
 )
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcaloInv.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 10")
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcaloInv50.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 50")
+
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits <= 2"),
