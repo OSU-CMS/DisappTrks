@@ -1,5 +1,5 @@
 #include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/one/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 #include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -29,7 +29,7 @@ using namespace std;
 enum MinimalSkim {MET, ELECTRON, MUON, TAU};
 
 template<MinimalSkim T>
-class MinimalSkimFilter : public edm::one::EDFilter<edm::EndRunProducer> {
+class MinimalSkimFilter : public edm::stream::EDFilter<> {
    public:
       MinimalSkimFilter (const edm::ParameterSet &);
       ~MinimalSkimFilter ();

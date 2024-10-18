@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
+import os
 from OSUT3Analysis.Configuration.Measurement import Measurement
-from DisappTrks.SignalMC.signalCrossSecs import *
+if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_")):
+    exec("from DisappTrks.SignalMC.signalCrossSecs import *")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    exec("from DisappTrks.SignalMC.signalCrossSecs13p6TeV import *")
 
 print "\\begin{tabular}{llll}"
 print "  \\hline"

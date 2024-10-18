@@ -18,6 +18,6 @@
 <use name="FWCore/Utilities"/>
 <use name="MagneticField/Engine"/>
 <use name="MagneticField/Records"/>
-<use name="RecoEgamma/EgammaTools"/>
+<use name="CommonTools/Egamma"/>
 <use name="TrackingTools/TrackAssociator"/>
 <flags EDM_PLUGIN="1"/>

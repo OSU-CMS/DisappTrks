@@ -15,7 +15,7 @@ def cullHistograms(histoPSet, names):
 # Individual histogram changes for pat::IsolatedTrack from CandidateTrack
 ################################################################################
 
-cullHistograms(TrackHistograms, ['trackd0', 'trackd0Mag']) # 'dxy' (wrt PV) instead of 'd0'
+#cullHistograms(TrackHistograms, ['trackd0', 'trackd0Mag']) # 'dxy' (wrt PV) instead of 'd0'
 cullHistogram(TrackHistograms, 'trackChi2') # no normalizedChi2
 
 # no track isolation
@@ -38,7 +38,8 @@ cullHistograms(TrackExtraHistograms, ['trackIsolation',
 cullHistograms(TrackExtraHistograms, ['trackPtError', 'trackPtErrorByPt'])
 
 # pat::IsolatedTrack's dxy and dz methods are already with respect to the PV, so we undo the correction
-for histo in TrackEventVariableHistograms.histograms:
+#NB this is not working, all variables have been changed in the frameworkHistogramDefinitions to use isolatedTracks dxy, dz
+'''for histo in TrackEventVariableHistograms.histograms:
     for inputVar in histo.inputVariables:
         if trackDZWRTPV in inputVar:
             inputVar = "track.dz"
@@ -46,13 +47,18 @@ for histo in TrackEventVariableHistograms.histograms:
 for histo in TrackEventVarHistograms.histograms:
     for inputVar in histo.inputVariables:
         if trackD0WRTPV in inputVar and "fabs" in inputVar:
+            print("fixing dxy...", inputVar)
             inputVar = "fabs(track.dxy)"
         elif trackD0WRTPV in inputVar:
+            print("fixing dxy...", inputVar)
             inputVar = "track.dxy"
         elif trackDZWRTPV in inputVar and "fabs" in inputVar:
+            print("fixing dz...", inputVar)
             inputVar = "fabs(track.dz)"
         elif trackDZWRTPV in inputVar:
             inputVar = "track.dz"
+            print("fixing dz...", inputVar)'''
+
 
 # When not producing ntuples, it's likely that electrons/muons/taus will have been selected/skimmed
 # So the safest place to get 'dR to closest lepton' is from the pfCandidates -- the name of these methods

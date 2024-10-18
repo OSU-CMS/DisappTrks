@@ -5,7 +5,8 @@ SlimmedSiClusterProducer::SlimmedSiClusterProducer (const edm::ParameterSet &cfg
   tracks_            (cfg.getParameter<edm::InputTag> ("tracks")),
   minTrackPt_        (cfg.getParameter<double>        ("minTrackPt")),
   requiredNumLayers_ (cfg.getParameter<int>           ("requiredNumLayers")),
-  maxDR_             (cfg.getParameter<double>        ("maxDR"))
+  maxDR_             (cfg.getParameter<double>        ("maxDR")),
+  geomToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>())
 {
   siPixelClustersToken_ = consumes<edmNew::DetSetVector<SiPixelCluster> > (siPixelClusters_);
   tracksToken_ = consumes<vector<reco::Track> > (tracks_);
@@ -28,8 +29,9 @@ SlimmedSiClusterProducer::produce (edm::Event &event, const edm::EventSetup &set
 
   slimmedPixelClusters_ = make_unique<edmNew::DetSetVector<SiPixelCluster> > ();
 
-  edm::ESHandle<TrackerGeometry> theTrackerGeometry;
-  setup.get<TrackerDigiGeometryRecord> ().get (theTrackerGeometry);
+  // edm::ESHandle<TrackerGeometry> theTrackerGeometry;
+  // setup.get<TrackerDigiGeometryRecord> ().get (theTrackerGeometry);
+  edm::ESHandle<TrackerGeometry> theTrackerGeometry = setup.getHandle(geomToken_);
   const TrackerGeometry &theTracker (*theTrackerGeometry);
 
   for (edmNew::DetSetVector<SiPixelCluster>::const_iterator detSet = siPixelClusters->begin(); detSet != siPixelClusters->end(); detSet++) {

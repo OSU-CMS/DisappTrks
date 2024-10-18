@@ -49,7 +49,7 @@ void MiniAODTriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventS
     std::cout << "\n === TRIGGER PATHS === " << std::endl;
     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
         std::cout << "Trigger " << names.triggerName(i) <<
-                ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
+                ", prescale " << triggerPrescales->getPrescaleForIndex<double>(i) <<
                 ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)")
                 << std::endl;
     }

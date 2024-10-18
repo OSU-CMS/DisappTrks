@@ -194,7 +194,7 @@ def customizeForMETTriggerProducer (producer):
         producer.additionalCollections           = cms.vstring(["hltTrk50Filter::HLT"] + [""] * 8)
         producer.additionalFilters               = cms.vstring(["hltTrk50Filter"] + [""] * 8)
 
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         print("# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...") #Should be fixed later
 
         # Copied from AllTriggers.py, all triggers in the Grand Or selection

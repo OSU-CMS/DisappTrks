@@ -12,10 +12,8 @@ from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 from DisappTrks.LimitSetting.limitOptions import *
 
 if arguments.limitType not in validLimitTypes:
-    print
-    print "Invalid or empty limit type to plot (-l). Allowed types:"
-    print str(validLimitTypes)
-    print
+    print ("\nInvalid or empty limit type to plot (-l). Allowed types:\n")
+    print (str(validLimitTypes))
     sys.exit(0)
 
 if arguments.limitType == "wino":
@@ -28,19 +26,19 @@ suffix = ""
 if not arguments.suffix:
     if "SUFFIX" in os.environ:
         suffix = os.environ["SUFFIX"]
-        print 'Taking suffix from environment: ' + suffix
+        print( 'Taking suffix from environment: ' + suffix)
     else:
-        print 'Either provide an input date with "-s" or define the $SUFFIX variable in your environment.'
+        print( 'Either provide an input date with "-s" or define the $SUFFIX variable in your environment.')
         sys.exit(1)
 else:
     suffix = arguments.suffix
-    print 'Using suffix: ' + suffix
+    print( 'Using suffix: ' + suffix)
 
 # check the input directories exist
 for combinedCard in datacardCombinations:
     for card in datacardCombinations[combinedCard]:
         if not os.path.exists('limits/limits_' + card + '_' + suffix):
-            print 'The input directory limits/limits_' + card + '_' + suffix + ' is missing! Quitting.'
+            print( 'The input directory limits/limits_' + card + '_' + suffix + ' is missing! Quitting.')
             sys.exit(1)
 
 # create the output directories
@@ -108,13 +106,16 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
         processLines = subprocess.check_output('sed -n "/^process\s*0\s*/p" ' + outputCardFile, shell = True).split()
         binLines = subprocess.check_output('awk "/^bin/{c++; if (c==2) {print}}" ' + outputCardFile, shell = True).split()
 
+        rateLines = [x.decode('utf-8') for x in rateLines][1:] # need to decode, first entry is string 'rate'
+        processLines = [x.decode('utf-8') for x in processLines][1:] # need to decode, first entry is string 'process'
+        binLines = [x.decode('utf-8') for x in binLines][1:] # need to decode, first entry is string 'bin'
+
         for iBin in range(len(rateLines)):
-            # skip headers in lines
-            if iBin == 0:
-                continue
             # if this is a signal process (0), replace the rate with this new scaled value
             if processLines[iBin] == '0':
                 rateLines[iBin] = str(scaledYields[binLines[iBin]])
+
+        rateLines = ['rate','\t','\t'] + rateLines # re-add the rate at the beginning of the line and "skip" two columns
 
         # now replace the rates in the combined card
         subprocess.call('sed -i "s/^rate.*/' + ' '.join(rateLines) + '/" ' + outputCardFile, shell = True)
@@ -123,7 +124,8 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
         subprocess.call('echo ' + str(scaleFactor) + ' > ' + outputCardFile.replace('datacard_', 'signalSF_'), shell = True)
 
         # find the signal stat lines, since these will need to change
-        signalStatLines = subprocess.check_output('sed -n "/^signal_stat_.*gmN.*/p" ' + outputCardFile, shell = True).split('\n')
+        signalStatLines = subprocess.check_output('sed -n "/^signal_stat_.*gmN.*/p" ' + outputCardFile, shell = True).decode('utf-8')
+        signalStatLines = signalStatLines.split('\n')
         for iLine in range(len(signalStatLines)):
             if not signalStatLines[iLine].startswith('signal_stat_Bin'):
                 continue
@@ -140,7 +142,7 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
                     stat_idx = ix
             if stat_idx < 0:
                 printLock.acquire()
-                print 'WARNING: cannot find signal stat error in file ' + outputCardFile + ', line = ' + signalStatLines[iLine]
+                print( 'WARNING: cannot find signal stat error in file ' + outputCardFile + ', line = ' + signalStatLines[iLine])
                 printLock.release()
                 continue
             lineEntries[stat_idx] = str(scaledYields[binName] / gmN_number)
@@ -175,6 +177,4 @@ for combinedCard in datacardCombinations:
     progress.setPercentDone(100.0)
     progress.printProgress(True)
 
-print
-print 'All done!'
-print
+print('All done!')

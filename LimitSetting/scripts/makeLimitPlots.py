@@ -14,21 +14,18 @@ from array import *
 from decimal import *
 from fractions import *
 from operator import itemgetter
+from ctypes import c_double as Double
 
 from DisappTrks.LimitSetting.limitOptions import *
 
 if not arguments.era in validEras:
-  print
-  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
-  print str(validEras)
-  print
+  print( "Invalid or empty data-taking era specific (-e). Allowed eras:")
+  print( str(validEras))
   sys.exit(0)
 
 if arguments.limitType not in validLimitTypes:
-    print
-    print "Invalid or empty limit type to plot (-l). Allowed types:"
-    print str(validLimitTypes)
-    print
+    print( "Invalid or empty limit type to plot (-l). Allowed types:")
+    print( str(validLimitTypes))
     sys.exit(0)
 
 if arguments.limitType == "wino":
@@ -42,11 +39,11 @@ if arguments.outputDir:
     if not os.path.exists("limits/" + arguments.outputDir):
         os.system("mkdir limits/" + arguments.outputDir)
 else:
-    print "No output directory specified, shame on you"
+    print( "No output directory specified, shame on you")
     sys.exit(0)
 
 from DisappTrks.StandardAnalysis.tdrstyle import *
-from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TMath
+from ROOT import TF1, TFile, TH2F, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, TMath
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -191,7 +188,7 @@ def getGraph(limits, x_key, y_key):
     x = [ ]
     y = [ ]
     for limit in limits:
-        if not limit.has_key(x_key) or not limit.has_key(y_key):
+        if x_key not in limit.keys() or y_key not in limit.keys():
             continue
         x.append(float(limit[x_key]))
         y.append(float(limit[y_key]))
@@ -234,8 +231,8 @@ def calcMassSplitting(mass, lifetimeInSec, deltaM, prevDeltaMGuess):
     c = math.pow(math.pow(mass, 2) - math.pow(neuMass, 2),2)
     d = float(math.pow(float(mPi),2))
     if (a == 0) or (b == 0):
-        print "Debug found bad values for a or b:  a=", a, ", b=", b, ", c=", c, ", d=", d, ", mass = ", mass, "neumass = ", neuMass, ", sqrt(c)=", math.pow(mass,2) - math.pow(neuMass,2)
-        print "Debug: lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess
+        print( "Debug found bad values for a or b:  a=", a, ", b=", b, ", c=", c, ", d=", d, ", mass = ", mass, "neumass = ", neuMass, ", sqrt(c)=", math.pow(mass,2) - math.pow(neuMass,2))
+        print( "Debug: lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess)
         #        print "Debug:  lifetimeGuess = ", lifetimeGuess, ", lifetimeInSec=", lifetimeInSec, ", deltaM=", deltaM, ", prevDeltaMGuess=", prevDeltaMGuess, "(lifetimeInSec - lifetimeGuess) / lifetimeInSec = ", (lifetimeInSec - lifetimeGuess) / lifetimeInSec
         return (0, 0)
 
@@ -275,23 +272,23 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
         if mass not in limit_dict[lifetime]:
             limit_dict[lifetime][mass] = {}
         limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
-        if experiment_key is 'up1' or experiment_key is 'up2':
+        if experiment_key == 'up1' or experiment_key == 'up2':
             limit_dict[lifetime][mass]['experiment'] += limit['expected']
-        if experiment_key is 'down1' or experiment_key is 'down2':
+        if experiment_key == 'down1' or experiment_key == 'down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
             if abs (float (theory_mass) - mass) < 1.0e-3:
                 limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
                 theory_error = float (signal_cross_sections[theory_mass]['error'])
-                if theory_key is 'up2' or theory_key is 'down2':
+                if theory_key =='up2' or theory_key == 'down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
-                if theory_key is 'up1' or theory_key is 'up2':
+                if theory_key == 'up1' or theory_key == 'up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
-                if theory_key is 'down1' or theory_key is 'down2':
+                if theory_key == 'down1' or theory_key == 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
     if arguments.verbose:
-        print "Debug:  limit_dict.keys() = "
-        print limit_dict.keys()
+        print( "Debug:  limit_dict.keys() = ")
+        print( limit_dict.keys())
     for lifetime in sorted (limit_dict.keys ()):
         ordered_masses = sorted (limit_dict[lifetime].keys (), reverse=True)
         first_allowed_mass = ordered_masses[0]
@@ -321,32 +318,32 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             if math.isnan (mass_limit):
                 mass_limit = 0.0
         if mass_limit > first_allowed_mass:
-            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            print( "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate.")
             mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
         if arguments.verbose:
-            print "Debug getGraph2D:  adding point: " + str(mass_limit) + ", " + str(lifetime)
-            print "  Debug:  previous_mass=" + str(previous_mass) + ", first_allowed_mass=" + str(first_allowed_mass)
-            print "  Debug:  limit_dict[lifetime][first_allowed_mass]['experiment'] = " + str(limit_dict[lifetime][first_allowed_mass]['experiment']) + ", experiment_key = " + experiment_key
+            print( "Debug getGraph2D:  adding point: " + str(mass_limit) + ", " + str(lifetime))
+            print( "  Debug:  previous_mass=" + str(previous_mass) + ", first_allowed_mass=" + str(first_allowed_mass))
+            print( "  Debug:  limit_dict[lifetime][first_allowed_mass]['experiment'] = " + str(limit_dict[lifetime][first_allowed_mass]['experiment']) + ", experiment_key = " + experiment_key)
             if previous_mass != first_allowed_mass:
-                print "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ","
-        if x_key is 'lifetime' and y_key is 'mass':
+                print( "  Debug x1,x2,x3,x4=" + str(x1) + ","+ str(x2) + "," + str(x3) + "," + str(x4) + ","  + ", y1,y2,y3,y4=" + str(y1) + ","+ str(y2) + "," + str(y3) + "," + str(y4) + ",")
+        if x_key == 'lifetime' and y_key == 'mass':
             x[-1], y[-1] = y[-1], x[-1]
     if plot['convertToMassSplitting']:
-        if "observed" is experiment_key:
-            print "Debug:  about to print all the values that go into TGraph for experiment_key = ", experiment_key, ":"
+        if "observed" == experiment_key:
+            print( "Debug:  about to print all the values that go into TGraph for experiment_key = ", experiment_key, ":")
             for i in range(len(x)):
-                print i, ": ", x[i], ", ", y[i]
+                print( i, ": ", x[i], ", ", y[i])
 
         lifetimeInCm = copy.deepcopy(y)
 
-        if "observed" is experiment_key:
-            print "Debug:  about to print all the values that go into TGraph, after converting to massSplitting, for experiment_key = ", experiment_key, ":"
+        if "observed" == experiment_key:
+            print( "Debug:  about to print all the values that go into TGraph, after converting to massSplitting, for experiment_key = ", experiment_key, ":")
         for i in range(len(y)):
             y[i] = convertFromCmToMassSplitting_v3(x[i], y[i])
-            if "observed" is experiment_key:
-                print i, ": ", x[i], ", ", y[i]
+            if "observed" == experiment_key:
+                print( i, ": ", x[i], ", ", y[i])
 ##         graphTest = TGraph(len(y), lifetimeInCm, y)
 ##         graphTest.Write()
 
@@ -389,7 +386,7 @@ def fillPotHolesTH2F(histogram):
                 n += 1
 
             if n > 0:
-                print "Filling pothole in histogram", histogram.GetName(), "-- bin (", ix, ", ", iy, ")"
+                print( "Filling pothole in histogram", histogram.GetName(), "-- bin (", ix, ", ", iy, ")")
                 histogram.SetBinContent(ix, iy, sum / n)
                 histogram.SetBinError(ix, iy, sumErr / n)
 
@@ -413,10 +410,10 @@ def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
     yBinArray = array("d", yBin)
     xBinArray = array("d", xBin)
     if arguments.verbose:
-        print "Printing xBin:"
-        print xBin
-        print "Printing yBin:"
-        print yBin
+        print( "Printing xBin:")
+        print( xBin)
+        print( "Printing yBin:")
+        print( yBin)
     plot2D = TH2F("","",len(xBin)-1,xBinArray,len(yBin)-1,yBinArray)
     for limit in limits:
         mass = float (limit['mass'])
@@ -426,19 +423,19 @@ def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
         if mass not in limit_dict[lifetime]:
             limit_dict[lifetime][mass] = {}
         limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
-        if experiment_key is 'up1' or experiment_key is 'up2':
+        if experiment_key =='up1' or experiment_key =='up2':
             limit_dict[lifetime][mass]['experiment'] += limit['expected']
-        if experiment_key is 'down1' or experiment_key is 'down2':
+        if experiment_key =='down1' or experiment_key =='down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
             if abs (float (theory_mass) - mass) < 1.0e-3:
                 limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
                 theory_error = float (signal_cross_sections[theory_mass]['error'])
-                if theory_key is 'up2' or theory_key is 'down2':
+                if theory_key =='up2' or theory_key =='down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
-                if theory_key is 'up1' or theory_key is 'up2':
+                if theory_key =='up1' or theory_key =='up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
-                if theory_key is 'down1' or theory_key is 'down2':
+                if theory_key =='down1' or theory_key =='down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
     for lifetime in sorted (limit_dict.keys ()):
         ordered_masses = sorted (limit_dict[lifetime].keys ())
@@ -475,19 +472,19 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         if mass not in limit_dict[lifetime]:
             limit_dict[lifetime][mass] = {}
         limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
-        if experiment_key is 'up1' or experiment_key is 'up2':
+        if experiment_key =='up1' or experiment_key =='up2':
             limit_dict[lifetime][mass]['experiment'] += limit['expected']
-        if experiment_key is 'down1' or experiment_key is 'down2':
+        if experiment_key =='down1' or experiment_key =='down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
             if abs (float (theory_mass) - mass) < 1.0e-3:
                 limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
                 theory_error = float (signal_cross_sections[theory_mass]['error'])
-                if theory_key is 'up2' or theory_key is 'down2':
+                if theory_key =='up2' or theory_key =='down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
-                if theory_key is 'up1' or theory_key is 'up2':
+                if theory_key =='up1' or theory_key =='up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
-                if theory_key is 'down1' or theory_key is 'down2':
+                if theory_key =='down1' or theory_key =='down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
 
     for lifetime in sorted (limit_dict.keys ()):
@@ -519,7 +516,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             if math.isnan (mass_limit):
                 mass_limit = 0.0
         if mass_limit > first_allowed_mass:
-            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            print( "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate.")
             mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
@@ -529,7 +526,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             file.write('\n')
             expTable.close()
 
-    if x_key is 'lifetime' and y_key is 'mass':
+    if x_key =='lifetime' and y_key =='mass':
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
@@ -538,7 +535,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     expTable.write('\n')
     expTable.write(' \end{tabular} \end{center}')
     expTable.close()
-    print "Table of expected limits for AN stored in: limits/" + arguments.outputDir
+    print( "Table of expected limits for AN stored in: limits/" + arguments.outputDir)
     return 'Success'
 
 def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
@@ -554,8 +551,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     obsTable.write('\hline')
     obsTable.write('\n')
     obsTable.close()
-    print "Table of observed limits for AN stored in: limits/" + arguments.outputDir
-
+    print( "Table of observed limits for AN stored in: limits/" + arguments.outputDir)
     for limit in limits:
         mass = float (limit['mass'])
         lifetime = float (limit['lifetime'])
@@ -564,19 +560,19 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         if mass not in limit_dict[lifetime]:
             limit_dict[lifetime][mass] = {}
         limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
-        if experiment_key is 'up1' or experiment_key is 'up2':
+        if experiment_key =='up1' or experiment_key =='up2':
             limit_dict[lifetime][mass]['experiment'] += limit['expected']
-        if experiment_key is 'down1' or experiment_key is 'down2':
+        if experiment_key =='down1' or experiment_key =='down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
             if abs (float (theory_mass) - mass) < 1.0e-3:
                 limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
                 theory_error = float (signal_cross_sections[theory_mass]['error'])
-                if theory_key is 'up2' or theory_key is 'down2':
+                if theory_key =='up2' or theory_key =='down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
-                if theory_key is 'up1' or theory_key is 'up2':
+                if theory_key =='up1' or theory_key =='up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
-                if theory_key is 'down1' or theory_key is 'down2':
+                if theory_key =='down1' or theory_key =='down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
 
     for lifetime in sorted (limit_dict.keys ()):
@@ -608,7 +604,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             if math.isnan (mass_limit):
                 mass_limit = 0.0
         if mass_limit > first_allowed_mass:
-            print "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate."
+            print( "ERROR:  Something went wrong with lifetime", lifetime, ": first_allowed_mass = ", first_allowed_mass, " is less than the calculated mass limit, ", mass_limit, ".  Please investigate.")
             mass_limit = previous_mass
         x.append (mass_limit)
         y.append (lifetime)
@@ -618,7 +614,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
             file.write('\n')
         obsTable.close()
 
-    if x_key is 'lifetime' and y_key is 'mass':
+    if x_key =='lifetime' and y_key =='mass':
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
@@ -627,7 +623,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     obsTable.write('\n')
     obsTable.write(' \end{tabular} \end{center}')
     obsTable.close()
-    print "Table of observed limits for AN stored in: limits/" + arguments.outputDir
+    print ("Table of observed limits for AN stored in: limits/" + arguments.outputDir)
     return 'Success'
 
 
@@ -683,7 +679,7 @@ def getGraphAsymmErrors(limits, x_key, y_key, up_key, down_key):
     down = [ ]
     y = [ ]
     for limit in limits:
-        if not limit.has_key(x_key) or not limit.has_key(up_key) or not limit.has_key(down_key) or not limit.has_key(y_key):
+        if x_key not in limit.keys() or up_key not in limit.keys() or down_key not in limit.keys() or y_key not in limit.keys():
             continue
         x.append(float(limit[x_key]))
         up.append(float(limit[up_key]))
@@ -711,20 +707,20 @@ def getBorderGraph(graph, errorType):
         xPoint = Double (0.0)
         yPoint = Double (0.0)
         graph.GetPoint (i, xPoint, yPoint)
-        if errorType is 'horizontal':
+        if errorType =='horizontal':
             eHigh = graph.GetErrorXhigh (i)
             eLow = graph.GetErrorXlow (i)
-            otherSideX.append (xPoint - eLow)
-            otherSideY.append (yPoint)
-            x.append (xPoint + eHigh)
-            y.append (yPoint)
-        if errorType is 'vertical':
+            otherSideX.append (xPoint.value - eLow)
+            otherSideY.append (yPoint.value)
+            x.append (xPoint.value + eHigh)
+            y.append (yPoint.value)
+        if errorType =='vertical':
             eHigh = graph.GetErrorYhigh (i)
             eLow = graph.GetErrorYlow (i)
-            otherSideX.append (xPoint)
-            otherSideY.append (yPoint - eLow)
-            x.append (xPoint)
-            y.append (yPoint + eHigh)
+            otherSideX.append (xPoint.value)
+            otherSideY.append (yPoint.value - eLow)
+            x.append (xPoint.value)
+            y.append (yPoint.value + eHigh)
     for i in range (0, -N, -1):
         x.append (otherSideX[i - 1])
         y.append (otherSideY[i - 1])
@@ -735,10 +731,10 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
     central = getGraph2D (limits, x_key, y_key, experiment_key, 'theory')
     up = TGraph ()
     down = TGraph ()
-    if experiment_key is 'expected':
+    if experiment_key =='expected':
         up = getGraph2D (limits, x_key, y_key, down_key, 'theory')
         down = getGraph2D (limits, x_key, y_key, up_key, 'theory')
-    if experiment_key is 'observed':
+    if experiment_key =='observed':
         up = getGraph2D (limits, x_key, y_key, 'observed', up_key)
         down = getGraph2D (limits, x_key, y_key, 'observed', down_key)
     x = []
@@ -760,35 +756,35 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
         x.append (xPoint)
         y.append (yPoint)
         if arguments.verbose:
-            print "Debug:  appending point: (" + str(xPoint) + ", " + str(yPoint)
-        if y_key is 'lifetime':
+            print( "Debug:  appending point: (" + str(xPoint) + ", " + str(yPoint))
+        if y_key =='lifetime':
             eXHigh.append (upXPoint)
             eXLow.append (downXPoint)
             eYHigh.append (0.0)
             eYLow.append (0.0)
-        if x_key is 'lifetime':
+        if x_key =='lifetime':
             eXHigh.append (0.0)
             eXLow.append (0.0)
             eYHigh.append (upYPoint)
             eYLow.append (downYPoint)
     for i in range (0, len (x)):
-        if y_key is 'lifetime':
-            eXHigh[i] -= x[i]
-            eXLow[i] = x[i] - eXLow[i]
-        if x_key is 'lifetime':
-            eYHigh[i] -= y[i]
-            eYLow[i] = y[i] - eYLow[i]
+        if y_key =='lifetime':
+            eXHigh[i] = Double(eXHigh[i].value - x[i].value)
+            eXLow[i] = Double(x[i].value - eXLow[i].value)
+        if x_key =='lifetime':
+            eYHigh[i] = Double(eYHigh[i].value - y[i].value)
+            eYLow[i] = Double(y[i].value - eYLow[i].value)
     graph = TGraphAsymmErrors (len (x),
-                               array ('d', x),
-                               array ('d', y),
-                               array ('d', eXLow),
-                               array ('d', eXHigh),
+                               array ('d', [i.value for i in x]),
+                               array ('d', [i.value for i in y]),
+                               array ('d', [i.value for i in eXLow]),
+                               array ('d', [i.value for i in eXHigh]),
                                array ('d', eYLow),
                                array ('d', eYHigh))
     borderGraph = TGraphAsymmErrors ()
-    if y_key is 'lifetime':
+    if y_key =='lifetime':
         borderGraph = getBorderGraph (graph, 'horizontal')
-    if x_key is 'lifetime':
+    if x_key =='lifetime':
         borderGraph = getBorderGraph (graph, 'vertical')
     return borderGraph
 
@@ -831,10 +827,10 @@ def fetchLimits(mass,lifetime,directories):
     limit['expected'] = 1.0e12
 
     if arguments.verbose:
-        print "Debug:  running fetchLimits for mass = " + str(mass) + "; lifetime = " + str(lifetime) + "; directories = " + str(directories)
+        print( "Debug:  running fetchLimits for mass = " + str(mass) + "; lifetime = " + str(lifetime) + "; directories = " + str(directories))
     for directory in directories:
         if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+directory+"/method.txt"):
-            print "Returning -1 for no method.txt file"
+            print( "Returning -1 for no method.txt file")
             return -1
         with open(os.environ["CMSSW_BASE"]+"/src/DisappTrks/StandardAnalysis/test/limits/"+directory+"/method.txt", 'r') as methodFile:
             method = methodFile.readline()
@@ -867,12 +863,12 @@ def fetchLimits(mass,lifetime,directories):
             file = TFile(makeSignalRootFileName(mass,lifetime,directory,"observed"))
             limit_tree = file.Get('limit')
             if not file.GetNkeys():
-                print "Returning -1 for file.GetNKeys"
+                print( "Returning -1 for file.GetNKeys")
                 return -1
 
             limit_tree = file.Get('limit')
             if not limit_tree:
-                print "Returning -1 for no limit_tree"
+                print ("Returning -1 for no limit_tree")
                 return -1
             if limit_tree.GetEntries() < 6:
                 continue
@@ -888,11 +884,11 @@ def fetchLimits(mass,lifetime,directories):
             file = TFile(makeSignalRootFileName(mass, lifetime, directory, "expected"))
             limit_tree = file.Get('limit')
             if not file.GetNkeys():
-                print "Returning -1 for file.GetNkeys"
+                print ("Returning -1 for file.GetNkeys")
                 return -1
             limit_tree = file.Get('limit')
             if not limit_tree:
-                print "Returning -1 for no limit_tree"
+                print ("Returning -1 for no limit_tree")
                 return -1
             if limit_tree.GetEntries() != 1:
                 continue
@@ -907,11 +903,11 @@ def fetchLimits(mass,lifetime,directories):
             file = TFile(makeSignalRootFileName(mass, lifetime, directory, "observed"))
             limit_tree = file.Get('limit')
             if not file.GetNkeys():
-                print "Returning -1 for file.GetNkeys"
+                print( "Returning -1 for file.GetNkeys")
                 return -1
             limit_tree = file.Get('limit')
             if not limit_tree:
-                print "Returning -1 for no limit_tree"
+                print( "Returning -1 for no limit_tree")
                 return -1
             if limit_tree.GetEntries() != 1:
                 continue
@@ -942,7 +938,7 @@ def fetchLimits(mass,lifetime,directories):
                     # print "Debug: Setting limit from line: ", line
             file.close()
             if arguments.verbose:
-                print "Debug: found expected limit: ", tmp_limit['expected']
+                print( "Debug: found expected limit: ", tmp_limit['expected'])
 
             # print "Debug: opening observed file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
@@ -951,7 +947,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['observed'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             if arguments.verbose:
-                print "Debug: found observed limit: ", tmp_limit['observed']
+                print( "Debug: found observed limit: ", tmp_limit['observed'])
 
             # print "Debug: opening up1 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up1"))
@@ -960,7 +956,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['up1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             if arguments.verbose:
-                print "Debug: found up1 limit: ", tmp_limit['up1']
+                print( "Debug: found up1 limit: ", tmp_limit['up1'])
 
             # print "Debug: opening up2 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_up2"))
@@ -969,7 +965,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['up2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             if arguments.verbose:
-                print "Debug: found up2 limit: ", tmp_limit['up2']
+                print( "Debug: found up2 limit: ", tmp_limit['up2'])
 
             # print "Debug: opening down1 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down1"))
@@ -978,7 +974,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down1'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             if arguments.verbose:
-                print "Debug: found down1 limit: ", tmp_limit['down1']
+                print( "Debug: found down1 limit: ", tmp_limit['down1'])
 
             # print "Debug: opening down2 file: "
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected_down2"))
@@ -987,7 +983,7 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down2'] = float(line.split(" ")[3]) # Use the last occurence of "Limit:" as the most accurate
             file.close()
             if arguments.verbose:
-                print "Debug: found down2 limit: ", tmp_limit['down2']
+                print( "Debug: found down2 limit: ", tmp_limit['down2'])
 
         # for other methods, get the ranges from the log file
         else:
@@ -1051,7 +1047,7 @@ def fetchLimits(mass,lifetime,directories):
             pass
 
         if arguments.verbose:
-            print "Debug:  observed limit in pb = ", tmp_limit['observed'], ", xSection in pb = ", xSection
+            print( "Debug:  observed limit in pb = ", tmp_limit['observed'], ", xSection in pb = ", xSection)
 
         tmp_limit['mass'] = mass
         tmp_limit['lifetime'] = lifetime
@@ -1085,15 +1081,15 @@ def drawPlot(plot, th2fType=""):
     yAxisBins = array('d')
     nBinsX = 1
     nBinsY = 1
-    if plot['xAxisType'] is 'mass':
+    if plot['xAxisType'] =='mass':
         xAxisMin = float(masses[0])
         xAxisMax = float(masses[-1])
-    elif plot['xAxisType'] is 'lifetime':
+    elif plot['xAxisType'] =='lifetime':
         xAxisMin = float(lifetimes[0])
         xAxisMax = float(lifetimes[-1])
     if is2D:
         canvas.SetLogz()
-        if plot['yAxisType'] is 'mass':
+        if plot['yAxisType'] =='mass':
             yAxisMin = float(masses[0])
             yAxisMax = float(masses[-1])
             xAxisBins.extend ([float (lifetime) for lifetime in lifetimes])
@@ -1101,7 +1097,7 @@ def drawPlot(plot, th2fType=""):
             yAxisBins.extend ([float (mass) for mass in masses])
             yAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
             yAxisBins.append (8.0 * float (masses[-1]) - 4.0 * float (masses[-2]))
-        elif plot['yAxisType'] is 'lifetime':
+        elif plot['yAxisType'] =='lifetime':
             yAxisMin = float(lifetimes[0])
             yAxisMax = 2 * float(lifetimes[-1])
             if not plot['convertToMassSplitting']:
@@ -1171,9 +1167,9 @@ def drawPlot(plot, th2fType=""):
 
     if hasTH2F:
         th2f = plot['th2fs']
-        if th2fType is 'exp':
+        if th2fType =='exp':
             tTh2fs.append(getTH2F(th2f['limits'],plot['xAxisType'],plot['yAxisType'],'expected', 'theory'))
-        if th2fType is 'obs':
+        if th2fType =='obs':
             tTh2fs.append(getTH2F(th2f['limits'],plot['xAxisType'],plot['yAxisType'],'observed', 'theory'))
         tTh2fs[-1].SetTitle("")
         tTh2fs[-1].GetXaxis().SetTitle(plot['xAxisLabel'])
@@ -1220,7 +1216,7 @@ def drawPlot(plot, th2fType=""):
         hBackground.Draw('axis')
 
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' in plot and plot['showTheoryError']):
-        if plot['xAxisType'] is 'mass':
+        if plot['xAxisType'] =='mass':
             tGraphs.append(getTheoryOneSigmaGraph())
             tGraphs[-1].Draw('3')
             legend.AddEntry(tGraphs[-1], "#pm1 #sigma: theory", 'F')
@@ -1230,7 +1226,7 @@ def drawPlot(plot, th2fType=""):
                 legend.AddEntry(tGraphs[-1], 'NLO+NLL prediction', 'L')
             else:
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
-    if plot.has_key('graphs'):
+    if 'graphs' in plot.keys():
         if arguments.paperMode:
             if not plot['title'] == 'lifetime_vs_mass':
                 legend.SetHeader('95% CL upper limits')
@@ -1243,65 +1239,65 @@ def drawPlot(plot, th2fType=""):
             if not is2D:
                 for graphName in graph['graphsToInclude']:
 
-                    if graphName is 'twoSigma':
+                    if graphName =='twoSigma':
                         tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         tGraphs[-1].Draw('3')
                         if arguments.paperMode:
                             legendEntry = '#pm2 #sigma_{experiment}'
                         else:
                             legendEntry = '#pm2 #sigma'
-                        if graphName is 'legendEntry':
+                        if graphName =='legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                         tGraphs[-1].SetName(plot['title']+"_graph_twoSigma")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
 
-                    if graphName is 'oneSigma':
+                    if graphName =='oneSigma':
                         tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         tGraphs[-1].Draw('3')
                         if arguments.paperMode:
                             legendEntry = '#pm1 #sigma_{experiment}'
                         else:
                             legendEntry = '#pm1 #sigma'
-                        if graphName is 'legendEntry':
+                        if graphName =='legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                         tGraphs[-1].SetName(plot['title']+"_graph_oneSigma")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
 
-                    if graphName is 'exp':
+                    if graphName =='exp':
                         tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         tGraphs[-1].Draw('L')
                         if arguments.paperMode:
                             legendEntry = 'Median expected'
                         else:
                             legendEntry = 'exp. limit'
-                        if graphName is 'legendEntry':
+                        if graphName =='legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_expected")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
 
-                    if graphName is 'obs':
+                    if graphName =='obs':
                         tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
                         tGraphs[-1].Draw('L')
                         if arguments.paperMode:
                             legendEntry = 'Observed'
                         else:
                             legendEntry = 'obs. limit'
-                        if graphName is 'legendEntry':
+                        if graphName =='legendEntry':
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_observed")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
 
             else:  # is2D == True
                 for graphName in graph['graphsToInclude']:
-                    if graphName is 'twoSigma':
+                    if graphName =='twoSigma':
                         tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                         if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
                             tGraphs[-1].SetFillStyle(3001)
@@ -1314,9 +1310,9 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                         tGraphs[-1].SetName(plot['title']+"_graph_twoSigma")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
-                    if graphName is 'oneSigma':
+                    if graphName =='oneSigma':
                         tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                         if 'legendEntry' in graph:  # make transparent if graphs from two sources are being compared
                             tGraphs[-1].SetFillStyle(3001)
@@ -1329,9 +1325,9 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                         tGraphs[-1].SetName(plot['title']+"_graph_oneSigma")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
-                    if graphName is 'exp':
+                    if graphName =='exp':
                         tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
                         #makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme)
                         makeExpLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory')
@@ -1344,9 +1340,9 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_expected")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
-                    if graphName is 'twoSigmaTheory':
+                    if graphName =='twoSigmaTheory':
                         isMakeTable = True
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
                         lineWidth = tGraphs[-1].GetLineWidth ()
@@ -1360,9 +1356,9 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_twoSigmaTheory")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
-                    if graphName is 'oneSigmaTheory':
+                    if graphName =='oneSigmaTheory':
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
                         lineWidth = tGraphs[-1].GetLineWidth ()
                         tGraphs[-1].SetLineWidth (lineWidth - 2)
@@ -1375,9 +1371,9 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_oneSigmaTheory")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
-                    if graphName is 'obs':
+                    if graphName =='obs':
                         tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
                         makeObsLimitsTable(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory')
                         tGraphs[-1].Draw('L')
@@ -1389,10 +1385,10 @@ def drawPlot(plot, th2fType=""):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName(plot['title']+"_graph_observed")
-                        print "Writing TGraph with name: ", tGraphs[-1].GetName()
+                        print( "Writing TGraph with name: ", tGraphs[-1].GetName())
                         tGraphs[-1].Write()
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' not in plot or not plot['showTheoryError']):
-        if plot['xAxisType'] is 'mass':
+        if plot['xAxisType'] =='mass':
             tGraphs.append(getTheoryGraph())
             tGraphs[-1].Draw('L')
             if arguments.paperMode:
@@ -1400,7 +1396,7 @@ def drawPlot(plot, th2fType=""):
             else:
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
             tGraphs[-1].SetName(plot['title']+"_graph_theory")
-            print "Writing TGraph with name: ", tGraphs[-1].GetName()
+            print( "Writing TGraph with name: ", tGraphs[-1].GetName())
             tGraphs[-1].Write()
     if not is2D:
     #get the min and max of all graphs, so the y-axis can be set appropriately
@@ -1538,7 +1534,7 @@ def drawPlot(plot, th2fType=""):
     canvas.SaveAs(outputPlotName+".C")
     # canvas.SetLogy(0)
     # canvas.SaveAs("limits/"+arguments.outputDir+"/"+plot['title']+"_lin.pdf")
-    print "Wrote plot to " + outputPlotName + ".pdf"
+    print ("Wrote plot to " + outputPlotName + ".pdf")
 
 ######################################################################################################
 
@@ -1561,49 +1557,49 @@ for plot in plotDefinitions:
         th2f = plot['th2fs']
         th2f['limits'] = []
         if 'xAxisType' not in plot or 'yAxisType' not in plot:
-            print "You want to draw a 2D plot but either X or Y axis is not defined."
+            print( "You want to draw a 2D plot but either X or Y axis is not defined.")
         else:
             for mass in masses:
                 for lifetime in lifetimes:
                     limit = fetchLimits(mass,lifetime,[arguments.outputDir])
-                    if limit is not -1:
+                    if limit != -1:
                         th2f['limits'].append(limit)
                     else:
-                        print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm"
-    if plot.has_key('graphs'):
+                        print( "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm")
+    if 'graphs' in plot.keys():
         for graph in plot['graphs']:
             graph['limits'] = []
-            if plot['xAxisType'] is 'lifetime' and 'yAxisType' not in plot:
+            if plot['xAxisType'] == 'lifetime' and 'yAxisType' not in plot:
                 for lifetime in lifetimes:
                     lifetime = lifetime.replace(".0", "")
                     lifetime = lifetime.replace("0.", "0p")
                     limit = fetchLimits(graph['mass'],lifetime,[arguments.outputDir])
-                    if limit is not -1:
+                    if limit != -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: not plotting lifetime " + str (lifetime) + " cm"
-            elif plot['xAxisType'] is 'mass' and 'yAxisType' not in plot:
+                        print( "WARNING: not plotting lifetime " + str (lifetime) + " cm")
+            elif plot['xAxisType'] == 'mass' and 'yAxisType' not in plot:
                 for mass in masses:
                     for lifetime in lifetimes:
                         lifetime = lifetime.replace(".0", "")
                         lifetime = lifetime.replace("0.", "0p")
                         limit = fetchLimits(mass,graph['lifetime'],[arguments.outputDir])
                     if arguments.verbose:
-                        print "Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + str(limit['expected'])
-                    if limit is not -1:
+                        print ("Debug:  limit = " + str(limit) + " for mass " + str(mass) + ", limit['expected'] = " + str(limit['expected']))
+                    if limit != -1:
                         graph['limits'].append(limit)
                     else:
-                        print "WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + arguments.outputDir
+                        print ("WARNING: for xAxisType=mass, not plotting mass: " + str (mass) + " GeV, lifetime: " + str (lifetime) + ", source: " + arguments.outputDir)
             elif 'yAxisType' in plot:
                 for mass in masses:
                     for lifetime in lifetimes:
                         limit = fetchLimits(mass,lifetime,[arguments.outputDir])
-                        if limit is not -1:
+                        if limit != -1:
                             graph['limits'].append(limit)
                             if arguments.verbose:
-                                print "Debug:  limit for mass " + str(mass) + ", lifetime = " + str(lifetime) + ", limit['expected'] = " + str(limit['expected']) + ", limit['observed'] = " + str(limit['observed'])
+                                print( "Debug:  limit for mass " + str(mass) + ", lifetime = " + str(lifetime) + ", limit['expected'] = " + str(limit['expected']) + ", limit['observed'] = " + str(limit['observed']))
                         else:
-                            print "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm"
+                            print( "WARNING: not plotting mass " + str (mass) + " GeV, lifetime " + str (lifetime) + " cm")
     #now that all the limits are in place, draw the plot
     if 'th2fs' in plot:
         for th2fType in (plot['th2fs'])['th2fsToInclude']:
@@ -1612,4 +1608,4 @@ for plot in plotDefinitions:
         drawPlot(plot)
 
 outputFile.Close()
-print "Finished writing ", outputFile.GetName()
+print( "Finished writing ", outputFile.GetName())
