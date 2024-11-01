@@ -6,6 +6,10 @@ import os
 import copy
 import subprocess
 
+dataYear = '2022'
+dataEra = 'F' # This is the campaign name for MC
+runWithData = True # Set this to False for MC
+
 data_global_tag = '76X_dataRun2_v15'
 mc_global_tag = '76X_mcRun2_asymptotic_v12'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -21,8 +25,25 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     data_global_tag = '124X_dataRun3_Prompt_v4'
     mc_global_tag = '124X_mcRun3_2022_realistic_v12'
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): # This is set for 2022 postEE campaign; if using 2022 preEE samples, change it
-    data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
-    mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
+    if runWithData:
+        if dataYear == '2022':
+            if dataEra in ['C','D','E']:
+                data_global_tag = '130X_dataRun3_v2'
+            if dataEra in ['F','G']:
+                data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+        if dataYear == '2023':
+            data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+    else:
+        if dataYear == '2022':
+            if dataEra in ['preEE']:
+                mc_global_tag = '130X_mcRun3_2022_realistic_v5'
+            if dataEra in ['postEE']:
+                mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
+        if dataYear == '2023':
+            if dataEra in ['preBPix']:
+                mc_global_tag = '130X_mcRun3_2023_realistic_v14'
+            if dataEra in ['postBPix']:
+                mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
 ################################################################################
 # Create the skeleton process
 ################################################################################
@@ -67,9 +88,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_V
         # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
         # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
-    process.source.secondaryFileNames = cms.untracked.vstring([
-        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
-    ])
+    # process.source.secondaryFileNames = cms.untracked.vstring([
+    #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
+    # ])
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
@@ -111,14 +132,20 @@ process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
-if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
-    if osusub.datasetLabel.endswith('2018D'):
-        data_global_tag = '102X_dataRun2_Prompt_v13'
+# process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+# if (osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data")):
+#     if osusub.datasetLabel.endswith('2018D'):
+#         data_global_tag = '102X_dataRun2_Prompt_v13'
+#     print("# Global tag: " + data_global_tag)
+#     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+# else:
+#     print("# Global tag: " + mc_global_tag)
+if runWithData:
     print("# Global tag: " + data_global_tag)
     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
 else:
     print("# Global tag: " + mc_global_tag)
+    process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 ################################################################################
 
 process.metFilterPath = cms.Path ()
