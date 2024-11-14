@@ -41,6 +41,7 @@ private:
   edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > tokenMcparticles_;
   edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
   edm::EDGetTokenT<vector<TYPE(muons)> >            tokenMuons_;
+  std::string                                       jetVetoMap_;
 
   double genGluinoMass_, genNeutralinoMass_, genCharginoMass_;
 
@@ -63,6 +64,7 @@ private:
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
+  jetVetoMap_ (cfg.getParameter<edm::FileInPath> ("jetVetoMap").fullPath()),
   isFirstEvent_ (true)
 {
   tokenJets_        =  consumes<vector<TYPE(jets)> >             (collections_.getParameter<edm::InputTag>  ("jets"));
@@ -72,7 +74,6 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMcparticles_ =  consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
   tokenMuons_       =  consumes<vector<TYPE(muons)> >            (collections_.getParameter<edm::InputTag>  ("muons"));
-
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
 }
 
@@ -133,8 +134,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   edm::Handle<edm::TriggerResults> triggerBits;
   event.getByToken(tokenTriggerBits_, triggerBits);
 
-  string jetVetoName = edm::FileInPath("OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root").fullPath();
-  TFile* f_jetVeto = TFile::Open(jetVetoName.c_str(), "read");
+  TFile* f_jetVeto = TFile::Open(jetVetoMap_.c_str(), "read");
   TH2D* jetVetoMap = (TH2D*)f_jetVeto->Get("jetvetomap");
 
   jetVetoMap->SetDirectory(0);

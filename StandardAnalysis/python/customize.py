@@ -7,6 +7,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
+from DisappTrks.StandardAnalysis.protoConfig_cfg import dataYear, dataEra 
 
 def customize (process,
                runPeriod,
@@ -192,6 +193,13 @@ def customize (process,
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
+
+        if dataEra in ['E', 'F', 'G']:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root')
+            print("Using jet veto map for 2022 eras E/F/G")
+        else:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22_23Sep2023_RunCD_v1.root')
+            print("Using jet veto map for 2022 eras C/D")
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
