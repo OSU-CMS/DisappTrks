@@ -95,6 +95,8 @@ class FiducialMapCalculator:
         self._meanInefficiency = meanInefficiency
         self._stdDevInefficiency = stdDevInefficiency
 
+        print(f"Standard Dev of Inefficiency: {stdDevInefficiency}, nRegions: {nRegionsWithTag}")
+
         # now find hot spots where the inefficiency is larger than the meanInefficiency by at least threshold * stdDevInefficiency
 
         for xbin in range(1, efficiency.GetXaxis().GetNbins()):
