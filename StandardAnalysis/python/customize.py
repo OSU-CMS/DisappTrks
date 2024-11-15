@@ -1,16 +1,19 @@
 import FWCore.ParameterSet.Config as cms
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from DisappTrks.StandardAnalysis.utilities import *
+from OSUT3Analysis.Configuration.Color import *
 from DisappTrks.StandardAnalysis.Triggers import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
-from DisappTrks.StandardAnalysis.protoConfig_cfg import dataYear, dataEra 
+from Configuration.AlCa.GlobalTag import GlobalTag
 
 def customize (process,
                runPeriod,
+               runEra,
+               realData = True,
                applyPUReweighting = True,
                applyISRReweighting = True,
                applyTriggerReweighting = True,
@@ -20,8 +23,14 @@ def customize (process,
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
+    if realData:
+        applyISRReweighting = False
 
     if runPeriod == "2015":
+
+        data_global_tag = '76X_dataRun2_v15'
+        mc_global_tag = '76X_mcRun2_asymptotic_v12'
+
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2015")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2015Up")
@@ -49,6 +58,10 @@ def customize (process,
         setMissingHitsCorrection (process, "2015")
 
     elif runPeriod == "2016BC":
+
+        data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
+        mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_BC")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2016_BCUp")
@@ -80,6 +93,10 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
 
     elif runPeriod == "2016DEFGH":
+        
+        data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
+        mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_DEFGH")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2016_DEFGHUp")
@@ -111,6 +128,10 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
 
     elif runPeriod == "2017":
+
+        data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
+        mc_global_tag = '94X_mc2017_realistic_v15'
+
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2017")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2017Up")
@@ -143,6 +164,10 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2017BtoF")
 
     elif runPeriod == "2018":
+
+        data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
+        mc_global_tag = '102X_upgrade2018_realistic_v18'
+
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2018")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
@@ -171,6 +196,19 @@ def customize (process,
         setMissingHitsCorrection (process, "2018")
 
     elif runPeriod == "2022":
+
+        data_global_tag = '124X_dataRun3_Prompt_v4'
+        mc_global_tag = '124X_mcRun3_2022_realistic_v12'
+    
+        if runEra in ['C','D','E']:
+            data_global_tag = '130X_dataRun3_v2'
+        elif runEra in ['F','G']:
+            data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+        
+        if runEra in ['C', 'D']:
+            mc_global_tag = '130X_mcRun3_2022_realistic_v5'
+        elif runEra in ['E', 'F', 'G']:
+            mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
         
         process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2022")
@@ -194,7 +232,7 @@ def customize (process,
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        if dataEra in ['E', 'F', 'G']:
+        if runEra in ['E', 'F', 'G']:
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root')
             print("Using jet veto map for 2022 eras E/F/G")
         else:
@@ -207,6 +245,12 @@ def customize (process,
         setMissingHitsCorrection (process, "uncorrected")
 
     elif runPeriod == "2023":
+
+        data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+        if dataEra in ['C']:
+            mc_global_tag = '130X_mcRun3_2023_realistic_v14'
+        elif dataEra in ['D']:
+            mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
 
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2023")
@@ -236,6 +280,16 @@ def customize (process,
         setUseEraByEraFiducialMaps (process, True)
         
         setMissingHitsCorrection (process, "uncorrected")
+
+    #set the global tag
+    process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+    process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+    if realData:
+        print("# Global tag: " + A_BRIGHT_CYAN + data_global_tag + A_RESET)
+        process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+    else:
+        print("# Global tag: " + A_BRIGHT_CYAN + mc_global_tag + A_RESET)
+        process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
 
     if not applyPUReweighting:
         # process.PUScalingFactorProducer.PU     = cms.FileInPath ("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty

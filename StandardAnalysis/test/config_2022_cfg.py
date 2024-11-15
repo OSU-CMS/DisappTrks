@@ -6,4 +6,4 @@ from DisappTrks.StandardAnalysis.customize import *
 #    print "Please use a CMSSW_10_2_X release..."
 #    sys.exit (0)
 
-process = customize (process, "2022", applyPUReweighting = False, applyISRReweighting = False, applyTriggerReweighting = False, applyMissingHitsCorrections = False, runMETFilters = False)
+process = customize (process, "2022", "F", realData=True, applyPUReweighting = False, applyISRReweighting = False, applyTriggerReweighting = False, applyMissingHitsCorrections = False, runMETFilters = False)

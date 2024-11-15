@@ -7,11 +7,6 @@ if not os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") and not os.environ
     sys.exit (0)
 
 options = VarParsing ('analysis')
-options.register ('isCRAB',
-              False,
-              VarParsing.multiplicity.singleton,
-              VarParsing.varType.bool,
-              "Using CRAB")
 options.register ('massForLifetimeReweighting',
               1000,
               VarParsing.multiplicity.singleton,
@@ -24,7 +19,7 @@ options.register ('lifetimeForLifetimeReweighting',
               "lifetime For LifetimeReweighting")
 options.parseArguments()
 
-process = customize (process, "2022", applyPUReweighting = True, applyISRReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = False, isCRAB=options.isCRAB)
+process = customize (process, "2022", "F", realData=True, applyPUReweighting = True, applyISRReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = False)
 
 if hasattr(process, 'LifetimeWeightProducer'):
     if options.isCRAB:
