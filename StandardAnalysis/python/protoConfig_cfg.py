@@ -6,44 +6,6 @@ import os
 import copy
 import subprocess
 
-dataYear = '2022'
-dataEra = 'F' # This is the campaign name for MC
-runWithData = True # Set this to False for MC
-
-data_global_tag = '76X_dataRun2_v15'
-mc_global_tag = '76X_mcRun2_asymptotic_v12'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
-    mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
-    mc_global_tag = '94X_mc2017_realistic_v15'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
-    mc_global_tag = '102X_upgrade2018_realistic_v18'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
-    data_global_tag = '124X_dataRun3_Prompt_v4'
-    mc_global_tag = '124X_mcRun3_2022_realistic_v12'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): # This is set for 2022 postEE campaign; if using 2022 preEE samples, change it
-    if runWithData:
-        if dataYear == '2022':
-            if dataEra in ['C','D','E']:
-                data_global_tag = '130X_dataRun3_v2'
-            if dataEra in ['F','G']:
-                data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
-        if dataYear == '2023':
-            data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
-    else:
-        if dataYear == '2022':
-            if dataEra in ['preEE']:
-                mc_global_tag = '130X_mcRun3_2022_realistic_v5'
-            if dataEra in ['postEE']:
-                mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
-        if dataYear == '2023':
-            if dataEra in ['preBPix']:
-                mc_global_tag = '130X_mcRun3_2023_realistic_v14'
-            if dataEra in ['postBPix']:
-                mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
 ################################################################################
 # Create the skeleton process
 ################################################################################
@@ -84,7 +46,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        "file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        #"file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        "root://cmsxrootd.fnal.gov://store/data/Run2022D/EGamma/MINIAOD/27Jun2023-v2/2520000/07d1c948-6481-4a9c-b54b-0c559a6474ab.root",
         # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
         # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
@@ -124,29 +87,6 @@ process.MessageLogger.debugModules.append ("OSUJetProducer")
 process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
-################################################################################
-
-################################################################################
-# Add the global tag
-################################################################################
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-from Configuration.AlCa.GlobalTag import GlobalTag
-# process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
-# if (osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data")):
-#     if osusub.datasetLabel.endswith('2018D'):
-#         data_global_tag = '102X_dataRun2_Prompt_v13'
-#     print("# Global tag: " + data_global_tag)
-#     process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
-# else:
-#     print("# Global tag: " + mc_global_tag)
-if runWithData:
-    print("# Global tag: " + data_global_tag)
-    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
-else:
-    print("# Global tag: " + mc_global_tag)
-    process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
-################################################################################
 
 process.metFilterPath = cms.Path ()
 
