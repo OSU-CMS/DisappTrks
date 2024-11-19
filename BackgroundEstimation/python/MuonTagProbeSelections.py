@@ -260,6 +260,8 @@ createHitsVariations (ZtoMuProbeTrkWithFilter,   "ZtoMuProbeTrkWithFilter")
 createHitsVariations (ZtoMuProbeTrkWithSSFilter, "ZtoMuProbeTrkWithSSFilter")
 createHitsVariations (ZtoMuProbeTrkWithLooseFilter,   "ZtoMuProbeTrkWithLooseFilter")
 createHitsVariations (ZtoMuProbeTrkWithLooseSSFilter, "ZtoMuProbeTrkWithLooseSSFilter")
+createHitsVariations (MuonTagPt35NoJetCuts,               "MuonTagPt35NoJetCuts")
+createHitsVariations (MuonTagPt35NoJetCutsMetTrig,        "MuonTagPt35NoJetCutsMetTrig")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

@@ -325,6 +325,8 @@ createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,     "ZtoTauToMuProbeTrkWithZC
 createHitsVariations (ZtoTauToEleProbeTrkWithZCuts,    "ZtoTauToEleProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToMuDisTrk,                "ZtoTauToMuDisTrk")
 createHitsVariations (ZtoTauToEleDisTrk,               "ZtoTauToEleDisTrk")
+createHitsVariations (TauTagPt55NoJetCuts,             "TauTagPt55NoJetCuts")
+createHitsVariations (TauTagPt55NoJetCutsMetTrig,      "TauTagPt55NoJetCutsMetTrig")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):
