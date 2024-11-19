@@ -456,6 +456,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdElecPt35, "candTrkIdElecPt35")
 
 # Use this selection for the electron background estimate.
 candTrkIdElecPt35NoMet = copy.deepcopy(candTrkIdElecPt35)
@@ -488,6 +489,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdMuPt35, "candTrkIdMuPt35")
 
 # Use this selection for the electron background estimate.
 candTrkIdMuPt35NoMet = copy.deepcopy(candTrkIdMuPt35)
@@ -519,6 +521,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdTauPt55.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdTauPt55, "candTrkIdTauPt55")
 
 # Use this selection for the electron background estimate.
 candTrkIdTauPt55NoMet = copy.deepcopy(candTrkIdTauPt55)

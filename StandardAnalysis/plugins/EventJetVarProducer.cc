@@ -459,40 +459,8 @@ EventJetVarProducer::jetLooseSelection (const TYPE(jets) &jet, const vector<TYPE
 bool 
 EventJetVarProducer::jetTightID (const TYPE(jets)& jet) const
 {
-
-  if ( fabs(jet.eta()) <= 2.6 ) {
-    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.90 ) return false;
-    if ( (jet.chargedMultiplicity() + jet.neutralMultiplicity()) <= 1 ) return false;
-    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
-    if ( jet.chargedHadronEnergyFraction() <= 0.01 ) return false;
-    if ( jet.chargedMultiplicity() <= 0 ) return false;
-    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
-    return true;
-  }
-  else if ( (fabs(jet.eta()) > 2.6) && (fabs(jet.eta()) <= 2.7) ){
-    if ( jet.neutralHadronEnergyFraction() >= 0.90 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
-    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
-    if ( jet.chargedMultiplicity() <= 0 ) return false;
-    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
-    return true;
-  }
-  else if( (fabs(jet.eta()) > 2.7) && (fabs(jet.eta()) <= 3.0) ){
-    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralMultiplicity() <= 1 ) return false;
-    return true;
-  }
-  else if( (fabs(jet.eta()) > 3.0) && (fabs(jet.eta()) <= 5.0) ) {
-    if ( jet.neutralEmEnergyFraction() >= 0.40 ) return false;
-    if ( jet.neutralMultiplicity() <= 10 ) return false;
-    return true;
-  }
-  else{
-    return false;
-  }
-
+  bool result = anatools::jetPassesTightLepVeto(jet); // This automatically uses the correct jet ID criteria
+  return result;
 }
 
 

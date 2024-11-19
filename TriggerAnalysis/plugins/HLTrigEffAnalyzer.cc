@@ -459,18 +459,7 @@ double HLTrigEffAnalyzer::maxJetDeltaPhi(const vector<pat::Jet> &jets) const{
 }
 
 bool HLTrigEffAnalyzer::passJetTightLepVeto(const pat::Jet& jet) const {
-  bool result = (
-                 (jet.neutralHadronEnergyFraction()<0.90 && 
-                  jet.neutralEmEnergyFraction()<0.90 && 
-                  (jet.chargedMultiplicity() + jet.neutralMultiplicity())>1 &&
-                  jet.muonEnergyFraction()<0.8
-                 ) 
-                 && 
-                 ((abs(jet.eta())<=2.4 && jet.chargedHadronEnergyFraction()>0 && jet.chargedMultiplicity()>0 && jet.chargedEmEnergyFraction()<0.90) ||  abs(jet.eta())>2.4) 
-                 && 
-                 abs(jet.eta())<=3.0
-                )|| 
-                (jet.neutralEmEnergyFraction()<0.90 && jet.neutralMultiplicity()>10 && abs(jet.eta())>3.0);
+  bool result = anatools::jetPassesTightLepVeto(jet); // This automatically uses the correct jet ID criteria
   return result;
 }
 
