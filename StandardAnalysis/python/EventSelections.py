@@ -66,6 +66,7 @@ jetCuts = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
+    cutVetoJetMap2022,
 ]
 addCuts(basicSelection.cuts, jetCuts + [cutLeadingJetMetPhi])
 
@@ -125,6 +126,7 @@ isoTrkCuts = [
     cutTrkD0,
     cutTrkDZ,
     cutTrkJetDeltaPhi,
+    cutVetoJetMap2022,
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
