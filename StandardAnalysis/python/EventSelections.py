@@ -66,7 +66,6 @@ jetCuts = [
     cutJetEta,
     cutJetTightLepVeto,
     cutDijetDeltaPhiMax,
-    cutVetoJetMap2022,
 ]
 addCuts(basicSelection.cuts, jetCuts + [cutLeadingJetMetPhi])
 
