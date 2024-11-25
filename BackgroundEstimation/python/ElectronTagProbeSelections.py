@@ -148,6 +148,7 @@ cutsToAdd += [
     cutTrkArbitration,
     cutEleTrkInvMass80To100,
     cutEleTrkOS,
+    cutVetoJetMap2022,
 ]
 addCuts(ZtoEleProbeTrkWithZCuts.cuts, cutsToAdd)
 

@@ -221,12 +221,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   bool jetOpposite_hem1516 = false;
   bool metJet_hem1516 = false;
 
-  bool jetVeto2022 = false;
+  bool passJetVeto2022 = true;
 
   for (const auto &jet1 : *jets) {
     if (jetLooseSelection(jet1, *muons)) {
       if (jetVetoMap->GetBinContent(jetVetoMap->FindFixBin(jet1.eta(), jet1.phi())) > 0){
-        jetVeto2022 = true;
+        passJetVeto2022 = false;
       } 
     }
     if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
@@ -277,7 +277,7 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
   (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
   (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
-  (*eventvariables)["jetVeto2022"] = jetVeto2022;
+  (*eventvariables)["jetVeto2022"] = passJetVeto2022;
 
   isFirstEvent_ = false;
 }
