@@ -209,6 +209,23 @@ def customize (process,
             mc_global_tag = '130X_mcRun3_2022_realistic_v5'
         elif runEra in ['E', 'F', 'G']:
             mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
+
+        if runEra in ['C', 'D']:
+            strOSUMuonProducer = ''
+            strOSUTrackProducer = ''
+            attrs = (vars(process))['_Process__producers']
+            for key,value in attrs.items():
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUMuonProducer': strOSUMuonProducer = key
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUTrackProducer': strOSUTrackProducer = key
+            if hasattr (process, strOSUMuonProducer):
+                moduleOSUMuonProducer = getattr(process, strOSUMuonProducer)
+                for x in moduleOSUMuonProducer.hltMatchingInfo:
+                    if x.name.value() == "HLT_IsoMu24_v":
+                        x.collection = cms.string("hltIterL3MuonCandidates::HLT")
+                        x.filter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
+            if hasattr (process, strOSUTrackProducer):
+                moduleOSUTrackProducer = getattr(process, strOSUTrackProducer)
+                moduleOSUTrackProducer.muonTriggerFilter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
         
         process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2022")
