@@ -211,7 +211,6 @@ def customize (process,
             mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
 
         if runEra in ['C', 'D']:
-            triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
             strsOSUMuonProducer = []
             strsOSUTrackProducer = []
             attrs = (vars(process))['_Process__producers']
@@ -321,8 +320,6 @@ def customize (process,
         # process.ISRWeightProducer.weightFile = cms.FileInPath("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.ISRWeightProducer.weightHist = cms.vstring()
 
-    print(process.ISRWeightProducer.weightFile, process.ISRWeightProducer.weightHist)
-
     if not applyTriggerReweighting:
         # process.TriggerWeightProducer.efficiencyFile  =  cms.FileInPath  ("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.TriggerWeightProducer.dataset         =  cms.string  ("")
@@ -363,6 +360,7 @@ def customize (process,
             getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersMuon[0])
             getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersMuon[1])
+            if runPeriod == "2022" and runEra in ['C', 'D']: getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string ("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
             getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
             getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventMuonTPProducer", channel)
