@@ -151,8 +151,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_V
     }
 
     triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
-    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
-    triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
+    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered")
+    triggerFiltersTau = ("hltHpsSinglePFTau20MediumDitauWPDeepTauNoMatchForVBFIsoTau::HLT", "hltHpsOverlapFilterIsoMu24MediumDeepTauPFTau20")
 
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer

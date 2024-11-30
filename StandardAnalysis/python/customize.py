@@ -209,6 +209,25 @@ def customize (process,
             mc_global_tag = '130X_mcRun3_2022_realistic_v5'
         elif runEra in ['E', 'F', 'G']:
             mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
+
+        if runEra in ['C', 'D']:
+            strsOSUMuonProducer = []
+            strsOSUTrackProducer = []
+            attrs = (vars(process))['_Process__producers']
+            for key,value in attrs.items():
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUMuonProducer': strsOSUMuonProducer.append(key)
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUTrackProducer': strsOSUTrackProducer.append(key)
+            for strOSUMuonProducer in strsOSUMuonProducer:
+                if hasattr (process, strOSUMuonProducer):
+                    moduleOSUMuonProducer = getattr(process, strOSUMuonProducer)
+                    for x in moduleOSUMuonProducer.hltMatchingInfo:
+                        if x.name.value() == "HLT_IsoMu24_v":
+                            x.collection = cms.string("hltIterL3MuonCandidates::HLT")
+                            x.filter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
+            for strOSUTrackProducer in strsOSUTrackProducer:
+                if hasattr (process, strOSUTrackProducer):
+                    moduleOSUTrackProducer = getattr(process, strOSUTrackProducer)
+                    moduleOSUTrackProducer.muonTriggerFilter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
         
         process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2022")
@@ -308,8 +327,6 @@ def customize (process,
         # process.ISRWeightProducer.weightFile = cms.FileInPath("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.ISRWeightProducer.weightHist = cms.vstring()
 
-    print(process.ISRWeightProducer.weightFile, process.ISRWeightProducer.weightHist)
-
     if not applyTriggerReweighting:
         # process.TriggerWeightProducer.efficiencyFile  =  cms.FileInPath  ("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.TriggerWeightProducer.dataset         =  cms.string  ("")
@@ -350,6 +367,7 @@ def customize (process,
             getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersMuon[0])
             getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersMuon[1])
+            if runPeriod == "2022" and runEra in ['C', 'D']: getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string ("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
             getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
             getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventMuonTPProducer", channel)
