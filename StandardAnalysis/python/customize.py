@@ -257,7 +257,8 @@ def customize (process,
         else:
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22_23Sep2023_RunCD_v1.root')
             print("Using jet veto map for 2022 eras C/D")
-        
+        if runEra =='E':
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022E_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022E_data.root")
         if runEra=='F':
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         elif runEra=='G':
