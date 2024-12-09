@@ -70,7 +70,7 @@ cutVetoJetsHEM1516 = cms.PSet(
 
 cutVetoJetMap2022 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("jetVeto2022 == 0"),
+    cutString = cms.string("jetVeto2022 == 1"),
     numberRequired = cms.string(">= 1"),
 )
 
