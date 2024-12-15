@@ -121,7 +121,7 @@ def customizeForL1ETMProducer (producer):
         producer.additionalCollections = cms.vstring ()
         producer.additionalFilters     = cms.vstring ()
 
-        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2017.txt") #Should be fixed later
+        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/2022F/l1ETM_2017.txt") #Should be fixed later
 
         if producer.type_ () == "EventElectronL1ETMProducer":
             producer.tagCollection = cms.string ("hltGtStage2Digis:EGamma:HLT")
