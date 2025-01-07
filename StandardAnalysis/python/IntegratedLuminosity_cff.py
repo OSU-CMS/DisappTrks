@@ -409,8 +409,13 @@ lumi_2022_promptReco = {
     "EGamma_2022E" : 5878.354165,
     "EGamma_2022F" : -1, #fixme
     "EGamma_2022G" : 3283.111599, #fixme
-
+# using HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*
     "Tau_2022B" : -1,
+    "Tau_2022C" : 5010.409016115, 
+    "Tau_2022D" : 2970.045129109, 
+    "Tau_2022E" : 5806.955207273, 
+    "Tau_2022F" : 17781.901464330, 
+    "Tau_2022G" : 3082.753035626
 
 }
 
