@@ -198,8 +198,8 @@ ParticleGunVarProducer<osu::Track,TYPE(muons)>::passesVeto (const osu::Track &pr
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
-  bool passes = probe.deltaRToClosestPFMuon () > 0.15
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM || DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
+  bool passes = probe.deltaRToClosestMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
   bool passes = probe.deltaRToClosestMuon () > 0.15

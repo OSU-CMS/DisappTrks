@@ -1,15 +1,19 @@
 import FWCore.ParameterSet.Config as cms
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from DisappTrks.StandardAnalysis.utilities import *
+from OSUT3Analysis.Configuration.Color import *
 from DisappTrks.StandardAnalysis.Triggers import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 from DisappTrks.BackgroundEstimation.EventMETTriggerProducer_cfi import customizeForMETTriggerProducer
 from DisappTrks.BackgroundEstimation.EventL1ETMProducer_cfi import customizeForL1ETMProducer
 import os
+from Configuration.AlCa.GlobalTag import GlobalTag
 
 def customize (process,
                runPeriod,
+               runEra,
+               realData = True,
                applyPUReweighting = True,
                applyISRReweighting = True,
                applyTriggerReweighting = True,
@@ -19,14 +23,20 @@ def customize (process,
 
     if osusub.batchMode and (osusub.datasetLabel in types) and types[osusub.datasetLabel] != "signalMC":
         applyISRReweighting = False
+    if realData:
+        applyISRReweighting = False
 
     if runPeriod == "2015":
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+
+        data_global_tag = '76X_dataRun2_v15'
+        mc_global_tag = '76X_mcRun2_asymptotic_v12'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2015")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2015Up")
         process.PUScalingFactorProducer.targetDown = cms.string ("data2015Down")
 
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2015D')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -34,7 +44,7 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2015D')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
@@ -48,12 +58,16 @@ def customize (process,
         setMissingHitsCorrection (process, "2015")
 
     elif runPeriod == "2016BC":
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+
+        data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
+        mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_BC")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2016_BCUp")
         process.PUScalingFactorProducer.targetDown = cms.string ("data2016_BCDown")
 
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -61,7 +75,7 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016BC')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
@@ -79,12 +93,16 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
 
     elif runPeriod == "2016DEFGH":
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+        
+        data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
+        mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2016_DEFGH")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2016_DEFGHUp")
         process.PUScalingFactorProducer.targetDown = cms.string ("data2016_DEFGHDown")
 
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia', 'SingleMu_2016')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -92,7 +110,7 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False) # Pythia6 + Geant style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2016DEFGH')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
@@ -110,12 +128,16 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2016BtoH")
 
     elif runPeriod == "2017":
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+
+        data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
+        mc_global_tag = '94X_mc2017_realistic_v15'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2017")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2017Up")
         process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_94X', 'SingleMu_2017')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -123,7 +145,7 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2017')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu_94X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
@@ -142,12 +164,16 @@ def customize (process,
             process.L1PrefiringWeightProducer.DataEra = cms.string("2017BtoF")
 
     elif runPeriod == "2018":
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
+
+        data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
+        mc_global_tag = '102X_upgrade2018_realistic_v18'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
         process.PUScalingFactorProducer.target = cms.string ("data2018")
         process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
         process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -155,7 +181,7 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
         process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
         process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
@@ -170,15 +196,97 @@ def customize (process,
         setMissingHitsCorrection (process, "2018")
 
     elif runPeriod == "2022":
+
+        data_global_tag = '124X_dataRun3_Prompt_v4'
+        mc_global_tag = '124X_mcRun3_2022_realistic_v12'
+    
+        if runEra in ['C','D','E']:
+            data_global_tag = '130X_dataRun3_v2'
+        elif runEra in ['F','G']:
+            data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
         
-        # These come from the 2018 corrections - need to be fixed
-        process.PUScalingFactorProducer.PU     = cms.string (os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run2.root')
-        process.PUScalingFactorProducer.target = cms.string ("data2018")
-        process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
-        process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
+        if runEra in ['C', 'D']:
+            mc_global_tag = '130X_mcRun3_2022_realistic_v5'
+        elif runEra in ['E', 'F', 'G']:
+            mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
+
+        if runEra in ['C', 'D']:
+            strsOSUMuonProducer = []
+            strsOSUTrackProducer = []
+            attrs = (vars(process))['_Process__producers']
+            for key,value in attrs.items():
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUMuonProducer': strsOSUMuonProducer.append(key)
+                if (vars(value))['_TypedParameterizable__type'] == 'OSUTrackProducer': strsOSUTrackProducer.append(key)
+            for strOSUMuonProducer in strsOSUMuonProducer:
+                if hasattr (process, strOSUMuonProducer):
+                    moduleOSUMuonProducer = getattr(process, strOSUMuonProducer)
+                    for x in moduleOSUMuonProducer.hltMatchingInfo:
+                        if x.name.value() == "HLT_IsoMu24_v":
+                            x.collection = cms.string("hltIterL3MuonCandidates::HLT")
+                            x.filter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
+            for strOSUTrackProducer in strsOSUTrackProducer:
+                if hasattr (process, strOSUTrackProducer):
+                    moduleOSUTrackProducer = getattr(process, strOSUTrackProducer)
+                    moduleOSUTrackProducer.muonTriggerFilter = cms.string("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
+        
+        process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2022")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2022Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2022Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2022_22Sep2023") # This is usually not added in here, but it makes things easier
+
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
+        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2022F')
+        process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2022')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2022')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
+
+        if runEra in ['E', 'F', 'G']:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root')
+            print("Using jet veto map for 2022 eras E/F/G")
+        else:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22_23Sep2023_RunCD_v1.root')
+            print("Using jet veto map for 2022 eras C/D")
+        if runEra =='E':
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022E_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022E_data.root")
+        if runEra=='F':
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
+        elif runEra=='G':
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022G_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022G_data.root")
+        else:
+            print("Warning fiducial maps not found for era {} in customize.py, will use 2022F as default".format(runEra))
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
+
+        setThresholdForFiducialMapVeto (process, 2.0)
+        setUseEraByEraFiducialMaps (process, True)
+        setMissingHitsCorrection (process, "uncorrected")
+
+    elif runPeriod == "2023":
+
+        data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
+        if dataEra in ['C']:
+            mc_global_tag = '130X_mcRun3_2023_realistic_v14'
+        elif dataEra in ['D']:
+            mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
+
+        process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
+        process.PUScalingFactorProducer.target = cms.string ("data2023")
+        process.PUScalingFactorProducer.targetUp = cms.string ("data2023Up")
+        process.PUScalingFactorProducer.targetDown = cms.string ("data2023Down")
+        process.PUScalingFactorProducer.dataset = cms.string ("mc2023_22Sep2023") # This is usually not added in here, but it makes things easier
 
         # These come from the 2018 corrections - need to be fixed
-        process.ISRWeightProducer.weightFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root')
         process.ISRWeightProducer.weightHist = cms.vstring('madgraphOverPythia8_102X', 'SingleMu_2018')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
@@ -186,40 +294,46 @@ def customize (process,
 
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
 
-        # These come from the 2018 corrections - need to be fixed
-        process.TriggerWeightProducer.efficiencyFile = cms.string(os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run2.root')
-        process.TriggerWeightProducer.dataset = cms.string('SingleMu_2018')
-        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_102X')
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2023')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2023')
         process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
-        #setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
-        #setThresholdForFiducialMapVeto (process, 2.0)
-        #setUseEraByEraFiducialMaps (process, True)
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
+        setThresholdForFiducialMapVeto (process, 2.0)
+        setUseEraByEraFiducialMaps (process, True)
         
         setMissingHitsCorrection (process, "uncorrected")
 
+    #set the global tag
+    process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+    process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+    if realData:
+        print("# Global tag: " + A_BRIGHT_CYAN + data_global_tag + A_RESET)
+        process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+    else:
+        print("# Global tag: " + A_BRIGHT_CYAN + mc_global_tag + A_RESET)
+        process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+
     if not applyPUReweighting:
-        process.PUScalingFactorProducer.PU     = cms.string ("")
+        # process.PUScalingFactorProducer.PU     = cms.FileInPath ("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.PUScalingFactorProducer.target = cms.string ("")
         process.PUScalingFactorProducer.targetUp = cms.string ("")
         process.PUScalingFactorProducer.targetDown = cms.string ("")
 
     if not applyISRReweighting:
-        process.ISRWeightProducer.weightFile = cms.string("")
+        # process.ISRWeightProducer.weightFile = cms.FileInPath("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.ISRWeightProducer.weightHist = cms.vstring()
 
-    print(process.ISRWeightProducer.weightFile, process.ISRWeightProducer.weightHist)
-
     if not applyTriggerReweighting:
-        process.TriggerWeightProducer.efficiencyFile  =  cms.string  ("")
+        # process.TriggerWeightProducer.efficiencyFile  =  cms.FileInPath  ("") # Path of FileInPath can't be empty; module won't do anything because the rest is empty
         process.TriggerWeightProducer.dataset         =  cms.string  ("")
         process.TriggerWeightProducer.target          =  cms.string  ("")
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
-        process.TriggerWeightProducer.produceGrandOr = cms.bool(False)
 
     if not applyMissingHitsCorrections:
         setMissingHitsCorrection (process, "uncorrected")
@@ -254,6 +368,7 @@ def customize (process,
             getattr (process, "EventMuonTPProducer").doJetFilter = cms.bool (doJetFilter)
             getattr (process, "EventMuonTPProducer").triggerCollectionName = cms.string (triggerFiltersMuon[0])
             getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string (triggerFiltersMuon[1])
+            if runPeriod == "2022" and runEra in ['C', 'D']: getattr (process, "EventMuonTPProducer").triggerFilterName = cms.string ("hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08")
             getattr (process, "EventMuonTPProducer").triggerMatchingDR = cms.double (0.3)
             getattr (process, "EventMuonTPProducer").probeTagMatchingDR = cms.double (0.3)
             moveVariableProducer (process, "EventMuonTPProducer", channel)

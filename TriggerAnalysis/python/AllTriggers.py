@@ -13,7 +13,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print("# Trigger filters: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Trigger filters: 2018")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     print("# Trigger filters: 2022")
 else:
     print("# Trigger filters: 2015")
@@ -127,7 +127,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
     triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     triggerFiltersMet = {
         'HLT_MET105_IsoTrk50_v'                                 : ['hltMET105'],
         'HLT_MET120_IsoTrk50_v'                                 : ['hltMET120'],
@@ -151,8 +151,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
     }
 
     triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
-    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07")
-    triggerFiltersTau = ("hltSelectedPFTausTrackPt30MediumAbsOrRelIsolation1Prong::HLT", "hltPFTau50TrackPt30MediumAbsOrRelIso1Prong")
+    triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered")
+    triggerFiltersTau = ("hltHpsSinglePFTau20MediumDitauWPDeepTauNoMatchForVBFIsoTau::HLT", "hltHpsOverlapFilterIsoMu24MediumDeepTauPFTau20")
 
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer

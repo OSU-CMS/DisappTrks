@@ -88,6 +88,11 @@ basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
+#test deep sets score
+deepSetsSelection = copy.deepcopy(vertexCutOnly)
+deepSetsSelection.name = cms.string("DeepSetsSelection")
+addCuts(deepSetsSelection.cuts, [cutTrkDeepSets])
+
 ################################################################################
 ## Testing channels to compare pat::IsolatedTrack to CandidateTrack
 ## in the MET dataset
@@ -120,6 +125,7 @@ isoTrkCuts = [
     cutTrkD0,
     cutTrkDZ,
     cutTrkJetDeltaPhi,
+    cutVetoJetMap2022,
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -451,6 +457,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdElecPt35.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdElecPt35, "candTrkIdElecPt35")
 
 # Use this selection for the electron background estimate.
 candTrkIdElecPt35NoMet = copy.deepcopy(candTrkIdElecPt35)
@@ -483,6 +490,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdMuPt35.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdMuPt35, "candTrkIdMuPt35")
 
 # Use this selection for the electron background estimate.
 candTrkIdMuPt35NoMet = copy.deepcopy(candTrkIdMuPt35)
@@ -514,6 +522,7 @@ cutsToRemove = [
     ]
 removeCuts(candTrkIdTauPt55.cuts, cutsToRemove)
 
+createHitsVariations (candTrkIdTauPt55, "candTrkIdTauPt55")
 
 # Use this selection for the electron background estimate.
 candTrkIdTauPt55NoMet = copy.deepcopy(candTrkIdTauPt55)

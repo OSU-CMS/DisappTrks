@@ -158,11 +158,6 @@ private:
 
     edm::InputTag miniEBRecHits_, miniEERecHits_;
 
-#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0) 
-    edm::InputTag miniESRecHits_;
-    edm::InputTag miniHBHERecHits_, miniHCALRecHits_, miniHFRecHits_, miniHORecHits_;
-#endif
-
     edm::EDGetTokenT<vector<CandidateTrack> > candidateTracksToken_;
     edm::EDGetTokenT<vector<reco::Track> > generalTracksToken_;
     edm::EDGetTokenT<pat::PackedCandidateCollection> packedCandidatesToken_;
@@ -199,6 +194,14 @@ private:
     edm::EDGetTokenT<HORecHitCollection> miniHORecHitsToken_;
 #endif 
 
+    const edm::ESGetToken<CaloGeometry, CaloGeometryRecord> caloGeomToken_;
+    const edm::ESGetToken<CSCGeometry, MuonGeometryRecord> cscGeomToken_;
+    const edm::ESGetToken<DTGeometry, MuonGeometryRecord> dtGeomToken_;
+    const edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken_;
+
+    const edm::ESGetToken<EcalChannelStatus, EcalChannelStatusRcd> ecalStatToken_;
+    const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopoToken_;
+
     edm::ESHandle<CaloGeometry> caloGeometry_;
     edm::ESHandle<CSCGeometry>  cscGeometry_;
     edm::ESHandle<DTGeometry>   dtGeometry_;
@@ -206,6 +209,11 @@ private:
 
     edm::ESHandle<EcalChannelStatus> ecalStatus_;
     edm::ESHandle<TrackerTopology> trackerTopology_;
+
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0) 
+    edm::InputTag miniESRecHits_;
+    edm::InputTag miniHBHERecHits_, miniHCALRecHits_, miniHFRecHits_, miniHORecHits_;
+#endif
 
     edm::Service<TFileService> fs_;
     TTree * tree_;
@@ -292,7 +300,13 @@ TrackCollectionAnalyzer::TrackCollectionAnalyzer(const edm::ParameterSet &cfg) :
     ESRecHits_     (cfg.getParameter<edm::InputTag> ("ESRecHits")),
     HBHERecHits_   (cfg.getParameter<edm::InputTag> ("HBHERecHits")),
     miniEBRecHits_ (cfg.getParameter<edm::InputTag> ("miniEBRecHits")),
-    miniEERecHits_ (cfg.getParameter<edm::InputTag> ("miniEERecHits"))
+    miniEERecHits_ (cfg.getParameter<edm::InputTag> ("miniEERecHits")),
+    caloGeomToken_(esConsumes<CaloGeometry, CaloGeometryRecord>()),
+    cscGeomToken_(esConsumes<CSCGeometry, MuonGeometryRecord>()),
+    dtGeomToken_(esConsumes<DTGeometry, MuonGeometryRecord>()),
+    rpcGeomToken_(esConsumes<RPCGeometry, MuonGeometryRecord>()),
+    ecalStatToken_(esConsumes<EcalChannelStatus, EcalChannelStatusRcd>()),
+    trackerTopoToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>())
 #if CMSSW_VERSION_CODE >= CMSSW_VERSION(11,2,0)
         ,
         miniESRecHits_ (cfg.getParameter<edm::InputTag> ("miniESRecHits")),
@@ -713,7 +727,7 @@ void TrackCollectionAnalyzer::analyze(const edm::Event &event, const edm::EventS
         double deltaRToClosestTagElectron = -1;
         int track_isProbeEleTrack = 0b00;
         //if(isProbeTrack(track, dRMinJet, trackIso)) {
-          for(const auto tag : tagElectrons) {
+          for(const auto &tag : tagElectrons) {
             double thisDR = deltaR(tag, track);
             if(deltaRToClosestTagElectron < 0 || thisDR < deltaRToClosestTagElectron) {
               deltaRToClosestTagElectron = thisDR;
@@ -737,7 +751,7 @@ void TrackCollectionAnalyzer::analyze(const edm::Event &event, const edm::EventS
         double deltaRToClosestTagMuon = -1;
         int track_isProbeMuonTrack = 0b00;
         //if(isProbeTrack(track, dRMinJet, trackIso)) {
-          for(const auto tag : tagMuons) {
+          for(const auto &tag : tagMuons) {
             double thisDR = deltaR(tag, track);
             if(deltaRToClosestTagMuon < 0 || thisDR < deltaRToClosestTagMuon) {
               deltaRToClosestTagMuon = thisDR;
@@ -882,8 +896,8 @@ TrackCollectionAnalyzer::disappearingTrackSelection(
     for(const auto &jet : jets) {
       if(jet.pt() > 30 &&
          fabs(jet.eta()) < 4.5 &&
-         (((jet.neutralHadronEnergyFraction()<0.90 && jet.neutralEmEnergyFraction()<0.90 && (jet.chargedMultiplicity() + jet.neutralMultiplicity())>1 && jet.muonEnergyFraction()<0.8) && ((fabs(jet.eta())<=2.4 && jet.chargedHadronEnergyFraction()>0 && jet.chargedMultiplicity()>0 && jet.chargedEmEnergyFraction()<0.90) || fabs(jet.eta())>2.4) && fabs(jet.eta())<=3.0)
-            || (jet.neutralEmEnergyFraction()<0.90 && jet.neutralMultiplicity()>10 && fabs(jet.eta())>3.0))) {
+         anatools::jetPassesTightLepVeto(jet) // This automatically uses the correct jet ID criteria
+        ) {
         double dR = deltaR(track, jet);
         if(dRMinJet < 0 || dR < dRMinJet) dRMinJet = dR;
       }
@@ -974,8 +988,8 @@ TrackCollectionAnalyzer::disappearingTrackSelection_Nm2(
     for(const auto &jet : jets) {
       if(jet.pt() > 30 &&
          fabs(jet.eta()) < 4.5 &&
-         (((jet.neutralHadronEnergyFraction()<0.90 && jet.neutralEmEnergyFraction()<0.90 && (jet.chargedMultiplicity() + jet.neutralMultiplicity())>1 && jet.muonEnergyFraction()<0.8) && ((fabs(jet.eta())<=2.4 && jet.chargedHadronEnergyFraction()>0 && jet.chargedMultiplicity()>0 && jet.chargedEmEnergyFraction()<0.90) || fabs(jet.eta())>2.4) && fabs(jet.eta())<=3.0)
-            || (jet.neutralEmEnergyFraction()<0.90 && jet.neutralMultiplicity()>10 && fabs(jet.eta())>3.0))) {
+         anatools::jetPassesTightLepVeto(jet) // This automatically uses the correct jet ID criteria
+        ) {
         double dR = deltaR(track, jet);
         if(dRMinJet < 0 || dR < dRMinJet) dRMinJet = dR;
       }
@@ -1133,8 +1147,8 @@ TrackCollectionAnalyzer::getTagMuons (const edm::Event &event,
                                            triggers,
                                            muon,
                                            trigObjs,
-                                           (is2017_ ? "hltIterL3MuonCandidates::HLT" : "hltL3MuonCandidates::HLT"),
-                                           (is2017_ ? "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07" : "hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"))) {
+                                          (is2017_ ? "hltIterL3MuonCandidates::HLT" : "hltIterL3MuonCandidates::HLT"),
+                                          (is2017_ ? "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07" : "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered"))) {
         continue; // cutMuonMatchToTrigObj
     }
     if(fabs(muon.eta()) >= 2.1) continue;
@@ -1227,19 +1241,8 @@ TrackCollectionAnalyzer::MinDRtoJet(const vector<pat::Jet> &jets, const Candidat
     for(const auto &jet : jets) {
       if(jet.pt() > 30 &&
          fabs(jet.eta()) < 4.5 &&
-         (((jet.neutralHadronEnergyFraction()<0.90 && 
-            jet.neutralEmEnergyFraction()<0.90 && 
-            (jet.chargedMultiplicity() + jet.neutralMultiplicity())>1 && 
-             jet.muonEnergyFraction()<0.8) && 
-             ((fabs(jet.eta())<=2.4 && 
-               jet.chargedHadronEnergyFraction()>0 && 
-               jet.chargedMultiplicity()>0 && 
-               jet.chargedEmEnergyFraction()<0.90) || 
-               fabs(jet.eta())>2.4) && 
-             fabs(jet.eta())<=3.0) || 
-             (jet.neutralEmEnergyFraction()<0.90 && 
-              jet.neutralMultiplicity()>10 && 
-              fabs(jet.eta())>3.0))) {
+         anatools::jetPassesTightLepVeto(jet) // This automatically uses the correct jet ID criteria
+        ) {
         double dR = deltaR(track, jet);
         if(dRMinJet < 0 || dR < dRMinJet) dRMinJet = dR;
       }
@@ -1391,24 +1394,30 @@ TrackCollectionAnalyzer::getPosition(const DetId& id) const
 
 void
 TrackCollectionAnalyzer::getGeometries(const edm::EventSetup &setup) {
-  setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  // setup.get<CaloGeometryRecord>().get(caloGeometry_);
+  caloGeometry_ = setup.getHandle(caloGeomToken_);
   if(!caloGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find CaloGeometryRecord in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(cscGeometry_);
+  // setup.get<MuonGeometryRecord>().get(cscGeometry_);
+  cscGeometry_ = setup.getHandle(cscGeomToken_);
   if(!cscGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (CSC) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(dtGeometry_);
+  // setup.get<MuonGeometryRecord>().get(dtGeometry_);
+  dtGeometry_ = setup.getHandle(dtGeomToken_);
   if(!dtGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (DT) in event!\n";
 
-  setup.get<MuonGeometryRecord>().get(rpcGeometry_);
+  // setup.get<MuonGeometryRecord>().get(rpcGeometry_);
+  rpcGeometry_ = setup.getHandle(rpcGeomToken_);
   if(!rpcGeometry_.isValid())
     throw cms::Exception("FatalError") << "Unable to find MuonGeometryRecord (RPC) in event!\n";
 
-  setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
-  setup.get<TrackerTopologyRcd>().get(trackerTopology_);
+  // setup.get<EcalChannelStatusRcd>().get(ecalStatus_);
+  // setup.get<TrackerTopologyRcd>().get(trackerTopology_);
+  ecalStatus_ = setup.getHandle(ecalStatToken_);
+  trackerTopology_ = setup.getHandle(trackerTopoToken_);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

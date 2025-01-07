@@ -12,7 +12,10 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, 
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.SignalMC.signalCrossSecs import signal_cross_sections, signal_cross_sections_higgsino
+if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_")):
+    exec("from DisappTrks.SignalMC.signalCrossSecs import *")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    exec("from DisappTrks.SignalMC.signalCrossSecs13p6TeV import *")
 
 setTDRStyle()
 

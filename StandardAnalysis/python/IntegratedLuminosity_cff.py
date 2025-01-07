@@ -384,31 +384,31 @@ lumi_2022_promptReco = {
 
 # using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
-    "MET_2022B" : 90.100668583,
-    "JetMET_2022C" : 5067.183864430,
-    "JetMET_2022D" : 3002.294492741,
-    "MET_2022E" : 5870.638540164,
-    "MET_2022F" : 18015.978262574,
-    "MET_2022G" : 3118.633730489,
+    "MET_2022B" : 89.078989610,
+    "JetMET_2022C" : 5010.409016184,
+    "JetMET_2022D" : 2970.045129108,
+    "MET_2022E" : 5806.955207286,
+    "MET_2022F" : 17781.598893382,
+    "MET_2022G" : 3082.753035617,
 
 # using HLT_IsoMu24_v* with Golden json files
     "Muon_2022A" : -1,
-    "Muon_2022B" : 77.329631,
-    "Muon_2022C" : 4476.362177, 
-    "Muon_2022D" : 2747.864685, 
-    "Muon_2022E" : 5878.354165,
-    "Muon_2022F" : 18006.977824,
-    "Muon_2022G" : 3121.865602,
+    "Muon_2022B" : 89.078989610,
+    "Muon_2022C" : 5010.409016184, 
+    "Muon_2022D" : 2970.045129108, 
+    "Muon_2022E" : 5806.955207286,
+    "Muon_2022F" : 17781.901464250,
+    "Muon_2022G" : 3082.753035617,
 
 # using HLT_Ele32_WPTight_Gsf_v*
-    "EGamma_2022A:" : -1,
-    "EGamma_2022B" : 0077.329631,
-    "EGamma_2022C" : 4476.362177,
-    "EGamma_2022D" : 2747.864685,
-    #"EGamma_2022E" : 6.121188303, #fixme
-    "EGamma_2022E" : 5878.354165,
-    "EGamma_2022F" : -1, #fixme
-    "EGamma_2022G" : 3283.111599, #fixme
+    "EGamma_2022A" : -1,
+    "EGamma_2022B" : 89.07898961,
+    "EGamma_2022C" : 5010.409016,
+    "EGamma_2022D" : 2970.045129,
+    "EGamma_2022E" : 5806.955207,
+    "EGamma_2022F" : 17781.59889, #fixme
+    "EGamma_2022G" : 3082.753036, #fixme
+
 # using HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*
     "Tau_2022B" : -1,
     "Tau_2022C" : 5010.409016115, 
@@ -416,7 +416,6 @@ lumi_2022_promptReco = {
     "Tau_2022E" : 5806.955207273, 
     "Tau_2022F" : 17781.901464330, 
     "Tau_2022G" : 3082.753035626
-
 }
 
 # now create a single lumi dict, starting with 2015

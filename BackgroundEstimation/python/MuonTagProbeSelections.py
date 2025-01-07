@@ -6,7 +6,7 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
         replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
@@ -190,7 +190,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(MuonFiducialCalcBefore.cuts, [cutTrk2017LowEfficiencyRegion])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     removeCuts(MuonFiducialCalcBefore.cuts, [cutTrk2018LowEfficiencyRegion])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     removeCuts(MuonFiducialCalcBefore.cuts, [cutTrkEcalo, cutMuonMatchToTrigObj, cutTrkIso]) #FIXME: Make sure this removal is okay
 
 
@@ -200,7 +200,7 @@ addCuts(MuonFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017I
 
 MuonFiducialCalcBeforeOldCuts = copy.deepcopy(MuonFiducialCalcBefore)
 MuonFiducialCalcBeforeOldCuts.name = cms.string("MuonFiducialCalcBeforeOldCuts")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
@@ -212,12 +212,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2018LowEfficiencyRegion])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkEcalo, cutMuonMatchToTrigObj, cutTrkIso])  #FIXME: Make sure this removal is okay
 
 MuonFiducialCalcAfterOldCuts = copy.deepcopy(MuonFiducialCalcAfter)
 MuonFiducialCalcAfterOldCuts.name = cms.string("MuonFiducialCalcAfterOldCuts")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(MuonFiducialCalcAfterOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
@@ -260,6 +260,8 @@ createHitsVariations (ZtoMuProbeTrkWithFilter,   "ZtoMuProbeTrkWithFilter")
 createHitsVariations (ZtoMuProbeTrkWithSSFilter, "ZtoMuProbeTrkWithSSFilter")
 createHitsVariations (ZtoMuProbeTrkWithLooseFilter,   "ZtoMuProbeTrkWithLooseFilter")
 createHitsVariations (ZtoMuProbeTrkWithLooseSSFilter, "ZtoMuProbeTrkWithLooseSSFilter")
+createHitsVariations (MuonTagPt35NoJetCuts,               "MuonTagPt35NoJetCuts")
+createHitsVariations (MuonTagPt35NoJetCutsMetTrig,        "MuonTagPt35NoJetCutsMetTrig")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

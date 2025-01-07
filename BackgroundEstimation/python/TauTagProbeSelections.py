@@ -31,7 +31,7 @@ tagTauCuts = [
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     tagTauCuts.append(cutTauTightMVAIso)
 else:
-    tagTauCuts.append(cutTauTightID)
+    tagTauCuts.append(cutTauTightPFIso)
 addCuts(TauTagSkim.cuts, tagTauCuts)
 
 ################################################################################
@@ -325,6 +325,8 @@ createHitsVariations (ZtoTauToMuProbeTrkWithZCuts,     "ZtoTauToMuProbeTrkWithZC
 createHitsVariations (ZtoTauToEleProbeTrkWithZCuts,    "ZtoTauToEleProbeTrkWithZCuts")
 createHitsVariations (ZtoTauToMuDisTrk,                "ZtoTauToMuDisTrk")
 createHitsVariations (ZtoTauToEleDisTrk,               "ZtoTauToEleDisTrk")
+createHitsVariations (TauTagPt55NoJetCuts,             "TauTagPt55NoJetCuts")
+createHitsVariations (TauTagPt55NoJetCutsMetTrig,      "TauTagPt55NoJetCutsMetTrig")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

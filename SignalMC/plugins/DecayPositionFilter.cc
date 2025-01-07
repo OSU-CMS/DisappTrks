@@ -11,7 +11,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDFilter.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -47,7 +47,7 @@ using namespace reco;
 // class decleration
 //
 
-class DecayPositionFilter : public edm::EDFilter {
+class DecayPositionFilter : public edm::stream::EDFilter<> {
 public:
   explicit DecayPositionFilter(const edm::ParameterSet&);
   ~DecayPositionFilter();

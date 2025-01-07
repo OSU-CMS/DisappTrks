@@ -95,6 +95,8 @@ class FiducialMapCalculator:
         self._meanInefficiency = meanInefficiency
         self._stdDevInefficiency = stdDevInefficiency
 
+        print(f"Standard Dev of Inefficiency: {stdDevInefficiency}, nRegions: {nRegionsWithTag}")
+
         # now find hot spots where the inefficiency is larger than the meanInefficiency by at least threshold * stdDevInefficiency
 
         for xbin in range(1, efficiency.GetXaxis().GetNbins()):
@@ -265,6 +267,8 @@ class FiducialMapCalculator:
             existingMapName += '2017_data.root'
         elif '2018' in self.Numerator["sample"]:
             existingMapName += '2017_data.root' # doesn't exist yet, compare to 2017
+        elif '2022' in self.Numerator['sample']:
+            existingMapName += '2017_data.root' #doesn't exist yet, compare to 2017
         existingMapFile = TFile(existingMapName, 'read')
         existingMapDenominator = existingMapFile.Get('beforeVeto')
         existingMapNumerator = existingMapFile.Get('afterVeto')

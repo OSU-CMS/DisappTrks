@@ -4,13 +4,15 @@ import sys
 import math
 import functools
 import glob
+import importlib
+
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1, gDirectory, TH2D, TChain
 
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 from DisappTrks.StandardAnalysis.plotUtilities import *
-
+import ctypes
 from array import *
 
 setTDRStyle()
@@ -25,7 +27,8 @@ def prettyPrintTotals (electrons, muons, taus, fakes, nLayersWords, runPeriods, 
     fullTotal = Measurement(0.0, 0.0, 0.0, 0.0, 0.0)
     for runPeriod in runPeriods:
         for nLayersWord in nLayersWords:
-            exec('from DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord + ' import background_systematics')
+            module = importlib.import_module('DisappTrks.LimitSetting.bkgdConfig_' + year + runPeriod + '_' + nLayersWord) 
+            background_systematics = getattr(module, 'background_systematics')
             
             eleSystematic = [0.0, 0.0]
             muonSystematic = [0.0, 0.0]
@@ -398,7 +401,7 @@ class LeptonBkgdEstimate:
         met = getHistFromChannelDict (channel, hist)
         addChannelExtensions(met, channel, hist)
 
-        passesError = Double (0.0)
+        passesError = ctypes.c_double (0.0)
         passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
         passes = Measurement (passes, passesError)
         passes.isPositive ()
@@ -412,14 +415,14 @@ class LeptonBkgdEstimate:
             hist = "Met Plots/metNoMu"
             channel = self.TrigEffNumer if hasattr (self, "TrigEffNumer") else self.TagPt35MetTrig
             denominator = getHistFromChannelDict (channel, hist)
-            nEventsDenominator = Double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
+            nEventsDenominator = ctypes.c_double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
             if "extensions" in channel:
                 for x in channel["extensions"]:
                     denominator.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
 
             channel = self.TrigEffNumerHEMveto if hasattr (self, "TrigEffNumerHEMveto") else self.TagPt35MetTrigHEMveto
             numerator = getHistFromChannelDict (channel, hist)
-            nEventsNumerator = Double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
+            nEventsNumerator = ctypes.c_double (getHist (channel["sample"], channel["condorDir"], channel["name"] + "CutFlowPlotter", "eventCounter").GetBinContent(1))
             if "extensions" in channel:
                 for x in channel["extensions"]:
                     numerator.Add (getHist (x["sample"], x["condorDir"], x["name"] + "Plotter", hist))
@@ -428,16 +431,16 @@ class LeptonBkgdEstimate:
                 # temporary scale factor to correct cases where a different number of events were run over (incomplete jobs)
                 # derived from the CutFlowPlotter/eventCounter histogram
                 # muons used a skim in D but had 100% completion, so just turn this off for muons...
-                sf = nEventsDenominator / nEventsNumerator if nEventsNumerator > 0.0 else 0.0
+                sf = nEventsDenominator.value / nEventsNumerator.value if nEventsNumerator.value > 0.0 else 0.0
                 if sf > 1.0:
                     print("\tApplying correction for incomplete jobs:", sf)
                 numerator.Scale(sf)
 
-            totalError = Double (0.0)
+            totalError = ctypes.c_double (0.0)
             total = denominator.IntegralAndError (denominator.FindBin (self._metCut), denominator.GetNbinsX () + 1, totalError)
             total = Measurement (total, totalError)
 
-            passesError = Double (0.0)
+            passesError = ctypes.c_double (0.0)
             passes = numerator.IntegralAndError (numerator.FindBin (self._metCut), numerator.GetNbinsX () + 1, passesError)
             passes = Measurement (passes, passesError)
 
@@ -539,8 +542,8 @@ class LeptonBkgdEstimate:
             metHist.Multiply (triggerEffPassesHist)
 
             total = 0.0
-            totalError = Double (0.0)
-            passesError = Double (0.0)
+            totalError = ctypes.c_double (0.0)
+            passesError = ctypes.c_double (0.0)
 
             passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
             passes = Measurement (passes, passesError)
@@ -551,7 +554,7 @@ class LeptonBkgdEstimate:
             met = getHistFromChannelDict (self.TagPt35, hist)
             addChannelExtensions(met, self.TagPt35, hist)
 
-            totalError = Double (0.0)
+            totalError = ctypes.c_double (0.0)
             total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
             total = Measurement (total, totalError)
             total.isPositive ()
@@ -612,7 +615,7 @@ class LeptonBkgdEstimate:
             eCalo = getHistFromChannelDict (self.CandTrkIdPt35, hist)
             addChannelExtensions(eCalo, self.CandTrkIdPt35, hist)
 
-            nError = Double (0.0)
+            nError = ctypes.c_double (0.0)
             n = eCalo.IntegralAndError (0, eCalo.FindBin (self._eCaloCut), nError)
             w = self.CandTrkIdPt35["weight"]
 
@@ -726,7 +729,11 @@ class LeptonBkgdEstimate:
 
         nEst.isPositive ()
 
+        #print("Types in alpha", type(scaleFactor), type(pPassVeto), type(pPassMetCut), type(pPassMetTriggers))
+        #print("Debugging: \n\t pPassVeto {} \n\t passes {} \n\t scaleFactor {} \n\t total {} \n\t pPassMetCut {} \n\t pPassMetTriggers {}".format(str(pPassVeto), str(passes), str(scaleFactor), str(total), str(pPassMetCut), str(pPassMetTriggers)))
+
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
+        #print("Debugging, alpha after construction {}".format(str(alpha)))
         if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             alpha /= self.externalTriggerEfficiency        
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
@@ -745,6 +752,7 @@ class LeptonBkgdEstimate:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
             print("N: " + str (passes))
 
+        #print("Alpha is of type", type(alpha))
         print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
@@ -919,16 +927,16 @@ class LeptonBkgdEstimate:
                     backgroundHist = getHistFromChannelDict (self.TagProbePassSS, hist)
                     addChannelExtensions(backgroundHist, self.TagProbePassSS, hist)
 
-                    backgroundError = Double (0.0)
+                    backgroundError = ctypes.c_double (0.0)
                     background = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
-                    background = Measurement (background, backgroundError)
+                    background = Measurement (background, backgroundError.value)
                 background1 = Measurement (0.0, 0.0)
                 if hasattr (self, "TagProbePassSS1"):
                     hist = "Met Plots/metNoMu"
                     backgroundHist = getHistFromChannelDict (self.TagProbePassSS1, hist)
                     addChannelExtensions(backgroundHist, self.TagProbePassSS1, hist)
 
-                    backgroundError = Double (0.0)
+                    backgroundError = ctypes.c_double (0.0)
                     background1 = backgroundHist.IntegralAndError (0, backgroundHist.GetNbinsX () + 1, backgroundError)
                     background1 = Measurement (background1, backgroundError)
 
@@ -972,6 +980,7 @@ class LeptonBkgdEstimate:
                     eff = scaledPasses / total
 
                 print("P (pass lepton veto) in tag-probe sample: " + str (eff))
+                #print("Debugging P {}, Eff {}".format(str(p), str(eff)))
                 return (eff, p, sf, total)
             else:
                 print("TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency...")
@@ -1108,7 +1117,7 @@ def flatFunction (x, par):
     return par[0]
 
 def getIntegralError (f, a, b):
-    integralError = Double (0.0)
+    integralError = ctypes.c_double (0.0)
     nominal = f.IntegralOneDim (a, b, 1.0e-12, 1.0e-2, integralError)
 
     pars = []
@@ -1222,10 +1231,10 @@ class FakeTrackBkgdEstimate:
             for i in range (0, 10):
                 d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
 
-            passesError = Double (0.0)
+            passesError = ctypes.c_double (0.0)
             passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
             passesError = getIntegralError (f, 0.0, 0.02)
-            failsError = Double (0.0)
+            failsError = ctypes.c_double (0.0)
             fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
             failsError = getIntegralError (f, self._minD0, self._maxD0)
 
@@ -1252,17 +1261,17 @@ class FakeTrackBkgdEstimate:
             hits = getHistFromChannelDict (self.DisTrkInvertD0, "Track Plots/trackLayersWithMeasurementVsPixelHits")
             if self._nHits !=  None:
                 if self._nHits >= 6:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
                 if self._nHits == 5:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
                 if self._nHits == 4:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
@@ -1395,10 +1404,10 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
             for i in range (0, 10):
               d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
 
-            passesError = Double (0.0)
+            passesError = ctypes.c_double (0.0)
             passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
             passesError = getIntegralError (f, 0.0, 0.02)
-            failsError = Double (0.0)
+            failsError = ctypes.c_double (0.0)
             fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
             failsError = getIntegralError (f, self._minD0, self._maxD0)
 
@@ -1424,24 +1433,24 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
                 self.DisTrkInvertD0Chain.Draw('track_hitPattern_.trackerLayersWithMeasurement:track_hitPattern_.numberOfValidPixelHits >> h2d(10, -0.5, 9.5, 20, -0.5, 19.5)', cutString, 'goff')
                 hits = gDirectory.Get('h2d')
                 if self._nHits >= 6:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
                 if self._nHits == 5:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (5.0), hits.GetYaxis ().FindBin (5.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
                 if self._nHits == 4:
-                    nError = Double (0.0)
+                    nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
             else:
                 self.DisTrkInvertD0Chain.Draw('abs(track_dxy) >> hMag(50, 0.0, 0.5)', cutString, 'goff')
                 d0Mag = gDirectory.Get('hMag')
-                nError = Double (0.0)
+                nError = ctypes.c_double (0.0)
                 n = d0Mag.IntegralAndError(d0Mag.GetXaxis().FindBin(self._minD0), d0Mag.GetXaxis().FindBin(self.maxD0 - 0.001), nError)
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()

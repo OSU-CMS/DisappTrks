@@ -26,14 +26,14 @@ process.load('Configuration.StandardSequences.PATMC_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1),
+    input = cms.untracked.int32(100),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
 #    fileNames = cms.untracked.vstring('/store/mc/Run3Summer22EEDRPremix/WtoLNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/AODSIM/124X_mcRun3_2022_realistic_postEE_v1-v3/2810000/0075c854-6a75-4b96-a729-1e75f3c89dba.root'),
-    fileNames = cms.untracked.vstring('/store/mc/Run3Summer22EEDR/QCD_PT-15to30_TuneCP5_13p6TeV_pythia8/AODSIM/EpsilonPU_124X_mcRun3_2022_realistic_postEE_v1-v2/60000/04069c33-a112-413e-b479-6b57ff04e9ea.root'),
+    fileNames = cms.untracked.vstring('file:root://cmsxrootd.fnal.gov://store/mc/Run3Summer22EEDRPremix/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/AODSIM/forPOG_124X_mcRun3_2022_realistic_postEE_v1-v3/2810000/002cda4f-e18b-4323-981b-9e06c13e0d67.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 

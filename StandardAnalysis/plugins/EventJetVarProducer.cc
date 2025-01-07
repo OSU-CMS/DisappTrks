@@ -41,6 +41,7 @@ private:
   edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > tokenMcparticles_;
   edm::EDGetTokenT<edm::TriggerResults>             tokenTriggerBits_;
   edm::EDGetTokenT<vector<TYPE(muons)> >            tokenMuons_;
+  std::string                                       jetVetoMap_;
 
   double genGluinoMass_, genNeutralinoMass_, genCharginoMass_;
 
@@ -59,12 +60,11 @@ private:
   bool jetTightID (const TYPE(jets)&) const;
 
   vector<string> triggerNames;
-  bool isCRAB_ = false;
-  
 };
 
 EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   EventVariableProducer(cfg),
+  jetVetoMap_ (cfg.getParameter<edm::FileInPath> ("jetVetoMap").fullPath()),
   isFirstEvent_ (true)
 {
   tokenJets_        =  consumes<vector<TYPE(jets)> >             (collections_.getParameter<edm::InputTag>  ("jets"));
@@ -74,10 +74,7 @@ EventJetVarProducer::EventJetVarProducer(const edm::ParameterSet &cfg) :
   tokenMcparticles_ =  consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag>  ("hardInteractionMcparticles"));
   tokenTriggerBits_ =  consumes<edm::TriggerResults>(collections_.getParameter<edm::InputTag>("triggers"));
   tokenMuons_       =  consumes<vector<TYPE(muons)> >            (collections_.getParameter<edm::InputTag>  ("muons"));
-
   triggerNames = cfg.getParameter<vector<string> >("triggerNames");
-  isCRAB_ = cfg.getParameter<bool>("isCRAB");
-
 }
 
 EventJetVarProducer::~EventJetVarProducer() {}
@@ -137,11 +134,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   edm::Handle<edm::TriggerResults> triggerBits;
   event.getByToken(tokenTriggerBits_, triggerBits);
 
-  string jetVetoName = "";
-  if (isCRAB_) {jetVetoName = "Summer22EE_23Sep2023_RunEFG_v1.root";}
-  else {jetVetoName = "/data/users/mcarrigan/condor/run3Inputs/Summer22EE_23Sep2023_RunEFG_v1.root";}
-  TFile* f_jetVeto = TFile::Open(jetVetoName.c_str(), "read");
+  TFile* f_jetVeto = TFile::Open(jetVetoMap_.c_str(), "read");
   TH2D* jetVetoMap = (TH2D*)f_jetVeto->Get("jetvetomap");
+
+  jetVetoMap->SetDirectory(0);
+  f_jetVeto->Close();
+  delete f_jetVeto;
 
   vector<PhysicsObject> validJets;
   double dijetMaxDeltaPhi         = -999.;  // default is large negative value
@@ -223,12 +221,12 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   bool jetOpposite_hem1516 = false;
   bool metJet_hem1516 = false;
 
-  bool jetVeto2022 = false;
+  bool passJetVeto2022 = true;
 
   for (const auto &jet1 : *jets) {
     if (jetLooseSelection(jet1, *muons)) {
       if (jetVetoMap->GetBinContent(jetVetoMap->FindFixBin(jet1.eta(), jet1.phi())) > 0){
-        jetVeto2022 = true;
+        passJetVeto2022 = false;
       } 
     }
     if (jet1.eta() >= -3.0 && jet1.eta() <= -1.3) {
@@ -237,6 +235,8 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
       if (jet1.phi() >= -1.57 + 3.14159 && jet1.phi() <= -0.87 + 3.14159 && mets->at(0).phi() >= -1.57 && mets->at(0).phi() <= -0.87) metJet_hem1516 = true;
     }
   }
+
+  delete jetVetoMap;
 
   findGenMasses(mcParticles);
 
@@ -277,11 +277,9 @@ EventJetVarProducer::AddVariables (const edm::Event &event, const edm::EventSetu
   (*eventvariables)["jetInHEM1516"] = jetIn_hem1516;
   (*eventvariables)["jetOppositeHEM1516"] = jetOpposite_hem1516;
   (*eventvariables)["metJetHEM1516"] = metJet_hem1516;
-  (*eventvariables)["jetVeto2022"] = jetVeto2022;
+  (*eventvariables)["jetVeto2022"] = passJetVeto2022;
 
   isFirstEvent_ = false;
-
-  f_jetVeto->Close();
 }
 
 unsigned
@@ -461,40 +459,8 @@ EventJetVarProducer::jetLooseSelection (const TYPE(jets) &jet, const vector<TYPE
 bool 
 EventJetVarProducer::jetTightID (const TYPE(jets)& jet) const
 {
-
-  if ( fabs(jet.eta()) <= 2.6 ) {
-    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.90 ) return false;
-    if ( (jet.chargedMultiplicity() + jet.neutralMultiplicity()) <= 1 ) return false;
-    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
-    if ( jet.chargedHadronEnergyFraction() <= 0.01 ) return false;
-    if ( jet.chargedMultiplicity() <= 0 ) return false;
-    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
-    return true;
-  }
-  else if ( (fabs(jet.eta()) > 2.6) && (fabs(jet.eta()) <= 2.7) ){
-    if ( jet.neutralHadronEnergyFraction() >= 0.90 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
-    if ( jet.muonEnergyFraction() >= 0.80 ) return false;
-    if ( jet.chargedMultiplicity() <= 0 ) return false;
-    if ( jet.chargedEmEnergyFraction() >= 0.80 ) return false; 
-    return true;
-  }
-  else if( (fabs(jet.eta()) > 2.7) && (fabs(jet.eta()) <= 3.0) ){
-    if ( jet.neutralHadronEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralEmEnergyFraction() >= 0.99 ) return false;
-    if ( jet.neutralMultiplicity() <= 1 ) return false;
-    return true;
-  }
-  else if( (fabs(jet.eta()) > 3.0) && (fabs(jet.eta()) <= 5.0) ) {
-    if ( jet.neutralEmEnergyFraction() >= 0.40 ) return false;
-    if ( jet.neutralMultiplicity() <= 10 ) return false;
-    return true;
-  }
-  else{
-    return false;
-  }
-
+  bool result = anatools::jetPassesTightLepVeto(jet); // This automatically uses the correct jet ID criteria
+  return result;
 }
 
 

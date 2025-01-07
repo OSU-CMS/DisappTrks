@@ -264,6 +264,12 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo / p"),
             ),
         cms.PSet (
+            name = cms.string("trackCaloJetEnergy"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+            ),
+        cms.PSet (
             name = cms.string("trackPtError"),
             title = cms.string("ptError;#sigma(p_{T}) [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
@@ -1180,7 +1186,7 @@ DiMuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
     histograms = cms.VPSet (
         cms.PSet (
-            name = cms.string("diMuonPt"),
+            name = cms.string("diMuonPtWide"),
             title = cms.string("Di-muon pT;p_{T} (#mu#mu)"),
             binsX = cms.untracked.vdouble(5000, 0, 5000),
             inputVariables = cms.vstring("pT (muon, muon)")

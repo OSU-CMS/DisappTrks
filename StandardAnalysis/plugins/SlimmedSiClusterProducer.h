@@ -45,6 +45,7 @@ class SlimmedSiClusterProducer : public edm::stream::EDProducer<>
 
     edm::EDGetTokenT<edmNew::DetSetVector<SiPixelCluster> > siPixelClustersToken_;
     edm::EDGetTokenT<vector<reco::Track> > tracksToken_;
+    const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> geomToken_;
 
     unique_ptr<edmNew::DetSetVector<SiPixelCluster> >  slimmedPixelClusters_;
 };

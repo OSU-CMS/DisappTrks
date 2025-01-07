@@ -28,6 +28,7 @@ class SiGlobalClusterProducer : public edm::stream::EDProducer<>
   private:
     edm::InputTag siPixelClusters_;
     edm::EDGetTokenT<edmNew::DetSetVector<SiPixelCluster> > siPixelClustersToken_;
+    const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> geomToken_;
     unique_ptr<edmNew::DetSetVector<SiGlobalPixelCluster> >  globalPixelClusters_;
 };
 

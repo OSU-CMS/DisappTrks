@@ -6,6 +6,7 @@ from DisappTrks.StandardAnalysis.METFilters import *
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 from DisappTrks.StandardAnalysis.protoConfig_cfg import UseCandidateTracks
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import dataFormat
 import os
 
 ##############################
@@ -49,7 +50,7 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     cutMet.cutString = cms.string("noMuPt > 120")
     print("# MetNoMu > 120 GeV")
 else:
@@ -69,7 +70,7 @@ cutVetoJetsHEM1516 = cms.PSet(
 
 cutVetoJetMap2022 = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("jetVeto2022 == 0"),
+    cutString = cms.string("jetVeto2022 == 1"),
     numberRequired = cms.string(">= 1"),
 )
 
@@ -103,9 +104,16 @@ cutMetPassecalBadCalibFilterUpdate = cms.PSet(
     cutString = cms.string("passecalBadCalibFilterUpdate"),
     numberRequired = cms.string(">= 1"),
 )
+# This was used for Run 2 and is different for Run 3; changing the name here to not have to
+# change this cut in every selection that uses it
+# cutMetFilters = cms.PSet(
+#     inputCollection = cms.vstring("mets"),
+#     cutString = cms.string("badPFMuonFilter && badChargedCandidateFilter && passecalBadCalibFilterUpdate"),
+#     numberRequired = cms.string(">= 1"),
+# )
 cutMetFilters = cms.PSet(
     inputCollection = cms.vstring("mets"),
-    cutString = cms.string("badPFMuonFilter && badChargedCandidateFilter && passecalBadCalibFilterUpdate"),
+    cutString = cms.string("passecalBadCalibFilterUpdate"),
     numberRequired = cms.string(">= 1"),
 )
 
@@ -315,7 +323,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     )")
     print('# Using 2018 reqs for Jet TightLepVeto')
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     cutJetTightLepVeto.cutString = cms.string("\
     (\
     (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.99 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0.01 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
@@ -460,11 +468,28 @@ cutTrkIsHighPurity = cms.PSet( # to be used in signal MC trigger efficiency
     cutString = cms.string("isHighPurityTrack"),
     numberRequired = cms.string(">= 1"),
 )
+
+cutDeepSets = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("")
+)
 # cutTrkEtaEcalCrackVeto = cms.PSet(  # TRACK ETA:  NOT IN ECAL CRACKS:  UPDATE CRACK BOUNDARIES
 #     inputCollection = cms.vstring("tracks"),
 #     cutString = cms.string("fabs ( eta ) "),
 #     numberRequired = cms.string(">= 1"),
 # )
+
+cutTrkDeepSets = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("deepSetsElectronScore > 0.5"),
+    numberRequired = cms.string('>= 1'),
+)
+
+cutTrkFakeNN = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    cutString = cms.string("fakeTrackScore > 0.5"),
+    numberRequired = cms.string('>= 1'),
+)
 
 ########################################
 ##### track number of valid hits   #####
@@ -518,7 +543,7 @@ cutTrkNLayersExclusive = {
 cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
 cutTrkNValidHitsSignal = cutTrkNValidHits[7]
 cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
     cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
@@ -627,9 +652,10 @@ cutTrkIso = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
-        cutTrkIso.cutString = cms.string (" ((pfIsolationDR03_.chargedHadronIso + pfIsolationDR03_.puChargedHadronIso) / pt) < 0.05")
-    
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+        # This cut does something very similar to the old trackIsoNoPUDRp3. pfIsolationDR03_.chargedHadronIso sums the pT of all PF charged pions that are compatible to the PV in a DR 0.3 cone around an IsolatedTrack. The 0.05 requirement is the same as the one in the HLT_MET105_IsoTrk50 path. In this way, the track isolation is still PU independent, which makes the efficiency of the cut higher.
+        cutTrkIso.cutString = cms.string (" (pfIsolationDR03_.chargedHadronIso / pt) < 0.05")
+
 cutTrkGsfTrkVeto = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("dRToMatchedGsfTrack > 0.15"),
@@ -696,6 +722,10 @@ cutTrkEcalo = cms.PSet(
     cutString = cms.string("caloNewNoPUDRp5CentralCalo < 10"),
     numberRequired = cms.string(">= 1"),
 )
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcalo.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) < 10")
+
 cutTrkNMissOut0 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits >= 0"),
@@ -736,6 +766,13 @@ cutTrkEcaloInv50 = cms.PSet(
     cutString = cms.string("caloNewNoPUDRp5CentralCalo > 50"),
     numberRequired = cms.string(">= 1"),
 )
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcaloInv.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 10")
+# If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
+if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+    cutTrkEcaloInv50.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 50")
+
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     cutString = cms.string("hitAndTOBDrop_bestTrackMissingOuterHits <= 2"),
@@ -871,7 +908,7 @@ cutTrkMatchMC = cms.PSet(
 )
 
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         cutTrkD0.inputCollection = cms.vstring("tracks")
         cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
 
@@ -948,7 +985,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Muon PT cut: >26 GeV (2018)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     print("# Muon PT cut: >26 GeV (2022) FIXME")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
@@ -1008,7 +1045,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutMuonPairPt.cutString = cms.string("pt > 29")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
 
 cutMuonPairEta21 = cms.PSet (
@@ -1255,7 +1292,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Electron PT cut: >32 GeV (2018)")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     print("# Electron PT cut: >32 GeV (2022) FIXME")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
