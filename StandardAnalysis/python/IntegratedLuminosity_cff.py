@@ -401,7 +401,7 @@ lumi_2022_promptReco = {
     "Muon_2022G" : 3082.753035617,
 
 # using HLT_Ele32_WPTight_Gsf_v*
-    "EGamma_2022A:" : -1,
+    "EGamma_2022A" : -1,
     "EGamma_2022B" : 89.07898961,
     "EGamma_2022C" : 5010.409016,
     "EGamma_2022D" : 2970.045129,
@@ -409,13 +409,13 @@ lumi_2022_promptReco = {
     "EGamma_2022F" : 17781.59889, #fixme
     "EGamma_2022G" : 3082.753036, #fixme
 
+# using HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*
     "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
-    "Tau_2022B" : -1,
+    "Tau_2022C" : 5010.409016115, 
+    "Tau_2022D" : 2970.045129109, 
+    "Tau_2022E" : 5806.955207273, 
+    "Tau_2022F" : 17781.901464330, 
+    "Tau_2022G" : 3082.753035626
 }
 
 # now create a single lumi dict, starting with 2015
