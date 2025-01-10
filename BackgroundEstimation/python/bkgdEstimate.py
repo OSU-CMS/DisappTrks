@@ -9,6 +9,7 @@ import importlib
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TH3D, TMath, TPaveText, TObject, TF1, gDirectory, TH2D, TChain
 
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import dataFormat
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 from DisappTrks.StandardAnalysis.plotUtilities import *
@@ -611,17 +612,22 @@ class LeptonBkgdEstimate:
     def printNback (self):
         self.plotMetForNback ()
         if hasattr (self, "CandTrkIdPt35"):
-            hist = "Track Plots/trackCaloTot_RhoCorr"
+            if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+                hist = "Track Plots/trackCaloJetEnergy" # This is for the MiniAOD only approach
+            else:
+                hist = "Track Plots/trackCaloTot_RhoCorr" # This is for the AOD+MiniAOD approach
             eCalo = getHistFromChannelDict (self.CandTrkIdPt35, hist)
             addChannelExtensions(eCalo, self.CandTrkIdPt35, hist)
 
             nError = ctypes.c_double (0.0)
             n = eCalo.IntegralAndError (0, eCalo.FindBin (self._eCaloCut), nError)
             w = self.CandTrkIdPt35["weight"]
+            nError = nError.value
 
             n /= w
             nError /= w
             n = Measurement (n * w, (nError if n != 0.0 else up68) * w)
+            n *= self._prescale
 
             print("N_back: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
             return n
