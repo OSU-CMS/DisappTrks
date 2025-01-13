@@ -82,7 +82,7 @@ def getUser():
             user = userList[key]
             return dirs
     print("Error:  could not identify user.")
-    os.exit(0)
+    sys.exit(0)
 
 ################################################################################
 # Functions for getting the invariant mass of an object and a track, given

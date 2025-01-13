@@ -13,7 +13,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-background = "FAKE"
+background = "ELECTRON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -28,7 +28,7 @@ if len(sys.argv) > 2:
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', 'B', 'C', 'D']
 #runPeriods = ['']
-runPeriods = ['F']
+runPeriods = ['E', 'G']
 
 nEstFake = {}
 nEstElectron = {}
@@ -155,26 +155,24 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_zToEE/")
-            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_electronTagPT/")
-            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + "EGamma_2022/EGamma_2022F_electronTagPT/")
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkNLayers/")
+            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[0], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
         
-            '''if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
-                # HEM 15/16 issue; veto MET in phi range
-                electronBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[0], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")'''
-
             for iBin in range(1, len(nLayersWords)):
-                electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike']+"2022/fromLPC/eleBkgdNoFilterBinnedLayers")
-                electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_rereco_2022" + runPeriod, dirs['Mike']+"2022/fromLPC/eleBkgdWithFilterBinnedLayers")
-                electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_rereco_2022" + runPeriod, dirs['Mike']+"2022/fromLPC/eleBkgdWithFilterBinnedLayers")
-                electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike']+"2022/fromLPC/electronControlRegionBinnedLayers")
-                electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike']+"2022/fromLPC/electronControlRegionBinnedLayers")
-                if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
-                    # HEM 15/16 issue; veto MET in phi range
-                    electronBkgdEstimate.appendChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[iBin], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
-
+                electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkNLayers/")
+                electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+                electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+                electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
+                electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
+                #electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+            
             electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
@@ -189,47 +187,31 @@ for runPeriod in runPeriods:
 
             print("\n\n")
 
-        '''for nLayersWord in nLayersWords:
+        for nLayersWord in nLayersWords:
 
             print("********************************************************************************")
-            print("performing electron background estimate in search region(2018", runPeriod, "--", nLayersWord, ")")
+            print("performing electron background estimate in search region(2022", runPeriod, "--", nLayersWord, ")")
             print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("electronBkgdEstimate_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("electronBkgdEstimate_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             electronBkgdEstimate = LeptonBkgdEstimate("electron")
             electronBkgdEstimate.addMetCut(120.0)
             electronBkgdEstimate.addTFile(fout)
             electronBkgdEstimate.addTCanvas(canvas)
-            electronBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["EGamma_2018" + runPeriod])
-            electronBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
-            electronBkgdEstimate.addPlotLabel("EGamma 2018" + runPeriod)
+            electronBkgdEstimate.addPrescaleFactor(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod])
+            electronBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
+            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
             electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
 
-            if False:
-                if runPeriod == 'AB':
-                    electronBkgdEstimate.useExternalTriggerEfficiency (47952, 118, 50044, 141)
-                    #if nLayersWord is 'NLayers4': electronBkgdEstimate.useExternalTriggerEfficiency (647, 12, 812, 29)
-                    #elif nLayersWord is 'NLayers5': electronBkgdEstimate.useExternalTriggerEfficiency (1572, 10, 1702, 12)
-                    #elif nLayersWord is 'NLayers6plus': electronBkgdEstimate.useExternalTriggerEfficiency (45733, 96, 47532, 100)
-                elif runPeriod == 'CD':
-                    electronBkgdEstimate.useExternalTriggerEfficiency (67485, 137, 70422, 167)
-                    #if nLayersWord is 'NLayers4': electronBkgdEstimate.useExternalTriggerEfficiency (920, 24, 1131, 46)
-                    #elif nLayersWord is 'NLayers5': electronBkgdEstimate.useExternalTriggerEfficiency (2137, 10, 2323, 14)
-                    #elif nLayersWord is 'NLayers6plus': electronBkgdEstimate.useExternalTriggerEfficiency (64428, 103, 66968, 107)
-
-            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdNoFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_rereco_2018" + runPeriod, dirs['Kai']+"2018/fromLPC/eleBkgdWithFilterBinnedLayers")
-            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
-            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWord, "EGamma_2018"        + runPeriod, dirs['Kai']+"2018/fromLPC/electronControlRegionBinnedLayers")
-
-            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
-                # HEM 15/16 issue; veto MET in phi range
-                electronBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
-        
+            electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkNLayers/")
+            electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+            electronBkgdEstimate.addChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
+            electronBkgdEstimate.addChannel("TagPt35",        "ElectronTagPt55"            + nLayersWord, "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            electronBkgdEstimate.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWord, "EGamma_2022"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            
             electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
 
@@ -242,7 +224,7 @@ for runPeriod in runPeriods:
 
             fout.Close()
 
-            print("\n\n")'''
+            print("\n\n")
 
     if background == "MUON" or background == "LEPTON" or background == "ALL":
 

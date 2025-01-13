@@ -274,9 +274,9 @@ def customize (process,
     elif runPeriod == "2023":
 
         data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
-        if dataEra in ['C']:
+        if runEra in ['C']:
             mc_global_tag = '130X_mcRun3_2023_realistic_v14'
-        elif dataEra in ['D']:
+        elif runEra in ['D']:
             mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
 
         process.PUScalingFactorProducer.PU     = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
@@ -301,6 +301,15 @@ def customize (process,
         process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
+
+        if runEra in ['C']:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer23Prompt23_RunC_v1.root')
+            print("Using jet veto map for 2023 eras C")
+        elif runEra in ['D']:
+            process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer23BPixPrompt23_RunD_v1.root')
+            print("Using jet veto map for 2023 eras D")
+        else:
+            print("There is no jet veto map set up for this era, please add it to OSUT3Analysis/Configuration/data/")
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
@@ -406,13 +415,13 @@ def customize (process,
             moveVariableProducer (process, "EventTauMETTriggerProducer", channel)
 
         if hasattr (process, "EventElectronL1ETMProducer"):
-            customizeForL1ETMProducer (getattr (process, "EventElectronL1ETMProducer"))
+            customizeForL1ETMProducer (getattr (process, "EventElectronL1ETMProducer"), runPeriod)
             moveVariableProducer (process, "EventElectronL1ETMProducer", channel)
         if hasattr (process, "EventMuonL1ETMProducer"):
-            customizeForL1ETMProducer (getattr (process, "EventMuonL1ETMProducer"))
+            customizeForL1ETMProducer (getattr (process, "EventMuonL1ETMProducer"), runPeriod)
             moveVariableProducer (process, "EventMuonL1ETMProducer", channel)
         if hasattr (process, "EventTauL1ETMProducer"):
-            customizeForL1ETMProducer (getattr (process, "EventTauL1ETMProducer"))
+            customizeForL1ETMProducer (getattr (process, "EventTauL1ETMProducer"), runPeriod)
             moveVariableProducer (process, "EventTauL1ETMProducer", channel)
 
         moveArbitrationToEnd (process, channel)
