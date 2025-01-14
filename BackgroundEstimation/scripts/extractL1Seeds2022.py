@@ -3,7 +3,7 @@ from omsapi import OMSAPI
 
 class L1Rates():
 
-    def __init__(self, outputFile='l1ETM_2022.txt'):
+    def __init__(self, outputFile='l1ETM_2023D.txt'):
         self.rates = {}
         self.out_name = outputFile
         self.max_n_ls = 1000
@@ -78,7 +78,7 @@ class L1Rates():
 
 
     #get the first and last runs in the era
-    def getRunsInEra(self, era='Run2022F'):
+    def getRunsInEra(self, era='Run2023D'):
         print("getting runs in era")
         q = self.omsapi.query("eras")
         q.per_page = 100
