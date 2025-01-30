@@ -135,6 +135,13 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("bestTrackMissingOuterHits", "caloNewNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
+            name = cms.string("trackFitPlaneWithCaloJet"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};matchedCaloJetEmEnergy+matchedCaloJetHadEnergy [GeV]"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
