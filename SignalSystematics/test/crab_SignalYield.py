@@ -12,7 +12,6 @@ config.General.transferLogs = True
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'config_2022_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
-config.JobType.inputFiles = [os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Collections/data/Fall15_25nsV2_MC_SF_AK4PFchs.txt', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Collections/data/Fall15_25nsV2_MC_PtResolution_AK4PFchs.txt', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Collections/data/graph_oct25.pb', os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Collections/data/graph.pb', os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root', os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root', os.environ['CMSSW_BASE'] + '/src/DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run2.root']
 config.JobType.maxMemoryMB = 4000
 
 config.Data.inputDataset = ''
@@ -69,7 +68,7 @@ if __name__ == '__main__':
                 if mass == 100 and ctau == 10: # AMSB_Wino_100GeV_10cm original dataset only has 10k events; ext was created to fix it and has ~50k events
                     config.Data.inputDataset = '/AMSB_Wino_M%dGeV_ctau%dcm_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6_ext1-v2/MINIAODSIM' % (mass, ctau)
                     config.Data.secondaryInputDataset = '/AMSB_Wino_M%dGeV_ctau%dcm_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EEDRPremix-124X_mcRun3_2022_realistic_postEE_v1_ext1-v2/AODSIM' % (mass, ctau)
-                config.JobType.pyCfgParams=["isCRAB=True","massForLifetimeReweighting="+str(mass),"lifetimeForLifetimeReweighting="+str(ctau)]
+                config.JobType.pyCfgParams=["doLifetimeReweighting=True","massForLifetimeReweighting="+str(mass),"lifetimeForLifetimeReweighting="+str(ctau)]
                 if reallySubmitMass[mass] and reallySubmitLifetime[ctau]:
                     forkAndSubmit(config)
                 else:
