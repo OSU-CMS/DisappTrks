@@ -126,12 +126,12 @@ errorHist_diMuonPt.SetDirectory(0)
 DataHist_diMuonPt = diMuonPtHists['Muon_2022F'].Clone("DataHist_diMuonPt")
 DataHist_diMuonPt.SetDirectory(0)
 
-errorHist_diMuonPt.Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
-diMuonPtStackedHists['W'].Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
-diMuonPtStackedHists['WTop'].Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
-diMuonPtStackedHists['WTopDi'].Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
-diMuonPtStackedHists['WTopDiTT'].Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
-diMuonPtStackedHists['WTopDiTTDY'].Scale((DataHist_diMuonPt.GetMaximum())/(diMuonPtStackedHists['WTopDiTTDY'].GetMaximum()))
+errorHist_diMuonPt.Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
+diMuonPtStackedHists['W'].Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
+diMuonPtStackedHists['WTop'].Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
+diMuonPtStackedHists['WTopDi'].Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
+diMuonPtStackedHists['WTopDiTT'].Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
+diMuonPtStackedHists['WTopDiTTDY'].Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
 
 diMuonPtStackedHists['W'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
 diMuonPtStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
@@ -171,7 +171,7 @@ CMS_lumi.lumi_sqrtS = "13.6 TeV" # used with iPeriod = 0, e.g. for simulation-on
 # Define position of CMS text and period of lumi to plot
 iPos = 0
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
-iPeriod = 0
+iPeriod = 136
 
 Canvas_diMuonPt = TCanvas("Canvas_diMuonPt","Canvas_diMuonPt",50,50,CMS_lumi.W,CMS_lumi.H)
 Canvas_diMuonPt.SetLeftMargin( CMS_lumi.L/CMS_lumi.W )
@@ -238,7 +238,7 @@ else:
 
 CMS_lumi.CMS_lumi(Canvas_diMuonPt, iPeriod, iPos)
 Canvas_diMuonPt.Update()
-Canvas_diMuonPt.Print("diMuonPt_ZToMuMuISR.pdf")
+Canvas_diMuonPt.Print("isrWeights_2022.pdf")
 
 metNoMuStackedHists = {}
 
@@ -291,12 +291,12 @@ errorHist_metNoMu.SetDirectory(0)
 DataHist_metNoMu = metNoMuHists['Muon_2022F'].Clone("DataHist_metNoMu")
 DataHist_metNoMu.SetDirectory(0)
 
-errorHist_metNoMu.Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
-metNoMuStackedHists['W'].Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
-metNoMuStackedHists['WTop'].Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
-metNoMuStackedHists['WTopDi'].Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
-metNoMuStackedHists['WTopDiTT'].Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
-metNoMuStackedHists['WTopDiTTDY'].Scale((DataHist_metNoMu.GetMaximum())/(metNoMuStackedHists['WTopDiTTDY'].GetMaximum()))
+errorHist_metNoMu.Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
+metNoMuStackedHists['W'].Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
+metNoMuStackedHists['WTop'].Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
+metNoMuStackedHists['WTopDi'].Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
+metNoMuStackedHists['WTopDiTT'].Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
+metNoMuStackedHists['WTopDiTTDY'].Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
 
 metNoMuStackedHists['W'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
 metNoMuStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
@@ -384,7 +384,7 @@ ratio_metNoMu.Draw()
 
 CMS_lumi.CMS_lumi(Canvas_metNoMu, iPeriod, iPos)
 Canvas_metNoMu.Update()
-Canvas_metNoMu.Print("metNoMu_ZToMuMuISR.pdf")
+Canvas_metNoMu.Print("beforeISRweights_metNoMu_2022.pdf")
 
 auxList = []
 for key in diMuonPtStackedHists:

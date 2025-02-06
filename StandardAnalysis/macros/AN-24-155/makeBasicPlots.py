@@ -6,7 +6,7 @@ from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.utilities import *
 from DisappTrks.StandardAnalysis.miniAOD_124X_Samples import dataset_names_bkgd
 
-from ROOT import TFile, gROOT, gStyle, TCanvas, TLegend, TPad
+from ROOT import TFile, gROOT, gStyle, TCanvas, TLegend, TPad, TLine
 
 gROOT.SetBatch()
 gROOT.ProcessLine( "gErrorIgnoreLevel = 6001;")
@@ -15,9 +15,13 @@ gStyle.SetOptStat(0)
 
 mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2022/basicPlots'
 
-# dataFiles = {
-#     'Muon_2022F' : 'Muon_2022F',
-# }
+sigFiles = {
+    'signal' : 'basic_300GeV_100cm',
+}
+
+dataFiles = {
+    'Muon_2022F' : 'Muon_2022F',
+}
 
 # This is used in the MiniAOD+AOD processing; for MiniAOD-only the number of events can be extracted from the histograms
 # nEvents = {
@@ -63,22 +67,28 @@ mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2022/basicPlots'
 deltaPhiMetJetLeadingHists = {}
 dijetMaxDeltaPhiHists = {}
 
+# The 20000 scaling below have to be removed once the MET data is added, and the scaling will be done using the integral of the data below
 for dataset in dataset_names_bkgd:
     if dataset == 'DYto2L_4jets_M10to50_2022EE' or dataset == 'DYJetsToLL_M50_merged': continue
     deltaPhiMetJetLeadingHists[dataset] = getHist('hist_merged_' + dataset + '_basicPlotsv2',mc_condor_dir,'BasicSelectionNoAngularCutsPlotter','Met-eventvariable Plots/deltaPhiMetJetLeading',False)
     nEvents = (getHist('hist_merged_' + dataset + '_basicPlotsv2',mc_condor_dir,'BasicSelectionNoAngularCutsCutFlowPlotter','cutFlow',False)).GetBinContent(1)
     # deltaPhiMetJetLeadingHists[dataset].Scale(crossSections[dataset]/nEvents[dataset]) # For MiniAOD+AOD processing
-    deltaPhiMetJetLeadingHists[dataset].Scale(crossSections[dataset]/nEvents) # For MiniAOD-only processing
+    deltaPhiMetJetLeadingHists[dataset].Scale(crossSections[dataset]*20000/nEvents) # For MiniAOD-only processing
     deltaPhiMetJetLeadingHists[dataset].Rebin(2)
     dijetMaxDeltaPhiHists[dataset] = getHist('hist_merged_' + dataset + '_basicPlotsv2',mc_condor_dir,'BasicSelectionNoAngularCutsPlotter','Eventvariable Plots/dijetMaxDeltaPhi',False)
     # dijetMaxDeltaPhiHists[dataset].Scale(crossSections[dataset]/nEvents[dataset]) # For MiniAOD+AOD processing
-    dijetMaxDeltaPhiHists[dataset].Scale(crossSections[dataset]/nEvents) # For MiniAOD-only processing
+    dijetMaxDeltaPhiHists[dataset].Scale(crossSections[dataset]*20000/nEvents) # For MiniAOD-only processing
     dijetMaxDeltaPhiHists[dataset].Rebin(2)
 
 # for dataset in dataset_names_bkgd:
-#     deltaPhiMetJetLeadingHists[dataset] = getHist(dataFiles[file],data_condor_dir,'BasicSelectionNoAngularCutsPlotter','Met-eventvariable Plots/deltaPhiMetJetLeading')
-#     dijetMaxDeltaPhiHists[dataset] = getHist(dataFiles[file],data_condor_dir,'BasicSelectionNoAngularCutsPlotter','Eventvariable Plots/dijetMaxDeltaPhi')
+#     deltaPhiMetJetLeadingHists[dataset] = getHist(sigFiles[file],data_condor_dir,'BasicSelectionNoAngularCutsPlotter','Met-eventvariable Plots/deltaPhiMetJetLeading')
+#     dijetMaxDeltaPhiHists[dataset] = getHist(sigFiles[file],data_condor_dir,'BasicSelectionNoAngularCutsPlotter','Eventvariable Plots/dijetMaxDeltaPhi')
 #     deltaPhiMetJetLeadingHists[dataset].Rebin(2)
+
+deltaPhiMetJetLeadingHists['signal'] = getHist(sigFiles['signal'],mc_condor_dir,'BasicSelectionNoAngularCutsPlotter','Met-eventvariable Plots/deltaPhiMetJetLeading',False)
+dijetMaxDeltaPhiHists['signal'] = getHist(sigFiles['signal'],mc_condor_dir,'BasicSelectionNoAngularCutsPlotter','Eventvariable Plots/dijetMaxDeltaPhi',False)
+deltaPhiMetJetLeadingHists['signal'].Rebin(2)
+dijetMaxDeltaPhiHists['signal'].Rebin(2)
 
 deltaPhiMetJetLeadingStackedHists = {}
 
@@ -151,14 +161,17 @@ errorHist_deltaPhiMetJetLeading.SetDirectory(0)
 # DataHist_deltaPhiMetJetLeading = deltaPhiMetJetLeadingHists['Muon_2022F'].Clone("DataHist_deltaPhiMetJetLeading")
 # DataHist_deltaPhiMetJetLeading.SetDirectory(0)
 
-# errorHist_deltaPhiMetJetLeading.Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['W'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTop'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTopDi'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTopDiTT'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTopDiTTDY'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNN'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Scale((DataHist_deltaPhiMetJetLeading.GetMaximum())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
+SignalHist_deltaPhiMetJetLeading = deltaPhiMetJetLeadingHists['signal'].Clone("SignalHist_deltaPhiMetJetLeading")
+SignalHist_deltaPhiMetJetLeading.SetDirectory(0)
+
+# errorHist_deltaPhiMetJetLeading.Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['W'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTop'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTopDi'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTopDiTT'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTopDiTTDY'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNN'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Scale((DataHist_deltaPhiMetJetLeading.Integral())/(deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Integral()))
 
 deltaPhiMetJetLeadingStackedHists['W'].SetFillColor(colors['Diboson2022EE'])
 deltaPhiMetJetLeadingStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
@@ -182,7 +195,10 @@ errorHist_deltaPhiMetJetLeading.SetLineColor(1)
 # DataHist_deltaPhiMetJetLeading.SetMarkerStyle(20)
 # DataHist_deltaPhiMetJetLeading.SetLineColor(1)
 
-Legend_deltaPhiMetJetLeading = TLegend(0.63,0.66,0.93,0.86)
+SignalHist_deltaPhiMetJetLeading.SetLineColor(4)
+SignalHist_deltaPhiMetJetLeading.SetLineWidth(2)
+
+Legend_deltaPhiMetJetLeading = TLegend(0.66,0.67,0.96,0.87)
 Legend_deltaPhiMetJetLeading.SetBorderSize(0)
 Legend_deltaPhiMetJetLeading.SetFillColor(0)
 Legend_deltaPhiMetJetLeading.SetFillStyle(0)
@@ -197,6 +213,14 @@ Legend_deltaPhiMetJetLeading.AddEntry(deltaPhiMetJetLeadingStackedHists['WTopDiT
 Legend_deltaPhiMetJetLeading.AddEntry(deltaPhiMetJetLeadingStackedHists['WTopDi'],labels['DYJetsToLL2022EE'],"F")
 Legend_deltaPhiMetJetLeading.AddEntry(deltaPhiMetJetLeadingStackedHists['WTop'],labels['SingleTop2022EE'],"F")
 Legend_deltaPhiMetJetLeading.AddEntry(deltaPhiMetJetLeadingStackedHists['W'],labels['Diboson2022EE'],"F")
+
+Legend2_deltaPhiMetJetLeading = TLegend(0.15,0.76,0.45,0.96)
+Legend2_deltaPhiMetJetLeading.SetBorderSize(0)
+Legend2_deltaPhiMetJetLeading.SetFillColor(0)
+Legend2_deltaPhiMetJetLeading.SetFillStyle(0)
+Legend2_deltaPhiMetJetLeading.SetTextSize(0.03)
+Legend2_deltaPhiMetJetLeading.SetTextFont(42)
+Legend2_deltaPhiMetJetLeading.AddEntry(SignalHist_deltaPhiMetJetLeading,"AMSB 300 GeV #tilde{#chi}^{#pm} (c#tau = 100 cm)","L")
 
 # Change the CMS_lumi variables (see CMS_lumi.py)
 CMS_lumi.writeExtraText = 1
@@ -215,9 +239,11 @@ Canvas_deltaPhiMetJetLeading.SetTopMargin( CMS_lumi.T/CMS_lumi.H )
 Canvas_deltaPhiMetJetLeading.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
 Canvas_deltaPhiMetJetLeading.SetLogy()
-deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0001)
-deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(10000000.0)
-deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries per bin (0.1 width)")
+# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0001)
+# deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(10000000.0)
+deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(1.0)
+deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(1e10)
+deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries per bin (0.1 width) (arb. norm.)")
 deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].SetTitle("")
 deltaPhiMetJetLeadingStackedHists['WTopDiTTDYZNNQCD'].Draw("HIST")
 # DataHist_deltaPhiMetJetLeading.Draw("SAME,P,E")
@@ -227,12 +253,19 @@ deltaPhiMetJetLeadingStackedHists['WTopDiTT'].Draw("SAME,HIST")
 deltaPhiMetJetLeadingStackedHists['WTopDi'].Draw("SAME,HIST")
 deltaPhiMetJetLeadingStackedHists['WTop'].Draw("SAME,HIST")
 deltaPhiMetJetLeadingStackedHists['W'].Draw("SAME,HIST")
+SignalHist_deltaPhiMetJetLeading.Draw("SAME,HIST")
 Legend_deltaPhiMetJetLeading.Draw()
+Legend2_deltaPhiMetJetLeading.Draw()
+Line_deltaPhiMetJetLeading = TLine(0.5, 1.0, 0.5, 1e6)
+Line_deltaPhiMetJetLeading.SetLineStyle(7)
+Line_deltaPhiMetJetLeading.SetLineWidth(2)
+Line_deltaPhiMetJetLeading.SetLineColor(2)
+Line_deltaPhiMetJetLeading.Draw()
 
 #draw the lumi text on the canvas
 CMS_lumi.CMS_lumi(Canvas_deltaPhiMetJetLeading, iPeriod, iPos)
 Canvas_deltaPhiMetJetLeading.Update()
-Canvas_deltaPhiMetJetLeading.Print("deltaPhiMetJetLeading_ZToMuMuISR.pdf")
+Canvas_deltaPhiMetJetLeading.Print("dPhi_metJet_2022.pdf")
 
 dijetMaxDeltaPhiStackedHists = {}
 
@@ -305,14 +338,17 @@ errorHist_dijetMaxDeltaPhi.SetDirectory(0)
 # DataHist_dijetMaxDeltaPhi = dijetMaxDeltaPhiHists['Muon_2022F'].Clone("DataHist_dijetMaxDeltaPhi")
 # DataHist_dijetMaxDeltaPhi.SetDirectory(0)
 
-# errorHist_dijetMaxDeltaPhi.Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['W'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTop'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTopDi'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTopDiTT'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTopDiTTDY'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNN'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
-# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Scale((DataHist_dijetMaxDeltaPhi.GetMaximum())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetMaximum()))
+SignalHist_dijetMaxDeltaPhi = dijetMaxDeltaPhiHists['signal'].Clone("SignalHist_dijetMaxDeltaPhi")
+SignalHist_dijetMaxDeltaPhi.SetDirectory(0)
+
+# errorHist_dijetMaxDeltaPhi.Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['W'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTop'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTopDi'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTopDiTT'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTopDiTTDY'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNN'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
+# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Scale((DataHist_dijetMaxDeltaPhi.Integral())/(dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Integral()))
 
 dijetMaxDeltaPhiStackedHists['W'].SetFillColor(colors['Diboson2022EE'])
 dijetMaxDeltaPhiStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
@@ -336,7 +372,10 @@ errorHist_dijetMaxDeltaPhi.SetLineColor(1)
 # DataHist_dijetMaxDeltaPhi.SetMarkerStyle(20)
 # DataHist_dijetMaxDeltaPhi.SetLineColor(1)
 
-Legend_dijetMaxDeltaPhi = TLegend(0.63,0.66,0.93,0.86)
+SignalHist_dijetMaxDeltaPhi.SetLineColor(4)
+SignalHist_dijetMaxDeltaPhi.SetLineWidth(2)
+
+Legend_dijetMaxDeltaPhi = TLegend(0.66,0.67,0.96,0.87)
 Legend_dijetMaxDeltaPhi.SetBorderSize(0)
 Legend_dijetMaxDeltaPhi.SetFillColor(0)
 Legend_dijetMaxDeltaPhi.SetFillStyle(0)
@@ -351,6 +390,14 @@ Legend_dijetMaxDeltaPhi.AddEntry(dijetMaxDeltaPhiStackedHists['WTopDiTT'],labels
 Legend_dijetMaxDeltaPhi.AddEntry(dijetMaxDeltaPhiStackedHists['WTopDi'],labels['DYJetsToLL2022EE'],"F")
 Legend_dijetMaxDeltaPhi.AddEntry(dijetMaxDeltaPhiStackedHists['WTop'],labels['SingleTop2022EE'],"F")
 Legend_dijetMaxDeltaPhi.AddEntry(dijetMaxDeltaPhiStackedHists['W'],labels['Diboson2022EE'],"F")
+
+Legend2_dijetMaxDeltaPhi = TLegend(0.15,0.76,0.45,0.96)
+Legend2_dijetMaxDeltaPhi.SetBorderSize(0)
+Legend2_dijetMaxDeltaPhi.SetFillColor(0)
+Legend2_dijetMaxDeltaPhi.SetFillStyle(0)
+Legend2_dijetMaxDeltaPhi.SetTextSize(0.03)
+Legend2_dijetMaxDeltaPhi.SetTextFont(42)
+Legend2_dijetMaxDeltaPhi.AddEntry(SignalHist_dijetMaxDeltaPhi,"AMSB 300 GeV #tilde{#chi}^{#pm} (c#tau = 100 cm)","L")
 
 # Change the CMS_lumi variables (see CMS_lumi.py)
 CMS_lumi.writeExtraText = 1
@@ -369,9 +416,11 @@ Canvas_dijetMaxDeltaPhi.SetTopMargin( CMS_lumi.T/CMS_lumi.H )
 Canvas_dijetMaxDeltaPhi.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
 Canvas_dijetMaxDeltaPhi.SetLogy()
-dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0001)
-dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(10000000.0)
-dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries per bin (0.1 width)")
+# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0001)
+# dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(10000000.0)
+dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(1.0)
+dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(1e10)
+dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries per bin (0.1 width) (arb. norm.)")
 dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].SetTitle("")
 dijetMaxDeltaPhiStackedHists['WTopDiTTDYZNNQCD'].Draw("HIST")
 # DataHist_dijetMaxDeltaPhi.Draw("SAME,P,E")
@@ -381,10 +430,17 @@ dijetMaxDeltaPhiStackedHists['WTopDiTT'].Draw("SAME,HIST")
 dijetMaxDeltaPhiStackedHists['WTopDi'].Draw("SAME,HIST")
 dijetMaxDeltaPhiStackedHists['WTop'].Draw("SAME,HIST")
 dijetMaxDeltaPhiStackedHists['W'].Draw("SAME,HIST")
+SignalHist_dijetMaxDeltaPhi.Draw("SAME,HIST")
 Legend_dijetMaxDeltaPhi.Draw()
+Legend2_dijetMaxDeltaPhi.Draw()
+Line_dijetMaxDeltaPhi = TLine(2.5, 1.0, 2.5, 1e6)
+Line_dijetMaxDeltaPhi.SetLineStyle(7)
+Line_dijetMaxDeltaPhi.SetLineWidth(2)
+Line_dijetMaxDeltaPhi.SetLineColor(2)
+Line_dijetMaxDeltaPhi.Draw()
 
 #draw the lumi text on the canvas
 CMS_lumi.CMS_lumi(Canvas_dijetMaxDeltaPhi, iPeriod, iPos)
 Canvas_dijetMaxDeltaPhi.Update()
-Canvas_dijetMaxDeltaPhi.Print("dijetMaxDeltaPhi_ZToMuMuISR.pdf")
+Canvas_dijetMaxDeltaPhi.Print("diJetMaxDPhi_2022.pdf")
 
