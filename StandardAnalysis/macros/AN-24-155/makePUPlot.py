@@ -73,7 +73,7 @@ Legend2022.Draw()
 
 CMS_lumi.CMS_lumi(Canvas2022, iPeriod, iPos)
 Canvas2022.Update()
-Canvas2022.Print("PU2022.pdf")
+Canvas2022.Print("pileup2022.pdf")
 
 Legend2023 = TLegend(0.7,0.75,0.9,0.85)
 Legend2023.SetBorderSize(0)
@@ -100,5 +100,5 @@ Legend2023.Draw()
 
 CMS_lumi.CMS_lumi(Canvas2023, iPeriod, iPos)
 Canvas2023.Update()
-Canvas2023.Print("PU2023.pdf")
+Canvas2023.Print("pileup2023.pdf")
 
