@@ -19,6 +19,7 @@ def InsertYear(lumisThisYear, allLumis):
 def CreateCompositeLumis(allLumis, year, allPeriods):
     periods = []
     # in the case of 2015D there are no combinations
+    print("Creating composite for", year, allPeriods)
     if len(allPeriods) == 1:
         periods.append(allPeriods)
     else:
@@ -385,8 +386,8 @@ lumi_2022_promptReco = {
 # using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
     "MET_2022B" : 89.078989610,
-    "JetMET_2022C" : 5010.409016184,
-    "JetMET_2022D" : 2970.045129108,
+    "MET_2022C" : 5010.409016184,
+    "MET_2022D" : 2970.045129108,
     "MET_2022E" : 5806.955207286,
     "MET_2022F" : 17781.598893382,
     "MET_2022G" : 3082.753035617,
@@ -409,8 +410,8 @@ lumi_2022_promptReco = {
     "EGamma_2022C" : 5010.409016,
     "EGamma_2022D" : 2970.045129,
     "EGamma_2022E" : 5806.955207,
-    "EGamma_2022F" : 17781.59889, #fixme
-    "EGamma_2022G" : 3082.753036, #fixme
+    "EGamma_2022F" : 17781.59889, 
+    "EGamma_2022G" : 3082.753036,
 
 # using HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*
     "Tau_2022B" : -1,
@@ -443,3 +444,4 @@ lumi = CreateCompositeLumis(lumi, '2015', 'D')
 lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
+lumi = CreateCompositeLumis(lumi, '2022', 'CDEFG')

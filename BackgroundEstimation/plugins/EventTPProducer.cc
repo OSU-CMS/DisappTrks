@@ -60,13 +60,15 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
            nProbesPassingLooseVeto = 0, 
            nProbesFiringTrigger = 0,
            nProbesMatchingTag = 0,
-           nProbesFiringTriggerMatchingTag = 0;
+           nProbesFiringTriggerMatchingTag = 0,
+           nProbesPT55 = 0;
   unsigned nGoodSSTPPairs = 0, 
            nSSProbesPassingVeto = 0, 
            nSSProbesPassingLooseVeto = 0, 
            nSSProbesFiringTrigger = 0,
            nSSProbesMatchingTag = 0,
-           nSSProbesFiringTriggerMatchingTag = 0;
+           nSSProbesFiringTriggerMatchingTag = 0,
+           nProbesSSPT55 = 0;
   unsigned nGoodTagJetPairs = 0, nGoodTagPFCHPairs = 0;
 
   vector<double> masses,
@@ -85,24 +87,27 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
                isProbePassingVeto = passesVeto (probe),
                isProbePassingLooseVeto = passesLooseVeto (probe),
                isProbeFiringTrigger = firesTrigger (event, *triggerObjs, *triggerBits, probe),
-               isProbeAlsoTag = matchedToTag(probe, *tags);
+               isProbeAlsoTag = matchedToTag(probe, *tags),
+               isProbePT55 = (probe.pt() > 55 ? true : false);
 
           if(isGoodTPPair) {
             nGoodTPPairs++;
             if(isProbePassingVeto)      nProbesPassingVeto++;
             if(isProbePassingLooseVeto) nProbesPassingLooseVeto++;
-            if(isProbeFiringTrigger)    nProbesFiringTrigger++;
-            if(isProbeAlsoTag)          nProbesMatchingTag++;
-            if(isProbeFiringTrigger && isProbeAlsoTag) nProbesFiringTriggerMatchingTag++;
+            if(isProbeFiringTrigger && isProbePT55)    nProbesFiringTrigger++;
+            if(isProbeAlsoTag && isProbePT55)          nProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag && isProbePT55) nProbesFiringTriggerMatchingTag++;
+            if(isProbePT55) nProbesPT55++;
           }
 
           if(isGoodSSTPPair) {
             nGoodSSTPPairs++;
             if(isProbePassingVeto)      nSSProbesPassingVeto++;
             if(isProbePassingLooseVeto) nSSProbesPassingLooseVeto++;
-            if(isProbeFiringTrigger)    nSSProbesFiringTrigger++;
-            if(isProbeAlsoTag)          nSSProbesMatchingTag++;
-            if(isProbeFiringTrigger && isProbeAlsoTag) nSSProbesFiringTriggerMatchingTag++;
+            if(isProbeFiringTrigger && isProbePT55)    nSSProbesFiringTrigger++;
+            if(isProbeAlsoTag && isProbePT55)          nSSProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag && isProbePT55) nSSProbesFiringTriggerMatchingTag++;
+            if(isProbePT55) nProbesSSPT55++;
           }
 
           if (isGoodTPPair || isGoodSSTPPair)
@@ -163,6 +168,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
   (*eventvariables)["nProbesFiringTrigger"] = nProbesFiringTrigger;
   (*eventvariables)["nProbesMatchingTag"] = nProbesMatchingTag;
   (*eventvariables)["nProbesFiringTriggerMatchingTag"] = nProbesFiringTriggerMatchingTag;
+  (*eventvariables)["nProbesPT55"] = nProbesPT55;
 
   (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
   (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
@@ -170,6 +176,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
   (*eventvariables)["nSSProbesFiringTrigger"] = nSSProbesFiringTrigger;
   (*eventvariables)["nSSProbesMatchingTag"] = nSSProbesMatchingTag;
   (*eventvariables)["nSSProbesFiringTriggerMatchingTag"] = nSSProbesFiringTriggerMatchingTag;
+  (*eventvariables)["nProbesSSPT55"] = nProbesSSPT55;
 
   (*eventvariables)["nGoodTagJetPairs"] = nGoodTagJetPairs;
   (*eventvariables)["nGoodTagPFCHPairs"] = nGoodTagPFCHPairs;
