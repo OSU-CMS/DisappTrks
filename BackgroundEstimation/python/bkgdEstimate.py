@@ -984,7 +984,7 @@ class LeptonBkgdEstimate:
                     eff = scaledPasses / (2.0 * total - scaledPasses)
                 else:
                     eff = scaledPasses / total
-
+                eff.printLongFormat = True
                 print("P (pass lepton veto) in tag-probe sample: " + str (eff))
                 #print("Debugging P {}, Eff {}".format(str(p), str(eff)))
                 return (eff, p, sf, total)
@@ -1155,12 +1155,17 @@ class FakeTrackBkgdEstimate:
     _maxD0 = 0.1
     _reweightPileupToBasic = False
     _useFlatD0Fit = False
+    _txtOut = None
+
 
     def __init__ (self):
         pass
 
     def addTFile (self, fout):
         self._fout = fout
+
+    def addTxtFile(self, ftxt):
+        self._txtOut = ftxt
 
     def addTCanvas (self, canvas):
         self._canvas = canvas
@@ -1202,6 +1207,9 @@ class FakeTrackBkgdEstimate:
             fails = 2.0 * self._minD0
             if verbose:
                 print('Transfer factor (flat): (' + str (passes) + ') / ' + str (fails) + ') = ' + str (transferFactor))
+                f = open(self._txtOut, 'a+')
+                f.write("Transfer factor: " + str(transferFactor))
+                f.close()
             return (transferFactor, passes, fails, 0.0, 0.0)
 
         if hasattr (self, "Basic3hits"):
@@ -1252,7 +1260,11 @@ class FakeTrackBkgdEstimate:
 
             if fails > 0.0:
                 transferFactor = passes / fails
-                if verbose: print("Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor))
+                if verbose: 
+                    print("Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor))
+                    f = open(self._txtOut, 'a+')
+                    f.write("Transfer factor: " + str(transferFactor))
+                    f.close()
                 return (transferFactor, passes, fails, passesError, failsError)
             else:
                 if verbose: print("N(fail d0 cut, 3 hits) = 0, not printing scale factor...")
@@ -1325,6 +1337,10 @@ class FakeTrackBkgdEstimate:
             if verbose:
                 print("N_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
                 print("P_fake^raw: " + str (pFake))
+                f = open(self._txtOut, 'a+')
+                f.write("\nN_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
+                f.write("\nP_fake^raw: " + str (pFake))
+                f.close()
             return (n, nRaw, norm, pFake)
         else:
             if verbose: print("DisTrkInvertD0 is not defined. Not printing N_ctrl...")
@@ -1334,6 +1350,9 @@ class FakeTrackBkgdEstimate:
         xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor (verbose)
         nCtrl, nRaw, norm, pFake = self.printNctrl (verbose)
 
+        #print(f'pFakeRaw: {pFake}, xi: {xi}, PFake: {pFake*xi}')
+        #print(f'Nctrl: {nCtrl}, NEst: {nCtrl*pFake*xi}')
+
         pFake *= xi
 
         N = nRaw
@@ -1341,6 +1360,7 @@ class FakeTrackBkgdEstimate:
 
         nEst = xi * nCtrl
         nEst.isPositive ()
+
 
         errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
 
@@ -1351,8 +1371,13 @@ class FakeTrackBkgdEstimate:
             print("alpha: " + str (alpha))
             print("error on alpha: " + str ((1.0 + (alpha.maxUncertainty () / alpha.centralValue ())) if alpha != 0.0 else float ("nan")))
             print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
+            print("norm(basic/ZtoEE): " + str(norm))
             print("error from fit: " + str ((1.0 + (errorFromFit / nEst.centralValue ())) if nEst.centralValue () > 0.0 else float ("nan")))
-
+            f = open(self._txtOut, 'a+')
+            f.write("\nP_fake: " + str (pFake))
+            f.write("\nN: " + str (N))
+            f.write("\nN_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
+            f.close()
         return nEst, pFake
 
     def printNback (self, verbose = True):
