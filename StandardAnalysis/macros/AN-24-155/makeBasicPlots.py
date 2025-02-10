@@ -13,7 +13,7 @@ gROOT.ProcessLine( "gErrorIgnoreLevel = 6001;")
 gROOT.ProcessLine( "gPrintViaErrorHandler = kTRUE;")
 gStyle.SetOptStat(0)
 
-data_condor_dir = '.'
+data_condor_dir = '/data/users/borzari/condor/Data/Run3/2022/MET_2022F_BasicSelPlots'
 mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2022/basicPlots'
 
 sigFiles = {
