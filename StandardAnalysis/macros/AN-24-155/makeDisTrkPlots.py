@@ -36,22 +36,24 @@ nLayers = 'NLayers4'
 
 # The QCD datasets are bugged, so this variable makes the plots with and without them
 notUsingQCD = True
+notUsingZToNuNu = True
 
 for dataset in dataset_names_bkgd:
     if '2022EE' not in dataset: continue
+    # Not using datasets with 0 entries
     if notUsingQCD and 'QCD' in dataset:
         continue
-    disTrkEcaloHists[dataset] = getHist('hist_merged_' + dataset + '_distrkPlots',mc_condor_dir,'DisTrkNoEcalo' + nLayers + 'Plotter','Track Plots/trackCaloJetEnergy',False)
-    nEvents = (getHist('hist_merged_' + dataset + '_distrkPlots',mc_condor_dir,'DisTrkNoEcalo' + nLayers + 'CutFlowPlotter','cutFlow',False)).GetBinContent(1)
+    if notUsingQCD and 'Zto2Nu' in dataset:
+        continue
+    disTrkEcaloHists[dataset] = getHist('hist_merged_' + dataset + '_distrkPlotsv2',mc_condor_dir,'DisTrkNoEcalo' + nLayers + 'Plotter','Track Plots/trackCaloJetEnergy',False)
+    nEvents = (getHist('hist_merged_' + dataset + '_distrkPlotsv2',mc_condor_dir,'DisTrkNoEcalo' + nLayers + 'CutFlowPlotter','cutFlow',False)).GetBinContent(1)
     disTrkEcaloHists[dataset].Rebin(8)
-    # disTrkEcaloHists[dataset].Scale((5010.409016184 + 2970.045129108)*crossSections[dataset]/nEvents) # For MiniAOD-only processing considering target lumi; 2022CD as an example
     disTrkEcaloHists[dataset].Scale(crossSections[dataset]/nEvents) # For MiniAOD-only processing
     includeOverflow(disTrkEcaloHists[dataset])
 
-    disTrkNOuterHists[dataset] = getHist('hist_merged_' + dataset + '_distrkPlots',mc_condor_dir,'DisTrkNoNMissOut' + nLayers + 'Plotter','Track Plots/trackNHitsMissingOuter',False)
-    nEvents = (getHist('hist_merged_' + dataset + '_distrkPlots',mc_condor_dir,'DisTrkNoNMissOut' + nLayers + 'CutFlowPlotter','cutFlow',False)).GetBinContent(1)
+    disTrkNOuterHists[dataset] = getHist('hist_merged_' + dataset + '_distrkPlotsv2',mc_condor_dir,'DisTrkNoNMissOut' + nLayers + 'Plotter','Track Plots/trackNHitsMissingOuter',False)
+    nEvents = (getHist('hist_merged_' + dataset + '_distrkPlotsv2',mc_condor_dir,'DisTrkNoNMissOut' + nLayers + 'CutFlowPlotter','cutFlow',False)).GetBinContent(1)
     disTrkNOuterHists[dataset].Rebin(1)
-    # disTrkNOuterHists[dataset].Scale((5010.409016184 + 2970.045129108)*crossSections[dataset]/nEvents) # For MiniAOD-only processing considering target lumi; 2022CD as an example
     disTrkNOuterHists[dataset].Scale(crossSections[dataset]/nEvents) # For MiniAOD-only processing
     includeOverflow(disTrkNOuterHists[dataset])
 
@@ -93,66 +95,20 @@ WTopDiTTHist_disTrkEcalo.Add(disTrkEcaloHists['TTtoLNu2Q_2022EE'])
 WTopDiTTHist_disTrkEcalo.Add(disTrkEcaloHists['TTto4Q_2022EE'])
 disTrkEcaloStackedHists['WTopDiTT'] = WTopDiTTHist_disTrkEcalo
 
-WTopDiTTDYHist_disTrkEcalo = WTopDiTTHist_disTrkEcalo.Clone("diMuonWTopDiTTDY")
+WTopDiTTDYHist_disTrkEcalo = WTopDiTTHist_disTrkEcalo.Clone("diMuonWTopDiTT")
 WTopDiTTDYHist_disTrkEcalo.SetDirectory(0)
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT100to200_2022EE'])
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT200to400_2022EE'])
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT400to800_2022EE'])
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT800to1500_2022EE'])
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT1500to2500_2022EE'])
-WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['Zto2Nu_4Jets_HT2500_2022EE'])
+WTopDiTTDYHist_disTrkEcalo.Add(disTrkEcaloHists['WToLNu_4Jets_2022EE'])
 disTrkEcaloStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_disTrkEcalo
 
-WTopDiTTDYZNNHist_disTrkEcalo = WTopDiTTDYHist_disTrkEcalo.Clone("diMuonWTopDiTTDYZNN")
-WTopDiTTDYZNNHist_disTrkEcalo.SetDirectory(0)
-WTopDiTTDYZNNHist_disTrkEcalo.Add(disTrkEcaloHists['WToLNu_4Jets_2022EE'])
-disTrkEcaloStackedHists['WTopDiTTDYZNN'] = WTopDiTTDYZNNHist_disTrkEcalo
-
-if not notUsingQCD:
-    WTopDiTTDYZNNQCDHist_disTrkEcalo = WTopDiTTDYZNNHist_disTrkEcalo.Clone("diMuonWTopDiTTDYZNNQCD")
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.SetDirectory(0)
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT15to30_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT30to50_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT50to80_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT80to120_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT120to170_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT170to300_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT300to470_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT470to600_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT600to800_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT800to1000_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT1000to1400_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT1400to1800_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT1800to2400_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT2400to3200_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkEcalo.Add(disTrkEcaloHists['QCD_PT3200_2022EE'])
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'] = WTopDiTTDYZNNQCDHist_disTrkEcalo
-
-if not notUsingQCD: errorHist_disTrkEcalo = WTopDiTTDYZNNQCDHist_disTrkEcalo.Clone("error_diMuonWTopDiTTDYZNNQCD")
-else: errorHist_disTrkEcalo = WTopDiTTDYZNNHist_disTrkEcalo.Clone("error_diMuonWTopDiTTDYZNNQCD")
+errorHist_disTrkEcalo = WTopDiTTDYHist_disTrkEcalo.Clone("error_diMuonWTopDiTTDY")
 errorHist_disTrkEcalo.SetDirectory(0)
 
-# DataHist_disTrkEcalo = disTrkEcaloHists['Muon_2022F'].Clone("DataHist_disTrkEcalo")
-# DataHist_disTrkEcalo.SetDirectory(0)
-
-if not notUsingQCD:
-    errorHist_disTrkEcalo.Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['W'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTop'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTopDi'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTT'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-
-else:
-    errorHist_disTrkEcalo.Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['W'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['WTop'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['WTopDi'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTT'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDYZNN'].Integral()))
+errorHist_disTrkEcalo.Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
+disTrkEcaloStackedHists['W'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
+disTrkEcaloStackedHists['WTop'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
+disTrkEcaloStackedHists['WTopDi'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
+disTrkEcaloStackedHists['WTopDiTT'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
+disTrkEcaloStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkEcaloStackedHists['WTopDiTTDY'].Integral()))
 
 disTrkEcaloHists['AMSB_800_10'].Scale(1.0/(disTrkEcaloHists['AMSB_800_10'].Integral()))
 disTrkEcaloHists['AMSB_800_100'].Scale(1.0/(disTrkEcaloHists['AMSB_800_100'].Integral()))
@@ -163,9 +119,7 @@ disTrkEcaloStackedHists['W'].SetFillColor(colors['Diboson2022EE'])
 disTrkEcaloStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
 disTrkEcaloStackedHists['WTopDi'].SetFillColor(colors['DYJetsToLL_M50_2022EE'])
 disTrkEcaloStackedHists['WTopDiTT'].SetFillColor(colors['TT2022EE'])
-disTrkEcaloStackedHists['WTopDiTTDY'].SetFillColor(colors['ZJetsToNuNu2022EE'])
-disTrkEcaloStackedHists['WTopDiTTDYZNN'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
-if not notUsingQCD: disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].SetFillColor(colors['QCD2022EE'])
+disTrkEcaloStackedHists['WTopDiTTDY'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
 errorHist_disTrkEcalo.SetFillColor(1)
 errorHist_disTrkEcalo.SetFillStyle(3001)
 
@@ -174,8 +128,6 @@ disTrkEcaloStackedHists['WTop'].SetLineColor(1)
 disTrkEcaloStackedHists['WTopDi'].SetLineColor(1)
 disTrkEcaloStackedHists['WTopDiTT'].SetLineColor(1)
 disTrkEcaloStackedHists['WTopDiTTDY'].SetLineColor(1)
-disTrkEcaloStackedHists['WTopDiTTDYZNN'].SetLineColor(1)
-if not notUsingQCD: disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].SetLineColor(1)
 errorHist_disTrkEcalo.SetLineColor(1)
 disTrkEcaloHists['AMSB_800_10'].SetLineColor(2)
 disTrkEcaloHists['AMSB_800_100'].SetLineColor(3)
@@ -186,20 +138,14 @@ disTrkEcaloHists['AMSB_800_100'].SetLineWidth(2)
 disTrkEcaloHists['AMSB_800_1000'].SetLineWidth(2)
 disTrkEcaloHists['AMSB_800_10000'].SetLineWidth(2)
 
-# DataHist_disTrkEcalo.SetMarkerStyle(20)
-# DataHist_disTrkEcalo.SetLineColor(1)
-
 Legend_disTrkEcalo = TLegend(0.63,0.66,0.93,0.86)
 Legend_disTrkEcalo.SetBorderSize(0)
 Legend_disTrkEcalo.SetFillColor(0)
 Legend_disTrkEcalo.SetFillStyle(0)
 Legend_disTrkEcalo.SetTextSize(0.03)
 Legend_disTrkEcalo.SetTextFont(42)
-# Legend_disTrkEcalo.AddEntry(DataHist_disTrkEcalo,"Muon 2022F data","P")
 Legend_disTrkEcalo.AddEntry(errorHist_disTrkEcalo,"stat. errors","F")
-if not notUsingQCD: Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'],labels['QCD2022EE'],"F")
-Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDiTTDYZNN'],labels['WToLNu_4Jets_2022EE'],"F")
-Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDiTTDY'],labels['ZJetsToNuNu2022EE'],"F")
+Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDiTTDY'],labels['WToLNu_4Jets_2022EE'],"F")
 Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
 Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTopDi'],labels['DYJetsToLL2022EE'],"F")
 Legend_disTrkEcalo.AddEntry(disTrkEcaloStackedHists['WTop'],labels['SingleTop2022EE'],"F")
@@ -232,20 +178,11 @@ Canvas_disTrkEcalo.SetRightMargin( CMS_lumi.R/CMS_lumi.W )
 Canvas_disTrkEcalo.SetTopMargin( CMS_lumi.T/CMS_lumi.H )
 Canvas_disTrkEcalo.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
-# Canvas_disTrkEcalo.SetLogy()
-if not notUsingQCD:
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0)
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(1.5)
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries / 8.0 GeV (Unit Area Norm.)")
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].SetTitle("")
-    disTrkEcaloStackedHists['WTopDiTTDYZNNQCD'].Draw("HIST")
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].Draw("SAME,HIST")
-else:
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].SetMinimum(1e-10)
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].SetMaximum(1.5)
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].GetYaxis().SetTitle("Entries / 8.0 GeV (Unit Area Norm.)")
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].SetTitle("")
-    disTrkEcaloStackedHists['WTopDiTTDYZNN'].Draw("HIST")
+disTrkEcaloStackedHists['WTopDiTTDY'].SetMinimum(1e-10)
+disTrkEcaloStackedHists['WTopDiTTDY'].SetMaximum(1.5)
+disTrkEcaloStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 8.0 GeV (Unit Area Norm.)")
+disTrkEcaloStackedHists['WTopDiTTDY'].SetTitle("")
+disTrkEcaloStackedHists['WTopDiTTDY'].Draw("HIST")
 errorHist_disTrkEcalo.Draw("SAME,E2")
 disTrkEcaloStackedHists['WTopDiTT'].Draw("SAME,HIST")
 disTrkEcaloStackedHists['WTopDi'].Draw("SAME,HIST")
@@ -261,7 +198,7 @@ Legend2_disTrkEcalo.Draw()
 #draw the lumi text on the canvas
 CMS_lumi.CMS_lumi(Canvas_disTrkEcalo, iPeriod, iPos)
 Canvas_disTrkEcalo.Update()
-Canvas_disTrkEcalo.Print("disTrkEcalo_" + nLayers + ".pdf")
+Canvas_disTrkEcalo.Print("nMinusOne_eCalo_" + nLayers + ".pdf")
 
 disTrkNOuterStackedHists = {}
 
@@ -296,63 +233,17 @@ disTrkNOuterStackedHists['WTopDiTT'] = WTopDiTTHist_disTrkNOuter
 
 WTopDiTTDYHist_disTrkNOuter = WTopDiTTHist_disTrkNOuter.Clone("diMuonWTopDiTTDY")
 WTopDiTTDYHist_disTrkNOuter.SetDirectory(0)
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT100to200_2022EE'])
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT200to400_2022EE'])
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT400to800_2022EE'])
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT800to1500_2022EE'])
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT1500to2500_2022EE'])
-WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['Zto2Nu_4Jets_HT2500_2022EE'])
+WTopDiTTDYHist_disTrkNOuter.Add(disTrkNOuterHists['WToLNu_4Jets_2022EE'])
 disTrkNOuterStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_disTrkNOuter
 
-WTopDiTTDYZNNHist_disTrkNOuter = WTopDiTTDYHist_disTrkNOuter.Clone("diMuonWTopDiTTDYZNN")
-WTopDiTTDYZNNHist_disTrkNOuter.SetDirectory(0)
-WTopDiTTDYZNNHist_disTrkNOuter.Add(disTrkNOuterHists['WToLNu_4Jets_2022EE'])
-disTrkNOuterStackedHists['WTopDiTTDYZNN'] = WTopDiTTDYZNNHist_disTrkNOuter
-
-if not notUsingQCD:
-    WTopDiTTDYZNNQCDHist_disTrkNOuter = WTopDiTTDYZNNHist_disTrkNOuter.Clone("diMuonWTopDiTTDYZNNQCD")
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.SetDirectory(0)
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT15to30_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT30to50_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT50to80_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT80to120_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT120to170_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT170to300_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT300to470_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT470to600_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT600to800_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT800to1000_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT1000to1400_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT1400to1800_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT1800to2400_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT2400to3200_2022EE'])
-    WTopDiTTDYZNNQCDHist_disTrkNOuter.Add(disTrkNOuterHists['QCD_PT3200_2022EE'])
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'] = WTopDiTTDYZNNQCDHist_disTrkNOuter
-
-if not notUsingQCD: errorHist_disTrkNOuter = WTopDiTTDYZNNQCDHist_disTrkNOuter.Clone("error_diMuonWTopDiTTDYZNNQCD")
-else: errorHist_disTrkNOuter = WTopDiTTDYZNNHist_disTrkNOuter.Clone("error_diMuonWTopDiTTDYZNNQCD")
+errorHist_disTrkNOuter = WTopDiTTDYHist_disTrkNOuter.Clone("error_diMuonWTopDiTTDY")
 errorHist_disTrkNOuter.SetDirectory(0)
 
-# DataHist_disTrkNOuter = disTrkNOuterHists['Muon_2022F'].Clone("DataHist_disTrkNOuter")
-# DataHist_disTrkNOuter.SetDirectory(0)
-
-if not notUsingQCD:
-    errorHist_disTrkNOuter.Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['W'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTop'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTopDi'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTT'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Integral()))
-
-else:
-    disTrkNOuterStackedHists['W'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkNOuterStackedHists['WTop'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkNOuterStackedHists['WTopDi'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTT'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDYZNN'].Integral()))
+disTrkNOuterStackedHists['W'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDY'].Integral()))
+disTrkNOuterStackedHists['WTop'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDY'].Integral()))
+disTrkNOuterStackedHists['WTopDi'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDY'].Integral()))
+disTrkNOuterStackedHists['WTopDiTT'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDY'].Integral()))
+disTrkNOuterStackedHists['WTopDiTTDY'].Scale(1.0/(disTrkNOuterStackedHists['WTopDiTTDY'].Integral()))
 
 disTrkNOuterHists['AMSB_800_10'].Scale(1.0/(disTrkNOuterHists['AMSB_800_10'].Integral()))
 disTrkNOuterHists['AMSB_800_100'].Scale(1.0/(disTrkNOuterHists['AMSB_800_100'].Integral()))
@@ -363,9 +254,7 @@ disTrkNOuterStackedHists['W'].SetFillColor(colors['Diboson2022EE'])
 disTrkNOuterStackedHists['WTop'].SetFillColor(colors['SingleTop2022EE'])
 disTrkNOuterStackedHists['WTopDi'].SetFillColor(colors['DYJetsToLL_M50_2022EE'])
 disTrkNOuterStackedHists['WTopDiTT'].SetFillColor(colors['TT2022EE'])
-disTrkNOuterStackedHists['WTopDiTTDY'].SetFillColor(colors['ZJetsToNuNu2022EE'])
-disTrkNOuterStackedHists['WTopDiTTDYZNN'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
-if not notUsingQCD: disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].SetFillColor(colors['QCD2022EE'])
+disTrkNOuterStackedHists['WTopDiTTDY'].SetFillColor(colors['WToLNu_4Jets_2022EE'])
 errorHist_disTrkNOuter.SetFillColor(1)
 errorHist_disTrkNOuter.SetFillStyle(3001)
 
@@ -374,8 +263,6 @@ disTrkNOuterStackedHists['WTop'].SetLineColor(1)
 disTrkNOuterStackedHists['WTopDi'].SetLineColor(1)
 disTrkNOuterStackedHists['WTopDiTT'].SetLineColor(1)
 disTrkNOuterStackedHists['WTopDiTTDY'].SetLineColor(1)
-disTrkNOuterStackedHists['WTopDiTTDYZNN'].SetLineColor(1)
-if not notUsingQCD: disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].SetLineColor(1)
 errorHist_disTrkNOuter.SetLineColor(1)
 disTrkNOuterHists['AMSB_800_10'].SetLineColor(2)
 disTrkNOuterHists['AMSB_800_100'].SetLineColor(3)
@@ -386,20 +273,14 @@ disTrkNOuterHists['AMSB_800_100'].SetLineWidth(2)
 disTrkNOuterHists['AMSB_800_1000'].SetLineWidth(2)
 disTrkNOuterHists['AMSB_800_10000'].SetLineWidth(2)
 
-# DataHist_disTrkNOuter.SetMarkerStyle(20)
-# DataHist_disTrkNOuter.SetLineColor(1)
-
 Legend_disTrkNOuter = TLegend(0.63,0.66,0.93,0.86)
 Legend_disTrkNOuter.SetBorderSize(0)
 Legend_disTrkNOuter.SetFillColor(0)
 Legend_disTrkNOuter.SetFillStyle(0)
 Legend_disTrkNOuter.SetTextSize(0.03)
 Legend_disTrkNOuter.SetTextFont(42)
-# Legend_disTrkNOuter.AddEntry(DataHist_disTrkNOuter,"Muon 2022F data","P")
 Legend_disTrkNOuter.AddEntry(errorHist_disTrkNOuter,"stat. errors","F")
-if not notUsingQCD: Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'],labels['QCD2022EE'],"F")
-Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDiTTDYZNN'],labels['WToLNu_4Jets_2022EE'],"F")
-Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDiTTDY'],labels['ZJetsToNuNu2022EE'],"F")
+Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDiTTDY'],labels['WToLNu_4Jets_2022EE'],"F")
 Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
 Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTopDi'],labels['DYJetsToLL2022EE'],"F")
 Legend_disTrkNOuter.AddEntry(disTrkNOuterStackedHists['WTop'],labels['SingleTop2022EE'],"F")
@@ -432,21 +313,11 @@ Canvas_disTrkNOuter.SetRightMargin( CMS_lumi.R/CMS_lumi.W )
 Canvas_disTrkNOuter.SetTopMargin( CMS_lumi.T/CMS_lumi.H )
 Canvas_disTrkNOuter.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
-# Canvas_disTrkNOuter.SetLogy()
-if not notUsingQCD: 
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].SetMinimum(0.0)
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].SetMaximum(1.5)
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].GetYaxis().SetTitle("Entries per bin (1.0 width) (Unit Area Norm.)")
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].SetTitle("")
-    disTrkNOuterStackedHists['WTopDiTTDYZNNQCD'].Draw("HIST")
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].Draw("SAME,HIST")
-else:
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].SetMinimum(0.0)
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].SetMaximum(1.5)
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].GetYaxis().SetTitle("Entries per bin (1.0 width) (Unit Area Norm.)")
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].SetTitle("")
-    disTrkNOuterStackedHists['WTopDiTTDYZNN'].Draw("HIST")
-# DataHist_disTrkNOuter.Draw("SAME,P,E")
+disTrkNOuterStackedHists['WTopDiTTDY'].SetMinimum(0.0)
+disTrkNOuterStackedHists['WTopDiTTDY'].SetMaximum(1.5)
+disTrkNOuterStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries per bin (1.0 width) (Unit Area Norm.)")
+disTrkNOuterStackedHists['WTopDiTTDY'].SetTitle("")
+disTrkNOuterStackedHists['WTopDiTTDY'].Draw("HIST")
 errorHist_disTrkNOuter.Draw("SAME,E2")
 disTrkNOuterStackedHists['WTopDiTT'].Draw("SAME,HIST")
 disTrkNOuterStackedHists['WTopDi'].Draw("SAME,HIST")
@@ -462,5 +333,5 @@ Legend2_disTrkNOuter.Draw()
 #draw the lumi text on the canvas
 CMS_lumi.CMS_lumi(Canvas_disTrkNOuter, iPeriod, iPos)
 Canvas_disTrkNOuter.Update()
-Canvas_disTrkNOuter.Print("disTrkNOuter_" + nLayers + ".pdf")
+Canvas_disTrkNOuter.Print("nMinusOne_missingOuterHits_" + nLayers + ".pdf")
 

@@ -11,11 +11,12 @@ gROOT.SetBatch()
 gROOT.ProcessLine( "gErrorIgnoreLevel = 6001;")
 gROOT.ProcessLine( "gPrintViaErrorHandler = kTRUE;")
 gStyle.SetOptStat(0)
+gStyle.SetPalette(112)
 
-data_condor_dir = "/abyss/users/mcarrigan/MET_2022/MET_2022EFG_basicSelection"
+data_condor_dir = "/data/users/borzari/condor/Data/Run3/2022/MET_2022F_BasicSelPlots"
 mc_condor_dir = "/data/users/borzari/condor/SignalMC/Run3/2022/metNoMuvsLeadJetPt"
 
-dataHist = getHist('MET_2022EFG',data_condor_dir,'BasicSelectionPlotter','Jet-met Plots/leadJetPtVsMetNoMu',False)
+dataHist = getHist('hist_merged_MET_2022F_BasicSelPlots',data_condor_dir,'metMinimalSkimPlotter','Jet-met Plots/leadJetPtVsMetNoMu',False)
 mcHist = getHist('AMSB_Wino_700GeV_10000cm_metNoMuvsLeadJetPt',mc_condor_dir,'metMinimalSkimPlotter','Jet-met Plots/leadJetPtVsMetNoMu',False)
 
 # Change the CMS_lumi variables (see CMS_lumi.py)
