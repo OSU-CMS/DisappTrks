@@ -1156,6 +1156,7 @@ class FakeTrackBkgdEstimate:
     _reweightPileupToBasic = False
     _useFlatD0Fit = False
     _txtOut = None
+    _rebinFactor = 1
 
 
     def __init__ (self):
@@ -1172,6 +1173,9 @@ class FakeTrackBkgdEstimate:
 
     def addPrescaleFactor (self, prescale):
         self._prescale = prescale
+
+    def addRebinFactor (self, rebinFactor):
+        self._rebinFactor = rebinFactor
 
     def addLuminosityInInvPb (self, luminosityInInvPb):
         self._luminosityInInvFb = luminosityInInvPb / 1000.0
@@ -1216,6 +1220,8 @@ class FakeTrackBkgdEstimate:
             d0 = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPV")
             d0Mag = getHistFromChannelDict (self.Basic3hits, "Track-eventvariable Plots/trackd0WRTPVMag")
             d0Mag.Scale (0.5)
+            d0Mag.Rebin(self._rebinFactor)
+            d0.Rebin(self._rebinFactor)
 
             f = TF1 ("gaussian", gaussian, -1.0, 1.0, 3)
             f.SetParameter (0, 0.2)
@@ -1230,7 +1236,7 @@ class FakeTrackBkgdEstimate:
               f.SetParName (2, "constant")
             else:
               f.SetParameter (2, 20.0)
-              f.SetParLimits (2, -1.0e3, 1.0e3)
+              f.SetParLimits (2, 1.0e-3, 1.0e3)
               f.SetParName (2, "constant")
             for i in range (0, 10):
                 d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
@@ -1360,7 +1366,6 @@ class FakeTrackBkgdEstimate:
 
         nEst = xi * nCtrl
         nEst.isPositive ()
-
 
         errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
 

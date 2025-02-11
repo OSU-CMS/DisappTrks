@@ -28,7 +28,7 @@ if len(sys.argv) > 2:
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', 'B', 'C', 'D']
 #runPeriods = ['']
-runPeriods = ['E', 'G']
+runPeriods = ['EFG', 'CD']
 
 nEstFake = {}
 nEstElectron = {}
@@ -98,22 +98,27 @@ for runPeriod in runPeriods:
             print("--------------------------------------------------------------------------------")
 
             fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
-
+            txtFile = "fakeTrackBkgdEstimate_zToEE_2022" + runPeriod + "_" + nLayersWord + '.txt'
+            f = open(txtFile, 'w+')
+            f.close()
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
             fakeTrackBkgdEstimate.addTFile (fout)
+            fakeTrackBkgdEstimate.addTxtFile(txtFile)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2022" + runPeriod])
+
             # durp
             # only 99.4% of events were run over (failed job in A), so there is an extra prescale factor
             #fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
-            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEEDisTrkNoD0CutNLayer")
-            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEEDisTrkNoD0CutNLayer")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + "MET_2022/MET_2022F_basicSelection")
-            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + "EGamma_2022/EGamma_2022F_ZtoEE")
+            fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
+            fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
+            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_2022/MET_2022{runPeriod}_basicSelection")
+            fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEE")
 
             print("********************************************************************************")
             print("Baseline sideband result ({:.2f}, {:.2f}) cm: ".format(fakeSidebands[0][0], fakeSidebands[0][1]))
             fakeTrackBkgdEstimate.addMinD0 (fakeSidebands[0][0])
             fakeTrackBkgdEstimate.addMaxD0 (fakeSidebands[0][1])
+            fakeTrackBkgdEstimate.addRebinFactor(5)
             fakeTrackBkgdEstimate.printNest ()
             fout.Close ()
 
@@ -150,9 +155,10 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addMetCut(120.0)
             electronBkgdEstimate.addTFile(fout)
             electronBkgdEstimate.addTCanvas(canvas)
-            electronBkgdEstimate.addPrescaleFactor(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod])
+            electronBkgdEstimate.addPrescaleFactor(round(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod], 5))
+            print("Prescale factor:", {round(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod], 4)})
             electronBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
-            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkNLayers/")
@@ -199,9 +205,9 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addMetCut(120.0)
             electronBkgdEstimate.addTFile(fout)
             electronBkgdEstimate.addTCanvas(canvas)
-            electronBkgdEstimate.addPrescaleFactor(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod])
+            electronBkgdEstimate.addPrescaleFactor(round(lumi["MET_2022" + runPeriod] / lumi["EGamma_2022" + runPeriod], 5))
             electronBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
-            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
             electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
@@ -240,9 +246,9 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod])
+            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod], 5))
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
 
             muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[0])
@@ -298,9 +304,9 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            muonBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod])
+            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod], 5))
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
 
             muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
@@ -363,9 +369,9 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addMetCut(120.0)
             tauBkgdEstimate.addTFile(fout)
             tauBkgdEstimate.addTCanvas(canvas)
-            tauBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod])
+            tauBkgdEstimate.addPrescaleFactor(round(lumi["MET_2018" + runPeriod] / lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod], 5))
             tauBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
             tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/ZtoTauToMuProbeTrk")
@@ -434,9 +440,9 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addMetCut(120.0)
             tauBkgdEstimate.addTFile(fout)
             tauBkgdEstimate.addTCanvas(canvas)
-            tauBkgdEstimate.addPrescaleFactor(lumi["MET_2018" + runPeriod] / lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod])
+            tauBkgdEstimate.addPrescaleFactor(round(lumi["MET_2018" + runPeriod] / lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod], 5))
             tauBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
+            tauBkgdEstimate.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2018" + runPeriod)
             
             tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))

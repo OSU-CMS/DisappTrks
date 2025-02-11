@@ -19,7 +19,7 @@ def InsertYear(lumisThisYear, allLumis):
 def CreateCompositeLumis(allLumis, year, allPeriods):
     periods = []
     # in the case of 2015D there are no combinations
-    print("Creating composite for", year, allPeriods)
+    #print("Creating composite for", year, allPeriods)
     if len(allPeriods) == 1:
         periods.append(allPeriods)
     else:
@@ -422,6 +422,22 @@ lumi_2022_promptReco = {
     "Tau_2022G" : 3082.753035626
 }
 
+lumi_2023_promptReco = {
+
+# using HLT_PFMET105_IsoTrk50_*
+    "MET_2023C": 18.12,
+    "MET_2023D": 9.69,
+
+    "EGamma_2023C":18.12,
+    "EGamma_2023D":9.69,
+    
+    "Muon_2023C":18.12,
+    "Muon_2023D":9.70,
+
+    "Tau_2023C":18.12,
+    "Tau_2023D":9.70
+}
+
 # now create a single lumi dict, starting with 2015
 lumi = lumi_2015rereco
 
@@ -429,6 +445,7 @@ lumi = InsertYear(lumi_2016, lumi)
 lumi = InsertYear(lumi_2017_ntuples, lumi)
 lumi = InsertYear(lumi_2018_ntuples, lumi)
 lumi = InsertYear(lumi_2022_promptReco, lumi)
+lumi = InsertYear(lumi_2023_promptReco, lumi)
 
 # set up some composite aliases for convenience
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
@@ -445,3 +462,5 @@ lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
 lumi = CreateCompositeLumis(lumi, '2022', 'CDEFG')
+lumi = CreateCompositeLumis(lumi, '2023', 'CD')
+

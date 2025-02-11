@@ -27,7 +27,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     runPeriods = ['2018A', '2018B', '2018C', '2018D', '2018']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
-    runPeriods = ['2022F']
+    runPeriods = ['2023D']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
     #selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
 
@@ -46,7 +46,7 @@ for runPeriod in runPeriods:
     if '2018' in runPeriod:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/eleHotSpots"
         datasetName = "EGamma"
-    if '2022' in runPeriod:
+    if '2022' in runPeriod or '2023' in runPeriod:
         if sim:
             #condorDirectory = dirs['Mike'] + 'sim/DYJets_M50_deepSets'
             condorDirectory = dirs['Mike'] + 'sim/DY_Jets_M50_deepSets_v2'
@@ -83,7 +83,7 @@ for runPeriod in runPeriods:
         condorDirectory = dirs['Brian'] + "2017/muonHotSpots"
     if '2018' in runPeriod:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/muonHotSpots"
-    if '2022' in runPeriod:
+    if '2022' in runPeriod or '2023' in runPeriod:
         condorDirectory = dirs['Mike'] + f'abyss/Muon_2022/Muon_{runPeriod}_fiducialMap/'
 
     print("********************************************************************************")
