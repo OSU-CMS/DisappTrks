@@ -8,7 +8,7 @@ import numpy
 import random
 import re
 import copy
-
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
 ################################################################################
 # The following are parameters that you might want to edit.
 ################################################################################
@@ -38,6 +38,10 @@ mc.SetDirectory (0)
 data = dataFile.Get ("HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingMiddle")
 data.SetName ("data")
 data.SetDirectory (0)
+
+#current missing hits data is scaled to 2022F, so scale from there to any other era
+scale = lumi['MET_2022EFG']/lumi['MET_2022F']
+mc.Scale(scale)
 
 mcFile.Close ()
 dataFile.Close ()

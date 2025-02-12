@@ -13,7 +13,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-background = "ELECTRON"
+background = "FAKE"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -57,8 +57,11 @@ for runPeriod in runPeriods:
             print("--------------------------------------------------------------------------------")
 
             fout = TFile.Open("fakeTrackBkgdEstimate_zToMuMu_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
-
-            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            txtFile = "fakeTrackBkgdEstimate_zToMuMu_2018" + runPeriod + "_" + nLayersWord + '.txt'
+            f = open(txtFile, 'w+')
+            f.close()
+            fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()            
+            fakeTrackBkgdEstimate.addTxtFile(txtFile)
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
@@ -97,8 +100,11 @@ for runPeriod in runPeriods:
             print("--------------------------------------------------------------------------------")
 
             fout = TFile.Open("fakeTrackBkgdEstimate_zToEE_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
-
+            txtFile = "fakeTrackBkgdEstimate_zToEE_2018" + runPeriod + "_" + nLayersWord + '.txt'
+            f = open(txtFile, 'w+')
+            f.close()
             fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+            fakeTrackBkgdEstimate.addTxtFile(txtFile)
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
             # durp

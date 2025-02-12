@@ -263,7 +263,7 @@ def customize (process,
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
 
         setThresholdForFiducialMapVeto (process, 2.0)
-        setUseEraByEraFiducialMaps (process, True)
+        setUseEraByEraFiducialMaps (process, False)
         setMissingHitsCorrection (process, "2022EFG")
 
     elif runPeriod == "2023":
@@ -326,7 +326,7 @@ def customize (process,
             print("There is no jet veto map set up for this era, please add it to OSUT3Analysis/Configuration/data/")
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         setThresholdForFiducialMapVeto (process, 2.0)
-        setUseEraByEraFiducialMaps (process, True)
+        setUseEraByEraFiducialMaps (process, False)
         
         setMissingHitsCorrection (process, "uncorrected")
 
