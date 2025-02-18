@@ -51,7 +51,7 @@ Canvas2022.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
 Canvas2022.cd()
 simulated.SetTitle("")
-simulated.GetXaxis().SetTitle("track d_0 [cm]")
+simulated.GetXaxis().SetTitle("track d_{0} [cm]")
 simulated.GetYaxis().SetTitle("Entries / 0.05 cm")
 simulated.GetYaxis().SetTitleOffset(1.4)
 simulated.SetMinimum(0.0)
