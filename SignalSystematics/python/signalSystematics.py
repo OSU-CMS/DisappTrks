@@ -1536,7 +1536,6 @@ class WeightSystematicFromTrees(SystematicCalculator):
         if not hasattr(self, 'central'):
             print('"central" not defined, not printing systematic...')
             return (float ("nan"), float ("nan"), float ("nan"))
-
         sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
         central, up, down = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)
 
