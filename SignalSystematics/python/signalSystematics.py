@@ -10,6 +10,7 @@ from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain, gDirectory
 
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import dataFormat
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
 if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_")):
@@ -722,7 +723,10 @@ class PileupSystematic:
 
 class ECaloSystematic:
 
-    _integrateHistogram = "Track Plots/trackCaloTot_RhoCorr"
+    if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+        _integrateHistogram = "Track Plots/trackCaloJetEnergy" # This is for the MiniAOD only approach
+    else:
+        _integrateHistogram = "Track Plots/trackCaloTot_RhoCorr" # This is for the AOD+MiniAOD approach
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
