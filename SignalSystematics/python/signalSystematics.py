@@ -22,15 +22,11 @@ setTDRStyle()
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
 
-def getExtraSamples(suffix, isHiggsino = False, lifetimes = []):
+def getExtraSamples(suffix, isHiggsino = False):
     masses = list(range(100, 1000, 100))
     if not isHiggsino and (suffix == '94X' or suffix == '102X'):
         masses.extend([1000, 1100])
-    if not isHiggsino and suffix == '130X':
-        masses.extend([1000, 1100, 1200])
-    if isHiggsino and suffix == '130X':
-        masses.extend([1000])
-    ctaus = lifetimes
+    ctaus = [1, 10, 100, 1000, 10000]
     sampleName = 'Higgsino_{0}GeV_{1}cm_' if isHiggsino else 'AMSB_chargino_{0}GeV_{1}cm_'
     extraSamples = { sampleName.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
 
@@ -48,23 +44,11 @@ def getExtraSamples(suffix, isHiggsino = False, lifetimes = []):
             if int (ctau) * 10 == int (ctau * 10):
                 ctau = ctauP = str (int (ctau))
             else:
-                ctau = ctauP = '%.1f' % ctau
+                ctau = ctauP = str (ctau)
                 ctauP = re.sub (r'\.', r'p', ctau)
             dataset = ('Higgsino_' if isHiggsino else 'AMSB_chargino_') + mass + 'GeV_' + ctauP + 'cm_' + suffix
 
             extraSamples[re.sub(r'_1cm_', '_10cm_', sample)].append (dataset)
-
-        if '1' not in ctaus and '10cm' in sample:
-            for i in range (2, 11):
-                ctau = ctauP = 0.01 * i * ctau0
-                if int (ctau) * 10 == int (ctau * 10):
-                    ctau = ctauP = str (int (ctau))
-                else:
-                    ctau = ctauP = '%.1f' % ctau
-                    ctauP = re.sub (r'\.', r'p', ctau)
-                dataset = ('Higgsino_' if isHiggsino else 'AMSB_chargino_') + mass + 'GeV_' + ctauP + 'cm_' + suffix
-
-                extraSamples[re.sub(r'_1cm_', '_10cm_', sample)].append (dataset)
 
     return extraSamples
 

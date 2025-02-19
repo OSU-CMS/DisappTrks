@@ -23,7 +23,7 @@ allLifetimes = ['0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1',
 # allLifetimes = ['100']
 suffix = "102X"
 
-extraSamples = getExtraSamples(suffix, False, lifetimes)
+extraSamples = getExtraSamples(suffix)
 
 systematic = "all"
 if len (sys.argv) > 1:
