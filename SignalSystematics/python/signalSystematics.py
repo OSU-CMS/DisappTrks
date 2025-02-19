@@ -10,6 +10,7 @@ from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-
 
 from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, TPaveText, TObject, TLine, TH2D, TChain, gDirectory
 
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import dataFormat
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.StandardAnalysis.plotUtilities import *
 if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_")):
@@ -26,6 +27,10 @@ def getExtraSamples(suffix, isHiggsino = False):
     masses = list(range(100, 1000, 100))
     if not isHiggsino and (suffix == '94X' or suffix == '102X'):
         masses.extend([1000, 1100])
+    if not isHiggsino and suffix == '130X):
+        masses.extend([1000, 1100, 1200])
+    if isHiggsino and suffix == '130X):
+        masses.extend([1000])
     ctaus = [1, 10, 100, 1000, 10000]
     sampleName = 'Higgsino_{0}GeV_{1}cm_' if isHiggsino else 'AMSB_chargino_{0}GeV_{1}cm_'
     extraSamples = { sampleName.format(mass, ctau) + suffix : [] for mass in masses for ctau in ctaus }
@@ -722,7 +727,10 @@ class PileupSystematic:
 
 class ECaloSystematic:
 
-    _integrateHistogram = "Track Plots/trackCaloTot_RhoCorr"
+    if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
+        _integrateHistogram = "Track Plots/trackCaloJetEnergy" # This is for the MiniAOD only approach
+    else:
+        _integrateHistogram = "Track Plots/trackCaloTot_RhoCorr" # This is for the AOD+MiniAOD approach
 
     def addChannel (self, role, name, sample, condorDir):
         channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
@@ -1536,7 +1544,6 @@ class WeightSystematicFromTrees(SystematicCalculator):
         if not hasattr(self, 'central'):
             print('"central" not defined, not printing systematic...')
             return (float ("nan"), float ("nan"), float ("nan"))
-
         sample = ('Higgsino_' if self._isHiggsino else 'AMSB_chargino_') + str(mass) + 'GeV_' + str(lifetime) + 'cm_' + self.central['suffix']
         central, up, down = self.GetYieldFromTree(sample, self.central['condorDir'], self.central['name'], mass, lifetime)
 
