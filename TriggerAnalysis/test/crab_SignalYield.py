@@ -50,7 +50,7 @@ if __name__ == '__main__':
     #############################################################################################
 
     # These need to be set True for the blocks below to work
-    reallySubmitEWK = True
+    reallySubmitEWK = False
     reallySubmitHiggsinoEWK = False
 
     reallySubmitMass = { x : True for x in range(100, 2100, 100)}

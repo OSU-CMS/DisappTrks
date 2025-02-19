@@ -21,9 +21,11 @@ config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
 config.Data.publication = False
 
+# This has to be changed depending on what is running: 'DY' for Pveto and 'ttbar' for the rest
 # process = 'DY'
 process = 'ttbar'
 
+# This has to be changed with the channel name from the config.py file to differentiate between tasks
 channel = 'TauTagPt55NoJetCuts'
 
 if process == 'DY':

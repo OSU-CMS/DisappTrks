@@ -44,6 +44,12 @@ if __name__ == '__main__':
         p.start()
         p.join()
 
+    # valid_datasets contain the keys of the dictionary that defines the MiniAOD datasets in DisappTrks.StandardAnalysis.miniAOD_124X_Samples.
+    # Every dataset that is inside valid_datasets will be used to create a CRAB task. The only needed changes are in config.Data.inputDataset,
+    # config.Data.outputDatasetTag and config.General.requestName to assign different names to each task. The way they are separated is because
+    # Not more than ~10k jobs can be submitted at once to T2_BR_SPRACE. Not sure what is the case for the OSU T3.
+    # A similar procedure is done for collected data datasets, but the dictionary containing the dataset paths on DAS is set here as data_datasets.
+
     # valid_datasets = ['WToLNu_4Jets_2022EE','DYJetsToLL_M50_2022EE','DYto2L_4jets_M10to50_2022EE','TbarBtoLminusNuB_2022EE','TBbartoLplusNuBbar_2022EE','TbarQtoLNu_2022EE','TQbartoLNu_2022EE','TbarWplusto2L2Nu_2022EE','TbarWplustoLNu2Q_2022EE','TWminusto2L2Nu_2022EE','TWminustoLNu2Q_2022EE','WW_2022EE','WZ_2022EE','ZZ_2022EE','TTto2L2Nu_2022EE','TTtoLNu2Q_2022EE','TTto4Q_2022EE','QCD_PT15to30_2022EE','QCD_PT30to50_2022EE','QCD_PT50to80_2022EE','QCD_PT80to120_2022EE','QCD_PT120to170_2022EE','QCD_PT170to300_2022EE','QCD_PT300to470_2022EE','QCD_PT470to600_2022EE','QCD_PT600to800_2022EE','QCD_PT800to1000_2022EE','QCD_PT1000to1400_2022EE','QCD_PT1400to1800_2022EE','QCD_PT1800to2400_2022EE','QCD_PT2400to3200_2022EE','QCD_PT3200_2022EE','Zto2Nu_4Jets_HT100to200_2022EE','Zto2Nu_4Jets_HT200to400_2022EE','Zto2Nu_4Jets_HT400to800_2022EE','Zto2Nu_4Jets_HT800to1500_2022EE','Zto2Nu_4Jets_HT1500to2500_2022EE','Zto2Nu_4Jets_HT2500_2022EE']
 
     # valid_datasets = ['DYJetsToLL_M50_2023','DYto2L_4jets_M10to50_2023','TbarBtoLminusNuB_2023','TBbartoLplusNuBbar_2023','TbarQtoLNu_2023','TQbartoLNu_2023','TbarWplusto2L2Nu_2023','TbarWplustoLNu2Q_2023','TWminusto2L2Nu_2023','TWminustoLNu2Q_2023','WW_2023','WZ_2023','ZZ_2023']
