@@ -155,7 +155,8 @@ GrandOrDenominatorTrk = cms.PSet(
         cutLeadJetCentral,
         cutTrkPt55,
         cutTrkEta25,
-        cutTrkNormalizedChi2,
+        # cutTrkNormalizedChi2, # Replaced by high purity cut, since it doesn't exist in IsolatedTracks
+        cutTrkIsHighPurity,
         cutTrkD0,
         cutTrkDZ,
         cutTrkNValidPixelHitsSignal,
