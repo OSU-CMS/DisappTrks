@@ -13,6 +13,8 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
+triggerEfficiencyFlat = True
+
 background = "ELECTRON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
@@ -28,7 +30,7 @@ if len(sys.argv) > 2:
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', 'B', 'C', 'D']
 #runPeriods = ['']
-runPeriods = ['EFG', 'CD']
+runPeriods = ['CD', 'EFG']
 
 nEstFake = {}
 nEstElectron = {}
@@ -210,7 +212,10 @@ for runPeriod in runPeriods:
             electronBkgdEstimate.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             electronBkgdEstimate.addPlotLabel("EGamma 2022" + runPeriod)
 
-            electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+            if triggerEfficiencyFlat:
+                electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+            else:
+                electronBkgdEstimate.useFilesForTriggerEfficiency()
 
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkNLayers/")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEleProbeTrkFilter/")
