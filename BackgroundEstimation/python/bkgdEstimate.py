@@ -113,6 +113,7 @@ class LeptonBkgdEstimate:
     _useHistogramsForPpassVeto = True
     _useOnlineQuantitiesForPpassMetTriggers = False
     _useExternalTriggerEfficiency = False
+    _calculateTriggerEfficiency = False
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -178,6 +179,11 @@ class LeptonBkgdEstimate:
     def useExternalTriggerEfficiency (self, nMatchedOS, nMatchedSS, nOS, nSS):
         self._useExternalTriggerEfficiency = True
 
+    def useFilesForTriggerEfficiency(self):
+        self._calculateTriggerEfficiency = True
+
+    def calculateTriggerEfficiency(self):
+
         matchedOS = Measurement (nMatchedOS, math.sqrt (nMatchedOS)) if nMatchedOS > 0 else Measurement (0.0, 0.0, up68)
         matchedSS = Measurement (nMatchedSS, math.sqrt (nMatchedSS)) if nMatchedSS > 0 else Measurement (0.0, 0.0, up68)
         allOS     = Measurement (nOS, math.sqrt (nOS)) if nOS > 0 else Measurement (0.0, 0.0, up68)
@@ -188,6 +194,64 @@ class LeptonBkgdEstimate:
 
         print("External trigger efficiency: " + str(eff))
         setattr (self, 'externalTriggerEfficiency', eff)
+
+    def calculateTriggerEfficiencyFile(self):
+
+        total = None
+        passes = None
+
+        hist = "Eventvariable Plots/nProbesPT55"
+        totalHistPT55 = getHistFromChannelDict (self.TagProbe, hist)
+        addChannelExtensions(totalHistPT55, self.TagProbe, hist)
+
+        hist = "Eventvariable Plots/nProbesSSPT55"
+        totalBackgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+        if not isinstance(totalBackgroundHist, TObject):
+            print("Warning [calculateTriggerEfficiency]: Could not get nSSProbesMatchingTag histogram from sample=", self.TagProbe["sample"], "condorDir=", self.TagProbe["condorDir"], "name=", self.TagProbe["name"], "-- ignoring this subtraction!")
+        addChannelExtensions(totalBackgroundHist, self.TagProbe, hist)
+
+        hist = "Eventvariable Plots/nProbesFiringTrigger"
+        passesHist = getHistFromChannelDict (self.TagProbe, hist)
+        addChannelExtensions(passesHist, self.TagProbe, hist)
+
+        hist = "Eventvariable Plots/nSSProbesFiringTrigger"
+        backgroundHist = getHistFromChannelDict (self.TagProbe, hist)
+        addChannelExtensions(backgroundHist, self.TagProbe, hist)
+
+        total = 0.0
+        totalBackground = 0.0
+        passes = 0.0
+        background = 0.0
+
+        totalError = 0.0
+        totalBackgroundError = 0.0
+        passesError = 0.0
+        backgroundError = 0.0
+
+        # there could be more than one pair so add N(1) + 2*N(2) + 3*N(3) + ...
+        for ibin in range (2, totalHistPT55.GetNbinsX () + 1):
+            total += (ibin-1) * totalHistPT55.GetBinContent (ibin)
+            totalError = math.hypot (totalError, (ibin-1) * totalHistPT55.GetBinError (ibin))
+
+            totalBackground += (ibin-1) * totalBackgroundHist.GetBinContent (ibin)
+            totalBackgroundError = math.hypot (totalBackgroundError, (ibin-1) * totalBackgroundHist.GetBinError (ibin))
+
+            passes += (ibin-1) * passesHist.GetBinContent (ibin)
+            passesError = math.hypot (passesError, (ibin-1) * passesHist.GetBinError (ibin))
+
+            background += (ibin-1)*backgroundHist.GetBinContent (ibin)
+            backgroundError = math.hypot(backgroundError, (ibin-1)*backgroundHist.GetBinError (ibin))
+
+        total = Measurement (total, totalError)
+        totalBackground = Measurement (totalBackground, totalBackgroundError)
+        passes = Measurement (passes, passesError if passes != 0.0 else up68)
+        background = Measurement (background, backgroundError if background !=0.0 else up68)
+
+        print(f"Trigger Efficiency: {passes.centralValue()} - {background.centralValue()} / {total.centralValue()} - {totalBackground.centralValue()}")
+        triggerEfficiency = (passes - background) / (total-totalBackground)
+        print("Trigger Efficiency:", triggerEfficiency)
+
+        return triggerEfficiency
 
     def useMetMinusOneForIntegrals (self, flag = True):
         if flag:
@@ -725,7 +789,10 @@ class LeptonBkgdEstimate:
 
         nEst = nCtrl * scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
 
-        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+        if self._calculateTriggerEfficiency:
+            triggerEfficiency = self.calculateTriggerEfficiencyFile()
+            nEst /= triggerEfficiency
+        elif self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             nEst /= self.externalTriggerEfficiency
 
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
@@ -740,8 +807,11 @@ class LeptonBkgdEstimate:
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         #print("Debugging, alpha after construction {}".format(str(alpha)))
-        if self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
-            alpha /= self.externalTriggerEfficiency        
+        if self._calculateTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            alpha /= triggerEfficiency
+        elif self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+            alpha /= self.externalTriggerEfficiency     
+
         if (hasattr (self, "TagPt35MetTrigHEMveto") and hasattr (self, "TagPt35MetTrig")) or (hasattr (self, "TrigEffNumerHEMveto") and hasattr (self, "TrigEffNumer")):
             alpha *= pPassHEMveto
         alpha.isPositive ()
@@ -955,12 +1025,14 @@ class LeptonBkgdEstimate:
                 passes -= background
                 passes1 -= background1
 
-                if passes < 0:
-                    print('INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
-                    passes = Measurement (0.0, 0.0, up68)
-                if passes1 < 0:
-                    print('INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
-                    passes1 = Measurement (0.0, 0.0, up68)
+
+                if (passes + passes1) < 0 or self._tagProbePassScaleFactor != 1 or self._tagProbePass1ScaleFactor != 1:
+                    if passes < 0:
+                        print('INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
+                        passes = Measurement (0.0, 0.0, up68)
+                    if passes1 < 0:
+                        print('INFO: same-sign subtraction in TagProbePass1 is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
+                        passes1 = Measurement (0.0, 0.0, up68)
 
                 total -= totalBackground
                 if total <= 0:
@@ -1251,6 +1323,9 @@ class FakeTrackBkgdEstimate:
             for i in range (0, 10):
                 d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
 
+            trueSideband = d0Mag.Integral(d0Mag.GetXaxis().FindFixBin(self._minD0), d0Mag.GetXaxis().FindFixBin(self._maxD0-0.001))
+            trueSR = d0Mag.Integral(d0Mag.GetXaxis().FindBin(0.0), d0Mag.GetXaxis().FindBin(0.02-0.001))
+
             passesError = ctypes.c_double (0.0)
             passes = f.IntegralOneDim (0.0, 0.02, 1.0e-12, 1.0e-2, passesError)
             passesError = getIntegralError (f, 0.0, 0.02)
@@ -1264,8 +1339,13 @@ class FakeTrackBkgdEstimate:
             passes.isPositive ()
             fails.isPositive ()
 
+            transferError = math.sqrt (failsError * failsError * passes.centralValue () * passes.centralValue () + passesError * passesError * fails.centralValue () * fails.centralValue ()) / (fails.centralValue () * fails.centralValue ())
+
             if fails > 0.0:
                 transferFactor = passes / fails
+                sidebandEst = transferFactor.centralValue()*trueSideband
+                statErr = math.sqrt(sidebandEst) * transferFactor.centralValue()
+                fitErr = trueSideband * transferError
                 if verbose: 
                     print("Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor))
                     f = open(self._txtOut, 'a+')
@@ -1284,6 +1364,7 @@ class FakeTrackBkgdEstimate:
         if hasattr (self, "DisTrkInvertD0"):
             hits = getHistFromChannelDict (self.DisTrkInvertD0, "Track Plots/trackLayersWithMeasurementVsPixelHits")
             if self._nHits !=  None:
+                nSR = Measurement(0, 0)
                 if self._nHits >= 6:
                     nError = ctypes.c_double (0.0)
                     n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (6.0), hits.GetYaxis ().FindBin (99.0), nError)
@@ -1296,13 +1377,17 @@ class FakeTrackBkgdEstimate:
                     n.isPositive ()
                 if self._nHits == 4:
                     nError = ctypes.c_double (0.0)
-                    n = hits.IntegralAndError (hits.GetXaxis ().FindBin (4.0), hits.GetXaxis ().FindBin (99.0), hits.GetYaxis ().FindBin (4.0), hits.GetYaxis ().FindBin (4.0), nError)
+                    n = hits.IntegralAndError(hits.GetXaxis().FindBin(4.0), hits.GetXaxis().FindBin(99.0), hits.GetYaxis().FindBin(4.0), hits.GetYaxis().FindBin(4.0), nError)
                     n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                     n.isPositive ()
             else:
                 n, nError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", self._minD0, self._maxD0 - 0.001)
+                nSR, nSRError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, 0.02)
+
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                nSR = Measurement (nSR, (nSRError if nSR != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
                 n.isPositive ()
+                nSR.isPositive ()
 
             pFake = float ("nan")
             norm = 1.0
@@ -1347,17 +1432,14 @@ class FakeTrackBkgdEstimate:
                 f.write("\nN_ctrl: " + str (n) + " (" + str (n / self._luminosityInInvFb) + " fb)")
                 f.write("\nP_fake^raw: " + str (pFake))
                 f.close()
-            return (n, nRaw, norm, pFake)
+            return (n, nRaw, norm, pFake, nSR)
         else:
             if verbose: print("DisTrkInvertD0 is not defined. Not printing N_ctrl...")
             return (float ("nan"), float ("nan"))
 
     def printNest (self, verbose = True):
         xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor (verbose)
-        nCtrl, nRaw, norm, pFake = self.printNctrl (verbose)
-
-        #print(f'pFakeRaw: {pFake}, xi: {xi}, PFake: {pFake*xi}')
-        #print(f'Nctrl: {nCtrl}, NEst: {nCtrl*pFake*xi}')
+        nCtrl, nRaw, norm, pFake, nSR = self.printNctrl (verbose)
 
         pFake *= xi
 
@@ -1367,10 +1449,17 @@ class FakeTrackBkgdEstimate:
         nEst = xi * nCtrl
         nEst.isPositive ()
 
-        errorFromFit = nCtrl.centralValue () * math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
+        fitErr = math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
+        errorFromFit = nCtrl.centralValue () * fitErr
+
+        zTollEst = nRaw.centralValue() * xi.centralValue()
+        zTollStat = math.sqrt(nRaw.centralValue()) * xi.centralValue()
+        zTollSys = nRaw.centralValue() * fitErr
 
         if verbose:
             alpha.printLongFormat ()
+            print(f"Z->ll Sideband: {nRaw}, Est: {zTollEst} += {zTollStat} +- {zTollSys}")
+            print(f"Z->ll SR: {nSR}")
             print("P_fake: " + str (pFake))
             print("N: " + str (N))
             print("alpha: " + str (alpha))
