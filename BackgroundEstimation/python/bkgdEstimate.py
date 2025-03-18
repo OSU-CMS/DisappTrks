@@ -179,11 +179,6 @@ class LeptonBkgdEstimate:
     def useExternalTriggerEfficiency (self, nMatchedOS, nMatchedSS, nOS, nSS):
         self._useExternalTriggerEfficiency = True
 
-    def useFilesForTriggerEfficiency(self):
-        self._calculateTriggerEfficiency = True
-
-    def calculateTriggerEfficiency(self):
-
         matchedOS = Measurement (nMatchedOS, math.sqrt (nMatchedOS)) if nMatchedOS > 0 else Measurement (0.0, 0.0, up68)
         matchedSS = Measurement (nMatchedSS, math.sqrt (nMatchedSS)) if nMatchedSS > 0 else Measurement (0.0, 0.0, up68)
         allOS     = Measurement (nOS, math.sqrt (nOS)) if nOS > 0 else Measurement (0.0, 0.0, up68)
@@ -194,6 +189,9 @@ class LeptonBkgdEstimate:
 
         print("External trigger efficiency: " + str(eff))
         setattr (self, 'externalTriggerEfficiency', eff)
+
+    def useFilesForTriggerEfficiency(self):
+        self._calculateTriggerEfficiency = True
 
     def calculateTriggerEfficiencyFile(self):
 
