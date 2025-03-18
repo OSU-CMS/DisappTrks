@@ -148,6 +148,8 @@ isoTrkSelection = copy.deepcopy(basicSelection)
 isoTrkSelection.name = cms.string("IsoTrkSelection")
 addCuts(isoTrkSelection.cuts, isoTrkWithPt55Cuts)
 
+createHitsVariations (isoTrkSelection, "isoTrkSelection")
+
 isoTrkSelectionInvertDRJetCut = copy.deepcopy (isoTrkSelection)
 isoTrkSelectionInvertDRJetCut.name = cms.string ("IsoTrkSelectionInvertDRJetCut")
 removeCuts (isoTrkSelectionInvertDRJetCut.cuts, [cutTrkJetDeltaPhi])

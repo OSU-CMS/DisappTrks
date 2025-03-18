@@ -38,7 +38,7 @@ gStyle.SetPadRightMargin(0.005)
 gStyle.SetPadTopMargin(0.1)
 gStyle.SetPadBottomMargin(0.560)
 
-mc_condor_dir = '/data/users/borzari/condor/SignalMC/Run3/2022/signalAcceptance_v1'
+mc_condor_dir = '/data/users/borzari/condor/SignalMC/Run3/2022/signalAcceptance_sigCentralLooseNoMissOut_v2'
 
 cutflow70010 = getHist('AMSB_chargino_700GeV_10cm_130X',mc_condor_dir,'disTrkSelectionSmearedJetsNLayers6plusCutFlowPlotter','cutFlow',False)
 cutflow700100 = getHist('AMSB_chargino_700GeV_100cm_130X',mc_condor_dir,'disTrkSelectionSmearedJetsNLayers6plusCutFlowPlotter','cutFlow',False)
