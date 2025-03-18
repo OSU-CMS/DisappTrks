@@ -13,7 +13,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-triggerEfficiencyFlat = True
+triggerEfficiencyFlat = False
 
 background = "ELECTRON"
 if len(sys.argv) > 1:
