@@ -1023,8 +1023,11 @@ class LeptonBkgdEstimate:
                 passes -= background
                 passes1 -= background1
 
+                # Flag used to keep track of whether the numerator of P_Veto is negative
+                positive_numerator_flag = True
 
                 if (passes + passes1) < 0 or self._tagProbePassScaleFactor != 1 or self._tagProbePass1ScaleFactor != 1:
+                    positive_numerator_flag = False
                     if passes < 0:
                         print('INFO: same-sign subtraction in TagProbePass is negative. Using 0 + 1.1 - 0 for the P(veto) numerator instead!')
                         passes = Measurement (0.0, 0.0, up68)
@@ -1041,7 +1044,7 @@ class LeptonBkgdEstimate:
                 passes1.isPositive ()
                 total.isPositive ()
 
-                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
+                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor if positive_numerator_flag else 0
                 p = passes
                 sf = Measurement (self._tagProbePassScaleFactor, 0.0)
                 if scaledPasses > 0.0:
