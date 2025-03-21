@@ -8,20 +8,26 @@ from ROOT import gROOT, TFile, TGraphAsymmErrors
 
 gROOT.SetBatch () # I am Groot.
 
-if len (sys.argv) < 2:
-    print("Usage: " + os.path.basename (sys.argv[0]) + " NLAYERS")
-    sys.exit (1)
-nLayers = sys.argv[1]
+#if len (sys.argv) < 2:
+#    print("Usage: " + os.path.basename (sys.argv[0]) + " NLAYERS")
+#    sys.exit (1)
+#nLayers = sys.argv[1]
 #if int (nLayers) > 5:
 #    nLayers += "plus"
 
 dirs = getUser()
 
-runPeriods = ['AB']
+debug=False
+
+runPeriods = ['EFG']
+year = '2022'
+mode = 'ZtoEE'
+nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
 
 stdout = sys.stdout
-nullout = open ("/dev/null", "w")
-sys.stdout = nullout
+if not debug:
+  nullout = open ("/dev/null", "w")
+  sys.stdout = nullout
 
 N = 9
 A = 0.05
@@ -35,64 +41,81 @@ except OSError:
 
 for runPeriod in runPeriods:
 
+  maxFluctuationDown = 0.0
+  maxFluctuationUp = 0.0
+
+  nominal = 0.
+
+  fout = TFile (f"fakeTrackEstimateVsD0_{mode}_{year}{runPeriod}.root", "RECREATE")
+  
+  for nLayer in nLayersWords:
+
+    print("---------------------------------------")
+    print(f"Working on layer {nLayer}")
+    print("---------------------------------------")
+
     g0 = TGraphAsymmErrors (N)
 
-    maxFluctuationDown = 0.0
-    maxFluctuationUp = 0.0
-
-    nominal = 0.0
-
     for i in range (0, N):
-        minD0 = A + i * D
+      minD0 = A + i * D
 
-        sys.stdout = stdout
-        print("minimum |d0|: " + str (minD0) + " cm")
-        print("maximum |d0|: " + str (minD0+0.05) + " cm")
+      sys.stdout = stdout
+      print("minimum |d0|: " + str (minD0) + " cm")
+      print("maximum |d0|: " + str (minD0+0.05) + " cm")
 
+      if not debug:
         sys.stdout = nullout
 
-        fout = TFile.Open("fakeTrackBkgdEstimate_zToMuMu_2018" + runPeriod + "_" + nLayers + "Test.root", "recreate")
-        txtFile = "fakeTrackBkgdEstimate_zToMuMu_2018" + runPeriod + "_" + nLayers + 'Test.txt'
-        f = open(txtFile, 'w+')
-        fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
-        fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2018" + runPeriod])
-        fakeTrackBkgdEstimate.addMinD0 (minD0)
-        fakeTrackBkgdEstimate.addMaxD0 (minD0+0.05)        
-        fakeTrackBkgdEstimate.addTFile (fout)
-        fakeTrackBkgdEstimate.addTxtFile(txtFile)
+      fdummy = TFile.Open("fakeTrackBkgdEstimate_dummy.root", "recreate")
+      txtFile = "fakeTrackBkgdEstimate_dummy.txt"
+      f = open(txtFile, 'w+')
+      fakeTrackBkgdEstimate = FakeTrackBkgdEstimate ()
+      fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi[f"MET_{year}{runPeriod}"])
+      fakeTrackBkgdEstimate.addMinD0 (minD0)
+      fakeTrackBkgdEstimate.addMaxD0 (minD0+0.05)        
+      fakeTrackBkgdEstimate.addTFile (fdummy)
+      fakeTrackBkgdEstimate.addTxtFile(txtFile)
 
-        #fakeTrackBkgdEstimate.addChannel  ("Basic3hits",      "ZtoMuMuDisTrkNoD0Cut3Layers",          "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground")
-        #fakeTrackBkgdEstimate.addChannel  ("DisTrkInvertD0",  "ZtoMuMuDisTrkNoD0CutNLayers"+nLayers,  "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/fakeTrackBackground_noD0")
-        #fakeTrackBkgdEstimate.addChannel  ("Basic",           "BasicSelection",                       "MET_2017"       +  runPeriod,  dirs['Andrew']+"2017/basicSelection")
-        #fakeTrackBkgdEstimate.addChannel  ("ZtoLL",           "ZtoMuMu",                              "SingleMu_2017"  +  runPeriod,  dirs['Andrew']+"2017/zToMuMu")
+      #fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
+      #fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayers, "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
+      #fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/basicSelection_v2")
+      #fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/zToMuMu")
+      
+      if mode=='ZtoMuMu':
         fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
-        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayers, "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
+        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayer, "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
         fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/basicSelection_v2")
         fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/zToMuMu")
+      
+      else:
+        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
+        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayer, "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
+        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_2022/MET_2022{runPeriod}_basicSelection")
+        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEE")
+      
+      nEst = fakeTrackBkgdEstimate.printNest ()[0]
 
-        nEst = fakeTrackBkgdEstimate.printNest ()[0]
+      print("nest", nEst, type(nEst))
 
-
-        print("debugging!!!!")
-
-        print("nest", nEst, type(nEst))
-
+      if nEst.centralValue() != 0:
         g0.SetPoint (i, minD0, nEst.centralValue ())
         g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst.maxUncertainty (), nEst.centralValue ()), nEst.maxUncertainty ())
 
-        if i == 0:
-          nominal = nEst.centralValue ()
+      if i == 0:
+        nominal = nEst.centralValue ()
+      else:
+        if nEst.centralValue () < nominal:
+          maxFluctuationDown = max (maxFluctuationDown, nominal - nEst.centralValue ())
         else:
-          if nEst.centralValue () < nominal:
-            maxFluctuationDown = max (maxFluctuationDown, nominal - nEst.centralValue ())
-          else:
-            maxFluctuationUp = max (maxFluctuationUp, nEst.centralValue () - nominal)
+          maxFluctuationUp = max (maxFluctuationUp, nEst.centralValue () - nominal)
 
     sys.stdout = stdout
-    print ("[2017" + runPeriod + "] systematic uncertainty: - " + str (maxFluctuationDown) + " + " + str (maxFluctuationUp) + " (- " + str ((maxFluctuationDown / nominal) * 100.0) + " + " + str ((maxFluctuationUp / nominal) * 100.0) + ")%")
-    sys.stdout = nullout
+    #print ("["+ year + runPeriod + "] systematic uncertainty: - " + str (maxFluctuationDown) + " + " + str (maxFluctuationUp) + " (- " + str ((maxFluctuationDown / nominal) * 100.0) + " + " + str ((maxFluctuationUp / nominal) * 100.0) + ")%")
+    #if not debug:
+    #  sys.stdout = nullout
 
-    fout = TFile ("fakeTrackEstimateVsD0.root", "update")
     fout.cd ()
-    g0.Write ("est_ZtoMuMu_2017" + runPeriod)
-    fout.Close ()
+    print("writing g0")
+    g0.Write (f"est_{mode}_{year}{runPeriod}_{nLayer}")
+  
+  fout.Close ()
