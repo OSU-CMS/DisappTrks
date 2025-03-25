@@ -63,12 +63,12 @@ for histo in TrackEventVarHistograms.histograms:
 # When not producing ntuples, it's likely that electrons/muons/taus will have been selected/skimmed
 # So the safest place to get 'dR to closest lepton' is from the pfCandidates -- the name of these methods
 # is changed to denote this
-cullHistograms(TrackExtraHistograms, ['trackDeltaRToClosestElectron', 
-                                      'trackTauDeltaRVsTrackElectronDeltaR', 
-                                      'trackTauDeltaRVsTrackMuonDeltaR', 
-                                      'trackDeltaRToClosestMuon', 
-                                      'trackDeltaRToClosestTau', 
-                                      'trackDeltaRToClosestTauHad'])
+# cullHistograms(TrackExtraHistograms, ['trackDeltaRToClosestElectron', 
+                                      # 'trackTauDeltaRVsTrackElectronDeltaR', 
+                                      # 'trackTauDeltaRVsTrackMuonDeltaR', 
+                                      # 'trackDeltaRToClosestMuon', 
+                                      # 'trackDeltaRToClosestTau', 
+                                      # 'trackDeltaRToClosestTauHad'])
 ExtraDeltaRToClosestLeptonHistograms = cms.VPSet (
     cms.PSet (
         name = cms.string("trackDeltaRToClosestPFElectron"),
