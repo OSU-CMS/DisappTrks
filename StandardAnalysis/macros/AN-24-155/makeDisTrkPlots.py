@@ -180,6 +180,7 @@ Canvas_disTrkEcalo.SetBottomMargin( CMS_lumi.B/CMS_lumi.H )
 
 disTrkEcaloStackedHists['WTopDiTTDY'].SetMinimum(1e-10)
 disTrkEcaloStackedHists['WTopDiTTDY'].SetMaximum(1.5)
+disTrkEcaloStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("E_{calo} [GeV]")
 disTrkEcaloStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 8.0 GeV (Unit Area Norm.)")
 disTrkEcaloStackedHists['WTopDiTTDY'].SetTitle("")
 disTrkEcaloStackedHists['WTopDiTTDY'].Draw("HIST")
