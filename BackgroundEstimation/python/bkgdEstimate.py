@@ -805,7 +805,7 @@ class LeptonBkgdEstimate:
 
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
         #print("Debugging, alpha after construction {}".format(str(alpha)))
-        if self._calculateTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
+        if self._calculateTriggerEfficiency:
             alpha /= triggerEfficiency
         elif self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
             alpha /= self.externalTriggerEfficiency     
