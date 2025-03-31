@@ -264,7 +264,10 @@ def customize (process,
 
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
-        setMissingHitsCorrection (process, "2022EFG")
+        if runEra in ['C', 'D']:
+            setMissingHitsCorrection (process, "2022CD")
+        elif runEra in ['E', 'F', 'G']:
+            setMissingHitsCorrection (process, "2022EFG")
 
     elif runPeriod == "2023":
 
