@@ -19,10 +19,13 @@ lifetimes = ['0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1',
              '200', '300', '400', '500', '600', '700', '800', '900', '1000',
              '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
 
+if arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "run2run3" or arguments.era == "run3":
+	masses.extend(['1000'])
+
 # define maximal set of masses/lifetimes for datacard combinations
-allMasses = masses
+allMasses = masses + ['1000']
 allLifetimes = lifetimes
-datacardCombinations = {
+'''datacardCombinations = {
 	'2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 	'2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
 	'2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
@@ -31,6 +34,21 @@ datacardCombinations = {
 	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'2022CD_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus'],
+	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'2022_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'run3'  	: ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'run2run3' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus',
+				  '2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				  '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+}'''
+#debugging
+datacardCombinations = {
+	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -57,6 +75,16 @@ elif arguments.era == "all20178":
 	intLumi = lumi["MET_2017"] + lumi["MET_2018"]
 elif arguments.era == "run2":
 	intLumi = lumi["MET_2017"] + lumi["MET_2018"]
+elif arguments.era.startswith("2022CD"):
+	intLumi = lumi["MET_2022CD"]
+elif arguments.era.startswith("2022EFG"):
+	intLumi = lumi["MET_2022EFG"]
+elif arguments.era == "2022_all":
+	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"]
+elif arguments.era == "run3":
+	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"] + 17794.0 + 9451
+elif arguments.era == "run2run3":
+	intLumi = lumi["MET_2017"] + lumi["MET_2018"] + lumi["MET_2022CD"] + lumi["MET_2022EFG"] + 17794.0 + 9451
 
 # condor directory in which to find signal root files
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
@@ -83,6 +111,24 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 	signal_channel_tree = 'disTrkSelectionSmearedJetsHEMveto' + nLayersWord + 'TreeMaker/Tree'
 	actual_bin_name = 'Bin2018CD' + nLayersWord
 	intLumi = lumi["MET_2018CD"]
+elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]: # This has to be updated
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
+	signal_suffix = signal_suffix_in_datacard = '130X'
+	nLayersWord = arguments.era.split('_')[1]
+	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
+	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
+	actual_bin_name = 'Bin2022CD' + nLayersWord
+	intLumi = lumi["MET_2022CD"]
+elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
+	signal_suffix = signal_suffix_in_datacard = '130X'
+	nLayersWord = arguments.era.split('_')[1]
+	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
+	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
+	actual_bin_name = 'Bin2022EFG' + nLayersWord
+	intLumi = lumi["MET_2022EFG"]
+	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] # scaling to 2022 lumi
+	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451.0 # scaling to 2022+2023 lumi
 
 lumi = intLumi
 
@@ -93,8 +139,10 @@ lumi = intLumi
 # Get the backgrounds for this era
 if arguments.era in [ "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus", 
 					 "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
-					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
-	exec('from bkgdConfig_' + arguments.era + ' import *')
+					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus",
+					 "2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus",
+					 "2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+	exec('from DisappTrks.LimitSetting.bkgdConfig_' + arguments.era + ' import *')
 
 #this just sets the observed number of events equal to the total background expectation
 run_blind_limits = False
@@ -137,6 +185,30 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 		rawObservation = 2
 	elif arguments.era == "2018CD_NLayers6plus":
 		rawObservation = 1
+# Still using 2018AB values; NEEDS TO BE UPDATED
+elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]:
+	data_dataset = "MET_2018AB"
+	data_condor_dir = dirs['Breno'] + '/bfrancisStore/2018/unblindNoHEMveto/'
+	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2022CD_NLayers4":
+		rawObservation = 5
+	elif arguments.era == "2022CD_NLayers5":
+		rawObservation = 0
+	elif arguments.era == "2022CD_NLayers6plus":
+		rawObservation = 2
+# Still using 2018AB values; NEEDS TO BE UPDATED
+elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+	data_dataset = "MET_2018AB"
+	data_condor_dir = dirs['Breno'] + '/bfrancisStore/2018/unblindNoHEMveto/'
+	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2022EFG_NLayers4":
+		rawObservation = 5
+	elif arguments.era == "2022EFG_NLayers5":
+		rawObservation = 0
+	elif arguments.era == "2022EFG_NLayers6plus":
+		rawObservation = 2
 
 ################################
 ### Systematic Uncertainties ###
@@ -161,10 +233,14 @@ external_systematic_uncertainties = [
     "higgsino_muonVetoScaleFactor",
 ]
 
-if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2"]:
+if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "all20178", "run2", "2022CD_all", "2022EFG_all", "2022_all", "run3", "run2run3"]:
 	for i in range(len(external_systematic_uncertainties)):
 		if arguments.era.startswith("2018"):
 			external_systematic_uncertainties[i] += "_2018_" + arguments.era[7:]
+		elif arguments.era.startswith("2022CD"):
+			external_systematic_uncertainties[i] += "_2022CD_" + arguments.era[7:]
+		elif arguments.era.startswith("2022EFG"):
+			external_systematic_uncertainties[i] += "_2022EFG_" + arguments.era[8:]
 		else:
 			external_systematic_uncertainties[i] += "_" + arguments.era
 
@@ -176,6 +252,11 @@ if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus"
 					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
 		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
+if arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_electronVetoScaleFactor_2022EFG_" + arguments.era[8:])
+	external_systematic_uncertainties.append("higgsino_muonVetoScaleFactor_2022EFG_"     + arguments.era[8:])
+	if arguments.era != "2022EFG_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2022EFG_"       + arguments.era[8:])
 
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	signal_systematic_uncertainties = {
@@ -221,3 +302,49 @@ elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plu
 	if arguments.era.endswith("NLayers6plus"):
 		signal_systematic_uncertainties['Nmissin_Bin2018_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
 		signal_systematic_uncertainties['Nmissmid_Bin2018_' + nLayersWord] =  {'value' : str (1.0 + 3.72041349824 / 100.0)}
+elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]:
+	signal_systematic_uncertainties = {
+	    'lumi_Bin2022CD_' + nLayersWord :  {
+	        'value' : '1.014',
+	    },
+	    'trkReco_Bin2022CD_' + nLayersWord :  {
+	        'value' : '1.0073', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
+	    },
+		# Still using 2018AB values; NEEDS TO BE UPDATED
+	    'Ecalo_Bin2022CD_' + nLayersWord : {
+	        'value' : str (1.0 + 3.4553713335066223 / 100.0),
+	    },
+	}
+
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.03155349668257941 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 2.94117647059 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+	signal_systematic_uncertainties = {
+	    'lumi_Bin2022EFG_' + nLayersWord :  {
+	        'value' : '1.014',
+	    },
+	    'trkReco_Bin2022EFG_' + nLayersWord :  {
+	        'value' : '1.0073', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
+	    },
+		# Still using 2018AB values; NEEDS TO BE UPDATED
+	    'Ecalo_Bin2022EFG_' + nLayersWord : {
+	        'value' : str (1.0 + 3.4553713335066223 / 100.0),
+	    },
+	}
+
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2022EFG_'  + nLayersWord] =  {'value' : str (1.0 + 0.0315534966825794 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022EFG_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2022EFG_'  + nLayersWord] =  {'value' : str (1.0 + 1.4794127782809223 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022EFG_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2022EFG_'  + nLayersWord] =  {'value' : str (1.0 + 0.6460479699310757 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022EFG_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
