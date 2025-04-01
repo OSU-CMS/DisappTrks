@@ -36,7 +36,10 @@ relExtraDY = 1.2
 
 extraOverCmsTextSize  = 0.76
 
-lumi_13p6TeV = "17.8 fb^{-1}"
+lumi_13p6TeV20223 = "62.5 fb^{-1}"
+lumi_13p6TeV2023 = "27.8 fb^{-1}"
+lumi_13p6TeV2022 = "34.7 fb^{-1}"
+lumi_13p6TeVF = "17.8 fb^{-1}"
 lumi_13TeV = "20.1 fb^{-1}"
 lumi_8TeV  = "19.7 fb^{-1}" 
 lumi_7TeV  = "5.1 fb^{-1}"
@@ -98,7 +101,16 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
     elif ( iPeriod==12 ):
         lumiText += "8 TeV"
     elif( iPeriod==136 ):
-        lumiText += lumi_13p6TeV
+        lumiText += lumi_13p6TeVF
+        lumiText += " (13.6 TeV)"
+    elif( iPeriod==2022 ):
+        lumiText += lumi_13p6TeV2022
+        lumiText += " (13.6 TeV)"
+    elif( iPeriod==2023 ):
+        lumiText += lumi_13p6TeV2023
+        lumiText += " (13.6 TeV)"
+    elif( iPeriod==20223 ):
+        lumiText += lumi_13p6TeV20223
         lumiText += " (13.6 TeV)"
     elif ( iPeriod==0 ):
         lumiText += lumi_sqrtS
