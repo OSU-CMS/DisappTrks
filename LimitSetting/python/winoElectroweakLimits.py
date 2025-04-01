@@ -95,9 +95,9 @@ elif arguments.era.startswith("2022EFG"):
 elif arguments.era == "2022_all":
 	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"]
 elif arguments.era == "run3":
-	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"] + 17794.0 + 9451
+	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"] + lumi["MET_2023C"] + lumi["MET_2023D"]
 elif arguments.era == "run2run3":
-	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"] + lumi["MET_2022CD"] + lumi["MET_2022EFG"] + 17794.0 + 9451
+	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"] + lumi["MET_2022CD"] + lumi["MET_2022EFG"] + lumi["MET_2023C"] + lumi["MET_2023D"]
 
 # condor directory in which to find signal root files
 if arguments.era == "2015":
@@ -161,7 +161,7 @@ elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6
 	actual_bin_name = 'Bin2022EFG' + nLayersWord
 	intLumi = lumi["MET_2022EFG"]
 	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] # scaling to 2022 lumi
-	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] + 17794.0 + 9451.0 # scaling to 2022+2023 lumi
+	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] + lumi["MET_2023C"] + lumi["MET_2023D"] # scaling to 2022+2023 lumi
 
 lumi = intLumi
 
