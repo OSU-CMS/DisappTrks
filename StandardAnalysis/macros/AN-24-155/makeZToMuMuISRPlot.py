@@ -16,7 +16,7 @@ if not writeFile: gStyle.SetOptStat(0)
 
 dirs = getUser()
 
-year = '2023'
+year = '2022'
 
 if year == '2022':
 
@@ -201,9 +201,9 @@ if year == '2022':
     p1_diMuonPt.SetLogy()
     diMuonPtStackedHists['WTopDiTTDY'].SetMinimum(0.0002)
     diMuonPtStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
+    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
     diMuonPtStackedHists['WTopDiTTDY'].SetAxisRange(0,1000,"X")
     DataHist_diMuonPt.SetAxisRange(0,1000,"X")
-    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV")
     diMuonPtStackedHists['WTopDiTTDY'].SetTitle("")
     diMuonPtStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_diMuonPt.Draw("SAME,E2")
@@ -226,7 +226,7 @@ if year == '2022':
     ratio_diMuonPt.GetXaxis().SetTitleOffset(1.12)
 
     if writeFile:
-        ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","RECREATE")
+        ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","UPDATE")
         ratio_diMuonPt.SetName("Muon_2022F")
         ratio_diMuonPt.GetXaxis().SetRangeUser(0,932)
         ratio_diMuonPt.Write()
@@ -360,6 +360,7 @@ if year == '2022':
     metNoMuStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetRangeUser(0,950)
     metNoMuStackedHists['WTopDiTTDY'].SetTitle("")
+    metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
     metNoMuStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_metNoMu.Draw("SAME,E2")
     DataHist_metNoMu.Draw("SAME,P,E")
@@ -436,8 +437,6 @@ if year == '2023':
 
     mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2023/ZtoMuMuISR'
     data_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2023/ZtoMuMuISR_Muon2023C'
-    # mc_condor_dir = '.'
-    # data_condor_dir = '.'
 
     # Only datasets that have more than 0 entries
     mcFiles = {
@@ -574,7 +573,7 @@ if year == '2023':
     # Define position of CMS text and period of lumi to plot
     iPos = 0
     if( iPos==0 ): CMS_lumi.relPosX = 0.12
-    iPeriod = 136
+    iPeriod = 1362
 
     Canvas_diMuonPt = TCanvas("Canvas_diMuonPt","Canvas_diMuonPt",50,50,CMS_lumi.W,CMS_lumi.H)
     Canvas_diMuonPt.SetLeftMargin( CMS_lumi.L/CMS_lumi.W )
@@ -602,7 +601,7 @@ if year == '2023':
     diMuonPtStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     diMuonPtStackedHists['WTopDiTTDY'].SetAxisRange(0,1000,"X")
     DataHist_diMuonPt.SetAxisRange(0,1000,"X")
-    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV")
+    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
     diMuonPtStackedHists['WTopDiTTDY'].SetTitle("")
     diMuonPtStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_diMuonPt.Draw("SAME,E2")
@@ -625,8 +624,8 @@ if year == '2023':
     ratio_diMuonPt.GetXaxis().SetTitleOffset(1.12)
 
     if writeFile:
-        ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","RECREATE")
-        ratio_diMuonPt.SetName("Muon_2023")
+        ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","UPDATE")
+        ratio_diMuonPt.SetName("Muon_2023C")
         ratio_diMuonPt.GetXaxis().SetRangeUser(0,932)
         ratio_diMuonPt.Write()
         ratioFile.Close()
@@ -759,7 +758,8 @@ if year == '2023':
     metNoMuStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetRangeUser(0,950)
     metNoMuStackedHists['WTopDiTTDY'].SetTitle("")
-    metNoMuStackedHists['WTopDiTTDY'].Draw("HIST")
+    metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
+    metNoMuStackedHists['WTopDiTTDY'].Draw()
     errorHist_metNoMu.Draw("SAME,E2")
     DataHist_metNoMu.Draw("SAME,P,E")
     metNoMuStackedHists['WTopDiTT'].Draw("SAME,HIST")
