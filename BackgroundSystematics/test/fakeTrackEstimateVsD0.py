@@ -17,7 +17,7 @@ gROOT.SetBatch () # I am Groot.
 
 dirs = getUser()
 
-debug=False
+debug=True
 
 runPeriods = ['EFG']
 year = '2022'
@@ -88,10 +88,10 @@ for runPeriod in runPeriods:
         fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/zToMuMu")
       
       else:
-        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
-        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayer, "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
-        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_2022/MET_2022{runPeriod}_basicSelection")
-        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_2022/EGamma_2022{runPeriod}_ZtoEE")
+        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
+        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayer, "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
+        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
+        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEE")
       
       nEst = fakeTrackBkgdEstimate.printNest ()[0]
 

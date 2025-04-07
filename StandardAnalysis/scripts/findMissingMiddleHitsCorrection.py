@@ -40,8 +40,8 @@ data.SetName ("data")
 data.SetDirectory (0)
 
 #current missing hits data is scaled to 2022F, so scale from there to any other era
-scale = lumi['MET_2022EFG']/lumi['MET_2022F']
-mc.Scale(scale)
+#scale = lumi['MET_2022EFG']/lumi['MET_2022F']
+#mc.Scale(scale)
 
 mcFile.Close ()
 dataFile.Close ()

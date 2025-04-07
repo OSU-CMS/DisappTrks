@@ -30,7 +30,7 @@ def CreateCompositeLumis(allLumis, year, allPeriods):
             for c in itertools.combinations(allPeriods, i):
                 periods.append(''.join(c))
 
-    for pd in ['MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias', 'EGamma']:
+    for pd in ['MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias', 'EGamma', 'Muon']:
         for period in periods:
             # define suffix like '_2016'
             suffix = '_' + year
@@ -462,5 +462,5 @@ lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
 lumi = CreateCompositeLumis(lumi, '2022', 'CDEFG')
-lumi = CreateCompositeLumis(lumi, '2023', 'CD')
+lumi = CreateCompositeLumis(lumi, '2023', 'CDE')
 
