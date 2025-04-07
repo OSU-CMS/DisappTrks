@@ -50,8 +50,22 @@ MissingHitsCorrections["2022CD"] = {
 }
 
 MissingHitsCorrections["2022EFG"] = {
-    "dropTOBProbability"          :  0.0007151755, # PRE_TOB Y()
-    "preTOBDropHitInefficiency"   :  0.0037699605, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.6114408725, # POST_TOB X()
-    "hitInefficiency"             :  0.0055455684, # middle X()
+    "dropTOBProbability"          :  0.0006637882, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.0039855736, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.6015933621, # POST_TOB X()
+    "hitInefficiency"             :  0.0053399711, # middle X()
+}
+
+MissingHitsCorrections["2023C"] = {
+    "dropTOBProbability"          :  0.0008906712, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.0030917790, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.6015933621, # POST_TOB X()
+    "hitInefficiency"             :  0.0050990953, # middle X()
+}
+
+MissingHitsCorrections["2023D"] = {
+    "dropTOBProbability"          :  0.0005789497, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.0040552434, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.6684370690, # POST_TOB X()
+    "hitInefficiency"             :  0.0053960431, # middle X()
 }
