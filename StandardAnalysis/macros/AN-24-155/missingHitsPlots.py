@@ -33,25 +33,27 @@ def plotMissingHits(data, th1s, th1_names, era, outputName, outer=False, correct
     if correctionsOuter is not None:
         for ih, h in enumerate(th1s):
             for ibin in range(1, h.GetNbinsX()+1):
+                if ih==0:
+                    totalCount[ibin-1] = 0
                 val = h.GetBinContent(ibin)
                 print(th1_names[ih], ibin, val, correctionsOuter[1][ibin-1])
                 if ibin >= 6:
                     h.SetBinContent(ibin, val*correctionsOuter[1][ibin-1])
                 else:
                     h.SetBinContent(ibin, val*correctionsOuter[0][ibin-1])
-            h.Scale(firstBin/totalCount[0])
+                totalCount[ibin-1] += h.GetBinContent(ibin)
 
     elif correctionsMiddle is not None:
-        for h in th1s:
+        for ih, h in enumerate(th1s):
             for ibin in range(1, h.GetNbinsX()+1):
+                if ih==0:
+                    totalCount[ibin-1] = 0
                 val = h.GetBinContent(ibin)
                 h.SetBinContent(ibin, val*correctionsMiddle[ibin-1])
-            h.Scale(firstBin/totalCount[0])
+                totalCount[ibin-1] += h.GetBinContent(ibin)
 
-    else:
-        for ih, h in enumerate(th1s):
-            h.Scale(firstBin/totalCount[0])
-            print(th1_names[ih], h.GetBinContent(1))
+    for ih, h in enumerate(th1s):
+        h.Scale(firstBin/totalCount[0])
 
     errors = np.sqrt(totalCount)
 
@@ -269,6 +271,173 @@ def get2022EFGPlots(plotName, era='2022EFG'):
 
     return th1s, th1_names, h_signal
 
+def get2023CPlots(plotName, era='2023C'):
+
+    signal = r.TFile.Open(f'/abyss/users/mcarrigan/MET_run3/MET_2023C_MissingHitsSelection/MET_{era}.root')
+    h_signal = signal.Get(plotName)
+    h_signal.SetDirectory(0)
+    firstBin = h_signal.GetBinContent(1)
+
+    backgroundDir = '/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/'
+
+    wlnu = r.TFile.Open(f'{backgroundDir}/MissingHits_WToLNu_4Jets_2023/WToLNu_4Jets_2023.root')
+    h_wlnu = addPlots([wlnu], plotName)
+
+    DYJetsToLL = r.TFile.Open(f'{backgroundDir}/MissingHits_DYJetsToLL_M50_2023/DYJetsToLL_M50_2023.root')
+    DYto2L_4Jets = r.TFile.Open(f'{backgroundDir}/MissingHits_DYto2L_4jets_M10to50_2023/DYto2L_4jets_M10to50_2023.root')
+
+    zll = [DYJetsToLL, DYto2L_4Jets]
+    print("Combining Z->ll plots")
+    h_zll = addPlots(zll, plotName)
+
+
+    ttb_l = r.TFile.Open(f'{backgroundDir}/MissingHits_TTto2L2Nu_2023/TTto2L2Nu_2023.root')
+    ttb_q = r.TFile.Open(f'{backgroundDir}/MissingHits_TTto4Q_2023/TTto4Q_2023.root')
+    ttb = [ttb_l, ttb_q]
+    print("Combining TT plots")
+    h_ttb = addPlots(ttb, plotName)
+
+    qcd15 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT15to30_2023/QCD_PT15to30_2023.root')
+    qcd30 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT30to50_2023/QCD_PT30to50_2023.root')
+    qcd50 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT50to80_2023/QCD_PT50to80_2023.root')
+    qcd80 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT80to120_2023/QCD_PT80to120_2023.root')
+    qcd120 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT120to170_2023/QCD_PT120to170_2023.root')
+    qcd170 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT170to300_2023/QCD_PT170to300_2023.root')
+    qcd300 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT300to470_2023/QCD_PT300to470_2023.root')
+    qcd470 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT470to600_2023/QCD_PT470to600_2023.root')
+    qcd600 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT600to800_2023/QCD_PT600to800_2023.root')
+    qcd800 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT800to1000_2023/QCD_PT800to1000_2023.root')
+    qcd1000 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1000to1400_2023/QCD_PT1000to1400_2023.root')
+    qcd1400 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1400to1800_2023/QCD_PT1400to1800_2023.root')
+    qcd1800 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1800to2400_2023/QCD_PT1800to2400_2023.root')
+    qcd2400 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT2400to3200_2023/QCD_PT2400to3200_2023.root')
+    qcd3200 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT3200_2023/QCD_PT3200_2023.root')
+    qcd = [qcd15, qcd30, qcd50, qcd80, qcd120, qcd170, qcd300, qcd470, qcd600, qcd800, qcd1000, qcd1400, qcd1800, qcd2400, qcd3200]
+    print("Combining QCD plots")
+    h_qcd = addPlots(qcd, plotName)
+
+    tbarB = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarBtoLminusNuB_2023/TbarBtoLminusNuB_2023.root')
+    tBbar = r.TFile.Open(f'{backgroundDir}/MissingHits_TBbartoLplusNuBbar_2023/TBbartoLplusNuBbar_2023.root')
+    tbarQ = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarQtoLNu_2023/TbarQtoLNu_2023.root')
+    tqBar = r.TFile.Open(f'{backgroundDir}/MissingHits_TQbartoLNu_2023/TQbartoLNu_2023.root')
+    tbarW2L = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarWplusto2L2Nu_2023/TbarWplusto2L2Nu_2023.root')
+    tbarWL = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarWplustoLNu2Q_2023/TbarWplustoLNu2Q_2023.root')
+    tW2L = r.TFile.Open(f'{backgroundDir}/MissingHits_TWminusto2L2Nu_2023/TWminusto2L2Nu_2023.root')
+    tWL = r.TFile.Open(f'{backgroundDir}/MissingHits_TWminustoLNu2Q_2023/TWminustoLNu2Q_2023.root')
+    singleT = [tbarB, tBbar, tbarQ, tqBar, tbarW2L, tbarWL, tW2L, tWL]
+    print("Combining single t plots")
+    h_t = addPlots(singleT, plotName)
+
+    ww = r.TFile.Open(f'{backgroundDir}/MissingHits_WW_2023/WW_2023.root')
+    wz = r.TFile.Open(f'{backgroundDir}/MissingHits_WZ_2023/WZ_2023.root')
+    zz = r.TFile.Open(f'{backgroundDir}/MissingHits_ZZ_2023/ZZ_2023.root')
+    diboson = [ww, wz, zz]
+    print("Combining diboson plots")
+    h_diboson = addPlots(diboson, plotName)
+
+    znu100 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT100to200_2023/Zto2Nu_4Jets_HT100to200_2023.root')
+    znu200 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT200to400_2023/Zto2Nu_4Jets_HT200to400_2023.root')
+    znu400 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT400to800_2023/Zto2Nu_4Jets_HT400to800_2023.root')
+    znu800 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT800to1500_2023/Zto2Nu_4Jets_HT800to1500_2023.root')
+    znu1500 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT1500to2500_2023/Zto2Nu_4Jets_HT1500to2500_2023.root')
+    znu2500 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT2500_2023/Zto2Nu_4Jets_HT2500_2023.root')
+    znu = [znu100, znu200, znu400, znu800, znu1500, znu2500]
+    print("Combining Z->nunu plots")
+    h_znu = addPlots(znu, plotName)
+
+    th1_names = ['Z#rightarrow#nu#bar{#nu}', 'Diboson', 'Single top', 'QCD', 't#bar{t}', 'Z#rightarrowll', 'W#rightarrowl#nu']
+
+    th1s = [h_znu, h_diboson, h_t, h_qcd, h_ttb, h_zll, h_wlnu]
+
+    for h in th1s:
+        h.SetDirectory(0)
+
+    return th1s, th1_names, h_signal
+
+def get2023DPlots(plotName, era='2023D'):
+
+    signal = r.TFile.Open(f'/abyss/users/mcarrigan/MET_run3/MET_2023D_MissingHitsSelection/MET_{era}.root')
+    h_signal = signal.Get(plotName)
+    h_signal.SetDirectory(0)
+    firstBin = h_signal.GetBinContent(1)
+
+    backgroundDir = '/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/'
+
+    wlnu = r.TFile.Open(f'{backgroundDir}/MissingHits_WToLNu_4Jets_2023_bpix/WToLNu_4Jets_2023PostBPix.root')
+    h_wlnu = addPlots([wlnu], plotName)
+
+    DYJetsToLL = r.TFile.Open(f'{backgroundDir}/MissingHits_DYJetsToLL_M50_2023_bpix/DYJetsToLL_M50_2023PostBPix.root')
+    DYto2L_4Jets = r.TFile.Open(f'{backgroundDir}/MissingHits_DYto2L_4jets_M10to50_2023_bpix/DYto2L_4jets_M10to50_2023PostBPix.root')
+
+    zll = [DYJetsToLL, DYto2L_4Jets]
+    print("Combining Z->ll plots")
+    h_zll = addPlots(zll, plotName)
+
+
+    #ttb_l = r.TFile.Open(f'{backgroundDir}/MissingHits_TTto2L2Nu_2023_bpix/TTto2L2Nu_2023PostBPix.root')
+    ttb_q = r.TFile.Open(f'{backgroundDir}/MissingHits_TTto4Q_2023_bpix/TTto4Q_2023PostBPix.root')
+    #ttb = [ttb_l, ttb_q]
+    ttb = [ttb_q]
+    print("Combining TT plots")
+    h_ttb = addPlots(ttb, plotName)
+
+    qcd15 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT15to30_2023_bpix/QCD_PT15to30_2023PostBPix.root')
+    qcd30 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT30to50_2023_bpix/QCD_PT30to50_2023PostBPix.root')
+    qcd50 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT50to80_2023_bpix/QCD_PT50to80_2023PostBPix.root')
+    qcd80 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT80to120_2023_bpix/QCD_PT80to120_2023PostBPix.root')
+    qcd120 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT120to170_2023_bpix/QCD_PT120to170_2023PostBPix.root')
+    qcd170 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT170to300_2023_bpix/QCD_PT170to300_2023PostBPix.root')
+    qcd300 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT300to470_2023_bpix/QCD_PT300to470_2023PostBPix.root')
+    qcd470 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT470to600_2023_bpix/QCD_PT470to600_2023PostBPix.root')
+    qcd600 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT600to800_2023_bpix/QCD_PT600to800_2023PostBPix.root')
+    qcd800 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT800to1000_2023_bpix/QCD_PT800to1000_2023PostBPix.root')
+    qcd1000 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1000to1400_2023_bpix/QCD_PT1000to1400_2023PostBPix.root')
+    qcd1400 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1400to1800_2023_bpix/QCD_PT1400to1800_2023PostBPix.root')
+    qcd1800 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT1800to2400_2023_bpix/QCD_PT1800to2400_2023PostBPix.root')
+    qcd2400 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT2400to3200_2023_bpix/QCD_PT2400to3200_2023PostBPix.root')
+    qcd3200 = r.TFile.Open(f'{backgroundDir}/MissingHits_QCD_PT3200_2023_bpix/QCD_PT3200_2023PostBPix.root')
+    qcd = [qcd15, qcd30, qcd50, qcd80, qcd120, qcd170, qcd300, qcd470, qcd600, qcd800, qcd1000, qcd1400, qcd1800, qcd2400, qcd3200]
+    print("Combining QCD plots")
+    h_qcd = addPlots(qcd, plotName)
+
+    tbarB = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarBtoLminusNuB_2023_bpix/TbarBtoLminusNuB_2023PostBPix.root')
+    tBbar = r.TFile.Open(f'{backgroundDir}/MissingHits_TBbartoLplusNuBbar_2023_bpix/TBbartoLplusNuBbar_2023PostBPix.root')
+    tbarQ = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarQtoLNu_2023_bpix/TbarQtoLNu_2023PostBPix.root')
+    tqBar = r.TFile.Open(f'{backgroundDir}/MissingHits_TQbartoLNu_2023_bpix/TQbartoLNu_2023PostBPix.root')
+    tbarW2L = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarWplusto2L2Nu_2023_bpix/TbarWplusto2L2Nu_2023PostBPix.root')
+    tbarWL = r.TFile.Open(f'{backgroundDir}/MissingHits_TbarWplustoLNu2Q_2023_bpix/TbarWplustoLNu2Q_2023PostBPix.root')
+    tW2L = r.TFile.Open(f'{backgroundDir}/MissingHits_TWminusto2L2Nu_2023_bpix/TWminusto2L2Nu_2023PostBPix.root')
+    tWL = r.TFile.Open(f'{backgroundDir}/MissingHits_TWminustoLNu2Q_2023_bpix/TWminustoLNu2Q_2023PostBPix.root')
+    singleT = [tbarB, tBbar, tbarQ, tqBar, tbarW2L, tbarWL, tW2L, tWL]
+    print("Combining single t plots")
+    h_t = addPlots(singleT, plotName)
+
+    ww = r.TFile.Open(f'{backgroundDir}/MissingHits_WW_2023_bpix/WW_2023PostBPix.root')
+    wz = r.TFile.Open(f'{backgroundDir}/MissingHits_WZ_2023_bpix/WZ_2023PostBPix.root')
+    zz = r.TFile.Open(f'{backgroundDir}/MissingHits_ZZ_2023_bpix/ZZ_2023PostBPix.root')
+    diboson = [ww, wz, zz]
+    print("Combining diboson plots")
+    h_diboson = addPlots(diboson, plotName)
+
+    znu100 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT100to200_2023_bpix/Zto2Nu_4Jets_HT100to200_2023PostBPix.root')
+    znu200 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT200to400_2023_bpix/Zto2Nu_4Jets_HT200to400_2023PostBPix.root')
+    znu400 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT400to800_2023_bpix/Zto2Nu_4Jets_HT400to800_2023PostBPix.root')
+    znu800 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT800to1500_2023_bpix/Zto2Nu_4Jets_HT800to1500_2023PostBPix.root')
+    znu1500 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT1500to2500_2023_bpix/Zto2Nu_4Jets_HT1500to2500_2023PostBPix.root')
+    znu2500 = r.TFile.Open(f'{backgroundDir}/MissingHits_Zto2Nu_4Jets_HT2500_2023_bpix/Zto2Nu_4Jets_HT2500_2023PostBPix.root')
+    znu = [znu100, znu200, znu400, znu800, znu1500, znu2500]
+    print("Combining Z->nunu plots")
+    h_znu = addPlots(znu, plotName)
+
+    th1_names = ['Z#rightarrow#nu#bar{#nu}', 'Diboson', 'Single top', 'QCD', 't#bar{t}', 'Z#rightarrowll', 'W#rightarrowl#nu']
+
+    th1s = [h_znu, h_diboson, h_t, h_qcd, h_ttb, h_zll, h_wlnu]
+
+    for h in th1s:
+        h.SetDirectory(0)
+
+    return th1s, th1_names, h_signal
+
 def getCorrectionsOuter(era):
     
     correctionsPRE = []
@@ -293,6 +462,26 @@ def getCorrectionsOuter(era):
         h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingOuter')
         h_correctedPRE = correctedPRE.Get('correctedMC')
         h_correctedPOST = correctedPOST.Get('correctedMC')
+
+    elif era=="2023C":
+        correctedPRE = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/missingOuterPRETOBCorrected_2023C.root')
+        correctedPOST = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/missingOuterPOSTTOBCorrected_2023C.root')
+
+        raw = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/MissingHits_2023C.root')
+
+        h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingOuter')
+        h_correctedPRE = correctedPRE.Get('correctedMC')
+        h_correctedPOST = correctedPOST.Get('correctedMC')
+
+    elif era=="2023D":
+        correctedPRE = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/missingOuterPRETOBCorrected_2023D.root')
+        correctedPOST = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/missingOuterPOSTTOBCorrected_2023D.root')
+
+        raw = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/MissingHits_2023D.root')
+
+        h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingOuter')
+        h_correctedPRE = correctedPRE.Get('correctedMC')
+        h_correctedPOST = correctedPOST.Get('correctedMC')       
 
     else:
         print("Era provided is not available")
@@ -330,6 +519,20 @@ def getCorrectionsMiddle(era):
 
         h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingMiddle')
         h_corrected = corrected.Get('correctedMC')
+    
+    elif era=='2023C':
+        corrected = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/missingMiddleCorrected_2023C.root')
+        raw = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_preBpix/MissingHits_2023C.root')
+
+        h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingMiddle')
+        h_corrected = corrected.Get('correctedMC') 
+    
+    elif era=='2023D':
+        corrected = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/missingMiddleCorrected_2023D.root')
+        raw = r.TFile.Open('/abyss/users/mcarrigan/MissingHitsCorrections/2023_postBpix/MissingHits_2023D.root')
+
+        h_raw = raw.Get('HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingMiddle')
+        h_corrected = corrected.Get('correctedMC') 
 
     else:
         print("era provided is not available")
@@ -386,3 +589,31 @@ if __name__ == "__main__":
     hists, names, data = get2022CDPlots(plotMiddleName)
     correctionsMiddle = getCorrectionsMiddle('2022CD')
     plotMissingHits(data, hists, names, '2022CD', 'missingMiddleHitsCorrected_2022CD.png', outer=False, correctionsMiddle=correctionsMiddle)
+
+    hists, names, data = get2023CPlots(plotOuterName)
+    plotMissingHits(data, hists, names, '2023C', 'missingOuterHits_2023C.png', outer=True)
+
+    hists, names, data = get2023CPlots(plotOuterName)
+    correctionsOuter = getCorrectionsOuter('2023C')
+    plotMissingHits(data, hists, names, '2023C', 'missingOuterHitsCorrected_2023C.png', outer=True, correctionsOuter=correctionsOuter)
+
+    hists, names, data = get2023CPlots(plotMiddleName)
+    plotMissingHits(data, hists, names, '2023C', 'missingMiddleHits_2023C.png', outer=False)
+
+    hists, names, data = get2023CPlots(plotMiddleName)
+    correctionsMiddle = getCorrectionsMiddle('2023C')
+    plotMissingHits(data, hists, names, '2023C', 'missingMiddleHitsCorrected_2023C.png', outer=False, correctionsMiddle=correctionsMiddle)
+
+    hists, names, data = get2023DPlots(plotOuterName)
+    plotMissingHits(data, hists, names, '2023D', 'missingOuterHits_2023D.png', outer=True)
+
+    hists, names, data = get2023DPlots(plotOuterName)
+    correctionsOuter = getCorrectionsOuter('2023D')
+    plotMissingHits(data, hists, names, '2023D', 'missingOuterHitsCorrected_2023D.png', outer=True, correctionsOuter=correctionsOuter)
+
+    hists, names, data = get2023DPlots(plotMiddleName)
+    plotMissingHits(data, hists, names, '2023D', 'missingMiddleHits_2023D.png', outer=False)
+
+    hists, names, data = get2023DPlots(plotMiddleName)
+    correctionsMiddle = getCorrectionsMiddle('2023D')
+    plotMissingHits(data, hists, names, '2023D', 'missingMiddleHitsCorrected_2023D.png', outer=False, correctionsMiddle=correctionsMiddle)
