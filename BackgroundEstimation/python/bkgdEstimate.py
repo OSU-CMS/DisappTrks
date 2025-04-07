@@ -1079,9 +1079,8 @@ class LeptonBkgdEstimate:
                 passes1.isPositive ()
                 total.isPositive ()
 
-                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor
+                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor if positive_numerator_flag else 0
                 if scaledPasses == 0:
-                    print("scaled passes is 0")
                     scaledPasses.setSystematicUp(up68)
 
                 p = passes

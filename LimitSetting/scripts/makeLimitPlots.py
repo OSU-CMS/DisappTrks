@@ -114,7 +114,7 @@ else:
         LumiText = str.format('{0:.0f}', intLumi/1000.) + " fb^{-1}"
 
 # set the text for the fancy heading
-HeaderText = LumiText + " (13 TeV)"
+HeaderText = LumiText + " (13.6 TeV)"
 
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
