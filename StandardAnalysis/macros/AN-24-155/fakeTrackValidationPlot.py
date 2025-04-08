@@ -4,13 +4,13 @@ import re
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
 year = 2022
-runPeriod = 'EFG'
+runPeriod = 'CD'
 
-fin = r.TFile.Open('../../../BackgroundSystematics/test/fakeTrackEstimateVsD0_ZtoEE_2022EFG.root', 'READ')
+fin = r.TFile.Open(f'../../../BackgroundSystematics/test/fakeTrackEstimateVsD0_ZtoEE_{year}{runPeriod}.root', 'READ')
 
-h4 = fin.Get('est_ZtoEE_2022EFG_NLayers4')
-h5 = fin.Get('est_ZtoEE_2022EFG_NLayers5')
-h6 = fin.Get('est_ZtoEE_2022EFG_NLayers6plus')
+h4 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers4')
+h5 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers5')
+h6 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers6plus')
 
 NLayers = ['NLayers4', 'NLayers5', 'NLayers6plus']
 
@@ -18,7 +18,7 @@ est = []
 err = []
 
 for nlayer in NLayers:
-    with open(f'../../../BackgroundEstimation/test/fakeTrackBkgdEstimate_zToEE_2022EFG_{nlayer}.txt') as tfin:
+    with open(f'../../../BackgroundEstimation/test/fakeTrackBkgdEstimate_zToEE_{year}{runPeriod}_{nlayer}.txt') as tfin:
         for line in tfin:
             if not line.startswith('N_est'): continue
             numbers = re.findall(r"[-+]?\d*\.\d+|\d+", line)
@@ -36,7 +36,7 @@ this_lumi = round(lumi[f"MET_{year}{runPeriod}"]/1000, 1)
 print(this_lumi)
 cms.SetLumi(this_lumi)
 cms.ResetAdditionalInfo()
-canv_ = cms.cmsCanvas("canvas",0,0.5,1e-2,50,"sideband lower bound |d_{xy}|","fake track estimate",square=cms.kSquare,extraSpace=0.01,iPos=0)
+canv_ = cms.cmsCanvas("canvas",0,0.5,1e-2,70,"sideband lower bound |d_{xy}|","fake track estimate",square=cms.kSquare,extraSpace=0.01,iPos=0)
 #canv_ = cms.cmsCanvas(canv_name,0,0.5,1e-2,50,"X","Y",square=cms.kSquare,extraSpace=0.01,iPos=iPos,with_z_axis=True,scaleLumi=scaleLumi,)
 
 
@@ -86,15 +86,19 @@ b6.SetFillColorAlpha(r.kBlue, 0.4)
 b6.SetFillStyle(3001)
 b6.Draw("same")
 
-leg = cms.cmsLeg(0.75, 0.60 - 0.05 * 3, 0.95, 0.60, textSize=0.04)
-leg.AddEntry(h4, '4Layer', 'l')
-leg.AddEntry(h5, '5Layer', 'l')
-leg.AddEntry(h6, '>=6Layer', 'l')
+leg = cms.cmsLeg(0.75, 0.25, 0.95, 0.35, textSize=0.04)
+leg.AddEntry(h4, 'n_{layers} = 4', 'l')
+leg.AddEntry(h5, 'n_{layers} = 5', 'l')
+leg.AddEntry(h6, 'n_{layers} #geq 6', 'l')
 
 #cms.SetCMSPalette()
 r.gPad.SetBottomMargin(0.2)
 h = cms.GetcmsCanvasHist(canv_)
 h.GetXaxis().SetTitleOffset(1.15)
+
+leg.SetFillColor(r.kWhite)
+leg.SetFillStyle(1001)
+leg.Draw("same")
 
 canv_.Draw()
 canv_.SetLogy()

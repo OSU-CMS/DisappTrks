@@ -114,6 +114,7 @@ class LeptonBkgdEstimate:
     _useOnlineQuantitiesForPpassMetTriggers = False
     _useExternalTriggerEfficiency = False
     _calculateTriggerEfficiency = False
+    _invertJetMetPhi = False
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -465,12 +466,20 @@ class LeptonBkgdEstimate:
         addChannelExtensions(met, channel, hist)
 
         passesError = ctypes.c_double (0.0)
-        passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
+        if self._invertJetMetPhi:
+            passes = met.IntegralAndError (0, met.GetXaxis ().FindBin (self._metCut), 0, met.GetYaxis ().FindBin (self._phiCut), passesError)
+        else:
+            passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
+
         passes = Measurement (passes, passesError)
         passes.isPositive ()
 
-        eff = passes / total if total > 0.0 else 0.0
-        print("P (pass met cut): " + str (eff))
+        if passes.centralValue() == 0:
+            passes.setUncertaintyUp(up68)
+
+        eff = passes / total if total > 0.0 else Measurement(0.0, 0.0)
+
+        print("P (pass met cut): " + str (eff), "numerator", passes, "denominator", total)
         return eff
 
     def printPpassHEMveto (self):
@@ -592,7 +601,11 @@ class LeptonBkgdEstimate:
             metHist2D = getHistFromChannelDict (self.TagPt35, hist)
             addChannelExtensions(metHist2D, self.TagPt35, hist)
 
-            metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
+            if self._invertJetMetPhi:
+                metHist2D.GetYaxis ().SetRangeUser (0, self._phiCut)
+            else:
+                metHist2D.GetYaxis ().SetRangeUser (self._phiCut, 4.0)
+
             metHist = metHist2D.ProjectionX ("metHist")
 
             self.plotTriggerEfficiency (triggerEffPassesHist, triggerEffTotalHist, "HLT")
@@ -608,9 +621,16 @@ class LeptonBkgdEstimate:
             totalError = ctypes.c_double (0.0)
             passesError = ctypes.c_double (0.0)
 
-            passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
+            if self._invertJetMetPhi:
+                passes = metHist.IntegralAndError (0, metHist.FindBin (self._metCut), passesError)
+            else:
+                passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
+
             passes = Measurement (passes, passesError)
             passes.isPositive ()
+
+            if passes.centralValue() == 0:
+                passes.setUncertaintyUp(up68)
 
             #met = self.getHistFromProjectionZ (self.TagPt35["sample"], self.TagPt35["condorDir"], self.TagPt35["name"] + "Plotter", self._metMinusOneHist, alternate1DHist = self._Flavor + " Plots/" + self._flavor + "MetNoMuMinusOnePt")
             hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + "MetNoMuMinusOnePt"
@@ -618,12 +638,19 @@ class LeptonBkgdEstimate:
             addChannelExtensions(met, self.TagPt35, hist)
 
             totalError = ctypes.c_double (0.0)
-            total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
+            if self._invertJetMetPhi:
+                total = met.IntegralAndError (0, met.GetXaxis ().FindBin (self._metCut), 0, met.GetYaxis ().FindBin (self._phiCut), totalError)
+            else:
+                total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
+
             total = Measurement (total, totalError)
             total.isPositive ()
 
-            eff = passes / total if total > 0.0 else 0.0
-            print("P (pass met triggers): " + str (eff))
+            if total.centralValue() == 0:
+                total.setUncertaintyUp(up68)
+
+            eff = passes / total if total > 0.0 else Measurement(0.0, 1.0)
+            print("P (pass met triggers): " + str (eff), "numerator", passes, "denominator", total)
             return (eff, triggerEffPassesHist)
         else:
             print("TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)...")
@@ -827,7 +854,6 @@ class LeptonBkgdEstimate:
             print("N: " + str (passes))
 
         #print("Alpha is of type", type(alpha))
-        print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
             if alpha.uncertaintyDown () == alpha.uncertaintyUp ():
                 print("error on alpha: " + str (1.0 + (alpha.uncertainty () / alpha.centralValue ())))
@@ -835,7 +861,12 @@ class LeptonBkgdEstimate:
                 print("error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ())))
         else:
             print('WARNING: alpha STILL ended up as zero, so no relative error can be printed.')
-
+            print("Setting worst case upper limit on alpha and n_est")
+            alpha.setUncertaintyUp(1 / total.uncertaintyUp() * nCtrl.uncertaintyUp() * pPassMetCut.uncertaintyUp() * pPassMetTriggers.uncertaintyUp())
+            nEst = passes * alpha
+            nEst.setUncertaintyUp(passes.uncertaintyUp() * alpha.uncertaintyUp())
+        
+        print("alpha: " + str (alpha))
         print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
         return nEst
 
@@ -876,7 +907,6 @@ class LeptonBkgdEstimate:
                 alpha = (scaleFactor / (2.0 * total)) * nCtrl * pPassMetCut * pPassMetTriggers
             else:
                 alpha = (scaleFactor / total) * nCtrl * pPassMetCut * pPassMetTriggers
-            print("N: " + str (passes))
 
         print("alpha: " + str (alpha))
         if alpha.centralValue () > 0:
@@ -886,6 +916,11 @@ class LeptonBkgdEstimate:
                 print("error on alpha: " + str (1.0 - (alpha.uncertaintyDown () / alpha.centralValue ())) + " / " + str (1.0 + (alpha.uncertaintyUp () / alpha.centralValue ())))
         else:
             print('WARNING: alpha ended up as zero, so no relative error can be printed.')
+            print("Setting worst case upper limit on alpha and n_est")
+            alpha.setUncertaintyUp(1 / total.uncertaintyUp() * nCtrl.uncertaintyUp() * pPassMetCut.uncertaintyUp() * pPassMetTriggers.uncertaintyUp())
+            nEst = passes * alpha
+            nEst.setUncertaintyUp(passes.uncertaintyUp() * alpha.uncertaintyUp())
+
 
         print("N_est: " + str (nEst) + " (" + str (nEst / self._luminosityInInvFb) + " fb)")
         return nEst
@@ -1045,6 +1080,9 @@ class LeptonBkgdEstimate:
                 total.isPositive ()
 
                 scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor if positive_numerator_flag else 0
+                if scaledPasses == 0:
+                    scaledPasses.setSystematicUp(up68)
+
                 p = passes
                 sf = Measurement (self._tagProbePassScaleFactor, 0.0)
                 if scaledPasses > 0.0:
@@ -1057,7 +1095,7 @@ class LeptonBkgdEstimate:
                     eff = scaledPasses / (2.0 * total - scaledPasses)
                 else:
                     eff = scaledPasses / total
-                eff.printLongFormat = True
+                eff.printLongFormat = False
                 print("P (pass lepton veto) in tag-probe sample: " + str (eff))
                 #print("Debugging P {}, Eff {}".format(str(p), str(eff)))
                 return (eff, p, sf, total)
@@ -1309,7 +1347,7 @@ class FakeTrackBkgdEstimate:
               f.SetParName (2, "constant")
             else:
               f.SetParameter (2, 20.0)
-              f.SetParLimits (2, 1.0e-3, 1.0e3)
+              f.SetParLimits (2, 1.0e-8, 1.0e3)
               f.SetParName (2, "constant")
             for i in range (0, 10):
                 d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
@@ -1334,14 +1372,13 @@ class FakeTrackBkgdEstimate:
             fails = f.IntegralOneDim (self._minD0, self._maxD0, 1.0e-12, 1.0e-2, failsError)
             failsError = getIntegralError (f, self._minD0, self._maxD0)
 
-            passes = Measurement (passes, 0.0)
-            fails = Measurement (fails, 0.0)
+            passes = Measurement (passes, passesError)
+            fails = Measurement (fails, failsError)
 
             passes.isPositive ()
             fails.isPositive ()
 
             transferError = math.sqrt (failsError * failsError * passes.centralValue () * passes.centralValue () + passesError * passesError * fails.centralValue () * fails.centralValue ()) / (fails.centralValue () * fails.centralValue ())
-
             if fails > 0.0:
                 transferFactor = passes / fails
                 sidebandEst = transferFactor.centralValue()*trueSideband
@@ -1386,7 +1423,7 @@ class FakeTrackBkgdEstimate:
                 nSR, nSRError = getHistIntegral (self.DisTrkInvertD0["sample"], self.DisTrkInvertD0["condorDir"], self.DisTrkInvertD0["name"] + "Plotter", "Track-eventvariable Plots/trackd0WRTPVMag", 0.0, 0.02)
 
                 n = Measurement (n, (nError if n != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
-                nSR = Measurement (nSR, (nSRError if nSR != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n + 1))))
+                nSR = Measurement (nSR, (nSRError if nSR != 0.0 else 0.5 * TMath.ChisquareQuantile (0.68, 2 * (n.centralValue() + 1))))
                 n.isPositive ()
                 nSR.isPositive ()
 
@@ -1459,7 +1496,7 @@ class FakeTrackBkgdEstimate:
 
         if verbose:
             alpha.printLongFormat ()
-            print(f"Z->ll Sideband: {nRaw}, Est: {zTollEst} += {zTollStat} +- {zTollSys}")
+            print(f"Z->ll Sideband: {nRaw}, Est: {zTollEst} +- {zTollStat} +- {zTollSys}")
             print(f"Z->ll SR: {nSR}")
             print("P_fake: " + str (pFake))
             print("N: " + str (N))
@@ -1520,7 +1557,7 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
             f.SetParLimits (1, 1.0e-3, 1.0e3)
             f.SetParName (1, "Gaussian norm")
             f.SetParameter (2, 20.0)
-            f.SetParLimits (2, -1.0e3, 1.0e3)
+            f.SetParLimits (2, -5.0e3, 5.0e3)
             f.SetParName (2, "constant")
             for i in range (0, 10):
               d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)

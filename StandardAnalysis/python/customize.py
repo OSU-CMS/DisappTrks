@@ -321,18 +321,22 @@ def customize (process,
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer23Prompt23_RunC_v1.root')
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2023C_data.root")
             print("Using jet veto map for 2023 eras C")
+            setMissingHitsCorrection (process, "2023C")
+
         elif runEra in ['D']:
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer23BPixPrompt23_RunD_v1.root')
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023D_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2023D_data.root")
             print("Using jet veto map for 2023 eras D")
+            setMissingHitsCorrection (process, "2023D")
+
         else:
             print("There is no jet veto map set up for this era, please add it to OSUT3Analysis/Configuration/data/")
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
+            setMissingHitsCorrection (process, "uncorrected")
+
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
         
-        setMissingHitsCorrection (process, "uncorrected")
-
     #set the global tag
     process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
