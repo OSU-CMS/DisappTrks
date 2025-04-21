@@ -145,7 +145,7 @@ if arguments.era in [ "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus",
 	exec('from DisappTrks.LimitSetting.bkgdConfig_' + arguments.era + ' import *')
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = False
+run_blind_limits = True
 
 data_dataset = data_condor_dir = data_channel = ""
 

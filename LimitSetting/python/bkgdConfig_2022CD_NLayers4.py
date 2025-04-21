@@ -8,15 +8,15 @@ backgrounds = {
         'alpha' : '0.0422',
     },
     'Elec' : {
-        'N' : '2896',
+        'N' : '0',
         'alpha' : '0.0223',
     },
     'Muon' : {
         'N' : '0',
-        'alpha' : '0.17296083901932965',
+        'alpha' : '0.1729608390193',
     },
     'Tau' : {
-        'N' : '1',
+        'N' : '0',
         'alpha' : '0.012',
     },
 }
@@ -31,7 +31,7 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
-        'value' : '0.41258178048856287 / 1.587418219589611', # 0 --> 0.000001 numerical safety
+        'value' : '0.41258178048856287/1.587418219589611', # 0 --> 0.000001 numerical safety
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers4' : { # error on alpha
