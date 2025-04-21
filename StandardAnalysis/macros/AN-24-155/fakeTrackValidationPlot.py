@@ -3,14 +3,18 @@ import cmsstyle as cms
 import re
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 
+r.gROOT.SetBatch(1)
+
 year = 2022
-runPeriod = 'CD'
+runPeriod = 'EFG'
+mode = 'zToMuMu'
 
-fin = r.TFile.Open(f'../../../BackgroundSystematics/test/fakeTrackEstimateVsD0_ZtoEE_{year}{runPeriod}.root', 'READ')
+fin = r.TFile.Open(f'../../../BackgroundSystematics/test/fakeTrackEstimateVsD0_{mode}_{year}{runPeriod}.root', 'READ')
 
-h4 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers4')
-h5 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers5')
-h6 = fin.Get(f'est_ZtoEE_{year}{runPeriod}_NLayers6plus')
+
+h4 = fin.Get(f'est_{mode}_{year}{runPeriod}_NLayers4')
+h5 = fin.Get(f'est_{mode}_{year}{runPeriod}_NLayers5')
+h6 = fin.Get(f'est_{mode}_{year}{runPeriod}_NLayers6plus')
 
 NLayers = ['NLayers4', 'NLayers5', 'NLayers6plus']
 
@@ -18,7 +22,7 @@ est = []
 err = []
 
 for nlayer in NLayers:
-    with open(f'../../../BackgroundEstimation/test/fakeTrackBkgdEstimate_zToEE_{year}{runPeriod}_{nlayer}.txt') as tfin:
+    with open(f'../../../BackgroundEstimation/test/fakeTrackBkgdEstimate_{mode}_{year}{runPeriod}_{nlayer}.txt') as tfin:
         for line in tfin:
             if not line.startswith('N_est'): continue
             numbers = re.findall(r"[-+]?\d*\.\d+|\d+", line)
@@ -36,7 +40,7 @@ this_lumi = round(lumi[f"MET_{year}{runPeriod}"]/1000, 1)
 print(this_lumi)
 cms.SetLumi(this_lumi)
 cms.ResetAdditionalInfo()
-canv_ = cms.cmsCanvas("canvas",0,0.5,1e-2,70,"sideband lower bound |d_{xy}|","fake track estimate",square=cms.kSquare,extraSpace=0.01,iPos=0)
+canv_ = cms.cmsCanvas("canvas",0,0.5,5e-3,70,"sideband lower bound |d_{xy}|","fake track estimate",square=cms.kSquare,extraSpace=0.01,iPos=0)
 #canv_ = cms.cmsCanvas(canv_name,0,0.5,1e-2,50,"X","Y",square=cms.kSquare,extraSpace=0.01,iPos=iPos,with_z_axis=True,scaleLumi=scaleLumi,)
 
 

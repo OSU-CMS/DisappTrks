@@ -4,49 +4,49 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '1',
-        'alpha' : '0.0422',
+        'N' : '0',
+        'alpha' : '0.0293',
     },
     'Elec' : {
-        'N' : '197621',
-        'alpha' : '5.0874e-06',
+        'N' : '377059',
+        'alpha' : '5.7656e-06',
     },
     'Muon' : {
-        'N' : '168140',
-        'alpha' : '0.04515',
+        'N' : '489700',
+        'alpha' : '2.097221659020428e-07',
     },
     'Tau' : {
-        'N' : '28',
-        'alpha' : '0.0031',
+        'N' : '0',
+        'alpha' : '0.0047',
     },
 }
 
 background_systematics = {
     'Fake_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.5963',
+        'value' : '1.6708',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.2363',
+        'value' : '1.1878',
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.007644709557822',
+        'value' : '1.7071321137275632',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.61382980870951', # 0 --> 0.000001 numerical safety
+        'value' : '1.3715814958318515', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
     # Still using 2018AB values; NEEDS TO BE UPDATED
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.760',
+        'value' : '2.822',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers6plus' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : '1.000',
+        'value' : '2.667',
         'background' : 'Fake',
     },
 
