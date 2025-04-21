@@ -425,17 +425,17 @@ lumi_2022_promptReco = {
 lumi_2023_promptReco = {
 
 # using HLT_PFMET105_IsoTrk50_*
-    "MET_2023C": 18.12,
-    "MET_2023D": 9.69,
+    "MET_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "MET_2023D": 7986.390339 + 1704.204266, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
 
-    "EGamma_2023C":18.12,
-    "EGamma_2023D":9.69,
+    "EGamma_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "EGamma_2023D": 7986.390339 + 1704.204266, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
     
-    "Muon_2023C":18.12,
-    "Muon_2023D":9.70,
+    "Muon_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "Muon_2023D": 7986.390339 + 1705.710797, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
 
-    "Tau_2023C":18.12,
-    "Tau_2023D":9.70
+    "Tau_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "Tau_2023D": 7986.390339 + 1705.710797 # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
 }
 
 # now create a single lumi dict, starting with 2015
