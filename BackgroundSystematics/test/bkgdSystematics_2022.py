@@ -11,7 +11,7 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-background = "FAKE"
+background = "ELECTRON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -21,83 +21,81 @@ if len(sys.argv) > 2:
     nLayersWords = [sys.argv[2]]
 
 # '' will gives you Dataset_2017.root for the whole year
-runPeriods = ['AB', 'CD']
+runPeriods = ['CD', 'EFG']
 
 if background == "FAKE" or background == "ALL":
 
     for runPeriod in runPeriods:
 
-        print "********************************************************************************"
-        print "evaluating fake track systematic(2016", runPeriod, ")"
-        print "--------------------------------------------------------------------------------"
+        print("********************************************************************************")
+        print("evaluating fake track systematic(2022", runPeriod, ")")
+        print("--------------------------------------------------------------------------------")
 
-        fout = TFile.Open("fakeTrackSystematic_2016" + runPeriod + ".root", "recreate")
+        fout = TFile.Open("fakeTrackSystematic_2022" + runPeriod + ".root", "recreate")
 
         fakeTrackSystematic = FakeTrackSystematic()
         fakeTrackSystematic.addTFile(fout)
         fakeTrackSystematic.addTCanvas(canvas)
-        fakeTrackSystematic.addLuminosityLabel(str(round(lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
-        fakeTrackSystematic.addChannel ("Basic",                       "BasicSelection",                      "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/basicSelection_new")
-        fakeTrackSystematic.addChannel ("DisTrkNHits3",                "DisTrkSelectionSidebandD0CutNHits3",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackSystematic.addChannel ("DisTrkNHits3NoD0Cut",         "DisTrkSelectionNoD0CutNHits3",        "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackSystematic.addChannel ("DisTrkNHits4",                "DisTrkSelectionSidebandD0CutNHits4",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackSystematic.addChannel ("DisTrkNHits5",                "DisTrkSelectionSidebandD0CutNHits5",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackSystematic.addChannel ("DisTrkNHits6",                "DisTrkSelectionSidebandD0CutNHits6",  "MET_2016"       +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackSystematic_d0Sideband_new_v2")
-        fakeTrackSystematic.addChannel ("ZtoLL",                       "ZtoMuMu",                             "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu_new")
-        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3",         "ZtoMuMuDisTrkSidebandD0CutNHits3",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3NoD0Cut",  "ZtoMuMuDisTrkNoD0CutNHits3",          "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits4",         "ZtoMuMuDisTrkSidebandD0CutNHits4",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits5",         "ZtoMuMuDisTrkSidebandD0CutNHits5",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
-        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits6",         "ZtoMuMuDisTrkSidebandD0CutNHits6",    "SingleMu_2016"  +  runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_d0Sideband_new")
+        fakeTrackSystematic.addLuminosityLabel(str(round(lumi["MET_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+        fakeTrackSystematic.addChannel ("Basic",                       "BasicSelection",                      "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
+        fakeTrackSystematic.addChannel ("DisTrkNHits3",                "DisTrkSelectionSidebandD0CutNHits3",  "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("DisTrkNHits3NoD0Cut",         "DisTrkSelectionNoD0CutNHits3",        "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("DisTrkNHits4",                "DisTrkSelectionSidebandD0CutNHits4",  "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("DisTrkNHits5",                "DisTrkSelectionSidebandD0CutNHits5",  "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("DisTrkNHits6",                "DisTrkSelectionSidebandD0CutNHits6",  "MET_2022"       +  runPeriod,  dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("ZtoLL",                       "ZtoMuMu",                             "Muon_2022"  +  runPeriod,  dirs['Mike'] + f"abyss/Muon_run3/Muon_2022{runPeriod}_ZtoMuMu")
+        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3",         "DisTrkSelectionSidebandD0CutNHits3",    "Muon_2022"  +  runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",          "Muon_2022"  +  runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits4",         "DisTrkSelectionSidebandD0CutNHits4",    "Muon_2022"  +  runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits5",         "DisTrkSelectionSidebandD0CutNHits5",    "Muon_2022"  +  runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        fakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits6",         "DisTrkSelectionSidebandD0CutNHits6",    "Muon_2022"  +  runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
         #fakeTrackSystematic.addD0TransferFactor()
-        fakeTrackSystematic.reweightTo("MET_2016", dirs['Andrew']+"2016_final_prompt/basicSelection_new", "BasicSelection", "Eventvariable Plots/nTracks")
+        fakeTrackSystematic.reweightTo("MET_2022"+runPeriod, dirs['Mike']+f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection", "BasicSelection", "Eventvariable Plots/nTracks")
 
-        print "********************************************************************************"
+        print("********************************************************************************")
 
         fakeTrackSystematic.printSystematic()
 
-        print "********************************************************************************"
+        print("********************************************************************************")
 
         fout.Close()
 
-        print "\n\n"
+        print("\n\n")
 
-        print "*************************************************************************************"
-        print "evaluating fake track systematic in data with sideband D0 cut(2016", runPeriod, ")"
-        print "-------------------------------------------------------------------------------------"
+        print("*************************************************************************************")
+        print("evaluating fake track systematic in data with sideband D0 cut(2022", runPeriod, ")")
+        print("-------------------------------------------------------------------------------------")
 
         fout = TFile.Open("sidebandD0CutFakeTrackSystematic" + runPeriod + ".root", "recreate")
 
         sidebandD0CutFakeTrackSystematic = FakeTrackSystematic()
         sidebandD0CutFakeTrackSystematic.addTFile(fout)
         sidebandD0CutFakeTrackSystematic.addTCanvas(canvas)
-        sidebandD0CutFakeTrackSystematic.addLuminosityLabel(str(round(lumi["MET_2016" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
-        sidebandD0CutFakeTrackSystematic.addChannel ("Basic",                "BasicSelection",                     "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits")
-        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits3",         "DisTrkSelectionSidebandD0CutNHits3", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
-        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",       "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/fakeBkgd_d0sideband")
-        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits4",         "DisTrkSelectionSidebandD0CutNHits4", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
-        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits5",         "DisTrkSelectionSidebandD0CutNHits5", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
-        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits6",         "DisTrkSelectionSidebandD0CutNHits6", "MET_2016" + runPeriod,       dirs['Brian']+"2016_final/finalFakeTrackSideband_syst")
-        #sidebandD0CutFakeTrackSystematic.addChannel ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/fakeTrackBackground_nTracksHist")
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoLL",                "ZtoMuMu",                            "SingleMu_2016" + runPeriod,  dirs['Andrew']+"2016_final_prompt/zToMuMu")
-
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3",  "ZtoMuMuDisTrkSidebandD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3NoD0Cut",  "ZtoMuMuDisTrkNoD0CutNHits3",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/fakeSyst_d0sideband")
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits4",  "ZtoMuMuDisTrkSidebandD0CutNHits4",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits5",  "ZtoMuMuDisTrkSidebandD0CutNHits5",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
-        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits6",  "ZtoMuMuDisTrkSidebandD0CutNHits6",   "SingleMu_2016" + runPeriod,  dirs['Brian']+"2016_final/finalFakeTrackSideband")
+        sidebandD0CutFakeTrackSystematic.addLuminosityLabel(str(round(lumi["MET_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+        sidebandD0CutFakeTrackSystematic.addChannel ("Basic",                "BasicSelection",                     "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
+        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits3",         "DisTrkSelectionSidebandD0CutNHits3", "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",       "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits4",         "DisTrkSelectionSidebandD0CutNHits4", "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits5",         "DisTrkSelectionSidebandD0CutNHits5", "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("DisTrkNHits6",         "DisTrkSelectionSidebandD0CutNHits6", "MET_2022" + runPeriod,       dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoLL",                "ZtoMuMu",                            "Muon_2022" + runPeriod,  dirs['Mike'] + f"abyss/Muon_run3/Muon_2022{runPeriod}_ZtoMuMu")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3",  "DisTrkSelectionSidebandD0CutNHits3",   "Muon_2022" + runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits3NoD0Cut",  "DisTrkSelectionNoD0CutNHits3",   "Muon_2022" + runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits4",  "DisTrkSelectionSidebandD0CutNHits4",   "Muon_2022" + runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits5",  "DisTrkSelectionSidebandD0CutNHits5",   "Muon_2022" + runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
+        sidebandD0CutFakeTrackSystematic.addChannel ("ZtoMuMuDisTrkNHits6",  "DisTrkSelectionSidebandD0CutNHits6",   "Muon_2022" + runPeriod,  dirs['Mike']+f"abyss/Muon_run3/Muon_2022{runPeriod}_DisTrkSelectionNoD0Cut")
         #sidebandD0CutFakeTrackSystematic.addD0TransferFactor()
-        sidebandD0CutFakeTrackSystematic.reweightTo("MET_2016", dirs['Brian']+"2016_final/totallyNormalBasic_andDisTrkNHits", "BasicSelection", "Eventvariable Plots/nTracks")
+        sidebandD0CutFakeTrackSystematic.reweightTo("MET_2022"+runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection", "BasicSelection", "Eventvariable Plots/nTracks")
 
-        print "********************************************************************************"
+        print("********************************************************************************")
 
         sidebandD0CutFakeTrackSystematic.printSystematic()
 
-        print "********************************************************************************"
+        print("********************************************************************************")
 
         fout.Close()
 
-        print "\n\n"
+        print("\n\n")
 
 if background == "ELECTRON" or background == "ALL":
 
@@ -105,28 +103,28 @@ if background == "ELECTRON" or background == "ALL":
 
         for nLayersWord in nLayersWords:
 
-            print "********************************************************************************"
-            print "evaluating electron energy systematic (2018", runPeriod, "--", nLayersWord, ")"
-            print "--------------------------------------------------------------------------------"
+            print("********************************************************************************")
+            print("evaluating electron energy systematic (2022", runPeriod, "--", nLayersWord, ")")
+            print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("electronEnergySystematic_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("electronEnergySystematic_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             electronEnergySystematic = LeptonEnergySystematic("electron")
             electronEnergySystematic.addTFile(fout)
             electronEnergySystematic.addTCanvas(canvas)
-            electronEnergySystematic.addLuminosityLabel(str(round(lumi["EGamma_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
-            electronEnergySystematic.addPlotLabel("EGamma 2018" + runPeriod)
+            electronEnergySystematic.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            electronEnergySystematic.addPlotLabel("EGamma 2022" + runPeriod)
             electronEnergySystematic.addMetCut(120.0)
 
-            electronEnergySystematic.addChannel("TagPt35",        "ElectronTagPt55"        + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
-            electronEnergySystematic.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
+            electronEnergySystematic.addChannel("TagPt35",        "ElectronTagPt55"        + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            electronEnergySystematic.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
 
-            print "********************************************************************************"
+            print("********************************************************************************")
             electronEnergySystematic.printSystematic()
-            print "********************************************************************************"
+            print("********************************************************************************")
 
             fout.Close()
-            print "\n\n"
+            print("\n\n")
 
 if background == "TAU" or background == "ALL":
 
@@ -134,28 +132,28 @@ if background == "TAU" or background == "ALL":
 
         for nLayersWord in nLayersWords:
 
-            print "********************************************************************************"
-            print "evaluating tau energy systematic(2018", runPeriod, "--", nLayersWord, ")"
-            print "--------------------------------------------------------------------------------"
+            print("********************************************************************************")
+            print("evaluating tau energy systematic(2022", runPeriod, "--", nLayersWord, ")")
+            print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("tauEnergySystematic_2018" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("tauEnergySystematic_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             tauEnergySystematic = LeptonEnergySystematic("tau")
             tauEnergySystematic.addTFile(fout)
             tauEnergySystematic.addTCanvas(canvas)
-            tauEnergySystematic.addLuminosityLabel(str(round(lumi["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*"]["Tau_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13 TeV)")
-            tauEnergySystematic.addPlotLabel("Tau 2018" + runPeriod)
+            tauEnergySystematic.addLuminosityLabel(str(round(lumi["Tau_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            tauEnergySystematic.addPlotLabel("Tau 2022" + runPeriod)
             tauEnergySystematic.addMetCut(120.0)
             tauEnergySystematic.addRebinFactor(4)
 
-            tauEnergySystematic.addChannel("TagPt35",        "TauTagPt55"             + nLayersWord, "Tau_2018"    + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
-            #tauEnergySystematic.addChannel("TagPt35MetTrig", "TauTagPt55MetTrig"      + nLayersWord, "Tau_2018"    + runPeriod, dirs['Brian'] + "2018/fromLPC/TauControlRegion")
-            tauEnergySystematic.addChannel("TrigEffDenom",   "ElectronTagPt55"        + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
-            tauEnergySystematic.addChannel("TrigEffNumer",   "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2018" + runPeriod, dirs['Kai'] + "2018/fromLPC/electronControlRegionBinnedLayers")
+            tauEnergySystematic.addChannel("TagPt35",        "TauTagPt55"             + nLayersWord, "Tau_2022"    + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+            #tauEnergySystematic.addChannel("TagPt35MetTrig", "TauTagPt55MetTrig"      + nLayersWord, "Tau_2018"    + runPeriod, dirs['Mike'] + "2018/fromLPC/TauControlRegion")
+            tauEnergySystematic.addChannel("TrigEffDenom",   "ElectronTagPt55"        + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            tauEnergySystematic.addChannel("TrigEffNumer",   "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
 
-            print "********************************************************************************"
+            print("********************************************************************************")
             tauEnergySystematic.printSystematic()
-            print "********************************************************************************"
+            print("********************************************************************************")
 
             fout.Close()
-            print "\n\n"
+            print("\n\n")

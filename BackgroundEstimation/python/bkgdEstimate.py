@@ -827,11 +827,7 @@ class LeptonBkgdEstimate:
 
         nEst.isPositive ()
 
-        #print("Types in alpha", type(scaleFactor), type(pPassVeto), type(pPassMetCut), type(pPassMetTriggers))
-        #print("Debugging: \n\t pPassVeto {} \n\t passes {} \n\t scaleFactor {} \n\t total {} \n\t pPassMetCut {} \n\t pPassMetTriggers {}".format(str(pPassVeto), str(passes), str(scaleFactor), str(total), str(pPassMetCut), str(pPassMetTriggers)))
-
         alpha = scaleFactor * pPassVeto * pPassMetCut * pPassMetTriggers
-        #print("Debugging, alpha after construction {}".format(str(alpha)))
         if self._calculateTriggerEfficiency:
             alpha /= triggerEfficiency
         elif self._useExternalTriggerEfficiency and hasattr (self, 'externalTriggerEfficiency'):
@@ -1079,9 +1075,7 @@ class LeptonBkgdEstimate:
                 passes1.isPositive ()
                 total.isPositive ()
 
-                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor if positive_numerator_flag else 0
-                if scaledPasses == 0:
-                    scaledPasses.setSystematicUp(up68)
+                scaledPasses = passes * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor if positive_numerator_flag else Measurement(0, 0, up68)
 
                 p = passes
                 sf = Measurement (self._tagProbePassScaleFactor, 0.0)
@@ -1090,14 +1084,13 @@ class LeptonBkgdEstimate:
                     sf = (passes * self._tagProbePassScaleFactor * self._tagProbePassScaleFactor + passes1 * self._tagProbePass1ScaleFactor * self._tagProbePass1ScaleFactor) / scaledPasses
                     p.setUncertainty (math.sqrt (p.centralValue ()))
                     sf.setUncertainty (0.0)
-
+                
                 if (self._flavor == "electron" or self._flavor == "muon") and not self._useHistogramsForPpassVeto:
                     eff = scaledPasses / (2.0 * total - scaledPasses)
                 else:
                     eff = scaledPasses / total
                 eff.printLongFormat = False
                 print("P (pass lepton veto) in tag-probe sample: " + str (eff))
-                #print("Debugging P {}, Eff {}".format(str(p), str(eff)))
                 return (eff, p, sf, total)
             else:
                 print("TagProbe and TagProbePass not both defined.  Not printing lepton veto efficiency...")
@@ -1314,7 +1307,7 @@ class FakeTrackBkgdEstimate:
         setattr (self, role, channel)
         if verbose: print("yield for " + name + ": " + str (channel["yield"]))
 
-    def printTransferFactor (self, verbose = True):
+    def printTransferFactor (self, setFit=None, returnFit=False, verbose=True):
 
         if self._useFlatD0Fit:
             transferFactor = self._minD0 / (self._maxD0 - self._minD0)
@@ -1335,32 +1328,41 @@ class FakeTrackBkgdEstimate:
             d0.Rebin(self._rebinFactor)
 
             f = TF1 ("gaussian", gaussian, -1.0, 1.0, 3)
-            f.SetParameter (0, 0.2)
-            f.SetParLimits (0, 1.0e-3, 1.0e3)
-            f.SetParName (0, "Gaussian sigma")
-            f.SetParameter (1, 40.0)
-            f.SetParLimits (1, 1.0e-3, 1.0e3)
-            f.SetParName (1, "Gaussian norm")
-            if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-              f.SetParameter (2, 1.0)
-              f.SetParLimits (2, 1.0e-3, 1.0e3)
-              f.SetParName (2, "constant")
+            if setFit != None:
+                f = setFit
             else:
-              f.SetParameter (2, 20.0)
-              f.SetParLimits (2, 1.0e-8, 1.0e3)
-              f.SetParName (2, "constant")
-            for i in range (0, 10):
-                d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
-            d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
+                f.SetParameter (0, 0.2)
+                f.SetParLimits (0, 1.0e-3, 1.0e3)
+                f.SetParName (0, "Gaussian sigma")
+                f.SetParameter (1, 40.0)
+                f.SetParLimits (1, 1.0e-3, 1.0e3)
+                f.SetParName (1, "Gaussian norm")
+                if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+                    f.SetParameter (2, 1.0)
+                    f.SetParLimits (2, 1.0e-3, 1.0e3)
+                    f.SetParName (2, "constant")
+                else:
+                    f.SetParameter (2, 20.0)
+                    f.SetParLimits (2, 1.0e-3, 1.0e3)
+                    f.SetParName (2, "constant")
+                for i in range (0, 10):
+                    d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+                d0Mag.Fit (f, "LEMN", "", 0.1, 1.0)
 
-            if self._fout.IsOpen():
-                self._fout.cd ()
-                d0.Write ("d0")
-                f.Write ("d0_fit")
+                if self._fout.IsOpen():
+                    self._fout.cd ()
+                    d0.Write ("d0")
+                    f.Write ("d0_fit")
 
-            d0Mag.Scale (2.0)
-            for i in range (0, 10):
-                d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+                if returnFit:
+                    print(f.GetParameter(0), f.GetParameter(1), f.GetParameter(2))
+                    return f
+
+                d0Mag.Scale (2.0)
+                for i in range (0, 10):
+                    d0Mag.Fit (f, "LQEMN", "", 0.1, 1.0)
+
+
 
             trueSideband = d0Mag.Integral(d0Mag.GetXaxis().FindFixBin(self._minD0), d0Mag.GetXaxis().FindFixBin(self._maxD0-0.001))
             trueSR = d0Mag.Integral(d0Mag.GetXaxis().FindBin(0.0), d0Mag.GetXaxis().FindBin(0.02-0.001))
@@ -1381,10 +1383,12 @@ class FakeTrackBkgdEstimate:
             transferError = math.sqrt (failsError * failsError * passes.centralValue () * passes.centralValue () + passesError * passesError * fails.centralValue () * fails.centralValue ()) / (fails.centralValue () * fails.centralValue ())
             if fails > 0.0:
                 transferFactor = passes / fails
+                transferFactor.isPositive()
                 sidebandEst = transferFactor.centralValue()*trueSideband
                 statErr = math.sqrt(sidebandEst) * transferFactor.centralValue()
                 fitErr = trueSideband * transferError
                 if verbose: 
+                    print("transfer denominator", str(fails))
                     print("Transfer factor: (" + str (passes) + ") / (" + str (fails) + ") = " + str (transferFactor))
                     f = open(self._txtOut, 'a+')
                     f.write("Transfer factor: " + str(transferFactor))
@@ -1475,8 +1479,8 @@ class FakeTrackBkgdEstimate:
             if verbose: print("DisTrkInvertD0 is not defined. Not printing N_ctrl...")
             return (float ("nan"), float ("nan"))
 
-    def printNest (self, verbose = True):
-        xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor (verbose)
+    def printNest (self, verbose = True, setFit=None):
+        xi, xiPass, xiFail, xiPassError, xiFailError = self.printTransferFactor (verbose=verbose, setFit=setFit)
         nCtrl, nRaw, norm, pFake, nSR = self.printNctrl (verbose)
 
         pFake *= xi
@@ -1487,12 +1491,18 @@ class FakeTrackBkgdEstimate:
         nEst = xi * nCtrl
         nEst.isPositive ()
 
-        fitErr = math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
-        errorFromFit = nCtrl.centralValue () * fitErr
-
-        zTollEst = nRaw.centralValue() * xi.centralValue()
-        zTollStat = math.sqrt(nRaw.centralValue()) * xi.centralValue()
-        zTollSys = nRaw.centralValue() * fitErr
+        if isinstance(xi, Measurement):
+            fitErr = math.sqrt (xiFailError * xiFailError * xiPass.centralValue () * xiPass.centralValue () + xiPassError * xiPassError * xiFail.centralValue () * xiFail.centralValue ()) / (xiFail.centralValue () * xiFail.centralValue ())
+            errorFromFit = nCtrl.centralValue () * fitErr
+            zTollEst = nRaw.centralValue() * xi.centralValue()
+            zTollStat = math.sqrt(nRaw.centralValue()) * xi.centralValue()
+            zTollSys = nRaw.centralValue() * fitErr
+        else:
+            fitErr = math.sqrt (xiFailError * xiFailError * xiPass * xiPass + xiPassError * xiPassError * xiFail * xiFail) / (xiFail * xiFail)
+            errorFromFit = nCtrl.centralValue() * fitErr
+            zTollEst = nRaw.centralValue() * xi
+            zTollStat = math.sqrt(nRaw.centralValue()) * xi
+            zTollSys = nRaw.centralValue() * fitErr
 
         if verbose:
             alpha.printLongFormat ()
