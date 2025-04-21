@@ -8,7 +8,7 @@ backgrounds = {
         'alpha' : '0.0293',
     },
     'Elec' : {
-        'N' : '4625',
+        'N' : '0',
         'alpha' : '0.0273',
     },
     'Muon' : {
