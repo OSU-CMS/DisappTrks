@@ -59,7 +59,7 @@ MissingHitsCorrections["2022EFG"] = {
 MissingHitsCorrections["2023C"] = {
     "dropTOBProbability"          :  0.0008906712, # PRE_TOB Y()
     "preTOBDropHitInefficiency"   :  0.0030917790, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.6015933621, # POST_TOB X()
+    "postTOBDropHitInefficiency"  :  0.5914658589, # POST_TOB X()
     "hitInefficiency"             :  0.0050990953, # middle X()
 }
 

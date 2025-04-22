@@ -145,7 +145,7 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 	actual_bin_name = 'Bin2018CD' + nLayersWord
 	intLumi = lumi["MET_2018CD"]
 elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]: # This has to be updated
-	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022/signalAcceptance_sigCentralLooseNoMissOut_v2/'
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022preEE/signalAcceptance_sigCentralLooseNoMissOut_v2/'
 	signal_suffix = signal_suffix_in_datacard = '130X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -426,14 +426,14 @@ elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plu
 	}
 
 	if arguments.era.endswith("NLayers4"):
-		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.03155349668257941 / 100.0)}
-		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.12272478761252413 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 1.5873015873015872 / 100.0)}
 	if arguments.era.endswith("NLayers5"):
-		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 2.94117647059 / 100.0)}
-		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 1.4794127782809223 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 1.1697731482140135 / 100.0)}
 	if arguments.era.endswith("NLayers6plus"):
-		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
-		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.6460479699310757 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.3466369361479975 / 100.0)}
 elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
 	signal_systematic_uncertainties = {
 	    'lumi_Bin2022EFG_' + nLayersWord :  {

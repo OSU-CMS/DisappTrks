@@ -19,9 +19,9 @@ dirs = getUser()
 
 debug=True
 
-runPeriods = ['EFG']
-year = '2022'
-mode = 'ZtoEE'
+runPeriods = ['D']
+year = '2023'
+mode = 'zToMuMu'
 nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
 
 stdout = sys.stdout
@@ -75,23 +75,18 @@ for runPeriod in runPeriods:
       fakeTrackBkgdEstimate.addMaxD0 (minD0+0.05)        
       fakeTrackBkgdEstimate.addTFile (fdummy)
       fakeTrackBkgdEstimate.addTxtFile(txtFile)
-
-      #fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
-      #fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayers, "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
-      #fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/basicSelection_v2")
-      #fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/zToMuMu")
       
-      if mode=='ZtoMuMu':
-        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
-        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayer, "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/fakeBackground")
-        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2018"      + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/basicSelection_v2")
-        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "SingleMu_2018" + runPeriod, dirs['Mike'] + "bfrancisStore/2018/fromLPC/zToMuMu")
+      if mode=='zToMuMu':
+        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       f"Muon_{year}" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_{year}{runPeriod}_ZtoMuMuDisTrkNoD0Cut")
+        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayer, f"Muon_{year}" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_{year}{runPeriod}_ZtoMuMuDisTrkNoD0Cut")
+        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     f"MET_{year}"      + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_{year}{runPeriod}_basicSelection")
+        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            f"Muon_{year}" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_{year}{runPeriod}_ZtoMuMu")
       
       else:
-        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
-        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayer, "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
-        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
-        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2022" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoEE")
+        fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       f"EGamma_{year}" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_{year}{runPeriod}_ZtoEEDisTrkNoD0CutNLayer/")
+        fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayer, f"EGamma_{year}" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_{year}{runPeriod}_ZtoEEDisTrkNoD0CutNLayer")
+        fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   f"MET_{year}"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_{year}{runPeriod}_basicSelection")
+        fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            f"EGamma_{year}" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_{year}{runPeriod}_ZtoEE")
       
       nEst = fakeTrackBkgdEstimate.printNest ()[0]
 

@@ -4,11 +4,11 @@
 
 backgrounds = {
     'Fake' : {
-        'N' : '5',
-        'alpha' : '0.0771206651790814',
+        'N' : '14',
+        'alpha' : '0.0422',
     },
     'Elec' : {
-        'N' : '8121',
+        'N' : '0',
         'alpha' : '0.0277',
     },
     'Muon' : {
@@ -16,18 +16,18 @@ backgrounds = {
         'alpha' : '0',
     },
     'Tau' : {
-        'N' : '2',
+        'N' : '0',
         'alpha' : '0.015',
     },
 }
 
 background_systematics = {
     'Fake_alpha_NLayers5' : { # error on alpha
-        'value' : '1.001115412377276',
+        'value' : '1.5963',
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers5' : { # error on alpha
-        'value' : '1.0804868695405496', # 0 --> 0.000001 numerical safety
+        'value' : '1.0805', # 0 --> 0.000001 numerical safety
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers5' : { # error on alpha
@@ -42,16 +42,16 @@ background_systematics = {
     # Still using 2018AB values; NEEDS TO BE UPDATED
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '1.52067231799',
+        'value' : '1.760',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers5' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : str (1.0 + abs(0.46 - 0.52) / 0.46),
+        'value' : '1.339',
         'background' : 'Fake',
     },
 
     'Elec_energy_NLayers5' : { # error on energy assumption
-        'value' : str (1.0 + 14.9618157954 / 100.0),
+        'value' : '1.145',
         'background' : 'Elec',
     },
     'Tau_energy_NLayers5' : { # error on energy assumption
