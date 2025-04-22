@@ -38,20 +38,20 @@ nLayersWord = "NLayers4"
 if len(sys.argv) > 2:
     nLayersWord = sys.argv[2]
 
-lumi = lumi["MET_2022EFG"]
+lumi = lumi["MET_2023C"]
 
 if systematic == "PILEUP" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating pileup systematic (2022EFG) " + nLayersWord)
+    print("evaluating pileup systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_pileup_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_pileup_2023C_" + nLayersWord + ".txt", "w")
 
     pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     pileupSystematic.addExtraSamples(extraSamples)
     pileupSystematic.addFout(fout)
-    pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    pileupSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
     pileupSystematic.defineWeightToFluctuate('eventvariable_puScalingFactor')
     pileupSystematic.printSystematic ()
 
@@ -64,7 +64,7 @@ if systematic == "PILEUP" or systematic == "ALL":
 if systematic == "MET" or systematic == "ALL":
     
     print("********************************************************************************")
-    print("evaluating met systematics (2022EFG) " + nLayersWord)
+    print("evaluating met systematics (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
     metVaryTypes = [
@@ -78,12 +78,12 @@ if systematic == "MET" or systematic == "ALL":
 
     metSystematic = MetSystematic(masses, lifetimes, isHiggsino = True)
     metSystematic.addExtraSamples(extraSamples)
-    metSystematic.addChannel("central", "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
-    metSystematic.addChannel("up",      "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
-    metSystematic.addChannel("down",    "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    metSystematic.addChannel("central", "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    metSystematic.addChannel("up",      "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    metSystematic.addChannel("down",    "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
     metSystematic.addMetTypes(metVaryTypes)
     metSystematic.setMetCut(120.0)
-    metSystematic.setFoutNames(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_metVary", "2022EFG_" + nLayersWord + ".txt")
+    metSystematic.setFoutNames(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_metVary", "2023C_" + nLayersWord + ".txt")
     metSystematic.printSystematic()
 
     print("********************************************************************************")
@@ -93,17 +93,17 @@ if systematic == "MET" or systematic == "ALL":
 if systematic == "JEC" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating JEC systematic (2022EFG) " + nLayersWord)
+    print("evaluating JEC systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jec_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jec_2023C_" + nLayersWord + ".txt", "w")
 
     jecSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jecSystematic.addFout(fout)
     jecSystematic.addExtraSamples(extraSamples)
-    jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
-    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
-    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    jecSystematic.addChannel("central", "disTrkSelectionSmearedJets"        + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    jecSystematic.addChannel("down",    "disTrkSelectionSmearedJetsJECUp"   + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    jecSystematic.addChannel("up",      "disTrkSelectionSmearedJetsJECDown" + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
     jecSystematic.printSystematic()
 
     print("********************************************************************************")
@@ -115,17 +115,17 @@ if systematic == "JEC" or systematic == "ALL":
 if systematic == "JER" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating JER systematic (2022EFG) " + nLayersWord)
+    print("evaluating JER systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jer_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jer_2023C_" + nLayersWord + ".txt", "w")
 
     jerSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jerSystematic.addFout(fout)
     jerSystematic.addExtraSamples(extraSamples)
-    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
-    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
-    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    jerSystematic.addChannel("central",  "disTrkSelectionSmearedJets"     + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    jerSystematic.addChannel("down",     "disTrkSelectionSmearedJetsUp"   + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
+    jerSystematic.addChannel("up",       "disTrkSelectionSmearedJetsDown" + nLayersWord, suffix,  dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigJecJerNoMet_v2")
     jerSystematic.printSystematic()
 
     print("********************************************************************************")
@@ -137,15 +137,15 @@ if systematic == "JER" or systematic == "ALL":
 if systematic == "ISR" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating ISR systematic (2022EFG) " + nLayersWord)
+    print("evaluating ISR systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_isr_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_isr_2023C_" + nLayersWord + ".txt", "w")
 
     isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     isrSystematic.addExtraSamples(extraSamples)
     isrSystematic.addFout(fout)
-    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    isrSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
     isrSystematic.defineWeightToFluctuate('eventvariable_isrWeight')
     isrSystematic.printSystematic ()
 
@@ -158,16 +158,16 @@ if systematic == "ISR" or systematic == "ALL":
 if systematic == "TRIGGER" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating trigger efficiency systematics (2022EFG) " + nLayersWord)
+    print("evaluating trigger efficiency systematics (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
     for flux in ['Data', 'MC']:
-        fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_trigger_grandOrWeight" + flux + '_2022EFG_' + nLayersWord + ".txt", "w")
+        fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_trigger_grandOrWeight" + flux + '_2023C_' + nLayersWord + ".txt", "w")
 
         triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
         triggerSystematic.addExtraSamples(extraSamples)
         triggerSystematic.addFout(fout)
-        triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+        triggerSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
         triggerSystematic.defineFluctuationUp  ('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Up')
         triggerSystematic.defineFluctuationDown('eventvariable_grandOrWeight', 'eventvariable_grandOrWeight' + flux + 'Down')
         triggerSystematic.printSystematic()
@@ -181,20 +181,20 @@ if systematic == "TRIGGER" or systematic == "ALL":
 if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 
     print("********************************************************************************")
-    print("evaluating missing outer hits systematic (2022EFG)")
+    print("evaluating missing outer hits systematic (2023C)")
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_nMissOut_2022EFG_" + nLayersWord + ".txt", "w")
-    foutForPlot = TFile.Open ("nMissOutSystematic_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_nMissOut_2023C_" + nLayersWord + ".txt", "w")
+    foutForPlot = TFile.Open ("nMissOutSystematic_2023C_higgsino_" + nLayersWord + ".root", "recreate")
 
     missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi, isHiggsino = True)
     missingOuterHitsSystematic.addFout (fout)
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2022EFG",  dirs['Mike'] + "abyss/MET_run3/MET_2022EFG_MissingHitsSelection")
-    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "MissingHits_2022EFG",     dirs['Mike'] + "abyss/MissingHitsCorrections/2022_postEE")
-    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2023C",  dirs['Mike'] + "abyss/MET_run3/MET_2023C_MissingHitsSelection")
+    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "MissingHits_2023C",     dirs['Mike'] + "abyss/MissingHitsCorrections/2023_preBpix")
+    missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
     missingOuterHitsSystematic.printSystematic ()
 
     print("********************************************************************************")
@@ -207,19 +207,19 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
 if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL": # TODO: check this cut
 
     print("********************************************************************************")
-    print("evaluating muon veto scale factor systematic (2022EFG) " + nLayersWord)
+    print("evaluating muon veto scale factor systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_muonVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
-    foutForPlot = TFile.Open ("muonVetoScaleFactors_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_muonVetoScaleFactor_2023C_" + nLayersWord + ".txt", "w")
+    foutForPlot = TFile.Open ("muonVetoScaleFactors_2023C_higgsino_" + nLayersWord + ".root", "recreate")
 
     muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi, isHiggsino = True)
     muonVetoSFSystematic.addFout(fout)
     muonVetoSFSystematic.addFoutForPlot(foutForPlot)
-    muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
-    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithLooseFilter"   + nLayersWord, "hist_merged_EGamma_2022EFG_LepVeto", dirs['Breno'] + "BGData/Run3/2022/EGammaSigSyst/IncludingHists")
+    muonVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",               dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    muonVetoSFSystematic.addChannel("Data",   "ZtoEleProbeTrkWithLooseFilter"   + nLayersWord, "hist_merged_EGamma_2023C_LepVeto", dirs['Breno'] + "BGData/Run3/2023/EGammaSigSyst")
     muonVetoSFSystematic.addSignalSuffix("_" + suffix)
-    muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2022EFGLoose')
+    muonVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root', 'muonID2023CLoose')
     muonVetoSFSystematic.printSystematic()
 
     print("********************************************************************************\n\n")
@@ -231,19 +231,19 @@ if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL": # TODO: check 
 if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL": # TODO: check this cut
 
     print("********************************************************************************")
-    print("evaluating electron veto scale factor systematic (2022EFG) " + nLayersWord)
+    print("evaluating electron veto scale factor systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_electronVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
-    foutForPlot = TFile.Open ("electronVetoScaleFactors_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_electronVetoScaleFactor_2023C_" + nLayersWord + ".txt", "w")
+    foutForPlot = TFile.Open ("electronVetoScaleFactors_2023C_higgsino_" + nLayersWord + ".root", "recreate")
 
     electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi, isHiggsino = True)
     electronVetoSFSystematic.addFout(fout)
     electronVetoSFSystematic.addFoutForPlot(foutForPlot)
-    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",              dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
-    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "hist_merged_Muon_2022EFG_LepVeto", dirs['Breno'] + "BGData/Run3/2022/MuonSigSyst/IncludingHists")
+    electronVetoSFSystematic.addChannel("Signal", "disTrkSelectionSmearedJetsLooseVetoes" + nLayersWord, "",              dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    electronVetoSFSystematic.addChannel("Data",   "ZtoMuProbeTrkWithLooseFilter"          + nLayersWord, "hist_merged_Muon_2023C_LepVeto", dirs['Breno'] + "BGData/Run3/2023/MuonSigSyst")
     electronVetoSFSystematic.addSignalSuffix("_" + suffix)
-    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2022EFGVeto')
+    electronVetoSFSystematic.setPOGPayload(os.environ["CMSSW_BASE"] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root', 'electronID2023CVeto')
     electronVetoSFSystematic.printSystematic()
 
     print("********************************************************************************\n\n")
@@ -256,7 +256,7 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
 
     # first calculate the trigger turn-on curves for this category and NLayers6plus
     print("********************************************************************************")
-    print("evaluating trigger turn-on curves (2022EFG) " + nLayersWord)
+    print("evaluating trigger turn-on curves (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
     canvas = TCanvas("c1", "c1", 561, 482, 800, 830)
@@ -276,8 +276,8 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     canvas.SetFrameFillStyle(0)
     canvas.SetFrameBorderMode(0)
 
-    foutForEfficienciesThisNLayers = TFile('triggerEfficiency_Higgsino_' + nLayersWord + '_2022EFG.root', 'recreate')
-    foutForEfficienciesNLayers6plus = TFile('triggerEfficiency_Higgsino_NLayers6plus_2022EFG.root', 'recreate')
+    foutForEfficienciesThisNLayers = TFile('triggerEfficiency_Higgsino_' + nLayersWord + '_2023C.root', 'recreate')
+    foutForEfficienciesNLayers6plus = TFile('triggerEfficiency_Higgsino_NLayers6plus_2023C.root', 'recreate')
 
     for mass in masses:
         inputFile = 'Higgsino_' + str(mass) + 'GeV_allLifetimes'
@@ -285,8 +285,8 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
         grandOrEfficiency = TriggerEfficiency('GrandOr', [], 'METPath')
         grandOrEfficiency.addTFile(foutForEfficienciesThisNLayers, nameSuffix = 'AMSB_' + str(mass) + 'GeV')
         grandOrEfficiency.addTCanvas(canvas)
-        grandOrEfficiency.addChannel("Numerator",   "GrandOrNumeratorTrk4"   + nLayersWord, inputFile, dirs['Breno'] + 'SignalMC/Run3/2022/signalAcceptance_higgsino_sigTrigTurnOn_v2')
-        grandOrEfficiency.addChannel("Denominator", "GrandOrDenominatorTrk" + nLayersWord, inputFile, dirs['Breno'] + 'SignalMC/Run3/2022/signalAcceptance_higgsino_sigTrigTurnOn_v2')
+        grandOrEfficiency.addChannel("Numerator",   "GrandOrNumeratorTrk4"   + nLayersWord, inputFile, dirs['Breno'] + 'SignalMC/Run3/2023/signalAcceptance_higgsino_sigTrigTurnOn_v2')
+        grandOrEfficiency.addChannel("Denominator", "GrandOrDenominatorTrk" + nLayersWord, inputFile, dirs['Breno'] + 'SignalMC/Run3/2023/signalAcceptance_higgsino_sigTrigTurnOn_v2')
         grandOrEfficiency.setDatasetLabel(inputFile)
         grandOrEfficiency.setIsMC(True)
         grandOrEfficiency.plotEfficiency()
@@ -294,28 +294,28 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
         grandOrEfficiencyNLayers6plus = TriggerEfficiency('GrandOr', [], 'METPath')
         grandOrEfficiencyNLayers6plus.addTFile(foutForEfficienciesNLayers6plus, nameSuffix = 'AMSB_' + str(mass) + 'GeV')
         grandOrEfficiencyNLayers6plus.addTCanvas(canvas)
-        grandOrEfficiencyNLayers6plus.addChannel("Numerator",   "GrandOrNumeratorTrk4NLayers6plus",   inputFile, dirs['Breno'] + 'SignalMC/Run3/2022/signalAcceptance_higgsino_sigTrigTurnOn_v2')
-        grandOrEfficiencyNLayers6plus.addChannel("Denominator", "GrandOrDenominatorTrkNLayers6plus", inputFile, dirs['Breno'] + 'SignalMC/Run3/2022/signalAcceptance_higgsino_sigTrigTurnOn_v2')
+        grandOrEfficiencyNLayers6plus.addChannel("Numerator",   "GrandOrNumeratorTrk4NLayers6plus",   inputFile, dirs['Breno'] + 'SignalMC/Run3/2023/signalAcceptance_higgsino_sigTrigTurnOn_v2')
+        grandOrEfficiencyNLayers6plus.addChannel("Denominator", "GrandOrDenominatorTrkNLayers6plus", inputFile, dirs['Breno'] + 'SignalMC/Run3/2023/signalAcceptance_higgsino_sigTrigTurnOn_v2')
         grandOrEfficiencyNLayers6plus.setDatasetLabel(inputFile)
         grandOrEfficiencyNLayers6plus.setIsMC(True)
         grandOrEfficiencyNLayers6plus.plotEfficiency()
 
     # now calculate the systematic based on the difference between this category and NLayers6plus
     print("********************************************************************************")
-    print("evaluating trigger turn-on systematic (2022EFG) " + nLayersWord)
+    print("evaluating trigger turn-on systematic (2023C) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_triggerTurnOn_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_triggerTurnOn_2023C_" + nLayersWord + ".txt", "w")
 
-    foutForSystematics  = TFile('triggerTurnOnSystematic_2022EFG_higgsino_' + nLayersWord + '.root', 'recreate')
+    foutForSystematics  = TFile('triggerTurnOnSystematic_2023C_higgsino_' + nLayersWord + '.root', 'recreate')
 
     turnOnSystematic = TriggerTurnOnSystematic(masses, lifetimes, lumi, isHiggsino = True)
     turnOnSystematic.addExtraSamples(extraSamples)
     turnOnSystematic.addFout(fout)
     turnOnSystematic.addSignalSuffix ("_" + suffix)
-    turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
-    turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_Higgsino_NLayers6plus_2022EFG.root')
-    turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_Higgsino_' + nLayersWord + '_2022EFG.root')
+    turnOnSystematic.addChannel("central", "disTrkSelectionSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
+    turnOnSystematic.addEfficiencies("Denominator", "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_Higgsino_NLayers6plus_2023C.root')
+    turnOnSystematic.addEfficiencies("Numerator",   "GrandOr_METPath_AMSB_XYZGeV", 'triggerEfficiency_Higgsino_' + nLayersWord + '_2023C.root')
     turnOnSystematic.printSystematic()
 
     print("********************************************************************************\n\n")
