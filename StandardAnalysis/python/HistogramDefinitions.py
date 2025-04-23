@@ -135,6 +135,13 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("bestTrackMissingOuterHits", "caloNewNoPUDRp5CentralCalo"),
             ),
         cms.PSet (
+            name = cms.string("trackFitPlaneWithCaloJet"),
+            title = cms.string("Number of Missing Outer Hits;N_{miss}^{out};matchedCaloJetEmEnergy+matchedCaloJetHadEnergy [GeV]"),
+            binsX = cms.untracked.vdouble(16, -0.5, 15.5),
+            binsY = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("bestTrackMissingOuterHits", "matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+            ),
+        cms.PSet (
             name = cms.string("trackNHitsMissingOuter"),
             title = cms.string("Number of Missing Outer Hits;N_{miss}^{out}"),
             binsX = cms.untracked.vdouble(16, -0.5, 15.5),
@@ -262,6 +269,12 @@ TrackExtraHistograms = cms.PSet(
             title = cms.string("Relative isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5}/p"),
             binsX = cms.untracked.vdouble(100, 0, 2),
             inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo / p"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergy"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
             ),
         cms.PSet (
             name = cms.string("trackPtError"),
@@ -1180,7 +1193,7 @@ DiMuonExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("muons", "muons"),
     histograms = cms.VPSet (
         cms.PSet (
-            name = cms.string("diMuonPt"),
+            name = cms.string("diMuonPtWide"),
             title = cms.string("Di-muon pT;p_{T} (#mu#mu)"),
             binsX = cms.untracked.vdouble(5000, 0, 5000),
             inputVariables = cms.vstring("pT (muon, muon)")
@@ -1652,6 +1665,54 @@ EventVariableHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(10, -0.5, 9.5),
             binsY = cms.untracked.vdouble(10, -0.5, 9.5),
             inputVariables = cms.vstring("nGoodTPPairs", "nProbesPassingLooseVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesMatchingTag"),
+            title = cms.string(";number of good probes matching tag, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesMatchingTag"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesFiringTriggerMatchingTag"),
+            title = cms.string(";number of good probes matching tag and firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesFiringTriggerMatchingTag"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesMatchingTag"),
+            title = cms.string(";number of good ss probes matching tag, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesMatchingTag"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesFiringTriggerMatchingTag"),
+            title = cms.string(";number of good ss probes matching tag and firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesFiringTriggerMatchingTag"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesFiringTrigger"),
+            title = cms.string(";number of good ss probes firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesFiringTrigger"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesFiringTrigger"),
+            title = cms.string(";number of good probes firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesFiringTrigger"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPT55"),
+            title = cms.string(";number of good probes pt > 55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesPT55"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesSSPT55"),
+            title = cms.string(";number of good ss probes pt > 55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesSSPT55"),
         ),
         cms.PSet (
             name = cms.string("leadingJetPt"),

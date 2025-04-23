@@ -6,7 +6,7 @@ from DisappTrks.StandardAnalysis.EventSelections import *  # Get the composite c
 def createHitsVariations (ch, chName):
     globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
     globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         replaceSingleCut (globals ()[chName + 'NHits3'].cuts,   cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
         replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
@@ -26,7 +26,7 @@ tagElectronCuts = [
     cutElectronTightID,
     cutElectronTightPFIso,
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     tagElectronCuts = [
         cutMetFilters,
         cutElectronPt,
@@ -203,6 +203,10 @@ ElectronFiducialCalcBeforeInvestigate2018Ineff = copy.deepcopy(ElectronFiducialC
 ElectronFiducialCalcBeforeInvestigate2018Ineff.name = cms.string("ElectronFiducialCalcBeforeInvestigate2018Ineff")
 addCuts(ElectronFiducialCalcBeforeInvestigate2018Ineff.cuts, [cutTrkInvestigate2018Ineff])
 
+ElectronDeepSetsBeforeOldCuts = copy.deepcopy(ElectronFiducialCalcBeforeOldCuts)
+ElectronDeepSetsBeforeOldCuts.name = cms.string("ElectronDeepSetsBeforeOldCuts")
+addCuts(ElectronDeepSetsBeforeOldCuts.cuts, [cutDeepSets])
+
 ElectronFiducialCalcAfter = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ElectronFiducialCalcAfter.name = cms.string("ElectronFiducialCalcAfter")
 addSingleCut(ElectronFiducialCalcAfter.cuts, cutTrkVetoElecVeto, cutEleTrkOS)
@@ -215,6 +219,10 @@ ElectronFiducialCalcAfterOldCuts.name = cms.string("ElectronFiducialCalcAfterOld
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(ElectronFiducialCalcAfterOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
+
+ElectronDeepSetsAfter = copy.deepcopy(ElectronFiducialCalcBeforeOldCuts)
+ElectronDeepSetsAfter.name = cms.string("ElectronDeepSetsAfter")
+addCuts(ElectronDeepSetsAfter.cuts, [cutTrkDeepSets])
 
 ZtoEleDisTrk = copy.deepcopy(ZtoEleProbeTrkWithZCuts)
 ZtoEleDisTrk.name = cms.string("ZtoEleDisTrk")
@@ -256,6 +264,8 @@ createHitsVariations (ZtoEleProbeTrkWithFilter,   "ZtoEleProbeTrkWithFilter")
 createHitsVariations (ZtoEleProbeTrkWithSSFilter, "ZtoEleProbeTrkWithSSFilter")
 createHitsVariations (ZtoEleProbeTrkWithLooseFilter,   "ZtoEleProbeTrkWithLooseFilter")
 createHitsVariations (ZtoEleProbeTrkWithLooseSSFilter, "ZtoEleProbeTrkWithLooseSSFilter")
+createHitsVariations (ElectronTagPt35NoJetCuts,            "ElectronTagPt35NoJetCuts")
+createHitsVariations (ElectronTagPt35NoJetCutsMetTrig,     "ElectronTagPt35NoJetCutsMetTrig")
 
 # create copies of all above selections with the fiducial electron/muon cuts removed
 for selection in list (locals ()):

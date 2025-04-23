@@ -3,7 +3,7 @@
 import os
 import FWCore.ParameterSet.Config as cms
 
-def customizeForL1ETMProducer (producer):
+def customizeForL1ETMProducer (producer, year="2022"):
     producer.filterCategories = cms.vstring (
         "etm",
     )
@@ -108,7 +108,7 @@ def customizeForL1ETMProducer (producer):
             print("# Unknown producer type! Cannot set collection for tag lepton.")
             exit (1)
 
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
         print("# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...")
 
         # The items in each vector correspond to the following triggers, in this order:
@@ -121,7 +121,13 @@ def customizeForL1ETMProducer (producer):
         producer.additionalCollections = cms.vstring ()
         producer.additionalFilters     = cms.vstring ()
 
-        producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2017.txt") #Should be fixed later
+        if year == "2022":
+            print("Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2022.txt")
+            producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2022.txt") #Should be fixed later
+        else:
+            print("Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2023.txt")
+            producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2023.txt") #Should be fixed later
+
 
         if producer.type_ () == "EventElectronL1ETMProducer":
             producer.tagCollection = cms.string ("hltGtStage2Digis:EGamma:HLT")

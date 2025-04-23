@@ -11,7 +11,8 @@ class AnalysisEra:
     is2015 = False
     is2016 = False
     is2017 = False
-    is2017 = False
+    is2018 = False
+    is2022 = False
     release = ''
     eraName = ''
 
@@ -30,6 +31,9 @@ class AnalysisEra:
         elif self.release.startswith('CMSSW_10_2_'):
             self.is2018 = True
             self.eraName = '2018'
+        elif self.release.startswith('CMSSW_12_') or self.release.startswith('CMSSW_13_'):
+            self.is2022 = True
+            self.eraName = '2022'
         else:
             print(self.release + ' is not a valid release. Quitting.')
             sys.exit(0)
@@ -43,6 +47,8 @@ class AnalysisEra:
             return ['B', 'C', 'D', 'E', 'F']
         if self.is2018:
             return ['A', 'B', 'C', 'D']
+        if self.is2022:
+            return ['A', 'B', 'C', 'D', 'E', 'F']
         return []
 
 
@@ -67,7 +73,7 @@ def addLifetimeReweighting (datasets, isHiggsino = False):
     datasets.extend (new_datasets)
     
 def getUser():
-    dirs = {'Zach':'pollockCondor/', 'Andrew':'hartCondor/', 'Brian':'francisCondor/', 'Wells':'wellsCondor/', 'Kai':'weiCondor/', 'Mike':'carriganCondor/', 'Breno':'orzariCondor/'}
+    dirs = {'Zach':'pollockCondor/', 'Andrew':'hartCondor/', 'Brian':'francisCondor/', 'Wells':'wellsCondor/', 'Kai':'weiCondor/', 'Mike':'carriganCondor/', 'Breno':'orzariCondor/', 'Matt':'joyceCondor/', 'Ryan':'santosCondor/'}
     userList = {'Wells':'wulsin', 'Andrew':'hart', 'Brian':'bfrancis', 'Zach':'zpollock', 'Kai':'kwei', 'Mike':'mcarrigan', 'Breno':'borzari', 'Ryan':'rsantos', 'Matt':'mjoyce'}
     cwd = os.getcwd()
     for key in userList:
@@ -76,7 +82,7 @@ def getUser():
             user = userList[key]
             return dirs
     print("Error:  could not identify user.")
-    os.exit(0)
+    sys.exit(0)
 
 ################################################################################
 # Functions for getting the invariant mass of an object and a track, given
@@ -345,3 +351,71 @@ def createChannelVariations (channel, channelName, cutToReplace, replacements):
         else:
             replaceSingleCut (newChannels[channelName + suffix].cuts, replacements[suffix], cutToReplace)
     return newChannels
+
+def changeMuonTriggerFilter(process, path, collection, filter):
+    strsOSUMuonProducer = []
+    strsOSUTrackProducer = []
+
+    # vars(process) is a dictionary that contain 28 categories: _Process__name, _Process__filters, _Process__producers, _Process__switchproducers,_Process__source, _Process__looper, _Process__subProcesses, _Process__schedule, _Process__analyzers, _Process__outputmodules, _Process__paths, _Process__endpaths, _Process__finalpaths, _Process__sequences, _Process__tasks, _Process__conditionaltasks, _Process__services, _Process__essources, _Process__esproducers, _Process__esprefers, _Process__aliases, _Process__psets, _Process__vpsets, _Process__InExtendCall, _Process__partialschedules, _Process__isStrict, _Process__modifiers, _Process__accelerators
+    # Each category contains the modules that fit in the given category. Not all of them have modules, or not all modules will be needed to be changed in this script (e.g., PoolSource)
+
+    attrs = (vars(process))['_Process__producers']
+
+    # After getting the modules of a given category in another dictionary with (vars(process))[nameOfCategory], it is possible to loop through the modules and find a specific one that needs to be customized depending on year/era
+
+    for key,value in attrs.items():
+
+        # _TypedParameterizable__type gets the name of the modules defined in the plugin .cc file, and key contain the instance of the module in the python config file. In this case the instances of OSUMuonProducer and OSUTrackProducer need to be changed per era in 2022. In configs with multiple channels, multiple copies of the same module will appear with distinct names for the distinct instances, which are saved in the lists strsOSUMuonProducer and strsOSUTrackProducer
+
+        if (vars(value))['_TypedParameterizable__type'] == 'OSUMuonProducer': strsOSUMuonProducer.append(key)
+        if (vars(value))['_TypedParameterizable__type'] == 'OSUTrackProducer': strsOSUTrackProducer.append(key)
+
+    # The list of modules obtained above can be looped through to find them inside the process with the hasattr function. To modify the module it is needed to get it with the getattr function and then changes can happen. In the particular of moduleOSUMuonProducer.hltMatchingInfo that is a cms.VPSet(), its elements can be looped through to apply modifications. These same steps are repeated in functions changeScaleFactorsRun3 and changeLeptonWeightsRun3
+
+    for strOSUMuonProducer in strsOSUMuonProducer:
+        if hasattr (process, strOSUMuonProducer):
+            moduleOSUMuonProducer = getattr(process, strOSUMuonProducer)
+            for x in moduleOSUMuonProducer.hltMatchingInfo:
+                if x.name.value() == path:
+                    x.collection = cms.string(collection)
+                    x.filter = cms.string(filter)
+    for strOSUTrackProducer in strsOSUTrackProducer:
+        if hasattr (process, strOSUTrackProducer):
+            moduleOSUTrackProducer = getattr(process, strOSUTrackProducer)
+            moduleOSUTrackProducer.muonTriggerFilter = cms.string(filter)
+
+def changeScaleFactorsRun3(process, version, prefix=''):
+    strsObjectScalingFactorProducer = []
+    attrs = (vars(process))['_Process__filters']
+    for key,value in attrs.items():
+        if (vars(value))['_TypedParameterizable__type'] == 'ObjectScalingFactorProducer': strsObjectScalingFactorProducer.append(key)
+    for strObjectScalingFactorProducer in strsObjectScalingFactorProducer:
+        if hasattr (process, strObjectScalingFactorProducer):
+            moduleObjectScalingFactorProducer = getattr(process, strObjectScalingFactorProducer)
+            for x in moduleObjectScalingFactorProducer.scaleFactors:
+                if x.inputCollection.value() == "electrons":
+                    x.version = cms.string(version)
+                    if prefix != '' and x.sfType.value() == 'ID': x.prefix = cms.string(prefix)
+                if x.inputCollection.value() == "muons":
+                    x.version = cms.string(version)
+
+def changeLeptonWeightsRun3(process, version, prefix=''):
+    strsPlotter = []
+    attrs = (vars(process))['_Process__analyzers']
+    for key,value in attrs.items():
+        if (vars(value))['_TypedParameterizable__type'] == 'Plotter': strsPlotter.append(key)
+    for strPlotter in strsPlotter:
+        if hasattr (process, strPlotter):
+            modulePlotter = getattr(process, strPlotter)
+            for x in modulePlotter.weights:
+                if x.inputVariable.value() == "electronReco2022EFG":
+                    x.inputVariable = cms.string("electronReco" + version)
+                if x.inputVariable.value() == "electronID2022EFGTight":
+                    if prefix == '': x.inputVariable = cms.string("electronID" + version + "Tight")
+                    else: x.inputVariable = cms.string(prefix + "ElectronID" + version + "Tight")
+                if x.inputVariable.value() == "muonTrigger2022EFGIsoMu24":
+                    x.inputVariable = cms.string("muonTrigger" + version + "IsoMu24")
+                if x.inputVariable.value() == "muonID2022EFGTight":
+                    x.inputVariable = cms.string("muonID" + version + "Tight")
+                if x.inputVariable.value() == "muonIso2022EFGTightTightID":
+                    x.inputVariable = cms.string("muonIso" + version + "TightTightID")

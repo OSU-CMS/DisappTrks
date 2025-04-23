@@ -39,7 +39,7 @@ plotDefinitions = [
         'yAxisLabel' : '#tau_{#tilde{#chi}^{#pm}_{1}} [ns]',
 
         'xAxisFixMin' : 100,
-        'xAxisFixMax' : 1150,
+        'xAxisFixMax' : 1250,
         #'yAxisFixMin' : 0.1 / TMath.C() / 1e-7,
         'yAxisFixMin' : 2e-2, # lowest that looks good
         'yAxisFixMax' : 10000.0 / TMath.C() / 1e-7,

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 from ROOT import TFile,	TCanvas, TGraph, TLegend, gROOT
 
@@ -8,11 +10,11 @@ def printSpecificLimits(era):
 	grObsRotated = TGraph(grObs.GetN(), grObs.GetY(), grObs.GetX())
 	grExpRotated = TGraph(grExp.GetN(), grExp.GetY(), grExp.GetX())
 	taus = [7, 3, 0.2, 0.05]
-	print '--------------------'
-	print 'For era:', era
-	print 'Observed =', ', '.join([str(grObsRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus])
-	print 'Expected =', ', '.join([str(grExpRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus])
-	print '--------------------'
+	print ('--------------------')
+	print ('For era:', era)
+	print ('Observed =', ', '.join([str(grObsRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus]))
+	print ('Expected =', ', '.join([str(grExpRotated.Eval(tau)) + ' GeV (' + str(tau) + ' ns)' for tau in taus]))
+	print ('--------------------')
 
 def compareNLayersBins(year):
 	fCombined = TFile('limits/limits_' + year + '_all_' + suffix + '/limit_plots.root')
@@ -21,9 +23,9 @@ def compareNLayersBins(year):
 	fNLayers6plus = TFile('limits/limits_' + year + '_NLayers6plus_' + suffix + '/limit_plots.root')
 
 	if not fCombined.IsOpen() or not fNLayers4.IsOpen() or not fNLayers5.IsOpen() or not fNLayers6plus.IsOpen():
-		print
-		print 'An input file is missing. Have you run makeLimitPlots.py for all inputs?'
-		print
+		print()
+		print ('An input file is missing. Have you run makeLimitPlots.py for all inputs?')
+		print()
 		sys.exit(1)
 
 	gr_combined = fCombined.Get('lifetime_vs_mass_graph_expected')
@@ -54,16 +56,16 @@ def compareNLayersBins(year):
 
 	can.SaveAs('limitsLifetimeVsMassCompareNLayers_' + year + '.pdf')
 	can.SaveAs('limitsLifetimeVsMassCompareNLayers_' + year + '.C')
-	print 'Created limitsLifetimeVsMassCompareNLayers_' + year + '.pdf'
+	print ('Created limitsLifetimeVsMassCompareNLayers_' + year + '.pdf')
 
 	fNLayers4.Close()
 	fNLayers5.Close()
 	fNLayers6plus.Close()
 
 if len(sys.argv) < 2:
-	print
-	print 'Usage: python makeComparisonPlots.py ${SUFFIX}'
-	print
+	print()
+	print ('Usage: python makeComparisonPlots.py ${SUFFIX}')
+	print()
 	sys.exit(1)
 
 gROOT.SetBatch()
@@ -80,9 +82,9 @@ f2018 = TFile('limits/limits_2018_all_' + suffix + '/limit_plots.root')
 fRun2 = TFile('limits/limits_run2_' + suffix + '/limit_plots.root')
 
 if not f20156.IsOpen() or not f2017.IsOpen() or not f2018.IsOpen() or not fRun2.IsOpen():
-	print
-	print 'An input file is missing. Have you run makeLimitPlots.py for all inputs?'
-	print
+	print()
+	print ('An input file is missing. Have you run makeLimitPlots.py for all inputs?')
+	print()
 	sys.exit(1)
 
 can = fRun2.Get('lifetime_vs_mass')
@@ -111,7 +113,7 @@ leg.Draw('same')
 
 can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.pdf')
 can.SaveAs('limitsLifetimeVsMassCombinedRun2CompareYears.C')
-print 'Created limitsLifetimeVsMassCombinedRun2CompareYears.pdf'
+print ('Created limitsLifetimeVsMassCombinedRun2CompareYears.pdf')
 
 printSpecificLimits('all20178')
 printSpecificLimits('run2')

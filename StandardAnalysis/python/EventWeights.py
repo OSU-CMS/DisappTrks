@@ -66,13 +66,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     muonTriggerPayload = "muonTrigger2018IsoMu24LumiWeightedAveABCD"
     muonIDPayload = "muonID2018Tight"
     muonIsoPayload = "muonIso2018TightTightID"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     print("# EventWeights applied: 2022")
-    electronRecoPayload = "" #"electronReco2022"
-    electronIDPayload = "" #"electronID2022Tight"
-    muonTriggerPayload = "" #"muonTrigger2022IsoMu24LumiWeightedAveABCD"
-    muonIDPayload = "" #"muonID2022Tight"
-    muonIsoPayload = "" #"muonIso2018TightTightID"
+    electronRecoPayload = "electronReco2022EFG"
+    electronIDPayload = "electronID2022EFGTight"
+    muonTriggerPayload = "muonTrigger2022EFGIsoMu24"
+    muonIDPayload = "muonID2022EFGTight"
+    muonIsoPayload = "muonIso2022EFGTightTightID"
 else:
     print("# EventWeights applied: 2015")
     electronRecoPayload = "electronReco2015"

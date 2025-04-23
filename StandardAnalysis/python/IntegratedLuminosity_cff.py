@@ -19,6 +19,7 @@ def InsertYear(lumisThisYear, allLumis):
 def CreateCompositeLumis(allLumis, year, allPeriods):
     periods = []
     # in the case of 2015D there are no combinations
+    #print("Creating composite for", year, allPeriods)
     if len(allPeriods) == 1:
         periods.append(allPeriods)
     else:
@@ -29,7 +30,7 @@ def CreateCompositeLumis(allLumis, year, allPeriods):
             for c in itertools.combinations(allPeriods, i):
                 periods.append(''.join(c))
 
-    for pd in ['MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias', 'EGamma']:
+    for pd in ['MET', 'SingleElectron', 'SingleMuon', 'Tau', 'ZeroBias', 'EGamma', 'Muon']:
         for period in periods:
             # define suffix like '_2016'
             suffix = '_' + year
@@ -384,34 +385,57 @@ lumi_2022_promptReco = {
 
 # using HLT_PFMET105_IsoTrk50_*
     "MET_2022A" : -1,
-    "MET_2022B" : 90.100668583,
-    "JetMET_2022C" : 5067.183864430,
-    "JetMET_2022D" : 3002.294492741,
-    "MET_2022E" : 5870.638540164,
-    "MET_2022F" : 18015.978262574,
-    "MET_2022G" : 3118.633730489,
+    "MET_2022B" : 89.078989610,
+    "MET_2022C" : 5010.409016184,
+    "MET_2022D" : 2970.045129108,
+    "MET_2022E" : 5806.955207286,
+    "MET_2022F" : 17781.598893382,
+    "MET_2022G" : 3082.753035617,
+
+    "MET_2022CD" : 5010.409016184 + 2970.045129108,
+    "MET_2022EFG" : 5806.955207286 + 17781.598893382 + 3082.753035617,
 
 # using HLT_IsoMu24_v* with Golden json files
     "Muon_2022A" : -1,
-    "Muon_2022B" : 77.329631,
-    "Muon_2022C" : 4476.362177, 
-    "Muon_2022D" : 2747.864685, 
-    "Muon_2022E" : 5878.354165,
-    "Muon_2022F" : 18006.977824,
-    "Muon_2022G" : 3121.865602,
+    "Muon_2022B" : 89.078989610,
+    "Muon_2022C" : 5010.409016184, 
+    "Muon_2022D" : 2970.045129108, 
+    "Muon_2022E" : 5806.955207286,
+    "Muon_2022F" : 17781.901464250,
+    "Muon_2022G" : 3082.753035617,
 
 # using HLT_Ele32_WPTight_Gsf_v*
-    "EGamma_2022A:" : -1,
-    "EGamma_2022B" : 0077.329631,
-    "EGamma_2022C" : 4476.362177,
-    "EGamma_2022D" : 2747.864685,
-    #"EGamma_2022E" : 6.121188303, #fixme
-    "EGamma_2022E" : 5878.354165,
-    "EGamma_2022F" : -1, #fixme
-    "EGamma_2022G" : 3283.111599, #fixme
+    "EGamma_2022A" : -1,
+    "EGamma_2022B" : 89.07898961,
+    "EGamma_2022C" : 5010.409016,
+    "EGamma_2022D" : 2970.045129,
+    "EGamma_2022E" : 5806.955207,
+    "EGamma_2022F" : 17781.59889, 
+    "EGamma_2022G" : 3082.753036,
 
+# using HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*
     "Tau_2022B" : -1,
+    "Tau_2022C" : 5010.409016115, 
+    "Tau_2022D" : 2970.045129109, 
+    "Tau_2022E" : 5806.955207273, 
+    "Tau_2022F" : 17781.901464330, 
+    "Tau_2022G" : 3082.753035626
+}
 
+lumi_2023_promptReco = {
+
+# using HLT_PFMET105_IsoTrk50_*
+    "MET_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "MET_2023D": 7986.390339 + 1704.204266, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
+
+    "EGamma_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "EGamma_2023D": 7986.390339 + 1704.204266, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
+    
+    "Muon_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "Muon_2023D": 7986.390339 + 1705.710797, # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
+
+    "Tau_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
+    "Tau_2023D": 7986.390339 + 1705.710797 # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
 }
 
 # now create a single lumi dict, starting with 2015
@@ -421,6 +445,7 @@ lumi = InsertYear(lumi_2016, lumi)
 lumi = InsertYear(lumi_2017_ntuples, lumi)
 lumi = InsertYear(lumi_2018_ntuples, lumi)
 lumi = InsertYear(lumi_2022_promptReco, lumi)
+lumi = InsertYear(lumi_2023_promptReco, lumi)
 
 # set up some composite aliases for convenience
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
@@ -436,3 +461,6 @@ lumi = CreateCompositeLumis(lumi, '2015', 'D')
 lumi = CreateCompositeLumis(lumi, '2016', 'BCDEFGH')
 lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
+lumi = CreateCompositeLumis(lumi, '2022', 'CDEFG')
+lumi = CreateCompositeLumis(lumi, '2023', 'CDE')
+

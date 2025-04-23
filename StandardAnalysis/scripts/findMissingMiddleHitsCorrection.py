@@ -8,7 +8,7 @@ import numpy
 import random
 import re
 import copy
-
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
 ################################################################################
 # The following are parameters that you might want to edit.
 ################################################################################
@@ -27,7 +27,7 @@ hitDrop = -1.0e13
 if len (sys.argv) > 3:
   hitDrop = float (sys.argv[3])
 
-chi2Range = range (0, 5)
+chi2Range = list(range(0, 5))
 
 mcFile = TFile.Open (mcFileName)
 dataFile = TFile.Open (dataFileName)
@@ -38,6 +38,10 @@ mc.SetDirectory (0)
 data = dataFile.Get ("HitsSystematicsCtrlSelectionPlotter/Track Plots/trackNHitsMissingMiddle")
 data.SetName ("data")
 data.SetDirectory (0)
+
+#current missing hits data is scaled to 2022F, so scale from there to any other era
+#scale = lumi['MET_2022EFG']/lumi['MET_2022F']
+#mc.Scale(scale)
 
 mcFile.Close ()
 dataFile.Close ()
@@ -83,7 +87,7 @@ def getChi2 (hitDrop, writeHistogram = False):
       if (nHits, hitDrop) in extraMissingMiddleHitsPDFDict:
         extraMissingMiddleHitsPDF = extraMissingMiddleHitsPDFDict[(nHits, hitDrop)]
       else:
-        print "  generating missing middle hits PDF for (nHits = " + str (nHits) + ", hitDrop = " + str (hitDrop) + ")..."
+        print("  generating missing middle hits PDF for (nHits = " + str (nHits) + ", hitDrop = " + str (hitDrop) + ")...")
         extraMissingMiddleHitsPDF = getMissingMiddleHitsPDF (nHits, hitDrop)
         extraMissingMiddleHitsPDFDict[(nHits, hitDrop)] = extraMissingMiddleHitsPDF
 
@@ -138,11 +142,11 @@ for i in chi2Range:
   if error != 0.0:
     chi2 += ((observed - expected) * (observed - expected)) / (error * error)
     N += 1
-print "chi2 for original MC: " + str (chi2 / N)
+print("chi2 for original MC: " + str (chi2 / N))
 
 if hitDrop > -1.0e12:
   chi2, N = getChi2 (hitDrop, writeHistogram = True)
-  print "chi2 for corrected MC: " + str (chi2 / N)
+  print("chi2 for corrected MC: " + str (chi2 / N))
 else:
   for iteration in range (0, nIterations):
     hitDrop = hitDropGrid
@@ -154,7 +158,7 @@ else:
     index = -1
     for i in hitDrop:
       index += 1
-      print "(" + str (iteration + 1) + " / " + str (nIterations) + ") trying hit inefficiency of " + str (i) + "..."
+      print("(" + str (iteration + 1) + " / " + str (nIterations) + ") trying hit inefficiency of " + str (i) + "...")
       chi2, N = getChi2 (i)
       if N == 0:
         continue
@@ -165,7 +169,7 @@ else:
         minChi2Index = copy.deepcopy (index)
       g.SetPoint (n, i, chi2)
       n += 1
-    print "(" + str (iteration + 1) + " / " + str (nIterations) + ") minimum chi2: " + str (minChi2) + " at " + str (minChi2HitAndTOBDrop)
+    print("(" + str (iteration + 1) + " / " + str (nIterations) + ") minimum chi2: " + str (minChi2) + " at " + str (minChi2HitAndTOBDrop))
 
     m = TMarker (minChi2HitAndTOBDrop, minChi2, 29)
     m.SetMarkerSize (3)

@@ -1,7 +1,11 @@
 import sys
 from optparse import OptionParser
+import os
 
-from DisappTrks.SignalMC.signalCrossSecs import *
+if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_")):
+    exec("from DisappTrks.SignalMC.signalCrossSecs import *")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    exec("from DisappTrks.SignalMC.signalCrossSecs13p6TeV import *")
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
 from DisappTrks.StandardAnalysis.utilities import *
 
@@ -58,7 +62,14 @@ validEras = ["2015",
              "2018CD_all",
              "2018_all",
              "all20178",
-             "run2"]
+             "run2",
+             "2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus",
+             "2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus",
+             "2022CD_all",
+             "2022EFG_all",
+             "2022_all",
+             "run3",
+             "run2run3",]
 
 validLimitTypes = [
       "wino",

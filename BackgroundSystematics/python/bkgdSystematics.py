@@ -8,6 +8,8 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, 
 
 from DisappTrks.StandardAnalysis.plotUtilities import *
 
+from ctypes import c_double as Double
+
 setTDRStyle()
 
 gROOT.SetBatch()
@@ -253,14 +255,14 @@ class FakeTrackSystematic:
             disTrkPasses = disTrkPassesHist.IntegralAndError (0, N[0] + 1, disTrkPassesError)
             zToMuMuDisTrkPasses = zToMuMuDisTrkPassesHist.IntegralAndError (0, N[1] + 1, zToMuMuDisTrkPassesError)
 
-            fakeRate = (Double(disTrkCorrection) * disTrkPasses,
+            fakeRate = (disTrkCorrection * disTrkPasses,
                         zToMuMuDisTrkCorrection * zToMuMuDisTrkPasses)
 
             fakeRateError = (0.0, 0.0)
             if disTrkPasses > 0.0:
-                fakeRateError = (fakeRate[0] * math.hypot (disTrkCorrectionError/disTrkCorrection, disTrkPassesError/disTrkPasses), fakeRateError[1])
+                fakeRateError = (fakeRate[0] * math.hypot (disTrkCorrectionError/disTrkCorrection, disTrkPassesError.value/disTrkPasses), fakeRateError[1])
             if zToMuMuDisTrkPasses > 0.0:
-                fakeRateError = (fakeRateError[0], fakeRate[1] * math.hypot (zToMuMuDisTrkCorrectionError/zToMuMuDisTrkCorrection, zToMuMuDisTrkPassesError/zToMuMuDisTrkPasses))
+                fakeRateError = (fakeRateError[0], fakeRate[1] * math.hypot (zToMuMuDisTrkCorrectionError/zToMuMuDisTrkCorrection, zToMuMuDisTrkPassesError.value/zToMuMuDisTrkPasses))
 
             return (fakeRate, fakeRateError)
         else:
@@ -457,7 +459,7 @@ class LeptonEnergySystematic:
                 total = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, totalError)
 
             eff = passes / total if total > 0.0 else 0.0
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
+            effError = math.hypot (total * passesError.value, totalError.value * passes) / (total * total) if total > 0.0 else 0.0
             print("P (pass met triggers) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError))
             return (eff, effError)
         else:
@@ -484,7 +486,7 @@ class LeptonEnergySystematic:
                 passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
 
             eff = passes / total if total > 0.0 else 0.0
-            effError = math.hypot (total * passesError, totalError * passes) / (total * total) if total > 0.0 else 0.0
+            effError = math.hypot (total * passesError.value, totalError * passes) / (total * total) if total > 0.0 else 0.0
             print("P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError))
             return (eff, effError)
         else:

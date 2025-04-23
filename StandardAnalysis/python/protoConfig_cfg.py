@@ -6,24 +6,10 @@ import os
 import copy
 import subprocess
 
-data_global_tag = '76X_dataRun2_v15'
-mc_global_tag = '76X_mcRun2_asymptotic_v12'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
-    mc_global_tag = '80X_mcRun2_asymptotic_2016_v3'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    data_global_tag = '94X_dataRun2_ReReco_EOY17_v6'
-    mc_global_tag = '94X_mc2017_realistic_v15'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
-    mc_global_tag = '102X_upgrade2018_realistic_v18'
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
-    data_global_tag = '124X_dataRun3_Prompt_v4'
-    mc_global_tag = '124X_mcRun3_2022_realistic_v12'
 ################################################################################
 # Create the skeleton process
 ################################################################################
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     from Configuration.Eras.Era_Run3_cff import Run3
     process = cms.Process ('OSUAnalysis',Run3)
 else:
@@ -57,12 +43,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
         #"file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
+        #"root://cmsxrootd.fnal.gov://store/data/Run2022D/EGamma/MINIAOD/27Jun2023-v2/2520000/07d1c948-6481-4a9c-b54b-0c559a6474ab.root",
+        #"root://cmsxrootd.fnal.gov://store/data/Run2022C/EGamma/MINIAOD/22Sep2023-v1/2530000/024f070e-b8f1-4d1c-be55-60f9490d1918.root",
+        #"root://cmsxrootd.fnal.gov://store/data/Run2023C/EGamma1/MINIAOD/22Sep2023_v1-v1/2530000/0873dd45-c435-418a-aab4-d3bdb76e871b.root",
+        "root://cmsxrootd.fnal.gov://store/data/Run2023D/EGamma0/MINIAOD/22Sep2023_v1-v1/2530000/021fef9a-9f99-440d-9d07-0b9695bdfdba.root",
         # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
-        "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
+        # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
     ])
     # process.source.secondaryFileNames = cms.untracked.vstring([
     #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",
@@ -100,23 +90,6 @@ process.MessageLogger.debugModules.append ("OSUJetProducer")
 process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
     limit = cms.untracked.int32(0),
 )
-################################################################################
-
-################################################################################
-# Add the global tag
-################################################################################
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
-if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
-    if osusub.datasetLabel.endswith('2018D'):
-        data_global_tag = '102X_dataRun2_Prompt_v13'
-    print("# Global tag: " + data_global_tag)
-    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
-else:
-    print("# Global tag: " + mc_global_tag)
-################################################################################
 
 process.metFilterPath = cms.Path ()
 
@@ -140,23 +113,42 @@ else:
 
 process.passecalBadCalibFilterUpdatePath = cms.Path()
 
-baddetEcallist = cms.vuint32(
-    [872439604,872422825,872420274,872423218,
-     872423215,872416066,872435036,872439336,
-     872420273,872436907,872420147,872439731,
-     872436657,872420397,872439732,872439339,
-     872439603,872422436,872439861,872437051,
-     872437052,872420649,872422436,872421950,
-     872437185,872422564,872421566,872421695,
-     872421955,872421567,872437184,872421951,
-     872421694,872437056,872437057,872437313])
-
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+
+    baddetEcallist = cms.vuint32(
+        [872439604,872422825,872420274,872423218,
+         872423215,872416066,872435036,872439336,
+         872420273,872436907,872420147,872439731,
+         872436657,872420397,872439732,872439339,
+         872439603,872422436,872439861,872437051,
+         872437052,872420649,872422436,872421950,
+         872437185,872422564,872421566,872421695,
+         872421955,872421567,872437184,872421951,
+         872421694,872437056,872437057,872437313])
+
     print("# MET filters: using passecalBadCalibFilterUpdate")
     process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
     process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
       "EcalBadCalibFilter",
       EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+      ecalMinEt        = cms.double(50.),
+      baddetEcal    = baddetEcallist,
+      taggingMode = cms.bool(True),
+      debug = cms.bool(False)
+    )
+    process.passecalBadCalibFilterUpdatePath = cms.Path (process.ecalBadCalibReducedMINIAODFilter)
+
+# Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Run_3_recommendations
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+
+    baddetEcallist = cms.vuint32([838871812]) # This is the only badly calibrated crystal in 2022 and 2023
+
+    print("# MET filters: using passecalBadCalibFilterUpdate")
+    process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
+    process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+      "EcalBadCalibFilter",
+      EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEBRecHits"),
       ecalMinEt        = cms.double(50.),
       baddetEcal    = baddetEcallist,
       taggingMode = cms.bool(True),
@@ -178,7 +170,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2022)
     if UseCandidateTracks:
         collMap.tracks = cms.InputTag ('candidateTrackProducer')

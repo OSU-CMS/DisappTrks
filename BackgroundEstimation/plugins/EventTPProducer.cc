@@ -60,13 +60,15 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
            nProbesPassingLooseVeto = 0, 
            nProbesFiringTrigger = 0,
            nProbesMatchingTag = 0,
-           nProbesFiringTriggerMatchingTag = 0;
+           nProbesFiringTriggerMatchingTag = 0,
+           nProbesPT55 = 0;
   unsigned nGoodSSTPPairs = 0, 
            nSSProbesPassingVeto = 0, 
            nSSProbesPassingLooseVeto = 0, 
            nSSProbesFiringTrigger = 0,
            nSSProbesMatchingTag = 0,
-           nSSProbesFiringTriggerMatchingTag = 0;
+           nSSProbesFiringTriggerMatchingTag = 0,
+           nProbesSSPT55 = 0;
   unsigned nGoodTagJetPairs = 0, nGoodTagPFCHPairs = 0;
 
   vector<double> masses,
@@ -85,24 +87,27 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
                isProbePassingVeto = passesVeto (probe),
                isProbePassingLooseVeto = passesLooseVeto (probe),
                isProbeFiringTrigger = firesTrigger (event, *triggerObjs, *triggerBits, probe),
-               isProbeAlsoTag = matchedToTag(probe, *tags);
+               isProbeAlsoTag = matchedToTag(probe, *tags),
+               isProbePT55 = (probe.pt() > 55 ? true : false);
 
           if(isGoodTPPair) {
             nGoodTPPairs++;
             if(isProbePassingVeto)      nProbesPassingVeto++;
             if(isProbePassingLooseVeto) nProbesPassingLooseVeto++;
-            if(isProbeFiringTrigger)    nProbesFiringTrigger++;
-            if(isProbeAlsoTag)          nProbesMatchingTag++;
-            if(isProbeFiringTrigger && isProbeAlsoTag) nProbesFiringTriggerMatchingTag++;
+            if(isProbeFiringTrigger && isProbePT55)    nProbesFiringTrigger++;
+            if(isProbeAlsoTag && isProbePT55)          nProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag && isProbePT55) nProbesFiringTriggerMatchingTag++;
+            if(isProbePT55) nProbesPT55++;
           }
 
           if(isGoodSSTPPair) {
             nGoodSSTPPairs++;
             if(isProbePassingVeto)      nSSProbesPassingVeto++;
             if(isProbePassingLooseVeto) nSSProbesPassingLooseVeto++;
-            if(isProbeFiringTrigger)    nSSProbesFiringTrigger++;
-            if(isProbeAlsoTag)          nSSProbesMatchingTag++;
-            if(isProbeFiringTrigger && isProbeAlsoTag) nSSProbesFiringTriggerMatchingTag++;
+            if(isProbeFiringTrigger && isProbePT55)    nSSProbesFiringTrigger++;
+            if(isProbeAlsoTag && isProbePT55)          nSSProbesMatchingTag++;
+            if(isProbeFiringTrigger && isProbeAlsoTag && isProbePT55) nSSProbesFiringTriggerMatchingTag++;
+            if(isProbePT55) nProbesSSPT55++;
           }
 
           if (isGoodTPPair || isGoodSSTPPair)
@@ -163,6 +168,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
   (*eventvariables)["nProbesFiringTrigger"] = nProbesFiringTrigger;
   (*eventvariables)["nProbesMatchingTag"] = nProbesMatchingTag;
   (*eventvariables)["nProbesFiringTriggerMatchingTag"] = nProbesFiringTriggerMatchingTag;
+  (*eventvariables)["nProbesPT55"] = nProbesPT55;
 
   (*eventvariables)["nGoodSSTPPairs"] = nGoodSSTPPairs;
   (*eventvariables)["nSSProbesPassingVeto"] = nSSProbesPassingVeto;
@@ -170,6 +176,7 @@ EventTPProducer<T, Args...>::AddVariables (const edm::Event &event, const edm::E
   (*eventvariables)["nSSProbesFiringTrigger"] = nSSProbesFiringTrigger;
   (*eventvariables)["nSSProbesMatchingTag"] = nSSProbesMatchingTag;
   (*eventvariables)["nSSProbesFiringTriggerMatchingTag"] = nSSProbesFiringTriggerMatchingTag;
+  (*eventvariables)["nProbesSSPT55"] = nProbesSSPT55;
 
   (*eventvariables)["nGoodTagJetPairs"] = nGoodTagJetPairs;
   (*eventvariables)["nGoodTagPFCHPairs"] = nGoodTagPFCHPairs;
@@ -373,8 +380,12 @@ EventTPProducer<osu::Electron>::passesVeto (const osu::Track &probe) const
   bool passes = probe.deltaRToClosestPFElectron () > 0.15
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM // Verification Needed !
-  bool passes = probe.deltaRToClosestPFElectron () > 0.15
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
+  bool passes = probe.deltaRToClosestElectron () > 0.15
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
+  bool passes = probe.deltaRToClosestElectron () > 0.15
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
@@ -392,7 +403,9 @@ EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
 #if DATA_FORMAT == MINI_AOD_2017
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM // Verification Needed !
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+#elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
 #else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
@@ -404,7 +417,7 @@ EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
 template<class T, class... Args> template<class T0> bool
 EventTPProducer<T, Args...>::matchedToTag (const osu::Track &probe, const vector<T0> &tags) const
 {
-  for (const auto tag : tags) {
+  for (const auto &tag : tags) {
     if (deltaR (probe, tag) < probeTagMatchingDR_) return true;
   }
   return false;
@@ -416,8 +429,8 @@ EventTPProducer<osu::Muon>::passesVeto (const osu::Track &probe) const
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
-#elif DATA_FORMAT == MINI_AOD_2022  // Verification Needed !
-  bool passes = probe.deltaRToClosestPFMuon () > 0.15
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM || DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
+  bool passes = probe.deltaRToClosestMuon () > 0.15
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
   bool passes = probe.deltaRToClosestMuon () > 0.15
@@ -443,8 +456,13 @@ EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) c
              && probe.dRMinJet () > 0.5
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM // Verification needed !
-  bool passes = probe.deltaRToClosestPFChHad () > 0.15
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
+  bool passes = probe.deltaRToClosestTauHad () > 0.15
+             && probe.dRMinJet () > 0.5
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
+  bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
@@ -464,7 +482,9 @@ EventTPProducer<osu::Electron, osu::Tau>::passesLooseVeto (const osu::Track &pro
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
 #if DATA_FORMAT == MINI_AOD_2017
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM //Verification needed
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+#elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
 #else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
@@ -481,8 +501,13 @@ EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
              && probe.dRMinJet () > 0.5
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
-#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM //Verification needed
-  bool passes = probe.deltaRToClosestPFChHad () > 0.15
+#elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
+  bool passes = probe.deltaRToClosestTauHad () > 0.15
+             && probe.dRMinJet () > 0.5
+             && probe.caloNewNoPUDRp5CentralCalo () < 10.0
+             && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
+#elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
+  bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
              && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
