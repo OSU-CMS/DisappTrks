@@ -86,6 +86,11 @@ EventJetVarProducer::IsValidJet(const TYPE(jets) & jet) {
   if (!(fabs(jet.eta()) < 4.5)) return false;
   if (!anatools::jetPassesTightLepVeto (jet)) return false;
 
+  if (jet.pt() > 10 && jet.pt() <= 20 && jet.userFloat("pileupJetId:fullDiscriminant") < 0.77) return false;
+  if (jet.pt() > 20 && jet.pt() <= 30 && jet.userFloat("pileupJetId:fullDiscriminant") < 0.90) return false;
+  if (jet.pt() > 30 && jet.pt() <= 40 && jet.userFloat("pileupJetId:fullDiscriminant") < 0.96) return false;
+  if (jet.pt() > 40 && jet.pt() <= 50 && jet.userFloat("pileupJetId:fullDiscriminant") < 0.98) return false;
+
   return true;
 }
 
