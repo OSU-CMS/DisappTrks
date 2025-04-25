@@ -24,7 +24,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [basicSelectionNoAngularCuts],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoDijetPhiCut],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionNoJetMetPhiCut],  histSets,  weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#add_channels  (process,  [basicSelection],                histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#add_channels  (process,  [basicSelectionInvertJetMetPhiCut], histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels (process,   [deepSetsSelection],             histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels  (process,  [justTriggersElecOnly],          histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justTriggersMuOnly],            istSets,   weights,  [],  collMap,  variableProducers,  False)
@@ -59,7 +60,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkNoEcaloNLayers6plus],            histSets,  weights,  [],  collMap,  variableProducers,  False)
 
 # THE disappearing tracks search region
-#  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
+#add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False)
+#  add_channels  (process,  [disTrkInvertJetMetPhiCut],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False)
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collMap,  variableProducers,  False)
@@ -73,7 +75,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 ## Testing channels
 ################################################################################
 
-#  add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False)
+add_channels  (process,  [disTrkSelectionNoD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionNoD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False)
@@ -85,10 +87,10 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [disTrkSelectionInvertD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False)
 
 #  add_channels  (process,  [disTrkSelectionSidebandD0Cut],        histSets,        weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False)
-#  add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False)
+add_channels  (process,  [disTrkSelectionSidebandD0CutNHits3],  histSets,        weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
+add_channels  (process,  [disTrkSelectionSidebandD0CutNHits4],  histSets,        weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
+add_channels  (process,  [disTrkSelectionSidebandD0CutNHits5],  histSets,        weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
+add_channels  (process,  [disTrkSelectionSidebandD0CutNHits6],  histSets,        weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
 
 #  add_channels  (process,  [justAChargino],        histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justAHighPtChargino],  histSets,  weights,  [],  collMap,  variableProducers,  False)
