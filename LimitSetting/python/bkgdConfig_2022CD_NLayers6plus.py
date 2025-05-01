@@ -17,7 +17,7 @@ backgrounds = {
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.0031',
+        'alpha' : '0.0095',
     },
 }
 
@@ -35,7 +35,7 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.61382980870951', # 0 --> 0.000001 numerical safety
+        'value' : '1.2793946153901123', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 

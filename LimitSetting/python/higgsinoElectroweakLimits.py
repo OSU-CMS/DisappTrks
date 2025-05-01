@@ -34,21 +34,57 @@ allLifetimes = lifetimes
 	'all20178' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'run2'     : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 	'2022CD_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus'],
 	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
 	'2022_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
 				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'2023C_all'  : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus'],
+	'2023D_all'  : ['2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
+	'2023_all'  : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
+				   '2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
 	'run3'  	: ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus',
+				   '2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
+				   '2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
+	'run2run3' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus',
+				  '2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				  '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus',
+				  '2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
+				  '2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
+}'''
+#debugging
+# datacardCombinations = {
+# 	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+# }
+# datacardCombinations = {
+# 	'2022CD_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus'],
+# }
+datacardCombinations = {
+	# '2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
+	# '2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
+	# '2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'2022CD_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus'],
+	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'2022_all'  	: ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
 				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'2023C_all'  : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus'],
+	'2023D_all'  : ['2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
+	'2023_all'  : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
+				   '2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
+	'run3'  	: ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus',
+				   '2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
+				   '2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
 	'run2run3' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
 				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus',
 				  '2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
 				  '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
-}'''
-#debugging
-datacardCombinations = {
-	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -81,10 +117,16 @@ elif arguments.era.startswith("2022EFG"):
 	intLumi = lumi["MET_2022EFG"]
 elif arguments.era == "2022_all":
 	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"]
+elif arguments.era.startswith("2023C"):
+	intLumi = lumi["MET_2023C"]
+elif arguments.era.startswith("2023D"):
+	intLumi = lumi["MET_2023D"]
+elif arguments.era == "2023_all":
+	intLumi = lumi["MET_2023C"] + lumi["MET_2023D"]
 elif arguments.era == "run3":
 	intLumi = lumi["MET_2022CD"] + lumi["MET_2022EFG"] + lumi["MET_2023C"] + lumi["MET_2023D"]
 elif arguments.era == "run2run3":
-	intLumi = lumi["MET_2017"] + lumi["MET_2018"] + lumi["MET_2022CD"] + lumi["MET_2022EFG"] + lumi["MET_2023C"] + lumi["MET_2023D"]
+	intLumi = lumi["MET_2015"] + lumi["MET_2016"] + lumi["MET_2017"] + lumi["MET_2018"] + lumi["MET_2022CD"] + lumi["MET_2022EFG"] + lumi["MET_2023C"] + lumi["MET_2023D"]
 
 # condor directory in which to find signal root files
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
@@ -111,8 +153,8 @@ elif arguments.era in ["2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plu
 	signal_channel_tree = 'disTrkSelectionSmearedJetsHEMveto' + nLayersWord + 'TreeMaker/Tree'
 	actual_bin_name = 'Bin2018CD' + nLayersWord
 	intLumi = lumi["MET_2018CD"]
-elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]: # This has to be updated
-	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
+elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]:
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2022preEE/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
 	signal_suffix = signal_suffix_in_datacard = '130X'
 	nLayersWord = arguments.era.split('_')[1]
 	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
@@ -127,8 +169,23 @@ elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6
 	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
 	actual_bin_name = 'Bin2022EFG' + nLayersWord
 	intLumi = lumi["MET_2022EFG"]
-	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] # scaling to 2022 lumi
-	# intLumi = lumi["MET_2022EFG"] + lumi["MET_2022F"] + lumi["MET_2022G"] + lumi["MET_2023C"] + lumi["MET_2023D"] # scaling to 2022+2023 lumi
+elif arguments.era in ["2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus"]:
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2023/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
+	signal_suffix = signal_suffix_in_datacard = '130X'
+	nLayersWord = arguments.era.split('_')[1]
+	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
+	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
+	actual_bin_name = 'Bin2023C' + nLayersWord
+	intLumi = lumi["MET_2023C"]
+elif arguments.era in ["2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus"]:
+	signal_condor_dir = dirs["Breno"] + '/SignalMC/Run3/2023BPix/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2/'
+	signal_suffix = signal_suffix_in_datacard = '130X'
+	nLayersWord = arguments.era.split('_')[1]
+	signal_channel = 'disTrkSelectionSmearedJets' + nLayersWord + 'Plotter/Met Plots'
+	signal_channel_tree = 'disTrkSelectionSmearedJets' + nLayersWord + 'TreeMaker/Tree'
+	actual_bin_name = 'Bin2023D' + nLayersWord
+	intLumi = lumi["MET_2023D"]
+
 
 lumi = intLumi
 
@@ -141,7 +198,9 @@ if arguments.era in [ "2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus",
 					 "2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus",
 					 "2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus",
-					 "2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
+					 "2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus",
+					 "2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus",
+					 "2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus"]:
 	exec('from DisappTrks.LimitSetting.bkgdConfig_' + arguments.era + ' import *')
 
 #this just sets the observed number of events equal to the total background expectation
@@ -209,6 +268,30 @@ elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6
 		rawObservation = 0
 	elif arguments.era == "2022EFG_NLayers6plus":
 		rawObservation = 2
+# Still using 2018AB values; NEEDS TO BE UPDATED
+elif arguments.era in ["2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus"]:
+	data_dataset = "MET_2018AB"
+	data_condor_dir = dirs['Breno'] + '/bfrancisStore/2018/unblindNoHEMveto/'
+	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2023C_NLayers4":
+		rawObservation = 5
+	elif arguments.era == "2023C_NLayers5":
+		rawObservation = 0
+	elif arguments.era == "2023C_NLayers6plus":
+		rawObservation = 2
+# Still using 2018AB values; NEEDS TO BE UPDATED
+elif arguments.era in ["2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus"]:
+	data_dataset = "MET_2018AB"
+	data_condor_dir = dirs['Breno'] + '/bfrancisStore/2018/unblindNoHEMveto/'
+	data_channel = 'DisTrkSelection' + nLayersWord + 'Plotter/Met Plots'
+	useHistogramForObservation = False
+	if arguments.era == "2023D_NLayers4":
+		rawObservation = 5
+	elif arguments.era == "2023D_NLayers5":
+		rawObservation = 0
+	elif arguments.era == "2023D_NLayers6plus":
+		rawObservation = 2
 
 ################################
 ### Systematic Uncertainties ###
@@ -241,6 +324,10 @@ if not arguments.era in ["2017_all", "2018_all", "2018AB_all", "2018CD_all", "al
 			external_systematic_uncertainties[i] += "_2022CD_" + arguments.era[7:]
 		elif arguments.era.startswith("2022EFG"):
 			external_systematic_uncertainties[i] += "_2022EFG_" + arguments.era[8:]
+		elif arguments.era.startswith("2023C"):
+			external_systematic_uncertainties[i] += "_2023C_" + arguments.era[6:]
+		elif arguments.era.startswith("2023D"):
+			external_systematic_uncertainties[i] += "_2023D_" + arguments.era[6:]
 		else:
 			external_systematic_uncertainties[i] += "_" + arguments.era
 
@@ -248,15 +335,35 @@ if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	external_systematic_uncertainties.append("higgsino_L1ECALPrefiringWeight_"   + arguments.era)
 	if arguments.era != "2017_NLayers6plus":
 		external_systematic_uncertainties.append("higgsino_triggerTurnOn_"           + arguments.era)
+
 if arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					 "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	if arguments.era != "2018AB_NLayers6plus" and arguments.era != "2018CD_NLayers6plus":
 		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2018_"       + arguments.era[7:])
+
+if arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_electronVetoScaleFactor_2022CD_" + arguments.era[7:])
+	external_systematic_uncertainties.append("higgsino_muonVetoScaleFactor_2022CD_"     + arguments.era[7:])
+	if arguments.era != "2022CD_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2022CD_"       + arguments.era[7:])
+
 if arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
 	external_systematic_uncertainties.append("higgsino_electronVetoScaleFactor_2022EFG_" + arguments.era[8:])
 	external_systematic_uncertainties.append("higgsino_muonVetoScaleFactor_2022EFG_"     + arguments.era[8:])
 	if arguments.era != "2022EFG_NLayers6plus":
 		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2022EFG_"       + arguments.era[8:])
+
+if arguments.era in ["2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_electronVetoScaleFactor_2023C_" + arguments.era[6:])
+	external_systematic_uncertainties.append("higgsino_muonVetoScaleFactor_2023C_"     + arguments.era[6:])
+	if arguments.era != "2023C_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2023C_"       + arguments.era[6:])
+
+if arguments.era in ["2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus"]:
+	external_systematic_uncertainties.append("higgsino_electronVetoScaleFactor_2023D_" + arguments.era[6:])
+	external_systematic_uncertainties.append("higgsino_muonVetoScaleFactor_2023D_"     + arguments.era[6:])
+	if arguments.era != "2023D_NLayers6plus":
+		external_systematic_uncertainties.append("higgsino_triggerTurnOn_2023D_"       + arguments.era[6:])
 
 if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 	signal_systematic_uncertainties = {
@@ -279,6 +386,7 @@ if arguments.era in ["2017_NLayers4", "2017_NLayers5", "2017_NLayers6plus"]:
 		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] =  {'value' : str (1.0 + 1.61290322581 / 100.0)}
 	if arguments.era.endswith("NLayers6plus"):
 		signal_systematic_uncertainties['Nmissin_Bin2017_' + nLayersWord] =  {'value' : str (1.0 + 0.0868040086816 / 100.0)}
+
 elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plus",
 					   "2018CD_NLayers4", "2018CD_NLayers5", "2018CD_NLayers6plus"]:
 	signal_systematic_uncertainties = {
@@ -302,6 +410,7 @@ elif arguments.era in ["2018AB_NLayers4", "2018AB_NLayers5", "2018AB_NLayers6plu
 	if arguments.era.endswith("NLayers6plus"):
 		signal_systematic_uncertainties['Nmissin_Bin2018_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
 		signal_systematic_uncertainties['Nmissmid_Bin2018_' + nLayersWord] =  {'value' : str (1.0 + 3.72041349824 / 100.0)}
+
 elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plus"]:
 	signal_systematic_uncertainties = {
 	    'lumi_Bin2022CD_' + nLayersWord :  {
@@ -325,6 +434,7 @@ elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plu
 	if arguments.era.endswith("NLayers6plus"):
 		signal_systematic_uncertainties['Nmissin_Bin2022CD_'  + nLayersWord] =  {'value' : str (1.0 + 0.928855948344 / 100.0)}
 		signal_systematic_uncertainties['Nmissmid_Bin2022CD_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+
 elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6plus"]:
 	signal_systematic_uncertainties = {
 	    'lumi_Bin2022EFG_' + nLayersWord :  {
@@ -348,3 +458,51 @@ elif arguments.era in ["2022EFG_NLayers4", "2022EFG_NLayers5", "2022EFG_NLayers6
 	if arguments.era.endswith("NLayers6plus"):
 		signal_systematic_uncertainties['Nmissin_Bin2022EFG_'  + nLayersWord] =  {'value' : str (1.0 + 0.6460479699310757 / 100.0)}
 		signal_systematic_uncertainties['Nmissmid_Bin2022EFG_' + nLayersWord] =  {'value' : str (1.0 + 3.8267556376462535 / 100.0)}
+
+elif arguments.era in ["2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus"]:
+	signal_systematic_uncertainties = {
+	    'lumi_Bin2023C_' + nLayersWord :  {
+	        'value' : '1.013',
+	    },
+	    'trkReco_Bin2023C_' + nLayersWord :  {
+	        'value' : '1.02', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
+	    },
+		# Still using 2018AB values; NEEDS TO BE UPDATED
+	    'Ecalo_Bin2023C_' + nLayersWord : {
+	        'value' : str (1.0 + 18.769142458106796 / 100.0),
+	    },
+	}
+
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2023C_'  + nLayersWord] =  {'value' : str (1.0 + 1.7765212653248832 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023C_' + nLayersWord] =  {'value' : str (1.0 + 5.882352941176474 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2023C_'  + nLayersWord] =  {'value' : str (1.0 + 0.14965813574925146 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023C_' + nLayersWord] =  {'value' : str (1.0 + 4.199730560410644 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2023C_'  + nLayersWord] =  {'value' : str (1.0 + 0.5675660812869531 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023C_' + nLayersWord] =  {'value' : str (1.0 + 4.199730560410644 / 100.0)}
+		
+elif arguments.era in ["2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus"]:
+	signal_systematic_uncertainties = {
+	    'lumi_Bin2023D_' + nLayersWord :  {
+	        'value' : '1.013',
+	    },
+	    'trkReco_Bin2023D_' + nLayersWord :  {
+	        'value' : '1.02', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
+	    },
+		# Still using 2018AB values; NEEDS TO BE UPDATED
+	    'Ecalo_Bin2023D_' + nLayersWord : {
+	        'value' : str (1.0 + 20.655643400442806 / 100.0),
+	    },
+	}
+
+	if arguments.era.endswith("NLayers4"):
+		signal_systematic_uncertainties['Nmissin_Bin2023D_'  + nLayersWord] =  {'value' : str (1.0 + 2.0164315732208116 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023D_' + nLayersWord] =  {'value' : str (1.0 + 4.213451503246696 / 100.0)}
+	if arguments.era.endswith("NLayers5"):
+		signal_systematic_uncertainties['Nmissin_Bin2023D_'  + nLayersWord] =  {'value' : str (1.0 + 4.1666666666666705 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023D_' + nLayersWord] =  {'value' : str (1.0 + 4.213451503246696 / 100.0)}
+	if arguments.era.endswith("NLayers6plus"):
+		signal_systematic_uncertainties['Nmissin_Bin2023D_'  + nLayersWord] =  {'value' : str (1.0 + 0.4958724751640544 / 100.0)}
+		signal_systematic_uncertainties['Nmissmid_Bin2023D_' + nLayersWord] =  {'value' : str (1.0 + 4.213451503246696 / 100.0)}
