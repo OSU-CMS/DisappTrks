@@ -17,6 +17,7 @@ from operator import itemgetter
 from ctypes import c_double as Double
 
 from DisappTrks.LimitSetting.limitOptions import *
+import DisappTrks.LimitSetting.CMS_lumi as CMS_lumi
 
 if not arguments.era in validEras:
   print( "Invalid or empty data-taking era specific (-e). Allowed eras:")
@@ -104,17 +105,6 @@ colorSchemes = {
         'twoSigma' : 393,
     },
 }
-
-#set the text for the luminosity label
-if(intLumi < 1000.):
-    LumiText = str.format('{0:.1f}', intLumi) + " pb^{-1}"
-else:
-    LumiText = str.format('{0:.1f}', intLumi/1000.) + " fb^{-1}"
-    if roundLumiText:
-        LumiText = str.format('{0:.0f}', intLumi/1000.) + " fb^{-1}"
-
-# set the text for the fancy heading
-HeaderText = LumiText + " (13.6 TeV)"
 
 def makeSignalName(mass,lifetime):
     lifetime = str(lifetime).replace(".0", "")
@@ -1114,8 +1104,8 @@ def drawPlot(plot, th2fType=""):
     if plot['convertToMassSplitting']:
         legend = TLegend(0.180451, 0.352067, 0.538847, 0.482558)  # determine coordinates empirically
     else:
-        if plot['title'] == 'lifetime_vs_mass':
-            legend = TLegend(0.180451, 0.392067, 0.538847, 0.522558)
+        if plot['title'].startswith('lifetime_vs_mass'):
+            legend = TLegend(0.5377193, 0.172067, 0.8961153, 0.302558)
         else:
             legend = TLegend(0.5877193, 0.7422481, 0.9461153, 0.872739)
     legend.SetBorderSize(0)
@@ -1416,17 +1406,6 @@ def drawPlot(plot, th2fType=""):
     legend.Draw()
     canvas.SetTitle('')
 
-    #draw the header label
-    HeaderLabel = TPaveLabel(0.695489, 0.939276, 0.974937, 0.989664, HeaderText, "NDC") # from makePlots.py
-
-    HeaderLabel.SetTextAlign(32)
-    HeaderLabel.SetTextFont(42)
-    HeaderLabel.SetTextSize(0.756287)
-    HeaderLabel.SetBorderSize(0)
-    HeaderLabel.SetFillColor(0)
-    HeaderLabel.SetFillStyle(0)
-    HeaderLabel.Draw()
-
     if 'theoryHeader' in plot:
         TheoryHeaderLabel = TPaveLabel(0.14787, 0.932171, 0.434837, 0.982558, plot['theoryHeader'], "NDC")
         TheoryHeaderLabel.SetTextSize(0.512816)
@@ -1437,25 +1416,6 @@ def drawPlot(plot, th2fType=""):
         TheoryHeaderLabel.SetFillStyle(0)
         TheoryHeaderLabel.Draw()
 
-    if plot['makeColorPlot']:
-        LumiLabel = TPaveLabel(0.150376,0.93863,0.438596,0.989018, "CMS" if arguments.paperMode else "CMS Preliminary", "NDC")
-        LumiLabel.SetTextSize(0.769225)
-    elif plot['convertToMassSplitting']:
-        LumiLabel = TPaveLabel(0.186717,0.615285,0.383459,0.71606,"CMS Preliminary","NDC")
-        LumiLabel.SetTextSize(0.448718)
-    else:
-        if plot['title'] == 'lifetime_vs_mass':
-            LumiLabel = TPaveLabel(0.180451, 0.675065, 0.377193, 0.777132, "CMS" if arguments.paperMode else "CMS Preliminary", "NDC")
-        else:
-            LumiLabel = TPaveLabel(0.179198, 0.8074935,0.3270677,0.9095607, "CMS" if arguments.paperMode else "CMS Preliminary", "NDC")
-        LumiLabel.SetTextSize(0.448718)
-    LumiLabel.SetTextFont(62)
-    LumiLabel.SetTextAlign(12)
-    LumiLabel.SetBorderSize(0)
-    LumiLabel.SetFillColor(0)
-    LumiLabel.SetFillStyle(0)
-    LumiLabel.Draw()
-
     theoryLabels = []
     if 'theoryLabel' in plot:
         for i in range (0, len (plot["theoryLabel"])):
@@ -1463,11 +1423,17 @@ def drawPlot(plot, th2fType=""):
             if plot['makeColorPlot'] or plot['convertToMassSplitting']:
                 TheoryLabel = TPaveLabel(0.0200501, 0.541641, 0.433584, 0.611409, label, "NDC")
             else:
-                if plot['title'] == 'lifetime_vs_mass':
-                    if i == 0:
-                        TheoryLabel = TPaveLabel(0.04636591, 0.5736434, 0.4598997, 0.6434109, label, "NDC")
-                    else:
-                        TheoryLabel = TPaveLabel(0.10401, 0.6369509, 0.5175439, 0.7067183, label, "NDC")
+                if plot['title'].startswith('lifetime_vs_mass'):
+                    if arguments.limitType == 'wino':
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.74636591, 0.7986434, 0.8598997, 0.8684109, label, "NDC")
+                        else:
+                            TheoryLabel = TPaveLabel(0.60401, 0.8369509, 0.9175439, 0.9067183, label, "NDC")
+                    if arguments.limitType == 'higgsino':
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.71636591, 0.8086434, 0.8298997, 0.8784109, label, "NDC")
+                        else:
+                            TheoryLabel = TPaveLabel(0.62401, 0.8609509, 0.9375439, 0.9307183, label, "NDC")
                     TheoryLabel.SetTextAlign(32)
                 else:
                     if i == 0:
@@ -1525,6 +1491,29 @@ def drawPlot(plot, th2fType=""):
         stableChiLabel.SetFillStyle(3001)
         stableChiLabel.Draw("same")
 
+    # Change the CMS_lumi variables (see CMS_lumi.py)
+    CMS_lumi.writeExtraText = 1
+    CMS_lumi.extraText = "Preliminary"
+    CMS_lumi.lumi_sqrtS = "13 TeV"
+
+    # Define position of CMS text and period of lumi to plot
+    iPos = 0
+    if(iPos==0 ): CMS_lumi.relPosX = 0.11
+    iPeriod = 201523
+
+    if arguments.era.startswith("2015") or arguments.era.startswith("2016") or arguments.era.startswith("2017") or arguments.era.startswith("2018") or arguments.era == "run2":
+        CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
+    if arguments.era.startswith("2022") or arguments.era.startswith("2023") or arguments.era == "run3" or arguments.era == "run2run3":
+        CMS_lumi.lumi_sqrtS = "13.6 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string) 
+        if arguments.era.startswith("2022"): iPeriod = 2022
+        if arguments.era.startswith("2023"): iPeriod = 2023
+        if arguments.era == "run3": iPeriod = 20223
+        if arguments.era == "run2run3": iPeriod = 201523
+
+    
+
+    CMS_lumi.CMS_lumi(canvas, iPeriod, iPos)
+    canvas.Update()
     canvas.Write()
 
     outputPlotName = "limits/"+arguments.outputDir+"/"+plot['title']

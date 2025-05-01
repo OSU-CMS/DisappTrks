@@ -68,6 +68,11 @@ validEras = ["2015",
              "2022CD_all",
              "2022EFG_all",
              "2022_all",
+             "2023C_NLayers4", "2023C_NLayers5", "2023C_NLayers6plus",
+             "2023D_NLayers4", "2023D_NLayers5", "2023D_NLayers6plus",
+             "2023C_all",
+             "2023D_all",
+             "2023_all",
              "run3",
              "run2run3",]
 

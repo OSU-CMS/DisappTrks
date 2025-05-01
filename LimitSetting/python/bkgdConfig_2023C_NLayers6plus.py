@@ -12,8 +12,8 @@ backgrounds = {
         'alpha' : '5.7656e-06',
     },
     'Muon' : {
-        'N' : '489700',
-        'alpha' : '2.097221659020428e-07',
+        'N' : '307476',
+        'alpha' : '2.7641326634528394e-07',
     },
     'Tau' : {
         'N' : '0',
@@ -31,7 +31,7 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.7071321137275632',
+        'value' : '0.000001/2.0000164930998334',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
