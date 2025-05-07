@@ -13,10 +13,10 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-triggerEfficiencyFlat = False
+triggerEfficiencyFlat = True
 closureTest = False
 
-background = "FAKE"
+background = "MUON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -275,7 +275,7 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2022" + runPeriod] / lumi["Muon_2022" + runPeriod], 5))
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["Muon_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            muonBkgdEstimate.addPlotLabel("SingleMuon 2022" + runPeriod)
+            muonBkgdEstimate.addPlotLabel("Muon 2022" + runPeriod)
 
             if triggerEfficiencyFlat:
                 muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
@@ -345,18 +345,6 @@ for runPeriod in runPeriods:
             if closureTest:
                 muonBkgdEstimate._invertJetMetPhi = True
 
-            '''if False:
-                if runPeriod == 'AB':
-                    muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412351, 139)
-                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (22, 2, 132, 49) # >55 GeV (0-0)/(17 - 24) --> NaN
-                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (30, 0, 92, 5) # >55 GeV (0-0)/(2 - 3) --> NaN
-                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412332, 63)
-                elif runPeriod == 'CD':
-                    muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452247, 75)
-                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (5, 2, 101, 65) # >55 GeV (0-0)/(20-24) --> NaN
-                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (6, 0, 94, 8) # >55 GeV (0-0)/(5-3) --> NaN
-                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452222, 48)'''
-
             muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
             muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWord, "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
@@ -403,41 +391,46 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addPlotLabel("Tau 2022" + runPeriod)
             
             if triggerEfficiencyFlat:
-                tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+                tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.005))
             else:
                 tauBkgdEstimate.useFilesForTriggerEfficiency()
 
             if closureTest:
                 tauBkgdEstimate._invertJetMetPhi = True
 
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "Muon_2022"        + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[0], "Muon_2022" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[0], "Muon_2022" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
+            #prescale for IsoMu20 trigger used to calculate tau trigger probability
+            tauBkgdEstimate.setTriggerSFPrescale(210)
+
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[0], "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[0], "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[0], "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
             tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[0], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayers")
             tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
             tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[0], "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
-            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
-            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
+            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
             tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[0], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[0], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
-            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[0], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
+            tauBkgdEstimate.addChannel("IsoMuTrig",        "TauTagSkimSingleMuonTriggerSelection2", "Tau_2022"          + runPeriod, dirs['Mike'] + f"santosAbyss/SingleTauTriggerEstimate_2022{runPeriod}")
+            tauBkgdEstimate.addChannel("MuonTauTrig",      "TauTagSkimMuonTauTriggerSelection", "Tau_2022"          + runPeriod, dirs['Mike'] + f"santosAbyss/SingleTauTriggerEstimate_2022{runPeriod}")
 
             #if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
             #    # HEM 15/16 issue; veto MET in phi range
             #    tauBkgdEstimate.addChannel("TrigEffNumerHEMveto", "ElectronTagPt55MetTrigHEMveto" + nLayersWords[0], "EGamma_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/electronControlRegion_HEMveto")
 
             for iBin in range(1, len(nLayersWords)):
-                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "Muon_2022"        + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-                tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "Muon_2022" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-                tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "Muon_2022" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
+                tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+                tauBkgdEstimate.appendChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWords[iBin], "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+                tauBkgdEstimate.appendChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWords[iBin], "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
                 tauBkgdEstimate.appendChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWords[iBin], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayers")
                 tauBkgdEstimate.appendChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
                 tauBkgdEstimate.appendChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
-                tauBkgdEstimate.appendChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
-                tauBkgdEstimate.appendChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+                tauBkgdEstimate.appendChannel("TagPt35",          "TauTagPt55"                      + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
+                tauBkgdEstimate.appendChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
                 tauBkgdEstimate.appendChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWords[iBin], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
                 tauBkgdEstimate.appendChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWords[iBin], "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
-                tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+                tauBkgdEstimate.appendChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWords[iBin], "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
  
                 #if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
                 #    # HEM 15/16 issue; veto MET in phi range
@@ -453,6 +446,8 @@ for runPeriod in runPeriods:
 
             combinedPpassMetCut = tauBkgdEstimate.getPpassMetCut()
             combinedPpassMetTriggers, combinedTriggerEfficiency = tauBkgdEstimate.getPpassMetTriggers()
+
+            tauTriggerSF = tauBkgdEstimate.printTriggerSF()
 
             combinedPpassHEMveto = None
             #if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
@@ -480,6 +475,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["Tau_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
             tauBkgdEstimate.addPlotLabel("Tau 2022" + runPeriod)
+            tauBkgdEstimate._triggerSF = tauTriggerSF
 
             if triggerEfficiencyFlat:
                 tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
@@ -489,26 +485,17 @@ for runPeriod in runPeriods:
             if closureTest:
                 tauBkgdEstimate._invertJetMetPhi = True
 
-            '''if runPeriod == '2018':
-                # Can only find 3/38 events in SingleMuon 2018A
-                if nLayersWord == 'NLayers4':
-                    tauBkgdEstimate.addTagProbePass1ScaleFactor(121./94.)
-                if nLayersWord == 'NLayers5':
-                    tauBkgdEstimate.addTagProbePass1ScaleFactor(28./21.)
-                if nLayersWord == 'NLayers6plus':
-                    tauBkgdEstimate.addTagProbePass1ScaleFactor(21./20.)'''
-
-            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "Muon_2022"        + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "Muon_2022"        + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
-            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "Muon_2022"        + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/")
+            tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+            tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
+            tauBkgdEstimate.addChannel("TagProbePassSS",   "ZtoTauToMuProbeTrkWithSSFilter"  + nLayersWord, "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
             tauBkgdEstimate.addChannel("TagProbe1",        "ZtoTauToEleProbeTrk"             + nLayersWord, "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayers")
             tauBkgdEstimate.addChannel("TagProbePass1",    "ZtoTauToEleProbeTrkWithFilter"   + nLayersWord, "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
             tauBkgdEstimate.addChannel("TagProbePassSS1",  "ZtoTauToEleProbeTrkWithSSFilter" + nLayersWord, "EGamma_2022"   + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_ZtoTauToEleProbeTrkNLayersFilter")
-            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
-            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+            tauBkgdEstimate.addChannel("TagPt35",          "TauTagPt55"                      + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
+            tauBkgdEstimate.addChannel("TagPt35MetTrig",   "TauTagPt55MetTrig"               + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
             tauBkgdEstimate.addChannel("TrigEffDenom",     "ElectronTagPt55"                 + nLayersWord, "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
             tauBkgdEstimate.addChannel("TrigEffNumer",     "ElectronTagPt55MetTrig"          + nLayersWord, "EGamma_2022"          + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers")
-            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}")
+            tauBkgdEstimate.addChannel("TagPt35MetL1Trig", "TauTagPt55"                      + nLayersWord, "Tau_2022"             + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
 
             #if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
             #    # HEM 15/16 issue; veto MET in phi range

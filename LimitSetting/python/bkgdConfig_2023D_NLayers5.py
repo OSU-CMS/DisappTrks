@@ -13,11 +13,11 @@ backgrounds = {
     },
     'Muon' : {
         'N' : '0',
-        'alpha' : '0.010003107325921147',
+        'alpha' : '0.0106',
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.02769806050029387',
+        'alpha' : '0.0277',
     },
 }
 
@@ -35,8 +35,7 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers5' : { # error on alpha
-        'value' : '1.5257710932308273', # 0 --> 0.000001 numerical safety
-        'background' : 'Tau',
+        'value' : '1.5258', # 0 --> 0.000001 numerical safety
     },
 
     # Still using 2018AB values; NEEDS TO BE UPDATED
@@ -51,29 +50,29 @@ background_systematics = {
     },
 
     'Elec_energy_NLayers5' : { # error on energy assumption
-        'value' : '1.146',
+        'value' : '1.128',
         'background' : 'Elec',
     },
     'Tau_energy_NLayers5' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.031',
         'background' : 'Tau',
     },
 
     'Muon_lowStatPoffline_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.693) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.696 - 0.651) / 0.696)),
         'background' : 'Muon',
     },
     'Tau_lowStatPoffline_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.693) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.696 - 0.651) / 0.696)),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPtrigger_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.416) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.532 - 0.504) / 0.532)),
         'background' : 'Muon',
     },
     'Tau_lowStatPtrigger_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.416) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.532 - 0.504) / 0.532)),
         'background' : 'Tau',
     },
 }

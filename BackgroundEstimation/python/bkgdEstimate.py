@@ -115,6 +115,8 @@ class LeptonBkgdEstimate:
     _useExternalTriggerEfficiency = False
     _calculateTriggerEfficiency = False
     _invertJetMetPhi = False
+    _triggerSF = -1
+    _triggerSFPrescale = 1
 
     getHistFromProjectionZ = functools.partial (getHistFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
     getHistIntegralFromProjectionZ = functools.partial (getHistIntegralFromProjectionZ, fiducialElectronSigmaCut = _fiducialElectronSigmaCut, fiducialMuonSigmaCut = _fiducialMuonSigmaCut)
@@ -656,6 +658,19 @@ class LeptonBkgdEstimate:
             print("TagPt35 and TagPt35MetTrig not both defined. Not printing P (pass met triggers)...")
             return (float ("nan"), float ("nan"))
 
+    def printTriggerSF(self):
+        if hasattr (self, "IsoMuTrig") and hasattr(self, 'MuonTauTrig'):
+            triggerSF = (1) / (self._triggerSFPrescale * self.IsoMuTrig["yield"] / self.IsoMuTrig['total'])
+            self._triggerSF = triggerSF
+            print(f"Trigger scale factor: ({self.MuonTauTrig['yield']} / {self.MuonTauTrig['total']}) / ({self._triggerSFPrescale} * {self.IsoMuTrig['yield']} / {self.IsoMuTrig['total']}) = {triggerSF}")
+            return triggerSF
+        else:
+            print("No IsoMuTrig or MuonTauTrig set. Not printing trigger sf...")
+            return float ("nan")   
+
+    def setTriggerSFPrescale(self, prescale):
+        self._triggerSFPrescale = prescale     
+
     def plotTriggerEfficiency (self, passesHist, totalHist, label = ""):
         if self._fout and self._canvas:
             passesHist = passesHist.Rebin (self._rebinFactor, "passesHist")
@@ -808,6 +823,12 @@ class LeptonBkgdEstimate:
         pPassVeto, passes, scaleFactor, total = self.printPpassVetoTagProbe ()
         pPassMetCut = self.printPpassMetCut ()
         pPassMetTriggers, triggerEfficiency = self.printPpassMetTriggers ()
+
+        if hasattr (self, "IsoMuTrig") and hasattr(self, "MuonTauTrig"):
+            triggerSF = self.printTriggerSF()
+            scaleFactor = scaleFactor * triggerSF
+        elif self._triggerSF > 0:
+            scaleFactor *= self._triggerSF
 
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()

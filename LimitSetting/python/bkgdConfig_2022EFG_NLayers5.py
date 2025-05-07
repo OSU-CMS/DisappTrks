@@ -16,8 +16,8 @@ backgrounds = {
         'alpha' : '0.0133',
     },
     'Tau' : {
-        'N' : '0',
-        'alpha' : '0.0322',
+        'N' : '21',
+        'alpha' : '0.0048',
     },
 }
 
@@ -31,11 +31,11 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers5' : { # error on alpha
-        'value' : '1.722069941609909',
+        'value' : '1.7221',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers5' : { # error on alpha
-        'value' : '1.2811536382225417', # 0 --> 0.000001 numerical safety
+        'value' : '0.23471728829348615/1.8988213677139063', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
@@ -55,25 +55,25 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Tau_energy_NLayers5' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.003',
         'background' : 'Tau',
     },
 
     'Muon_lowStatPoffline_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.693) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.708 - 0.645) / 0.708)),
         'background' : 'Muon',
     },
     'Tau_lowStatPoffline_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.693) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.708 - 0.645) / 0.708)),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPtrigger_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.416) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.509 - 0.500) / 0.509)),
         'background' : 'Muon',
     },
     'Tau_lowStatPtrigger_NLayers5' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.416) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.509 - 0.500) / 0.509)),
         'background' : 'Tau',
     },
 }

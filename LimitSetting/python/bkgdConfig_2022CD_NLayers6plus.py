@@ -13,11 +13,11 @@ backgrounds = {
     },
     'Muon' : {
         'N' : '0',
-        'alpha' : '0.04515',
+        'alpha' : '0.0452',
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.0095',
+        'alpha' : '0.0136',
     },
 }
 
@@ -31,11 +31,11 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.007644709557822',
+        'value' : '1.0076',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.2793946153901123', # 0 --> 0.000001 numerical safety
+        'value' : '1.2794', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
@@ -46,7 +46,7 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers6plus' : { # difference between ZtoMuMu and ZtoEE methods
-        'value' : '1.000',
+        'value' : '2.000',
         'background' : 'Fake',
     },
 
@@ -55,7 +55,7 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Tau_energy_NLayers6plus' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.031',
         'background' : 'Tau',
     },
 }
