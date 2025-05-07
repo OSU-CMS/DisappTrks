@@ -202,7 +202,6 @@ class LeptonBkgdEstimate:
         passes = None
 
         hist = "Eventvariable Plots/nProbesPT55"
-        print(self.TagProbe)
         totalHistPT55 = getHistFromChannelDict (self.TagProbe, hist)
         addChannelExtensions(totalHistPT55, self.TagProbe, hist)
 
@@ -481,8 +480,6 @@ class LeptonBkgdEstimate:
             passes.setUncertaintyUp(up68)
 
         eff = passes / total if total > 0.0 else Measurement(0.0, 0.0)
-
-        print(str(passes), str(total))
 
         print("P (pass met cut): " + str (eff), "numerator", passes, "denominator", total)
         return eff
