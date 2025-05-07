@@ -454,7 +454,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
     limit_dict = {}
-    expTable = open("limits/" + arguments.outputDir + "/" + "expTable.tex", "w")
+    expTable = open("limits/" + arguments.outputDir + "/" + "expTable_" + arguments.limitType + ".tex", "w")
     expTable.write('\\begin{center} \\begin{tabular}{cc}')
     expTable.write('\n')
     expTable.write('\hline \hline')
@@ -521,7 +521,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x.append (mass_limit)
         y.append (lifetime)
 
-        with open ("limits/" + arguments.outputDir + "/" + "expTable.tex", 'a') as file:
+        with open ("limits/" + arguments.outputDir + "/" + "expTable_" + arguments.limitType + ".tex", 'a') as file:
             file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
             file.write('\n')
             expTable.close()
@@ -530,7 +530,7 @@ def makeExpLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
-    expTable = open("limits/" + arguments.outputDir + "/" + "expTable.tex", "a")
+    expTable = open("limits/" + arguments.outputDir + "/" + "expTable_" + arguments.limitType + ".tex", "a")
     expTable.write('\hline \hline')
     expTable.write('\n')
     expTable.write(' \end{tabular} \end{center}')
@@ -542,7 +542,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
     x = array ('d')
     y = array ('d')
     limit_dict = {}
-    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable.tex", "w")
+    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable_" + arguments.limitType + ".tex", "w")
     obsTable.write('\\begin{center} \\begin{tabular}{cc}')
     obsTable.write('\n')
     obsTable.write('\hline \hline')
@@ -609,7 +609,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x.append (mass_limit)
         y.append (lifetime)
 
-        with open ("limits/" + arguments.outputDir + "/" + "obsTable.tex", 'a') as file:
+        with open ("limits/" + arguments.outputDir + "/" + "obsTable_" + arguments.limitType + ".tex", 'a') as file:
             file.write(str(lifetime) + ' & ' + str(round(mass_limit,1)) + '\\\\')
             file.write('\n')
         obsTable.close()
@@ -618,7 +618,7 @@ def makeObsLimitsTable(limits, x_key, y_key, experiment_key, theory_key):
         x[-1], y[-1] = y[-1], x[-1]
     graph = TGraph (len (x), x, y)
 
-    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable.tex", "a")
+    obsTable = open("limits/" + arguments.outputDir + "/" + "obsTable_" + arguments.limitType + ".tex", "a")
     obsTable.write('\hline \hline')
     obsTable.write('\n')
     obsTable.write(' \end{tabular} \end{center}')
