@@ -16,7 +16,7 @@ setCanvasStyle(canvas)
 triggerEfficiencyFlat = True
 closureTest = False
 
-background = "TAU"
+background = "MUON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -275,7 +275,7 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2022" + runPeriod] / lumi["Muon_2022" + runPeriod], 5))
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2022" + runPeriod])
             muonBkgdEstimate.addLuminosityLabel(str(round(lumi["Muon_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            muonBkgdEstimate.addPlotLabel("SingleMuon 2022" + runPeriod)
+            muonBkgdEstimate.addPlotLabel("Muon 2022" + runPeriod)
 
             if triggerEfficiencyFlat:
                 muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
@@ -344,18 +344,6 @@ for runPeriod in runPeriods:
 
             if closureTest:
                 muonBkgdEstimate._invertJetMetPhi = True
-
-            '''if False:
-                if runPeriod == 'AB':
-                    muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412351, 139)
-                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (22, 2, 132, 49) # >55 GeV (0-0)/(17 - 24) --> NaN
-                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (30, 0, 92, 5) # >55 GeV (0-0)/(2 - 3) --> NaN
-                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (390778, 58, 412332, 63)
-                elif runPeriod == 'CD':
-                    muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452247, 75)
-                    #if nLayersWord is 'NLayers4': muonBkgdEstimate.useExternalTriggerEfficiency (5, 2, 101, 65) # >55 GeV (0-0)/(20-24) --> NaN
-                    #elif nLayersWord is 'NLayers5': muonBkgdEstimate.useExternalTriggerEfficiency (6, 0, 94, 8) # >55 GeV (0-0)/(5-3) --> NaN
-                    #elif nLayersWord is 'NLayers6plus': muonBkgdEstimate.useExternalTriggerEfficiency (430356, 44, 452222, 48)'''
 
             muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "Muon_2022"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")
             muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}/")

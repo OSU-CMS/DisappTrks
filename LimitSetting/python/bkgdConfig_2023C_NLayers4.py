@@ -13,7 +13,7 @@ backgrounds = {
     },
     'Muon' : {
         'N' : '1',
-        'alpha' : '0.0626',
+        'alpha' : '0.0666',
     },
     'Tau' : {
         'N' : '0',

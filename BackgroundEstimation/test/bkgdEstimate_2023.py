@@ -13,9 +13,10 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-triggerEfficiencyFlat = False
+triggerEfficiencyFlat = True
+closureTest = False
 
-background = "TAU"
+background = "MUON"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -186,11 +187,11 @@ for runPeriod in runPeriods:
                 electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
                 electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2023"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
                 electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2023"        + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
-                #electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
-                #electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
-                #electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2022" + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
-                #electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
-                #electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2022"        + runPeriod, dirs['Mike'] + f"EGamma_2022/EGamma_2022{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[iBin], "EGamma_2023"        + runPeriod, dirs['Mike'] + f"EGamma_2023/EGamma_2023{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[iBin], "EGamma_2023" + runPeriod, dirs['Mike'] + f"EGamma_2023/EGamma_2023{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagProbePassSS", "ZtoEleProbeTrkWithSSFilter" + nLayersWords[iBin], "EGamma_2023" + runPeriod, dirs['Mike'] + f"EGamma_2023/EGamma_2023{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagPt35",        "ElectronTagPt55"            + nLayersWords[iBin], "EGamma_2023"        + runPeriod, dirs['Mike'] + f"EGamma_2023/EGamma_2023{runPeriod}_zToEE/")
+                #electronBkgdEstimate.appendChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig"     + nLayersWords[iBin], "EGamma_2023"        + runPeriod, dirs['Mike'] + f"EGamma_2023/EGamma_2023{runPeriod}_zToEE/")
             
             electronBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             electronBkgdEstimate.addRebinFactor(4)
@@ -255,39 +256,41 @@ for runPeriod in runPeriods:
         if combineLayers:
 
             print("********************************************************************************")
-            print("performing muon background estimate in search region(2018", runPeriod, "-- combined layer bins)")
+            print("performing muon background estimate in search region(2023", runPeriod, "-- combined layer bins)")
             print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("muonBkgdEstimate_2018" + runPeriod + "_combinedBins.root", "recreate")
+            fout = TFile.Open("muonBkgdEstimate_2023" + runPeriod + "_combinedBins.root", "recreate")
 
             muonBkgdEstimate = LeptonBkgdEstimate("muon")
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2018" + runPeriod] / lumi["SingleMuon_2018" + runPeriod], 5))
-            muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2018" + runPeriod])
-            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2018" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            muonBkgdEstimate.addPlotLabel("SingleMuon 2018" + runPeriod)
+            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2023" + runPeriod] / lumi["Muon_2023" + runPeriod], 5))
+            muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2023" + runPeriod])
+            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["Muon_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            muonBkgdEstimate.addPlotLabel("Muon 2023" + runPeriod)
 
-            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[0])
-            muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[0], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[0])
-            muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[0], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[0])
-            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
-            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[0], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
+            if triggerEfficiencyFlat:
+                muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
+            else:
+                muonBkgdEstimate.useFilesForTriggerEfficiency()
+
+            if closureTest:
+                muonBkgdEstimate._invertJetMetPhi = True
+
+            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[0], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[0], "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[0], "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[0], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[0], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
 
 
             for iBin in range(1, len(nLayersWords)):
-                muonBkgdEstimate.appendChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
-                muonBkgdEstimate.appendChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
-                muonBkgdEstimate.appendChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[iBin], "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWords[iBin])
-                muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
-                muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
-
-            if runPeriod in ['C', 'D', 'CD'] and applyHEMveto:
-                # only NLayers6plus has any events passing in CD, so these aren't in the above block -- they're the only channels, so no "appendChannel"
-                # HEM 15/16 issue; veto MET in phi range
-                #muonBkgdEstimate.addChannel("TagPt35HEMveto",        "MuonTagPt55HEMvetoNLayers6plus",        "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
-                muonBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "MuonTagPt55MetTrigHEMvetoNLayers6plus", "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
+                muonBkgdEstimate.appendChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWords[iBin], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+                muonBkgdEstimate.appendChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWords[iBin], "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+                muonBkgdEstimate.appendChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWords[iBin], "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+                muonBkgdEstimate.appendChannel("TagPt35",        "MuonTagPt55"               + nLayersWords[iBin], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+                muonBkgdEstimate.appendChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWords[iBin], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
 
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
@@ -322,28 +325,24 @@ for runPeriod in runPeriods:
             muonBkgdEstimate.addMetCut(120.0)
             muonBkgdEstimate.addTFile(fout)
             muonBkgdEstimate.addTCanvas(canvas)
-            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2023" + runPeriod] / lumi["SingleMuon_2023" + runPeriod], 5))
+            muonBkgdEstimate.addPrescaleFactor(round(lumi["MET_2023" + runPeriod] / lumi["Muon_2023" + runPeriod], 5))
             muonBkgdEstimate.addLuminosityInInvPb(lumi["MET_2023" + runPeriod])
-            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["SingleMuon_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            muonBkgdEstimate.addPlotLabel("SingleMuon 2023" + runPeriod)
+            muonBkgdEstimate.addLuminosityLabel(str(round(lumi["Muon_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            muonBkgdEstimate.addPlotLabel("Muon_2023 2023" + runPeriod)
 
             if triggerEfficiencyFlat:
-                muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
+                muonBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.940, 0.004))
             else:
                 muonBkgdEstimate.useFilesForTriggerEfficiency()
 
+            if closureTest:
+                muonBkgdEstimate._invertJetMetPhi = True
 
-            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWord)
-            muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWord)
-            muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWord, "SingleMu_rereco_2018" + runPeriod, dirs['Brian'] + "2018/muonBackground_" + nLayersWord)
-            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
-            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "SingleMu_2018"        + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion")
-
-            if runPeriod in ['C', 'D', 'CD'] and nLayersWord == "NLayers6plus" and applyHEMveto:
-                # only NLayers6plus has any events passing in CD
-                # HEM 15/16 issue; veto MET in phi range
-                #muonBkgdEstimate.addChannel("TagPt35HEMveto",        "MuonTagPt55HEMvetoNLayers6plus",        "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
-                muonBkgdEstimate.addChannel("TagPt35MetTrigHEMveto", "MuonTagPt55MetTrigHEMvetoNLayers6plus", "SingleMu_2018" + runPeriod, dirs['Brian'] + "2018/fromLPC/muonControlRegion_HEMveto_NLayers6plus")
+            muonBkgdEstimate.addChannel("TagProbe",       "ZtoMuProbeTrk"             + nLayersWord, "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagProbePass",   "ZtoMuProbeTrkWithFilter"   + nLayersWord, "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagProbePassSS", "ZtoMuProbeTrkWithSSFilter" + nLayersWord, "Muon_2023" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagPt35",        "MuonTagPt55"               + nLayersWord, "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
+            muonBkgdEstimate.addChannel("TagPt35MetTrig", "MuonTagPt55MetTrig"        + nLayersWord, "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
 
             muonBkgdEstimate.useOnlineQuantitiesForPpassMetTriggers(False) # doesn't work without a custom HLT menu and full re-reco...
             muonBkgdEstimate.addRebinFactor(4)
@@ -382,7 +381,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addPrescaleFactor(round(lumi["MET_2023" + runPeriod] / lumi["Tau_2023" + runPeriod], 5))
             tauBkgdEstimate.addLuminosityInInvPb(lumi["MET_2023" + runPeriod])
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["Tau_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            tauBkgdEstimate.addPlotLabel("Tau 2022" + runPeriod)
+            tauBkgdEstimate.addPlotLabel("Tau 2023" + runPeriod)
             #prescale for IsoMu20 trigger used to calculate tau trigger probability
             tauBkgdEstimate.setTriggerSFPrescale(210)
 
@@ -452,7 +451,7 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addPrescaleFactor(round(lumi["MET_2023" + runPeriod] / lumi["Tau_2023" + runPeriod]))
             tauBkgdEstimate.addLuminosityInInvPb(lumi["MET_2023" + runPeriod])
             tauBkgdEstimate.addLuminosityLabel(str(round(lumi["Tau_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            tauBkgdEstimate.addPlotLabel("Tau 2022" + runPeriod)
+            tauBkgdEstimate.addPlotLabel("Tau 2023" + runPeriod)
             combinedPpassHEMveto = None
             tauBkgdEstimate._triggerSF = tauTriggerSF
 

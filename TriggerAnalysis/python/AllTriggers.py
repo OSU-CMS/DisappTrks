@@ -152,8 +152,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_V
 
     triggerFiltersElectron = ("hltEgammaCandidates::HLT", "hltEle32WPTightGsfTrackIsoFilter")
     triggerFiltersMuon = ("hltIterL3MuonCandidates::HLT", "hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered")
-    triggerFiltersTau = ("hltHpsSinglePFTau20MediumDitauWPDeepTauNoMatchForVBFIsoTau::HLT", "hltHpsOverlapFilterIsoMu24MediumDeepTauPFTau20")
-
+    triggerFiltersTau = ("hltHpsSelectedPFTau27LooseMuTauWPDeepTauVsJetsAgainstMuonL1HLTMatched::HLT", "hltHpsOverlapFilterIsoMu20LooseMuTauWPDeepTauPFTau27L1Seeded")
 
 # Flat cms.vstring of filters for use in EventTriggerVarProducer
 triggerFiltersInclusive = cms.vstring()
