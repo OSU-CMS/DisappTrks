@@ -46,7 +46,7 @@ if systematic == "PILEUP" or systematic == "ALL":
     print("evaluating pileup systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_pileup_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_pileup_2022EFG_" + nLayersWord + ".txt", "w")
 
     pileupSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     pileupSystematic.addExtraSamples(extraSamples)
@@ -83,7 +83,7 @@ if systematic == "MET" or systematic == "ALL":
     metSystematic.addChannel("down",    "DisTrkNoMetSmearedJets" + nLayersWord, suffix, dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigJecJerNoMet_v2")
     metSystematic.addMetTypes(metVaryTypes)
     metSystematic.setMetCut(120.0)
-    metSystematic.setFoutNames(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_metVary", "2022EFG_" + nLayersWord + ".txt")
+    metSystematic.setFoutNames(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_metVary", "2022EFG_" + nLayersWord + ".txt")
     metSystematic.printSystematic()
 
     print("********************************************************************************")
@@ -96,7 +96,7 @@ if systematic == "JEC" or systematic == "ALL":
     print("evaluating JEC systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_jec_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jec_2022EFG_" + nLayersWord + ".txt", "w")
 
     jecSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jecSystematic.addFout(fout)
@@ -118,7 +118,7 @@ if systematic == "JER" or systematic == "ALL":
     print("evaluating JER systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_jer_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_jer_2022EFG_" + nLayersWord + ".txt", "w")
 
     jerSystematic = SystematicCalculator(masses, lifetimes, isHiggsino = True)
     jerSystematic.addFout(fout)
@@ -140,7 +140,7 @@ if systematic == "ISR" or systematic == "ALL":
     print("evaluating ISR systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_isr_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_isr_2022EFG_" + nLayersWord + ".txt", "w")
 
     isrSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
     isrSystematic.addExtraSamples(extraSamples)
@@ -162,7 +162,7 @@ if systematic == "TRIGGER" or systematic == "ALL":
     print("--------------------------------------------------------------------------------")
 
     for flux in ['Data', 'MC']:
-        fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_trigger_grandOrWeight" + flux + '_2022EFG_' + nLayersWord + ".txt", "w")
+        fout = open(os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_trigger_grandOrWeight" + flux + '_2022EFG_' + nLayersWord + ".txt", "w")
 
         triggerSystematic = WeightSystematicFromTrees(masses, lifetimes, lumi, isHiggsino = True)
         triggerSystematic.addExtraSamples(extraSamples)
@@ -184,7 +184,7 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     print("evaluating missing outer hits systematic (2022EFG)")
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_nMissOut_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_nMissOut_2022EFG_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("nMissOutSystematic_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
 
     missingOuterHitsSystematic = MissingOuterHitsSystematic (masses, allLifetimes, lumi, isHiggsino = True)
@@ -192,8 +192,8 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2022EFG",  dirs['Mike'] + "abyss/MET_2022/MET_2022EFG_MissingHitsSelection")
-    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "background_2022F",     dirs['Mike'] + "abyss/MissingHitsCorrections")
+    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2022EFG",  dirs['Mike'] + "abyss/MET_run3/MET_2022EFG_MissingHitsSelection")
+    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "MissingHits_2022EFG",     dirs['Mike'] + "abyss/MissingHitsCorrections/2022_postEE")
     missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_higgsino_sigCentralLooseNoMissOut_v2")
     missingOuterHitsSystematic.printSystematic ()
 
@@ -210,7 +210,7 @@ if systematic == "MUON_VETO_SCALE_FACTOR" or systematic == "ALL": # TODO: check 
     print("evaluating muon veto scale factor systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_muonVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_muonVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("muonVetoScaleFactors_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
 
     muonVetoSFSystematic = LeptonVetoScaleFactorSystematic("Muon", masses, allLifetimes, lumi, isHiggsino = True)
@@ -234,7 +234,7 @@ if systematic == "ELECTRON_VETO_SCALE_FACTOR" or systematic == "ALL": # TODO: ch
     print("evaluating electron veto scale factor systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_electronVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_electronVetoScaleFactor_2022EFG_" + nLayersWord + ".txt", "w")
     foutForPlot = TFile.Open ("electronVetoScaleFactors_2022EFG_higgsino_" + nLayersWord + ".root", "recreate")
 
     electronVetoSFSystematic = LeptonVetoScaleFactorSystematic("Electron", masses, allLifetimes, lumi, isHiggsino = True)
@@ -305,7 +305,7 @@ if (systematic == "TRIGGER_TURN_ON" or systematic == "ALL") and nLayersWord != '
     print("evaluating trigger turn-on systematic (2022EFG) " + nLayersWord)
     print("--------------------------------------------------------------------------------")
 
-    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/dataTest/systematic_values__higgsino_triggerTurnOn_2022EFG_" + nLayersWord + ".txt", "w")
+    fout = open (os.environ["CMSSW_BASE"] + "/src/DisappTrks/SignalSystematics/data/systematic_values__higgsino_triggerTurnOn_2022EFG_" + nLayersWord + ".txt", "w")
 
     foutForSystematics  = TFile('triggerTurnOnSystematic_2022EFG_higgsino_' + nLayersWord + '.root', 'recreate')
 

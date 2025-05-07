@@ -6,7 +6,7 @@ from DisappTrks.LimitSetting.higgsinoElectroweakLimits import *
 from ROOT import TMath
 
 convertCmToNs = True
-outputName = "limit_plots.root"
+outputName = "limit_plots_higgsino.root"
 yAxisRangeFor1DMassLimits = [1.e-3, 1.e3]
 
 roundLumiText = True
@@ -26,7 +26,7 @@ plotDefinitions = [
     ######################LIFETIME (ns) VS MASS
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'lifetime_vs_mass',
+        'title' : 'lifetime_vs_mass_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -58,7 +58,7 @@ plotDefinitions = [
     ###################### CTAU = 1 cm
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_1cm',
+        'title' : 'limits_vs_1cm_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -97,7 +97,7 @@ plotDefinitions = [
     ###################### CTAU = 10 cm
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_10cm',
+        'title' : 'limits_vs_10cm_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -136,7 +136,7 @@ plotDefinitions = [
     ###################### CTAU = 100 cm
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_100cm',
+        'title' : 'limits_vs_100cm_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -175,7 +175,7 @@ plotDefinitions = [
     ###################### CTAU = 1000 cm
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_1000cm',
+        'title' : 'limits_vs_1000cm_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -214,7 +214,7 @@ plotDefinitions = [
     ###################### CTAU = 10000 cm
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'limits_vs_10000cm',
+        'title' : 'limits_vs_10000cm_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : False,
@@ -254,7 +254,7 @@ plotDefinitions = [
     # "3D" plot
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'lifetimeNs_vs_mass_color',
+        'title' : 'lifetimeNs_vs_mass_color_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : True,
@@ -282,7 +282,7 @@ plotDefinitions = [
 
     # only plotted if option "--plotSignificance"
     {
-        'title' : 'significance_vs_mass_color',
+        'title' : 'significance_vs_mass_color_higgsino',
 
         'convertToMassSplitting' : False,
         'makeColorPlot' : True,

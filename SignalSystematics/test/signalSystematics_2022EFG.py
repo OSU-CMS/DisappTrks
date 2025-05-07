@@ -203,8 +203,8 @@ if systematic == "HITS" or systematic == "ALL":
     print("--------------------------------------------------------------------------------")
 
     hitsSystematic = HitsSystematic ()
-    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2022EFG",  dirs['Mike'] + "abyss/MET_2022/MET_2022EFG_MissingHitsSelection")
-    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "background_2022F",     dirs['Mike'] + "abyss/MissingHitsCorrections")
+    hitsSystematic.addChannel  ("Data",  "HitsSystematicsCtrlSelection",  "MET_2022EFG",  dirs['Mike'] + "abyss/MET_run3/MET_2022EFG_MissingHitsSelection")
+    hitsSystematic.addChannel  ("MC",    "HitsSystematicsCtrlSelection",  "MissingHits_2022EFG",     dirs['Mike'] + "abyss/MissingHitsCorrections/2022_postEE")
     hitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingMiddleVsInner")
     print("--------------------------------------------------------------------------------")
     print("before correction to missing middle hits")
@@ -257,8 +257,8 @@ if systematic == "MISSING_OUTER_HITS" or systematic == "ALL":
     missingOuterHitsSystematic.addFoutForPlot (foutForPlot)
     missingOuterHitsSystematic.addSignalSuffix ("_" + suffix)
     missingOuterHitsSystematic.addIntegrateHistogram ("Track Plots/trackNHitsMissingOuterCorrected")
-    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2022EFG",  dirs['Mike'] + "abyss/MET_2022/MET_2022EFG_MissingHitsSelection")
-    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "background_2022F",     dirs['Mike'] + "abyss/MissingHitsCorrections")
+    missingOuterHitsSystematic.addChannel  ("Data",    "MuonCtrlSelection",                "MET_2022EFG",  dirs['Mike'] + "abyss/MET_run3/MET_2022EFG_MissingHitsSelection")
+    missingOuterHitsSystematic.addChannel  ("MC",      "MuonCtrlSelection",                "MissingHits_2022EFG",     dirs['Mike'] + "abyss/MissingHitsCorrections/2022_postEE")
     missingOuterHitsSystematic.addChannel  ("Signal",  "DisTrkNoNMissOut" + nLayersWord,   "",             dirs['Breno'] + "SignalMC/Run3/2022/signalAcceptance_sigCentralLooseNoMissOut_v2")
     missingOuterHitsSystematic.printSystematic ()
 
