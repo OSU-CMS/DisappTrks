@@ -660,7 +660,7 @@ class LeptonBkgdEstimate:
 
     def printTriggerSF(self):
         if hasattr (self, "IsoMuTrig") and hasattr(self, 'MuonTauTrig'):
-            triggerSF = (self.MuonTauTrig['yield'] / self.MuonTauTrig['total']) / (self._triggerSFPrescale * self.IsoMuTrig["yield"] / self.IsoMuTrig['total'])
+            triggerSF = (1) / (self._triggerSFPrescale * self.IsoMuTrig["yield"] / self.IsoMuTrig['total'])
             self._triggerSF = triggerSF
             print(f"Trigger scale factor: ({self.MuonTauTrig['yield']} / {self.MuonTauTrig['total']}) / ({self._triggerSFPrescale} * {self.IsoMuTrig['yield']} / {self.IsoMuTrig['total']}) = {triggerSF}")
             return triggerSF
@@ -826,9 +826,9 @@ class LeptonBkgdEstimate:
 
         if hasattr (self, "IsoMuTrig") and hasattr(self, "MuonTauTrig"):
             triggerSF = self.printTriggerSF()
-            nCtrl = nCtrl * triggerSF
+            scaleFactor = scaleFactor * triggerSF
         elif self._triggerSF > 0:
-            nCtrl *= self._triggerSF
+            scaleFactor *= self._triggerSF
 
         if not hasattr (pPassVeto, "centralValue"):
             pPassVeto = self.printPpassVeto ()
