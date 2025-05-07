@@ -21,7 +21,7 @@ if len(sys.argv) > 2:
     nLayersWords = [sys.argv[2]]
 
 # '' will gives you Dataset_2017.root for the whole year
-runPeriods = ['CD', 'EFG']
+runPeriods = ['C', 'D']
 
 if background == "FAKE" or background == "ALL":
 
@@ -104,20 +104,20 @@ if background == "ELECTRON" or background == "ALL":
         for nLayersWord in nLayersWords:
 
             print("********************************************************************************")
-            print("evaluating electron energy systematic (2022", runPeriod, "--", nLayersWord, ")")
+            print("evaluating electron energy systematic (2023", runPeriod, "--", nLayersWord, ")")
             print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("electronEnergySystematic_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("electronEnergySystematic_2023" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             electronEnergySystematic = LeptonEnergySystematic("electron")
             electronEnergySystematic.addTFile(fout)
             electronEnergySystematic.addTCanvas(canvas)
-            electronEnergySystematic.addLuminosityLabel(str(round(lumi["EGamma_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            electronEnergySystematic.addPlotLabel("EGamma 2022" + runPeriod)
+            electronEnergySystematic.addLuminosityLabel(str(round(lumi["EGamma_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            electronEnergySystematic.addPlotLabel("EGamma 2023" + runPeriod)
             electronEnergySystematic.addMetCut(120.0)
 
-            electronEnergySystematic.addChannel("TagPt35",        "ElectronTagPt55"        + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
-            electronEnergySystematic.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            electronEnergySystematic.addChannel("TagPt35",        "ElectronTagPt55"        + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2023{runPeriod}_TagPT55NLayers/")
+            electronEnergySystematic.addChannel("TagPt35MetTrig", "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2023{runPeriod}_TagPT55NLayers/")
 
             print("********************************************************************************")
             electronEnergySystematic.printSystematic()
@@ -133,23 +133,23 @@ if background == "TAU" or background == "ALL":
         for nLayersWord in nLayersWords:
 
             print("********************************************************************************")
-            print("evaluating tau energy systematic(2022", runPeriod, "--", nLayersWord, ")")
+            print("evaluating tau energy systematic(2023", runPeriod, "--", nLayersWord, ")")
             print("--------------------------------------------------------------------------------")
 
-            fout = TFile.Open("tauEnergySystematic_2022" + runPeriod + "_" + nLayersWord + ".root", "recreate")
+            fout = TFile.Open("tauEnergySystematic_2023" + runPeriod + "_" + nLayersWord + ".root", "recreate")
 
             tauEnergySystematic = LeptonEnergySystematic("tau")
             tauEnergySystematic.addTFile(fout)
             tauEnergySystematic.addTCanvas(canvas)
-            tauEnergySystematic.addLuminosityLabel(str(round(lumi["Tau_2022" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
-            tauEnergySystematic.addPlotLabel("Tau 2022" + runPeriod)
+            tauEnergySystematic.addLuminosityLabel(str(round(lumi["Tau_2023" + runPeriod] / 1000.0, 2)) + " fb^{-1}(13.6 TeV)")
+            tauEnergySystematic.addPlotLabel("Tau 2023" + runPeriod)
             tauEnergySystematic.addMetCut(120.0)
             tauEnergySystematic.addRebinFactor(4)
 
-            tauEnergySystematic.addChannel("TagPt35",        "TauTagPt55"             + nLayersWord, "Tau_2022"    + runPeriod, dirs['Mike'] + f"santosAbyss/TauTagPt55_2022{runPeriod}_New")
-            #tauEnergySystematic.addChannel("TagPt35MetTrig", "TauTagPt55MetTrig"      + nLayersWord, "Tau_2018"    + runPeriod, dirs['Mike'] + "2018/fromLPC/TauControlRegion")
-            tauEnergySystematic.addChannel("TrigEffDenom",   "ElectronTagPt55"        + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
-            tauEnergySystematic.addChannel("TrigEffNumer",   "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2022" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2022{runPeriod}_TagPT55NLayers/")
+            tauEnergySystematic.addChannel("TagPt35",        "TauTagPt55"             + nLayersWord, "Tau_2023"    + runPeriod, dirs['Mike'] + f"abyss/Tau_run3/Tau_2023{runPeriod}_TauTagPt55/")
+            #tauEnergySystematic.addChannel("TagPt35MetTrig", "TauTagPt55MetTrig"      + nLayersWord, "Tau_2023"    + runPeriod, dirs['Mike'] + f"abyss/Tau_run3/Tau_2023{runPeriod}_TauTagPt55/")
+            tauEnergySystematic.addChannel("TrigEffDenom",   "ElectronTagPt55"        + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2023{runPeriod}_TagPT55NLayers/")
+            tauEnergySystematic.addChannel("TrigEffNumer",   "ElectronTagPt55MetTrig" + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/EGamma_2023{runPeriod}_TagPT55NLayers/")
 
             print("********************************************************************************")
             tauEnergySystematic.printSystematic()

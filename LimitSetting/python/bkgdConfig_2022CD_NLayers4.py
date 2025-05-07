@@ -13,11 +13,11 @@ backgrounds = {
     },
     'Muon' : {
         'N' : '0',
-        'alpha' : '0.1729608390193',
+        'alpha' : '0.1730',
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.012',
+        'alpha' : '0.0126',
     },
 }
 
@@ -27,15 +27,15 @@ background_systematics = {
         'background' : 'Fake',
     },
     'Elec_alpha_NLayers4' : { # error on alpha
-        'value' : '1.1335', # 0 --> 0.000001 numerical safety
+        'value' : '1.1335', 
         'background' : 'Elec',
     },
     'Muon_alpha_NLayers4' : { # error on alpha
-        'value' : '0.41258178048856287/1.587418219589611', # 0 --> 0.000001 numerical safety
+        'value' : '0.41258178048856287/1.587418219589611',
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers4' : { # error on alpha
-        'value' : '2.189124263340239', # 0 --> 0.000001 numerical safety
+        'value' : '1.7260',
         'background' : 'Tau',
     },
 
@@ -51,29 +51,29 @@ background_systematics = {
     },
 
     'Elec_energy_NLayers4' : { # error on energy assumption
-        'value' : '1.1184',
+        'value' : '1.118',
         'background' : 'Elec',
     },
     'Tau_energy_NLayers4' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.031',
         'background' : 'Tau',
     },
 
     'Muon_lowStatPoffline_NLayers4' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.714) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.721 - 0.644) / 0.721)),
         'background' : 'Muon',
     },
     'Tau_lowStatPoffline_NLayers4' : {
-        'value' : '1.0/' + str(1.0 + abs((0.7517 - 0.714) / 0.7517)),
+        'value' : '1.0/' + str(1.0 + abs((0.721 - 0.644) / 0.721)),
         'background' : 'Tau',
     },
 
     'Muon_lowStatPtrigger_NLayers4' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.384) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.405 - 0.370) / 0.405)),
         'background' : 'Muon',
     },
     'Tau_lowStatPtrigger_NLayers4' : {
-        'value' : '1.0/' + str(1.0 + abs((0.429 - 0.384) / 0.429)),
+        'value' : '1.0/' + str(1.0 + abs((0.405 - 0.370) / 0.405)),
         'background' : 'Tau',
     },
 

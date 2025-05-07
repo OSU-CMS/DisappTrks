@@ -13,11 +13,11 @@ backgrounds = {
     },
     'Muon' : {
         'N' : '489700',
-        'alpha' : '2.097221659020428e-07',
+        'alpha' : '2.0972e-07',
     },
     'Tau' : {
-        'N' : '0',
-        'alpha' : '0.0047',
+        'N' : '14.0629',
+        'alpha' : '7.7948e-05',
     },
 }
 
@@ -35,7 +35,7 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.3715814958318515', # 0 --> 0.000001 numerical safety
+        'value' : '0.2801433150626942 / 1.9180257448869011', # 0 --> 0.000001 numerical safety
         'background' : 'Tau',
     },
 
@@ -55,7 +55,7 @@ background_systematics = {
         'background' : 'Elec',
     },
     'Tau_energy_NLayers6plus' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.003',
         'background' : 'Tau',
     },
 }

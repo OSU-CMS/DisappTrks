@@ -17,7 +17,7 @@ backgrounds = {
     },
     'Tau' : {
         'N' : '0',
-        'alpha' : '0.0047',
+        'alpha' : '0.0002',
     },
 }
 
@@ -35,14 +35,14 @@ background_systematics = {
         'background' : 'Muon',
     },
     'Tau_alpha_NLayers6plus' : { # error on alpha
-        'value' : '1.3715814958318515', # 0 --> 0.000001 numerical safety
+        'value' : '1.2328', 
         'background' : 'Tau',
     },
 
     # Still using 2018AB values; NEEDS TO BE UPDATED
     'Fake_syst_fit' : { # error from fit
         # correlated! between nlayers since it's the same value
-        'value' : '2.822',
+        'value' : '2.138',
         'background' : 'Fake',
     },
     'Fake_syst_sampleDiff_NLayers6plus' : { # difference between ZtoMuMu and ZtoEE methods
@@ -51,11 +51,11 @@ background_systematics = {
     },
 
     'Elec_energy_NLayers6plus' : { # error on energy assumption
-        'value' : '1.128',
+        'value' : '1.121',
         'background' : 'Elec',
     },
     'Tau_energy_NLayers6plus' : { # error on energy assumption
-        'value' : str (1.0 + 24.8215525905 / 100.0),
+        'value' : '1.031',
         'background' : 'Tau',
     },
 }

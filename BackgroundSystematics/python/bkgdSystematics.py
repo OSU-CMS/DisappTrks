@@ -9,6 +9,7 @@ from ROOT import gROOT, gStyle, TCanvas, TFile, TGraphAsymmErrors, TH1D, TMath, 
 from DisappTrks.StandardAnalysis.plotUtilities import *
 
 from ctypes import c_double as Double
+from OSUT3Analysis.Configuration.Measurement import Measurement
 
 setTDRStyle()
 
@@ -388,6 +389,8 @@ class LeptonEnergySystematic:
     _luminosityLabel = "13 TeV"
     _plotLabel = float ("nan")
     _rebinFactor = 1
+    _phiCut = 0.5
+    _metCut = 120
 
     def addTFile (self, fout):
         self._fout = fout
@@ -468,30 +471,32 @@ class LeptonEnergySystematic:
 
     def printPpassMetCut (self, metMinusOneHist):
         if hasattr (self, "TagPt35"):
-            total = self.TagPt35["yield"]
-            totalError = self.TagPt35["yieldError"]
-            passes = 0.0
-            passesError = 0.0
-
-            if hasattr (self, "TagPt35MetCut"):
-                passes = self.TagPt35MetCut["yield"]
-                passesError = self.TagPt35MetCut["yieldError"]
-            else:
-                sample = self.TagPt35["sample"]
-                condorDir = self.TagPt35["condorDir"]
-                name = self.TagPt35["name"]
-                met = getHist (sample, condorDir, name + "Plotter", self._Flavor + " Plots/" + self._flavor + metMinusOneHist)
-
-                passesError = Double (0.0)
-                passes = met.IntegralAndError (met.FindBin (self._metCut), met.GetNbinsX () + 1, passesError)
-
-            eff = passes / total if total > 0.0 else 0.0
-            effError = math.hypot (total * passesError.value, totalError * passes) / (total * total) if total > 0.0 else 0.0
-            print("P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff) + " +- " + str (effError))
-            return (eff, effError)
+            channel = self.TagPt35
         else:
             print("TagPt35 not defined. Not printing P (pass met cut)...")
-            return (float ("nan"), float ("nan"))
+            return float ("nan")
+
+        total = Measurement(channel["yield"], math.sqrt(channel['yield']))
+        passes = 0.0
+            
+        hist = self._Flavor + "-eventvariable Plots/deltaPhiMetJetLeadingVs" + self._Flavor + metMinusOneHist
+        met = getHistFromChannelDict (channel, hist)
+        addChannelExtensions(met, channel, hist)
+
+        passesError = Double(0.0)
+        totalError = Double(0.0)
+
+        passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
+
+        passes = Measurement (passes, passesError)
+        passes.isPositive ()
+
+        if passes.centralValue() == 0:
+            passes.setUncertaintyUp(up68)
+
+        eff = passes / total if total > 0.0 else Measurement(0.0, 0.0)
+        print("P (pass met cut) with \"" + metMinusOneHist + "\": " + str (eff))
+        return (eff, eff.uncertainty())
 
     def printSystematic (self):
         self.plotMet ()
@@ -503,10 +508,10 @@ class LeptonEnergySystematic:
 
         ratio = (pPassMetCut1[0] * pPassMetTriggers1[0]) / (pPassMetCut0[0] * pPassMetTriggers0[0]) if (pPassMetCut0[0] * pPassMetTriggers0[0] > 0.0) else 0.0
         ratioError = 0.0
-        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[1])
-        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[0] * pPassMetCut1[1] * pPassMetTriggers1[0])
-        ratioError = math.hypot (ratioError, pPassMetCut0[0] * pPassMetTriggers0[1] * pPassMetCut1[0] * pPassMetTriggers1[0])
-        ratioError = math.hypot (ratioError, pPassMetCut0[1] * pPassMetTriggers0[0] * pPassMetCut1[0] * pPassMetTriggers1[0])
+        ratioError = math.hypot (ratioError, pPassMetCut0[0].centralValue() * pPassMetTriggers0[0] * pPassMetCut1[0].centralValue() * pPassMetTriggers1[1])
+        ratioError = math.hypot (ratioError, pPassMetCut0[0].centralValue() * pPassMetTriggers0[0] * pPassMetCut1[1] * pPassMetTriggers1[0])
+        ratioError = math.hypot (ratioError, pPassMetCut0[0].centralValue() * pPassMetTriggers0[1] * pPassMetCut1[0].centralValue() * pPassMetTriggers1[0])
+        ratioError = math.hypot (ratioError, pPassMetCut0[1] * pPassMetTriggers0[0] * pPassMetCut1[0].centralValue() * pPassMetTriggers1[0])
         if (pPassMetCut0[0] * pPassMetTriggers0[0] > 0.0):
             ratioError /= ((pPassMetCut0[0] * pPassMetTriggers0[0]) * (pPassMetCut0[0] * pPassMetTriggers0[0]))
 
