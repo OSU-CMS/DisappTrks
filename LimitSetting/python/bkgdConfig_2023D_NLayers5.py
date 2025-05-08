@@ -36,6 +36,7 @@ background_systematics = {
     },
     'Tau_alpha_NLayers5' : { # error on alpha
         'value' : '1.5258', # 0 --> 0.000001 numerical safety
+        'background' : 'Tau',
     },
 
     # Still using 2018AB values; NEEDS TO BE UPDATED
