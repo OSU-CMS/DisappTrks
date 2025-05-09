@@ -85,6 +85,9 @@ datacardCombinations = {
 				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus',
 				  '2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
 				  '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	# 'run2' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+				#   '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+				#   '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
 }
 
 # name of histogram to integrate to get yields
@@ -419,9 +422,11 @@ elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plu
 	    'trkReco_Bin2022CD_' + nLayersWord :  {
 	        'value' : '1.0073', # result not yet approved: https://indico.cern.ch/event/827655/contributions/3467109/attachments/1863791/3063951/Tracking_2018Zmm_Jpsi.pdf
 	    },
-		# Still using 2018AB values; NEEDS TO BE UPDATED
 	    'Ecalo_Bin2022CD_' + nLayersWord : {
 	        'value' : str (1.0 + 3.4553713335066223 / 100.0),
+	    },
+		'metTrigEff_Bin2022CD_' + nLayersWord : {
+	        'value' : '1.006',
 	    },
 	}
 
