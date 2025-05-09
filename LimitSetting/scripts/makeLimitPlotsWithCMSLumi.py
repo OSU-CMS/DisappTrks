@@ -1508,7 +1508,9 @@ def drawPlot(plot, th2fType=""):
         if arguments.era.startswith("2022"): iPeriod = 2022
         if arguments.era.startswith("2023"): iPeriod = 2023
         if arguments.era == "run3": iPeriod = 20223
-        if arguments.era == "run2run3": iPeriod = 201523
+        if arguments.era == "run2run3":
+            if arguments.limitType == "wino": iPeriod = 2015231
+            if arguments.limitType == "higgsino": iPeriod = 2015232
 
     
 
