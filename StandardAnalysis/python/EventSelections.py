@@ -76,6 +76,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data") and (osusub.datasetLabel.endswith("_2018C") or osusub.datasetLabel.endswith("_2018D")):
         addCuts(basicSelection.cuts, [cutVetoMetPhiHEM1516])
 
+basicSelectionOnlyJetMET = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyJetMET.name = cms.string("BasicSelectionOnlyJetMET")
+addCuts(basicSelectionOnlyJetMET.cuts, [cutLeadingJetMetPhi])
+
+basicSelectionOnlyDijet = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyDijet.name = cms.string("BasicSelectionOnlyDijet")
+addCuts(basicSelectionOnlyDijet.cuts, [cutDijetDeltaPhiMax])
+
+basicSelectionOnlyJetMETDijet = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyJetMETDijet.name = cms.string("BasicSelectionOnlyJetMETDijet")
+addCuts(basicSelectionOnlyJetMETDijet.cuts, [cutLeadingJetMetPhi,cutDijetDeltaPhiMax])
+
 basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
 removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
@@ -258,6 +270,21 @@ disappearingCuts = [
 ]
 addCuts(disTrkSelection.cuts, disappearingCuts)
 disTrkCuts = candTrkCuts + disappearingCuts
+
+isHighPurityCut = [
+    cutTrkIsHighPurity
+]
+disTrkSelectionWithHighPurity = copy.deepcopy(disTrkSelection)
+disTrkSelectionWithHighPurity.name = cms.string("DisTrkWithHighPuritySelection")
+addCuts(disTrkSelectionWithHighPurity.cuts, isHighPurityCut)
+
+ecaloJetRhoCorr = [
+    cutTrkEcaloJetRhoCorr,
+    cutTrkNMissOut,
+]
+disTrkSelectionEcaloJetRhoCorr = copy.deepcopy(candTrkSelection)
+disTrkSelectionEcaloJetRhoCorr.name = cms.string("DisTrkSelectionEcaloJetRhoCorr")
+addCuts(disTrkSelectionEcaloJetRhoCorr.cuts, ecaloJetRhoCorr)
 
 ecaloSelection = copy.deepcopy(NoCuts)
 ecaloSelection.name = cms.string("ecaloSelection")
@@ -899,6 +926,32 @@ disTrkNoRandom = copy.deepcopy(disTrkSelection)
 disTrkNoRandom.name = cms.string("disTrkNoRandom")
 removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
 addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
+
+#####################################################################
+
+##########################################################################
+# Answering conveners comments from 2025-02-27, 2025-03-05, 2025-03-18
+##########################################################################
+
+disTrkSelectionNoTOBCrack = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoTOBCrack.name = cms.string("disTrkSelectionNoTOBCrack")
+removeCuts(disTrkSelectionNoTOBCrack.cuts, [cutTrkTOBCrack])
+
+disTrkSelectionNoFiducialElectron = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialElectron.name = cms.string("disTrkSelectionNoFiducialElectron")
+removeCuts(disTrkSelectionNoFiducialElectron.cuts, [cutTrkFiducialElectron])
+
+disTrkSelectionNoFiducialMuon = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialMuon.name = cms.string("disTrkSelectionNoFiducialMuon")
+removeCuts(disTrkSelectionNoFiducialMuon.cuts, [cutTrkFiducialMuon])
+
+disTrkSelectionNoFiducialECAL = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialECAL.name = cms.string("disTrkSelectionNoFiducialECAL")
+removeCuts(disTrkSelectionNoFiducialECAL.cuts, [cutTrkFiducialECAL])
+
+disTrkSelectionNoFiducialMaps = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialMaps.name = cms.string("disTrkSelectionNoFiducialMaps")
+removeCuts(disTrkSelectionNoFiducialMaps.cuts, [cutTrkFiducialElectron,cutTrkFiducialMuon,cutTrkFiducialECAL])
 
 #####################################################################
 

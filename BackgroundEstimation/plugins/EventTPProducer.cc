@@ -378,7 +378,8 @@ EventTPProducer<osu::Electron>::passesVeto (const osu::Track &probe) const
 {
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFElectron () > 0.15
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
   bool passes = probe.deltaRToClosestElectron () > 0.15
@@ -386,7 +387,8 @@ EventTPProducer<osu::Electron>::passesVeto (const osu::Track &probe) const
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
   bool passes = probe.deltaRToClosestElectron () > 0.15
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
   bool passes = probe.deltaRToClosestElectron () > 0.15
@@ -402,11 +404,13 @@ EventTPProducer<osu::Electron>::passesLooseVeto (const osu::Track &probe) const
 {
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
 #if DATA_FORMAT == MINI_AOD_2017
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
 #elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
 #elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
 #else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
 #endif
@@ -454,7 +458,8 @@ EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) c
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFChHad () > 0.15
              && probe.dRMinJet () > 0.5
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
   bool passes = probe.deltaRToClosestTauHad () > 0.15
@@ -464,7 +469,8 @@ EventTPProducer<osu::Electron, osu::Tau>::passesVeto (const osu::Track &probe) c
 #elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
   bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
   bool passes = probe.deltaRToClosestTauHad () > 0.15
@@ -481,11 +487,13 @@ EventTPProducer<osu::Electron, osu::Tau>::passesLooseVeto (const osu::Track &pro
 {
   bool passes = probe.deltaRToClosestVetoElectron () > 0.15
 #if DATA_FORMAT == MINI_AOD_2017
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
 #elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
 #elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
 #else
              && probe.caloNewNoPUDRp5CentralCalo () < 10.0
 #endif
@@ -499,7 +507,8 @@ EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
 #if DATA_FORMAT == MINI_AOD_2017
   bool passes = probe.deltaRToClosestPFChHad () > 0.15
              && probe.dRMinJet () > 0.5
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #elif DATA_FORMAT == MINI_AOD_2022_CUSTOM
   bool passes = probe.deltaRToClosestTauHad () > 0.15
@@ -509,7 +518,8 @@ EventTPProducer<osu::Muon, osu::Tau>::passesVeto (const osu::Track &probe) const
 #elif DATA_FORMAT == MINI_AOD_ONLY_2022_CUSTOM
   bool passes = probe.deltaRToClosestTauHad () > 0.15
              && probe.dRMinJet () > 0.5
-             && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+            //  && (probe.matchedCaloJetEmEnergy() + probe.matchedCaloJetHadEnergy()) < 10.0
+             && probe.caloNewFromCaloJetNoPUDRp3CentralCalo() < 10.0
              && probe.hitAndTOBDrop_bestTrackMissingOuterHits () >= 3.0;
 #else
   bool passes = probe.deltaRToClosestTauHad () > 0.15
