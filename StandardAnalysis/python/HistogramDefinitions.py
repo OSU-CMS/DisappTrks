@@ -277,16 +277,28 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
             ),
         cms.PSet (
-            name = cms.string("trackCaloJetEnergy_RhoCorr"),
-            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr"),
+            name = cms.string("trackCaloJetEnergyR0p3_RhoCorr"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.3)"),
             binsX = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp3CentralCalo"),
             ),
         cms.PSet (
-            name = cms.string("trackCaloJetEnergy_RhoCorrWide"),
-            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr"),
+            name = cms.string("trackCaloJetEnergyR0p3_RhoCorrWide"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.3)"),
             binsX = cms.untracked.vdouble(100, 0, 1000),
             inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp3CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p4_RhoCorr"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.4)"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp4CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p4_RhoCorrWide"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.4)"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp4CentralCalo"),
             ),
         cms.PSet (
             name = cms.string("trackPtError"),
