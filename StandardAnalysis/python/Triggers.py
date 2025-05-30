@@ -197,6 +197,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_V
     triggersSingleTau = cms.vstring(
         "HLT_IsoMu20_eta2p1_LooseDeepTauPFTauHPS27_eta2p1_CrossL1_v",
     )
+    triggersMuonTau = cms.vstring(
+        "HLT_IsoMu20_eta2p1_LooseDeepTauPFTauHPS27_eta2p1_CrossL1_v"
+    )
+    triggersSingleMuon = cms.vstring(
+        "HLT_IsoMu20_v"
+    )
+    triggersSingleElectron = cms.vstring(
+        "HLT_Ele27_WPTight_Gsf_v"
+    )
+    triggersElectronTau = cms.vstring(
+        "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v"
+    )
 
 triggersZeroBias = cms.vstring(
     "HLT_ZeroBias_v", # very prescaled in data
