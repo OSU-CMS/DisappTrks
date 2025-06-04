@@ -24,7 +24,7 @@ options.register ('lifetimeForLifetimeReweighting',
               "lifetime For LifetimeReweighting")
 options.parseArguments()
 
-process = customize (process, "2022", "F", realData=True, applyPUReweighting = True, applyISRReweighting = True, applyTriggerReweighting = True, applyMissingHitsCorrections = True, runMETFilters = False)
+process = customize (process, "2023", "C", realData=True, applyPUReweighting = False, applyISRReweighting = False, applyTriggerReweighting = False, applyMissingHitsCorrections = False, runMETFilters = False)
 
 if options.doLifetimeReweighting:
     if hasattr(process, 'LifetimeWeightProducer'):

@@ -46,13 +46,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-        #"file:/data/users/borzari/condor/SignalMC/Run3/2022/step4/100cm/700GeV/hist_100.root",
-        #"root://cmsxrootd.fnal.gov://store/data/Run2022D/EGamma/MINIAOD/27Jun2023-v2/2520000/07d1c948-6481-4a9c-b54b-0c559a6474ab.root",
-        #"root://cmsxrootd.fnal.gov://store/data/Run2022C/EGamma/MINIAOD/22Sep2023-v1/2530000/024f070e-b8f1-4d1c-be55-60f9490d1918.root",
-        #"root://cmsxrootd.fnal.gov://store/data/Run2023C/EGamma1/MINIAOD/22Sep2023_v1-v1/2530000/0873dd45-c435-418a-aab4-d3bdb76e871b.root",
-        "root://cmsxrootd.fnal.gov://store/data/Run2023D/EGamma0/MINIAOD/22Sep2023_v1-v1/2530000/021fef9a-9f99-440d-9d07-0b9695bdfdba.root",
-        # "file:/share/scratch0/borzari/CMSSW_12_4_11_patch3/src/DisappTrks/CandidateTrackProducer/test/candidateTrack_test.root",
-        # "file:condor/SignalMC/Run3/2022/step4/CandidateTrackProducerNoSkimming/100cm/700GeV/oneHist/hist_444.root",
+    'root://cmseosmgm01.fnal.gov:1094//store/group/lpclonglived/DisappTrks/JetMET/MET_2022D_basicSelectionInvertJetMetPhiCutv1p3/250522_133403/0000/skim_BasicSelectionInvertJetMetPhiCut_2025_05_22_08h32m09s_1.root'
     ])
     # process.source.secondaryFileNames = cms.untracked.vstring([
     #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",

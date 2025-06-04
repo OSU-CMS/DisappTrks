@@ -24,8 +24,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # remember to change the process customization in config_<era>_cfg.py to remove other weights in MC when you're calculating a new weight!
 
 # Channels used for the missing inner/middle/outer hits systematics
-#  add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-#  add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+add_channels  (process,  [hitsSystematicsCtrlSelection],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
+add_channels  (process,  [muonCtrlSelection],             histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers, forceNonEmptySkim=False, ignoreSkimmedCollections = True)
 ################################################################################
 
 ################################################################################
