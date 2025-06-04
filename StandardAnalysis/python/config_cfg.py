@@ -70,8 +70,8 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 # add_channels  (process,  [disTrkSelectionNoD0CutNLayers6plus],      histSets,  weights,  [],  collMap,  variableProducers + dedxHitInfoVarProducer, False, branchSets)
 
 # THE disappearing tracks search region
-#add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False)
-add_channels  (process,  [disTrkInvertJetMetPhiCut],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True, ignoreSkimmedCollections = True)
+#  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False)
+#  add_channels  (process,  [disTrkInvertJetMetPhiCut],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True, ignoreSkimmedCollections = True)
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collMap,  variableProducers,  False)
