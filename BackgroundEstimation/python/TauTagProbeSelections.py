@@ -17,7 +17,7 @@ def createHitsVariations (ch, chName):
 ################################################################################
 TauTagSkim = cms.PSet(
     name = cms.string("TauTagSkim"),
-    triggers = triggersSingleTau,
+    triggers = triggersMuonTau,
     metFilters = metFilters,
     cuts = cms.VPSet (),
 )
@@ -33,6 +33,35 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 else:
     tagTauCuts.append(cutTauTightPFIso)
 addCuts(TauTagSkim.cuts, tagTauCuts)
+
+##############################################################
+# Channels to separate tau background from combined triggers #
+##############################################################
+tau_leg_cut = [cutTauEta21, cutMuonEta21]
+
+TauTagSkimSingleMuonTriggerSelection2 = cms.PSet(
+    name = cms.string("TauTagSkimSingleMuonTriggerSelection2"),
+    triggers = triggersSingleMuon,
+    metFilters = metFilters,
+    cuts = cms.VPSet())
+addCuts(TauTagSkimSingleMuonTriggerSelection2.cuts, tau_leg_cut)
+
+TauTagSkimMuonTauTriggerSelection = cms.PSet(
+    name = cms.string("TauTagSkimMuonTauTriggerSelection"),
+    triggers = triggersMuonTau,
+    metFilters = metFilters,
+    cuts = cms.VPSet())
+addCuts(TauTagSkimMuonTauTriggerSelection.cuts, tau_leg_cut)
+
+# TauTagSkimMuonTauTriggerSelection = copy.deepcopy(TauTagSkimSingleMuonTriggerSelection)
+# TauTagSkimMuonTauTriggerSelection.triggers = triggersMuonTau
+
+# TauTagSkimSingleEleTriggerSelection = copy.deepcopy(TauTagSkimSingleMuonTriggerSelection)
+# TauTagSkimSingleEleTriggerSelection.triggers = triggersSingleElectron
+
+# TauTagSkimTauEleTriggerSelection = copy.deepcopy(TauTagSkimSingleMuonTriggerSelection)
+# TauTagSkimTauEleTriggerSelection.triggers = triggersElectronTau
+
 
 ################################################################################
 ## Testing channels to compare pat::IsolatedTrack to CandidateTrack

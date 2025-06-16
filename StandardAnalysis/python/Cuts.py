@@ -976,6 +976,11 @@ cutMuonMatchToTrigObj = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 muons firing trigger"),
 )
+cutMuonEta21 = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("fabs(eta) < 2.1"),
+    numberRequired = cms.string(">= 1"),
+)
 
 cutMuonPt = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -1452,7 +1457,7 @@ cutTauEta21 = cms.PSet (
 )
 cutTauTightID = cms.PSet (
     inputCollection = cms.vstring("taus"),
-    cutString = cms.string("passesDecayModeReconstruction && passesLightFlavorRejection"),
+    cutString = cms.string("passesDecayModeReconstruction && passesJetDiscrimination && passesLightFlavorRejection"),
     numberRequired = cms.string(">= 1"),
 )
 cutTauTightPFIso = cms.PSet (
