@@ -724,7 +724,15 @@ cutTrkEcalo = cms.PSet(
 )
 # If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
 if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
-    cutTrkEcalo.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) < 10")
+    # cutTrkEcalo.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) < 10")
+    cutTrkEcalo.cutString = cms.string("caloNewFromCaloJetNoPUDRp4CentralCalo < 10")
+
+cutTrkEcaloJetRhoCorr = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    # cutString = cms.string("max(0.0,(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) - (rhoPUCorrCentralCalo * 0.3 * 0.3 * 3.14159265)) < 10"),
+    cutString = cms.string ("caloNewFromCaloJetNoPUDRp3CentralCalo < 10"),
+    numberRequired = cms.string(">= 1"),
+)
 
 cutTrkNMissOut0 = cms.PSet(
     inputCollection = cms.vstring("tracks"),
@@ -768,10 +776,12 @@ cutTrkEcaloInv50 = cms.PSet(
 )
 # If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
 if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
-    cutTrkEcaloInv.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 10")
+    # cutTrkEcaloInv.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 10")
+    cutTrkEcaloInv.cutString = cms.string ("caloNewFromCaloJetNoPUDRp4CentralCalo > 10")
 # If using MiniAOD only processing, the ecalo cut has to be changed to the CMSSW standard
 if dataFormat == 'MINI_AOD_ONLY_2022_CUSTOM':
-    cutTrkEcaloInv50.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 50")
+    # cutTrkEcaloInv50.cutString = cms.string ("(matchedCaloJetEmEnergy + matchedCaloJetHadEnergy) > 50")
+    cutTrkEcaloInv50.cutString = cms.string ("caloNewFromCaloJetNoPUDRp4CentralCalo > 50")
 
 cutTrkNMissOutInv = cms.PSet(
     inputCollection = cms.vstring("tracks"),

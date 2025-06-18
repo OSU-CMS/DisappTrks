@@ -1704,6 +1704,12 @@ TrackHistograms = cms.PSet(
             title = cms.string(";Fake Track NN Score"),
             binsX = cms.untracked.vdouble(50.0, 0.0, 1.0),
             inputVariables = cms.vstring("fakeTrackScore"),
+        ),
+        cms.PSet (
+            name = cms.string("trackCaloNew_RhoCorr"),
+            title = cms.string("Isolation energy (new calculation, PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
         )
     )
 )
