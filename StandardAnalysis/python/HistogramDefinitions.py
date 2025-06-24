@@ -277,6 +277,30 @@ TrackExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
             ),
         cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p3_RhoCorr"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.3)"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp3CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p3_RhoCorrWide"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.3)"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp3CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p4_RhoCorr"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.4)"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp4CentralCalo"),
+            ),
+        cms.PSet (
+            name = cms.string("trackCaloJetEnergyR0p4_RhoCorrWide"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy - rhoCorr (R = 0.4)"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("caloNewFromCaloJetNoPUDRp4CentralCalo"),
+            ),
+        cms.PSet (
             name = cms.string("trackPtError"),
             title = cms.string("ptError;#sigma(p_{T}) [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
@@ -291,13 +315,13 @@ TrackExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackDeltaRToClosestElectron"),
             title = cms.string("deltaRMinElec;#DeltaR_{min}(track,electron)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestElectron"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestVetoElectron"),
             title = cms.string("deltaRMinElecVetoId;#DeltaR_{min}(track,electron)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestVetoElectron"),
             ),
         cms.PSet (
@@ -317,25 +341,25 @@ TrackExtraHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("trackDeltaRToClosestMuon"),
             title = cms.string("deltaRMinMuon;#DeltaR_{min}(track,muon)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestMuon"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestLooseMuon"),
             title = cms.string("deltaRMinMuonLooseId;#DeltaR_{min}(track,muon)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestLooseMuon"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestTau"),
             title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestTau"),
             ),
         cms.PSet (
             name = cms.string("trackDeltaRToClosestTauHad"),
             title = cms.string("deltaRMinTauLooseHadronicId;#DeltaR_{min}(track,tau)"),
-            binsX = cms.untracked.vdouble(100, 0, 1),
+            binsX = cms.untracked.vdouble(1000, 0, 10),
             inputVariables = cms.vstring("deltaRToClosestTauHad"),
             ),
         cms.PSet (

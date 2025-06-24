@@ -76,6 +76,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data") and (osusub.datasetLabel.endswith("_2018C") or osusub.datasetLabel.endswith("_2018D")):
         addCuts(basicSelection.cuts, [cutVetoMetPhiHEM1516])
 
+basicSelectionOnlyJetMET = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyJetMET.name = cms.string("BasicSelectionOnlyJetMET")
+addCuts(basicSelectionOnlyJetMET.cuts, [cutLeadingJetMetPhi])
+
+basicSelectionOnlyDijet = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyDijet.name = cms.string("BasicSelectionOnlyDijet")
+addCuts(basicSelectionOnlyDijet.cuts, [cutDijetDeltaPhiMax])
+
+basicSelectionOnlyJetMETDijet = copy.deepcopy(metMinimalSkim)
+basicSelectionOnlyJetMETDijet.name = cms.string("BasicSelectionOnlyJetMETDijet")
+addCuts(basicSelectionOnlyJetMETDijet.cuts, [cutLeadingJetMetPhi,cutDijetDeltaPhiMax])
+
 basicSelectionNoAngularCuts = copy.deepcopy (basicSelection)
 basicSelectionNoAngularCuts.name = cms.string ("BasicSelectionNoAngularCuts")
 removeCuts (basicSelectionNoAngularCuts.cuts, [cutDijetDeltaPhiMax, cutLeadingJetMetPhi])
@@ -87,6 +99,11 @@ removeCuts (basicSelectionNoDijetPhiCut.cuts, [cutDijetDeltaPhiMax])
 basicSelectionNoJetMetPhiCut = copy.deepcopy (basicSelection)
 basicSelectionNoJetMetPhiCut.name = cms.string ("BasicSelectionNoJetMetPhiCut")
 removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+
+basicSelectionInvertJetMetPhiCut = copy.deepcopy(basicSelection)
+basicSelectionInvertJetMetPhiCut.name = cms.string("BasicSelectionInvertJetMetPhiCut")
+addSingleCut(basicSelectionInvertJetMetPhiCut.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
+removeCuts(basicSelectionInvertJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
 #test deep sets score
 deepSetsSelection = copy.deepcopy(vertexCutOnly)
@@ -259,6 +276,21 @@ disappearingCuts = [
 addCuts(disTrkSelection.cuts, disappearingCuts)
 disTrkCuts = candTrkCuts + disappearingCuts
 
+isHighPurityCut = [
+    cutTrkIsHighPurity
+]
+disTrkSelectionWithHighPurity = copy.deepcopy(disTrkSelection)
+disTrkSelectionWithHighPurity.name = cms.string("DisTrkWithHighPuritySelection")
+addCuts(disTrkSelectionWithHighPurity.cuts, isHighPurityCut)
+
+ecaloJetRhoCorr = [
+    cutTrkEcaloJetRhoCorr,
+    cutTrkNMissOut,
+]
+disTrkSelectionEcaloJetRhoCorr = copy.deepcopy(candTrkSelection)
+disTrkSelectionEcaloJetRhoCorr.name = cms.string("DisTrkSelectionEcaloJetRhoCorr")
+addCuts(disTrkSelectionEcaloJetRhoCorr.cuts, ecaloJetRhoCorr)
+
 ecaloSelection = copy.deepcopy(NoCuts)
 ecaloSelection.name = cms.string("ecaloSelection")
 ecaloCuts = [
@@ -297,6 +329,11 @@ disTrkJustMainTriggerHltMet105.cuts.insert(0, cutHltMet105)
 disTrkJustMET90TriggerHltMet105 = copy.deepcopy(disTrkJustMET90Trigger)
 disTrkJustMET90TriggerHltMet105.name = cms.string("DisTrkJustMet90TriggerHltMet105")
 disTrkJustMET90TriggerHltMet105.cuts.insert(0, cutHltMet105)
+
+disTrkInvertJetMetPhiCut = copy.deepcopy(disTrkSelection)
+disTrkInvertJetMetPhiCut.name = cms.string("DisTrkInvertJetMetPhiCut")
+addSingleCut(disTrkInvertJetMetPhiCut.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
+removeCuts(disTrkInvertJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 
 justAChargino = cms.PSet(
     name = cms.string("JustAChargino"),
@@ -899,6 +936,32 @@ disTrkNoRandom = copy.deepcopy(disTrkSelection)
 disTrkNoRandom.name = cms.string("disTrkNoRandom")
 removeCuts(disTrkNoRandom.cuts, [cutTrkNMissOut,cutTrkNMissMid])
 addCuts(disTrkNoRandom.cuts, [cutTrkNMissOutNoDrop,cutTrkNMissMidNoDrop])
+
+#####################################################################
+
+##########################################################################
+# Answering conveners comments from 2025-02-27, 2025-03-05, 2025-03-18
+##########################################################################
+
+disTrkSelectionNoTOBCrack = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoTOBCrack.name = cms.string("disTrkSelectionNoTOBCrack")
+removeCuts(disTrkSelectionNoTOBCrack.cuts, [cutTrkTOBCrack])
+
+disTrkSelectionNoFiducialElectron = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialElectron.name = cms.string("disTrkSelectionNoFiducialElectron")
+removeCuts(disTrkSelectionNoFiducialElectron.cuts, [cutTrkFiducialElectron])
+
+disTrkSelectionNoFiducialMuon = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialMuon.name = cms.string("disTrkSelectionNoFiducialMuon")
+removeCuts(disTrkSelectionNoFiducialMuon.cuts, [cutTrkFiducialMuon])
+
+disTrkSelectionNoFiducialECAL = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialECAL.name = cms.string("disTrkSelectionNoFiducialECAL")
+removeCuts(disTrkSelectionNoFiducialECAL.cuts, [cutTrkFiducialECAL])
+
+disTrkSelectionNoFiducialMaps = copy.deepcopy(disTrkSelection)
+disTrkSelectionNoFiducialMaps.name = cms.string("disTrkSelectionNoFiducialMaps")
+removeCuts(disTrkSelectionNoFiducialMaps.cuts, [cutTrkFiducialElectron,cutTrkFiducialMuon,cutTrkFiducialECAL])
 
 #####################################################################
 
