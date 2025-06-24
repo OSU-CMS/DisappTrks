@@ -13,10 +13,10 @@ dirs = getUser()
 canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
-triggerEfficiencyFlat = True
+triggerEfficiencyFlat = False
 closureTest = False
 
-background = "MUON"
+background = "FAKE"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -71,7 +71,10 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2023" + runPeriod])
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "Muon_2023" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_2023{runPeriod}_ZtoMuMuDisTrkNoD0Cut/")
             fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayersWord, "Muon_2023" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_2023{runPeriod}_ZtoMuMuDisTrkNoD0Cut/")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2023"      + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelection")
+            if closureTest:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelectionInvertJetMetPhiCut",                   "MET_2023"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelectionInvertJetMetPhiCut/")
+            else:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2023"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelection")
             fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "Muon_2023" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_2023{runPeriod}_ZtoMuMu")
 
             print("********************************************************************************")
@@ -119,7 +122,10 @@ for runPeriod in runPeriods:
             #fakeTrackBkgdEstimate.addPrescaleFactor ((16299633 + 19271182 + 20289301 + 21758154 + 6815966 + 27504879 + 49328605 + 10905430 + 68323666) / 238987094.0)
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoEEDisTrkNoD0CutNLayers4",       "EGamma_2023" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/")
             fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoEEDisTrkNoD0Cut" + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2023"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelection/")
+            if closureTest:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelectionInvertJetMetPhiCut",                   "MET_2023"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelectionInvertJetMetPhiCut/")
+            else:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2023"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2023{runPeriod}_basicSelection")
             fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            "EGamma_2023" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/")
 
             print("********************************************************************************")
@@ -174,6 +180,9 @@ for runPeriod in runPeriods:
                 electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
             else:
                 electronBkgdEstimate.useFilesForTriggerEfficiency()
+
+            if closureTest:
+                electronBkgdEstimate._invertJetMetPhi = True
 
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWords[0], "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWords[0], "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
@@ -230,6 +239,9 @@ for runPeriod in runPeriods:
                 electronBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.840, 0.005))
             else:
                 electronBkgdEstimate.useFilesForTriggerEfficiency()
+
+            if closureTest:
+                electronBkgdEstimate._invertJetMetPhi = True
 
             electronBkgdEstimate.addChannel("TagProbe",       "ZtoEleProbeTrk"             + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
             electronBkgdEstimate.addChannel("TagProbePass",   "ZtoEleProbeTrkWithFilter"   + nLayersWord, "EGamma_2023" + runPeriod, dirs['Mike'] + f"abyss/EGamma_run3/")
@@ -399,10 +411,13 @@ for runPeriod in runPeriods:
             tauBkgdEstimate.addChannel("IsoMuTrig",        "TauTagSkimSingleMuonTriggerSelection2", "Muon_2023"          + runPeriod, dirs['Mike'] + f"santosAbyss/SingleTauTriggerEstimate_2023{runPeriod}")
             tauBkgdEstimate.addChannel("MuonTauTrig",      "TauTagSkimMuonTauTriggerSelection", "Muon_2023"          + runPeriod, dirs['Mike'] + f"santosAbyss/SingleTauTriggerEstimate_2023{runPeriod}")
             
-            #if triggerEfficiencyFlat:
-            tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
-            #else:
-            #    tauBkgdEstimate.useFilesForTriggerEfficiency()
+            if triggerEfficiencyFlat:
+                tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
+            else:
+                tauBkgdEstimate.useFilesForTriggerEfficiency()
+
+            if closureTest:
+                tauBkgdEstimate._invertJetMetPhi = True
 
             for iBin in range(1, len(nLayersWords)):
                 tauBkgdEstimate.appendChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWords[iBin], "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
@@ -455,10 +470,13 @@ for runPeriod in runPeriods:
             combinedPpassHEMveto = None
             tauBkgdEstimate._triggerSF = tauTriggerSF
 
-            #if triggerEfficiencyFlat:
-            tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
-            #else:
-            #    tauBkgdEstimate.useFilesForTriggerEfficiency()
+            if triggerEfficiencyFlat:
+                tauBkgdEstimate.useExternalFlatTriggerEfficiency (Measurement (0.900, 0.006))
+            else:
+                tauBkgdEstimate.useFilesForTriggerEfficiency()
+
+            if closureTest:
+                tauBkgdEstimate._invertJetMetPhi = True
 
             tauBkgdEstimate.addChannel("TagProbe",         "ZtoTauToMuProbeTrk"              + nLayersWord, "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")
             tauBkgdEstimate.addChannel("TagProbePass",     "ZtoTauToMuProbeTrkWithFilter"    + nLayersWord, "Muon_2023"        + runPeriod, dirs['Matt'] + f"merged_data/Muon_2023{runPeriod}/")

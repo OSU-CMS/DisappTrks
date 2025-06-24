@@ -27,7 +27,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     runPeriods = ['2018A', '2018B', '2018C', '2018D', '2018']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
 if os.environ['CMSSW_VERSION'].startswith('CMSSW_12') or os.environ['CMSSW_VERSION'].startswith('CMSSW_13'):
-    runPeriods = ['2023D']
+    runPeriods = ['2022E']
     selectionNames = ['FiducialCalcBeforeOldCuts', 'FiducialCalcAfterOldCuts']
     #selectionNames = ['FiducialCalcBeforeOldCuts', 'DeepSetsAfter']
 
@@ -52,7 +52,7 @@ for runPeriod in runPeriods:
             condorDirectory = dirs['Mike'] + 'sim/DY_Jets_M50_deepSets_v2'
             datasetName = 'DYJetsToLL_M50_merged'
         else:
-            condorDirectory = dirs['Mike'] + f'/abyss/EGamma_2022/EGamma_{runPeriod}_fiducialMap/'
+            condorDirectory = dirs['Mike'] + f'/abyss/puppi/EGamma/EGamma_{runPeriod}_fiducialMap/'
             datasetName = 'EGamma'
         
     fout = TFile.Open("newElectronFiducialMap_" + runPeriod + ".root", "recreate")
@@ -84,7 +84,7 @@ for runPeriod in runPeriods:
     if '2018' in runPeriod:
         condorDirectory = dirs['Brian'] + "2018/fromLPC/muonHotSpots"
     if '2022' in runPeriod or '2023' in runPeriod:
-        condorDirectory = dirs['Mike'] + f'abyss/Muon_2022/Muon_{runPeriod}_fiducialMap/'
+        condorDirectory = dirs['Mike'] + f'abyss/puppi/Muon/Muon_{runPeriod}_fiducialMap/'
 
     print("********************************************************************************")
     print("Calculating muon fiducial map in search region", runPeriod)
