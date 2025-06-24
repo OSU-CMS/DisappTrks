@@ -14,9 +14,9 @@ canvas = TCanvas("c1", "c1",800,800)
 setCanvasStyle(canvas)
 
 triggerEfficiencyFlat = True
-closureTest = False
+closureTest = True
 
-background = "MUON"
+background = "Electron"
 if len(sys.argv) > 1:
     background = sys.argv[1]
 background = background.upper()
@@ -31,7 +31,7 @@ if len(sys.argv) > 2:
 # '' will gives you Dataset_2018.root for the whole year
 #runPeriods = ['A', 'B', 'C', 'D']
 #runPeriods = ['']
-runPeriods = ['CD', 'EFG']
+runPeriods = ['D']
 
 nEstFake = {}
 nEstElectron = {}
@@ -68,9 +68,15 @@ for runPeriod in runPeriods:
             fakeTrackBkgdEstimate.addTFile (fout)
             fakeTrackBkgdEstimate.addTxtFile(txtFile)
             fakeTrackBkgdEstimate.addLuminosityInInvPb (lumi["MET_2022" + runPeriod])
+            
             fakeTrackBkgdEstimate.addChannel("Basic3hits",     "ZtoMuMuDisTrkNoD0CutNLayers4",       "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}")
             fakeTrackBkgdEstimate.addChannel("DisTrkInvertD0", "ZtoMuMuDisTrkNoD0Cut" + nLayersWord, "Muon_2022" + runPeriod, dirs['Matt'] + f"merged_data/Muon_2022{runPeriod}")
-            fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2022"      + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
+            if closureTest:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelectionInvertJetMetPhiCut",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelectionInvertJetMetPhiCut/")
+            else:
+                fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   "MET_2022"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
+
+            #fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                     "MET_2022"      + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_2022{runPeriod}_basicSelection")
             fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoMuMu",                            "Muon_2022" + runPeriod, dirs['Mike'] + f"abyss/Muon_run3/Muon_2022{runPeriod}_ZtoMuMu")
 
             print("********************************************************************************")

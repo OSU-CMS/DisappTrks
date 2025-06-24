@@ -470,6 +470,7 @@ class LeptonBkgdEstimate:
         passesError = ctypes.c_double (0.0)
         if self._invertJetMetPhi:
             passes = met.IntegralAndError (0, met.GetXaxis ().FindBin (self._metCut), 0, met.GetYaxis ().FindBin (self._phiCut), passesError)
+            #passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, 0, met.GetYaxis ().FindBin (self._phiCut), passesError)
         else:
             passes = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, passesError)
 
@@ -624,7 +625,9 @@ class LeptonBkgdEstimate:
             passesError = ctypes.c_double (0.0)
 
             if self._invertJetMetPhi:
-                passes = metHist.IntegralAndError (0, metHist.FindBin (self._metCut), passesError)
+                #passes = metHist.IntegralAndError (0, metHist.FindBin (self._metCut), passesError)
+                passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
+
             else:
                 passes = metHist.IntegralAndError (metHist.FindBin (self._metCut), metHist.GetNbinsX () + 1, passesError)
 
@@ -642,6 +645,7 @@ class LeptonBkgdEstimate:
             totalError = ctypes.c_double (0.0)
             if self._invertJetMetPhi:
                 total = met.IntegralAndError (0, met.GetXaxis ().FindBin (self._metCut), 0, met.GetYaxis ().FindBin (self._phiCut), totalError)
+                total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, 0, met.GetYaxis ().FindBin (self._phiCut), totalError)
             else:
                 total = met.IntegralAndError (met.GetXaxis ().FindBin (self._metCut), met.GetNbinsX () + 1, met.GetYaxis ().FindBin (self._phiCut), met.GetNbinsY () + 1, totalError)
 
