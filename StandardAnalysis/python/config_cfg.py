@@ -29,6 +29,7 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 #  add_channels  (process,  [basicSelectionOnlyDijet],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionOnlyJetMETDijet],   histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [basicSelectionInvertJetMetPhiCut], histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
+#  add_channels  (process,  [basicSelectionInvertJetCuts], histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels (process,   [deepSetsSelection],             histSets,  weights,  [],  collMap,  variableProducers,  True, forceNonEmptySkim=True)
 #  add_channels  (process,  [justTriggersElecOnly],          histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [justTriggersMuOnly],            istSets,   weights,  [],  collMap,  variableProducers,  False)
@@ -71,7 +72,9 @@ from DisappTrks.StandardAnalysis.protoConfig_cfg import *
 
 # THE disappearing tracks search region
 #  add_channels  (process,  [disTrkSelection],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=False)
-#  add_channels  (process,  [disTrkInvertJetMetPhiCut],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True, ignoreSkimmedCollections = True)
+add_channels  (process,  [disTrkInvertJetMetPhiCut],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True, ignoreSkimmedCollections = True)
+#  add_channels  (process,  [disTrkInvertJetCuts],                    histSets,  weights,  [],  collMap,  variableProducers,  False, forceNonEmptySkim=True, ignoreSkimmedCollections = True)
+
 #  add_channels  (process,  [disTrkNoTrigger],                    histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkJustMainTrigger],              histSets,  weights,  [],  collMap,  variableProducers,  False)
 #  add_channels  (process,  [disTrkSelectionCharginoChargino],    histSets,  weights,  [],  collMap,  variableProducers,  False)

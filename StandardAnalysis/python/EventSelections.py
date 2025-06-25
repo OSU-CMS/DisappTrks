@@ -103,7 +103,17 @@ removeCuts (basicSelectionNoJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
 basicSelectionInvertJetMetPhiCut = copy.deepcopy(basicSelection)
 basicSelectionInvertJetMetPhiCut.name = cms.string("BasicSelectionInvertJetMetPhiCut")
 addSingleCut(basicSelectionInvertJetMetPhiCut.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
+addSingleCut(basicSelectionInvertJetMetPhiCut.cuts, cutMetInvert, cutMet)
 removeCuts(basicSelectionInvertJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+removeCuts(basicSelectionInvertJetMetPhiCut.cuts, [cutMet])
+
+
+basicSelectionInvertJetCuts = copy.deepcopy(basicSelection)
+basicSelectionInvertJetCuts.name = cms.string("BasicSelectionInvertJetCuts")
+addSingleCut(basicSelectionInvertJetCuts.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
+addSingleCut(basicSelectionInvertJetCuts.cuts, cutDijetDeltaPhiMaxInvert, cutDijetDeltaPhiMax)
+removeCuts(basicSelectionInvertJetCuts.cuts, [cutLeadingJetMetPhi])
+removeCuts(basicSelectionInvertJetCuts.cuts, [cutDijetDeltaPhiMax])
 
 #test deep sets score
 deepSetsSelection = copy.deepcopy(vertexCutOnly)
@@ -334,6 +344,16 @@ disTrkInvertJetMetPhiCut = copy.deepcopy(disTrkSelection)
 disTrkInvertJetMetPhiCut.name = cms.string("DisTrkInvertJetMetPhiCut")
 addSingleCut(disTrkInvertJetMetPhiCut.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
 removeCuts(disTrkInvertJetMetPhiCut.cuts, [cutLeadingJetMetPhi])
+addSingleCut(disTrkInvertJetMetPhiCut.cuts, cutMetInvert, cutMet)
+removeCuts(disTrkInvertJetMetPhiCut.cuts, [cutMet])
+
+
+disTrkInvertJetCuts = copy.deepcopy(disTrkSelection)
+disTrkInvertJetCuts.name = cms.string("DisTrkInvertJetCuts")
+addSingleCut(disTrkInvertJetCuts.cuts, cutLeadingJetMetPhiInvert, cutLeadingJetMetPhi)
+addSingleCut(disTrkInvertJetCuts.cuts, cutDijetDeltaPhiMaxInvert, cutDijetDeltaPhiMax)
+removeCuts(disTrkInvertJetCuts.cuts, [cutLeadingJetMetPhi])
+removeCuts(disTrkInvertJetCuts.cuts, [cutDijetDeltaPhiMax])
 
 justAChargino = cms.PSet(
     name = cms.string("JustAChargino"),

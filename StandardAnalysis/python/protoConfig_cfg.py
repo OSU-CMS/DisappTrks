@@ -46,7 +46,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
-    'root://cmseosmgm01.fnal.gov:1094//store/group/lpclonglived/DisappTrks/JetMET/MET_2022D_basicSelectionInvertJetMetPhiCutv1p3/250522_133403/0000/skim_BasicSelectionInvertJetMetPhiCut_2025_05_22_08h32m09s_1.root'
+        #"root://cmsxrootd.fnal.gov://store/data/Run2023D/EGamma0/MINIAOD/22Sep2023_v1-v1/2530000/021fef9a-9f99-440d-9d07-0b9695bdfdba.root",
+        "root://cmsxrootd.fnal.gov://store/data/Run2022D/JetMET/MINIAOD/PromptReco-v1/000/357/538/00000/d6314a09-ee81-49bb-81ce-91da852904fd.root",
     ])
     # process.source.secondaryFileNames = cms.untracked.vstring([
     #     "file:/data/users/borzari/condor/SignalMC/Run3/2022/step3/100cm/700GeV/AMSB_chargino_M_700GeV_CTau_100cm_TuneCP5_PSweights_13p6TeV_madgraph5_pythia8/hist_19.root",

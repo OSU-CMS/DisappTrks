@@ -56,6 +56,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 else:
     print("# MetNoMu > 100 GeV")
 
+cutMetInvert = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("noMuPt <= 120"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutVetoMetPhiHEM1516 = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("phi < -1.6 || phi > -0.6"),
@@ -246,6 +252,12 @@ cutDijetDeltaPhiMax = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string("veto pairs of jets with #Delta#phi > 2.5"),
 )
+cutDijetDeltaPhiMaxInvert = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("dijetMaxDeltaPhi >= 2.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("veto pairs of jets with #Delta#phi > 2.5"),
+)
 cutLeadingJetMetPhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
     cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetLeading) ) > 0.5"),
@@ -256,7 +268,7 @@ cutLeadingJetMetPhiInvert = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "mets"),
     cutString = cms.string("fabs( dPhi (met.noMuPhi, eventvariable.phiJetLeading) ) < 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("#Delta#phi(E_{T}^{miss},jet) < 0.5"),
+    alias = cms.string("#Delta#phi(E_{T}^{miss},jet) <= 0.5"),
 )
 cutLeadingJetTauMetMinusOnePhi = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "taus"),

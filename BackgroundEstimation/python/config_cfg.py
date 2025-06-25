@@ -70,9 +70,9 @@ if False:
 # "Old" style cuts (nPixel >= 3, nValidHits >= 7) t&p channels for fiducial map
 # Use these!
 if False:
-    add_channels  (process,  [ElectronFiducialCalcBeforeOldCuts], histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True)
-    add_channels  (process,  [ElectronFiducialCalcAfterOldCuts],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=True)
-    add_channels  (process,  [ElectronDeepSetsAfter],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=True)
+    add_channels  (process,  [ElectronFiducialCalcBeforeOldCuts], histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
+    add_channels  (process,  [ElectronFiducialCalcAfterOldCuts],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
+    #add_channels  (process,  [ElectronDeepSetsAfter],  histSetsElectron,  weightsWithEleSF,  scaleFactorProducersWithElectrons,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=True)
 
 # Tag-and-probe channels for electron background estimate
 if False:
@@ -179,7 +179,7 @@ if False:
 
 # "Old" style cuts (nPixel >= 3, nValidHits >= 7) t&p channels for fiducial map
 # Use these!
-if False:
+if True:
     add_channels  (process,  [MuonFiducialCalcBeforeOldCuts],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers, forceNonEmptySkim=False)
     add_channels  (process,  [MuonFiducialCalcAfterOldCuts],   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers, forceNonEmptySkim=False)
 
@@ -340,7 +340,7 @@ if False:
     add_channels  (process,  [TauTagPt55],         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer)
     add_channels  (process,  [TauTagPt55MetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
-if True:
+if False:
     add_channels  (process,  getNLayersChannelVariations("TauTagPt55"),         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
     add_channels  (process,  getNLayersChannelVariations("TauTagPt55MetTrig"),  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
 
@@ -389,5 +389,4 @@ else:
 # modified MET for 2017 fix
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.fullPatMetSequenceModifiedMETPath = cms.Path(process.fullPatMetSequenceModifiedMET)
-    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPath)
-    
+    process.schedule.insert(0, process.fullPatMetSequenceModifiedMETPatFalse)
