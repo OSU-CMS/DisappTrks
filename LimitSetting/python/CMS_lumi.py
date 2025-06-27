@@ -117,9 +117,10 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
     elif( iPeriod==20223 ):
         lumiText += lumi_13p6TeV20223
         lumiText += " (13.6 TeV)"
-    elif( iPeriod==201523 ):
-        lumiText += lumi_13p6TeV201523
-        lumiText += " (13.6 TeV)"
+    elif( iPeriod==2015231 ): # used for wino-like case
+        lumiText = '140 fb^{-1} (13 TeV) + 62.5 fb^{-1} (13.6 TeV)'
+    elif( iPeriod==2015232 ): # used for higgsino-like case
+        lumiText = '101 fb^{-1} (13 TeV) + 62.5 fb^{-1} (13.6 TeV)'
     elif ( iPeriod==0 ):
         lumiText += lumi_sqrtS
             

@@ -9,22 +9,22 @@ eval `scramv1 runtime -sh`
 
 echo "-o exp,obs has to be added whenever observed values are available."
 
-makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers4 -l wino -c limits_2022CD_NLayers4_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers5 -l wino -c limits_2022CD_NLayers5_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers6plus -l wino -c limits_2022CD_NLayers6plus_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers4 -l wino -c limits_2022CD_NLayers4_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers5 -l wino -c limits_2022CD_NLayers5_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022CD_NLayers6plus -l wino -c limits_2022CD_NLayers6plus_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2022CD_all -l wino -c limits_2022CD_all_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers4 -l wino -c limits_2022EFG_NLayers4_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers5 -l wino -c limits_2022EFG_NLayers5_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers6plus -l wino -c limits_2022EFG_NLayers6plus_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers4 -l wino -c limits_2022EFG_NLayers4_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers5 -l wino -c limits_2022EFG_NLayers5_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2022EFG_NLayers6plus -l wino -c limits_2022EFG_NLayers6plus_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2022EFG_all -l wino -c limits_2022EFG_all_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2022_all -l wino -c limits_2022_all_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers4 -l wino -c limits_2023C_NLayers4_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers5 -l wino -c limits_2023C_NLayers5_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers6plus -l wino -c limits_2023C_NLayers6plus_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers4 -l wino -c limits_2023C_NLayers4_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers5 -l wino -c limits_2023C_NLayers5_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023C_NLayers6plus -l wino -c limits_2023C_NLayers6plus_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2023C_all -l wino -c limits_2023C_all_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers4 -l wino -c limits_2023D_NLayers4_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers5 -l wino -c limits_2023D_NLayers5_${SUFFIX} -o exp
-makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers6plus -l wino -c limits_2023D_NLayers6plus_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers4 -l wino -c limits_2023D_NLayers4_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers5 -l wino -c limits_2023D_NLayers5_${SUFFIX} -o exp
+# makeLimitPlotsWithCMSLumi.py -e 2023D_NLayers6plus -l wino -c limits_2023D_NLayers6plus_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2023D_all -l wino -c limits_2023D_all_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e 2023_all -l wino -c limits_2023_all_${SUFFIX} -o exp
 makeLimitPlotsWithCMSLumi.py -e run3 -l wino -c limits_run3_${SUFFIX} -o exp

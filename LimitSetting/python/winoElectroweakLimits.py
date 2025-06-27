@@ -86,11 +86,15 @@ datacardCombinations = {
 	# '2017_all' : ['2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus'],
 	# '2018AB_all' : ['2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus'],
 	# '2018CD_all' : ['2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
-	'run2'     : ['2015',
-				  '2016BC', '2016DEFGH',
-				  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
-				  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
-				  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	# 'run2'     : ['2015',
+	# 			  '2016BC', '2016DEFGH',
+	# 			  '2017_NLayers4', '2017_NLayers5', '2017_NLayers6plus',
+	# 			  '2018AB_NLayers4', '2018AB_NLayers5', '2018AB_NLayers6plus',
+	# 			  '2018CD_NLayers4', '2018CD_NLayers5', '2018CD_NLayers6plus'],
+	'2022CD_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus'],
+	'2022EFG_all'  : ['2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
+	'2022_all'  : ['2022CD_NLayers4', '2022CD_NLayers5', '2022CD_NLayers6plus',
+				   '2022EFG_NLayers4', '2022EFG_NLayers5', '2022EFG_NLayers6plus'],
 	'2023C_all'  : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus'],
 	'2023D_all'  : ['2023D_NLayers4', '2023D_NLayers5', '2023D_NLayers6plus'],
 	'2023_all'   : ['2023C_NLayers4', '2023C_NLayers5', '2023C_NLayers6plus',
@@ -540,6 +544,9 @@ elif arguments.era in ["2022CD_NLayers4", "2022CD_NLayers5", "2022CD_NLayers6plu
 		# Still using 2018AB values; NEEDS TO BE UPDATED
 	    'Ecalo_Bin2022CD_' + nLayersWord : {
 	        'value' : str (1.0 + 3.4553713335066223 / 100.0),
+	    },
+		'metTrigEff_Bin2022CD_' + nLayersWord : {
+	        'value' : '1.006',
 	    },
 	}
 

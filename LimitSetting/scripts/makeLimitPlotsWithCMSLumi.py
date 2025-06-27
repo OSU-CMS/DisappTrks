@@ -1059,7 +1059,7 @@ def drawPlot(plot, th2fType=""):
         hasTH2F = True
         canvas = TCanvas(plot['title']+th2fType, "", 800, 800)
     canvas.SetLeftMargin (0.1425)
-    canvas.SetRightMargin (0.035)
+    canvas.SetRightMargin (0.04)
     canvas.SetTopMargin (0.065)
     canvas.SetBottomMargin (0.11625)
 
@@ -1107,7 +1107,10 @@ def drawPlot(plot, th2fType=""):
         if plot['title'].startswith('lifetime_vs_mass'):
             legend = TLegend(0.5377193, 0.172067, 0.8961153, 0.302558)
         else:
-            legend = TLegend(0.5877193, 0.7422481, 0.9461153, 0.872739)
+            if arguments.limitType == 'wino':
+                legend = TLegend(0.5877193, 0.7422481, 0.9461153, 0.872739)
+            if arguments.limitType == 'higgsino':
+                legend = TLegend(0.5877193, 0.6822481, 0.9461153, 0.812739)
     legend.SetBorderSize(0)
     legend.SetFillColor(0)
     legend.SetFillStyle(0)
@@ -1436,12 +1439,20 @@ def drawPlot(plot, th2fType=""):
                             TheoryLabel = TPaveLabel(0.62401, 0.8609509, 0.9375439, 0.9307183, label, "NDC")
                     TheoryLabel.SetTextAlign(32)
                 else:
-                    if i == 0:
-                        TheoryLabel = TPaveLabel(0.14787, 0.726098, 0.531328, 0.776486, label, "NDC")
-                        TheoryLabel.SetTextAlign(22)
-                    else:
-                        TheoryLabel = TPaveLabel(0.1065163, 0.77261, 0.5200501, 0.842377, label, "NDC")
-                        TheoryLabel.SetTextAlign(32)
+                    if arguments.limitType == 'wino':
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.14787, 0.726098, 0.531328, 0.776486, label, "NDC")
+                            TheoryLabel.SetTextAlign(22)
+                        else:
+                            TheoryLabel = TPaveLabel(0.1065163, 0.77261, 0.5200501, 0.842377, label, "NDC")
+                            TheoryLabel.SetTextAlign(32)
+                    if arguments.limitType == 'higgsino':
+                        if i == 0:
+                            TheoryLabel = TPaveLabel(0.19787,0.796098,0.581328,0.846486, label, "NDC")
+                            TheoryLabel.SetTextAlign(22)
+                        else:
+                            TheoryLabel = TPaveLabel(0.2565163,0.84261,0.6700501,0.912377, label, "NDC")
+                            TheoryLabel.SetTextAlign(32)
             TheoryLabel.SetTextFont(42)
             TheoryLabel.SetTextSize(0.517241)
             TheoryLabel.SetBorderSize(0)
@@ -1508,7 +1519,9 @@ def drawPlot(plot, th2fType=""):
         if arguments.era.startswith("2022"): iPeriod = 2022
         if arguments.era.startswith("2023"): iPeriod = 2023
         if arguments.era == "run3": iPeriod = 20223
-        if arguments.era == "run2run3": iPeriod = 201523
+        if arguments.era == "run2run3":
+            if arguments.limitType == "wino": iPeriod = 2015231
+            if arguments.limitType == "higgsino": iPeriod = 2015232
 
     
 

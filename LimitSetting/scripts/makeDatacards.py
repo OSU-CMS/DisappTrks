@@ -94,13 +94,16 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
 
     realInputFile = TFile('condor/' + condor_dir + '/' + realProcessName + '.root')
     nGenerated = realInputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
+    crossSectionForEfficiency = 1.0
     crossSectionWeight = 1.0 
     if process != data_dataset:
         crossSectionWeight *= lumi / nGenerated
         if arguments.limitType == "higgsino":
             crossSectionWeight *= float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
+            crossSectionForEfficiency = float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
         elif arguments.limitType == "wino":
             crossSectionWeight *= float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
+            crossSectionForEfficiency = float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
 
     totalWeight = 0.0
     totalWeight2 = 0.0
@@ -130,6 +133,8 @@ def GetReweightedYieldAndError(condor_dir, process, channel, srcCTau, dstCTau, l
         'weight'     : totalWeight / chain.GetEntries() if chain.GetEntries() > 0.0 else 0.0,
         'acceptance' : totalWeight / nGenerated / crossSectionWeight,
         'acceptanceError' : (math.sqrt(totalWeight2) if totalWeight2 > 0.0 else 1.1) / nGenerated / crossSectionWeight,
+        'overallEfficiency' : totalWeight / (lumi * crossSectionForEfficiency),
+        'overallEfficiencyError' : (math.sqrt(totalWeight2) if totalWeight2 > 0.0 else 1.1) / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -143,20 +148,23 @@ def GetYieldAndError(condor_dir, process, channel):
     nGenerated = inputFile.Get(channel.replace('Plotter/Met Plots', 'CutFlowPlotter/eventCounter')).GetEntries()
     inputFile.Close()
 
-    intError = 0.0
-    integral = hist.IntegralAndError(0, hist.GetNbinsX() + 1, ctypes.c_double(intError))
-    fracError = float(1.0 + (intError / integral)) if integral > 0.0 else 1.0
+    intError = ctypes.c_double(0.0)
+    integral = hist.IntegralAndError(0, hist.GetNbinsX() + 1, intError)
+    fracError = float(1.0 + (intError.value / integral)) if integral > 0.0 else 1.0
 
     raw_integral = hist.GetEntries ()
 
     # don't need cross section uncertainties, since that is its own nuisance parameter
+    crossSectionForEfficiency = 1.0
     crossSectionWeight = 1.0 
     if process != data_dataset:
         crossSectionWeight *= lumi / nGenerated
         if arguments.limitType == "higgsino":
             crossSectionWeight *= float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
+            crossSectionForEfficiency = float(signal_cross_sections_higgsino[process.split('_')[1][:-3]]['value'])
         elif arguments.limitType == "wino":
             crossSectionWeight *= float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
+            crossSectionForEfficiency = float(signal_cross_sections[process.split('_')[2][:-3]]['value'])
 
 
     if process != data_dataset:
@@ -175,10 +183,12 @@ def GetYieldAndError(condor_dir, process, channel):
         'yield'      : integral,
         'rawYield'   : raw_integral,
         'error'      : fracError,
-        'absError'   : intError,
+        'absError'   : intError.value,
         'weight'     : integral / raw_integral if raw_integral > 0.0 else 0.0,
         'acceptance' : integral / nGenerated / crossSectionWeight,
-        'acceptanceError' : (integral if integral > 0.0 else 1.1) / nGenerated / crossSectionWeight,
+        'acceptanceError' : (intError.value if integral > 0.0 else 1.1) / nGenerated / crossSectionWeight,
+        'overallEfficiency' : integral / (lumi * crossSectionForEfficiency),
+        'overallEfficiencyError' : (intError.value if integral > 0.0 else 1.1) / nGenerated / crossSectionWeight,
     }
 
     return yieldAndError
@@ -526,6 +536,8 @@ yBinArray = array('d', yBin)
 
 hYields =      TH2D('yields',      'yields',      len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
 hAcceptances = TH2D('acceptances', 'acceptances', len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
+hEfficiencies = TH2D('efficiencies', 'efficiencies', len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
+hEfficienciesError = TH2D('efficienciesError', 'efficienciesError', len(xBin) - 1, xBinArray, len(yBin) - 1, yBinArray)
 
 for yld in allYieldsAndErrors:
     mass = yld[0]
@@ -537,7 +549,11 @@ for yld in allYieldsAndErrors:
         hYields.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['yield'] * allYieldsAndErrors[yld]['acceptanceError'] / allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['acceptance'])
     hAcceptances.SetBinError(ibinX, ibinY, allYieldsAndErrors[yld]['acceptanceError'])
+    hEfficiencies.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['overallEfficiency'])
+    hEfficienciesError.SetBinContent(ibinX, ibinY, allYieldsAndErrors[yld]['overallEfficiencyError'])
 
 hYields.Write('yields')
+hEfficiencies.Write('efficiencies')
+hEfficienciesError.Write('efficienciesError')
 hAcceptances.Write('acceptances')
 acceptanceOutput.Close()

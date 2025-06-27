@@ -11,41 +11,41 @@ eval `scramv1 runtime -sh`
 
 ######################
 
-echo "Creating 2022CD_NLayers6plus..."
-makeDatacards.py -g -e 2022CD_NLayers6plus -c limits_2022CD_NLayers6plus_${SUFFIX}
+# echo "Creating 2022CD_NLayers6plus..."
+# makeDatacards.py -g -e 2022CD_NLayers6plus -c limits_2022CD_NLayers6plus_${SUFFIX}
 
-echo "Creating 2022CD_NLayers5..."
-makeDatacards.py -g -e 2022CD_NLayers5 -c limits_2022CD_NLayers5_${SUFFIX}
+# echo "Creating 2022CD_NLayers5..."
+# makeDatacards.py -g -e 2022CD_NLayers5 -c limits_2022CD_NLayers5_${SUFFIX}
 
-echo "Creating 2022CD_NLayers4..."
-makeDatacards.py -g -e 2022CD_NLayers4 -c limits_2022CD_NLayers4_${SUFFIX}
+# echo "Creating 2022CD_NLayers4..."
+# makeDatacards.py -g -e 2022CD_NLayers4 -c limits_2022CD_NLayers4_${SUFFIX}
 
-echo "Creating 2022EFG_NLayers6plus..."
-makeDatacards.py -g -e 2022EFG_NLayers6plus -c limits_2022EFG_NLayers6plus_${SUFFIX}
+# echo "Creating 2022EFG_NLayers6plus..."
+# makeDatacards.py -g -e 2022EFG_NLayers6plus -c limits_2022EFG_NLayers6plus_${SUFFIX}
 
-echo "Creating 2022EFG_NLayers5..."
-makeDatacards.py -g -e 2022EFG_NLayers5 -c limits_2022EFG_NLayers5_${SUFFIX}
+# echo "Creating 2022EFG_NLayers5..."
+# makeDatacards.py -g -e 2022EFG_NLayers5 -c limits_2022EFG_NLayers5_${SUFFIX}
 
-echo "Creating 2022EFG_NLayers4..."
-makeDatacards.py -g -e 2022EFG_NLayers4 -c limits_2022EFG_NLayers4_${SUFFIX}
+# echo "Creating 2022EFG_NLayers4..."
+# makeDatacards.py -g -e 2022EFG_NLayers4 -c limits_2022EFG_NLayers4_${SUFFIX}
 
-echo "Creating 2023C_NLayers6plus..."
-makeDatacards.py -g -e 2023C_NLayers6plus -c limits_2023C_NLayers6plus_${SUFFIX}
+# echo "Creating 2023C_NLayers6plus..."
+# makeDatacards.py -g -e 2023C_NLayers6plus -c limits_2023C_NLayers6plus_${SUFFIX}
 
-echo "Creating 2023C_NLayers5..."
-makeDatacards.py -g -e 2023C_NLayers5 -c limits_2023C_NLayers5_${SUFFIX}
+# echo "Creating 2023C_NLayers5..."
+# makeDatacards.py -g -e 2023C_NLayers5 -c limits_2023C_NLayers5_${SUFFIX}
 
-echo "Creating 2023C_NLayers4..."
-makeDatacards.py -g -e 2023C_NLayers4 -c limits_2023C_NLayers4_${SUFFIX}
+# echo "Creating 2023C_NLayers4..."
+# makeDatacards.py -g -e 2023C_NLayers4 -c limits_2023C_NLayers4_${SUFFIX}
 
-echo "Creating 2023D_NLayers6plus..."
-makeDatacards.py -g -e 2023D_NLayers6plus -c limits_2023D_NLayers6plus_${SUFFIX}
+# echo "Creating 2023D_NLayers6plus..."
+# makeDatacards.py -g -e 2023D_NLayers6plus -c limits_2023D_NLayers6plus_${SUFFIX}
 
-echo "Creating 2023D_NLayers5..."
-makeDatacards.py -g -e 2023D_NLayers5 -c limits_2023D_NLayers5_${SUFFIX}
+# echo "Creating 2023D_NLayers5..."
+# makeDatacards.py -g -e 2023D_NLayers5 -c limits_2023D_NLayers5_${SUFFIX}
 
-echo "Creating 2023D_NLayers4..."
-makeDatacards.py -g -e 2023D_NLayers4 -c limits_2023D_NLayers4_${SUFFIX}
+# echo "Creating 2023D_NLayers4..."
+# makeDatacards.py -g -e 2023D_NLayers4 -c limits_2023D_NLayers4_${SUFFIX}
 
 ######################
 
@@ -78,6 +78,15 @@ echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2023_all_$
 echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_run3_${SUFFIX} -e run3"
 echo "runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_run2run3_${SUFFIX} -e run2run3"
 echo
+
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2022CD_all_${SUFFIX} -e 2022CD_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2022EFG_all_${SUFFIX} -e 2022EFG_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2022_all_${SUFFIX} -e 2022_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2023C_all_${SUFFIX} -e 2023C_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2023D_all_${SUFFIX} -e 2023D_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_2023_all_${SUFFIX} -e 2023_all
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_run3_${SUFFIX} -e run3
+runLimits.py --noPicky -b -l wino -M AsymptoticLimits -c limits_run2run3_${SUFFIX} -e run2run3
 
 echo "Examples of plotting..."
 echo "makeLimitPlots.py -e 2022CD_NLayers4 -l wino -c limits_2022CD_NLayers4_${SUFFIX} -o exp"
