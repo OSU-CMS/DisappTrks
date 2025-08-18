@@ -213,11 +213,16 @@ def customize (process,
         if runEra in ['C', 'D']:
 
             changeMuonTriggerFilter(process,'HLT_IsoMu24_v','hltIterL3MuonCandidates::HLT','hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08')
+            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22_AK4PFPuppi.root','Summer22','_RunCD')
 
             if not realData:
 
                 changeScaleFactorsRun3(process,'2022CD')
                 changeLeptonWeightsRun3(process,'2022CD')
+
+        if runEra in ['E']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunE')
+        if runEra in ['F']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunF')
+        if runEra in ['G']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunG')
 
         process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2022")
@@ -284,12 +289,16 @@ def customize (process,
                 changeScaleFactorsRun3(process,'2023C')
                 changeLeptonWeightsRun3(process,'2023C')
 
+            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23_AK4PFPuppi.root','Summer23','')
+
         if runEra in ['D']:
 
             if not realData:
 
                 changeScaleFactorsRun3(process,'2023D',prefix='NoHole')
                 changeLeptonWeightsRun3(process,'2023D',prefix='NoHole')
+
+            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23BPix_AK4PFPuppi.root','Summer23BPix','')
 
             strsPlotter = []
             strsObjectScalingFactorProducer = []
