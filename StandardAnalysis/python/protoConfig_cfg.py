@@ -33,6 +33,9 @@ process.source = cms.Source ("PoolSource",
     ]),
 )
 
+with open("../../BackgroundEstimation/test/haddFiles.txt") as f:
+    file_list = [line.strip() for line in f if line.strip()]
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([

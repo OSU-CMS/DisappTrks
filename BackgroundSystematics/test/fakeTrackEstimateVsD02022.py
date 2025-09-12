@@ -19,8 +19,8 @@ dirs = getUser()
 
 debug=True
 
-runPeriods = ['C']
-year = '2023'
+runPeriods = ['EFG']
+year = '2022'
 mode = 'zToMuMu'
 nLayersWords = ["NLayers4", "NLayers5", "NLayers6plus"]
 
@@ -55,6 +55,7 @@ for runPeriod in runPeriods:
     print("---------------------------------------")
 
     g0 = TGraphAsymmErrors (N)
+    g1 = TGraphAsymmErrors (N)
 
     for i in range (0, N):
       minD0 = A + i * D
@@ -88,13 +89,15 @@ for runPeriod in runPeriods:
         fakeTrackBkgdEstimate.addChannel("Basic",          "BasicSelection",                   f"MET_{year}"    + runPeriod, dirs['Mike'] + f"abyss/MET_run3/MET_{year}{runPeriod}_basicSelection")
         fakeTrackBkgdEstimate.addChannel("ZtoLL",          "ZtoEE",                            f"EGamma_{year}" + runPeriod, dirs['Mike']   + f"abyss/EGamma_run3/EGamma_{year}{runPeriod}_ZtoEE")
       
-      nEst = fakeTrackBkgdEstimate.printNest ()[0]
+      nEst, pFake = fakeTrackBkgdEstimate.printNest ()
 
       print("nest", nEst, type(nEst))
 
       if nEst.centralValue() != 0:
         g0.SetPoint (i, minD0, nEst.centralValue ())
-        g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst.maxUncertainty (), nEst.centralValue ()), nEst.maxUncertainty ())
+        g1.SetPoint (i, minD0, pFake.centralValue ())
+        g0.SetPointError (i, D / 2.0, D / 2.0, min (nEst.minUncertainty (), nEst.centralValue ()), nEst.maxUncertainty ())
+        g1.SetPointError (i, D / 2.0, D / 2.0, min (pFake.minUncertainty (), pFake.centralValue ()), pFake.maxUncertainty ())
 
       if i == 0:
         nominal = nEst.centralValue ()
@@ -112,5 +115,6 @@ for runPeriod in runPeriods:
     fout.cd ()
     print("writing g0")
     g0.Write (f"est_{mode}_{year}{runPeriod}_{nLayer}")
+    g1.Write(f"pFake_{mode}_{year}{runPeriod}_{nLayer}")
   
   fout.Close ()
