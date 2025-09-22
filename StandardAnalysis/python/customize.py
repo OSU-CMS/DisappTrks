@@ -231,7 +231,7 @@ def customize (process,
         process.PUScalingFactorProducer.dataset = cms.string ("mc2022_22Sep2023") # This is usually not added in here, but it makes things easier
 
         process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2022F')
+        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2022')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
@@ -311,7 +311,7 @@ def customize (process,
 
         # These come from the 2018 corrections - need to be fixed
         process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
-        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2023C')
+        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2023')
         process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
         process.ISRWeightProducer.motherIdsToReject = cms.vint32()
         process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
