@@ -1,211 +1,226 @@
-#!/usr/bin/env python3
-
-from ROOT import TFile, TH1D, TH2D, TH3D, TGraph2D, TMarker
-import sys
+import argparse
 import math
-import array
-import numpy
-import random
-import re
-import copy
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
-################################################################################
-# The following are parameters that you might want to edit.
-################################################################################
+import ROOT
 
-nToys = 10000
-nIterations = 20
-hitDropGrid = numpy.logspace (-3, 0, 5)
-tobDropGrid = numpy.logspace (-3, 0, 5)
+DESCRIPTION="Estimates the probability an outer hit is missing."
 
-################################################################################
+DATA_HIST_NAME = "MuonCtrlSelectionPlotter/Track Plots/trackNHitsMissingOuter"
+MC_HIST_NAME = "MuonCtrlSelectionPlotter/Track Plots/trackNHitsStripLayersVsTOBLayersVsMissingOuter"
+CORRECTED_PRE_TOB_HITS_HIST_NAME = "CorrectedOuterHitsPreTOB"
+CORRECTED_POST_TOB_HITS_HIST_NAME = "CorrectedOuterHitsPostTOB"
 
-TH1D.SetDefaultSumw2 ()
+PRE_TOB_BIN_RANGE = range(1, 7)
+POST_TOB_BIN_RANGE = range(6, 10)
 
-dataFileName = sys.argv[1]
-mcFileName = sys.argv[2]
-preOrPostTOB = sys.argv[3]
-hitDrop = -1.0e13
-tobDrop = -1.0e13
-if len (sys.argv) > 4:
-  hitDrop = float (sys.argv[4])
-if len (sys.argv) > 5:
-  tobDrop = float (sys.argv[5])
+def getargs():
+  parser = argparse.ArgumentParser(description=DESCRIPTION)
+  parser.add_argument("data_file", help="The root file containing data histograms")
+  parser.add_argument("mc_file", help="The root file containing Monte Carlo histograms")
+  parser.add_argument("--output", default="correctedOuterHists.root", help="The name for the corrected Monte Carlo data histograms that will be saved")
+  return parser.parse_args()
 
-chi2Range = range (1, 10)
-if preOrPostTOB.upper () == "POST_TOB":
-  chi2Range = range (6, 10)
-else:
-  chi2Range = range (1, 7)
+def get_hist_from_file(filename, hist_name):
+  tfile = ROOT.TFile.Open(filename)
+  hist = tfile.Get(hist_name)
+  hist.SetDirectory(0) # Detach from tfile so we can close it without deleting hist
+  tfile.Close()
+  return hist
 
-mcFile = TFile.Open (mcFileName)
-dataFile = TFile.Open (dataFileName)
+def get_chi2(data_pdf, mc_pdf, bin_range):
+  chi2 = 0.0
+  bins_used = 0
 
-mc = mcFile.Get ("MuonCtrlSelectionPlotter/Track Plots/trackNHitsStripLayersVsTOBLayersVsMissingOuter")
-mc.SetName ("mc")
-mc.SetDirectory (0)
-data = dataFile.Get ("MuonCtrlSelectionPlotter/Track Plots/trackNHitsMissingOuter")
-data.SetName ("data")
-data.SetDirectory (0)
+  for number_missing_hits in bin_range:
+    data_bin = data_pdf.FindBin(number_missing_hits)
+    data_prob = data_pdf.GetBinContent(data_bin)
+    data_err = data_pdf.GetBinError(data_bin)
 
-#current missing hits data is scaled to 2022F, so scale from there to any other era
-scale = lumi['MET_2022EFG']/lumi['MET_2022F']
-mc.Scale(scale)
+    mc_bin = mc_pdf.FindBin(number_missing_hits)
+    mc_prob = mc_pdf.GetBinContent(mc_bin)
+    mc_err = mc_pdf.GetBinError(mc_bin)
 
-mcFile.Close ()
-dataFile.Close ()
+    total_err = math.hypot(data_err, mc_err)
+    if total_err > 1e-5:
+      chi2 += ((data_prob - mc_prob) * (data_prob - mc_prob)) / (total_err * total_err)
+      bins_used += 1
 
-originalMC = mc.ProjectionX ()
-originalMC.SetDirectory (0)
-originalMC.Scale (1.0 / originalMC.Integral ())
-data.Scale (1.0 / data.Integral ())
+  return chi2 / bins_used
 
-extraMissingOuterHitsPDFDict = {}
+def get_missing_hits_pdf(number_hits, miss_prob):
+  """
+  Finds the probability distribution to miss outer hits given a total number
+  of layers hit and the probability that any individual hit is missed.
 
-def getMissingOuterHitsPDF (nHits, hitDrop):
-  pdf = TH1D ("pdf", ";missing outer hits", 16, -0.5, 15.5)
-  pdf.SetDirectory (0)
-  for i in range (0, nToys):
-    missingOuterHits = 0
-    for j in range (0, nHits):
-      hit = (random.random () > hitDrop)
-      if not hit:
-        missingOuterHits += 1
-      if hit:
-        break
-    pdf.Fill (missingOuterHits)
+  Parameters:
+    - number_hits: the number of layers that are hit for this track
+    - miss_prob: the probability that any hit is missed
 
-  pdf.Scale (1.0 / pdf.GetEntries ())
+  Returns:
+    - The PDF histogram that contains the probability to miss
+      a different number of outer hits
+
+  For there to be k missing outer hits, the outer-most k hits need to be missed,
+  while the (k+1) hit needs to not be missed. If the probability to miss a hit
+  is given by p, the probability to miss k outer hits is p^k * (1-p).
+
+  In the case that all hits are missed, there is no (1-p) factor that corresponds
+  to the innermost non-missed hit. At that point, the probability is p^n, where n
+  is the total number of hits on the track
+  """
+  pdf = ROOT.TH1D("PDF", ";missing outer hits", 16, -0.5, 15.5)
+  pdf.SetDirectory(0)
+
+  for number_missed_hits in range(number_hits + 1):
+    prob = (miss_prob**number_missed_hits) * (1-miss_prob)
+    pdf.SetBinContent(pdf.FindBin(number_missed_hits), prob)
+
+  # All hits are missed
+  pdf.SetBinContent(pdf.FindBin(number_hits), miss_prob**number_hits)
+
+  pdf.Scale(1.0 / pdf.Integral())
   return pdf
 
-def getChi2 (hitDrop, tobDrop, writeHistogram = False):
-  fout = 0
-  if writeHistogram:
-    fout = TFile.Open ("hitAndTOBDropHistogram.root", "recreate")
-    fout.cd ()
+def get_corrected_pdf(miss_prob, miss_all_tob_prob, unnorm_mc_hist, tob_status, should_normalize=True):
+  corr_hist = ROOT.TH1D("OuterHitsCorrected", ";number of missing outer hits", 16, -0.5, 15.5)
+  corr_hist.SetDirectory(0)
 
-  correctedMC = TH1D ("correctedMC", ";number of missing outer hits", 16, -0.5, 15.5)
-  correctedMC.SetDirectory (0)
-  for missingOuterHits in range (0, 16):
-    for tobHits in range (0, 16):
-      for nHits in range (1, 20):
-        nTracks = mc.GetBinContent (mc.FindBin (missingOuterHits, tobHits, nHits))
-        nTracksErr = mc.GetBinError (mc.FindBin (missingOuterHits, tobHits, nHits))
+  for num_hits in range(1, 20):
+    pdf = get_missing_hits_pdf(num_hits, miss_prob)
 
-        extraMissingOuterHitsPDF = None
-        if (nHits, hitDrop) in extraMissingOuterHitsPDFDict:
-          extraMissingOuterHitsPDF = extraMissingOuterHitsPDFDict[(nHits, hitDrop)]
-        else:
-          print("  generating missing outer hits PDF for (nHits = " + str (nHits) + ", hitDrop = " + str (hitDrop) + ")...")
-          extraMissingOuterHitsPDF = getMissingOuterHitsPDF (nHits, hitDrop)
-          extraMissingOuterHitsPDFDict[(nHits, hitDrop)] = extraMissingOuterHitsPDF
+    for orig_miss_hits in range(0, 16):
+      for tob_hits in range(0, 16):
+        mc_bin = unnorm_mc_hist.FindBin(orig_miss_hits, tob_hits, num_hits)
+        num_tracks = unnorm_mc_hist.GetBinContent(mc_bin)
+        num_tracks_err = unnorm_mc_hist.GetBinError(mc_bin)
 
-          nHitsStr = str (nHits)
-          hitDropStr = str (hitDrop)
-          nHitsStr = re.sub (r"\.", r"p", nHitsStr)
-          hitDropStr = re.sub (r"\.", r"p", hitDropStr)
-          extraMissingOuterHitsPDF.SetName ("extraMissingOuterHits_" + nHitsStr + "_" + hitDropStr)
-          if writeHistogram:
-            fout.cd ()
-            extraMissingOuterHitsPDF.Write ()
+        for extra_miss_hits in range(0, 16):
+          extra_miss_prob = pdf.GetBinContent(pdf.FindBin(extra_miss_hits))
 
-        for extraMissingOuterHits in range (0, 16):
-          hitDropProb = extraMissingOuterHitsPDF.GetBinContent (extraMissingOuterHitsPDF.FindBin (extraMissingOuterHits))
-          hitDropProbErr = extraMissingOuterHitsPDF.GetBinError (extraMissingOuterHitsPDF.FindBin (extraMissingOuterHits))
-
-          if preOrPostTOB.upper () == "POST_TOB":
-            hitAndTOBDropBin = correctedMC.FindBin (missingOuterHits + extraMissingOuterHits + tobHits)
-            hitAndNoTOBDropBin = correctedMC.FindBin (missingOuterHits)
+          if tob_status == "pre":
+            total_miss_hits = orig_miss_hits + extra_miss_hits
+            total_miss_hits_with_miss_tob = orig_miss_hits + tob_hits
           else:
-            hitAndTOBDropBin = correctedMC.FindBin (missingOuterHits + tobHits)
-            hitAndNoTOBDropBin = correctedMC.FindBin (missingOuterHits + extraMissingOuterHits)
-          hitAndTOBDropContent = correctedMC.GetBinContent (hitAndTOBDropBin)
-          hitAndNoTOBDropContent = correctedMC.GetBinContent (hitAndNoTOBDropBin)
-          hitAndTOBDropErr = correctedMC.GetBinError (hitAndTOBDropBin)
-          hitAndNoTOBDropErr = correctedMC.GetBinError (hitAndNoTOBDropBin)
+            total_miss_hits = orig_miss_hits
+            total_miss_hits_with_miss_tob = orig_miss_hits + extra_miss_hits + tob_hits
 
-          correctedMC.SetBinContent (hitAndTOBDropBin, hitAndTOBDropContent + nTracks * hitDropProb * tobDrop)
-          correctedMC.SetBinError (hitAndTOBDropBin, math.hypot (math.hypot (hitAndTOBDropErr, nTracksErr * hitDropProb * tobDrop), nTracks * hitDropProbErr * tobDrop))
-          correctedMC.SetBinContent (hitAndNoTOBDropBin, hitAndNoTOBDropContent + nTracks * hitDropProb * (1.0 - tobDrop))
-          correctedMC.SetBinError (hitAndNoTOBDropBin, math.hypot (math.hypot (hitAndNoTOBDropErr, nTracksErr * hitDropProb * (1.0 - tobDrop)), nTracks * hitDropProbErr * (1.0 - tobDrop)))
+          # Not missing all TOB hits
+          corr_bin = corr_hist.FindBin(total_miss_hits)
 
-  if writeHistogram:
-    fout.cd ()
-    correctedMC.Write ("correctedMC")
-    fout.Close ()
+          old_track_count = corr_hist.GetBinContent(corr_bin)
+          old_track_err = corr_hist.GetBinError(corr_bin)
 
-  if correctedMC.Integral () != 0.0:
-    correctedMC.Scale (1.0 / correctedMC.Integral ())
+          new_track_count = old_track_count + num_tracks * extra_miss_prob * (1.0 - miss_all_tob_prob)
+          new_track_err = math.hypot(old_track_err, num_tracks_err * extra_miss_prob * (1.0 - miss_all_tob_prob))
 
-  chi2 = 0.0
-  N = 0
-  for i in chi2Range:
-    observed = data.GetBinContent (data.FindBin (i))
-    expected = correctedMC.GetBinContent (correctedMC.FindBin (i))
-    error = math.hypot (data.GetBinError (data.FindBin (i)), correctedMC.GetBinError (correctedMC.FindBin (i)))
+          corr_hist.SetBinContent(corr_bin, new_track_count)
+          corr_hist.SetBinError(corr_bin, new_track_err)
 
-    if error != 0.0:
-      chi2 += ((observed - expected) * (observed - expected)) / (error * error)
-      N += 1
+          # Missing all TOB hits
+          corr_bin = corr_hist.FindBin(total_miss_hits_with_miss_tob)
 
-  return (chi2, N)
+          old_track_count = corr_hist.GetBinContent(corr_bin)
+          old_track_err = corr_hist.GetBinError(corr_bin)
 
-chi2 = 0.0
-N = 0
-for i in chi2Range:
-  observed = data.GetBinContent (data.FindBin (i))
-  expected = originalMC.GetBinContent (originalMC.FindBin (i))
-  error = math.hypot (data.GetBinError (data.FindBin (i)), originalMC.GetBinError (originalMC.FindBin (i)))
+          new_track_count = old_track_count + num_tracks * extra_miss_prob * miss_all_tob_prob
+          new_track_err = math.hypot(old_track_err, num_tracks_err * extra_miss_prob * miss_all_tob_prob)
 
-  if error != 0.0:
-    chi2 += ((observed - expected) * (observed - expected)) / (error * error)
-    N += 1
-print("chi2 for original MC: " + str (chi2 / N))
+          corr_hist.SetBinContent(corr_bin, new_track_count)
+          corr_hist.SetBinError(corr_bin, new_track_err)
 
-if hitDrop > -1.0e12 and tobDrop > -1.0e12:
-  chi2, N = getChi2 (hitDrop, tobDrop, writeHistogram = True)
-  print("chi2 for corrected MC: " + str (chi2 / N))
-else:
-  for iteration in range (0, nIterations):
-    hitDrop = hitDropGrid
-    tobDrop = tobDropGrid
-    minChi2 = -1.0
-    minChi2HitAndTOBDrop = (-1.0, -1.0)
-    minChi2Index = [-1.0, -1.0]
-    g = TGraph2D ()
-    n = 0
-    index = [-1, -1]
-    for i in hitDrop:
-      index[0] += 1
-      index[1] = -1
-      for j in tobDrop:
-        index[1] += 1
-        print("(" + str (iteration + 1) + " / " + str (nIterations) + ") trying hit inefficiency of " + str (i) + " and TOB drop of " + str (j) + "...")
-        chi2, N = getChi2 (i, j)
-        if N == 0:
-          continue
-        chi2 /= N
-        if chi2 < minChi2 or minChi2 < 0.0:
-          minChi2 = chi2
-          minChi2HitAndTOBDrop = (i, j)
-          minChi2Index = copy.deepcopy (index)
-        g.SetPoint (n, i, j, chi2)
-        n += 1
-    print("(" + str (iteration + 1) + " / " + str (nIterations) + ") minimum chi2: " + str (minChi2) + " at (" + str (minChi2HitAndTOBDrop[0]) + ", " + str (minChi2HitAndTOBDrop[1]) + ")")
+  if corr_hist.Integral() > 0.0 and should_normalize:
+    corr_hist.Scale(1.0 / corr_hist.Integral())
 
-    m = TMarker (minChi2HitAndTOBDrop[0], minChi2HitAndTOBDrop[1], 29)
-    m.SetMarkerSize (3)
+  return corr_hist
 
-    hitDropGridLower = hitDropGrid[minChi2Index[0] - 1] if minChi2Index[0] > 0 else hitDropGrid[minChi2Index[0]] - hitDropGrid[minChi2Index[0] + 1]
-    hitDropGridUpper = hitDropGrid[minChi2Index[0] + 1] if minChi2Index[0] < len (hitDropGrid) - 1 else hitDropGrid[minChi2Index[0]] + hitDropGrid[minChi2Index[0] - 1]
-    tobDropGridLower = tobDropGrid[minChi2Index[1] - 1] if minChi2Index[1] > 0 else tobDropGrid[minChi2Index[1]] - tobDropGrid[minChi2Index[1] + 1]
-    tobDropGridUpper = tobDropGrid[minChi2Index[1] + 1] if minChi2Index[1] < len (tobDropGrid) - 1 else tobDropGrid[minChi2Index[1]] + tobDropGrid[minChi2Index[1] - 1]
-    hitDropGrid     = numpy.linspace (max (hitDropGridLower, 0.0), hitDropGridUpper, 5)
-    tobDropGrid = numpy.linspace (max (tobDropGridLower, 0.0), tobDropGridUpper, 5)
+def find_best_miss_prob(data_pdf, unnorm_mc_hist, tob_status, bin_range):
+  def chi2_wrapper(params):
+    miss_prob = params[0]
+    miss_tob_prob = params[1]
+    corrected_pdf = get_corrected_pdf(miss_prob, miss_tob_prob, unnorm_mc_hist, tob_status)
+    return get_chi2(data_pdf, corrected_pdf, bin_range)
 
-    foutMode = "update" if iteration > 0 else "recreate"
-    fout = TFile.Open ("hitAndTOBDropChi2.root", foutMode)
-    fout.cd ()
-    g.Write ("chi2VsHitAndTOBDropProbability_" + str (iteration))
-    m.Write ("bestFitPoint_" + str (iteration))
-    fout.Close ()
+  minimizer = ROOT.Math.Factory.CreateMinimizer("Minuit2", "Migrad")
+  minimizer.SetMaxFunctionCalls(20000)
+  minimizer.SetMaxIterations(2000)
+
+  # Tolerance is set on the chi2 value, not miss_prob
+  minimizer.SetTolerance(1e-3)
+
+  func = ROOT.Math.Functor(chi2_wrapper, 2)
+  minimizer.SetFunction(func)
+
+  # Start searching at .5% probability in .1% steps
+  minimizer.SetVariable(0, "miss_prob", 5e-3, 1e-3)
+  minimizer.SetVariableLimits(0, 0.0, 1.0)
+
+  minimizer.SetVariable(1, "miss_tob_prob", 5e-4, 1e-4)
+  minimizer.SetVariableLimits(1, 0.0, 1.0)
+
+  minimizer.Minimize()
+
+  best_miss_prob = minimizer.X()[0]
+  best_miss_tob_prob = minimizer.X()[1]
+  corrected_pdf = get_corrected_pdf(best_miss_prob, best_miss_tob_prob, unnorm_mc_hist, tob_status, should_normalize=False)
+
+  return best_miss_prob, best_miss_tob_prob, corrected_pdf
+
+def main():
+  args = getargs()
+  fout = ROOT.TFile.Open(args.output, "recreate")
+
+  # Data is 1D hist
+  #   X-Axis: number missing outer hits
+  data_pdf = get_hist_from_file(args.data_file, DATA_HIST_NAME)
+
+  # MC is 3D hist
+  #   X-Axis: number missing outer hits
+  #   Y-Axis: number TOB (tracker outer barrel) layers hit
+  #   Z-Axis: total number strip layers hit
+  mc_hist = get_hist_from_file(args.mc_file, MC_HIST_NAME)
+
+  # Projected to just X axis (number missing outer hits) makes
+  # MC and data directly comparable
+  mc_proj_pdf = mc_hist.ProjectionX()
+  mc_proj_pdf.SetDirectory(0)
+
+  # Scale to unit area so we can compare data and MC with diff. # events
+  mc_proj_pdf.Scale(1.0 / mc_proj_pdf.Integral())
+  data_pdf.Scale(1.0 / data_pdf.Integral())
+
+  original_chi2_pre = get_chi2(data_pdf, mc_proj_pdf, PRE_TOB_BIN_RANGE)
+  print(f"Uncorrected chi^2 (pre-TOB): {original_chi2_pre}")
+
+  p_pre_tob, p_tob, unnorm_corr_hist_pre = find_best_miss_prob(data_pdf, mc_hist, "pre", PRE_TOB_BIN_RANGE)
+
+  corr_pdf_pre = unnorm_corr_hist_pre.Clone()
+  corr_pdf_pre.SetDirectory(0)
+  corr_pdf_pre.Scale(1.0 / corr_pdf_pre.Integral())
+  print(f"Corrected chi^2 (pre-TOB): {get_chi2(data_pdf, corr_pdf_pre, PRE_TOB_BIN_RANGE)}")
+
+  original_chi2_post = get_chi2(data_pdf, mc_proj_pdf, POST_TOB_BIN_RANGE)
+  print(f"Uncorrected chi^2 (post-TOB): {original_chi2_post}")
+
+  p_post_tob, _, unnorm_corr_hist_post = find_best_miss_prob(data_pdf, mc_hist, "post", POST_TOB_BIN_RANGE)
+
+  corr_pdf_post = unnorm_corr_hist_post.Clone()
+  corr_pdf_post.SetDirectory(0)
+  corr_pdf_post.Scale(1.0 / corr_pdf_post.Integral())
+  print(f"Corrected chi^2 (post-TOB): {get_chi2(data_pdf, corr_pdf_post, POST_TOB_BIN_RANGE)}")
+
+  print(f"P_pre-TOB: {p_pre_tob}, P_TOB: {p_tob}, P_post-TOB: {p_post_tob}")
+
+  fout.cd()
+  corr_hist = ROOT.TH1D("CorrectedOuterHits", ";number of missing outer hits", 16, -0.5, 15.5)
+
+  for bin_idx in range(0, 6):
+    corr_hist.SetBinContent(bin_idx, unnorm_corr_hist_pre.GetBinContent(bin_idx))
+
+  for bin_idx in range(6, 13):
+    corr_hist.SetBinContent(bin_idx, unnorm_corr_hist_post.GetBinContent(bin_idx))
+
+  corr_hist.Write()
+  fout.Close()
+
+if __name__ == "__main__":
+  main()
+
