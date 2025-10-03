@@ -16,63 +16,61 @@ if not writeFile: gStyle.SetOptStat(0)
 
 dirs = getUser()
 
-year = '2022'
+year = '2023'
 
 if year == '2022':
 
-    mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2022/ZtoMuMuISR_PostEE'
-    data_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2022/ZtoMuMuISRStudy_Muon2022F'
+    mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/WithPuppi/2022/ZtoMuMuISR'
+    data_condor_dir = '/data/users/borzari/condor/BGMC/Run3/WithPuppi/2022/ZtoMuMuISR'
 
     # Only datasets that have more than 0 entries
     mcFiles = {
-        'WToLNu_4Jets_2022EE' : 'hist_merged_WtoLNu_ZToMuMuISR_rebinned',
-        'DYJetsToLL_M50_2022EE' : 'hist_merged_DYJetsToLL_ZToMuMuISR_rebinned',
-        'WW_2022EE' : 'hist_merged_WW_ZToMuMuISR_rebinned',
-        'WZ_2022EE' : 'hist_merged_WZ_ZToMuMuISR_rebinned',
-        'ZZ_2022EE' : 'hist_merged_ZZ_ZToMuMuISR_rebinned',
-        'TTto2L2Nu_2022EE' : 'hist_merged_TTto2L2Nu_ZToMuMuISR_rebinned',
-        'TTtoLNu2Q_2022EE' : 'hist_merged_TTtoLNu2Q_ZToMuMuISR_rebinned',
-        'TBbartoLplusNuBbar_2022EE' : 'hist_merged_TBbartoLplusNuBbar_ZToMuMuISR_rebinned',
-        'TbarBtoLminusNuB_2022EE' : 'hist_merged_TbarBtoLminusNuB_ZToMuMuISR_rebinned',
-        'TQbartoLNu_2022EE' : 'hist_merged_TQbartoLNu_ZToMuMuISR_rebinned',
-        'TbarQtoLNu_2022EE' : 'hist_merged_TbarQtoLNu_ZToMuMuISR_rebinned',
-        'TWminusto2L2Nu_2022EE' : 'hist_merged_TWminusto2L2Nu_ZToMuMuISR_rebinned',
-        'TWminustoLNu2Q_2022EE' : 'hist_merged_TWminustoLNu2Q_ZToMuMuISR_rebinned',
-        'TbarWplusto2L2Nu_2022EE' : 'hist_merged_TbarWplusto2L2Nu_ZToMuMuISR_rebinned',
-        'TbarWplustoLNu2Q_2022EE' : 'hist_merged_TbarWplustoLNu2Q_ZToMuMuISR_rebinned'
+        'WToLNu_4Jets_2022EE' : 'hist_merged_WToLNu_4Jets_2022EE_ZToMuMuISR_withPuppi',
+        'DYJetsToLL_M50_2022EE' : 'hist_merged_DYJetsToLL_M50_2022EE_ZToMuMuISR_withPuppi',
+        'WW_2022EE' : 'hist_merged_WW_2022EE_ZToMuMuISR_withPuppi',
+        'WZ_2022EE' : 'hist_merged_WZ_2022EE_ZToMuMuISR_withPuppi',
+        'ZZ_2022EE' : 'hist_merged_ZZ_2022EE_ZToMuMuISR_withPuppi',
+        'TTto2L2Nu_2022EE' : 'hist_merged_TTto2L2Nu_2022EE_ZToMuMuISR_withPuppi',
+        'TTtoLNu2Q_2022EE' : 'hist_merged_TTtoLNu2Q_2022EE_ZToMuMuISR_withPuppi',
+        'TBbartoLplusNuBbar_2022EE' : 'hist_merged_TBbartoLplusNuBbar_2022EE_ZToMuMuISR_withPuppi',
+        'TbarBtoLminusNuB_2022EE' : 'hist_merged_TbarBtoLminusNuB_2022EE_ZToMuMuISR_withPuppi',
+        'TQbartoLNu_2022EE' : 'hist_merged_TQbartoLNu_2022EE_ZToMuMuISR_withPuppi',
+        'TbarQtoLNu_2022EE' : 'hist_merged_TbarQtoLNu_2022EE_ZToMuMuISR_withPuppi',
+        'TWminusto2L2Nu_2022EE' : 'hist_merged_TWminusto2L2Nu_2022EE_ZToMuMuISR_withPuppi',
+        'TWminustoLNu2Q_2022EE' : 'hist_merged_TWminustoLNu2Q_2022EE_ZToMuMuISR_withPuppi',
+        'TbarWplusto2L2Nu_2022EE' : 'hist_merged_TbarWplusto2L2Nu_2022EE_ZToMuMuISR_withPuppi',
+        'TbarWplustoLNu2Q_2022EE' : 'hist_merged_TbarWplustoLNu2Q_2022EE_ZToMuMuISR_withPuppi',
+        'WToLNu_4Jets_2022' : 'hist_merged_WToLNu_4Jets_2022_ZToMuMuISR_withPuppi',
+        'DYJetsToLL_M50_2022' : 'hist_merged_DYJetsToLL_M50_2022_ZToMuMuISR_withPuppi',
+        'WW_2022' : 'hist_merged_WW_2022_ZToMuMuISR_withPuppi',
+        'WZ_2022' : 'hist_merged_WZ_2022_ZToMuMuISR_withPuppi',
+        'ZZ_2022' : 'hist_merged_ZZ_2022_ZToMuMuISR_withPuppi',
+        'TTto2L2Nu_2022' : 'hist_merged_TTto2L2Nu_2022_ZToMuMuISR_withPuppi',
+        'TTtoLNu2Q_2022' : 'hist_merged_TTtoLNu2Q_2022_ZToMuMuISR_withPuppi',
+        'TBbartoLplusNuBbar_2022' : 'hist_merged_TBbartoLplusNuBbar_2022_ZToMuMuISR_withPuppi',
+        'TbarBtoLminusNuB_2022' : 'hist_merged_TbarBtoLminusNuB_2022_ZToMuMuISR_withPuppi',
+        'TQbartoLNu_2022' : 'hist_merged_TQbartoLNu_2022_ZToMuMuISR_withPuppi',
+        'TbarQtoLNu_2022' : 'hist_merged_TbarQtoLNu_2022_ZToMuMuISR_withPuppi',
+        'TWminusto2L2Nu_2022' : 'hist_merged_TWminusto2L2Nu_2022_ZToMuMuISR_withPuppi',
+        'TWminustoLNu2Q_2022' : 'hist_merged_TWminustoLNu2Q_2022_ZToMuMuISR_withPuppi',
+        'TbarWplusto2L2Nu_2022' : 'hist_merged_TbarWplusto2L2Nu_2022_ZToMuMuISR_withPuppi',
+        'TbarWplustoLNu2Q_2022' : 'hist_merged_TbarWplustoLNu2Q_2022_ZToMuMuISR_withPuppi'
     }
 
     dataFiles = {
-        'Muon_2022F' : 'Muon_2022F',
-    }
-
-    nEvents = {
-        'WToLNu_4Jets_2022EE' : 348442033 * 0.964, # Events in AOD * fraction of processed jobs
-        'DYJetsToLL_M50_2022EE' : 94947242 * 0.971, # Events in AOD * fraction of processed jobs
-        'WW_2022EE' : 53619680 * 0.986, # Events in AOD * fraction of processed jobs
-        'WZ_2022EE' : 26887398 * 0.995, # Events in AOD * fraction of processed jobs
-        'ZZ_2022EE' : 4043040 * 0.939, # Events in AOD * fraction of processed jobs
-        'TTto2L2Nu_2022EE' : 85777130 * 0.970, # Events in AOD * fraction of processed jobs
-        'TTtoLNu2Q_2022EE' : 270699232 * 0.982, # Events in AOD * fraction of processed jobs
-        'TBbartoLplusNuBbar_2022EE' : 4469700 * 0.978, # Events in AOD * fraction of processed jobs
-        'TbarBtoLminusNuB_2022EE' : 276266 * 0.968, # Events in AOD * fraction of processed jobs
-        'TQbartoLNu_2022EE' : 32667420 * 0.984, # Events in AOD * fraction of processed jobs
-        'TbarQtoLNu_2022EE' : 19537644 * 0.976, # Events in AOD * fraction of processed jobs
-        'TWminusto2L2Nu_2022EE' : 8581640 * 0.989, # Events in AOD * fraction of processed jobs
-        'TWminustoLNu2Q_2022EE' : 15859351 * 0.974, # Events in AOD * fraction of processed jobs
-        'TbarWplusto2L2Nu_2022EE' : 8576050 * 0.977, # Events in AOD * fraction of processed jobs
-        'TbarWplustoLNu2Q_2022EE' : 17273607 * 0.993 # Events in AOD * fraction of processed jobs
+        'Muon_2022' : 'hist_merged_Muon2022_ZToMuMuISR_withPuppi',
     }
 
     diMuonPtHists = {}
     metNoMuHists = {}
 
     for file in mcFiles:
+        nEvents = (getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyCutFlowPlotter','cutFlow',False)).GetBinContent(1)
         diMuonPtHists[file] = getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyPlotter','Muon-muon Plots/diMuonPtWide',False)
-        diMuonPtHists[file].Scale(crossSections[file]/nEvents[file])
+        diMuonPtHists[file].Scale(crossSections[file]/nEvents)
         if not writeFile: diMuonPtHists[file].Rebin(4)
         metNoMuHists[file] = getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyPlotter','Met Plots/metNoMu',False)
-        metNoMuHists[file].Scale(crossSections[file]/nEvents[file])
+        metNoMuHists[file].Scale(crossSections[file]/nEvents)
 
     for file in dataFiles:
         diMuonPtHists[file] = getHist(dataFiles[file],data_condor_dir,'ZtoMuMuISRStudyPlotter','Muon-muon Plots/diMuonPtWide',False)
@@ -81,9 +79,12 @@ if year == '2022':
 
     diMuonPtStackedHists = {}
 
-    diMuonPtStackedHists['W'] = diMuonPtHists['WToLNu_4Jets_2022EE']
+    WHist_diMuonPt = diMuonPtHists['WToLNu_4Jets_2022EE'].Clone("diMuonW")
+    WHist_diMuonPt.SetDirectory(0)
+    WHist_diMuonPt.Add(diMuonPtHists['WToLNu_4Jets_2022'])
+    diMuonPtStackedHists['W'] = WHist_diMuonPt
 
-    WTopHist_diMuonPt = diMuonPtHists['WToLNu_4Jets_2022EE'].Clone("diMuonWTop")
+    WTopHist_diMuonPt = WHist_diMuonPt.Clone("diMuonWTop")
     WTopHist_diMuonPt.SetDirectory(0)
     WTopHist_diMuonPt.Add(diMuonPtHists['TBbartoLplusNuBbar_2022EE'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarBtoLminusNuB_2022EE'])
@@ -93,6 +94,14 @@ if year == '2022':
     WTopHist_diMuonPt.Add(diMuonPtHists['TWminustoLNu2Q_2022EE'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplusto2L2Nu_2022EE'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplustoLNu2Q_2022EE'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TBbartoLplusNuBbar_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarBtoLminusNuB_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TQbartoLNu_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarQtoLNu_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TWminusto2L2Nu_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TWminustoLNu2Q_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplusto2L2Nu_2022'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplustoLNu2Q_2022'])
     diMuonPtStackedHists['WTop'] = WTopHist_diMuonPt
 
     WTopDiHist_diMuonPt = WTopHist_diMuonPt.Clone("diMuonWTopDi")
@@ -100,17 +109,23 @@ if year == '2022':
     WTopDiHist_diMuonPt.Add(diMuonPtHists['WW_2022EE'])
     WTopDiHist_diMuonPt.Add(diMuonPtHists['WZ_2022EE'])
     WTopDiHist_diMuonPt.Add(diMuonPtHists['ZZ_2022EE'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['WW_2022'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['WZ_2022'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['ZZ_2022'])
     diMuonPtStackedHists['WTopDi'] = WTopDiHist_diMuonPt
 
     WTopDiTTHist_diMuonPt = WTopDiHist_diMuonPt.Clone("diMuonWTopDiTT")
     WTopDiTTHist_diMuonPt.SetDirectory(0)
     WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTto2L2Nu_2022EE'])
     WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTtoLNu2Q_2022EE'])
+    WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTto2L2Nu_2022'])
+    WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTtoLNu2Q_2022'])
     diMuonPtStackedHists['WTopDiTT'] = WTopDiTTHist_diMuonPt
 
     WTopDiTTDYHist_diMuonPt = WTopDiTTHist_diMuonPt.Clone("diMuonWTopDiTTDY")
     WTopDiTTDYHist_diMuonPt.SetDirectory(0)
     WTopDiTTDYHist_diMuonPt.Add(diMuonPtHists['DYJetsToLL_M50_2022EE'])
+    WTopDiTTDYHist_diMuonPt.Add(diMuonPtHists['DYJetsToLL_M50_2022'])
     diMuonPtStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_diMuonPt
 
     # Just for plotting
@@ -127,7 +142,7 @@ if year == '2022':
     errorHist_diMuonPt = WTopDiTTDYHist_diMuonPt = diMuonPtStackedHists['WTopDiTTDY'].Clone("error_diMuonWTopDiTTDY")
     errorHist_diMuonPt.SetDirectory(0)
 
-    DataHist_diMuonPt = diMuonPtHists['Muon_2022F'].Clone("DataHist_diMuonPt")
+    DataHist_diMuonPt = diMuonPtHists['Muon_2022'].Clone("DataHist_diMuonPt")
     DataHist_diMuonPt.SetDirectory(0)
 
     errorHist_diMuonPt.Scale((DataHist_diMuonPt.Integral())/(diMuonPtStackedHists['WTopDiTTDY'].Integral()))
@@ -159,7 +174,7 @@ if year == '2022':
     Legend_diMuonPt.SetFillColor(0)
     Legend_diMuonPt.SetFillStyle(0)
     Legend_diMuonPt.SetTextSize(0.03)
-    Legend_diMuonPt.AddEntry(DataHist_diMuonPt,"Muon 2022F data","P")
+    Legend_diMuonPt.AddEntry(DataHist_diMuonPt,"Muon 2022 data","P")
     Legend_diMuonPt.AddEntry(errorHist_diMuonPt,"stat. errors","F")
     Legend_diMuonPt.AddEntry(diMuonPtStackedHists['WTopDiTTDY'],labels['DYJetsToLL2022EE'],"F")
     Legend_diMuonPt.AddEntry(diMuonPtStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
@@ -175,7 +190,7 @@ if year == '2022':
     # Define position of CMS text and period of lumi to plot
     iPos = 0
     if( iPos==0 ): CMS_lumi.relPosX = 0.12
-    iPeriod = 136
+    iPeriod = 2022
 
     Canvas_diMuonPt = TCanvas("Canvas_diMuonPt","Canvas_diMuonPt",50,50,CMS_lumi.W,CMS_lumi.H)
     Canvas_diMuonPt.SetLeftMargin( CMS_lumi.L/CMS_lumi.W )
@@ -201,7 +216,7 @@ if year == '2022':
     p1_diMuonPt.SetLogy()
     diMuonPtStackedHists['WTopDiTTDY'].SetMinimum(0.0002)
     diMuonPtStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
-    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
+    diMuonPtStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
     diMuonPtStackedHists['WTopDiTTDY'].SetAxisRange(0,1000,"X")
     DataHist_diMuonPt.SetAxisRange(0,1000,"X")
     diMuonPtStackedHists['WTopDiTTDY'].SetTitle("")
@@ -227,7 +242,7 @@ if year == '2022':
 
     if writeFile:
         ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","UPDATE")
-        ratio_diMuonPt.SetName("Muon_2022F")
+        ratio_diMuonPt.SetName("Muon_2022")
         ratio_diMuonPt.GetXaxis().SetRangeUser(0,932)
         ratio_diMuonPt.Write()
         ratioFile.Close()
@@ -246,9 +261,12 @@ if year == '2022':
 
     metNoMuStackedHists = {}
 
-    metNoMuStackedHists['W'] = metNoMuHists['WToLNu_4Jets_2022EE']
+    WHist_metNoMu = metNoMuHists['WToLNu_4Jets_2022EE'].Clone("metNoMuWTop")
+    WHist_metNoMu.SetDirectory(0)
+    WHist_metNoMu.Add(metNoMuHists['WToLNu_4Jets_2022'])
+    metNoMuStackedHists['W'] = WHist_metNoMu
 
-    WTopHist_metNoMu = metNoMuHists['WToLNu_4Jets_2022EE'].Clone("metNoMuWTop")
+    WTopHist_metNoMu = WHist_metNoMu.Clone("metNoMuWTop")
     WTopHist_metNoMu.SetDirectory(0)
     WTopHist_metNoMu.Add(metNoMuHists['TBbartoLplusNuBbar_2022EE'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarBtoLminusNuB_2022EE'])
@@ -258,6 +276,14 @@ if year == '2022':
     WTopHist_metNoMu.Add(metNoMuHists['TWminustoLNu2Q_2022EE'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarWplusto2L2Nu_2022EE'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarWplustoLNu2Q_2022EE'])
+    WTopHist_metNoMu.Add(metNoMuHists['TBbartoLplusNuBbar_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarBtoLminusNuB_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TQbartoLNu_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarQtoLNu_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TWminusto2L2Nu_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TWminustoLNu2Q_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarWplusto2L2Nu_2022'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarWplustoLNu2Q_2022'])
     metNoMuStackedHists['WTop'] = WTopHist_metNoMu
 
     WTopDiHist_metNoMu = WTopHist_metNoMu.Clone("metNoMuWTopDi")
@@ -265,17 +291,23 @@ if year == '2022':
     WTopDiHist_metNoMu.Add(metNoMuHists['WW_2022EE'])
     WTopDiHist_metNoMu.Add(metNoMuHists['WZ_2022EE'])
     WTopDiHist_metNoMu.Add(metNoMuHists['ZZ_2022EE'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['WW_2022'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['WZ_2022'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['ZZ_2022'])
     metNoMuStackedHists['WTopDi'] = WTopDiHist_metNoMu
 
     WTopDiTTHist_metNoMu = WTopDiHist_metNoMu.Clone("metNoMuWTopDiTT")
     WTopDiTTHist_metNoMu.SetDirectory(0)
     WTopDiTTHist_metNoMu.Add(metNoMuHists['TTto2L2Nu_2022EE'])
     WTopDiTTHist_metNoMu.Add(metNoMuHists['TTtoLNu2Q_2022EE'])
+    WTopDiTTHist_metNoMu.Add(metNoMuHists['TTto2L2Nu_2022'])
+    WTopDiTTHist_metNoMu.Add(metNoMuHists['TTtoLNu2Q_2022'])
     metNoMuStackedHists['WTopDiTT'] = WTopDiTTHist_metNoMu
 
     WTopDiTTDYHist_metNoMu = WTopDiTTHist_metNoMu.Clone("metNoMuWTopDiTTDY")
     WTopDiTTDYHist_metNoMu.SetDirectory(0)
     WTopDiTTDYHist_metNoMu.Add(metNoMuHists['DYJetsToLL_M50_2022EE'])
+    WTopDiTTDYHist_metNoMu.Add(metNoMuHists['DYJetsToLL_M50_2022'])
     metNoMuStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_metNoMu
 
     # Just for plotting
@@ -292,7 +324,7 @@ if year == '2022':
     errorHist_metNoMu = WTopDiTTDYHist_metNoMu = metNoMuStackedHists['WTopDiTTDY'].Clone("error_metNoMuWTopDiTTDY")
     errorHist_metNoMu.SetDirectory(0)
 
-    DataHist_metNoMu = metNoMuHists['Muon_2022F'].Clone("DataHist_metNoMu")
+    DataHist_metNoMu = metNoMuHists['Muon_2022'].Clone("DataHist_metNoMu")
     DataHist_metNoMu.SetDirectory(0)
 
     errorHist_metNoMu.Scale((DataHist_metNoMu.Integral())/(metNoMuStackedHists['WTopDiTTDY'].Integral()))
@@ -324,7 +356,7 @@ if year == '2022':
     Legend_metNoMu.SetFillColor(0)
     Legend_metNoMu.SetFillStyle(0)
     Legend_metNoMu.SetTextSize(0.03)
-    Legend_metNoMu.AddEntry(DataHist_metNoMu,"Muon 2022F data","P")
+    Legend_metNoMu.AddEntry(DataHist_metNoMu,"Muon 2022 data","P")
     Legend_metNoMu.AddEntry(errorHist_metNoMu,"stat. errors","F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTopDiTTDY'],labels['DYJetsToLL2022EE'],"F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
@@ -360,7 +392,7 @@ if year == '2022':
     metNoMuStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetRangeUser(0,950)
     metNoMuStackedHists['WTopDiTTDY'].SetTitle("")
-    metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
+    metNoMuStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
     metNoMuStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_metNoMu.Draw("SAME,E2")
     DataHist_metNoMu.Draw("SAME,P,E")
@@ -379,7 +411,7 @@ if year == '2022':
     ratio_metNoMu.SetTitle("")
     ratio_metNoMu.GetXaxis().SetTitleSize(0.12)
     ratio_metNoMu.GetXaxis().SetLabelSize(0.12)
-    ratio_metNoMu.GetXaxis().SetTitle("E_{T}^{miss, no #mu} [GeV]")
+    ratio_metNoMu.GetXaxis().SetTitle("p_{T}^{miss, no #mu} [GeV]")
     ratio_metNoMu.GetXaxis().SetTitleOffset(1.12)
     ratio_metNoMu.GetYaxis().SetTitle("Data/MC")
     ratio_metNoMu.GetYaxis().SetTitleSize(0.12)
@@ -435,38 +467,53 @@ if year == '2022':
 
 if year == '2023':
 
-    mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2023/ZtoMuMuISR'
-    data_condor_dir = '/data/users/borzari/condor/BGMC/Run3/2023/ZtoMuMuISR_Muon2023C'
+    mc_condor_dir = '/data/users/borzari/condor/BGMC/Run3/WithPuppi/2023/ZtoMuMuISR'
+    data_condor_dir = '/data/users/borzari/condor/BGMC/Run3/WithPuppi/2023/ZtoMuMuISR'
 
     # Only datasets that have more than 0 entries
     mcFiles = {
-        'WToLNu_4Jets_2023' : 'hist_merged_WToLNu_4Jets_2023_ZToMuMuISR',
-        'DYJetsToLL_M50_2023' : 'hist_merged_DYJetsToLL_M50_2023_ZToMuMuISR',
-        'WW_2023' : 'hist_merged_WW_2023_ZToMuMuISR',
-        'WZ_2023' : 'hist_merged_WZ_2023_ZToMuMuISR',
-        'ZZ_2023' : 'hist_merged_ZZ_2023_ZToMuMuISR',
-        'TTto2L2Nu_2023' : 'hist_merged_TTto2L2Nu_2023_ZToMuMuISR',
-        'TTtoLNu2Q_2023' : 'hist_merged_TTtoLNu2Q_2023_ZToMuMuISR',
-        'TBbartoLplusNuBbar_2023' : 'hist_merged_TBbartoLplusNuBbar_2023_ZToMuMuISR',
-        'TbarBtoLminusNuB_2023' : 'hist_merged_TbarBtoLminusNuB_2023_ZToMuMuISR',
-        'TQbartoLNu_2023' : 'hist_merged_TQbartoLNu_2023_ZToMuMuISR',
-        'TbarQtoLNu_2023' : 'hist_merged_TbarQtoLNu_2023_ZToMuMuISR',
-        'TWminusto2L2Nu_2023' : 'hist_merged_TWminusto2L2Nu_2023_ZToMuMuISR',
-        'TWminustoLNu2Q_2023' : 'hist_merged_TWminustoLNu2Q_2023_ZToMuMuISR',
-        'TbarWplusto2L2Nu_2023' : 'hist_merged_TbarWplusto2L2Nu_2023_ZToMuMuISR',
-        'TbarWplustoLNu2Q_2023' : 'hist_merged_TbarWplustoLNu2Q_2023_ZToMuMuISR'
+        'WToLNu_4Jets_2023' : 'hist_merged_WToLNu_4Jets_2023_ZToMuMuISR_withPuppi',
+        'DYJetsToLL_M50_2023' : 'hist_merged_DYJetsToLL_M50_2023_ZToMuMuISR_withPuppi',
+        'WW_2023' : 'hist_merged_WW_2023_ZToMuMuISR_withPuppi',
+        'WZ_2023' : 'hist_merged_WZ_2023_ZToMuMuISR_withPuppi',
+        'ZZ_2023' : 'hist_merged_ZZ_2023_ZToMuMuISR_withPuppi',
+        'TTto2L2Nu_2023' : 'hist_merged_TTto2L2Nu_2023_ZToMuMuISR_withPuppi',
+        'TTtoLNu2Q_2023' : 'hist_merged_TTtoLNu2Q_2023_ZToMuMuISR_withPuppi',
+        'TBbartoLplusNuBbar_2023' : 'hist_merged_TBbartoLplusNuBbar_2023_ZToMuMuISR_withPuppi',
+        'TbarBtoLminusNuB_2023' : 'hist_merged_TbarBtoLminusNuB_2023_ZToMuMuISR_withPuppi',
+        'TQbartoLNu_2023' : 'hist_merged_TQbartoLNu_2023_ZToMuMuISR_withPuppi',
+        'TbarQtoLNu_2023' : 'hist_merged_TbarQtoLNu_2023_ZToMuMuISR_withPuppi',
+        'TWminusto2L2Nu_2023' : 'hist_merged_TWminusto2L2Nu_2023_ZToMuMuISR_withPuppi',
+        'TWminustoLNu2Q_2023' : 'hist_merged_TWminustoLNu2Q_2023_ZToMuMuISR_withPuppi',
+        'TbarWplusto2L2Nu_2023' : 'hist_merged_TbarWplusto2L2Nu_2023_ZToMuMuISR_withPuppi',
+        'TbarWplustoLNu2Q_2023' : 'hist_merged_TbarWplustoLNu2Q_2023_ZToMuMuISR_withPuppi',
+        'WToLNu_4Jets_2023BPix' : 'hist_merged_WToLNu_4Jets_2023BPix_ZToMuMuISR_withPuppi',
+        'DYJetsToLL_M50_2023BPix' : 'hist_merged_DYJetsToLL_M50_2023BPix_ZToMuMuISR_withPuppi',
+        'WW_2023BPix' : 'hist_merged_WW_2023BPix_ZToMuMuISR_withPuppi',
+        'WZ_2023BPix' : 'hist_merged_WZ_2023BPix_ZToMuMuISR_withPuppi',
+        'ZZ_2023BPix' : 'hist_merged_ZZ_2023BPix_ZToMuMuISR_withPuppi',
+        'TTto2L2Nu_2023BPix' : 'hist_merged_TTto2L2Nu_2023BPix_ZToMuMuISR_withPuppi',
+        'TTtoLNu2Q_2023BPix' : 'hist_merged_TTtoLNu2Q_2023BPix_ZToMuMuISR_withPuppi',
+        'TBbartoLplusNuBbar_2023BPix' : 'hist_merged_TBbartoLplusNuBbar_2023BPix_ZToMuMuISR_withPuppi',
+        'TbarBtoLminusNuB_2023BPix' : 'hist_merged_TbarBtoLminusNuB_2023BPix_ZToMuMuISR_withPuppi',
+        'TQbartoLNu_2023BPix' : 'hist_merged_TQbartoLNu_2023BPix_ZToMuMuISR_withPuppi',
+        'TbarQtoLNu_2023BPix' : 'hist_merged_TbarQtoLNu_2023BPix_ZToMuMuISR_withPuppi',
+        'TWminusto2L2Nu_2023BPix' : 'hist_merged_TWminusto2L2Nu_2023BPix_ZToMuMuISR_withPuppi',
+        'TWminustoLNu2Q_2023BPix' : 'hist_merged_TWminustoLNu2Q_2023BPix_ZToMuMuISR_withPuppi',
+        'TbarWplusto2L2Nu_2023BPix' : 'hist_merged_TbarWplusto2L2Nu_2023BPix_ZToMuMuISR_withPuppi',
+        'TbarWplustoLNu2Q_2023BPix' : 'hist_merged_TbarWplustoLNu2Q_2023BPix_ZToMuMuISR_withPuppi',
     }
 
     dataFiles = {
-        'Muon_2023' : 'hist_merged_Muon2023_ZToMuMuISR',
+        'Muon_2023' : 'hist_merged_Muon2023_ZToMuMuISR_withPuppi',
     }
 
     diMuonPtHists = {}
     metNoMuHists = {}
 
     for file in mcFiles:
-        diMuonPtHists[file] = getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyPlotter','Muon-muon Plots/diMuonPtWide',False)
         nEvents = (getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyCutFlowPlotter','cutFlow',False)).GetBinContent(1)
+        diMuonPtHists[file] = getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyPlotter','Muon-muon Plots/diMuonPtWide',False)
         diMuonPtHists[file].Scale(crossSections[file]/nEvents)
         if not writeFile: diMuonPtHists[file].Rebin(4)
         metNoMuHists[file] = getHist(mcFiles[file],mc_condor_dir,'ZtoMuMuISRStudyPlotter','Met Plots/metNoMu',False)
@@ -479,9 +526,12 @@ if year == '2023':
 
     diMuonPtStackedHists = {}
 
-    diMuonPtStackedHists['W'] = diMuonPtHists['WToLNu_4Jets_2023']
+    WHist_diMuonPt = diMuonPtHists['WToLNu_4Jets_2023'].Clone("diMuonWTop")
+    WHist_diMuonPt.SetDirectory(0)
+    WHist_diMuonPt.Add(diMuonPtHists['WToLNu_4Jets_2023BPix'])
+    diMuonPtStackedHists['W'] = WHist_diMuonPt
 
-    WTopHist_diMuonPt = diMuonPtHists['WToLNu_4Jets_2023'].Clone("diMuonWTop")
+    WTopHist_diMuonPt = WHist_diMuonPt.Clone("diMuonWTop")
     WTopHist_diMuonPt.SetDirectory(0)
     WTopHist_diMuonPt.Add(diMuonPtHists['TBbartoLplusNuBbar_2023'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarBtoLminusNuB_2023'])
@@ -491,6 +541,14 @@ if year == '2023':
     WTopHist_diMuonPt.Add(diMuonPtHists['TWminustoLNu2Q_2023'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplusto2L2Nu_2023'])
     WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplustoLNu2Q_2023'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TBbartoLplusNuBbar_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarBtoLminusNuB_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TQbartoLNu_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarQtoLNu_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TWminusto2L2Nu_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TWminustoLNu2Q_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplusto2L2Nu_2023BPix'])
+    WTopHist_diMuonPt.Add(diMuonPtHists['TbarWplustoLNu2Q_2023BPix'])
     diMuonPtStackedHists['WTop'] = WTopHist_diMuonPt
 
     WTopDiHist_diMuonPt = WTopHist_diMuonPt.Clone("diMuonWTopDi")
@@ -498,17 +556,23 @@ if year == '2023':
     WTopDiHist_diMuonPt.Add(diMuonPtHists['WW_2023'])
     WTopDiHist_diMuonPt.Add(diMuonPtHists['WZ_2023'])
     WTopDiHist_diMuonPt.Add(diMuonPtHists['ZZ_2023'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['WW_2023BPix'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['WZ_2023BPix'])
+    WTopDiHist_diMuonPt.Add(diMuonPtHists['ZZ_2023BPix'])
     diMuonPtStackedHists['WTopDi'] = WTopDiHist_diMuonPt
 
     WTopDiTTHist_diMuonPt = WTopDiHist_diMuonPt.Clone("diMuonWTopDiTT")
     WTopDiTTHist_diMuonPt.SetDirectory(0)
     WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTto2L2Nu_2023'])
     WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTtoLNu2Q_2023'])
+    WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTto2L2Nu_2023BPix'])
+    WTopDiTTHist_diMuonPt.Add(diMuonPtHists['TTtoLNu2Q_2023BPix'])
     diMuonPtStackedHists['WTopDiTT'] = WTopDiTTHist_diMuonPt
 
     WTopDiTTDYHist_diMuonPt = WTopDiTTHist_diMuonPt.Clone("diMuonWTopDiTTDY")
     WTopDiTTDYHist_diMuonPt.SetDirectory(0)
     WTopDiTTDYHist_diMuonPt.Add(diMuonPtHists['DYJetsToLL_M50_2023'])
+    WTopDiTTDYHist_diMuonPt.Add(diMuonPtHists['DYJetsToLL_M50_2023BPix'])
     diMuonPtStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_diMuonPt
 
     # Just for plotting
@@ -557,7 +621,7 @@ if year == '2023':
     Legend_diMuonPt.SetFillColor(0)
     Legend_diMuonPt.SetFillStyle(0)
     Legend_diMuonPt.SetTextSize(0.03)
-    Legend_diMuonPt.AddEntry(DataHist_diMuonPt,"Muon 2023C data","P")
+    Legend_diMuonPt.AddEntry(DataHist_diMuonPt,"Muon 2023 data","P")
     Legend_diMuonPt.AddEntry(errorHist_diMuonPt,"stat. errors","F")
     Legend_diMuonPt.AddEntry(diMuonPtStackedHists['WTopDiTTDY'],labels['DYJetsToLL2022EE'],"F")
     Legend_diMuonPt.AddEntry(diMuonPtStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
@@ -573,7 +637,7 @@ if year == '2023':
     # Define position of CMS text and period of lumi to plot
     iPos = 0
     if( iPos==0 ): CMS_lumi.relPosX = 0.12
-    iPeriod = 1362
+    iPeriod = 2023
 
     Canvas_diMuonPt = TCanvas("Canvas_diMuonPt","Canvas_diMuonPt",50,50,CMS_lumi.W,CMS_lumi.H)
     Canvas_diMuonPt.SetLeftMargin( CMS_lumi.L/CMS_lumi.W )
@@ -601,7 +665,7 @@ if year == '2023':
     diMuonPtStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     diMuonPtStackedHists['WTopDiTTDY'].SetAxisRange(0,1000,"X")
     DataHist_diMuonPt.SetAxisRange(0,1000,"X")
-    diMuonPtStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
+    diMuonPtStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 4 GeV (bkgd. scaled to data)")
     diMuonPtStackedHists['WTopDiTTDY'].SetTitle("")
     diMuonPtStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_diMuonPt.Draw("SAME,E2")
@@ -625,7 +689,7 @@ if year == '2023':
 
     if writeFile:
         ratioFile = TFile.Open("isrWeight_disappTrks_run3.root","UPDATE")
-        ratio_diMuonPt.SetName("Muon_2023C")
+        ratio_diMuonPt.SetName("Muon_2023")
         ratio_diMuonPt.GetXaxis().SetRangeUser(0,932)
         ratio_diMuonPt.Write()
         ratioFile.Close()
@@ -644,9 +708,12 @@ if year == '2023':
 
     metNoMuStackedHists = {}
 
-    metNoMuStackedHists['W'] = metNoMuHists['WToLNu_4Jets_2023']
+    WHist_metNoMu = metNoMuHists['WToLNu_4Jets_2023'].Clone("metNoMuWTop")
+    WHist_metNoMu.SetDirectory(0)
+    WHist_metNoMu.Add(metNoMuHists['WToLNu_4Jets_2023BPix'])
+    metNoMuStackedHists['W'] = WHist_metNoMu
 
-    WTopHist_metNoMu = metNoMuHists['WToLNu_4Jets_2023'].Clone("metNoMuWTop")
+    WTopHist_metNoMu = WHist_metNoMu.Clone("metNoMuWTop")
     WTopHist_metNoMu.SetDirectory(0)
     WTopHist_metNoMu.Add(metNoMuHists['TBbartoLplusNuBbar_2023'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarBtoLminusNuB_2023'])
@@ -656,6 +723,14 @@ if year == '2023':
     WTopHist_metNoMu.Add(metNoMuHists['TWminustoLNu2Q_2023'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarWplusto2L2Nu_2023'])
     WTopHist_metNoMu.Add(metNoMuHists['TbarWplustoLNu2Q_2023'])
+    WTopHist_metNoMu.Add(metNoMuHists['TBbartoLplusNuBbar_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarBtoLminusNuB_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TQbartoLNu_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarQtoLNu_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TWminusto2L2Nu_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TWminustoLNu2Q_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarWplusto2L2Nu_2023BPix'])
+    WTopHist_metNoMu.Add(metNoMuHists['TbarWplustoLNu2Q_2023BPix'])
     metNoMuStackedHists['WTop'] = WTopHist_metNoMu
 
     WTopDiHist_metNoMu = WTopHist_metNoMu.Clone("metNoMuWTopDi")
@@ -663,17 +738,23 @@ if year == '2023':
     WTopDiHist_metNoMu.Add(metNoMuHists['WW_2023'])
     WTopDiHist_metNoMu.Add(metNoMuHists['WZ_2023'])
     WTopDiHist_metNoMu.Add(metNoMuHists['ZZ_2023'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['WW_2023BPix'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['WZ_2023BPix'])
+    WTopDiHist_metNoMu.Add(metNoMuHists['ZZ_2023BPix'])
     metNoMuStackedHists['WTopDi'] = WTopDiHist_metNoMu
 
     WTopDiTTHist_metNoMu = WTopDiHist_metNoMu.Clone("metNoMuWTopDiTT")
     WTopDiTTHist_metNoMu.SetDirectory(0)
     WTopDiTTHist_metNoMu.Add(metNoMuHists['TTto2L2Nu_2023'])
     WTopDiTTHist_metNoMu.Add(metNoMuHists['TTtoLNu2Q_2023'])
+    WTopDiTTHist_metNoMu.Add(metNoMuHists['TTto2L2Nu_2023BPix'])
+    WTopDiTTHist_metNoMu.Add(metNoMuHists['TTtoLNu2Q_2023BPix'])
     metNoMuStackedHists['WTopDiTT'] = WTopDiTTHist_metNoMu
 
     WTopDiTTDYHist_metNoMu = WTopDiTTHist_metNoMu.Clone("metNoMuWTopDiTTDY")
     WTopDiTTDYHist_metNoMu.SetDirectory(0)
     WTopDiTTDYHist_metNoMu.Add(metNoMuHists['DYJetsToLL_M50_2023'])
+    WTopDiTTDYHist_metNoMu.Add(metNoMuHists['DYJetsToLL_M50_2023BPix'])
     metNoMuStackedHists['WTopDiTTDY'] = WTopDiTTDYHist_metNoMu
 
     # Just for plotting
@@ -722,15 +803,13 @@ if year == '2023':
     Legend_metNoMu.SetFillColor(0)
     Legend_metNoMu.SetFillStyle(0)
     Legend_metNoMu.SetTextSize(0.03)
-    Legend_metNoMu.AddEntry(DataHist_metNoMu,"Muon 2023C data","P")
+    Legend_metNoMu.AddEntry(DataHist_metNoMu,"Muon 2023 data","P")
     Legend_metNoMu.AddEntry(errorHist_metNoMu,"stat. errors","F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTopDiTTDY'],labels['DYJetsToLL2022EE'],"F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTopDiTT'],labels['TT2022EE'],"F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTopDi'],labels['Diboson2022EE'],"F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['WTop'],labels['SingleTop2022EE'],"F")
     Legend_metNoMu.AddEntry(metNoMuStackedHists['W'],labels['WToLNu_4Jets_2022EE'],"F")
-    # Legend_metNoMu.AddEntry(QCDHist_metNoMu,labels['QCD2022EE'],"F")
-    # Legend_metNoMu.AddEntry(ZTo2NuHist_metNoMu,labels['ZJetsToNuNu2022EE'],"F")
 
     Canvas_metNoMu = TCanvas("Canvas_metNoMu","Canvas_metNoMu",50,50,CMS_lumi.W,CMS_lumi.H)
     Canvas_metNoMu.SetLeftMargin( CMS_lumi.L/CMS_lumi.W )
@@ -758,8 +837,8 @@ if year == '2023':
     metNoMuStackedHists['WTopDiTTDY'].SetMaximum(10000000.0)
     metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetRangeUser(0,950)
     metNoMuStackedHists['WTopDiTTDY'].SetTitle("")
-    metNoMuStackedHists['WTopDiTTDY'].GetXaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
-    metNoMuStackedHists['WTopDiTTDY'].Draw()
+    metNoMuStackedHists['WTopDiTTDY'].GetYaxis().SetTitle("Entries / 5 GeV (bkgd. scaled to data)")
+    metNoMuStackedHists['WTopDiTTDY'].Draw("HIST")
     errorHist_metNoMu.Draw("SAME,E2")
     DataHist_metNoMu.Draw("SAME,P,E")
     metNoMuStackedHists['WTopDiTT'].Draw("SAME,HIST")
@@ -777,7 +856,7 @@ if year == '2023':
     ratio_metNoMu.SetTitle("")
     ratio_metNoMu.GetXaxis().SetTitleSize(0.12)
     ratio_metNoMu.GetXaxis().SetLabelSize(0.12)
-    ratio_metNoMu.GetXaxis().SetTitle("E_{T}^{miss, no #mu} [GeV]")
+    ratio_metNoMu.GetXaxis().SetTitle("p_{T}^{miss, no #mu} [GeV]")
     ratio_metNoMu.GetXaxis().SetTitleOffset(1.12)
     ratio_metNoMu.GetYaxis().SetTitle("Data/MC")
     ratio_metNoMu.GetYaxis().SetTitleSize(0.12)

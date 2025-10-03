@@ -43,29 +43,29 @@ MissingHitsCorrections["2018"] = {
 }
 
 MissingHitsCorrections["2022CD"] = {
-    "dropTOBProbability"          :  0.0005344054, # PRE_TOB Y()
-    "preTOBDropHitInefficiency"   :  0.0024602433, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.5796407817, # POST_TOB X()
-    "hitInefficiency"             :  0.0033895834, # middle X()   
+    "dropTOBProbability"          :  0.000424052, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  3.230738793e-10, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.786001157, # POST_TOB X()
+    "hitInefficiency"             :  0.003203431, # middle X()
 }
 
 MissingHitsCorrections["2022EFG"] = {
-    "dropTOBProbability"          :  0.0006637882, # PRE_TOB Y()
-    "preTOBDropHitInefficiency"   :  0.0039855736, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.6015933621, # POST_TOB X()
-    "hitInefficiency"             :  0.0053399711, # middle X()
+    "dropTOBProbability"          :  0.000665108, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.003683874, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.779060071, # POST_TOB X()
+    "hitInefficiency"             :  0.005060125, # middle X()
 }
 
 MissingHitsCorrections["2023C"] = {
-    "dropTOBProbability"          :  0.0008906712, # PRE_TOB Y()
-    "preTOBDropHitInefficiency"   :  0.0030917790, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.5914658589, # POST_TOB X()
-    "hitInefficiency"             :  0.0050990953, # middle X()
+    "dropTOBProbability"          :  0.000932986, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.002640801, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.593701526, # POST_TOB X()
+    "hitInefficiency"             :  0.005095225, # middle X()
 }
 
 MissingHitsCorrections["2023D"] = {
-    "dropTOBProbability"          :  0.0008898132, # PRE_TOB Y()
-    "preTOBDropHitInefficiency"   :  0.0042712748, # PRE_TOB X()
-    "postTOBDropHitInefficiency"  :  0.6368622353, # POST_TOB X()
-    "hitInefficiency"             :  0.0048278471, # middle X()
+    "dropTOBProbability"          :  0.000755218, # PRE_TOB Y()
+    "preTOBDropHitInefficiency"   :  0.004297998, # PRE_TOB X()
+    "postTOBDropHitInefficiency"  :  0.705662065, # POST_TOB X()
+    "hitInefficiency"             :  0.005650715, # middle X()
 }
