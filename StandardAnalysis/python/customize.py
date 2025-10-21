@@ -345,7 +345,16 @@ def customize (process,
 
         setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
-        
+
+#####  Adding information to run with 2024 data #####
+
+    elif runPeriod == "2024":
+
+        data_global_tag = '150X_dataRun3_v2'  
+        process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
+        print("Using jet veto map for 2024 eras B-I")
+
+
     #set the global tag
     process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
