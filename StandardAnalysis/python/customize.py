@@ -354,6 +354,9 @@ def customize (process,
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
+        # TODO: Replace with 2024 when 2024 JERC comes out
+        changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23BPix_AK4PFPuppi.root','Summer23BPix','')
+
 
     #set the global tag
     process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
