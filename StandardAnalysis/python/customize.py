@@ -350,9 +350,18 @@ def customize (process,
 
     elif runPeriod == "2024":
 
-        data_global_tag = '150X_dataRun3_v2'  
+        data_global_tag = '150X_dataRun3_v2'
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
+
+        # TODO: Replace with 2024 when 2024 JERC comes out
+        changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23BPix_AK4PFPuppi.root','Summer23BPix','')
+
+    elif runPeriod == "2025":
+
+        data_global_tag = '150X_dataRun3_Prompt_v1'
+        process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
+        print("Using 2024 jet veto map for 2025 eras B-I (temporarily)")
 
         # TODO: Replace with 2024 when 2024 JERC comes out
         changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23BPix_AK4PFPuppi.root','Summer23BPix','')
