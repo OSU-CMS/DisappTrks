@@ -1457,7 +1457,7 @@ cutTauEta21 = cms.PSet (
 )
 cutTauTightID = cms.PSet (
     inputCollection = cms.vstring("taus"),
-    cutString = cms.string("passesDecayModeReconstruction && passesJetDiscrimination && passesLightFlavorRejection"),
+    cutString = cms.string("passesDecayModeReconstruction && passesLightFlavorRejection"),
     numberRequired = cms.string(">= 1"),
 )
 cutTauTightPFIso = cms.PSet (
