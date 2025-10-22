@@ -17,7 +17,7 @@ def createHitsVariations (ch, chName):
 ################################################################################
 TauTagSkim = cms.PSet(
     name = cms.string("TauTagSkim"),
-    triggers = triggersMuonTau,
+    triggers = triggersSingleMuon,
     metFilters = metFilters,
     cuts = cms.VPSet (),
 )
@@ -39,12 +39,13 @@ addCuts(TauTagSkim.cuts, tagTauCuts)
 ##############################################################
 tau_leg_cut = [cutTauEta21, cutMuonEta21]
 
-TauTagSkimSingleMuonTriggerSelection2 = cms.PSet(
-    name = cms.string("TauTagSkimSingleMuonTriggerSelection2"),
+TauTagSkimSingleMuonTriggerSelection = cms.PSet(
+    name = cms.string("TauTagSkimSingleMuonTriggerSelection"),
     triggers = triggersSingleMuon,
     metFilters = metFilters,
     cuts = cms.VPSet())
-addCuts(TauTagSkimSingleMuonTriggerSelection2.cuts, tau_leg_cut)
+
+addCuts(TauTagSkimSingleMuonTriggerSelection.cuts, tau_leg_cut)
 
 TauTagSkimMuonTauTriggerSelection = cms.PSet(
     name = cms.string("TauTagSkimMuonTauTriggerSelection"),
