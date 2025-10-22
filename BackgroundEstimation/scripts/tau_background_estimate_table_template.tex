@@ -1,0 +1,22 @@
+\begin{tiny}
+\begin{tabular}{llccccccc}
+\hline
+\multicolumn{8}{c}{tau background} \\
+run period & $\nlayers$ & $\epsilon_{\text{trigger}}^{\text{l}}$ & $P(tau)$ & $\Nctrll$ & $\Pveto$ & $\Poffline$ & $\Ptrigger$ & estimate \\
+\hline
+{% for era in estimates %}
+\multirow{4}{*}{{ era.Era }} &
+{% for layer in era.layers %}
+{{ layer.layer }}
+{{ layer.triggerEfficiency }} &
+{{ layer.tauScalingFactor }} &
+{{ layer.NCtrl }} &
+{{ layer.PVeto }} &
+{{ layer.POffline }} &
+{{ layer.Ptrigger }} &
+{{ layer.estimate }} \\
+{% endfor %}
+{% endfor %}
+\hline
+\end{tabular}
+\end{tiny}
