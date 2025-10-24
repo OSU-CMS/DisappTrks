@@ -46,8 +46,6 @@ tensorflowPlugin::tensorflowPlugin(const edm::ParameterSet& config)
       outputTensorName_(config.getParameter<std::string>("outputTensorName")),
       graphDef_(nullptr),
       session_(nullptr) {
-  // set tensorflow log leven to warning
-  tensorflow::setLogging("2");
 }
 
 void tensorflowPlugin::beginJob() {
