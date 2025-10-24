@@ -116,11 +116,11 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     LogDebug("l1t|Global") << "retrieved L1 data from GT Util" << endl;
 
     // grab the map for the final decisions
-    const std::vector<std::pair<std::string, bool>> initialDecisions = gtUtil_->decisionsInitial();
-    const std::vector<std::pair<std::string, bool>> intermDecisions = gtUtil_->decisionsInterm();
-    const std::vector<std::pair<std::string, bool>> finalDecisions = gtUtil_->decisionsFinal();
-    const std::vector<std::pair<std::string, double>> prescales = gtUtil_->prescales();
-    const std::vector<std::pair<std::string, std::vector<int>>> masks = gtUtil_->masks();
+    const std::vector<std::pair<std::string_view, bool>> initialDecisions = gtUtil_->decisionsInitial();
+    const std::vector<std::pair<std::string_view, bool>> intermDecisions = gtUtil_->decisionsInterm();
+    const std::vector<std::pair<std::string_view, bool>> finalDecisions = gtUtil_->decisionsFinal();
+    const std::vector<std::pair<std::string_view, double>> prescales = gtUtil_->prescales();
+    const std::vector<std::pair<std::string_view, std::vector<int>>> masks = gtUtil_->masks();
 
     if ((decisionCount_.size() != gtUtil_->decisionsInitial().size()) ||
         (intermCount_.size() != gtUtil_->decisionsInterm().size()) ||
