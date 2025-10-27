@@ -142,7 +142,7 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     }
     for (unsigned int i = 0; i < initialDecisions.size(); i++) {
       // get the name and trigger result
-      std::string name = (initialDecisions.at(i)).first;
+      std::string_view name = (initialDecisions.at(i)).first;
       //if (name == "NULL")
       //  continue;
 
@@ -166,7 +166,7 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       //cout << i << " " << decisionCount_[i] << "\n";
 
       if (true) {
-        cout << std::dec << setfill(' ') << "   " << setw(5) << i << "   " << setw(40) << name.c_str() << "   "
+        cout << std::dec << setfill(' ') << "   " << setw(5) << i << "   " << setw(40) << name << "   "
              << setw(7) << resultInit << setw(7) << resultInterm << setw(7) << resultFin << setw(10) << prescale
              << setw(11) << mask.size() << endl;
       }
