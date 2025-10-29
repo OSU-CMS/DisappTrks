@@ -9,7 +9,7 @@ import subprocess
 ################################################################################
 # Create the skeleton process
 ################################################################################
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")):
     from Configuration.Eras.Era_Run3_cff import Run3
     process = cms.Process ('OSUAnalysis',Run3)
 else:
@@ -43,8 +43,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
+
+    # When running locally this is the file that will be ran over if you don't override it later on
     process.source.fileNames = cms.untracked.vstring([
     'root://cmseosmgm01.fnal.gov:1094//store/group/lpclonglived/DisappTrks/JetMET/MET_2022D_basicSelectionInvertJetMetPhiCutv1p3/250522_133403/0000/skim_BasicSelectionInvertJetMetPhiCut_2025_05_22_08h32m09s_1.root'
     ])
@@ -134,6 +136,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VE
 
 # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Run_3_recommendations
 
+# Only needed for 2022 and part of 2023, not needed for 2024 on.
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
 
     baddetEcallist = cms.vuint32([838871812]) # This is the only badly calibrated crystal in 2022 and 2023
@@ -164,7 +167,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+
+# NOTE: So long as the collections didn't change from 2023 -> 2025 this is fine
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")):
     collMap = copy.deepcopy(collectionMapMiniAOD2022)
     if UseCandidateTracks:
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
