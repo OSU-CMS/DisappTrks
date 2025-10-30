@@ -30,7 +30,7 @@ if len(sys.argv) > 2:
     nLayersWords = [sys.argv[2]]
     combineLayers = False
 
-runPeriods = ['EFG']
+runPeriods = ['CD', 'EFG']
 
 nEstFake = {}
 nEstElectron = {}
