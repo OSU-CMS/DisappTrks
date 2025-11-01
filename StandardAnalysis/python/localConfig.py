@@ -12,7 +12,9 @@ UseCandidateTracks = False
 
 # If this is true (76X and 80X) then prunedGenParticlePlusGeant will be used for hardInteractionMcparticles
 # instead of prunedGenParticles
-UseGeantDecays = (not os.environ['CMSSW_VERSION'].startswith('CMSSW_9_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_10_2_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_12_4_') and not os.environ['CMSSW_VERSION'].startswith('CMSSW_13_0_'))
+UseGeantDecays = not os.environ["CMSSW_VERSION"].startswith(
+    ("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")
+)
 
 print("########################################################################")
 print("# Switching the following since the release is " + A_BRIGHT_BLUE + os.environ["CMSSW_VERSION"] + A_RESET + ":")
@@ -49,6 +51,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW
     else:
         print("# Datasets from: " + A_BRIGHT_CYAN + "miniAOD_124X_Samples" + A_RESET)
         print("# Background samples from: " + A_BRIGHT_CYAN + "miniAOD_124X_Samples" + A_RESET + " (" + A_BRIGHT_YELLOW + "empty!" + A_RESET + ")")
+        # Not used anymore other than some random scripts
         from DisappTrks.StandardAnalysis.miniAOD_124X_Samples import *
 else:
     print("# Datasets and background samples from: " + A_BRIGHT_CYAN + "miniAODV2Samples" + A_RESET)

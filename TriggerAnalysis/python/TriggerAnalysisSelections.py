@@ -6,21 +6,24 @@ from DisappTrks.StandardAnalysis.Cuts import * # Put all the individual cuts in 
 from DisappTrks.TriggerAnalysis.AllTriggers import *
 from DisappTrks.StandardAnalysis.EventSelections import *
 
-def createHitsVariations (ch, chName):
-    globals ().update (createChannelVariations (ch, chName, None, cutTrkNLayersVariations))
-    globals ().update (createChannelVariations (ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-        replaceSingleCut (globals ()[chName + 'NHits3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
-        replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+def createHitsVariations(ch, chName):
+    globals().update(createChannelVariations(ch, chName, None, cutTrkNLayersVariations))
+    globals().update(createChannelVariations(ch, chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
 
-def createHitsVariationsDict (channelDict):
+    if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")):
+        replaceSingleCut(globals()[chName + "NHits3"].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        replaceSingleCut(globals()[chName + "NLayers3"].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+
+
+def createHitsVariationsDict(channelDict):
     for ch in channelDict:
         chName = channelDict[ch].name.value()
-        globals ().update (createChannelVariations (channelDict[ch], chName, None, cutTrkNLayersVariations))
-        globals ().update (createChannelVariations (channelDict[ch], chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-            replaceSingleCut (globals ()[chName + 'NHits3'].cuts,   cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
-            replaceSingleCut (globals ()[chName + 'NLayers3'].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+        globals().update(createChannelVariations(channelDict[ch], chName, None, cutTrkNLayersVariations))
+        globals().update(createChannelVariations(channelDict[ch], chName, cutTrkNValidHitsSignal, cutTrkNValidHitsVariations))
+
+        if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_")):
+            replaceSingleCut(globals()[chName + "NHits3"].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
+            replaceSingleCut(globals()[chName + "NLayers3"].cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
 
 ##########################################################################################################
 # MET leg denominator for all paths
