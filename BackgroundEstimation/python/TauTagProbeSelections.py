@@ -17,7 +17,7 @@ def createHitsVariations (ch, chName):
 ################################################################################
 TauTagSkim = cms.PSet(
     name = cms.string("TauTagSkim"),
-    triggers = triggersSingleMuon,
+    triggers = triggersSingleMu,
     metFilters = metFilters,
     cuts = cms.VPSet (),
 )
