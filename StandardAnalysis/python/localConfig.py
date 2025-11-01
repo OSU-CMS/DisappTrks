@@ -148,7 +148,7 @@ datasetsSig = [
 
 datasetsSigHiggsino = []
 
-if os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_","CMSSW_10_2_","CMSSW_12_4_","CMSSW_13_0_", "CMSSW_15_0_")) or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_13_0_"):
     datasetsSigHiggsino = [
         'Higgsino_100GeV_10cm_76X',
         'Higgsino_100GeV_100cm_76X',

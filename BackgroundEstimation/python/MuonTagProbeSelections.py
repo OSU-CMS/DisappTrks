@@ -190,8 +190,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(MuonFiducialCalcBefore.cuts, [cutTrk2017LowEfficiencyRegion])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     removeCuts(MuonFiducialCalcBefore.cuts, [cutTrk2018LowEfficiencyRegion])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-    removeCuts(MuonFiducialCalcBefore.cuts, [cutTrkEcalo, cutMuonMatchToTrigObj, cutTrkIso]) #FIXME: Make sure this removal is okay
 
 
 MuonFiducialCalcBeforeInvestigate2017Ineff = copy.deepcopy(MuonFiducialCalcBefore)
@@ -207,7 +205,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 MuonFiducialCalcAfter = copy.deepcopy(ZtoMuProbeTrkWithZCuts)
 MuonFiducialCalcAfter.name = cms.string("MuonFiducialCalcAfter")
 
-print("MuonFiducialCalAfterCuts: ", MuonFiducialCalcAfter)
 addCuts(MuonFiducialCalcAfter.cuts, [cutTrkLooseMuonVeto])
 removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkFiducialElectron, cutTrkFiducialMuon])
 
@@ -215,8 +212,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2017LowEfficiencyRegion])
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     removeCuts(MuonFiducialCalcAfter.cuts, [cutTrk2018LowEfficiencyRegion])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-    removeCuts(MuonFiducialCalcAfter.cuts, [cutTrkEcalo, cutMuonMatchToTrigObj, cutTrkIso])  #FIXME: Make sure this removal is okay
 
 MuonFiducialCalcAfterOldCuts = copy.deepcopy(MuonFiducialCalcAfter)
 MuonFiducialCalcAfterOldCuts.name = cms.string("MuonFiducialCalcAfterOldCuts")

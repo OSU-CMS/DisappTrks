@@ -50,7 +50,7 @@ cutMet = cms.PSet(
     cutString = cms.string("noMuPt > 100"),
     numberRequired = cms.string(">= 1"),
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_15_0_"):
     cutMet.cutString = cms.string("noMuPt > 120")
     print("# MetNoMu > 120 GeV")
 else:
@@ -323,7 +323,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     )")
     print('# Using 2018 reqs for Jet TightLepVeto')
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0")):
     cutJetTightLepVeto.cutString = cms.string("\
     (\
     (abs(eta) <= 2.6 && neutralHadronEnergyFraction<0.99 && neutralEmEnergyFraction<0.90 && (chargedMultiplicity + neutralMultiplicity)>1 && muonEnergyFraction<0.8 && chargedHadronEnergyFraction>0.01 && chargedMultiplicity>0 && chargedEmEnergyFraction<0.80) || \
@@ -543,7 +543,7 @@ cutTrkNLayersExclusive = {
 cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
 cutTrkNValidHitsSignal = cutTrkNValidHits[7]
 cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
     cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
@@ -652,7 +652,7 @@ cutTrkIso = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
         # This cut does something very similar to the old trackIsoNoPUDRp3. pfIsolationDR03_.chargedHadronIso sums the pT of all PF charged pions that are compatible to the PV in a DR 0.3 cone around an IsolatedTrack. The 0.05 requirement is the same as the one in the HLT_MET105_IsoTrk50 path. In this way, the track isolation is still PU independent, which makes the efficiency of the cut higher.
         cutTrkIso.cutString = cms.string (" (pfIsolationDR03_.chargedHadronIso / pt) < 0.05")
 
@@ -918,7 +918,7 @@ cutTrkMatchMC = cms.PSet(
 )
 
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
         cutTrkD0.inputCollection = cms.vstring("tracks")
         cutTrkD0.cutString = cms.string("fabs (dxy) < 0.02")
 
@@ -1000,7 +1000,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Muon PT cut: >26 GeV (2018)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
     print("# Muon PT cut: >26 GeV (2022) FIXME")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")
@@ -1060,7 +1060,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     cutMuonPairPt.cutString = cms.string("pt > 29")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     cutMuonPairPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
     cutMuonPairPt.cutString = cms.string("pt > 26")
 
 cutMuonPairEta21 = cms.PSet (
@@ -1307,7 +1307,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Electron PT cut: >32 GeV (2018)")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+elif os.environ["CMSSW_VERSION"].startswith(("CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0_"))
     print("# Electron PT cut: >32 GeV (2022) FIXME")
     cutElectronPt.cutString = cms.string("pt > 32")
     cutElectronMatchToTrigObj.cutString = cms.string("match_HLT_Ele32_WPTight_Gsf_v")
@@ -1569,7 +1569,7 @@ cutTrkIsoTight = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 if not UseCandidateTracks:
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    if os.environ["CMSSW_VERSION"].startswith(("CMSSW_9_4_", "CMSSW_10_2_", "CMSSW_12_4_", "CMSSW_13_0_", "CMSSW_15_0"))
         # This cut does something very similar to the old trackIsoNoPUDRp3. pfIsolationDR03_.chargedHadronIso sums the pT of all PF charged pions that are compatible to the PV in a DR 0.3 cone around an IsolatedTrack. The 0.01 requirement is the same as the one used above for a tighter isolation cut.
         cutTrkIsoTight.cutString = cms.string (" (pfIsolationDR03_.chargedHadronIso / pt) < 0.01")
 cutLeadTrkMatchHLTTrack = cms.PSet(

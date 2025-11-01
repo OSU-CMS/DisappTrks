@@ -293,4 +293,4 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2022
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2022
 else:
-    print("# Lepton SFs: 2015")
+    print("Didn't Load Lepton SFs")
