@@ -116,11 +116,11 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     LogDebug("l1t|Global") << "retrieved L1 data from GT Util" << endl;
 
     // grab the map for the final decisions
-    const std::vector<std::pair<std::string, bool>> initialDecisions = gtUtil_->decisionsInitial();
-    const std::vector<std::pair<std::string, bool>> intermDecisions = gtUtil_->decisionsInterm();
-    const std::vector<std::pair<std::string, bool>> finalDecisions = gtUtil_->decisionsFinal();
-    const std::vector<std::pair<std::string, double>> prescales = gtUtil_->prescales();
-    const std::vector<std::pair<std::string, std::vector<int>>> masks = gtUtil_->masks();
+    const std::vector<std::pair<std::string_view, bool>> initialDecisions = gtUtil_->decisionsInitial();
+    const std::vector<std::pair<std::string_view, bool>> intermDecisions = gtUtil_->decisionsInterm();
+    const std::vector<std::pair<std::string_view, bool>> finalDecisions = gtUtil_->decisionsFinal();
+    const std::vector<std::pair<std::string_view, double>> prescales = gtUtil_->prescales();
+    const std::vector<std::pair<std::string_view, std::vector<int>>> masks = gtUtil_->masks();
 
     if ((decisionCount_.size() != gtUtil_->decisionsInitial().size()) ||
         (intermCount_.size() != gtUtil_->decisionsInterm().size()) ||
@@ -142,7 +142,7 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     }
     for (unsigned int i = 0; i < initialDecisions.size(); i++) {
       // get the name and trigger result
-      std::string name = (initialDecisions.at(i)).first;
+      std::string_view name = (initialDecisions.at(i)).first;
       //if (name == "NULL")
       //  continue;
 
@@ -166,7 +166,7 @@ void L1MenuAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       //cout << i << " " << decisionCount_[i] << "\n";
 
       if (true) {
-        cout << std::dec << setfill(' ') << "   " << setw(5) << i << "   " << setw(40) << name.c_str() << "   "
+        cout << std::dec << setfill(' ') << "   " << setw(5) << i << "   " << setw(40) << name << "   "
              << setw(7) << resultInit << setw(7) << resultInterm << setw(7) << resultFin << setw(10) << prescale
              << setw(11) << mask.size() << endl;
       }
