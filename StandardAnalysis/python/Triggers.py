@@ -193,7 +193,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): #FIXME
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_15_"): #FIXME
     triggersSingleTau = cms.vstring(
         "HLT_IsoMu20_eta2p1_LooseDeepTauPFTauHPS27_eta2p1_CrossL1_v",
     )
