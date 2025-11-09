@@ -65,24 +65,6 @@ cutsToAdd = [
 addCuts(ZtoMuMuISRStudyJet30.cuts, cutsToAdd)
 
 ################################################################################
-## JEC signal systematic
-################################################################################
-
-disTrkSelectionJECUp = copy.deepcopy(disTrkSelection)
-disTrkSelectionJECUp.name = cms.string("disTrkSelectionJECUp")
-removeCuts(disTrkSelectionJECUp.cuts, [cutJetPt])
-addCuts(disTrkSelectionJECUp.cuts, [cutJetPtJECUp])
-
-disTrkSelectionJECDown = copy.deepcopy(disTrkSelection)
-disTrkSelectionJECDown.name = cms.string("disTrkSelectionJECDown")
-removeCuts(disTrkSelectionJECDown.cuts, [cutJetPt])
-addCuts(disTrkSelectionJECDown.cuts, [cutJetPtJECDown])
-
-createHitsVariations(disTrkSelection,         "disTrkSelection")
-createHitsVariations(disTrkSelectionJECUp,    "disTrkSelectionJECUp")
-createHitsVariations(disTrkSelectionJECDown,  "disTrkSelectionJECDown")
-
-################################################################################
 ## JER signal systematic
 ################################################################################
 

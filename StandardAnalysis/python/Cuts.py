@@ -155,39 +155,29 @@ cutJetPt55 = cms.PSet(
     cutString = cms.string("pt > 55"),
     numberRequired = cms.string(">= 1"),
 )
-cutJetPtJECUp = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pt * (1 + jecUncertainty) > 110"),
-    numberRequired = cms.string(">= 1"),
-)
-cutJetPtJECDown = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pt * (1 - jecUncertainty) > 110"),
-    numberRequired = cms.string(">= 1"),
-)
 cutJetJERSmearedPt = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("smearedPt > 110"),
     numberRequired = cms.string(">= 1"),
 )
-cutJetJERSmearedPtJECUp = cms.PSet(
+cutJetJERSmearedPtJesSystUp = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("smearedPt * (1 + jecUncertainty) > 110"),
+    cutString = cms.string("smearedPtJesSystUp > 110"),
     numberRequired = cms.string(">= 1"),
 )
-cutJetJERSmearedPtJECDown = cms.PSet(
+cutJetJERSmearedPtJesSystDown = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("smearedPt * (1 - jecUncertainty) > 110"),
+    cutString = cms.string("smearedPtJesSystDown > 110"),
     numberRequired = cms.string(">= 1"),
 )
 cutJetJERSmearedPtUp = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("smearedPtUp > 110"),
+    cutString = cms.string("smearedPtJerSystUp > 110"),
     numberRequired = cms.string(">= 1"),
 )
 cutJetJERSmearedPtDown = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("smearedPtDown > 110"),
+    cutString = cms.string("smearedPtJerSystDown > 110"),
     numberRequired = cms.string(">= 1"),
 )
 cutVetoL1PrefiringJets = cms.PSet(
