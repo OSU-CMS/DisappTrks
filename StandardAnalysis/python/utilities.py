@@ -384,7 +384,7 @@ def changeMuonTriggerFilter(process, path, collection, filter):
             moduleOSUTrackProducer = getattr(process, strOSUTrackProducer)
             moduleOSUTrackProducer.muonTriggerFilter = cms.string(filter)
 
-def changeJetCorrectionNames(process, file, period, era):
+def changeJetCorrectionNames(process, year, eraTag, isData):
     strsOSUJetProducer = []
 
     attrs = (vars(process))['_Process__producers']
@@ -396,9 +396,9 @@ def changeJetCorrectionNames(process, file, period, era):
     for strOSUJetProducer in strsOSUJetProducer:
         if hasattr (process, strOSUJetProducer):
             moduleOSUJetProducer = getattr(process, strOSUJetProducer)
-            moduleOSUJetProducer.jecjerFile = cms.FileInPath(file)
-            moduleOSUJetProducer.dataPeriod = cms.string(period)
-            moduleOSUJetProducer.dataEra = cms.string(era)
+            moduleOSUJetProducer.eraTag = cms.string(eraTag)
+            moduleOSUJetProducer.year = cms.string(year)
+            moduleOSUJetProducer.isData = isData
 
 def changeScaleFactorsRun3(process, version, prefix=''):
     strsObjectScalingFactorProducer = []

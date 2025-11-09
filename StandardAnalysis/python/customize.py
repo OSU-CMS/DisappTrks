@@ -211,18 +211,14 @@ def customize (process,
             mc_global_tag = '130X_mcRun3_2022_realistic_postEE_v6'
 
         if runEra in ['C', 'D']:
-
             changeMuonTriggerFilter(process,'HLT_IsoMu24_v','hltIterL3MuonCandidates::HLT','hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p08')
-            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22_AK4PFPuppi.root','Summer22','_RunCD')
+            changeJetCorrectionNames(process, "2022Pre", f"Era2022{runEra}", realData)
 
             if not realData:
-
                 changeScaleFactorsRun3(process,'2022CD')
                 changeLeptonWeightsRun3(process,'2022CD')
-
-        if runEra in ['E']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunE')
-        if runEra in ['F']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunF')
-        if runEra in ['G']: changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer22EE_AK4PFPuppi.root','Summer22EE','_RunG')
+        else:
+            changeJetCorrectionNames(process, "2022Post", f"Era2022{runEra}", realData)
 
         process.PUScalingFactorProducer.PU = cms.FileInPath ('DisappTrks/StandardAnalysis/data/pu_disappTrks_run3.root')
         process.PUScalingFactorProducer.target = cms.string ("data2022")
@@ -283,22 +279,18 @@ def customize (process,
             mc_global_tag = '130X_mcRun3_2023_realistic_postBPix_v2'
 
         if runEra in ['C']:
-
             if not realData:
-
                 changeScaleFactorsRun3(process,'2023C')
                 changeLeptonWeightsRun3(process,'2023C')
 
-            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23_AK4PFPuppi.root','Summer23','')
+            changeJetCorrectionNames(process, "2023Pre", "Era2023PreAll", realData)
 
         if runEra in ['D']:
-
             if not realData:
-
                 changeScaleFactorsRun3(process,'2023D',prefix='NoHole')
                 changeLeptonWeightsRun3(process,'2023D',prefix='NoHole')
 
-            changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer23BPix_AK4PFPuppi.root','Summer23BPix','')
+            changeJetCorrectionNames(process, "2023Post", "Era2023PostAll", realData)
 
             strsPlotter = []
             strsObjectScalingFactorProducer = []
