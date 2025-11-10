@@ -9,7 +9,7 @@ import subprocess
 ################################################################################
 # Create the skeleton process
 ################################################################################
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_15_"):
     from Configuration.Eras.Era_Run3_cff import Run3
     process = cms.Process ('OSUAnalysis',Run3)
 else:
