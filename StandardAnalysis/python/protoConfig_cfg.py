@@ -60,7 +60,7 @@ process.maxEvents = cms.untracked.PSet (
 )
 
 process.options = cms.untracked.PSet (
-    SkipEvent = cms.untracked.vstring ("ProductNotFound", "MismatchedInputFiles")
+    TryToContinue = cms.untracked.vstring ("ProductNotFound", "MismatchedInputFiles")
 )
 ################################################################################
 
@@ -164,7 +164,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
         print("# Collections: collectionMapMiniAOD2017 with candidateTrackProducer")
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
         collMap.secondaryTracks = cms.InputTag ('candidateTrackProducer')
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_15_"):
     collMap = copy.deepcopy(collectionMapMiniAOD2022)
     if UseCandidateTracks:
         collMap.tracks = cms.InputTag ('candidateTrackProducer')
