@@ -263,7 +263,7 @@ def moveVariableProducer (process, producerName, channelName):
     if hasattr (eventvariableProducer.collections, "eventvariables") and hasattr (eventvariableProducer.collections, "uservariables"):
         eventvariables = getattr (eventvariableProducer.collections, "eventvariables")
         uservariables = getattr (eventvariableProducer.collections, "uservariables")
-        eventvariables.setModuleLabel (producerLabel + "Copy" + str(moveVariableProducerIndex))
+        eventvariables[0].setModuleLabel (producerLabel + "Copy" + str(moveVariableProducerIndex))
         for i in range (0, len (uservariables)):
             if uservariables[i].getModuleLabel () == producerLabel or uservariables[i].getModuleLabel () == producerLabel:
                 uservariables[i].setModuleLabel (producerLabel + "Copy" + str(moveVariableProducerIndex))
