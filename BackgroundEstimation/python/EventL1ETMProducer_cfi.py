@@ -108,7 +108,7 @@ def customizeForL1ETMProducer (producer, year="2022"):
             print("# Unknown producer type! Cannot set collection for tag lepton.")
             exit (1)
 
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0"):
         print("# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...")
 
         # The items in each vector correspond to the following triggers, in this order:
