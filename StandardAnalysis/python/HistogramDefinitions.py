@@ -1374,16 +1374,16 @@ JetExtraHistograms = cms.PSet(
             inputVariables = cms.vstring("smearedPt"),
         ),
         cms.PSet (
-            name = cms.string("smearedPtUp"),
-            title = cms.string("smearedPtUp;Smeared Jet Pt Up"),
+            name = cms.string("smearedPtJerSystUp"),
+            title = cms.string("smearedPtJerSystUp;Smeared Jet Pt JER Syst Up"),
             binsX = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("smearedPtUp"),
+            inputVariables = cms.vstring("smearedPtJerSystUp"),
         ),
         cms.PSet (
-            name = cms.string("smearedPtDown"),
-            title = cms.string("smearedPtDown;Smeared Jet Pt Down"),
+            name = cms.string("smearedPtJerSystDown"),
+            title = cms.string("smearedPtJerSystDown;Smeared Jet Pt JER Syst Down"),
             binsX = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("smearedPtDown"),
+            inputVariables = cms.vstring("smearedPtJerSystDown"),
         ),
     )
 )
