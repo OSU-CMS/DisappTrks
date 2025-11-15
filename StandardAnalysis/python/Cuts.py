@@ -543,7 +543,7 @@ cutTrkNLayersExclusive = {
 cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[3]
 cutTrkNValidHitsSignal = cutTrkNValidHits[7]
 cutTrkNValidHitsVariations = {"NHits" + str(x) : cutTrkNValidHitsExclusive[x] for x in range(3, 7)}
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     cutTrkNValidPixelHitsSignal = cutTrkNValidPixelHits[4]
     cutTrkNValidHitsSignal = cutTrkNValidHits[4]
     cutTrkNValidHitsVariations.update({"NHits7plus" : cutTrkNValidHits[7]})
@@ -1000,7 +1000,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Muon PT cut: >26 GeV (2018)")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v") 
     cutMuonPt.cutString = cms.string("pt > 26")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     print("# Muon PT cut: >26 GeV (2022) FIXME")
     cutMuonMatchToTrigObj.cutString = cms.string ("match_HLT_IsoMu24_v")
     cutMuonPt.cutString = cms.string("pt > 26")

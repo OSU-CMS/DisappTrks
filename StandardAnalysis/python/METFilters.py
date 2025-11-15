@@ -30,13 +30,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
   metFilters.append("Flag_globalSuperTightHalo2016Filter")
 
 # Following recommendations in https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Run_3_recommendations
-# ecalBadCalibFilter is implemented in protoConfig_cfg.py
+# ecalBadCalibFilter is implemented in protoConfig_cfg.py for 2022 and 2023
 if os.environ["CMSSW_VERSION"].startswith("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
   metFilters.remove("Flag_globalTightHalo2016Filter")
   metFilters.remove("Flag_HBHENoiseFilter")
   metFilters.remove("Flag_HBHENoiseIsoFilter")
+
   metFilters.append("Flag_BadPFMuonFilter")
   metFilters.append("Flag_BadPFMuonDzFilter")
   metFilters.append("Flag_globalSuperTightHalo2016Filter")
   metFilters.append("Flag_hfNoisyHitsFilter")
   metFilters.append("Flag_eeBadScFilter")
+
+# No modifications needed to be made to ecalBadCalibFilter for 2024 just using default
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
+  metFilters.append("Flag_ecalBadCalibFilter")

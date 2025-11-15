@@ -25,7 +25,7 @@ tagMuonCuts = [
     cutMuonPt, # this will be >22 for 76X and >26 for 80X
     cutMuonEta21,
     cutMuonTightID,
-    cutMuonTightPFIso,
+    cutMuonTightPFIso, # This can be simplified with miniAOD
 ]
 addCuts(MuonTagSkim.cuts, tagMuonCuts)
 
@@ -199,7 +199,7 @@ addCuts(MuonFiducialCalcBeforeInvestigate2017Ineff.cuts, [cutTrkInvestigate2017I
 
 MuonFiducialCalcBeforeOldCuts = copy.deepcopy(MuonFiducialCalcBefore)
 MuonFiducialCalcBeforeOldCuts.name = cms.string("MuonFiducialCalcBeforeOldCuts")
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidPixelHits[3], cutTrkNValidPixelHitsSignal)
     replaceSingleCut(MuonFiducialCalcBeforeOldCuts.cuts, cutTrkNValidHits[7], cutTrkNValidHitsSignal)
 
