@@ -138,7 +138,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         "HLT_IsoMu24_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): #FIXME
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"): #FIXME
     triggersSingleMu = cms.vstring(
         "HLT_IsoMu24_v",
     )

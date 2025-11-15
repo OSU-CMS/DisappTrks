@@ -354,7 +354,24 @@ def customize (process,
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
+        # TODO: Needs fixed
         changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer24_AK4PFPuppi.root','Summer24','')
+
+        # Not used for real data
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
+        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2023')
+        process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        # Not used for real data
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2023')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2023')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
     elif runPeriod == "2025":
 

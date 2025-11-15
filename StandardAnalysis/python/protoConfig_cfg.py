@@ -43,7 +43,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     process.source.fileNames = cms.untracked.vstring([
         "root://cmsxrootd.fnal.gov//store/user/kwei/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-DisappTrks-v1/190523_025238/0000/step1_PAT_222.root",
     ])
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     process.source.inputCommands = cms.untracked.vstring(["keep *"])
     process.source.fileNames = cms.untracked.vstring([
     'root://cmseosmgm01.fnal.gov:1094//store/group/lpclonglived/DisappTrks/JetMET/MET_2022D_basicSelectionInvertJetMetPhiCutv1p3/250522_133403/0000/skim_BasicSelectionInvertJetMetPhiCut_2025_05_22_08h32m09s_1.root'
@@ -133,7 +133,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VE
     process.passecalBadCalibFilterUpdatePath = cms.Path (process.ecalBadCalibReducedMINIAODFilter)
 
 # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Run_3_recommendations
-
+# Only needed in 2022 and 2023
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
 
     baddetEcallist = cms.vuint32([838871812]) # This is the only badly calibrated crystal in 2022 and 2023
@@ -229,7 +229,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 ################################################################################
 # Set up the default event weights
 ################################################################################
-from DisappTrks.StandardAnalysis.EventWeights import *
+#################################################################################
+from DisappTrks.StandardAnalysis.EventWeights import * # Don't believe these are used for real data
 ################################################################################
 
 ################################################################################
