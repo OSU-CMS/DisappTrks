@@ -1012,11 +1012,13 @@ cutMuonEta21 = cms.PSet (
     cutString = cms.string("fabs(eta) < 2.1"),
     numberRequired = cms.string(">= 1"),
 )
+# isTightMuonWRTVtx is for Run 2, in OSUMuonProducer.cc:94 isTightMuon is used which is the Run3 recommendation for miniAOD
 cutMuonTightID = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Tight_Muon
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("isTightMuonWRTVtx > 0"),
     numberRequired = cms.string(">= 1"),
 )
+
 cutMuonLoosePFIso = cms.PSet (  # Recommended by https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("(pfIsolationR04_.sumChargedHadronPt + max (0.0, pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5 * pfIsolationR04_.sumPUPt)) / pt < 0.25"),
