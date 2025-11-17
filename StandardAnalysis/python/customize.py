@@ -347,7 +347,7 @@ def customize (process,
         print("Using jet veto map for 2024 eras B-I")
 
         # TODO: Needs fixed
-        changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer24_AK4PFPuppi.root','Summer24','')
+        changeJetCorrectionNames(process, "2024", f"Era2024All", realData)
 
         # Not used for real data
         process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
