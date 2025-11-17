@@ -65,10 +65,10 @@ if False:
 
 # JEC systematic channels
 if False:
-	#add_channels  (process,  [disTrkSelectionSmearedJetsJECUp,              disTrkSelectionSmearedJetsJECDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers4,      disTrkSelectionSmearedJetsJECDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers5,      disTrkSelectionSmearedJetsJECDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
-	add_channels  (process,  [disTrkSelectionSmearedJetsJECUpNLayers6plus,  disTrkSelectionSmearedJetsJECDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	#add_channels  (process,  [disTrkSelectionSmearedJetsJesUp,              disTrkSelectionSmearedJetsJesDown],              histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJesUpNLayers4,      disTrkSelectionSmearedJetsJesDownNLayers4],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJesUpNLayers5,      disTrkSelectionSmearedJetsJesDownNLayers5],      histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
+	add_channels  (process,  [disTrkSelectionSmearedJetsJesUpNLayers6plus,  disTrkSelectionSmearedJetsJesDownNLayers6plus],  histSets,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
 # JER systematic channels
 if False:
