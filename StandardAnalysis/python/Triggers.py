@@ -8,7 +8,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print("# Triggers: 2017")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print("# Triggers: 2018")
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     print("# Triggers: 2022 FIXME")
 else:
     print("# Triggers: 2015")
@@ -24,7 +24,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
     )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     triggersMetAndIsoTrk = cms.vstring(
         "HLT_MET105_IsoTrk50_v", # trigger designed for disappearing tracks
         "HLT_MET120_IsoTrk50_v",
@@ -95,7 +95,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         "HLT_PFMETTypeOne200_HBHE_BeamHaloCleaned_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
     triggersMetInclusive = cms.vstring(
         'HLT_PFMET120_PFMHT120_IDTight_v',
         'HLT_PFMET130_PFMHT130_IDTight_v',
@@ -170,7 +170,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         "HLT_Ele32_WPTight_Gsf_v",
     )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"): #FIXME
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"): #FIXME
     triggersSingleEle = cms.vstring(
         "HLT_Ele32_WPTight_Gsf_v",
     )
