@@ -398,7 +398,7 @@ def changeJetCorrectionNames(process, year, eraTag, isData):
             moduleOSUJetProducer = getattr(process, strOSUJetProducer)
             moduleOSUJetProducer.eraTag = cms.string(eraTag)
             moduleOSUJetProducer.year = cms.string(year)
-            moduleOSUJetProducer.isData = isData
+            moduleOSUJetProducer.isData = cms.bool(isData)
 
 def changeScaleFactorsRun3(process, version, prefix=''):
     strsObjectScalingFactorProducer = []
