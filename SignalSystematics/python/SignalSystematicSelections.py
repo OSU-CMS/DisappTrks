@@ -65,24 +65,6 @@ cutsToAdd = [
 addCuts(ZtoMuMuISRStudyJet30.cuts, cutsToAdd)
 
 ################################################################################
-## JEC signal systematic
-################################################################################
-
-disTrkSelectionJECUp = copy.deepcopy(disTrkSelection)
-disTrkSelectionJECUp.name = cms.string("disTrkSelectionJECUp")
-removeCuts(disTrkSelectionJECUp.cuts, [cutJetPt])
-addCuts(disTrkSelectionJECUp.cuts, [cutJetPtJECUp])
-
-disTrkSelectionJECDown = copy.deepcopy(disTrkSelection)
-disTrkSelectionJECDown.name = cms.string("disTrkSelectionJECDown")
-removeCuts(disTrkSelectionJECDown.cuts, [cutJetPt])
-addCuts(disTrkSelectionJECDown.cuts, [cutJetPtJECDown])
-
-createHitsVariations(disTrkSelection,         "disTrkSelection")
-createHitsVariations(disTrkSelectionJECUp,    "disTrkSelectionJECUp")
-createHitsVariations(disTrkSelectionJECDown,  "disTrkSelectionJECDown")
-
-################################################################################
 ## JER signal systematic
 ################################################################################
 
@@ -98,13 +80,13 @@ disTrkSelectionSmearedJetsDown = copy.deepcopy(disTrkSelection)
 disTrkSelectionSmearedJetsDown.name = cms.string("disTrkSelectionSmearedJetsDown")
 replaceSingleCut (disTrkSelectionSmearedJetsDown.cuts, cutJetJERSmearedPtDown, cutJetPt)
 
-disTrkSelectionSmearedJetsJECUp = copy.deepcopy(disTrkSelection)
-disTrkSelectionSmearedJetsJECUp.name = cms.string("disTrkSelectionSmearedJetsJECUp")
-replaceSingleCut (disTrkSelectionSmearedJetsJECUp.cuts, cutJetJERSmearedPtJECUp, cutJetPt)
+disTrkSelectionSmearedJetsJesUp = copy.deepcopy(disTrkSelection)
+disTrkSelectionSmearedJetsJesUp.name = cms.string("disTrkSelectionSmearedJetsJesUp")
+replaceSingleCut (disTrkSelectionSmearedJetsJesUp.cuts, cutJetJERSmearedPtJesSystUp, cutJetPt)
 
-disTrkSelectionSmearedJetsJECDown = copy.deepcopy(disTrkSelection)
-disTrkSelectionSmearedJetsJECDown.name = cms.string("disTrkSelectionSmearedJetsJECDown")
-replaceSingleCut (disTrkSelectionSmearedJetsJECDown.cuts, cutJetJERSmearedPtJECDown, cutJetPt)
+disTrkSelectionSmearedJetsJesDown = copy.deepcopy(disTrkSelection)
+disTrkSelectionSmearedJetsJesDown.name = cms.string("disTrkSelectionSmearedJetsJesDown")
+replaceSingleCut (disTrkSelectionSmearedJetsJesDown.cuts, cutJetJERSmearedPtJesSystDown, cutJetPt)
 
 disTrkSelectionSmearedJetsL1PrefiringTest = copy.deepcopy(disTrkSelectionSmearedJets)
 disTrkSelectionSmearedJetsL1PrefiringTest.name = cms.string("disTrkSelectionSmearedJetsL1PrefiringTest")
@@ -114,8 +96,8 @@ createHitsVariations(disTrkSelectionSmearedJets,        "disTrkSelectionSmearedJ
 createHitsVariations(disTrkSelectionSmearedJetsHEMveto, "disTrkSelectionSmearedJetsHEMveto")
 createHitsVariations(disTrkSelectionSmearedJetsUp,      "disTrkSelectionSmearedJetsUp")
 createHitsVariations(disTrkSelectionSmearedJetsDown,    "disTrkSelectionSmearedJetsDown")
-createHitsVariations(disTrkSelectionSmearedJetsJECUp,   "disTrkSelectionSmearedJetsJECUp")
-createHitsVariations(disTrkSelectionSmearedJetsJECDown, "disTrkSelectionSmearedJetsJECDown")
+createHitsVariations(disTrkSelectionSmearedJetsJesUp,   "disTrkSelectionSmearedJetsJesUp")
+createHitsVariations(disTrkSelectionSmearedJetsJesDown, "disTrkSelectionSmearedJetsJesDown")
 createHitsVariations(disTrkSelectionSmearedJetsL1PrefiringTest, "disTrkSelectionSmearedJetsL1PrefiringTest")
 
 createHitsVariations(disTrkSelectionSmearedJetsLooseVetoes, "disTrkSelectionSmearedJetsLooseVetoes")
