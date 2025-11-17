@@ -346,6 +346,7 @@ def customize (process,
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
         # TODO: Needs fixed
         changeJetCorrectionNames(process, "2024", f"Era2024All", realData)
 
