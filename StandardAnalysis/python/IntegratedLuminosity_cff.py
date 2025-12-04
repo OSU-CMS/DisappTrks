@@ -437,7 +437,15 @@ lumi_2023_promptReco = {
     "Tau_2023C": 4351.994672 + 1272.559899 + 1604.898825 + 10854.987443, # The 2023 C samples are divided in 4 versions, that is why the lumis are displayed as the sums
     "Tau_2023D": 7986.390339 + 1705.710797 # The 2023 D samples are divided in 2 versions, that is why the lumis are displayed as the sums
 }
-
+lumi_2024 = {
+    "Muon_2024C": 6587.017170174,
+    "Muon_2024D": 7932.086430022,
+    "Muon_2024E": 11279.119389046,
+    "Muon_2024F": 25411.488852840,
+    "Muon_2024G": 36392.283866818,
+    "Muon_2024H": 5284.113839244,
+    "Muon_2024I": 11133.551308097
+}
 # now create a single lumi dict, starting with 2015
 lumi = lumi_2015rereco
 
@@ -446,6 +454,7 @@ lumi = InsertYear(lumi_2017_ntuples, lumi)
 lumi = InsertYear(lumi_2018_ntuples, lumi)
 lumi = InsertYear(lumi_2022_promptReco, lumi)
 lumi = InsertYear(lumi_2023_promptReco, lumi)
+lumi = InsertYear(lumi_2024, lumi)
 
 # set up some composite aliases for convenience
 lumi["MET_2016H"]                                         =  lumi["MET_2016H_v2"] + lumi["MET_2016H_v3"]
@@ -463,4 +472,4 @@ lumi = CreateCompositeLumis(lumi, '2017', 'BCDEF')
 lumi = CreateCompositeLumis(lumi, '2018', 'ABCD')
 lumi = CreateCompositeLumis(lumi, '2022', 'CDEFG')
 lumi = CreateCompositeLumis(lumi, '2023', 'CDE')
-
+lumi = CreateCompositeLumis(lumi, '2024' 'CDEFGHI')
