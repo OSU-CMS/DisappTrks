@@ -346,7 +346,23 @@ def customize (process,
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
-        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
+        if runEra == "C":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root")
+        elif runEra == "D":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024D_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024D_data.root")
+        elif runEra == "E":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024E_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024E_data.root")
+        elif runEra == "F":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024F_data.root")
+        elif runEra == "G":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024G_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024G_data.root")
+        elif runEra == "H":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024H_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024H_data.root")
+        elif runEra == "I":
+            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024I_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024I_data.root")
+        else:
+            print("A valid era was not used!!")
+            raise SystemExit # Exit process without extra import (this is what sys.exit() does anyways), since something is obviously wrong
         # TODO: Needs fixed
         changeJetCorrectionNames(process, "2024", f"Era2024All", realData)
 
