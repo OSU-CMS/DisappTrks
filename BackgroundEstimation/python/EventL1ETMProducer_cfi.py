@@ -124,9 +124,16 @@ def customizeForL1ETMProducer (producer, year="2022"):
         if year == "2022":
             print("Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2022.txt")
             producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2022.txt") #Should be fixed later
-        else:
+        elif year == "2023":
             print("Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2023.txt")
             producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2023.txt") #Should be fixed later
+        elif year == "2024":
+            print("Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt")
+            producer.l1Prescales = cms.FileInPath ("DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt") #Should be fixed later
+        else:
+            print("Invalid year used!")
+            raise SystemExit
+            
 
 
         if producer.type_ () == "EventElectronL1ETMProducer":
