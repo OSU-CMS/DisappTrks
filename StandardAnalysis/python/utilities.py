@@ -399,6 +399,7 @@ def changeJetCorrectionNames(process, year, eraTag, isData):
             moduleOSUJetProducer.eraTag = cms.string(eraTag)
             moduleOSUJetProducer.year = cms.string(year)
             moduleOSUJetProducer.isData = cms.bool(isData)
+            moduleOSUJetProducer.jecCorrectionsFile = cms.FileInPath(f"OSUT3Analysis/Collections/data/JecCorrections_{year}_{'Data' if isData else 'MC'}.json.gz")
 
 def changeScaleFactorsRun3(process, version, prefix=''):
     strsObjectScalingFactorProducer = []
