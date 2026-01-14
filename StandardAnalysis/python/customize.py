@@ -343,6 +343,7 @@ def customize (process,
     elif runPeriod == "2024":
 
         data_global_tag = '150X_dataRun3_v2'
+        mc_global_tag = '150X_mcRun3_2024_realistic_v2'
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
