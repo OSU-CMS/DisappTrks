@@ -347,25 +347,18 @@ def customize (process,
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using jet veto map for 2024 eras B-I")
 
-        if runEra == "C":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root")
-        elif runEra == "D":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024D_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024D_data.root")
-        elif runEra == "E":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024E_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024E_data.root")
-        elif runEra == "F":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024F_data.root")
-        elif runEra == "G":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024G_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024G_data.root")
-        elif runEra == "H":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024H_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024H_data.root")
-        elif runEra == "I":
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024I_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024I_data.root")
-        else:
+        if runEra not in ["C", "D", "E", "F", "G", "H", "I"]:
             print("A valid era was not used!!")
             raise SystemExit # Exit process without extra import (this is what sys.exit() does anyways), since something is obviously wrong
+
+        setFiducialMaps(
+            process,
+            electrons=f"OSUT3Analysis/Configuration/data/electronFiducialMap_2024{runEra}_data.root",
+            muons=f"OSUT3Analysis/Configuration/data/muonFiducialMap_2024{runEra}_data.root"
+        )
+
         # TODO: Needs fixed
-        changeJetCorrectionNames(process, "2024", f"Era2024All", realData)
+        changeJetCorrectionNames(process, "2024", "Era2024All", realData)
 
         # Not used for real data
         process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
@@ -384,13 +377,29 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
     elif runPeriod == "2025":
-
         data_global_tag = '150X_dataRun3_Prompt_v1'
         process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer24Prompt24_RunBCDEFGHI.root')
         print("Using 2024 jet veto map for 2025 eras B-I (temporarily)")
 
-        # TODO: Replace with 2025 when 2025 stuff comes out
-        changeJetCorrectionNames(process,'OSUT3Analysis/Collections/data/JetEnergyCorrections/Summer24_AK4PFPuppi.root','Summer24','')
+        changeJetCorrectionNames(process, '2025', 'Era2025All', realData)
+
+        # Not used for real data
+        process.ISRWeightProducer.weightFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/isrWeight_disappTrks_run3.root')
+        process.ISRWeightProducer.weightHist = cms.vstring('Muon_2023')
+        process.ISRWeightProducer.pdgIds = cms.vint32(1000022, 1000024)
+        process.ISRWeightProducer.motherIdsToReject = cms.vint32()
+        process.ISRWeightProducer.requireLastNotFirstCopy = cms.bool(True) # Pythia8 style
+
+        # Not used for real data
+        process.TriggerWeightProducer.efficiencyFile = cms.FileInPath ('DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root')
+        process.TriggerWeightProducer.dataset = cms.string('Muon_2023')
+        process.TriggerWeightProducer.target = cms.string('WJetsToLNu_2023')
+        process.TriggerWeightProducer.inclusiveMetTriggers = triggersMetInclusive
+        process.TriggerWeightProducer.produceMetLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
+        process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
+
+        setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root")
 
 
     #set the global tag
