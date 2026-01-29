@@ -1563,6 +1563,19 @@ MetHistograms = cms.PSet(
 
 ##############################################################################################
 
+TrackHistogramsMinimal =cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("trackPt"),
+            title = cms.string("Track Transverse Momentum;track p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 10, 510),
+            inputVariables = cms.vstring("pt"),
+        )
+    )
+)
+
+
 TrackHistograms = cms.PSet(
      inputCollection = cms.vstring("tracks"),
      histograms = cms.VPSet (
@@ -1748,7 +1761,6 @@ TrackBeamspotHistograms = cms.PSet(
 
 
 ##############################################################################################
-
 TrackEventVarHistograms = cms.PSet(
     # To produce these histograms, include in your PSet:
     # variableProducers.append("PrimaryVtxVarProducer")
