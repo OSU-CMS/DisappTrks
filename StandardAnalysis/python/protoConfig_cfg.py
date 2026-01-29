@@ -360,6 +360,21 @@ histSetsMuon.append(TrackMuonMETHistograms)
 histSetsMuon.append(MuonEventVariableHistograms)
 histSetsMuon.append(MuonIPHistograms)
 
+# Minimal amount of histograms needed to background estimation scripts
+# This helps save on memory usage.
+histSetsBackgroundMinimal = cms.VPSet(
+    TrackHistogramsMinimal,
+    TrackExtraHistogramsMinimal,
+    MetExtraHistogramsMinimal,
+    TrackTauHistograms,
+    ElectronEventVariableHistogramsMinimal,
+    MuonEventVariableHistogramsMinimal,
+    TauEventVariableHistogramsMinimal,
+    TrackMuonHistogramsMinimal,
+    TrackElectronHistogramsMinimal,
+    EventVariableHistogramsMinimal,
+)
+
 histSetsTau = copy.deepcopy(histSets)
 histSetsTau.append(TauExtraHistograms)
 histSetsTau.append(TrackTauHistograms)
@@ -425,3 +440,4 @@ branchSetsMVA = cms.VPSet (
 )
 
 ################################################################################
+

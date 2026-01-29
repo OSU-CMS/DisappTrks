@@ -85,6 +85,17 @@ TrackDebugEcaloHistograms = cms.PSet(
             ),
     )
 )
+TrackExtraHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet(
+            name = cms.string("trackCaloJetEnergy"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+        )
+    )
+)
 
 TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
@@ -661,6 +672,33 @@ MuonExtraHistograms = cms.PSet(
     )
 )
 
+
+ElectronEventVariableHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeadingVsElectronMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected electron,leading jet)|"),
+            binsX = metBins,
+            binsY = deltaPhiBins,
+            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "fabs (dPhi (electron.metNoMuMinusOnePhi, eventvariable.phiJetLeading))"),
+        ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutElectronVsElectronMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes E_{T}^{miss, no #mu} triggers without selected electron"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(3, -0.5, 1.5),
+            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutElectron"),
+        ),
+        cms.PSet (
+            name = cms.string("passesL1ETMWithoutElectronVsElectronMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected electron [GeV];passes L1 ETM without selected electron"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.etmPrescale_0"),
+        ),
+    )
+)
 ElectronEventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("electrons", "eventvariables"),
     histograms = cms.VPSet (
@@ -706,6 +744,33 @@ ElectronEventVariableHistograms = cms.PSet(
             binsY = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("electron.metNoMuMinusOnePt", "eventvariable.etmPrescaleUp_0"),
         ),
+    )
+)
+
+MuonEventVariableHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("muons", "eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeadingVsMuonMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected muon,leading jet)|"),
+            binsX = metBins,
+            binsY = deltaPhiBins,
+            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "fabs (dPhi (muon.metNoMuMinusOnePhi, eventvariable.phiJetLeading))"),
+        ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutMuonVsMuonMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes E_{T}^{miss, no #mu} triggers without selected muon"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(3, -0.5, 1.5),
+            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutMuon"),
+        ),
+        cms.PSet (
+            name = cms.string("passesL1ETMWithoutMuonVsMuonMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected muon [GeV];passes L1 ETM without selected muon"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("muon.metNoMuMinusOnePt", "eventvariable.etmPrescale_0"),
+        )
     )
 )
 
@@ -757,6 +822,33 @@ MuonEventVariableHistograms = cms.PSet(
     )
 )
 
+TauEventVariableHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("taus", "eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("deltaPhiMetJetLeadingVsTauMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];|#Delta#phi(E_{T}^{miss, no #mu} excluding selected tau,leading jet)|"),
+            binsX = metBins,
+            binsY = deltaPhiBins,
+            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "fabs (dPhi (tau.metNoMuMinusOnePhi, eventvariable.phiJetLeading))"),
+        ),
+        cms.PSet (
+            name = cms.string("passesMETTriggersWithoutTauVsTauMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes E_{T}^{miss, no #mu} triggers without selected tau"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(3, -0.5, 1.5),
+            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.passesMETTriggersWithoutTau"),
+        ),
+        cms.PSet (
+            name = cms.string("passesL1ETMWithoutTauVsTauMetNoMuMinusOnePt"),
+            title = cms.string(";E_{T}^{miss, no #mu} excluding selected tau [GeV];passes L1 ETM without selected tau"),
+            binsX = metBins,
+            binsY = cms.untracked.vdouble(1000, 0.0, 100.0),
+            inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.etmPrescale_0"),
+        ),
+    )
+)
+
 TauEventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("taus", "eventvariables"),
     histograms = cms.VPSet (
@@ -801,6 +893,18 @@ TauEventVariableHistograms = cms.PSet(
             binsX = metBins,
             binsY = cms.untracked.vdouble(1000, 0.0, 100.0),
             inputVariables = cms.vstring("tau.metNoMuMinusOnePt", "eventvariable.etmPrescaleUp_0"),
+        ),
+    )
+)
+
+TrackMuonHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("tracks", "muons"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("invMassNearZ"),
+            title = cms.string(";M(#mu,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 80.0, 100.0),
+            inputVariables = cms.vstring(invMassWithMuon ("muon")),
         ),
     )
 )
@@ -1001,6 +1105,17 @@ TrackMuonMETHistograms = cms.PSet(
 )
 
 
+TrackElectronHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("tracks", "electrons"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("invMassNearZ"),
+            title = cms.string(";M(e,track) [GeV]"),
+            binsX = cms.untracked.vdouble(100, 80.0, 100.0),
+            inputVariables = cms.vstring(invMassWithElectron ("electron")),
+        ),
+    )
+)
 TrackElectronHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks", "electrons"),
     histograms = cms.VPSet (
@@ -1492,6 +1607,17 @@ JetExtraExtraHistograms = cms.PSet(
             ),
     )
 )
+MetExtraHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    histograms = cms.VPSet (
+         cms.PSet (
+            name = cms.string("metNoMu"),
+            title = cms.string("MetNoMu;E_{T}^{miss, no #mu} [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("noMuPt"),
+            )
+        )
+    )
 
 MetExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("mets"),
@@ -1605,6 +1731,55 @@ DiJetHistograms = cms.PSet(
 )
 
 ############################################################################################
+
+EventVariableHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("nGoodTPPairs"),
+            title = cms.string(";number of good T&P pairs"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodTPPairs"),
+        ),
+        cms.PSet (
+            name = cms.string("nGoodSSTPPairs"),
+            title = cms.string(";number of good same-sign T&P pairs"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nGoodSSTPPairs"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPassingVeto"),
+            title = cms.string(";number of probes passing veto"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesPassingVeto"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesPT55"),
+            title = cms.string(";number of good probes pt > 55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesPT55"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesSSPT55"),
+            title = cms.string(";number of good ss probes pt > 55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesSSPT55"),
+        ),
+        cms.PSet (
+            name = cms.string("nProbesFiringTrigger"),
+            title = cms.string(";number of good probes firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nProbesFiringTrigger"),
+        ),
+        cms.PSet (
+            name = cms.string("nSSProbesFiringTrigger"),
+            title = cms.string(";number of good ss probes firing trigger, pt>55"),
+            binsX = cms.untracked.vdouble(10, -0.5, 9.5),
+            inputVariables = cms.vstring("nSSProbesFiringTrigger"),
+        )
+    )
+    
+)
 
 EventVariableHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
