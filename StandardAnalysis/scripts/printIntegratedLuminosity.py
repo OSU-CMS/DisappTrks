@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 import sys, os
 
 def printValidKeys ():

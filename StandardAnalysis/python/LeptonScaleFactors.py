@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 import os
 import copy
 

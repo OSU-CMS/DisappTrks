@@ -4,7 +4,7 @@ import math, os, sys
 from OSUT3Analysis.Configuration.Measurement import Measurement
 from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate, FakeTrackBkgdEstimate, prettyPrintTotals, gaussian
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors, TF1
 from scipy.optimize import minimize
 import numpy as np
