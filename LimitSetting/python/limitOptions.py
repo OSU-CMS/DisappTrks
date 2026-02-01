@@ -6,7 +6,7 @@ if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CM
     exec("from DisappTrks.SignalMC.signalCrossSecs import *")
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     exec("from DisappTrks.SignalMC.signalCrossSecs13p6TeV import *")
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from DisappTrks.StandardAnalysis.utilities import *
 
 dirs = getUser ()
