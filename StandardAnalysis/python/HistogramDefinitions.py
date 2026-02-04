@@ -97,6 +97,24 @@ TrackExtraHistogramsMinimal = cms.PSet(
     )
 )
 
+TrackExtraHistogramsCandTrkMinimal = cms.PSet(
+    inputCollection = cms.vstring("tracks"),
+    histograms = cms.VPSet (
+        cms.PSet(
+            name = cms.string("trackCaloJetEnergy"),
+            title = cms.string("Isolation energy calculated using matchedCaloJetEmEnergy+matchedCaloJetHadEnergy"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("matchedCaloJetEmEnergy + matchedCaloJetHadEnergy"),
+        ),
+        cms.PSet (
+            name = cms.string("trackCaloTot_RhoCorr"),
+            title = cms.string("Isolation energy (PU corr.);E_{calo}^{#DeltaR<0.5} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("caloNewNoPUDRp5CentralCalo"),
+        ),
+    )
+)
+
 TrackExtraHistograms = cms.PSet(
     inputCollection = cms.vstring("tracks"),
     histograms = cms.VPSet (
@@ -459,6 +477,18 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(30, 0, 30),
             binsY = cms.untracked.vdouble(30, 0, 30),
             inputVariables = cms.vstring("hitPattern_.numberOfValidPixelHits", "hitPattern_.numberOfValidHits"),
+        ),
+    )
+)
+
+ElectronExtraHistogramsMinimal = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronMetNoMuMinusOnePt"),
+            title = cms.string("Electron MetNoMu Minus One;E_{T}^{miss, no #mu} excluding selected electron [GeV]"),
+            binsX = metBins,
+            inputVariables = cms.vstring("metNoMuMinusOnePt"),
         ),
     )
 )
