@@ -1,7 +1,14 @@
 import argparse
 import ctypes
+import logging
 import math
+from dataclasses import dataclass
+
+from tabulate import tabulate
 import ROOT
+
+logging.basicConfig(format="%(message)s")
+logger = logging.getLogger(__name__)
 
 # N_est = N_ctrl × prescale × P_pass_veto × P_pass_met × P_pass_trigger / ε_trigger
 
@@ -15,6 +22,109 @@ DEFAULT_LEPTON_TRIGGER_EFFICIENCY = {
     "muon": (0.940, 0.004),
     "tau": (0.900, 0.006),
 }
+
+
+@dataclass
+class IntermediateResult:
+    label: str
+    value: float
+    error: float
+    precision: int = 2
+    formula: str = ""
+
+
+class IntermediateResults:
+    """Collects results from each calculation step."""
+
+    def __init__(self):
+        self._results = []
+
+    def add(self, label, value, error, precision=2, formula=""):
+        self._results.append(IntermediateResult(label, value, error, precision, formula))
+
+    def _format_default(self, result, is_verbose):
+        if result.precision > 0:
+            value_str = f"{result.value:.4g} +/- {result.error:.4g}"
+        else:
+            value_str = f"{result.value:.0f} +/- {result.error:.0f}"
+
+        row = [result.label, value_str]
+        if is_verbose:
+            row.append(result.formula)
+
+        return row
+
+    def _format_value(self, value, error, precision):
+        if precision is not None:
+            return f"{value:.{precision}f} +/- {error:.{precision}f}"
+        return f"{value:.4g} +/- {error:.4g}"
+
+    def _format_latex_value(self, value, error, precision=2):
+        """Format a value and error for LaTeX output.
+
+        If the central value is less than the uncertainty, uses asymmetric
+        error format with lower bound clamped at zero. For very small values
+        (< 0.01), uses scientific notation.
+
+        Args:
+            value: Central value.
+            error: Uncertainty on the value.
+            precision: Number of decimal places for the mantissa.
+
+        Returns:
+            LaTeX-formatted string like "$1.23 \\pm 0.04$" or
+            "$(1.23_{{-1.23}}^{{+2.00}}) \\times 10^{{-3}}$".
+        """
+        use_asymmetric = value < error
+
+        # Check if we need scientific notation
+        if value != 0 and abs(value) < 0.01:
+            exponent = int(math.floor(math.log10(abs(value))))
+            mantissa = value / (10 ** exponent)
+            err_mantissa = error / (10 ** exponent)
+
+            if use_asymmetric:
+                return (f"$({mantissa:.{precision}f}_{{-{mantissa:.{precision}f}}}"
+                        f"^{{+{err_mantissa:.{precision}f}}}) \\times 10^{{{exponent}}}$")
+            else:
+                return f"$({mantissa:.{precision}f} \\pm {err_mantissa:.{precision}f}) \\times 10^{{{exponent}}}$"
+        else:
+            if use_asymmetric:
+                return f"${value:.{precision}f}_{{-{value:.{precision}f}}}^{{+{error:.{precision}f}}}$"
+            else:
+                return f"${value:.{precision}f} \\pm {error:.{precision}f}$"
+
+    def print_default(self, nlayers, is_verbose):
+        by_label = {r.label: r for r in self._results}
+        rows = [
+            self._format_default(by_label["Lepton trigger eff"], is_verbose),
+            self._format_default(by_label["N_tagged"], is_verbose),
+            self._format_default(by_label["P(pass lepton veto)"], is_verbose),
+            self._format_default(by_label["P(pass MET cut)"], is_verbose),
+            self._format_default(by_label["P(pass MET trigger)"], is_verbose),
+            self._format_default(by_label["N_est"], is_verbose)
+        ]
+
+        headers = [f"NLayers {nlayers}", "Value"]
+        if is_verbose:
+            headers.append("Details")
+
+        print(tabulate(rows, headers=headers, tablefmt="simple_outline"))
+        print()
+
+    def print_latex(self, nlayers):
+        # Find results by label to build the latex row
+        by_label = {r.label: r for r in self._results}
+        cols = [
+            self._format_latex_value(by_label["Lepton trigger eff"].value, by_label["Lepton trigger eff"].error, precision=3),
+            self._format_latex_value(by_label["N_tagged"].value, by_label["N_tagged"].error, precision=0),
+            self._format_latex_value(by_label["P(pass lepton veto)"].value, by_label["P(pass lepton veto)"].error, precision=2),
+            self._format_latex_value(by_label["P(pass MET cut)"].value, by_label["P(pass MET cut)"].error, precision=3),
+            self._format_latex_value(by_label["P(pass MET trigger)"].value, by_label["P(pass MET trigger)"].error, precision=3),
+            self._format_latex_value(by_label["N_est"].value, by_label["N_est"].error, precision=2),
+        ]
+        nlayers_label = r"\geq 6" if nlayers == "6" else nlayers
+        print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
 
 
 def get_hist(file_name, hist_name):
@@ -33,7 +143,7 @@ def get_hist(file_name, hist_name):
     root_file = ROOT.TFile.Open(file_name)
     hist = root_file.Get(hist_name)
     if not hist:
-        print(f"[ERROR]: Histogram {hist_name} not found in {file_name}. Quitting.")
+        logger.error(f"Histogram {hist_name} not found in {file_name}. Quitting.")
         exit(-1)
 
     hist = hist.Clone()
@@ -42,12 +152,13 @@ def get_hist(file_name, hist_name):
     return hist
 
 
-def get_hists(file_name, nlayers):
+def get_hists(file_name, nlayers, lepton_type):
     """Load all histograms needed for the background estimate.
 
     Args:
         file_name: Path to the ROOT file containing the histograms.
         nlayers: Number of tracker layers ("4", "5", or "6").
+        lepton_type: Type of lepton ("electron" or "muon").
 
     Returns:
         Dictionary of histogram dictionaries, organized by calculation step:
@@ -60,36 +171,50 @@ def get_hists(file_name, nlayers):
     """
     nlayers_str = "6plus" if nlayers == "6" else nlayers
 
+    # Naming conventions differ by lepton type
+    # Electron: ElectronTagPt55, ZtoEleProbeTrk, Electron-eventvariable Plots
+    # Muon: MuonTagPt55, ZtoMuProbeTrk, Muon-eventvariable Plots
+    if lepton_type == "electron":
+        tag_name = "ElectronTagPt55"
+        probe_name = "ZtoEleProbeTrk"
+        flavor = "Electron"
+    elif lepton_type == "muon":
+        tag_name = "MuonTagPt55"
+        probe_name = "ZtoMuProbeTrk"
+        flavor = "Muon"
+    else:
+        raise ValueError(f"Unsupported lepton type: {lepton_type}")
+
     hists = {}
     hists["n_tagged"] = {
-        "metVsFiducial": get_hist(file_name, f"ElectronTagPt55NLayers{nlayers_str}Plotter/Track-met Plots/metNoMuVsMaxSigmaForFiducialElectronTrack")
+        "metVsFiducial": get_hist(file_name, f"{tag_name}NLayers{nlayers_str}Plotter/Track-met Plots/metNoMuVsMaxSigmaForFiducial{flavor}Track")
     }
     hists["pass_veto"] = {
-        "total_tp_pairs": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nGoodTPPairs"),
-        "ss_tp_pairs": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nGoodSSTPPairs"),
-        "passing_veto_probes": get_hist(file_name, f"ZtoEleProbeTrkWithFilterNLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesPassingVeto"),
-        "metNoMu": get_hist(file_name, f"ZtoEleProbeTrkWithSSFilterNLayers{nlayers_str}Plotter/Met Plots/metNoMu")
+        "total_tp_pairs": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nGoodTPPairs"),
+        "ss_tp_pairs": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nGoodSSTPPairs"),
+        "passing_veto_probes": get_hist(file_name, f"{probe_name}WithFilterNLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesPassingVeto"),
+        "metNoMu": get_hist(file_name, f"{probe_name}WithSSFilterNLayers{nlayers_str}Plotter/Met Plots/metNoMu")
     }
     hists["pass_met_cut"] = {
-        "deltaPhiVsMet": get_hist(file_name, f"ElectronTagPt55NLayers{nlayers_str}Plotter/Electron-eventvariable Plots/deltaPhiMetJetLeadingVsElectronMetNoMuMinusOnePt")
+        "deltaPhiVsMet": get_hist(file_name, f"{tag_name}NLayers{nlayers_str}Plotter/{flavor}-eventvariable Plots/deltaPhiMetJetLeadingVs{flavor}MetNoMuMinusOnePt")
     }
     hists["trigger_efficiency"] = {
-        "passes": get_hist(file_name, f"ElectronTagPt55MetTrigNLayers{nlayers_str}Plotter/Met Plots/metNoMu"),
-        "total": get_hist(file_name, f"ElectronTagPt55NLayers{nlayers_str}Plotter/Met Plots/metNoMu")
+        "passes": get_hist(file_name, f"{tag_name}MetTrigNLayers{nlayers_str}Plotter/Met Plots/metNoMu"),
+        "total": get_hist(file_name, f"{tag_name}NLayers{nlayers_str}Plotter/Met Plots/metNoMu")
     }
     hists["pass_trigger"] = {
-        "deltaPhiVsMet": get_hist(file_name, f"ElectronTagPt55NLayers{nlayers_str}Plotter/Electron-eventvariable Plots/deltaPhiMetJetLeadingVsElectronMetNoMuMinusOnePt")
+        "deltaPhiVsMet": get_hist(file_name, f"{tag_name}NLayers{nlayers_str}Plotter/{flavor}-eventvariable Plots/deltaPhiMetJetLeadingVs{flavor}MetNoMuMinusOnePt")
     }
     hists["lepton_trigger_efficiency"] = {
-        "nProbesPT55": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesPT55"),
-        "nProbesSSPT55": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesSSPT55"),
-        "nProbesFiringTrigger": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesFiringTrigger"),
-        "nSSProbesFiringTrigger": get_hist(file_name, f"ZtoEleProbeTrkNLayers{nlayers_str}Plotter/Eventvariable Plots/nSSProbesFiringTrigger"),
+        "nProbesPT55": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesPT55"),
+        "nProbesSSPT55": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesSSPT55"),
+        "nProbesFiringTrigger": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesFiringTrigger"),
+        "nSSProbesFiringTrigger": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nSSProbesFiringTrigger"),
     }
     return hists
 
 
-def get_combined_hists(file_name):
+def get_combined_hists(file_name, lepton_type):
     """Load and sum histograms across all nlayers for combined estimate.
 
     Loads histograms for nlayers 4, 5, and 6, then sums them together
@@ -97,14 +222,15 @@ def get_combined_hists(file_name):
 
     Args:
         file_name: Path to the ROOT file containing the histograms.
+        lepton_type: Type of lepton ("electron" or "muon").
 
     Returns:
         Dictionary of histogram dictionaries with the same structure as
         get_hists(), but with histograms summed across all nlayers.
     """
-    hists_4 = get_hists(file_name, "4")
-    hists_5 = get_hists(file_name, "5")
-    hists_6 = get_hists(file_name, "6")
+    hists_4 = get_hists(file_name, "4", lepton_type)
+    hists_5 = get_hists(file_name, "5", lepton_type)
+    hists_6 = get_hists(file_name, "6", lepton_type)
 
     combined = {}
     for category in hists_4:
@@ -156,14 +282,15 @@ def get_weighted_total_and_error(hist):
         Tuple of (weighted_total, error).
     """
     total = error = 0.0
-    for bin_idx in range(1, hist.GetNbinsX() + 1):
-        # Bin index 1 is the first bin - index 0 is underflow
-        total += (bin_idx) * hist.GetBinContent(bin_idx + 1)
-        error = math.hypot(error, (bin_idx) * hist.GetBinError(bin_idx + 1))
+    # Bin 0 is underflow, bin 1 is multiplicity 0, bin 2 is multiplicity 1, etc.
+    for bin_idx in range(2, hist.GetNbinsX() + 1):
+        multiplicity = bin_idx - 1
+        total += multiplicity * hist.GetBinContent(bin_idx)
+        error = math.hypot(error, multiplicity * hist.GetBinError(bin_idx))
 
     return total, error
 
-def get_n_tagged(hists):
+def get_n_tagged(hists, results):
     """Count the number of tagged leptons in the control region.
 
     Projects the 2D MET vs fiducial sigma histogram onto the MET axis,
@@ -171,6 +298,7 @@ def get_n_tagged(hists):
 
     Args:
         hists: Dictionary containing the metVsFiducial histogram.
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (n_tagged, error).
@@ -182,10 +310,12 @@ def get_n_tagged(hists):
         hists["metVsFiducial"].GetXaxis().FindBin(FIDUCIAL_SIGMA_CUT) - 1
     )
 
-    return get_total_and_error(met_hist_1d)
+    n_tagged, error = get_total_and_error(met_hist_1d)
+    results.add("N_tagged", n_tagged, error, precision=0)
+    return n_tagged, error
 
 
-def get_prob_pass_veto(hists):
+def get_prob_pass_veto(hists, results):
     """Calculate the probability that a probe track passes the lepton veto.
 
     Uses tag-and-probe with same-sign subtraction to estimate OS background:
@@ -197,6 +327,7 @@ def get_prob_pass_veto(hists):
     Args:
         hists: Dictionary containing total_tp_pairs, ss_tp_pairs,
                passing_veto_probes, and metNoMu histograms.
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -210,7 +341,7 @@ def get_prob_pass_veto(hists):
     n_pass_ss, err_pass_ss = get_total_and_error(hists["metNoMu"])
 
     if n_total_all < n_total_ss:
-        print("[ERROR]: When calculating P(pass veto), found negative OS tag/probe pairs. Exiting.")
+        logger.error("When calculating P(pass veto), found negative OS tag/probe pairs. Exiting.")
         exit(-1)
 
     numer = n_pass_all - n_pass_ss
@@ -227,10 +358,12 @@ def get_prob_pass_veto(hists):
             (err_numer / numer)**2 + (err_denom / denom)**2
         )
 
+    formula = f"({n_pass_all:.1f} - {n_pass_ss:.1f}) / ({n_total_all:.1f} - {n_total_ss:.1f})"
+    results.add("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, precision=2, formula=formula)
     return prob_pass_veto, err_prob_pass_veto
 
 
-def get_prob_pass_met(hists, n_tagged, err_n_tagged):
+def get_prob_pass_met(hists, n_tagged, err_n_tagged, results):
     """Calculate probability of passing the MET and delta-phi cuts.
 
     Integrates the 2D delta-phi vs MET histogram in the signal region
@@ -241,6 +374,7 @@ def get_prob_pass_met(hists, n_tagged, err_n_tagged):
         hists: Dictionary containing the deltaPhiVsMet histogram.
         n_tagged: Number of tagged leptons (denominator).
         err_n_tagged: Error on n_tagged.
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -267,6 +401,7 @@ def get_prob_pass_met(hists, n_tagged, err_n_tagged):
             (err_pass / n_pass) ** 2 + (err_n_tagged / n_tagged) ** 2
         )
 
+    results.add("P(pass MET cut)", prob_pass_met, err_prob_pass_met, precision=3)
     return prob_pass_met, err_prob_pass_met
 
 
@@ -288,7 +423,7 @@ def get_trigger_efficiency_hist(hists):
     return trigger_eff_hist
 
 
-def get_prob_pass_trigger(hists, trigger_efficiency_hist):
+def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
     """Calculate probability of passing the MET trigger.
 
     Projects the delta-phi vs MET histogram onto MET, weights each bin
@@ -299,6 +434,7 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist):
         hists: Dictionary containing the deltaPhiVsMet histogram.
         trigger_efficiency_hist: MET trigger efficiency histogram from
             get_trigger_efficiency_hist().
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -331,10 +467,11 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist):
             (err_passes / n_passes) ** 2 + (err_total / n_total) ** 2
         )
 
+    results.add("P(pass MET trigger)", prob_pass_trigger, err_prob_pass_trigger, precision=3)
     return prob_pass_trigger, err_prob_pass_trigger
 
 
-def calculate_lepton_trigger_efficiency(hists):
+def calculate_lepton_trigger_efficiency(hists, results):
     """Calculate lepton trigger efficiency from tag-and-probe histograms.
 
     Uses same-sign pairs to estimate background contamination:
@@ -343,6 +480,7 @@ def calculate_lepton_trigger_efficiency(hists):
     Args:
         hists: Dictionary with nProbesPT55, nProbesSSPT55,
                nProbesFiringTrigger, nSSProbesFiringTrigger histograms
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (efficiency, error)
@@ -361,7 +499,7 @@ def calculate_lepton_trigger_efficiency(hists):
     denom = total - total_ss
 
     if denom <= 0:
-        print("[ERROR]: When calculating lepton trigger efficiency, denominator is <= 0. Exiting.")
+        logger.error("When calculating lepton trigger efficiency, denominator is <= 0. Exiting.")
         exit(-1)
 
     if numer <= 0:
@@ -375,60 +513,30 @@ def calculate_lepton_trigger_efficiency(hists):
             (err_numer / numer)**2 + (err_denom / denom)**2
         )
 
+    formula = f"({passes:.1f} - {passes_ss:.1f}) / ({total:.1f} - {total_ss:.1f})"
+    results.add("Lepton trigger eff", efficiency, err_efficiency, precision=3, formula=formula)
     return efficiency, err_efficiency
 
 
-def format_latex_value(value, error, precision=2):
-    """Format a value and error for LaTeX output.
-
-    If the central value is less than the uncertainty, uses asymmetric
-    error format with lower bound clamped at zero. For very small values
-    (< 0.01), uses scientific notation.
-
-    Args:
-        value: Central value.
-        error: Uncertainty on the value.
-        precision: Number of decimal places for the mantissa.
-
-    Returns:
-        LaTeX-formatted string like "$1.23 \\pm 0.04$" or
-        "$(1.23_{{-1.23}}^{{+2.00}}) \\times 10^{{-3}}$".
-    """
-    use_asymmetric = value < error
-
-    # Check if we need scientific notation
-    if value != 0 and abs(value) < 0.01:
-        exponent = int(math.floor(math.log10(abs(value))))
-        mantissa = value / (10 ** exponent)
-        err_mantissa = error / (10 ** exponent)
-
-        if use_asymmetric:
-            return (f"$({mantissa:.{precision}f}_{{-{mantissa:.{precision}f}}}"
-                    f"^{{+{err_mantissa:.{precision}f}}}) \\times 10^{{{exponent}}}$")
-        else:
-            return f"$({mantissa:.{precision}f} \\pm {err_mantissa:.{precision}f}) \\times 10^{{{exponent}}}$"
-    else:
-        if use_asymmetric:
-            return f"${value:.{precision}f}_{{-{value:.{precision}f}}}^{{+{error:.{precision}f}}}$"
-        else:
-            return f"${value:.{precision}f} \\pm {error:.{precision}f}$"
-
-
-def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency):
+def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency, results):
     """Get a flat lepton trigger efficiency.
 
     Args:
         lepton_type: One of "electron", "muon", or "tau"
         flat_efficiency: User-specified flat efficiency value, or -1 to use
                         the default for the lepton type.
+        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (efficiency, error)
     """
     if flat_efficiency == -1:
-        return DEFAULT_LEPTON_TRIGGER_EFFICIENCY[lepton_type]
+        eff, err = DEFAULT_LEPTON_TRIGGER_EFFICIENCY[lepton_type]
+    else:
+        eff, err = flat_efficiency, 0.005
 
-    return flat_efficiency, 0.005
+    results.add("Lepton trigger eff", eff, err, precision=3)
+    return eff, err
 
 
 def main():
@@ -457,11 +565,10 @@ where:
         default="all",
         help="Number of tracker layers to run estimate for (default: all)"
     )
-    # TODO: Change what histograms we look for depending on lepton type
-    # TODO: implement tau stuff
+    # TODO: implement tau support
     parser.add_argument(
         "--lepton-type",
-        choices=["electron", "muon", "tau"],
+        choices=["electron", "muon"],
         required=True,
         help="Type of lepton background to estimate"
     )
@@ -483,6 +590,11 @@ where:
              f"muon: {DEFAULT_LEPTON_TRIGGER_EFFICIENCY['muon'][0]}, "
              f"tau: {DEFAULT_LEPTON_TRIGGER_EFFICIENCY['tau'][0]})"
     )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Print verbose output with intermediate calculation values"
+    )
     args = parser.parse_args()
 
     if args.nlayers == "all":
@@ -492,21 +604,23 @@ where:
 
     for nlayers in nlayers_to_run:
         if nlayers == "combined":
-            hists = get_combined_hists(args.file_name)
+            hists = get_combined_hists(args.file_name, args.lepton_type)
         else:
-            hists = get_hists(args.file_name, nlayers)
+            hists = get_hists(args.file_name, nlayers, args.lepton_type)
 
-        n_tagged, err_n_tagged = get_n_tagged(hists["n_tagged"])
-        p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"])
-        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], n_tagged, err_n_tagged)
+        results = IntermediateResults()
+
+        n_tagged, err_n_tagged = get_n_tagged(hists["n_tagged"], results)
+        p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"], results)
+        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], n_tagged, err_n_tagged, results)
         h_met_trig_eff = get_trigger_efficiency_hist(hists["trigger_efficiency"])
-        prob_pass_met_trig, err_pass_met_trig = get_prob_pass_trigger(hists["pass_trigger"], h_met_trig_eff)
+        prob_pass_met_trig, err_pass_met_trig = get_prob_pass_trigger(hists["pass_trigger"], h_met_trig_eff, results)
 
         if args.flat_lepton_trigger_efficiency is None:
-            lept_trig_eff, err_lept_trig_eff = calculate_lepton_trigger_efficiency(hists["lepton_trigger_efficiency"])
+            lept_trig_eff, err_lept_trig_eff = calculate_lepton_trigger_efficiency(hists["lepton_trigger_efficiency"], results)
         else:
             lept_trig_eff, err_lept_trig_eff = get_flat_lepton_trigger_efficiency(
-                args.lepton_type, args.flat_lepton_trigger_efficiency
+                args.lepton_type, args.flat_lepton_trigger_efficiency, results
             )
 
         n_est = n_tagged * p_pass_lept_veto * p_pass_met_cut * prob_pass_met_trig / lept_trig_eff
@@ -518,27 +632,14 @@ where:
             (n_tagged * p_pass_lept_veto * p_pass_met_cut * prob_pass_met_trig / (lept_trig_eff**2) * err_lept_trig_eff)**2
         )
 
-        # TODO: use scientific notation if necessary
+        n_est_formula = (f"{n_tagged:.4g} * {p_pass_lept_veto:.4g} * {p_pass_met_cut:.4g} * "
+                         f"{prob_pass_met_trig:.4g} / {lept_trig_eff:.4g}")
+        results.add("N_est", n_est, err_n_est, precision=2, formula=n_est_formula)
+
         if args.output_fmt == "default":
-            print(f"=== NLayers {nlayers} ===")
-            print(f"N_tagged:              {n_tagged:.1f} +/- {err_n_tagged:.1f}")
-            print(f"P(pass lepton veto):   {p_pass_lept_veto:.4f} +/- {err_pass_lept_veto:.4f}")
-            print(f"P(pass MET cut):       {p_pass_met_cut:.6f} +/- {err_pass_met_cut:.6f}")
-            print(f"P(pass MET trigger):   {prob_pass_met_trig:.4f} +/- {err_pass_met_trig:.4f}")
-            print(f"Lepton trigger eff:    {lept_trig_eff:.4f} +/- {err_lept_trig_eff:.4f}")
-            print(f"N_est:                 {n_est:.4f} +/- {err_n_est:.4f}")
-            print()
+            results.print_default(nlayers, args.verbose)
         else:
-            cols = [
-                format_latex_value(lept_trig_eff, err_lept_trig_eff, precision=3),
-                format_latex_value(n_tagged, err_n_tagged, precision=0),
-                format_latex_value(p_pass_lept_veto, err_pass_lept_veto, precision=4),
-                format_latex_value(p_pass_met_cut, err_pass_met_cut, precision=2),
-                format_latex_value(prob_pass_met_trig, err_pass_met_trig, precision=3),
-                format_latex_value(n_est, err_n_est, precision=2),
-            ]
-            nlayers_label = r"\geq 6" if nlayers == "6" else nlayers
-            print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
+            results.print_latex(nlayers)
 
 
 if __name__ == "__main__":
