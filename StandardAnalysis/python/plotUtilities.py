@@ -7,6 +7,7 @@ from DisappTrks.StandardAnalysis.tdrstyle import *
 from DisappTrks.StandardAnalysis.utilities import *
 
 from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+import warnings
 
 def setStyle(h, color = 1):
     h.SetLineColor(color)
@@ -53,17 +54,50 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
-def getHist(sample, condor_dir, channel, hist, quietFailure = False):
-    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
-    inputFile = TFile(dataset_file)
-    h0 = inputFile.Get(channel + "/" + hist)
+def get_hist(file_path, hist_name):
+    """Retrieve a histogram from a ROOT file.
+
+    Args:
+        file_path: Full path to the ROOT file.
+        hist_name: Path to the histogram within the ROOT file.
+
+    Returns:
+        A cloned histogram detached from the file.
+
+    Raises:
+        FileNotFoundError: If the ROOT file cannot be opened.
+        KeyError: If the histogram is not found in the file.
+    """
+    input_file = TFile(file_path)
+    if not input_file or input_file.IsZombie():
+        raise FileNotFoundError(f"Could not open ROOT file: {file_path}")
+
+    h0 = input_file.Get(hist_name)
     if not h0:
-        if not quietFailure: print("ERROR [getHist]: didn't find histogram ", channel+str("/")+hist, "in file", dataset_file)
-        return 0
+        input_file.Close()
+        raise KeyError(f"Histogram '{hist_name}' not found in file: {file_path}")
+
     h = h0.Clone()
     h.SetDirectory(0)
-    inputFile.Close()
+    input_file.Close()
     return h
+
+def getHist(sample, condor_dir, channel, hist, quietFailure = False):
+    """Deprecated: use get_hist(file_path, hist_name) instead."""
+    warnings.warn(
+        "getHist is deprecated and will be removed in a future release. "
+        "Use get_hist(file_path, hist_name) instead."
+        DeprecationWarning,
+        sracklevel=2
+    )
+
+    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    try:
+        return get_hist(dataset_file, f"{channel}/{hist}")
+    except (FileNotFoundError, KeyError) as e:
+        if not quietFailure:
+            print(f"ERROR [getHist]: {e}")
+        return 0
 
 def getHistFromProjectionZ(sample, condor_dir, channel, hist, fiducialElectronSigmaCut, fiducialMuonSigmaCut, alternate1DHist = "", verbose = False):
     countProjections = 0 if not hasattr (getHistFromProjectionZ, "countProjections") else getattr (getHistFromProjectionZ, "countProjections")

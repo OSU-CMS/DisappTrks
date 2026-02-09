@@ -1,16 +1,15 @@
 import argparse
 import ctypes
+from dataclasses import dataclass
+from DisappTrks.StandardAnalysis.plotUtilities import get_hist
 import logging
 import math
-from dataclasses import dataclass
-
-from tabulate import tabulate
 import ROOT
+from tabulate import tabulate
+
 
 logging.basicConfig(format="%(message)s")
 logger = logging.getLogger(__name__)
-
-# N_est = N_ctrl × prescale × P_pass_veto × P_pass_met × P_pass_trigger / ε_trigger
 
 FIDUCIAL_SIGMA_CUT = 2.0
 DEFAULT_ERROR = 0.5 * ROOT.TMath.ChisquareQuantile(0.68, 2)
@@ -29,7 +28,6 @@ class IntermediateResult:
     label: str
     value: float
     error: float
-    precision: int = 2
     formula: str = ""
 
 
@@ -39,14 +37,11 @@ class IntermediateResults:
     def __init__(self):
         self._results = []
 
-    def add(self, label, value, error, precision=2, formula=""):
-        self._results.append(IntermediateResult(label, value, error, precision, formula))
+    def add(self, label, value, error, formula=""):
+        self._results.append(IntermediateResult(label, value, error, formula))
 
     def _format_default(self, result, is_verbose):
-        if result.precision > 0:
-            value_str = f"{result.value:.4g} +/- {result.error:.4g}"
-        else:
-            value_str = f"{result.value:.0f} +/- {result.error:.0f}"
+        value_str = f"{result.value:.8g} +/- {result.error:.8g}"
 
         row = [result.label, value_str]
         if is_verbose:
@@ -54,22 +49,20 @@ class IntermediateResults:
 
         return row
 
-    def _format_value(self, value, error, precision):
-        if precision is not None:
-            return f"{value:.{precision}f} +/- {error:.{precision}f}"
-        return f"{value:.4g} +/- {error:.4g}"
-
-    def _format_latex_value(self, value, error, precision=2):
+    def _format_latex_value(self, value, error, precision=2, use_sci_notation=False):
         """Format a value and error for LaTeX output.
 
         If the central value is less than the uncertainty, uses asymmetric
-        error format with lower bound clamped at zero. For very small values
-        (< 0.01), uses scientific notation.
+        error format with lower bound clamped at zero. If use_sci_notation
+        is set, forces scientific notation of the form
+        (X +/- Y) x 10^z (or with asymmetric errors). When the value is
+        zero, the exponent is derived from the error.
 
         Args:
             value: Central value.
             error: Uncertainty on the value.
             precision: Number of decimal places for the mantissa.
+            use_sci_notation: Force scientific notation output.
 
         Returns:
             LaTeX-formatted string like "$1.23 \\pm 0.04$" or
@@ -77,9 +70,11 @@ class IntermediateResults:
         """
         use_asymmetric = value < error
 
-        # Check if we need scientific notation
-        if value != 0 and abs(value) < 0.01:
-            exponent = int(math.floor(math.log10(abs(value))))
+        if use_sci_notation:
+            if value != 0:
+                exponent = int(math.floor(math.log10(abs(value))))
+            else:
+                exponent = int(math.floor(math.log10(abs(error))))
             mantissa = value / (10 ** exponent)
             err_mantissa = error / (10 ** exponent)
 
@@ -112,44 +107,22 @@ class IntermediateResults:
         print(tabulate(rows, headers=headers, tablefmt="simple_outline"))
         print()
 
-    def print_latex(self, nlayers):
-        # Find results by label to build the latex row
+    def print_latex(self, nlayers, include_year=False):
         by_label = {r.label: r for r in self._results}
         cols = [
             self._format_latex_value(by_label["Lepton trigger eff"].value, by_label["Lepton trigger eff"].error, precision=3),
             self._format_latex_value(by_label["N_tagged"].value, by_label["N_tagged"].error, precision=0),
-            self._format_latex_value(by_label["P(pass lepton veto)"].value, by_label["P(pass lepton veto)"].error, precision=2),
+            self._format_latex_value(by_label["P(pass lepton veto)"].value, by_label["P(pass lepton veto)"].error, precision=2, use_sci_notation=True),
             self._format_latex_value(by_label["P(pass MET cut)"].value, by_label["P(pass MET cut)"].error, precision=3),
             self._format_latex_value(by_label["P(pass MET trigger)"].value, by_label["P(pass MET trigger)"].error, precision=3),
             self._format_latex_value(by_label["N_est"].value, by_label["N_est"].error, precision=2),
         ]
         nlayers_label = r"\geq 6" if nlayers == "6" else nlayers
-        print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
 
-
-def get_hist(file_name, hist_name):
-    """Retrieve a histogram from a ROOT file.
-
-    Args:
-        file_name: Path to the ROOT file.
-        hist_name: Full path to the histogram within the file.
-
-    Returns:
-        A cloned histogram detached from the file.
-
-    Raises:
-        SystemExit: If the histogram is not found.
-    """
-    root_file = ROOT.TFile.Open(file_name)
-    hist = root_file.Get(hist_name)
-    if not hist:
-        logger.error(f"Histogram {hist_name} not found in {file_name}. Quitting.")
-        exit(-1)
-
-    hist = hist.Clone()
-    hist.SetDirectory(0)
-    root_file.Close()
-    return hist
+        if include_year:
+            print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
+        else:
+            print(f"& ${nlayers_label}$ & " + " & ".join(cols) + r" \\")
 
 
 def get_hists(file_name, nlayers, lepton_type):
@@ -311,7 +284,7 @@ def get_n_tagged(hists, results):
     )
 
     n_tagged, error = get_total_and_error(met_hist_1d)
-    results.add("N_tagged", n_tagged, error, precision=0)
+    results.add("N_tagged", n_tagged, error)
     return n_tagged, error
 
 
@@ -359,7 +332,7 @@ def get_prob_pass_veto(hists, results):
         )
 
     formula = f"({n_pass_all:.1f} - {n_pass_ss:.1f}) / ({n_total_all:.1f} - {n_total_ss:.1f})"
-    results.add("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, precision=2, formula=formula)
+    results.add("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, formula=formula)
     return prob_pass_veto, err_prob_pass_veto
 
 
@@ -401,7 +374,7 @@ def get_prob_pass_met(hists, n_tagged, err_n_tagged, results):
             (err_pass / n_pass) ** 2 + (err_n_tagged / n_tagged) ** 2
         )
 
-    results.add("P(pass MET cut)", prob_pass_met, err_prob_pass_met, precision=3)
+    results.add("P(pass MET cut)", prob_pass_met, err_prob_pass_met)
     return prob_pass_met, err_prob_pass_met
 
 
@@ -467,7 +440,7 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
             (err_passes / n_passes) ** 2 + (err_total / n_total) ** 2
         )
 
-    results.add("P(pass MET trigger)", prob_pass_trigger, err_prob_pass_trigger, precision=3)
+    results.add("P(pass MET trigger)", prob_pass_trigger, err_prob_pass_trigger)
     return prob_pass_trigger, err_prob_pass_trigger
 
 
@@ -514,7 +487,7 @@ def calculate_lepton_trigger_efficiency(hists, results):
         )
 
     formula = f"({passes:.1f} - {passes_ss:.1f}) / ({total:.1f} - {total_ss:.1f})"
-    results.add("Lepton trigger eff", efficiency, err_efficiency, precision=3, formula=formula)
+    results.add("Lepton trigger eff", efficiency, err_efficiency, formula=formula)
     return efficiency, err_efficiency
 
 
@@ -535,7 +508,7 @@ def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency, results):
     else:
         eff, err = flat_efficiency, 0.005
 
-    results.add("Lepton trigger eff", eff, err, precision=3)
+    results.add("Lepton trigger eff", eff, err)
     return eff, err
 
 
@@ -602,7 +575,7 @@ where:
     else:
         nlayers_to_run = [args.nlayers]
 
-    for nlayers in nlayers_to_run:
+    for i, nlayers in enumerate(nlayers_to_run):
         if nlayers == "combined":
             hists = get_combined_hists(args.file_name, args.lepton_type)
         else:
@@ -634,12 +607,14 @@ where:
 
         n_est_formula = (f"{n_tagged:.4g} * {p_pass_lept_veto:.4g} * {p_pass_met_cut:.4g} * "
                          f"{prob_pass_met_trig:.4g} / {lept_trig_eff:.4g}")
-        results.add("N_est", n_est, err_n_est, precision=2, formula=n_est_formula)
+        results.add("N_est", n_est, err_n_est, formula=n_est_formula)
 
         if args.output_fmt == "default":
             results.print_default(nlayers, args.verbose)
+        elif i == 0:
+            results.print_latex(nlayers, include_year=True)
         else:
-            results.print_latex(nlayers)
+            results.print_latex(nlayers, include_year=False)
 
 
 if __name__ == "__main__":
