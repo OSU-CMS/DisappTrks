@@ -1,6 +1,12 @@
+# TODOs:
+# - need to implement plotting. I think having a plotting class and then pass a --plot flag would be useful. The plots should be ready for the analysis note, i.e. we don't need createBackgroundPlots.py anymore
+# - for muon/tau nlayers=4/5, need to use the combined (4+5+6) P(pass MET cut) and P(pass MET trigger) values
+# - implement tau functionality
+
 import argparse
 import ctypes
 from dataclasses import dataclass
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
 import logging
 import math
@@ -20,6 +26,12 @@ DEFAULT_LEPTON_TRIGGER_EFFICIENCY = {
     "electron": (0.840, 0.005),
     "muon": (0.940, 0.004),
     "tau": (0.900, 0.006),
+}
+
+LEPTON_DATASET_NAMES = {
+    "electron": "EGamma",
+    "muon": "Muon",
+    "tau": "Tau",
 }
 
 
@@ -92,7 +104,9 @@ class IntermediateResults:
     def print_default(self, nlayers, is_verbose):
         by_label = {r.label: r for r in self._results}
         rows = [
+            self._format_default(by_label["Lumi scale factor"], is_verbose),
             self._format_default(by_label["Lepton trigger eff"], is_verbose),
+            self._format_default(by_label["N_tagged (unscaled)"], is_verbose),
             self._format_default(by_label["N_tagged"], is_verbose),
             self._format_default(by_label["P(pass lepton veto)"], is_verbose),
             self._format_default(by_label["P(pass MET cut)"], is_verbose),
@@ -123,6 +137,36 @@ class IntermediateResults:
             print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
         else:
             print(f"& ${nlayers_label}$ & " + " & ".join(cols) + r" \\")
+
+
+def get_lumi_scale_factor(lepton_type, year, era):
+    """Compute the luminosity scale factor between MET and lepton datasets.
+
+    The tagged lepton counts come from the lepton dataset, but the signal
+    search uses the MET dataset. This factor corrects for any difference
+    in integrated luminosity between the two.
+
+    Args:
+        lepton_type: Type of lepton ("electron", "muon", or "tau").
+        year: Data-taking year (e.g. "2022").
+        era: Run era (e.g. "D", "CD", "EFG").
+
+    Returns:
+        Ratio of MET luminosity to lepton dataset luminosity.
+    """
+    met_key = f"MET_{year}{era}"
+    lepton_key = f"{LEPTON_DATASET_NAMES[lepton_type]}_{year}{era}"
+
+    missing = [k for k in (met_key, lepton_key) if k not in lumi]
+    if missing:
+        logger.error(
+            f"Luminosity not found for: {', '.join(missing)}. "
+            f"Check that era '{era}' is valid for year '{year}', "
+            f"or add the luminosity to StandardAnalysis/python/IntegratedLuminosity_cff.py."
+        )
+        exit(-1)
+
+    return lumi[met_key] / lumi[lepton_key]
 
 
 def get_hists(file_name, nlayers, lepton_type):
@@ -263,7 +307,7 @@ def get_weighted_total_and_error(hist):
 
     return total, error
 
-def get_n_tagged(hists, results):
+def get_n_tagged(hists):
     """Count the number of tagged leptons in the control region.
 
     Projects the 2D MET vs fiducial sigma histogram onto the MET axis,
@@ -271,7 +315,6 @@ def get_n_tagged(hists, results):
 
     Args:
         hists: Dictionary containing the metVsFiducial histogram.
-        results: IntermediateResults object to record the result.
 
     Returns:
         Tuple of (n_tagged, error).
@@ -283,9 +326,7 @@ def get_n_tagged(hists, results):
         hists["metVsFiducial"].GetXaxis().FindBin(FIDUCIAL_SIGMA_CUT) - 1
     )
 
-    n_tagged, error = get_total_and_error(met_hist_1d)
-    results.add("N_tagged", n_tagged, error)
-    return n_tagged, error
+    return get_total_and_error(met_hist_1d)
 
 
 def get_prob_pass_veto(hists, results):
@@ -546,6 +587,16 @@ where:
         help="Type of lepton background to estimate"
     )
     parser.add_argument(
+        "--year",
+        required=True,
+        help="Data-taking year (e.g. 2022, 2023, 2024)"
+    )
+    parser.add_argument(
+        "--era",
+        required=True,
+        help="Run era (e.g. D, CD, EFG)"
+    )
+    parser.add_argument(
         "--output-fmt",
         choices=["default", "latex"],
         default="default",
@@ -570,6 +621,8 @@ where:
     )
     args = parser.parse_args()
 
+    lumi_scale_factor = get_lumi_scale_factor(args.lepton_type, args.year, args.era)
+
     if args.nlayers == "all":
         nlayers_to_run = ["4", "5", "6", "combined"]
     else:
@@ -582,8 +635,14 @@ where:
             hists = get_hists(args.file_name, nlayers, args.lepton_type)
 
         results = IntermediateResults()
+        results.add("Lumi scale factor", lumi_scale_factor, 0.0)
 
-        n_tagged, err_n_tagged = get_n_tagged(hists["n_tagged"], results)
+        n_tagged, err_n_tagged = get_n_tagged(hists["n_tagged"])
+        results.add("N_tagged (unscaled)", n_tagged, err_n_tagged)
+        n_tagged *= lumi_scale_factor
+        err_n_tagged *= lumi_scale_factor
+        results.add("N_tagged", n_tagged, err_n_tagged)
+
         p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"], results)
         p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], n_tagged, err_n_tagged, results)
         h_met_trig_eff = get_trigger_efficiency_hist(hists["trigger_efficiency"])
