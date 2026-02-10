@@ -1,7 +1,7 @@
 import ROOT as r
 import cmsstyle as CMS
 import sys
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
+from DisappTrks.StandardAnalysis.integrated_luminosity import lumi
 
 def plotComparrison(file, lepton, era):
 

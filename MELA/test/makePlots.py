@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 from ROOT import TFile, TH1D, TH2D, TPaveText, TLegend, TLatex, TString
 
