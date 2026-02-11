@@ -1,21 +1,18 @@
 # TODOs:
-# - need to implement plotting. I think having a plotting class and then pass a --plot flag would be useful. The plots should be ready for the analysis note, i.e. we don't need createBackgroundPlots.py anymore
 # - for muon/tau nlayers=4/5, need to use the combined (4+5+6) P(pass MET cut) and P(pass MET trigger) values
 # - implement tau functionality
+# - lepton trigger efficiency nscaled isn't working?
 
 import argparse
 import ctypes
 from dataclasses import dataclass
+from DisappTrks.BackgroundEstimation.lepton_background_plotter import LeptonBackgroundPlotter
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
-import logging
 import math
 import ROOT
 from tabulate import tabulate
 
-
-logging.basicConfig(format="%(message)s")
-logger = logging.getLogger(__name__)
 
 FIDUCIAL_SIGMA_CUT = 2.0
 DEFAULT_ERROR = 0.5 * ROOT.TMath.ChisquareQuantile(0.68, 2)
@@ -159,7 +156,7 @@ def get_lumi_scale_factor(lepton_type, year, era):
 
     missing = [k for k in (met_key, lepton_key) if k not in lumi]
     if missing:
-        logger.error(
+        print(
             f"Luminosity not found for: {', '.join(missing)}. "
             f"Check that era '{era}' is valid for year '{year}', "
             f"or add the luminosity to StandardAnalysis/python/IntegratedLuminosity_cff.py."
@@ -228,6 +225,17 @@ def get_hists(file_name, nlayers, lepton_type):
         "nProbesFiringTrigger": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nProbesFiringTrigger"),
         "nSSProbesFiringTrigger": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Eventvariable Plots/nSSProbesFiringTrigger"),
     }
+
+    flavor_lower = lepton_type  # "electron" or "muon"
+    hists["plotting"] = {
+        "deltaPhiVsMetNoMu": get_hist(file_name, f"{tag_name}NLayers{nlayers_str}Plotter/Met-eventvariable Plots/deltaPhiMetJetLeadingVsMetNoMu"),
+        "trackPt_before": get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Track Plots/trackPt"),
+        "trackPt_after": get_hist(file_name, f"{probe_name}WithFilterNLayers{nlayers_str}Plotter/Track Plots/trackPt"),
+    }
+    if lepton_type != "tau":
+        hists["plotting"]["invMass_before"] = get_hist(file_name, f"{probe_name}NLayers{nlayers_str}Plotter/Track-{flavor_lower} Plots/invMassNearZ")
+        hists["plotting"]["invMass_after"] = get_hist(file_name, f"{probe_name}WithFilterNLayers{nlayers_str}Plotter/Track-{flavor_lower} Plots/invMassNearZ")
+
     return hists
 
 
@@ -355,7 +363,7 @@ def get_prob_pass_veto(hists, results):
     n_pass_ss, err_pass_ss = get_total_and_error(hists["metNoMu"])
 
     if n_total_all < n_total_ss:
-        logger.error("When calculating P(pass veto), found negative OS tag/probe pairs. Exiting.")
+        print("When calculating P(pass veto), found negative OS tag/probe pairs. Exiting.")
         exit(-1)
 
     numer = n_pass_all - n_pass_ss
@@ -440,9 +448,9 @@ def get_trigger_efficiency_hist(hists):
 def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
     """Calculate probability of passing the MET trigger.
 
-    Projects the delta-phi vs MET histogram onto MET, weights each bin
-    by the trigger efficiency at that MET value, and computes the
-    fraction of events in the signal region that would pass the trigger.
+    Selects events passing the delta-phi cut, projects onto the MET
+    axis, weights each bin by the trigger efficiency at that MET value,
+    and computes the fraction that would pass the trigger.
 
     Args:
         hists: Dictionary containing the deltaPhiVsMet histogram.
@@ -453,7 +461,11 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
     Returns:
         Tuple of (probability, error).
     """
-    passes_trig_hist = hists["deltaPhiVsMet"].ProjectionX("met")
+    dphi_vs_met = hists["deltaPhiVsMet"].Clone("dphi_vs_met_for_trigger")
+    dphi_vs_met.SetDirectory(0)
+    dphi_vs_met.GetYaxis().SetRangeUser(DELTA_PHI_CUT, 4.0)
+
+    passes_trig_hist = dphi_vs_met.ProjectionX("met")
     passes_trig_hist.SetDirectory(0)
     passes_trig_hist.Multiply(trigger_efficiency_hist)
 
@@ -513,7 +525,7 @@ def calculate_lepton_trigger_efficiency(hists, results):
     denom = total - total_ss
 
     if denom <= 0:
-        logger.error("When calculating lepton trigger efficiency, denominator is <= 0. Exiting.")
+        print("When calculating lepton trigger efficiency, denominator is <= 0. Exiting.")
         exit(-1)
 
     if numer <= 0:
@@ -593,8 +605,8 @@ where:
     )
     parser.add_argument(
         "--era",
-        required=True,
-        help="Run era (e.g. D, CD, EFG)"
+        default="",
+        help="Run era (e.g. D, CD, EFG). If not specified, assume the entire year."
     )
     parser.add_argument(
         "--output-fmt",
@@ -618,6 +630,11 @@ where:
         "-v", "--verbose",
         action="store_true",
         help="Print verbose output with intermediate calculation values"
+    )
+    parser.add_argument(
+        "-p", "--plot",
+        action="store_true",
+        help="Generate diagnostic plots (delta-phi vs MET, MET projection, trigger efficiency, veto comparisons)"
     )
     args = parser.parse_args()
 
@@ -674,6 +691,18 @@ where:
             results.print_latex(nlayers, include_year=True)
         else:
             results.print_latex(nlayers, include_year=False)
+
+        if args.plot:
+            plotter = LeptonBackgroundPlotter(args.lepton_type, args.year, args.era, MET_CUT, DELTA_PHI_CUT)
+            nlayers_suffix = nlayers if nlayers != "6" else "6plus"
+
+            plotter.plot_delta_phi_vs_met(hists["plotting"]["deltaPhiVsMetNoMu"], name_suffix=nlayers_suffix)
+            plotter.plot_delta_phi_vs_met(hists["pass_met_cut"]["deltaPhiVsMet"], name_suffix=f"minus_one_{nlayers_suffix}", exclude_lepton=True)
+            plotter.plot_met_projection(hists["pass_met_cut"]["deltaPhiVsMet"], name_suffix=nlayers_suffix)
+            plotter.plot_trigger_efficiency(hists["trigger_efficiency"]["passes"], hists["trigger_efficiency"]["total"], name_suffix=nlayers_suffix)
+            plotter.plot_veto_track_pt(hists["plotting"]["trackPt_before"], hists["plotting"]["trackPt_after"], name_suffix=nlayers_suffix)
+            if args.lepton_type != "tau":
+                plotter.plot_veto_inv_mass(hists["plotting"]["invMass_before"], hists["plotting"]["invMass_after"], name_suffix=nlayers_suffix)
 
 
 if __name__ == "__main__":

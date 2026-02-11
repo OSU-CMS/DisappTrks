@@ -86,7 +86,7 @@ def getHist(sample, condor_dir, channel, hist, quietFailure = False):
     """Deprecated: use get_hist(file_path, hist_name) instead."""
     warnings.warn(
         "getHist is deprecated and will be removed in a future release. "
-        "Use get_hist(file_path, hist_name) instead."
+        "Use get_hist(file_path, hist_name) instead.",
         DeprecationWarning,
         sracklevel=2
     )
