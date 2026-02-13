@@ -20,29 +20,29 @@ ZtoEE = cms.PSet(
     cuts = cms.VPSet (),
 )
 
+# Selections used for pre-CMSSW_9_4
+# zToEEElectronCuts = [
+#     cutMetFilters,
+#     cutElectronPairPt,
+#     cutElectronPairEta21,
+#     cutElectronPairTightID,
+#     cutElectronPairTightPFIso,
+#     cutEEChargeProduct,
+#     cutEEInvMassZLo,
+#     cutEEInvMassZHi,
+# ]
 zToEEElectronCuts = [
     cutMetFilters,
     cutElectronPairPt,
     cutElectronPairEta21,
-    cutElectronPairTightID,
-    cutElectronPairTightPFIso,
+    cutElectronPairVIDTightID, # ID + iso (no vertexing -- added below)
+    cutElectronPairD02017,
+    cutElectronPairDZ2017,
     cutEEChargeProduct,
     cutEEInvMassZLo,
     cutEEInvMassZHi,
+    cutElectronPt,
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
-    zToEEElectronCuts = [
-        cutMetFilters,
-        cutElectronPairPt,
-        cutElectronPairEta21,
-        cutElectronPairVIDTightID, # ID + iso (no vertexing -- added below)
-        cutElectronPairD02017,
-        cutElectronPairDZ2017,
-        cutEEChargeProduct,
-        cutEEInvMassZLo,
-        cutEEInvMassZHi,
-        cutElectronPt,
-    ]
 addCuts(ZtoEE.cuts, zToEEElectronCuts)
 
 ##################################################

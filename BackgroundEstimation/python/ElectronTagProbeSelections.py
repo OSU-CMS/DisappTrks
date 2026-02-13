@@ -19,22 +19,22 @@ ElectronTagSkim = cms.PSet(
     metFilters = metFilters,
     cuts = cms.VPSet (),
 )
+# Cuts used pre CMSSW_9_4
+# tagElectronCuts = [
+#     cutMetFilters,
+#     cutElectronPt, # pt>25 for 2015-6, >35 for 2017, >32 for 2018
+#     cutElectronEta21,
+#     cutElectronTightID,
+#     cutElectronTightPFIso,
+# ]
 tagElectronCuts = [
     cutMetFilters,
-    cutElectronPt, # pt>25 for 2015-6, >35 for 2017, >32 for 2018
-    cutElectronEta21,
-    cutElectronTightID,
-    cutElectronTightPFIso,
+    cutElectronPt,
+    cutElectronEta21, # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
+    cutElectronVIDTightID, # ID + iso (no vertexing -- added below)
+    cutElectronD02017,
+    cutElectronDZ2017,
 ]
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_15_0_"):
-    tagElectronCuts = [
-        cutMetFilters,
-        cutElectronPt,
-        cutElectronEta21, # In 2017 there is no eta2p1 trigger, but tracks require |eta|<2.1 so keep this cut
-        cutElectronVIDTightID, # ID + iso (no vertexing -- added below)
-        cutElectronD02017,
-        cutElectronDZ2017,
-    ]
 addCuts(ElectronTagSkim.cuts, tagElectronCuts)
 
 ################################################################################
