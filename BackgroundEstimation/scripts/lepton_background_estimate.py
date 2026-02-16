@@ -4,13 +4,12 @@
 
 import argparse
 import ctypes
-from dataclasses import dataclass
 from DisappTrks.BackgroundEstimation.lepton_background_plotter import LeptonBackgroundPlotter
+from DisappTrks.BackgroundEstimation.lepton_background_formatter import LeptonBackgroundFormatter
 from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
 import math
 import ROOT
-from tabulate import tabulate
 
 
 FIDUCIAL_SIGMA_CUT = 2.0
@@ -29,110 +28,6 @@ LEPTON_DATASET_NAMES = {
     "muon": "Muon",
     "tau": "Tau",
 }
-
-
-@dataclass
-class IntermediateResult:
-    label: str
-    value: float
-    error: float
-    formula: str = ""
-
-
-class IntermediateResults:
-    """Collects results from each calculation step."""
-
-    def __init__(self):
-        self._results = []
-
-    def add(self, label, value, error, formula=""):
-        self._results.append(IntermediateResult(label, value, error, formula))
-
-    def _format_default(self, result, is_verbose):
-        value_str = f"{result.value:.8g} +/- {result.error:.8g}"
-
-        row = [result.label, value_str]
-        if is_verbose:
-            row.append(result.formula)
-
-        return row
-
-    def _format_latex_value(self, value, error, precision=2, use_sci_notation=False):
-        """Format a value and error for LaTeX output.
-
-        If the central value is less than the uncertainty, uses asymmetric
-        error format with lower bound clamped at zero. If use_sci_notation
-        is set, forces scientific notation of the form
-        (X +/- Y) x 10^z (or with asymmetric errors). When the value is
-        zero, the exponent is derived from the error.
-
-        Args:
-            value: Central value.
-            error: Uncertainty on the value.
-            precision: Number of decimal places for the mantissa.
-            use_sci_notation: Force scientific notation output.
-
-        Returns:
-            LaTeX-formatted string like "$1.23 \\pm 0.04$" or
-            "$(1.23_{{-1.23}}^{{+2.00}}) \\times 10^{{-3}}$".
-        """
-        use_asymmetric = value < error
-
-        if use_sci_notation:
-            if value != 0:
-                exponent = int(math.floor(math.log10(abs(value))))
-            else:
-                exponent = int(math.floor(math.log10(abs(error))))
-            mantissa = value / (10 ** exponent)
-            err_mantissa = error / (10 ** exponent)
-
-            if use_asymmetric:
-                return (f"$({mantissa:.{precision}f}_{{-{mantissa:.{precision}f}}}"
-                        f"^{{+{err_mantissa:.{precision}f}}}) \\times 10^{{{exponent}}}$")
-            else:
-                return f"$({mantissa:.{precision}f} \\pm {err_mantissa:.{precision}f}) \\times 10^{{{exponent}}}$"
-        else:
-            if use_asymmetric:
-                return f"${value:.{precision}f}_{{-{value:.{precision}f}}}^{{+{error:.{precision}f}}}$"
-            else:
-                return f"${value:.{precision}f} \\pm {error:.{precision}f}$"
-
-    def print_default(self, nlayers, is_verbose):
-        by_label = {r.label: r for r in self._results}
-        rows = [
-            self._format_default(by_label["Lumi scale factor"], is_verbose),
-            self._format_default(by_label["Lepton trigger eff"], is_verbose),
-            self._format_default(by_label["N_tagged (unscaled)"], is_verbose),
-            self._format_default(by_label["N_tagged"], is_verbose),
-            self._format_default(by_label["P(pass lepton veto)"], is_verbose),
-            self._format_default(by_label["P(pass MET cut)"], is_verbose),
-            self._format_default(by_label["P(pass MET trigger)"], is_verbose),
-            self._format_default(by_label["N_est"], is_verbose)
-        ]
-
-        headers = [f"NLayers {nlayers}", "Value"]
-        if is_verbose:
-            headers.append("Details")
-
-        print(tabulate(rows, headers=headers, tablefmt="simple_outline"))
-        print()
-
-    def print_latex(self, nlayers, include_year=False):
-        by_label = {r.label: r for r in self._results}
-        cols = [
-            self._format_latex_value(by_label["Lepton trigger eff"].value, by_label["Lepton trigger eff"].error, precision=3),
-            self._format_latex_value(by_label["N_tagged"].value, by_label["N_tagged"].error, precision=0),
-            self._format_latex_value(by_label["P(pass lepton veto)"].value, by_label["P(pass lepton veto)"].error, precision=2, use_sci_notation=True),
-            self._format_latex_value(by_label["P(pass MET cut)"].value, by_label["P(pass MET cut)"].error, precision=3),
-            self._format_latex_value(by_label["P(pass MET trigger)"].value, by_label["P(pass MET trigger)"].error, precision=3),
-            self._format_latex_value(by_label["N_est"].value, by_label["N_est"].error, precision=2),
-        ]
-        nlayers_label = r"\geq 6" if nlayers == "6" else nlayers
-
-        if include_year:
-            print(r"\multirow{4}{*}{YEAR} & " + f"${nlayers_label}$ & " + " & ".join(cols) + r" \\")
-        else:
-            print(f"& ${nlayers_label}$ & " + " & ".join(cols) + r" \\")
 
 
 def get_lumi_scale_factor(lepton_type, year, era):
@@ -339,7 +234,7 @@ def get_n_tagged(hists):
     return total, error
 
 
-def get_prob_pass_veto(hists, results):
+def get_prob_pass_veto(hists, formatter):
     """Calculate the probability that a probe track passes the lepton veto.
 
     Uses tag-and-probe with same-sign subtraction to estimate OS background:
@@ -351,7 +246,7 @@ def get_prob_pass_veto(hists, results):
     Args:
         hists: Dictionary containing total_tp_pairs, ss_tp_pairs,
                passing_veto_probes, and metNoMu histograms.
-        results: IntermediateResults object to record the result.
+        formatter: LeptonBackgroundFormatter object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -383,11 +278,11 @@ def get_prob_pass_veto(hists, results):
         ) / (denom * denom)
 
     formula = f"({n_pass_all:.1f} - {n_pass_ss:.1f}) / ({n_total_all:.1f} - {n_total_ss:.1f})"
-    results.add("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, formula=formula)
+    formatter.add_result("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, formula=formula)
     return prob_pass_veto, err_prob_pass_veto
 
 
-def get_prob_pass_met(hists, n_tagged, err_n_tagged, results):
+def get_prob_pass_met(hists, n_tagged, err_n_tagged, formatter):
     """Calculate probability of passing the MET and delta-phi cuts.
 
     Integrates the 2D delta-phi vs MET histogram in the signal region
@@ -398,7 +293,7 @@ def get_prob_pass_met(hists, n_tagged, err_n_tagged, results):
         hists: Dictionary containing the deltaPhiVsMet histogram.
         n_tagged: Number of tagged leptons (denominator).
         err_n_tagged: Error on n_tagged.
-        results: IntermediateResults object to record the result.
+        formatter: LeptonBackgroundFormatter object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -425,7 +320,7 @@ def get_prob_pass_met(hists, n_tagged, err_n_tagged, results):
             (err_pass / n_pass) ** 2 + (err_n_tagged / n_tagged) ** 2
         )
 
-    results.add("P(pass MET cut)", prob_pass_met, err_prob_pass_met)
+    formatter.add_result("P(pass MET cut)", prob_pass_met, err_prob_pass_met)
     return prob_pass_met, err_prob_pass_met
 
 
@@ -447,7 +342,7 @@ def get_trigger_efficiency_hist(hists):
     return trigger_eff_hist
 
 
-def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
+def get_prob_pass_trigger(hists, trigger_efficiency_hist, formatter):
     """Calculate probability of passing the MET trigger.
 
     Selects events passing the delta-phi cut, projects onto the MET
@@ -458,7 +353,7 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
         hists: Dictionary containing the deltaPhiVsMet histogram.
         trigger_efficiency_hist: MET trigger efficiency histogram from
             get_trigger_efficiency_hist().
-        results: IntermediateResults object to record the result.
+        formatter: LeptonBackgroundFormatter object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -495,11 +390,11 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
             (err_passes / n_passes) ** 2 + (err_total / n_total) ** 2
         )
 
-    results.add("P(pass MET trigger)", prob_pass_trigger, err_prob_pass_trigger)
+    formatter.add_result("P(pass MET trigger)", prob_pass_trigger, err_prob_pass_trigger)
     return prob_pass_trigger, err_prob_pass_trigger
 
 
-def calculate_lepton_trigger_efficiency(hists, results):
+def calculate_lepton_trigger_efficiency(hists, formatter):
     """Calculate lepton trigger efficiency from tag-and-probe histograms.
 
     Uses same-sign pairs to estimate background contamination:
@@ -508,7 +403,7 @@ def calculate_lepton_trigger_efficiency(hists, results):
     Args:
         hists: Dictionary with nProbesPT55, nProbesSSPT55,
                nProbesFiringTrigger, nSSProbesFiringTrigger histograms
-        results: IntermediateResults object to record the result.
+        formatter: LeptonBackgroundFormatter object to record the result.
 
     Returns:
         Tuple of (efficiency, error)
@@ -542,18 +437,18 @@ def calculate_lepton_trigger_efficiency(hists, results):
         )
 
     formula = f"({passes:.1f} - {passes_ss:.1f}) / ({total:.1f} - {total_ss:.1f})"
-    results.add("Lepton trigger eff", efficiency, err_efficiency, formula=formula)
+    formatter.add_result("Lepton trigger eff", efficiency, err_efficiency, formula=formula)
     return efficiency, err_efficiency
 
 
-def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency, results):
+def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency, formatter):
     """Get a flat lepton trigger efficiency.
 
     Args:
         lepton_type: One of "electron", "muon", or "tau"
         flat_efficiency: User-specified flat efficiency value, or -1 to use
                         the default for the lepton type.
-        results: IntermediateResults object to record the result.
+        formatter: LeptonBackgroundFormatter object to record the result.
 
     Returns:
         Tuple of (efficiency, error)
@@ -563,7 +458,7 @@ def get_flat_lepton_trigger_efficiency(lepton_type, flat_efficiency, results):
     else:
         eff, err = flat_efficiency, 0.005
 
-    results.add("Lepton trigger eff", eff, err)
+    formatter.add_result("Lepton trigger eff", eff, err)
     return eff, err
 
 
@@ -662,14 +557,14 @@ where:
             hists["pass_trigger"] = combined_hists["pass_trigger"]
             hists["lepton_trigger_efficiency"] = combined_hists["lepton_trigger_efficiency"]
 
-        results = IntermediateResults()
-        results.add("Lumi scale factor", lumi_scale_factor, 0.0)
+        formatter = LeptonBackgroundFormatter()
+        formatter.add_result("Lumi scale factor", lumi_scale_factor, 0.0)
 
         n_tagged, err_n_tagged = get_n_tagged(hists["n_tagged"])
-        results.add("N_tagged (unscaled)", n_tagged, err_n_tagged)
+        formatter.add_result("N_tagged (unscaled)", n_tagged, err_n_tagged)
         n_tagged *= lumi_scale_factor
         err_n_tagged *= lumi_scale_factor
-        results.add("N_tagged", n_tagged, err_n_tagged)
+        formatter.add_result("N_tagged", n_tagged, err_n_tagged)
 
         # P(pass MET cut) uses n_tagged as its denominator. When using
         # combined MET histograms, the denominator must also be the combined
@@ -681,15 +576,15 @@ where:
         else:
             met_n_tagged, met_err_n_tagged = n_tagged, err_n_tagged
 
-        p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"], results)
-        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], met_n_tagged, met_err_n_tagged, results)
+        p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"], formatter)
+        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], met_n_tagged, met_err_n_tagged, formatter)
         h_met_trig_eff = get_trigger_efficiency_hist(hists["trigger_efficiency"])
-        prob_pass_met_trig, err_pass_met_trig = get_prob_pass_trigger(hists["pass_trigger"], h_met_trig_eff, results)
+        prob_pass_met_trig, err_pass_met_trig = get_prob_pass_trigger(hists["pass_trigger"], h_met_trig_eff, formatter)
 
         if args.flat_lepton_trigger_efficiency is None:
-            lept_trig_eff, err_lept_trig_eff = calculate_lepton_trigger_efficiency(hists["lepton_trigger_efficiency"], results)
+            lept_trig_eff, err_lept_trig_eff = calculate_lepton_trigger_efficiency(hists["lepton_trigger_efficiency"], formatter)
         else:
-            lept_trig_eff, err_lept_trig_eff = get_flat_lepton_trigger_efficiency(args.lepton_type, args.flat_lepton_trigger_efficiency, results)
+            lept_trig_eff, err_lept_trig_eff = get_flat_lepton_trigger_efficiency(args.lepton_type, args.flat_lepton_trigger_efficiency, formatter)
 
         n_est = n_tagged * p_pass_lept_veto * p_pass_met_cut * prob_pass_met_trig / lept_trig_eff
         err_n_est = math.sqrt(
@@ -711,14 +606,14 @@ where:
 
         n_est_formula = (f"{n_tagged:.4g} * {p_pass_lept_veto:.4g} * {p_pass_met_cut:.4g} * "
                          f"{prob_pass_met_trig:.4g} / {lept_trig_eff:.4g}")
-        results.add("N_est", n_est, err_n_est, formula=n_est_formula)
+        formatter.add_result("N_est", n_est, err_n_est, formula=n_est_formula)
 
         if args.output_fmt == "default":
-            results.print_default(nlayers, args.verbose)
+            formatter.print_default(nlayers, args.verbose)
         elif i == 0:
-            results.print_latex(nlayers, include_year=True)
+            formatter.print_latex(nlayers, include_year=True)
         else:
-            results.print_latex(nlayers, include_year=False)
+            formatter.print_latex(nlayers, include_year=False)
 
         if args.plot:
             plotter = LeptonBackgroundPlotter(args.lepton_type, args.year, args.era, MET_CUT, DELTA_PHI_CUT)
