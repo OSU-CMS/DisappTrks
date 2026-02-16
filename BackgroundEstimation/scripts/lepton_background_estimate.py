@@ -1,5 +1,4 @@
 # TODOs:
-# - for muon/tau nlayers=4/5, need to use the combined (4+5+6) P(pass MET cut) and P(pass MET trigger) values
 # - implement tau functionality
 # - lepton trigger efficiency nscaled isn't working?
 
@@ -334,7 +333,10 @@ def get_n_tagged(hists):
         hists["metVsFiducial"].GetXaxis().FindBin(FIDUCIAL_SIGMA_CUT) - 1
     )
 
-    return get_total_and_error(met_hist_1d)
+    total, error = get_total_and_error(met_hist_1d)
+    if total == 0.0:
+        error = DEFAULT_ERROR
+    return total, error
 
 
 def get_prob_pass_veto(hists, results):
@@ -369,16 +371,16 @@ def get_prob_pass_veto(hists, results):
     numer = n_pass_all - n_pass_ss
     denom = n_total_all - n_total_ss
 
-    if numer <= 0:
+    if numer < 0:
         prob_pass_veto = 0.0
         err_prob_pass_veto = DEFAULT_ERROR / denom
     else:
         prob_pass_veto = numer / denom
         err_numer = math.sqrt(err_pass_all * err_pass_all + err_pass_ss * err_pass_ss)
         err_denom = math.sqrt(err_total_all * err_total_all + err_total_ss * err_total_ss)
-        err_prob_pass_veto = prob_pass_veto * math.sqrt(
-            (err_numer / numer)**2 + (err_denom / denom)**2
-        )
+        err_prob_pass_veto = math.sqrt(
+            (err_numer * denom)**2 + (numer * err_denom)**2
+        ) / (denom * denom)
 
     formula = f"({n_pass_all:.1f} - {n_pass_ss:.1f}) / ({n_total_all:.1f} - {n_total_ss:.1f})"
     results.add("P(pass lepton veto)", prob_pass_veto, err_prob_pass_veto, formula=formula)
@@ -645,11 +647,20 @@ where:
     else:
         nlayers_to_run = [args.nlayers]
 
+    combined_hists = get_combined_hists(args.file_name, args.lepton_type)
+
     for i, nlayers in enumerate(nlayers_to_run):
         if nlayers == "combined":
-            hists = get_combined_hists(args.file_name, args.lepton_type)
+            hists = combined_hists
         else:
             hists = get_hists(args.file_name, nlayers, args.lepton_type)
+
+        use_combined_met = args.lepton_type in ("muon", "tau") and nlayers in ("4", "5")
+        if use_combined_met:
+            hists["pass_met_cut"] = combined_hists["pass_met_cut"]
+            hists["trigger_efficiency"] = combined_hists["trigger_efficiency"]
+            hists["pass_trigger"] = combined_hists["pass_trigger"]
+            hists["lepton_trigger_efficiency"] = combined_hists["lepton_trigger_efficiency"]
 
         results = IntermediateResults()
         results.add("Lumi scale factor", lumi_scale_factor, 0.0)
@@ -660,17 +671,25 @@ where:
         err_n_tagged *= lumi_scale_factor
         results.add("N_tagged", n_tagged, err_n_tagged)
 
+        # P(pass MET cut) uses n_tagged as its denominator. When using
+        # combined MET histograms, the denominator must also be the combined
+        # n_tagged to get the correct probability.
+        if use_combined_met:
+            met_n_tagged, met_err_n_tagged = get_n_tagged(combined_hists["n_tagged"])
+            met_n_tagged *= lumi_scale_factor
+            met_err_n_tagged *= lumi_scale_factor
+        else:
+            met_n_tagged, met_err_n_tagged = n_tagged, err_n_tagged
+
         p_pass_lept_veto, err_pass_lept_veto = get_prob_pass_veto(hists["pass_veto"], results)
-        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], n_tagged, err_n_tagged, results)
+        p_pass_met_cut, err_pass_met_cut = get_prob_pass_met(hists["pass_met_cut"], met_n_tagged, met_err_n_tagged, results)
         h_met_trig_eff = get_trigger_efficiency_hist(hists["trigger_efficiency"])
         prob_pass_met_trig, err_pass_met_trig = get_prob_pass_trigger(hists["pass_trigger"], h_met_trig_eff, results)
 
         if args.flat_lepton_trigger_efficiency is None:
             lept_trig_eff, err_lept_trig_eff = calculate_lepton_trigger_efficiency(hists["lepton_trigger_efficiency"], results)
         else:
-            lept_trig_eff, err_lept_trig_eff = get_flat_lepton_trigger_efficiency(
-                args.lepton_type, args.flat_lepton_trigger_efficiency, results
-            )
+            lept_trig_eff, err_lept_trig_eff = get_flat_lepton_trigger_efficiency(args.lepton_type, args.flat_lepton_trigger_efficiency, results)
 
         n_est = n_tagged * p_pass_lept_veto * p_pass_met_cut * prob_pass_met_trig / lept_trig_eff
         err_n_est = math.sqrt(
@@ -680,6 +699,15 @@ where:
             (n_tagged * p_pass_lept_veto * p_pass_met_cut / lept_trig_eff * err_pass_met_trig)**2 +
             (n_tagged * p_pass_lept_veto * p_pass_met_cut * prob_pass_met_trig / (lept_trig_eff**2) * err_lept_trig_eff)**2
         )
+
+        # When multiple factors are zero (e.g. both N_tagged and P_veto),
+        # first-order error propagation gives zero because every partial
+        # derivative term contains at least one zero central value. Use
+        # the second-order cross-term as the leading uncertainty estimate.
+        if n_est == 0.0 and err_n_est == 0.0:
+            err_n_est = (err_n_tagged * err_pass_lept_veto
+                         * p_pass_met_cut * prob_pass_met_trig
+                         / lept_trig_eff)
 
         n_est_formula = (f"{n_tagged:.4g} * {p_pass_lept_veto:.4g} * {p_pass_met_cut:.4g} * "
                          f"{prob_pass_met_trig:.4g} / {lept_trig_eff:.4g}")
