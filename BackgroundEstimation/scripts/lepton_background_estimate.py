@@ -1,6 +1,5 @@
 # TODOs:
 # - implement tau functionality
-# - lepton trigger efficiency nscaled isn't working?
 
 import argparse
 import ctypes
