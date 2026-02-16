@@ -19,8 +19,8 @@ class LeptonBackgroundFormatter:
         rows = [
             self._format_default(self._results["Lumi scale factor"], is_verbose),
             self._format_default(self._results["Lepton trigger eff"], is_verbose),
-            self._format_default(self._results["N_tagged (unscaled)"], is_verbose),
-            self._format_default(self._results["N_tagged"], is_verbose),
+            self._format_default(self._results["N_ctrl (unscaled)"], is_verbose),
+            self._format_default(self._results["N_ctrl"], is_verbose),
             self._format_default(self._results["P(pass lepton veto)"], is_verbose),
             self._format_default(self._results["P(pass MET cut)"], is_verbose),
             self._format_default(self._results["P(pass MET trigger)"], is_verbose),
@@ -37,7 +37,7 @@ class LeptonBackgroundFormatter:
     def print_latex(self, nlayers, include_year=False):
         cols = [
             self._format_latex_value(self._results["Lepton trigger eff"].value, self._results["Lepton trigger eff"].error, precision=3),
-            self._format_latex_value(self._results["N_tagged"].value, self._results["N_tagged"].error, precision=0),
+            self._format_latex_value(self._results["N_ctrl"].value, self._results["N_ctrl"].error, precision=0),
             self._format_latex_value(self._results["P(pass lepton veto)"].value, self._results["P(pass lepton veto)"].error, precision=2, use_sci_notation=True),
             self._format_latex_value(self._results["P(pass MET cut)"].value, self._results["P(pass MET cut)"].error, precision=3),
             self._format_latex_value(self._results["P(pass MET trigger)"].value, self._results["P(pass MET trigger)"].error, precision=3),
