@@ -9,11 +9,10 @@ class LeptonBackgroundHistograms:
         "muon": "MuonTagPt55",
     }
     PROBE_NAMES = {
-        "electron": ("ZtoEleProbeTrk", "Electron"),
-        "muon": ("ZtoMuProbeTrk", "Muon"),
+        "electron": "ZtoEleProbeTrk",
+        "muon": "ZtoMuProbeTrk"
     }
 
-    # Lepton types that use combined MET histograms at low nlayers
     COMBINED_MET_LEPTON_TYPES = ("muon", "tau")
     COMBINED_MET_NLAYERS = ("4", "5")
 
@@ -23,7 +22,8 @@ class LeptonBackgroundHistograms:
         self._file_name = file_name
         self._lepton_type = lepton_type
         self._tag_name = self.TAG_NAMES[lepton_type]
-        self._probe_name, self._flavor = self.PROBE_NAMES[lepton_type]
+        self._probe_name = self.PROBE_NAMES[lepton_type]
+        self._flavor = lepton_type.capitalize()
         self._combined_hists = None
 
     def _get_hists_raw(self, nlayers):
@@ -104,12 +104,3 @@ class LeptonBackgroundHistograms:
 
             self._combined_hists = combined
         return self._combined_hists
-
-
-class ClosureTestHistograms(LeptonBackgroundHistograms):
-    """Uses MC naming (Pt35NoJetCuts) for closure tests."""
-
-    TAG_NAMES = {
-        "electron": "ElectronTagPt35NoJetCuts",
-        "muon": "MuonTagPt35NoJetCuts",
-    }

@@ -107,7 +107,7 @@ def get_prob_pass_veto(hists, results):
     Args:
         hists: Dictionary containing total_tp_pairs, ss_tp_pairs,
                passing_veto_probes, and metNoMu histograms.
-        results: LeptonBackgroundFormatter object to record the result.
+        results: LeptonBackgroundResults object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -218,7 +218,7 @@ def get_prob_pass_trigger(hists, trigger_efficiency_hist, results):
         hists: Dictionary containing the deltaPhiVsMet histogram.
         trigger_efficiency_hist: MET trigger efficiency histogram from
             get_trigger_efficiency_hist().
-        results: LeptonBackgroundFormatter object to record the result.
+        results: LeptonBackgroundResults object to record the result.
 
     Returns:
         Tuple of (probability, error).
@@ -345,14 +345,13 @@ def calculate_n_est(hists, year, era,
     with full error propagation. Intermediate results are recorded in the results.
 
     Args:
-        hists: Dictionary of histogram dictionaries for this nlayers. When
-            combined MET histograms are needed (muon/tau at nlayers 4 and 5),
-            the MET categories and a 'combined_met_n_ctrl' key should already
-            be substituted by the histogram loader.
+        hists: Dictionary of histogram dictionaries for this nlayers. Combined
+            MET histogram substitution (for muon/tau at nlayers 4 and 5) is
+            handled by the histogram loader before this function is called.
         year: Data-taking year (e.g. "2022").
         era: Run era (e.g. "D", "CD", "EFG").
         lepton_type: Type of lepton ("electron", "muon", or "tau").
-        results: Formatter object with add_result(label, value, error, formula="") method.
+        results: LeptonBackgroundResults object with add(label, value, error, formula="") method.
         lepton_trigger_efficiency: If provided, use this flat value instead of
             calculating from histograms.
         lepton_trigger_efficiency_error: Error on the flat efficiency. Required

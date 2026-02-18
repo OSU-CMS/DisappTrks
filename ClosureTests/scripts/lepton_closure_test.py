@@ -9,10 +9,8 @@ from DisappTrks.BackgroundEstimation.lepton_background_calculations import (
     DEFAULT_LEPTON_TRIGGER_EFFICIENCY,
     calculate_n_est,
 )
-from DisappTrks.BackgroundEstimation.lepton_background_histograms import (
-    LeptonBackgroundHistograms,
-    ClosureTestHistograms,
-)
+from DisappTrks.BackgroundEstimation.lepton_background_histograms import LeptonBackgroundHistograms
+from DisappTrks.ClosureTests.closure_test_histograms import ClosureTestHistograms
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
 
 
@@ -43,6 +41,66 @@ class ClosureTestResults:
 
         print(tabulate(rows, headers=headers, tablefmt="simple_outline"))
         print()
+
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        description="""\
+Lepton background closure test: compare the estimated background (from the
+tag-and-probe method) to the truth background (from gen-matched tracks in MC).
+
+Calculates:
+  N_est = N_ctrl * P(pass veto) * P(pass MET cut) * P(pass MET trigger) / ε_lepton_trigger
+  N_obs = tracks matching generated leptons with ECAL energy < 10 GeV
+  Closure = (N_est - N_obs) / sqrt(σ_est² + σ_obs²) in sigma
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "file_name",
+        help="Path to ROOT file containing all required histograms (hadd'd from TTbar + DY)"
+    )
+    parser.add_argument(
+        "--nlayers",
+        choices=["4", "5", "6", "all", "combined"],
+        default="all",
+        help="Number of tracker layers to run estimate for (default: all)"
+    )
+    parser.add_argument(
+        "--lepton-type",
+        choices=["electron", "muon"],
+        required=True,
+        help="Type of lepton background to estimate"
+    )
+    parser.add_argument(
+        "--year",
+        required=True,
+        help="Data-taking year (e.g. 2022, 2023, 2024)"
+    )
+    parser.add_argument(
+        "--era",
+        default="",
+        help="Run era (e.g. D, CD, EFG). If not specified, assume the entire year."
+    )
+    parser.add_argument(
+        "--data-file",
+        default=None,
+        help="Path to data ROOT file to also run the background estimate on (uses Pt55 naming)"
+    )
+    parser.add_argument(
+        "--flat-lepton-trigger-efficiency",
+        type=float,
+        nargs="?",
+        const=-1,
+        default=None,
+        help="Use a flat lepton trigger efficiency instead of calculating from histograms"
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Print verbose output with intermediate calculation values"
+    )
+    return parser.parse_args()
 
 
 def _get_total_and_error(hist, max_cut=None):
@@ -110,72 +168,17 @@ def resolve_trigger_efficiency_kwargs(lepton_type, flat_value):
     return {"lepton_trigger_efficiency": eff, "lepton_trigger_efficiency_error": err}
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="""\
-Lepton background closure test: compare the estimated background (from the
-tag-and-probe method) to the truth background (from gen-matched tracks in MC).
-
-Calculates:
-  N_est = N_ctrl * P(pass veto) * P(pass MET cut) * P(pass MET trigger) / ε_lepton_trigger
-  N_obs = tracks matching generated leptons with ECAL energy < 10 GeV
-  Closure = (N_est - N_obs) / sqrt(σ_est² + σ_obs²) in sigma
-""",
-        formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-    parser.add_argument(
-        "file_name",
-        help="Path to ROOT file containing all required histograms (hadd'd from TTbar + DY)"
-    )
-    parser.add_argument(
-        "--nlayers",
-        choices=["4", "5", "6", "all", "combined"],
-        default="all",
-        help="Number of tracker layers to run estimate for (default: all)"
-    )
-    parser.add_argument(
-        "--lepton-type",
-        choices=["electron", "muon"],
-        required=True,
-        help="Type of lepton background to estimate"
-    )
-    parser.add_argument(
-        "--year",
-        required=True,
-        help="Data-taking year (e.g. 2022, 2023, 2024)"
-    )
-    parser.add_argument(
-        "--era",
-        default="",
-        help="Run era (e.g. D, CD, EFG). If not specified, assume the entire year."
-    )
-    parser.add_argument(
-        "--data-file",
-        default=None,
-        help="Path to data ROOT file to also run the background estimate on (uses Pt55 naming)"
-    )
-    parser.add_argument(
-        "--flat-lepton-trigger-efficiency",
-        type=float,
-        nargs="?",
-        const=-1,
-        default=None,
-        help="Use a flat lepton trigger efficiency instead of calculating from histograms"
-    )
-    parser.add_argument(
-        "-v", "--verbose",
-        action="store_true",
-        help="Print verbose output with intermediate calculation values"
-    )
-    args = parser.parse_args()
-
-    trigger_eff_kwargs = resolve_trigger_efficiency_kwargs(args.lepton_type, args.flat_lepton_trigger_efficiency)
-
-    if args.nlayers == "all":
-        nlayers_to_run = ["4", "5", "6", "combined"]
+def get_nlayers(nlayers_arg):
+    if nlayers_arg == "all":
+        return ["4", "5", "6", "combined"]
     else:
-        nlayers_to_run = [args.nlayers]
+        return [nlayers_arg]
 
+
+def main():
+    args = get_args()
+    trigger_eff_kwargs = resolve_trigger_efficiency_kwargs(args.lepton_type, args.flat_lepton_trigger_efficiency)
+    nlayers_to_run = get_nlayers(args.nlayers)
     mc_loader = ClosureTestHistograms(args.file_name, args.lepton_type)
 
     if args.data_file:
