@@ -5,6 +5,8 @@ import os
 import numpy as np
 import ROOT
 
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi as lumi_dict
+
 EFFICIENCY_THRESHOLD = 2.0
 
 def get_selection_names(year):
@@ -13,14 +15,11 @@ def get_selection_names(year):
     else:
         return ['FiducialCalcBefore', 'FiducialCalcAfter']
 
-def get_dataset_name(object_type, year):
-    if object_type == "Electron":
-        if year in ["2016", "2017"]:
-            return "SingleEle"
-        elif year in ["2017", "2022", "2023", "2024", "2025"]:
-            return "EGamma"
+def get_dataset_name(lepton_type, year):
+    if lepton_type == "electron":
+        return "EGamma" if year in ["2018", "2022", "2023", "2024", "2025"] else "SingleElectron"
     else:
-        return "Muon"
+        return "Muon" if year in ["2022", "2023", "2024", "2025"] else "SingleMuon"
 
 def get_hist(file_name, hist_name):
     root_file = ROOT.TFile.Open(file_name)
@@ -34,7 +33,7 @@ def get_hist(file_name, hist_name):
     root_file.Close()
     return hist
 
-def get_hists(file_name):
+def get_hists(file_name, lepton_type):
     root_file = ROOT.TFile.Open(file_name)
     if root_file.Get("beforeVeto") and root_file.Get("afterVeto"):
         print(f"[INFO]: Found beforeVeto and afterVeto in {file_name} — treating as existing fiducial map.")
@@ -45,9 +44,10 @@ def get_hists(file_name):
         }
     else:
         root_file.Close()
+        flavor = lepton_type.capitalize()
         hists = {
-            "before": get_hist(file_name, "ElectronFiducialCalcBeforeOldCutsPlotter/Track Plots/trackEtaVsPhi"),
-            "after": get_hist(file_name, "ElectronFiducialCalcAfterOldCutsPlotter/Track Plots/trackEtaVsPhi")
+            "before": get_hist(file_name, f"{flavor}FiducialCalcBeforeOldCutsPlotter/Track Plots/trackEtaVsPhi"),
+            "after": get_hist(file_name, f"{flavor}FiducialCalcAfterOldCutsPlotter/Track Plots/trackEtaVsPhi")
         }
     return hists
 
@@ -127,7 +127,12 @@ def make_sigma_hist(eff_hist, mean, std_dev):
             sigma_hist.SetBinContent(ix, iy, max(sigma, 0))
     return sigma_hist, sigma_vals
 
-def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix):
+def draw_labels(lumi_latex, cms_latex, lumi):
+    if lumi is not None:
+        lumi_latex.DrawLatex(0.96, 0.93, f"{lumi:.1f} fb^{{-1}} (13.6 TeV)")
+    cms_latex.DrawLatex(0.12, 0.925, "CMS Preliminary")
+
+def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix, lepton_type, lumi=None):
     ROOT.gROOT.SetBatch(True)
     ROOT.gStyle.SetOptStat(0)
     ROOT.gStyle.SetOptTitle(0)
@@ -143,25 +148,50 @@ def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix):
         circle.SetFillStyle(0)
         circles.append(circle)
 
+    lumi_latex = ROOT.TLatex()
+    lumi_latex.SetNDC()
+    lumi_latex.SetTextAngle(0)
+    lumi_latex.SetTextFont(42)
+    lumi_latex.SetTextAlign(32)
+    lumi_latex.SetTextSize(0.04)
+
+    cms_latex = ROOT.TLatex()
+    cms_latex.SetNDC()
+    cms_latex.SetTextAngle(0)
+    cms_latex.SetTextFont(62)
+    cms_latex.SetTextAlign(12)
+    cms_latex.SetTextSize(0.04)
+
+    eff_z_max   = 0.5 if lepton_type == "electron" else 0.05
+    sigma_z_max = 12  if lepton_type == "electron" else 23
+
     # Plot 1: before-veto raw counts
     hists["before"].Draw("colz")
+    draw_labels(lumi_latex, cms_latex, lumi)
     canvas.SaveAs(output_prefix + "_beforeVeto.pdf")
 
     # Plot 2: after-veto raw counts
     hists["after"].Draw("colz")
+    draw_labels(lumi_latex, cms_latex, lumi)
     canvas.SaveAs(output_prefix + "_afterVeto.pdf")
 
     # Plot 3: per-bin inefficiency (after/before) with hot spot circles
+    eff_hist.GetZaxis().SetRangeUser(0, eff_z_max)
+    eff_hist.GetZaxis().SetLabelSize(0.025)
     eff_hist.Draw("colz")
     for circle in circles:
         circle.Draw("same")
+    draw_labels(lumi_latex, cms_latex, lumi)
     canvas.SaveAs(output_prefix + "_efficiency.pdf")
 
     # Plot 4: per-bin deviation from mean in units of sigma, with hot spot circles
     sigma_hist, sigma_vals = make_sigma_hist(eff_hist, mean, std_dev)
+    sigma_hist.GetZaxis().SetRangeUser(0, sigma_z_max)
+    sigma_hist.GetZaxis().SetLabelSize(0.025)
     sigma_hist.Draw("colz")
     for circle in circles:
         circle.Draw("same")
+    draw_labels(lumi_latex, cms_latex, lumi)
     canvas.SaveAs(output_prefix + "_efficiencyInSigma.pdf")
 
     # Plot 5: distribution of sigma values across all occupied bins
@@ -172,20 +202,28 @@ def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix):
     h_sigma_dist.GetYaxis().SetTitle("Bins")
     ROOT.gStyle.SetOptStat(1)
     h_sigma_dist.Draw()
+    draw_labels(lumi_latex, cms_latex, lumi)
     canvas.SaveAs(output_prefix + "_sigmaDistribution.pdf")
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("file_name")
+    parser.add_argument("--lepton-type", choices=["electron", "muon"], required=True)
+    parser.add_argument("--year", required=True)
+    parser.add_argument("--era", default="")
     parser.add_argument("--output", default="fiducialMap.root")
     args = parser.parse_args()
 
     output_prefix = os.path.splitext(args.output)[0]
 
-    hists = get_hists(args.file_name)
+    dataset = get_dataset_name(args.lepton_type, args.year)
+    lumi_key = f"{dataset}_{args.year}{args.era}"
+    lumi_in_invfb = lumi_dict[lumi_key] / 1000.0
+
+    hists = get_hists(args.file_name, args.lepton_type)
     eff_hist, mean, std_dev, hot_spots = compute_efficiency(hists)
     write_root_file(hists, args.output)
-    create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix)
+    create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix, args.lepton_type, lumi_in_invfb)
 
 
 if __name__ == "__main__":
