@@ -7,7 +7,7 @@ import math
 from ROOT import gROOT, gStyle, TFile, TH2D, TCanvas, TEllipse, TLatex, TH1D
 
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)

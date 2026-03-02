@@ -1,7 +1,7 @@
 import ROOT as r
 import cmsstyle as cms
 import re
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 r.gROOT.SetBatch(1)
 
