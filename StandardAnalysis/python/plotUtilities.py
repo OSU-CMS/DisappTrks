@@ -88,7 +88,7 @@ def getHist(sample, condor_dir, channel, hist, quietFailure = False):
         "getHist is deprecated and will be removed in a future release. "
         "Use get_hist(file_path, hist_name) instead.",
         DeprecationWarning,
-        sracklevel=2
+        stacklevel=2
     )
 
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
