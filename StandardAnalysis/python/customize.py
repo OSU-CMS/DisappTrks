@@ -26,6 +26,8 @@ def customize (process,
     if realData:
         applyISRReweighting = False
 
+    setThresholdForFiducialMapVeto(process, 2.0)
+
     if runPeriod == "2015":
 
         data_global_tag = '76X_dataRun2_v15'
@@ -53,7 +55,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2015")
 
@@ -84,7 +85,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016BC")
 
@@ -119,7 +119,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
@@ -154,7 +153,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2017")
@@ -190,7 +188,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2018")
@@ -263,7 +260,6 @@ def customize (process,
             print("Warning fiducial maps not found for era {} in customize.py, will use 2022F as default".format(runEra))
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
 
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
         if runEra in ['C', 'D']:
             setMissingHitsCorrection (process, "2022CD")
@@ -335,7 +331,6 @@ def customize (process,
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
             setMissingHitsCorrection (process, "uncorrected")
 
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
 
 #####  Adding information to run with 2024 data #####
