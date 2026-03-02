@@ -1563,7 +1563,7 @@ MetHistograms = cms.PSet(
 
 ##############################################################################################
 
-TrackHistogramsMinimal =cms.PSet(
+TrackHistogramsBackgroundMinimal = cms.PSet(
      inputCollection = cms.vstring("tracks"),
      histograms = cms.VPSet (
         cms.PSet (
@@ -1575,6 +1575,18 @@ TrackHistogramsMinimal =cms.PSet(
     )
 )
 
+TrackHistogramsFiducialMinimal = cms.PSet(
+     inputCollection = cms.vstring("tracks"),
+     histograms = cms.VPSet(
+        cms.PSet (
+            name = cms.string("trackEtaVsPhi"),
+            title = cms.string("#eta vs #phi;track #eta;track #phi"),
+            binsX = cms.untracked.vdouble(60, -3, 3),
+            binsY = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("eta", "phi"),
+        )
+     )
+)
 
 TrackHistograms = cms.PSet(
      inputCollection = cms.vstring("tracks"),
