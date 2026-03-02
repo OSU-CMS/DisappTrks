@@ -26,6 +26,8 @@ def customize (process,
     if realData:
         applyISRReweighting = False
 
+    setThresholdForFiducialMapVeto (process, 2.0)
+
     if runPeriod == "2015":
 
         data_global_tag = '76X_dataRun2_v15'
@@ -53,7 +55,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2015_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2015_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2015")
 
@@ -84,7 +85,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016BC")
 
@@ -119,7 +119,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2016_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2016_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
 
         setMissingHitsCorrection (process, "2016DEFGH")
 
@@ -154,7 +153,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2017_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2017_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2017")
@@ -190,7 +188,6 @@ def customize (process,
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
         setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2018_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2018_data.root")
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, True)
 
         setMissingHitsCorrection (process, "2018")
@@ -199,12 +196,12 @@ def customize (process,
 
         data_global_tag = '124X_dataRun3_Prompt_v4'
         mc_global_tag = '124X_mcRun3_2022_realistic_v12'
-    
+
         if runEra in ['C','D','E']:
             data_global_tag = '130X_dataRun3_v2'
         elif runEra in ['F','G']:
             data_global_tag = '130X_dataRun3_PromptAnalysis_v1'
-        
+
         if runEra in ['C', 'D']:
             mc_global_tag = '130X_mcRun3_2022_realistic_v5'
         elif runEra in ['E', 'F', 'G']:
@@ -242,6 +239,10 @@ def customize (process,
         process.TriggerWeightProducer.produceTrackLeg = cms.bool(False)
         process.TriggerWeightProducer.produceGrandOr = cms.bool(True)
 
+        if runEra not in ["C", "D", "E", "F", "G"]:
+            print("A valid era was not used!!")
+            raise SystemExit
+
         if runEra in ['E', 'F', 'G']:
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22EE_23Sep2023_RunEFG_v1.root')
             print("Using jet veto map for 2022 eras E/F/G")
@@ -249,22 +250,13 @@ def customize (process,
             process.EventJetVarProducer.jetVetoMap = cms.FileInPath ('OSUT3Analysis/Configuration/data/Summer22_23Sep2023_RunCD_v1.root')
             print("Using jet veto map for 2022 eras C/D")
 
-        if runEra == 'C':
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022C_data.root")
-        elif runEra == 'D':
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022D_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022D_data.root")
-        elif runEra =='E':
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022E_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022E_data.root")
-        elif runEra=='F':
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
-        elif runEra=='G':
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022G_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022G_data.root")
-        else:
-            print("Warning fiducial maps not found for era {} in customize.py, will use 2022F as default".format(runEra))
-            setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2022F_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
-
-        setThresholdForFiducialMapVeto (process, 2.0)
+        setFiducialMaps(
+            process,
+            electrons=f"OSUT3Analysis/Configuration/data/electronFiducialMap_2022{runEra}_data.root",
+            muons=f"OSUT3Analysis/Configuration/data/muonFiducialMap_2022{runEra}_data.root"
+        )
         setUseEraByEraFiducialMaps (process, False)
+
         if runEra in ['C', 'D']:
             setMissingHitsCorrection (process, "2022CD")
         elif runEra in ['E', 'F', 'G']:
@@ -335,7 +327,6 @@ def customize (process,
             setFiducialMaps (process, electrons="OSUT3Analysis/Configuration/data/electronFiducialMap_2023C_data.root", muons="OSUT3Analysis/Configuration/data/muonFiducialMap_2022F_data.root")
             setMissingHitsCorrection (process, "uncorrected")
 
-        setThresholdForFiducialMapVeto (process, 2.0)
         setUseEraByEraFiducialMaps (process, False)
 
 #####  Adding information to run with 2024 data #####
@@ -349,7 +340,7 @@ def customize (process,
 
         if runEra not in ["C", "D", "E", "F", "G", "H", "I"]:
             print("A valid era was not used!!")
-            raise SystemExit # Exit process without extra import (this is what sys.exit() does anyways), since something is obviously wrong
+            raise SystemExit
 
         setFiducialMaps(
             process,
