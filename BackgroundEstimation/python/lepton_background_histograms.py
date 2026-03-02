@@ -72,7 +72,9 @@ class LeptonBackgroundHistograms:
         the calculation uses the correct denominator.
         """
         if nlayers == "combined":
-            return self.get_combined_hists()
+            combined = self.get_combined_hists()
+            combined["pass_met_cut"]["n_ctrl"] = combined["n_ctrl"]
+            return combined
 
         hists = self._get_hists_raw(nlayers)
         if self._lepton_type in self.COMBINED_MET_LEPTON_TYPES and nlayers in self.COMBINED_MET_NLAYERS:

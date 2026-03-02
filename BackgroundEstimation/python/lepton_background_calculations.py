@@ -118,7 +118,12 @@ def get_prob_pass_veto(hists, results):
     n_total_all, err_total_all = _get_weighted_total_and_error(hists["total_tp_pairs"])
     n_total_ss, err_total_ss = _get_weighted_total_and_error(hists["ss_tp_pairs"])
     n_pass_all, err_pass_all = _get_weighted_total_and_error(hists["passing_veto_probes"])
-    n_pass_ss, err_pass_ss = _get_total_and_error(hists["metNoMu"])
+
+    # We ignore SS subtraction for MC data
+    if hists.get("metNoMu") is not None:
+        n_pass_ss, err_pass_ss = _get_total_and_error(hists["metNoMu"])
+    else:
+        n_pass_ss, err_pass_ss = 0.0, 0.0
 
     if n_total_all < n_total_ss:
         print("When calculating P(pass veto), found negative OS tag/probe pairs. Exiting.")
@@ -336,9 +341,9 @@ def get_lumi_scale_factor(lepton_type, year, era):
     return lumi[met_key] / lumi[lepton_key]
 
 
-def calculate_n_est(hists, year, era,
-                    lepton_type, results,
-                    lepton_trigger_efficiency=None, lepton_trigger_efficiency_error=None):
+def calculate_n_est(hists, lepton_type, results,
+                    lepton_trigger_efficiency=None, lepton_trigger_efficiency_error=None,
+                    lumi_scale_factor=1.0):
     """Calculate the estimated lepton background N_est.
 
     Computes N_est = N_ctrl * P(pass veto) * P(pass MET cut) * P(pass MET trigger) / ε_lepton_trigger
@@ -348,21 +353,19 @@ def calculate_n_est(hists, year, era,
         hists: Dictionary of histogram dictionaries for this nlayers. Combined
             MET histogram substitution (for muon/tau at nlayers 4 and 5) is
             handled by the histogram loader before this function is called.
-        year: Data-taking year (e.g. "2022").
-        era: Run era (e.g. "D", "CD", "EFG").
         lepton_type: Type of lepton ("electron", "muon", or "tau").
         results: LeptonBackgroundResults object with add(label, value, error, formula="") method.
         lepton_trigger_efficiency: If provided, use this flat value instead of
             calculating from histograms.
         lepton_trigger_efficiency_error: Error on the flat efficiency. Required
             when lepton_trigger_efficiency is provided.
+        lumi_scale_factor: Ratio of MET to lepton dataset luminosity. Defaults
+            to 1.0, which is correct for MC where both selections use the same
+            sample. For data, compute with get_lumi_scale_factor() and pass in.
 
     Returns:
         Tuple of (n_est, err_n_est).
     """
-    lumi_scale_factor = get_lumi_scale_factor(lepton_type, year, era)
-    results.add("Lumi scale factor", lumi_scale_factor, 0.0)
-
     n_ctrl, err_n_ctrl = get_n_ctrl(hists["n_ctrl"])
     results.add("N_ctrl (unscaled)", n_ctrl, err_n_ctrl)
     n_ctrl *= lumi_scale_factor
