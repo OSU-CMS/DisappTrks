@@ -8,10 +8,14 @@ from tabulate import tabulate
 from DisappTrks.BackgroundEstimation.lepton_background_calculations import (
     DEFAULT_LEPTON_TRIGGER_EFFICIENCY,
     calculate_n_est,
+    get_lumi_scale_factor,
 )
 from DisappTrks.BackgroundEstimation.lepton_background_histograms import LeptonBackgroundHistograms
 from DisappTrks.ClosureTests.closure_test_histograms import ClosureTestHistograms
+from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
+from DisappTrks.StandardAnalysis.miniAOD_124X_Ntuples import eventCounts
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
+from OSUT3Analysis.Configuration.configurationOptions import crossSections
 
 
 ECAL_ENERGY_CUT = 10.0
@@ -81,6 +85,12 @@ Calculates:
         "--era",
         default="",
         help="Run era (e.g. D, CD, EFG). If not specified, assume the entire year."
+    )
+    parser.add_argument(
+        "--dataset",
+        default=None,
+        help="MC dataset name for cross-section and event count lookup (e.g. 'DYJetsToLL_M50_2022'). "
+             "Scales the MC estimate and truth count to data luminosity for comparison with --data-file."
     )
     parser.add_argument(
         "--data-file",
@@ -175,11 +185,34 @@ def get_nlayers(nlayers_arg):
         return [nlayers_arg]
 
 
+def get_mc_weight(dataset, year, era):
+    """Compute the MC weight to scale raw counts to data luminosity.
+
+    Uses the same formula as mergeOut.py:
+      Weight = targetLumi * crossSection / totalEvents
+
+    where targetLumi is the MET dataset luminosity for the given year/era.
+    """
+    met_key = f"MET_{year}{era}"
+    if met_key not in lumi:
+        print(f"Error: luminosity key '{met_key}' not found in IntegratedLuminosity_cff.py")
+        exit(-1)
+    if dataset not in crossSections:
+        print(f"Error: dataset '{dataset}' not found in crossSections")
+        exit(-1)
+    if dataset not in eventCounts:
+        print(f"Error: dataset '{dataset}' not found in eventCounts")
+        exit(-1)
+    return float(lumi[met_key]) * float(crossSections[dataset]) / float(eventCounts[dataset])
+
+
 def main():
     args = get_args()
     trigger_eff_kwargs = resolve_trigger_efficiency_kwargs(args.lepton_type, args.flat_lepton_trigger_efficiency)
     nlayers_to_run = get_nlayers(args.nlayers)
     mc_loader = ClosureTestHistograms(args.file_name, args.lepton_type)
+
+    mc_weight = get_mc_weight(args.dataset, args.year, args.era) if args.dataset else 1.0
 
     if args.data_file:
         data_loader = LeptonBackgroundHistograms(args.data_file, args.lepton_type)
@@ -192,22 +225,26 @@ def main():
 
         reco_results = ClosureTestResults()
         n_est_reco, err_reco = calculate_n_est(
-            mc_hists, args.year, args.era,
-            args.lepton_type, reco_results, **trigger_eff_kwargs
+            mc_hists, args.lepton_type, reco_results, **trigger_eff_kwargs
         )
+        n_est_reco *= mc_weight
+        err_reco   *= mc_weight
 
         if args.verbose:
             for label, value, error, formula in reco_results._results:
                 output.add(f"[reco] {label}", value, error, formula)
 
-        output.add("N_est (reco)", n_est_reco, err_reco)
+        scaled = ", scaled" if args.dataset else ""
+        output.add(f"N_est (reco{scaled})", n_est_reco, err_reco)
 
         # Truth background
         if nlayers == "combined":
-            n_obs, err_n_obs = get_combined_truth_background(args.file_name, args.lepton_type)
+            n_truth, err_n_truth = get_combined_truth_background(args.file_name, args.lepton_type)
         else:
-            n_obs, err_n_obs = get_truth_background(args.file_name, nlayers, args.lepton_type)
-        output.add("N_obs (truth)", n_obs, err_n_obs)
+            n_truth, err_n_truth = get_truth_background(args.file_name, nlayers, args.lepton_type)
+        n_truth     *= mc_weight
+        err_n_truth *= mc_weight
+        output.add(f"N_truth{scaled}", n_truth, err_n_truth)
 
         # Data estimate (optional)
         if args.data_file:
@@ -215,8 +252,9 @@ def main():
 
             data_results = ClosureTestResults()
             n_est_data, err_data = calculate_n_est(
-                data_hists, args.year, args.era,
-                args.lepton_type, data_results, **trigger_eff_kwargs
+                data_hists, args.lepton_type, data_results,
+                lumi_scale_factor=get_lumi_scale_factor(args.lepton_type, args.year, args.era),
+                **trigger_eff_kwargs
             )
 
             if args.verbose:
@@ -226,15 +264,15 @@ def main():
             output.add("N_est (data)", n_est_data, err_data)
 
         # Closure: reco - truth
-        diff_reco = n_est_reco - n_obs
-        err_diff_reco = math.sqrt(err_reco**2 + err_n_obs**2)
+        diff_reco = n_est_reco - n_truth
+        err_diff_reco = math.sqrt(err_reco**2 + err_n_truth**2)
         sigma_reco = diff_reco / err_diff_reco if err_diff_reco > 0 else 0.0
         output.add("reco - truth", diff_reco, err_diff_reco, formula=f"{sigma_reco:.2f} sigma")
 
         # Closure: data - truth (optional)
         if args.data_file:
-            diff_data = n_est_data - n_obs
-            err_diff_data = math.sqrt(err_data**2 + err_n_obs**2)
+            diff_data = n_est_data - n_truth
+            err_diff_data = math.sqrt(err_data**2 + err_n_truth**2)
             sigma_data = diff_data / err_diff_data if err_diff_data > 0 else 0.0
             output.add("data - truth", diff_data, err_diff_data, formula=f"{sigma_data:.2f} sigma")
 
