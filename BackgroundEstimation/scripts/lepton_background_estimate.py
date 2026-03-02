@@ -9,6 +9,7 @@ from DisappTrks.BackgroundEstimation.lepton_background_histograms import LeptonB
 from DisappTrks.BackgroundEstimation.lepton_background_calculations import (
     DEFAULT_LEPTON_TRIGGER_EFFICIENCY,
     calculate_n_est,
+    get_lumi_scale_factor,
 )
 from DisappTrks.StandardAnalysis.plotUtilities import get_hist
 
@@ -156,13 +157,16 @@ def main():
     nlayers_to_run = get_nlayers(args.nlayers)
     hist_loader = LeptonBackgroundHistograms(args.file_name, args.lepton_type)
 
+    lumi_sf = get_lumi_scale_factor(args.lepton_type, args.year, args.era)
+
     for i, nlayers in enumerate(nlayers_to_run):
         hists = hist_loader.get_hists(nlayers)
         results = LeptonBackgroundResults()
+        results.add("Lumi scale factor", lumi_sf, 0.0)
 
         calculate_n_est(
-            hists, args.year, args.era,
-            args.lepton_type, results,
+            hists, args.lepton_type, results,
+            lumi_scale_factor = lumi_sf,
             **trigger_eff_kwargs
         )
 
