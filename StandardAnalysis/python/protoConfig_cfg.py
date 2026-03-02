@@ -365,6 +365,7 @@ histSetsMuon.append(MuonIPHistograms)
 histSetsBackgroundMinimal = cms.VPSet(
     TrackHistogramsMinimal,
     TrackExtraHistogramsMinimal,
+    TrackMETHistograms,
     MetExtraHistogramsMinimal,
     TrackTauHistograms,
     ElectronEventVariableHistogramsMinimal,
