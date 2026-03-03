@@ -33,6 +33,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VE
 else:
     tagTauCuts.append(cutTauTightPFIso)
 addCuts(TauTagSkim.cuts, tagTauCuts)
+removeCuts(TauTagSkim.cuts, [cutTrkJetDeltaPhi])
 
 ##############################################################
 # Channels to separate tau background from combined triggers #
@@ -93,7 +94,6 @@ cutsToAdd += [
 ]
 cutsToAdd += isoTrkCuts
 addCuts(TauTagPt50.cuts, cutsToAdd)
-removeCuts(TauTagPt50.cuts, [cutTrkJetDeltaPhi])
 
 TauTagPt50NoTrig = copy.deepcopy(TauTagPt50)
 TauTagPt50NoTrig.name = cms.string("TauTagPt50NoTrig")
