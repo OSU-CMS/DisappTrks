@@ -438,6 +438,13 @@ TrackExtraHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(102, -5.1, 5.1),
             inputVariables = cms.vstring("maxSigmaForFiducialMuonTrack"),
         ),
+        cms.PSet (
+            name = cms.string("trackMaxSigmaForFiducialMuonTrackVsElectronTrack"),
+            title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track"),
+            binsX = cms.untracked.vdouble(102, -5.1, 5.1),
+            binsY = cms.untracked.vdouble(102, -5.1, 5.1),
+            inputVariables = cms.vstring("maxSigmaForFiducialElectronTrack", "maxSigmaForFiducialMuonTrack"),
+        ),
         #cms.PSet (
         #    name = cms.string("trackPtVsMaxSigmaForFiducialTracks"),
         #    title = cms.string(";max #sigma for fiducial electron track;max #sigma for fiducial muon track;track p_{T} [GeV]"),
