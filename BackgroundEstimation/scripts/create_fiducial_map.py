@@ -195,7 +195,7 @@ def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix, lepto
     canvas.SaveAs(output_prefix + "_efficiencyInSigma.pdf")
 
     # Plot 5: distribution of sigma values across all occupied bins
-    h_sigma_dist = ROOT.TH1D("sigmaDist", "sigmaDist", 40, -20, 20)
+    h_sigma_dist = ROOT.TH1D("sigmaDist", "sigmaDist", 40, -5.1, 5.1)
     for val in sigma_vals:
         h_sigma_dist.Fill(val)
     h_sigma_dist.GetXaxis().SetTitle("(Inefficiency - Mean) / #sigma")
