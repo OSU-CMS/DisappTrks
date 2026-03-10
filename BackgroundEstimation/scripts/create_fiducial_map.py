@@ -108,7 +108,7 @@ def write_root_file(hists, output_path):
     hists["after"].Write("afterVeto")
     fout.Close()
 
-def make_sigma_hist(eff_hist, mean, std_dev):
+def make_sigma_hist(eff_hist, before_hist, mean, std_dev):
     """Build a TH2 where each bin is (inefficiency - mean) / std_dev, clamped to 0.
     Also returns the unclamped sigma values for the distribution plot."""
     sigma_hist = eff_hist.Clone("efficiencyInSigma")
@@ -118,10 +118,10 @@ def make_sigma_hist(eff_hist, mean, std_dev):
     sigma_vals = []
     for ix in range(1, nx + 1):
         for iy in range(1, ny + 1):
-            ineff = eff_hist.GetBinContent(ix, iy)
-            if ineff == 0:
+            if before_hist.GetBinContent(ix, iy) == 0:
                 sigma_hist.SetBinContent(ix, iy, 0)
                 continue
+            ineff = eff_hist.GetBinContent(ix, iy)
             sigma = (ineff - mean) / std_dev
             sigma_vals.append(sigma)
             sigma_hist.SetBinContent(ix, iy, max(sigma, 0))
@@ -185,7 +185,7 @@ def create_plots(hists, eff_hist, mean, std_dev, hot_spots, output_prefix, lepto
     canvas.SaveAs(output_prefix + "_efficiency.pdf")
 
     # Plot 4: per-bin deviation from mean in units of sigma, with hot spot circles
-    sigma_hist, sigma_vals = make_sigma_hist(eff_hist, mean, std_dev)
+    sigma_hist, sigma_vals = make_sigma_hist(eff_hist, hists["before"], mean, std_dev)
     sigma_hist.GetZaxis().SetRangeUser(0, sigma_z_max)
     sigma_hist.GetZaxis().SetLabelSize(0.025)
     sigma_hist.Draw("colz")
