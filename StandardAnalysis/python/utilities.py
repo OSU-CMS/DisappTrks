@@ -185,8 +185,8 @@ def setThresholdForFiducialMapVeto (process, threshold):
                     if hasattr (y, fiducialMap):
                         z = getattr (y, fiducialMap)
                         for i in range (0, len (z)):
-                            print("# Setting thresholdForVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "...")
-                            setattr (z[i], "thresholdForVeto", cms.double (threshold))
+                            print("# Setting thresholdForFiducialVeto for " + x.label () + ".fiducialMaps." + fiducialMap + "[" + str (i) + "] to " + str (threshold) + "...")
+                            setattr (z[i], "thresholdForFiducialVeto", cms.double (threshold))
 
 def setFiducialMaps (process, electrons, muons):
     fiducialMaps = ["electrons", "muons"]
