@@ -342,6 +342,8 @@ dataset_names_bkgd_MiniAOD = {
     'QCD_PT2400to3200_2023BPix' : '/QCD_PT-2400to3200_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v2/MINIAODSIM',
     'QCD_PT3200_2023BPix' : '/QCD_PT-3200_TuneCP5_13p6TeV_pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v2/MINIAODSIM',
 
+    'WToLNu_4Jets_2024': '/WtoLNu-4Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter24MiniAOD-133X_mcRun3_2024_realistic_v10-v2/MINIAODSIM'
+
 }
 
 dataset_names = {}
