@@ -1,4 +1,4 @@
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 intLumi = 1.0
 
