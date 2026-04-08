@@ -2,11 +2,21 @@
 #       configuration causes a segfault when saving skims. The ROOT modules seem to not play nicely
 #       with CMSSW, so be sure to only use this for plot-making scripts.
 
+import os
+
 from OSUT3Analysis.Configuration.histogramUtilities import *
 from DisappTrks.StandardAnalysis.tdrstyle import *
 from DisappTrks.StandardAnalysis.utilities import *
 
 from ctypes import c_double # see https://root-forum.cern.ch/t/issue-with-using-integralanderror-with-pyroot/53182/2
+
+def _buildDatasetFile(condor_dir, sample):
+    """Build the ROOT file path. If condor_dir is an absolute path or contains
+    a directory separator, use it directly as {condor_dir}/{sample}.root.
+    Otherwise, prepend the conventional 'condor/' prefix."""
+    if os.path.isabs(condor_dir) or os.sep in condor_dir:
+        return os.path.join(condor_dir, "%s.root" % sample)
+    return "condor/%s/%s.root" % (condor_dir, sample)
 
 def setStyle(h, color = 1):
     h.SetLineColor(color)
@@ -53,8 +63,38 @@ def setAxisStyle(h, xTitle = "", yTitle = "", xRange = (0, 0), yRange = (0, 0)):
     if yRange[0] != 0 or yRange[1] != 0:
         h.GetYaxis().SetRangeUser(yRange[0], yRange[1])
 
+def getYieldInBin(sample, condor_dir, channel, ibin):
+    dataset_file = _buildDatasetFile(condor_dir, sample)
+    inputFile = TFile(dataset_file)
+    cutFlowHistogram = inputFile.Get(channel + "/cutFlow")
+    if not cutFlowHistogram:
+        print("WARNING: didn't find cutflow histogram ", channel, "CutFlow in file ", dataset_file)
+        return 0
+    yield_     = float(cutFlowHistogram.GetBinContent(ibin))
+    statError_ = float(cutFlowHistogram.GetBinError  (ibin))
+    inputFile.Close()
+    return (yield_, statError_)
+
+def getHistIntegral(sample, condor_dir, channel, hist, xlo, xhi):
+    dataset_file = _buildDatasetFile(condor_dir, sample)
+    inputFile = TFile(dataset_file)
+    histogram = inputFile.Get(channel+"/"+hist)
+    if not histogram:
+        print("WARNING: didn't find histogram ", channel + "/" + hist, " in file ", dataset_file)
+        return 0
+    Nxbins = histogram.GetNbinsX()
+    xmax   = histogram.GetBinContent(Nxbins)
+    xloBin = histogram.GetXaxis().FindBin(float(xlo))
+    xhiBin = histogram.GetXaxis().FindBin(float(xhi))
+    if xhi > xmax:
+        xhiBin = histogram.GetXaxis().FindBin(float(xhi))
+    intError = c_double(0.0)
+    integral = histogram.IntegralAndError(xloBin, xhiBin, intError)
+    inputFile.Close()
+    return (integral, intError)
+
 def getHist(sample, condor_dir, channel, hist, quietFailure = False):
-    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    dataset_file = _buildDatasetFile(condor_dir, sample)
     inputFile = TFile(dataset_file)
     h0 = inputFile.Get(channel + "/" + hist)
     if not h0:
@@ -91,7 +131,7 @@ def getHistIntegralFromProjectionZ(sample, condor_dir, channel, fiducialElectron
     return (yield_, statError_.value)
 
 def getYield(sample,condor_dir,channel):
-    dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
+    dataset_file = _buildDatasetFile(condor_dir, sample)
     inputFile = TFile(dataset_file)
     metPtHistogram = inputFile.Get(channel + "/Met Plots/metPt")
     if not metPtHistogram:
@@ -107,7 +147,7 @@ def getHistFromChannelDict(channel, hist, quietFailure = False):
     if "sample" not in channel or "condorDir" not in channel or "name" not in channel:
         print("Bad channel given to getHistFromChannelDict: " + str(channel))
         return
-    dataset_file = "condor/%s/%s.root" % (channel["condorDir"], channel["sample"])
+    dataset_file = _buildDatasetFile(channel["condorDir"], channel["sample"])
     inputFile = TFile(dataset_file)
     h0 = inputFile.Get(channel["name"] + "Plotter/" + hist)
     if not h0:

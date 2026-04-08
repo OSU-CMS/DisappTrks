@@ -274,12 +274,12 @@ class LeptonBkgdEstimate:
         elif self._flavor == "tau":
             return 14, 40  # define tau to include everything besides electrons and muons.  Last bin value is for 38.
 
-    def addChannel (self, role, name, sample, condorDir, useIdMatch = False):
-        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+    def addChannel (self, role, name, sample, inputDir, useIdMatch = False):
+        channel = {"name" : name, "sample" : sample, "condorDir" : inputDir}
         n = None
         nError = None
 
-        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        n, nError = getYieldInBin (sample, inputDir, name + "CutFlowPlotter", 1)
         w = (nError * nError) / n
         n /= w
         nError /= w
@@ -292,9 +292,9 @@ class LeptonBkgdEstimate:
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
             # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
-            n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
+            n, nError = getHistIntegral (sample, inputDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
-            n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            n, nError = self.getHistIntegralFromProjectionZ (sample, inputDir, name + "Plotter")
         n /= w
         nError /= w
         channel["yield"] = Measurement (n * w, (nError if n != 0.0 else up68) * w)
@@ -303,7 +303,7 @@ class LeptonBkgdEstimate:
         setattr (self, role, channel)
         print("yield for " + name + ": " + str (channel["yield"]))
 
-    def appendChannel (self, role, name, sample, condorDir, useIdMatch = False):
+    def appendChannel (self, role, name, sample, inputDir, useIdMatch = False):
         if not hasattr (self, role):
             print("Cannot append to role", role, "before it has been defined!")
             return
@@ -317,7 +317,7 @@ class LeptonBkgdEstimate:
         n = None
         nError = None
 
-        n, nError = getYieldInBin (sample, condorDir, name + "CutFlowPlotter", 1)
+        n, nError = getYieldInBin (sample, inputDir, name + "CutFlowPlotter", 1)
         w = (nError * nError) / n
         n /= w
         nError /= w
@@ -338,9 +338,9 @@ class LeptonBkgdEstimate:
             # NOTE: below is wrong since the fiducial map cuts haven't been applied.
             #       need to add 3d plot of bestMatchPdgId vs these maxSigmas
             # N.B. "bestMatch" changed to "promptOrTauDecay" but hist name remains
-            n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
+            n, nError = getHistIntegral (sample, inputDir, name + "Plotter", "Track Plots/bestMatchPdgId", pdgLo, pdgHi)
         else:
-            n, nError = self.getHistIntegralFromProjectionZ (sample, condorDir, name + "Plotter")
+            n, nError = self.getHistIntegralFromProjectionZ (sample, inputDir, name + "Plotter")
         n /= w
         nError /= w
         thisYield = Measurement (n * w, (nError if n != 0.0 else up68) * w)
@@ -349,7 +349,7 @@ class LeptonBkgdEstimate:
         channel["yield"] += thisYield
         channel["yield"].isPositive ()
 
-        channelExtension = {"name" : name, "sample" : sample, "condorDir" : condorDir}
+        channelExtension = {"name" : name, "sample" : sample, "condorDir" : inputDir}
         if "extensions" in channel:
             channel["extensions"].append(channelExtension)
         else:
@@ -1323,9 +1323,9 @@ class FakeTrackBkgdEstimate:
     def setUseFlatD0Fit (self, doUseFlat):
         self._useFlatD0Fit = doUseFlat
 
-    def addChannel (self, role, name, sample, condorDir, verbose = True):
-        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
+    def addChannel (self, role, name, sample, inputDir, verbose = True):
+        channel = {"name" : name, "sample" : sample, "condorDir" : inputDir}
+        n, nError = getHistIntegral (sample, inputDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
@@ -1560,9 +1560,9 @@ class FakeTrackBkgdOptimizer(FakeTrackBkgdEstimate):
     def __init__ (self):
         FakeTrackBkgdEstimate.__init__(self)
 
-    def addChannel (self, role, name, sample, condorDir, verbose = True):
-        channel = {"name" : name, "sample" : sample, "condorDir" : condorDir}
-        n, nError = getHistIntegral (sample, condorDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
+    def addChannel (self, role, name, sample, inputDir, verbose = True):
+        channel = {"name" : name, "sample" : sample, "condorDir" : inputDir}
+        n, nError = getHistIntegral (sample, inputDir, name + "Plotter", "Met Plots/metNoMu", 0.0, 99999.0)
         channel["yield"] = Measurement (n, nError)
         channel["yield"].isPositive ()
         setattr (self, role, channel)
