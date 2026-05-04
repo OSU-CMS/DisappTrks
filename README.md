@@ -17,8 +17,8 @@ scramv1 b -j 9
 
 ## 'Full' recipe including osusub.py: MiniAOD only
 ```
-cmsrel CMSSW_13_0_13
-cd CMSSW_13_0_13/src
+cmsrel CMSSW_15_0_10
+cd CMSSW_15_0_10/src
 cmsenv
 git-cms-init
 
