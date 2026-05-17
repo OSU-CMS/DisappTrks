@@ -8,6 +8,7 @@
 *_C_ACLiC_dict_rdict.pcm
 *~
 .*
+!.github/
 __init__.py
 hist.root
 crab.log

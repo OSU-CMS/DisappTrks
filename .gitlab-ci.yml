@@ -1,0 +1,62 @@
+image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
+
+stages:
+  - cmssw_setup
+  - test
+
+
+
+
+variables:
+  CMSSW_VERSION: "CMSSW_13_3_2"     # CMSSW version being used.
+  SCRAM_ARCH:    "el8_amd64_gcc12"  
+  CMS_PATH: "/cvmfs/cms.cern.ch/"
+
+before_script: # Commands run before all stages
+ # python 3 installation not needed if running on private "runner" computer
+ # python 3 needed for CMSSW 12 https://hypernews.cern.ch/HyperNews/CMS/get/comp-ops/5318.html
+ - ulimit -n 1024 
+ - yum install -y  python3
+ - yum install -y  libXpm   # Just needed to create histograms from ROOT TTree.
+ - source $CMS_PATH/cmsset_default.sh
+ - shopt -s expand_aliases  # Allows aliases like cmsenv to be used.
+ #- yum install -y openssl-devel #used to do CMSSW setup
+
+
+cmssw_setup:
+  tags:
+    - cvmfs
+  variables:
+    # This is also set on LXPLUS
+    CMS_PATH: /cvmfs/cms.cern.ch/
+  script:
+
+    # IMPORTANT: Expand aliases in noninteractive bash mode
+    # Otherwise cmsrel and cmsenv won't work
+    - shopt -s expand_aliases
+    # access CVMFS
+    - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
+    - cmsrel CMSSW_13_3_2
+    - cd CMSSW_13_3_2/src
+    - cmsenv
+    - git config --global user.name "Boris Johnson"
+    - git config --global user.github Boris
+    - git config --global user.email "Boris@John.son"
+    - git-cms-init
+    - git cms-addpkg IOPool/Input
+    - sed -i '/assert(readEventSucceeded)/s/^/\/\//' IOPool/Input/src/PoolSource.cc
+    - git clone https://github.com/OSU-CMS/DisappTrksML.git
+    - git clone https://github.com/OSU-CMS/DisappTrks.git
+    - git clone https://github.com/OSU-CMS/OSUT3Analysis.git
+    - OSUT3Analysis/AnaTools/scripts/setupFramework.py -f MINI_AOD_2022 -c DisappTrks/StandardAnalysis/interface/CustomDataFormat.h
+    - scramv1 b -j 9
+
+test:
+  script:
+    - cd DisappTrks
+    - git checkout CI
+    - cd ..
+    - ls DisappTrks
+    - ls DisappTrks/CITests/
+    - bash DisappTrks/CITests/run.sh
+
