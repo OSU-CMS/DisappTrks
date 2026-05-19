@@ -1,6 +1,6 @@
 import ROOT as r
 import cmsstyle as cms
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import lumi
+from DisappTrks.StandardAnalysis.integrated_luminosity import lumi
 
 
 def createPlots2022():

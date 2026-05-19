@@ -13,7 +13,7 @@ if not (os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CM
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_12_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_13_0_"):
     exec("from DisappTrks.SignalMC.signalCrossSecs13p6TeV import *")
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 from ROOT import TMath
 

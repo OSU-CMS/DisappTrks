@@ -4,7 +4,7 @@ import math, os
 from DisappTrks.BackgroundEstimation.bkgdEstimate import LeptonBkgdEstimate
 from DisappTrks.BackgroundEstimation.fakeEstimateTest import FakeTrackBkgdEstimate
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 
 gROOT.SetBatch () # I too am Groot.

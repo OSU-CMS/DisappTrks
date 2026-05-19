@@ -3,7 +3,7 @@
 import math, os, sys
 from DisappTrks.BackgroundEstimation.bkgdEstimate import FakeTrackBkgdOptimizer
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from ROOT import gROOT, TCanvas, TFile, TGraphErrors
 
 gROOT.SetBatch() # I am Groot.

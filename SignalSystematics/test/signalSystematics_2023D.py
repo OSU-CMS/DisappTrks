@@ -3,7 +3,7 @@
 import math
 from DisappTrks.SignalSystematics.signalSystematics import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from DisappTrks.TriggerAnalysis.triggerEfficiency import *
 from ROOT import TFile, TCanvas
 import os

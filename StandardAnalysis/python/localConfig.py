@@ -1,7 +1,7 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.Color import *
 from DisappTrks.StandardAnalysis.utilities import *
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 import copy
 import os
 import re

@@ -7,7 +7,7 @@ import math
 import array as arr
 import numpy as np
 from ctypes import c_double
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 
 def makeMETPlots(f_name):
     

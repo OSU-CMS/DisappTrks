@@ -2,7 +2,7 @@
 
 import math, os, sys
 from DisappTrks.BackgroundEstimation.bkgdEstimate import FakeTrackBkgdEstimate
-from DisappTrks.StandardAnalysis.IntegratedLuminosity_cff import *
+from DisappTrks.StandardAnalysis.integrated_luminosity import *
 from DisappTrks.StandardAnalysis.plotUtilities import *
 from ROOT import gROOT, TFile, TGraphAsymmErrors
 
