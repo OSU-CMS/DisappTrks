@@ -546,7 +546,6 @@ EventTPProducer<T, Args...>::firesTrigger (const edm::Event &event,
                                            const osu::Track &probe) const
 {
 
-  std::cout << "Debugging, checking fires trigger" << std::endl;
   for(auto triggerObj : triggerObjs) {
 
 #if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,2,0)
@@ -557,7 +556,6 @@ EventTPProducer<T, Args...>::firesTrigger (const edm::Event &event,
 
     if(triggerObj.collection() == (triggerCollectionName_)) {
       for(const auto &thisFilterName : triggerObj.filterLabels()) {
-        std::cout << "debugging trigger/probe matching " << thisFilterName << " " << triggerFilterName_ << std::endl;
         if(thisFilterName == triggerFilterName_) {
           if(deltaR(probe, triggerObj) < triggerMatchingDR_) return true;
         }

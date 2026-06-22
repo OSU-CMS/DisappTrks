@@ -31,7 +31,7 @@ class AnalysisEra:
         elif self.release.startswith('CMSSW_10_2_'):
             self.is2018 = True
             self.eraName = '2018'
-        elif self.release.startswith('CMSSW_12_') or self.release.startswith('CMSSW_13_'):
+        elif self.release.startswith('CMSSW_12_') or self.release.startswith('CMSSW_13_') or self.release.startswith('CMSSW_15_'):
             self.is2022 = True
             self.eraName = '2022'
         else:
@@ -399,6 +399,13 @@ def changeJetCorrectionNames(process, year, eraTag, isData):
             moduleOSUJetProducer.eraTag = cms.string(eraTag)
             moduleOSUJetProducer.year = cms.string(year)
             moduleOSUJetProducer.isData = cms.bool(isData)
+
+def changeJecConfigFile(process, configPath):
+    attrs = (vars(process))['_Process__producers']
+    for key, value in attrs.items():
+        if (vars(value))['_TypedParameterizable__type'] == 'OSUJetProducer':
+            if hasattr(process, key):
+                getattr(process, key).jecConfigFile = cms.FileInPath(configPath)
 
 def changeScaleFactorsRun3(process, version, prefix=''):
     strsObjectScalingFactorProducer = []

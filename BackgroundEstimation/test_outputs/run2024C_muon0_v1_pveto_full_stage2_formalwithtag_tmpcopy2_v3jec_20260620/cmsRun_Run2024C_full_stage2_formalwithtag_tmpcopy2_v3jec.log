@@ -1,0 +1,1198 @@
+########################################################################
+# Switching the following since the release is [1;34mCMSSW_15_0_10[0m:
+#
+# Datasets and background samples from: [1;36mminiAODV2Samples[0m
+# Signal samples: [1;36m76X samples[0m
+# MET filters: Not using BadPFMuonFilter and BadChargedCandidateFilter
+# Collections: collectionMapMiniAOD2022
+# hardInteractionMcparticles: prunedGenParticlePlusGeant
+# EventWeights applied: 2022
+# Lepton SFs: 2022 or 2023; Check the config and customize to know what is used
+# Triggers: 2022 FIXME
+# Trigger filters: 2015
+# MetNoMu > 120 GeV
+# Hits requirement: 4/4
+# Muon PT cut: >26 GeV (2022) FIXME
+# Electron PT cut: >32 GeV (2022) FIXME
+########################################################################
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("slimmedMETsPuppi"),
+    muons = cms.InputTag("slimmedMuons"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger")
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_MuonTagSkim_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_MuonFiducialCalcBeforeOldCuts_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_MuonFiducialCalcAfterOldCuts_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuProbeTrk_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuProbeTrkWithFilter_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuProbeTrkWithSSFilter_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuProbeTrkWithLooseFilter_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_MuonTagPt55_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_MuonTagPt55MetTrig_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoTauToMuProbeTrk_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoTauToMuProbeTrkWithFilter_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoTauToMuProbeTrkWithSSFilter_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMu_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuCandTrk_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuDisTrk_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuDisTrkNHits3_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuDisTrkNHits4_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuDisTrkNHits5_2026_06_20_00h35m05s.root
+Input tags read in
+Collections:  cms.PSet(
+    beamspots = cms.InputTag("offlineBeamSpot"),
+    bjets = cms.InputTag("slimmedJetsPuppi"),
+    electrons = cms.InputTag("slimmedElectrons"),
+    eventvariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","eventvariables"), cms.InputTag("PrimaryVtxVarProducer","eventvariables"), cms.InputTag("EventJetVarProducer","eventvariables"), cms.InputTag("PUScalingFactorProducer","eventvariables"), cms.InputTag("ISRWeightProducer","eventvariables"),
+        cms.InputTag("TriggerWeightProducer","eventvariables"), cms.InputTag("EventMuonTPProducer","eventvariables"), cms.InputTag("EventMuonMETTriggerProducer","eventvariables"), cms.InputTag("EventMuonL1ETMProducer","eventvariables"), cms.InputTag("EventTauToMuonTPProducer","eventvariables")
+    ),
+    generatorweights = cms.InputTag("generator"),
+    genjets = cms.InputTag("slimmedGenJets"),
+    hardInteractionMcparticles = cms.InputTag("prunedGenParticlePlusGeant"),
+    jets = cms.InputTag("slimmedJetsPuppi"),
+    lostTracks = cms.InputTag("lostTracks"),
+    mcparticles = cms.InputTag("packedGenParticles"),
+    metFilters = cms.InputTag("TriggerResults","","PAT"),
+    mets = cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    muons = cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
+    photons = cms.InputTag("slimmedPhotons"),
+    pileupinfos = cms.InputTag("slimmedAddPileupInfo"),
+    prescales = cms.InputTag("patTrigger"),
+    primaryvertexs = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    secondaryTracks = cms.InputTag("isolatedTracks"),
+    superclusters = cms.InputTag("reducedEgamma","reducedSuperClusters"),
+    taus = cms.InputTag("slimmedTaus"),
+    tracks = cms.InputTag("isolatedTracks"),
+    triggers = cms.InputTag("TriggerResults","","HLT"),
+    trigobjs = cms.InputTag("slimmedPatTrigger"),
+    uservariables = cms.VInputTag(
+        cms.InputTag("LifetimeWeightProducer","uservariables"), cms.InputTag("PrimaryVtxVarProducer","uservariables"), cms.InputTag("EventJetVarProducer","uservariables"), cms.InputTag("PUScalingFactorProducer","uservariables"), cms.InputTag("ISRWeightProducer","uservariables"),
+        cms.InputTag("TriggerWeightProducer","uservariables"), cms.InputTag("EventMuonTPProducer","uservariables"), cms.InputTag("EventMuonMETTriggerProducer","uservariables"), cms.InputTag("EventMuonL1ETMProducer","uservariables"), cms.InputTag("EventTauToMuonTPProducer","uservariables")
+    )
+)
+Tag mets, cms.InputTag("objectSelector0","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+Tag muons, cms.InputTag("objectSelector1","originalFormat","OSUAnalysisMuonTagSkim1781930063")
+emptySkim_ZtoMuMuDisTrkNHits6_2026_06_20_00h35m05s.root
+# Setting thresholdForFiducialVeto for objectProducer11.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer11.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer116.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer116.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer133.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer133.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer151.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer151.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer169.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer169.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer187.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer187.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer205.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer205.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer223.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer223.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer241.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer241.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer25.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer25.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer259.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer259.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer277.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer277.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer295.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer295.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer313.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer313.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer39.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer39.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer54.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer54.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer69.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer69.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer84.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer84.fiducialMaps.muons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer99.fiducialMaps.electrons[0] to 2.0...
+# Setting thresholdForFiducialVeto for objectProducer99.fiducialMaps.muons[0] to 2.0...
+Using jet veto map for 2024 eras B-I
+# Setting histFile for objectProducer11.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer11.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer116.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer116.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer133.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer133.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer151.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer151.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer169.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer169.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer187.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer187.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer205.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer205.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer223.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer223.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer241.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer241.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer25.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer25.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer259.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer259.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer277.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer277.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer295.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer295.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer313.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer313.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer39.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer39.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer54.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer54.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer69.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer69.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer84.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer84.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer99.fiducialMaps.electrons[0] to "OSUT3Analysis/Configuration/data/electronFiducialMap_2024C_data.root"...
+# Setting histFile for objectProducer99.fiducialMaps.muons[0] to "OSUT3Analysis/Configuration/data/muonFiducialMap_2024C_data.root"...
+# Global tag: [1;36m150X_dataRun3_v2[0m
+# Missing hits corrections (objectProducer11): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer116): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer133): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer151): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer169): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer187): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer205): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer223): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer241): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer25): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer259): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer277): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer295): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer313): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer39): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer54): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer69): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer84): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+# Missing hits corrections (objectProducer99): uncorrected
+#   dropTOBProbability: 0.0
+#   preTOBDropHitInefficiency: 0.0
+#   postTOBDropHitInefficiency: 0.0
+#   hitInefficiency: 0.0
+########################################################################
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+# Using 2022 MET trigger filters in EventMETTriggerProducer_cfi.py...
+# Using 2022 MET trigger filters in EventL1ETMProducer_cfg.py...
+Using l1ETM DisappTrks/BackgroundEstimation/data/l1ETM_2024.txt
+Warning in <TInterpreter::ReadRootmapFile>: While processing /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_10/lib/el9_amd64_gcc12/DataFormatsWrappedStdDictionaries_xr.rootmap, class edm::Wrapper<std::vector<bool> > was found to be associated to libDataFormatsWrappedStdDictionaries.so although it is already associated to libOSUT3AnalysisAnaTools.so
+Warning in <TInterpreter::ReadRootmapFile>: While processing /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_10/lib/el9_amd64_gcc12/DataFormatsWrappedStdDictionaries_xr.rootmap, class edm::Wrapper<vector<bool> > was found to be associated to libDataFormatsWrappedStdDictionaries.so although it is already associated to libOSUT3AnalysisAnaTools.so
+20-Jun-2026 00:35:14 CDT  Initiating request to open file file:/tmp/czheng_v1_pveto_20260620/skim_MuonTagSkim_Run2024C_full.root
+20-Jun-2026 00:35:16 CDT  Successfully opened file file:/tmp/czheng_v1_pveto_20260620/skim_MuonTagSkim_Run2024C_full.root
+Begin processing the 1st record. Run 379765, Event 474554661, LumiSection 273 on stream 0 at 20-Jun-2026 00:35:22.921 CDT
+[EventJetVarProducer] using lost tracks collection...
+[EventJetVarProducer] NOT determining generated signal event type...
+[EventJetVarProducer] NOT determining generated signal event type...
+[PUScalingFactorProducer] NOT applying PU reweighting (isRealData: true, PU_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/OSUT3Analysis/Configuration/data/pu.root", dataset_: "data2015", target_: "", targetUp_: "n/a", targetDown_: "n/a")
+[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: true, efficiencyFile_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root", dataset_: "", target_: "")
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer73  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad Charged Hadron Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer73  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad PF Muon Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer73  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "pass ecal Bad Calib Filter Update"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer58  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad Charged Hadron Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer58  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad PF Muon Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer58  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "pass ecal Bad Calib Filter Update"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer43  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad Charged Hadron Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer43  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "Bad PF Muon Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer43  20-Jun-2026 00:35:38 CDT Run: 379765 Event: 474554661
+Not applying "pass ecal Bad Calib Filter Update"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer1 20-Jun-2026 00:35:38 CDT  Run: 379765 Event: 474554661
+Not applying "Bad Charged Hadron Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer1 20-Jun-2026 00:35:38 CDT  Run: 379765 Event: 474554661
+Not applying "Bad PF Muon Filter"!
+%MSG
+%MSG-w OSUMetProducer:  OSUMetProducer:objectProducer1 20-Jun-2026 00:35:38 CDT  Run: 379765 Event: 474554661
+Not applying "pass ecal Bad Calib Filter Update"!
+%MSG
+WARNING: failed to retrieve generator weights from the event.
+WARNING: failed to retrieve generator weights from the event.
+WARNING: failed to retrieve generator weights from the event.
+[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: true, efficiencyFile_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root", dataset_: "", target_: "")
+WARNING: failed to retrieve generator weights from the event.
+[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: true, efficiencyFile_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root", dataset_: "", target_: "")
+[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: true, efficiencyFile_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root", dataset_: "", target_: "")
+[TriggerWeightProducer] NOT applying trigger reweighting (isRealData: true, efficiencyFile_: "/uscms_data/d3/czheng/CMSSW_15_0_10/src/DisappTrks/StandardAnalysis/data/triggerEfficiencies_disappTrks_run3.root", dataset_: "", target_: "")
+Begin processing the 1001st record. Run 379765, Event 475057451, LumiSection 273 on stream 0 at 20-Jun-2026 00:38:11.085 CDT
+Begin processing the 2001st record. Run 379765, Event 477629199, LumiSection 274 on stream 0 at 20-Jun-2026 00:40:32.241 CDT
+Begin processing the 3001st record. Run 379765, Event 475673774, LumiSection 274 on stream 0 at 20-Jun-2026 00:42:52.878 CDT
+Begin processing the 4001st record. Run 379765, Event 478855167, LumiSection 275 on stream 0 at 20-Jun-2026 00:45:16.589 CDT
+Begin processing the 5001st record. Run 379765, Event 482473839, LumiSection 276 on stream 0 at 20-Jun-2026 00:47:40.707 CDT
+Begin processing the 6001st record. Run 379765, Event 480982586, LumiSection 276 on stream 0 at 20-Jun-2026 00:50:07.262 CDT
+Begin processing the 7001st record. Run 379765, Event 483461569, LumiSection 277 on stream 0 at 20-Jun-2026 00:52:33.377 CDT
+Begin processing the 8001st record. Run 379765, Event 485142102, LumiSection 277 on stream 0 at 20-Jun-2026 00:54:58.917 CDT
+Begin processing the 9001st record. Run 379765, Event 487842092, LumiSection 278 on stream 0 at 20-Jun-2026 00:57:25.143 CDT
+Begin processing the 10001st record. Run 379765, Event 488425209, LumiSection 279 on stream 0 at 20-Jun-2026 00:59:50.386 CDT
+Begin processing the 11001st record. Run 379765, Event 488524140, LumiSection 279 on stream 0 at 20-Jun-2026 01:02:22.387 CDT
+Begin processing the 12001st record. Run 379765, Event 491319200, LumiSection 280 on stream 0 at 20-Jun-2026 01:04:46.254 CDT
+Begin processing the 13001st record. Run 379765, Event 490780187, LumiSection 280 on stream 0 at 20-Jun-2026 01:07:08.323 CDT
+Begin processing the 14001st record. Run 379765, Event 494431956, LumiSection 281 on stream 0 at 20-Jun-2026 01:09:32.398 CDT
+Begin processing the 15001st record. Run 379765, Event 496094397, LumiSection 282 on stream 0 at 20-Jun-2026 01:11:55.639 CDT
+Begin processing the 16001st record. Run 379765, Event 497205814, LumiSection 282 on stream 0 at 20-Jun-2026 01:14:18.663 CDT
+20-Jun-2026 01:15:15 CDT  Closed file file:/tmp/czheng_v1_pveto_20260620/skim_MuonTagSkim_Run2024C_full.root
+
+================================================================================
+[1;34mCPU time[0m:  39 minutes, 52.67 seconds  (0.14593 seconds per event)
+[1;34mreal time[0m: 39 minutes, 56.2222 seconds  (0.146147 seconds per event)
+================================================================================
+
+ZtoMuProbeTrkWithSSFilter channel:
+-------------------------------------------------------------------------------------------------------------
+Cut Name                                                               Events     Cumul. Eff.     Indiv. Eff.
+-------------------------------------------------------------------------------------------------------------
+total                                                                 16396.0        100.000%        100.000%
+trigger                                                               16396.0        100.000%        100.000%
+  HLT_IsoMu24_v
+MET filter                                                            16396.0        100.000%        100.000%
+ Flag_goodVertices AND
+ Flag_EcalDeadCellTriggerPrimitiveFilter AND
+ Flag_BadPFMuonFilter AND
+ Flag_BadPFMuonDzFilter AND
+ Flag_globalSuperTightHalo2016Filter AND
+ Flag_hfNoisyHitsFilter AND
+ Flag_eeBadScFilter AND
+ Flag_ecalBadCalibFilter
+>= 1 mets with passecalBadCalibFilterUpdate                           16396.0        100.000%        100.000%
+>= 1 muons with pt > 26                                               16396.0        100.000%        100.000%
+>= 1 muons firing trigger                                             16373.0         99.860%         99.860%
+  HLT_IsoMu24_v
+>= 1 muons with fabs(eta) < 2.1                                       16373.0         99.860%        100.000%
+>= 1 muons with isTightMuonWRTVtx > 0                                 16373.0         99.860%        100.000%
+>= 1 muons with #Delta#beta-corrected rel. iso. < 0.15                16373.0         99.860%        100.000%
+>= 1 tracks with pt > 30                                              14231.0         86.796%         86.930%
+>= 1 tracks with fabs ( eta ) < 2.1                                   13986.0         85.301%        100.000%
+>= 1 tracks with fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65           12672.0         77.287%         99.232%
+>= 1 tracks with fabs ( eta ) < 0.15 || fabs ( eta ) > 0.35           11593.0         70.706%         99.360%
+>= 1 tracks with fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85           10424.0         63.576%         98.957%
+>= 1 tracks with !inTOBCrack                                          10421.0         63.558%        100.000%
+>= 1 tracks with isFiducialElectronTrack                               4969.0         30.306%         94.840%
+>= 1 tracks with isFiducialMuonTrack                                   3059.0         18.657%         97.085%
+>= 1 tracks with isFiducialECALTrack                                   2714.0         16.553%         99.439%
+>= 1 tracks with hitPattern_.numberOfValidPixelHits >= 4               1632.0          9.954%         95.285%
+>= 1 tracks with hitPattern_.numberOfValidHits >= 4                    1632.0          9.954%        100.000%
+>= 1 tracks with missingInnerHits == 0                                 1623.0          9.899%         99.780%
+>= 1 tracks with hitDrop_missingMiddleHits == 0                        1413.0          8.618%         99.073%
+>= 1 tracks with  (pfIsolationDR03_.chargedHadronIso / pt) < 0.05      1286.0          7.843%         98.786%
+>= 1 tracks with |d0| < 0.02                                           1260.0          7.685%         99.915%
+>= 1 tracks with |dz| < 0.5                                            1256.0          7.660%        100.000%
+>= 1 tracks with dRMinJet > 0.5                                        1179.0          7.191%         99.421%
+>= 1 eventvariables with jetVeto2022 == 1                              1179.0          7.191%        100.000%
+>= 1 tracks with deltaRToClosestElectron > 0.15                        1175.0          7.166%         99.994%
+>= 1 tracks with deltaRToClosestTauHad > 0.15                          1175.0          7.166%        100.000%
+>= 1 tracks with caloNewFromCaloJetNoPUDRp4CentralCalo < 10            1084.0          6.611%         98.280%
+-------------------------------------------------------------------------------------------------------------
+
+================================================================================
+[1;34mCPU time[0m:  39 minutes, 52.95 seconds  (0.145947 seconds per event)
+[1;34mreal time[0m: 39 minutes, 56.4992 seconds  (0.146164 seconds per event)
+================================================================================
+
+ZtoMuProbeTrkWithFilter channel:
+-------------------------------------------------------------------------------------------------------------
+Cut Name                                                               Events     Cumul. Eff.     Indiv. Eff.
+-------------------------------------------------------------------------------------------------------------
+total                                                                 16396.0        100.000%        100.000%
+trigger                                                               16396.0        100.000%        100.000%
+  HLT_IsoMu24_v
+MET filter                                                            16396.0        100.000%        100.000%
+ Flag_goodVertices AND
+ Flag_EcalDeadCellTriggerPrimitiveFilter AND
+ Flag_BadPFMuonFilter AND
+ Flag_BadPFMuonDzFilter AND
+ Flag_globalSuperTightHalo2016Filter AND
+ Flag_hfNoisyHitsFilter AND
+ Flag_eeBadScFilter AND
+ Flag_ecalBadCalibFilter
+>= 1 mets with passecalBadCalibFilterUpdate                           16396.0        100.000%        100.000%
+>= 1 muons with pt > 26                                               16396.0        100.000%        100.000%
+>= 1 muons firing trigger                                             16373.0         99.860%         99.860%
+  HLT_IsoMu24_v
+>= 1 muons with fabs(eta) < 2.1                                       16373.0         99.860%        100.000%
+>= 1 muons with isTightMuonWRTVtx > 0                                 16373.0         99.860%        100.000%
+>= 1 muons with #Delta#beta-corrected rel. iso. < 0.15                16373.0         99.860%        100.000%
+>= 1 tracks with pt > 30                                              14231.0         86.796%         86.930%
+>= 1 tracks with fabs ( eta ) < 2.1                                   13986.0         85.301%        100.000%
+>= 1 tracks with fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65           12672.0         77.287%         99.232%
+>= 1 tracks with fabs ( eta ) < 0.15 || fabs ( eta ) > 0.35           11593.0         70.706%         99.360%
+>= 1 tracks with fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85           10424.0         63.576%         98.957%
+>= 1 tracks with !inTOBCrack                                          10421.0         63.558%        100.000%
+>= 1 tracks with isFiducialElectronTrack                               4969.0         30.306%         94.840%
+>= 1 tracks with isFiducialMuonTrack                                   3059.0         18.657%         97.085%
+>= 1 tracks with isFiducialECALTrack                                   2714.0         16.553%         99.439%
+>= 1 tracks with hitPattern_.numberOfValidPixelHits >= 4               1632.0          9.954%         95.285%
+>= 1 tracks with hitPattern_.numberOfValidHits >= 4                    1632.0          9.954%        100.000%
+>= 1 tracks with missingInnerHits == 0                                 1623.0          9.899%         99.780%
+>= 1 tracks with hitDrop_missingMiddleHits == 0                        1413.0          8.618%         99.073%
+>= 1 tracks with  (pfIsolationDR03_.chargedHadronIso / pt) < 0.05      1286.0          7.843%         98.786%
+>= 1 tracks with |d0| < 0.02                                           1260.0          7.685%         99.915%
+>= 1 tracks with |dz| < 0.5                                            1256.0          7.660%        100.000%
+>= 1 tracks with dRMinJet > 0.5                                        1179.0          7.191%         99.421%
+>= 1 eventvariables with jetVeto2022 == 1                              1179.0          7.191%        100.000%
+>= 1 tracks with deltaRToClosestElectron > 0.15                        1175.0          7.166%         99.994%
+>= 1 tracks with deltaRToClosestTauHad > 0.15                          1175.0          7.166%        100.000%
+>= 1 tracks with caloNewFromCaloJetNoPUDRp4CentralCalo < 10            1084.0          6.611%         98.280%
+-------------------------------------------------------------------------------------------------------------
+
+================================================================================
+[1;34mCPU time[0m:  39 minutes, 53.22 seconds  (0.145964 seconds per event)
+[1;34mreal time[0m: 39 minutes, 56.7798 seconds  (0.146181 seconds per event)
+================================================================================
+
+ZtoMuProbeTrk channel:
+-------------------------------------------------------------------------------------------------------------
+Cut Name                                                               Events     Cumul. Eff.     Indiv. Eff.
+-------------------------------------------------------------------------------------------------------------
+total                                                                 16396.0        100.000%        100.000%
+trigger                                                               16396.0        100.000%        100.000%
+  HLT_IsoMu24_v
+MET filter                                                            16396.0        100.000%        100.000%
+ Flag_goodVertices AND
+ Flag_EcalDeadCellTriggerPrimitiveFilter AND
+ Flag_BadPFMuonFilter AND
+ Flag_BadPFMuonDzFilter AND
+ Flag_globalSuperTightHalo2016Filter AND
+ Flag_hfNoisyHitsFilter AND
+ Flag_eeBadScFilter AND
+ Flag_ecalBadCalibFilter
+>= 1 mets with passecalBadCalibFilterUpdate                           16396.0        100.000%        100.000%
+>= 1 muons with pt > 26                                               16396.0        100.000%        100.000%
+>= 1 muons firing trigger                                             16373.0         99.860%         99.860%
+  HLT_IsoMu24_v
+>= 1 muons with fabs(eta) < 2.1                                       16373.0         99.860%        100.000%
+>= 1 muons with isTightMuonWRTVtx > 0                                 16373.0         99.860%        100.000%
+>= 1 muons with #Delta#beta-corrected rel. iso. < 0.15                16373.0         99.860%        100.000%
+>= 1 tracks with pt > 30                                              14231.0         86.796%         86.930%
+>= 1 tracks with fabs ( eta ) < 2.1                                   13986.0         85.301%        100.000%
+>= 1 tracks with fabs ( eta ) < 1.42 || fabs ( eta ) > 1.65           12672.0         77.287%         99.232%
+>= 1 tracks with fabs ( eta ) < 0.15 || fabs ( eta ) > 0.35           11593.0         70.706%         99.360%
+>= 1 tracks with fabs ( eta ) < 1.55 || fabs ( eta ) > 1.85           10424.0         63.576%         98.957%
+>= 1 tracks with !inTOBCrack                                          10421.0         63.558%        100.000%
+>= 1 tracks with isFiducialElectronTrack                               4969.0         30.306%         94.840%
+>= 1 tracks with isFiducialMuonTrack                                   3059.0         18.657%         97.085%
+>= 1 tracks with isFiducialECALTrack                                   2714.0         16.553%         99.439%
+>= 1 tracks with hitPattern_.numberOfValidPixelHits >= 4               1632.0          9.954%         95.285%
+>= 1 tracks with hitPattern_.numberOfValidHits >= 4                    1632.0          9.954%        100.000%
+>= 1 tracks with missingInnerHits == 0                                 1623.0          9.899%         99.780%
+>= 1 tracks with hitDrop_missingMiddleHits == 0                        1413.0          8.618%         99.073%
+>= 1 tracks with  (pfIsolationDR03_.chargedHadronIso / pt) < 0.05      1286.0          7.843%         98.786%
+>= 1 tracks with |d0| < 0.02                                           1260.0          7.685%         99.915%
+>= 1 tracks with |dz| < 0.5                                            1256.0          7.660%        100.000%
+>= 1 tracks with dRMinJet > 0.5                                        1179.0          7.191%         99.421%
+>= 1 eventvariables with jetVeto2022 == 1                              1179.0          7.191%        100.000%
+>= 1 tracks with deltaRToClosestElectron > 0.15                        1175.0          7.166%         99.994%
+>= 1 tracks with deltaRToClosestTauHad > 0.15                          1175.0          7.166%        100.000%
+>= 1 tracks with caloNewFromCaloJetNoPUDRp4CentralCalo < 10            1084.0          6.611%         98.280%
+-------------------------------------------------------------------------------------------------------------
+
+================================================================================
+[1;34mCPU time[0m:  39 minutes, 53.49 seconds  (0.14598 seconds per event)
+[1;34mreal time[0m: 39 minutes, 57.0477 seconds  (0.146197 seconds per event)
+================================================================================
+
+MuonTagSkim channel:
+--------------------------------------------------------------------------------------------------
+Cut Name                                                    Events     Cumul. Eff.     Indiv. Eff.
+--------------------------------------------------------------------------------------------------
+total                                                      16396.0        100.000%        100.000%
+trigger                                                    16396.0        100.000%        100.000%
+  HLT_IsoMu24_v
+MET filter                                                 16396.0        100.000%        100.000%
+ Flag_goodVertices AND
+ Flag_EcalDeadCellTriggerPrimitiveFilter AND
+ Flag_BadPFMuonFilter AND
+ Flag_BadPFMuonDzFilter AND
+ Flag_globalSuperTightHalo2016Filter AND
+ Flag_hfNoisyHitsFilter AND
+ Flag_eeBadScFilter AND
+ Flag_ecalBadCalibFilter
+>= 1 mets with passecalBadCalibFilterUpdate                16396.0        100.000%        100.000%
+>= 1 muons with pt > 26                                    16396.0        100.000%        100.000%
+>= 1 muons with fabs(eta) < 2.1                            16396.0        100.000%        100.000%
+>= 1 muons with isTightMuonWRTVtx > 0                      16396.0        100.000%        100.000%
+>= 1 muons with #Delta#beta-corrected rel. iso. < 0.15     16396.0        100.000%        100.000%
+--------------------------------------------------------------------------------------------------
+real 2422.21
+user 2409.85
+sys 3.99

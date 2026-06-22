@@ -168,7 +168,7 @@ if False:
 # SingleMuon channels
 ################################################################################
 # Base skim and ZtoMuMu
-if False:
+if True:
     add_channels  (process,  [MuonTagSkim],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Tag-and-probe channels for fiducial map
@@ -179,12 +179,12 @@ if False:
 
 # "Old" style cuts (nPixel >= 3, nValidHits >= 7) t&p channels for fiducial map
 # Use these!
-if False:
+if True:
     add_channels  (process,  [MuonFiducialCalcBeforeOldCuts],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers, forceNonEmptySkim=False)
     add_channels  (process,  [MuonFiducialCalcAfterOldCuts],   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers, forceNonEmptySkim=False)
 
 # Tag-and-probe channels for muon background estimate
-if False:
+if True:
     add_channels  (process,  [ZtoMuProbeTrk],                   histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithFilter],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
     add_channels  (process,  [ZtoMuProbeTrkWithSSFilter],       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonTPProducer)
@@ -202,7 +202,7 @@ if False:
 # add_channels (process, getNHitsVariations("ZtoMuProbeTrkWithSSFilter"), histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonTPProducer)
 
 # Single muon control regions for muon background estimate
-if False:
+if True:
     add_channels  (process,  [MuonTagPt55],         histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + muonMETTriggerProducer)
     add_channels  (process,  [MuonTagPt55MetTrig],  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
@@ -211,7 +211,7 @@ if False:
 # add_channels (process, getNHitsVariations("MuonTagPt55MetTrig"), histSetsMuon, weightsWithMuonSF, scaleFactorProducersWithMuons, collMap, variableProducers + muonMETTriggerProducer)
 
 # Tag-and-probe channels for tau background estimate
-if False:
+if True:
     add_channels  (process,  [ZtoTauToMuProbeTrk],                       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + tauToMuonTPProducer)
     add_channels  (process,  [ZtoTauToMuProbeTrkWithFilter],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + tauToMuonTPProducer)
     add_channels  (process,  [ZtoTauToMuProbeTrkWithSSFilter],           histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers + tauToMuonTPProducer)
@@ -230,12 +230,12 @@ if False:
 #  add_channels  (process,  [ZtoTauToMuDisTrkBetterPurity],             histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # Z->mumu channels for fake track background estimate
-if False:
+if True:
     # Important! The muon pt cuts are higher in MuonTagSkim than for ZtoMuMu. 
     # You must run the ZtoMuMu skim over the full nTuples, *not* the MuonTagSkim, to get the right events
     add_channels  (process,  [ZtoMuMu],                        histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
-if False:
+if True:
     add_channels  (process,  [ZtoMuMuCandTrk],                 histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrk],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrkNHits3],            histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
@@ -272,6 +272,7 @@ if False:
     add_channels  (process,  [ZtoMuMuDisTrkInvertD0CutNHits6], histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
 
 # TESTING: Z->mumu channels for fake track background estimate with no Iso cut nor ECal cut
+# (ZtoMuMuDisTrkNHits*NoIsoNoCalo selections are not defined in ZtoMuMuSelections.py — leave off)
 if False:
     add_channels  (process,  [ZtoMuMuCandTrkNoIso],                       histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
     add_channels  (process,  [ZtoMuMuDisTrkNoIsoNoCalo],                  histSetsMuon,  weightsWithMuonSF,  scaleFactorProducersWithMuons,  collMap,  variableProducers)
@@ -340,7 +341,7 @@ if False:
     add_channels  (process,  [TauTagPt55],         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer)
     add_channels  (process,  [TauTagPt55MetTrig],  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers)
 
-if True:
+if False:
     add_channels  (process,  getNLayersChannelVariations("TauTagPt55"),         histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers + tauMETTriggerProducer, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
     add_channels  (process,  getNLayersChannelVariations("TauTagPt55MetTrig"),  histSetsTau,  weights,  scaleFactorProducers,  collMap,  variableProducers, ignoreSkimmedCollections = True, forceNonEmptySkim=False)
 
